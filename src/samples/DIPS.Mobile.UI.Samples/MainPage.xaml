@@ -2,17 +2,17 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:pages="http://dips.com/mobile.ui"
                  x:Class="DIPS.Mobile.UI.Samples.MainPage"
                  Title="Home">
     <StackLayout>
         <!-- Place new controls here -->
-        <dui:Button Text="NESTE"
+        <pages:Button Text="NESTE"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Padding="20,18" />
     </StackLayout>
 
-</dui:ContentPage>
+</pages:ContentPage>

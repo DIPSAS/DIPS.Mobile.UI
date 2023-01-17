@@ -14,6 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
+        <Reference Include="DIPS.Mobile.UI">
+            <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\netstandard2.0\DIPS.Mobile.UI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\sourcegenerator\DIPS.Mobile.UI.SourceGenerator\DIPS.Mobile.UI.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false
+" />
     </ItemGroup>
 </Project>

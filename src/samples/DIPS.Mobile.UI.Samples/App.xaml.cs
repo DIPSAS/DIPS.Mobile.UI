@@ -1,5 +1,4 @@
-﻿using DIPS.Mobile.UI.Components.Pages;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NavigationPage = DIPS.Mobile.UI.Components.Pages.NavigationPage;
 

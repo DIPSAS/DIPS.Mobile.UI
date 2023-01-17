@@ -18,7 +18,6 @@ namespace DIPS.Mobile.UI.Initializer
 		}
 	}
 }";
-
         public void Execute(GeneratorExecutionContext context)
         {
             context.AddSource("DUIInitCaller.g.cs", SourceText.From(code, Encoding.UTF8));
