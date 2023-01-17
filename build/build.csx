@@ -1,4 +1,4 @@
-#r "nuget:dotnet-steps, 0.0.2"
+#load "nuget:dotnet-steps, 0.0.2"
 
 Step step1 = () => WriteLine("Build ran!");
 

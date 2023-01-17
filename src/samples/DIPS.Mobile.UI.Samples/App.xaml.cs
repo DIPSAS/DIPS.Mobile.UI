@@ -13,7 +13,6 @@ namespace DIPS.Mobile.UI.Samples
         {
             InitializeComponent();
             MainPage = new NavigationPage(new MainPage());
-            Library.Init();
         }
 
         protected override void OnStart()
