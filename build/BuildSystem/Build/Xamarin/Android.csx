@@ -1,6 +1,5 @@
 #load "../../Command.csx"
 #load "../../Android/SDK.csx"
-#load "../../Android/AndroidManifest.csx"
 #load "../../Helpers/FileHelper.csx"
 
 public static class Android

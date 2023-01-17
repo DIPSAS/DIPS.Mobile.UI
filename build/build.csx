@@ -40,7 +40,7 @@ AsyncStep nugetTest = async () =>
 
 Step step2 = () => WriteLine("Build ran!");
 
-var args = new string[] { "nugettest" };
+var args = Args;
 if(args.Count() == 0){
     WriteLine("Please select steps to run:");
     var input = ReadLine();
