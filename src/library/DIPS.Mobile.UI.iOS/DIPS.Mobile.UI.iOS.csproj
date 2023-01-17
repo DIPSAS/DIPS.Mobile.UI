@@ -29,6 +29,8 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <ConsolePause>false</ConsolePause>
+        <DebugSymbols>true</DebugSymbols>
+        <DocumentationFile>bin\Release\DIPS.Mobile.UI.iOS.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
