@@ -15,16 +15,13 @@
         <description>A shared UI library that DIPS use and maintain for their mobile applications. The library contains different components that can be used by any Xamarin.Forms app. The visual parts of the library is created in collaboration with our internal UX team.</description>
         <dependencies>
             <group targetFramework="netstandard2.0">
-                <dependency id="Xamarin.Essentials" version="1.6.1" />
-                <dependency id="Xamarin.Forms" version="5.0.0.2012" />
+                <dependency id="Xamarin.Forms" version="5.0.0.2545" />
             </group>
-            <group targetFramework="MonoAndroid8.1">
-                <dependency id="Xamarin.Essentials" version="1.6.1" />
-                <dependency id="Xamarin.Forms" version="5.0.0.2012"/>
+            <group targetFramework="MonoAndroid10">
+                <dependency id="Xamarin.Forms" version="5.0.0.2545"/>
             </group>
             <group targetFramework="Xamarin.iOS10">
-                <dependency id="Xamarin.Essentials" version="1.6.1" />
-                <dependency id="Xamarin.Forms" version="5.0.0.2012" />
+                <dependency id="Xamarin.Forms" version="5.0.0.2545" />
             </group>
         </dependencies>
     </metadata>
@@ -49,12 +46,12 @@
         <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\no\DIPS.Mobile.UI.resources.dll" target="lib\xamarinios10\no\DIPS.Mobile.UI.resources.dll" />
 
         <!-- Android reference assemblies -->
-        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.dll" target="lib\monoandroid81\DIPS.Mobile.UI.Droid.dll" />
-        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.pdb" target="lib\monoandroid81\DIPS.Mobile.UI.Droid.pdb" />
-        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.xml" target="lib\monoandroid81\DIPS.Mobile.UI.Droid.xml" />
-        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\DIPS.Mobile.UI.dll" target="lib\monoandroid81\DIPS.Mobile.UI.dll" />
-        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\DIPS.Mobile.UI.pdb" target="lib\monoandroid81\DIPS.Mobile.UI.pdb" />
-        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\no\DIPS.Mobile.UI.resources.dll" target="lib\monoandroid81\no\DIPS.Mobile.UI.resources.dll" />
+        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.dll" target="lib\MonoAndroid10\DIPS.Mobile.UI.Droid.dll" />
+        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.pdb" target="lib\MonoAndroid10\DIPS.Mobile.UI.Droid.pdb" />
+        <file src="src\library\DIPS.Mobile.UI.Droid\bin\Release\DIPS.Mobile.UI.Droid.xml" target="lib\MonoAndroid10\DIPS.Mobile.UI.Droid.xml" />
+        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\DIPS.Mobile.UI.dll" target="lib\MonoAndroid10\DIPS.Mobile.UI.dll" />
+        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\DIPS.Mobile.UI.pdb" target="lib\MonoAndroid10\DIPS.Mobile.UI.pdb" />
+        <file src="src\library\DIPS.Mobile.UI\bin\Release\netstandard2.0\no\DIPS.Mobile.UI.resources.dll" target="lib\MonoAndroid10\no\DIPS.Mobile.UI.resources.dll" />
         
         <file src="nuget\tools\*.ps1" target="tools\" />
         <!-- Analyzers -->

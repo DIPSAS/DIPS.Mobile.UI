@@ -23,12 +23,18 @@ private static string NugetTestiOSPath = Path.Combine(RootDir, "src", "tests", "
 
 AsyncStep nugetTest = async () =>
 {
-    //Clear from cache
+    //Clear from nuget cache
     var homePath = Environment.GetEnvironmentVariable("HOME");
-    File.Delete(Path.Combine(homePath, ".nuget", "packages", "dips.mobile.ui"));
+    var oldNugetPackageFilePath = Path.Combine(homePath, ".nuget", "packages", "dips.mobile.ui");
+    if(File.Exists(oldNugetPackageFilePath)){
+        Directory.Delete(oldNugetPackageFilePath, true);
+    }
+    
+    //Clear from local packages folder
     var files = Directory.EnumerateFiles(Path.Combine(NugetTestSolutionPath, "packages"));
     foreach (var file in files)
     {
+        File.SetAttributes(file, FileAttributes.Normal);
         File.Delete(file);
     }
 

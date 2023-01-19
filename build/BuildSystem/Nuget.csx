@@ -2,8 +2,12 @@
 
 public static class Nuget
 {
-    public static Task Pack(string nuspecpath, string outputDirectory)
+    public static async Task<CommandResult> Pack(string nuspecpath, string outputDirectory, bool verbose = true)
     {
-        return Command.CaptureAsync("nuget", $"pack -OutputDirectory {outputDirectory}", nuspecpath);
+        var result = await Command.CaptureAsync("nuget", $"pack -OutputDirectory {outputDirectory}", nuspecpath);
+        if(result.StandardError != string.Empty){
+            throw new Exception(result.StandardError);
+        }
+        return result;
     }
 }

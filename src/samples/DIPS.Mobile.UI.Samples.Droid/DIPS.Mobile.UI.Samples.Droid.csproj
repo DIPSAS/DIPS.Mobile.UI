@@ -58,10 +58,6 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\library\DIPS.Mobile.UI.Droid\DIPS.Mobile.UI.Droid.csproj">
-          <Project>{a8503ec9-5acb-4636-b0f0-02def6e15a71}</Project>
-          <Name>DIPS.Mobile.UI.Droid</Name>
-        </ProjectReference>
         <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj">
           <Project>{fdbbb014-de30-4e4b-b6e7-de53346f6250}</Project>
           <Name>DIPS.Mobile.UI</Name>
