@@ -1,6 +1,4 @@
-using System;
-
-namespace DIPS.Mobile.UI.Droid
+namespace DIPS.Mobile.UI.iOS
 {
     public static class DUI
     {
