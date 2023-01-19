@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Samples.iOS
@@ -23,7 +20,6 @@ namespace DIPS.Mobile.UI.Samples.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
             return base.FinishedLaunching(app, options);
         }
     }

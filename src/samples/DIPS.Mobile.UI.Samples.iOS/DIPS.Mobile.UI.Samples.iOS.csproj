@@ -102,9 +102,6 @@
         </ImageAsset>
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="DIPS.Mobile.UI">
-          <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\netstandard2.0\DIPS.Mobile.UI.dll</HintPath>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Core" />
@@ -115,12 +112,8 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\library\DIPS.Mobile.UI.iOS\DIPS.Mobile.UI.iOS.csproj">
-          <Project>{CBF51264-7DD1-468E-A4FA-CF26CE0F7FD2}</Project>
+          <Project>{cbf51264-7dd1-468e-a4fa-cf26ce0f7fd2}</Project>
           <Name>DIPS.Mobile.UI.iOS</Name>
-        </ProjectReference>
-        <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj">
-          <Project>{fdbbb014-de30-4e4b-b6e7-de53346f6250}</Project>
-          <Name>DIPS.Mobile.UI</Name>
         </ProjectReference>
         <ProjectReference Include="..\DIPS.Mobile.UI.Samples\DIPS.Mobile.UI.Samples.csproj">
             <Project>{361541EB-CA0E-4E9D-9BEF-33896A9199B0}</Project>
