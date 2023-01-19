@@ -11,6 +11,6 @@
 
     <ItemGroup>
         <PackageReference Include="DIPS.Mobile.UI" Version="1.0.0" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
     </ItemGroup>
 </Project>

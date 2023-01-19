@@ -5,117 +5,83 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1A82F7A3-ABF0-41A5-A201-9549388F2AE6}</ProjectGuid>
+    <ProjectGuid>{E5574AC9-29FB-4DD5-B100-7C6E36BBC1C7}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{9ef11e43-1701-4396-8835-8392d57abb70}</TemplateGuid>
     <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DIPS.Mobile.UI.Droid</RootNamespace>
     <AssemblyName>DIPS.Mobile.UI.Droid</AssemblyName>
-    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
-    <LangVersion>9</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>True</Deterministic>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TargetFrameworkVersion>v13.0</TargetFrameworkVersion>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latestmajor</LangVersion>
     <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>bin\Release\DIPS.Mobile.UI.Droid.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Java.Interop" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\colors.xml" />
-    <AndroidResource Include="Resources\values\styles.xml" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.2.4.1" />
-    <PackageReference Include="Xamarin.AndroidX.Annotation" Version="1.2.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental" Version="1.1.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Arch.Core.Common" Version="2.1.0.9" />
-    <PackageReference Include="Xamarin.AndroidX.Arch.Core.Runtime" Version="2.1.0.9" />
-    <PackageReference Include="Xamarin.AndroidX.AsyncLayoutInflater" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.3.0.6" />
-    <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.9" />
-    <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Concurrent.Futures" Version="1.1.0.3" />
-    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.0" />
-    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout.Core" Version="1.0.0" />
-    <PackageReference Include="Xamarin.AndroidX.CoordinatorLayout" Version="1.1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.6.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.CursorAdapter" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.CustomView" Version="1.1.0.7" />
-    <PackageReference Include="Xamarin.AndroidX.DocumentFile" Version="1.0.1.8" />
-    <PackageReference Include="Xamarin.AndroidX.DrawerLayout" Version="1.1.1.3" />
-    <PackageReference Include="Xamarin.AndroidX.DynamicAnimation" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.3.6.1" />
-    <PackageReference Include="Xamarin.AndroidX.Interpolator" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI" Version="1.0.0.9" />
-    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" Version="2.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.3.1.2" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" Version="2.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState" Version="2.3.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Loader" Version="1.1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.LocalBroadcastManager" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.Media" Version="1.4.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.MultiDex" Version="2.0.1.5" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" Version="2.3.5.1" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" Version="2.3.5.1" />
-    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.3.5.1" />
-    <PackageReference Include="Xamarin.AndroidX.Preference" Version="1.1.1.9" />
-    <PackageReference Include="Xamarin.AndroidX.Print" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.RecyclerView" Version="1.2.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.SavedState" Version="1.1.0.2" />
-    <PackageReference Include="Xamarin.AndroidX.SlidingPaneLayout" Version="1.1.0.3" />
-    <PackageReference Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.3" />
-    <PackageReference Include="Xamarin.AndroidX.Tracing.Tracing" Version="1.0.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.Transition" Version="1.4.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.VectorDrawable" Version="1.1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.VectorDrawable.Animated" Version="1.1.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.VersionedParcelable" Version="1.1.1.8" />
-    <PackageReference Include="Xamarin.AndroidX.ViewPager" Version="1.0.0.8" />
-    <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.0.0.10" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.2" />
-    <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" Version="1.0.0.2" />
+    <AndroidResource Include="Resources\values\colors.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\values\styles.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\Buttons" />
+    <Folder Include="Components\Pages" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj">
+      <Project>{fdbbb014-de30-4e4b-b6e7-de53346f6250}</Project>
+      <Name>DIPS.Mobile.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

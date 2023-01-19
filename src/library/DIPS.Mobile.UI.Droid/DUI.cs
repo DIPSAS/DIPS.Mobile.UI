@@ -24,5 +24,7 @@ namespace DIPS.Mobile.UI.Droid
                 return renderer?.View.Context ?? s_context ?? throw new NullReferenceException($"{nameof(Context)} cannot be null");
             }
         }
+        
+        public static void Init(){}
     }
 }

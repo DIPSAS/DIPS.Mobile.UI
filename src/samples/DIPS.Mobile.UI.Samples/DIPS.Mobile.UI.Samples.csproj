@@ -20,7 +20,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\sourcegenerator\DIPS.Mobile.UI.SourceGenerator\DIPS.Mobile.UI.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false
-" />
+        <ProjectReference Include="..\..\sourcegenerator\DIPS.Mobile.UI.SourceGenerator\DIPS.Mobile.UI.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Compontents" />
     </ItemGroup>
 </Project>

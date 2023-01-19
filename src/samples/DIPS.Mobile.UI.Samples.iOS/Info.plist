@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>15.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>DIPS.Mobile.UI.Samples</string>
+	<string>Mobile UI Samples</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.dipsas.DIPS.Mobile.UI.Samples</string>
 	<key>CFBundleVersion</key>
