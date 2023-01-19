@@ -1,5 +1,6 @@
 using System;
 using Android.Content;
+using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

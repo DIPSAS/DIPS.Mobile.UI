@@ -111,7 +111,7 @@
         <Reference Include="Xamarin.iOS" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\library\DIPS.Mobile.UI.iOS\DIPS.Mobile.UI.iOS.csproj">

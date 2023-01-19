@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI
 {
-    public static class Library
+    public static class DUI
     {
         public static void Init(){}
     }

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 
@@ -7,24 +8,8 @@ namespace DIPS.Mobile.UI.Components.Pages
     {
         public ContentPage()
         {
-            SetColors(Application.Current.RequestedTheme);
-            Application.Current.RequestedThemeChanged += OnRequestedThemeChanged;
-            }
-
-        private void OnRequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
-        {
-            SetColors(e.RequestedTheme);
-        }
-
-        private void SetColors(OSAppTheme osAppTheme)
-        {
-            BackgroundColor = Colors.GetColor(ColorName.color_secondary_light_secondary_70);
-        }
-
-        protected override void OnDisappearing()
-        {
-            Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
-            base.OnDisappearing();
+            this.SetAppThemeColor(BackgroundProperty, ColorName.color_primary_light_primary_80);
+            Padding = 15; //TODO:Change to design tokens
         }
     }
 }

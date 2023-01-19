@@ -4,22 +4,20 @@ using System.Linq;
 using System.Reflection;
 using Xamarin.Forms;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
 namespace DIPS.Mobile.UI.Samples
 {
-    public class MainPage : ContentPage
+    public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
         public MainPage()
         {
             Title = "Mobile UI Samples";
-            var sampleTypes = Enum.GetValues(typeof(SampleType)).Cast<SampleType>();
-            Content = new ListView()
+            var sampleTypes = Enum.ToList<SampleType>();
+            Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
                 ItemsSource = sampleTypes,
-                ItemTemplate = new DataTemplate(() =>
-                {
-                    return new ViewCell() {View = new NavigateToSamplesButton()};
-                })
+                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSamplesButton()})
             };
         }
     }

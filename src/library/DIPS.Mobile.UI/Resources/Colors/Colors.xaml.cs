@@ -7,8 +7,8 @@ namespace DIPS.Mobile.UI.Resources.Colors
     [EditorBrowsable(EditorBrowsableState.Never)]
     public partial class Colors
     {
-        private const string LightPreFix = "_light_";
-        private const string DarkPreFix = "_dark_";
+        public static readonly string LightIdentifier = "_light_";
+        public static readonly string DarkIdentifier = "_dark_";
 
         public Colors()
         {
@@ -20,21 +20,30 @@ namespace DIPS.Mobile.UI.Resources.Colors
         /// </summary>
         /// <param name="colorName">The name of the color to get</param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetColor(ColorName colorName)
+        public static Color GetColor(ColorName colorName) => GetColor(colorName, Application.Current.RequestedTheme);
+
+        /// <summary>
+        /// Get the color by <see cref="OSAppTheme"/>.
+        /// </summary>
+        /// <param name="colorName">The color name to get</param>
+        /// <param name="themeToCompare">The <see cref="OSAppTheme"/> to use for comparison</param>
+        /// <returns></returns>
+        /// <remarks>If there is no corresponding color based on the <see cref="OSAppTheme"/> it returns the opposite color or <see cref="Color.Default"/></remarks>
+        public static Color GetColor(ColorName colorName, OSAppTheme themeToCompare)
         {
             var colorToLookup = colorName.ToString();
-            if (Application.Current.RequestedTheme == OSAppTheme.Dark)
+            if (themeToCompare == OSAppTheme.Dark)
             {
-                if (colorToLookup.Contains(LightPreFix))
+                if (colorToLookup.Contains(LightIdentifier))
                 {
-                    colorToLookup = colorToLookup.Replace(LightPreFix, DarkPreFix);
+                    colorToLookup = colorToLookup.Replace(LightIdentifier, DarkIdentifier);
                 }
             }
             else
             {
-                if (colorToLookup.Contains(DarkPreFix))
+                if (colorToLookup.Contains(DarkIdentifier))
                 {
-                    colorToLookup = colorToLookup.Replace(DarkPreFix, LightPreFix);
+                    colorToLookup = colorToLookup.Replace(DarkIdentifier, LightIdentifier);
                 }
             }
 

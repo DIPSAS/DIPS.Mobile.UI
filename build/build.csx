@@ -44,10 +44,9 @@ AsyncStep nugetTest = async () =>
     await Nuget.Pack(RootDir, Path.Combine(NugetTestSolutionPath, "packages"));
 };
 
-Step step2 = () => WriteLine("Build ran!");
-
 var args = Args;
 if(args.Count() == 0){
+    await ExecuteSteps(new string[]{"help"});
     WriteLine("Please select steps to run:");
     var input = ReadLine();
     args = input.Split(' ');

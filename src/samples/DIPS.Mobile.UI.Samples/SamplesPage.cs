@@ -6,19 +6,15 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Samples
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SamplesPage : ContentPage
+    public class SamplesPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
         public SamplesPage(SampleType sampleType, Dictionary<Page, Sample> samples)
         {
             Title = sampleType.ToString();
-            Content = new ListView()
+            Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
                 ItemsSource = samples,
-                ItemTemplate = new DataTemplate(() =>
-                {
-                    return new ViewCell() {View = new NavigateToSingleSampleButton()};
-                })
+                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()})
             };
         }
         

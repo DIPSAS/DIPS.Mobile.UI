@@ -2,14 +2,45 @@
     version="1.0"
     encoding="utf-8"?>
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DIPS.Mobile.UI.Samples.Resources.Colors.ColorsSamples">
+<dui:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="DIPS.Mobile.UI.Samples.Resources.Colors.ColorsSamples">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid RowDefinitions="Auto, *">
+            <dui:Label Grid.Row="0"
+                       Text="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=OsAppTheme, StringFormat='Color Appearance: {0}'}" />
+            <dui:ListView Grid.Row="1"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame HasShadow="False"
+                                   Margin="5"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   CornerRadius="0"
+                                   BorderColor="Black"
+                                   Padding="0"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center">
+
+                                <Grid RowDefinitions="Auto, *">
+                                    <BoxView HeightRequest="100"
+                                             WidthRequest="200"
+                                             BackgroundColor="{Binding Value}">
+                                    </BoxView>
+                                    <Label Margin="5"
+                                           Grid.Row="1"
+                                           Text="{Binding Key}" />
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </dui:ListView>
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</dui:ContentPage>

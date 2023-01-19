@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.Initializer
 	{
 		public void CallInit()
 		{
-			DIPS.Mobile.UI.Library.Init();
+			DIPS.Mobile.UI.DUI.Init();
 		}
 	}
 }";
