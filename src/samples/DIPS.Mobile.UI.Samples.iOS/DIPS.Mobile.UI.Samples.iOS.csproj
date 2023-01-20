@@ -15,7 +15,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
         <DefineConstants>DEBUG</DefineConstants>
@@ -38,7 +38,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>bin\iPhone\Debug</OutputPath>
         <DefineConstants>DEBUG</DefineConstants>
@@ -111,13 +111,15 @@
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\library\DIPS.Mobile.UI.iOS\DIPS.Mobile.UI.iOS.csproj">
-          <Project>{cbf51264-7dd1-468e-a4fa-cf26ce0f7fd2}</Project>
-          <Name>DIPS.Mobile.UI.iOS</Name>
-        </ProjectReference>
         <ProjectReference Include="..\DIPS.Mobile.UI.Samples\DIPS.Mobile.UI.Samples.csproj">
             <Project>{361541EB-CA0E-4E9D-9BEF-33896A9199B0}</Project>
             <Name>DIPS.Mobile.UI.Samples</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj">
+          <Name>DIPS.Mobile.UI</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\library\DIPS.Mobile.UI.iOS\DIPS.Mobile.UI.iOS.csproj">
+          <Name>DIPS.Mobile.UI.iOS</Name>
         </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

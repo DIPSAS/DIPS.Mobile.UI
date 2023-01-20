@@ -6,9 +6,11 @@ namespace DIPS.Mobile.UI.Components.Pages
 {
     public class ContentPage : Xamarin.Forms.ContentPage
     {
+        public static readonly ColorName BackgroundColorName = NavigationPage.BackgroundColorName; 
+        
         public ContentPage()
         {
-            this.SetAppThemeColor(BackgroundProperty, ColorName.color_primary_light_primary_80);
+            this.SetAppThemeColor(BackgroundProperty, BackgroundColorName);
             Padding = 15; //TODO:Change to design tokens
         }
     }

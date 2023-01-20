@@ -1,5 +1,3 @@
-
-using UIKit;
 using DUIButton = DIPS.Mobile.UI.Components.Buttons.Button;
 using DUIButtonRenderer = DIPS.Mobile.UI.iOS.Components.Buttons.ButtonRenderer;
 using Xamarin.Forms;

@@ -18,12 +18,11 @@ namespace DIPS.Mobile.UI.Samples.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+    
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-            var asd = Colors.GetColor(ColorName.color_primary_light_primary_100);
-
+            DIPS.Mobile.UI.Droid.DUI.Init(); //Initialize DIPS.Mobile.UI
         }
     }
 }
