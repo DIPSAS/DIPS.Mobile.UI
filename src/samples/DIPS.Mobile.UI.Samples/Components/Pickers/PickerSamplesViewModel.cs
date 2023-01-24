@@ -26,12 +26,12 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
                 new Person("FirstName9", "Lastname9"),
                 new Person("FirstNaaaaame10", "Lastnaaaaame10", "MiddleNaaaame 10"),
             };
-            SelectedPerson = Persons.First();
             PersonSelectedCommand = new Command<Person>(PersonSelected);
         }
 
         private void PersonSelected(Person person)
         {
+            //TODO: Do something with person
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,11 +43,6 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         {
             get => m_selectedPerson;
             set => PropertyChanged?.RaiseWhenSet(ref m_selectedPerson, value);
-        }
-
-        public void Initialize()
-        {
-            SelectedPerson = Persons.First();
         }
     }
 

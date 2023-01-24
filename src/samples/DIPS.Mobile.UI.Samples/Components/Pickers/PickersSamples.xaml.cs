@@ -17,19 +17,5 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         {
             InitializeComponent();
         }
-
-        private void OnPersonSelected(object sender, object e)
-        {
-            
-        }
-
-        protected override void OnAppearing()
-        {
-            if (BindingContext is PickerSamplesViewModel pickerSamplesViewModel)
-            {
-                pickerSamplesViewModel.Initialize();
-            }
-            base.OnAppearing();
-        }
     }
 }

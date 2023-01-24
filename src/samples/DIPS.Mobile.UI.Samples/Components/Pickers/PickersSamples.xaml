@@ -6,12 +6,14 @@
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:Picker VerticalOptions="Start"
-                Title="Person"
-                ItemsSource="{Binding Persons}"
-                SelectedItemCommand="{Binding PersonSelectedCommand}"
-                SelectedItem="{Binding SelectedPerson}"
-                ItemSelected="OnPersonSelected"
-                ItemDisplayProperty="DisplayName"
-                Grid.Row="0" />
+    <StackLayout>
+        <dui:Label Text="Mode: Context Menu" Margin="5" />
+        <dui:Picker VerticalOptions="Start"
+                    Title="Person"
+                    Mode="ContextMenu"
+                    ItemsSource="{Binding Persons}"
+                    SelectedItemCommand="{Binding PersonSelectedCommand}"
+                    SelectedItem="{Binding SelectedPerson}"
+                    ItemDisplayProperty="DisplayName" />
+    </StackLayout>
 </dui:ContentPage>

@@ -70,9 +70,25 @@ namespace DIPS.Mobile.UI.Components.Pickers
             set => SetValue(SelectedItemCommandProperty, value);
         }
 
+        public PickerMode Mode { get; set; }
+
         /// <summary>
         /// The event to be raised when people select an item from the picker.
         /// </summary>
         public event EventHandler<object>? ItemSelected;
+    }
+
+    public enum PickerMode
+    {
+        /// <summary>
+        /// Display the picker as a context menu.
+        /// </summary>
+        /// <remarks>Best suited when the list of items are short or the names of the items are short.</remarks>
+        ContextMenu,
+        /// <summary>
+        /// Display the picker in a sheet.
+        /// </summary>
+        /// <remarks>Best suited when the list of items are long or the the names of the items are long.</remarks>
+        BottomSheet,
     }
 }
