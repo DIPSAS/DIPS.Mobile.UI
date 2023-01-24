@@ -15,5 +15,14 @@
                     SelectedItemCommand="{Binding PersonSelectedCommand}"
                     SelectedItem="{Binding SelectedPerson}"
                     ItemDisplayProperty="DisplayName" />
+        
+        <dui:Label Text="Mode: Bottom Sheet" Margin="5" />
+        <dui:Picker VerticalOptions="Start"
+                    Title="Person"
+                    Mode="BottomSheet"
+                    ItemsSource="{Binding Persons}"
+                    SelectedItemCommand="{Binding PersonSelectedCommand}"
+                    SelectedItem="{Binding SelectedPerson}"
+                    ItemDisplayProperty="DisplayName" />
     </StackLayout>
 </dui:ContentPage>

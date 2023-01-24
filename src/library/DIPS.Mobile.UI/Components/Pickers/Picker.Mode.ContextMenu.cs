@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DIPS.Mobile.UI.Components.ContextMenu;
 using DIPS.Mobile.UI.Extensions;
+using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
@@ -10,7 +11,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
     {
         private static void UpdateContextMenuItems(Picker picker)
         {
-            if (picker.SelectedItem == null ||
+            if (picker.m_contextMenuControl == null || picker.SelectedItem == null ||
                 picker.m_contextMenuControl.ItemsSource.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
             {
                 return;
@@ -27,7 +28,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         private static void AddContextMenuItems(Picker picker)
         {
-            if (picker.ItemsSource == null)
+            if (picker.ItemsSource == null || picker.m_contextMenuControl == null)
             {
                 return;
             }

@@ -1,5 +1,7 @@
 using System;
 using Android.Content;
+using DIPS.Mobile.UI.Components.BottomSheet;
+using DIPS.Mobile.UI.Droid.Components.BottomSheet;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -42,6 +44,9 @@ namespace DIPS.Mobile.UI.Droid
             return Context.Resources?.GetIdentifier(name, defType, Context.PackageName);
         }
 
-        public static void Init() { }
+        public static void Init()
+        {
+            BottomSheetService.Instance = new AndroidBottomSheetService();
+        }
     }
 }

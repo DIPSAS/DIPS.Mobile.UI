@@ -56,9 +56,6 @@ namespace DIPS.Mobile.UI.iOS.Components.ContextMenu
         {
             Control.Menu =
                 CreateMenu(); //Recreate the menu so the visuals of the items of the menu are able to change between each time the user opens the menu
-
-            await Task.Delay(3000);
-            
             m_contextMenuButton.SendContextMenuOpened();
         }
 

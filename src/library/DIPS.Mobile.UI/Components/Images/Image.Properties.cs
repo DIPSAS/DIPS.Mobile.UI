@@ -41,7 +41,7 @@ namespace DIPS.Mobile.UI.Components.Images
     /// <summary>
     /// The iOS specific context menu item options
     /// </summary>
-    public class iOSImageProperties : BindableObject
+    public class iOSImageProperties
     {
         /// <summary>
         /// Set this to override the <see cref="Image.Source"/> icon with a SF Symbol 

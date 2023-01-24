@@ -11,8 +11,11 @@ namespace DIPS.Mobile.UI.Samples
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
+            NavigationPage = new NavigationPage(new MainPage());
+            MainPage = NavigationPage;
         }
+        
+        public static NavigationPage NavigationPage { get; private set; }
 
         protected override void OnStart()
         {

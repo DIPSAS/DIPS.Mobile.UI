@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.Samples
             {
                 var contentPage = m_contentPageFunc.Invoke();
                 contentPage.Title = m_sample.Name;
-                Application.Current.MainPage.Navigation.PushAsync(contentPage);
+                App.NavigationPage.PushAsync(contentPage);
             }
 
             protected override void OnBindingContextChanged()
