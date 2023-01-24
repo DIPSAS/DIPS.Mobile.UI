@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Samples
 {
     public class SamplesPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
-        public SamplesPage(SampleType sampleType, Dictionary<Page, Sample> samples)
+        public SamplesPage(SampleType sampleType, Dictionary<Func<Page>, Sample> samples)
         {
             Title = sampleType.ToString();
             Content = new DIPS.Mobile.UI.Components.Lists.ListView()
@@ -21,7 +21,7 @@ namespace DIPS.Mobile.UI.Samples
         public class NavigateToSingleSampleButton : Button
         {
             private Sample m_sample;
-            private Page m_contentPage;
+            private Func<Page> m_contentPageFunc;
 
 
             public NavigateToSingleSampleButton()
@@ -31,17 +31,18 @@ namespace DIPS.Mobile.UI.Samples
 
             private void TryNavigateToSingleSamplePage()
             {
-                m_contentPage.Title = m_sample.Name;
-                Application.Current.MainPage.Navigation.PushAsync(m_contentPage);
+                var contentPage = m_contentPageFunc.Invoke();
+                contentPage.Title = m_sample.Name;
+                Application.Current.MainPage.Navigation.PushAsync(contentPage);
             }
 
             protected override void OnBindingContextChanged()
             {
                 base.OnBindingContextChanged();
-                if (BindingContext is KeyValuePair<Page, Sample> samplePair)
+                if (BindingContext is KeyValuePair<Func<Page>, Sample> samplePair)
                 {
                     m_sample = samplePair.Value;
-                    m_contentPage = samplePair.Key;
+                    m_contentPageFunc = samplePair.Key;
 
                     Text = m_sample.Name;
                 }

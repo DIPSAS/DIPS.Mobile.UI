@@ -13,6 +13,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>DIPS.Mobile.UI.iOS</AssemblyName>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Buttons\ButtonRenderer.cs" />
+    <Compile Include="Components\ContextMenu\ContextMenuButtonRenderer.cs" />
+    <Compile Include="Components\ContextMenu\ContextMenuHelper.cs" />
+    <Compile Include="Components\Images\ImageRenderer.cs" />
+    <Compile Include="Components\Labels\LabelRenderer.cs" />
     <Compile Include="Components\Lists\ListViewRenderer.cs" />
     <Compile Include="DUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

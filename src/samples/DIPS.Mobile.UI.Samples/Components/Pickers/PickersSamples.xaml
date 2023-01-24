@@ -1,0 +1,17 @@
+<dui:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:pickers="clr-namespace:DIPS.Mobile.UI.Samples.Components.Pickers;assembly=DIPS.Mobile.UI.Samples"
+                 x:Class="DIPS.Mobile.UI.Samples.Components.Pickers.PickersSamples">
+    <dui:ContentPage.BindingContext>
+        <pickers:PickerSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:Picker VerticalOptions="Start"
+                Title="Person"
+                ItemsSource="{Binding Persons}"
+                SelectedItemCommand="{Binding PersonSelectedCommand}"
+                SelectedItem="{Binding SelectedPerson}"
+                ItemSelected="OnPersonSelected"
+                ItemDisplayProperty="DisplayName"
+                Grid.Row="0" />
+</dui:ContentPage>

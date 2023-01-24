@@ -18,11 +18,10 @@ namespace DIPS.Mobile.UI.Samples.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-    
+            DIPS.Mobile.UI.Droid.DUI.Init(); //Initialize DIPS.Mobile.UI
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-            DIPS.Mobile.UI.Droid.DUI.Init(); //Initialize DIPS.Mobile.UI
         }
     }
 }

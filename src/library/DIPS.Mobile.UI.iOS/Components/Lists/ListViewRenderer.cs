@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Lists
 {
     public class ListViewRenderer : Xamarin.Forms.Platform.iOS.ListViewRenderer
     {
-        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.ListView> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
         {
             base.OnElementChanged(e);
             if (e.NewElement != null)

@@ -55,15 +55,15 @@ namespace DIPS.Mobile.UI.Samples
     public class NavigateToSamplesButton : Button
     {
         private SampleType m_sampleType;
+
         public NavigateToSamplesButton()
         {
             SetBinding(TextProperty, new Binding() {Path = ""});
             Command = new Command(TryNavigateToSamplesPage);
         }
 
-        private void TryNavigateToSamplesPage()
-        {
-            var samples = new Dictionary<Page, Sample>();
+        private void TryNavigateToSamplesPage() {
+            var samples = new Dictionary<Func<Page>, Sample>();
             switch (m_sampleType)
             {
                 case SampleType.Resources:
@@ -94,21 +94,25 @@ namespace DIPS.Mobile.UI.Samples
             }
         }
 
-        public Dictionary<Page, Sample> GetSamples<TSample>() where TSample : Sample
+        public Dictionary<Func<Page>, Sample> GetSamples<TSample>() where TSample : Sample
         {
-            var samples = new Dictionary<Page, Sample>();
+            var samples = new Dictionary<Func<Page>, Sample>();
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (type.GetCustomAttributes(typeof(TSample), true).Length > 0)
                 {
                     var sample = type.GetCustomAttributes(typeof(TSample), true).First() as TSample;
-                    if (Activator.CreateInstance(type) is Page page)
+                    samples.Add(() =>
                     {
-                        samples.Add(page, sample);    
-                    }
+                        if (Activator.CreateInstance(type) is Page page)
+                        {
+                            return page;
+                        }
+
+                        return null;
+                    }, sample);
                 }
             }
-
             return samples;
         }
     }
