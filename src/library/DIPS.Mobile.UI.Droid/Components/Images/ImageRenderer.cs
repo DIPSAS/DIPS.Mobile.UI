@@ -40,10 +40,10 @@ namespace DIPS.Mobile.UI.Droid.Components.Images
         
         private void TrySetAndroidResourceIcon()
         {
-            if (!string.IsNullOrEmpty(m_image?.PlatformImageProperties.Android.IconResourceName))
+            if (!string.IsNullOrEmpty(m_image?.AndroidProperties.IconResourceName))
             {
                 var androidResource =
-                    DUI.GetResourceId(m_image!.PlatformImageProperties.Android.IconResourceName!, "drawable");
+                    DUI.GetResourceId(m_image!.AndroidProperties.IconResourceName!, "drawable");
                 if (androidResource != null)
                 {
                     Control.SetImageResource((int)androidResource);    
@@ -55,7 +55,7 @@ namespace DIPS.Mobile.UI.Droid.Components.Images
         {
             if (m_image is {Color: { }})
             {
-                Control.SetColorFilter(m_image.Color.Value.ToAndroid());
+                Control.SetColorFilter(m_image.Color.ToAndroid());
             }
         }
     }

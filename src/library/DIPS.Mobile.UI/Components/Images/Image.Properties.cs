@@ -8,25 +8,19 @@ namespace DIPS.Mobile.UI.Components.Images
         public static readonly BindableProperty ColorProperty = BindableProperty.Create(
             nameof(Color),
             typeof(Color),
-            typeof(Image));
+            typeof(Image), defaultValue:Colors.GetColor(ColorName.color_system_black));
 
         /// <summary>
         /// The color of the image.
         /// </summary>
-        public Color? Color
+        public Color Color
         {
             get => (Color)GetValue(ColorProperty);
             set => SetValue(ColorProperty, value);
         }
+        public AndroidImageProperties AndroidProperties { get; set; } = new();
 
-        public PlatformImageProperties PlatformImageProperties { get; } = new();
-    }
-
-    public class PlatformImageProperties
-    {
-        public AndroidImageProperties Android { get; } = new();
-
-        public iOSImageProperties iOS { get; } = new();
+        public iOSImageProperties iOSProperties { get; set; } = new();
     }
 
     public class AndroidImageProperties

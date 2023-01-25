@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Components\BottomSheet\BottomSheet.cs" />
     <Compile Include="Components\BottomSheet\iOSBottomSheetService.cs" />
+    <Compile Include="Components\BottomSheet\SheetContentPage.cs" />
     <Compile Include="Components\Buttons\ButtonRenderer.cs" />
     <Compile Include="Components\ContextMenu\ContextMenuButtonRenderer.cs" />
     <Compile Include="Components\ContextMenu\ContextMenuHelper.cs" />

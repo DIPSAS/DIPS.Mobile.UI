@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using CoreGraphics;
 using DIPS.Mobile.UI.Resources.Colors;
 using UIKit;
 using DUIImage = DIPS.Mobile.UI.Components.Images.Image;
@@ -38,9 +39,9 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
 
         private void TrySetSystemImage(DUIImage image)
         {
-            if (!string.IsNullOrEmpty(image.PlatformImageProperties.iOS.SystemIconName))
+            if (!string.IsNullOrEmpty(image.iOSProperties.SystemIconName))
             {
-                var systemImage = UIImage.GetSystemImage(image.PlatformImageProperties.iOS.SystemIconName);
+                var systemImage = UIImage.GetSystemImage(image.iOSProperties.SystemIconName);
                 Control.Image = systemImage;
             }
         }
@@ -49,7 +50,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
         {
             if (m_image?.Color != null)
             {
-                Control.TintColor = m_image?.Color.Value.ToUIColor();    
+                Control.TintColor = m_image?.Color.ToUIColor();    
             }
         }
     }

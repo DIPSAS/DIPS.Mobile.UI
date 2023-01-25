@@ -36,8 +36,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
             m_selectedItemLabel.SetAppThemeColor(Xamarin.Forms.Label.TextColorProperty, ColorName.color_primary_light_primary_100);
 
             var image = new Image();
-            image.PlatformImageProperties.iOS.SystemIconName = "chevron.up.chevron.down";
-            image.PlatformImageProperties.Android.IconResourceName = "mtrl_dropdown_arrow";
+            image.iOSProperties.SystemIconName = "chevron.up.chevron.down";
+            image.AndroidProperties.IconResourceName = "mtrl_dropdown_arrow";
             image.SetAppThemeColor(Image.ColorProperty, Colors.GetColor(ColorName.color_primary_light_primary_100),
                 Colors.GetColor(ColorName.color_primary_light_primary_100));
 

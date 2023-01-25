@@ -65,8 +65,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
                     });
 
                     var selectedImage = new Image() {VerticalOptions = LayoutOptions.Center};
-                    selectedImage.PlatformImageProperties.iOS.SystemIconName = "checkmark";
-                    selectedImage.PlatformImageProperties.Android.IconResourceName = "abc_btn_check_material";
+                    selectedImage.iOSProperties.SystemIconName = "checkmark";
+                    selectedImage.AndroidProperties.IconResourceName = "abc_btn_check_material";
                     selectedImage.Color = Colors.GetColor(ColorName.color_system_black);
                     selectedImage.Margin = new Thickness(5); //TODO: Use DesignSystem
                     selectedImage.IsVisible = isSelected;

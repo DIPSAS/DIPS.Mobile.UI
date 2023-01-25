@@ -19,10 +19,10 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheet
 
         public Task Open()
         {
-            
             var currentViewController = DUI.CurrentViewController;
-            m_sheetViewController = new ContentPage() {Content = m_bottomSheetView}.CreateViewController();
-
+            
+            //Create the bottom sheet
+            m_sheetViewController =  new SheetContentPage(m_bottomSheetView, () => _ = Close()).CreateViewController();
             m_sheetViewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
             m_sheetPresentationController = m_sheetViewController.SheetPresentationController;
             if (m_sheetPresentationController != null)
@@ -37,7 +37,6 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheet
             }
             
             return currentViewController.PresentViewControllerAsync(m_sheetViewController, true);
-            return Task.CompletedTask;
         }
 
         public async Task Close()

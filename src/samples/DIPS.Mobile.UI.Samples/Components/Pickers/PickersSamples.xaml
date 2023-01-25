@@ -2,12 +2,19 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:DIPS.Mobile.UI.Samples.Components.Pickers;assembly=DIPS.Mobile.UI.Samples"
+                 xmlns:colors="clr-namespace:DIPS.Mobile.UI.Resources.Colors;assembly=DIPS.Mobile.UI"
                  x:Class="DIPS.Mobile.UI.Samples.Components.Pickers.PickersSamples">
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
     <StackLayout>
-        <dui:Label Text="Mode: Context Menu" Margin="5" />
+        <dui:Image Color="{colors:Colors color_primary_light_primary_100}">
+            <dui:Image.iOSProperties>
+                <dui:iOSImageProperties SystemIconName="person" />
+            </dui:Image.iOSProperties>
+        </dui:Image>
+        <dui:Label Text="Mode: Context Menu"
+                   Margin="5" />
         <dui:Picker VerticalOptions="Start"
                     Title="Person"
                     Mode="ContextMenu"
@@ -15,8 +22,9 @@
                     SelectedItemCommand="{Binding PersonSelectedCommand}"
                     SelectedItem="{Binding SelectedPerson}"
                     ItemDisplayProperty="DisplayName" />
-        
-        <dui:Label Text="Mode: Bottom Sheet" Margin="5" />
+
+        <dui:Label Text="Mode: Bottom Sheet"
+                   Margin="5" />
         <dui:Picker VerticalOptions="Start"
                     Title="Person"
                     Mode="BottomSheet"

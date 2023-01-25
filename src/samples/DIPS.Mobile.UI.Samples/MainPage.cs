@@ -76,11 +76,11 @@ namespace DIPS.Mobile.UI.Samples
 
             if (samples.Any())
             {
-                App.NavigationPage.PushAsync(new SamplesPage(m_sampleType, samples));
+                App.Current.MainPage.Navigation.PushAsync(new SamplesPage(m_sampleType, samples));
             }
             else
             {
-                App.NavigationPage.DisplayAlert("No samples",
+                App.Current.MainPage.DisplayAlert("No samples",
                     $"Theres no samples for {m_sampleType.ToString()} yet.", "Ok");
             }
         }
