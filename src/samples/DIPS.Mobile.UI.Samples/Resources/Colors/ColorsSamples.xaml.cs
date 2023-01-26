@@ -40,10 +40,7 @@ namespace DIPS.Mobile.UI.Samples.Resources.Colors
             colorNames.ForEach(colorName =>
             {
                 var color = UI.Resources.Colors.Colors.GetColor(colorName);
-                var name = (Application.Current.RequestedTheme == OSAppTheme.Light)
-                    ? colorName.ToString()
-                    : colorName.ToString().Replace(UI.Resources.Colors.Colors.LightIdentifier,
-                        UI.Resources.Colors.Colors.DarkIdentifier);
+                var name = colorName.ToString();
                 colors.Add(name, color);
             });
             return colors;

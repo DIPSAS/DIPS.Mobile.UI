@@ -6,8 +6,8 @@ namespace DIPS.Mobile.UI.Components.Pages
 {
     public class NavigationPage : Xamarin.Forms.NavigationPage
     {
-        public static readonly ColorName BackgroundColorName = ColorName.color_primary_light_primary_80;
-        public static readonly ColorName BarBackgroundColorName = ColorName.color_primary_light_primary_100;
+        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_30;
+        public static readonly ColorName BarBackgroundColorName = ColorName.color_primary_90;
         public static readonly ColorName BarTextColorName = ColorName.color_system_white;
         public NavigationPage(Xamarin.Forms.ContentPage contentPage) : base(contentPage)
         {

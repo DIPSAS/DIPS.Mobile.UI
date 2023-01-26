@@ -8,11 +8,6 @@
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
     <StackLayout>
-        <dui:Image Color="{colors:Colors color_primary_light_primary_100}">
-            <dui:Image.iOSProperties>
-                <dui:iOSImageProperties SystemIconName="person" />
-            </dui:Image.iOSProperties>
-        </dui:Image>
         <dui:Label Text="Mode: Context Menu"
                    Margin="5" />
         <dui:Picker VerticalOptions="Start"

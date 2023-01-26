@@ -7,21 +7,19 @@ namespace DIPS.Mobile.UI.Resources.Colors
     [ContentProperty(nameof(ColorName))]
     public class ColorsExtension : IMarkupExtension<Color>
     {
-        private static readonly Color s_defaultColor = Color.White;
-        
         public ColorName ColorName { get; set; }
 
-        public static Color? GetColor(string colorName)
+        public static Color GetColor(string colorName)
         {
             var colors = new Colors();
             if (!colors.ContainsKey(colorName))
             {
-                return null;
+                return Color.Default;
             }
 
             if (!colors.TryGetValue(colorName, out var value))
             {
-                return null;
+                return Color.Default;
             }
 
             if (value is Color color)
@@ -29,17 +27,17 @@ namespace DIPS.Mobile.UI.Resources.Colors
                 return color;
             }
 
-            return null;
+            return Color.Default;
         }
         
-        public static Color? GetColor(ColorName colorName)
+        public static Color GetColor(ColorName colorName)
         {
             return GetColor(colorName.ToString());
         }
         
         Color IMarkupExtension<Color>.ProvideValue(IServiceProvider serviceProvider)
         {
-            return GetColor(ColorName) ?? s_defaultColor;
+            return GetColor(ColorName);
         }
 
         public object ProvideValue(IServiceProvider serviceProvider)

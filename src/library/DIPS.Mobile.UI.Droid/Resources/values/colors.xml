@@ -2,16 +2,33 @@
 
 <!--
   Do not edit directly
-  Generated on Thu, 19 Jan 2023 11:16:24 GMT
+  Generated on Wed, 25 Jan 2023 08:29:33 GMT
 -->
 <resources>
-  <color name="color_primary_light_primary_100">#ff047f89</color>
-  <color name="color_primary_light_primary_90">#ff65868f</color>
-  <color name="color_primary_light_primary_80">#ff98b2ae</color>
-  <color name="color_secondary_light_secondary_100">#ff97c8cd</color>
-  <color name="color_secondary_light_secondary_90">#ffecf3f4</color>
-  <color name="color_secondary_light_secondary_80">#fff0f5f7</color>
   <color name="color_system_black">#ff000000</color>
   <color name="color_system_white">#ffffffff</color>
-  
+  <color name="color_primary_70">#ff98b2ae</color>
+  <color name="color_primary_80">#ff65868f</color>
+  <color name="color_primary_90">#ff047f89</color>
+  <color name="color_primary_d_70">#ff98b2ae</color>
+  <color name="color_primary_d_80">#ff65868f</color>
+  <color name="color_primary_d_90">#ff047f89</color>
+  <color name="color_secondary_20">#fff0f5f7</color>
+  <color name="color_secondary_30">#ffecf3f4</color>
+  <color name="color_secondary_90">#ff97c8cd</color>
+  <color name="color_secondary_d_20">#fff0f5f7</color>
+  <color name="color_secondary_d_30">#ffecf3f4</color>
+  <color name="color_secondary_d_90">#ff97c8cd</color>
+  <color name="color_neutral_10">#fff4f5f5</color>
+  <color name="color_neutral_20">#ffecedee</color>
+  <color name="color_neutral_30">#ffdadbdc</color>
+  <color name="color_neutral_40">#ffb6b7b9</color>
+  <color name="color_neutral_50">#ff8f9496</color>
+  <color name="color_neutral_60">#ff6a7073</color>
+  <color name="color_neutral_70">#ff464c50</color>
+  <color name="color_neutral_80">#ff373d40</color>
+  <color name="color_neutral_90">#ff262626</color>
+  <color name="color_neutral_05">#fff9f9f9</color>
+  <color name="color_mandatory_dark">#ffec942d</color>
+  <color name="color_error_dark">#ffab2e13</color>
 </resources>

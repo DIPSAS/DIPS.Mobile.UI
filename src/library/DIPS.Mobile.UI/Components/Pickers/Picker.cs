@@ -31,15 +31,18 @@ namespace DIPS.Mobile.UI.Components.Pickers
             headerLabel.SetBinding(Xamarin.Forms.Label.TextProperty,
                 new Binding() {Source = this, Path = nameof(Title)});
 
+            //Context Menu control 
+            m_contextMenuControl = new ContextMenuControl();
+
             //Selected item
             m_selectedItemLabel = new Label {HorizontalTextAlignment = TextAlignment.End};
-            m_selectedItemLabel.SetAppThemeColor(Xamarin.Forms.Label.TextColorProperty, ColorName.color_primary_light_primary_100);
+            m_selectedItemLabel.SetAppThemeColor(Xamarin.Forms.Label.TextColorProperty, ColorName.color_primary_90);
 
             var image = new Image();
             image.iOSProperties.SystemIconName = "chevron.up.chevron.down";
             image.AndroidProperties.IconResourceName = "mtrl_dropdown_arrow";
-            image.SetAppThemeColor(Image.ColorProperty, Colors.GetColor(ColorName.color_primary_light_primary_100),
-                Colors.GetColor(ColorName.color_primary_light_primary_100));
+            image.SetAppThemeColor(Image.ColorProperty, Colors.GetColor(ColorName.color_primary_90),
+                Colors.GetColor(ColorName.color_primary_90));
 
             //Arrange the grid
             m_pickerContent = new Grid()
@@ -49,46 +52,48 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 VerticalOptions = LayoutOptions.Center,
                 ColumnDefinitions = new ColumnDefinitionCollection()
                 {
-                    new() {Width = GridLength.Auto}, new() {Width = GridLength.Star}, new() {Width = 20}
+                    new() {Width = GridLength.Auto},
+                    new() {Width = GridLength.Star},
+                    new() {Width = GridLength.Auto}
                 }
             };
 
             m_pickerContent.Children.Add(headerLabel, 0, 0);
             m_pickerContent.Children.Add(m_selectedItemLabel, 1, 0);
             m_pickerContent.Children.Add(image, 2, 0);
-            
-            Content = m_pickerContent;
+
+            m_contextMenuControl.TheContent = m_pickerContent;
+            Content = m_contextMenuControl; //Set the context menu control as content to the frame
         }
-        
+
         private void LayoutContent()
         {
             if (Mode == PickerMode.ContextMenu)
             {
-                m_contextMenuControl = new ContextMenuControl();
-                m_contextMenuControl.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
-                m_contextMenuControl.TheContent = m_pickerContent;
+                m_contextMenuControl.ItemClickedCommand =
+                    new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
                 InputTransparent = true; //To make it touchable for context menu
                 CascadeInputTransparent = false;
-                Content = m_contextMenuControl; //Set the context menu control as content to the frame
             }
             else if (Mode == PickerMode.BottomSheet)
             {
                 AttachBottomSheet();
-                Content = m_pickerContent;
+                m_contextMenuControl.m_theContentView.InputTransparent = false;
             }
-            
+
             m_layedOut = true;
         }
-        
+
         protected override void OnPropertyChanged(string propertyName = null)
         {
             if (propertyName.Equals(nameof(Parent)))
             {
                 if (!m_layedOut)
                 {
-                    LayoutContent();    
-                }   
+                    LayoutContent();
+                }
             }
+
             base.OnPropertyChanged(propertyName);
         }
 
@@ -111,7 +116,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
             if (picker.Mode == PickerMode.ContextMenu)
             {
-                UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user    
+                UpdateContextMenuItems(
+                    picker); //<-- Needed if the selected item was set programatically, and not by the user    
             }
         }
 
@@ -124,7 +130,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
             if (picker.Mode == PickerMode.ContextMenu)
             {
-                AddContextMenuItems(picker);    
+                AddContextMenuItems(picker);
             }
         }
 

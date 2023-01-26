@@ -1,15 +1,10 @@
 using System.ComponentModel;
-using System.Xml;
 using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Resources.Colors
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public partial class Colors
+    public partial class Colors : ResourceDictionary
     {
-        public static readonly string LightIdentifier = "_light_";
-        public static readonly string DarkIdentifier = "_dark_";
-
         public Colors()
         {
             InitializeComponent();
@@ -31,23 +26,8 @@ namespace DIPS.Mobile.UI.Resources.Colors
         /// <remarks>If there is no corresponding color based on the <see cref="OSAppTheme"/> it returns the opposite color or <see cref="Color.Default"/></remarks>
         public static Color GetColor(ColorName colorName, OSAppTheme themeToCompare)
         {
-            var colorToLookup = colorName.ToString();
-            if (themeToCompare == OSAppTheme.Dark)
-            {
-                if (colorToLookup.Contains(LightIdentifier))
-                {
-                    colorToLookup = colorToLookup.Replace(LightIdentifier, DarkIdentifier);
-                }
-            }
-            else
-            {
-                if (colorToLookup.Contains(DarkIdentifier))
-                {
-                    colorToLookup = colorToLookup.Replace(DarkIdentifier, LightIdentifier);
-                }
-            }
-
-            return ColorsExtension.GetColor(colorToLookup) ?? ColorsExtension.GetColor(colorName) ?? Color.Default;
+            var colorToLookup = ColorLookup.GetColorName(colorName, themeToCompare == OSAppTheme.Dark);
+            return ColorsExtension.GetColor(colorToLookup);
         }
     }
 }

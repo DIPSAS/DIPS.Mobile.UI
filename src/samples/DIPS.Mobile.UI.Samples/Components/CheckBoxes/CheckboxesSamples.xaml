@@ -1,0 +1,13 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="DIPS.Mobile.UI.Samples.Components.Checkboxes.CheckboxesSamples">
+    <StackLayout>
+        <dui:CheckBox Text="Veeeeeeeeeeeery long text" />
+    </StackLayout>
+
+</dui:ContentPage>

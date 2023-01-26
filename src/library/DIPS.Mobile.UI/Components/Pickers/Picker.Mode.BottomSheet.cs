@@ -1,14 +1,12 @@
-using System;
 using System.Threading.Tasks;
 using DIPS.Mobile.UI.Components.BottomSheet;
-using DIPS.Mobile.UI.Components.Images;
-using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Image = DIPS.Mobile.UI.Components.Images.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
+using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
@@ -30,7 +28,9 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             var listView = new ListView()
             {
-                ItemsSource = ItemsSource, ItemTemplate = new PickerListViewDataTemplateSelector(this)
+                HasUnevenRows = true,
+                ItemsSource = ItemsSource, ItemTemplate = new PickerListViewDataTemplateSelector(this),
+                Margin = 10 //TODO: Use DesignSystem
             };
             return new BottomSheetView() {Content = listView};
         }
@@ -48,39 +48,17 @@ namespace DIPS.Mobile.UI.Components.Pickers
             {
                 return new DataTemplate(() =>
                 {
-                    var isSelected = m_picker.SelectedItem == item;
-                    var grid = new Grid();
-                    grid.ColumnDefinitions = new ColumnDefinitionCollection()
-                    {
-                        new() {Width = 25}, new() {Width = GridLength.Star}
-                    };
-                    grid.GestureRecognizers.Add(new TapGestureRecognizer()
-                    {
-                        Command = new Command(() =>
+                    return new ViewCell() {View = new CheckBox()
                         {
-                            m_picker.SelectedItem = item;
-                            m_picker.m_currentBottomSheet?.Close();
-                            m_picker.m_currentBottomSheet = null;
-                        })
-                    });
-
-                    var selectedImage = new Image() {VerticalOptions = LayoutOptions.Center};
-                    selectedImage.iOSProperties.SystemIconName = "checkmark";
-                    selectedImage.AndroidProperties.IconResourceName = "abc_btn_check_material";
-                    selectedImage.Color = Colors.GetColor(ColorName.color_system_black);
-                    selectedImage.Margin = new Thickness(5); //TODO: Use DesignSystem
-                    selectedImage.IsVisible = isSelected;
-
-                    var itemLabel = new Label()
-                    {
-                        Text = item.GetPropertyValue(m_picker.ItemDisplayProperty),
-                        VerticalTextAlignment = TextAlignment.Center
-                    };
-
-                    grid.Children.Add(selectedImage, 0, 0);
-                    grid.Children.Add(itemLabel, 1, 0);
-
-                    return new ViewCell() {View = grid};
+                            Text = item.GetPropertyValue(m_picker.ItemDisplayProperty),
+                            IsSelected = m_picker.SelectedItem == item,
+                            Command = new Command(() =>
+                            {
+                                m_picker.SelectedItem = item;
+                                m_picker.m_currentBottomSheet?.Close();
+                                m_picker.m_currentBottomSheet = null; 
+                            })
+                        }};
                 });
             }
         }

@@ -1,19 +1,37 @@
 /*
 Do not edit directly,
-generated 19/01/2023 12:16:24 from DIPS.Mobile.DesignTokens
+generated 25/01/2023 09:29:33 from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Colors
 {
     public enum ColorName
     {
-        color_primary_light_primary_100, 
-        color_primary_light_primary_90, 
-        color_primary_light_primary_80, 
-        color_secondary_light_secondary_100, 
-        color_secondary_light_secondary_90, 
-        color_secondary_light_secondary_80, 
         color_system_black, 
-        color_system_white
+        color_system_white, 
+        color_primary_70, 
+        color_primary_80, 
+        color_primary_90, 
+        color_primary_d_70, 
+        color_primary_d_80, 
+        color_primary_d_90, 
+        color_secondary_20, 
+        color_secondary_30, 
+        color_secondary_90, 
+        color_secondary_d_20, 
+        color_secondary_d_30, 
+        color_secondary_d_90, 
+        color_neutral_10, 
+        color_neutral_20, 
+        color_neutral_30, 
+        color_neutral_40, 
+        color_neutral_50, 
+        color_neutral_60, 
+        color_neutral_70, 
+        color_neutral_80, 
+        color_neutral_90, 
+        color_neutral_05, 
+        color_mandatory_dark, 
+        color_error_dark
     }
 }

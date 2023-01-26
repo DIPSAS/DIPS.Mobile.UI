@@ -5,6 +5,6 @@
              xmlns:dui="http://dips.com/mobile.ui"
              x:Class="NugetTest.MainPage">
 
-    <dui:Button Text="Test"/>
+    <dui:Button Text="Test" BackgroundColor="{StaticResource color_neutral_90}"/>
 
 </ContentPage>

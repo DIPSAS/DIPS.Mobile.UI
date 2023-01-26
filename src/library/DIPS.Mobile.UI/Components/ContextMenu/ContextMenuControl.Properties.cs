@@ -92,7 +92,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenu
             defaultValue: ContextMenuButton.ContextMenuHorizontalOptionsProperty.DefaultValue);
 
         private readonly ContextMenuButton m_contextMenuButton;
-        private readonly ContentView m_theContentView;
+        internal readonly ContentView m_theContentView;
 
         /// <summary>
         /// <inheritdoc cref="IContextMenu"/>

@@ -9,6 +9,7 @@ using Xamarin.Forms.Platform.iOS;
 
 
 [assembly: ExportRenderer(typeof(DUIImage), typeof(DUIImageRenderer))]
+
 namespace DIPS.Mobile.UI.iOS.Components.Images
 {
     public class ImageRenderer : Xamarin.Forms.Platform.iOS.ImageRenderer
@@ -25,7 +26,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
                 TrySetImageColor();
             }
         }
-        
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -34,6 +35,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
                     TrySetImageColor();
                     break;
             }
+
             base.OnElementPropertyChanged(sender, e);
         }
 
@@ -42,6 +44,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
             if (!string.IsNullOrEmpty(image.iOSProperties.SystemIconName))
             {
                 var systemImage = UIImage.GetSystemImage(image.iOSProperties.SystemIconName);
+                Control.AdjustsImageSizeForAccessibilityContentSizeCategory = true;
                 Control.Image = systemImage;
             }
         }
@@ -50,7 +53,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Images
         {
             if (m_image?.Color != null)
             {
-                Control.TintColor = m_image?.Color.ToUIColor();    
+                Control.TintColor = m_image?.Color.ToUIColor();
             }
         }
     }
