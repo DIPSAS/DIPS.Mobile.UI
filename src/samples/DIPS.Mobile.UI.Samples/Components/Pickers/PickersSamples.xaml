@@ -14,8 +14,6 @@
                     Title="Person"
                     Mode="ContextMenu"
                     ItemsSource="{Binding Persons}"
-                    SelectedItemCommand="{Binding PersonSelectedCommand}"
-                    SelectedItem="{Binding SelectedPerson}"
                     ItemDisplayProperty="DisplayName" />
 
         <dui:Label Text="Mode: Bottom Sheet"
@@ -24,8 +22,6 @@
                     Title="Person"
                     Mode="BottomSheet"
                     ItemsSource="{Binding Persons}"
-                    SelectedItemCommand="{Binding PersonSelectedCommand}"
-                    SelectedItem="{Binding SelectedPerson}"
                     ItemDisplayProperty="DisplayName" />
     </StackLayout>
 </dui:ContentPage>

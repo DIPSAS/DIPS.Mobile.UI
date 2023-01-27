@@ -19,21 +19,38 @@ namespace DIPS.Mobile.UI.Droid.Components.Images
             base.OnElementChanged(e);
             if (e.NewElement != null)
             {
-                m_image = e.NewElement as DUIImage;
-                TrySetColors();
-                TrySetAndroidResourceIcon();
+                if (e.NewElement is DUIImage duiImage)
+                {
+                    m_image = duiImage;
+                    m_image.AndroidProperties.PropertyChanged += OnElementPropertyChanged;
+                    TrySetColors();
+                    TrySetAndroidResourceIcon();
+                }
             }
         }
 
-        
+        protected override void Dispose(bool disposing)
+        {
+            if (m_image != null)
+            {
+                m_image.AndroidProperties.PropertyChanged -= OnElementPropertyChanged;
+            }
+
+            base.Dispose(disposing);
+        }
+
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case nameof(UI.Components.Images.Image.Color):
+                case nameof(DUIImage.Color):
                     TrySetColors();
                     break;
-                
+                case nameof(DUIImage.AndroidProperties.IconResourceName):
+                    TrySetAndroidResourceIcon();
+                    break;
+
             }
             base.OnElementPropertyChanged(sender, e);
         }

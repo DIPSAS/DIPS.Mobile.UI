@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Enum = DIPS.Mobile.UI.Extensions.Enum;
 

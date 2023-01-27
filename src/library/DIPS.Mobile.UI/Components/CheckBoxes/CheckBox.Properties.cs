@@ -10,6 +10,9 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             typeof(string),
             typeof(CheckBox));
 
+        /// <summary>
+        /// The text which is used as a title of the checkbox.
+        /// </summary>
         public string Text
         {
             get => (string)GetValue(TextProperty);
@@ -21,6 +24,9 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             typeof(bool),
             typeof(CheckBox), propertyChanged: IsSelectedChanged);
 
+        /// <summary>
+        /// A boolean property to determine if the check box is selected.
+        /// </summary>
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
@@ -32,10 +38,27 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             typeof(ICommand),
             typeof(CheckBox));
 
+        /// <summary>
+        /// The command to be executed when people toggle the checkbox.
+        /// </summary>
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
+        }
+
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            nameof(CommandParameter),
+            typeof(object),
+            typeof(CheckBox));
+
+        /// <summary>
+        /// The command parameter to be passed to the <see cref="Command"/> when people toggle the checkbox.
+        /// </summary>
+        public object CommandParameter
+        {
+            get => (object)GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
     }
 }

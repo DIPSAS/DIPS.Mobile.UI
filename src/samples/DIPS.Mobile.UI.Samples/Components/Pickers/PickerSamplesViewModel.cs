@@ -15,16 +15,16 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         {
             Persons = new List<Person>()
             {
-                new Person("FirstName1", "Lastname1"),
-                new Person("FirstName2", "Lastname2"),
-                new Person("FirstName3", "Lastname3"),
-                new Person("FirstName4", "Lastname4"),
-                new Person("FirstName5", "Lastname5"),
-                new Person("FirstName6", "Lastname6"),
-                new Person("FirstName7", "Lastname7"),
-                new Person("FirstName8", "Lastname8"),
-                new Person("FirstName9", "Lastname9"),
-                new Person("FirstNaaaaame10", "Lastnaaaaame10", "MiddleNaaaame 10"),
+                new Person("Erika", "Isa"),
+                new Person("Adam", "Lehi"),
+                new Person("Emmerson", "Harve"),
+                new Person("Sylvester", "Christel"),
+                new Person("Hanne", "Dexter"),
+                new Person("Ava", "Karl"),
+                new Person("Knut","Arne","Johansen"),
+                new Person("Mina", "Shawn"),
+                new Person("Per","Gunnar", "Hansen"),
+                new Person("Pablo", "Picasso","Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y"),
             };
             PersonSelectedCommand = new Command<Person>(PersonSelected);
         }

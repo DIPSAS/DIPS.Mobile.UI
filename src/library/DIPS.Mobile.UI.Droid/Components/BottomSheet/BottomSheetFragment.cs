@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.CoordinatorLayout.Widget;
+using AndroidX.Core.Widget;
 using DIPS.Mobile.UI.Components.BottomSheet;
 using Google.Android.Material.BottomSheet;
 using Xamarin.Forms;
@@ -26,12 +27,9 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheet
         public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
         {
-            var resourceId = DUI.GetResourceId("bottom_sheet");
-            if (resourceId != null)
-            {
-                return inflater.Inflate((int)resourceId, container, false);
-            }
-            return new TextView(m_context) {Text = "Asd"};
+            var nestedScrollView = new NestedScrollView(m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
+            nestedScrollView.AddView(new ContainerView(m_context, m_bottomSheetView));
+            return nestedScrollView;
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -41,7 +39,8 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheet
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 bottomSheetDialog.Behavior.Draggable = true;
-                bottomSheetDialog.Behavior.PeekHeight = 500;
+                var fullScreenHeight = m_context.Resources.DisplayMetrics.HeightPixels;
+                bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight/2;
             }
 
             return dialog;

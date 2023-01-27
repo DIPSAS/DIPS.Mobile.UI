@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Android.Graphics;
 using Android.Views;
+using AndroidX.AppCompat.Content.Res;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.View;
 using DIPS.Mobile.UI.Components.Buttons;
@@ -93,7 +95,9 @@ namespace DIPS.Mobile.UI.Droid.Components.ContextMenu
 
                 if (id != null) //Icon not set by consumer or icon not found
                 {
-                    menuItem.SetIcon((int)id);
+                    var icon = DUI.Context.GetDrawable((int)id);
+                    menuItem.SetIcon(icon);
+                    
                 }
             }
 
