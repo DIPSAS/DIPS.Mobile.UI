@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
-using DIPS.Mobile.UI.Components.BottomSheet;
-using DIPS.Mobile.UI.iOS.Components.BottomSheet;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.iOS.Components.BottomSheets;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;

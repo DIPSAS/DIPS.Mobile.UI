@@ -1,7 +1,7 @@
 using System;
 using Android.Content;
-using DIPS.Mobile.UI.Components.BottomSheet;
-using DIPS.Mobile.UI.Droid.Components.BottomSheet;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Droid.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;

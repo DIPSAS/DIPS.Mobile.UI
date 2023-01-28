@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using DIPS.Mobile.UI.Components.ContextMenu;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Samples.Components.ContextMenu

@@ -45,12 +45,11 @@
         <Reference Include="Xamarin.iOS" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Components\BottomSheet\BottomSheet.cs" />
-        <Compile Include="Components\BottomSheet\iOSBottomSheetService.cs" />
-        <Compile Include="Components\BottomSheet\SheetContentPage.cs" />
+        <Compile Include="Components\BottomSheets\iOSBottomSheetService.cs" />
+        <Compile Include="Components\BottomSheets\SheetContentPage.cs" />
         <Compile Include="Components\Buttons\ButtonRenderer.cs" />
-        <Compile Include="Components\ContextMenu\ContextMenuButtonRenderer.cs" />
-        <Compile Include="Components\ContextMenu\ContextMenuHelper.cs" />
+        <Compile Include="Components\ContextMenus\ContextMenuButtonRenderer.cs" />
+        <Compile Include="Components\ContextMenus\ContextMenuHelper.cs" />
         <Compile Include="Components\Images\ImageRenderer.cs" />
         <Compile Include="Components\Labels\LabelRenderer.cs" />
         <Compile Include="Components\Lists\ListViewRenderer.cs" />

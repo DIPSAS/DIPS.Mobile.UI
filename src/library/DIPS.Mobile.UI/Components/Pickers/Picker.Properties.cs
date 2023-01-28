@@ -75,7 +75,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         /// <summary>
         /// The event to be raised when people select an item from the picker.
         /// </summary>
-        public event EventHandler<object>? ItemSelected;
+        public event EventHandler<object>? DidSelectItem;
     }
 
     public enum PickerMode

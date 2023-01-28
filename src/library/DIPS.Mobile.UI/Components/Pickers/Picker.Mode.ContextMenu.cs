@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DIPS.Mobile.UI.Components.ContextMenu;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 using Xamarin.Forms;
 

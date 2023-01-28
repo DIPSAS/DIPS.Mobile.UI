@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using DIPS.Mobile.UI.Components.ContextMenu;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
@@ -112,7 +112,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
             picker.m_selectedItemLabel.Text =
                 picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty);
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
-            picker.ItemSelected?.Invoke(picker, picker.SelectedItem);
+            picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
 
             if (picker.Mode == PickerMode.ContextMenu)
             {

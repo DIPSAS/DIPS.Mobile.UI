@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using DIPS.Mobile.UI.Components.BottomSheet;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
@@ -12,8 +12,6 @@ namespace DIPS.Mobile.UI.Components.Pickers
 {
     public partial class Picker
     {
-        private IBottomSheet? m_currentBottomSheet;
-
         private void AttachBottomSheet()
         {
             GestureRecognizers.Add(new TapGestureRecognizer() {Command = (new Command(() => _ = OpenBottomSheet()))});
@@ -21,26 +19,30 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         private async Task OpenBottomSheet()
         {
-            m_currentBottomSheet = await Application.Current.PushBottomSheet(CreateSheetContent());
+            await Application.Current.PushBottomSheet(CreateSheetContent());
         }
 
-        private BottomSheetView CreateSheetContent()
+        private BottomSheet CreateSheetContent()
         {
-            var listView = new ListView()
+            var bottomSheet = new BottomSheet();
+            bottomSheet.Content = new ListView()
             {
                 HasUnevenRows = true,
-                ItemsSource = ItemsSource, ItemTemplate = new PickerListViewDataTemplateSelector(this),
+                ItemsSource = ItemsSource,
+                ItemTemplate = new PickerListViewDataTemplateSelector(bottomSheet, this),
                 Margin = 10 //TODO: Use DesignSystem
             };
-            return new BottomSheetView() {Content = listView};
+            return bottomSheet;
         }
 
         private class PickerListViewDataTemplateSelector : DataTemplateSelector
         {
+            private readonly BottomSheet m_bottomSheet;
             private readonly Picker m_picker;
 
-            public PickerListViewDataTemplateSelector(Picker picker)
+            public PickerListViewDataTemplateSelector(BottomSheet bottomSheet, Picker picker)
             {
+                m_bottomSheet = bottomSheet;
                 m_picker = picker;
             }
 
@@ -55,8 +57,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                             Command = new Command(() =>
                             {
                                 m_picker.SelectedItem = item;
-                                m_picker.m_currentBottomSheet?.Close();
-                                m_picker.m_currentBottomSheet = null; 
+                                m_bottomSheet.Close();
                             })
                         }};
                 });
