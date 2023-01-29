@@ -48,17 +48,53 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             Bundle savedInstanceState)
         {
             var height = 0;
-            var coordinatedLayout = new CoordinatorLayout(m_context);
             if (m_context.Resources?.DisplayMetrics != null)
             {
                 height = m_context.Resources.DisplayMetrics.HeightPixels;
             }
+
             var nestedScrollView =
                 new NestedScrollView(
                     m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             nestedScrollView.SetMinimumHeight(height);
-            nestedScrollView.AddView(new ContainerView(m_context, m_bottomSheet));
+            var grid = new Grid()
+            {
+                RowDefinitions = new RowDefinitionCollection()
+                {
+                    new() {Height = GridLength.Auto}, new() {Height = GridLength.Star}
+                }
+            };
+
+            //Add a handle, with a innergrid that works as a big hit box for the user to hit
+            var innerGrid = new Grid(){Padding = new Thickness(0,10)};
+            innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
+            var handle = new BoxView()
+            {
+                HeightRequest = 4,
+                WidthRequest = 32,
+                CornerRadius = 10,
+                BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+            innerGrid.Children.Add(handle);
+            grid.Children.Add(innerGrid, 0, 0);
+            grid.Children.Add(m_bottomSheet, 0, 1);
+            
+            nestedScrollView.AddView(new ContainerView(m_context, grid));
             return nestedScrollView;
+        }
+
+        private void ToggleBottomSheetIfPossible()
+        {
+            if (Dialog is BottomSheetDialog bottomSheetDialog)
+            {
+                var bottomSheetBehavior = bottomSheetDialog.Behavior;
+                var  collapsed = bottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
+                bottomSheetBehavior.State =
+                    collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
+            }
+            
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -73,6 +109,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight / 2;
                 }
             }
+
             return dialog;
         }
 
