@@ -1,9 +1,10 @@
 <dui:BottomSheet xmlns="http://xamarin.com/schemas/2014/forms"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                     xmlns:dui="http://dips.com/mobile.ui"
-                     x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
-    
-    <dui:ListView SelectionMode="None">
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
+
+    <dui:ListView SelectionMode="None"
+                  HasUnevenRows="True">
         <dui:ListView.ItemsSource>
             <x:Array Type="{x:Type x:String}">
                 <x:String>Item 1</x:String>
@@ -22,5 +23,13 @@
                 <x:String>Item 14</x:String>
             </x:Array>
         </dui:ListView.ItemsSource>
+        <dui:ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <dui:Label Text="{Binding .}"
+                               Margin="15,15,15,15"/>
+                </ViewCell>
+            </DataTemplate>
+        </dui:ListView.ItemTemplate>
     </dui:ListView>
 </dui:BottomSheet>

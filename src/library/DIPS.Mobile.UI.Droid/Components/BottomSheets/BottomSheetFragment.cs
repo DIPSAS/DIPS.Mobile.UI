@@ -59,6 +59,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             nestedScrollView.SetMinimumHeight(height);
             var grid = new Grid()
             {
+                RowSpacing = 0,
                 RowDefinitions = new RowDefinitionCollection()
                 {
                     new() {Height = GridLength.Auto}, new() {Height = GridLength.Star}
@@ -66,6 +67,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             };
 
             //Add a handle, with a innergrid that works as a big hit box for the user to hit
+            //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
             var innerGrid = new Grid(){Padding = new Thickness(0,10)};
             innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
             var handle = new BoxView()
