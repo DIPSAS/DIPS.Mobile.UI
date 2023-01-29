@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DIPS.Mobile.UI.Style" parent="MainTheme.Base"></style>
     <!-- Base theme applied no matter what API -->
-    <style name="MainTheme.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="DIPS.Mobile.UI.Style" parent="Theme.MaterialComponents.DayNight">
         <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
         <item name="windowNoTitle">true</item>
         <!--We will be using the toolbar so no need to show ActionBar-->
@@ -19,7 +18,9 @@
              colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="windowActionModeOverlay">true</item>
         
-        <!-- Globally set the bottom sheet shape style -->
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.BottomSheetDialog</item>
+       <!-- Globally set the shape appearance of all material design components -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.DIPS.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.DIPS.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.DIPS.LargeComponent</item>
     </style>
 </resources>

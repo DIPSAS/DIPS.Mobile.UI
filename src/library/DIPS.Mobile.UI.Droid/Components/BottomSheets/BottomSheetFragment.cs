@@ -53,7 +53,6 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             {
                 height = m_context.Resources.DisplayMetrics.HeightPixels;
             }
-
             var nestedScrollView =
                 new NestedScrollView(
                     m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.

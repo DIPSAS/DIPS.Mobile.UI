@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- bottom sheet -->
-    <style
-        name="ThemeOverlay.BottomSheetDialog"
-        parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/Widget.BottomSheet</item>
-    </style>
-
-    <style name="Widget.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay" parent="">
-        <item name="cornerSize">10dp</item> <!-- TODO: Use DesignSystem -->
+    <style name="ShapeAppearance.DIPS.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+    </style>
+
+    <style name="ShapeAppearance.DIPS.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+    </style>
+
+    <style name="ShapeAppearance.DIPS.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
 </resources>
