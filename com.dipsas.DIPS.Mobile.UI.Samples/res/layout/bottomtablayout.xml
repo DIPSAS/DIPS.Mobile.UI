@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <FrameLayout android:layout_gravity="fill" android:id="@id/bottomtab.navarea" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
-    <com.google.android.material.bottomnavigation.BottomNavigationView android:theme="@style/Widget.Design.BottomNavigationView" android:id="@id/bottomtab.tabbar" android:layout_width="fill_parent" android:layout_height="wrap_content" />
-</LinearLayout>
