@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
@@ -25,43 +27,35 @@ namespace DIPS.Mobile.UI.Components.Pickers
         private BottomSheet CreateSheetContent()
         {
             var bottomSheet = new BottomSheet();
+            var checkboxItems = new List<PickerItem>();
+            foreach (var item in ItemsSource)
+            {
+                checkboxItems.Add(new PickerItem(item.GetPropertyValue(ItemDisplayProperty), item == SelectedItem,
+                    new Command(() =>
+                    {
+                        SelectedItem = item;
+                        bottomSheet.Close();
+                    })));
+            }
+
             bottomSheet.Content = new ListView()
             {
                 HasUnevenRows = true,
-                ItemsSource = ItemsSource,
-                ItemTemplate = new PickerListViewDataTemplateSelector(bottomSheet, this),
+                ItemsSource = checkboxItems,
+                ItemTemplate = new DataTemplate(LoadTemplate),
                 Margin = 10 //TODO: Use DesignSystem
             };
             return bottomSheet;
         }
 
-        private class PickerListViewDataTemplateSelector : DataTemplateSelector
+        private object LoadTemplate()
         {
-            private readonly BottomSheet m_bottomSheet;
-            private readonly Picker m_picker;
-
-            public PickerListViewDataTemplateSelector(BottomSheet bottomSheet, Picker picker)
-            {
-                m_bottomSheet = bottomSheet;
-                m_picker = picker;
-            }
-
-            protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
-            {
-                return new DataTemplate(() =>
-                {
-                    return new ViewCell() {View = new CheckBox()
-                        {
-                            Text = item.GetPropertyValue(m_picker.ItemDisplayProperty),
-                            IsSelected = m_picker.SelectedItem == item,
-                            Command = new Command(() =>
-                            {
-                                m_picker.SelectedItem = item;
-                                m_bottomSheet.Close();
-                            })
-                        }};
-                });
-            }
+            var checkBox = new CheckBox();
+            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(PickerItem.DisplayName)});
+            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(PickerItem.IsSelected)});
+            checkBox.SetBinding(CheckBox.CommandProperty,
+                new Binding() {Path = nameof(PickerItem.IsSelectedCommand)});
+            return new ViewCell() {View = checkBox};
         }
     }
 }
