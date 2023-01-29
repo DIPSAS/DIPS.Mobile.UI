@@ -24,14 +24,13 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
     internal class BottomSheetFragment : BottomSheetDialogFragment
     {
         private readonly Context m_context;
-        private readonly UI.Components.BottomSheets.BottomSheet m_bottomSheet;
+        private readonly BottomSheet m_bottomSheet;
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
 
-        public BottomSheetFragment(UI.Components.BottomSheets.BottomSheet bottomSheet)
+        public BottomSheetFragment(BottomSheet bottomSheet)
         {
             m_context = DUI.Context;
             m_bottomSheet = bottomSheet;
-
             SubscribeEvents();
         }
 
@@ -55,24 +54,17 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                 height = m_context.Resources.DisplayMetrics.HeightPixels;
             }
 
-            // var grabber = new MaterialCardView(m_context);
-            // grabber.SetMinimumHeight(4);
-            // grabber.SetMinimumWidth(10);
-            // grabber.SetBackgroundColor(Colors.GetColor(ColorName.color_neutral_60).ToAndroid());
-
             var nestedScrollView =
                 new NestedScrollView(
                     m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             nestedScrollView.SetMinimumHeight(height);
             nestedScrollView.AddView(new ContainerView(m_context, m_bottomSheet));
-            Google.Android.Material.BottomSheet
-            return coordinatedLayout;
+            return nestedScrollView;
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             var dialog = base.OnCreateDialog(savedInstanceState);
-
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 bottomSheetDialog.Behavior.Draggable = true;
@@ -82,7 +74,6 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight / 2;
                 }
             }
-
             return dialog;
         }
 

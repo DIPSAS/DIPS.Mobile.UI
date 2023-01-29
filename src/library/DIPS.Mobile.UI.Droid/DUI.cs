@@ -41,7 +41,8 @@ namespace DIPS.Mobile.UI.Droid
         /// <remarks>Taken from here https://developer.android.com/reference/android/content/res/Resources#getIdentifier(java.lang.String,%20java.lang.String,%20java.lang.String)</remarks>
         internal static int? GetResourceId(string name, string? defType = null, string? defPackage = null)
         {
-            return Context.Resources?.GetIdentifier(name, defType, Context.PackageName);
+            var id = Context.Resources?.GetIdentifier(name, defType, Context.PackageName);
+            return id > 0 ? id : null;
         }
 
         public static void Init()
