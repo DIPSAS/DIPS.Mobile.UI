@@ -3,33 +3,37 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
 
-    <dui:ListView SelectionMode="None"
-                  HasUnevenRows="True">
-        <dui:ListView.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>Item 1</x:String>
-                <x:String>Item 2</x:String>
-                <x:String>Item 3</x:String>
-                <x:String>Item 4</x:String>
-                <x:String>Item 5</x:String>
-                <x:String>Item 6</x:String>
-                <x:String>Item 7</x:String>
-                <x:String>Item 8</x:String>
-                <x:String>Item 9</x:String>
-                <x:String>Item 10</x:String>
-                <x:String>Item 11</x:String>
-                <x:String>Item 12</x:String>
-                <x:String>Item 13</x:String>
-                <x:String>Item 14</x:String>
-            </x:Array>
-        </dui:ListView.ItemsSource>
-        <dui:ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <dui:Label Text="{Binding .}"
-                               Margin="15,15,15,15"/>
-                </ViewCell>
-            </DataTemplate>
-        </dui:ListView.ItemTemplate>
-    </dui:ListView>
+    <Grid RowDefinitions="Auto, *">
+
+        <dui:ListView Grid.Row="1"
+                      SelectionMode="None"
+                      HasUnevenRows="True">
+            <dui:ListView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Item 1</x:String>
+                    <x:String>Item 2</x:String>
+                    <x:String>Item 3</x:String>
+                    <x:String>Item 4</x:String>
+                    <x:String>Item 5</x:String>
+                    <x:String>Item 6</x:String>
+                    <x:String>Item 7</x:String>
+                    <x:String>Item 8</x:String>
+                    <x:String>Item 9</x:String>
+                    <x:String>Item 10</x:String>
+                    <x:String>Item 11</x:String>
+                    <x:String>Item 12</x:String>
+                    <x:String>Item 13</x:String>
+                    <x:String>Item 14</x:String>
+                </x:Array>
+            </dui:ListView.ItemsSource>
+            <dui:ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <dui:Label Text="{Binding .}"
+                                   Margin="15,15,15,15" />
+                    </ViewCell>
+                </DataTemplate>
+            </dui:ListView.ItemTemplate>
+        </dui:ListView>
+    </Grid>
 </dui:BottomSheet>

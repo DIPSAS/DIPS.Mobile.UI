@@ -98,7 +98,8 @@ namespace DIPS.Mobile.UI.Samples
         public Dictionary<Func<Page>, Sample> GetSamples<TSample>() where TSample : Sample
         {
             var samples = new Dictionary<Func<Page>, Sample>();
-            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            var types = Assembly.GetExecutingAssembly().GetTypes().OrderBy(t => t.Name);
+            foreach (var type in types)
             {
                 if (type.GetCustomAttributes(typeof(TSample), true).Length > 0)
                 {
@@ -114,6 +115,7 @@ namespace DIPS.Mobile.UI.Samples
                     }, sample);
                 }
             }
+
             return samples;
         }
     }

@@ -29,20 +29,20 @@ namespace DIPS.Mobile.UI.Resources.Colors
 
             return Color.Default;
         }
-        
+
         public static Color GetColor(ColorName colorName)
         {
             return GetColor(colorName.ToString());
         }
-        
-        Color IMarkupExtension<Color>.ProvideValue(IServiceProvider serviceProvider)
+
+        public Color ProvideValue(IServiceProvider serviceProvider)
         {
             return GetColor(ColorName);
         }
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
         {
-            return this;
+            return (this as IMarkupExtension<Color>).ProvideValue(serviceProvider);
         }
     }
 }

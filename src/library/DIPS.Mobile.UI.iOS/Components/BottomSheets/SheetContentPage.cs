@@ -1,17 +1,19 @@
 using System;
 using System.Threading.Tasks;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Searching;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 {
-    public class SheetContentPage : ContentPage
+    internal class SheetContentPage : ContentPage
     {
         private NSObject m_didEnterBackgroundNotificationObserver;
         private UIViewController m_viewController;
         private readonly BottomSheet m_bottomSheet;
+        private UISheetPresentationController m_sheetPresentationController;
 
         public SheetContentPage(BottomSheet bottomSheet)
         {
@@ -48,17 +50,17 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
         {
             m_viewController = this.CreateViewController();
             m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-            var sheetPresentationController = m_viewController.SheetPresentationController;
-            if (sheetPresentationController != null)
+            m_sheetPresentationController = m_viewController.SheetPresentationController;
+            if (m_sheetPresentationController != null)
             {
-                sheetPresentationController.Detents = new[]
+                m_sheetPresentationController.Detents = new[]
                 {
                     UISheetPresentationControllerDetent.CreateMediumDetent(),
                     UISheetPresentationControllerDetent.CreateLargeDetent()
                 };
-                sheetPresentationController.SelectedDetentIdentifier =
+                m_sheetPresentationController.SelectedDetentIdentifier =
                     UISheetPresentationControllerDetentIdentifier.Medium;
-                sheetPresentationController.PrefersGrabberVisible = true;
+                m_sheetPresentationController.PrefersGrabberVisible = true;
             }
         }
 

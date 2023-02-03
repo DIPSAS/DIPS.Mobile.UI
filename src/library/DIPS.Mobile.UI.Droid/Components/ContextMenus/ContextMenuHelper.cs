@@ -77,7 +77,6 @@ namespace DIPS.Mobile.UI.Droid.Components.ContextMenus
             }
 
             MenuCompat.SetGroupDividerEnabled(popupMenu.Menu, true);
-
             return dict;
         }
 

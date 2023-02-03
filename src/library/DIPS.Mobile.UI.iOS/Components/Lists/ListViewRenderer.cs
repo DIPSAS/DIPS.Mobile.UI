@@ -1,3 +1,4 @@
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using DUIListView = DIPS.Mobile.UI.Components.Lists.ListView;
@@ -17,6 +18,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Lists
                 if (Element is DUIListView listView)
                 {
                     SetSelectionMode(listView);
+                    Control.Layer.CornerRadius = new nfloat(listView.CornerRadius);
                 }
             }
         }

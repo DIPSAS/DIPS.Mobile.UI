@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
-using Image = DIPS.Mobile.UI.Components.Images.Image;
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 

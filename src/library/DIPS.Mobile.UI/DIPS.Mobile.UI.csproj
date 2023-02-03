@@ -17,17 +17,26 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
         <Compile Update="Resources\LocalizedStrings\LocalizedStrings.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>LocalizedStrings.resx.no</DependentUpon>
         </Compile>
+        <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\LocalizedStrings" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>DUILocalizedStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 </Project>

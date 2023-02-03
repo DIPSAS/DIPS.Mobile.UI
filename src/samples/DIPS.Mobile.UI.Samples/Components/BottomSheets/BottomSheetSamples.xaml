@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:sheets="clr-namespace:DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets;assembly=DIPS.Mobile.UI.Samples"
+                 xmlns:toolbars="clr-namespace:DIPS.Mobile.UI.Components.Toolbars;assembly=DIPS.Mobile.UI"
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.BottomSheetSamples">
     <StackLayout>
         <dui:Label>The buttons below can be tapped to test different types of content inside a bottom sheet.</dui:Label>

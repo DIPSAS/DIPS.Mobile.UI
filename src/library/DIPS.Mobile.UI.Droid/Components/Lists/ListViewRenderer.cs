@@ -1,6 +1,9 @@
+using System.ComponentModel;
 using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
+using DIPS.Mobile.UI.Droid.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
@@ -13,11 +16,9 @@ namespace DIPS.Mobile.UI.Droid.Components.Lists
 {
     public class ListViewRenderer : Xamarin.Forms.Platform.Android.ListViewRenderer
     {
-        private ListView m_listView;
+        private ListView? m_listView;
 
-        public ListViewRenderer(Context context) : base(context)
-        {
-        }
+        public ListViewRenderer(Context context) : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.ListView> e)
         {
@@ -27,22 +28,29 @@ namespace DIPS.Mobile.UI.Droid.Components.Lists
                 if (e.NewElement is ListView listView)
                 {
                     m_listView = listView;
+                    
+                    UpdateBackgroundColor();
                 }
             }
         }
-        private bool CanScrollVertically () {
-            var canScroll = false;
 
-            if (Control !=null && Control.ChildCount > 0) {
-                var isOnTop = Control.FirstVisiblePosition != 0 || Control.GetChildAt(0).Top != 0;
-                var isAllItemsVisible = isOnTop && Control.LastVisiblePosition == Control.ChildCount;
-
-                if (isOnTop || isAllItemsVisible) {
-                    canScroll = true;
-                }
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            switch (e.PropertyName)
+            {
+                case nameof(ListView.CornerRadius):
+                case nameof(VisualElement.BackgroundColor):
+                    UpdateBackgroundColor();
+                    break;
             }
+        }
 
-            return  canScroll;
+        public void UpdateBackgroundColor()
+        {
+            if (m_listView == null) return;
+            
+            Control.SetRoundedRectangularBackground(m_listView.CornerRadius, m_listView.BackgroundColor);
         }
     }
 }

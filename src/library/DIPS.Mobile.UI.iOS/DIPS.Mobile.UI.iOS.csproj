@@ -54,7 +54,10 @@
         <Compile Include="Components\Labels\LabelRenderer.cs" />
         <Compile Include="Components\Lists\ListViewRenderer.cs" />
         <Compile Include="Components\Pages\ContentPageRenderer.cs" />
+        <Compile Include="Components\Searching\SearchBarRenderer.cs" />
+        <Compile Include="Components\Toolbars\ToolbarRenderer.cs" />
         <Compile Include="DUI.cs" />
+        <Compile Include="Extensions\UIViewExtensions.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

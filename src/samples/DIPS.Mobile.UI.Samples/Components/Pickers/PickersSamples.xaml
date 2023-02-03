@@ -13,7 +13,7 @@
         <dui:Picker VerticalOptions="Start"
                     Title="Person"
                     Mode="ContextMenu"
-                    ItemsSource="{Binding Persons}"
+                    ItemsSource="{Binding People}"
                     ItemDisplayProperty="DisplayName" />
 
         <dui:Label Text="Mode: Bottom Sheet"
@@ -21,7 +21,7 @@
         <dui:Picker VerticalOptions="Start"
                     Title="Person"
                     Mode="BottomSheet"
-                    ItemsSource="{Binding Persons}"
+                    ItemsSource="{Binding People}"
                     ItemDisplayProperty="DisplayName" />
     </StackLayout>
 </dui:ContentPage>
