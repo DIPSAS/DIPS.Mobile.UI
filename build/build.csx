@@ -34,6 +34,7 @@ AsyncStep cd = async () =>
 {
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildId"));
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildNumber"));
+    await Task.Delay(150);
 };
 
 
