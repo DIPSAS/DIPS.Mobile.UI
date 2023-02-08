@@ -30,7 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latestmajor</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
@@ -61,9 +61,8 @@
     <Compile Include="Components\Images\ImageRenderer.cs" />
     <Compile Include="Components\Lists\ListViewRenderer.cs" />
     <Compile Include="Components\Pages\ContentPageRenderer.cs" />
-    <Compile Include="Components\Pages\NavigationPageRenderer.cs" />
+    <Compile Include="Components\Progress\ProgressBarRenderer.cs" />
     <Compile Include="Components\Searching\SearchBarRenderer.cs" />
-    <Compile Include="Components\Searching\SearchPage.cs" />
     <Compile Include="DUI.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

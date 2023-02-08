@@ -15,6 +15,9 @@
         <dui:SearchBar Grid.Row="0"
                        Placeholder="Search from the items below"
                        VerticalOptions="Start"
+                       SearchCommand="{Binding }"
+                       IconsColor="{dui:Colors color_neutral_50}"
+                       TextColor="{dui:Colors color_neutral_70}"
                        TextChanged="InputView_OnTextChanged" />
         <dui:ListView Grid.Row="1"
                       CornerRadius="15"

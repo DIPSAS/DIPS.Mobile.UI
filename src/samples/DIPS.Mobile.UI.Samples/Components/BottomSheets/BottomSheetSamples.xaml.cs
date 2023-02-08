@@ -19,9 +19,13 @@ namespace DIPS.Mobile.UI.Samples.Components.BottomSheets
             InitializeComponent();
         }
 
-        private void Button_OnClicked(object sender, EventArgs e)
+        protected override void OnPropertyChanged(string propertyName = null)
         {
-            Application.Current.PushBottomSheet(new SimpleBottomSheetView());
+            base.OnPropertyChanged(propertyName);
+            if (propertyName == "Padding")
+            {
+                
+            }
         }
     }
 }

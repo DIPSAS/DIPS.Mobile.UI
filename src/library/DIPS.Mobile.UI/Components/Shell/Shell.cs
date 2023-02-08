@@ -1,15 +1,14 @@
-using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 
-namespace DIPS.Mobile.UI.Components.Pages
+namespace DIPS.Mobile.UI.Components.Shell
 {
-    public class NavigationPage : Xamarin.Forms.NavigationPage
+    public class Shell : Xamarin.Forms.Shell
     {
-        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_30;
-        public static readonly ColorName BarBackgroundColorName = ColorName.color_primary_90;
-        public static readonly ColorName BarTextColorName = ColorName.color_system_white;
-        public NavigationPage(Xamarin.Forms.ContentPage contentPage) : base(contentPage)
+        public static readonly ColorName ToolbarBackgroundColorName = ColorName.color_primary_90;
+        public static readonly ColorName ToolbarTitleTextColorName = ColorName.color_system_white;
+
+        public Shell()
         {
             SetColors(Application.Current.RequestedTheme);
             Application.Current.RequestedThemeChanged +=
@@ -18,9 +17,9 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private void SetColors(OSAppTheme osAppTheme)
         {
-            BackgroundColor = Colors.GetColor(BackgroundColorName, osAppTheme);
-            BarBackgroundColor = Colors.GetColor(BarBackgroundColorName, osAppTheme);
-            BarTextColor = Colors.GetColor(BarTextColorName, osAppTheme);
+            SetBackgroundColor(this, Colors.GetColor(ToolbarBackgroundColorName, osAppTheme));
+            SetTitleColor(this, Colors.GetColor(ToolbarTitleTextColorName, osAppTheme));
+            SetForegroundColor(this, Colors.GetColor(ToolbarTitleTextColorName, osAppTheme));
         }
 
         private void OnRequestedThemeChanged(object sender, AppThemeChangedEventArgs e)

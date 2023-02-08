@@ -5,6 +5,7 @@
 #load "BuildSystem/Repository.csx"
 #load "BuildSystem/Command.csx"
 #load "BuildSystem/Nuget.csx"
+#load "BuildSystem/AzureDevops.csx"
 
 private static string RootDir = Repository.RootDir();
 private static string SrcDir = Path.Combine(RootDir, "src");
@@ -19,7 +20,21 @@ private static string NugetTestSolutionPath = Path.Combine(RootDir, "src", "test
 private static string NugetTestAndroidPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.Droid");
 private static string NugetTestiOSPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.iOS");
 
-//Nuget pa
+private static string NugetVersion = "1.0.0";
+
+AsyncStep ci = async () =>
+{
+    await MSBuild.Build(SourceGeneratorPath);
+    await Android.Build(LibraryAndroidPath);
+    await iOS.Build(LibraryiOSPath);
+};
+
+AsyncStep cd = async () =>
+{
+    Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildId"));
+    Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildNumber"));
+};
+
 
 AsyncStep nugetTest = async () =>
 {
@@ -41,7 +56,7 @@ AsyncStep nugetTest = async () =>
     await MSBuild.Build(SourceGeneratorPath);
     await Android.Build(LibraryAndroidPath);
     await iOS.Build(LibraryiOSPath);
-    await Nuget.Pack(RootDir, Path.Combine(NugetTestSolutionPath, "packages"));
+    await Nuget.Pack(RootDir, NugetVersion, Path.Combine(NugetTestSolutionPath, "packages"));
 };
 
 var args = Args;

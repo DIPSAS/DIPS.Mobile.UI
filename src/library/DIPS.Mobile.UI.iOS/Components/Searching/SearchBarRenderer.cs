@@ -1,6 +1,9 @@
 using System;
 using System.ComponentModel;
+using CoreGraphics;
+using DIPS.Mobile.UI.iOS.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
+using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -14,6 +17,9 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
     public class SearchBarRenderer : Xamarin.Forms.Platform.iOS.SearchBarRenderer
     {
         private DUISearchBar? m_searchBar;
+        private UIActivityIndicatorView? m_activityIndicatorView;
+        private UIImageView? m_magnifierIcon;
+        private UISearchTextField? m_searchTextField;
 
         protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
         {
@@ -24,15 +30,78 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
                 {
                     m_searchBar = searchBar;
                     Control.SearchBarStyle = UISearchBarStyle.Minimal;
+
+                    if (Control.SearchTextField.LeftView is UIImageView uiImageView) //Magnifier icon on the left
+                    {
+                        m_magnifierIcon = uiImageView;
+                    }
+
+                    m_activityIndicatorView = new UIActivityIndicatorView();
+                    m_searchTextField = Control.SearchTextField;
+                    
                     UpdateBackground();
+                    UpdateForeground();
+                    UpdateIsBusy();
+                    ToggleCancelButton();
+                    SubscribeToEvents();
                 }
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            UnSubscribeToEvents();
+            base.Dispose(disposing);
+        }
+        
+        private void SubscribeToEvents()
+        {
+            Control.CancelButtonClicked += OnCancelButtonTouchDown;
+        }
+        
+        private void UnSubscribeToEvents()
+        {
+            Control.CancelButtonClicked -= OnCancelButtonTouchDown;
+        }
+
+        private void OnCancelButtonTouchDown(object sender, EventArgs e)
+        {
+            if (m_searchBar == null) return;
+            m_searchBar.SendCancelTapped();
+        }
+
+        private void UpdateForeground()
+        {
+            if (m_searchBar == null || m_magnifierIcon == null) return;
+
+            m_magnifierIcon.TintColor = m_searchBar.IconsColor.ToUIColor();
+        }
+
+        private void UpdateIsBusy()
+        {
+            if (m_activityIndicatorView == null || m_searchBar == null || m_searchTextField == null || m_magnifierIcon == null) return;
+            
+            if (m_searchBar.IsBusy)
+            {
+                m_activityIndicatorView.Color = m_searchBar.IconsColor.ToUIColor();
+                m_activityIndicatorView.StartAnimating();
+                var leftViewSize = m_magnifierIcon.Frame.Size;
+                m_activityIndicatorView.Center = new CGPoint(x:
+                    leftViewSize.Width / 2, y: leftViewSize.Height / 2);
+                m_searchTextField.LeftView = m_activityIndicatorView;
+            }
+            else
+            {
+                m_activityIndicatorView.RemoveFromSuperview();
+                m_searchTextField.LeftView = m_magnifierIcon;
+            }
+            
         }
 
         private void UpdateBackground()
         {
             if (m_searchBar == null) return;
-            
+
             Control.Layer.CornerRadius = new nfloat(m_searchBar.CornerRadius);
         }
 
@@ -42,12 +111,28 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             switch (e.PropertyName)
             {
                 case nameof(SearchBar.Text):
-                    Control.ShowsCancelButton = false;
+                    ToggleCancelButton();
+                    break;
+                case nameof(UI.Components.Searching.SearchBar.ShowsCancelButton):
+                    ToggleCancelButton();
                     break;
                 case nameof(DUISearchBar.CornerRadius):
                     UpdateBackground();
                     break;
+                case nameof(DUISearchBar.IconsColor):
+                    UpdateForeground();
+                    break;
+                case nameof(DUISearchBar.IsBusy):
+                    UpdateIsBusy();
+                    break;
             }
+        }
+
+        private void ToggleCancelButton()
+        {
+            if (m_searchBar == null) return;
+            
+            Control.ShowsCancelButton = m_searchBar.ShowsCancelButton;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace DIPS.Mobile.UI.Samples
                 ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()})
             };
         }
-        
+
         public class NavigateToSingleSampleButton : Button
         {
             private Sample m_sample;
@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.Samples
             {
                 var contentPage = m_contentPageFunc.Invoke();
                 contentPage.Title = m_sample.Name;
-                App.NavigationPage.PushAsync(contentPage);
+                App.Current.MainPage.Navigation.PushAsync(contentPage);
             }
 
             protected override void OnBindingContextChanged()

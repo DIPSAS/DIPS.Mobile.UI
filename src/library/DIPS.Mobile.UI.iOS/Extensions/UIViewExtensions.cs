@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UIKit;
 
@@ -23,7 +24,27 @@ namespace DIPS.Mobile.UI.iOS.Extensions
 
             return null;
         }
-        
+
+        public static string PrintAllChildrenOfView(this UIView view, int depth = 0)
+        {
+            var tabs = "";
+            for (int i = 0; i < depth; i++)
+            {
+                tabs += "\t";
+            }
+
+            var returnString = $"\n{tabs}{view.Class.Name}";
+
+            depth++;
+            foreach (var subView in view.Subviews)
+            {
+                returnString+=PrintAllChildrenOfView(subView, depth);
+            }
+
+            return returnString;
+        }
+
+
         public static T? FindParentView<T>(this UIView? view)
             where T : class
         {

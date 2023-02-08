@@ -8,9 +8,8 @@
                  x:Class="DIPS.Mobile.UI.Samples.Resources.Colors.ColorsSamples">
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, *">
-            <dui:Label Grid.Row="0"
-                       Text="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=OsAppTheme, StringFormat='Color Appearance: {0}'}" />
             <dui:ListView Grid.Row="1"
+                          Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=OsAppTheme, StringFormat='Color Appearance: {0}'}"
                           SelectionMode="None"
                           HasUnevenRows="True"
                           SeparatorVisibility="None"

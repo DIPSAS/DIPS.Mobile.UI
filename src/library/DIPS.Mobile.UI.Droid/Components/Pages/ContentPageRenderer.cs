@@ -12,6 +12,8 @@ namespace DIPS.Mobile.UI.Droid.Components.Pages
 {
     public class ContentPageRenderer : PageRenderer
     {
+        private ContentPage? m_contentPage;
+
         public ContentPageRenderer(Context context) : base(context)
         {
         }
@@ -19,6 +21,19 @@ namespace DIPS.Mobile.UI.Droid.Components.Pages
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
             base.OnElementChanged(e);
+            if (e.NewElement != null)
+            {
+                if (e.NewElement is ContentPage contentPage)
+                {
+                    m_contentPage = contentPage;
+                }
+            }
+        }
+
+        protected override void OnAttachedToWindow()
+        {
+            base.OnAttachedToWindow();
+            m_contentPage?.SendOnContentAppearing();
         }
     }
 }

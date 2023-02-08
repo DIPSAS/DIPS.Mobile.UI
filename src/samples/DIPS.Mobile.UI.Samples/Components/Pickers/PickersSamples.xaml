@@ -7,21 +7,46 @@
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <StackLayout>
-        <dui:Label Text="Mode: Context Menu"
-                   Margin="5" />
-        <dui:Picker VerticalOptions="Start"
-                    Title="Person"
-                    Mode="ContextMenu"
-                    ItemsSource="{Binding People}"
-                    ItemDisplayProperty="DisplayName" />
 
-        <dui:Label Text="Mode: Bottom Sheet"
-                   Margin="5" />
-        <dui:Picker VerticalOptions="Start"
-                    Title="Person"
-                    Mode="BottomSheet"
-                    ItemsSource="{Binding People}"
-                    ItemDisplayProperty="DisplayName" />
-    </StackLayout>
+    <TableView BackgroundColor="Transparent"
+               Margin="15">
+        <TableRoot>
+            <TableSection Title="Test"
+                          TextColor="{dui:Colors color_neutral_50}">
+                <ViewCell>
+                    <dui:Picker VerticalOptions="Start"
+                                Title="Person"
+                                Mode="ContextMenu"
+                                ItemsSource="{Binding People}"
+                                ItemDisplayProperty="DisplayName"/>
+                </ViewCell>
+
+                <ViewCell>
+                    <dui:Picker VerticalOptions="Start"
+                                Title="Person"
+                                Mode="BottomSheet"
+                                ItemsSource="{Binding People}"
+                                ItemDisplayProperty="DisplayName" />
+                </ViewCell>
+            </TableSection>
+        </TableRoot>
+    </TableView>
+    <!-- <StackLayout> -->
+    <!--     <dui:Label Text="Mode: Context Menu" -->
+    <!--                Margin="5" /> -->
+    <!--     <dui:Picker VerticalOptions="Start" -->
+    <!--                 Title="Person" -->
+    <!--                 Mode="ContextMenu" -->
+    <!--                 ItemsSource="{Binding People}" -->
+    <!--                 ItemDisplayProperty="DisplayName" /> -->
+    <!-- -->
+    <!--     <dui:Label Text="Mode: Bottom Sheet" -->
+    <!--                Margin="5" /> -->
+    <!--     <dui:Picker VerticalOptions="Start" -->
+    <!--                 Title="Person" -->
+    <!--                 Mode="BottomSheet" -->
+    <!--                 ItemsSource="{Binding People}" -->
+    <!--                 ItemDisplayProperty="DisplayName" /> -->
+    <!--      -->
+    <!-- </StackLayout> -->
 </dui:ContentPage>

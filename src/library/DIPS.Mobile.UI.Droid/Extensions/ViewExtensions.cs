@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Android.Graphics.Drawables;
 using Android.Views;
 using Java.Lang;
@@ -97,6 +98,44 @@ namespace DIPS.Mobile.UI.Droid.Extensions
                 if (child == null) continue;
                 GetViewHierarchy(child, desc, margin);
             }
+        }
+
+        public static ICollection<View> GetFlatViewHierarchyCollection(this View view)
+        {
+            var collection = new List<View>();
+            view.AddFlatViewHierarchyToCollection(collection);
+            return collection;
+        }
+        private static void AddFlatViewHierarchyToCollection(this View view, ICollection<View> views) {
+            views.Add(view);
+            if (view is not ViewGroup vg)
+            {
+                return;
+            }
+            
+            for (var i = 0; i < vg.ChildCount; i++)
+            {
+                var child = vg.GetChildAt(i);
+                if (child == null) continue;
+                child.AddFlatViewHierarchyToCollection(views);
+            }
+        }
+
+        public static string? GetResourceNameFromView(this View v)
+        {
+            if (v.Resources != null)
+            {
+                if (v.Id > 0)
+                {
+                    var resourceName = v.Resources.GetResourceName(v.Id);
+                    if (resourceName != null)
+                    {
+                        return resourceName;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private static string GetViewMessage(View v, int marginOffset) {

@@ -4,7 +4,6 @@
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
 
     <Grid RowDefinitions="Auto, *">
-
         <dui:ListView Grid.Row="1"
                       SelectionMode="None"
                       HasUnevenRows="True">

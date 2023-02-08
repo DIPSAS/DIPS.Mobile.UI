@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using NavigationPage = DIPS.Mobile.UI.Components.Pages.NavigationPage;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -11,12 +11,15 @@ namespace DIPS.Mobile.UI.Samples
         public App()
         {
             InitializeComponent();
-            NavigationPage = new NavigationPage(new MainPage());
-            MainPage = NavigationPage;
-        }
-        
-        public static NavigationPage NavigationPage { get; private set; }
 
+            var shell = new Shell();
+            var tabBar = new TabBar();
+            var tab = new Tab();
+            tab.Items.Add(new ShellContent(){ContentTemplate = new DataTemplate(() => new MainPage())});
+            tabBar.Items.Add(tab);
+            shell.Items.Add(tabBar);
+            MainPage = shell;
+        }
         protected override void OnStart()
         {
             // Handle when your app starts

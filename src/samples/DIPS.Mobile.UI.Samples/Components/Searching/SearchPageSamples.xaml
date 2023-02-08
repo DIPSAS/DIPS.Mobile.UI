@@ -1,0 +1,31 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:SearchPage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:dui="http://dips.com/mobile.ui"
+                xmlns:searching="clr-namespace:DIPS.Mobile.UI.Samples.Components.Searching;assembly=DIPS.Mobile.UI.Samples"
+                xmlns:sampleData="clr-namespace:DIPS.Mobile.UI.Samples.SampleData;assembly=DIPS.Mobile.UI.Samples"
+                x:Class="DIPS.Mobile.UI.Samples.Components.Searching.SearchPageSamples"
+                SearchCommand="{Binding SearchCommand}"
+                SearchPlaceholder="Search for people"
+                Shell.PresentationMode="ModalAnimated">
+    <dui:SearchPage.BindingContext>
+        <searching:SearchPageSamplesPageViewModel />
+    </dui:SearchPage.BindingContext>
+    <dui:SearchPage.EmptyResultView>
+        <StackLayout>
+            <Label Text="Use the search bar to search for people."
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </dui:SearchPage.EmptyResultView>
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate x:DataType="{x:Type sampleData:Person}">
+            <ViewCell>
+                <dui:Label Text="{Binding DisplayName}" Margin="15"/>
+            </ViewCell>
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
+</dui:SearchPage>
