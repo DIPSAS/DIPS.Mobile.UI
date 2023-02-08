@@ -15,5 +15,4 @@ if dotnet tool list -g | grep dotnet-script > /dev/null ; then
 else
    echo "❌ dotnet-script was not found, installing..."
    dotnet tool install -g dotnet-script > /dev/null
-   CheckIfInstalledCorrectly "dotnet-script"
 fi

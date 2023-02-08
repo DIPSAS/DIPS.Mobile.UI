@@ -26,6 +26,7 @@ AsyncStep ci = async () =>
 {
     await MSBuild.Build(SourceGeneratorPath);
     await Android.Build(LibraryAndroidPath);
+    //TODO: ADD UNIT TESTS!!
     await iOS.Build(LibraryiOSPath);
 };
 
