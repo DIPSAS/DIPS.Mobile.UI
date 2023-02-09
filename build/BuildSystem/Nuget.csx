@@ -10,4 +10,12 @@ public static class Nuget
         }
         return result;
     }
+
+    public static async Task<CommandResult> Restore(string path){
+        var result = await Command.CaptureAsync("nuget", $"restore {path}");
+        if(result.StandardError != string.Empty){
+            throw new Exception(result.StandardError);
+        }
+        return result;
+    }
 }

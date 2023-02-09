@@ -24,13 +24,14 @@ private static string NugetVersion = "1.0.0";
 
 AsyncStep ci = async () =>
 {
+    await Nuget.Restore(SolutionPath);
     await MSBuild.Build(SourceGeneratorPath);
     await Android.Build(LibraryAndroidPath);
-    //TODO: ADD UNIT TESTS!!
     await iOS.Build(LibraryiOSPath);
+    //TODO: ADD UNIT TESTS!!
 };
 
-AsyncStep cd = async () =>
+Step cd = () =>
 {
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildId"));
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildNumber"));
