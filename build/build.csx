@@ -46,8 +46,8 @@ AsyncStep cd = async () =>
 
     var version = string.Format("{0}-pre{1}", NugetVersion, buildNumber);
     await Nuget.Pack(RootDir, version, OutputDir);
-    var nuspecFile = FileHelper.FindSingleFileByExtension(RootDir, ".nuspec");
-    await Nuget.Push(nuspecFile.FullName, nugetSourceFeed);
+    var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, ".nupkg");
+    await Nuget.Push(nupkgFile.FullName, nugetSourceFeed);
 };
 
 

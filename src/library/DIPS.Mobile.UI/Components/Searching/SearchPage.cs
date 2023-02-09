@@ -12,11 +12,12 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Application = Xamarin.Forms.Application;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
+using NavigationPage = Xamarin.Forms.NavigationPage;
 using ProgressBar = DIPS.Mobile.UI.Components.Progress.ProgressBar;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
-    [ContentProperty(nameof(EmptyResultView))]
+    [ContentProperty(nameof(NoResultView))]
     public abstract partial class SearchPage : ContentPage
     {
         private Grid m_grid;
@@ -27,17 +28,19 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchPage()
         {
-            Padding = 0;
             //Searchbar
             m_searchBar = new SearchBar();
             m_searchBar.SetAppThemeColor(BackgroundColorProperty, Shell.Shell.ToolbarBackgroundColorName);
-            m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.PlaceholderColorProperty, ColorName.color_neutral_10);
             m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);
-            m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.TextColorProperty,
-                Shell.Shell.ToolbarTitleTextColorName);
-            m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty,
-                Shell.Shell.ToolbarTitleTextColorName);
+            if (Device.RuntimePlatform == Device.Android) //Colors are different on Android due to no inner white frame
+            {
+                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.TextColorProperty,
+                    Shell.Shell.ToolbarTitleTextColorName);
+                m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, Shell.Shell.ToolbarTitleTextColorName);
+                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.PlaceholderColorProperty, Shell.Shell.ToolbarTitleTextColorName);
+            }
+
             m_searchBar.SetBinding(Xamarin.Forms.SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             m_searchBar.TextChanged += SearchBarOnTextChanged;
@@ -50,7 +53,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_progressBar = new ProgressBar();
             m_progressBar.Mode = ProgressBarMode.Indeterminate;
             m_progressBar.IsVisible = Device.PlatformServices.RuntimePlatform == Device.Android;
-            ToggleProgressBarVisibility(false);
 
 
             //Result listview
@@ -65,15 +67,22 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 RowDefinitions = new RowDefinitionCollection()
                 {
-                    new() {Height = GridLength.Auto},
-                    new() {Height = GridLength.Auto},
-                    new() {Height = GridLength.Star},
+                    new()
+                    {
+                        Height = GridLength.Auto
+                    }, //Space for the top box view on iOS if there is no navigation page and we have to respect safe area
+                    new() {Height = GridLength.Auto}, //Space for the search bar
+                    new() {Height = GridLength.Auto}, //Space for the progress bar on android
+                    new()
+                    {
+                        Height = GridLength.Star
+                    }, //Space for the dynamic content. Hint view, empty view and listview
                 },
                 RowSpacing = 0
             };
-            m_grid.SetAppThemeColor(BackgroundProperty, ColorName.color_primary_d_90);
-            m_grid.Children.Add(m_searchBar, 0, 0);
-            m_grid.Children.Add(m_progressBar, 0, 1);
+
+            m_grid.Children.Add(m_searchBar, 0, 1);
+            m_grid.Children.Add(m_progressBar, 0, 2);
             base.Content = m_grid;
         }
 
@@ -93,15 +102,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 m_resultListView.ItemsSource =
                     new List<string>(); //Clear the previous search result to not show up the next time we start search from blank
-                ToggleContent(true);
-                ToggleProgressBarVisibility(false);
+                SetSearchState(SearchStates.NeedsSearchHint);
                 return;
             }
 
             //TODO: Implement delay if its needed from the consumer
             try
             {
-                ToggleProgressBarVisibility(true);
+                SetSearchState(SearchStates.Searching);
+
                 var result = await ProvideSearchResult(searchQuery, m_searchCancellationToken.Token);
                 if (result == null)
                 {
@@ -111,13 +120,12 @@ namespace DIPS.Mobile.UI.Components.Searching
                 var resultCopy = result.ToList();
                 if (!resultCopy.Any())
                 {
-                    ToggleContent(true);
+                    SetSearchState(SearchStates.NoSearchMatch);
                     return;
                 }
 
                 m_resultListView.ItemsSource = resultCopy;
-                ToggleContent(false);
-                ToggleProgressBarVisibility(false);
+                SetSearchState(SearchStates.SearchMatched);
             }
             catch (TaskCanceledException) //This means that people has initiated a new search
             {
@@ -132,14 +140,25 @@ namespace DIPS.Mobile.UI.Components.Searching
         protected override void OnContentAppearing()
         {
             base.OnContentAppearing();
-            ToggleContent(true);
-            if (Device.PlatformServices.RuntimePlatform == Device.iOS)
+            SetSearchState(SearchStates.NeedsSearchHint);
+            m_searchBar.Focus();
+        }
+
+        protected override void SafeAreaInsetsDidChange(Thickness thickness)
+        {
+            if (!NavigationPage
+                    .GetHasNavigationBar(
+                        this)) //if there is no navigation bar, it needs to move down from the safe area
             {
-                var safeInsets = On<iOS>().SafeAreaInsets();
-                safeInsets.Left = Padding.Left;
-                safeInsets.Right = Padding.Right;
-                Padding = safeInsets;
+                //box view used on ios if safe area has to be respected
+                var topBoxView = new BoxView
+                {
+                    BackgroundColor = m_searchBar.BackgroundColor, HeightRequest = thickness.Top
+                };
+                m_grid.Children.Add(topBoxView, 0, 0);
             }
+
+            base.SafeAreaInsetsDidChange(thickness);
         }
 
         protected override void OnDisappearing()
@@ -148,12 +167,30 @@ namespace DIPS.Mobile.UI.Components.Searching
             base.OnDisappearing();
         }
 
-        private void ToggleContent(bool isEmpty)
+        private void SetSearchState(SearchStates searchStates)
         {
-            const int contentRow = 2;
+            if (searchStates == SearchStates.Searching)
+            {
+                ToggleProgressBarVisibility(true);
+            }
+            else
+            {
+                ToggleProgressBarVisibility(false);
+            }
+
+            const int contentRow = 3;
+
+            //Remove previous view
             m_grid.RemoveChildAt(0, contentRow);
-            var viewToShow = isEmpty ? EmptyResultView : m_resultListView;
-            viewToShow.SetAppThemeColor(BackgroundColorProperty, ContentPage.BackgroundColorName);
+
+            var viewToShow = searchStates switch
+            {
+                SearchStates.NeedsSearchHint => HintView,
+                SearchStates.SearchMatched => m_resultListView,
+                SearchStates.NoSearchMatch => NoResultView,
+                _ => HintView
+            };
+            //Add new view
             m_grid.Children.Add(viewToShow, 0, contentRow);
         }
 
@@ -162,11 +199,13 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_searchBar.IsBusy = visible;
             m_progressBar.Opacity = !visible ? 0 : 1;
         }
+    }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-        
+    public enum SearchStates
+    {
+        NeedsSearchHint,
+        SearchMatched,
+        NoSearchMatch,
+        Searching,
     }
 }

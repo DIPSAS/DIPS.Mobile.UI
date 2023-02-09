@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Pages
             var window = UIApplication.SharedApplication.KeyWindow;
             if (window != null && m_contentPage != null)
             {
-                var shouldUpdatePadding = m_contentPage.SendViewSafeAreaInsetsDidChange(new Thickness(window.SafeAreaInsets.Left,
+                var shouldUpdatePadding = m_contentPage.ShouldUpdatePaddingWithSafeArea(new Thickness(window.SafeAreaInsets.Left,
                     window.SafeAreaInsets.Top, window.SafeAreaInsets.Right, window.SafeAreaInsets.Bottom));
 
                 if (shouldUpdatePadding)

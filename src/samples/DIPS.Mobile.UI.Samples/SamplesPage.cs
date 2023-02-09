@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DIPS.Mobile.UI.Samples.Components.Searching;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -33,7 +34,7 @@ namespace DIPS.Mobile.UI.Samples
             {
                 var contentPage = m_contentPageFunc.Invoke();
                 contentPage.Title = m_sample.Name;
-                App.Current.MainPage.Navigation.PushAsync(contentPage);
+                Application.Current.MainPage.Navigation.PushAsync(contentPage);
             }
 
             protected override void OnBindingContextChanged()

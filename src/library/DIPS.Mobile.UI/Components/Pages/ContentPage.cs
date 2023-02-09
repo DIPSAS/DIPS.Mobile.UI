@@ -23,7 +23,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             ContentAppearing?.Invoke(this, EventArgs.Empty);
         }
         
-        internal bool SendViewSafeAreaInsetsDidChange(Thickness thickness)
+        internal bool ShouldUpdatePaddingWithSafeArea(Thickness thickness)
         {
             SafeAreaInsetsDidChange(thickness);
             return false;

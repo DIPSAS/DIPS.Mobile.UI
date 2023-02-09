@@ -42,7 +42,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
                     UpdateBackground();
                     UpdateForeground();
                     UpdateIsBusy();
-                    ToggleCancelButton();
+                    UpdateCancelButton();
                     SubscribeToEvents();
                 }
             }
@@ -101,6 +101,13 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
         private void UpdateBackground()
         {
             if (m_searchBar == null) return;
+            
+            var textField = Control.FindChildView<UITextField>();
+            if (textField != null)
+            {
+                textField.BackgroundColor = Colors.GetColor(ColorName.color_neutral_20).ToUIColor();
+                
+            }
 
             Control.Layer.CornerRadius = new nfloat(m_searchBar.CornerRadius);
         }
@@ -111,10 +118,11 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             switch (e.PropertyName)
             {
                 case nameof(SearchBar.Text):
-                    ToggleCancelButton();
+                    UpdateCancelButton();
                     break;
                 case nameof(UI.Components.Searching.SearchBar.ShowsCancelButton):
-                    ToggleCancelButton();
+                case nameof(UI.Components.Searching.SearchBar.CancelButtonColor):
+                    UpdateCancelButton();
                     break;
                 case nameof(DUISearchBar.CornerRadius):
                     UpdateBackground();
@@ -128,11 +136,16 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             }
         }
 
-        private void ToggleCancelButton()
+        public override void UpdateCancelButton()
         {
             if (m_searchBar == null) return;
             
             Control.ShowsCancelButton = m_searchBar.ShowsCancelButton;
+            var cancelButton = Control.FindChildView<UIButton>();
+            if (cancelButton != null)
+            {
+                cancelButton.SetTitleColor(Element.CancelButtonColor.ToUIColor(), UIControlState.Normal);
+            }
         }
     }
 }

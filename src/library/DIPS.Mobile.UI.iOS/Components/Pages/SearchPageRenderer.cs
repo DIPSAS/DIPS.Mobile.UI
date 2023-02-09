@@ -1,3 +1,4 @@
+using System;
 using DIPS.Mobile.UI.Components.Searching;
 using DIPS.Mobile.UI.iOS.Components.Pages;
 using UIKit;

@@ -11,17 +11,31 @@ namespace DIPS.Mobile.UI.Components.Searching
     public abstract partial class SearchPage
     {
         public static readonly BindableProperty EmptyContentProperty = BindableProperty.Create(
-            nameof(EmptyResultView),
+            nameof(NoResultView),
             typeof(View),
             typeof(SearchPage));
 
         /// <summary>
         /// The view to show to people when there is no search results.
         /// </summary>
-        public View EmptyResultView
+        public View NoResultView
         {
             get => (View)GetValue(EmptyContentProperty);
             set => SetValue(EmptyContentProperty, value);
+        }
+
+        public static readonly BindableProperty HintViewProperty = BindableProperty.Create(
+            nameof(HintView),
+            typeof(View),
+            typeof(SearchPage));
+
+        /// <summary>
+        /// The view to show to people when they have not searched for anything yet.
+        /// </summary>
+        public View HintView
+        {
+            get => (View)GetValue(HintViewProperty);
+            set => SetValue(HintViewProperty, value);
         }
 
         [Obsolete("Setting Content property is the same as setting EmptyResultView")]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Android.Graphics.Drawables;
@@ -5,6 +6,8 @@ using Android.Views;
 using Java.Lang;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using Exception = Java.Lang.Exception;
+using String = Java.Lang.String;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Droid.Extensions
@@ -123,16 +126,23 @@ namespace DIPS.Mobile.UI.Droid.Extensions
 
         public static string? GetResourceNameFromView(this View v)
         {
-            if (v.Resources != null)
+            try
             {
-                if (v.Id > 0)
+                if (v.Resources != null)
                 {
-                    var resourceName = v.Resources.GetResourceName(v.Id);
-                    if (resourceName != null)
+                    if (v.Id > 0)
                     {
-                        return resourceName;
+                        var resourceName = v.Resources.GetResourceName(v.Id);
+                        if (resourceName != null)
+                        {
+                            return resourceName;
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
 
             return null;

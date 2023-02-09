@@ -1,18 +1,12 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using Android.Graphics;
-using Android.Graphics.Drawables;
-using Android.Util;
-using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.Droid.Extensions;
-using Org.Apache.Http.Protocol;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Color = Android.Graphics.Color;
 using DUISearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using DUISearchBarRenderer = DIPS.Mobile.UI.Droid.Components.Searching.SearchBarRenderer;
-using SearchView = AndroidX.AppCompat.Widget.SearchView;
 using View = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(DUISearchBar), typeof(DUISearchBarRenderer))]
@@ -31,16 +25,14 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
                 if (e.NewElement is DUISearchBar searchBar)
                 {
                     m_searchBar = searchBar;
-                    
+
                     UpdateBackground();
                     RemoveHorizontalLineUnderSearchEditTextView();
                     UpdateForegroundColors();
-                    
-                    var asd = Control.GetFlatViewHierarchyCollection();
                 }
             }
         }
-        
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -54,7 +46,6 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
                 case nameof(DUISearchBar.IconsColor):
                     UpdateForegroundColors();
                     break;
-                    
             }
         }
 
@@ -70,26 +61,27 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
             }
         }
 
-        private void UpdateBackground()
+        private new void UpdateBackground()
         {
             if (m_searchBar == null) return;
-            
+
             Control.SetRoundedRectangularBackground(m_searchBar.CornerRadius, m_searchBar.BackgroundColor);
         }
-        
+
         private void UpdateForegroundColors()
         {
             if (m_searchBar == null) return;
-            
+
             //Change color of cursor on the search text edit to the same color as the text color
             var editText = Control.FindChildView<EditText>();
             if (editText is AutoCompleteTextView autoCompleteTextView)
             {
 #pragma warning disable CS0618
-                autoCompleteTextView.TextCursorDrawable?.SetColorFilter(m_searchBar.TextColor.ToAndroid(), PorterDuff.Mode.SrcIn); //Bindable property!
+                autoCompleteTextView.TextCursorDrawable?.SetColorFilter(m_searchBar.TextColor.ToAndroid(),
+                    PorterDuff.Mode.SrcIn); //Bindable property!
 #pragma warning restore CS0618
             }
-            
+
             //Set color of icons in the search bar
             foreach (var view in Control.GetFlatViewHierarchyCollection())
             {
