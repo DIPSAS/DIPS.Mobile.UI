@@ -21,7 +21,7 @@ public static class Nuget
 
 
 public static async Task<CommandResult> Push(string nupkgPath, string source){
-        var result = await Command.CaptureAsync("nuget", $"push {nupkgPath} -src {source}");
+        var result = await Command.CaptureAsync("nuget", $"push {nupkgPath} -NonInteractive -source {source} -ApiKey VSTS -Verbosity Detailed");
         if(result.StandardError != string.Empty){
             throw new Exception(result.StandardError);
         }

@@ -1,5 +1,6 @@
 using Android.Content;
 using DIPS.Mobile.UI.Components.Progress;
+using DIPS.Mobile.UI.Droid.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ProgressBar = DIPS.Mobile.UI.Components.Progress.ProgressBar;
@@ -22,7 +23,7 @@ namespace DIPS.Mobile.UI.Droid.Components.Progress
                 {
                     if (progressBar.Mode == ProgressBarMode.Indeterminate)
                     {
-                        Control.Indeterminate = true;    
+                        Control.Indeterminate = true;
                     }
                 }
             }

@@ -2,6 +2,7 @@ using System.ComponentModel;
 using Android.Graphics;
 using Android.Widget;
 using DIPS.Mobile.UI.Droid.Extensions;
+using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Color = Android.Graphics.Color;
@@ -78,10 +79,10 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
             {
 #pragma warning disable CS0618
                 autoCompleteTextView.TextCursorDrawable?.SetColorFilter(m_searchBar.TextColor.ToAndroid(),
-                    PorterDuff.Mode.SrcIn); //Bindable property!
+                    PorterDuff.Mode.SrcIn);
 #pragma warning restore CS0618
             }
-
+            
             //Set color of icons in the search bar
             foreach (var view in Control.GetFlatViewHierarchyCollection())
             {
