@@ -18,4 +18,13 @@ public static class Nuget
         }
         return result;
     }
+
+
+public static async Task<CommandResult> Push(string nupkgPath, string source){
+        var result = await Command.CaptureAsync("nuget", $"push {nupkgPath} -src {source}");
+        if(result.StandardError != string.Empty){
+            throw new Exception(result.StandardError);
+        }
+        return result;
+    }
 }

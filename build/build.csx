@@ -19,6 +19,7 @@ private static string SourceGeneratorPath = Path.Combine(SrcDir, "sourcegenerato
 private static string NugetTestSolutionPath = Path.Combine(RootDir, "src", "tests", "nugettest");
 private static string NugetTestAndroidPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.Droid");
 private static string NugetTestiOSPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.iOS");
+private static string OutputDir = Path.Combine(RootDir, "output");
 
 private static string NugetVersion = "1.0.0";
 
@@ -33,9 +34,20 @@ AsyncStep ci = async () =>
 
 AsyncStep cd = async () =>
 {
-    Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildId"));
-    Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildNumber"));
-    await Task.Delay(300);
+    if(Directory.Exists(OutputDir)){
+        Directory.CreateDirectory(OutputDir);
+    }
+
+    var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
+    var nugetSourceFeed = AzureDevops.GetEnvironmentVariable("nugetSourceFeed");
+    if(string.IsNullOrEmpty(nugetSourceFeed)){
+        throw new Exception("nugetSourceFeed: is not set for this build. Unable to push nuget package");
+    }
+
+    var version = string.Format("{0}-pre{1}", NugetVersion, buildNumber);
+    await Nuget.Pack(RootDir, version, OutputDir);
+    var nuspecFile = FileHelper.FindSingleFileByExtension(RootDir, ".nuspec");
+    await Nuget.Push(nuspecFile.FullName, nugetSourceFeed);
 };
 
 
