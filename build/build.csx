@@ -31,11 +31,11 @@ AsyncStep ci = async () =>
     //TODO: ADD UNIT TESTS!!
 };
 
-Step cd = () =>
+AsyncStep cd = async () =>
 {
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildId"));
     Console.WriteLine(AzureDevops.GetEnvironmentVariable("Build.BuildNumber"));
-    await Task.Delay(150);
+    await Task.Delay(300);
 };
 
 
