@@ -14,5 +14,5 @@ spec:
   type: library
   owner: team-awesomesauce
   lifecycle: experimental
-dependsOn:
-  - component:dips-mobile-designtokens
+  dependsOn:
+    - component:dips-mobile-designtokens
