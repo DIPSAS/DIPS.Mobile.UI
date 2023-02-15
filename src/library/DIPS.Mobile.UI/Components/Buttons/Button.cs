@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Buttons
 {
-    public class Button : Xamarin.Forms.Button
+    public partial class Button : Xamarin.Forms.Button
     {
         public Button()
         {

@@ -8,6 +8,7 @@
                  x:Class="DIPS.Mobile.UI.Samples.Resources.Colors.ColorsSamples">
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, *">
+            <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/>
             <dui:ListView Grid.Row="1"
                           Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=OsAppTheme, StringFormat='Color Appearance: {0}'}"
                           SelectionMode="None"
@@ -23,17 +24,20 @@
                                    HeightRequest="200"
                                    CornerRadius="0"
                                    BorderColor="Black"
-                                   Padding="0"
+                                   Padding="1"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center">
 
-                                <Grid RowDefinitions="Auto, *">
-                                    <BoxView HeightRequest="100"
+                                <Grid RowDefinitions="Auto,Auto, *"
+                                      RowSpacing="0">
+                                    <BoxView Grid.Row="0"
+                                             HeightRequest="100"
                                              WidthRequest="200"
                                              BackgroundColor="{Binding Value}">
                                     </BoxView>
-                                    <Label Margin="5"
-                                           Grid.Row="1"
+                                    <Line BackgroundColor="Black" HeightRequest="1" Grid.Row="1" />
+                                    <Label Grid.Row="2"
+                                           Margin="5"
                                            Text="{Binding Key}" />
                                 </Grid>
                             </Frame>

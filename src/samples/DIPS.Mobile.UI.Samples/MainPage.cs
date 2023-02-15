@@ -17,8 +17,10 @@ namespace DIPS.Mobile.UI.Samples
             var sampleTypes = Enum.ToList<SampleType>();
             Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
+                Margin = 15,
                 ItemsSource = sampleTypes,
-                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSamplesButton()})
+                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSamplesButton()}),
+                SeparatorVisibility = SeparatorVisibility.None
             };
         }
     }
@@ -59,6 +61,7 @@ namespace DIPS.Mobile.UI.Samples
 
         public NavigateToSamplesButton()
         {
+            Margin = 5;
             SetBinding(TextProperty, new Binding() {Path = ""});
             Command = new Command(TryNavigateToSamplesPage);
         }

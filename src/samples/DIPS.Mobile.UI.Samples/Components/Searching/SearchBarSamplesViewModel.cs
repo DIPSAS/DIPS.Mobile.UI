@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Samples.SampleData;
 
@@ -11,11 +10,9 @@ namespace DIPS.Mobile.UI.Samples.Components.Searching
     {
         private List<Person> m_people;
         private readonly List<Person> m_originalPeople;
-
         public SearchBarSamplesViewModel()
         {
-            var asd = SampleDataStorage.People.ToList();
-            People = asd;
+            People = SampleDataStorage.People.ToList();
             m_originalPeople = People.ToList();
         }
 

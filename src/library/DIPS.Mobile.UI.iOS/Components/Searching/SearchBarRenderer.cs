@@ -7,7 +7,7 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using DUISearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using DUISearchBar = DIPS.Mobile.UI.Components.Searching.InternalSearchBar;
 using DUISearchBarRenderer = DIPS.Mobile.UI.iOS.Components.Searching.SearchBarRenderer;
 
 [assembly: ExportRenderer(typeof(DUISearchBar), typeof(DUISearchBarRenderer))]
@@ -108,7 +108,6 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
                 textField.BackgroundColor = Colors.GetColor(ColorName.color_neutral_20).ToUIColor();
                 
             }
-
             Control.Layer.CornerRadius = new nfloat(m_searchBar.CornerRadius);
         }
 

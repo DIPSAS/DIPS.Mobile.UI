@@ -31,7 +31,7 @@ namespace DIPS.Mobile.UI.Droid.Extensions
                         return correctView;
                     }
 
-                    if(childView is ViewGroup newViewGroup)
+                    if (childView is ViewGroup newViewGroup)
                     {
                         viewGroup = newViewGroup;
                     }
@@ -40,8 +40,8 @@ namespace DIPS.Mobile.UI.Droid.Extensions
 
             return null;
         }
-        
-        
+
+
         public static T? FindParentView<T>(this View? view)
             where T : class
         {
@@ -59,12 +59,18 @@ namespace DIPS.Mobile.UI.Droid.Extensions
             return null;
         }
 
-        public static void SetRoundedRectangularBackground(this View view, double cornerRadius, Color color)
+        public static void SetRoundedRectangularBackground(this View view, CornerRadius cornerRadius, Color color)
         {
             var shape = new GradientDrawable();
             shape.SetShape(ShapeType.Rectangle);
             shape.SetColor(color.ToAndroid());
-            shape.SetCornerRadius((float)cornerRadius);
+
+            ((GradientDrawable)shape.Mutate()).SetCornerRadii(new[]
+            {
+                (float)cornerRadius.TopLeft, (float)cornerRadius.TopLeft, (float)cornerRadius.TopRight,
+                (float)cornerRadius.TopRight, (float)cornerRadius.BottomRight, (float)cornerRadius.BottomRight,
+                (float)cornerRadius.BottomLeft, (float)cornerRadius.BottomLeft
+            });
             view.SetBackground(shape);
             if (view.Parent is View)
             {
@@ -80,14 +86,16 @@ namespace DIPS.Mobile.UI.Droid.Extensions
                 BlankBackGroundOnAllParents(parent);
             }
         }
-        
-        public static string? GetViewHierarchy(this View view) {
+
+        public static string? GetViewHierarchy(this View view)
+        {
             var desc = new StringBuilder();
             GetViewHierarchy(view, desc, 0);
             return desc.ToString();
         }
 
-        private static void GetViewHierarchy(View v, StringBuilder desc, int margin) {
+        private static void GetViewHierarchy(View v, StringBuilder desc, int margin)
+        {
             desc.Append(GetViewMessage(v, margin));
             if (v is not ViewGroup vg)
             {
@@ -109,13 +117,15 @@ namespace DIPS.Mobile.UI.Droid.Extensions
             view.AddFlatViewHierarchyToCollection(collection);
             return collection;
         }
-        private static void AddFlatViewHierarchyToCollection(this View view, ICollection<View> views) {
+
+        private static void AddFlatViewHierarchyToCollection(this View view, ICollection<View> views)
+        {
             views.Add(view);
             if (view is not ViewGroup vg)
             {
                 return;
             }
-            
+
             for (var i = 0; i < vg.ChildCount; i++)
             {
                 var child = vg.GetChildAt(i);
@@ -148,12 +158,18 @@ namespace DIPS.Mobile.UI.Droid.Extensions
             return null;
         }
 
-        private static string GetViewMessage(View v, int marginOffset) {
+        private static string GetViewMessage(View v, int marginOffset)
+        {
             var repeated = new String(new char[marginOffset]).Replace("\0", "  ");
-            try {
-                var resourceId = v.Resources != null ? (v.Id > 0 ? v.Resources.GetResourceName(v.Id) : "no_id") : "no_resources";
+            try
+            {
+                var resourceId = v.Resources != null
+                    ? (v.Id > 0 ? v.Resources.GetResourceName(v.Id) : "no_id")
+                    : "no_resources";
                 return $"{repeated}[{v.Class.SimpleName}]{resourceId} ({v.Id}) \n";
-            } catch (Android.Content.Res.Resources.NotFoundException e) {
+            }
+            catch (Android.Content.Res.Resources.NotFoundException e)
+            {
                 return repeated + "[" + v.Class.SimpleName + "] name_not_found\n";
             }
         }
