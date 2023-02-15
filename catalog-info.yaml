@@ -15,4 +15,4 @@ spec:
   owner: team-awesomesauce
   lifecycle: experimental
   dependsOn:
-    - component:dips-mobile-designtokens
+      - component:dips-mobile-designtokens
