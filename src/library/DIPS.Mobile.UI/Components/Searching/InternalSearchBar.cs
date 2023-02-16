@@ -18,7 +18,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// </summary>
         public CornerRadius CornerRadius
         {
-            get => (double)GetValue(CornerRadiusProperty);
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
         

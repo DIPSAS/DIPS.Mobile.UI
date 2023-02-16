@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         public ContentPage()
         {
-            this.SetAppThemeColor(BackgroundProperty, BackgroundColorName);
+            this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
         }
 
         internal void SendOnContentAppearing()

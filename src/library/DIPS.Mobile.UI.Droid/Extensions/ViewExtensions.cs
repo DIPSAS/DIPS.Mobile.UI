@@ -71,7 +71,15 @@ namespace DIPS.Mobile.UI.Droid.Extensions
                 (float)cornerRadius.TopRight, (float)cornerRadius.BottomRight, (float)cornerRadius.BottomRight,
                 (float)cornerRadius.BottomLeft, (float)cornerRadius.BottomLeft
             });
-            view.SetBackground(shape);
+
+            if (view.Background is RippleDrawable rippleDrawable)
+            {
+                rippleDrawable.SetDrawable(0, shape);
+            }
+            else
+            {
+                view.SetBackground(shape);
+            }
             if (view.Parent is View)
             {
                 BlankBackGroundOnAllParents((View)view.Parent);

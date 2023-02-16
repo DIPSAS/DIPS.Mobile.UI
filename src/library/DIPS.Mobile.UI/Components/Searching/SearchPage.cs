@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DIPS.Mobile.UI.Components.Progress;
 using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Xamarin.Forms;
 using Application = Xamarin.Forms.Application;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
 using NavigationPage = Xamarin.Forms.NavigationPage;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using ProgressBar = DIPS.Mobile.UI.Components.Progress.ProgressBar;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -23,21 +19,20 @@ namespace DIPS.Mobile.UI.Components.Searching
         private readonly ListView m_resultListView;
         private readonly SearchBar m_searchBar;
         private CancellationTokenSource? m_searchCancellationToken;
-        private readonly ProgressBar m_progressBar;
 
         public SearchPage()
         {
             //Searchbar
-            m_searchBar = new SearchBar();
-            m_searchBar.SetAppThemeColor(BackgroundColorProperty, Shell.Shell.ToolbarBackgroundColorName);
+            m_searchBar = new SearchBar() {ShowsCancelButton = true};
+            m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.ToolbarBackgroundColorName);
             m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);
             if (Device.RuntimePlatform == Device.Android) //Colors are different on Android due to no inner white frame
             {
-                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.TextColorProperty,
+                m_searchBar.SetAppThemeColor(SearchBar.TextColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
                 m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, Shell.Shell.ToolbarTitleTextColorName);
-                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.PlaceholderColorProperty,
+                m_searchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
             }
 
@@ -48,11 +43,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
             m_searchBar.CancelCommand = new Command(OnCancel);
             m_searchBar.CornerRadius = 0;
-
-            //Progressbar, Android only?
-            m_progressBar = new ProgressBar();
-            m_progressBar.Mode = ProgressBarMode.Indeterminate;
-            m_progressBar.IsVisible = Device.PlatformServices.RuntimePlatform == Device.Android;
 
 
             //Result listview
@@ -79,39 +69,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 },
                 RowSpacing = 0
             };
-            
-            //Add a search bar grid
-            var searchBarGrid = new Grid()
-            {
-                ColumnSpacing = 0,
-                RowSpacing = 0,
-                ColumnDefinitions = new ColumnDefinitionCollection()
-                {
-                    new() {Width = GridLength.Star}, new() {Width = GridLength.Auto},
-                },
-                RowDefinitions = new RowDefinitionCollection()
-                {
-                    new(){Height = GridLength.Auto},
-                    new(){Height = GridLength.Auto},
-                }
-            };
-            
-            searchBarGrid.Children.Add(m_searchBar, 0, 0);
-            
-            if (Device.RuntimePlatform == Device.Android) //Add a cancel button on Android as it does not exist natively
-            {
-                var cancelButton = new Button {Text = DUILocalizedStrings.Cancel, CornerRadius = 0};
-                cancelButton.SetBinding(BackgroundColorProperty,
-                    new Binding(nameof(BackgroundColor), source: m_searchBar));
-                cancelButton.SetBinding(Button.TextColorProperty,
-                    new Binding(nameof(SearchBar.TextColor), source: m_searchBar));
-                cancelButton.Command = new Command(OnCancel);
-                searchBarGrid.Children.Add(cancelButton, 1, 0);
-                searchBarGrid.Children.Add(m_progressBar, 0,1);
-                Grid.SetColumnSpan(m_progressBar, 2);
-            }
 
-            m_grid.Children.Add(searchBarGrid, 0, 1);
+            m_grid.Children.Add(m_searchBar, 0, 1);
             base.Content = m_grid;
         }
 
@@ -229,7 +188,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void ToggleProgressBarVisibility(bool visible)
         {
             m_searchBar.IsBusy = visible;
-            m_progressBar.Opacity = !visible ? 0 : 1;
         }
     }
 
