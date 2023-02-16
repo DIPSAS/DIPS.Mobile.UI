@@ -22,7 +22,7 @@
             <group targetFramework="netstandard2.0">
                 <dependency id="Xamarin.Forms" version="5.0.0.2545" />
             </group>
-            <group targetFramework="MonoAndroid10">
+            <group targetFramework="MonoAndroid10.0">
                 <dependency id="Xamarin.Forms" version="5.0.0.2545" />
                 <dependency id="Xamarin.Google.Android.Material" version="1.5.0" />
             </group>
