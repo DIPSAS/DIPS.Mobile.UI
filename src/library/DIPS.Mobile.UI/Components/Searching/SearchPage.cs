@@ -23,9 +23,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         public SearchPage()
         {
             //Searchbar
-            m_searchBar = new SearchBar() {ShowsCancelButton = true};
+            m_searchBar = new SearchBar() {ShowsCancelButton = true, HasBusyIndication = true};
             m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.ToolbarBackgroundColorName);
-            m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.CancelButtonColorProperty,
+            m_searchBar.SetAppThemeColor(SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);
             if (Device.RuntimePlatform == Device.Android) //Colors are different on Android due to no inner white frame
             {
@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                     Shell.Shell.ToolbarTitleTextColorName);
             }
 
-            m_searchBar.SetBinding(Xamarin.Forms.SearchBar.PlaceholderProperty,
+            m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             m_searchBar.TextChanged += SearchBarOnTextChanged;
             //TODO:If Mode: WhenKeyboardPressed
@@ -144,7 +144,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 //box view used on ios if safe area has to be respected
                 var topBoxView = new BoxView
                 {
-                    BackgroundColor = m_searchBar.BackgroundColor, HeightRequest = thickness.Top
+                    BackgroundColor = m_searchBar.BarColor, HeightRequest = thickness.Top
                 };
                 m_grid.Children.Add(topBoxView, 0, 0);
             }

@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
+using Com.Google.Android.Material.Divider;
 using DIPS.Mobile.UI.Droid.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -28,7 +29,6 @@ namespace DIPS.Mobile.UI.Droid.Components.Lists
                 if (e.NewElement is ListView listView)
                 {
                     m_listView = listView;
-                    
                     UpdateBackgroundColor();
                 }
             }

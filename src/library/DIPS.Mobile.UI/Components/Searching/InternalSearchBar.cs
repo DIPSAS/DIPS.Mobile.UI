@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     internal class InternalSearchBar : Xamarin.Forms.SearchBar
     {
-        
+
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
             typeof(CornerRadius),
@@ -92,6 +92,17 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             get => (bool)GetValue(ShowsCancelButtonProperty);
             set => SetValue(ShowsCancelButtonProperty, value);
+        }
+        
+        public static readonly BindableProperty HasBusyIndicationProperty = BindableProperty.Create(
+            nameof(HasBusyIndication),
+            typeof(bool),
+            typeof(SearchBar));
+
+        public bool HasBusyIndication
+        {
+            get => (bool)GetValue(HasBusyIndicationProperty);
+            set => SetValue(HasBusyIndicationProperty, value);
         }
     }
 }

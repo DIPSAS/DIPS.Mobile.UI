@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Droid.Components.Progress
             base.OnElementPropertyChanged(sender, e);
             switch (e.PropertyName)
             {
-                case nameof(IndeterminateProgressBar.IsRunningProperty.PropertyName):
+                case nameof(IndeterminateProgressBar.IsRunning):
                     ToggleAnimation();
                     break;
             }

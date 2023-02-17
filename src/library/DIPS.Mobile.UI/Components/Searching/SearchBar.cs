@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, new Binding(nameof(IsBusy), source: this));
             m_internalSearchBar.SetBinding(PlaceholderColorProperty,
                 new Binding(nameof(PlaceholderColor), source: this));
-            m_internalSearchBar.SetBinding(Xamarin.Forms.SearchBar.CancelButtonColorProperty,
+            m_internalSearchBar.SetBinding(InternalSearchBar.CancelButtonColorProperty,
                 new Binding(nameof(CancelButtonColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.IconsColorProperty,
                 new Binding(nameof(IconsColor), source: this));
@@ -47,6 +47,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 new Binding(nameof(CancelCommandParameterProperty), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.ShowsCancelButtonProperty,
                 new Binding(nameof(ShowsCancelButton), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.HasBusyIndicationProperty,
+                new Binding(nameof(HasBusyIndication), source: this));
 
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
@@ -65,6 +67,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
                 androidProgressBar.SetBinding(IndeterminateProgressBar.IsRunningProperty,
                     new Binding(nameof(IsBusy), source: this));
+                androidProgressBar.SetBinding(IndeterminateProgressBar.IsVisibleProperty,
+                    new Binding(nameof(HasBusyIndication), source: this));
                 //Add progressbar to grid
                 Grid.SetColumn(androidProgressBar, 0);
                 Grid.SetRow(androidProgressBar, grid.RowDefinitions.Count - 1); //Last row
@@ -106,10 +110,31 @@ namespace DIPS.Mobile.UI.Components.Searching
                     m_cancelButton: {IsVisible: true}
                 } searchBar) //Adjust corner radius on both search bar and cancel button
             {
-                searchBar.m_cancelButton.CornerRadius =
-                    new CornerRadius(0, searchBar.CornerRadius.TopRight, 0, searchBar.CornerRadius.BottomRight);
-                searchBar.m_internalSearchBar.CornerRadius = new CornerRadius(searchBar.CornerRadius.TopLeft, 0,
-                    searchBar.CornerRadius.BottomLeft, 0);
+                UpdateCornerRadius(searchBar);
+            }
+        }
+
+        private static void UpdateCornerRadius(SearchBar searchBar)
+        {
+            if (searchBar.m_cancelButton == null)
+            {
+                return;
+            }
+
+            searchBar.m_cancelButton.CornerRadius =
+                new CornerRadius(0, searchBar.CornerRadius.TopRight, 0, searchBar.CornerRadius.BottomRight);
+            searchBar.m_internalSearchBar.CornerRadius = new CornerRadius(searchBar.CornerRadius.TopLeft, 0,
+                searchBar.CornerRadius.BottomLeft, 0);
+        }
+
+        private static void OnShowsCancelButtonChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            if (bindable is SearchBar
+                {
+                    m_cancelButton: {IsVisible: true}
+                } searchBar) //Adjust corner radius on both search bar and cancel button
+            {
+                UpdateCornerRadius(searchBar);
             }
         }
     }

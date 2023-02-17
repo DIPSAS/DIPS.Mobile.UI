@@ -51,7 +51,21 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty ShowsCancelButtonProperty = BindableProperty.Create(
             nameof(ShowsCancelButton),
             typeof(bool),
+            typeof(SearchBar), propertyChanged:OnShowsCancelButtonChanged);
+
+        public static readonly BindableProperty HasBusyIndicationProperty = BindableProperty.Create(
+            nameof(HasBusyIndication),
+            typeof(bool),
             typeof(SearchBar));
+
+        /// <summary>
+        /// Indicates that the busy indication should be visible for people when you use <see cref="IsBusy"/> property to indicate that the search bar is busy.
+        /// </summary>
+        public bool HasBusyIndication
+        {
+            get => (bool)GetValue(HasBusyIndicationProperty);
+            set => SetValue(HasBusyIndicationProperty, value);
+        }
 
         /// <summary>
         /// Indicates that the cancel button should be visible for people to use to cancel the search.

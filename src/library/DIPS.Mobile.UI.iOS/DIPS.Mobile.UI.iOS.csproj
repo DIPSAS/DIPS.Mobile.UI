@@ -58,6 +58,7 @@
         <Compile Include="Components\Searching\SearchBarRenderer.cs" />
         <Compile Include="Components\Toolbars\ToolbarRenderer.cs" />
         <Compile Include="DUI.cs" />
+        <Compile Include="Extensions\UIBeizerPathExtensions.cs" />
         <Compile Include="Extensions\UIViewExtensions.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
