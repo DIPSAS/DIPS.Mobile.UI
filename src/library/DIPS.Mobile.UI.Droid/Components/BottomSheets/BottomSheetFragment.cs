@@ -4,19 +4,12 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
-using AndroidX.CoordinatorLayout.Widget;
 using AndroidX.Core.Widget;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Colors;
 using Google.Android.Material.BottomSheet;
-using Google.Android.Material.Card;
-using Google.Android.Material.Shape;
-using Java.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Application = Xamarin.Forms.Application;
-using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
@@ -31,6 +24,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
         {
             m_context = DUI.Context;
             m_bottomSheet = bottomSheet;
+            m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             SubscribeEvents();
         }
 
@@ -66,8 +60,8 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                 }
             };
 
-            //Add a handle, with a innergrid that works as a big hit box for the user to hit
-            //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
+            //Add a handle, with a innerGrid that works as a big hit box for the user to hit
+            //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
             var innerGrid = new Grid(){Padding = new Thickness(0,10)};
             innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
             var handle = new BoxView()
