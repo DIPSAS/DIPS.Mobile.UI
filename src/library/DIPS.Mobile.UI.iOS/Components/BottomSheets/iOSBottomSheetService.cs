@@ -14,7 +14,8 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
             var currentPresentedUiViewController = DUI.CurrentViewController;
             if (currentPresentedUiViewController.RestorationIdentifier == BottomSheetRestorationIdentifier)
             {
-                await currentPresentedUiViewController.DismissViewControllerAsync(true);
+                await currentPresentedUiViewController.DismissViewControllerAsync(false);
+                await Task.Delay(100); //Small delay before its actually removed.
             }
         }
     }
