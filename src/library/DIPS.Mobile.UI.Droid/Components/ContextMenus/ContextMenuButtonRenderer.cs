@@ -19,7 +19,7 @@ using Button = Xamarin.Forms.Button;
 
 namespace DIPS.Mobile.UI.Droid.Components.ContextMenus
 {
-    internal class ContextMenuButtonRenderer : Xamarin.Forms.Platform.Android.ButtonRenderer,
+    internal class ContextMenuButtonRenderer : ButtonRenderer,
         PopupMenu.IOnMenuItemClickListener, Application.IActivityLifecycleCallbacks
     {
         private ContextMenuButton m_contextMenuButton;

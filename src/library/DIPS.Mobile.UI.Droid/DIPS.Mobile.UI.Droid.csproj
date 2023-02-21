@@ -61,7 +61,7 @@
     <Compile Include="Components\Images\ImageRenderer.cs" />
     <Compile Include="Components\Lists\ListViewRenderer.cs" />
     <Compile Include="Components\Pages\ContentPageRenderer.cs" />
-    <Compile Include="Components\Progress\ProgressBarRenderer.cs" />
+    <Compile Include="Components\Progress\IndeterminateProgressBarRenderer.cs" />
     <Compile Include="Components\Searching\SearchBarRenderer.cs" />
     <Compile Include="DUI.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
@@ -77,6 +77,10 @@
     <AndroidResource Include="Resources\**\*.axml" />
     <AndroidResource Include="Resources\**\*.xml" />
     <AndroidResource Include="Resources\**\*.png" />
+    <AndroidResource Update="Resources\drawable\test.xml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj">

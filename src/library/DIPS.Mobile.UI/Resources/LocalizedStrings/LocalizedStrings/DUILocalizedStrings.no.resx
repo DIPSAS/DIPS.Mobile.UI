@@ -20,4 +20,7 @@
     <data name="Tomorrow" xml:space="preserve">
         <value>I morgen</value>
     </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Avbryt</value>
+    </data>
 </root>

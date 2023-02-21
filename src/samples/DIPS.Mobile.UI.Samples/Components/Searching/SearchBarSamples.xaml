@@ -6,7 +6,8 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:searching="clr-namespace:DIPS.Mobile.UI.Samples.Components.Searching;assembly=DIPS.Mobile.UI.Samples"
-                 x:Class="DIPS.Mobile.UI.Samples.Components.Searching.SearchBarSamples">
+                 x:Class="DIPS.Mobile.UI.Samples.Components.Searching.SearchBarSamples"
+                 Padding="15">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
@@ -15,10 +16,8 @@
         <dui:SearchBar Grid.Row="0"
                        Placeholder="Search from the items below"
                        VerticalOptions="Start"
-                       SearchCommand="{Binding }"
-                       IconsColor="{dui:Colors color_neutral_50}"
-                       TextColor="{dui:Colors color_neutral_70}"
-                       TextChanged="InputView_OnTextChanged" />
+                       ShowsCancelButton="True"
+                       TextChanged="InputView_OnTextChanged"/>
         <dui:ListView Grid.Row="1"
                       CornerRadius="15"
                       HasUnevenRows="True"

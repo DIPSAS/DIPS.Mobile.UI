@@ -3,56 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DIPS.Mobile.UI.Components.Progress;
 using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Application = Xamarin.Forms.Application;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
 using NavigationPage = Xamarin.Forms.NavigationPage;
-using ProgressBar = DIPS.Mobile.UI.Components.Progress.ProgressBar;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
     [ContentProperty(nameof(NoResultView))]
     public abstract partial class SearchPage : ContentPage
     {
-        private Grid m_grid;
+        private readonly Grid m_grid;
         private readonly ListView m_resultListView;
         private readonly SearchBar m_searchBar;
         private CancellationTokenSource? m_searchCancellationToken;
-        private readonly ProgressBar m_progressBar;
 
         public SearchPage()
         {
             //Searchbar
-            m_searchBar = new SearchBar();
-            m_searchBar.SetAppThemeColor(BackgroundColorProperty, Shell.Shell.ToolbarBackgroundColorName);
-            m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.CancelButtonColorProperty,
+            m_searchBar = new SearchBar() {ShowsCancelButton = true, HasBusyIndication = true};
+            m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.ToolbarBackgroundColorName);
+            m_searchBar.SetAppThemeColor(SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);
             if (Device.RuntimePlatform == Device.Android) //Colors are different on Android due to no inner white frame
             {
-                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.TextColorProperty,
+                m_searchBar.SetAppThemeColor(SearchBar.TextColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
                 m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, Shell.Shell.ToolbarTitleTextColorName);
-                m_searchBar.SetAppThemeColor(Xamarin.Forms.SearchBar.PlaceholderColorProperty, Shell.Shell.ToolbarTitleTextColorName);
+                m_searchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
+                    Shell.Shell.ToolbarTitleTextColorName);
             }
 
-            m_searchBar.SetBinding(Xamarin.Forms.SearchBar.PlaceholderProperty,
+            m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             m_searchBar.TextChanged += SearchBarOnTextChanged;
             //TODO:If Mode: WhenKeyboardPressed
             m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
-            m_searchBar.CancelCommand = new Command(() => Application.Current.MainPage.Navigation.PopAsync());
+            m_searchBar.CancelCommand = new Command(OnCancel);
             m_searchBar.CornerRadius = 0;
-
-            //Progressbar, Android only?
-            m_progressBar = new ProgressBar();
-            m_progressBar.Mode = ProgressBarMode.Indeterminate;
-            m_progressBar.IsVisible = Device.PlatformServices.RuntimePlatform == Device.Android;
 
 
             //Result listview
@@ -72,7 +62,6 @@ namespace DIPS.Mobile.UI.Components.Searching
                         Height = GridLength.Auto
                     }, //Space for the top box view on iOS if there is no navigation page and we have to respect safe area
                     new() {Height = GridLength.Auto}, //Space for the search bar
-                    new() {Height = GridLength.Auto}, //Space for the progress bar on android
                     new()
                     {
                         Height = GridLength.Star
@@ -82,8 +71,12 @@ namespace DIPS.Mobile.UI.Components.Searching
             };
 
             m_grid.Children.Add(m_searchBar, 0, 1);
-            m_grid.Children.Add(m_progressBar, 0, 2);
             base.Content = m_grid;
+        }
+
+        private static void OnCancel()
+        {
+            Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private void SearchBarOnTextChanged(object sender, TextChangedEventArgs e)
@@ -146,14 +139,12 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         protected override void SafeAreaInsetsDidChange(Thickness thickness)
         {
-            if (!NavigationPage
-                    .GetHasNavigationBar(
-                        this)) //if there is no navigation bar, it needs to move down from the safe area
+            if (Parent is not NavigationPage) //if there is no navigation bar, it needs to move down from the safe area
             {
                 //box view used on ios if safe area has to be respected
                 var topBoxView = new BoxView
                 {
-                    BackgroundColor = m_searchBar.BackgroundColor, HeightRequest = thickness.Top
+                    BackgroundColor = m_searchBar.BarColor, HeightRequest = thickness.Top
                 };
                 m_grid.Children.Add(topBoxView, 0, 0);
             }
@@ -178,7 +169,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 ToggleProgressBarVisibility(false);
             }
 
-            const int contentRow = 3;
+            const int contentRow = 2;
 
             //Remove previous view
             m_grid.RemoveChildAt(0, contentRow);
@@ -197,7 +188,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void ToggleProgressBarVisibility(bool visible)
         {
             m_searchBar.IsBusy = visible;
-            m_progressBar.Opacity = !visible ? 0 : 1;
         }
     }
 

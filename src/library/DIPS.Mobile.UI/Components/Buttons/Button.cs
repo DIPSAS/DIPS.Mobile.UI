@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Buttons
 {
-    public class Button : Xamarin.Forms.Button
+    public partial class Button : Xamarin.Forms.Button
     {
         public Button()
         {
@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_05);
             //TODO: Use DesignSystem for Padding
             Padding = new Thickness(10, 5);
-            ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 5);
+            CornerRadius = 8;
         }
     }
 }

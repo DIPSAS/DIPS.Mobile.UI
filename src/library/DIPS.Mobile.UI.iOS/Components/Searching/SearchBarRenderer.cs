@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.iOS.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
@@ -7,7 +8,7 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using DUISearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using DUISearchBar = DIPS.Mobile.UI.Components.Searching.InternalSearchBar;
 using DUISearchBarRenderer = DIPS.Mobile.UI.iOS.Components.Searching.SearchBarRenderer;
 
 [assembly: ExportRenderer(typeof(DUISearchBar), typeof(DUISearchBarRenderer))]
@@ -48,6 +49,16 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             }
         }
 
+        public override void Draw(CGRect rect)
+        {
+            if (m_searchBar != null)
+            {
+                Control.AddCornerRadius(m_searchBar.CornerRadius, m_searchBar.BackgroundColor);    
+            } 
+            
+            base.Draw(rect);
+        }
+
         protected override void Dispose(bool disposing)
         {
             UnSubscribeToEvents();
@@ -80,22 +91,24 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
         private void UpdateIsBusy()
         {
             if (m_activityIndicatorView == null || m_searchBar == null || m_searchTextField == null || m_magnifierIcon == null) return;
-            
-            if (m_searchBar.IsBusy)
+
+            if (m_searchBar.HasBusyIndication)
             {
-                m_activityIndicatorView.Color = m_searchBar.IconsColor.ToUIColor();
-                m_activityIndicatorView.StartAnimating();
-                var leftViewSize = m_magnifierIcon.Frame.Size;
-                m_activityIndicatorView.Center = new CGPoint(x:
-                    leftViewSize.Width / 2, y: leftViewSize.Height / 2);
-                m_searchTextField.LeftView = m_activityIndicatorView;
+                if (m_searchBar.IsBusy)
+                {
+                    m_activityIndicatorView.Color = m_searchBar.IconsColor.ToUIColor();
+                    m_activityIndicatorView.StartAnimating();
+                    var leftViewSize = m_magnifierIcon.Frame.Size;
+                    m_activityIndicatorView.Center = new CGPoint(x:
+                        leftViewSize.Width / 2, y: leftViewSize.Height / 2);
+                    m_searchTextField.LeftView = m_activityIndicatorView;
+                }
+                else
+                {
+                    m_activityIndicatorView.RemoveFromSuperview();
+                    m_searchTextField.LeftView = m_magnifierIcon;
+                }    
             }
-            else
-            {
-                m_activityIndicatorView.RemoveFromSuperview();
-                m_searchTextField.LeftView = m_magnifierIcon;
-            }
-            
         }
 
         private void UpdateBackground()
@@ -106,10 +119,8 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             if (textField != null)
             {
                 textField.BackgroundColor = Colors.GetColor(ColorName.color_neutral_20).ToUIColor();
-                
-            }
 
-            Control.Layer.CornerRadius = new nfloat(m_searchBar.CornerRadius);
+            }
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)

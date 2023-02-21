@@ -14,8 +14,10 @@ namespace DIPS.Mobile.UI.Samples
             Title = sampleType.ToString();
             Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
+                Margin = 15,
                 ItemsSource = samples,
-                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()})
+                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()}),
+                SeparatorVisibility = SeparatorVisibility.None
             };
         }
 
@@ -27,6 +29,7 @@ namespace DIPS.Mobile.UI.Samples
 
             public NavigateToSingleSampleButton()
             {
+                Margin = 5;
                 Command = new Command(TryNavigateToSingleSamplePage);
             }
 
@@ -44,7 +47,6 @@ namespace DIPS.Mobile.UI.Samples
                 {
                     m_sample = samplePair.Value;
                     m_contentPageFunc = samplePair.Key;
-
                     Text = m_sample.Name;
                 }
             }

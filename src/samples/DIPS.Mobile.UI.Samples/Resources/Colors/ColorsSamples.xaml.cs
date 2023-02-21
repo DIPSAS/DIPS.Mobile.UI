@@ -16,6 +16,7 @@ namespace DIPS.Mobile.UI.Samples.Resources.Colors
     public partial class ColorsSamples
     {
         private Dictionary<string, Color> m_colors;
+        private Dictionary<string, Color> m_allColors;
 
         public ColorsSamples()
         {
@@ -24,6 +25,7 @@ namespace DIPS.Mobile.UI.Samples.Resources.Colors
             {
                 OnPropertyChanged(nameof(OsAppTheme));
                 Colors = GetColors();
+                m_allColors = Colors;
             };
         }
 
@@ -31,6 +33,7 @@ namespace DIPS.Mobile.UI.Samples.Resources.Colors
         {
             base.OnAppearing();
             Colors = GetColors();
+            m_allColors = Colors;
         }
 
         private static Dictionary<string, Color> GetColors()
@@ -59,6 +62,20 @@ namespace DIPS.Mobile.UI.Samples.Resources.Colors
         public OSAppTheme OsAppTheme
         {
             get => Application.Current.RequestedTheme;
+        }
+
+        private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                Colors = m_allColors;
+            }
+            else
+            {
+                var matchingColors = m_allColors.Where(c => c.Key.ToLower().Contains(e.NewTextValue.ToLower()));
+                Colors = matchingColors.ToDictionary(matchingColor => matchingColor.Key,
+                    matchingColor => matchingColor.Value);
+            }
         }
     }
 }

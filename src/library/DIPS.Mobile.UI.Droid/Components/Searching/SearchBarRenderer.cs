@@ -1,12 +1,12 @@
 using System.ComponentModel;
+using Android.Content;
 using Android.Graphics;
 using Android.Widget;
 using DIPS.Mobile.UI.Droid.Extensions;
-using DIPS.Mobile.UI.Resources.Colors;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Color = Android.Graphics.Color;
-using DUISearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using DUISearchBar = DIPS.Mobile.UI.Components.Searching.InternalSearchBar;
 using DUISearchBarRenderer = DIPS.Mobile.UI.Droid.Components.Searching.SearchBarRenderer;
 using View = Android.Views.View;
 
@@ -16,6 +16,7 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
 {
     public class SearchBarRenderer : Xamarin.Forms.Platform.Android.SearchBarRenderer
     {
+        public SearchBarRenderer(Context context):base(context) { }
         private DUISearchBar? m_searchBar;
 
         protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
@@ -65,7 +66,7 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
         private new void UpdateBackground()
         {
             if (m_searchBar == null) return;
-
+            
             Control.SetRoundedRectangularBackground(m_searchBar.CornerRadius, m_searchBar.BackgroundColor);
         }
 
