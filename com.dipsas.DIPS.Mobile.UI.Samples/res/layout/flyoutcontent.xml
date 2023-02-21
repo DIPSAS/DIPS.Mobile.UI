@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<crc643f46942d9dd1fff9.ShellFlyoutLayout android:background="@android:color/background_light" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" android:id="@id/flyoutcontent_appbar" android:background="@null" android:layout_width="fill_parent" android:layout_height="wrap_content" app:elevation="0.0dip" />
-</crc643f46942d9dd1fff9.ShellFlyoutLayout>
