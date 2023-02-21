@@ -131,7 +131,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
                 case nameof(SearchBar.Text):
                     UpdateCancelButton();
                     break;
-                case nameof(UI.Components.Searching.SearchBar.ShowsCancelButton):
+                case nameof(UI.Components.Searching.SearchBar.HasCancelButton):
                 case nameof(UI.Components.Searching.SearchBar.CancelButtonColor):
                     UpdateCancelButton();
                     break;

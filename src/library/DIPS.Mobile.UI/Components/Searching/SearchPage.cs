@@ -23,7 +23,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public SearchPage()
         {
             //Searchbar
-            m_searchBar = new SearchBar() {ShowsCancelButton = true, HasBusyIndication = true};
+            m_searchBar = new SearchBar() {HasCancelButton = true, HasBusyIndication = true};
             m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.ToolbarBackgroundColorName);
             m_searchBar.SetAppThemeColor(SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);

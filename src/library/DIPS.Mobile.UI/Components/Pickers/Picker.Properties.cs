@@ -76,6 +76,20 @@ namespace DIPS.Mobile.UI.Components.Pickers
         /// The event to be raised when people select an item from the picker.
         /// </summary>
         public event EventHandler<object>? DidSelectItem;
+
+        public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
+            nameof(HasSearchBar),
+            typeof(bool),
+            typeof(Picker), defaultValue:true);
+
+        /// <summary>
+        /// Determines if a search bar should be visible when the picker is visible for people when in bottom sheet mode.
+        /// </summary>
+        public bool HasSearchBar
+        {
+            get => (bool)GetValue(HasSearchBarProperty);
+            set => SetValue(HasSearchBarProperty, value);
+        }
     }
 
     public enum PickerMode
