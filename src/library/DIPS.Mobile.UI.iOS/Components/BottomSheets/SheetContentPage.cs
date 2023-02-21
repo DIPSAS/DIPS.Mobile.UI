@@ -41,22 +41,31 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 
         private void SetupViewController()
         {
-            m_viewController = this.CreateViewController();
-            m_viewController.RestorationIdentifier = iOSBottomSheetService.BottomSheetRestorationIdentifier;
-            m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-            if (m_viewController.SheetPresentationController != null)
+            var control = Xamarin.Forms.Platform.iOS.Platform.CreateRenderer(this);
+            if (control != null)
             {
-                m_sheetPresentationController = m_viewController.SheetPresentationController;
-                if (m_sheetPresentationController != null)
+                Xamarin.Forms.Platform.iOS.Platform.SetRenderer(this, control);
+                var screenWidth = UIScreen.MainScreen.Bounds.Width;
+                var screenHeight = UIScreen.MainScreen.Bounds.Height;
+                control.SetElementSize(new Size(screenWidth, screenHeight));
+                m_viewController = control.ViewController;
+            
+                m_viewController.RestorationIdentifier = iOSBottomSheetService.BottomSheetRestorationIdentifier;
+                m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+                if (m_viewController.SheetPresentationController != null)
                 {
-                    m_sheetPresentationController.Detents = new[]
+                    m_sheetPresentationController = m_viewController.SheetPresentationController;
+                    if (m_sheetPresentationController != null)
                     {
-                        UISheetPresentationControllerDetent.CreateMediumDetent(),
-                        UISheetPresentationControllerDetent.CreateLargeDetent()
-                    };
-                    m_sheetPresentationController.SelectedDetentIdentifier =
-                        UISheetPresentationControllerDetentIdentifier.Medium;
-                    m_sheetPresentationController.PrefersGrabberVisible = true;
+                        m_sheetPresentationController.Detents = new[]
+                        {
+                            UISheetPresentationControllerDetent.CreateMediumDetent(),
+                            UISheetPresentationControllerDetent.CreateLargeDetent()
+                        };
+                        m_sheetPresentationController.SelectedDetentIdentifier =
+                            UISheetPresentationControllerDetentIdentifier.Medium;
+                        m_sheetPresentationController.PrefersGrabberVisible = true;
+                    }   
                 }   
             }
         }
