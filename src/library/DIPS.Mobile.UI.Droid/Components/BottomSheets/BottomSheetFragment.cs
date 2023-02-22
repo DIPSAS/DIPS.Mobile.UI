@@ -19,6 +19,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
         private readonly Context m_context;
         private readonly BottomSheet m_bottomSheet;
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
+        private BottomSheetBehavior m_bottomSheetBehavior;
 
         public BottomSheetFragment(BottomSheet bottomSheet)
         {
@@ -60,21 +61,25 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                 }
             };
 
+            
             //Add a handle, with a innerGrid that works as a big hit box for the user to hit
             //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
-            var innerGrid = new Grid(){Padding = new Thickness(0,10)};
-            innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
-            var handle = new BoxView()
+            if (m_bottomSheetBehavior.Draggable)
             {
-                HeightRequest = 4,
-                WidthRequest = 32,
-                CornerRadius = 10,
-                BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center
-            };
-            innerGrid.Children.Add(handle);
-            grid.Children.Add(innerGrid, 0, 0);
+                var innerGrid = new Grid(){Padding = new Thickness(0,10)};
+                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
+                var handle = new BoxView()
+                {
+                    HeightRequest = 4,
+                    WidthRequest = 32,
+                    CornerRadius = 10,
+                    BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                innerGrid.Children.Add(handle);
+                grid.Children.Add(innerGrid, 0, 0);    
+            }
             grid.Children.Add(m_bottomSheet, 0, 1);
             
             nestedScrollView.AddView(new ContainerView(m_context, grid));
@@ -99,7 +104,8 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             var dialog = base.OnCreateDialog(savedInstanceState);
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
-                bottomSheetDialog.Behavior.Draggable = true;
+                m_bottomSheetBehavior = bottomSheetDialog.Behavior;
+                bottomSheetDialog.Behavior.Draggable = m_bottomSheet.IsDraggable;
                 if (m_context.Resources?.DisplayMetrics != null)
                 {
                     var fullScreenHeight = m_context.Resources.DisplayMetrics.HeightPixels;

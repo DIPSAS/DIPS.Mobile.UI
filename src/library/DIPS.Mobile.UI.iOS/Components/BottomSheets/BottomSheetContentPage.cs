@@ -6,13 +6,13 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 {
-    internal class SheetContentPage : ContentPage
+    internal class BottomSheetContentPage : ContentPage
     {
         private UIViewController? m_viewController;
         private readonly BottomSheet m_bottomSheet;
         private UISheetPresentationController? m_sheetPresentationController;
 
-        public SheetContentPage(BottomSheet bottomSheet)
+        public BottomSheetContentPage(BottomSheet bottomSheet)
         {
             m_bottomSheet = bottomSheet;
             bottomSheet.VerticalOptions = LayoutOptions.Start;
@@ -57,14 +57,26 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                     m_sheetPresentationController = m_viewController.SheetPresentationController;
                     if (m_sheetPresentationController != null)
                     {
-                        m_sheetPresentationController.Detents = new[]
+                        m_sheetPresentationController.PrefersGrabberVisible = m_bottomSheet.IsDraggable;
+
+                        if (m_bottomSheet.IsDraggable)
                         {
-                            UISheetPresentationControllerDetent.CreateMediumDetent(),
-                            UISheetPresentationControllerDetent.CreateLargeDetent()
-                        };
+                            m_sheetPresentationController.Detents = new[]
+                            {
+                                UISheetPresentationControllerDetent.CreateMediumDetent(),
+                                UISheetPresentationControllerDetent.CreateLargeDetent()
+                            };
+                        }
+                        else
+                        {
+                            m_sheetPresentationController.Detents = new[]
+                            {
+                                UISheetPresentationControllerDetent.CreateMediumDetent(),
+                            };    
+                        }
+                        
                         m_sheetPresentationController.SelectedDetentIdentifier =
                             UISheetPresentationControllerDetentIdentifier.Medium;
-                        m_sheetPresentationController.PrefersGrabberVisible = true;
                     }   
                 }   
             }
