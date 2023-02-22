@@ -39,7 +39,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
 
                     m_activityIndicatorView = new UIActivityIndicatorView();
                     m_searchTextField = Control.SearchTextField;
-                    
+
                     UpdateBackground();
                     UpdateForeground();
                     UpdateIsBusy();
@@ -53,9 +53,9 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
         {
             if (m_searchBar != null)
             {
-                Control.AddCornerRadius(m_searchBar.CornerRadius, m_searchBar.BackgroundColor);    
-            } 
-            
+                Control.AddCornerRadius(m_searchBar.CornerRadius, m_searchBar.BackgroundColor);
+            }
+
             base.Draw(rect);
         }
 
@@ -64,12 +64,12 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
             UnSubscribeToEvents();
             base.Dispose(disposing);
         }
-        
+
         private void SubscribeToEvents()
         {
             Control.CancelButtonClicked += OnCancelButtonTouchDown;
         }
-        
+
         private void UnSubscribeToEvents()
         {
             Control.CancelButtonClicked -= OnCancelButtonTouchDown;
@@ -90,7 +90,8 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
 
         private void UpdateIsBusy()
         {
-            if (m_activityIndicatorView == null || m_searchBar == null || m_searchTextField == null || m_magnifierIcon == null) return;
+            if (m_activityIndicatorView == null || m_searchBar == null || m_searchTextField == null ||
+                m_magnifierIcon == null) return;
 
             if (m_searchBar.HasBusyIndication)
             {
@@ -107,19 +108,18 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
                 {
                     m_activityIndicatorView.RemoveFromSuperview();
                     m_searchTextField.LeftView = m_magnifierIcon;
-                }    
+                }
             }
         }
 
         private void UpdateBackground()
         {
             if (m_searchBar == null) return;
-            
+
             var textField = Control.FindChildView<UITextField>();
             if (textField != null)
             {
                 textField.BackgroundColor = Colors.GetColor(ColorName.color_neutral_20).ToUIColor();
-
             }
         }
 
@@ -150,7 +150,7 @@ namespace DIPS.Mobile.UI.iOS.Components.Searching
         public override void UpdateCancelButton()
         {
             if (m_searchBar == null) return;
-            
+
             Control.ShowsCancelButton = m_searchBar.ShowsCancelButton;
             var cancelButton = Control.FindChildView<UIButton>();
             if (cancelButton != null)

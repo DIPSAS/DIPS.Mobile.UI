@@ -23,34 +23,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         private void LayoutContent()
         {
             m_layedOut = true;
-            if (!m_shouldHaveToolbar) //Leave the Content alone
-            {
-                return;
-            }
-
-            var consumerContent = Content;
-            //Wrap it all in a Grid
-            var theGrid = new Grid()
-            {
-                RowDefinitions = new RowDefinitionCollection
-                {
-                    new() {Height = GridLength.Auto,}, new() {Height = GridLength.Star,}
-                }
-            };
-
-            var toolbar = new Grid()
-            {
-                ColumnDefinitions = new ColumnDefinitionCollection
-                {
-                    new ColumnDefinition {Width = GridLength.Star},
-                    new ColumnDefinition {Width = GridLength.Auto},
-                    new ColumnDefinition {Width = GridLength.Auto}
-                }
-            };
-            
-            theGrid.Children.Add(consumerContent, 0,0);
-            theGrid.Children.Add(consumerContent, 0,1);
-            Content = theGrid;
         }
 
 

@@ -64,12 +64,6 @@ namespace DIPS.Mobile.UI.Components.ContextMenus
         /// The parent of the context menu item
         /// </summary>
         public object? Parent { get; internal set; }
-        
-        /// <summary>
-        /// The subtitle of the menu item
-        /// </summary>
-        /// <remarks>Only works on iOS</remarks>
-        public string? Subtitle { get; set; }
 
         /// <summary>
         /// <see cref="iOSContextMenuItemOptions"/>
