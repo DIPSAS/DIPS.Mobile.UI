@@ -1,7 +1,8 @@
 <dui:BottomSheet xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
+                 x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet"
+                 IsDraggable="false">
 
     <Grid RowDefinitions="Auto, *">
         <dui:ListView Grid.Row="1"
