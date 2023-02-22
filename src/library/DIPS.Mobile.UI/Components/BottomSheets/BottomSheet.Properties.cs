@@ -23,5 +23,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         public event EventHandler? WillClose;
         public event EventHandler? DidClose;
+        protected virtual void OnDidClose(){}
+        protected virtual void OnWillClose(){}
     }
 }

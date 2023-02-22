@@ -13,9 +13,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
     public partial class Picker : Frame
     {
         private readonly Label m_selectedItemLabel;
-        private readonly Grid m_pickerContent;
         private bool m_layedOut;
-        private ContextMenuControl? m_contextMenuControl;
+        private readonly ContextMenuControl m_contextMenuControl;
 
         public Picker()
         {
@@ -45,7 +44,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 Colors.GetColor(ColorName.color_primary_90));
 
             //Arrange the grid
-            m_pickerContent = new Grid()
+            var pickerContent = new Grid()
             {
                 Padding = new Thickness(15, 10), //TODO: Replace with design system margins,
                 ColumnSpacing = 10, //TODO: Replace with design system margins,
@@ -58,11 +57,11 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 }
             };
 
-            m_pickerContent.Children.Add(headerLabel, 0, 0);
-            m_pickerContent.Children.Add(m_selectedItemLabel, 1, 0);
-            m_pickerContent.Children.Add(image, 2, 0);
+            pickerContent.Children.Add(headerLabel, 0, 0);
+            pickerContent.Children.Add(m_selectedItemLabel, 1, 0);
+            pickerContent.Children.Add(image, 2, 0);
 
-            m_contextMenuControl.TheContent = m_pickerContent;
+            m_contextMenuControl.TheContent = pickerContent;
             Content = m_contextMenuControl; //Set the context menu control as content to the frame
         }
 

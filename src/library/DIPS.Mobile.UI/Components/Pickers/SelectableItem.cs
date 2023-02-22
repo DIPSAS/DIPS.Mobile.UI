@@ -2,9 +2,9 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
-    internal class PickerItem
+    public class SelectableItem
     {
-        public PickerItem(string displayName, bool isSelected, ICommand isSelectedCommand)
+        public SelectableItem(string displayName, bool isSelected, ICommand isSelectedCommand)
         {
             DisplayName = displayName;
             IsSelected = isSelected;

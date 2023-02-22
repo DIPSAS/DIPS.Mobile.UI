@@ -49,7 +49,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
 
         public static readonly BindableProperty ShowsCancelButtonProperty = BindableProperty.Create(
-            nameof(ShowsCancelButton),
+            nameof(HasCancelButton),
             typeof(bool),
             typeof(SearchBar), propertyChanged:OnShowsCancelButtonChanged);
 
@@ -70,7 +70,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// Indicates that the cancel button should be visible for people to use to cancel the search.
         /// </summary>
-        public bool ShowsCancelButton
+        public bool HasCancelButton
         {
             get => (bool)GetValue(ShowsCancelButtonProperty);
             set => SetValue(ShowsCancelButtonProperty, value);

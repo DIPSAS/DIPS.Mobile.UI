@@ -78,6 +78,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             grid.Children.Add(m_bottomSheet, 0, 1);
             
             nestedScrollView.AddView(new ContainerView(m_context, grid));
+            
             return nestedScrollView;
         }
 
@@ -105,6 +106,8 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight / 2;
                 }
             }
+            
+            dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
 
             return dialog;
         }
