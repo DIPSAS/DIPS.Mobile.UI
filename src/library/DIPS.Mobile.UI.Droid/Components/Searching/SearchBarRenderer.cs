@@ -79,8 +79,11 @@ namespace DIPS.Mobile.UI.Droid.Components.Searching
             if (editText is AutoCompleteTextView autoCompleteTextView)
             {
 #pragma warning disable CS0618
-                autoCompleteTextView.TextCursorDrawable?.SetColorFilter(m_searchBar.TextColor.ToAndroid(),
-                    PorterDuff.Mode.SrcIn);
+                if (PorterDuff.Mode.SrcIn != null)
+                {
+                    autoCompleteTextView.TextCursorDrawable?.SetColorFilter(m_searchBar.TextColor.ToAndroid(),
+                        PorterDuff.Mode.SrcIn);
+                }
 #pragma warning restore CS0618
             }
             

@@ -86,7 +86,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 m_cancelButton.SetBinding(Button.CommandParameterProperty,
                     new Binding(nameof(CancelCommandParameter), source: m_internalSearchBar));
                 m_cancelButton.SetBinding(IsVisibleProperty,
-                    new Binding(nameof(HasCancelButton), source: m_internalSearchBar));
+                    new Binding(nameof(InternalSearchBar.ShowsCancelButton), source: m_internalSearchBar));
                 //Add cancel button to grid
                 Grid.SetRow(m_cancelButton, 0);
                 Grid.SetColumn(m_cancelButton, grid.ColumnDefinitions.Count - 1); //Last column
