@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Extensions;
@@ -30,19 +29,24 @@ namespace DIPS.Mobile.UI.Components.Pickers
                         item == m_picker.SelectedItem,
                         new Command(() =>
                         {
+                            if (m_picker.SelectedItem == item) //Reason we have to guard is because the items get recreated if people use the search bar, the item that was selected will get re-selected and it will close the sheet if that happens.
+                            {   
+                                return;
+                            }
+
                             m_picker.SelectedItem = item;
                             Close();
                         })));
                 }
             }
-            
+
             Items = m_originalItems;
 
-            m_searchBar = new SearchBar(){HasCancelButton = false};
+            m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Color.Transparent};
             m_listView = new ListView()
             {
                 HasUnevenRows = true,
-                ItemTemplate = new DataTemplate(LoadTemplate),
+                ItemTemplate = new DataTemplate(CreateCheckBox),
                 Margin = 10 //TODO: Use DesignSystem
             };
 
@@ -51,9 +55,9 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 m_listView.Header = string.Empty;
                 m_listView.HeaderTemplate = new DataTemplate(() => m_searchBar);
             }
-            
-            m_listView.SetBinding(ListView.ItemsSourceProperty, new Binding(nameof(Items), source:this)); 
-            
+
+            m_listView.SetBinding(ListView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+
             Content = m_listView;
             SubscribeToEvents();
         }
@@ -62,7 +66,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             m_searchBar.TextChanged += FilterItems;
         }
-        
+
         private void UnSubscribeFromEvents()
         {
             m_searchBar.TextChanged -= FilterItems;
@@ -80,7 +84,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
             set => SetValue(ItemsProperty, value);
         }
 
-        private object LoadTemplate()
+        private object CreateCheckBox()
         {
             var checkBox = new CheckBox();
             checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItem.DisplayName)});
@@ -89,7 +93,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 new Binding() {Path = nameof(SelectableItem.IsSelectedCommand)});
             return new ViewCell() {View = checkBox};
         }
-        
+
         private void FilterItems(object sender, TextChangedEventArgs e)
         {
             var filterText = e.NewTextValue;

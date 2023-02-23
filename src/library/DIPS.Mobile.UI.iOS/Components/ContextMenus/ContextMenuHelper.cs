@@ -62,9 +62,7 @@ namespace DIPS.Mobile.UI.iOS.Components.ContextMenus
                     {
                         contextMenuButton.ResetIsCheckedForTheRest(contextMenuItem);
                     }
-
-                    uiAction.Subtitle = contextMenuItem.Subtitle;
-
+                    
                     SetCorrectUiActionState(contextMenuItem, uiAction); //Setting the correct check mark if it can
 
                     uiMenuElement = uiAction;

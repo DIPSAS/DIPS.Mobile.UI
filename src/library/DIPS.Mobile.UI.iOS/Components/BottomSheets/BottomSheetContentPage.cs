@@ -44,41 +44,46 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
             var control = Xamarin.Forms.Platform.iOS.Platform.CreateRenderer(this);
             if (control != null)
             {
+                // SE PÅ HVORFOR CONTENT LIGGER UNDER GRABBER!
                 Xamarin.Forms.Platform.iOS.Platform.SetRenderer(this, control);
                 var screenWidth = UIScreen.MainScreen.Bounds.Width;
                 var screenHeight = UIScreen.MainScreen.Bounds.Height;
                 control.SetElementSize(new Size(screenWidth, screenHeight));
                 m_viewController = control.ViewController;
-            
+
                 m_viewController.RestorationIdentifier = iOSBottomSheetService.BottomSheetRestorationIdentifier;
                 m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-                if (m_viewController.SheetPresentationController != null)
+                if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
                 {
-                    m_sheetPresentationController = m_viewController.SheetPresentationController;
-                    if (m_sheetPresentationController != null)
+                    if (m_viewController.SheetPresentationController != null)
                     {
-                        m_sheetPresentationController.PrefersGrabberVisible = m_bottomSheet.IsDraggable;
+                        m_sheetPresentationController = m_viewController.SheetPresentationController;
+                        if (m_sheetPresentationController != null)
+                        {
+                            if (m_bottomSheet.IsDraggable)
+                            {
+                                m_sheetPresentationController.Detents = new[]
+                                {
+                                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                                    UISheetPresentationControllerDetent.CreateLargeDetent()
+                                };
+                                m_sheetPresentationController.SelectedDetentIdentifier =
+                                    UISheetPresentationControllerDetentIdentifier.Medium;
+                            }
+                            else
+                            {
+                                m_sheetPresentationController.Detents = new[]
+                                {
+                                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                                };
+                            }
 
-                        if (m_bottomSheet.IsDraggable)
-                        {
-                            m_sheetPresentationController.Detents = new[]
-                            {
-                                UISheetPresentationControllerDetent.CreateMediumDetent(),
-                                UISheetPresentationControllerDetent.CreateLargeDetent()
-                            };
+                            m_sheetPresentationController.PrefersGrabberVisible =
+                                m_sheetPresentationController.Detents.Length > 1;
+                            m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
                         }
-                        else
-                        {
-                            m_sheetPresentationController.Detents = new[]
-                            {
-                                UISheetPresentationControllerDetent.CreateMediumDetent(),
-                            };    
-                        }
-                        
-                        m_sheetPresentationController.SelectedDetentIdentifier =
-                            UISheetPresentationControllerDetentIdentifier.Medium;
-                    }   
-                }   
+                    }
+                }
             }
         }
 
@@ -87,7 +92,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
             var currentViewController = DUI.CurrentViewController;
             if (m_viewController != null)
             {
-                await currentViewController.PresentViewControllerAsync(m_viewController, true);    
+                await currentViewController.PresentViewControllerAsync(m_viewController, true);
             }
         }
 

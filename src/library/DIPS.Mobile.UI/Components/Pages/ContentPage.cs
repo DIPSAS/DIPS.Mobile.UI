@@ -26,7 +26,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         internal bool ShouldUpdatePaddingWithSafeArea(Thickness thickness)
         {
             SafeAreaInsetsDidChange(thickness);
-            return false;
+            return true;
         }
     }
 }

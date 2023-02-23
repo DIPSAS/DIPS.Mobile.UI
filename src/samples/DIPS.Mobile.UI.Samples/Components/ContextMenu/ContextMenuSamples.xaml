@@ -3,7 +3,7 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:contextMenu="clr-namespace:DIPS.Mobile.UI.Samples.Components.ContextMenu;assembly=DIPS.Mobile.UI.Samples"
                  x:Class="DIPS.Mobile.UI.Samples.Components.ContextMenu.ContextMenuSamples"
-                 BackgroundColor="LightGray">
+                 Padding="15">
     <ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
     </ContentPage.BindingContext>

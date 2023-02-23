@@ -29,18 +29,19 @@ namespace DIPS.Mobile.UI.iOS.Components.ContextMenus
                     return;
                 }
 
-                {
-                    base.SetNativeControl(new ContextMenuUiButton(m_contextMenuButton));
-                    Control.Menu =
-                        CreateMenu(); //Create the menu the first time so it shows up the first time the user taps the button
-                    Control.TouchDown += OnTouchDown;
-                    Control.ShowsMenuAsPrimaryAction = true;
-                    m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.DidEnterBackgroundNotification, notification =>
+
+                base.SetNativeControl(new ContextMenuUiButton(m_contextMenuButton));
+                Control.Menu =
+                    CreateMenu(); //Create the menu the first time so it shows up the first time the user taps the button
+                Control.TouchDown += OnTouchDown;
+                Control.ShowsMenuAsPrimaryAction = true;
+                m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(
+                    UIApplication.DidEnterBackgroundNotification, notification =>
                     {
                         Control.Menu = null;
-                        Control.Menu = CreateMenu(); //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
+                        Control.Menu =
+                            CreateMenu(); //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
                     });
-                }
             }
         }
 
@@ -61,7 +62,7 @@ namespace DIPS.Mobile.UI.iOS.Components.ContextMenus
         private UIMenu CreateMenu()
         {
             if (m_contextMenuButton.ItemsSource == null) return null;
-            
+
             var dict = ContextMenuHelper.CreateMenuItems(
                 m_contextMenuButton.ItemsSource,
                 m_contextMenuButton);
