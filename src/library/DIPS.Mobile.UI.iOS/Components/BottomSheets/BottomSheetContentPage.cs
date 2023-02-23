@@ -80,6 +80,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 
                             m_sheetPresentationController.PrefersGrabberVisible =
                                 m_sheetPresentationController.Detents.Length > 1;
+                            m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
                         }
                     }
                 }
