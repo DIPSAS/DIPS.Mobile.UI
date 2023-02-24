@@ -58,6 +58,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             grid.Children.Add(m_internalSearchBar, 0, 0);
             if (Device.RuntimePlatform == Device.Android) //On Android, progressbar and cancel button needs to be added
             {
+                grid.SetBinding(BackgroundColorProperty, new Binding(nameof(BarColor), source:this));
                 //Add extra rows and columns
                 grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
                 grid.ColumnDefinitions.Add(new() {Width = GridLength.Auto});
@@ -92,50 +93,13 @@ namespace DIPS.Mobile.UI.Components.Searching
                 Grid.SetColumn(m_cancelButton, grid.ColumnDefinitions.Count - 1); //Last column
                 grid.Children.Add(m_cancelButton);
             }
-
-            //Deal with corner radius
-            this.CornerRadius = 8;
+            
             Content = grid;
         }
 
         public new void Focus()
         {
             m_internalSearchBar.Focus();
-        }
-
-        private static void OnCornerRadiusChanged(BindableObject bindable, object oldvalue, object newvalue)
-        {
-            if (bindable is SearchBar
-                {
-                    m_cancelButton: {IsVisible: true}
-                } searchBar) //Adjust corner radius on both search bar and cancel button
-            {
-                UpdateCornerRadius(searchBar);
-            }
-        }
-
-        private static void UpdateCornerRadius(SearchBar searchBar)
-        {
-            if (searchBar.m_cancelButton == null)
-            {
-                return;
-            }
-
-            searchBar.m_cancelButton.CornerRadius =
-                new CornerRadius(0, searchBar.CornerRadius.TopRight, 0, searchBar.CornerRadius.BottomRight);
-            searchBar.m_internalSearchBar.CornerRadius = new CornerRadius(searchBar.CornerRadius.TopLeft, 0,
-                searchBar.CornerRadius.BottomLeft, 0);
-        }
-
-        private static void OnShowsCancelButtonChanged(BindableObject bindable, object oldvalue, object newvalue)
-        {
-            if (bindable is SearchBar
-                {
-                    m_cancelButton: {IsVisible: true}
-                } searchBar) //Adjust corner radius on both search bar and cancel button
-            {
-                UpdateCornerRadius(searchBar);
-            }
         }
     }
 }

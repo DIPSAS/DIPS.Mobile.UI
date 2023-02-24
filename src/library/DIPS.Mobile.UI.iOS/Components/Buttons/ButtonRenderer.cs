@@ -25,15 +25,5 @@ namespace DIPS.Mobile.UI.iOS.Components.Buttons
                 }
             }
         }
-
-        public override void Draw(CGRect rect)
-        {
-            if (m_button != null)
-            {
-                Control.AddCornerRadius(m_button.CornerRadius, m_button.BackgroundColor);    
-            } 
-            
-            base.Draw(rect);
-        }
     }
 }
