@@ -21,7 +21,6 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 
             SetupViewController();
             SubscribeEvents();
-            Padding = 0;
         }
 
         private void SubscribeEvents()
@@ -47,8 +46,8 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                 // SE PÅ HVORFOR CONTENT LIGGER UNDER GRABBER!
                 Xamarin.Forms.Platform.iOS.Platform.SetRenderer(this, control);
                 var screenWidth = UIScreen.MainScreen.Bounds.Width;
-                var screenHeight = UIScreen.MainScreen.Bounds.Height;
-                control.SetElementSize(new Size(screenWidth, screenHeight));
+                var screenHeight = UIScreen.MainScreen.Bounds.Height-40;
+                control.SetElementSize(control.GetDesiredSize(screenWidth, screenHeight).Request);
                 m_viewController = control.ViewController;
 
                 m_viewController.RestorationIdentifier = iOSBottomSheetService.BottomSheetRestorationIdentifier;
@@ -81,6 +80,12 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                             m_sheetPresentationController.PrefersGrabberVisible =
                                 m_sheetPresentationController.Detents.Length > 1;
                             m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+
+                            if (m_sheetPresentationController.PrefersGrabberVisible)
+                            {
+                                //Move top down 10 pixels to make space for the grabber
+                                Padding = new Thickness(0, 10, 0, 0);
+                            }
                         }
                     }
                 }
