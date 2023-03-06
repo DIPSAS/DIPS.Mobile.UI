@@ -6,20 +6,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar
     {
-        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(SearchBar), propertyChanged:OnCornerRadiusChanged);
-
-        /// <summary>
-        /// Sets the corner radius of the background of the searchbar.
-        /// </summary>
-        public CornerRadius CornerRadius
-        {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
-        }
-
         public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
             typeof(Color),
@@ -51,7 +37,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty ShowsCancelButtonProperty = BindableProperty.Create(
             nameof(HasCancelButton),
             typeof(bool),
-            typeof(SearchBar), propertyChanged:OnShowsCancelButtonChanged);
+            typeof(SearchBar));
 
         public static readonly BindableProperty HasBusyIndicationProperty = BindableProperty.Create(
             nameof(HasBusyIndication),

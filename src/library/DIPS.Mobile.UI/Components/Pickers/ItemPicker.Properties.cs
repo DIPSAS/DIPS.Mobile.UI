@@ -5,12 +5,12 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
-    public partial class Picker
+    public partial class ItemPicker
     {
         public static readonly BindableProperty HeaderProperty = BindableProperty.Create(
             nameof(Title),
             typeof(string),
-            typeof(Picker));
+            typeof(ItemPicker));
 
         /// <summary>
         /// The title displayed for people in the picker.
@@ -24,7 +24,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             nameof(SelectedItem),
             typeof(object),
-            typeof(Picker), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
+            typeof(ItemPicker), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
 
         /// <summary>
         /// The item that was selected by people when using the picker.
@@ -38,7 +38,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
             typeof(IEnumerable<object>),
-            typeof(Picker),
+            typeof(ItemPicker),
             propertyChanged: ItemsSourceChanged);
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public static readonly BindableProperty SelectedItemCommandProperty = BindableProperty.Create(
             nameof(SelectedItemCommand),
             typeof(ICommand),
-            typeof(Picker));
+            typeof(ItemPicker));
 
         /// <summary>
         /// The command to be executed when people select an item from the picker.
@@ -80,7 +80,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
             nameof(HasSearchBar),
             typeof(bool),
-            typeof(Picker), defaultValue:true);
+            typeof(ItemPicker), defaultValue:true);
 
         /// <summary>
         /// Determines if a search bar should be visible when the picker is visible for people when in bottom sheet mode.

@@ -8,22 +8,27 @@
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <StackLayout>
-        <dui:Label Text="Mode: Context Menu"
+    <StackLayout Margin="15">
+        <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
-        <dui:Picker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                     Title="Person"
                     Mode="ContextMenu"
                     ItemsSource="{Binding People}"
-                    ItemDisplayProperty="DisplayName" />
+                    ItemDisplayProperty="DisplayName"/>
         
-        <dui:Label Text="Mode: Bottom Sheet"
+        <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
-        <dui:Picker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                     Title="Person"
                     Mode="BottomSheet"
                     ItemsSource="{Binding People}"
                     ItemDisplayProperty="DisplayName" />
-    
+        <dui:Label Text="DatePicker"
+                   Margin="5" />
+        <dui:DatePicker VerticalOptions="Start"
+                        Title="Birthday"
+                        Description="Please select a birthday"
+                        SelectedDate="{Binding SelectedBirthday}"/>
     </StackLayout>
 </dui:ContentPage>

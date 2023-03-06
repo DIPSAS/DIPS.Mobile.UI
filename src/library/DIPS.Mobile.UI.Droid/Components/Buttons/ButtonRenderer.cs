@@ -28,8 +28,6 @@ namespace DIPS.Mobile.UI.Droid.Components.Buttons
         private void UpdateBackground()
         {
             if (m_button == null) return;
-            
-            Control.SetRoundedRectangularBackground(m_button.CornerRadius, m_button.BackgroundColor);
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)

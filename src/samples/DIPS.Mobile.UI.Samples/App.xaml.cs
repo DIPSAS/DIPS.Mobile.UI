@@ -33,6 +33,7 @@ namespace DIPS.Mobile.UI.Samples
         protected override void OnResume()
         {
             // Handle when your app resumes
+            DUI.Library.RemoveViewsLocatedOnTopOfPage();
         }
     }
 }

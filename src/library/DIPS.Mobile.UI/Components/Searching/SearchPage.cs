@@ -42,7 +42,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             //TODO:If Mode: WhenKeyboardPressed
             m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
             m_searchBar.CancelCommand = new Command(OnCancel);
-            m_searchBar.CornerRadius = 0;
 
 
             //Result listview

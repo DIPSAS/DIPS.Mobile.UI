@@ -12,12 +12,25 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
         public Task PushBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
         public Task CloseCurrentBottomSheet()
         {
+            var currentBottomSheetFragment = CurrentBottomSheetFragment();
+            currentBottomSheetFragment?.Dismiss();
+            return Task.CompletedTask;
+        }
+
+        public bool IsBottomSheetOpen()
+        {
+            return CurrentBottomSheetFragment() != null;
+        }
+
+        private static BottomSheetFragment? CurrentBottomSheetFragment()
+        {
             var fragment = ((Activity)DUI.Context).GetFragmentManager().FindFragmentByTag(BottomSheetFragmentTag);
             if (fragment is BottomSheetFragment bottomSheetFragment)
             {
-                bottomSheetFragment.Dismiss();
+                return bottomSheetFragment;
             }
-            return Task.CompletedTask;
+
+            return null;
         }
     }
 }

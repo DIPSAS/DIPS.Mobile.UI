@@ -10,13 +10,13 @@ using Image = DIPS.Mobile.UI.Components.Images.Image;
 namespace DIPS.Mobile.UI.Components.Pickers
 {
     //TODO: Make sure its accessable
-    public partial class Picker : Frame
+    public partial class ItemPicker : Frame
     {
         private readonly Label m_selectedItemLabel;
         private bool m_layedOut;
         private readonly ContextMenuControl m_contextMenuControl;
 
-        public Picker()
+        public ItemPicker()
         {
             HorizontalOptions = LayoutOptions.Fill;
             VerticalOptions = LayoutOptions.Center;
@@ -98,7 +98,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         private static void SelectedItemChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
-            if (bindable is not Picker picker)
+            if (bindable is not ItemPicker picker)
             {
                 return;
             }
@@ -122,7 +122,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         private static void ItemsSourceChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
-            if (bindable is not Picker picker)
+            if (bindable is not ItemPicker picker)
             {
                 return;
             }
