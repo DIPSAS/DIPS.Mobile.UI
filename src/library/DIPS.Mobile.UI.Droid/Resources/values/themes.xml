@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Splash theme -->
+    <style name="DIPS.Mobile.UI.Style" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/color_primary_d_90</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/DIPS.Mobile.UI.PostStyle</item>
+    </style>
+
     <!-- Base theme applied no matter what API -->
-    <style name="DIPS.Mobile.UI.Style" parent="Theme.MaterialComponents.DayNight">
+    <style name="DIPS.Mobile.UI.PostStyle" parent="Theme.MaterialComponents.DayNight">
         <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
         <item name="windowNoTitle">true</item>
         <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette -->
@@ -15,8 +23,8 @@
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="windowActionModeOverlay">true</item>
-        
-       <!-- Globally set the shape appearance of all material design components -->
+
+        <!-- Globally set the shape appearance of all material design components -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.DIPS.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.DIPS.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.DIPS.LargeComponent</item>
