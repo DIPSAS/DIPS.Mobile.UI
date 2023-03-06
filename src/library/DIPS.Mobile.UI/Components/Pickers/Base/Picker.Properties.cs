@@ -1,13 +1,13 @@
 using Xamarin.Forms;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.Base
 {
-    public abstract partial class PickerBase
+    public abstract partial class Picker
     {
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             nameof(Title),
             typeof(string),
-            typeof(PickerBase));
+            typeof(Picker));
 
         /// <summary>
         /// The title of the context of what people are picking.

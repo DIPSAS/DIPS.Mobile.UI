@@ -16,13 +16,13 @@ namespace DIPS.Mobile.UI.iOS
 
         public static void Init()
         {
-            BottomSheetService.Instance = new iOSBottomSheetService();
+            UI.DUI.Library = new iOSLibraryService();
         }
 
         /// <summary>
         /// Gets the <see cref="Context"/>.
         /// </summary>
-        internal static UIViewController CurrentViewController
+        internal static UIViewController? CurrentViewController
         {
             get
             {
@@ -38,5 +38,6 @@ namespace DIPS.Mobile.UI.iOS
                 return currentViewController;
             }
         }
+        
     }
 }

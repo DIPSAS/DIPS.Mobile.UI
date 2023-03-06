@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
-    public partial class Picker
+    public partial class ItemPicker
     {
         private void AttachBottomSheet()
         {

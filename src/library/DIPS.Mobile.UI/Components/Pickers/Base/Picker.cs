@@ -7,13 +7,13 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.Base
 {
-    public abstract partial class PickerBase : ContentView
+    public abstract partial class Picker : ContentView
     {
         private readonly Label m_pickedItemLabel;
 
-        public PickerBase()
+        public Picker()
         {
             HorizontalOptions = LayoutOptions.Fill;
             VerticalOptions = LayoutOptions.Center;
@@ -71,6 +71,5 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             m_pickedItemLabel.Text = selectedText;
         }
-        
     }
 }

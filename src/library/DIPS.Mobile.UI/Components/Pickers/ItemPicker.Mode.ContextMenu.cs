@@ -7,18 +7,18 @@ using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
-    public partial class Picker
+    public partial class ItemPicker
     {
-        private static void UpdateContextMenuItems(Picker picker)
+        private static void UpdateContextMenuItems(ItemPicker itemPicker)
         {
-            if (picker.m_contextMenuControl == null || picker.SelectedItem == null ||
-                picker.m_contextMenuControl.ItemsSource.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
+            if (itemPicker.m_contextMenuControl == null || itemPicker.SelectedItem == null ||
+                itemPicker.m_contextMenuControl.ItemsSource.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
             {
                 return;
             }
 
             var contextMenuItem = contextMenuGroup.ItemsSource?.FirstOrDefault(i =>
-                i.Title != null && i.Title.Equals(picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty),
+                i.Title != null && i.Title.Equals(itemPicker.SelectedItem.GetPropertyValue(itemPicker.ItemDisplayProperty),
                     StringComparison.InvariantCultureIgnoreCase));
             if (contextMenuItem != null)
             {
@@ -26,25 +26,25 @@ namespace DIPS.Mobile.UI.Components.Pickers
             }
         }
 
-        private static void AddContextMenuItems(Picker picker)
+        private static void AddContextMenuItems(ItemPicker itemPicker)
         {
-            if (picker.ItemsSource == null || picker.m_contextMenuControl == null)
+            if (itemPicker.ItemsSource == null || itemPicker.m_contextMenuControl == null)
             {
                 return;
             }
 
             var group = new ContextMenuGroup() {IsCheckable = true};
-            foreach (var obj in picker.ItemsSource)
+            foreach (var obj in itemPicker.ItemsSource)
             {
-                var itemDisplayName = obj.GetPropertyValue(picker.ItemDisplayProperty);
+                var itemDisplayName = obj.GetPropertyValue(itemPicker.ItemDisplayProperty);
                 group.ItemsSource?.Add(new ContextMenuItem()
                 {
-                    Title = itemDisplayName, IsChecked = picker.SelectedItem == obj
+                    Title = itemDisplayName, IsChecked = itemPicker.SelectedItem == obj
                 });
             }
 
-            picker.m_contextMenuControl.ItemsSource.Clear();
-            picker.m_contextMenuControl.ItemsSource.Add(group);
+            itemPicker.m_contextMenuControl.ItemsSource.Clear();
+            itemPicker.m_contextMenuControl.ItemsSource.Add(group);
         }
 
         private void SetSelectedItemBasedOnContextMenuItem(ContextMenuItem item)

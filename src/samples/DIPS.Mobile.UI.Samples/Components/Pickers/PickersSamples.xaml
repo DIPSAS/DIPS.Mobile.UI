@@ -9,17 +9,17 @@
     </dui:ContentPage.BindingContext>
     
     <StackLayout Margin="15">
-        <dui:Label Text="Picker, Mode: Context Menu"
+        <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
-        <dui:Picker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                     Title="Person"
                     Mode="ContextMenu"
                     ItemsSource="{Binding People}"
-                    ItemDisplayProperty="DisplayName" />
+                    ItemDisplayProperty="DisplayName"/>
         
-        <dui:Label Text="Picker, Mode: Bottom Sheet"
+        <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
-        <dui:Picker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                     Title="Person"
                     Mode="BottomSheet"
                     ItemsSource="{Binding People}"
@@ -27,7 +27,8 @@
         <dui:Label Text="DatePicker"
                    Margin="5" />
         <dui:DatePicker VerticalOptions="Start"
-                    Title="Birthday"
-                    Description="Please select a birthday"/>
+                        Title="Birthday"
+                        Description="Please select a birthday"
+                        SelectedDate="{Binding SelectedBirthday}"/>
     </StackLayout>
 </dui:ContentPage>

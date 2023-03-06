@@ -1,17 +1,13 @@
 using System;
 using System.ComponentModel;
+using Android.App;
 using Android.Content;
-using DIPS.Mobile.UI.Components.Pickers;
-using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Droid.Components.BottomSheets;
 using Google.Android.Material.DatePicker;
-using Java.Text;
-using Java.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using DatePickerRenderer = DIPS.Mobile.UI.Droid.Components.Pickers.DatePickerRenderer;
 using DUIDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePicker;
-using Object = Java.Lang.Object;
-using TimeZone = Java.Util.TimeZone;
 
 [assembly: ExportRenderer(typeof(DUIDatePicker), typeof(DatePickerRenderer))]
 
@@ -26,6 +22,21 @@ namespace DIPS.Mobile.UI.Droid.Components.Pickers
         public DatePickerRenderer(Context context) : base(context)
         {
         }
+        
+        internal static bool IsOpen()
+        {
+            var fragment = ((Activity)DUI.Context).GetFragmentManager().FindFragmentByTag(DatePickerTag);
+            return fragment is MaterialDatePicker;
+        }
+        
+        internal static void Close()
+        {
+            var fragment = ((Activity)DUI.Context).GetFragmentManager().FindFragmentByTag(DatePickerTag);
+            if (fragment is MaterialDatePicker datePickerFragment)
+            {
+                datePickerFragment.Dismiss();
+            }
+        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
@@ -35,7 +46,6 @@ namespace DIPS.Mobile.UI.Droid.Components.Pickers
                 if (e.NewElement is DUIDatePicker datePicker)
                 {
                     m_duiDatePicker = datePicker;
-                    
                 }
             }
         }

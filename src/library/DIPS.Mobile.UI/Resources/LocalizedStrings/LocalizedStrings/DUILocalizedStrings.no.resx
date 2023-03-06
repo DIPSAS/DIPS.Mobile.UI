@@ -23,4 +23,7 @@
     <data name="Cancel" xml:space="preserve">
         <value>Avbryt</value>
     </data>
+    <data name="Done" xml:space="preserve">
+        <value>Ferdig</value>
+    </data>
 </root>

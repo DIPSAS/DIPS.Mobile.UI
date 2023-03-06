@@ -11,30 +11,30 @@ namespace DIPS.Mobile.UI.Components.Pickers
 {
     public class PickerBottomSheet : BottomSheet
     {
-        private readonly Picker m_picker;
+        private readonly ItemPicker m_itemPicker;
         private List<SelectableItem> m_items;
         private readonly List<SelectableItem> m_originalItems;
         private readonly SearchBar m_searchBar;
         private readonly ListView m_listView;
 
-        public PickerBottomSheet(Picker picker)
+        public PickerBottomSheet(ItemPicker itemPicker)
         {
-            m_picker = picker;
+            m_itemPicker = itemPicker;
             m_originalItems = new List<SelectableItem>();
-            if (m_picker.ItemsSource != null)
+            if (m_itemPicker.ItemsSource != null)
             {
-                foreach (var item in m_picker.ItemsSource)
+                foreach (var item in m_itemPicker.ItemsSource)
                 {
-                    m_originalItems.Add(new SelectableItem(item.GetPropertyValue(m_picker.ItemDisplayProperty),
-                        item == m_picker.SelectedItem,
+                    m_originalItems.Add(new SelectableItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
+                        item == m_itemPicker.SelectedItem,
                         new Command(() =>
                         {
-                            if (m_picker.SelectedItem == item) //Reason we have to guard is because the items get recreated if people use the search bar, the item that was selected will get re-selected and it will close the sheet if that happens.
+                            if (m_itemPicker.SelectedItem == item) //Reason we have to guard is because the items get recreated if people use the search bar, the item that was selected will get re-selected and it will close the sheet if that happens.
                             {   
                                 return;
                             }
 
-                            m_picker.SelectedItem = item;
+                            m_itemPicker.SelectedItem = item;
                             Close();
                         })));
                 }
@@ -50,7 +50,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 Margin = 10 //TODO: Use DesignSystem
             };
 
-            if (m_picker.HasSearchBar)
+            if (m_itemPicker.HasSearchBar)
             {
                 m_listView.Header = string.Empty;
                 m_listView.HeaderTemplate = new DataTemplate(() => m_searchBar);

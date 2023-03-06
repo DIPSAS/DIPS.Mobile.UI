@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Input;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Xamarin.Forms;
 
@@ -24,7 +25,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             nameof(SelectedDate),
             typeof(DateTime),
-            typeof(DatePicker), propertyChanged: OnSelectedDateChanged);
+            typeof(DatePicker), propertyChanged: OnSelectedDateChanged, defaultBindingMode:BindingMode.TwoWay);
 
         /// <summary>
         /// The date people selected from the date picker.
@@ -33,6 +34,25 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             get => (DateTime)GetValue(SelectedDateProperty);
             set => SetValue(SelectedDateProperty, value);
+        }
+
+        public static readonly BindableProperty SelectedDateCommandProperty = BindableProperty.Create(
+            nameof(SelectedDateCommand),
+            typeof(ICommand),
+            typeof(DatePicker));
+
+        /// <summary>
+        /// The event to be raised when people selected a date from the picker.
+        /// </summary>
+        public event EventHandler<object>? DidSelectDate;
+        
+        /// <summary>
+        /// The command to be executed when people selected a date from the date picker.
+        /// </summary>
+        public ICommand SelectedDateCommand
+        {
+            get => (ICommand)GetValue(SelectedDateCommandProperty);
+            set => SetValue(SelectedDateCommandProperty, value);
         }
 
         public static readonly BindableProperty SelectedDateDisplayFormat = BindableProperty.Create(

@@ -43,10 +43,9 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
             var control = Xamarin.Forms.Platform.iOS.Platform.CreateRenderer(this);
             if (control != null)
             {
-                // SE PÅ HVORFOR CONTENT LIGGER UNDER GRABBER!
                 Xamarin.Forms.Platform.iOS.Platform.SetRenderer(this, control);
                 var screenWidth = UIScreen.MainScreen.Bounds.Width;
-                var screenHeight = UIScreen.MainScreen.Bounds.Height-40;
+                var screenHeight = UIScreen.MainScreen.Bounds.Height;
                 control.SetElementSize(control.GetDesiredSize(screenWidth, screenHeight).Request);
                 m_viewController = control.ViewController;
 

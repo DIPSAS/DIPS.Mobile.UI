@@ -47,7 +47,7 @@ namespace DIPS.Mobile.UI.Droid
 
         public static void Init()
         {
-            BottomSheetService.Instance = new AndroidBottomSheetService();
+            UI.DUI.Library = new AndroidLibraryService();
         }
     }
 }

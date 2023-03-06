@@ -29,5 +29,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <returns></returns>
         Task CloseCurrentBottomSheet();
+
+        bool IsBottomSheetOpen();
     }
 }

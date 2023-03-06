@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
     public class PickerSamplesViewModel : INotifyPropertyChanged
     {
         private Person m_selectedPerson;
+        private DateTime m_selectedBirthday;
 
         public PickerSamplesViewModel()
         {
             People = SampleDataStorage.People;
             PersonSelectedCommand = new Command<Person>(PersonSelected);
+            m_selectedBirthday = new DateTime(1989,01,28);
         }
 
         private void PersonSelected(Person person)
@@ -32,6 +35,12 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         {
             get => m_selectedPerson;
             set => PropertyChanged?.RaiseWhenSet(ref m_selectedPerson, value);
+        }
+
+        public DateTime SelectedBirthday
+        {
+            get => m_selectedBirthday;
+            set => PropertyChanged?.RaiseWhenSet(ref m_selectedBirthday, value);
         }
     }
 }
