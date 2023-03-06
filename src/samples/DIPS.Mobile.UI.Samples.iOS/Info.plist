@@ -45,5 +45,10 @@
 	</dict>
 	<key>MinimumOSVersion</key>
 	<string>14.0.0</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string></string>
+	</dict>
 </dict>
 </plist>

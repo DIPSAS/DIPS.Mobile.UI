@@ -1,10 +1,13 @@
 using System;
+using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
+using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Droid.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Colors;
-using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using Application = Xamarin.Forms.Application;
 
 namespace DIPS.Mobile.UI.Droid
 {
@@ -45,9 +48,11 @@ namespace DIPS.Mobile.UI.Droid
             return id > 0 ? id : null;
         }
 
-        public static void Init()
+        public static void Init(Activity activity)
         {
+            SplashScreen.InstallSplashScreen(activity);
             UI.DUI.Library = new AndroidLibraryService();
         }
+
     }
 }
