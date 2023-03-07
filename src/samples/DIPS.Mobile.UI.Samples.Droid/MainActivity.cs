@@ -31,15 +31,5 @@ namespace DIPS.Mobile.UI.Samples.Droid
                 
             };
         }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-        }
     }
 }
