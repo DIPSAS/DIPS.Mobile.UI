@@ -4,7 +4,6 @@
     <style name="DIPS.Mobile.UI.Style" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/color_primary_d_90</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
-        <item name="android:windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/DIPS.Mobile.UI.PostStyle</item>
     </style>
 
