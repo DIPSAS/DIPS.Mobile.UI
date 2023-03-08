@@ -14,12 +14,12 @@ namespace DIPS.Mobile.UI.Droid
 {
     public class DUI
     {
-        private static Context s_context;
+        private static Context? s_context;
 
         /// <summary>
         /// Gets the <see cref="Context"/>.
         /// </summary>
-        internal static Context Context
+        public static Context Context
         {
             get
             {
