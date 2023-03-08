@@ -20,9 +20,9 @@ namespace DIPS.Mobile.UI.iOS
         }
 
         /// <summary>
-        /// Gets the <see cref="Context"/>.
+        /// Gets the current presented view controller
         /// </summary>
-        internal static UIViewController? CurrentViewController
+        public static UIViewController? CurrentViewController
         {
             get
             {

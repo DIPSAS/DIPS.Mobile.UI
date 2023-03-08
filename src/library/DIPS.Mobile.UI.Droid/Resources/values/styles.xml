@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ShapeAppearance.DIPS.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <style name="DIPS.ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
 
-    <style name="ShapeAppearance.DIPS.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <style name="DIPS.ShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
 
-    <style name="ShapeAppearance.DIPS.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <style name="DIPS.ShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+    </style>
+    
+
+    <style name="DIPS.ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/DIPS.MaterialAlertDialog.App</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DIPS.NegativeButtonStyle</item>
+    </style>
+
+    <style name="DIPS.MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/DIPS.ShapeAppearance.LargeComponent</item>
+    </style>
+    
+    <style name="DIPS.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarNegativeButtonStyle">@style/DIPS.NegativeButtonStyle</item>
+    </style>
+
+    <style name="DIPS.NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@android:color/holo_red_light</item>
     </style>
 </resources>

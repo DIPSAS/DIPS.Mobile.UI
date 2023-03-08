@@ -83,7 +83,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                             if (m_sheetPresentationController.PrefersGrabberVisible)
                             {
                                 //Move top down 10 pixels to make space for the grabber
-                                Padding = new Thickness(0, 10, 0, 0);
+                                Padding = new Thickness(0, 20, 0, 0);
                             }
                         }
                     }

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using AndroidX.AppCompat.App;
 using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Droid.Components.BottomSheets;
@@ -13,12 +14,12 @@ namespace DIPS.Mobile.UI.Droid
 {
     public class DUI
     {
-        private static Context s_context;
+        private static Context? s_context;
 
         /// <summary>
         /// Gets the <see cref="Context"/>.
         /// </summary>
-        internal static Context Context
+        public static Context Context
         {
             get
             {
