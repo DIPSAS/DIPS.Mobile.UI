@@ -49,7 +49,7 @@ namespace DIPS.Mobile.UI.Droid
             return id > 0 ? id : null;
         }
 
-        public static void Init(Activity activity, bool supportDarkMode = true)
+        public static void Init(Activity activity)
         {
             SplashScreen.InstallSplashScreen(activity);
             UI.DUI.Library = new AndroidLibraryService();
