@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using AndroidX.AppCompat.App;
 using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Droid.Components.BottomSheets;
@@ -48,7 +49,7 @@ namespace DIPS.Mobile.UI.Droid
             return id > 0 ? id : null;
         }
 
-        public static void Init(Activity activity)
+        public static void Init(Activity activity, bool supportDarkMode = true)
         {
             SplashScreen.InstallSplashScreen(activity);
             UI.DUI.Library = new AndroidLibraryService();
