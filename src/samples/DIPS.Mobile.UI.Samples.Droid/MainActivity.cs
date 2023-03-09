@@ -23,6 +23,7 @@ namespace DIPS.Mobile.UI.Samples.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             DIPS.Mobile.UI.Droid.DUI.Init(this); //Initialize DIPS.Mobile.UI
+            DIPS.Mobile.UI.Samples.NativeTesting.Instance = new NativeTesting();
             base.OnCreate(savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
