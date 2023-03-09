@@ -21,7 +21,7 @@ private static string NugetTestAndroidPath = Path.Combine(RootDir, "src", "tests
 private static string NugetTestiOSPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.iOS");
 private static string OutputDir = Path.Combine(RootDir, "output");
 
-private static string NugetVersion = "1.0.0";
+private static string NugetVersion = "1.1.0";
 
 AsyncStep ci = async () =>
 {
