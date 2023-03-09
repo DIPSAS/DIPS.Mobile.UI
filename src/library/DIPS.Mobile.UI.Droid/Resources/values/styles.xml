@@ -18,18 +18,9 @@
 
     <style name="DIPS.ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/DIPS.MaterialAlertDialog.App</item>
-        <item name="buttonBarNegativeButtonStyle">@style/DIPS.NegativeButtonStyle</item>
     </style>
 
     <style name="DIPS.MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
         <item name="shapeAppearance">@style/DIPS.ShapeAppearance.LargeComponent</item>
-    </style>
-    
-    <style name="DIPS.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="buttonBarNegativeButtonStyle">@style/DIPS.NegativeButtonStyle</item>
-    </style>
-
-    <style name="DIPS.NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@android:color/holo_red_light</item>
     </style>
 </resources>

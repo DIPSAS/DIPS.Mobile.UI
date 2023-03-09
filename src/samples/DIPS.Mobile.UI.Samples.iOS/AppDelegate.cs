@@ -21,6 +21,7 @@ namespace DIPS.Mobile.UI.Samples.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
             DIPS.Mobile.UI.iOS.DUI.Init(); //Initialize DIPS.Mobile.UI
+            DIPS.Mobile.UI.Samples.NativeTesting.Instance = new NativeTesting();
             return base.FinishedLaunching(app, options);
         }
     }
