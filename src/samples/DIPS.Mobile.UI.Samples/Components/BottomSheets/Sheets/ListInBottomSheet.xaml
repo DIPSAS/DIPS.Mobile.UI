@@ -2,7 +2,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.ListInBottomSheet">
-
     <Grid RowDefinitions="Auto, *">
         <dui:ListView Grid.Row="1"
                       SelectionMode="None"

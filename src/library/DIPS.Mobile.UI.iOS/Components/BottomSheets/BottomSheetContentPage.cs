@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using UIKit;
@@ -26,6 +27,31 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
         private void SubscribeEvents()
         {
             m_bottomSheet.WillClose += Close;
+        }
+
+        protected override void LayoutChildren(double x, double y, double width, double height)
+        {
+            base.LayoutChildren(x, y, width, height);
+            TrySetBottomSheetToFitToContent();
+        }
+
+        private void TrySetBottomSheetToFitToContent()
+        {
+            
+            if (!m_bottomSheet.ShouldFitToContent || UIDevice.CurrentDevice.CheckSystemVersion(16, 0)) //iOS version < 16.0 and bottom sheet should not fit to content
+            {
+                return;
+            }
+
+            
+            if (m_sheetPresentationController is {SelectedDetentIdentifier: UISheetPresentationControllerDetentIdentifier.Medium})
+            {
+                if (Content.Height > Height / 2) //if the content is larger than half the screen when the detent is medium, it means that something is outside of bounds
+                {
+                    m_sheetPresentationController.SelectedDetentIdentifier =
+                        UISheetPresentationControllerDetentIdentifier.Large; //Go full screen
+                }
+            }
         }
 
         private void UnSubscribeEvents()
@@ -60,13 +86,25 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                         {
                             if (m_bottomSheet.IsDraggable)
                             {
+                                var prefferedDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
+                                var prefferedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
+                                if (m_bottomSheet.ShouldFitToContent &&
+                                    UIDevice.CurrentDevice.CheckSystemVersion(16, 0))
+                                {
+                                    prefferedDetent = UISheetPresentationControllerDetent.Create("prefferedDetent",
+                                        context =>
+                                        {
+                                            return (nfloat)m_bottomSheet.Bounds.Height;
+                                        });
+                                    prefferedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;
+                                }
+                                
                                 m_sheetPresentationController.Detents = new[]
                                 {
-                                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                                    prefferedDetent,
                                     UISheetPresentationControllerDetent.CreateLargeDetent()
                                 };
-                                m_sheetPresentationController.SelectedDetentIdentifier =
-                                    UISheetPresentationControllerDetentIdentifier.Medium;
+                                m_sheetPresentationController.SelectedDetentIdentifier = prefferedDetentIdentifier;
                             }
                             else
                             {
