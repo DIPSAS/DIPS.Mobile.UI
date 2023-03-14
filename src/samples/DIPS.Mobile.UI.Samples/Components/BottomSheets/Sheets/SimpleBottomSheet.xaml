@@ -4,7 +4,9 @@
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.SimpleBottomSheetView"
                  WillClose="FirstBottomSheetView_OnWillClose"
                  DidClose="FirstBottomSheetView_OnDidClose"
-                 >
+                 ShouldFitToContent="True"
+                 Padding="30"
+                 IsDraggable="False">
     <Grid RowDefinitions="Auto, Auto">
         <dui:Label Grid.Row="0"
                    Text="My fancy content with two buttons"

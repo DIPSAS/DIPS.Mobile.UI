@@ -20,6 +20,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(IsDraggableProperty, value);
         }
 
+        public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
+            nameof(ShouldFitToContent),
+            typeof(bool),
+            typeof(BottomSheet));
+
+        /// <summary>
+        /// Determines if the bottom sheet should fit the content of the bottom sheet.
+        /// </summary>
+        /// <remarks>Will work every time on Android, will only work for iOS equal or higher than 16.0. Will go to fullscreen if iOS version is less than 16.0 and the content is bigger than half the size of the screen.</remarks>
+        public bool ShouldFitToContent
+        {
+            get => (bool)GetValue(ShouldFitToContentProperty);
+            set => SetValue(ShouldFitToContentProperty, value);
+        }
+
         public event EventHandler? WillClose;
         public event EventHandler? DidClose;
         protected virtual void OnDidClose() { }

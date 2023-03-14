@@ -10,6 +10,7 @@ using DIPS.Mobile.UI.Resources.Colors;
 using Google.Android.Material.BottomSheet;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using RelativeLayout = Android.Widget.RelativeLayout;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
@@ -42,16 +43,9 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
         {
-            var height = 0;
-            if (m_context.Resources?.DisplayMetrics != null)
-            {
-                height = m_context.Resources.DisplayMetrics.HeightPixels;
-            }
-
             var nestedScrollView =
                 new NestedScrollView(
                     m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
-            nestedScrollView.SetMinimumHeight(height);
             var grid = new Grid()
             {
                 RowSpacing = 0,
@@ -61,13 +55,16 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                 }
             };
 
-            
+
             //Add a handle, with a innerGrid that works as a big hit box for the user to hit
             //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
             if (m_bottomSheetBehavior.Draggable)
             {
-                var innerGrid = new Grid(){Padding = new Thickness(0,10)};
-                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer(){Command = new Command(ToggleBottomSheetIfPossible)});
+                var innerGrid = new Grid() {Padding = new Thickness(0, 10)};
+                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(ToggleBottomSheetIfPossible)
+                });
                 var handle = new BoxView()
                 {
                     HeightRequest = 4,
@@ -78,12 +75,15 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     VerticalOptions = LayoutOptions.Center
                 };
                 innerGrid.Children.Add(handle);
-                grid.Children.Add(innerGrid, 0, 0);    
+                grid.Children.Add(innerGrid, 0, 0);
             }
+
             grid.Children.Add(m_bottomSheet, 0, 1);
-            
+
             nestedScrollView.AddView(new ContainerView(m_context, grid));
-            
+            nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent);
+
             return nestedScrollView;
         }
 
@@ -92,11 +92,10 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             if (Dialog is BottomSheetDialog bottomSheetDialog)
             {
                 var bottomSheetBehavior = bottomSheetDialog.Behavior;
-                var  collapsed = bottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
+                var collapsed = bottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
                 bottomSheetBehavior.State =
                     collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
             }
-            
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -106,13 +105,19 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
                 bottomSheetDialog.Behavior.Draggable = m_bottomSheet.IsDraggable;
-                if (m_context.Resources?.DisplayMetrics != null)
+                bottomSheetDialog.Behavior.FitToContents = m_bottomSheet.ShouldFitToContent;
+                
+                if (!m_bottomSheet.ShouldFitToContent)
                 {
-                    var fullScreenHeight = m_context.Resources.DisplayMetrics.HeightPixels;
-                    bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight / 2;
+                    var fullScreenHeight = m_context.Resources?.DisplayMetrics?.HeightPixels;
+                    if (fullScreenHeight != null)
+                    {
+                        bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
+                    }    
                 }
+                
             }
-            
+
             dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
 
             return dialog;
