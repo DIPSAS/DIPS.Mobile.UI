@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = (new Command(() => _ = Application.Current.PushBottomSheet(new PickerBottomSheet(this))))
+                Command = (new Command(() => _ = BottomSheetService.Current.OpenBottomSheet(new PickerBottomSheet(this))))
             });
         }
     }

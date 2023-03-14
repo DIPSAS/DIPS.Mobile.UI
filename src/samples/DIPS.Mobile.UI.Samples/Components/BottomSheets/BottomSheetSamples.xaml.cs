@@ -18,14 +18,5 @@ namespace DIPS.Mobile.UI.Samples.Components.BottomSheets
         {
             InitializeComponent();
         }
-
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            if (propertyName == "Padding")
-            {
-                
-            }
-        }
     }
 }
