@@ -9,14 +9,14 @@ namespace DIPS.Mobile.UI.Droid
     {
         public AndroidLibraryService()
         {
-            BottomSheetService.Instance = new AndroidBottomSheetService();    
+            BottomSheetService.Current = new AndroidBottomSheetService();    
         }
         
         public async Task RemoveViewsLocatedOnTopOfPage()
         {
-            if (BottomSheetService.Instance.IsBottomSheetOpen())
+            if (BottomSheetService.Current.IsBottomSheetOpen())
             {
-                await BottomSheetService.Instance.CloseCurrentBottomSheet();    
+                await BottomSheetService.Current.CloseCurrentBottomSheet();    
             }
 
             if (DatePickerRenderer.IsOpen())

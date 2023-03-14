@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
     internal class AndroidBottomSheetService : IBottomSheetService
     {
         internal const string BottomSheetFragmentTag = nameof(BottomSheetFragment);
-        public Task PushBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
+        public Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
         public Task CloseCurrentBottomSheet()
         {
             var currentBottomSheetFragment = CurrentBottomSheetFragment();

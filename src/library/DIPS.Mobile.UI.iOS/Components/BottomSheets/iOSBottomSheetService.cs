@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
     internal class iOSBottomSheetService : IBottomSheetService
     {
         internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage); 
-        public Task PushBottomSheet(BottomSheet bottomSheet) => new BottomSheetContentPage(bottomSheet).Open();
+        public Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetContentPage(bottomSheet).Open();
         public async Task CloseCurrentBottomSheet()
         {
             var potentialBottomSheetUiViewController = GetCurrentBottomSheetUiViewController();

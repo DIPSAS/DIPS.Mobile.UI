@@ -14,13 +14,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             return new Command(() =>
             {
-                if (BottomSheetType != null)
+                if (BottomSheetType == null)
                 {
-                    var activatedObject = Activator.CreateInstance(BottomSheetType);
-                    if (activatedObject is BottomSheet theBottomSheet)
-                    {
-                        Application.Current.PushBottomSheet(theBottomSheet);
-                    }
+                    return;
+                }
+
+                var activatedObject = Activator.CreateInstance(BottomSheetType);
+                if (activatedObject is BottomSheet theBottomSheet)
+                {
+                    BottomSheetService.Current.OpenBottomSheet(theBottomSheet);
                 }
             });
         }

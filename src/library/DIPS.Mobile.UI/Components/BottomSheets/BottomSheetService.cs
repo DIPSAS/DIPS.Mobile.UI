@@ -11,7 +11,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <summary>
         /// The instance set by the platform the app is running under.
         /// </summary>
-        public static IBottomSheetService Instance { get; internal set; }
+        public static IBottomSheetService Current { get; internal set; }
         #nullable enable
     }
     
@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <param name="view">The view to display inside the bottom sheet.</param>
         /// <returns></returns>
-        Task PushBottomSheet(BottomSheet view);
+        Task OpenBottomSheet(BottomSheet view);
 
         /// <summary>
         /// Closes the current presented bottom sheet.
