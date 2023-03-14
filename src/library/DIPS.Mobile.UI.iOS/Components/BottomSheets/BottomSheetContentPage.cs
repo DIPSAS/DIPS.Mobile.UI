@@ -30,29 +30,6 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
             m_bottomSheet.WillClose += Close;
         }
 
-        private void TrySetBottomSheetToFitToContent()
-        {
-            
-            if (!m_bottomSheet.ShouldFitToContent || UIDevice.CurrentDevice.CheckSystemVersion(16, 0)) //iOS version < 16.0 and bottom sheet should not fit to content
-            {
-                return;
-            }
-
-
-            if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
-            {
-                if (m_sheetPresentationController is {SelectedDetentIdentifier: UISheetPresentationControllerDetentIdentifier.Medium})
-                {
-                    if (Content.Height > Height / 2) //if the content is larger than half the screen when the detent is medium, it means that something is outside of bounds
-                    {
-                       
-                        m_sheetPresentationController.SelectedDetentIdentifier =
-                            UISheetPresentationControllerDetentIdentifier.Large; //Go full screen
-                    }
-                }
-            }
-        }
-
         private void UnSubscribeEvents()
         {
             m_bottomSheet.WillClose -= Close;
@@ -72,12 +49,11 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                 var screenWidth = UIScreen.MainScreen.Bounds.Width;
                 var screenHeight = UIScreen.MainScreen.Bounds.Height;
                 control.SetElementSize(control.GetDesiredSize(screenWidth, screenHeight).Request);
-                TrySetBottomSheetToFitToContent();
                 m_viewController = control.ViewController;
 
                 m_viewController.RestorationIdentifier = iOSBottomSheetService.BottomSheetRestorationIdentifier;
                 m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-                if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
+                if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0)) //Can use bottom sheet
                 {
                     if (m_viewController.SheetPresentationController != null)
                     {
@@ -89,7 +65,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 
                         if (m_bottomSheet.ShouldFitToContent)
                         {
-                            if (UIDevice.CurrentDevice.CheckSystemVersion(16, 0))
+                            if (UIDevice.CurrentDevice.CheckSystemVersion(16, 0)) //Can fit to content by setting a custom detent
                             {
                                 prefferedDetent = UISheetPresentationControllerDetent.Create("prefferedDetent",
                                     _ =>
@@ -98,7 +74,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                                     });
                                 prefferedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;    
                             }
-                            else if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
+                            else if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0)) //Select large detent if the content is bigger than medium detent
                             {
                                 if (Content.Height > Height / 2) //if the content is larger than half the screen when the detent is medium, it means that something is outside of bounds
                                 {
@@ -114,7 +90,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                             prefferedDetent,
                         };
                         
-                        if (m_bottomSheet.IsDraggable)
+                        if (m_bottomSheet.IsDraggable) //Add grabber 
                         {
                             m_sheetPresentationController.PrefersGrabberVisible = true;
                             Padding = new Thickness(0, 20, 0, 0); //Move top down 10 pixels to make space for the grabber

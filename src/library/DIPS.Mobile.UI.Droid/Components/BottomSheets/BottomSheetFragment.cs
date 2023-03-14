@@ -87,11 +87,6 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             return nestedScrollView;
         }
 
-        public override void OnStart()
-        {
-            base.OnStart();
-        }
-
         private void ToggleBottomSheetIfPossible()
         {
             if (Dialog is BottomSheetDialog bottomSheetDialog)
