@@ -104,7 +104,6 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
-                bottomSheetDialog.Behavior.Draggable = m_bottomSheet.IsDraggable;
                 bottomSheetDialog.Behavior.FitToContents = m_bottomSheet.ShouldFitToContent;
                 
                 if (!m_bottomSheet.ShouldFitToContent)
