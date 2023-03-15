@@ -84,18 +84,16 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                                 }
                             }
                         }
-                        
-                        m_sheetPresentationController.Detents = new[]
-                        {
-                            prefferedDetent,
-                        };
-                        
-                        if (m_bottomSheet.IsDraggable) //Add grabber 
-                        {
-                            m_sheetPresentationController.PrefersGrabberVisible = true;
-                            Padding = new Thickness(0, 20, 0, 0); //Move top down 10 pixels to make space for the grabber
-                        }
-                            
+
+
+                        m_sheetPresentationController.Detents = (m_bottomSheet.ShouldFitToContent)
+                            ? new[] {prefferedDetent}
+                            : new[] {prefferedDetent, UISheetPresentationControllerDetent.CreateLargeDetent(),};
+
+                        //Add grabber
+                        m_sheetPresentationController.PrefersGrabberVisible = true;
+                        Padding = new Thickness(0, 20, 0, 0); //Move top down 10 pixels to make space for the grabber
+
                         m_sheetPresentationController.SelectedDetentIdentifier = prefferedDetentIdentifier;
                         
                         m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
