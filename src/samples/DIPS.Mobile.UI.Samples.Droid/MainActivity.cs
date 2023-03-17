@@ -16,7 +16,7 @@ namespace DIPS.Mobile.UI.Samples.Droid
     [Activity(Label = "DIPS.Mobile.UI.Samples", Theme = "@style/DIPS.Mobile.UI.Style", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [MetaData("android.app.default_searchable", Value = ".DUISearchableActivity")]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
