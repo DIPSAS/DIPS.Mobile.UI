@@ -114,7 +114,13 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                         bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
                     }    
                 }
-                
+            }
+            
+            var window = ((Activity)Context).Window;
+            if (window is {Attributes: { }}) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
+            {
+                var flags = window.Attributes.Flags;
+                dialog.Window?.SetFlags(flags, flags);
             }
 
             dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
