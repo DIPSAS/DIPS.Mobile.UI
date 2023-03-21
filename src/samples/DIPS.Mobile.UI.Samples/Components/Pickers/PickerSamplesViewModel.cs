@@ -29,16 +29,16 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         public IEnumerable<Person> People { get; }
         public ICommand PersonSelectedCommand { get; }
 
-        public Person SelectedPerson
-        {
-            get => m_selectedPerson;
-            set => Set(ref m_selectedPerson, value);
-        }
+public Person SelectedPerson
+{
+    get => m_selectedPerson;
+    set => RaiseWhenSet(ref m_selectedPerson, value);
+}
 
         public DateTime SelectedBirthday
         {
             get => m_selectedBirthday;
-            set => Set(ref m_selectedBirthday, value);
+            set => RaiseWhenSet(ref m_selectedBirthday, value);
         }
     }
 }

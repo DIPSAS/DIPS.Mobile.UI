@@ -32,7 +32,7 @@ namespace DIPS.Mobile.UI.Samples.Components.Searching
         public List<Person> People
         {
             get => m_people;
-            set => Set(ref m_people, value);
+            set => RaiseWhenSet(ref m_people, value);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace DIPS.Mobile.UI.MVVM
         /// <param name="propertyName">A nullable property name, if left empty it will pick the caller member name</param>
         /// <remarks>This method does a equality check to see if the value has changed, if you need to notify property changed when the value has not changed, please use <see cref="RaisePropertyChanged(string)"/></remarks>
         /// <returns>A boolean value to indicate that the property changed has been invoked</returns>
-        public bool Set<TS>(ref TS backingStore, TS value, [CallerMemberName] string propertyName = "")
+        public bool RaiseWhenSet<TS>(ref TS backingStore, TS value, [CallerMemberName] string propertyName = "")
          {
              if (EqualityComparer<TS>.Default.Equals(backingStore, value))
              {
