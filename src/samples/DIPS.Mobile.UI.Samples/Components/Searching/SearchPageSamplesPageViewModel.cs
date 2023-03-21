@@ -4,12 +4,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Samples.SampleData;
 using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Samples.Components.Searching
 {
-    public class SearchPageSamplesPageViewModel : INotifyPropertyChanged
+    public class SearchPageSamplesPageViewModel : ViewModel
     {
         private List<Person> m_people;
         private readonly List<Person> m_originalPeople;
@@ -36,11 +37,9 @@ namespace DIPS.Mobile.UI.Samples.Components.Searching
         public List<Person> People
         {
             get => m_people;
-            set => PropertyChanged.RaiseWhenSet(ref m_people, value);
+            set => Set(ref m_people, value);
         }
 
         public ICommand SearchCommand { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

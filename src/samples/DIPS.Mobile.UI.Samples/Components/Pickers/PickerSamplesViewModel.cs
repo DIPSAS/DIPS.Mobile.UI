@@ -4,12 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Samples.SampleData;
 using Xamarin.Forms;
 
 namespace DIPS.Mobile.UI.Samples.Components.Pickers
 {
-    public class PickerSamplesViewModel : INotifyPropertyChanged
+    public class PickerSamplesViewModel : ViewModel
     {
         private Person m_selectedPerson;
         private DateTime m_selectedBirthday;
@@ -25,22 +26,19 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         {
             //TODO: Do something with person
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public IEnumerable<Person> People { get; }
         public ICommand PersonSelectedCommand { get; }
 
         public Person SelectedPerson
         {
             get => m_selectedPerson;
-            set => PropertyChanged?.RaiseWhenSet(ref m_selectedPerson, value);
+            set => Set(ref m_selectedPerson, value);
         }
 
         public DateTime SelectedBirthday
         {
             get => m_selectedBirthday;
-            set => PropertyChanged?.RaiseWhenSet(ref m_selectedBirthday, value);
+            set => Set(ref m_selectedBirthday, value);
         }
     }
 }
