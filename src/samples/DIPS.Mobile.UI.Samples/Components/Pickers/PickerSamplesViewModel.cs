@@ -18,8 +18,8 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
         public PickerSamplesViewModel()
         {
             People = SampleDataStorage.People;
-            PersonSelectedCommand = new Command<Person>(PersonSelected);
-            m_selectedBirthday = new DateTime(1989,01,28);
+            SelectedPerson = People.FirstOrDefault();
+            SelectedBirthday = new DateTime(1989,01,28);
         }
 
         private void PersonSelected(Person person)
@@ -27,13 +27,12 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
             //TODO: Do something with person
         }
         public IEnumerable<Person> People { get; }
-        public ICommand PersonSelectedCommand { get; }
 
-public Person SelectedPerson
-{
-    get => m_selectedPerson;
-    set => RaiseWhenSet(ref m_selectedPerson, value);
-}
+        public Person SelectedPerson
+        {
+            get => m_selectedPerson;
+            set => RaiseWhenSet(ref m_selectedPerson, value);
+        }
 
         public DateTime SelectedBirthday
         {
