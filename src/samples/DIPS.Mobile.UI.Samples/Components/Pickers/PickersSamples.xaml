@@ -22,6 +22,7 @@
         <dui:ItemPicker VerticalOptions="Start"
                     Title="Person"
                     Mode="BottomSheet"
+                    SelectedItem="{Binding SelectedPerson}"
                     ItemsSource="{Binding People}"
                     ItemDisplayProperty="DisplayName" />
         <dui:Label Text="DatePicker"

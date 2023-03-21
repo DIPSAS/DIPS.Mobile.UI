@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Samples.SampleData;
 
 namespace DIPS.Mobile.UI.Samples.Components.Searching
 {
-    public class SearchBarSamplesViewModel : INotifyPropertyChanged
+    public class SearchBarSamplesViewModel : ViewModel
     {
         private List<Person> m_people;
         private readonly List<Person> m_originalPeople;
@@ -31,9 +32,7 @@ namespace DIPS.Mobile.UI.Samples.Components.Searching
         public List<Person> People
         {
             get => m_people;
-            set => PropertyChanged.RaiseWhenSet(ref m_people, value);
+            set => RaiseWhenSet(ref m_people, value);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
