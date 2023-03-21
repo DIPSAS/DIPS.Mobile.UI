@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.MVVM
     /// <summary>
     /// A view model base class to be used in a model-view-view-model applications,  based on the observable pattern implementing <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public class ViewModel : INotifyPropertyChanged
+    public abstract class ViewModel : INotifyPropertyChanged
     {
          /// <summary>
         /// Sets a value to a backing field if it passes a equality check and notifies property changed.
@@ -29,6 +29,7 @@ namespace DIPS.Mobile.UI.MVVM
              RaisePropertyChanged(propertyName);
              return true;
          }
+        
 
          /// <summary>
         /// Raises property changed for the property named <see cref="propertyName"/>
@@ -50,7 +51,7 @@ namespace DIPS.Mobile.UI.MVVM
                 RaisePropertyChanged(property);
             }
         }
-
+        
         public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.Samples.Components.Pickers
     {
         private Person m_selectedPerson;
         private DateTime m_selectedBirthday;
-
+        
         public PickerSamplesViewModel()
         {
             People = SampleDataStorage.People;
