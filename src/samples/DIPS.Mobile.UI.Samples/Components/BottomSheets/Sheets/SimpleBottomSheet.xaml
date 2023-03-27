@@ -4,55 +4,7 @@
                  x:Class="DIPS.Mobile.UI.Samples.Components.BottomSheets.Sheets.SimpleBottomSheetView"
                  WillClose="FirstBottomSheetView_OnWillClose"
                  DidClose="FirstBottomSheetView_OnDidClose"
-                 ShouldFitToContent="True"
-                 Padding="30">
-     <Grid Margin="10,15"
-          RowDefinitions="Auto, Auto, Auto, Auto, *"
-          RowSpacing="20">
-        <Label Grid.Row="0"
-               Text="This is new"
-               FontSize="Header"
-               FontAttributes="Bold"
-               HorizontalTextAlignment="Center"
-               VerticalOptions="CenterAndExpand"
-               HorizontalOptions="CenterAndExpand" />
-        <Image Grid.Row="1"
-               Source="{Binding ImageSource}"
-               HeightRequest="100"/>
-        <StackLayout Grid.Row="2" 
-                     Margin="16, 0"
-                     BindableLayout.ItemsSource="{Binding FeatureList}">
-               <BindableLayout.ItemTemplate>
-                      <DataTemplate x:DataType="{x:Type x:String}">
-                             <Label Text="{Binding ., StringFormat='&#x2022; {0}'}"
-                                    FontSize="Small"/>
-                      </DataTemplate>
-               </BindableLayout.ItemTemplate>
-        </StackLayout>
-        <Label Grid.Row="3"
-               Text="Read later"
-               FontSize="Micro"
-               Margin="16, 0"/>
-        <Grid Grid.Row="4"
-              ColumnDefinitions="Auto, *"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="FillAndExpand"
-              ColumnSpacing="16">
-               <Button Grid.Column="0"
-                            Text="Not now"
-                            TextColor="{dui:Colors color_system_black}"
-                            BackgroundColor="{dui:Colors color_neutral_05}"
-                            BorderColor="{dui:Colors color_primary_90}"
-                            Padding="28, 12"
-                            BorderWidth="1"
-                            CornerRadius="22"
-                            Command="{Binding CloseCommand}"/>
-               <dui:Button Grid.Column="1"
-                            Text="Now"
-                            Padding="28, 12"
-                            FontAttributes="Bold"
-                            CornerRadius="22"
-                            Command="{Binding NavigateToReleaseNotesPageCommand}"/>
-        </Grid>
-    </Grid>
+                 ShouldFitToContent="True">
+    <dui:Label Text="Hello bottom sheet!"
+               HorizontalOptions="Center" />
 </dui:BottomSheet>
