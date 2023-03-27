@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using UIKit;
@@ -70,7 +68,7 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
                                 prefferedDetent = UISheetPresentationControllerDetent.Create("prefferedDetent",
                                     _ =>
                                     {
-                                        return (nfloat)m_bottomSheet.Bounds.Height;
+                                        return (nfloat)(m_bottomSheet.Bounds.Height + Padding.Top+Padding.Bottom);
                                     });
                                 prefferedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;    
                             }
@@ -92,11 +90,19 @@ namespace DIPS.Mobile.UI.iOS.Components.BottomSheets
 
                         //Add grabber
                         m_sheetPresentationController.PrefersGrabberVisible = true;
-                        Padding = new Thickness(0, 20, 0, 0); //Move top down 10 pixels to make space for the grabber
 
                         m_sheetPresentationController.SelectedDetentIdentifier = prefferedDetentIdentifier;
                         
                         m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+
+                        var view = m_viewController.View;
+                        
+                        if (view != null)
+                        {
+                            var bottom = UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom != 0 ? 4 : 16; //TODO: Use DesignSystem
+                            Padding = new Thickness(0, 12, 0, bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
+                        }
+                        
                     }
                 }
             }
