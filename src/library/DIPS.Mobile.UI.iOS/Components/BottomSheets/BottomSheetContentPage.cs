@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using CoreGraphics;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using UIKit;
 using Xamarin.Forms;
