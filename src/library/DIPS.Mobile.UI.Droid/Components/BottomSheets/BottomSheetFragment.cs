@@ -48,6 +48,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             var grid = new Grid()
             {
+                Padding = new Thickness(0,0,0,8), //TODO: Use DesignSystem
                 RowSpacing = 0,
                 RowDefinitions = new RowDefinitionCollection()
                 {
@@ -60,7 +61,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
             if (m_bottomSheetBehavior.Draggable)
             {
-                var innerGrid = new Grid() {Padding = new Thickness(0, 10)};
+                var innerGrid = new Grid() {Padding = new Thickness(0, 8)}; //TODO Use DesignSystem
                 innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(ToggleBottomSheetIfPossible)
@@ -83,7 +84,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             nestedScrollView.AddView(new ContainerView(m_context, grid));
             nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
                 ViewGroup.LayoutParams.WrapContent);
-
+            
             return nestedScrollView;
         }
 
