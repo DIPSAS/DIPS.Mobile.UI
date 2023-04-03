@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:components="clr-namespace:DIPS.Mobile.UI.Components" xmlns:components1="clr-namespace:DIPS.Mobile.UI.Components;assembly=DIPS.Mobile.UI"
+            
+             x:Class="DIPS.Mobile.UI.Components.MainPage">
+    <components1:MyButton Text="Testing" Clicked="MyButton_Clicked" MyString="Test igjen"
+                         />
+
+</ContentPage>
