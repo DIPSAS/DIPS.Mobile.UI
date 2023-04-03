@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components;
+using DIPS.Mobile.UI.Components.MyCustomView;
 using Microsoft.Maui.Hosting;
 
 namespace DIPS.Mobile.UI;
@@ -12,7 +13,7 @@ public static class AppHostBuilderExtensions
     {
         builder.ConfigureMauiHandlers(handlers =>
         {
-            handlers.AddHandler(typeof(MyButton), typeof(MyButtonHandler));
+            handlers.AddHandler(typeof(MyCustomView), typeof(MyCustomViewHandler));
 
         });
         return builder;

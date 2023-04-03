@@ -1,11 +1,11 @@
-﻿namespace DIPS.Mobile.UI.Components;
+﻿namespace DIPS.Mobile.UI.Components.MyCustomView;
 
-public class MyButton : Button
+public class MyCustomView : View
 {
     public static readonly BindableProperty MyStringProperty = BindableProperty.Create(
             nameof(MyString),
             typeof(string),
-            typeof(MyButton));
+            typeof(MyCustomView));
 
     public string MyString
     {

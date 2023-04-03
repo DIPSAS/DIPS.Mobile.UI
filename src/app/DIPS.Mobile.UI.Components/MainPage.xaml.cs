@@ -1,4 +1,6 @@
-﻿namespace DIPS.Mobile.UI.Components;
+﻿using DIPS.Mobile.UI.Components.MyCustomView;
+
+namespace DIPS.Mobile.UI.Components;
 
 public partial class MainPage : ContentPage
 {
@@ -26,7 +28,7 @@ public partial class MainPage : ContentPage
 
     void MyButton_Clicked(System.Object sender, System.EventArgs e)
     {
-        if(sender is MyButton myButton)
+        if(sender is MyCustomView.MyCustomView myButton)
         {
             myButton.RunSomething();
         }

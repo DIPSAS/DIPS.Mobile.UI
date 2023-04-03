@@ -44,8 +44,6 @@
   </PropertyGroup>
     <ItemGroup>
       <Folder Include="Shared\Components" />
-      <Folder Include="Components\iOS\" />
-      <Folder Include="Components\Android\" />
     </ItemGroup>
 
     <!-- Android -->
