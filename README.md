@@ -10,6 +10,3 @@ The style resources in this library is generated in [DIPS.Mobile.DesignTokens](h
 
 ## Platform support
 This library supports Android and iOS. UWP / WPF for desktop is supported by a internal components library in DIPS.
-
-## MAUI support
-This project is still a Xamarin project, but will transition to MAUI once the timing is right for DIPS.
