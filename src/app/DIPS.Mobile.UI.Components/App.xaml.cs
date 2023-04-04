@@ -11,7 +11,7 @@ public partial class App : Application
         var shell = new Shell.Shell();
         var tabBar = new TabBar();
         var tab = new Tab();
-        tab.Items.Add(new ShellContent(){ContentTemplate = new DataTemplate(() => new MainPage())});
+        tab.Items.Add(new ShellContent(){ContentTemplate = new DataTemplate(() => new NewPage())});
         tabBar.Items.Add(tab);
         shell.Items.Add(tabBar);
         MainPage = shell;

@@ -98,7 +98,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
             var samples = new Dictionary<Func<Page>, Sample>();
             var types = Assembly.GetExecutingAssembly().GetTypes().OrderBy(t => t.Name);
             foreach (var type in types)
-            {
+            { 
                 if (type.GetCustomAttributes(typeof(TSample), true).Length > 0)
                 {
                     var sample = type.GetCustomAttributes(typeof(TSample), true).First() as TSample;
