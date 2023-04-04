@@ -52,15 +52,6 @@
       <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Platforms\iOS\MyAPI.cs">
-        <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
-      </Compile>
-      <Compile Update="Platforms\Android\MyAPI.cs">
-        <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
-      </Compile>
-    </ItemGroup>
-
     <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
@@ -87,6 +78,12 @@
     <!-- Windows -->
     <ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
         <Compile Remove="**\Windows\**\*.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+      <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Platforms\Android\Resources" />
     </ItemGroup>
 
 
