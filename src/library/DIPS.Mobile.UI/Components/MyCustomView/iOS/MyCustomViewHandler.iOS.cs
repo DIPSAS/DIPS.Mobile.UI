@@ -7,11 +7,15 @@ namespace  DIPS.Mobile.UI.Components.MyCustomView
     {
         internal static partial void MapMyString(MyCustomViewHandler h, MyCustomView b)
         {
+            if (h.PlatformView is UILabel label)
+            {
+                label.Text = b.MyString;
+            }
         }
 
         protected override UIView CreatePlatformView()
         {
-            return new UIView();
+            return new UILabel();
         }
     }
 }

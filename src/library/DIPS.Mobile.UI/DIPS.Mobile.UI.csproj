@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
-      
+
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -12,53 +12,61 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-      <CreatePackage>false</CreatePackage>
+        <CreatePackage>false</CreatePackage>
     </PropertyGroup>
 
-     <PropertyGroup>
-    <GitInfoReportImportance>high</GitInfoReportImportance>
-    <PackageId>DIPS.Mobile.UI</PackageId>
-    <Summary>To support developers building DIPS mobile native apps, the designers maintain a Design System with style resources and components to use. The components are available for the developers by using DIPS.Mobile.UI as a dependency for their app.</Summary>
-    <Authors>DIPS AS</Authors>
-    <Owners>DIPS AS</Owners>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Product>DIPS.Mobile.UI (net7.0)</Product>
-    <Copyright>© DIPS AS. All rights reserved.</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
-    <DefineConstants>$(DefineConstants);</DefineConstants>
-    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
-    <Title>DIPS.Mobile.UI</Title>
-    <Description>To support developers building DIPS mobile native apps, the designers maintain a Design System with style resources and components to use. The components are available for the developers by using DIPS.Mobile.UI as a dependency for their app.</Description>
-    <PackageIcon>https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/assets/dips.png</PackageIcon>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-    <Version>1.0.0-pre1</Version>
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageTags>dotnet,maui,ui,ux,dips</PackageTags>
-    <Configurations>Debug;Release</Configurations>
+    <PropertyGroup>
+        <GitInfoReportImportance>high</GitInfoReportImportance>
+        <PackageId>DIPS.Mobile.UI</PackageId>
+        <Summary>To support developers building DIPS mobile native apps, the designers maintain a Design System with style resources and components to use. The components are available for the developers by using DIPS.Mobile.UI as a dependency for their app.</Summary>
+        <Authors>DIPS AS</Authors>
+        <Owners>DIPS AS</Owners>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Product>DIPS.Mobile.UI (net7.0)</Product>
+        <Copyright>© DIPS AS. All rights reserved.</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
+        <DefineConstants>$(DefineConstants);</DefineConstants>
+        <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+        <Title>DIPS.Mobile.UI</Title>
+        <Description>To support developers building DIPS mobile native apps, the designers maintain a Design System with style resources and components to use. The components are available for the developers by using DIPS.Mobile.UI as a dependency for their app.</Description>
+        <PackageIcon>https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/assets/dips.png</PackageIcon>
+        <Product>$(AssemblyName) ($(TargetFramework))</Product>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+        <Version>1.0.0-pre1</Version>
+        <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageTags>dotnet,maui,ui,ux,dips</PackageTags>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
 
-  </PropertyGroup>
+    <PropertyGroup>
+        <_DROID Condition=" $(TargetFramework.ToLowerInvariant().Contains('android')) ">true</_DROID>
+        <_IOS Condition=" $(TargetFramework.ToLowerInvariant().Contains('ios')) ">true</_IOS>
+        <_MOBILE Condition=" '$(_DROID)' == 'true' OR '$(_IOS)' == 'true' ">true</_MOBILE>
+
+        <DefineConstants Condition=" '$(_DROID)' == 'true' ">$(DefineConstants);__ANDROID__;__MOBILE__;</DefineConstants>
+        <DefineConstants Condition=" '$(_IOS)' == 'true' ">$(DefineConstants);__IOS__;__MOBILE__;</DefineConstants>
+    </PropertyGroup>
     <ItemGroup>
-      <Folder Include="Shared\Components" />
+        <Folder Include="Shared\Components" />
     </ItemGroup>
 
     <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
-      <Compile Remove="**\Android\**\*.cs" />
-      <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+        <Compile Remove="**\Android\**\*.cs" />
+        <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
 
     <!-- iOS -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true">
-      <Compile Remove="**\iOS\**\*.cs" />
-      <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+        <Compile Remove="**\iOS\**\*.cs" />
+        <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Components\iOS\" />
-      <None Remove="Components\Android\" />
+        <None Remove="Components\iOS\" />
+        <None Remove="Components\Android\" />
     </ItemGroup>
 </Project>
