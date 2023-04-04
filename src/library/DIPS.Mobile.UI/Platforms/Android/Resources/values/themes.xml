@@ -9,7 +9,7 @@
     </style>
 
     <!-- Base theme applied no matter what API -->
-    <style name="DIPS.Mobile.UI.PostStyle" parent="Theme.MaterialComponents.DayNight"> <!-- Change this to DayNight when we support Dark Mode colors -->
+    <style name="DIPS.Mobile.UI.PostStyle" parent="Theme.MaterialComponents.Light"> <!-- Change this to DayNight when we support Dark Mode colors -->
         <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
         <item name="windowNoTitle">true</item>
         <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette -->

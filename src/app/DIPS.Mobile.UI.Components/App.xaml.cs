@@ -1,4 +1,6 @@
-﻿namespace DIPS.Mobile.UI.Components;
+﻿using Microsoft.Maui.LifecycleEvents;
+
+namespace DIPS.Mobile.UI.Components;
 
 public partial class App : Application
 {

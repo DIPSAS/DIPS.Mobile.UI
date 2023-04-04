@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using DIPS.Mobile.UI.API.Library.Android;
 
 namespace DIPS.Mobile.UI.Components;
 
