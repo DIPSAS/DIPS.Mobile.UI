@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components
             Title = sampleType.ToString();
             Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
-                Margin = 15,
+                HasUnevenRows = true,
                 ItemsSource = samples,
                 ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()}),
                 SeparatorVisibility = SeparatorVisibility.None
