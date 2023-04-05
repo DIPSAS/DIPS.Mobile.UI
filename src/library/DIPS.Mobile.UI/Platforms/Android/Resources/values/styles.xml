@@ -2,17 +2,17 @@
 <resources>
     <style name="DIPS.ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+        <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
 
     <style name="DIPS.ShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+        <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
 
     <style name="DIPS.ShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">10dp</item>  <!-- TODO: Use DesignSystem -->
+        <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
     </style>
     
 

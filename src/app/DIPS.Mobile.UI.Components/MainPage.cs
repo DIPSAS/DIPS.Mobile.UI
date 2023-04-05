@@ -8,11 +8,10 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
         public MainPage()
         {
-            Title = "Mobile UI Samples";
+            Title = "Components";
             var sampleTypes = Enum.ToList<SampleType>();
             Content = new DIPS.Mobile.UI.Components.Lists.ListView()
             {
-                Margin = 15,
                 ItemsSource = sampleTypes,
                 ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSamplesButton()}),
                 SeparatorVisibility = SeparatorVisibility.None

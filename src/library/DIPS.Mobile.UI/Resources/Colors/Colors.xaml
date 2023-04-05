@@ -1,8 +1,7 @@
 <!--
 Do not edit directly,
-generated 25/01/2023 09:29:33 from DIPS.Mobile.DesignTokens
---><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Colors.Colors">
+generated 05/04/2023 10:20:19 from DIPS.Mobile.DesignTokens
+--><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Colors.Colors">
     <Color x:Key="color_system_black">#ff000000</Color>
     <Color x:Key="color_system_white">#ffffffff</Color>
     <Color x:Key="color_primary_70">#ff98b2ae</Color>
