@@ -1,4 +1,5 @@
 using System.Reflection;
+using DIPS.Mobile.UI.Components.Resources.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components;
 using Extensions;
@@ -27,7 +28,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 
     public class ResourceSample : Sample
     {
-        public ResourceSample(string name) : base(name)
+        public ResourceSample(string resourceName) : base(resourceName)
         {
         }
     }
@@ -41,12 +42,13 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 
     public abstract class Sample : Attribute
     {
-        protected Sample(string name)
+        private readonly string m_resourceResourceName; 
+        protected Sample(string resourceName)
         {
-            Name = name;
+            m_resourceResourceName = resourceName;
         }
 
-        public string Name { get; }
+        public string Name => LocalizedStrings.ResourceManager.GetString(m_resourceResourceName);
     }
 
     public class NavigateToSamplesButton : Button
@@ -74,11 +76,11 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 
             if (samples.Any())
             {
-                App.Current.MainPage.Navigation.PushAsync(new SamplesPage(m_sampleType, samples));
+                Application.Current?.MainPage?.Navigation.PushAsync(new SamplesPage(m_sampleType, samples));
             }
             else
             {
-                App.Current.MainPage.DisplayAlert("No samples",
+                Application.Current?.MainPage?.DisplayAlert("No samples",
                     $"Theres no samples for {m_sampleType.ToString()} yet.", "Ok");
             }
         }

@@ -1,0 +1,48 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="DIPS.Mobile.UI.Components.ResourcesSamples.Colors.ColorsSamples">
+    <Grid RowDefinitions="Auto, *">
+            <!-- <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/> -->
+            <dui:ListView Grid.Row="1"
+                          Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=AppTheme, StringFormat='Color Appearance: {0}'}"
+                          SelectionMode="None"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
+                <dui:ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame HasShadow="False"
+                                   Margin="5"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   CornerRadius="0"
+                                   BorderColor="Black"
+                                   Padding="1"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center">
+
+                                <Grid RowDefinitions="Auto,Auto, *"
+                                      RowSpacing="0">
+                                    <BoxView Grid.Row="0"
+                                             HeightRequest="100"
+                                             WidthRequest="200"
+                                             BackgroundColor="{Binding Value}">
+                                    </BoxView>
+                                    <Line BackgroundColor="Black" HeightRequest="1" Grid.Row="1" />
+                                    <Label Grid.Row="2"
+                                           Margin="5"
+                                           Text="{Binding Key}" />
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </dui:ListView.ItemTemplate>
+            </dui:ListView>
+        </Grid>
+</dui:ContentPage>

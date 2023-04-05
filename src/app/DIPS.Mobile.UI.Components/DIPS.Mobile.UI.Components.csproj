@@ -34,7 +34,6 @@
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -47,11 +46,6 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
-    </ItemGroup>
-
-    <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
@@ -82,8 +76,19 @@
       <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="ComponentsSamples" />
       <Folder Include="Platforms\Android\Resources" />
+      <Folder Include="ResourcesSamples" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
+    </ItemGroup>
 </Project>
