@@ -30,14 +30,8 @@
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
-        <!-- Splash Screen -->
-
-        <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
-
-        <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*" />
-
+        <MauiSplashScreen Include="Resources\Splash\iossplash.svg" Color="#512BD4" BaseSize="128,128" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"/>
+        
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
@@ -79,6 +73,7 @@
       <Folder Include="ComponentsSamples" />
       <Folder Include="Platforms\Android\Resources" />
       <Folder Include="ResourcesSamples" />
+      <Folder Include="Resources\Images" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.resx">
@@ -91,4 +86,5 @@
     <ItemGroup>
       <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
     </ItemGroup>
+    
 </Project>

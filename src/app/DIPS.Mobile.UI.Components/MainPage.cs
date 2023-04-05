@@ -1,5 +1,6 @@
 using System.Reflection;
 using DIPS.Mobile.UI.Components.Resources.LocalizedStrings;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components;
 using Extensions;

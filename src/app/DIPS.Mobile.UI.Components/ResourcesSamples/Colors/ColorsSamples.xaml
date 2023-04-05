@@ -6,43 +6,50 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="DIPS.Mobile.UI.Components.ResourcesSamples.Colors.ColorsSamples">
-    <Grid RowDefinitions="Auto, *">
-            <!-- <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/> -->
-            <dui:ListView Grid.Row="1"
-                          Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=AppTheme, StringFormat='Color Appearance: {0}'}"
-                          SelectionMode="None"
-                          HasUnevenRows="True"
-                          SeparatorVisibility="None"
-                          ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
-                <dui:ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Frame HasShadow="False"
-                                   Margin="5"
-                                   WidthRequest="200"
-                                   HeightRequest="200"
-                                   CornerRadius="0"
-                                   BorderColor="Black"
-                                   Padding="1"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center">
+    <!-- <Grid RowDefinitions="Auto, *"> -->
+    <!-- <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/> -->
+    <dui:ListView Grid.Row="1"
+                  Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=AppTheme, StringFormat='Color Appearance: {0}'}"
+                  SelectionMode="None"
+                  HasUnevenRows="True"
+                  SeparatorVisibility="None"
+                  ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
+        <x:Arguments>
+            <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+        </x:Arguments>
+        <dui:ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Border Margin="{dui:Thickness size_2}"
+                            WidthRequest="200"
+                            HeightRequest="200"
+                            Padding="2"
+                            HorizontalOptions="Center"
+                            StrokeThickness="1"
+                            Stroke="{dui:Colors color_system_black}"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{dui:CornerRadius size_2}" />
+                        </Border.StrokeShape>
 
-                                <Grid RowDefinitions="Auto,Auto, *"
-                                      RowSpacing="0">
-                                    <BoxView Grid.Row="0"
-                                             HeightRequest="100"
-                                             WidthRequest="200"
-                                             BackgroundColor="{Binding Value}">
-                                    </BoxView>
-                                    <Line BackgroundColor="Black" HeightRequest="1" Grid.Row="1" />
-                                    <Label Grid.Row="2"
-                                           Margin="5"
-                                           Text="{Binding Key}" />
-                                </Grid>
-                            </Frame>
-                        </ViewCell>
-                    </DataTemplate>
-                </dui:ListView.ItemTemplate>
-            </dui:ListView>
-        </Grid>
+                        <Grid RowDefinitions="Auto,Auto, *"
+                              RowSpacing="0">
+                            <BoxView Grid.Row="0"
+                                     HeightRequest="100"
+                                     WidthRequest="197"
+                                     BackgroundColor="{Binding Value}">
+                            </BoxView>
+                            <Line BackgroundColor="Black"
+                                  HeightRequest="1"
+                                  Grid.Row="1" />
+                            <Label Grid.Row="2"
+                                   Margin="{dui:Thickness size_2}"
+                                   Text="{Binding Key}" />
+                        </Grid>
+                    </Border>
+                </ViewCell>
+            </DataTemplate>
+        </dui:ListView.ItemTemplate>
+    </dui:ListView>
+    <!-- </Grid> -->
 </dui:ContentPage>
