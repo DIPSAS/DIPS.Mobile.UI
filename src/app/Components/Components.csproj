@@ -1,0 +1,128 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Components</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <!-- Display name -->
+        <ApplicationTitle>Components</ApplicationTitle>
+
+        <!-- App Identifier -->
+        <ApplicationId>com.dipsas.mobile.components</ApplicationId>
+        <ApplicationIdGuid>13A74CA2-6A7D-4CF7-8646-8930B4282590</ApplicationIdGuid>
+
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- App Icon -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
+        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*" />
+
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiXaml Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ResourcesSamples\Colors\ColorsSamples.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="App.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml.cs">
+        <DependentUpon>ListInBottomSheet.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml.cs">
+        <DependentUpon>SimpleBottomSheet.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml.cs">
+        <DependentUpon>ListInBottomSheet.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml.cs">
+        <DependentUpon>SimpleBottomSheet.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml.cs">
+        <DependentUpon>BottomSheetSamples.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml.cs">
+        <DependentUpon>BottomSheetSamples.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ResourcesSamples\Colors\ColorsSamples.xaml.cs">
+        <DependentUpon>ColorsSamples.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ResourcesSamples\Colors\ColorsSamples.xaml.cs">
+        <DependentUpon>ColorsSamples.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="App.xaml.cs">
+        <DependentUpon>App.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Resources\LocalizedStrings\LocalizedStrings.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>LocalizedStrings.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml" />
+      <AdditionalFiles Include="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml" />
+      <AdditionalFiles Include="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml" />
+      <AdditionalFiles Include="ResourcesSamples\Colors\ColorsSamples.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+</Project>
