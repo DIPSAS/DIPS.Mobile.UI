@@ -23,12 +23,12 @@
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="windowActionModeOverlay">true</item>
-        
+
         <!-- Globally set the shape appearance of all material design components -->
         <item name="shapeAppearanceSmallComponent">@style/DIPS.ShapeAppearance.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/DIPS.ShapeAppearance.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/DIPS.ShapeAppearance.LargeComponent</item>
-        
+
         <!-- Globally set the alert dialog styles if one are to use Material Dialogs -->
         <item name="materialAlertDialogTheme">@style/DIPS.ThemeOverlay.App.MaterialAlertDialog</item>
     </style>

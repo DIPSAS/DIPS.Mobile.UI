@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.MVVM
     /// </summary>
     public abstract class ViewModel : INotifyPropertyChanged
     {
-         /// <summary>
+        /// <summary>
         /// Sets a value to a backing field if it passes a equality check and notifies property changed.
         /// </summary>
         /// <typeparam name="TS">The type of the property</typeparam>

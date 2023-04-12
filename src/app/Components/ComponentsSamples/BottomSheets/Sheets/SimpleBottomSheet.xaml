@@ -6,5 +6,6 @@
                  DidClose="FirstBottomSheetView_OnDidClose"
                  ShouldFitToContent="True">
     <dui:Label Text="Hello bottom sheet!"
+               BackgroundColor="Red"
                HorizontalOptions="Center" />
 </dui:BottomSheet>

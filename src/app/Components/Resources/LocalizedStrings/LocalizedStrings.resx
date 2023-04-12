@@ -30,4 +30,10 @@
     <data name="Resources" xml:space="preserve">
         <value>Resources</value>
     </data>
+    <data name="Sizes" xml:space="preserve">
+        <value>Sizes</value>
+    </data>
+    <data name="Sizes_description" xml:space="preserve">
+        <value />
+    </data>
 </root>

@@ -7,7 +7,7 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
-    <VerticalStackLayout Padding="15">
+    <VerticalStackLayout Padding="{dui:Sizes size_3}">
         <dui:Label>The buttons below can be tapped to test different types of content inside a bottom sheet.</dui:Label>
         <dui:Button Text="Single label"
                     Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />

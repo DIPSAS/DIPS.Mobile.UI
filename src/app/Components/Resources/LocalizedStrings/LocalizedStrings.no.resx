@@ -23,4 +23,10 @@
     <data name="Resources" xml:space="preserve">
         <value>Ressurser</value>
     </data>
+    <data name="Sizes" xml:space="preserve">
+        <value>Størrelser</value>
+    </data>
+    <data name="Sizes_description" xml:space="preserve">
+        <value>Størrelsene kan brukes til: Avstand mellom visuelle objekter og radius på hjørner på visuelle objekter.</value>
+    </data>
 </root>

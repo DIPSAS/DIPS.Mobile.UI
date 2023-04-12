@@ -10,6 +10,11 @@ namespace DIPS.Mobile.UI.Components.MyCustomView
         {
             
         }
+        
+        public static partial void DoSomething(MyCustomViewHandler handler, MyCustomView video, object? args)
+        {
+            
+        }
 
         protected override View CreatePlatformView()
         {

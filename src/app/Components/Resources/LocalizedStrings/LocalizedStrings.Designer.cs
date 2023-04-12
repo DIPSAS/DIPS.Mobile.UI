@@ -68,5 +68,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Resources", resourceCulture);
             }
         }
+        
+        internal static string Sizes {
+            get {
+                return ResourceManager.GetString("Sizes", resourceCulture);
+            }
+        }
+        
+        internal static string Sizes_description {
+            get {
+                return ResourceManager.GetString("Sizes_description", resourceCulture);
+            }
+        }
     }
 }
