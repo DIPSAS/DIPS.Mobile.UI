@@ -1,30 +1,25 @@
-using System;
-using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using AndroidX.Core.Widget;
-using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Sizes.Sizes;
 using Google.Android.Material.BottomSheet;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
-using RelativeLayout = Android.Widget.RelativeLayout;
+using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
+namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 {
     internal class BottomSheetFragment : BottomSheetDialogFragment
     {
-        private readonly Context m_context;
         private readonly BottomSheet m_bottomSheet;
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
-        private BottomSheetBehavior m_bottomSheetBehavior;
+        private BottomSheetBehavior? m_bottomSheetBehavior;
 
         public BottomSheetFragment(BottomSheet bottomSheet)
         {
-            m_context = DUI.Context;
             m_bottomSheet = bottomSheet;
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             SubscribeEvents();
@@ -40,15 +35,22 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             m_bottomSheet.WillClose -= Close;
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup? container,
+            Bundle? savedInstanceState)
         {
+            var context = Platform.AppContext;
+            var mauiContext = DUI.GetCurrentMauiContext;
+            if (mauiContext == null || m_bottomSheetBehavior == null) return new View(context);
+            
             var nestedScrollView =
                 new NestedScrollView(
-                    m_context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
+                    context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             var grid = new Grid()
             {
-                Padding = new Thickness(0,0,0,8), //TODO: Use DesignSystem
+                BackgroundColor = Colors.Aqua,
+                VerticalOptions = LayoutOptions.Start,
+                HorizontalOptions = LayoutOptions.Center,
+                Padding = new Thickness(0,0,0,DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)),
                 RowSpacing = 0,
                 RowDefinitions = new RowDefinitionCollection()
                 {
@@ -61,7 +63,7 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
             if (m_bottomSheetBehavior.Draggable)
             {
-                var innerGrid = new Grid() {Padding = new Thickness(0, 8)}; //TODO Use DesignSystem
+                var innerGrid = new Grid {Padding = new Thickness(0,  DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)), HorizontalOptions = LayoutOptions.Center};
                 innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(ToggleBottomSheetIfPossible)
@@ -71,19 +73,24 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                     HeightRequest = 4,
                     WidthRequest = 32,
                     CornerRadius = 10,
-                    BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                    BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_40),
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center
                 };
                 innerGrid.Children.Add(handle);
-                grid.Children.Add(innerGrid, 0, 0);
+                Grid.SetRow(innerGrid, 0);
+                
+                grid.Children.Add(innerGrid);
             }
 
-            grid.Children.Add(m_bottomSheet, 0, 1);
-
-            nestedScrollView.AddView(new ContainerView(m_context, grid));
-            nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+            Grid.SetRow(m_bottomSheet, 1);
+            grid.Children.Add(m_bottomSheet);
+            
+            nestedScrollView.AddView(grid.ToContainerView(mauiContext));
+            nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.WrapContent);
+            
+            
             return nestedScrollView;
         }
 
@@ -98,9 +105,14 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             }
         }
 
-        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        public override Dialog OnCreateDialog(Bundle? savedInstanceState)
         {
+            var context = Platform.AppContext;
+            var activity = Platform.CurrentActivity;
             var dialog = base.OnCreateDialog(savedInstanceState);
+            
+            if (activity is null) return dialog;
+            
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
@@ -108,16 +120,16 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
                 
                 if (!m_bottomSheet.ShouldFitToContent)
                 {
-                    var fullScreenHeight = m_context.Resources?.DisplayMetrics?.HeightPixels;
+                    var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
                     if (fullScreenHeight != null)
                     {
                         bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
                     }    
                 }
             }
-            
-            var window = ((Activity)Context).Window;
-            if (window is {Attributes: { }}) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
+
+            var window = activity.Window;
+            if (window is {Attributes: not null}) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
             {
                 var flags = window.Attributes.Flags;
                 dialog.Window?.SetFlags(flags, flags);
@@ -128,9 +140,9 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
             return dialog;
         }
 
-        private void Close(object sender, EventArgs e) => Dismiss();
+        private void Close(object? sender, EventArgs? e) => Dismiss();
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
             base.OnCreate(savedInstanceState);
@@ -138,8 +150,12 @@ namespace DIPS.Mobile.UI.Droid.Components.BottomSheets
 
         public Task Show()
         {
+            var activity = Platform.CurrentActivity;
+            var fragmentManager = activity?.GetFragmentManager();
+            if (fragmentManager == null) return Task.CompletedTask;
+            
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
-            Show(m_context.GetFragmentManager(), nameof(BottomSheetFragment));
+            Show(fragmentManager, nameof(BottomSheetFragment));
             return m_showTaskCompletionSource.Task;
         }
 

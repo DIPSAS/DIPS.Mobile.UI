@@ -12,6 +12,18 @@ public class MyCustomView : View
         get => (string)GetValue(MyStringProperty);
         set => SetValue(MyStringProperty, value);
     }
+    
+    public void DoSomething()
+    {
+        Handler?.Invoke(nameof(DoSomething), "Hello from maui");
+    }
+}
 
-    public void RunSomething() { }
+public class MyEventArgs : EventArgs{
+    public string TestString { get; }
+
+    public MyEventArgs(string testString)
+    {
+        TestString = testString;
+    }
 }

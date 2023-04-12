@@ -47,7 +47,6 @@
     <ItemGroup>
         <Compile Include="Components\BottomSheets\iOSBottomSheetService.cs" />
         <Compile Include="Components\BottomSheets\BottomSheetContentPage.cs" />
-        <Compile Include="Components\Buttons\ButtonRenderer.cs" />
         <Compile Include="Components\ContextMenus\ContextMenuButtonRenderer.cs" />
         <Compile Include="Components\ContextMenus\ContextMenuHelper.cs" />
         <Compile Include="Components\Images\ImageRenderer.cs" />
@@ -60,7 +59,6 @@
         <Compile Include="Components\Pickers\Date\UIDatePickerViewController.cs" />
         <Compile Include="Components\Pickers\Date\UIPopoverPresentationControllerDelegate.cs" />
         <Compile Include="Components\Searching\SearchBarRenderer.cs" />
-        <Compile Include="Components\Toolbars\ToolbarRenderer.cs" />
         <Compile Include="DUI.cs" />
         <Compile Include="Extensions\UIBeizerPathExtensions.cs" />
         <Compile Include="Extensions\UIViewExtensions.cs" />

@@ -35,13 +35,14 @@ namespace Components.ResourcesSamples.Colors
 
         private static Dictionary<string, Color> GetColors()
         {
+            var theColors = new DIPS.Mobile.UI.Resources.Colors.Colors();
             var colors = new Dictionary<string, Color>();
-            var colorNames = Enum.ToList<ColorName>();
-            foreach (var colorName in colorNames)
+            foreach (var colorPair in theColors)
             {
-                var color = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(colorName);
-                var name = colorName.ToString();
-                colors.Add(name, color);
+                if (colorPair.Value is Color color)
+                {
+                    colors.Add(colorPair.Key, color);
+                }
             }
             return colors;
         }

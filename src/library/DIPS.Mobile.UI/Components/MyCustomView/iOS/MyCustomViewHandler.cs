@@ -12,6 +12,11 @@ namespace  DIPS.Mobile.UI.Components.MyCustomView
                 label.Text = b.MyString;
             }
         }
+        
+        public static partial void DoSomething(MyCustomViewHandler handler, MyCustomView video, object? args)
+        {
+            
+        }
 
         protected override UIView CreatePlatformView()
         {

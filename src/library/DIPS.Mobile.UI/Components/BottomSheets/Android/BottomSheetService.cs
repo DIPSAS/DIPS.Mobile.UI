@@ -1,20 +1,38 @@
-namespace DIPS.Mobile.UI.Components.BottomSheets
+using DIPS.Mobile.UI.Components.BottomSheets.Android;
+using Microsoft.Maui.Platform;
+
+// ReSharper disable once CheckNamespace
+namespace DIPS.Mobile.UI.Components.BottomSheets;
+
+public static partial class BottomSheetService
 {
-    public static partial class BottomSheetService
+    internal const string BottomSheetFragmentTag = nameof(BottomSheetFragment);
+
+    public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
+
+    public static partial  Task CloseCurrentBottomSheet()
     {
-        public static partial Task OpenBottomSheet(BottomSheet bottomSheet)
+        var currentBottomSheetFragment = CurrentBottomSheetFragment();
+        currentBottomSheetFragment?.Dismiss();
+        return Task.CompletedTask;
+    }
+
+    public static partial bool IsBottomSheetOpen()
+    {
+        return CurrentBottomSheetFragment() != null;
+    }
+
+    private static BottomSheetFragment? CurrentBottomSheetFragment()
+    {
+        var context = Platform.AppContext;
+        var fragmentManager = context.GetFragmentManager();
+
+        var fragment = fragmentManager?.FindFragmentByTag(BottomSheetFragmentTag);
+        if (fragment is BottomSheetFragment bottomSheetFragment)
         {
-            return Task.CompletedTask;
-        }
-        
-        public static partial Task CloseCurrentBottomSheet()
-        {
-            return Task.CompletedTask;
+            return bottomSheetFragment;
         }
 
-        public static partial bool IsBottomSheetOpen()
-        {
-            return true;
-        }
+        return null;
     }
 }

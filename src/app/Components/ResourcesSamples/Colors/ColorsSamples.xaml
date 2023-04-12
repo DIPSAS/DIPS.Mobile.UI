@@ -8,18 +8,13 @@
                  x:Class="Components.ResourcesSamples.Colors.ColorsSamples">
     <!-- <Grid RowDefinitions="Auto, *"> -->
     <!-- <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/> -->
-    <dui:ListView Grid.Row="1"
-                  Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=AppTheme, StringFormat='Color Appearance: {0}'}"
-                  SelectionMode="None"
-                  HasUnevenRows="True"
-                  SeparatorVisibility="None"
-                  ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
-        <x:Arguments>
-            <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
-        </x:Arguments>
-        <dui:ListView.ItemTemplate>
+    <CollectionView Grid.Row="1"
+                    Header="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=AppTheme, StringFormat='Color Appearance: {0}'}"
+                    SelectionMode="None"
+                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Colors}">
+        <CollectionView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
+                <Grid>
                     <Border Margin="{dui:Thickness size_2}"
                             WidthRequest="200"
                             HeightRequest="200"
@@ -46,10 +41,9 @@
                                    Margin="{dui:Thickness size_2}"
                                    Text="{Binding Key}" />
                         </Grid>
-                    </Border>
-                </ViewCell>
+                    </Border></Grid>
             </DataTemplate>
-        </dui:ListView.ItemTemplate>
-    </dui:ListView>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
     <!-- </Grid> -->
 </dui:ContentPage>
