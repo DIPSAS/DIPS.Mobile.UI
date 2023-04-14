@@ -45,26 +45,5 @@ public static class DUI
         var id = Platform.AppContext.Resources?.GetIdentifier(name, defType, Platform.AppContext.PackageName);
         return id > 0 ? id : null;
     }
-    
-    /*private static Context? s_context;
 
-    /// <summary>
-    /// Gets the <see cref="Context"/>.
-    /// </summary>
-    public static Context Context
-    {
-        get
-        {
-            var page = Application.Current.MainPage ??
-                       throw new NullReferenceException($"{nameof(Application.MainPage)} cannot be null");
-            var renderer = page.Handler;
-
-            if (renderer?.Context is not null)
-                s_context = renderer.View.Context;
-
-            return renderer?.View.Context ??
-                   s_context ?? throw new NullReferenceException($"{nameof(Context)} cannot be null");
-        }
-    }*/
-    
 }
