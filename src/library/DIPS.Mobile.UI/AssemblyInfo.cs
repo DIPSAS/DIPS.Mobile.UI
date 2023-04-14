@@ -25,7 +25,7 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Components.Progress")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Converters.ValueConverters")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Converters.MultiValueConverters")]
-[assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Effects.ContextMenuEffect")]
-[assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Effects.PopoverEffect")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Extensions.Markup")]
+
 
 

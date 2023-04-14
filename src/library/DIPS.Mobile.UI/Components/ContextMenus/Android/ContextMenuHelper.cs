@@ -1,9 +1,8 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
-using DIPS.Mobile.UI.Components.ContextMenus;
 
-namespace DIPS.Mobile.UI.Helpers.ContextMenus.Android;
+namespace DIPS.Mobile.UI.Components.ContextMenus.Android;
 
 internal static class ContextMenuHelper
 {

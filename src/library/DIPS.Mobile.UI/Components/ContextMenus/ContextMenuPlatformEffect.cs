@@ -1,10 +1,10 @@
 using Microsoft.Maui.Controls.Platform;
 
-namespace DIPS.Mobile.UI.Effects.PopoverEffect;
+namespace DIPS.Mobile.UI.Components.ContextMenus;
 
-public partial class PopoverPlatformEffect : PlatformEffect
+public partial class ContextMenuPlatformEffect : PlatformEffect
 {
     protected override partial void OnAttached();
-
     protected override partial void OnDetached();
+
 }

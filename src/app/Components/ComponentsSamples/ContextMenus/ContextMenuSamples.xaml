@@ -9,9 +9,8 @@
     </ContentPage.BindingContext>
     <StackLayout>
         <!-- Single item -->
-        <dui:Button Text="Single item"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Single item">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem Title="Edit"
@@ -26,25 +25,23 @@
                         </dui:ContextMenuItem.AndroidOptions>
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
 
         <!-- Two items -->
-        <dui:Button Text="Two items"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Two items">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem Title="Item 1" />
                     <dui:ContextMenuItem Title="Item 2" />
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
 
         <!--Checkable items (all)-->
-        <dui:Button Text="Checkable items (all)"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Checkable items (all)">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup IsCheckable="True">
@@ -52,13 +49,12 @@
                         <dui:ContextMenuItem Title="Item 2" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
         
         <!--Checkable items (single)-->
-        <dui:Button Text="Checkable items (single)"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Checkable items (single)">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup IsCheckable="True">
@@ -66,13 +62,12 @@
                         <dui:ContextMenuItem Title="Item 2" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
 
         <!-- Grouped items -->
-        <dui:Button Text="Grouped items"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Grouped items">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup Title="Group 1">
@@ -84,13 +79,12 @@
                         <dui:ContextMenuItem Title="Item 2" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
 
         <!-- Checkable grouped items -->
-        <dui:Button Text="Checkable grouped items"
-                    dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
+        <dui:Button Text="Checkable grouped items">
+            <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup Title="Group 1"
@@ -104,14 +98,13 @@
                         <dui:ContextMenuItem Title="Item 2" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
+            </dui:ContextMenuEffect.Menu>
         </dui:Button>
         
-        <Frame BackgroundColor="{dui:Colors color_primary_d_90}"
-                        dui:ContextMenuEffect.HasContextMenu="True">
-            <dui:ContextMenuEffect.ItemsSource>
-                <dui:ContextMenu VerticalOptions="Start"
-                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+        <dui:Button Text="Long-press context menu" 
+                    dui:ContextMenuEffect.Mode="LongPressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem Title="Edit"
                                          Icon="edit">
                         <!-- on iOS: set icon to  SF Symbol: pencil -->
@@ -124,40 +117,8 @@
                         </dui:ContextMenuItem.AndroidOptions>
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>    
-            </dui:ContextMenuEffect.ItemsSource>
-            
-            <dui:Label Text="Frame with attached context menu"
-                       TextColor="{dui:Colors color_system_white}"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center" />
-            
-        </Frame>
-        
-        <Frame BackgroundColor="{dui:Colors color_primary_d_90}"
-               dui:PopoverEffect.HasPopover="True">
-            <dui:PopoverEffect.ItemsSource>
-                <dui:ContextMenu VerticalOptions="Start"
-                                 ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuItem Title="Edit"
-                                         Icon="edit">
-                        <!-- on iOS: set icon to  SF Symbol: pencil -->
-                        <dui:ContextMenuItem.iOSOptions>
-                            <dui:iOSContextMenuItemOptions SystemIconName="pencil" />
-                        </dui:ContextMenuItem.iOSOptions>
-                        <!-- on Android: set icon to material design edit black button -->
-                        <dui:ContextMenuItem.AndroidOptions>
-                            <dui:AndroidContextMenuItemOptions IconResourceName="material_ic_edit_black_24dp" />
-                        </dui:ContextMenuItem.AndroidOptions>
-                    </dui:ContextMenuItem>
-                </dui:ContextMenu>    
-            </dui:PopoverEffect.ItemsSource>
-            
-            <dui:Label Text="Frame with attached popover context menu"
-                       TextColor="{dui:Colors color_system_white}"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center" />
-            
-        </Frame>
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
         
     </StackLayout>
 </dui:ContentPage>

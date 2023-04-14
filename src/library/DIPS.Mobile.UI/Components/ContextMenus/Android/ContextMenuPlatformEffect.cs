@@ -2,14 +2,13 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Helpers.ContextMenus.Android;
+using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using Application = Android.App.Application;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.ContextMenuEffect;
+namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
@@ -21,7 +20,9 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnAttached()
     {
-        m_contextMenu = ContextMenuEffect.GetItemsSource(Element);
+        m_contextMenu = ContextMenuEffect.GetMenu(Element);
+
+        var mode = ContextMenuEffect.GetMode(Element);
 
         if (m_contextMenu == null)
         {
@@ -32,8 +33,16 @@ public partial class ContextMenuPlatformEffect
 
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 
-        Control.Clickable = true;
-        Control.Click += m_contextMenuBehaviour.OpenContextMenu;
+        if (mode == ContextMenuEffect.ContextMenuMode.Pressed)
+        {
+            Control.Clickable = true;
+            Control.Click += m_contextMenuBehaviour.OpenContextMenu;
+        }
+        else
+        {
+            Control.LongClickable = true;
+            Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
+        }
     }
 
     public class ContextMenuHandler : Object, PopupMenu.IOnMenuItemClickListener, Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener

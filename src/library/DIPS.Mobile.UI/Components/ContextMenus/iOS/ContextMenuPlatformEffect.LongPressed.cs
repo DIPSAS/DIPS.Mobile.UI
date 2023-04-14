@@ -1,41 +1,35 @@
 using CoreGraphics;
-using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Helpers.ContextMenus.iOS;
+using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using UIKit;
 
-namespace DIPS.Mobile.UI.Effects.PopoverEffect;
+// ReSharper disable once CheckNamespace
+namespace DIPS.Mobile.UI.Components.ContextMenus;
 
-public partial class PopoverPlatformEffect
+public partial class ContextMenuPlatformEffect
 {
-
+    
 #nullable disable
     private UIContextMenuInteraction m_interaction;
-    private ContextMenu m_contextMenu;
 #nullable restore
     
-    protected override partial void OnAttached()
+    private void OnLongPressed()
     {
-        m_contextMenu = PopoverEffect.GetItemsSource(Element);
+        m_contextMenu = ContextMenuEffect.GetMenu(Element);
         
         if(m_contextMenu == null)
             return;
 
         m_contextMenu.BindingContext = Element.BindingContext;
         
-        m_interaction = new UIContextMenuInteraction(new PopoverContextMenuConfiguration(m_contextMenu));
+        m_interaction = new UIContextMenuInteraction(new LongPressContextMenuConfigurator(m_contextMenu));
         Control.AddInteraction(m_interaction);
     }
-
-    protected override partial void OnDetached()
-    {
-        Control.RemoveInteraction(m_interaction);
-    }
     
-    public class PopoverContextMenuConfiguration : UIContextMenuInteractionDelegate
+    public class LongPressContextMenuConfigurator : UIContextMenuInteractionDelegate
     {
         private readonly ContextMenu m_contextMenu;
 
-        public PopoverContextMenuConfiguration(ContextMenu contextMenu)
+        public LongPressContextMenuConfigurator(ContextMenu contextMenu)
         {
             m_contextMenu = contextMenu;
         }
@@ -54,5 +48,10 @@ public partial class PopoverPlatformEffect
         {
             
         }
+    }
+
+    private void DisposeLongPressed()
+    {
+        Control.RemoveInteraction(m_interaction);
     }
 }

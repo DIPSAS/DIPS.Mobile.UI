@@ -1,30 +1,20 @@
-using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Helpers.ContextMenus.iOS;
+
+using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using Foundation;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.ContextMenuEffect;
+namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
-    private UIButton? m_uiButtonToRemove;
     
 #nullable disable
-    private ContextMenu m_contextMenu;
-    private UIButton m_uiButton;
     private NSObject m_didEnterBackgroundNotification;
 #nullable restore
     
-    protected override async partial void OnAttached()
+    private async Task OnPressed()
     {
-        m_contextMenu = ContextMenuEffect.GetItemsSource(Element);
-
-        if (m_contextMenu == null)
-            return;
-
-        m_contextMenu.BindingContext = Element.BindingContext;
-        
         if (Control is not UIButton uiButton)
         {
             uiButton = await CreateOverlayButton();
@@ -77,8 +67,8 @@ public partial class ContextMenuPlatformEffect
             CreateMenu(); //Recreate the menu so the visuals of the items of the menu are able to change between each time the user opens the menu
         m_contextMenu!.SendContextMenuOpened();
     }
-    
-    protected override partial void OnDetached()
+
+    private void DisposePressed()
     {
         if(m_uiButtonToRemove != null)
             Control.WillRemoveSubview(m_uiButtonToRemove);

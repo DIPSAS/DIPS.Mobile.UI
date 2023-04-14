@@ -69,6 +69,11 @@
         <None Remove="Components\Android\" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Effects\ContextMenuEffect\" />
+      <Folder Include="Effects\PopoverEffect\Android\" />
+      <Folder Include="Effects\PopoverEffect\iOS\" />
+      <Folder Include="Helpers\ContextMenus\Android\" />
+      <Folder Include="Helpers\ContextMenus\iOS\" />
       <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
