@@ -1,0 +1,124 @@
+﻿<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:contextMenu="clr-namespace:Components.ComponentsSamples.ContextMenu"
+                 x:Class="Components.ComponentsSamples.ContextMenus.ContextMenuSamples"
+                 Padding="15">
+    <ContentPage.BindingContext>
+        <contextMenu:ContextMenuSamplesViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <!-- Single item -->
+        <dui:Button Text="Single item">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem Title="Edit"
+                                         Icon="edit">
+                        <!-- on iOS: set icon to  SF Symbol: pencil -->
+                        <dui:ContextMenuItem.iOSOptions>
+                            <dui:iOSContextMenuItemOptions SystemIconName="pencil" />
+                        </dui:ContextMenuItem.iOSOptions>
+                        <!-- on Android: set icon to material design edit black button -->
+                        <dui:ContextMenuItem.AndroidOptions>
+                            <dui:AndroidContextMenuItemOptions IconResourceName="material_ic_edit_black_24dp" />
+                        </dui:ContextMenuItem.AndroidOptions>
+                    </dui:ContextMenuItem>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+
+        <!-- Two items -->
+        <dui:Button Text="Two items">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem Title="Item 1" />
+                    <dui:ContextMenuItem Title="Item 2" />
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+
+        <!--Checkable items (all)-->
+        <dui:Button Text="Checkable items (all)">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuGroup IsCheckable="True">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+        
+        <!--Checkable items (single)-->
+        <dui:Button Text="Checkable items (single)">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuGroup IsCheckable="True">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+
+        <!-- Grouped items -->
+        <dui:Button Text="Grouped items">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuGroup Title="Group 1">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                    <dui:ContextMenuGroup Title="Group 2">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+
+        <!-- Checkable grouped items -->
+        <dui:Button Text="Checkable grouped items">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuGroup Title="Group 1"
+                                          IsCheckable="True">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                    <dui:ContextMenuGroup Title="Group 2"
+                                          IsCheckable="True">
+                        <dui:ContextMenuItem Title="Item 1" />
+                        <dui:ContextMenuItem Title="Item 2" />
+                    </dui:ContextMenuGroup>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+        
+        <dui:Button Text="Long-press context menu" 
+                    dui:ContextMenuEffect.Mode="LongPressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem Title="Edit"
+                                         Icon="edit">
+                        <!-- on iOS: set icon to  SF Symbol: pencil -->
+                        <dui:ContextMenuItem.iOSOptions>
+                            <dui:iOSContextMenuItemOptions SystemIconName="pencil" />
+                        </dui:ContextMenuItem.iOSOptions>
+                        <!-- on Android: set icon to material design edit black button -->
+                        <dui:ContextMenuItem.AndroidOptions>
+                            <dui:AndroidContextMenuItemOptions IconResourceName="material_ic_edit_black_24dp" />
+                        </dui:ContextMenuItem.AndroidOptions>
+                    </dui:ContextMenuItem>
+                </dui:ContextMenu>    
+            </dui:ContextMenuEffect.Menu>
+        </dui:Button>
+        
+    </StackLayout>
+</dui:ContentPage>

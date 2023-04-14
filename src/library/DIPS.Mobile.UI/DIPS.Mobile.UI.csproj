@@ -10,6 +10,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -68,10 +69,20 @@
         <None Remove="Components\Android\" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Effects\ContextMenuEffect\" />
+      <Folder Include="Effects\PopoverEffect\Android\" />
+      <Folder Include="Effects\PopoverEffect\iOS\" />
+      <Folder Include="Helpers\ContextMenus\Android\" />
+      <Folder Include="Helpers\ContextMenus\iOS\" />
       <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
       <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Microsoft.iOS">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net7.0\Microsoft.iOS.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>
