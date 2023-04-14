@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.ContextMenus;
+
 namespace DIPS.Mobile.UI.Effects.PopoverEffect;
 
 public class PopoverEffect : RoutingEffect
@@ -9,16 +11,16 @@ public class PopoverEffect : RoutingEffect
         propertyChanged: OnHasPopoverChanged);
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.CreateAttached("ItemsSource",
-        typeof(BindableObject[]),
+        typeof(ContextMenu),
         typeof(PopoverEffect),
         null);
 
-    public static BindableObject[] GetItemsSource(BindableObject view)
+    public static ContextMenu GetItemsSource(BindableObject view)
     {
-        return (BindableObject[])view.GetValue(ItemsSourceProperty);
+        return (ContextMenu)view.GetValue(ItemsSourceProperty);
     }
 
-    public static void SetItemsSource(BindableObject view, BindableObject[] itemsSource)
+    public static void SetItemsSource(BindableObject view, ContextMenu itemsSource)
     {
         view.SetValue(ItemsSourceProperty, itemsSource);
     }

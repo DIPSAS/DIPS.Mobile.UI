@@ -80,5 +80,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Sizes_description", resourceCulture);
             }
         }
+        
+        internal static string ContextMenu {
+            get {
+                return ResourceManager.GetString("ContextMenu", resourceCulture);
+            }
+        }
     }
 }

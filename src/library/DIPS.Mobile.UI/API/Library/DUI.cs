@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using DIPS.Mobile.UI.Components.BottomSheets;
 
 namespace DIPS.Mobile.UI

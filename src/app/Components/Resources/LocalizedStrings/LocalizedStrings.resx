@@ -36,4 +36,7 @@
     <data name="Sizes_description" xml:space="preserve">
         <value />
     </data>
+    <data name="ContextMenu" xml:space="preserve">
+        <value>ContextMenu</value>
+    </data>
 </root>

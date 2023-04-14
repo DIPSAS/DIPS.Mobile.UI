@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Components.ContextMenu;
+namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuItem
 {
@@ -10,7 +10,7 @@ public partial class ContextMenuItem
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
         typeof(ICommand),
-        typeof(ContextMenuItem));
+        typeof(ContextMenus.ContextMenuItem));
 
     /// <summary>
     /// The command to run when the item was clicked
@@ -27,7 +27,7 @@ public partial class ContextMenuItem
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
         typeof(object),
-        typeof(ContextMenuItem));
+        typeof(ContextMenus.ContextMenuItem));
 
     /// <summary>
     /// The command parameter to send to the command when the item was clicked

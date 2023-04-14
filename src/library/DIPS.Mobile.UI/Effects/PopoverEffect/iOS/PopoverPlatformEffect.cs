@@ -1,17 +1,28 @@
 using CoreGraphics;
+using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Helpers.ContextMenus.iOS;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Effects.PopoverEffect;
 
 public partial class PopoverPlatformEffect
 {
-    private UIContextMenuInteraction m_interaction; 
+
+#nullable disable
+    private UIContextMenuInteraction m_interaction;
+    private ContextMenu m_contextMenu;
+#nullable restore
     
     protected override partial void OnAttached()
     {
-        var itemsSource = PopoverEffect.GetItemsSource(Element);
+        m_contextMenu = PopoverEffect.GetItemsSource(Element);
         
-        m_interaction = new UIContextMenuInteraction(new PopoverContextMenuConfiguration(itemsSource));
+        if(m_contextMenu == null)
+            return;
+
+        m_contextMenu.BindingContext = Element.BindingContext;
+        
+        m_interaction = new UIContextMenuInteraction(new PopoverContextMenuConfiguration(m_contextMenu));
         Control.AddInteraction(m_interaction);
     }
 
@@ -22,18 +33,19 @@ public partial class PopoverPlatformEffect
     
     public class PopoverContextMenuConfiguration : UIContextMenuInteractionDelegate
     {
-        private readonly BindableObject[] m_itemsSource;
+        private readonly ContextMenu m_contextMenu;
 
-        public PopoverContextMenuConfiguration(BindableObject[] itemsSource)
+        public PopoverContextMenuConfiguration(ContextMenu contextMenu)
         {
-            m_itemsSource = itemsSource;
+            m_contextMenu = contextMenu;
         }
         
         public override UIContextMenuConfiguration? GetConfigurationForMenu(UIContextMenuInteraction interaction, CGPoint location)
         {
-            var test = UIAction.Create("Test", null, null, action => { });
-
-            var menu = UIMenu.Create("Hoho", new UIMenuElement[] { test });
+            var dict = ContextMenuHelper.CreateMenuItems(
+                m_contextMenu.ItemsSource!,
+                m_contextMenu);
+            var menu = UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
         
             return UIContextMenuConfiguration.Create(null, null, actions => menu);
         }

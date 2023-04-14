@@ -1,4 +1,4 @@
-using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
+using DIPS.Mobile.UI.Components.ContextMenus;
 
 namespace DIPS.Mobile.UI.Effects.ContextMenuEffect;
 
@@ -10,6 +10,21 @@ public class ContextMenuEffect : RoutingEffect
         false,
         propertyChanged: OnHasContextMenuChanged);
 
+    
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.CreateAttached("ItemsSource",
+        typeof(ContextMenu),
+        typeof(ContextMenuEffect),
+        null);
+
+    public static ContextMenu GetItemsSource(BindableObject view)
+    {
+        return (ContextMenu)view.GetValue(ItemsSourceProperty);
+    }
+
+    public static void SetItemsSource(BindableObject view, ContextMenu itemsSource)
+    {
+        view.SetValue(ItemsSourceProperty, itemsSource);
+    }
     
     public static bool GetHasContextMenu(BindableObject view)
     {
