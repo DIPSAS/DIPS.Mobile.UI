@@ -86,5 +86,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("ContextMenu", resourceCulture);
             }
         }
+        
+        internal static string Pickers {
+            get {
+                return ResourceManager.GetString("Pickers", resourceCulture);
+            }
+        }
     }
 }

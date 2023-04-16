@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Components.Resources.LocalizedStrings;
 
 namespace Components.ComponentsSamples.Pickers;
 
-public partial class PickersSample : ContentPage
+[ComponentSample(nameof(LocalizedStrings.Pickers))]
+[XamlCompilation(XamlCompilationOptions.Compile)]
+public partial class PickersSample 
 {
     public PickersSample()
     {

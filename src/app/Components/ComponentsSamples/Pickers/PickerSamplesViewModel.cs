@@ -1,3 +1,4 @@
+using Components.SampleData;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Pickers;
