@@ -86,7 +86,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             Grid.SetRow(m_bottomSheet, 1);
             grid.Children.Add(m_bottomSheet);
             
-            nestedScrollView.AddView(grid.ToContainerView(mauiContext));
+            nestedScrollView.AddView(grid.ToPlatform(mauiContext));
             nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.WrapContent);
             

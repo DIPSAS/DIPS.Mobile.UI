@@ -1,6 +1,4 @@
 using Components.Resources.LocalizedStrings;
-using DIPS.Mobile.UI.Components.BottomSheets;
-using DIPS.Mobile.UI.Components.MyCustomView;
 
 namespace Components.ComponentsSamples.BottomSheets
 {

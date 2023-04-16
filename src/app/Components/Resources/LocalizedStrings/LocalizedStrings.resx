@@ -39,4 +39,7 @@
     <data name="ContextMenu" xml:space="preserve">
         <value>ContextMenu</value>
     </data>
+    <data name="Pickers" xml:space="preserve">
+        <value>Pickers</value>
+    </data>
 </root>
