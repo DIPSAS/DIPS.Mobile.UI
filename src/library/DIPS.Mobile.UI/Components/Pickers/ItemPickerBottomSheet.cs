@@ -13,7 +13,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         private List<SelectableItem> m_items;
         private readonly List<SelectableItem> m_originalItems;
         private readonly SearchBar m_searchBar;
-        private readonly ListView m_listView;
+        private readonly CollectionView m_listView;
 
         public PickerBottomSheet(ItemPicker itemPicker)
         {
@@ -41,9 +41,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
             Items = m_originalItems;
 
             m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Colors.Transparent};
-            m_listView = new ListView()
+            m_listView = new CollectionView()
             {
-                HasUnevenRows = true,
                 ItemTemplate = new DataTemplate(CreateCheckBox),
                 Margin = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
             };
@@ -54,7 +53,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 m_listView.HeaderTemplate = new DataTemplate(() => m_searchBar);
             }
 
-            m_listView.SetBinding(ListView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+            m_listView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
 
             Content = m_listView;
             SubscribeToEvents();
@@ -82,14 +81,13 @@ namespace DIPS.Mobile.UI.Components.Pickers
             set => SetValue(ItemsProperty, value);
         }
 
-        private object CreateCheckBox()
+        private CheckBox CreateCheckBox()
         {
             var checkBox = new CheckBox();
             checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItem.DisplayName)});
             checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableItem.IsSelected)});
-            checkBox.SetBinding(CheckBox.CommandProperty,
-                new Binding() {Path = nameof(SelectableItem.IsSelectedCommand)});
-            return new ViewCell() {View = checkBox};
+            checkBox.SetBinding(CheckBox.CommandProperty, new Binding() {Path = nameof(SelectableItem.IsSelectedCommand)});
+            return checkBox;
         }
 
         private void FilterItems(object sender, TextChangedEventArgs e)
