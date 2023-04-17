@@ -6,12 +6,10 @@ namespace DIPS.Mobile.UI.Components.Pickers
     {
         private void AttachBottomSheet()
         {
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += delegate
+            GestureRecognizers.Add(new TapGestureRecognizer
             {
-                _ = BottomSheetService.OpenBottomSheet(new PickerBottomSheet(this));
-            };
-            GestureRecognizers.Add(tapGestureRecognizer);
+                Command = new Command(_ => BottomSheetService.OpenBottomSheet(new PickerBottomSheet(this)))
+            });
         }
     }
 }
