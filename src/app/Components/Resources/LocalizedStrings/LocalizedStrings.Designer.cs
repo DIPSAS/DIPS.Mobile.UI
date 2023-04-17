@@ -92,5 +92,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Pickers", resourceCulture);
             }
         }
+        
+        internal static string Checkboxes {
+            get {
+                return ResourceManager.GetString("Checkboxes", resourceCulture);
+            }
+        }
     }
 }
