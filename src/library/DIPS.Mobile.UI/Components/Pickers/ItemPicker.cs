@@ -14,6 +14,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             if (Mode == PickerMode.ContextMenu)
             {
+                Content!.InputTransparent = true;
                 ContextMenuEffect.SetMenu(this, m_contextMenu);
                 m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
             }
