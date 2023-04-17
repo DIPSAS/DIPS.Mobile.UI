@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Android.Widget;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -8,6 +9,21 @@ namespace DIPS.Mobile.UI.Components.Images;
 public partial class ImageHandler : ViewHandler<Image, ImageView>
 {
     protected override ImageView CreatePlatformView() => new ImageView(Platform.AppContext);
+
+    protected override void ConnectHandler(ImageView platformView)
+    {
+        base.ConnectHandler(platformView);
+        
+        VirtualView.AndroidProperties.PropertyChanged += AndroidPropertiesOnPropertyChanged;
+    }
+
+    private void AndroidPropertiesOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(VirtualView.AndroidProperties.IconResourceName))
+        {
+            TrySetSystemImage(this, VirtualView);
+        }
+    }
 
     private static partial void TrySetSystemImage(ImageHandler imageHandler, Image image)
     {
@@ -30,5 +46,12 @@ public partial class ImageHandler : ViewHandler<Image, ImageView>
         {
             imageHandler.PlatformView.SetColorFilter(image.Color.ToPlatform());
         }
+    }
+
+    protected override void DisconnectHandler(ImageView platformView)
+    {
+        base.DisconnectHandler(platformView);
+
+        VirtualView.AndroidProperties.PropertyChanged -= AndroidPropertiesOnPropertyChanged;
     }
 }
