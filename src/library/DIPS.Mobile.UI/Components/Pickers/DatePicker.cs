@@ -9,9 +9,10 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         public DatePicker()
         {
+            GestureRecognizers.Add(new TapGestureRecognizer {Command = new Command(Open)});
         }
         
-        public override void Open()
+        public void Open()
         {
             IsOpen = true;
             DatePickerService.OpenDatePicker(this);
