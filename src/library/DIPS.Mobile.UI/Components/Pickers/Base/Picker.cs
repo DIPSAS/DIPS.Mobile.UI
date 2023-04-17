@@ -19,8 +19,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
             HorizontalOptions = LayoutOptions.Fill;
             VerticalOptions = LayoutOptions.Center;
             HasShadow = false;
-            
-            GestureRecognizers.Add(new TapGestureRecognizer {Command = new Command(Open)});
 
             Padding = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_0);
             CornerRadius = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2);
@@ -72,9 +70,5 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
             m_pickedItemLabel.Text = selectedText;
         }
 
-        public virtual void Open()
-        {
-            
-        }
     }
 }
