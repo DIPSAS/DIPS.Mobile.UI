@@ -9,11 +9,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
 {
     /// <summary>
     /// Base class for Pickers
-    /// <remarks>Uses to <see cref="Border"/> instead of <see cref="Frame"/>, because <see cref="Frame"/> issues with <see cref="TapGestureRecognizer"/>
-    /// https://github.com/dotnet/maui/issues/8330
-    /// </remarks>
     /// </summary>
-    public partial class Picker : Border
+    public partial class Picker : Frame
     {
         protected readonly Label m_pickedItemLabel;
 
@@ -21,9 +18,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
         {
             HorizontalOptions = LayoutOptions.Fill;
             VerticalOptions = LayoutOptions.Center;
+            HasShadow = false;
+            
+            GestureRecognizers.Add(new TapGestureRecognizer {Command = new Command(Open)});
 
-            StrokeShape = new RoundRectangle() { CornerRadius = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2) };
             Padding = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_0);
+            CornerRadius = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2);
             
             this.SetAppThemeColor(BackgroundProperty, ColorName.color_system_white);
 
@@ -45,7 +45,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
             //Arrange the grid
             var pickerContent = new Grid()
             {
-                InputTransparent = true,
                 Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_4), UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)),
                 ColumnSpacing = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2),
                 VerticalOptions = LayoutOptions.Center,
@@ -71,6 +70,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
         public void SetPickedItemText(string selectedText)
         {
             m_pickedItemLabel.Text = selectedText;
+        }
+
+        public virtual void Open()
+        {
+            
         }
     }
 }
