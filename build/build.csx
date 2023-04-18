@@ -5,30 +5,28 @@
 #load "BuildSystem/Repository.csx"
 #load "BuildSystem/Command.csx"
 #load "BuildSystem/Nuget.csx"
+#load "BuildSystem/dotnet/dotnet.csx"
 #load "BuildSystem/AzureDevops.csx"
 
 private static string RootDir = Repository.RootDir();
 private static string SrcDir = Path.Combine(RootDir, "src");
 //Full solution with library and samples app
 private static string SolutionPath = SrcDir;
-private static string LibraryAndroidPath = Path.Combine(RootDir, "src","library","DIPS.Mobile.UI.Droid");
-private static string LibraryiOSPath = Path.Combine(RootDir, "src", "library", "DIPS.Mobile.UI.iOS");
-//Source generator paths
-private static string SourceGeneratorPath = Path.Combine(SrcDir, "sourcegenerator", "DIPS.Mobile.UI.SourceGenerator");
+//Libary
+private static string LibraryDir = Path.Combine(SolutionPath, "library");
+private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
+//App
+private static string AppDir = Path.Combine(SolutionPath, "app");
+private static string AppProjectPath = Path.Combine(AppDir, "Components.csproj");
 //Solution with nuget tests to test the nuget package
 private static string NugetTestSolutionPath = Path.Combine(RootDir, "src", "tests", "nugettest");
-private static string NugetTestAndroidPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.Droid");
-private static string NugetTestiOSPath = Path.Combine(RootDir, "src", "tests", "nugettest", "NugetTest.iOS");
 private static string OutputDir = Path.Combine(RootDir, "output");
-
-private static string NugetVersion = "1.1.0";
+private static string LibraryPackageVersion = "1.1.0";
 
 AsyncStep ci = async () =>
 {
-    await Nuget.Restore(SolutionPath);
-    await MSBuild.Build(SourceGeneratorPath);
-    await Android.Build(LibraryAndroidPath);
-    await iOS.Build(LibraryiOSPath);
+    await dotnet.Restore(LibraryDir);
+    await dotnet.Build(LibraryProjectPath);
     //TODO: ADD UNIT TESTS!!
 };
 
@@ -68,7 +66,6 @@ AsyncStep nugetTest = async () =>
         File.Delete(file);
     }
 
-    await MSBuild.Build(SourceGeneratorPath);
     await Android.Build(LibraryAndroidPath);
     await iOS.Build(LibraryiOSPath);
     await Nuget.Pack(RootDir, NugetVersion, Path.Combine(NugetTestSolutionPath, "packages"));
