@@ -53,7 +53,7 @@ AsyncStep cd = async () =>
     }
     await dotnet.Pack(LibraryProjectPath, version, OutputDir);
     var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, ".nupkg");
-    // await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
+    await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
 };
 
 
