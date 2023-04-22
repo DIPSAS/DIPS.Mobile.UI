@@ -42,6 +42,8 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageTags>dotnet,maui,ui,ux,dips</PackageTags>
         <Configurations>Debug;Release</Configurations>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <PropertyGroup>

@@ -35,27 +35,22 @@ AsyncStep ci = async () =>
 
 AsyncStep cd = async () =>
 {
-    if(Directory.Exists(OutputDir)){
+    if (Directory.Exists(OutputDir))
+    {
         Directory.CreateDirectory(OutputDir);
     }
 
+    var nupkgFile = await PackLibrary();
+
+    //Push
     var apiKey = AzureDevops.GetEnvironmentVariable("dipsmobileuiNugetApiKey");
-    if(string.IsNullOrEmpty(apiKey)){
+    if (string.IsNullOrEmpty(apiKey))
+    {
         throw new Exception("dipsmobileuiNugetApiKey: is not set for this build. Unable to push nuget package");
 
     }
-
-    var version = VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath);
-    if(! await Git.CurrentBranchIsMaster())
-    {
-        var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
-        version += $"-pre{buildNumber}";
-    }
-    await dotnet.Pack(LibraryProjectPath, version, OutputDir);
-    var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, ".nupkg");
     await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
 };
-
 
 AsyncStep nugetTest = async () =>
 {
@@ -86,7 +81,7 @@ AsyncStep nugetTest = async () =>
 
     await dotnet.Restore(LibraryDir);
     await dotnet.Build(LibraryProjectPath);
-    await dotnet.Pack(LibraryProjectPath, LibraryPackageVersion, packagesDir);
+    await PackLibrary(packagesDir);
 };
 
 var args = Args;
@@ -98,3 +93,17 @@ if(args.Count() == 0){
 }
 
 await ExecuteSteps(args);
+
+
+async Task<FileInfo> PackLibrary(string outputdir = null)
+{
+    outputdir ??= OutputDir;
+    var version = VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath);
+    if (!await Git.CurrentBranchIsMaster())
+    {
+        var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
+        version += $"-pre{buildNumber}";
+    }
+    await dotnet.Pack(LibraryProjectPath, version, outputdir);
+    return FileHelper.FindSingleFileByExtension(outputdir, ".nupkg");;
+}
