@@ -7,13 +7,16 @@
 #load "BuildSystem/Nuget.csx"
 #load "BuildSystem/dotnet/dotnet.csx"
 #load "BuildSystem/AzureDevops.csx"
+#load "BuildSystem/Versioning/VersionUtil.csx"
+#load "BuildSystem/Git.csx"
 
 private static string RootDir = Repository.RootDir();
+private static string ChangeLogPath = Path.Combine(RootDir, "CHANGELOG.MD");
 private static string SrcDir = Path.Combine(RootDir, "src");
 //Full solution with library and samples app
 private static string SolutionPath = SrcDir;
 //Libary
-private static string LibraryDir = Path.Combine(SolutionPath, "library");
+private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
 private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
 //App
 private static string AppDir = Path.Combine(SolutionPath, "app");
@@ -36,16 +39,21 @@ AsyncStep cd = async () =>
         Directory.CreateDirectory(OutputDir);
     }
 
-    var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
     var nugetSourceFeed = AzureDevops.GetEnvironmentVariable("nugetSourceFeed");
+    var apiKey = AzureDevops.GetEnvironmentVariable("nugetApiKey");
     if(string.IsNullOrEmpty(nugetSourceFeed)){
         throw new Exception("nugetSourceFeed: is not set for this build. Unable to push nuget package");
     }
 
-    var version = string.Format("{0}-pre{1}", NugetVersion, buildNumber);
-    await Nuget.Pack(RootDir, version, OutputDir);
+    var version = VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath);
+    if(! await Git.CurrentBranchIsMaster())
+    {
+        var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
+        version += $"-pre{buildNumber}";
+    }
+    await dotnet.Pack(LibraryProjectPath, version, OutputDir);
     var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, ".nupkg");
-    await Nuget.Push(nupkgFile.FullName, nugetSourceFeed);
+    // await dotnet.NugetPush(nupkgFile.FullName, apiKey, nugetSourceFeed);
 };
 
 
@@ -54,21 +62,31 @@ AsyncStep nugetTest = async () =>
     //Clear from nuget cache
     var homePath = Environment.GetEnvironmentVariable("HOME");
     var oldNugetPackageFilePath = Path.Combine(homePath, ".nuget", "packages", "dips.mobile.ui");
-    if(File.Exists(oldNugetPackageFilePath)){
+    if (File.Exists(oldNugetPackageFilePath))
+    {
         Directory.Delete(oldNugetPackageFilePath, true);
     }
-    
+
     //Clear from local packages folder
-    var files = Directory.EnumerateFiles(Path.Combine(NugetTestSolutionPath, "packages"));
-    foreach (var file in files)
+    var packagesDir = Path.Combine(NugetTestSolutionPath, "packages");
+    if (Directory.Exists(packagesDir))
     {
-        File.SetAttributes(file, FileAttributes.Normal);
-        File.Delete(file);
+        var files = Directory.EnumerateFiles(Path.Combine(NugetTestSolutionPath, "packages"));
+        foreach (var file in files)
+        {
+            File.SetAttributes(file, FileAttributes.Normal);
+            File.Delete(file);
+        }
+    }
+    else
+    {
+        Directory.CreateDirectory(packagesDir);
     }
 
-    await Android.Build(LibraryAndroidPath);
-    await iOS.Build(LibraryiOSPath);
-    await Nuget.Pack(RootDir, NugetVersion, Path.Combine(NugetTestSolutionPath, "packages"));
+
+    await dotnet.Restore(LibraryDir);
+    await dotnet.Build(LibraryProjectPath);
+    await dotnet.Pack(LibraryProjectPath, LibraryPackageVersion, packagesDir);
 };
 
 var args = Args;

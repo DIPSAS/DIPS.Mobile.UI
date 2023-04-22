@@ -10,6 +10,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
+        <RepositoryType>github</RepositoryType>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -24,7 +25,7 @@
         <Owners>DIPS AS</Owners>
         <NeutralLanguage>en</NeutralLanguage>
         <Product>DIPS.Mobile.UI (net7.0)</Product>
-        <Copyright>© DIPS AS. All rights reserved.</Copyright>
+        <Copyright>© DIPS AS 2023. All rights reserved.</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
         <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
@@ -32,7 +33,7 @@
         <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
         <Title>DIPS.Mobile.UI</Title>
         <Description>To support developers building DIPS mobile native apps, the designers maintain a Design System with style resources and components to use. The components are available for the developers by using DIPS.Mobile.UI as a dependency for their app.</Description>
-        <PackageIcon>https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/assets/dips.png</PackageIcon>
+        <PackageIcon>dips.png</PackageIcon>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
@@ -66,6 +67,11 @@
     <ItemGroup>
         <None Remove="Components\iOS\" />
         <None Remove="Components\Android\" />
+        <None Include="..\..\..\assets\dips.png">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+          <Link>dips.png</Link>
+        </None>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Platforms\Android" />

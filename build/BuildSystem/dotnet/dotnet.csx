@@ -3,21 +3,21 @@
 
 public static class dotnet
 {
-    public static async Task<CommandResult> Restore(string path)
+    public static Task Restore(string path) => Command.ExecuteAsync("dotnet", $"restore {path}");
+    
+    public static Task Build(string projectPath) => Command.ExecuteAsync("dotnet", $"build {projectPath}");
+
+    public static Task Pack(string projectPath, string version, string outputdir) => Command.ExecuteAsync("dotnet", $"pack {projectPath} -p:PackageVersion={version} -o {outputdir}");
+
+    public static Task NugetPush(string nupkgPath, string apiKey, string source, bool skipDuplicate=true) 
     {
-        var result = await Command.CaptureAsync("dotnet", $"restore {path}");
-        if(result.StandardError != string.Empty){
-            throw new Exception(result.StandardError);
+        var args = $"{nupkgPath} -k {apiKey} -s {source}";
+        if(skipDuplicate)
+        {
+            args += " --skip-duplicate";
         }
-        return result;
+        
+        return Command.ExecuteAsync("dotnet", $"nuget push {args}");
     }
 
-    public static async Task<CommandResult> Build(string projectPath)
-    {
-        var result = await Command.CaptureAsync("dotnet", $"build {projectPath}");
-        if(result.StandardError != string.Empty){
-            throw new Exception(result.StandardError);
-        }
-        return result;
-    }
 }
