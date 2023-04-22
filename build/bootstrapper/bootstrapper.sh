@@ -16,6 +16,18 @@ else
    dotnet tool install -g dotnet-script > /dev/null
 fi
 
-#maui
-echo "⌛ Installing .NET MAUI."
-sudo dotnet workload install maui-android maui-ios
+#maui ios
+if dotnet workload list| grep maui-ios > /dev/null ; then
+   echo "✅ .NET MAUI iOS was found."
+else
+   echo "❌ .NET MAUI iOS was not found, installing..."
+   sudo dotnet workload install maui-ios
+fi
+
+#maui android
+if dotnet workload list | grep maui-android > /dev/null ; then
+   echo "✅ .NET MAUI Android was found."
+else
+   echo "❌ .NET MAUI Android was not found, installing..."
+   sudo dotnet workload install maui-android
+fi
