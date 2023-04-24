@@ -26,7 +26,6 @@
         <NeutralLanguage>en</NeutralLanguage>
         <Product>DIPS.Mobile.UI (net7.0)</Product>
         <Copyright>© DIPS AS 2023. All rights reserved.</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
         <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
         <DefineConstants>$(DefineConstants);</DefineConstants>
@@ -44,6 +43,8 @@
         <Configurations>Debug;Release</Configurations>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -81,5 +82,13 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
       <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="..\..\..\LICENSE" Pack="true" PackagePath="">
+        <Link>LICENSE</Link>
+      </Content>
+      <Content Include="..\..\..\README.md" Pack="true" PackagePath="">
+        <Link>README.md</Link>
+      </Content>
     </ItemGroup>
 </Project>
