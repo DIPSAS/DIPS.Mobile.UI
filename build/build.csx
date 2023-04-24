@@ -52,6 +52,7 @@ AsyncStep pack = async () =>
 
 AsyncStep publish = async () =>
 {
+    await Command.ExecuteAsync("ls", $"-a {OutputDir}");
     var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, "nupkg");
 
     //Code sign
