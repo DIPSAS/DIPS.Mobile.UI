@@ -26,23 +26,34 @@ private static string NugetTestSolutionPath = Path.Combine(RootDir, "src", "test
 private static string OutputDir = Path.Combine(RootDir, "output");
 private static string LibraryPackageVersion = "1.1.0";
 
-AsyncStep ci = async () =>
+AsyncStep build = async () =>
 {
     await dotnet.Restore(LibraryDir);
     await dotnet.Build(LibraryProjectPath);
     //TODO: ADD UNIT TESTS!!
 };
 
-AsyncStep cd = async () =>
+AsyncStep test = async () =>
+{
+    await dotnet.Restore(LibraryDir);
+    await dotnet.Build(LibraryProjectPath);
+    //TODO: ADD UNIT TESTS!!
+};
+
+AsyncStep pack = async () =>
 {
     if (Directory.Exists(OutputDir))
     {
         Directory.CreateDirectory(OutputDir);
     }
 
-    var nupkgFile = await PackLibrary();
+    await PackLibrary();
+};
 
-    
+AsyncStep push => async () =>
+{
+    var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, "nupkg");
+
     //Code sign
     var codeSignPath = AzureDevops.GetEnvironmentVariable("codesign.securefilepath");
     var codesignPw = AzureDevops.GetEnvironmentVariable("nuget.dipsas.certpw");
@@ -56,7 +67,8 @@ AsyncStep cd = async () =>
         throw new Exception("dipsmobileuiNugetApiKey: is not set for this build. Unable to push nuget package");
     }
 
-    await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
+    throw new Exception($"Would have pushed:{nupkgFile.FullName}");
+    // await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
 };
 
 AsyncStep nugetTest = async () =>
