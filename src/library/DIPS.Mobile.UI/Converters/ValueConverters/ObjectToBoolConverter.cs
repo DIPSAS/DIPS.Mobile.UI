@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class ObjectToBoolConverter : IValueConverter, IMarkupExtension
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
         
         /// <summary>
         /// The object value that equals a true boolean value

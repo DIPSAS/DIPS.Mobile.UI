@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 throw new XamlParseException("Addend is null, it has to be a double").WithXmlLineInfo(m_serviceProvider);
             if (!double.TryParse(value.ToString(), out var term))
                 throw new XamlParseException("Value is not a number").WithXmlLineInfo(m_serviceProvider);
-            return term + (double)Addend;
+            return term + Addend.Value;
         }
 
         /// <inheritdoc />

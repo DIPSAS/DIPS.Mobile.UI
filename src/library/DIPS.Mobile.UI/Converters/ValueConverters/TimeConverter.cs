@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class TimeConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider?m_serviceProvider;
 
         /// <summary>
         ///     The converter format that is used to change the format of the time <see cref="TimeConverter" />
@@ -43,7 +43,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
             var dateTimeInput = DateTime.MinValue;
             if (value == null) return string.Empty;

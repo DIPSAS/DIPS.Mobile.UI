@@ -9,8 +9,6 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class StringCaseConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
-
         /// <summary>
         /// <see cref="StringCase"/>
         /// </summary>
@@ -20,7 +18,6 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         [ExcludeFromCodeCoverage]
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            m_serviceProvider = serviceProvider;
             return this;
         }
 

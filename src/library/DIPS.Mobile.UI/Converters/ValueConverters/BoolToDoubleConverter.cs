@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         public bool Inverted { get; set; }
 
         /// <inheritdoc />
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is not bool inputValue)
             {

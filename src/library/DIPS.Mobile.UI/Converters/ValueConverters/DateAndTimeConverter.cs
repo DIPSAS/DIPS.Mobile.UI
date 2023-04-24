@@ -38,7 +38,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         public bool IgnoreLocalTime { get; set; } = false;
 
         private const string Space = " ";
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         ///     The format to use during conversion
@@ -54,7 +54,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return string.Empty;
             if (!(value is DateTime dateTimeInput))
@@ -77,10 +77,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
 
         private static string ConvertToTextFormat(DateTime dateTimeInput, CultureInfo culture, bool ignoreLocalTime)
         {
-            var date = new DateConverter {Format = DateConverter.DateConverterFormat.Text, IgnoreLocalTime = ignoreLocalTime}.Convert(dateTimeInput, null,
-                null, culture);
+            var date = new DateConverter {Format = DateConverter.DateConverterFormat.Text, IgnoreLocalTime = ignoreLocalTime}.Convert(dateTimeInput, null!,
+                null!, culture);
             var time = new TimeConverter {Format = TimeConverter.TimeConverterFormat.Default, IgnoreLocalTime = ignoreLocalTime}.Convert(dateTimeInput,
-                null, null, culture);
+                null!, null!, culture);
 
             if (culture.IsNorwegian())
             {
@@ -98,9 +98,9 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         private static string ConvertToShortFormat(DateTime dateTimeInput, CultureInfo culture, bool ignoreLocalTime)
         {
             var date = new DateConverter {Format = DateConverter.DateConverterFormat.Short, IgnoreLocalTime = ignoreLocalTime}.Convert(dateTimeInput, null,
-                null, culture);
+                null!, culture);
             var time = new TimeConverter {Format = TimeConverter.TimeConverterFormat.Default, IgnoreLocalTime = ignoreLocalTime}.Convert(dateTimeInput,
-                null, null, culture);
+                null!, null!, culture);
 
             return culture.IsNorwegian() ? $"{date}{Space}kl{Space}{time}" : $"{date}{Space}{time}";
         }
