@@ -72,6 +72,7 @@
         <None Remove="Components\Android\" />
         <None Include="..\..\..\assets\dips.png">
           <Pack>True</Pack>
+          <PackagePath></PackagePath>
           <Link>dips.png</Link>
         </None>
     </ItemGroup>
