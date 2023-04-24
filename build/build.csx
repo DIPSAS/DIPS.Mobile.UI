@@ -67,8 +67,7 @@ AsyncStep publish = async () =>
         throw new Exception("dipsmobileuiNugetApiKey: is not set for this build. Unable to push nuget package");
     }
 
-    throw new Exception($"Would have pushed:{nupkgFile.FullName}");
-    // await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
+    await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
 };
 
 AsyncStep nugetTest = async () =>
