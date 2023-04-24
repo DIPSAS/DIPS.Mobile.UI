@@ -43,18 +43,20 @@ AsyncStep cd = async () =>
     var nupkgFile = await PackLibrary();
 
     //Push
+
+
+    // var codeSignPath = AzureDevops.GetEnvironmentVariable("codesign.securefilepath");
+    // var codesignPw = AzureDevops.GetEnvironmentVariable("nuget.dipsas.certpw");
+
+    // await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -CertificatePath {codeSignPath} -CertificatePassword {codesignPw}  -Timestamper http://timestamp.digicert.com/");
+
     var apiKey = AzureDevops.GetEnvironmentVariable("dipsmobileuiNugetApiKey");
     if (string.IsNullOrEmpty(apiKey))
     {
         throw new Exception("dipsmobileuiNugetApiKey: is not set for this build. Unable to push nuget package");
-
     }
 
-    var codeSignPath = AzureDevops.GetEnvironmentVariable("codesign.securefilepath");
-    var codesignPw = AzureDevops.GetEnvironmentVariable("nuget.dipsas.certpw");
-
-    await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -CertificatePath {codeSignPath} -CertificatePassword {codesignPw}  -Timestamper http://timestamp.digicert.com/");
-    await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
+    // await dotnet.NugetPush(nupkgFile.FullName, apiKey, "https://api.nuget.org/v3/index.json");
 };
 
 AsyncStep nugetTest = async () =>
