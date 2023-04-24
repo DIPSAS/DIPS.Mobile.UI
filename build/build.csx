@@ -50,7 +50,7 @@ AsyncStep pack = async () =>
     await PackLibrary();
 };
 
-AsyncStep push => async () =>
+AsyncStep publish = async () =>
 {
     var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, "nupkg");
 
