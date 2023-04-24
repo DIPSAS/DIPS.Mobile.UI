@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Extensions
         /// <param name="obj">The object to try to get the value from</param>
         /// <param name="propertyName">The property name to try to get an value from</param>
         /// <returns></returns>
-        public static string GetPropertyValue(this object obj, string? propertyName)
+        public static string? GetPropertyValue(this object? obj, string? propertyName)
         {
             if (obj == null)
             {
