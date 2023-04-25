@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class BoolToDoubleConverter : IValueConverter, IMarkupExtension
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         ///     The value that will return if the boolean input is true
@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         public bool Inverted { get; set; }
 
         /// <inheritdoc />
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is not bool inputValue)
             {

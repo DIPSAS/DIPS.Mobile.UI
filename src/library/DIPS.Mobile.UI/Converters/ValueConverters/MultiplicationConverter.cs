@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class MultiplicationConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <inheritdoc />
         [ExcludeFromCodeCoverage]
@@ -31,7 +31,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             if (Factor == null) throw new XamlParseException("Factor is null, it has to be a double").WithXmlLineInfo(m_serviceProvider);
             if (!double.TryParse(value.ToString(), out var number)) throw new XamlParseException("Value is not a number").WithXmlLineInfo(m_serviceProvider);
 
-            return number * Factor;
+            return number * Factor.Value;
         }
 
         /// <inheritdoc />

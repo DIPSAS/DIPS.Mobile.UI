@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Extensions
     public static class BindableObjectExtensions
     {
         /// <summary>
-        /// Sets and changes the color of the <see cref="BindableProperty"/> based on the <see cref="ColorName"/> based on the current <see cref="OSAppTheme"/>
+        /// Sets and changes the color of the <see cref="BindableProperty"/> based on the <see cref="ColorName"/> based on the current <see cref="AppTheme"/>
         /// </summary>
         /// <param name="self"></param>
         /// <param name="targetProperty"></param>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DIPS.Mobile.UI.Converters.ValueConverters
+﻿namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
     /// <summary>
     /// This class is used to control the current time.
@@ -69,20 +67,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
 
         internal class CurrentTime : IClock
         {
-            public DateTime Now
-            {
-                get { return DateTime.Now; }
-            }
+            DateTime IClock.Now => DateTime.Now;
 
-            public DateTime Today
-            {
-                get { return DateTime.Today; }
-            }
+            DateTime IClock.Today => DateTime.Today;
 
-            public DateTime UtcNow
-            {
-                get { return DateTime.UtcNow; }
-            }
+            DateTime IClock.UtcNow => DateTime.UtcNow;
         }
 
         internal class FixedTime : IClock
@@ -94,11 +83,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 this.m_fixedTime = fixedTime;
             }
 
-            public DateTime Now { get { return this.m_fixedTime; } }
+            DateTime IClock.Now { get { return this.m_fixedTime; } }
 
-            public DateTime Today { get { return this.m_fixedTime.Date; } }
+            DateTime IClock.Today { get { return this.m_fixedTime.Date; } }
 
-            public DateTime UtcNow { get { return this.m_fixedTime.ToUniversalTime(); } }
+            DateTime IClock.UtcNow { get { return this.m_fixedTime.ToUniversalTime(); } }
         }
     }
 

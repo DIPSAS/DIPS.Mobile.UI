@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class IsEmptyToObjectConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         /// Property to set if we want to return a inverted output value from the converter.
