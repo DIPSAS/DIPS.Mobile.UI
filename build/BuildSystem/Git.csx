@@ -27,6 +27,11 @@ public static class Git{
         return await GetCurrentBranch(workingDirectory) == "master";
     }
 
+    public static async Task<bool> CurrentBranchIsMain(string workingDirectory = null)
+    {
+        return await GetCurrentBranch(workingDirectory) == "main";
+    }
+
     private static Task<CommandResult> ExecuteGitCommand(string arguments, string workingDirectory){
         return Command.CaptureAsync("git", arguments, workingDirectory);
     }
