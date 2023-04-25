@@ -1,5 +1,7 @@
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.MyCustomView;
 using Microsoft.Maui.LifecycleEvents;
+using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace DIPS.Mobile.UI;
@@ -34,6 +36,11 @@ public static class AppHostBuilderExtensions
 #if __IOS__
             handlers.AddHandler(typeof(Shell), typeof(DIPS.Mobile.UI.Components.Shell.iOS.CustomShellRenderer));
 #endif
+        });
+
+        builder.ConfigureEffects(effects =>
+        {
+            effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
         });
 
         return builder;

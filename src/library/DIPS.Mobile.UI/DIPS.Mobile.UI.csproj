@@ -11,6 +11,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <RepositoryType>github</RepositoryType>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -86,5 +87,10 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3"/>
         <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Microsoft.iOS">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net7.0\Microsoft.iOS.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>
