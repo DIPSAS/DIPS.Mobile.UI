@@ -47,9 +47,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                     context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             var grid = new Grid()
             {
-                BackgroundColor = Colors.Aqua,
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.Center,
                 Padding = new Thickness(0,0,0,DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)),
                 RowSpacing = 0,
                 RowDefinitions = new RowDefinitionCollection()
@@ -86,7 +83,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             Grid.SetRow(m_bottomSheet, 1);
             grid.Children.Add(m_bottomSheet);
             
-            nestedScrollView.AddView(grid.ToContainerView(mauiContext));
+            
+            if (!m_bottomSheet.ShouldFitToContent)
+            {
+                var height = DeviceDisplay.Current.MainDisplayInfo.Height;
+                grid.HeightRequest = height; 
+            }
+            var aView = grid.ToContainerView(mauiContext);
+            nestedScrollView.AddView(aView);
             nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.WrapContent);
             
