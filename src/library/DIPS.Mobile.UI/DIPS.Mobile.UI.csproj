@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+        <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
 
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
@@ -59,18 +59,19 @@
 
     <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
-        <Compile Remove="**\Android\**\*.cs"/>
-        <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+        <Compile Remove="**\Android\**\*.cs" />
+        <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
 
     <!-- iOS -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true">
-        <Compile Remove="**\iOS\**\*.cs"/>
-        <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+        <Compile Remove="**\iOS\**\*.cs" />
+        <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
+    
     <ItemGroup>
-        <None Remove="Components\iOS\"/>
-        <None Remove="Components\Android\"/>
+        <None Remove="Components\iOS\" />
+        <None Remove="Components\Android\" />
         <None Include="..\..\..\assets\dips.png" Pack="true" PackagePath="">
             <Link>dips.png</Link>
         </None>
@@ -82,11 +83,11 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Platforms\Android"/>
+        <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3"/>
-        <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10"/>
+        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
+        <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
     </ItemGroup>
     <ItemGroup>
       <Reference Include="Microsoft.iOS">
