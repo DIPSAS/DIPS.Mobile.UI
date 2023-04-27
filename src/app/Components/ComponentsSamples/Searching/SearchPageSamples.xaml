@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:sampleData="clr-namespace:Components.SampleData"
+             xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
+             x:Class="Components.ComponentsSamples.Searching.SearchPageSamples"
+             SearchCommand="{Binding SearchCommand}"
+             SearchPlaceholder="Search for people"
+             Shell.PresentationMode="ModalAnimated">
+    <dui:SearchPage.BindingContext>
+        <searching:SearchPageSamplesPageViewModel />
+    </dui:SearchPage.BindingContext>
+    <dui:SearchPage.HintView>
+        <StackLayout>
+            <Label Text="Use the search bar to search for people."
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </dui:SearchPage.HintView>
+    <dui:SearchPage.NoResultView>
+        <StackLayout>
+            <Label Text="No people match your search, try again. :( "
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </dui:SearchPage.NoResultView>
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate x:DataType="{x:Type sampleData:Person}">
+            <ViewCell>
+                <dui:Label Text="{Binding DisplayName}"
+                           Margin="15" />
+            </ViewCell>
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
+</dui:SearchPage>

@@ -98,5 +98,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Checkboxes", resourceCulture);
             }
         }
+        
+        internal static string SearchBar {
+            get {
+                return ResourceManager.GetString("SearchBar", resourceCulture);
+            }
+        }
+        
+        internal static string SearchPage {
+            get {
+                return ResourceManager.GetString("SearchPage", resourceCulture);
+            }
+        }
     }
 }
