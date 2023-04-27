@@ -2,7 +2,7 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
-    internal class InternalSearchBar : Microsoft.Maui.Controls.SearchBar
+    public class InternalSearchBar : Microsoft.Maui.Controls.SearchBar
     {
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),

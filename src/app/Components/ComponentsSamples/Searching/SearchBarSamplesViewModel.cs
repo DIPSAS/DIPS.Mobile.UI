@@ -7,6 +7,8 @@ namespace Components.ComponentsSamples.Searching
     {
         private List<Person> m_people;
         private readonly List<Person> m_originalPeople;
+        private string m_filterQuery;
+
         public SearchBarSamplesViewModel()
         {
             People = SampleDataStorage.People.ToList();
@@ -23,6 +25,12 @@ namespace Components.ComponentsSamples.Searching
             {
                 People = m_originalPeople.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower())).ToList();
             }
+        }
+
+        public string FilterQuery
+        {
+            get => m_filterQuery;
+            set => RaiseWhenSet(ref m_filterQuery, value);
         }
 
         public List<Person> People
