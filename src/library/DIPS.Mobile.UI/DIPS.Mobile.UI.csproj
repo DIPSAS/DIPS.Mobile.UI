@@ -68,6 +68,11 @@
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.Equals('net7.0')) != true">
+        <Compile Remove="**\dotnet\**\*.cs" />
+        <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
     
     <ItemGroup>
         <None Remove="Components\iOS\" />
