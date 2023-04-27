@@ -18,6 +18,10 @@ private static string SolutionPath = SrcDir;
 //Libary
 private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
 private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
+//Test project
+private static string TestDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
+private static string TestProjectPath = Path.Combine(TestDir, "DIPS.Mobile.UI.csproj");
+
 //App
 private static string AppDir = Path.Combine(SolutionPath, "app");
 private static string AppProjectPath = Path.Combine(AppDir, "Components.csproj");
@@ -30,14 +34,11 @@ AsyncStep build = async () =>
 {
     await dotnet.Restore(LibraryDir);
     await dotnet.Build(LibraryProjectPath);
-    //TODO: ADD UNIT TESTS!!
 };
 
 AsyncStep test = async () =>
 {
-    await dotnet.Restore(LibraryDir);
-    await dotnet.Build(LibraryProjectPath);
-    //TODO: ADD UNIT TESTS!!
+    await dotnet.Test(TestProjectPath);
 };
 
 AsyncStep pack = async () =>
