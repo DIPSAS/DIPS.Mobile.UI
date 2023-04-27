@@ -10,7 +10,9 @@
 #load "BuildSystem/Versioning/VersionUtil.csx"
 #load "BuildSystem/Git.csx"
 
+private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
+private static string OutputDir = Path.Combine(RootDir, "output");
 private static string ChangeLogPath = Path.Combine(RootDir, "CHANGELOG.MD");
 private static string SrcDir = Path.Combine(RootDir, "src");
 //Full solution with library and samples app
@@ -18,28 +20,17 @@ private static string SolutionPath = SrcDir;
 //Libary
 private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
 private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
-//Test project
-private static string TestDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
-private static string TestProjectPath = Path.Combine(TestDir, "DIPS.Mobile.UI.csproj");
-
 //App
 private static string AppDir = Path.Combine(SolutionPath, "app");
 private static string AppProjectPath = Path.Combine(AppDir, "Components.csproj");
-//Solution with nuget tests to test the nuget package
-private static string NugetTestSolutionPath = Path.Combine(RootDir, "src", "tests", "nugettest");
-private static string OutputDir = Path.Combine(RootDir, "output");
-private static string LibraryPackageVersion = "1.1.0";
+//Tests
+private static string TestDir = Path.Combine(SrcDir, "tests");
+private static string NugetTestSolutionPath = Path.Combine(TestDir,"nugettest");
+private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS.Mobile.UI.UnitTests.csproj");;
 
-AsyncStep build = async () =>
-{
-    await dotnet.Restore(LibraryDir);
-    await dotnet.Build(LibraryProjectPath);
-};
+AsyncStep build = () => dotnet.Build(LibraryProjectPath);
 
-AsyncStep test = async () =>
-{
-    await dotnet.Test(TestProjectPath);
-};
+AsyncStep test = () => dotnet.Test(TestProjectPath, OutputDir);
 
 AsyncStep pack = async () =>
 {
