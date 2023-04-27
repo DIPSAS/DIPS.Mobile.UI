@@ -68,7 +68,7 @@ internal class InternalSearchBarHandler : SearchBarHandler
 
     private static void MapShowsCancelButton(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
     {
-        internalSearchBarHandler.PlatformView.ShowsCancelButton = internalSearchBar.ShowsCancelButton;
+        internalSearchBarHandler.PlatformView.SetShowsCancelButton(internalSearchBar.ShowsCancelButton, true);
         
         if(!internalSearchBar.ShowsCancelButton) 
             return;
@@ -79,10 +79,7 @@ internal class InternalSearchBarHandler : SearchBarHandler
         
         cancelButton.Enabled = true;
     }
-
-
-    protected override MauiSearchBar CreatePlatformView() => new MauiSearchBar();
-
+    
     protected override void ConnectHandler(MauiSearchBar platformView)
     {
         base.ConnectHandler(platformView);
