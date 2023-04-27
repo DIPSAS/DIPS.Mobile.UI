@@ -38,4 +38,7 @@
     <data name="Checkboxes" xml:space="preserve">
         <value>Checkboxes</value>
     </data>
+    <data name="SearchBar" xml:space="preserve">
+        <value>SearchBar</value>
+    </data>
 </root>

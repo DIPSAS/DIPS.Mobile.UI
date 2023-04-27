@@ -4,7 +4,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     internal class InternalSearchBar : Microsoft.Maui.Controls.SearchBar
     {
-
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
             typeof(CornerRadius),
@@ -101,5 +100,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (bool)GetValue(HasBusyIndicationProperty);
             set => SetValue(HasBusyIndicationProperty, value);
         }
+        
     }
 }

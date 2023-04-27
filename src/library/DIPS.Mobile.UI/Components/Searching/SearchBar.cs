@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, new Binding(nameof(IsBusy), source: this));
             m_internalSearchBar.SetBinding(PlaceholderColorProperty,
                 new Binding(nameof(PlaceholderColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.CancelButtonColorProperty,
+            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty,
                 new Binding(nameof(CancelButtonColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.IconsColorProperty,
                 new Binding(nameof(IconsColor), source: this));

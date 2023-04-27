@@ -45,4 +45,10 @@
     <data name="Checkboxes" xml:space="preserve">
         <value>Checkboxes</value>
     </data>
+    <data name="SearchBar" xml:space="preserve">
+        <value>SearchBar</value>
+    </data>
+    <data name="SearchPage" xml:space="preserve">
+        <value>SearchPage</value>
+    </data>
 </root>
