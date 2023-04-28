@@ -15,13 +15,28 @@ internal class InternalSearchBarHandler : SearchBarHandler
         ActivityIndicatorView = new UIActivityIndicatorView();
     }
     
-    public static readonly IPropertyMapper<InternalSearchBar, InternalSearchBarHandler> PropertyMapper = new PropertyMapper<InternalSearchBar, InternalSearchBarHandler>(ViewMapper)
+    public static readonly IPropertyMapper<InternalSearchBar, InternalSearchBarHandler> PropertyMapper = new PropertyMapper<InternalSearchBar, InternalSearchBarHandler>(Mapper)
     {
         [nameof(InternalSearchBar.ShowsCancelButton)] = MapShowsCancelButton,
         [nameof(InternalSearchBar.CornerRadius)] = MapCornerRadius,
         [nameof(InternalSearchBar.IconsColor)] = MapIconsColor,
-        [nameof(InternalSearchBar.IsBusy)] = MapIsBusy
+        [nameof(InternalSearchBar.IsBusy)] = MapIsBusy,
+        [nameof(InternalSearchBar.BarColor)] = MapBarTintColor,
+        [nameof(InternalSearchBar.TextFieldColor)] = MapTextFieldColor
     };
+
+    private static void MapTextFieldColor(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
+    {
+        if(internalSearchBar.TextFieldColor == null)
+            return;
+
+        internalSearchBarHandler.PlatformView.SearchTextField.BackgroundColor = internalSearchBar.TextFieldColor.ToPlatform();
+    }
+
+    private static void MapBarTintColor(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
+    {
+        //internalSearchBarHandler.PlatformView.BackgroundColor = internalSearchBar.BarColor.ToPlatform();
+    }
 
     private UIActivityIndicatorView ActivityIndicatorView { get; }
 
@@ -68,7 +83,7 @@ internal class InternalSearchBarHandler : SearchBarHandler
 
     private static void MapShowsCancelButton(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
     {
-        internalSearchBarHandler.PlatformView.SetShowsCancelButton(internalSearchBar.ShowsCancelButton, true);
+        internalSearchBarHandler.PlatformView.ShowsCancelButton = internalSearchBar.ShowsCancelButton;
         
         if(!internalSearchBar.ShowsCancelButton) 
             return;

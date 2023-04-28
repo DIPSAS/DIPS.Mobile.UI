@@ -13,25 +13,21 @@
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>
     <dui:SearchPage.HintView>
-        <StackLayout>
             <Label Text="Use the search bar to search for people."
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
     </dui:SearchPage.HintView>
     <dui:SearchPage.NoResultView>
-        <StackLayout>
             <Label Text="No people match your search, try again. :( "
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
     </dui:SearchPage.NoResultView>
     <dui:SearchPage.ResultItemTemplate>
         <DataTemplate x:DataType="{x:Type sampleData:Person}">
-            <ViewCell>
+            <StackLayout BackgroundColor="Transparent">
                 <dui:Label Text="{Binding DisplayName}"
                            Margin="15" />
-            </ViewCell>
+            </StackLayout>
         </DataTemplate>
     </dui:SearchPage.ResultItemTemplate>
 </dui:SearchPage>

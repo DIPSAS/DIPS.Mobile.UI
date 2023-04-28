@@ -23,9 +23,12 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_internalSearchBar = new InternalSearchBar();
 
-            m_internalSearchBar.SetBinding(BackgroundColorProperty, new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,
                 new Binding(nameof(TextColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.TextFieldColorProperty,
+                new Binding(nameof(TextFieldColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, new Binding(nameof(IsBusy), source: this));
             m_internalSearchBar.SetBinding(PlaceholderColorProperty,
                 new Binding(nameof(PlaceholderColor), source: this));
@@ -54,6 +57,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(CancelButtonColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(BarColorProperty, ColorName.color_neutral_05);
+            this.SetAppThemeColor(TextFieldColorProperty, ColorName.color_neutral_05);
 
             grid.Children.Add(m_internalSearchBar);
             
@@ -69,7 +73,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
                 androidProgressBar.SetBinding(IndeterminateProgressBar.IsRunningProperty,
                     new Binding(nameof(IsBusy), source: this));
-                androidProgressBar.SetBinding(IndeterminateProgressBar.IsVisibleProperty,
+                androidProgressBar.SetBinding(IsVisibleProperty,
                     new Binding(nameof(HasBusyIndication), source: this));
                 //Add progressbar to grid
                 Grid.SetColumn(androidProgressBar, 0);
@@ -78,7 +82,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 grid.Children.Add(androidProgressBar);
 
                 //Add cancelbutton
-                m_cancelButton = new Buttons.Button {Text = DUILocalizedStrings.Cancel};
+                m_cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
                 m_cancelButton.SetBinding(BackgroundColorProperty,
                     new Binding(nameof(BackgroundColor), source: m_internalSearchBar));
                 m_cancelButton.SetBinding(Button.TextColorProperty,

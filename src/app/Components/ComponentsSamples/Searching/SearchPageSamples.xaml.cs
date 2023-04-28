@@ -1,4 +1,3 @@
-
 using Components.Resources.LocalizedStrings;
 using Components.SampleData;
 

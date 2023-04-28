@@ -4,6 +4,7 @@ using UIKit;
 #endif
 
 using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.Resources.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.Components.Searching
@@ -12,22 +13,28 @@ namespace DIPS.Mobile.UI.Components.Searching
     public abstract partial class SearchPage : ContentPage
     {
         private readonly Grid m_grid;
-        private readonly ListView m_resultListView;
+        private readonly CollectionView m_resultCollectionView;
         private readonly SearchBar m_searchBar;
         private CancellationTokenSource? m_searchCancellationToken;
+
+        private View? m_previousView;
 
         public SearchPage()
         {
             //Searchbar
             m_searchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
-            m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.ToolbarBackgroundColorName);
+            m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
+                Shell.Shell.ToolbarBackgroundColorName);
             m_searchBar.SetAppThemeColor(SearchBar.CancelButtonColorProperty,
                 Shell.Shell.ToolbarTitleTextColorName);
+            m_searchBar.SetAppThemeColor(SearchBar.TextFieldColorProperty, 
+                ColorName.color_neutral_05);
 
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
                 m_searchBar.SetAppThemeColor(SearchBar.TextColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
-                m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, Shell.Shell.ToolbarTitleTextColorName);
+                m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, 
+                    Shell.Shell.ToolbarTitleTextColorName);
                 m_searchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
 #endif
@@ -41,10 +48,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
 
             //Result listview
-            m_resultListView = new ListView();
-            m_resultListView.SelectionMode = ListViewSelectionMode.None;
-            m_resultListView.HasUnevenRows = true;
-            m_resultListView.SetBinding(ListView.ItemTemplateProperty,
+            m_resultCollectionView = new CollectionView();
+            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty,
                 new Binding() {Path = nameof(ResultItemTemplate), Source = this});
 
             //The grid to glue it all together
@@ -54,9 +59,12 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     new()
                     {
-                        Height = GridLength.Auto
-                    }, //Space for the top box view on iOS if there is no navigation page and we have to respect safe area
-                    new() {Height = GridLength.Auto}, //Space for the search bar
+                        Height  = GridLength.Auto
+                    },
+                    new()
+                    {
+                        Height = GridLength.Auto //Space for the search bar
+                    }, 
                     new()
                     {
                         Height = GridLength.Star
@@ -65,9 +73,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RowSpacing = 0
             };
 
-            m_grid.Children.Add(m_searchBar);
-            Grid.SetRow(m_searchBar, 1);
-            
+            m_grid.Add(m_searchBar, 0, 1);
+
             base.Content = m_grid;
         }
 
@@ -77,6 +84,9 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             if (Handler == null)
                 return;
+            
+            SetSearchState(SearchStates.NeedsSearchHint);
+            m_searchBar.Focus();
             
 #if __IOS__
             if (OperatingSystem.IsIOSVersionAtLeast(14, 1))
@@ -114,7 +124,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             if (string.IsNullOrEmpty(searchQuery))
             {
-                m_resultListView.ItemsSource =
+                m_resultCollectionView.ItemsSource =
                     new List<string>(); //Clear the previous search result to not show up the next time we start search from blank
                 SetSearchState(SearchStates.NeedsSearchHint);
                 return;
@@ -138,7 +148,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                     return;
                 }
 
-                m_resultListView.ItemsSource = resultCopy;
+                m_resultCollectionView.ItemsSource = resultCopy;
                 SetSearchState(SearchStates.SearchMatched);
             }
             catch (TaskCanceledException) //This means that people has initiated a new search
@@ -151,28 +161,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
         }
 
-        protected override void OnContentAppearing()
-        {
-            base.OnContentAppearing();
-            SetSearchState(SearchStates.NeedsSearchHint);
-            m_searchBar.Focus();
-        }
-
-        protected override void SafeAreaInsetsDidChange(Thickness thickness)
-        {
-            if (Parent is not NavigationPage) //if there is no navigation bar, it needs to move down from the safe area
-            {
-                //box view used on ios if safe area has to be respected
-                var topBoxView = new BoxView
-                {
-                    BackgroundColor = m_searchBar.BarColor, HeightRequest = thickness.Top
-                };
-                m_grid.Children.Add(topBoxView);
-            }
-
-            base.SafeAreaInsetsDidChange(thickness);
-        }
-
         protected override void OnDisappearing()
         {
             m_searchBar.TextChanged -= SearchBarOnTextChanged;
@@ -181,30 +169,26 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void SetSearchState(SearchStates searchStates)
         {
-            if (searchStates == SearchStates.Searching)
-            {
-                ToggleProgressBarVisibility(true);
-            }
-            else
-            {
-                ToggleProgressBarVisibility(false);
-            }
+            ToggleProgressBarVisibility(searchStates == SearchStates.Searching);
 
-            const int contentRow = 2;
-
+            const int rowChildIndex = 2;
+            
             //Remove previous view
-            m_grid.RemoveChildAt(0, contentRow);
+            if(m_previousView != null)
+                m_grid.Remove(m_previousView);
 
             var viewToShow = searchStates switch
             {
                 SearchStates.NeedsSearchHint => HintView,
-                SearchStates.SearchMatched => m_resultListView,
+                SearchStates.SearchMatched => m_resultCollectionView,
                 SearchStates.NoSearchMatch => NoResultView,
                 _ => HintView
             };
+            
             //Add new view
-            m_grid.Children.Add(viewToShow);
-            Grid.SetRow(viewToShow, contentRow);
+            m_grid.Add(viewToShow, 0, rowChildIndex);
+
+            m_previousView = viewToShow;
         }
 
         private void ToggleProgressBarVisibility(bool visible)

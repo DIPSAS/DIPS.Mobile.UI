@@ -5,6 +5,7 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
              x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              Padding="{dui:Sizes size_2}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
@@ -12,10 +13,10 @@
 
     <Grid RowDefinitions="Auto,*">
         <dui:SearchBar Grid.Row="0"
-                       Placeholder="Search from the items below"
-                       VerticalOptions="Start"
-                       Text="{Binding FilterQuery}"
-                       TextChanged="InputView_OnTextChanged"/>
+                   Placeholder="Search from the items below"
+                   VerticalOptions="Start"
+                   Text="{Binding FilterQuery}"
+                   TextChanged="InputView_OnTextChanged" />
         <dui:ListView Grid.Row="1"
                       CornerRadius="15"
                       HasUnevenRows="True"
