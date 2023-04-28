@@ -98,5 +98,8 @@
       <Reference Include="Microsoft.iOS">
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net7.0\Microsoft.iOS.dll</HintPath>
       </Reference>
+      <Reference Include="Mono.Android">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.Android.Ref.33\33.0.26\ref\net7.0\Mono.Android.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

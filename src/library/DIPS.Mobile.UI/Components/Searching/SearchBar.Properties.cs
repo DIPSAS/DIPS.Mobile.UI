@@ -168,6 +168,20 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (ICommand)GetValue(SearchCommandProperty);
             set => SetValue(SearchCommandProperty, value);
         }
+        
+        public static readonly BindableProperty TextFieldColorProperty = BindableProperty.Create(
+            nameof(TextFieldColor),
+            typeof(Color),
+            typeof(SearchBar));
+
+        /// <summary>
+        /// The background color of the textfield.
+        /// </summary>
+        public Color TextFieldColor
+        {
+            get => (Color)GetValue(TextFieldColorProperty);
+            set => SetValue(TextFieldColorProperty, value);
+        }
 
         public static readonly BindableProperty BarColorProperty = BindableProperty.Create(
             nameof(BarColor),

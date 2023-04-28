@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.MyCustomView;
 using DIPS.Mobile.UI.Components.Searching;
 
 #if __ANDROID__
+using DIPS.Mobile.UI.Components.Searching.Android;
 using DIPS.Mobile.UI.Components.Progress.Android;
 #else
 using DIPS.Mobile.UI.Components.Searching.iOS;
@@ -50,6 +51,7 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
             handlers.AddHandler(typeof(Shell), typeof(DIPS.Mobile.UI.Components.Shell.iOS.CustomShellRenderer));
 #elif __ANDROID__
+            handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
             handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
 #endif
         });

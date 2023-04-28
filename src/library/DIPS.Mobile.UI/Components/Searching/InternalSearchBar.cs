@@ -4,6 +4,11 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     public class InternalSearchBar : Microsoft.Maui.Controls.SearchBar
     {
+        public InternalSearchBar()
+        {
+            
+        }
+        
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
             typeof(CornerRadius),
@@ -63,6 +68,34 @@ namespace DIPS.Mobile.UI.Components.Searching
         public void SendCancelTapped()
         {
             CancelCommand?.Execute(CancelCommandParameter);
+        }
+        
+        public static readonly BindableProperty TextFieldColorProperty = BindableProperty.Create(
+            nameof(TextFieldColor),
+            typeof(Color),
+            typeof(SearchBar));
+
+        /// <summary>
+        /// The background color of the textfield.
+        /// </summary>
+        public Color TextFieldColor
+        {
+            get => (Color)GetValue(TextFieldColorProperty);
+            set => SetValue(TextFieldColorProperty, value);
+        }
+        
+        public static readonly BindableProperty BarColorProperty = BindableProperty.Create(
+            nameof(BarColor),
+            typeof(Color),
+            typeof(SearchBar));
+
+        /// <summary>
+        /// The background color of the search bar.
+        /// </summary>
+        public Color BarColor
+        {
+            get => (Color)GetValue(BarColorProperty);
+            set => SetValue(BarColorProperty, value);
         }
         
         public static readonly BindableProperty IsBusyProperty = BindableProperty.Create(
