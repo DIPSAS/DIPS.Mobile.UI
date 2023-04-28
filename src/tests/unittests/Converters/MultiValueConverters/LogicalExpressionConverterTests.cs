@@ -15,7 +15,7 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.MultiValueConverters
         [Fact]
         public void Convert_ValuesAreNull_ReturnsFalse()
         {
-            var output = m_logicalExpressionConverter.Convert<bool>(null);
+            var output = m_logicalExpressionConverter.Convert<bool>(null!);
 
             output.Should().BeFalse(because: "empty input can not be converted and converter should return false");
         }
@@ -24,7 +24,7 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.MultiValueConverters
         [Fact]
         public void Convert_AllValuesInInputAreNull_ReturnsFalse()
         {
-            var output = m_logicalExpressionConverter.Convert<bool>(new object[] {null, null});
+            var output = m_logicalExpressionConverter.Convert<bool>(new object[] {null!, null!});
 
             output.Should()
                 .BeFalse(because: "if all values are null it can not be converted and converter should return false");
@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.MultiValueConverters
         [Fact]
         public void Convert_AnyValuesInInputAreNull_ReturnsFalse()
         {
-            var output = m_logicalExpressionConverter.Convert<bool>(new object[] {true, null});
+            var output = m_logicalExpressionConverter.Convert<bool>(new object[] {true, null!});
 
             output.Should().BeFalse("if any values are null it can not be converted and converter should return false");
         }

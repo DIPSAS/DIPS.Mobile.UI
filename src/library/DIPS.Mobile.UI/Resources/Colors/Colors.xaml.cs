@@ -13,7 +13,7 @@ namespace DIPS.Mobile.UI.Resources.Colors
         /// </summary>
         /// <param name="colorName">The name of the color to get</param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetColor(ColorName colorName) => GetColor(colorName, Application.Current.RequestedTheme);
+        public static Color GetColor(ColorName colorName) => GetColor(colorName, (Application.Current != null)?Application.Current.RequestedTheme:AppTheme.Light);
 
         /// <summary>
         /// Get the color by <see cref="OSAppTheme"/>.

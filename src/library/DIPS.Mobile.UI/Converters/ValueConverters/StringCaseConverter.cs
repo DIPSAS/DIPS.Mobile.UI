@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         /// <inheritdoc/>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is string stringValue))
                 return null;
@@ -30,9 +30,8 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 return string.Empty;
 
             var stringCaseExtension = new StringCaseExtension() { Input = stringValue, StringCase = StringCase };
-#nullable disable
+
             return stringCaseExtension.ProvideValue(null);
-#nullable restore
         }
 
         /// <inheritdoc/>
