@@ -7,4 +7,8 @@
     <StackLayout>
         <dui:CheckBox Text="Veeeeeeeeeeeery long text" />
     </StackLayout>
+    
+    
+   
+    
 </dui:ContentPage>

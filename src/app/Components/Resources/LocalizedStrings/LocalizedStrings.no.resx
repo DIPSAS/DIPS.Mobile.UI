@@ -41,4 +41,7 @@
     <data name="SearchBar" xml:space="preserve">
         <value>SearchBar</value>
     </data>
+    <data name="Searching" xml:space="preserve">
+        <value>Søking</value>
+    </data>
 </root>

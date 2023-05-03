@@ -22,8 +22,24 @@ internal class InternalSearchBarHandler : SearchBarHandler
         [nameof(InternalSearchBar.IconsColor)] = MapIconsColor,
         [nameof(InternalSearchBar.IsBusy)] = MapIsBusy,
         [nameof(InternalSearchBar.BarColor)] = MapBarTintColor,
-        [nameof(InternalSearchBar.TextFieldColor)] = MapTextFieldColor
+        [nameof(InternalSearchBar.TextFieldColor)] = MapTextFieldColor,
+        [nameof(ISearchBar.CancelButtonColor)] = OverrideMapCancelButtonColor
     };
+
+    private static void OverrideMapCancelButtonColor(InternalSearchBarHandler handler, InternalSearchBar internalSearchBar)
+    {
+        var cancelButton = handler.PlatformView.FindDescendantView<UIButton>();
+
+        if (cancelButton == null)
+            return;
+
+        if (internalSearchBar.CancelButtonColor == null)
+            return;
+
+        cancelButton.SetTitleColor(internalSearchBar.CancelButtonColor.ToPlatform(), UIControlState.Normal);
+        cancelButton.SetTitleColor(internalSearchBar.CancelButtonColor.ToPlatform(), UIControlState.Highlighted);
+        cancelButton.SetTitleColor(internalSearchBar.CancelButtonColor.ToPlatform(), UIControlState.Disabled);
+    }
 
     private static void MapTextFieldColor(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
     {

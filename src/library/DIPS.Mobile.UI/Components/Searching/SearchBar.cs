@@ -1,6 +1,11 @@
+using Android.Content.Res;
+using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
+using ContentView = Microsoft.Maui.Controls.ContentView;
 #if __ANDROID__
 using IndeterminateProgressBar = DIPS.Mobile.UI.Components.Progress.Android.IndeterminateProgressBar;
 #endif
@@ -24,7 +29,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_internalSearchBar = new InternalSearchBar();
 
             m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, new Binding(nameof(BarColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
+           // m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,
                 new Binding(nameof(TextColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.TextFieldColorProperty,
@@ -63,6 +68,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             
             //On Android, progressbar and cancel button needs to be added
 #if __ANDROID__
+            m_internalSearchBar.BackgroundColor = Colors.Red;
                 grid.SetBinding(BackgroundColorProperty, new Binding(nameof(BarColor), source:this));
                 //Add extra rows and columns
                 grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
@@ -83,8 +89,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
                 //Add cancelbutton
                 m_cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
-                m_cancelButton.SetBinding(BackgroundColorProperty,
-                    new Binding(nameof(BackgroundColor), source: m_internalSearchBar));
+                m_cancelButton.BackgroundColor = Colors.Transparent;
                 m_cancelButton.SetBinding(Button.TextColorProperty,
                     new Binding(nameof(InternalSearchBar.TextColor), source: m_internalSearchBar));
                 m_cancelButton.SetBinding(Button.CommandProperty,
@@ -93,6 +98,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                     new Binding(nameof(CancelCommandParameter), source: m_internalSearchBar));
                 m_cancelButton.SetBinding(IsVisibleProperty,
                     new Binding(nameof(InternalSearchBar.ShowsCancelButton), source: m_internalSearchBar));
+                
                 //Add cancel button to grid
                 Grid.SetRow(m_cancelButton, 0);
                 Grid.SetColumn(m_cancelButton, grid.ColumnDefinitions.Count - 1); //Last column

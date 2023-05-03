@@ -110,5 +110,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("SearchPage", resourceCulture);
             }
         }
+        
+        internal static string Searching {
+            get {
+                return ResourceManager.GetString("Searching", resourceCulture);
+            }
+        }
     }
 }
