@@ -48,7 +48,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
             };
 
             if (m_itemPicker.HasSearchBar)
-            {
+            { 
                 m_listView.Header = string.Empty;
                 m_listView.HeaderTemplate = new DataTemplate(() => m_searchBar);
             }

@@ -13,5 +13,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
             Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
             CornerRadius = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2);
         }
+        
+        
     }
 }
