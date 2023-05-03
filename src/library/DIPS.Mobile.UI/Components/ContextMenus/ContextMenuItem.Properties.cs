@@ -89,7 +89,7 @@ public class AndroidContextMenuItemOptions
     /// Set this to override the Context menu item icon with a Android Resource  
     /// </summary>
     /// <remarks>This can be any resource in your Resources drawable, but you can also check out Android.Resource.Drawable.icon-name which is built in</remarks>
-    public string IconResourceName { get; set; }
+    public string IconResourceName { get; set; } = string.Empty;
 }
 
 /// <summary>
@@ -101,5 +101,5 @@ public class iOSContextMenuItemOptions
     /// Set this to override the Context menu item icon with a SF Symbol 
     /// </summary>
     /// <remarks>To see all SF Symbols go to https://developer.apple.com/sf-symbols/</remarks>
-    public string SystemIconName { get; set; }
+    public string SystemIconName { get; set; } = string.Empty;
 }

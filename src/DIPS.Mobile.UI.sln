@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIPS.Mobile.UI", "library\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "app\Components\Components.csproj", "{65B20D21-799A-4071-ADAD-6289E766BCA9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{C4B27828-45EC-4CD0-877A-F0D7D6FFFE75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIPS.Mobile.UI.UnitTests", "tests\unittests\DIPS.Mobile.UI.UnitTests.csproj", "{E5C8B399-337A-4000-A285-6CE439B63308}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,9 +27,14 @@ Global
 		{65B20D21-799A-4071-ADAD-6289E766BCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65B20D21-799A-4071-ADAD-6289E766BCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65B20D21-799A-4071-ADAD-6289E766BCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C8B399-337A-4000-A285-6CE439B63308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C8B399-337A-4000-A285-6CE439B63308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C8B399-337A-4000-A285-6CE439B63308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C8B399-337A-4000-A285-6CE439B63308}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BF2BB58E-E291-48B1-B15A-8821FEC4B5A8} = {026073FA-5636-47AC-885F-4B9BD05A82FA}
 		{65B20D21-799A-4071-ADAD-6289E766BCA9} = {66A4A717-B43B-4249-A6CE-30FDA3338E09}
+		{E5C8B399-337A-4000-A285-6CE439B63308} = {C4B27828-45EC-4CD0-877A-F0D7D6FFFE75}
 	EndGlobalSection
 EndGlobal
