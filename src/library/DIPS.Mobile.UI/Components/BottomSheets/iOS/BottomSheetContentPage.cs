@@ -14,7 +14,6 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet = bottomSheet;
         bottomSheet.VerticalOptions = LayoutOptions.Start;
-        Content = bottomSheet;
 
         SetupViewController();
         SubscribeEvents();
@@ -42,8 +41,14 @@ internal class BottomSheetContentPage : ContentPage
         {
             return;
         }
-
+        
         m_viewController = this.ToUIViewController(mauiContext);
+        var view = new BottomSheetViewContainer(m_bottomSheet, mauiContext);
+        if (view.BackgroundColor == null)
+        {
+            view.BackgroundColor = UIColor.SystemBackground;
+        }
+
         if (m_viewController == null) return;
 
         m_viewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
@@ -98,18 +103,15 @@ internal class BottomSheetContentPage : ContentPage
 
                     m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
 
-                    var view = m_viewController.View;
-
-                    if (view != null)
-                    {
-                        var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
+                    var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
                             ? DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4) //There is a physical home button
                             : DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                         ;
-                        Padding = new Thickness(0, DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4), 0,
-                            bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
-                    }
+                    Padding = new Thickness(0, DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4), 0,
+                        bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
                 }
+                
+                m_viewController.View = view;
             }
         }
     }
@@ -117,7 +119,6 @@ internal class BottomSheetContentPage : ContentPage
     internal async Task Open()
     {
         var currentViewController = Platform.GetCurrentUIViewController();
-        ;
         if (m_viewController != null && currentViewController != null)
         {
             await currentViewController.PresentViewControllerAsync(m_viewController, true);
