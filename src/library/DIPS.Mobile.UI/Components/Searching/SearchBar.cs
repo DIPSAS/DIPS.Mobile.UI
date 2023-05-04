@@ -17,21 +17,28 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             var grid = new Grid()
             {
-                ColumnDefinitions = new ColumnDefinitionCollection() {new() {Width = GridLength.Star}},
-                RowDefinitions = new RowDefinitionCollection() {new() {Height = GridLength.Star}},
+                ColumnDefinitions = new ColumnDefinitionCollection() 
+                {
+                    new() { Width = DeviceInfo.Platform == DevicePlatform.iOS ? GridLength.Star : GridLength.Auto }},
+                RowDefinitions = new RowDefinitionCollection()
+                {
+                    new() {Height = GridLength.Star}
+                },
                 RowSpacing = 0,
                 ColumnSpacing = 0
             };
 
             m_internalSearchBar = new InternalSearchBar();
 
-            m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, new Binding(nameof(BarColor), source: this));
-           // m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, 
+                new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,
                 new Binding(nameof(TextColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.TextFieldColorProperty,
                 new Binding(nameof(TextFieldColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, new Binding(nameof(IsBusy), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, 
+                new Binding(nameof(IsBusy), source: this));
             m_internalSearchBar.SetBinding(PlaceholderColorProperty,
                 new Binding(nameof(PlaceholderColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty,
@@ -61,11 +68,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(BarColorProperty, ColorName.color_neutral_05);
             this.SetAppThemeColor(TextFieldColorProperty, ColorName.color_neutral_05);
 
-            grid.Children.Add(m_internalSearchBar);
+            grid.Add(m_internalSearchBar, 0, 0);
             
             //On Android, progressbar and cancel button needs to be added
 #if __ANDROID__
-            m_internalSearchBar.BackgroundColor = Colors.Red;
                 grid.SetBinding(BackgroundColorProperty, new Binding(nameof(BarColor), source:this));
                 //Add extra rows and columns
                 grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
@@ -78,11 +84,10 @@ namespace DIPS.Mobile.UI.Components.Searching
                     new Binding(nameof(IsBusy), source: this));
                 androidProgressBar.SetBinding(IsVisibleProperty,
                     new Binding(nameof(HasBusyIndication), source: this));
+                
                 //Add progressbar to grid
-                Grid.SetColumn(androidProgressBar, 0);
-                Grid.SetRow(androidProgressBar, grid.RowDefinitions.Count - 1); //Last row
                 Grid.SetColumnSpan(androidProgressBar, 2);
-                grid.Children.Add(androidProgressBar);
+                grid.Add(androidProgressBar, 0, grid.RowDefinitions.Count - 1);
 
                 //Add cancelbutton
                 m_cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
@@ -97,9 +102,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                     new Binding(nameof(InternalSearchBar.ShowsCancelButton), source: m_internalSearchBar));
                 
                 //Add cancel button to grid
-                Grid.SetRow(m_cancelButton, 0);
-                Grid.SetColumn(m_cancelButton, grid.ColumnDefinitions.Count - 1); //Last column
-                grid.Children.Add(m_cancelButton);
+                grid.Add(m_cancelButton, grid.ColumnDefinitions.Count - 1, 0);
 #endif
             
             Content = grid;

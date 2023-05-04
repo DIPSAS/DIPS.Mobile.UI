@@ -11,14 +11,16 @@
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,*"
+          RowSpacing="0"
+          BackgroundColor="Transparent">
         <dui:SearchBar Grid.Row="0"
-                   Placeholder="Search from the items below"
-                   VerticalOptions="Start"
-                   Text="{Binding FilterQuery}"
-                   TextChanged="InputView_OnTextChanged" />
+                       Placeholder="Search from the items below"
+                       VerticalOptions="Start"
+                       Text="{Binding FilterQuery}"
+                       TextChanged="InputView_OnTextChanged" />
         <dui:CollectionView Grid.Row="1"
-                      BackgroundColor="{dui:Colors color_neutral_05}"
+                            BackgroundColor="{dui:Colors color_neutral_05}"
                       SelectionMode="None"
                       ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
