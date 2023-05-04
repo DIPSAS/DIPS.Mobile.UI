@@ -123,6 +123,11 @@ internal class InternalSearchBarHandler : SearchBarHandler
         {
             MagnifierIcon = uiImageView;
         }
+
+        
+        platformView.BackgroundImage = new UIImage();
+        platformView.BackgroundImage.ApplyTintColor(Colors.Blue.ToPlatform());
+
         
         SubscribeToEvents();
     }
