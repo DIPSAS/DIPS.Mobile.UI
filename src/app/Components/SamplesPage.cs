@@ -7,12 +7,10 @@ namespace Components
         public SamplesPage(SampleType sampleType, Dictionary<Func<Page>, Sample> samples)
         {
             Title = sampleType.ToString();
-            Content = new DIPS.Mobile.UI.Components.Lists.ListView()
+            Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
             {
-                HasUnevenRows = true,
                 ItemsSource = samples,
-                ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSingleSampleButton()}),
-                SeparatorVisibility = SeparatorVisibility.None
+                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleButton()),
             };
         }
 

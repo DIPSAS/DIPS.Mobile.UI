@@ -102,10 +102,11 @@ internal class BottomSheetContentPage : ContentPage
 
                     if (view != null)
                     {
-                        var bottom = UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom != 0
-                            ? 4
-                            : 16; //TODO: Use DesignSystem
-                        Padding = new Thickness(0, 12, 0,
+                        var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
+                            ? DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4) //There is a physical home button
+                            : DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
+                        ;
+                        Padding = new Thickness(0, DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4), 0,
                             bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
                     }
                 }

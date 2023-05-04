@@ -1,9 +1,6 @@
-using Android.Content.Res;
-using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
-using Microsoft.Maui.Platform;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
 #if __ANDROID__

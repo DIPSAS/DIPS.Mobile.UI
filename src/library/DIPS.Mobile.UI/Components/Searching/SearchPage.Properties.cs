@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using ListView = DIPS.Mobile.UI.Components.Lists.ListView;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {

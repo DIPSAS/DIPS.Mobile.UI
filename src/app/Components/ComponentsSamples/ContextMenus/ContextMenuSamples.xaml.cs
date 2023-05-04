@@ -4,7 +4,6 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 namespace Components.ComponentsSamples.ContextMenus;
 
 [ComponentSample(nameof(LocalizedStrings.ContextMenu))]
-[XamlCompilation(XamlCompilationOptions.Compile)]
 public partial class ContextMenuSamples
 {
     public ContextMenuSamples()
