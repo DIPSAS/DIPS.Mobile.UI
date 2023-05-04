@@ -5,7 +5,6 @@ using Enum = DIPS.Mobile.UI.Extensions.Enum;
 namespace Components.ResourcesSamples.Colors
 {
     [ResourceSample(nameof(LocalizedStrings.Colors))]
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ColorsSamples
     {
         private Dictionary<string, Color> m_colors;

@@ -3,7 +3,6 @@ using Components.Resources.LocalizedStrings;
 namespace Components.ComponentsSamples.Searching;
 
 [ComponentSample(nameof(LocalizedStrings.SearchBar))]
-[XamlCompilation(XamlCompilationOptions.Compile)]
 public partial class SearchBarSamples
 {
     public SearchBarSamples()

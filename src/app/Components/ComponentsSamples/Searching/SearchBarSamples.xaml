@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -17,21 +17,17 @@
                    VerticalOptions="Start"
                    Text="{Binding FilterQuery}"
                    TextChanged="InputView_OnTextChanged" />
-        <dui:ListView Grid.Row="1"
-                      CornerRadius="15"
-                      HasUnevenRows="True"
+        <dui:CollectionView Grid.Row="1"
                       BackgroundColor="{dui:Colors color_neutral_05}"
                       SelectionMode="None"
                       ItemsSource="{Binding People}">
-            <dui:ListView.ItemTemplate>
+            <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
                         <dui:Label Text="{Binding DisplayName}"
                                    VerticalOptions="Center"
                                    Margin="15" />
-                    </ViewCell>
                 </DataTemplate>
-            </dui:ListView.ItemTemplate>
-        </dui:ListView>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
     </Grid>
 </dui:ContentPage>

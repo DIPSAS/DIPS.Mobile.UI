@@ -1,4 +1,4 @@
-<?xml
+﻿<?xml
     version="1.0"
     encoding="utf-8"?>
 
@@ -13,5 +13,7 @@
                     Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
         <dui:Button Text="List of items"
                     Command="{dui:OpenBottomSheetCommand {x:Type sheets:ListInBottomSheet}}" />
+        <dui:Button Text="Open a bugged bottom sheet"
+                    Command="{dui:OpenBottomSheetCommand {x:Type sheets:BuggedBottomSheet}}" />
     </VerticalStackLayout>
 </dui:ContentPage>

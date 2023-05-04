@@ -10,12 +10,10 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
         Title = "Components";
         var sampleTypes = DIPS.Mobile.UI.Extensions.Enum.ToList<SampleType>();
-        Content = new DIPS.Mobile.UI.Components.Lists.ListView()
+        Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
         {
-            HasUnevenRows = true,
             ItemsSource = sampleTypes,
-            ItemTemplate = new DataTemplate(() => new ViewCell() {View = new NavigateToSamplesButton()}),
-            SeparatorVisibility = SeparatorVisibility.None
+            ItemTemplate = new DataTemplate(() => new NavigateToSamplesButton()),
         };
     }
 }

@@ -1,6 +1,5 @@
 namespace Components.ComponentsSamples.BottomSheets.Sheets
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SimpleBottomSheetView
     {
         public SimpleBottomSheetView()

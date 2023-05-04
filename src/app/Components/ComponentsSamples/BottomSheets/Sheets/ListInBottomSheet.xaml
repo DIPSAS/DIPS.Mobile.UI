@@ -1,12 +1,12 @@
-<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.ListInBottomSheet">
-    <Grid RowDefinitions="Auto, *">
-        <dui:ListView Grid.Row="1"
+  
+        <dui:CollectionView Grid.Row="1"
                       SelectionMode="None"
-                      HasUnevenRows="True">
-            <dui:ListView.ItemsSource>
+                            BackgroundColor="Red">
+            <dui:CollectionView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Item 1</x:String>
                     <x:String>Item 2</x:String>
@@ -22,16 +22,28 @@
                     <x:String>Item 12</x:String>
                     <x:String>Item 13</x:String>
                     <x:String>Item 14</x:String>
+                    <x:String>Item 15</x:String>
+                    <x:String>Item 16</x:String>
+                    <x:String>Item 17</x:String>
+                    <x:String>Item 18</x:String>
+                    <x:String>Item 19</x:String>
+                    <x:String>Item 20</x:String>
+                    <x:String>Item 21</x:String>
+                    <x:String>Item 22</x:String>
+                    <x:String>Item 23</x:String>
+                    <x:String>Item 24</x:String>
+                    <x:String>Item 25</x:String>
+                    <x:String>Item 26</x:String>
+                    <x:String>Item 27</x:String>
+                    <x:String>Item 28</x:String>
                 </x:Array>
-            </dui:ListView.ItemsSource>
-            <dui:ListView.ItemTemplate>
+            </dui:CollectionView.ItemsSource>
+            <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
                         <dui:Label Text="{Binding .}"
                                    Margin="15,15,15,15" />
-                    </ViewCell>
                 </DataTemplate>
-            </dui:ListView.ItemTemplate>
-        </dui:ListView>
-    </Grid>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+        
 </dui:BottomSheet>
