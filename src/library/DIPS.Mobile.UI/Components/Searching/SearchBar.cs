@@ -30,7 +30,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_internalSearchBar = new InternalSearchBar();
 
-            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, 
+                new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, 
                 new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,

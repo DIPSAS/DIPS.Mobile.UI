@@ -49,9 +49,13 @@ internal class InternalSearchBarHandler : SearchBarHandler
         internalSearchBarHandler.PlatformView.SearchTextField.BackgroundColor = internalSearchBar.TextFieldColor.ToPlatform();
     }
 
-    private static void MapBarTintColor(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
+    /// <summary>
+    /// Set the border color the same as the bar color to 'hide' border
+    /// </summary>
+    private static void MapBarTintColor(InternalSearchBarHandler handler, InternalSearchBar internalSearchBar)
     {
-        //internalSearchBarHandler.PlatformView.BackgroundColor = internalSearchBar.BarColor.ToPlatform();
+        handler.PlatformView.Layer.BorderWidth = 1;
+        handler.PlatformView.Layer.BorderColor = internalSearchBar.BarColor.ToCGColor();
     }
 
     private UIActivityIndicatorView ActivityIndicatorView { get; }
@@ -92,6 +96,7 @@ internal class InternalSearchBarHandler : SearchBarHandler
         uiImageView.TintColor = internalSearchBar.IconsColor.ToPlatform();
     }
 
+    // TODO: Add support for corner radius
     private static void MapCornerRadius(InternalSearchBarHandler internalSearchBarHandler, InternalSearchBar internalSearchBar)
     {
         //internalSearchBarHandler.PlatformView.AddCornerRadius(internalSearchBar.CornerRadius, internalSearchBar.BackgroundColor);
@@ -124,11 +129,6 @@ internal class InternalSearchBarHandler : SearchBarHandler
             MagnifierIcon = uiImageView;
         }
 
-        
-        platformView.BackgroundImage = new UIImage();
-        platformView.BackgroundImage.ApplyTintColor(Colors.Blue.ToPlatform());
-
-        
         SubscribeToEvents();
     }
 

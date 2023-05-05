@@ -1,8 +1,5 @@
-using Components.Resources.LocalizedStrings;
-
 namespace Components.ComponentsSamples.Searching;
 
-[ComponentSample(nameof(LocalizedStrings.SearchBar))]
 public partial class SearchBarSamples
 {
     public SearchBarSamples()
