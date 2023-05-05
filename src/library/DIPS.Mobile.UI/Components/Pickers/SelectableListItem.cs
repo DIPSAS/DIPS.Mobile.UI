@@ -1,13 +1,15 @@
 namespace DIPS.Mobile.UI.Components.Pickers
 {
-    public class SelectableItem
+    public class SelectableListItem
     {
-        public SelectableItem(string displayName, bool isSelected)
+        public SelectableListItem(int index, string displayName, bool isSelected)
         {
+            Index = index;
             DisplayName = displayName;
             IsSelected = isSelected;
         }
 
+        public int Index { get; }
         public string DisplayName { get;}
         public bool IsSelected { get; }
     }

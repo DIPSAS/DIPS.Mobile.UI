@@ -11,29 +11,29 @@ namespace DIPS.Mobile.UI.Components.Pickers
     public class PickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
-        private List<SelectableItem> m_items;
-        private readonly List<SelectableItem> m_originalItems;
+        private readonly List<SelectableListItem> m_originalItems;
         private readonly SearchBar? m_searchBar;
-        private readonly CollectionView m_collectionView;
 
         public PickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
-            m_originalItems = new List<SelectableItem>();
+            m_originalItems = new List<SelectableListItem>();
             if (m_itemPicker.ItemsSource != null)
             {
-                foreach (var item in m_itemPicker.ItemsSource)
+                var itemSource = m_itemPicker.ItemsSource.ToList();
+                for (var i = 0; i < itemSource.Count; i++)
                 {
-                    m_originalItems.Add(new SelectableItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
+                    var item = itemSource[i];
+                    m_originalItems.Add(new SelectableListItem(i, item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
                         item == m_itemPicker.SelectedItem));
                 }
             }
 
-            Items = new ObservableCollection<SelectableItem>(m_originalItems);
+            Items = new ObservableCollection<SelectableListItem>(m_originalItems);
 
             var grid = new Grid() {RowDefinitions = new() {new(GridLength.Auto), new(GridLength.Star)}};
 
-            m_collectionView = new CollectionView()
+            var collectionView = new CollectionView()
             {
                 ItemTemplate = new DataTemplate(CreateCheckBox),
                 Margin = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
@@ -42,12 +42,12 @@ namespace DIPS.Mobile.UI.Components.Pickers
             if (m_itemPicker.HasSearchBar)
             {
                 m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Colors.Transparent};
-                grid.Add(m_searchBar, 0, 0);
+                grid.Add(m_searchBar);
             }
 
-            m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+            collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
 
-            grid.Add(m_collectionView, 0, (m_searchBar != null) ? 1 : 0);
+            grid.Add(collectionView, 0, (m_searchBar != null) ? 1 : 0);
             Content = grid;
             SubscribeToEvents();
         }
@@ -56,7 +56,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             if (m_searchBar != null)
             {
-                m_searchBar.TextChanged += FilterItems;    
+                m_searchBar.TextChanged += FilterItems;
             }
         }
 
@@ -71,20 +71,20 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
             nameof(Items),
-            typeof(ObservableCollection<SelectableItem>),
+            typeof(ObservableCollection<SelectableListItem>),
             typeof(PickerBottomSheet));
 
-        public ObservableCollection<SelectableItem> Items
+        public ObservableCollection<SelectableListItem> Items
         {
-            get => (ObservableCollection<SelectableItem>)GetValue(ItemsProperty);
+            get => (ObservableCollection<SelectableListItem>)GetValue(ItemsProperty);
             set => SetValue(ItemsProperty, value);
         }
 
         private IView CreateCheckBox()
         {
             var checkBox = new CheckBox();
-            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItem.DisplayName)});
-            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableItem.IsSelected)});
+            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableListItem.DisplayName)});
+            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
             checkBox.Command = new Command(() => ItemWasPicked(checkBox));
             return checkBox;
         }
@@ -94,8 +94,11 @@ namespace DIPS.Mobile.UI.Components.Pickers
             if (checkBox.IsSelected)
             {
                 var displayName = checkBox.Text;
-                var theSelectedItem = m_itemPicker.ItemsSource?.FirstOrDefault(i => i.GetPropertyValue(m_itemPicker.ItemDisplayProperty) == displayName);
-                if(theSelectedItem == m_itemPicker.SelectedItem) //This happens the first time the list of items was drawn or when people use the search bar to redraw the items
+                var theSelectedItem = m_itemPicker.ItemsSource?.FirstOrDefault(i =>
+                    i.GetPropertyValue(m_itemPicker.ItemDisplayProperty) == displayName);
+                if (theSelectedItem ==
+                    m_itemPicker
+                        .SelectedItem) //This happens the first time the list of items was drawn or when people use the search bar to redraw the items
                 {
                     return;
                 }
@@ -110,20 +113,29 @@ namespace DIPS.Mobile.UI.Components.Pickers
             var filterText = e.NewTextValue;
             if (string.IsNullOrEmpty(filterText))
             {
-                Items.Clear();
-                foreach (var item in m_originalItems)
+
+                foreach (var originalItem in m_originalItems)
                 {
-                    Items.Add(item);
+                    if (!Items.Any(i => i.DisplayName.Equals(originalItem.DisplayName)))
+                    {
+                        Items.Add(originalItem);
+                    }
                 }
             }
             else
             {
-                var filteredItems = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
+                var itemsToAdd = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
                     .ToList();
-                Items.Clear();
-                foreach (var item in filteredItems)
+                var itemsToRemove = m_originalItems.Where(p => !p.DisplayName.ToLower().Contains(filterText.ToLower()));
+
+                foreach (var itemToRemove in itemsToRemove)
                 {
-                    Items.Add(item);
+                    Items.RemoveAt(itemToRemove.Index);
+                }
+
+                foreach (var itemToAdd in itemsToAdd)
+                {
+                    Items.AddWithRespectOf(itemToAdd, m_originalItems);
                 }
             }
         }
