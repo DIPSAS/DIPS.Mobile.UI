@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Exceptions;
+
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     /// <summary>
@@ -10,14 +12,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <param name="bottomSheet">The view to display inside the bottom sheet.</param>
         /// <returns></returns>
-        public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => Task.CompletedTask;
+        public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => throw new Only_Here_For_UnitTests();
+
 
         /// <summary>
         /// Closes the current presented bottom sheet.
         /// </summary>
         /// <returns></returns>
-        public static partial Task CloseCurrentBottomSheet() => Task.CompletedTask;
+        public static partial Task CloseCurrentBottomSheet() => throw new Only_Here_For_UnitTests();
 
-        public static partial bool IsBottomSheetOpen() => true;
+        public static partial bool IsBottomSheetOpen() => throw new Only_Here_For_UnitTests();
     }
 }

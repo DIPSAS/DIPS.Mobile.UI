@@ -24,7 +24,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 for (var i = 0; i < itemSource.Count; i++)
                 {
                     var item = itemSource[i];
-                    m_originalItems.Add(new SelectableListItem(i, item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
+                    m_originalItems.Add(new SelectableListItem( item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
                         item == m_itemPicker.SelectedItem));
                 }
             }
@@ -113,29 +113,20 @@ namespace DIPS.Mobile.UI.Components.Pickers
             var filterText = e.NewTextValue;
             if (string.IsNullOrEmpty(filterText))
             {
-
-                foreach (var originalItem in m_originalItems)
+                Items.Clear();
+                foreach (var item in m_originalItems)
                 {
-                    if (!Items.Any(i => i.DisplayName.Equals(originalItem.DisplayName)))
-                    {
-                        Items.Add(originalItem);
-                    }
+                    Items.Add(item);
                 }
             }
             else
             {
-                var itemsToAdd = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
+                var filteredItems = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
                     .ToList();
-                var itemsToRemove = m_originalItems.Where(p => !p.DisplayName.ToLower().Contains(filterText.ToLower()));
-
-                foreach (var itemToRemove in itemsToRemove)
+                Items.Clear();
+                foreach (var item in filteredItems)
                 {
-                    Items.RemoveAt(itemToRemove.Index);
-                }
-
-                foreach (var itemToAdd in itemsToAdd)
-                {
-                    Items.AddWithRespectOf(itemToAdd, m_originalItems);
+                    Items.Add(item);
                 }
             }
         }

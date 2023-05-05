@@ -40,7 +40,7 @@ public static partial class DatePickerService
         currentViewController.PresentViewController(viewController, true, null);
     }
         
-    internal static async Task Close()
+    public static async partial Task Close()
     {
         var potentialBottomSheetUiViewController = API.Library.iOS.DUI.CurrentViewController;
         if (potentialBottomSheetUiViewController != null)

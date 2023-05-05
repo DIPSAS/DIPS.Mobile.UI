@@ -18,7 +18,8 @@ public static partial class DatePickerService
         m_duiDatePicker = datePicker;
         if (datePicker == null) return;
 
-        if (datePicker.IsOpen && m_materialDatePicker == null) //This will only run if the date picker was not previously opened 
+        if (datePicker.IsOpen &&
+            m_materialDatePicker == null) //This will only run if the date picker was not previously opened 
         {
             var builder = MaterialDatePicker.Builder.DatePicker();
             SetDatePickerSelection(builder, datePicker);
@@ -36,7 +37,7 @@ public static partial class DatePickerService
             m_materialDatePicker.Dismiss();
         }
     }
-    
+
     private static void SetDatePickerTitle(MaterialDatePicker.Builder builder, DatePicker datePicker)
     {
         if (datePicker != null && !string.IsNullOrEmpty(datePicker.Description))
@@ -48,25 +49,26 @@ public static partial class DatePickerService
     private static void SetDatePickerSelection(MaterialDatePicker.Builder builder, DatePicker datePicker)
     {
         if (datePicker == null || datePicker.SelectedDate == default) return;
-        
+
         //Java uses the unix epoch, so we have find the total milliseconds from the date people have picked and the UnixEpoch start.
         builder.SetSelection((long)(datePicker.SelectedDate - DateTime.UnixEpoch).TotalMilliseconds);
-
     }
-    
+
     internal static bool IsOpen()
     {
         var fragment = Platform.AppContext.GetFragmentManager()!.FindFragmentByTag(DatePickerTag);
         return fragment is MaterialDatePicker;
     }
-    
-    internal static void Close()
+
+    public static partial Task Close()
     {
         var fragment = Platform.AppContext.GetFragmentManager()!.FindFragmentByTag(DatePickerTag);
         if (fragment is MaterialDatePicker datePickerFragment)
         {
             datePickerFragment.Dismiss();
         }
+
+        return Task.CompletedTask;
     }
 
     public class DismissListener : Object, IDialogInterfaceOnDismissListener
@@ -74,14 +76,14 @@ public static partial class DatePickerService
         public void OnDismiss(IDialogInterface? dialog)
         {
             if (m_duiDatePicker == null || m_materialDatePicker == null) return;
-        
-            if (long.TryParse(m_materialDatePicker.Selection?.ToString() , out var milliseconds))
+
+            if (long.TryParse(m_materialDatePicker.Selection?.ToString(), out var milliseconds))
             {
                 //Java uses the unix epoch, so we have to create a csharp date time based on the UnixEpoch start with the milliseconds picked by people using the date picker.
                 var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
                 m_duiDatePicker.SelectedDate = dateFromJava;
             }
-        
+
             m_materialDatePicker = null;
             m_duiDatePicker.IsOpen = false;
         }

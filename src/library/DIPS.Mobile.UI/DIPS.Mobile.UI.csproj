@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+        <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
 
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
@@ -88,6 +88,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Components\Shell\iOS\" />
       <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
