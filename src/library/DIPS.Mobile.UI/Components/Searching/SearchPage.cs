@@ -59,16 +59,16 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     new()
                     {
-                        Height  = GridLength.Auto
+                        Height = GridLength.Auto // Space for safe area ios
                     },
                     new()
                     {
-                        Height = GridLength.Auto //Space for the search bar
+                        Height = GridLength.Auto // Space for the search bar
                     }, 
                     new()
                     {
-                        Height = GridLength.Star
-                    }, //Space for the dynamic content. Hint view, empty view and listview
+                        Height = GridLength.Star // Space for the dynamic content. Hint view, empty view and listview
+                    }, 
                 },
                 RowSpacing = 0
             };

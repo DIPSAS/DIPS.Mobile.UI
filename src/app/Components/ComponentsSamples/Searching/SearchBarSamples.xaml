@@ -5,7 +5,8 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
              x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
              Padding="{dui:Sizes size_2}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />

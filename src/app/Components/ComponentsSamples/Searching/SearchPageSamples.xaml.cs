@@ -3,7 +3,6 @@ using Components.SampleData;
 
 namespace Components.ComponentsSamples.Searching;
 
-[ComponentSample(nameof(LocalizedStrings.SearchPage))]
 public partial class SearchPageSamples
 {
     public SearchPageSamples()
