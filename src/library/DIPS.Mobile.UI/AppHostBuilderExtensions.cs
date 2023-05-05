@@ -5,17 +5,14 @@ using DIPS.Mobile.UI.Components.Searching;
 #if __ANDROID__
 using DIPS.Mobile.UI.Components.Buttons.Android;
 using DIPS.Mobile.UI.Components.Searching.Android;
-using DIPS.Mobile.UI.Components.Progress.Android;
 #elif __IOS__
 using DIPS.Mobile.UI.Components.Searching.iOS;
 #endif
 
 using Microsoft.Maui.LifecycleEvents;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using Image = DIPS.Mobile.UI.Components.Images.Image;
-using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace DIPS.Mobile.UI;
 

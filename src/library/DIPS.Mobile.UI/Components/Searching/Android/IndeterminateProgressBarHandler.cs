@@ -2,7 +2,7 @@ using Google.Android.Material.ProgressIndicator;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 
-namespace DIPS.Mobile.UI.Components.Progress.Android;
+namespace DIPS.Mobile.UI.Components.Searching.Android;
 
 internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgressBar, LinearProgressIndicator>
 {

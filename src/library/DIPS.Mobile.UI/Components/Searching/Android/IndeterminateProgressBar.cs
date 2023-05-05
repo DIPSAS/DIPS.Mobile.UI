@@ -1,5 +1,5 @@
 
-namespace DIPS.Mobile.UI.Components.Progress.Android
+namespace DIPS.Mobile.UI.Components.Searching.Android
 {
     /// <summary>
     /// Only available for Android

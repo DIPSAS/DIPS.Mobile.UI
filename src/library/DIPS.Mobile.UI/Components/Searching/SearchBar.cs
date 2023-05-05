@@ -3,9 +3,6 @@ using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
-#if __ANDROID__
-using IndeterminateProgressBar = DIPS.Mobile.UI.Components.Progress.Android.IndeterminateProgressBar;
-#endif
 namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : ContentView
@@ -78,8 +75,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 grid.ColumnDefinitions.Add(new() {Width = GridLength.Auto});
 
                 //Add progressbar
-                var androidProgressBar = new IndeterminateProgressBar();
-                androidProgressBar.SetBinding(IndeterminateProgressBar.IsRunningProperty,
+                var androidProgressBar = new Android.IndeterminateProgressBar();
+                androidProgressBar.SetBinding(Android.IndeterminateProgressBar.IsRunningProperty,
                     new Binding(nameof(IsBusy), source: this));
                 androidProgressBar.SetBinding(IsVisibleProperty,
                     new Binding(nameof(HasBusyIndication), source: this));

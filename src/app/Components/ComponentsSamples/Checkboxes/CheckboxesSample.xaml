@@ -3,12 +3,9 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
              x:Class="Components.ComponentsSamples.Checkboxes.CheckboxesSample">
     <StackLayout>
         <dui:CheckBox Text="Veeeeeeeeeeeery long text" />
     </StackLayout>
-    
-    
-   
-    
 </dui:ContentPage>
