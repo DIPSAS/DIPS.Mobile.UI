@@ -14,4 +14,4 @@
         <dui:Button Text="Open SearchPage"
                     Command="{Binding NavigateToSearchPage}" />
     </VerticalStackLayout>
-    </dui:ContentPage>
+</dui:ContentPage>

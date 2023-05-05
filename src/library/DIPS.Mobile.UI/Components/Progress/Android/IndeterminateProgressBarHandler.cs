@@ -1,32 +1,36 @@
 using Google.Android.Material.ProgressIndicator;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Progress.Android;
 
-public class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgressBar, LinearProgressIndicator>
+internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgressBar, LinearProgressIndicator>
 {
-    public IndeterminateProgressBarHandler() : base(ViewMapper)
+    public IndeterminateProgressBarHandler() : base(PropertyMapper)
     {
     }
+    protected override LinearProgressIndicator CreatePlatformView() => new(Context);
     
     public static IPropertyMapper<IndeterminateProgressBar, IndeterminateProgressBarHandler> PropertyMapper = new PropertyMapper<IndeterminateProgressBar, IndeterminateProgressBarHandler>(ViewMapper)
     {
-        [nameof(IndeterminateProgressBar.IsRunning)] = ToggleAnimation
+        [nameof(IndeterminateProgressBar.IsRunning)] = MapIsRunning,
+        [nameof(IndeterminateProgressBar.TrackColor)] = MapTrackColor,
+        [nameof(IndeterminateProgressBar.IndicatorColor)] = MapIndicatorColor
     };
 
-    protected override LinearProgressIndicator CreatePlatformView() =>
-        new LinearProgressIndicator(Context);
-    
-    private static void ToggleAnimation(IndeterminateProgressBarHandler handler, IndeterminateProgressBar indeterminateProgressBar)
+    private static void MapIndicatorColor(IndeterminateProgressBarHandler handler, IndeterminateProgressBar bar)
+    {
+        handler.PlatformView.SetIndicatorColor(bar.IndicatorColor.ToPlatform());
+    }
+
+    private static void MapTrackColor(IndeterminateProgressBarHandler handler, IndeterminateProgressBar bar)
+    {
+        handler.PlatformView.TrackColor = bar.TrackColor.ToPlatform();
+    }
+
+    private static void MapIsRunning(IndeterminateProgressBarHandler handler, IndeterminateProgressBar indeterminateProgressBar)
     {
         handler.PlatformView.Indeterminate = indeterminateProgressBar.IsRunning;
-        if (!handler.PlatformView.Indeterminate)
-        {
-            handler.PlatformView.Progress = 100;
-        }
-        else
-        {
-            handler.PlatformView.Progress = 0;
-        }
+        handler.PlatformView.Progress = !indeterminateProgressBar.IsRunning ? 100 : 0;
     }
 }

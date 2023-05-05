@@ -19,7 +19,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 ColumnDefinitions = new ColumnDefinitionCollection() 
                 {
-                    new() { Width = DeviceInfo.Platform == DevicePlatform.iOS ? GridLength.Star : GridLength.Auto }},
+                    new() { Width = GridLength.Star }},
                 RowDefinitions = new RowDefinitionCollection()
                 {
                     new() {Height = GridLength.Star}
@@ -79,7 +79,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
                 //Add progressbar
                 var androidProgressBar = new IndeterminateProgressBar();
-                grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
                 androidProgressBar.SetBinding(IndeterminateProgressBar.IsRunningProperty,
                     new Binding(nameof(IsBusy), source: this));
                 androidProgressBar.SetBinding(IsVisibleProperty,
