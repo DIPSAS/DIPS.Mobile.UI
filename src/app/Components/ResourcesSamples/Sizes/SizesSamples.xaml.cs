@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Components.Resources.LocalizedStrings;
+using Components.ResourcesSamples.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
 using DIPS.Mobile.UI.Sizes.Sizes;
 using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
 namespace Components.ResourcesSamples.Sizes;
 
-[ResourceSample(nameof(LocalizedStrings.Sizes))]
 public partial class SizesSamples
 {
     private Dictionary<string, int> m_sizes;
@@ -28,7 +28,7 @@ public partial class SizesSamples
         Sizes = GetSizes();
         m_allSizes = Sizes;
     }
-
+    
     public Dictionary<string, int> Sizes
     {
         get => m_sizes;

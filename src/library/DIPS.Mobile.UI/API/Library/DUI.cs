@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Pickers;
 
 namespace DIPS.Mobile.UI
 {
@@ -13,11 +14,20 @@ namespace DIPS.Mobile.UI
             {
                 await BottomSheetService.CloseCurrentBottomSheet();    
             }
-
-            // if (DatePickerRenderer.IsOpen())
-            // {
-            //     DatePickerRenderer.Close();
-            // }
+            
+#if __IOS__
+            if (DatePickerService.IsOpen())
+            { 
+                _ = DatePickerService.Close();
+            }
+            
+#elif __ANDROID__
+            if (DatePickerService.IsOpen())
+            {
+                DatePickerService.Close();
+            }
+#endif
+            
         }
 
     }

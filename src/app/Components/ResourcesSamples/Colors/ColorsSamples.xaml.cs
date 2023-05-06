@@ -4,8 +4,6 @@ using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
 namespace Components.ResourcesSamples.Colors
 {
-    [ResourceSample(nameof(LocalizedStrings.Colors))]
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ColorsSamples
     {
         private Dictionary<string, Color> m_colors;
@@ -32,7 +30,7 @@ namespace Components.ResourcesSamples.Colors
             Colors = GetColors();
             m_allColors = Colors;
         }
-
+        
         private static Dictionary<string, Color> GetColors()
         {
             var theColors = new DIPS.Mobile.UI.Resources.Colors.Colors();

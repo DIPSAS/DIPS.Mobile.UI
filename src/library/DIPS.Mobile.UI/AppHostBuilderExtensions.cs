@@ -1,7 +1,18 @@
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.Images;
+using DIPS.Mobile.UI.Components.Searching;
+
+#if __ANDROID__
+using DIPS.Mobile.UI.Components.Buttons.Android;
+using DIPS.Mobile.UI.Components.Searching.Android;
+#elif __IOS__
+using DIPS.Mobile.UI.Components.Searching.iOS;
+#endif
+
 using Microsoft.Maui.LifecycleEvents;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
-using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
+using Image = DIPS.Mobile.UI.Components.Images.Image;
 
 namespace DIPS.Mobile.UI;
 
@@ -31,8 +42,13 @@ public static class AppHostBuilderExtensions
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>
         {
-#if __IOS__
-            handlers.AddHandler(typeof(Shell), typeof(DIPS.Mobile.UI.Components.Shell.iOS.CustomShellRenderer));
+            handlers.AddHandler(typeof(Image), typeof(ImageHandler));
+#if __ANDROID__
+            handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
+            handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
+            handlers.AddHandler(typeof(Button), typeof(ButtonHandler));
+#elif __IOS__
+            handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
 #endif
         });
 

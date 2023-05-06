@@ -39,4 +39,19 @@
     <data name="ContextMenu" xml:space="preserve">
         <value>ContextMenu</value>
     </data>
+    <data name="Pickers" xml:space="preserve">
+        <value>Pickers</value>
+    </data>
+    <data name="Checkboxes" xml:space="preserve">
+        <value>Checkboxes</value>
+    </data>
+    <data name="SearchBar" xml:space="preserve">
+        <value>SearchBar</value>
+    </data>
+    <data name="SearchPage" xml:space="preserve">
+        <value>SearchPage</value>
+    </data>
+    <data name="Searching" xml:space="preserve">
+        <value>Searching</value>
+    </data>
 </root>

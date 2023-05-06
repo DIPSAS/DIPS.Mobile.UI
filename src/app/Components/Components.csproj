@@ -23,6 +23,9 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -43,24 +46,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <MauiXaml Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="ResourcesSamples\Colors\ColorsSamples.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="App.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -105,13 +90,6 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>LocalizedStrings.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="ComponentsSamples\BottomSheets\BottomSheetSamples.xaml" />
-      <AdditionalFiles Include="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml" />
-      <AdditionalFiles Include="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml" />
-      <AdditionalFiles Include="ResourcesSamples\Colors\ColorsSamples.xaml" />
     </ItemGroup>
 
     <ItemGroup>

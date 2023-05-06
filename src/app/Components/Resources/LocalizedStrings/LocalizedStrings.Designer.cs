@@ -86,5 +86,35 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("ContextMenu", resourceCulture);
             }
         }
+        
+        internal static string Pickers {
+            get {
+                return ResourceManager.GetString("Pickers", resourceCulture);
+            }
+        }
+        
+        internal static string Checkboxes {
+            get {
+                return ResourceManager.GetString("Checkboxes", resourceCulture);
+            }
+        }
+        
+        internal static string SearchBar {
+            get {
+                return ResourceManager.GetString("SearchBar", resourceCulture);
+            }
+        }
+        
+        internal static string SearchPage {
+            get {
+                return ResourceManager.GetString("SearchPage", resourceCulture);
+            }
+        }
+        
+        internal static string Searching {
+            get {
+                return ResourceManager.GetString("Searching", resourceCulture);
+            }
+        }
     }
 }

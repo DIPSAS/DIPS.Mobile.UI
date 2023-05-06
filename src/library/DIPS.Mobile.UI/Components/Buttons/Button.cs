@@ -11,7 +11,9 @@ namespace DIPS.Mobile.UI.Components.Buttons
             this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_primary_90);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_05);
             Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
-            CornerRadius = 8; //TODO: Use DesignSystem
+            CornerRadius = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2);
         }
+        
+        
     }
 }
