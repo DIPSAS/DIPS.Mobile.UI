@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {

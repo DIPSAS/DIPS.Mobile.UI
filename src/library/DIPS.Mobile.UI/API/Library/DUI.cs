@@ -16,16 +16,16 @@ namespace DIPS.Mobile.UI
             }
             
 #if __IOS__
-            if (DatePickerService.IsOpen())
+            /*if (DateTimePickerService.IsOpen())
             { 
-                _ = DatePickerService.Close();
-            }
+                _ = DateTimePickerService.Close();
+            }*/
             
 #elif __ANDROID__
-            if (DatePickerService.IsOpen())
+            /*if (DatePickerService.IsOpen())
             {
                 DatePickerService.Close();
-            }
+            }*/
 #endif
             
         }

@@ -1,6 +1,6 @@
 using UIKit;
 
-namespace DIPS.Mobile.UI.Components.Pickers.iOS.Date
+namespace DIPS.Mobile.UI.Components.Pickers.iOS
 {
     internal class UIPopoverPresentationControllerDelegate : UIKit.UIPopoverPresentationControllerDelegate
     {

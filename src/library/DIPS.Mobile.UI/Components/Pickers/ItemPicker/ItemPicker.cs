@@ -2,7 +2,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 using Picker = DIPS.Mobile.UI.Components.Pickers.Base.Picker;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     //TODO: Make sure its accessable
     public partial class ItemPicker : Picker
@@ -50,7 +50,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
                 return;
             }
 
-            picker.m_pickedItemLabel.Text =
+            picker.PickedItemLabel.Text =
                 picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty);
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
             picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);

@@ -1,7 +1,7 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.DateTimePickers
 {
     public partial class DatePicker
     {
@@ -22,15 +22,15 @@ namespace DIPS.Mobile.UI.Components.Pickers
 
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             nameof(SelectedDate),
-            typeof(DateTime),
+            typeof(System.DateTime),
             typeof(DatePicker), propertyChanged: OnSelectedDateChanged, defaultBindingMode:BindingMode.TwoWay);
 
         /// <summary>
         /// The date people selected from the date picker.
         /// </summary>
-        public DateTime SelectedDate
+        public System.DateTime SelectedDate
         {
-            get => (DateTime)GetValue(SelectedDateProperty);
+            get => (System.DateTime)GetValue(SelectedDateProperty);
             set => SetValue(SelectedDateProperty, value);
         }
 
@@ -43,16 +43,16 @@ namespace DIPS.Mobile.UI.Components.Pickers
         /// The event to be raised when people selected a date from the picker.
         /// </summary>
         public event EventHandler<object>? DidSelectDate;
-        
+    
         /// <summary>
         /// The command to be executed when people selected a date from the date picker.
         /// </summary>
-        public ICommand SelectedDateCommand
+        public ICommand? SelectedDateCommand
         {
             get => (ICommand)GetValue(SelectedDateCommandProperty);
             set => SetValue(SelectedDateCommandProperty, value);
         }
-
+        
         public static readonly BindableProperty SelectedDateDisplayFormat = BindableProperty.Create(
             nameof(DateFormat),
             typeof(DateConverter.DateConverterFormat),
@@ -65,6 +65,17 @@ namespace DIPS.Mobile.UI.Components.Pickers
         {
             get => (DateConverter.DateConverterFormat)GetValue(SelectedDateDisplayFormat);
             set => SetValue(SelectedDateDisplayFormat, value);
+        }
+        
+        public static readonly BindableProperty IgnoreLocalTimeProperty = BindableProperty.Create(
+            nameof(IgnoreLocalTime),
+            typeof(bool),
+            typeof(DateAndTimePicker));
+
+        public bool IgnoreLocalTime
+        {
+            get => (bool)GetValue(IgnoreLocalTimeProperty);
+            set => SetValue(IgnoreLocalTimeProperty, value);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public class SelectableItem
     {

@@ -1,7 +1,7 @@
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {

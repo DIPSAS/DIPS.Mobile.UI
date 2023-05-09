@@ -1,12 +1,12 @@
+using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Sizes.Sizes;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
-using System.Collections.ObjectModel;
 
-namespace DIPS.Mobile.UI.Components.Pickers
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public class PickerBottomSheet : BottomSheet
     {

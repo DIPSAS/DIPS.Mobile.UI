@@ -1,7 +1,6 @@
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Sizes.Sizes;
-using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image;
 
@@ -12,7 +11,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
     /// </summary>
     public partial class Picker : Frame
     {
-        protected readonly Label m_pickedItemLabel;
+        protected readonly Label PickedItemLabel;
 
         public Picker()
         {
@@ -31,8 +30,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
                 new Binding() {Source = this, Path = nameof(Title)});
 
             //Selected item
-            m_pickedItemLabel = new Label {HorizontalTextAlignment = TextAlignment.End, VerticalTextAlignment = TextAlignment.Center};
-            m_pickedItemLabel.SetAppThemeColor(Microsoft.Maui.Controls.Label.TextColorProperty, ColorName.color_primary_90);
+            PickedItemLabel = new Label {HorizontalTextAlignment = TextAlignment.End, VerticalTextAlignment = TextAlignment.Center};
+            PickedItemLabel.SetAppThemeColor(Microsoft.Maui.Controls.Label.TextColorProperty, ColorName.color_primary_90);
 
             var image = new Image();
             image.iOSProperties.SystemIconName = "chevron.up.chevron.down";
@@ -56,8 +55,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
 
             pickerContent.Children.Add(headerLabel);
             
-            pickerContent.Children.Add(m_pickedItemLabel);
-            Grid.SetColumn(m_pickedItemLabel, 1);
+            pickerContent.Children.Add(PickedItemLabel);
+            Grid.SetColumn(PickedItemLabel, 1);
 
             pickerContent.Children.Add(image);
             Grid.SetColumn(image, 2);
@@ -67,7 +66,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
 
         public void SetPickedItemText(string selectedText)
         {
-            m_pickedItemLabel.Text = selectedText;
+            PickedItemLabel.Text = selectedText;
         }
 
     }

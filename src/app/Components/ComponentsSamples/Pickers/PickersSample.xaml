@@ -4,6 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+             xmlns:itemPicker="clr-namespace:DIPS.Mobile.UI.Components.Pickers.ItemPicker;assembly=DIPS.Mobile.UI"
+             xmlns:dateTimePickers="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DateTimePickers;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Pickers.PickersSample">
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
@@ -12,7 +14,7 @@
     <StackLayout Margin="15">
         <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
-        <dui:ItemPicker VerticalOptions="Start"
+        <itemPicker:ItemPicker VerticalOptions="Start"
                         Title="Person"
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
@@ -20,7 +22,7 @@
 
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
-        <dui:ItemPicker VerticalOptions="Start"
+        <itemPicker:ItemPicker VerticalOptions="Start"
                         Title="Person"
                         Mode="BottomSheet"
                         SelectedItem="{Binding SelectedPerson}"
@@ -28,9 +30,21 @@
                         ItemDisplayProperty="DisplayName" />
         <dui:Label Text="DatePicker"
                    Margin="5" />
-        <dui:DatePicker VerticalOptions="Start"
+        <dateTimePickers:DatePicker VerticalOptions="Start"
                         Title="Birthday"
                         Description="Please select a birthday"
                         SelectedDate="{Binding SelectedBirthday}"/>
+        <dui:Label Text="TimePicker"
+                   Margin="5" />
+        <dateTimePickers:TimePicker Title="Grocery shopping"
+                        SelectedTime="{Binding SelectedGroceryShopping}"
+                        Description="When is it time to go to the grocery store?" />
+        <dui:Label Text="DateAndTimePicker"
+                   Margin="5" />
+        <dateTimePickers:DateAndTimePicker Title="Deadline"
+                               SelectedDateTime="{Binding SelectedDeadline}"
+                            IgnoreLocalTime="True"
+                               Description="When is the deadline?" />
+        
     </StackLayout>
 </dui:ContentPage>

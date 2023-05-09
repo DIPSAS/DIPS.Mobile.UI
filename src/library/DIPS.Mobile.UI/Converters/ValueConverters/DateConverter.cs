@@ -85,6 +85,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             {
                 dateTime = dateTime.ToLocalTime();
             }
+            else if (dateTime.Kind == DateTimeKind.Local)
+            {
+                dateTime = dateTime.ToUniversalTime();
+            }
 
             var day = GetDayBasedOnCulture(dateTime, culture);
 
@@ -125,6 +129,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             if (!ignoreLocalTime)
             {
                 dateTime = dateTime.ToLocalTime();
+            }
+            else if (dateTime.Kind == DateTimeKind.Local)
+            {
+                dateTime = dateTime.ToUniversalTime();
             }
             
             if (dateTime.IsToday())

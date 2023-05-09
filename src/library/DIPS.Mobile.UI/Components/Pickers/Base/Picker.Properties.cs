@@ -1,3 +1,5 @@
+using DatePicker = DIPS.Mobile.UI.Components.Pickers.DateTimePickers.DatePicker;
+
 namespace DIPS.Mobile.UI.Components.Pickers.Base
 {
     public abstract partial class Picker

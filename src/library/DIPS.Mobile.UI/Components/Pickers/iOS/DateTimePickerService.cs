@@ -1,23 +1,44 @@
 using CoreGraphics;
-using DIPS.Mobile.UI.Components.Pickers.iOS.Date;
+using DIPS.Mobile.UI.Components.Pickers.DateTimePickers;
 using UIKit;
-using UIPopoverPresentationControllerDelegate = DIPS.Mobile.UI.Components.Pickers.iOS.Date.UIPopoverPresentationControllerDelegate;
+using DIPS.Mobile.UI.Components.Pickers.iOS;
+using DIPS.Mobile.UI.Components.Pickers.iOS.Date;
+using DIPS.Mobile.UI.Components.Pickers.iOS.DateTime;
+using DIPS.Mobile.UI.Components.Pickers.iOS.Time;
+using DatePicker = DIPS.Mobile.UI.Components.Pickers.DateTimePickers.DatePicker;
+using TimePicker = DIPS.Mobile.UI.Components.Pickers.DateTimePickers.TimePicker;
+using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
+using UIPopoverPresentationControllerDelegate = DIPS.Mobile.UI.Components.Pickers.iOS.UIPopoverPresentationControllerDelegate;
 
 namespace DIPS.Mobile.UI.Components.Pickers;
 
-public static partial class DatePickerService
+public static partial class DateTimePickerService
 {
-    internal const string DatePickerRestorationIdentifier = nameof(UIDatePickerViewController);
+    private const string DatePickerRestorationIdentifier = nameof(UIDatePickerViewController);
 
-    public static partial void OpenDatePicker(DatePicker datePicker)
+    public static partial void OpenDateTimePicker(IDateTimePicker dateTimePicker)
     {
-        if (datePicker is not {IsOpen: true}) return;
-
+        if (dateTimePicker is not {IsOpen: true}) return;
+        
         var currentViewController = API.Library.iOS.DUI.CurrentViewController;
         if (currentViewController?.View == null) return;
         
-        var viewController = new UIDatePickerViewController(datePicker);
-        viewController.RestorationIdentifier = DatePickerRestorationIdentifier;
+        UIDateTimePickerViewController? viewController = null;
+
+        if (dateTimePicker is DatePicker datePicker)
+        {
+            viewController = new UIDatePickerViewController(datePicker);
+        }
+        else if (dateTimePicker is TimePicker timePicker)
+        {
+            viewController = new UITimePickerViewController(timePicker);
+        }
+        else if (dateTimePicker is DateAndTimePicker dateAndTimePicker)
+        {
+            viewController = new UIDateAndTimePickerViewController(dateAndTimePicker);
+        }
+        
+        viewController!.RestorationIdentifier = DatePickerRestorationIdentifier;
         var screenWidth = UIScreen.MainScreen.Bounds.Width;
         var screenHeight = UIScreen.MainScreen.Bounds.Height;
         var sizeOfPopover = new CGSize(screenWidth - 30, screenHeight / 2);
@@ -39,20 +60,9 @@ public static partial class DatePickerService
         
         currentViewController.PresentViewController(viewController, true, null);
     }
-        
-    internal static async Task Close()
-    {
-        var potentialBottomSheetUiViewController = API.Library.iOS.DUI.CurrentViewController;
-        if (potentialBottomSheetUiViewController != null)
-        {
-            await potentialBottomSheetUiViewController.DismissViewControllerAsync(false);
-            await Task.Delay(100); //Small delay before its actually removed.    
-        }
-    }
 
-    internal static bool IsOpen()
+    public static partial Task Close()
     {
-        return API.Library.iOS.DUI.CurrentViewController?.RestorationIdentifier == DatePickerRestorationIdentifier;
+        return Task.CompletedTask;
     }
-    
 }
