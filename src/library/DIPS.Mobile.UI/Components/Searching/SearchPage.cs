@@ -59,7 +59,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     new()
                     {
-                        Height = GridLength.Auto // Space for safe area on iOS
+                        Height = GridLength.Auto // Space for safe area ios
                     },
                     new()
                     {

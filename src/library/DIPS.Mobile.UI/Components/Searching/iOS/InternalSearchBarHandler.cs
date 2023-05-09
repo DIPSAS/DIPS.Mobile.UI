@@ -128,7 +128,7 @@ internal class InternalSearchBarHandler : SearchBarHandler
         {
             MagnifierIcon = uiImageView;
         }
-
+        
         SubscribeToEvents();
     }
 

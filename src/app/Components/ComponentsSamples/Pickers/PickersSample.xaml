@@ -4,17 +4,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
-             xmlns:itemPicker="clr-namespace:DIPS.Mobile.UI.Components.Pickers.ItemPicker;assembly=DIPS.Mobile.UI"
-             xmlns:dateTimePickers="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DateTimePickers;assembly=DIPS.Mobile.UI"
+             xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
              x:Class="Components.ComponentsSamples.Pickers.PickersSample">
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <StackLayout Margin="15">
+    <StackLayout>
         <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
-        <itemPicker:ItemPicker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                         Title="Person"
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
@@ -22,7 +21,7 @@
 
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
-        <itemPicker:ItemPicker VerticalOptions="Start"
+        <dui:ItemPicker VerticalOptions="Start"
                         Title="Person"
                         Mode="BottomSheet"
                         SelectedItem="{Binding SelectedPerson}"

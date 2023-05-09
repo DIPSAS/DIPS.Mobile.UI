@@ -15,7 +15,7 @@ public interface IContextMenu
     /// <summary>
     /// The context menu items
     /// </summary>
-    public IList<ContextMenuItem> ItemsSource { get; }
+    public IList<ContextMenuItem>? ItemsSource { get; }
 
     /// <summary>
     /// Command that gets invoked with a paramter when a <see cref="ContextMenuItem"/> was clicked by the user

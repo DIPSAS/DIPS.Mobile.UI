@@ -37,7 +37,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         private const string Space = " ";
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         ///     The format to choose between, see <see cref="DateConverterFormat" />
@@ -58,7 +58,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return string.Empty;
             if (!(value is DateTime dateTimeInput))

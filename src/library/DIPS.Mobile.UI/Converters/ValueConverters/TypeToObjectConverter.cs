@@ -9,21 +9,21 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class TypeToObjectConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         /// The object to return when the binding and <see cref="Type"/> is the same type
         /// </summary>
-        public object TrueObject { get; set; }
+        public object? TrueObject { get; set; }
         /// <summary>
         /// THe object to return when the binding and <see cref="Type"/> is not the same
         /// </summary>
-        public object FalseObject { get; set; }
+        public object? FalseObject { get; set; }
 
         /// <summary>
         /// The type to check against, use {x:Type namespace:MyType}
         /// </summary>
-        public Type Type { get; set; }
+        public Type? Type { get; set; }
 
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

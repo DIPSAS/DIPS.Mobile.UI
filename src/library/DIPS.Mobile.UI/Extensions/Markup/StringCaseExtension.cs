@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Extensions.Markup
 {
@@ -46,7 +47,7 @@ namespace DIPS.Mobile.UI.Extensions.Markup
         public StringCase StringCase { get; set; }
 
         /// <inheritdoc/>
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public object ProvideValue(IServiceProvider? serviceProvider)
         {
             if (string.IsNullOrEmpty(Input))
             {

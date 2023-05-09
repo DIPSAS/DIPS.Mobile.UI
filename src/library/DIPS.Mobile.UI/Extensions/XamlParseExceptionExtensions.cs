@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Extensions
             }
         }
 
-        private static string FormatMessage(string message, IXmlLineInfo xmlinfo)
+        private static string FormatMessage(string message, IXmlLineInfo? xmlinfo)
         {
             if (xmlinfo == null || !xmlinfo.HasLineInfo())
             {

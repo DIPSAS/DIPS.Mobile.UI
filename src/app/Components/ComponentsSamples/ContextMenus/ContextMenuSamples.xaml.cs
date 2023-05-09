@@ -3,7 +3,6 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 
 namespace Components.ComponentsSamples.ContextMenus;
 
-[ComponentSample(nameof(LocalizedStrings.ContextMenu))]
 public partial class ContextMenuSamples
 {
     public ContextMenuSamples()

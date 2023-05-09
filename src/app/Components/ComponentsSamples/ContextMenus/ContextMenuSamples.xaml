@@ -2,11 +2,12 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:contextMenu="clr-namespace:Components.ComponentsSamples.ContextMenu"
+                 xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  x:Class="Components.ComponentsSamples.ContextMenus.ContextMenuSamples"
-                 Padding="15">
-    <ContentPage.BindingContext>
+                 >
+    <dui:ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
-    </ContentPage.BindingContext>
+    </dui:ContentPage.BindingContext>
     
     <StackLayout>
         <!-- Single item -->

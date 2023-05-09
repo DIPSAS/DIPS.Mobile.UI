@@ -1,3 +1,4 @@
+using Components.Resources.LocalizedStrings;
 using Components.SampleData;
 
 namespace Components.ComponentsSamples.Searching;

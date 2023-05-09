@@ -26,6 +26,8 @@ public partial class ContextMenu : Button
 
     internal void ResetIsCheckedForTheRest(ContextMenuItem contextMenuItem)
     {
+        if (ItemsSource == null) return;
+        
         if (ItemsSource.Contains(contextMenuItem)) //its on the root, and others on the root should not be resetted
         {
             return;
@@ -40,6 +42,8 @@ public partial class ContextMenu : Button
 
             if (child is ContextMenuGroup contextMenuGroup)
             {
+                if (contextMenuGroup.ItemsSource != null) return;
+                
                 if (contextMenuGroup.ItemsSource
                     .Contains(
                         contextMenuItem)) //Its added to a group so we need to uncheck the rest in the group before checking the item

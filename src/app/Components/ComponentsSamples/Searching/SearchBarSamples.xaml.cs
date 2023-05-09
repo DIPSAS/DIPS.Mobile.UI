@@ -1,3 +1,5 @@
+using Components.Resources.LocalizedStrings;
+
 namespace Components.ComponentsSamples.Searching;
 
 public partial class SearchBarSamples

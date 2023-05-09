@@ -9,8 +9,6 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class IsEmptyConverter : IValueConverter, IMarkupExtension
     {
-        private IServiceProvider m_serviceProvider;
-
         /// <summary>
         /// Property to set if we want to return a inverted output value from the converter.
         /// </summary>
@@ -68,7 +66,6 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         [ExcludeFromCodeCoverage]
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            m_serviceProvider = serviceProvider;
             return this;
         }
     }

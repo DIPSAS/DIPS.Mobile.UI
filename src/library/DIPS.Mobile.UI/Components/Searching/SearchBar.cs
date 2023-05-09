@@ -19,7 +19,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 ColumnDefinitions = new ColumnDefinitionCollection() 
                 {
-                    new() { Width = DeviceInfo.Platform == DevicePlatform.iOS ? GridLength.Star : GridLength.Auto }},
+                    new() { Width = GridLength.Star }},
                 RowDefinitions = new RowDefinitionCollection()
                 {
                     new() {Height = GridLength.Star}
@@ -30,8 +30,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_internalSearchBar = new InternalSearchBar();
 
-            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, 
-                new Binding(nameof(BarColor), source: this));
+            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, 
                 new Binding(nameof(BarColor), source: this));
             m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,
@@ -79,9 +78,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 grid.ColumnDefinitions.Add(new() {Width = GridLength.Auto});
 
                 //Add progressbar
-                var androidProgressBar = new IndeterminateProgressBar();
-                grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
-                androidProgressBar.SetBinding(IndeterminateProgressBar.IsRunningProperty,
+                var androidProgressBar = new Android.IndeterminateProgressBar();
+                androidProgressBar.SetBinding(Android.IndeterminateProgressBar.IsRunningProperty,
                     new Binding(nameof(IsBusy), source: this));
                 androidProgressBar.SetBinding(IsVisibleProperty,
                     new Binding(nameof(HasBusyIndication), source: this));

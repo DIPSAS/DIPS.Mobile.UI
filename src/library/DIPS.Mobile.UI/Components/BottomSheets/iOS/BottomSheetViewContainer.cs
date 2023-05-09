@@ -4,7 +4,7 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
-internal class BottomSheetViewContainer : UIView
+internal sealed class BottomSheetViewContainer : UIView
 {
     readonly BottomSheet m_bottomSheet;
     readonly UIView m_nativeView;
@@ -19,7 +19,11 @@ internal class BottomSheetViewContainer : UIView
     public override void LayoutSubviews()
     {
         base.LayoutSubviews();
-        var r = m_bottomSheet.Measure(Application.Current.MainPage.Window.Width, Application.Current.MainPage.Window.Height);
-        m_nativeView.Frame = new CGRect(0, 0, Bounds.Width, r.Request.Height);
+        if (Application.Current is {MainPage: not null})
+        {
+            var r = m_bottomSheet.Measure(Application.Current.MainPage.Window.Width,
+                Application.Current.MainPage.Window.Height);
+            m_nativeView.Frame = new CGRect(0, 0, Bounds.Width, r.Request.Height);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class InvertedBoolConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <inheritdoc />
         [ExcludeFromCodeCoverage]
@@ -27,7 +27,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         /// <param name="parameter">A parameter to use during the conversion.</param>
         /// <param name="culture">The culture to use during the conversion.</param>
         /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null || !bool.TryParse(value.ToString(), out var booleanValue))
             {

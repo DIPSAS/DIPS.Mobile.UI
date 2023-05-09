@@ -9,8 +9,6 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// </summary>
     public class StringCaseConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider m_serviceProvider;
-
         /// <summary>
         /// <see cref="StringCase"/>
         /// </summary>
@@ -20,12 +18,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         [ExcludeFromCodeCoverage]
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            m_serviceProvider = serviceProvider;
             return this;
         }
 
         /// <inheritdoc/>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is string stringValue))
                 return null;
@@ -33,9 +30,8 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 return string.Empty;
 
             var stringCaseExtension = new StringCaseExtension() { Input = stringValue, StringCase = StringCase };
-#nullable disable
+
             return stringCaseExtension.ProvideValue(null);
-#nullable restore
         }
 
         /// <inheritdoc/>

@@ -4,10 +4,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
-             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
-             Padding="{dui:Sizes size_2}">
+             >
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>

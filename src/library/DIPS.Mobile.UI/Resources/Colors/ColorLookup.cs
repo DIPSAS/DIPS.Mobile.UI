@@ -16,7 +16,7 @@ namespace DIPS.Mobile.UI.Resources.Colors
                 var (hasDarkModeColor, darkModeColorName) = HasDarkModeColor(colorName);
                 if (hasDarkModeColor)
                 {
-                    return darkModeColorName.ToString();
+                    return darkModeColorName.ToString()!;
                 }
             }
             else
