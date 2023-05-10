@@ -8,7 +8,6 @@ namespace DIPS.Mobile.UI.Components.Searching
     public partial class SearchBar : ContentView
     {
         private readonly InternalSearchBar m_internalSearchBar;
-        private readonly Buttons.Button? m_cancelButton;
 
         public SearchBar()
         {
@@ -83,22 +82,22 @@ namespace DIPS.Mobile.UI.Components.Searching
                 
                 //Add progressbar to grid
                 Grid.SetColumnSpan(androidProgressBar, 2);
-                grid.Add(androidProgressBar, 0, grid.RowDefinitions.Count - 1);
+                grid.Add(androidProgressBar, 0, 1);
 
                 //Add cancelbutton
-                m_cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
-                m_cancelButton.BackgroundColor = Colors.Transparent;
-                m_cancelButton.SetBinding(Button.TextColorProperty,
+                var cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
+                cancelButton.BackgroundColor = Colors.Transparent;
+                cancelButton.SetBinding(Button.TextColorProperty,
                     new Binding(nameof(InternalSearchBar.TextColor), source: m_internalSearchBar));
-                m_cancelButton.SetBinding(Button.CommandProperty,
-                    new Binding(nameof(InternalSearchBar.CancelCommand), source: m_internalSearchBar));
-                m_cancelButton.SetBinding(Button.CommandParameterProperty,
-                    new Binding(nameof(CancelCommandParameter), source: m_internalSearchBar));
-                m_cancelButton.SetBinding(IsVisibleProperty,
-                    new Binding(nameof(InternalSearchBar.ShowsCancelButton), source: m_internalSearchBar));
+                cancelButton.SetBinding(Button.CommandProperty,
+                    new Binding(nameof(CancelCommand), source: this));
+                cancelButton.SetBinding(Button.CommandParameterProperty,
+                    new Binding(nameof(CancelCommandParameter), source: this));
+                cancelButton.SetBinding(IsVisibleProperty,
+                    new Binding(nameof(HasCancelButton), source:this));
                 
                 //Add cancel button to grid
-                grid.Add(m_cancelButton, grid.ColumnDefinitions.Count - 1, 0);
+                grid.Add(cancelButton, 1, 0);
 #endif
             
             Content = grid;
