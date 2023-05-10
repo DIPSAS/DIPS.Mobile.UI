@@ -1,4 +1,5 @@
 ## [2.1.1]
+- SearchBar on Android is now showing if you have set HasCancelButton = false.
 
 ## [2.1.0]
 - Added DatePicker
