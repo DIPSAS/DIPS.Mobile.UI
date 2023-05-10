@@ -32,7 +32,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(IsBusyProperty, value);
         }
 
-        public static readonly BindableProperty ShowsCancelButtonProperty = BindableProperty.Create(
+        public static readonly BindableProperty HasCancelButtonProperty = BindableProperty.Create(
             nameof(HasCancelButton),
             typeof(bool),
             typeof(SearchBar));
@@ -56,8 +56,8 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// </summary>
         public bool HasCancelButton
         {
-            get => (bool)GetValue(ShowsCancelButtonProperty);
-            set => SetValue(ShowsCancelButtonProperty, value);
+            get => (bool)GetValue(HasCancelButtonProperty);
+            set => SetValue(HasCancelButtonProperty, value);
         }
 
         public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(

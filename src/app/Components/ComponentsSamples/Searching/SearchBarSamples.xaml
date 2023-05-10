@@ -1,34 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
-             x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
-             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
-             >
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
+                 x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*"
           RowSpacing="0"
-          BackgroundColor="Transparent">
+          BackgroundColor="Transparent"
+          ColumnDefinitions="*, Auto">
         <dui:SearchBar Grid.Row="0"
                        Placeholder="Search from the items below"
                        VerticalOptions="Start"
+                       CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
                        TextChanged="InputView_OnTextChanged" />
         <dui:CollectionView Grid.Row="1"
                             BackgroundColor="{dui:Colors color_neutral_05}"
-                      SelectionMode="None"
-                      ItemsSource="{Binding People}">
+                            SelectionMode="None"
+                            ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                        <dui:Label Text="{Binding DisplayName}"
-                                   VerticalOptions="Center"
-                                   Margin="15" />
+                    <dui:Label Text="{Binding DisplayName}"
+                               VerticalOptions="Center"
+                               Margin="15" />
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
         </dui:CollectionView>
