@@ -1,111 +1,16 @@
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using ContentView = Microsoft.Maui.Controls.ContentView;
+
 namespace DIPS.Mobile.UI.Components.Searching
 {
-    public partial class SearchBar : ContentView
+    public partial class SearchBar : View
     {
-        private readonly InternalSearchBar m_internalSearchBar;
-
         public SearchBar()
         {
-            var grid = new Grid()
-            {
-                ColumnDefinitions = new ColumnDefinitionCollection() 
-                {
-                    new() { Width = GridLength.Star }},
-                RowDefinitions = new RowDefinitionCollection()
-                {
-                    new() {Height = GridLength.Star}
-                },
-                RowSpacing = 0,
-                ColumnSpacing = 0
-            };
-
-            m_internalSearchBar = new InternalSearchBar();
-
-            m_internalSearchBar.SetBinding(InternalSearchBar.BackgroundProperty, new Binding(nameof(BarColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.BarColorProperty, 
-                new Binding(nameof(BarColor), source: this));
-            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextColorProperty,
-                new Binding(nameof(TextColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.TextFieldColorProperty,
-                new Binding(nameof(TextFieldColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.IsBusyProperty, 
-                new Binding(nameof(IsBusy), source: this));
-            m_internalSearchBar.SetBinding(PlaceholderColorProperty,
-                new Binding(nameof(PlaceholderColor), source: this));
-            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty,
-                new Binding(nameof(CancelButtonColor), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.IconsColorProperty,
-                new Binding(nameof(IconsColor), source: this));
-            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.PlaceholderProperty,
-                new Binding(nameof(Placeholder), source: this));
-            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.TextProperty,
-                new Binding(nameof(Text), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.CornerRadiusProperty,
-                new Binding(nameof(CornerRadius), source: this));
-            m_internalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.SearchCommandProperty,
-                new Binding(nameof(SearchCommand), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.CancelCommandProperty,
-                new Binding(nameof(CancelCommand), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.CancelCommandParameterProperty,
-                new Binding(nameof(CancelCommandParameterProperty), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.ShowsCancelButtonProperty,
-                new Binding(nameof(HasCancelButton), source: this));
-            m_internalSearchBar.SetBinding(InternalSearchBar.HasBusyIndicationProperty,
-                new Binding(nameof(HasBusyIndication), source: this));
-
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
-            this.SetAppThemeColor(CancelButtonColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(BarColorProperty, ColorName.color_neutral_05);
             this.SetAppThemeColor(TextFieldColorProperty, ColorName.color_neutral_05);
-
-            grid.Add(m_internalSearchBar, 0, 0);
-            
-            //On Android, progressbar and cancel button needs to be added
-#if __ANDROID__
-                grid.SetBinding(BackgroundColorProperty, new Binding(nameof(BarColor), source:this));
-                //Add extra rows and columns
-                grid.RowDefinitions.Add(new() {Height = GridLength.Auto});
-                grid.ColumnDefinitions.Add(new() {Width = GridLength.Auto});
-
-                //Add progressbar
-                var androidProgressBar = new Android.IndeterminateProgressBar();
-                androidProgressBar.SetBinding(Android.IndeterminateProgressBar.IsRunningProperty,
-                    new Binding(nameof(IsBusy), source: this));
-                androidProgressBar.SetBinding(IsVisibleProperty,
-                    new Binding(nameof(HasBusyIndication), source: this));
-                
-                //Add progressbar to grid
-                Grid.SetColumnSpan(androidProgressBar, 2);
-                grid.Add(androidProgressBar, 0, 1);
-
-                //Add cancelbutton
-                var cancelButton = new Buttons.Button { Text = DUILocalizedStrings.Cancel };
-                cancelButton.BackgroundColor = Colors.Transparent;
-                cancelButton.SetBinding(Button.TextColorProperty,
-                    new Binding(nameof(InternalSearchBar.TextColor), source: m_internalSearchBar));
-                cancelButton.SetBinding(Button.CommandProperty,
-                    new Binding(nameof(CancelCommand), source: this));
-                cancelButton.SetBinding(Button.CommandParameterProperty,
-                    new Binding(nameof(CancelCommandParameter), source: this));
-                cancelButton.SetBinding(IsVisibleProperty,
-                    new Binding(nameof(HasCancelButton), source:this));
-                
-                //Add cancel button to grid
-                grid.Add(cancelButton, 1, 0);
-#endif
-            
-            Content = grid;
-        }
-
-        public new void Focus()
-        {
-            m_internalSearchBar.Focus();
         }
     }
 }

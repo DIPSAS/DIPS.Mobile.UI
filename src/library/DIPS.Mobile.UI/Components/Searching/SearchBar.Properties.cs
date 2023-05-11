@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// Sets the color of the icons that people see in the search bar.
         /// </summary>
-        public Color IconsColor
+        public Color? IconsColor
         {
             get => (Color)GetValue(IconsColorProperty);
             set => SetValue(IconsColorProperty, value);
@@ -136,19 +136,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty CancelButtonColorProperty = BindableProperty.Create(
-            nameof(CancelButtonColor),
-            typeof(Color),
-            typeof(SearchBar));
-
-        /// <summary>
-        /// The color of the text in the cancel button to see.
-        /// </summary>
-        public Color CancelButtonColor
-        {
-            get => (Color)GetValue(CancelButtonColorProperty);
-            set => SetValue(CancelButtonColorProperty, value);
-        }
 
         /// <summary>
         /// Event that gets invoked when people search using the search bar.
