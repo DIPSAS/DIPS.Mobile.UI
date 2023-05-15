@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.Searching;
 using DIPS.Mobile.UI.Components.Buttons.Android;
 #elif __IOS__
 using DIPS.Mobile.UI.Components.Searching.iOS;
+using InternalSearchBar = DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar;
 #endif
 
 using Microsoft.Maui.LifecycleEvents;
@@ -47,6 +48,7 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
             handlers.AddHandler(typeof(Button), typeof(ButtonHandler));
 #elif __IOS__
+            handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
 #endif
         });

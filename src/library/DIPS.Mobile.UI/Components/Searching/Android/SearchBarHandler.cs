@@ -1,19 +1,16 @@
 using Android.Graphics;
-using Android.Views;
 using Android.Widget;
-using AndroidX.AppCompat.Widget;
-using DIPS.Mobile.UI.Components.Labels;
+using DIPS.Mobile.UI.Components.Searching.Android;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
-using Label = Microsoft.Maui.Controls.Label;
 
-namespace DIPS.Mobile.UI.Components.Searching.Android
+namespace DIPS.Mobile.UI.Components.Searching
 {
-    public class SearchBarHandler : ViewHandler<SearchBar, AView>
+    internal partial class SearchBarHandler : ViewHandler<SearchBar, AView>
     {
         private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; }
         private IndeterminateProgressBar ProgressBar { get; }
@@ -89,12 +86,18 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
                 [nameof(SearchBar.BarColor)] = MapBarColor,
                 [nameof(SearchBar.IconsColor)] = MapIconsColor,
                 [nameof(SearchBar.TextColor)] = MapTextColor,
+                [nameof(SearchBar.CancelButtonTextColor)] = MapCancelButtonTextColor,
                 [nameof(SearchBar.PlaceholderColor)] = MapPlaceholderColor,
                 [nameof(SearchBar.Placeholder)] = MapPlaceholder,
                 [nameof(SearchBar.CancelCommand)] = MapCancelCommand,
                 [nameof(SearchBar.CancelCommandParameter)] = MapCancelCommandParameter,
                 [nameof(SearchBar.SearchCommand)] = MapSearchCommand,
             };
+
+        private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
+        {
+            handler.CancelButton.TextColor = searchBar.CancelButtonTextColor;
+        }
 
         private static void MapSearchCommand(SearchBarHandler handler, SearchBar searchBar)
         {

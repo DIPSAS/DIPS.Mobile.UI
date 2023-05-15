@@ -136,6 +136,17 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(TextColorProperty, value);
         }
 
+        public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(
+            nameof(CancelButtonTextColor),
+            typeof(Color),
+            typeof(SearchBar));
+
+        public Color CancelButtonTextColor
+        {
+            get => (Color)GetValue(CancelButtonTextColorProperty);
+            set => SetValue(CancelButtonTextColorProperty, value);
+        }
+
 
         /// <summary>
         /// Event that gets invoked when people search using the search bar.
@@ -164,7 +175,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The background color of the textfield.
         /// </summary>
-        public Color TextFieldColor
+        public Color? TextFieldColor
         {
             get => (Color)GetValue(TextFieldColorProperty);
             set => SetValue(TextFieldColorProperty, value);
@@ -178,7 +189,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The background color of the search bar.
         /// </summary>
-        public Color BarColor
+        public Color? BarColor
         {
             get => (Color)GetValue(BarColorProperty);
             set => SetValue(BarColorProperty, value);
@@ -189,7 +200,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(Color),
             typeof(SearchBar));
 
-        public Color PlaceholderColor
+        public Color? PlaceholderColor
         {
             get => (Color)GetValue(PlaceholderColorProperty);
             set => SetValue(PlaceholderColorProperty, value);

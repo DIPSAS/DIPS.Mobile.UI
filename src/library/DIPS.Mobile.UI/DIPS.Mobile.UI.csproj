@@ -56,7 +56,7 @@
         <DefineConstants Condition=" '$(_DROID)' == 'true' ">$(DefineConstants);__ANDROID__;__MOBILE__;</DefineConstants>
         <DefineConstants Condition=" '$(_IOS)' == 'true' ">$(DefineConstants);__IOS__;__MOBILE__;</DefineConstants>
     </PropertyGroup>
-
+    
     <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
