@@ -24,7 +24,7 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, MauiImageView>
             return;
         }
         
-        var systemImage = UIImage.FromFile(nativeIcon.iOSSystemIconName);
+        var systemImage = UIImage.GetSystemImage(nativeIcon.iOSSystemIconName);
         nativeIconHandler.PlatformView.AdjustsImageSizeForAccessibilityContentSizeCategory = true;
         nativeIconHandler.PlatformView.Image = systemImage;
     }
