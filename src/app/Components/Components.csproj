@@ -26,6 +26,10 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
+    <PropertyGroup>
+        <DIPSIncludeIcons>False</DIPSIncludeIcons>
+        <DIPSIncludeSplashScreen>False</DIPSIncludeSplashScreen>
+    </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />

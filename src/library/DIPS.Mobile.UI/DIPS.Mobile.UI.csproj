@@ -101,7 +101,7 @@
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <MauiImage Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR !Exists('$(DIPSIncludeIcons)')" Include="Resources\Icons\*.svg" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
@@ -115,7 +115,7 @@
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces splash to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" />
+        <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR !Exists('$(DIPSIncludeSplashScreen)')" Include="Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
