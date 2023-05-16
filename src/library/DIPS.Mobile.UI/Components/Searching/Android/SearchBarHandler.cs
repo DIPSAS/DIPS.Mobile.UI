@@ -12,12 +12,12 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     internal partial class SearchBarHandler : ViewHandler<SearchBar, AView>
     {
-        private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; }
-        private IndeterminateProgressBar ProgressBar { get; }
-        private Button CancelButton { get; }
-        private Grid OuterGrid { get; }
+        private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
+        private IndeterminateProgressBar ProgressBar { get; set; }
+        private Button CancelButton { get; set; }
+        private Grid OuterGrid { get; set; }
 
-        public SearchBarHandler() : base(s_propertyMapper)
+        private partial void Construct()
         {
             OuterGrid = new Grid()
             {
@@ -46,6 +46,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             ProgressBar = new IndeterminateProgressBar();
             Grid.SetColumnSpan(ProgressBar, 2);
             OuterGrid.Add(ProgressBar, 0, 1);
+
+            AppendToPropertyMapper();
+        }
+
+        private static void AppendToPropertyMapper()
+        {
+            SearchBarPropertyMapper.Add(nameof(SearchBar.CancelCommand), MapCancelCommand);
+            SearchBarPropertyMapper.Add(nameof(SearchBar.CancelCommandParameter), MapCancelCommandParameter);
+            SearchBarPropertyMapper.Add(nameof(SearchBar.SearchCommand), MapSearchCommand);
         }
 
         protected override AView CreatePlatformView() => OuterGrid.ToContainerView(MauiContext!);
@@ -80,18 +89,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static readonly IPropertyMapper<SearchBar, SearchBarHandler> s_propertyMapper =
             new PropertyMapper<SearchBar, SearchBarHandler>(ViewMapper)
             {
-                [nameof(SearchBar.HasCancelButton)] = MapHasCancelButton,
-                [nameof(SearchBar.HasBusyIndication)] = MapHasBusyIndication,
-                [nameof(SearchBar.IsBusy)] = MapIsBusy,
-                [nameof(SearchBar.BarColor)] = MapBarColor,
-                [nameof(SearchBar.IconsColor)] = MapIconsColor,
-                [nameof(SearchBar.TextColor)] = MapTextColor,
-                [nameof(SearchBar.CancelButtonTextColor)] = MapCancelButtonTextColor,
-                [nameof(SearchBar.PlaceholderColor)] = MapPlaceholderColor,
-                [nameof(SearchBar.Placeholder)] = MapPlaceholder,
-                [nameof(SearchBar.CancelCommand)] = MapCancelCommand,
-                [nameof(SearchBar.CancelCommandParameter)] = MapCancelCommandParameter,
-                [nameof(SearchBar.SearchCommand)] = MapSearchCommand,
+             
             };
 
         private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
@@ -180,6 +178,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapHasCancelButton(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.CancelButton.IsVisible = searchBar.HasCancelButton;
+        }
+
+        private static void MapText(SearchBarHandler handler, SearchBar searchBar)
+        {
+            handler.InternalSearchBar.Text = searchBar.Text;
         }
     }
 }

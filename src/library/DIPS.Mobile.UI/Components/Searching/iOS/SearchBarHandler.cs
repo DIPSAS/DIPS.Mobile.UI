@@ -12,27 +12,22 @@ namespace DIPS.Mobile.UI.Components.Searching;
 
 internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 {
-    public SearchBarHandler() : base(PropertyMapper)
+    private partial void Construct()
     {
         MauiSearchBar = new InternalSearchBar();
         ActivityIndicatorView = new UIActivityIndicatorView();
+        
+        AppendToPropertyMapper();
     }
 
-    private Microsoft.Maui.Controls.SearchBar MauiSearchBar { get; }
-
-    public static readonly IPropertyMapper<SearchBar, SearchBarHandler> PropertyMapper = new PropertyMapper<SearchBar, SearchBarHandler>(ViewMapper)
+    private static void AppendToPropertyMapper()
     {
-        [nameof(SearchBar.IconsColor)] = MapIconsColor,
-        [nameof(SearchBar.IsBusy)] = MapIsBusy,
-        [nameof(SearchBar.HasBusyIndication)] = MapHasBusyIndication,
-        [nameof(SearchBar.HasCancelButton)] = MapHasCancelButton,
-        [nameof(SearchBar.Placeholder)] = MapPlaceholder,
-        [nameof(SearchBar.TextColor)] = MapTextColor,
-        [nameof(SearchBar.TextFieldColor)] = MapTextFieldColor,
-        [nameof(SearchBar.BarColor)] = MapBarColor,
-        [nameof(SearchBar.PlaceholderColor)] = MapPlaceholderColor,
-        [nameof(SearchBar.Text)] = MapText
-    };
+        SearchBarPropertyMapper.Add(nameof(SearchBar.iOSSearchFieldBackgroundColor), MapiOSSearchFieldBackgroundColor);
+    }
+
+    private Microsoft.Maui.Controls.SearchBar MauiSearchBar { get; set; }
+    private UIActivityIndicatorView ActivityIndicatorView { get; set; }
+    private UIImageView MagnifierIcon { get; set;}
 
     private static void MapText(SearchBarHandler handler, SearchBar searchBar)
     {
@@ -61,12 +56,12 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         handler.ActivityIndicatorView.Hidden = !searchBar.HasCancelButton;
     }
 
-    private static void MapTextFieldColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
+    private static void MapiOSSearchFieldBackgroundColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
     {
-        if(searchBar.TextFieldColor == null)
+        if(searchBar.iOSSearchFieldBackgroundColor == null)
             return;
 
-        searchBarHandler.PlatformView.SearchTextField.BackgroundColor = searchBar.TextFieldColor.ToPlatform();
+        searchBarHandler.PlatformView.SearchTextField.BackgroundColor = searchBar.iOSSearchFieldBackgroundColor.ToPlatform();
     }
 
     /// <summary>
@@ -95,10 +90,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         cancelButton.SetTitleColor(searchBar.BarColor?.ToPlatform(), UIControlState.Highlighted);
         cancelButton.SetTitleColor(searchBar.BarColor?.ToPlatform(), UIControlState.Disabled);
     }
-
-    private UIActivityIndicatorView ActivityIndicatorView { get; }
-
-    private UIImageView MagnifierIcon { get; set; } 
 
 
     private static void MapIsBusy(SearchBarHandler searchBarHandler, SearchBar searchBar)
@@ -171,15 +162,22 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private void SubscribeToEvents()
     {
-        PlatformView.CancelButtonClicked += OnCancelButtonTouchDown;
+        PlatformView.CancelButtonClicked += OnCancelButtonClicked;
+        PlatformView.SearchButtonClicked += OnSearchButtonClicked;
+    }
+
+    private void OnSearchButtonClicked(object? sender, EventArgs e)
+    {
+        VirtualView.SearchCommand.Execute(null);
     }
 
     private void UnSubscribeToEvents()
     {
-        PlatformView.CancelButtonClicked -= OnCancelButtonTouchDown;
+        PlatformView.CancelButtonClicked -= OnCancelButtonClicked;
+        PlatformView.CancelButtonClicked -= OnSearchButtonClicked;
     }
 
-    private void OnCancelButtonTouchDown(object? sender, EventArgs e)
+    private void OnCancelButtonClicked(object? sender, EventArgs e)
     {
         VirtualView.CancelCommand.Execute(VirtualView.CancelCommandParameter);
     }
@@ -189,5 +187,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         base.DisconnectHandler(platformView);
         
         UnSubscribeToEvents();
+    }
+
+    private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
+    {
+        handler.MauiSearchBar.CancelButtonColor = searchBar.TextColor;
     }
 }

@@ -168,14 +168,14 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
         
         public static readonly BindableProperty TextFieldColorProperty = BindableProperty.Create(
-            nameof(TextFieldColor),
+            nameof(iOSSearchFieldBackgroundColor),
             typeof(Color),
             typeof(SearchBar));
 
         /// <summary>
         /// The background color of the textfield.
         /// </summary>
-        public Color? TextFieldColor
+        public Color? iOSSearchFieldBackgroundColor
         {
             get => (Color)GetValue(TextFieldColorProperty);
             set => SetValue(TextFieldColorProperty, value);
