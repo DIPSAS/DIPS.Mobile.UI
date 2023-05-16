@@ -4,13 +4,13 @@ public partial class NativeIconHandler
 {
     public NativeIconHandler() : base(PropertyMapper)
     {
-        
+        AppendPropertyMapper();
     }
-    
+
+    private partial void AppendPropertyMapper();
+
     public static IPropertyMapper<NativeIcon, NativeIconHandler> PropertyMapper = new PropertyMapper<NativeIcon, NativeIconHandler>(ViewMapper)
     {
-        [nameof(NativeIcon.AndroidIconResourceName)] = TrySetSystemImage,
-        [nameof(NativeIcon.iOSSystemIconName)] = TrySetSystemImage,
         [nameof(NativeIcon.Color)] = TrySetImageColor
     };
 

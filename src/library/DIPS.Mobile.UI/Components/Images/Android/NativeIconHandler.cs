@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Android.Widget;
+using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 
@@ -10,6 +11,11 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, ImageView>
 {
     protected override ImageView CreatePlatformView() => new(Platform.AppContext);
 
+    private partial void AppendPropertyMapper()
+    {
+        PropertyMapper.Add(nameof(NativeIcon.AndroidIconResourceName), TrySetSystemImage);
+    }
+    
     private static partial void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon)
     {
         if (string.IsNullOrEmpty(nativeIcon.AndroidIconResourceName))
