@@ -25,11 +25,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_searchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
             m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
                 Shell.Shell.ToolbarBackgroundColorName);
-            m_searchBar.SetAppThemeColor(SearchBar.CancelButtonColorProperty,
-                Shell.Shell.ToolbarTitleTextColorName);
-            m_searchBar.SetAppThemeColor(SearchBar.TextFieldColorProperty, 
-                ColorName.color_neutral_05);
-
+            
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
                 m_searchBar.SetAppThemeColor(SearchBar.TextColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
@@ -37,6 +33,11 @@ namespace DIPS.Mobile.UI.Components.Searching
                     Shell.Shell.ToolbarTitleTextColorName);
                 m_searchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
+#else
+            m_searchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
+                ColorName.color_neutral_05);
+            m_searchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
+                Shell.Shell.ToolbarTitleTextColorName);
 #endif
 
             m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
