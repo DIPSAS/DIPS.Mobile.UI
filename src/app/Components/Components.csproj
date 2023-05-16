@@ -23,12 +23,11 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-      <CreatePackage>false</CreatePackage>
-    </PropertyGroup>
     <PropertyGroup>
         <DIPSIncludeIcons>False</DIPSIncludeIcons>
-        <DIPSIncludeSplashScreen>False</DIPSIncludeSplashScreen>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
     </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->

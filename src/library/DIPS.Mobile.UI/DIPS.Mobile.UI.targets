@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR !Exists('$(DIPSIncludeIcons)')" Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
-    <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR !Exists('$(DIPSIncludeSplashScreen)')" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" />
+    <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
+    <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" />
   </ItemGroup>
 </Project>
