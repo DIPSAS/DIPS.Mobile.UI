@@ -93,20 +93,32 @@
 
 
     <!-- Icons -->
-    <!-- When referencing the project directly from VS / Rider -->
-    <ItemGroup>
-        <MauiImage Include="Resources\Icons\*.svg" />    
-    </ItemGroup>
 
     <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
     <ItemGroup>
         <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
     </ItemGroup>
+    <!-- When referencing the project directly from VS / Rider -->
+    <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
         <MauiImage Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+    </ItemGroup>
+
+    <!-- Splash -->
+    <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
+    <ItemGroup>
+        <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
+    </ItemGroup>
+    <!-- When referencing the project directly from VS / Rider -->
+    <!-- This forces splash to visually look like its two files in VS / Rider, this is not the case -->
+    <ItemGroup>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
     </ItemGroup>
     
     <ItemGroup>
@@ -128,5 +140,11 @@
       <MauiXaml Update="Resources\Icons\Icons.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+    </ItemGroup>
+    <ItemGroup>
+      <MauiSplashScreen Include="Resources\Splash\splash.svg">
+        <Color>#512BD4</Color>
+        <BaseSize>128,128</BaseSize>
+      </MauiSplashScreen>
     </ItemGroup>
 </Project>
