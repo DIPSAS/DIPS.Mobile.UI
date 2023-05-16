@@ -1,14 +1,14 @@
+using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Sizes.Sizes;
-using Image = DIPS.Mobile.UI.Components.Images.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.CheckBoxes
 {
     public partial class CheckBox : Grid
     {
-        private readonly Image m_selectedImage;
+        private readonly NativeIcon m_selectedNativeIcon;
 
         public CheckBox()
         {
@@ -18,12 +18,12 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             GestureRecognizers.Add(new TapGestureRecognizer() {Command = new Command(SetSelectedState)});
 
             //Image
-            m_selectedImage = new Image() {VerticalOptions = LayoutOptions.Center};
-            m_selectedImage.SetAppThemeColor(Image.ColorProperty,
+            m_selectedNativeIcon = new NativeIcon() {VerticalOptions = LayoutOptions.Center};
+            m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty,
                 (DeviceInfo.Platform == DevicePlatform.Android)
                     ? ColorName.color_primary_90
                     : ColorName.color_system_black);
-            m_selectedImage.Margin = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
+            m_selectedNativeIcon.Margin = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
 
             //Title label
             var itemLabel = new Label() {VerticalTextAlignment = TextAlignment.Center};
@@ -33,7 +33,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             {
                 new() {Width = 30}, new() {Width = GridLength.Star}
             };
-            Children.Add(m_selectedImage);
+            Children.Add(m_selectedNativeIcon);
             Children.Add(itemLabel);
             Grid.SetColumn(itemLabel, 1);
 
@@ -45,16 +45,16 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             if (bindable is not CheckBox checkBox) return;
             if (DeviceInfo.Platform == DevicePlatform.Android)
             {
-                checkBox.m_selectedImage.AndroidProperties.IconResourceName =
+                checkBox.m_selectedNativeIcon.AndroidIconResourceName =
                     checkBox.IsSelected ? "btn_checkbox_checked_mtrl" : "btn_checkbox_unchecked_mtrl";
-                checkBox.m_selectedImage.SetAppThemeColor(Image.ColorProperty, ColorName.color_primary_90);
+                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
             }
             else
             {
-                checkBox.m_selectedImage.iOSProperties.SystemIconName = (checkBox.IsSelected)
+                checkBox.m_selectedNativeIcon.iOSSystemIconName = (checkBox.IsSelected)
                     ? "checkmark.circle.fill"
                     : "checkmark.circle";
-                checkBox.m_selectedImage.SetAppThemeColor(Image.ColorProperty, ColorName.color_primary_90);
+                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
             }
 
             checkBox.Command?.Execute(checkBox.CommandParameter);

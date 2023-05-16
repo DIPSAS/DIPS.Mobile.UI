@@ -1,3 +1,7 @@
+## [3.0.0]
+- Breaking change: Renamed dui:Image to dui:NativeIcon and simplified the ios and android properties for setting the icon.
+- Added <MauiImage> for our icons. This can be disabled by setting DIPSIncludeIcons = False in your .csproj.
+
 ## [2.1.1]
 - SearchBar on Android is now showing if you have set HasCancelButton = false.
 

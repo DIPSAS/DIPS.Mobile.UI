@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR !Exists('$(DIPSIncludeIcons)')" Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
+  </ItemGroup>
+</Project>
