@@ -14,8 +14,6 @@ public partial class NativeIconHandler
         [nameof(NativeIcon.Color)] = TrySetImageColor
     };
 
-    private static partial void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon);
-
     private static partial void TrySetImageColor(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon);
 
 }

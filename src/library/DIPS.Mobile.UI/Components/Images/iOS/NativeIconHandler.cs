@@ -11,7 +11,7 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, MauiImageView>
 {
     protected override MauiImageView CreatePlatformView() => new();
 
-    private partial void AppendPropertyMapper()
+    private partial void AppendPropertyMapper();
     {
         PropertyMapper.Add(nameof(NativeIcon.iOSSystemIconName), TrySetSystemImage);
     }
