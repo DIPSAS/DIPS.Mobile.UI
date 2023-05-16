@@ -1,9 +1,9 @@
+using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Sizes.Sizes;
-using Microsoft.Maui.Controls.Shapes;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
-using Image = DIPS.Mobile.UI.Components.Images.Image;
 
 namespace DIPS.Mobile.UI.Components.Pickers.Base
 {
@@ -34,11 +34,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.Base
             m_pickedItemLabel = new Label {HorizontalTextAlignment = TextAlignment.End, VerticalTextAlignment = TextAlignment.Center};
             m_pickedItemLabel.SetAppThemeColor(Microsoft.Maui.Controls.Label.TextColorProperty, ColorName.color_primary_90);
 
-            var image = new Image();
-            image.iOSProperties.SystemIconName = "chevron.up.chevron.down";
-            image.AndroidProperties.IconResourceName = "mtrl_dropdown_arrow";
-            image.SetAppThemeColor(Image.ColorProperty, DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_primary_90),
-                DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_primary_90));
+            var image = new NativeIcon();
+            image.iOSSystemIconName = "chevron.up.chevron.down";
+            image.AndroidIconResourceName = "mtrl_dropdown_arrow";
+            image.SetAppThemeColor(NativeIcon.ColorProperty, Colors.GetColor(ColorName.color_primary_90),
+                Colors.GetColor(ColorName.color_primary_90));
 
             //Arrange the grid
             var pickerContent = new Grid()

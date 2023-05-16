@@ -54,4 +54,7 @@
     <data name="Searching" xml:space="preserve">
         <value>Searching</value>
     </data>
+    <data name="Icons" xml:space="preserve">
+        <value>Icons</value>
+    </data>
 </root>

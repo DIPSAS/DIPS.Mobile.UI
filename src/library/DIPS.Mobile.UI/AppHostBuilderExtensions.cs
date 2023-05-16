@@ -12,7 +12,6 @@ using DIPS.Mobile.UI.Components.Searching.iOS;
 using Microsoft.Maui.LifecycleEvents;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
-using Image = DIPS.Mobile.UI.Components.Images.Image;
 
 namespace DIPS.Mobile.UI;
 
@@ -42,7 +41,7 @@ public static class AppHostBuilderExtensions
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>
         {
-            handlers.AddHandler(typeof(Image), typeof(ImageHandler));
+            handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
             handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
