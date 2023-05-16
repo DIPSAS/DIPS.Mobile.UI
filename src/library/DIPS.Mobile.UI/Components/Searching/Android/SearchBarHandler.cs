@@ -106,12 +106,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             VirtualView.Text = e.NewTextValue;
         }
 
-        private static readonly IPropertyMapper<SearchBar, SearchBarHandler> s_propertyMapper =
-            new PropertyMapper<SearchBar, SearchBarHandler>(ViewMapper)
-            {
-             
-            };
-
         private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.CancelButton.TextColor = searchBar.CancelButtonTextColor;
