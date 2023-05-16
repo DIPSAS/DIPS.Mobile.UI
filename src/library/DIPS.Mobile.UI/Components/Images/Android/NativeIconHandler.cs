@@ -16,7 +16,7 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, ImageView>
         PropertyMapper.Add(nameof(NativeIcon.AndroidIconResourceName), TrySetSystemImage);
     }
     
-    private static partial void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon)
+    private static void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon)
     {
         if (string.IsNullOrEmpty(nativeIcon.AndroidIconResourceName))
         {

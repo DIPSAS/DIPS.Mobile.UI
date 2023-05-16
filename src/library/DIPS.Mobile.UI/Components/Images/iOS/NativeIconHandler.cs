@@ -11,12 +11,13 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, MauiImageView>
 {
     protected override MauiImageView CreatePlatformView() => new();
 
-    private partial void AppendPropertyMapper();
+    private partial void AppendPropertyMapper()
     {
         PropertyMapper.Add(nameof(NativeIcon.iOSSystemIconName), TrySetSystemImage);
     }
+    
 
-    private static partial void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon)
+    private static void TrySetSystemImage(NativeIconHandler nativeIconHandler, NativeIcon nativeIcon)
     {
         if (string.IsNullOrEmpty(nativeIcon.iOSSystemIconName))
         {
