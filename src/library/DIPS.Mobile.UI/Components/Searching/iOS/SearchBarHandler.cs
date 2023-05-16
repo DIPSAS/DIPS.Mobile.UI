@@ -164,6 +164,12 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         PlatformView.CancelButtonClicked += OnCancelButtonClicked;
         PlatformView.SearchButtonClicked += OnSearchButtonClicked;
+        PlatformView.TextChanged += OnSearchTextChanged;
+    }
+
+    private void OnSearchTextChanged(object? sender, UISearchBarTextChangedEventArgs e)
+    {
+        VirtualView.Text = e.SearchText;
     }
 
     private void OnSearchButtonClicked(object? sender, EventArgs e)
@@ -175,6 +181,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         PlatformView.CancelButtonClicked -= OnCancelButtonClicked;
         PlatformView.CancelButtonClicked -= OnSearchButtonClicked;
+        PlatformView.TextChanged -= OnSearchTextChanged;
     }
 
     private void OnCancelButtonClicked(object? sender, EventArgs e)
@@ -191,6 +198,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.MauiSearchBar.CancelButtonColor = searchBar.TextColor;
+        handler.MauiSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
 }

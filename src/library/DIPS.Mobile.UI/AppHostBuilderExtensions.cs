@@ -44,11 +44,9 @@ public static class AppHostBuilderExtensions
         {
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
 #if __ANDROID__
-            handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
-            handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
             handlers.AddHandler(typeof(Button), typeof(ButtonHandler));
+            handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
 #elif __IOS__
-            handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
 #endif
         });
