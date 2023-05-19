@@ -8,7 +8,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <RepositoryType>github</RepositoryType>
         <LangVersion>default</LangVersion>
@@ -89,7 +89,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Components\Shell\iOS\" />
-      <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
@@ -102,5 +101,8 @@
       <Reference Include="Mono.Android">
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.Android.Ref.33\33.0.26\ref\net7.0\Mono.Android.dll</HintPath>
       </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Resources\Images\navigationArrow.svg" />
     </ItemGroup>
 </Project>

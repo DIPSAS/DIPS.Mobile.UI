@@ -2,14 +2,14 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
-    public static readonly new BindableProperty CornerRadiusProperty = BindableProperty.Create(
-        nameof(CornerRadius),
-        typeof(CornerRadius),
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+        nameof(Title),
+        typeof(string),
         typeof(Chip));
 
-    public CornerRadius CornerRadius
+    public string Title
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
     }
 }

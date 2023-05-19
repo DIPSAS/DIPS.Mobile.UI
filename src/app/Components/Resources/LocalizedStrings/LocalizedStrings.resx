@@ -54,4 +54,10 @@
     <data name="Searching" xml:space="preserve">
         <value>Searching</value>
     </data>
+    <data name="ListItems" xml:space="preserve">
+        <value>ListItems</value>
+    </data>
+    <data name="Chips" xml:space="preserve">
+        <value>Chips</value>
+    </data>
 </root>

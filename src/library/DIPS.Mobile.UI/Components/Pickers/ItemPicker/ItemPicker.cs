@@ -1,13 +1,11 @@
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
-using Picker = DIPS.Mobile.UI.Components.Pickers.Base.Picker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
-    //TODO: Make sure its accessable
-    public partial class ItemPicker : Picker
+    public partial class ItemPicker : Chip
     {
-        private bool m_layedOut;
         private readonly ContextMenu m_contextMenu = new ();
 
         private void LayoutContent()
@@ -21,24 +19,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 AttachBottomSheet();
             }
-
-            m_layedOut = true;
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
-            if (propertyName.Equals(nameof(Parent)))
-            {
-                if (!m_layedOut)
-                {
-                    LayoutContent();
-                }
-            }
-
-            base.OnPropertyChanged(propertyName);
+            base.OnHandlerChanging(args);
+            
+            LayoutContent();
         }
 
-        private static void SelectedItemChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is not ItemPicker picker)
             {
@@ -50,19 +40,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
-            picker.PickedItemLabel.Text =
-                picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty);
+            picker.Title = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty)!;
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
             picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
 
             if (picker.Mode == PickerMode.ContextMenu)
             {
-                UpdateContextMenuItems(
-                    picker); //<-- Needed if the selected item was set programatically, and not by the user    
+                UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user    
             }
         }
 
-        private static void ItemsSourceChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is not ItemPicker picker)
             {

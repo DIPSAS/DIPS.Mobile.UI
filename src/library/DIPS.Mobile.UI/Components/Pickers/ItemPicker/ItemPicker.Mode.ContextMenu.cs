@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private static void UpdateContextMenuItems(ItemPicker itemPicker)
         {
             if (itemPicker.m_contextMenu == null || itemPicker.SelectedItem == null ||
-                itemPicker.m_contextMenu.ItemsSource.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
+                itemPicker.m_contextMenu.ItemsSource!.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 });
             }
 
-            itemPicker.m_contextMenu.ItemsSource.Clear();
+            itemPicker.m_contextMenu.ItemsSource!.Clear();
             itemPicker.m_contextMenu.ItemsSource.Add(group);
         }
 

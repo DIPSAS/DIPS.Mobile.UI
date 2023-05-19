@@ -1,18 +1,9 @@
+using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.Resources.Colors;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+
 namespace DIPS.Mobile.UI.Components.Chips;
 
-public partial class Chip : Frame
+public partial class Chip : View
 {
-    public Chip()
-    {
-        
-    }
-
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-        
-        UpdateCornerRadius();
-    }
-
-    partial void UpdateCornerRadius();
 }

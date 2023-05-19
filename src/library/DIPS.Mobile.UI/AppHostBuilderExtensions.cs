@@ -1,7 +1,9 @@
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images;
+using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Searching;
-
+using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
 #if __ANDROID__
 using DIPS.Mobile.UI.Components.Buttons.Android;
 using DIPS.Mobile.UI.Components.Searching.Android;
@@ -10,9 +12,13 @@ using DIPS.Mobile.UI.Components.Searching.iOS;
 #endif
 
 using Microsoft.Maui.LifecycleEvents;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
+using DateAndTimePickerHandler = DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker.DateAndTimePickerHandler;
+using DatePicker = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePicker;
+using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using Image = DIPS.Mobile.UI.Components.Images.Image;
+using TimePicker = Microsoft.Maui.Controls.TimePicker;
+using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
 namespace DIPS.Mobile.UI;
 
@@ -43,6 +49,10 @@ public static class AppHostBuilderExtensions
         builder.ConfigureMauiHandlers(handlers =>
         {
             handlers.AddHandler(typeof(Image), typeof(ImageHandler));
+            handlers.AddHandler(typeof(Chip), typeof(ChipHandler));
+            handlers.AddHandler(typeof(DatePicker), typeof(DatePickerHandler));
+            handlers.AddHandler(typeof(DateAndTimePicker), typeof(DateAndTimePickerHandler));
+            handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(InternalSearchBar), typeof(InternalSearchBarHandler));
             handlers.AddHandler(typeof(IndeterminateProgressBar), typeof(IndeterminateProgressBarHandler));
@@ -55,6 +65,7 @@ public static class AppHostBuilderExtensions
         builder.ConfigureEffects(effects =>
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
+            effects.Add(typeof(AwesomeTouchEffect), typeof(AwesomeTouchPlatformEffect));
         });
 
         return builder;

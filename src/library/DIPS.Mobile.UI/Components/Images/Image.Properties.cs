@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Resources.Colors;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Images

@@ -116,5 +116,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Searching", resourceCulture);
             }
         }
+        
+        internal static string ListItems {
+            get {
+                return ResourceManager.GetString("ListItems", resourceCulture);
+            }
+        }
+        
+        internal static string Chips {
+            get {
+                return ResourceManager.GetString("Chips", resourceCulture);
+            }
+        }
     }
 }

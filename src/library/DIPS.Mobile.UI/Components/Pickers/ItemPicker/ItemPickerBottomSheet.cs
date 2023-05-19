@@ -11,25 +11,25 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     public class PickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
-        private List<SelectableItem> m_items;
-        private readonly List<SelectableItem> m_originalItems;
+        private List<SelectableListItem> m_items;
+        private readonly List<SelectableListItem> m_originalItems;
         private readonly SearchBar? m_searchBar;
         private readonly CollectionView m_collectionView;
 
         public PickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
-            m_originalItems = new List<SelectableItem>();
+            m_originalItems = new List<SelectableListItem>();
             if (m_itemPicker.ItemsSource != null)
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
-                    m_originalItems.Add(new SelectableItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty),
+                    m_originalItems.Add(new SelectableListItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
                         item == m_itemPicker.SelectedItem));
                 }
             }
 
-            Items = new ObservableCollection<SelectableItem>(m_originalItems);
+            Items = new ObservableCollection<SelectableListItem>(m_originalItems);
 
             var grid = new Grid() {RowDefinitions = new() {new(GridLength.Auto), new(GridLength.Star)}};
 
@@ -71,20 +71,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
             nameof(Items),
-            typeof(ObservableCollection<SelectableItem>),
+            typeof(ObservableCollection<SelectableListItem>),
             typeof(PickerBottomSheet));
 
-        public ObservableCollection<SelectableItem> Items
+        public ObservableCollection<SelectableListItem> Items
         {
-            get => (ObservableCollection<SelectableItem>)GetValue(ItemsProperty);
+            get => (ObservableCollection<SelectableListItem>)GetValue(ItemsProperty);
             set => SetValue(ItemsProperty, value);
         }
 
         private IView CreateCheckBox()
         {
             var checkBox = new CheckBox();
-            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItem.DisplayName)});
-            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableItem.IsSelected)});
+            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableListItem.DisplayName)});
+            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
             checkBox.Command = new Command(() => ItemWasPicked(checkBox));
             return checkBox;
         }

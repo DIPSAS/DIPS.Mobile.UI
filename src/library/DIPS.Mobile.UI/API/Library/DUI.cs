@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Pickers;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker;
+using DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 namespace DIPS.Mobile.UI
 {
@@ -16,16 +18,22 @@ namespace DIPS.Mobile.UI
             }
             
 #if __IOS__
-            /*if (DateTimePickerService.IsOpen())
+            // Not yet implemented for iOS
+            /*if (DatePickerService.IsOpen())
             { 
                 _ = DateTimePickerService.Close();
             }*/
             
 #elif __ANDROID__
-            /*if (DatePickerService.IsOpen())
+            if (DatePickerService.IsOpen())
             {
-                DatePickerService.Close();
-            }*/
+                _ = DatePickerService.Close();
+            }
+
+            if (TimePickerService.IsOpen())
+            {
+                _ = TimePickerService.Close();
+            }
 #endif
             
         }

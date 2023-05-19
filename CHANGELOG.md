@@ -1,3 +1,12 @@
+## [4.0.0]
+- Added TimePicker
+- Added DateAndTimePicker
+- Can now set Minimum and Maximum date for DatePickers
+- Added Chip
+- Changed style of Pickers
+- Added ListItems
+- Added TouchEffect
+
 ## [2.1.0]
 - Added DatePicker
 - Added ItemPicker
