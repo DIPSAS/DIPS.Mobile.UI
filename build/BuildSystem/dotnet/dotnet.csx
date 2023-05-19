@@ -19,7 +19,7 @@ public static class dotnet
         var androidSignKeyAlias = AzureDevops.GetEnvironmentVariable("android.keystore.alias");
         var androidSigningKeyPass = AzureDevops.GetEnvironmentVariable("android.keystore.password");
 
-        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-android -c Release -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} p:ApplicationDisplayVersion={applicationDisplayVersion} p:ApplicationVersion={applicationVersion} -o {outputDir}");
+        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-android -c Release -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
 
         File.Move(Path.Combine(outputDir, "com.dipsas.mobile.components-Signed.apk"), Path.Combine(outputDir, "com.dipsas.mobile.components.apk"));
     }
