@@ -28,6 +28,13 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
+      <CodesignProvision>Automatic</CodesignProvision>
+      <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+      <CodesignProvision>Automatic:InHouse</CodesignProvision>
+      <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->

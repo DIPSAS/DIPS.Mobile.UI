@@ -22,7 +22,7 @@ private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.M
 private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
 //App
 private static string AppDir = Path.Combine(SolutionPath, "app");
-private static string AppProjectPath = Path.Combine(AppDir, "Components.csproj");
+private static string AppProjectPath = Path.Combine(AppDir, "Components", "Components.csproj");
 //Tests
 private static string TestDir = Path.Combine(SrcDir, "tests");
 private static string NugetTestSolutionPath = Path.Combine(TestDir,"nugettest");
@@ -40,6 +40,26 @@ AsyncStep pack = async () =>
     }
 
     await PackLibrary();
+};
+
+AsyncStep packiOS = async () =>
+{
+    if (Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+
+    await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), "1");
+};
+
+AsyncStep packDroid = async () =>
+{
+    if (Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+
+    await dotnet.PackAndroid(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), "1");
 };
 
 AsyncStep publish = async () =>
