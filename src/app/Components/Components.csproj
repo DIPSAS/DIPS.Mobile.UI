@@ -31,7 +31,15 @@
     </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg"  Color="#ff047f89"/>
+        <MauiIcon Include="Resources\AppIcon\appiconios.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+          <Color>#ff047f89</Color>
+        </MauiIcon>
+
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+            <Color>#ff047f89</Color>
+        </MauiIcon>
+        
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89" />
         
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
