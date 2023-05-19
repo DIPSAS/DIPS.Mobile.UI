@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
     /// <summary>
     /// Only available for Android
     /// </summary>
-    internal partial class IndeterminateProgressBar
+    public partial class IndeterminateProgressBar
     {
         public static readonly BindableProperty IsRunningProperty = BindableProperty.Create(
             nameof(IsRunning),
@@ -24,7 +24,7 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
             typeof(Color),
             typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_30));
 
-        public Color TrackColor
+        public Color? TrackColor
         {
             get => (Color)GetValue(TrackColorProperty);
             set => SetValue(TrackColorProperty, value);

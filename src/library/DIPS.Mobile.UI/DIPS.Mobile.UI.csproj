@@ -56,13 +56,17 @@
         <DefineConstants Condition=" '$(_DROID)' == 'true' ">$(DefineConstants);__ANDROID__;__MOBILE__;</DefineConstants>
         <DefineConstants Condition=" '$(_IOS)' == 'true' ">$(DefineConstants);__IOS__;__MOBILE__;</DefineConstants>
     </PropertyGroup>
-
+    
     <!-- Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+        <Compile Update="Resources\Icons\Icons.xaml.cs">
+          <DependentUpon>Colors.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
-
+    
     <!-- iOS -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true">
         <Compile Remove="**\iOS\**\*.cs" />
@@ -74,9 +78,8 @@
         <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
     
+    <!-- Nuget files to be packed -->
     <ItemGroup>
-        <None Remove="Components\iOS\" />
-        <None Remove="Components\Android\" />
         <None Include="..\..\..\assets\dips.png" Pack="true" PackagePath="">
             <Link>dips.png</Link>
         </None>
@@ -87,6 +90,25 @@
             <Link>README.md</Link>
         </None>
     </ItemGroup>
+
+
+    <!-- Icons -->
+    <!-- When referencing the project directly from VS / Rider -->
+    <ItemGroup>
+        <MauiImage Include="Resources\Icons\*.svg" />    
+    </ItemGroup>
+
+    <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
+    <ItemGroup>
+        <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
+    </ItemGroup>
+    <ItemGroup>
+        <MauiImage Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+    </ItemGroup>
+    
     <ItemGroup>
       <Folder Include="Components\Shell\iOS\" />
     </ItemGroup>
@@ -103,6 +125,8 @@
       </Reference>
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Resources\Images\navigationArrow.svg" />
+      <MauiXaml Update="Resources\Icons\Icons.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 </Project>

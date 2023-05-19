@@ -128,5 +128,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Chips", resourceCulture);
             }
         }
+        
+        internal static string Icons {
+            get {
+                return ResourceManager.GetString("Icons", resourceCulture);
+            }
+        }
     }
 }

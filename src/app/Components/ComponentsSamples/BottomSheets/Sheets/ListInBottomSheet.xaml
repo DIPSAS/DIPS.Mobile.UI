@@ -4,8 +4,7 @@
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.ListInBottomSheet">
   
         <dui:CollectionView Grid.Row="1"
-                      SelectionMode="None"
-                            BackgroundColor="Red">
+                      SelectionMode="None">
             <dui:CollectionView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Item 1</x:String>

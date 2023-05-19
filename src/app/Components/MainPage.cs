@@ -3,6 +3,7 @@ using System.Reflection;
 using Components.ComponentsSamples;
 using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples;
+using DIPS.Mobile.UI.Resources.Icons;
 using DIPS.Mobile.UI.Resources.Sizes;
 using DIPS.Mobile.UI.Sizes.Sizes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;

@@ -25,6 +25,7 @@ internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgre
 
     private static void MapTrackColor(IndeterminateProgressBarHandler handler, IndeterminateProgressBar bar)
     {
+        if (bar.TrackColor == null) return;
         handler.PlatformView.TrackColor = bar.TrackColor.ToPlatform();
     }
 
