@@ -1,5 +1,5 @@
 using DIPS.Mobile.UI.Components.Images;
-using Image = DIPS.Mobile.UI.Components.Images.Image;
+using DIPS.Mobile.UI.Resources.Icons;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -7,12 +7,9 @@ public partial class NavigationListItem : ListItem
 {
     public NavigationListItem()
     {
-        var checkMark = new Image
+        var checkMark = new Image()
         {
-            //TODO: Change to svg icon
-            iOSProperties = new iOSImageProperties { SystemIconName = "chevron.right" },
-            AndroidProperties =
-                new AndroidImageProperties { IconResourceName = "abc_ic_arrow_drop_right_black_24dp" }
+            Source = IconLookup.GetIcon(IconName.arrow_right_s_line)
         };
 
         ContentItem = checkMark;

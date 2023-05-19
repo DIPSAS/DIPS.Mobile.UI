@@ -2,10 +2,12 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Components.Searching;
+using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 
 namespace DIPS.Mobile.UI;
 
@@ -35,9 +37,8 @@ public static class AppHostBuilderExtensions
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>
         {
-            handlers.AddHandler(typeof(Image), typeof(ImageHandler));
             handlers.AddHandler(typeof(Chip), typeof(ChipHandler));
-            handlers.AddHandler(typeof(DatePicker), typeof(DatePickerHandler));
+            handlers.AddHandler(typeof(Components.Pickers.DatePicker.DatePicker), typeof(DatePickerHandler));
             handlers.AddHandler(typeof(DateAndTimePicker), typeof(DateAndTimePickerHandler));
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
