@@ -1,9 +1,17 @@
+using System.Drawing;
 using System.Windows.Input;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Runtime;
 using Android.Views;
+using Android.Views.Accessibility;
 using Android.Widget;
+using AndroidX.ConstraintLayout.Core.Widgets;
 using Microsoft.Maui.Platform;
+using Color = Microsoft.Maui.Graphics.Color;
+using Point = Microsoft.Maui.Graphics.Point;
+using Rectangle = System.Drawing.Rectangle;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
@@ -20,7 +28,11 @@ public partial class AwesomeTouchPlatformEffect
     private RippleDrawable ripple;
     private ICommand m_command;
     private object m_commandParameter;
+    private AccessibilityManager m_accessibilityManager;
+    private AccessibilityListener m_accessibilityListener;
 #nullable restore
+
+    private bool m_outsideBounds = false;
 
     private ViewGroup? ViewGroup => Container as ViewGroup;
 
@@ -34,6 +46,18 @@ public partial class AwesomeTouchPlatformEffect
         m_commandParameter = AwesomeTouchEffect.GetCommandParameter(Element);
         
         CreateRipple();
+        AddAccessibility();
+    }
+
+    private void AddAccessibility()
+    {
+        m_accessibilityManager = Control.Context?.GetSystemService(Context.AccessibilityService) as AccessibilityManager;
+        if (m_accessibilityManager != null)
+        {
+            m_accessibilityListener = new AccessibilityListener(this);
+            m_accessibilityManager.AddAccessibilityStateChangeListener(m_accessibilityListener);
+            m_accessibilityManager.AddTouchExplorationStateChangeListener(m_accessibilityListener);
+        }
     }
 
     private void CreateRipple()
@@ -90,10 +114,22 @@ public partial class AwesomeTouchPlatformEffect
         if (e.Event?.ActionMasked == MotionEventActions.Down)
         {
             OnTouchDown(e.Event.GetX(), e.Event.GetY());
+            m_outsideBounds = false;
         }
         else if(e.Event?.ActionMasked == MotionEventActions.Up)
         {
-            OnTouchUp();
+            if(!m_outsideBounds)
+                OnTouchUp();
+        }
+        else if(e.Event?.ActionMasked == MotionEventActions.Move)
+        {
+            var screenPointerCoords = new System.Drawing.Point((int)(Control.Left + e.Event.GetX()), (int)(Control.Top + e.Event.GetY()));
+            var viewRect = new Rectangle(Control.Left, Control.Top, Control.Right - Control.Left, Control.Bottom - Control.Top);
+            m_outsideBounds = !viewRect.Contains(screenPointerCoords);
+            if(m_outsideBounds)
+            {
+                EndRipple();
+            }
         }
     }
 
@@ -115,7 +151,11 @@ public partial class AwesomeTouchPlatformEffect
     private void OnTouchUp()
     {
         m_command?.Execute(m_commandParameter);
-        
+        EndRipple();
+    }
+
+    private void EndRipple()
+    {
         if (m_hasRippleDirectlyOnElement)
         {
             if(Control.Pressed)
@@ -130,6 +170,17 @@ public partial class AwesomeTouchPlatformEffect
             }
         }
     }
+    
+    void OnClick(object? sender, EventArgs args)
+    {
+        m_command?.Execute(m_commandParameter);
+    }
+    
+    private void UpdateClickHandler()
+    {
+        Control.Click -= OnClick;
+        Control.Click += OnClick;
+    }
 
     protected override partial void OnDetached()
     {
@@ -138,4 +189,34 @@ public partial class AwesomeTouchPlatformEffect
         
         ripple.Dispose();
     }
+    
+    sealed class AccessibilityListener : Java.Lang.Object,
+        AccessibilityManager.IAccessibilityStateChangeListener,
+        AccessibilityManager.ITouchExplorationStateChangeListener
+    {
+        AwesomeTouchPlatformEffect? platformTouchEffect;
+
+        internal AccessibilityListener(AwesomeTouchPlatformEffect platformTouchEffect)
+            => this.platformTouchEffect = platformTouchEffect;
+
+        public AccessibilityListener(IntPtr handle, JniHandleOwnership transfer)
+            : base(handle, transfer)
+        {
+        }
+
+        public void OnAccessibilityStateChanged(bool enabled)
+            => platformTouchEffect?.UpdateClickHandler();
+
+        public void OnTouchExplorationStateChanged(bool enabled)
+            => platformTouchEffect?.UpdateClickHandler();
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                platformTouchEffect = null;
+
+            base.Dispose(disposing);
+        }
+    }
+    
 }

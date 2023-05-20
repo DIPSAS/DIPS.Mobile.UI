@@ -6,8 +6,10 @@ using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
+using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
+using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
 namespace DIPS.Mobile.UI;
 
