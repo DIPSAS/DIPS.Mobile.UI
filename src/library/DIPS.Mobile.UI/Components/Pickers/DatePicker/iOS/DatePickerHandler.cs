@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
@@ -9,6 +10,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
 
 public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 {
+    private bool m_isOpen;
+
     protected override UIDatePicker CreatePlatformView()
     {
         return new UIDatePicker { PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date };
@@ -18,8 +21,31 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
     {
         base.ConnectHandler(platformView);
 
-        platformView.ValueChanged += OnDateSelected;
         platformView.SetDefaultTintColor();
+        platformView.ValueChanged += OnDateSelected;
+        platformView.EditingDidBegin += OnOpen;
+        platformView.EditingDidEnd += OnClose;
+
+        DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
+    }
+
+    private void OnOpen(object? sender, EventArgs e)
+    {
+        m_isOpen = true;
+    }
+    
+    private void OnClose(object? sender, EventArgs e)
+    {
+        m_isOpen = false;
+    }
+
+    private void TryClose()
+    {
+        if (!m_isOpen)
+            return;
+        
+        var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
+        currentPresentedUiViewController?.DismissViewController(false, null);
     }
 
     private partial void AppendPropertyMapper()
@@ -77,5 +103,9 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         base.DisconnectHandler(platformView);
 
         platformView.ValueChanged -= OnDateSelected;
+        platformView.EditingDidBegin -= OnOpen;
+        platformView.EditingDidEnd -= OnClose;
+
+        DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
     }
 }

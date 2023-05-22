@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -10,12 +11,37 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, UIDatePicker>
 {
     protected override UIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact };
 
+    private bool m_isOpen;
+    
     protected override void ConnectHandler(UIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
         
-        platformView.ValueChanged += OnTimeSelected;
         platformView.SetDefaultTintColor();
+        platformView.ValueChanged += OnTimeSelected;
+        platformView.EditingDidBegin += OnOpen;
+        platformView.EditingDidEnd += OnClose;
+
+        DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
+    }
+
+    private void OnOpen(object? sender, EventArgs e)
+    {
+        m_isOpen = true;
+    }
+    
+    private void OnClose(object? sender, EventArgs e)
+    {
+        m_isOpen = false;
+    }
+
+    private void TryClose()
+    {
+        if (!m_isOpen)
+            return;
+        
+        var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
+        currentPresentedUiViewController?.DismissViewController(false, null);
     }
 
     private partial void AppendPropertyMapper()
@@ -49,5 +75,16 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, UIDatePicker>
         components.Minute = datePicker.SelectedTime.Minutes;
         
         handler.PlatformView.SetDate(calendar.DateFromComponents(components), true);
+    }
+
+    protected override void DisconnectHandler(UIDatePicker platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        platformView.ValueChanged -= OnTimeSelected;
+        platformView.EditingDidBegin -= OnOpen;
+        platformView.EditingDidEnd -= OnClose;
+
+        DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
     }
 }

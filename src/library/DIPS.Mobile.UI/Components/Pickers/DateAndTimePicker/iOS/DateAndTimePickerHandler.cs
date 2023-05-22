@@ -1,4 +1,5 @@
 using CoreGraphics;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
@@ -10,6 +11,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, UIDatePicker>
 {
+    private bool m_isOpen;
+
     protected override UIDatePicker CreatePlatformView()
     {
         return new UIDatePicker
@@ -24,6 +27,29 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, U
 
         platformView.ValueChanged += OnDateSelected;
         platformView.SetDefaultTintColor();
+        
+        platformView.EditingDidBegin += OnOpen;
+        platformView.EditingDidEnd += OnClose;
+        DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
+    }
+
+    private void OnOpen(object? sender, EventArgs e)
+    {
+        m_isOpen = true;
+    }
+    
+    private void OnClose(object? sender, EventArgs e)
+    {
+        m_isOpen = false;
+    }
+
+    private void TryClose()
+    {
+        if (!m_isOpen)
+            return;
+        
+        var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
+        currentPresentedUiViewController?.DismissViewController(false, null);
     }
 
     private partial void AppendPropertyMapper()
@@ -79,5 +105,8 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, U
         base.DisconnectHandler(platformView);
 
         platformView.ValueChanged -= OnDateSelected;
+        platformView.EditingDidBegin -= OnOpen;
+        platformView.EditingDidEnd -= OnClose;
+        DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
     }
 }
