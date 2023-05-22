@@ -1,6 +1,5 @@
 ﻿using Components.Resources.LocalizedStrings;
 using Components.Services;
-using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Components;
 

@@ -91,11 +91,6 @@
         </None>
     </ItemGroup>
 
-    <!-- The targets file gets included in the nuget package, and injects items to the csproj of the consumer -->
-    <ItemGroup>
-        <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
-    </ItemGroup>
-    
     <!-- Icons -->
 
     <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
@@ -113,11 +108,11 @@
 
     <!-- Splash -->
     <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
- 
+
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces splash to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="Resources\Splash\splash.svg" Color="#ff047f89" /> 
+        <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="Resources\Splash\splash.svg" Color="#ff047f89" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
@@ -125,11 +120,8 @@
     
     <ItemGroup>
       <Folder Include="Components\Shell\iOS\" />
-<<<<<<< HEAD
-=======
       <Folder Include="Platforms\Android" />
       <Folder Include="Resources\Splash\" />
->>>>>>> 5b8f2fa (made sure splash is added for the consumer on ios)
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
@@ -144,19 +136,8 @@
       </Reference>
     </ItemGroup>
     <ItemGroup>
-      <MauiXaml Update="Resources\Icons\Icons.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
-    <!-- The targets file gets included in the nuget package, and injects items to the csproj of the consumer -->
-    <ItemGroup>
-        <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
-    </ItemGroup>
-    
-        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == ''" Include="Resources\Icons\*.svg" />
- 
-        <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="Resources\Splash\splash.svg" Color="#ff047f89" BaseSize="128,128" /> 
-      <Folder Include="Platforms\Android" />
-      <Folder Include="Resources\Splash\" />
+        <MauiXaml Update="Resources\Icons\Icons.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 </Project>
