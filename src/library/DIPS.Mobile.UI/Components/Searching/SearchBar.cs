@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
-
 namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : View

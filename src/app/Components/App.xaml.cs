@@ -29,5 +29,7 @@ public partial class App : Application
         tabBar.Items.Add(tab);
         shell.Items.Add(tabBar);
         MainPage = shell;
+
     }
+    
 }

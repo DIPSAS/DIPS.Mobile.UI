@@ -44,6 +44,12 @@
     <data name="Searching" xml:space="preserve">
         <value>Søking</value>
     </data>
+    <data name="ListItems" xml:space="preserve">
+        <value>ListItems</value>
+    </data>
+    <data name="Chips" xml:space="preserve">
+        <value>Chips</value>
+    </data>
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
     </data>

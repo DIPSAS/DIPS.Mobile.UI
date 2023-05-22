@@ -33,4 +33,7 @@
     <data name="Done" xml:space="preserve">
         <value>Done</value>
     </data>
+    <data name="Button" xml:space="preserve">
+        <value>Button</value>
+    </data>
 </root>

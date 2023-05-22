@@ -1,7 +1,9 @@
-
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
+using DIPS.Mobile.UI.Resources.Colors;
 using Foundation;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.ContextMenus;
@@ -24,6 +26,8 @@ public partial class ContextMenuPlatformEffect
         uiButton.ShowsMenuAsPrimaryAction = true;
         uiButton.TouchDown += OnTouchDown;
 
+        uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
+        
         m_uiButton = uiButton;
         
         //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background

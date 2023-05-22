@@ -1,3 +1,12 @@
+## [4.0.0]
+- Added TimePicker
+- Added DateAndTimePicker
+- Can now set Minimum and Maximum date for DatePickers
+- Added Chip
+- Changed style of Pickers
+- Added ListItems
+- Added TouchEffect
+
 ## [3.0.1]
 - Minor changes to the search bar in order for it to work more smoothly.
 

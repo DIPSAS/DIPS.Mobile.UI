@@ -1,6 +1,8 @@
 using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Checkboxes;
+using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
+using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Searching;
 using Components.Resources.LocalizedStrings;
@@ -25,7 +27,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Checkboxes, () => new CheckboxesSample()),
             new(SampleType.Resources, LocalizedStrings.Colors, () => new ColorsSamples()),
             new(SampleType.Resources, LocalizedStrings.Sizes, () => new SizesSamples()),
-            new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
+            new(SampleType.Components, LocalizedStrings.ListItems, () => new ListItemsSamples()),
+            new(SampleType.Components, LocalizedStrings.Chips, () => new ChipsSamples()),
+            new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples())
         };
     }
 }

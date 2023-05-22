@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Android.Widget;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -23,8 +24,7 @@ public partial class NativeIconHandler : ViewHandler<NativeIcon, ImageView>
             return;
         }
 
-        var androidResource = 
-            API.Library.Android.DUI.GetResourceId(nativeIcon.AndroidIconResourceName, "drawable");
+        var androidResource = DUI.GetResourceId(nativeIcon.AndroidIconResourceName, "drawable");
         if (androidResource != null)
         {
             nativeIconHandler.PlatformView.SetImageResource((int)androidResource);    

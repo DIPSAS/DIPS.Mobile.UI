@@ -8,7 +8,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <RepositoryType>github</RepositoryType>
         <LangVersion>default</LangVersion>
@@ -111,7 +111,6 @@
     
     <ItemGroup>
       <Folder Include="Components\Shell\iOS\" />
-      <Folder Include="Platforms\Android" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />

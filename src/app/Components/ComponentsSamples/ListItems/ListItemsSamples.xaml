@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+             x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
+    <dui:ContentPage.BindingContext>
+        <pickers:PickerSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <VerticalStackLayout>
+        
+        <dui:Label Text="ListItem" />
+        <dui:ListItem Title="Hei og hå" />
+        <dui:ListItem Title="Messi, Lionel" 
+                      SubTitle="PSG" />
+        
+        <dui:Label Text="NavigationListItem"
+                   Margin="0, 20, 0, 0" />
+        <dui:NavigationListItem Title="Navigate"
+                                SubTitle="You can click on this"
+                                Command="{Binding TestCommand}"/>
+        
+        <dui:Label Text="Examples of using ListItem with Pickers" 
+                   Margin="0, 20, 0, 0"
+                   FontAttributes="Italic"/>
+        <dui:ListItem Title="Test">
+            <dui:ItemPicker Title="Person"
+                            Mode="ContextMenu"
+                            SelectedItem="{Binding SelectedPerson}"
+                            ItemsSource="{Binding People}"
+                            ItemDisplayProperty="DisplayName" />
+        </dui:ListItem>
+        
+        <dui:ListItem Title="Velg en person">
+            <dui:ItemPicker Title="Person"
+                            Mode="BottomSheet"
+                            SelectedItem="{Binding SelectedPerson2}"
+                            ItemsSource="{Binding People2}"
+                            ItemDisplayProperty="DisplayName" />
+        </dui:ListItem>
+        
+        <dui:ListItem Title="Planlegging"
+                      SubTitle="Subtitle">
+            <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}"
+                                   HorizontalOptions="Start" />
+        </dui:ListItem>
+    </VerticalStackLayout>
+</dui:ContentPage>

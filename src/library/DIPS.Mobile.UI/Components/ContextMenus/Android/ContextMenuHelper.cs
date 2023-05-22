@@ -1,6 +1,7 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
+using DIPS.Mobile.UI.API.Library;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus.Android;
 
@@ -82,8 +83,8 @@ internal static class ContextMenuHelper
         if (!string.IsNullOrEmpty(contextMenuItem.Icon))
         {
             var id = (string.IsNullOrEmpty(contextMenuItem.AndroidOptions.IconResourceName))
-                ? API.Library.Android.DUI.GetResourceId(contextMenuItem.Icon,"drawable")
-                : API.Library.Android.DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
+                ? DUI.GetResourceId(contextMenuItem.Icon,"drawable")
+                : DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
 
             if (id != null) //Icon not set by consumer or icon not found
             {

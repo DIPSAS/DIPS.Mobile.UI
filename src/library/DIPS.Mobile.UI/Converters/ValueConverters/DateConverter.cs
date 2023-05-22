@@ -58,7 +58,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         }
 
         /// <inheritdoc />
-        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type? targetType, object? parameter, CultureInfo culture)
         {
             if (value == null) return string.Empty;
             if (!(value is DateTime dateTimeInput))
@@ -84,6 +84,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             if (!ignoreLocalTime)
             {
                 dateTime = dateTime.ToLocalTime();
+            }
+            else if (dateTime.Kind == DateTimeKind.Local)
+            {
+                dateTime = dateTime.ToUniversalTime();
             }
 
             var day = GetDayBasedOnCulture(dateTime, culture);
@@ -125,6 +129,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             if (!ignoreLocalTime)
             {
                 dateTime = dateTime.ToLocalTime();
+            }
+            else if (dateTime.Kind == DateTimeKind.Local)
+            {
+                dateTime = dateTime.ToUniversalTime();
             }
             
             if (dateTime.IsToday())

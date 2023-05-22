@@ -117,6 +117,18 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
+        internal static string ListItems {
+            get {
+                return ResourceManager.GetString("ListItems", resourceCulture);
+            }
+        }
+        
+        internal static string Chips {
+            get {
+                return ResourceManager.GetString("Chips", resourceCulture);
+            }
+        }
+        
         internal static string Icons {
             get {
                 return ResourceManager.GetString("Icons", resourceCulture);

@@ -26,4 +26,7 @@
     <data name="Done" xml:space="preserve">
         <value>Ferdig</value>
     </data>
+    <data name="Button" xml:space="preserve">
+        <value>Knapp</value>
+    </data>
 </root>
