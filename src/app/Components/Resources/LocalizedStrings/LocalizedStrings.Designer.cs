@@ -134,5 +134,29 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Icons", resourceCulture);
             }
         }
+        
+        internal static string New_version {
+            get {
+                return ResourceManager.GetString("New_version", resourceCulture);
+            }
+        }
+        
+        internal static string New_version_message {
+            get {
+                return ResourceManager.GetString("New_version_message", resourceCulture);
+            }
+        }
+        
+        internal static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
     }
 }

@@ -34,7 +34,7 @@
         <value>Sizes</value>
     </data>
     <data name="Sizes_description" xml:space="preserve">
-        <value />
+        <value>The sizes can be used for: Distance between visual objects and radius of corners for visual objects.</value>
     </data>
     <data name="ContextMenu" xml:space="preserve">
         <value>ContextMenu</value>
@@ -62,5 +62,17 @@
     </data>
     <data name="Icons" xml:space="preserve">
         <value>Icons</value>
+    </data>
+    <data name="New_version" xml:space="preserve">
+        <value>New version</value>
+    </data>
+    <data name="New_version_message" xml:space="preserve">
+        <value>There is a new version available.</value>
+    </data>
+    <data name="Download" xml:space="preserve">
+        <value>Download</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Cancel</value>
     </data>
 </root>

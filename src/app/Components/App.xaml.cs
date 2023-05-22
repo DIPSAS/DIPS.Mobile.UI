@@ -1,18 +1,13 @@
-﻿using Components.ComponentsSamples;
-using Components.ComponentsSamples.BottomSheets;
-using Components.ComponentsSamples.ContextMenus;
-using Components.ComponentsSamples.Pickers;
-using Components.ComponentsSamples.Searching;
-using Components.Resources.LocalizedStrings;
-using Components.ResourcesSamples;
-using Components.ResourcesSamples.Colors;
-using Components.ResourcesSamples.Sizes;
+﻿using Components.Resources.LocalizedStrings;
+using Components.Services;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Components;
 
 public partial class App : Application
 {
+    private readonly AppCenterService m_appCenterService;
+
     public App()
     {
         InitializeComponent();
@@ -30,6 +25,46 @@ public partial class App : Application
         shell.Items.Add(tabBar);
         MainPage = shell;
 
+        m_appCenterService = new AppCenterService();
     }
-    
+
+    protected override void OnStart()
+    {
+        _ = TryGetLatestVersion();
+
+        base.OnStart();
+    }
+
+    private async Task<bool> TryGetLatestVersion()
+    {
+        var release = await m_appCenterService.GetLatestVersion();
+        if (release != null)
+        {
+            var latestVersion = new Version(release.Version);
+            var currentVersion = AppInfo.Version;
+            if (currentVersion >= latestVersion)
+            {
+                return false;
+            }
+
+            if (Current?.MainPage == null) return true;
+            var wantToDownload = await Current.MainPage.DisplayAlert(LocalizedStrings.New_version,
+                "", "Download", "Skip");
+            if (!wantToDownload)
+            {
+                return false;
+            }
+
+            await Launcher.OpenAsync(release.InstallUri);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected override void OnResume()
+    {
+        _ = TryGetLatestVersion();
+        base.OnResume();
+    }
 }

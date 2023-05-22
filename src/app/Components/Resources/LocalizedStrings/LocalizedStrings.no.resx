@@ -53,4 +53,16 @@
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
     </data>
+    <data name="New_version" xml:space="preserve">
+        <value>Ny versjon</value>
+    </data>
+    <data name="New_version_message" xml:space="preserve">
+        <value>Det er en ny versjon tilgjengelig.</value>
+    </data>
+    <data name="Download" xml:space="preserve">
+        <value>Last ned</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Avbryt</value>
+    </data>
 </root>
