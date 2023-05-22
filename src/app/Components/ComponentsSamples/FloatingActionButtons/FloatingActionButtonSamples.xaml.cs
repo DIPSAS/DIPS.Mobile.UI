@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Components.ComponentsSamples.FloatingActionButtons;
 
-public partial class FloatingActionButtonSamples : ContentPage
+public partial class FloatingActionButtonSamples
 {
     public FloatingActionButtonSamples()
     {

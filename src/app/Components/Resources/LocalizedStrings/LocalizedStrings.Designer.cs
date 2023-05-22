@@ -134,5 +134,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Icons", resourceCulture);
             }
         }
+        
+        internal static string FABs {
+            get {
+                return ResourceManager.GetString("FABs", resourceCulture);
+            }
+        }
     }
 }

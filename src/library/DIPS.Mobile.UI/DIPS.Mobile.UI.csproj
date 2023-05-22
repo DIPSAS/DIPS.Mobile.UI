@@ -110,8 +110,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Components\FloatingActionButton\FloatingActionButtonMenu\dotnet\" />
-      <Folder Include="Components\FloatingActionButton\FloatingActionButtonMenu\iOS\" />
       <Folder Include="Components\Shell\iOS\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">

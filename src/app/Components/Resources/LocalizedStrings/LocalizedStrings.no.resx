@@ -53,4 +53,7 @@
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
     </data>
+    <data name="FABs" xml:space="preserve">
+        <value>FABs</value>
+    </data>
 </root>
