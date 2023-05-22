@@ -11,7 +11,7 @@ public partial class ListItem
         typeof(ListItem));
 
     /// <summary>
-    /// Sets the title of the ListItem
+    /// Sets the title text of the list item that people will see 
     /// </summary>
     public string Title
     {
@@ -25,7 +25,7 @@ public partial class ListItem
         typeof(ListItem));
 
     /// <summary>
-    /// Sets the subtitle of the ListItem
+    /// Sets the subtitle text that people will see below <see cref="Title"/>
     /// </summary>
     public string SubTitle
     {

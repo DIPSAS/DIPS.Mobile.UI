@@ -8,7 +8,7 @@ public partial class Chip
         typeof(Chip));
 
     /// <summary>
-    /// Sets the title of the Chip
+    /// Sets the text inside of the chip that people will see
     /// </summary>
     public string Title
     {
