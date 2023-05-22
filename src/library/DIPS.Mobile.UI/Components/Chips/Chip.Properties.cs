@@ -7,6 +7,9 @@ public partial class Chip
         typeof(string),
         typeof(Chip));
 
+    /// <summary>
+    /// Sets the title of the Chip
+    /// </summary>
     public string Title
     {
         get => (string)GetValue(TitleProperty);
