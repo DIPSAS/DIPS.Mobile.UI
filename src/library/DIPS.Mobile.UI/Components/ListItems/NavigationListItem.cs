@@ -19,8 +19,8 @@ public partial class NavigationListItem : ListItem
     {
         base.OnHandlerChanged();
         
-        AwesomeTouchEffect.SetCommandAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
-        AwesomeTouchEffect.SetCommand(this, Command);
+        DUITouchEffect.SetCommandAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
+        DUITouchEffect.SetCommand(this, Command);
     }
     
 }

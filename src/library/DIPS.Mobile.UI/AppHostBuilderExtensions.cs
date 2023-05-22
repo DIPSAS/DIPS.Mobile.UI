@@ -56,7 +56,7 @@ public static class AppHostBuilderExtensions
         builder.ConfigureEffects(effects =>
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
-            effects.Add(typeof(AwesomeTouchEffect), typeof(AwesomeTouchPlatformEffect));
+            effects.Add(typeof(DUITouchEffect), typeof(DUITouchPlatformEffect));
         });
 
         return builder;

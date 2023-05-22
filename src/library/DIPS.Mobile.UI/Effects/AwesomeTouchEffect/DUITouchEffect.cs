@@ -2,7 +2,7 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
 
-public partial class AwesomeTouchEffect : RoutingEffect
+public partial class DUITouchEffect : RoutingEffect
 {
     public static ICommand GetCommand(BindableObject view)
     {
@@ -49,11 +49,11 @@ public partial class AwesomeTouchEffect : RoutingEffect
         var shouldHaveContextMenu = newValue != null;
         if (shouldHaveContextMenu)
         {
-            view.Effects.Add(new AwesomeTouchEffect());
+            view.Effects.Add(new DUITouchEffect());
         }
         else
         {
-            var toRemove = view.Effects.FirstOrDefault(e => e is AwesomeTouchEffect);
+            var toRemove = view.Effects.FirstOrDefault(e => e is DUITouchEffect);
             if (toRemove != null)
             {
                 view.Effects.Remove(toRemove);
