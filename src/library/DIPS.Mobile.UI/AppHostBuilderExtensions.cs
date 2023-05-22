@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
@@ -48,6 +49,7 @@ public static class AppHostBuilderExtensions
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
+            handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #elif __IOS__
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
 #endif
