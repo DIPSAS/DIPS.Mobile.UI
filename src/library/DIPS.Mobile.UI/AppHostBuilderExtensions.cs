@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images;
@@ -25,13 +26,13 @@ public static class AppHostBuilderExtensions
         builder.ConfigureLifecycleEvents(events =>
         {
             events.AddAndroid(android => android
-                .OnCreate((activity, _) =>  API.Library.Android.DUI.Init(activity)));
-            events.AddAndroid(android => android.OnPause(activity => _ = DUI.RemoveViewsLocatedOnTopOfPage()));
+                .OnCreate((activity, _) => DUI.Init(activity)));
+            events.AddAndroid(android => android.OnPause(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
         });
 #elif __IOS__
         builder.ConfigureLifecycleEvents(events =>
         {
-            events.AddiOS(ios => ios.OnResignActivation(application => _ = DUI.RemoveViewsLocatedOnTopOfPage()));
+            events.AddiOS(ios => ios.OnResignActivation(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
         });
 #endif
         

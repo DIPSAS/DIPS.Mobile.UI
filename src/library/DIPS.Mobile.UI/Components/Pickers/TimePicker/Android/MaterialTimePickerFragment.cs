@@ -1,4 +1,5 @@
 using Android.Content;
+using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
 using Google.Android.Material.DatePicker;
 using Google.Android.Material.TimePicker;
@@ -23,14 +24,15 @@ public class MaterialTimePickerFragment : IMaterialDateTimePickerFragment
 
     public bool IsOpen()
     {
-        var fragment = Platform.AppContext.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
-        return fragment is MaterialDatePicker;
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
+
+        return fragment is MaterialTimePicker;
     }
 
     public void Close()
     {
-        var fragment = Platform.AppContext.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
-        if (fragment is MaterialDatePicker datePickerFragment)
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
+        if (fragment is MaterialTimePicker datePickerFragment)
         {
             datePickerFragment.Dismiss();
         }

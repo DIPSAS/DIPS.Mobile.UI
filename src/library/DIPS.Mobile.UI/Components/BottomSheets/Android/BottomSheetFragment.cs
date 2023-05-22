@@ -3,12 +3,15 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Widget;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Sizes.Sizes;
 using Google.Android.Material.BottomSheet;
+using Microsoft.Maui.Controls.Compatibility;
 using Microsoft.Maui.Platform;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using View = Android.Views.View;
+using Grid = Microsoft.Maui.Controls.Grid;
+using AView = Android.Views.View;
+using RelativeLayout = Android.Widget.RelativeLayout;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 {
@@ -35,12 +38,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_bottomSheet.WillClose -= Close;
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup? container,
+        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container,
             Bundle? savedInstanceState)
         {
             var context = Platform.AppContext;
             var mauiContext = DUI.GetCurrentMauiContext;
-            if (mauiContext == null || m_bottomSheetBehavior == null) return new View(context);
+            if (mauiContext == null || m_bottomSheetBehavior == null) return new AView(context);
             
             var nestedScrollView =
                 new NestedScrollView(

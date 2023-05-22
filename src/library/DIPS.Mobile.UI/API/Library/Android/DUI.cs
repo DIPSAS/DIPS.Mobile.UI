@@ -1,18 +1,31 @@
 using System.Diagnostics;
 using Android.App;
-using Android.Content;
 using AndroidX.Core.SplashScreen;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker;
+using DIPS.Mobile.UI.Components.Pickers.TimePicker;
 using Activity = Android.App.Activity;
-using Application = Microsoft.Maui.Controls.Application;
-
-namespace DIPS.Mobile.UI.API.Library.Android;
 
 // ReSharper disable once InconsistentNaming
-public static class DUI
+namespace DIPS.Mobile.UI.API.Library;
+
+public static partial class DUI
 {
     public static void Init(Activity activity)
     {
         SplashScreen.InstallSplashScreen(activity);
+    }
+    
+    private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage()
+    {
+        if (DatePickerService.IsOpen())
+        {
+            _ = DatePickerService.Close();
+        }
+
+        if (TimePickerService.IsOpen())
+        {
+            _ = TimePickerService.Close();
+        }
     }
     
     /// <summary>

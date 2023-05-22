@@ -1,12 +1,18 @@
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Library.iOS;
+// ReSharper disable once CheckNamespace
+namespace DIPS.Mobile.UI.API.Library;
 
-public static class DUI
+public static partial class DUI
 {
 
-    public static void Init()
+    private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage()
     {
+        // Not yet implemented for iOS
+        /*if (DatePickerService.IsOpen())
+        { 
+            _ = DateTimePickerService.Close();
+        }*/
     }
 
     /// <summary>

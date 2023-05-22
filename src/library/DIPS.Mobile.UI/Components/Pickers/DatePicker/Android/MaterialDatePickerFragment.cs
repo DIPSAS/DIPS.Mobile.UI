@@ -41,13 +41,13 @@ public class MaterialDatePickerFragment : IMaterialDateTimePickerFragment
 
     public bool IsOpen()
     {
-        var fragment = Platform.AppContext.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
         return fragment is MaterialDatePicker;
     }
 
     public void Close()
     {
-        var fragment = Platform.AppContext.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
         if (fragment is MaterialDatePicker datePickerFragment)
         {
             datePickerFragment.Dismiss();
