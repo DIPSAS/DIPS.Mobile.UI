@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
 public partial class DUITouchEffect
 {

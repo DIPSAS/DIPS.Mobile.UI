@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls.Platform;
 
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
 public partial class DUITouchPlatformEffect : PlatformEffect
 {

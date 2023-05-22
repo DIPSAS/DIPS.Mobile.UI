@@ -12,7 +12,7 @@ using Rectangle = System.Drawing.Rectangle;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
 public partial class DUITouchPlatformEffect
 {

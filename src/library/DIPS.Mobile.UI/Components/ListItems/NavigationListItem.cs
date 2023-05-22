@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+using DIPS.Mobile.UI.Effects.DUITouchEffect;
 using DIPS.Mobile.UI.Resources.Icons;
 
 namespace DIPS.Mobile.UI.Components.ListItems;

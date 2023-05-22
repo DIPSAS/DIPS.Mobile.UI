@@ -4,7 +4,7 @@ using Foundation;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
 public partial class DUITouchPlatformEffect
 {
