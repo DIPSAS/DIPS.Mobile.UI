@@ -9,6 +9,7 @@
 #load "BuildSystem/AzureDevops.csx"
 #load "BuildSystem/Versioning/VersionUtil.csx"
 #load "BuildSystem/Git.csx"
+#load "BuildSystem/Distribute/AppCenter.csx"
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -26,7 +27,14 @@ private static string AppProjectPath = Path.Combine(AppDir, "Components", "Compo
 //Tests
 private static string TestDir = Path.Combine(SrcDir, "tests");
 private static string NugetTestSolutionPath = Path.Combine(TestDir,"nugettest");
-private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS.Mobile.UI.UnitTests.csproj");;
+private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS.Mobile.UI.UnitTests.csproj");
+
+//Distribution
+private static string AppCenter_iOSApiKey = AzureDevops.GetEnvironmentVariable("appcenter.apikey.dips.mobile.ui.ios");
+private static string AppCenter_droidApiKey = AzureDevops.GetEnvironmentVariable("appcenter.apikey.dips.mobile.ui.droid");
+private static string AppCenter_iOSAppGroupName = "Components iOS";
+private static string AppCenter_droidAppGroupName = "Components iOS";
+private static string AppCenter_DistributionGroupName = "releases";
 
 AsyncStep build = () => dotnet.Build(LibraryProjectPath);
 
@@ -44,22 +52,46 @@ AsyncStep pack = async () =>
 
 AsyncStep packiOS = async () =>
 {
-    if (Directory.Exists(OutputDir))
+    if (!Directory.Exists(OutputDir))
     {
         Directory.CreateDirectory(OutputDir);
     }
-
-    await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), "1");
+    var latestRelease = await AppCenter.GetLatestVersionFromDistributionGroup(AppCenter_iOSAppGroupName, AppCenter_DistributionGroupName, AppCenter_iOSApiKey);
+    var nextReleaseId = latestRelease.Id++;
+    Console.WriteLine($"Next Release Id: {nextReleaseId}");
+    // await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), nextReleaseId.ToString());
 };
 
 AsyncStep packDroid = async () =>
 {
-    if (Directory.Exists(OutputDir))
+    if (!Directory.Exists(OutputDir))
     {
         Directory.CreateDirectory(OutputDir);
     }
 
-    await dotnet.PackAndroid(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), "1");
+    var latestRelease = await AppCenter.GetLatestVersionFromDistributionGroup(AppCenter_droidAppGroupName, AppCenter_DistributionGroupName, AppCenter_droidApiKey);
+    var nextReleaseId = latestRelease.Id++;
+    Console.WriteLine($"Next Release Id: {nextReleaseId}");
+    // await dotnet.PackAndroid(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), nextReleaseId.ToString());
+};
+
+AsyncStep publishApp = async () =>
+{
+    if (!Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+
+
+    var releaseNotes = VersionUtil.GetReleaseNotesFromChangelog(ChangeLogPath);
+
+    var ipaFile = FileHelper.FindSingleFileByExtension(".ipa", OutputDir);
+    var iOSReleaseId = await AppCenter.CreateRelease(AppCenter_iOSAppGroupName, ipaFile.FullName, PlatformTarget.iOS, AppCenter_iOSApiKey);
+    await AppCenter.DistributeRelease(iOSReleaseId, AppCenter_iOSAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_iOSApiKey, releaseNotes);
+
+    var apkFile = FileHelper.FindSingleFileByExtension(".apk", OutputDir);
+    var droidReleaseId = await AppCenter.CreateRelease(AppCenter_droidAppGroupName, apkFile.FullName, PlatformTarget.Android, AppCenter_droidApiKey);
+    await AppCenter.DistributeRelease(droidReleaseId, AppCenter_droidAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_droidApiKey, releaseNotes);
 };
 
 AsyncStep publish = async () =>
