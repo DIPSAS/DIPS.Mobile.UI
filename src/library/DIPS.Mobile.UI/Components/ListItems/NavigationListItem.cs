@@ -19,7 +19,7 @@ public partial class NavigationListItem : ListItem
     {
         base.OnHandlerChanged();
         
-        DUITouchEffect.SetCommandAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
+        DUITouchEffect.SetAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
         DUITouchEffect.SetCommand(this, Command);
     }
     

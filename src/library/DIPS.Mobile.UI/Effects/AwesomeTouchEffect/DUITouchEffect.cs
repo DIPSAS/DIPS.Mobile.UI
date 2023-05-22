@@ -34,7 +34,7 @@ public partial class DUITouchEffect : RoutingEffect
     /// </summary>
     /// <param name="view"></param>
     /// <param name="contentDescription">The string to be read aloud from TalkBack</param>
-    public static void SetCommandAccessibilityContentDescription(BindableObject view, string contentDescription)
+    public static void SetAccessibilityContentDescription(BindableObject view, string contentDescription)
     {
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
