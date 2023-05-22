@@ -1,3 +1,4 @@
+using AndroidX.ConstraintLayout.Widget;
 using Microsoft.Maui.Handlers;
 
 using FAB = Google.Android.Material.FloatingActionButton.FloatingActionButton;
@@ -5,11 +6,11 @@ using FAB = Google.Android.Material.FloatingActionButton.FloatingActionButton;
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
 
-public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActionButtonMenu, FAB>
+public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActionButtonMenu, ConstraintLayout>
 {
 
-    protected override FAB CreatePlatformView()
+    protected override ConstraintLayout CreatePlatformView()
     {
-        return new FAB(Context);
+        return new ConstraintLayout(Context);
     }
 }
