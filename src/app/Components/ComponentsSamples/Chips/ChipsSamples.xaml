@@ -6,6 +6,6 @@
              x:Class="Components.ComponentsSamples.Chips.ChipsSamples">
     
     <VerticalStackLayout>
-        <dui:Chip Title="AKUTT-NLSH" HorizontalOptions="Start" />
+        <dui:Chip Title="Chip" HorizontalOptions="Start" />
     </VerticalStackLayout>
 </dui:ContentPage>

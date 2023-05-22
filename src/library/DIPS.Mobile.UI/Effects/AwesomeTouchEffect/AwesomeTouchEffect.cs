@@ -2,14 +2,8 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
 
-public class AwesomeTouchEffect : RoutingEffect
+public partial class AwesomeTouchEffect : RoutingEffect
 {
-    public static readonly BindableProperty CommandProperty = BindableProperty.CreateAttached("Command",
-        typeof(ICommand),
-        typeof(AwesomeTouchEffect),
-        null,
-        propertyChanged: OnCommandChanged);
-
     public static ICommand GetCommand(BindableObject view)
     {
         return (ICommand)view.GetValue(CommandProperty);
@@ -20,11 +14,6 @@ public class AwesomeTouchEffect : RoutingEffect
         view.SetValue(CommandProperty, command);
     }
 
-    public static readonly BindableProperty CommandParameterProperty = BindableProperty.CreateAttached("Command",
-        typeof(object),
-        typeof(AwesomeTouchEffect),
-        null);
-
     public static object GetCommandParameter(BindableObject view)
     {
         return view.GetValue(CommandParameterProperty);
@@ -33,6 +22,21 @@ public class AwesomeTouchEffect : RoutingEffect
     public static void SetCommandParameter(BindableObject view, object obj)
     {
         view.SetValue(CommandParameterProperty, obj);
+    }
+
+    public static string GetAccessibilityContentDescription(BindableObject view)
+    {
+        return (string)view.GetValue(AccessibilityContentDescriptionProperty);
+    }
+
+    /// <summary>
+    /// On Android we have to explicitly set the content description for accessibility
+    /// </summary>
+    /// <param name="view"></param>
+    /// <param name="contentDescription">The string to be read aloud from TalkBack</param>
+    public static void SetCommandAccessibilityContentDescription(BindableObject view, string contentDescription)
+    {
+        view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
     
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object? newValue)

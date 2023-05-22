@@ -13,19 +13,19 @@
         
         <dui:Label Text="ListItem" />
         <dui:ListItem Title="Hei og hå" />
-        <dui:ListItem Title="Legesen, Lars" 
-                      SubTitle="Nordlandssykehuset" />
+        <dui:ListItem Title="Messi, Lionel" 
+                      SubTitle="PSG" />
         
         <dui:Label Text="NavigationListItem"
                    Margin="0, 20, 0, 0" />
         <dui:NavigationListItem Title="Navigate"
                                 SubTitle="You can click on this"
-                                dui:AwesomeTouchEffect.Command="{Binding TestCommand}" />
+                                Command="{Binding TestCommand}"/>
         
         <dui:Label Text="Examples of using ListItem with Pickers" 
                    Margin="0, 20, 0, 0"
                    FontAttributes="Italic"/>
-        <dui:ListItem Title="Avdeling">
+        <dui:ListItem Title="Test">
             <dui:ItemPicker Title="Person"
                             Mode="ContextMenu"
                             SelectedItem="{Binding SelectedPerson}"
@@ -33,7 +33,7 @@
                             ItemDisplayProperty="DisplayName" />
         </dui:ListItem>
         
-        <dui:ListItem Title="Enhet">
+        <dui:ListItem Title="Velg en person">
             <dui:ItemPicker Title="Person"
                             Mode="BottomSheet"
                             SelectedItem="{Binding SelectedPerson2}"
@@ -41,7 +41,7 @@
                             ItemDisplayProperty="DisplayName" />
         </dui:ListItem>
         
-        <dui:ListItem Title="Oppmøte"
+        <dui:ListItem Title="Planlegging"
                       SubTitle="Subtitle">
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}"
                                    HorizontalOptions="Start" />

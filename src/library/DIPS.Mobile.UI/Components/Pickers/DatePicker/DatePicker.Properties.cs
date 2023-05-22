@@ -37,6 +37,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(bool),
             typeof(DatePicker));
 
+        
+        /// <summary>
+        /// If this is false, the <see cref="DatePicker"/> will use local time zone.
+        /// If this is true, the <see cref="DatePicker"/> will use UTC time zone.
+        /// </summary>
         public bool IgnoreLocalTime
         {
             get => (bool)GetValue(IgnoreLocalTimeProperty);
@@ -49,7 +54,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(DatePicker));
         
         /// <summary>
-        /// Sets the minimum date the DatePicker can choose
+        /// Sets the minimum date that people can choose
         /// </summary>
         public DateTime? MinimumDate
         {
@@ -63,7 +68,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(DatePicker));
 
         /// <summary>
-        /// Sets the maximum date the DatePicker can choose
+        /// Sets the maximum date that people can choose
         /// </summary>
         public DateTime? MaximumDate
         {

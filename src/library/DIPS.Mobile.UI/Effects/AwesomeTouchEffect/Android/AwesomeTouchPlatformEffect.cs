@@ -5,6 +5,7 @@ using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Views.Accessibility;
 using Android.Widget;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
 using Color = Microsoft.Maui.Graphics.Color;
 using Rectangle = System.Drawing.Rectangle;
@@ -35,14 +36,23 @@ public partial class AwesomeTouchPlatformEffect
     protected override partial void OnAttached()
     {
         Control.Clickable = true;
-        Control.LongClickable = true;
         Control.Touch += OnTouch;
         
         m_command = AwesomeTouchEffect.GetCommand(Element);
         m_commandParameter = AwesomeTouchEffect.GetCommandParameter(Element);
+        var contentDescription = AwesomeTouchEffect.GetAccessibilityContentDescription(Element);
         
         CreateRipple();
         AddAccessibility();
+
+        if (string.IsNullOrEmpty(contentDescription))
+        {
+            Control.ContentDescription = DUILocalizedStrings.Button;
+        }
+        else
+        {
+            Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
+        }
     }
 
     private void AddAccessibility()
@@ -184,6 +194,7 @@ public partial class AwesomeTouchPlatformEffect
             Control.LayoutChange -= OnLayoutChange;
         
         m_ripple.Dispose();
+        Control.Click -= OnClick;
     }
     
     sealed class AccessibilityListener : Java.Lang.Object,
@@ -204,7 +215,9 @@ public partial class AwesomeTouchPlatformEffect
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 m_platformTouchEffect = null;
+            }
 
             base.Dispose(disposing);
         }

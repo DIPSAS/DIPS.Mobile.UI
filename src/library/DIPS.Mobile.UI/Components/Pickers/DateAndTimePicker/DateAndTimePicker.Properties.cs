@@ -23,7 +23,6 @@ public partial class DateAndTimePicker
         typeof(ICommand),
         typeof(DateAndTimePicker));
 
-
     /// <summary>
     /// The command to be executed when people selected a date from the date picker.
     /// </summary>
@@ -32,13 +31,16 @@ public partial class DateAndTimePicker
         get => (ICommand)GetValue(SelectedDateTimeCommandProperty);
         set => SetValue(SelectedDateTimeCommandProperty, value);
     }
-    
 
     public static readonly BindableProperty IgnoreLocalTimeProperty = BindableProperty.Create(
         nameof(IgnoreLocalTime),
         typeof(bool),
         typeof(DateAndTimePicker));
 
+    /// <summary>
+    /// If this is false, the <see cref="DateAndTimePicker"/> will use local time zone.
+    /// If this is true, the <see cref="DateAndTimePicker"/> will use UTC time zone.
+    /// </summary>
     public bool IgnoreLocalTime
     {
         get => (bool)GetValue(IgnoreLocalTimeProperty);
@@ -51,7 +53,7 @@ public partial class DateAndTimePicker
         typeof(DateAndTimePicker));
 
     /// <summary>
-    /// Sets the minimum date the DatePicker can choose
+    /// Sets the minimum date that people can choose
     /// </summary>
     public DateTime? MinimumDate
     {
@@ -65,7 +67,7 @@ public partial class DateAndTimePicker
         typeof(DateAndTimePicker));
 
     /// <summary>
-    /// Sets the maximum date the DatePicker can choose
+    /// Sets the maximum date that people can choose
     /// </summary>
     public DateTime? MaximumDate
     {

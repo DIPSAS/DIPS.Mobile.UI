@@ -1,10 +1,7 @@
 using System.Windows.Input;
 using CoreGraphics;
 using Foundation;
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
-using Microsoft.Maui.Platform;
 using UIKit;
-using ContentView = Microsoft.Maui.Platform.ContentView;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
