@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+using DIPS.Mobile.UI.Effects.DUITouchEffect;
 using DIPS.Mobile.UI.Resources.Icons;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
@@ -19,8 +19,8 @@ public partial class NavigationListItem : ListItem
     {
         base.OnHandlerChanged();
         
-        AwesomeTouchEffect.SetCommandAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
-        AwesomeTouchEffect.SetCommand(this, Command);
+        DUITouchEffect.SetAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
+        DUITouchEffect.SetCommand(this, Command);
     }
     
 }

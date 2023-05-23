@@ -4,14 +4,15 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 
 public partial class ListItem
 {
-    /// <summary>
-    /// Sets the title of the ListItem
-    /// </summary>
+    
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
         typeof(ListItem));
 
+    /// <summary>
+    /// Sets the title text of the list item that people will see 
+    /// </summary>
     public string Title
     {
         get => (string)GetValue(TitleProperty);
@@ -23,6 +24,9 @@ public partial class ListItem
         typeof(string),
         typeof(ListItem));
 
+    /// <summary>
+    /// Sets the subtitle text that people will see below <see cref="Title"/>
+    /// </summary>
     public string SubTitle
     {
         get => (string)GetValue(SubTitleProperty);

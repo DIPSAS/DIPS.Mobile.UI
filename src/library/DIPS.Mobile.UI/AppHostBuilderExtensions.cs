@@ -4,7 +4,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+using DIPS.Mobile.UI.Effects.DUITouchEffect;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
@@ -58,7 +58,7 @@ public static class AppHostBuilderExtensions
         builder.ConfigureEffects(effects =>
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
-            effects.Add(typeof(AwesomeTouchEffect), typeof(AwesomeTouchPlatformEffect));
+            effects.Add(typeof(DUITouchEffect), typeof(DUITouchPlatformEffect));
         });
 
         return builder;

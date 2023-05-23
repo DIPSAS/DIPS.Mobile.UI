@@ -1,9 +1,7 @@
-using System.Diagnostics;
 using Android.App;
 using AndroidX.Core.SplashScreen;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker;
-using DIPS.Mobile.UI.Components.Pickers.TimePicker;
-using Activity = Android.App.Activity;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
+using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 
 // ReSharper disable once InconsistentNaming
 namespace DIPS.Mobile.UI.API.Library;
@@ -19,12 +17,12 @@ public static partial class DUI
     {
         if (DatePickerService.IsOpen())
         {
-            _ = DatePickerService.Close();
+            DatePickerService.Close();
         }
 
         if (TimePickerService.IsOpen())
         {
-            _ = TimePickerService.Close();
+            TimePickerService.Close();
         }
     }
     

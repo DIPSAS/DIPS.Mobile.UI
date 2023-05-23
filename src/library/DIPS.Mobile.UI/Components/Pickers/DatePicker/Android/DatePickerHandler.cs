@@ -1,9 +1,9 @@
 using System.Globalization;
 using Android.Content.Res;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Platforms.Android;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using Chip = Google.Android.Material.Chip.Chip;
 
 // ReSharper disable once CheckNamespace

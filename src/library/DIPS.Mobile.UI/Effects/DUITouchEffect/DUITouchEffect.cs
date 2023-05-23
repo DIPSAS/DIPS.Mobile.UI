@@ -1,8 +1,8 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
-public partial class AwesomeTouchEffect : RoutingEffect
+public partial class DUITouchEffect : RoutingEffect
 {
     public static ICommand GetCommand(BindableObject view)
     {
@@ -34,7 +34,7 @@ public partial class AwesomeTouchEffect : RoutingEffect
     /// </summary>
     /// <param name="view"></param>
     /// <param name="contentDescription">The string to be read aloud from TalkBack</param>
-    public static void SetCommandAccessibilityContentDescription(BindableObject view, string contentDescription)
+    public static void SetAccessibilityContentDescription(BindableObject view, string contentDescription)
     {
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
@@ -49,11 +49,11 @@ public partial class AwesomeTouchEffect : RoutingEffect
         var shouldHaveContextMenu = newValue != null;
         if (shouldHaveContextMenu)
         {
-            view.Effects.Add(new AwesomeTouchEffect());
+            view.Effects.Add(new DUITouchEffect());
         }
         else
         {
-            var toRemove = view.Effects.FirstOrDefault(e => e is AwesomeTouchEffect);
+            var toRemove = view.Effects.FirstOrDefault(e => e is DUITouchEffect);
             if (toRemove != null)
             {
                 view.Effects.Remove(toRemove);

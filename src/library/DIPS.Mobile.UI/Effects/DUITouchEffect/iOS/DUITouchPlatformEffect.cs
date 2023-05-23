@@ -4,9 +4,9 @@ using Foundation;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
-public partial class AwesomeTouchPlatformEffect
+public partial class DUITouchPlatformEffect
 {
     
 #nullable disable
@@ -46,8 +46,8 @@ public partial class AwesomeTouchPlatformEffect
             m_uiView = uiView;
             m_originalOpacity = uiView.Layer.Opacity;
             
-            m_command = AwesomeTouchEffect.GetCommand(element);
-            m_commandParameter = AwesomeTouchEffect.GetCommandParameter(element);
+            m_command = DUITouchEffect.GetCommand(element);
+            m_commandParameter = DUITouchEffect.GetCommandParameter(element);
 
             Delegate = new TapGestureRecognizerDelegate();
         }

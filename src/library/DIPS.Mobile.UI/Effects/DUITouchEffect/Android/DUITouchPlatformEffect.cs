@@ -12,9 +12,9 @@ using Rectangle = System.Drawing.Rectangle;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.AwesomeTouchEffect;
+namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
 
-public partial class AwesomeTouchPlatformEffect
+public partial class DUITouchPlatformEffect
 {
     private readonly Color m_defaultNativeAnimationColor = new(128, 128, 128, 0);
     private FrameLayout? m_rippleView;
@@ -38,9 +38,9 @@ public partial class AwesomeTouchPlatformEffect
         Control.Clickable = true;
         Control.Touch += OnTouch;
         
-        m_command = AwesomeTouchEffect.GetCommand(Element);
-        m_commandParameter = AwesomeTouchEffect.GetCommandParameter(Element);
-        var contentDescription = AwesomeTouchEffect.GetAccessibilityContentDescription(Element);
+        m_command = DUITouchEffect.GetCommand(Element);
+        m_commandParameter = DUITouchEffect.GetCommandParameter(Element);
+        var contentDescription = DUITouchEffect.GetAccessibilityContentDescription(Element);
         
         CreateRipple();
         AddAccessibility();
@@ -201,9 +201,9 @@ public partial class AwesomeTouchPlatformEffect
         AccessibilityManager.IAccessibilityStateChangeListener,
         AccessibilityManager.ITouchExplorationStateChangeListener
     {
-        AwesomeTouchPlatformEffect? m_platformTouchEffect;
+        DUITouchPlatformEffect? m_platformTouchEffect;
 
-        internal AccessibilityListener(AwesomeTouchPlatformEffect platformTouchEffect)
+        internal AccessibilityListener(DUITouchPlatformEffect platformTouchEffect)
             => this.m_platformTouchEffect = platformTouchEffect;
 
         public void OnAccessibilityStateChanged(bool enabled)
