@@ -28,7 +28,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Resources, LocalizedStrings.Colors, () => new ColorsSamples()),
             new(SampleType.Resources, LocalizedStrings.Sizes, () => new SizesSamples()),
             new(SampleType.Components, LocalizedStrings.ListItems, () => new ListItemsSamples()),
-            new(SampleType.Components, LocalizedStrings.Chips, () => new ChipsSamples()),
+            new(SampleType.Components, LocalizedStrings.Chip, () => new ChipsSamples()),
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples())
         };
     }

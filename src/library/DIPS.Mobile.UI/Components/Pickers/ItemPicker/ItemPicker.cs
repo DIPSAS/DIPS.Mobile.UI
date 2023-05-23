@@ -1,23 +1,28 @@
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
-    public partial class ItemPicker : Chip
+    public partial class ItemPicker : ContentView
     {
         private readonly ContextMenu m_contextMenu = new ();
 
         private void LayoutContent()
         {
+            var chip = new Chip();
+            chip.SetBinding(Chip.TitleProperty, new Binding(){Path = nameof(Placeholder), Source = this});
+            Content = chip;
+            
             if (Mode == PickerMode.ContextMenu)
             {
-                ContextMenuEffect.SetMenu(this, m_contextMenu);
+                ContextMenuEffect.SetMenu(chip, m_contextMenu);
                 m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
             }
             else if (Mode == PickerMode.BottomSheet)
             {
-                AttachBottomSheet();
+                chip.Command = new Command(() => BottomSheetService.OpenBottomSheet(new PickerBottomSheet(this)));
             }
         }
 
@@ -40,7 +45,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
-            picker.Title = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty)!;
+            picker.Placeholder = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty)!;
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
             picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
 

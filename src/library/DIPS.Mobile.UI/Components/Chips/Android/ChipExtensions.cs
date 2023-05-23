@@ -1,15 +1,14 @@
 using Android.Content.Res;
 using DIPS.Mobile.UI.Resources.Colors;
 using Microsoft.Maui.Platform;
-using Chip = Google.Android.Material.Chip.Chip;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using TextAlignment = Android.Views.TextAlignment;
 
-namespace DIPS.Mobile.UI.Platforms.Android;
+namespace DIPS.Mobile.UI.Components.Chips.Android;
 
 public static class ChipExtensions
 {
-    public static void SetDefaultChipAttributes(this Chip chip)
+    public static void SetDefaultChipAttributes(this Google.Android.Material.Chip.Chip chip)
     {
         chip.SetPadding(8, 2, 8, 2);
         chip.TextAlignment = (TextAlignment)Microsoft.Maui.TextAlignment.Center;
@@ -20,7 +19,7 @@ public static class ChipExtensions
         SetBackgroundColor(new Color(118, 118, 128, 30), chip);
     }
     
-    private static void SetBackgroundColor(Color color, Chip chip)
+    private static void SetBackgroundColor(Color color, Google.Android.Material.Chip.Chip chip)
     {
         var states = new[]
         {

@@ -1,4 +1,5 @@
 using Components.Resources.LocalizedStrings;
+using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Resources.Sizes;
 using DIPS.Mobile.UI.Sizes.Sizes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -19,18 +20,17 @@ namespace Components
             Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
             {
                 ItemsSource = samplePages,
-                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleButton()),
+                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem()),
             };
         }
 
-        public class NavigateToSingleSampleButton : Button
+        public class NavigateToSingleSampleItem : NavigationListItem
         {
             private Sample m_sample;
 
 
-            public NavigateToSingleSampleButton()
+            public NavigateToSingleSampleItem()
             {
-                Margin = 5;
                 Command = new Command(TryNavigateToSingleSamplePage);
             }
 
@@ -48,7 +48,7 @@ namespace Components
                 if (BindingContext is Sample sample)
                 {
                     m_sample = sample;
-                    Text = m_sample.Name;
+                    Title = m_sample.Name;
                 }
             }
         }

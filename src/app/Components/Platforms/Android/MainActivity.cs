@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.OS;
 
 namespace Components;
 
@@ -11,6 +10,5 @@ public class MainActivity : MauiAppCompatActivity
 {
     public MainActivity()
     {
-
     }
 }

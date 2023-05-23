@@ -1,16 +1,11 @@
+using DIPS.Mobile.UI.Exceptions;
 using Microsoft.Maui.Handlers;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, ViewHandler>
 {
-    private static partial void MapTitle(ChipHandler handler, Chip chip)
-    {
-    }
+    private static partial void MapTitle(ChipHandler handler, Chip chip) { }
 
-    protected override ViewHandler CreatePlatformView()
-    {
-        throw new NotImplementedException();
-    }
-    
+    protected override ViewHandler CreatePlatformView() => throw new Only_Here_For_UnitTests();
 }

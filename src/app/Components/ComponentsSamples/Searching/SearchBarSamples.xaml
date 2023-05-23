@@ -8,30 +8,30 @@
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                  x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                 Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}">
+                 Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
+                 Padding="{dui:Sizes size_3}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*"
           RowSpacing="0"
-          BackgroundColor="Transparent"
           ColumnDefinitions="*, Auto">
         <dui:SearchBar Grid.Row="0"
-                       Placeholder="Search from the items below"
+                       Placeholder="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
                        VerticalOptions="Start"
                        CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
-                       TextChanged="InputView_OnTextChanged" />
+                       TextChanged="InputView_OnTextChanged"
+                       Margin="{dui:Thickness Bottom=size_1}" />
         <dui:CollectionView Grid.Row="1"
-                            BackgroundColor="{dui:Colors color_neutral_05}"
-                            SelectionMode="None"
+                            BackgroundColor="Transparent"
                             ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <dui:Label Text="{Binding DisplayName}"
-                               VerticalOptions="Center"
-                               Margin="15" />
+                    <dui:ListItem Title="{Binding DisplayName}"
+                                  CornerRadius="0"
+                                  BackgroundColor="{dui:Colors color_neutral_05}" />
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
         </dui:CollectionView>

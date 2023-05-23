@@ -11,10 +11,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     public class PickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
-        private List<SelectableListItem> m_items;
         private readonly List<SelectableListItem> m_originalItems;
         private readonly SearchBar? m_searchBar;
-        private readonly CollectionView m_collectionView;
 
         public PickerBottomSheet(ItemPicker itemPicker)
         {
@@ -31,9 +29,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             Items = new ObservableCollection<SelectableListItem>(m_originalItems);
 
-            var grid = new Grid() {RowDefinitions = new() {new(GridLength.Auto), new(GridLength.Star)}};
+            var grid = new Grid() {RowDefinitions = new RowDefinitionCollection {new(GridLength.Auto), new(GridLength.Star)}};
 
-            m_collectionView = new CollectionView()
+            var collectionView = new CollectionView()
             {
                 ItemTemplate = new DataTemplate(CreateCheckBox),
                 Margin = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
@@ -45,9 +43,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 grid.Add(m_searchBar, 0, 0);
             }
 
-            m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+            collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
 
-            grid.Add(m_collectionView, 0, (m_searchBar != null) ? 1 : 0);
+            grid.Add(collectionView, 0, (m_searchBar != null) ? 1 : 0);
             Content = grid;
             SubscribeToEvents();
         }

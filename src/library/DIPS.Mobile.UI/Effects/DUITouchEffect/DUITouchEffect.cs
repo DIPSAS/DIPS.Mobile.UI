@@ -45,9 +45,8 @@ public partial class DUITouchEffect : RoutingEffect
         {
             return;
         }
-
-        var shouldHaveContextMenu = newValue != null;
-        if (shouldHaveContextMenu)
+        
+        if (newValue is ICommand)
         {
             view.Effects.Add(new DUITouchEffect());
         }

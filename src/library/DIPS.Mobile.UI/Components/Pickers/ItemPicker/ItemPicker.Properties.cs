@@ -73,6 +73,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             get => (bool)GetValue(HasSearchBarProperty);
             set => SetValue(HasSearchBarProperty, value);
         }
+
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+            nameof(Placeholder),
+            typeof(string),
+            typeof(ItemPicker));
+
+        /// <summary>
+        /// The place holder for people to see when they have not selected a item.
+        /// </summary>
+        public string Placeholder
+        {
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
+        }
     }
 
     public enum PickerMode
