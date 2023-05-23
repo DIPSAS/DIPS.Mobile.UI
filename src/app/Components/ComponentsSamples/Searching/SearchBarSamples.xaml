@@ -16,21 +16,21 @@
 
     <Grid RowDefinitions="Auto,*"
           RowSpacing="0"
-          BackgroundColor="Transparent"
           ColumnDefinitions="*, Auto">
         <dui:SearchBar Grid.Row="0"
                        Placeholder="Search from the items below"
                        VerticalOptions="Start"
                        CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
-                       TextChanged="InputView_OnTextChanged" />
+                       TextChanged="InputView_OnTextChanged"
+                       Margin="{dui:Thickness Bottom=size_1}" />
         <dui:CollectionView Grid.Row="1"
+                            BackgroundColor="Transparent"
                             ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <dui:Label Text="{Binding DisplayName}"
-                               VerticalOptions="Center"
-                               Margin="15" />
+                    <dui:ListItem Title="{Binding DisplayName}"
+                                  BackgroundColor="{dui:Colors color_neutral_05}" />
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
         </dui:CollectionView>

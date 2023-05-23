@@ -2,7 +2,7 @@ namespace Components.SampleData;
 
 public static class SampleDataStorage
 {
-    public static List<Person> People = new List<Person>()
+    public static List<Person> People = new()
     {
         new Person("Erika", "Isa"),
         new Person("Adam", "Lehi"),
@@ -10,9 +10,9 @@ public static class SampleDataStorage
         new Person("Sylvester", "Christel"),
         new Person("Hanne", "Dexter"),
         new Person("Ava", "Karl"),
-        new Person("Knut", "Arne", "Johansen"),
+        new Person("Knut", "Johansen", "Arne"),
         new Person("Mina", "Shawn"),
-        new Person("Per", "Gunnar", "Hansen"),
+        new Person("Per", "Hansen", "Gunnar"),
         new Person("Pablo", "Picasso",
             "Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y"),
         new Person("Barbara", "Sherman"),

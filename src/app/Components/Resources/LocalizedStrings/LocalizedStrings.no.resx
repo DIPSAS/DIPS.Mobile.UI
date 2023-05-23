@@ -39,7 +39,7 @@
         <value>Checkbox</value>
     </data>
     <data name="SearchBar" xml:space="preserve">
-        <value>SearchBar</value>
+        <value>Søkefelt</value>
     </data>
     <data name="Searching" xml:space="preserve">
         <value>Søking</value>
@@ -100,5 +100,17 @@
     </data>
     <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
         <value>Veldig enkel bottom sheet innhold</value>
+    </data>
+    <data name="SearchPage_PlaceholderText" xml:space="preserve">
+        <value>Søk etter folk</value>
+    </data>
+    <data name="SearchPage_HintText" xml:space="preserve">
+        <value>Bruk søkefeltet for å søke etter folk.</value>
+    </data>
+    <data name="SearchPage" xml:space="preserve">
+        <value>Søkeside</value>
+    </data>
+    <data name="SearchPage_NoResultText" xml:space="preserve">
+        <value>Du fant ingen folk med søket ditt, vennligst prøv på nytt.</value>
     </data>
 </root>

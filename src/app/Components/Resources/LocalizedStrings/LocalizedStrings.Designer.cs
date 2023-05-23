@@ -230,5 +230,23 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BottomSheet_SimpleBottomSheet", resourceCulture);
             }
         }
+        
+        internal static string SearchPage_PlaceholderText {
+            get {
+                return ResourceManager.GetString("SearchPage_PlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string SearchPage_HintText {
+            get {
+                return ResourceManager.GetString("SearchPage_HintText", resourceCulture);
+            }
+        }
+        
+        internal static string SearchPage_NoResultText {
+            get {
+                return ResourceManager.GetString("SearchPage_NoResultText", resourceCulture);
+            }
+        }
     }
 }

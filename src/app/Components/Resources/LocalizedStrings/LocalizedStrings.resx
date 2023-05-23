@@ -111,4 +111,13 @@
     <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
         <value>Very simple bottom sheet</value>
     </data>
+    <data name="SearchPage_PlaceholderText" xml:space="preserve">
+        <value>Search for people</value>
+    </data>
+    <data name="SearchPage_HintText" xml:space="preserve">
+        <value>Use the search bar to search for people.</value>
+    </data>
+    <data name="SearchPage_NoResultText" xml:space="preserve">
+        <value>No people match your search, try again.</value>
+    </data>
 </root>
