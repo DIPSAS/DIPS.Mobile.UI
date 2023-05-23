@@ -1,4 +1,6 @@
 ## [5.0.0]
+- Added build script for delivering Components app to AppCenter
+- Added in app API for checking version of AppCenter
 - Breaking change: Changed the ItemPicker base class to remove unessesary properties.
 - Breaking change: Changed ItemPickers Title property to Placeholder
 - Added ItemSpacing for CollectionView
@@ -8,6 +10,7 @@
 - Added StringFormat markup extension to easily use a static string format with an hard argument in XAML.
 - Cleaned up components app
 - Made sure Components app samples are alphabetical
+- Added Splash screen, this can be disabled by setting <DIPSIncludeSplashScreen>False</DIPSIncludeSplashScreen> in consumers csproj.
 
 ## [4.0.0]
 - Added TimePicker
