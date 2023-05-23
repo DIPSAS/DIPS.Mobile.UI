@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.Android;
 
 namespace Components;
 
@@ -11,6 +12,7 @@ public class MainActivity : MauiAppCompatActivity
 {
     public MainActivity()
     {
-
+        
     }
+    
 }

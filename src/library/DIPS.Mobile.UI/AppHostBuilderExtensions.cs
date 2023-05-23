@@ -46,10 +46,10 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
+            handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
-            handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #elif __IOS__
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
 #endif
@@ -61,6 +61,12 @@ public static class AppHostBuilderExtensions
             effects.Add(typeof(AwesomeTouchEffect), typeof(AwesomeTouchPlatformEffect));
         });
 
+        return builder;
+    }
+
+    public static MauiAppBuilder UseNavigationFab(this MauiAppBuilder builder)
+    {
+        FloatingActionButtonMenuService.Create();
         return builder;
     }
 }

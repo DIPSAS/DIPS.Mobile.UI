@@ -9,7 +9,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI();
+            .UseDIPSUI()
+            .UseNavigationFab();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
