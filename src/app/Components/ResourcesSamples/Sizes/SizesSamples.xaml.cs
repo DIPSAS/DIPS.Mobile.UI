@@ -52,4 +52,18 @@ public partial class SizesSamples
         }
         return sizes;
     }
+
+    private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(e.NewTextValue))
+        {
+            Sizes = m_allSizes;
+        }
+        else
+        {
+            var matchingSizes = m_allSizes.Where(c => c.Key.ToLower().Contains(e.NewTextValue.ToLower()));
+            Sizes = matchingSizes.ToDictionary(matchingSize => matchingSize.Key,
+                matchingSize => matchingSize.Value);
+        }
+    }
 }

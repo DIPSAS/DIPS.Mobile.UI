@@ -53,7 +53,7 @@ public partial class App : Application
 
             if (Current?.MainPage == null) return true;
             var wantToDownload = await Current.MainPage.DisplayAlert(LocalizedStrings.New_version,
-                "", "Download", "Skip");
+                LocalizedStrings.New_version_message, LocalizedStrings.Download, LocalizedStrings.Cancel);
             if (!wantToDownload)
             {
                 return false;

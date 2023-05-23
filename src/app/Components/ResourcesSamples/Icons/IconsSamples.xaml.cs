@@ -9,7 +9,6 @@ namespace Components.ResourcesSamples.Icons
 
         public IconsSamples()
         {
-
             InitializeComponent();
             Icons = GetIcons();
             m_allIcons = Icons;
@@ -21,7 +20,7 @@ namespace Components.ResourcesSamples.Icons
             Icons = GetIcons();
             m_allIcons = Icons;
         }
-        
+
         private static Dictionary<string, ImageSource> GetIcons()
         {
             var theIcons = new DIPS.Mobile.UI.Resources.Icons.Icons();
@@ -36,6 +35,7 @@ namespace Components.ResourcesSamples.Icons
                     image.Source = imageSource;
                 }
             }
+
             return icons;
         }
 
@@ -50,18 +50,18 @@ namespace Components.ResourcesSamples.Icons
         }
 
 
-        // private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
-        // {
-        //     if (string.IsNullOrEmpty(e.NewTextValue))
-        //     {
-        //         Colors = m_allIcons;
-        //     }
-        //     else
-        //     {
-        //         var matchingColors = m_allIcons.Where(c => c.Key.ToLower().Contains(e.NewTextValue.ToLower()));
-        //         Colors = matchingColors.ToDictionary(matchingColor => matchingColor.Key,
-        //             matchingColor => matchingColor.Value);
-        //     }
-        // }
+        private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                Icons = m_allIcons;
+            }
+            else
+            {
+                var matchingIcons = m_allIcons.Where(c => c.Key.ToLower().Contains(e.NewTextValue.ToLower()));
+                Icons = matchingIcons.ToDictionary(icon => icon.Key,
+                    matchingIcon => matchingIcon.Value);
+            }
+        }
     }
 }
