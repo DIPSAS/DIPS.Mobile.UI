@@ -1,5 +1,7 @@
 ## [5.1.0]
 - Added new colors from Design System.
+- Components app: Added better download message.
+- Components app: Added search for resources.
 
 ## [5.0.0]
 - Added build script for delivering Components app to AppCenter
