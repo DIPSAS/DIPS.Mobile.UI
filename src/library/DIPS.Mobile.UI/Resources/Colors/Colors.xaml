@@ -1,31 +1,45 @@
 <!--
 Do not edit directly,
-generated 05/04/2023 10:20:19 from DIPS.Mobile.DesignTokens
+generated 23/05/2023 15:16:52 from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Colors.Colors">
-    <Color x:Key="color_system_black">#ff000000</Color>
-    <Color x:Key="color_system_white">#ffffffff</Color>
-    <Color x:Key="color_primary_70">#ff98b2ae</Color>
-    <Color x:Key="color_primary_80">#ff65868f</Color>
-    <Color x:Key="color_primary_90">#ff047f89</Color>
-    <Color x:Key="color_primary_d_70">#ff98b2ae</Color>
-    <Color x:Key="color_primary_d_80">#ff65868f</Color>
-    <Color x:Key="color_primary_d_90">#ff047f89</Color>
-    <Color x:Key="color_secondary_20">#fff0f5f7</Color>
-    <Color x:Key="color_secondary_30">#ffecf3f4</Color>
-    <Color x:Key="color_secondary_90">#ff97c8cd</Color>
-    <Color x:Key="color_secondary_d_20">#fff0f5f7</Color>
-    <Color x:Key="color_secondary_d_30">#ffecf3f4</Color>
-    <Color x:Key="color_secondary_d_90">#ff97c8cd</Color>
-    <Color x:Key="color_neutral_10">#fff4f5f5</Color>
-    <Color x:Key="color_neutral_20">#ffecedee</Color>
-    <Color x:Key="color_neutral_30">#ffdadbdc</Color>
-    <Color x:Key="color_neutral_40">#ffb6b7b9</Color>
-    <Color x:Key="color_neutral_50">#ff8f9496</Color>
-    <Color x:Key="color_neutral_60">#ff6a7073</Color>
-    <Color x:Key="color_neutral_70">#ff464c50</Color>
-    <Color x:Key="color_neutral_80">#ff373d40</Color>
-    <Color x:Key="color_neutral_90">#ff262626</Color>
-    <Color x:Key="color_neutral_05">#fff9f9f9</Color>
-    <Color x:Key="color_mandatory_dark">#ffec942d</Color>
-    <Color x:Key="color_error_dark">#ffab2e13</Color>
+<Color x:Key="color_system_black">#ff000000</Color>
+<Color x:Key="color_system_white">#ffffffff</Color>
+<Color x:Key="color_primary_10">#fff3f7f8</Color>
+<Color x:Key="color_primary_70">#ff98b2ae</Color>
+<Color x:Key="color_primary_80">#ff65868f</Color>
+<Color x:Key="color_primary_90">#ff047f89</Color>
+<Color x:Key="color_primary_d_70">#ff98b2ae</Color>
+<Color x:Key="color_primary_d_80">#ff65868f</Color>
+<Color x:Key="color_primary_d_90">#ff047f89</Color>
+<Color x:Key="color_secondary_20">#fff0f5f7</Color>
+<Color x:Key="color_secondary_30">#ffecf3f4</Color>
+<Color x:Key="color_secondary_90">#ff97c8cd</Color>
+<Color x:Key="color_secondary_d_20">#fff0f5f7</Color>
+<Color x:Key="color_secondary_d_30">#ffecf3f4</Color>
+<Color x:Key="color_secondary_d_90">#ff97c8cd</Color>
+<Color x:Key="color_neutral_10">#fff4f5f5</Color>
+<Color x:Key="color_neutral_20">#ffecedee</Color>
+<Color x:Key="color_neutral_30">#ffdadbdc</Color>
+<Color x:Key="color_neutral_40">#ffb6b7b9</Color>
+<Color x:Key="color_neutral_50">#ff8f9496</Color>
+<Color x:Key="color_neutral_60">#ff6a7073</Color>
+<Color x:Key="color_neutral_70">#ff464c50</Color>
+<Color x:Key="color_neutral_80">#ff373d40</Color>
+<Color x:Key="color_neutral_90">#ff262626</Color>
+<Color x:Key="color_neutral_05">#fff9f9f9</Color>
+<Color x:Key="color_mandatory_dark">#ffec942d</Color>
+<Color x:Key="color_mandatory_light">#ffffe0bd</Color>
+<Color x:Key="color_error_dark">#ffab2e13</Color>
+<Color x:Key="color_error_light">#ffffe6df</Color>
+<Color x:Key="color_information_dark">#ff095abf</Color>
+<Color x:Key="color_information_light">#ffd8efff</Color>
+<Color x:Key="color_success_dark">#ff0f7157</Color>
+<Color x:Key="color_success_light">#ffddf5d8</Color>
+<Color x:Key="color_attention_light">#ffffed96</Color>
+<Color x:Key="color_attention_dark">#ffecb62d</Color>
+<Color x:Key="color_obsolete_danger">#fff76d6d</Color>
+<Color x:Key="color_obsolete_danger_light">#ffe19d9a</Color>
+<Color x:Key="color_obsolete_success">#ff5cb85c</Color>
+<Color x:Key="color_obsolete_accent_air">#fff4ddfa</Color>
+<Color x:Key="color_obsolete_accent">#ffab69bf</Color>
 </ResourceDictionary>

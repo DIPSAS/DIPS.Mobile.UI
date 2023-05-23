@@ -1,3 +1,6 @@
+## [5.1.0]
+- Added new colors from Design System.
+
 ## [5.0.0]
 - Added build script for delivering Components app to AppCenter
 - Added in app API for checking version of AppCenter
