@@ -30,13 +30,13 @@
         <value>Størrelsene kan brukes til: Avstand mellom visuelle objekter og radius på hjørner på visuelle objekter.</value>
     </data>
     <data name="ContextMenu" xml:space="preserve">
-        <value>ContextMenu</value>
+        <value>Context menu</value>
     </data>
     <data name="Pickers" xml:space="preserve">
         <value>Pickers</value>
     </data>
     <data name="Checkboxes" xml:space="preserve">
-        <value>Checkboxes</value>
+        <value>Checkbox</value>
     </data>
     <data name="SearchBar" xml:space="preserve">
         <value>SearchBar</value>
@@ -45,10 +45,10 @@
         <value>Søking</value>
     </data>
     <data name="ListItems" xml:space="preserve">
-        <value>ListItems</value>
+        <value>List items</value>
     </data>
-    <data name="Chips" xml:space="preserve">
-        <value>Chips</value>
+    <data name="Chip" xml:space="preserve">
+        <value>Chip</value>
     </data>
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
@@ -64,5 +64,41 @@
     </data>
     <data name="Cancel" xml:space="preserve">
         <value>Avbryt</value>
+    </data>
+    <data name="Birthday" xml:space="preserve">
+        <value>Bursdag</value>
+    </data>
+    <data name="SelectPerson" xml:space="preserve">
+        <value>Velg person</value>
+    </data>
+    <data name="Context_Menu_SingleAction" xml:space="preserve">
+        <value>En handling med et ikon</value>
+    </data>
+    <data name="Context_Menu_TwoActions" xml:space="preserve">
+        <value>To handlinger</value>
+    </data>
+    <data name="Context_Menu_SelectableAction_Multiple" xml:space="preserve">
+        <value>Valgbare handlinger, flervalg</value>
+    </data>
+    <data name="Context_Menu_SelectableAction_Single" xml:space="preserve">
+        <value>Valgbare handlinger, kun et valg</value>
+    </data>
+    <data name="Context_Menu_GroupedActions" xml:space="preserve">
+        <value>Grupperte handlinger</value>
+    </data>
+    <data name="Context_Menu_GroupedSelectableActions" xml:space="preserve">
+        <value>Grupperte valgbare handlinger</value>
+    </data>
+    <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
+        <value>Long press menu med en handling</value>
+    </data>
+    <data name="Action_Format" xml:space="preserve">
+        <value>Handling {0}</value>
+    </data>
+    <data name="Group_Format" xml:space="preserve">
+        <value>Gruppe {0}</value>
+    </data>
+    <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
+        <value>Veldig enkel bottom sheet innhold</value>
     </data>
 </root>

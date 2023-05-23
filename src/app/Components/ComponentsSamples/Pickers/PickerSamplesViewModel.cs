@@ -22,8 +22,6 @@ public class PickerSamplesViewModel : ViewModel
     public PickerSamplesViewModel()
     {
         People = SampleDataStorage.People;
-        People2 = SampleDataStorage.People;
-        SelectedPerson = People.FirstOrDefault();
         SelectedBirthday = new DateTime(1989,01,28);
         SelectedDeadline = new DateTime(2023, 05, 10, 20, 10, 0);
         SelectedShoppingTime = new TimeSpan(16, 23, 0);
@@ -33,9 +31,8 @@ public class PickerSamplesViewModel : ViewModel
         Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
         Test3 = new DateTime(2023, 10, 29);
-        Test4 = new DateTime(2020, 1, 1, 12, 30, 0);
-        
-        TestCommand = new Command(() => Shell.Current.DisplayAlert("You clicked! Gz", "!!", "OK"));
+
+        TestCommand = new Command(() => {});
     }
 
     private void PersonSelected(Person person)
@@ -44,19 +41,12 @@ public class PickerSamplesViewModel : ViewModel
     }
     public IEnumerable<Person> People { get; }
     
-    public IEnumerable<Person> People2 { get; }
-
     public Person SelectedPerson
     {
         get => m_selectedPerson;
         set => RaiseWhenSet(ref m_selectedPerson, value);
     }
     
-    public Person SelectedPerson2
-    {
-        get => m_selectedPerson2;
-        set => RaiseWhenSet(ref m_selectedPerson2, value);
-    }
 
     public DateTime SelectedBirthday
     {
@@ -83,12 +73,6 @@ public class PickerSamplesViewModel : ViewModel
     }
     
     public DateTime Test3
-    {
-        get => m_test3;
-        set => RaiseWhenSet(ref m_test3, value);
-    }
-    
-    public DateTime Test4
     {
         get => m_test3;
         set => RaiseWhenSet(ref m_test3, value);

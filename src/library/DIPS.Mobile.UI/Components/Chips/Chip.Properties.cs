@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
@@ -14,5 +16,33 @@ public partial class Chip
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+
+    public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+        nameof(Command),
+        typeof(ICommand),
+        typeof(Chip));
+
+    /// <summary>
+    /// The command to execute when people tap the chip.
+    /// </summary>
+    public ICommand? Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(Chip));
+
+    /// <summary>
+    /// The command parameter to pass to the command when it executes when people tap the chip.
+    /// </summary>
+    public object? CommandParameter
+    {
+        get => (object)GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
     }
 }

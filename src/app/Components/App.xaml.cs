@@ -14,10 +14,11 @@ public partial class App : Application
         var shell = new Shell();
         var tabBar = new TabBar();
         var tab = new Tab();
+        
         tab.Items.Add(new ShellContent()
         {
             ContentTemplate =
-                new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components,},
+                new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components}.OrderBy(s => s.ToString()),
                     REGISTER_YOUR_SAMPLES_HERE.RegisterSamples()))
         });
         tabBar.Items.Add(tab);

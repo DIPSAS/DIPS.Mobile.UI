@@ -8,7 +8,8 @@
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                  x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                 Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}">
+                 Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
+                 Padding="{dui:Sizes size_3}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
@@ -24,8 +25,6 @@
                        Text="{Binding FilterQuery}"
                        TextChanged="InputView_OnTextChanged" />
         <dui:CollectionView Grid.Row="1"
-                            BackgroundColor="{dui:Colors color_neutral_05}"
-                            SelectionMode="None"
                             ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>

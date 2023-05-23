@@ -29,6 +29,19 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         Button.FontSize = 17;
         Button.CornerRadius = 6;
         Button.Padding = new Thickness(12, 6, 12, 6);
+        Button.Clicked += OnButtonClicked;
+    }
+
+    protected override void DisconnectHandler(UIButton platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        Button.Clicked -= OnButtonClicked;
+    }
+
+    private void OnButtonClicked(object? sender, EventArgs e)
+    {
+        VirtualView.Command?.Execute(VirtualView.CommandParameter);
     }
 
     private static partial void MapTitle(ChipHandler handler, Chip chip)

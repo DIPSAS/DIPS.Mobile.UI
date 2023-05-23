@@ -37,13 +37,13 @@
         <value>The sizes can be used for: Distance between visual objects and radius of corners for visual objects.</value>
     </data>
     <data name="ContextMenu" xml:space="preserve">
-        <value>ContextMenu</value>
+        <value>Context menu</value>
     </data>
     <data name="Pickers" xml:space="preserve">
         <value>Pickers</value>
     </data>
     <data name="Checkboxes" xml:space="preserve">
-        <value>Checkboxes</value>
+        <value>Checkbox</value>
     </data>
     <data name="SearchBar" xml:space="preserve">
         <value>SearchBar</value>
@@ -55,10 +55,10 @@
         <value>Searching</value>
     </data>
     <data name="ListItems" xml:space="preserve">
-        <value>ListItems</value>
+        <value>List items</value>
     </data>
-    <data name="Chips" xml:space="preserve">
-        <value>Chips</value>
+    <data name="Chip" xml:space="preserve">
+        <value>Chip</value>
     </data>
     <data name="Icons" xml:space="preserve">
         <value>Icons</value>
@@ -74,5 +74,41 @@
     </data>
     <data name="Cancel" xml:space="preserve">
         <value>Cancel</value>
+    </data>
+    <data name="Birthday" xml:space="preserve">
+        <value>Birthday</value>
+    </data>
+    <data name="SelectPerson" xml:space="preserve">
+        <value>Select person</value>
+    </data>
+    <data name="Context_Menu_SingleAction" xml:space="preserve">
+        <value>Single action with icon</value>
+    </data>
+    <data name="Context_Menu_TwoActions" xml:space="preserve">
+        <value>Two actions</value>
+    </data>
+    <data name="Context_Menu_SelectableAction_Multiple" xml:space="preserve">
+        <value>Selectable actions, multiple choice</value>
+    </data>
+    <data name="Context_Menu_SelectableAction_Single" xml:space="preserve">
+        <value>Selectable actions, only one choice</value>
+    </data>
+    <data name="Context_Menu_GroupedActions" xml:space="preserve">
+        <value>Grouped actions</value>
+    </data>
+    <data name="Context_Menu_GroupedSelectableActions" xml:space="preserve">
+        <value>Grouped selectable actions</value>
+    </data>
+    <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
+        <value>Long press menu with an action</value>
+    </data>
+    <data name="Action_Format" xml:space="preserve">
+        <value>Action {0}</value>
+    </data>
+    <data name="Group_Format" xml:space="preserve">
+        <value>Group {0}</value>
+    </data>
+    <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
+        <value>Very simple bottom sheet</value>
     </data>
 </root>

@@ -65,6 +65,9 @@
           <DependentUpon>Colors.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Components\Chips\Android\ChipExtensions.cs">
+          <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+        </Compile>
     </ItemGroup>
     
     <!-- iOS -->

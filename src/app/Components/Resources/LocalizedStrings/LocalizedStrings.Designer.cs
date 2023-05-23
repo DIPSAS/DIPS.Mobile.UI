@@ -123,9 +123,9 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Chips {
+        internal static string Chip {
             get {
-                return ResourceManager.GetString("Chips", resourceCulture);
+                return ResourceManager.GetString("Chip", resourceCulture);
             }
         }
         
@@ -156,6 +156,78 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        internal static string Birthday {
+            get {
+                return ResourceManager.GetString("Birthday", resourceCulture);
+            }
+        }
+        
+        internal static string SelectPerson {
+            get {
+                return ResourceManager.GetString("SelectPerson", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_SingleAction {
+            get {
+                return ResourceManager.GetString("Context_Menu_SingleAction", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_TwoActions {
+            get {
+                return ResourceManager.GetString("Context_Menu_TwoActions", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_SelectableAction_Multiple {
+            get {
+                return ResourceManager.GetString("Context_Menu_SelectableAction_Multiple", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_SelectableAction_Single {
+            get {
+                return ResourceManager.GetString("Context_Menu_SelectableAction_Single", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_GroupedActions {
+            get {
+                return ResourceManager.GetString("Context_Menu_GroupedActions", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_GroupedSelectableActions {
+            get {
+                return ResourceManager.GetString("Context_Menu_GroupedSelectableActions", resourceCulture);
+            }
+        }
+        
+        internal static string Context_Menu_LongPressWithAction {
+            get {
+                return ResourceManager.GetString("Context_Menu_LongPressWithAction", resourceCulture);
+            }
+        }
+        
+        internal static string Action_Format {
+            get {
+                return ResourceManager.GetString("Action_Format", resourceCulture);
+            }
+        }
+        
+        internal static string Group_Format {
+            get {
+                return ResourceManager.GetString("Group_Format", resourceCulture);
+            }
+        }
+        
+        internal static string BottomSheet_SimpleBottomSheet {
+            get {
+                return ResourceManager.GetString("BottomSheet_SimpleBottomSheet", resourceCulture);
             }
         }
     }

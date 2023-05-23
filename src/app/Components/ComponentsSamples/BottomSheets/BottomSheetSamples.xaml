@@ -8,11 +8,10 @@
                  xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
                  xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
-    <VerticalStackLayout>
-        <dui:Label>The buttons below can be tapped to test different types of content inside a bottom sheet.</dui:Label>
-        <dui:Button Text="Single label"
-                    Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
-        <dui:Button Text="List of items"
-                    Command="{dui:OpenBottomSheetCommand {x:Type sheets:ListInBottomSheet}}" />
-    </VerticalStackLayout>
+    <dui:VerticalStackLayout>
+        <dui:ListItem Title="Very simple bottom sheet"
+                      dui:DUITouchEffect.Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
+        <dui:ListItem Title="Bottom sheet with a list of items"
+                      dui:DUITouchEffect.Command="{dui:OpenBottomSheetCommand {x:Type sheets:ListInBottomSheet}}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -3,19 +3,20 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:contextMenu="clr-namespace:Components.ComponentsSamples.ContextMenu"
                  xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.ContextMenus.ContextMenuSamples"
                  >
     <dui:ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <StackLayout>
+    <dui:VerticalStackLayout>
         <!-- Single item -->
-        <dui:Button Text="Single item">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuItem Title="Edit"
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
                                          Icon="edit">
                         <!-- on iOS: set icon to  SF Symbol: pencil -->
                         <dui:ContextMenuItem.iOSOptions>
@@ -28,86 +29,86 @@
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
 
         <!-- Two items -->
-        <dui:Button Text="Two items">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuItem Title="Item 1" />
-                    <dui:ContextMenuItem Title="Item 2" />
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"/>
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
 
         <!--Checkable items (all)-->
-        <dui:Button Text="Checkable items (all)">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SelectableAction_Multiple}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup IsCheckable="True">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
         
         <!--Checkable items (single)-->
-        <dui:Button Text="Checkable items (single)">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SelectableAction_Single}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuGroup IsCheckable="True">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
 
         <!-- Grouped items -->
-        <dui:Button Text="Grouped items">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuGroup Title="Group 1">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=1}">
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
-                    <dui:ContextMenuGroup Title="Group 2">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=2}">
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
 
         <!-- Checkable grouped items -->
-        <dui:Button Text="Checkable grouped items">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedSelectableActions}">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuGroup Title="Group 1"
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=1}"
                                           IsCheckable="True">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
-                    <dui:ContextMenuGroup Title="Group 2"
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=2}"
                                           IsCheckable="True">
-                        <dui:ContextMenuItem Title="Item 1" />
-                        <dui:ContextMenuItem Title="Item 2" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}" />
+                        <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}" />
                     </dui:ContextMenuGroup>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
         
-        <dui:Button Text="Long-press context menu" 
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}" 
                     dui:ContextMenuEffect.Mode="LongPressed">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
-                    <dui:ContextMenuItem Title="Edit"
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
                                          Icon="edit">
                         <!-- on iOS: set icon to  SF Symbol: pencil -->
                         <dui:ContextMenuItem.iOSOptions>
@@ -120,7 +121,7 @@
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>    
             </dui:ContextMenuEffect.Menu>
-        </dui:Button>
+        </dui:ListItem>
         
-    </StackLayout>
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

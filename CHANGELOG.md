@@ -1,3 +1,14 @@
+## [5.0.0]
+- Breaking change: Changed the ItemPicker base class to remove unessesary properties.
+- Breaking change: Changed ItemPickers Title property to Placeholder
+- Added ItemSpacing for CollectionView
+- Added a default ItemSpacing for CollectionView
+- Added VerticalStackLayout
+- Added default Spacing for VerticalStackLayout
+- Added StringFormat markup extension to easily use a static string format with an hard argument in XAML.
+- Cleaned up components app
+- Made sure Components app samples are alphabetical
+
 ## [4.0.0]
 - Added TimePicker
 - Added DateAndTimePicker

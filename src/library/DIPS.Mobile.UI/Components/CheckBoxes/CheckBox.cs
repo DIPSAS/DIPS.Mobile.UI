@@ -19,6 +19,8 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
 
             //Image
             m_selectedNativeIcon = new NativeIcon() {VerticalOptions = LayoutOptions.Center};
+            m_selectedNativeIcon.HeightRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
+            m_selectedNativeIcon.WidthRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
             m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty,
                 (DeviceInfo.Platform == DevicePlatform.Android)
                     ? ColorName.color_primary_90
@@ -31,7 +33,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             
             ColumnDefinitions = new ColumnDefinitionCollection()
             {
-                new() {Width = 30}, new() {Width = GridLength.Star}
+                new() {Width = GridLength.Auto}, new() {Width = GridLength.Star}
             };
             Children.Add(m_selectedNativeIcon);
             Children.Add(itemLabel);
