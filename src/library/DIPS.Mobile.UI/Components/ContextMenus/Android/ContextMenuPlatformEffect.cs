@@ -81,7 +81,6 @@ public partial class ContextMenuPlatformEffect
             SetListeners();
             
             m_popupMenu.Show();
-            m_contextMenu.SendContextMenuOpened();
             
             m_isShowing = true;
         }
@@ -94,32 +93,43 @@ public partial class ContextMenuPlatformEffect
         
         public bool OnMenuItemClick(IMenuItem? theTappedNativeItem)
         {
-            var contextMenuItem = m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key;
-            if (contextMenuItem != null)
+            var tappedContextMenuItem = m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key;
+            if (tappedContextMenuItem != null)
             {
                 if (theTappedNativeItem!.IsCheckable) //check the item
                 {
-                    if (contextMenuItem.Parent is ContextMenuGroup &&
-                        theTappedNativeItem
-                            .IsChecked) //You are unchecking a grouped item, which means its single mode and it should not be able to uncheck
+                    var singleCheckMode = tappedContextMenuItem.Parent is ContextMenuGroup {IsCheckable: true};
+
+                    switch (singleCheckMode)
                     {
-                        return true;
+                        //You are unchecking an checked item that when single check mode is active, do not uncheck
+                        case true when tappedContextMenuItem.IsChecked:
+                            return true;
+                        //You are checking an item that is not checked, reset the others
+                        case true:
+                            {
+                                foreach (var pair in m_menuItems)
+                                {
+                                    var nativeMenuItem = pair.Value;
+                                    if (nativeMenuItem.GroupId == theTappedNativeItem.GroupId) //Uncheck previous items in the same group
+                                    {
+                                        if (nativeMenuItem.IsChecked)
+                                        {
+                                            nativeMenuItem.SetChecked(false);    
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
                     }
 
-                    foreach (var pair in m_menuItems)
-                    {
-                        if (pair.Value.GroupId == theTappedNativeItem.GroupId) //Uncheck previous items
-                        {
-                            pair.Value.SetChecked(false);
-                        }
-                    }
-
-                    m_contextMenu.ResetIsCheckedForTheRest(contextMenuItem);
-                    contextMenuItem.IsChecked = !contextMenuItem.IsChecked;
-                    theTappedNativeItem.SetChecked(contextMenuItem.IsChecked);
+                    m_contextMenu.ResetIsCheckedForTheRest(tappedContextMenuItem);
+                    tappedContextMenuItem.IsChecked = !tappedContextMenuItem.IsChecked;
+                    theTappedNativeItem.SetChecked(tappedContextMenuItem.IsChecked);
                 }
 
-                contextMenuItem.SendClicked(m_contextMenu);
+                tappedContextMenuItem.SendClicked(m_contextMenu);
                 return true;
             }
 

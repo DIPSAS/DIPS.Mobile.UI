@@ -1,3 +1,4 @@
+using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
 using Foundation;
@@ -15,27 +16,23 @@ public partial class ContextMenuPlatformEffect
     private NSObject m_didEnterBackgroundNotification;
 #nullable restore
     
-    private async Task OnPressed()
+    private async Task SetupPressedMode()
     {
         if (Control is not UIButton uiButton)
         {
             uiButton = await CreateOverlayButton();
         }
-
-        uiButton.Menu = CreateMenu();
-        uiButton.ShowsMenuAsPrimaryAction = true;
-        uiButton.TouchDown += OnTouchDown;
-
-        uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
-        
         m_uiButton = uiButton;
+        UpdateMenuForNextTimeItOpens();
+        m_uiButton.ShowsMenuAsPrimaryAction = true;
+        m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
         
         //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
         m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(
             UIApplication.DidEnterBackgroundNotification, delegate
             {
-                uiButton.Menu = null;
-                uiButton.Menu = CreateMenu(); 
+                m_uiButton.Menu = null;
+                UpdateMenuForNextTimeItOpens();
             });
     }
 
@@ -45,39 +42,31 @@ public partial class ContextMenuPlatformEffect
         // Wait for layout change
         await Task.Delay(300);
         Control.AddSubview(uiButton);
-        uiButton.Frame = Control.Frame;
-
+        uiButton.Frame = new CGRect(0,0, Control.Frame.Width, Control.Frame.Height); //X and Y is not relevant as it is added to the Control subview
         m_uiButtonToRemove = uiButton;
 
         return uiButton;
     }
-    
-    private UIMenu? CreateMenu()
+
+    private void UpdateMenuForNextTimeItOpens()
     {
         if (m_contextMenu == null)
         {
-            return null;
+            return;
         }
 
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
-            m_contextMenu);
-        return UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
+            m_contextMenu, UpdateMenuForNextTimeItOpens);
+        m_uiButton.Menu =  UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
     }
 
-    private void OnTouchDown(object? sender, EventArgs e)
-    {
-        m_uiButton.Menu =
-            CreateMenu(); //Recreate the menu so the visuals of the items of the menu are able to change between each time the user opens the menu
-        m_contextMenu!.SendContextMenuOpened();
-    }
 
     private void DisposePressed()
     {
         if(m_uiButtonToRemove != null)
             Control.WillRemoveSubview(m_uiButtonToRemove);
         
-        m_uiButton.TouchDown -= OnTouchDown;
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
     }
 }

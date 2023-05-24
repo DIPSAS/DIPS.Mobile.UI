@@ -64,7 +64,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             if (picker.Mode == PickerMode.ContextMenu)
             {
-                AddContextMenuItems(picker);
+                picker.AddContextMenuItems();
             }
         }
 

@@ -1,3 +1,7 @@
+## [5.1.1]
+- Context Menu: Fixed a bug where context menus sometimes does not show on iOS.
+- Context Menu: Fixed issue where checking items did not work as expected for both platforms.
+
 ## [5.1.0]
 - Added new colors from Design System.
 - Components app: Added better download message.

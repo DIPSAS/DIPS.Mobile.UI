@@ -21,12 +21,7 @@ public interface IContextMenu
     /// Command that gets invoked with a paramter when a <see cref="ContextMenuItem"/> was clicked by the user
     /// </summary>
     public ICommand? ItemClickedCommand { get; set; }
-
-    /// <summary>
-    /// Invoked when the context menu opened
-    /// </summary>
-    public event EventHandler? DidOpenContextMenu;
-        
+    
     /// <summary>
     /// Invoked when a item was clicked from the context menu
     /// </summary>

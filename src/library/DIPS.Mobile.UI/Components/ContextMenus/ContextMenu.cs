@@ -42,7 +42,8 @@ public partial class ContextMenu : Button
 
             if (child is ContextMenuGroup contextMenuGroup)
             {
-                if (contextMenuGroup.ItemsSource != null) return;
+                if (contextMenuGroup.ItemsSource == null) return;
+                if (!contextMenuGroup.IsCheckable) return; //This means multiple choice mode
                 
                 if (contextMenuGroup.ItemsSource
                     .Contains(
@@ -61,10 +62,5 @@ public partial class ContextMenu : Button
 
             child.IsChecked = false;
         }
-    }
-
-    internal void SendContextMenuOpened()
-    {
-        DidOpenContextMenu?.Invoke(this, EventArgs.Empty);
     }
 }
