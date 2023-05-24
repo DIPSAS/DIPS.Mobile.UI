@@ -87,17 +87,17 @@
     <data name="Context_Menu_TwoActions" xml:space="preserve">
         <value>Two actions</value>
     </data>
-    <data name="Context_Menu_SelectableAction_Multiple" xml:space="preserve">
-        <value>Selectable actions, multiple choice</value>
+    <data name="Context_Menu_Choices_Multiple" xml:space="preserve">
+        <value>Multiple choices</value>
     </data>
-    <data name="Context_Menu_SelectableAction_Single" xml:space="preserve">
-        <value>Selectable actions, only one choice</value>
+    <data name="Context_Menu_Choices_Single" xml:space="preserve">
+        <value>Single choices</value>
     </data>
     <data name="Context_Menu_GroupedActions" xml:space="preserve">
         <value>Grouped actions</value>
     </data>
-    <data name="Context_Menu_GroupedSelectableActions" xml:space="preserve">
-        <value>Grouped selectable actions</value>
+    <data name="Context_Menu_Grouped_Choices_Single" xml:space="preserve">
+        <value>Grouped single choices</value>
     </data>
     <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
         <value>Long press menu with an action</value>
@@ -119,5 +119,8 @@
     </data>
     <data name="SearchPage_NoResultText" xml:space="preserve">
         <value>No people match your search, try again.</value>
+    </data>
+    <data name="Option_Format" xml:space="preserve">
+        <value>Option {0}</value>
     </data>
 </root>

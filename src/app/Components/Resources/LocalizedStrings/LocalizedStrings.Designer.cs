@@ -183,15 +183,15 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Context_Menu_SelectableAction_Multiple {
+        internal static string Context_Menu_Choices_Multiple {
             get {
-                return ResourceManager.GetString("Context_Menu_SelectableAction_Multiple", resourceCulture);
+                return ResourceManager.GetString("Context_Menu_Choices_Multiple", resourceCulture);
             }
         }
         
-        internal static string Context_Menu_SelectableAction_Single {
+        internal static string Context_Menu_Choices_Single {
             get {
-                return ResourceManager.GetString("Context_Menu_SelectableAction_Single", resourceCulture);
+                return ResourceManager.GetString("Context_Menu_Choices_Single", resourceCulture);
             }
         }
         
@@ -201,9 +201,9 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Context_Menu_GroupedSelectableActions {
+        internal static string Context_Menu_Grouped_Choices_Single {
             get {
-                return ResourceManager.GetString("Context_Menu_GroupedSelectableActions", resourceCulture);
+                return ResourceManager.GetString("Context_Menu_Grouped_Choices_Single", resourceCulture);
             }
         }
         
@@ -246,6 +246,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string SearchPage_NoResultText {
             get {
                 return ResourceManager.GetString("SearchPage_NoResultText", resourceCulture);
+            }
+        }
+        
+        internal static string Option_Format {
+            get {
+                return ResourceManager.GetString("Option_Format", resourceCulture);
             }
         }
     }

@@ -27,8 +27,10 @@ public static class dotnet
     {
         ResolveSigningInformation(out var androidSignKeyStoreFile, out var androidSignKeyAlias, out var androidSigningKeyPass);
 
-        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-android -c Release -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
+        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-android -c Release -p:AndroidPackageFormats=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
 
+
+        File.Delete(Path.Combine(outputDir, "com.dipsas.mobile.components.apk"));
         File.Move(Path.Combine(outputDir, "com.dipsas.mobile.components-Signed.apk"), Path.Combine(outputDir, "com.dipsas.mobile.components.apk"));
     }
 

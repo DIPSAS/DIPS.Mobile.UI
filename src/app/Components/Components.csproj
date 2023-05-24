@@ -117,6 +117,9 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.no.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

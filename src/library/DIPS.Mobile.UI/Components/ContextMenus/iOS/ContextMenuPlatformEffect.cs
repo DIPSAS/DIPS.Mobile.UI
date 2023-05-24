@@ -26,13 +26,12 @@ public partial class ContextMenuPlatformEffect
 
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
-            _ = OnPressed();
+            _ = SetupPressedMode();
         }
         else
         {
             OnLongPressed();
         }
-       
     }
     
     protected override partial void OnDetached()

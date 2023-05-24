@@ -77,17 +77,17 @@
     <data name="Context_Menu_TwoActions" xml:space="preserve">
         <value>To handlinger</value>
     </data>
-    <data name="Context_Menu_SelectableAction_Multiple" xml:space="preserve">
-        <value>Valgbare handlinger, flervalg</value>
+    <data name="Context_Menu_Choices_Multiple" xml:space="preserve">
+        <value>Flervalg</value>
     </data>
-    <data name="Context_Menu_SelectableAction_Single" xml:space="preserve">
+    <data name="Context_Menu_Choices_Single" xml:space="preserve">
         <value>Valgbare handlinger, kun et valg</value>
     </data>
     <data name="Context_Menu_GroupedActions" xml:space="preserve">
         <value>Grupperte handlinger</value>
     </data>
-    <data name="Context_Menu_GroupedSelectableActions" xml:space="preserve">
-        <value>Grupperte valgbare handlinger</value>
+    <data name="Context_Menu_Grouped_Choices_Single" xml:space="preserve">
+        <value>Grupperte enkeltvalg</value>
     </data>
     <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
         <value>Long press menu med en handling</value>
@@ -112,5 +112,8 @@
     </data>
     <data name="SearchPage_NoResultText" xml:space="preserve">
         <value>Du fant ingen folk med søket ditt, vennligst prøv på nytt.</value>
+    </data>
+    <data name="Option_Format" xml:space="preserve">
+        <value>Valg {0}</value>
     </data>
 </root>
