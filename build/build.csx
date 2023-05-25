@@ -222,8 +222,7 @@ if(args.Count() == 0){
     args = input.Split(' ');
 }
 
-// await ExecuteSteps(args);
-await Command.ExecuteAsync("gh", "issue list");
+await ExecuteSteps(args);
 
 
 async Task<FileInfo> PackLibrary(string outputdir = null)
