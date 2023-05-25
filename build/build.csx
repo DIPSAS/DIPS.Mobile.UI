@@ -211,10 +211,10 @@ AsyncStep createResourcesPR = async () =>
     {
         outputFile.WriteLine("Resources update from DIPS.Mobile.DesignTokens");
     }
-    await Command.ExecuteAsync("git", $"commit -m 'update'");
+    await Command.CaptureAsync("git", $"commit -m 'updResources update from DIPS.Mobile.DesignTokensate'");
 
     Logger.LogDebug($"Pushing {prBranchName} to repository");
-    await Command.ExecuteAsync("git", $"push origin {prBranchName}");
+    await Command.CaptureAsync("git", $"push origin {prBranchName}");
 };
 
 var args = Args;
