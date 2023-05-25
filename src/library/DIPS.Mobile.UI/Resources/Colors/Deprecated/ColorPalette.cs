@@ -40,12 +40,12 @@
 
         [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent)}", true)]
         public static Color Accent = Color.FromHex("#AB69BF");
-        // [Obsolete($"Use dui:Colors {nameof(ColorName.)}", true)]
+        [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent_light)}", true)]
         public static Color AccentLight = Color.FromHex("#D297E3");
         [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent_air)}", true)]
         public static Color AccentAir = Color.FromHex("#F4DDFA");
         
-        // [Obsolete($"Use dui:Colors {nameof(ColorName.)}", true)]
+        [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_aqua)}", true)]
         public static Color Aqua = Color.FromHex("#129DDB");
 
         
@@ -99,13 +99,13 @@
             [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent)}", true)]
             Accent,
 
-            // [Obsolete($"Use dui:Colors {nameof(ColorName.)}", true)]
+            [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent_light)}", true)]
             AccentLight,
 
             [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_accent_air)}", true)]
             AccentAir,
 
-            // [Obsolete($"Use dui:Colors {nameof(ColorName.)}", true)]
+            [Obsolete($"Use dui:Colors {nameof(ColorName.color_obsolete_aqua)}", true)]
             Aqua
         }
     }
