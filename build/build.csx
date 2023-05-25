@@ -153,20 +153,18 @@ AsyncStep nugetTest = async () =>
 
 AsyncStep createResourcesPR = async () =>
 {
-    var organization = "DIPSAS";
-    var repoName = "DIPS.Mobile.UI";
     var prBranchName = "designToken-resources-update";
 
     //checkout new branch
     try
     {
         Logger.LogDebug($"Trying to create {prBranchName}");
-        await Command.ExecuteAsync("git", $"checkout -b {prBranchName}");
+        await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
     }
     catch (Exception) //If you have already created the branch, this will throw and you can simply checkout the branch
     {
         Logger.LogDebug($"Branch was found from before, checking out {prBranchName}");
-        await Command.ExecuteAsync("git", $"checkout {prBranchName}");
+        await Command.CaptureAsync("git", $"checkout {prBranchName}");
     }
 
 
