@@ -160,12 +160,12 @@ AsyncStep createResourcesPR = async () =>
     //checkout new branch
     try
     {
-        WriteLine($"Trying to create {prBranchName}");
+        Logger.LogDebug($"Trying to create {prBranchName}");
         await Command.ExecuteAsync("git", $"checkout -b {prBranchName}");
     }
     catch (Exception) //If you have already created the branch, this will throw and you can simply checkout the branch
     {
-        WriteLine($"Branch was found from before, checking out {prBranchName}");
+        Logger.LogDebug($"Branch was found from before, checking out {prBranchName}");
         await Command.ExecuteAsync("git", $"checkout {prBranchName}");
     }
 
@@ -197,7 +197,7 @@ AsyncStep createResourcesPR = async () =>
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
 
     //Commit changes
-    WriteLine($"Resources moved to folders, commiting changes");
+        Logger.LogDebug($"Resources moved to folders, commiting changes");
     await Command.ExecuteAsync("git", "add .");
     //Have to use a file due to bug with dotnet script in line commit message
     var commitMessageFile = new FileInfo(Path.Combine(OutputDir, "commitmessage.txt"));
@@ -208,7 +208,7 @@ AsyncStep createResourcesPR = async () =>
     }
     await Command.ExecuteAsync("git", $"commit -F {commitMessageFile.FullName}");
 
-    WriteLine($"Pushing {prBranchName} to repository");
+    Logger.LogDebug($"Pushing {prBranchName} to repository");
     await Command.ExecuteAsync("git", $"push origin {prBranchName}");
 };
 
