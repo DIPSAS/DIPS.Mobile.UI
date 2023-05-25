@@ -1,8 +1,6 @@
 using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Resources.Sizes;
-using DIPS.Mobile.UI.Sizes.Sizes;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace Components
 {

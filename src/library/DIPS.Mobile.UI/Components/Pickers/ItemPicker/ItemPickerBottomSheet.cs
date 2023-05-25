@@ -1,7 +1,5 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
-using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Sizes.Sizes;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -34,12 +32,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             var collectionView = new CollectionView()
             {
                 ItemTemplate = new DataTemplate(CreateCheckBox),
-                Margin = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
+                Margin = Sizes.GetSize(SizeName.size_2)
             };
 
             if (m_itemPicker.HasSearchBar)
             {
-                m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Colors.Transparent};
+                m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
                 grid.Add(m_searchBar, 0, 0);
             }
 

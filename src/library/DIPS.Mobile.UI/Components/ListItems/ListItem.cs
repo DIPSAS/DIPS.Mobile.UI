@@ -1,5 +1,5 @@
 using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Sizes.Sizes;
+using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -28,9 +28,9 @@ public partial class ListItem : Border
                 new(GridLength.Auto)
             },
             Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_4), 
-                UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3),
-                UI.Resources.Sizes.Sizes.GetSize(SizeName.size_4),
-                UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3))
+                Sizes.GetSize(SizeName.size_3),
+                Sizes.GetSize(SizeName.size_4),
+                Sizes.GetSize(SizeName.size_3))
         };
 
         Content = GridContent;
@@ -47,7 +47,7 @@ public partial class ListItem : Border
     {
         var label = new Label 
         { 
-            FontSize = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_4),
+            FontSize = Sizes.GetSize(SizeName.size_4),
             TextColor = Colors.GetColor(ColorName.color_neutral_90),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Start
