@@ -1,10 +1,7 @@
 #!/bin/bash +x
 
 
-if [[ "$*" != *"skipBootstrap"* ]]
-then
-    ./build/bootstrapper/bootstrapper.sh
-fi
+./build/bootstrapper/bootstrapper.sh $*
 
 if [ $? -eq 1 ]; then
     echo "❌ Bootstrapper failed. Exiting..."
