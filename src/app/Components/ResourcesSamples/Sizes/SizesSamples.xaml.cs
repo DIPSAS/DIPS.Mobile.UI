@@ -1,14 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Components.Resources.LocalizedStrings;
-using Components.ResourcesSamples.Colors;
-using DIPS.Mobile.UI.Resources.Sizes;
-using DIPS.Mobile.UI.Sizes.Sizes;
-using Enum = DIPS.Mobile.UI.Extensions.Enum;
-
 namespace Components.ResourcesSamples.Sizes;
 
 public partial class SizesSamples

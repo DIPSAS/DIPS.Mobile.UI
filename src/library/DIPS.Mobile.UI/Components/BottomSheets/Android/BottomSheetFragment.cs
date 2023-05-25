@@ -1,13 +1,11 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.Core.Widget;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Sizes.Sizes;
+using DIPS.Mobile.UI.Resources.Sizes;
 using Google.Android.Material.BottomSheet;
-using Microsoft.Maui.Controls.Compatibility;
 using Microsoft.Maui.Platform;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
@@ -50,7 +48,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                     context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.
             var grid = new Grid()
             {
-                Padding = new Thickness(0,0,0,DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)),
+                Padding = new Thickness(0,0,0,Sizes.GetSize(SizeName.size_2)),
                 RowSpacing = 0,
                 RowDefinitions = new RowDefinitionCollection()
                 {

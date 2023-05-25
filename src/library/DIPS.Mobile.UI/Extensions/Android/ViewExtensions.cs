@@ -65,7 +65,7 @@ public static class ViewExtensions
     
     private static void BlankBackgroundOnAllParents(View view)
     {
-        view.SetBackgroundColor(Colors.Transparent.ToPlatform());
+        view.SetBackgroundColor(Microsoft.Maui.Graphics.Colors.Transparent.ToPlatform());
         if (view.Parent is View parent)
         {
             BlankBackgroundOnAllParents(parent);

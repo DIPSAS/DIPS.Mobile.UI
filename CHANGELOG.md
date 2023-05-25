@@ -1,3 +1,7 @@
+## [6.0.0]
+- Colors: Added new colors from the design system
+- Sizes: Changed namespace of Sizes, breaking change.
+
 ## [5.1.1]
 - Context Menu: Fixed a bug where context menus sometimes does not show on iOS.
 - Context Menu: Fixed issue where checking items did not work as expected for both platforms.

@@ -1,5 +1,3 @@
-using DIPS.Mobile.UI.Sizes.Sizes;
-
 namespace DIPS.Mobile.UI.Resources.Sizes;
 
 public partial class Sizes

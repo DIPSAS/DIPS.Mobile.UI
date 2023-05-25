@@ -1,6 +1,7 @@
-using DIPS.Mobile.UI.Components.BottomSheets;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Application = Microsoft.Maui.Controls.Application;
+using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
@@ -104,10 +105,10 @@ internal class BottomSheetContentPage : ContentPage
                     m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
 
                     var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
-                            ? DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4) //There is a physical home button
-                            : DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
+                            ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
+                            : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                         ;
-                    Padding = new Thickness(0, DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(Sizes.Sizes.SizeName.size_4), 0,
+                    Padding = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0,
                         bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
                 }
                 

@@ -1,4 +1,3 @@
-using Android.Animation;
 using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Buttons.Android;
@@ -20,7 +19,7 @@ public class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         handler.PlatformView.UpdateBackground(button);
         
         // Bug in Android where setting the button to transparent does not remove its shadows, setting StateListAnimator to null removes shadows 
-        if(Equals(button.Background, Brush.Transparent) || Equals(button.BackgroundColor, Colors.Transparent))
+        if(Equals(button.Background, Brush.Transparent) || Equals(button.BackgroundColor, Microsoft.Maui.Graphics.Colors.Transparent))
             handler.PlatformView.StateListAnimator = null;
     }
 }
