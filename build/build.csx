@@ -197,10 +197,15 @@ AsyncStep createResourcesPR = async () =>
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
 
     //Commit changes
-        Logger.LogDebug($"Resources moved to folders, commiting changes");
+    Logger.LogDebug($"Resources moved to folders, commiting changes");
     await Command.ExecuteAsync("git", "add .");
     //Have to use a file due to bug with dotnet script in line commit message
-    var commitMessageFile = new FileInfo(Path.Combine(OutputDir, "commitmessage.txt"));
+    var commitMessageFilePath = Path.Combine(OutputDir, "commitmessage.txt");
+    if(File.Exists(commitMessageFilePath))
+    {
+        File.Delete(commitMessageFilePath);
+    }
+    var commitMessageFile = new FileInfo(commitMessageFilePath);
     File.Create(commitMessageFile.FullName).Close();
     using (StreamWriter outputFile = new StreamWriter(commitMessageFile.FullName, true))
     {
