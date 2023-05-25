@@ -32,7 +32,7 @@
                 <DataTemplate>
                     <dui:ListItem Title="{Binding DisplayName}"
                                   CornerRadius="0"
-                                  BackgroundColor="{dui:Colors color_neutral_05}" />
+                                  BackgroundColor="{dui:Colors color_neutral_20}" />
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
         </dui:CollectionView>
