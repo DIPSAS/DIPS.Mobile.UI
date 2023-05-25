@@ -1,6 +1,6 @@
 <!--
 Do not edit directly,
-generated 23/05/2023 15:16:52 from DIPS.Mobile.DesignTokens
+generated 25/05/2023 13:05:52 from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Colors.Colors">
 <Color x:Key="color_system_black">#ff000000</Color>
 <Color x:Key="color_system_white">#ffffffff</Color>
@@ -41,5 +41,7 @@ generated 23/05/2023 15:16:52 from DIPS.Mobile.DesignTokens
 <Color x:Key="color_obsolete_danger_light">#ffe19d9a</Color>
 <Color x:Key="color_obsolete_success">#ff5cb85c</Color>
 <Color x:Key="color_obsolete_accent_air">#fff4ddfa</Color>
+<Color x:Key="color_obsolete_accent_light">#ffd297e3</Color>
 <Color x:Key="color_obsolete_accent">#ffab69bf</Color>
+<Color x:Key="color_obsolete_aqua">#ff129ddb</Color>
 </ResourceDictionary>

@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 23/05/2023 15:16:52 from DIPS.Mobile.DesignTokens
+generated 25/05/2023 13:05:52 from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Colors
@@ -46,6 +46,8 @@ color_obsolete_danger,
 color_obsolete_danger_light, 
 color_obsolete_success, 
 color_obsolete_accent_air, 
-color_obsolete_accent
+color_obsolete_accent_light, 
+color_obsolete_accent, 
+color_obsolete_aqua
     }
 }

@@ -2,7 +2,7 @@
 
 <!--
   Do not edit directly
-  Generated on Tue, 23 May 2023 13:16:52 GMT
+  Generated on Thu, 25 May 2023 11:05:52 GMT
 -->
 <resources>
   <color name="color_system_black">#ff000000</color>
@@ -44,6 +44,8 @@
   <color name="color_obsolete_danger_light">#ffe19d9a</color>
   <color name="color_obsolete_success">#ff5cb85c</color>
   <color name="color_obsolete_accent_air">#fff4ddfa</color>
+  <color name="color_obsolete_accent_light">#ffd297e3</color>
   <color name="color_obsolete_accent">#ffab69bf</color>
+  <color name="color_obsolete_aqua">#ff129ddb</color>
   
 </resources>
