@@ -46,5 +46,14 @@ public static class FileHelper{
         var file = allFilesWithName.First();
         return file;
     }
+
+    public static void PrependToFile(string filePath, string newContent){
+        string currentContent = String.Empty;
+        if (File.Exists(filePath))
+        {
+            currentContent = File.ReadAllText(filePath);
+        }
+        File.WriteAllText(filePath, newContent + currentContent );
+    }
     
 }
