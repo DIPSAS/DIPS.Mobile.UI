@@ -198,20 +198,8 @@ AsyncStep createResourcesPR = async () =>
 
     //Commit changes
     Logger.LogDebug($"Resources moved to folders, commiting changes");
-    await Command.ExecuteAsync("git", "add .");
-    //Have to use a file due to bug with dotnet script in line commit message
-    var commitMessageFilePath = Path.Combine(OutputDir, "commitmessage.txt");
-    if(File.Exists(commitMessageFilePath))
-    {
-        File.Delete(commitMessageFilePath);
-    }
-    var commitMessageFile = new FileInfo(commitMessageFilePath);
-    File.Create(commitMessageFile.FullName).Close();
-    using (StreamWriter outputFile = new StreamWriter(commitMessageFile.FullName, true))
-    {
-        outputFile.WriteLine("Resources update from DIPS.Mobile.DesignTokens");
-    }
-    await Command.CaptureAsync("git", $"commit -m 'updResources update from DIPS.Mobile.DesignTokensate'");
+    await Command.CaptureAsync("git", "add .");
+    await Command.CaptureAsync("git", $"commit -m 'Resources update from DIPS.Mobile.DesignTokensate'");
 
     Logger.LogDebug($"Pushing {prBranchName} to repository");
     await Command.CaptureAsync("git", $"push origin {prBranchName}");
