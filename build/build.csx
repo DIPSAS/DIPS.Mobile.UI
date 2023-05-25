@@ -194,10 +194,16 @@ AsyncStep createResourcesPR = async () =>
     DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
 
+    //Bump changelog
+    var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
+    var latestVersion = new Version(VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
+    var nextVersion = new Version(latestVersion.Major, latestVersion.Minor + 1, 0);
+    FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
+
     //Commit changes
     Logger.LogDebug($"Resources moved to folders, commiting changes");
     await Command.CaptureAsync("git", "add .");
-    await Command.CaptureAsync("git", $"commit -m 'Resources update from DIPS.Mobile.DesignTokensate'");
+    await Command.CaptureAsync("git", $"commit -m '{changesetMessage}'");
 
     Logger.LogDebug($"Pushing {prBranchName} to repository");
     await Command.CaptureAsync("git", $"push origin {prBranchName}");
@@ -211,7 +217,8 @@ if(args.Count() == 0){
     args = input.Split(' ');
 }
 
-await ExecuteSteps(args);
+// await ExecuteSteps(args);
+await Command.ExecuteAsync("gh", "issue list");
 
 
 async Task<FileInfo> PackLibrary(string outputdir = null)
@@ -226,5 +233,3 @@ async Task<FileInfo> PackLibrary(string outputdir = null)
     await dotnet.Pack(LibraryProjectPath, version, outputdir);
     return FileHelper.FindSingleFileByExtension(outputdir, ".nupkg");;
 }
-
-
