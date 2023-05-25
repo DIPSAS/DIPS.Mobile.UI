@@ -12,6 +12,7 @@
 #load "BuildSystem/Distribute/AppCenter.csx"
 #load "BuildSystem/AppConfig/AppConfig.csx"
 #load "BuildSystem/AppConfig/AppConfigManager.csx"
+#load "BuildSystem/Helpers/DirectoryHelper.csx"
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -148,6 +149,67 @@ AsyncStep nugetTest = async () =>
     await dotnet.Restore(LibraryDir);
     await dotnet.Build(LibraryProjectPath);
     await PackLibrary(packagesDir);
+};
+
+AsyncStep createResourcesPR = async () =>
+{
+    var organization = "DIPSAS";
+    var repoName = "DIPS.Mobile.UI";
+    var prBranchName = "designToken-resources-update";
+
+    //checkout new branch
+    try
+    {
+        WriteLine($"Trying to create {prBranchName}");
+        await Command.ExecuteAsync("git", $"checkout -b {prBranchName}");
+    }
+    catch (Exception) //If you have already created the branch, this will throw and you can simply checkout the branch
+    {
+        WriteLine($"Branch was found from before, checking out {prBranchName}");
+        await Command.ExecuteAsync("git", $"checkout {prBranchName}");
+    }
+
+
+    //Where is everything located
+    //Generated resources
+    var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
+    var generatedDotnetMauiDir = new DirectoryInfo(Path.Combine(OutputDir, "dotnet", "maui"));
+
+    var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
+    var generatedDotnetMauiColorsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
+    var generatedDotnetMauiIconsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
+    var generatedDotnetMauiSizesDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
+
+    //The source repository paths
+
+    var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
+    var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryDir, "Platforms", "Android"));
+
+    var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
+    var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
+    var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
+
+
+    //Copy to the correct folders in the branch
+    generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
+
+    //Commit changes
+    WriteLine($"Resources moved to folders, commiting changes");
+    await Command.ExecuteAsync("git", "add .");
+    //Have to use a file due to bug with dotnet script in line commit message
+    var commitMessageFile = new FileInfo(Path.Combine(OutputDir, "commitmessage.txt"));
+    File.Create(commitMessageFile.FullName).Close();
+    using (StreamWriter outputFile = new StreamWriter(commitMessageFile.FullName, true))
+    {
+        outputFile.WriteLine("Resources update from DIPS.Mobile.DesignTokens");
+    }
+    await Command.ExecuteAsync("git", $"commit -F {commitMessageFile.FullName}");
+
+    WriteLine($"Pushing {prBranchName} to repository");
+    await Command.ExecuteAsync("git", $"push origin {prBranchName}");
 };
 
 var args = Args;
