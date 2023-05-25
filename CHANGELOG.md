@@ -1,3 +1,6 @@
+## [6.1.0]
+- Colors: Added Deprecated Colors API with mapping to the new Colors to use.
+
 ## [6.0.0]
 - Colors: Added new colors from the design system
 - Sizes: Changed namespace of Sizes, breaking change.
