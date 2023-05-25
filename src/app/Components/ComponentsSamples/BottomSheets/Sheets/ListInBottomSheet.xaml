@@ -1,0 +1,48 @@
+﻿<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.BottomSheets.Sheets.ListInBottomSheet">
+  
+        <dui:CollectionView Grid.Row="1"
+                      SelectionMode="None">
+            <dui:CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Item 1</x:String>
+                    <x:String>Item 2</x:String>
+                    <x:String>Item 3</x:String>
+                    <x:String>Item 4</x:String>
+                    <x:String>Item 5</x:String>
+                    <x:String>Item 6</x:String>
+                    <x:String>Item 7</x:String>
+                    <x:String>Item 8</x:String>
+                    <x:String>Item 9</x:String>
+                    <x:String>Item 10</x:String>
+                    <x:String>Item 11</x:String>
+                    <x:String>Item 12</x:String>
+                    <x:String>Item 13</x:String>
+                    <x:String>Item 14</x:String>
+                    <x:String>Item 15</x:String>
+                    <x:String>Item 16</x:String>
+                    <x:String>Item 17</x:String>
+                    <x:String>Item 18</x:String>
+                    <x:String>Item 19</x:String>
+                    <x:String>Item 20</x:String>
+                    <x:String>Item 21</x:String>
+                    <x:String>Item 22</x:String>
+                    <x:String>Item 23</x:String>
+                    <x:String>Item 24</x:String>
+                    <x:String>Item 25</x:String>
+                    <x:String>Item 26</x:String>
+                    <x:String>Item 27</x:String>
+                    <x:String>Item 28</x:String>
+                </x:Array>
+            </dui:CollectionView.ItemsSource>
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                        <dui:Label Text="{Binding .}"
+                                   Margin="15,15,15,15" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+        
+</dui:BottomSheet>

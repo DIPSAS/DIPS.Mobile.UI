@@ -61,6 +61,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml.cs">
+        <DependentUpon>ListInBottomSheet.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
       <Compile Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml.cs">
         <DependentUpon>SimpleBottomSheet.xaml</DependentUpon>
         <SubType>Code</SubType>

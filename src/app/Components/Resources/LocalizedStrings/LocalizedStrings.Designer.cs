@@ -254,11 +254,5 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Option_Format", resourceCulture);
             }
         }
-        
-        internal static string BottomSheet_Open {
-            get {
-                return ResourceManager.GetString("BottomSheet_Open", resourceCulture);
-            }
-        }
     }
 }

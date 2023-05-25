@@ -116,7 +116,4 @@
     <data name="Option_Format" xml:space="preserve">
         <value>Valg {0}</value>
     </data>
-    <data name="BottomSheet_Open" xml:space="preserve">
-        <value>Åpne bottom sheet</value>
-    </data>
 </root>
