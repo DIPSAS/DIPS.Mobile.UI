@@ -68,6 +68,10 @@
         <Compile Update="Components\Chips\Android\ChipExtensions.cs">
           <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
         </Compile>
+        <Compile Update="Components\Loading\SkeletonView.xaml.cs">
+          <DependentUpon>SkeletonView.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
     
     <!-- iOS -->

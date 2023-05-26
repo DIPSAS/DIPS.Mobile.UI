@@ -119,4 +119,10 @@
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Åpne bottom sheet</value>
     </data>
+    <data name="SkeletonLoading" xml:space="preserve">
+        <value>Skeleton lasting</value>
+    </data>
+    <data name="Loading" xml:space="preserve">
+        <value>Lasting</value>
+    </data>
 </root>
