@@ -1,6 +1,8 @@
 <!--
 Do not edit directly,
-generated 25/05/2023 13:05:52 from DIPS.Mobile.DesignTokens
+generated 5/26/2023 1:25:29 PM from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Icons.Icons">
+<x:String x:Key="Decending_fill">Decending_fill.png</x:String>
+<x:String x:Key="Ascending_fill">Ascending_fill.png</x:String>
 <x:String x:Key="arrow_right_s_line">arrow_right_s_line.png</x:String>
 </ResourceDictionary>

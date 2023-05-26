@@ -1,3 +1,6 @@
+## [6.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [6.2.0]
 - Content Control: Added a new ContentControl for consumers to easily switch between two different views in a page based on a item and a template selector.
 - Components app: Cleaned up search bar pages background.
