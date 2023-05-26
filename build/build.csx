@@ -183,7 +183,11 @@ AsyncStep createResourcesPR = async () =>
     //Copy to the correct folders in the branch
     generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
+    foreach(string svgFile in Directory.GetFiles(libraryDotnuetMauiIconsDir.FullName, "*.svg")) // Clean up all old svgs
+    {
+        File.Delete(sFile);
+    }
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnuetMauiIconsDir.FullName, true, true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
 
     //Bump changelog
