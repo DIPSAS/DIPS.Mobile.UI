@@ -156,17 +156,10 @@ AsyncStep createResourcesPR = async () =>
     var prBranchName = "designToken-resources-update";
 
     //checkout new branch
-    try
-    {
-        Logger.LogDebug($"Trying to create {prBranchName}");
-        await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
-    }
-    catch (Exception) //If you have already created the branch, this will throw and you can simply checkout the branch
-    {
-        Logger.LogDebug($"Branch was found from before, checking out {prBranchName}");
-        await Command.CaptureAsync("git", $"branch -D {prBranchName}");
-        await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
-    }
+    Logger.LogDebug($"Trying to create {prBranchName}");
+    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+
 
 
     //Where is everything located
