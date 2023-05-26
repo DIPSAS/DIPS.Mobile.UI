@@ -24,7 +24,7 @@ public partial class ContentControl
     /// </summary>
     public object? SelectorItem
     {
-        get => (object)GetValue(SelectorItemProperty);
+        get => GetValue(SelectorItemProperty);
         set => SetValue(SelectorItemProperty, value);
     }
 }

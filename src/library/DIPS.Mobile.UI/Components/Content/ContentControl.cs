@@ -5,14 +5,6 @@
     /// </summary>
     public partial class ContentControl : ContentView
     {
-        /// <summary>
-        /// Creates an instance to use a DataTemplateSelector
-        /// </summary>
-        public ContentControl()
-        {
-            BindingContextChanged += (s, e) => UpdateContent();
-        }
-
         private void UpdateContent()
         {
             if(BindingContext == null || TemplateSelector == null)
@@ -21,6 +13,12 @@
             }
             
             Content = TemplateSelector.SelectTemplate(SelectorItem ?? BindingContext, this).CreateContent() as View;
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            UpdateContent();
         }
     }
 }
