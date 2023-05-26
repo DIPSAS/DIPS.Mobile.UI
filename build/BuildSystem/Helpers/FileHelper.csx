@@ -47,13 +47,13 @@ public static class FileHelper{
         return file;
     }
 
-    public static void PrependToFile(string filePath, string newContent){
+    public static Task PrependToFile(string filePath, string newContent){
         string currentContent = String.Empty;
         if (File.Exists(filePath))
         {
             currentContent = File.ReadAllText(filePath);
         }
-        File.WriteAllText(filePath, newContent + currentContent );
+        return File.WriteAllTextAsync(filePath, newContent + currentContent );
     }
     
 }
