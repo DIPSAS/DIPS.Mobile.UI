@@ -1,6 +1,8 @@
+using CoreGraphics;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Application = Microsoft.Maui.Controls.Application;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
@@ -15,7 +17,8 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet = bottomSheet;
         bottomSheet.VerticalOptions = LayoutOptions.Start;
-
+        Content = bottomSheet;
+        
         SetupViewController();
         SubscribeEvents();
     }
@@ -44,11 +47,6 @@ internal class BottomSheetContentPage : ContentPage
         }
         
         m_viewController = this.ToUIViewController(mauiContext);
-        var view = new BottomSheetViewContainer(m_bottomSheet, mauiContext);
-        if (view.BackgroundColor == null)
-        {
-            view.BackgroundColor = UIColor.SystemBackground;
-        }
 
         if (m_viewController == null) return;
 
@@ -71,9 +69,10 @@ internal class BottomSheetContentPage : ContentPage
                     if (OperatingSystem.IsIOSVersionAtLeast(16)) //Can fit to content by setting a custom detent
                     {
                         prefferedDetent = UISheetPresentationControllerDetent.Create("prefferedDetent",
-                            _ =>
+                            resolver  =>
                             {
-                                return (nfloat)(m_bottomSheet.Bounds.Height + Padding.Top + Padding.Bottom);
+                                var r = m_bottomSheet.Content.Measure(UIScreen.MainScreen.Bounds.Width, resolver.MaximumDetentValue);
+                                return (float)(r.Request.Height+Padding.Bottom+Padding.Top);
                             });
                         prefferedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;
                     }
@@ -108,11 +107,10 @@ internal class BottomSheetContentPage : ContentPage
                             ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
                             : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                         ;
+                    // view.Bounds = view.Frame.Inset(Sizes.GetSize(SizeName.size_4), bottom);
                     Padding = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0,
-                        bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
+                         bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
                 }
-                
-                m_viewController.View = view;
             }
         }
     }
