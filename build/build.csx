@@ -164,7 +164,8 @@ AsyncStep createResourcesPR = async () =>
     catch (Exception) //If you have already created the branch, this will throw and you can simply checkout the branch
     {
         Logger.LogDebug($"Branch was found from before, checking out {prBranchName}");
-        await Command.CaptureAsync("git", $"checkout {prBranchName}");
+        await Command.CaptureAsync("git", $"branch -D {prBranchName}");
+        await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
     }
 
 
