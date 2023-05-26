@@ -203,7 +203,7 @@ AsyncStep createResourcesPR = async () =>
 
     //Commit changes
     Logger.LogDebug($"Resources moved to folders, commiting changes");
-    await Task.Delay(700);
+    await Task.Delay(1500);
     await Command.CaptureAsync("git", "add .", SrcDir);
     await Command.CaptureAsync("git", $"commit -m '{changesetMessage}'");
 
