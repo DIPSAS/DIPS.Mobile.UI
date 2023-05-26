@@ -198,7 +198,7 @@ AsyncStep createResourcesPR = async () =>
     await Command.CaptureAsync("git", $"commit -m 'Generated'");
 
     Logger.LogDebug($"Pushing {prBranchName} to repository");
-    await Command.CaptureAsync("git", $"push origin {prBranchName}");
+    await Command.CaptureAsync("git", $"push -f origin {prBranchName}");
 
     //Create PR
     await Command.CaptureAsync("gh", $"auth login");
