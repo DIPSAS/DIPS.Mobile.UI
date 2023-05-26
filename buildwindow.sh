@@ -1,6 +1,7 @@
 #!/bin/bash +x
 
-./build/bootstrapper/bootstrapper.sh
+
+./build/bootstrapper/bootstrapper.sh $*
 
 if [ $? -eq 1 ]; then
     echo "❌ Bootstrapper failed. Exiting..."

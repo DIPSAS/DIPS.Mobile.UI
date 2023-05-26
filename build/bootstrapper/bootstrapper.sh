@@ -10,20 +10,25 @@ else
    echo "✅ dotnet-script was installed."
 fi
 
-#maui ios
-if dotnet workload list  | grep maui-ios > /dev/null ; then
-   echo "✅ .NET MAUI iOS was found."
-else
-   echo "❌ .NET MAUI iOS was not found, installing..."
-   sudo dotnet workload install maui-ios
-   echo "✅ .NET MAUI iOS was installed."
-fi
+if [[ "$*" != *"skipMAUIBootstrap"* ]]
+then
 
-#maui android
-if dotnet workload list  | grep maui-android > /dev/null ; then
-   echo "✅ .NET MAUI Android was found."
-else
-   echo "❌ .NET MAUI Android was not found, installing..."
-   sudo dotnet workload install maui-android
-   echo "✅ .NET MAUI Android was installed."
+   #maui ios
+   if dotnet workload list  | grep maui-ios > /dev/null ; then
+      echo "✅ .NET MAUI iOS was found."
+   else
+      echo "❌ .NET MAUI iOS was not found, installing..."
+      sudo dotnet workload install maui-ios
+      echo "✅ .NET MAUI iOS was installed."
+   fi
+
+   #maui android
+   if dotnet workload list  | grep maui-android > /dev/null ; then
+      echo "✅ .NET MAUI Android was found."
+   else
+      echo "❌ .NET MAUI Android was not found, installing..."
+      sudo dotnet workload install maui-android
+      echo "✅ .NET MAUI Android was installed."
+   fi
+
 fi

@@ -11,9 +11,11 @@ public static class Command
         return CaptureAsync(commandPath, arguments, workingDirectory).Result;
     }
 
-    public static async Task<CommandResult> CaptureAsync(string commandPath, string arguments, string workingDirectory = null)
+    public static async Task<CommandResult> CaptureAsync(string commandPath, string arguments, string workingDirectory = null, bool logCommand = true)
     {
-        Console.WriteLine($"##[command]Executing command (CaptureAsync) {commandPath} {arguments} in working directory {workingDirectory}");
+        if(logCommand){
+            Console.WriteLine($"##[command]Executing command (CaptureAsync) {commandPath} {arguments} in working directory {workingDirectory}");
+        }
 
         var process = CreateProcess(commandPath, arguments, workingDirectory);
 
