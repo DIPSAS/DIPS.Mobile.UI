@@ -198,7 +198,7 @@ AsyncStep createResourcesPR = async () =>
     var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
     var latestVersion = new Version(VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
     var nextVersion = new Version(latestVersion.Major, latestVersion.Minor + 1, 0);
-    FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
+    await FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
 
 
     //Commit changes
