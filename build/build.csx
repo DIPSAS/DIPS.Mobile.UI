@@ -153,13 +153,20 @@ AsyncStep nugetTest = async () =>
 
 AsyncStep createResourcesPR = async () =>
 {
-    var prBranchName = "designToken-resources-update";
 
+    //Bump changelog
+    var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
+    var latestVersion = new Version(VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
+    var nextVersion = new Version(latestVersion.Major, latestVersion.Minor + 1, 0);
+    await FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
+
+
+    var prBranchName = "designToken-resources-update";
+    
     //checkout new branch
     Logger.LogDebug($"Trying to create {prBranchName}");
     await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
     await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
-
 
 
     //Where is everything located
@@ -187,12 +194,6 @@ AsyncStep createResourcesPR = async () =>
     DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
-
-    //Bump changelog
-    var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
-    var latestVersion = new Version(VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
-    var nextVersion = new Version(latestVersion.Major, latestVersion.Minor + 1, 0);
-    await FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
 
 
     //Commit changes
