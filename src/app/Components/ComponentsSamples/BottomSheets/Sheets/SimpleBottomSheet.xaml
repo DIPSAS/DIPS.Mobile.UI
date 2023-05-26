@@ -4,21 +4,22 @@
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView"
                  WillClose="FirstBottomSheetView_OnWillClose"
                  DidClose="FirstBottomSheetView_OnDidClose">
-    <VerticalStackLayout>
+    <dui:VerticalStackLayout>
         <dui:Label
-            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" />
+            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
+            Padding="{dui:Thickness size_4}"/>
         <dui:ListItem Title="This is a chip:"
                       Margin="{dui:Thickness Top=size_2}">
             <dui:Chip Title="A chip" />
         </dui:ListItem>
-        <dui:ListItem Title="This is a datepicker:">
+        <dui:ListItem Title="Date picker">
             <dui:DatePicker />
         </dui:ListItem>
-        <dui:ListItem Title="This is a timepicker:">
+        <dui:ListItem Title="Time picker">
             <dui:TimePicker />
         </dui:ListItem>
-        <dui:ListItem Title="This is a date and time picker:">
+        <dui:ListItem Title="Date and time picker">
             <dui:DateAndTimePicker />
         </dui:ListItem>
-    </VerticalStackLayout>
+    </dui:VerticalStackLayout>
 </dui:BottomSheet>
