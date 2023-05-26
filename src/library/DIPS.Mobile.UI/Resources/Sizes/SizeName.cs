@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 5/26/2023 1:25:29 PM from DIPS.Mobile.DesignTokens
+generated 5/26/2023 6:01:43 PM from DIPS.Mobile.DesignTokens
 */
 
 namespace  DIPS.Mobile.UI.Resources.Sizes
