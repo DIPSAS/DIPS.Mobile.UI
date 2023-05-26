@@ -1,6 +1,6 @@
 ## [6.2.0]
- - Content Control: Added a new ContentControl for consumers to easily switch between two different views in a page based on a item and a template selector.
- - Components app: Cleaned up search bar pages background.
+- Content Control: Added a new ContentControl for consumers to easily switch between two different views in a page based on a item and a template selector.
+- Components app: Cleaned up search bar pages background.
 
 ## [6.1.0]
 - Colors: Added Deprecated Colors API with mapping to the new Colors to use.
