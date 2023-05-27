@@ -26,11 +26,11 @@ The style resources (colors, sizes, icons etc) in this library is generated in [
 ## Workflow
 The designers is maintaining prototypes and design in Figma. They also maintain their resources and components, which makes it easy to reuse throughout design and prototypes. The resoruces can be exported to various formats. 
 
-The following phases takes place when a new resource is added to DIPS.Mobile.UI.
+The following pipeline is used when a new resource is added to DIPS.Mobile.UI:
 1. The designer wants to create a new color, size or icon to be reused. They come up with a name for the resource and the resource gets created.
 2. The designer export the resource from Figma to a format that the developers and designers agree on.
 3. The designer imports (push, uploads) the exported resource to DIPS.Mobile.DesignTokens repository. 
-4. A build server trigger from the designer pushing the new design token to DIPS.Mobile.DesignTokens. The build server generates the design token to a format that can be used in DIPS.Mobile.UI.
+4. A build server trigger from the designer pushing the new design token to [DIPS.Mobile.DesignTokens](https://github.com/DIPSAS/DIPS.Mobile.DesignTokens). The build server generates the design token to a format that can be used in [DIPS.Mobile.UI](https://github.com/DIPSAS/DIPS.Mobile.UI).
 6. A build server triggers once the design token has been generated. This build server grabs the resource and places it in a local DIPS.Mobile.UI repository.
 7. A new Pull Request gets created to the remote DIPS.Mobile.UI repository. 
 8. The Pull Request has to be approved by the maintainers of DIPS.Mobile.UI.
