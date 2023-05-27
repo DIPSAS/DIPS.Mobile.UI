@@ -16,13 +16,13 @@ This library is .NET MAUI compatible running on the Android and iOS platforms.
 ![Nuget](https://img.shields.io/nuget/v/dips.mobile.ui?color=success&logoColor=white&logo=NuGet) ![GitHub last commit](https://img.shields.io/github/last-commit/Dipsas/DIPS.Mobile.UI)
 
 ## Live test with app
-To test the resources and components live you are welcome to download the DIPS Mobile UI Components app. Use the below barcodes for your platform:
+To test the resources and components live you are welcome to download the DIPS Mobile UI Components app. Use the below links or barcodes for your platform:
 
 | iOS | Android |
 |-|-|
 |![iOS](https://github.com/DIPSAS/DIPS.Mobile.UI/assets/2527084/5e7f172b-f8d5-4856-97da-8249b0480b23)|![Android](https://github.com/DIPSAS/DIPS.Mobile.UI/assets/2527084/af4dc6b0-ac97-4bea-a1be-0dcc1b20ba8a)|
 |[Download link](https://install.appcenter.ms/orgs/dips-as/apps/components-ios/distribution_groups/releases)| [Download link](https://install.appcenter.ms/orgs/dips-as/apps/components-droid/distribution_groups/releases) |
-> When you have downloaded the app it will propt you to download new versions onces they are out.
+> When you have downloaded the app it will prompt you to download new versions onces they are out.
 
  
 
