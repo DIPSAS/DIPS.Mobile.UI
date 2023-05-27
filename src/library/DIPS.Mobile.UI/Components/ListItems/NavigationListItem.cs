@@ -7,19 +7,17 @@ public partial class NavigationListItem : ListItem
 {
     public NavigationListItem()
     {
-        var checkMark = new Image
+        ContentItem = new Image
         {
-            Source = IconLookup.GetIcon(IconName.arrow_right_s_line)
-        };
-
-        ContentItem = checkMark;
+            Source = Icons.GetIcon(IconName.arrow_right_s_line)
+        };;
     }
 
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         
-        DUITouchEffect.SetAccessibilityContentDescription(this, string.Join(".", Title, SubTitle));
+        DUITouchEffect.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
         DUITouchEffect.SetCommand(this, Command);
     }
     
