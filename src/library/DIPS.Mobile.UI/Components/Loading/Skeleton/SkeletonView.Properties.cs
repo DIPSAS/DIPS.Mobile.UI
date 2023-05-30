@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.Loading.Skeleton;
 public partial class SkeletonView
 {
     /// <summary>
-    /// Time used to fade inn and out content
+    /// Time used to fade in and out content
     /// </summary>
     public uint FadeTime
     {
