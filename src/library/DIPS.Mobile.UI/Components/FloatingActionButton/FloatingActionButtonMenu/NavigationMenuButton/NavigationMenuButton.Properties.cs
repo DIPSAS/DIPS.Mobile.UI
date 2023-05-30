@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.NavigationMenuButton;
 
 public partial class NavigationMenuButton
@@ -14,6 +16,17 @@ public partial class NavigationMenuButton
         get => (ImageSource)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
+
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+    
+    public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            nameof(Command),
+            typeof(ICommand),
+            typeof(NavigationMenuButton));
     
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),

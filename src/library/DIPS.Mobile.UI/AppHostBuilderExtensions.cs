@@ -1,13 +1,16 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
 using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.NavigationMenuButton;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Effects.DUIImageEffect;
 using DIPS.Mobile.UI.Effects.DUITouchEffect;
 using Microsoft.Maui.LifecycleEvents;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
@@ -48,6 +51,7 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
+           // handlers.AddHandler(typeof(Components.Buttons.ImageButton), typeof(ImageButtonHandler));
        //     handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
@@ -61,6 +65,7 @@ public static class AppHostBuilderExtensions
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
             effects.Add(typeof(DUITouchEffect), typeof(DUITouchPlatformEffect));
+            effects.Add(typeof(DUIImageEffect), typeof(DUIImagePlatformEffect));
         });
 
         return builder;

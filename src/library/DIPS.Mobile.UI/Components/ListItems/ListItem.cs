@@ -1,5 +1,3 @@
-using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -27,7 +25,7 @@ public partial class ListItem : Border
             {
                 new(GridLength.Auto)
             },
-            Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_4), 
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_4), 
                 Sizes.GetSize(SizeName.size_3),
                 Sizes.GetSize(SizeName.size_4),
                 Sizes.GetSize(SizeName.size_3))
@@ -64,7 +62,7 @@ public partial class ListItem : Border
 
             var newLine = new Span { Text = Environment.NewLine };
 
-            var subTitle = new Span { FontSize = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
+            var subTitle = new Span { FontSize = Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
             subTitle.SetBinding(Span.TextProperty, new Binding(nameof(SubTitle), source: this));
                 
             label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle } };

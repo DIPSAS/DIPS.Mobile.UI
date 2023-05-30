@@ -25,7 +25,8 @@ public static class MauiProgram
                 navigationMenuButtons.Add(new NavigationMenuButton
                 {
                     Title = "Hei",
-                    Icon = Icons.GetIcon(IconName.arrow_right_s_line)
+                    Icon = Icons.GetIcon(IconName.ascending_fill),
+                    Command = new Command(_ => Shell.Current.DisplayAlert("Clicked!", "OK", "OK"))
                 });
             });
 #if DEBUG

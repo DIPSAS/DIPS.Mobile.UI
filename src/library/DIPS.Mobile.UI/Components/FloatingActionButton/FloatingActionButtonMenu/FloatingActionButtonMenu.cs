@@ -1,8 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.Icons;
-using DIPS.Mobile.UI.Sizes.Sizes;
+using DIPS.Mobile.UI.Effects.DUIImageEffect;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
@@ -25,13 +23,12 @@ public partial class FloatingActionButtonMenu : Grid
     public FloatingActionButtonMenu()
     {
         Add(m_contentGrid);
-        Padding = new Thickness(0, 0, UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), UI.Resources.Sizes.Sizes.GetSize(SizeName.size_13));
+        Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
         
-        m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Auto } };
+        m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Star } };
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
 
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
-        m_contentGrid.VerticalOptions = LayoutOptions.End;
 
         CascadeInputTransparent = false;
         InputTransparent = true;
@@ -93,22 +90,24 @@ public partial class FloatingActionButtonMenu : Grid
 
     private void AddMainButton()
     {
-        m_mainButton = new ImageButton
+        m_mainButton = new ImageButton()
         {
             InputTransparent = false,
             CornerRadius = 30,
-            WidthRequest = 60,
-            HeightRequest = 60,
+            WidthRequest = Sizes.GetSize(SizeName.size_15),
+            HeightRequest = Sizes.GetSize(SizeName.size_15),
             HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.End,
             Source = Icons.GetIcon(IconName.arrow_right_s_line),
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
-            Padding = 10,
+            Padding = Sizes.GetSize(SizeName.size_3),
             Rotation = 270,
-            BackgroundColor = Color.FromHex("#AB69BF"),
+            BackgroundColor = Colors.GetColor(ColorName.color_obsolete_accent),
             Command = new Command(OnClickedMainButton)
         };
         
+        DUIImageEffect.SetColor(m_mainButton, Colors.GetColor(ColorName.color_system_white));
         
         m_contentGrid.Add(m_mainButton);
 
