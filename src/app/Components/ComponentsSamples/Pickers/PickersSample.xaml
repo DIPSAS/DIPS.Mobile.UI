@@ -10,11 +10,11 @@
     </dui:ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout>
+        <dui:VerticalStackLayout>
             <dui:Label Text="ItemPicker, Mode: Context Menu"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
-                            Title="Person"
+                            Placeholder="Person"
                             HorizontalOptions="Start"
                             Mode="ContextMenu"
                             ItemsSource="{Binding People}"
@@ -23,7 +23,7 @@
             <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
-                            Title="Person"
+                            Placeholder="Person"
                             HorizontalOptions="Start"
                             Mode="BottomSheet"
                             SelectedItem="{Binding SelectedPerson}"
@@ -34,17 +34,16 @@
             <dui:DatePicker VerticalOptions="End"
                             SelectedDate="{Binding SelectedBirthday}"
                             HorizontalOptions="Start" />
-            
+            <dui:Label Text="TimePicker"
+                       Margin="5" />
+            <dui:TimePicker HorizontalOptions="Start"
+                            SelectedTime="{Binding SelectedShoppingTime}" />
             <dui:Label Text="DateAndTimePicker"
                        Margin="5" />
             <dui:DateAndTimePicker VerticalOptions="End"
                                    SelectedDateTime="{Binding SelectedDeadline}"
                                    HorizontalOptions="Start" />
             
-            <dui:Label Text="TimePicker"
-                       Margin="5" />
-            <dui:TimePicker HorizontalOptions="Start"
-                            SelectedTime="{Binding SelectedShoppingTime}" />
             
             <dui:Label Text="DatePicker (With maximum date)"
                        Margin="5" />
@@ -67,16 +66,6 @@
                             HorizontalOptions="Start"
                             MaximumDate="{Binding MaximumDate}"
                             MinimumDate="{Binding MinimumDate}" />
-            
-            <dui:Label Text="DateAndTimePicker (With maximum and minimum date)"
-                       Margin="5" />
-            <dui:DateAndTimePicker VerticalOptions="End"
-                                   SelectedDateTime="{Binding Test4}"
-                                   HorizontalOptions="Start"
-                                   MaximumDate="{Binding MaximumDate}"
-                                   MinimumDate="{Binding MinimumDate}" />
-            
-            
-        </VerticalStackLayout>
+        </dui:VerticalStackLayout>
     </ScrollView>
 </dui:ContentPage>

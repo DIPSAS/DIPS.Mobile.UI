@@ -30,30 +30,96 @@
         <value>Størrelsene kan brukes til: Avstand mellom visuelle objekter og radius på hjørner på visuelle objekter.</value>
     </data>
     <data name="ContextMenu" xml:space="preserve">
-        <value>ContextMenu</value>
+        <value>Context menu</value>
     </data>
     <data name="Pickers" xml:space="preserve">
         <value>Pickers</value>
     </data>
     <data name="Checkboxes" xml:space="preserve">
-        <value>Checkboxes</value>
+        <value>Checkbox</value>
     </data>
     <data name="SearchBar" xml:space="preserve">
-        <value>SearchBar</value>
+        <value>Søkefelt</value>
     </data>
     <data name="Searching" xml:space="preserve">
         <value>Søking</value>
     </data>
     <data name="ListItems" xml:space="preserve">
-        <value>ListItems</value>
+        <value>List items</value>
     </data>
-    <data name="Chips" xml:space="preserve">
-        <value>Chips</value>
+    <data name="Chip" xml:space="preserve">
+        <value>Chip</value>
     </data>
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
     </data>
     <data name="FABs" xml:space="preserve">
         <value>FABs</value>
+    </data>
+    <data name="New_version" xml:space="preserve">
+        <value>Ny versjon</value>
+    </data>
+    <data name="New_version_message" xml:space="preserve">
+        <value>Det er en ny versjon tilgjengelig.</value>
+    </data>
+    <data name="Download" xml:space="preserve">
+        <value>Last ned</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Avbryt</value>
+    </data>
+    <data name="Birthday" xml:space="preserve">
+        <value>Bursdag</value>
+    </data>
+    <data name="SelectPerson" xml:space="preserve">
+        <value>Velg person</value>
+    </data>
+    <data name="Context_Menu_SingleAction" xml:space="preserve">
+        <value>En handling med et ikon</value>
+    </data>
+    <data name="Context_Menu_TwoActions" xml:space="preserve">
+        <value>To handlinger</value>
+    </data>
+    <data name="Context_Menu_Choices_Multiple" xml:space="preserve">
+        <value>Flervalg</value>
+    </data>
+    <data name="Context_Menu_Choices_Single" xml:space="preserve">
+        <value>Valgbare handlinger, kun et valg</value>
+    </data>
+    <data name="Context_Menu_GroupedActions" xml:space="preserve">
+        <value>Grupperte handlinger</value>
+    </data>
+    <data name="Context_Menu_Grouped_Choices_Single" xml:space="preserve">
+        <value>Grupperte enkeltvalg</value>
+    </data>
+    <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
+        <value>Long press menu med en handling</value>
+    </data>
+    <data name="Action_Format" xml:space="preserve">
+        <value>Handling {0}</value>
+    </data>
+    <data name="Group_Format" xml:space="preserve">
+        <value>Gruppe {0}</value>
+    </data>
+    <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
+        <value>Veldig enkel bottom sheet innhold</value>
+    </data>
+    <data name="SearchPage_PlaceholderText" xml:space="preserve">
+        <value>Søk etter folk</value>
+    </data>
+    <data name="SearchPage_HintText" xml:space="preserve">
+        <value>Bruk søkefeltet for å søke etter folk.</value>
+    </data>
+    <data name="SearchPage" xml:space="preserve">
+        <value>Søkeside</value>
+    </data>
+    <data name="SearchPage_NoResultText" xml:space="preserve">
+        <value>Du fant ingen folk med søket ditt, vennligst prøv på nytt.</value>
+    </data>
+    <data name="Option_Format" xml:space="preserve">
+        <value>Valg {0}</value>
+    </data>
+    <data name="BottomSheet_Open" xml:space="preserve">
+        <value>Åpne bottom sheet</value>
     </data>
 </root>

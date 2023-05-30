@@ -1,31 +1,31 @@
 <!--
 Do not edit directly,
-generated 05/04/2023 10:20:19 from DIPS.Mobile.DesignTokens
+generated 5/26/2023 6:01:43 PM from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=System.Runtime" x:Class="DIPS.Mobile.UI.Resources.Sizes.Sizes">
-    <sys:Int32 x:Key="size_0">0</sys:Int32>
-    <sys:Int32 x:Key="size_1">4</sys:Int32>
-    <sys:Int32 x:Key="size_2">8</sys:Int32>
-    <sys:Int32 x:Key="size_3">12</sys:Int32>
-    <sys:Int32 x:Key="size_4">16</sys:Int32>
-    <sys:Int32 x:Key="size_5">20</sys:Int32>
-    <sys:Int32 x:Key="size_6">24</sys:Int32>
-    <sys:Int32 x:Key="size_7">28</sys:Int32>
-    <sys:Int32 x:Key="size_8">32</sys:Int32>
-    <sys:Int32 x:Key="size_9">36</sys:Int32>
-    <sys:Int32 x:Key="size_10">40</sys:Int32>
-    <sys:Int32 x:Key="size_11">44</sys:Int32>
-    <sys:Int32 x:Key="size_12">48</sys:Int32>
-    <sys:Int32 x:Key="size_13">52</sys:Int32>
-    <sys:Int32 x:Key="size_14">56</sys:Int32>
-    <sys:Int32 x:Key="size_15">60</sys:Int32>
-    <sys:Int32 x:Key="size_16">64</sys:Int32>
-    <sys:Int32 x:Key="size_17">68</sys:Int32>
-    <sys:Int32 x:Key="size_18">72</sys:Int32>
-    <sys:Int32 x:Key="size_19">76</sys:Int32>
-    <sys:Int32 x:Key="size_20">80</sys:Int32>
-    <sys:Int32 x:Key="size_21">84</sys:Int32>
-    <sys:Int32 x:Key="size_22">88</sys:Int32>
-    <sys:Int32 x:Key="size_23">92</sys:Int32>
-    <sys:Int32 x:Key="size_24">96</sys:Int32>
-    <sys:Int32 x:Key="size_25">100</sys:Int32>
+<sys:Int32 x:Key="size_0">0</sys:Int32>
+<sys:Int32 x:Key="size_1">4</sys:Int32>
+<sys:Int32 x:Key="size_2">8</sys:Int32>
+<sys:Int32 x:Key="size_3">12</sys:Int32>
+<sys:Int32 x:Key="size_4">16</sys:Int32>
+<sys:Int32 x:Key="size_5">20</sys:Int32>
+<sys:Int32 x:Key="size_6">24</sys:Int32>
+<sys:Int32 x:Key="size_7">28</sys:Int32>
+<sys:Int32 x:Key="size_8">32</sys:Int32>
+<sys:Int32 x:Key="size_9">36</sys:Int32>
+<sys:Int32 x:Key="size_10">40</sys:Int32>
+<sys:Int32 x:Key="size_11">44</sys:Int32>
+<sys:Int32 x:Key="size_12">48</sys:Int32>
+<sys:Int32 x:Key="size_13">52</sys:Int32>
+<sys:Int32 x:Key="size_14">56</sys:Int32>
+<sys:Int32 x:Key="size_15">60</sys:Int32>
+<sys:Int32 x:Key="size_16">64</sys:Int32>
+<sys:Int32 x:Key="size_17">68</sys:Int32>
+<sys:Int32 x:Key="size_18">72</sys:Int32>
+<sys:Int32 x:Key="size_19">76</sys:Int32>
+<sys:Int32 x:Key="size_20">80</sys:Int32>
+<sys:Int32 x:Key="size_21">84</sys:Int32>
+<sys:Int32 x:Key="size_22">88</sys:Int32>
+<sys:Int32 x:Key="size_23">92</sys:Int32>
+<sys:Int32 x:Key="size_24">96</sys:Int32>
+<sys:Int32 x:Key="size_25">100</sys:Int32>
 </ResourceDictionary>

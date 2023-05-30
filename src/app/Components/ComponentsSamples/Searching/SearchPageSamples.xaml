@@ -1,32 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
 <dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:sampleData="clr-namespace:Components.SampleData"
-             xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
-             x:Class="Components.ComponentsSamples.Searching.SearchPageSamples"
-             SearchCommand="{Binding SearchCommand}"
-             SearchPlaceholder="Search for people"
-             Shell.PresentationMode="ModalAnimated">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:dui="http://dips.com/mobile.ui"
+                xmlns:sampleData="clr-namespace:Components.SampleData"
+                xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
+                xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                x:Class="Components.ComponentsSamples.Searching.SearchPageSamples"
+                SearchCommand="{Binding SearchCommand}"
+                SearchPlaceholder="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
+                Shell.PresentationMode="ModalAnimated"
+                Padding="{dui:Thickness Bottom=size_1}">
     <dui:SearchPage.BindingContext>
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>
     <dui:SearchPage.HintView>
-            <Label Text="Use the search bar to search for people."
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_HintText}"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
     </dui:SearchPage.HintView>
     <dui:SearchPage.NoResultView>
-            <Label Text="No people match your search, try again. :( "
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_NoResultText}"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
     </dui:SearchPage.NoResultView>
     <dui:SearchPage.ResultItemTemplate>
         <DataTemplate x:DataType="{x:Type sampleData:Person}">
             <StackLayout BackgroundColor="Transparent">
-                <dui:Label Text="{Binding DisplayName}"
-                           Margin="15" />
+                <dui:ListItem Title="{Binding DisplayName}"
+                              CornerRadius="0" />
             </StackLayout>
         </DataTemplate>
     </dui:SearchPage.ResultItemTemplate>

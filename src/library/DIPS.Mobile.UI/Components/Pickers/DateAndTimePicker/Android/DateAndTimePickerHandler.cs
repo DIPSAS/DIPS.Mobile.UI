@@ -1,5 +1,5 @@
 using Android.Widget;
-using DIPS.Mobile.UI.Sizes.Sizes;
+using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
@@ -22,7 +22,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
         base.ConnectHandler(platformView);
 
         var space = new Space(Context);
-        space.LayoutParameters = new ActionMenuView.LayoutParams(Resources.Sizes.Sizes.GetSize(SizeName.size_3), 0);
+        space.LayoutParameters = new ActionMenuView.LayoutParams(Sizes.GetSize(SizeName.size_3), 0);
         
         platformView.AddView(DatePicker.ToPlatform(MauiContext!));
         platformView.AddView(space);

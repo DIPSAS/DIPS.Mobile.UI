@@ -65,6 +65,9 @@
           <DependentUpon>Colors.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Components\Chips\Android\ChipExtensions.cs">
+          <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+        </Compile>
     </ItemGroup>
     
     <!-- iOS -->
@@ -91,26 +94,37 @@
         </None>
     </ItemGroup>
 
-
     <!-- Icons -->
-    <!-- When referencing the project directly from VS / Rider -->
-    <ItemGroup>
-        <MauiImage Include="Resources\Icons\*.svg" />    
-    </ItemGroup>
 
     <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
     <ItemGroup>
         <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
     </ItemGroup>
+    <!-- When referencing the project directly from VS / Rider -->
+    <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <MauiImage Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == ''" Include="Resources\Icons\*.svg" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
     </ItemGroup>
+
+    <!-- Splash -->
+    <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
+
+    <!-- When referencing the project directly from VS / Rider -->
+    <!-- This forces splash to visually look like its two files in VS / Rider, this is not the case -->
+    <ItemGroup>
+        <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="Resources\Splash\splash.svg" Color="#ff047f89" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
+    </ItemGroup>
     
     <ItemGroup>
       <Folder Include="Components\Shell\iOS\" />
+      <Folder Include="Platforms\Android" />
+      <Folder Include="Resources\Splash\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
@@ -125,8 +139,8 @@
       </Reference>
     </ItemGroup>
     <ItemGroup>
-      <MauiXaml Update="Resources\Icons\Icons.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
+        <MauiXaml Update="Resources\Icons\Icons.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 </Project>

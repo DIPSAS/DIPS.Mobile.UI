@@ -1,7 +1,6 @@
 using DIPS.Mobile.UI.Components.Images;
-using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Sizes.Sizes;
+using DIPS.Mobile.UI.Resources.Sizes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.CheckBoxes
@@ -12,13 +11,15 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
 
         public CheckBox()
         {
-            Padding = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_0), UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)); //TODO: Use DesignSystem
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_2)); //TODO: Use DesignSystem
 
             //Touch
             GestureRecognizers.Add(new TapGestureRecognizer() {Command = new Command(SetSelectedState)});
 
             //Image
             m_selectedNativeIcon = new NativeIcon() {VerticalOptions = LayoutOptions.Center};
+            m_selectedNativeIcon.HeightRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
+            m_selectedNativeIcon.WidthRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
             m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty,
                 (DeviceInfo.Platform == DevicePlatform.Android)
                     ? ColorName.color_primary_90
@@ -31,7 +32,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             
             ColumnDefinitions = new ColumnDefinitionCollection()
             {
-                new() {Width = 30}, new() {Width = GridLength.Star}
+                new() {Width = GridLength.Auto}, new() {Width = GridLength.Star}
             };
             Children.Add(m_selectedNativeIcon);
             Children.Add(itemLabel);

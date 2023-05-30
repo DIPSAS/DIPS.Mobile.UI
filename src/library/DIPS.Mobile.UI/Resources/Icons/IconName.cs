@@ -1,6 +1,14 @@
-namespace DIPS.Mobile.UI.Resources.Icons;
+/*
+Do not edit directly,
+generated 5/26/2023 6:01:43 PM from DIPS.Mobile.DesignTokens
+*/
 
-public enum IconName
+namespace  DIPS.Mobile.UI.Resources.Icons
 {
-    arrow_right_s_line,
+    public enum IconName
+    {
+        descending_fill, 
+ascending_fill, 
+arrow_right_s_line
+    }
 }

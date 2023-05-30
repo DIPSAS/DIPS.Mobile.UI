@@ -25,13 +25,25 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
+      <CodesignProvision>Automatic</CodesignProvision>
+      <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+      <CodesignProvision>Automatic:InHouse</CodesignProvision>
+      <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+        <MauiIcon Include="Resources\AppIcon\appiconios.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+          <Color>#ff047f89</Color>
+        </MauiIcon>
 
-        <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+            <Color>#ff047f89</Color>
+        </MauiIcon>
+        
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89" />
         
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -45,13 +57,10 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="ComponentsSamples\BottomSheets\Sheets\ListInBottomSheet.xaml.cs">
-        <DependentUpon>ListInBottomSheet.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="ComponentsSamples\BottomSheets\Sheets\SimpleBottomSheet.xaml.cs">
         <DependentUpon>SimpleBottomSheet.xaml</DependentUpon>
         <SubType>Code</SubType>
@@ -103,6 +112,9 @@
       <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.no.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
       </EmbeddedResource>
     </ItemGroup>
 

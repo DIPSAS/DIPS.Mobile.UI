@@ -54,11 +54,7 @@ public partial class ContextMenu : IContextMenu
         get => (ICommand)GetValue(ItemClickedCommandProperty);
         set => SetValue(ItemClickedCommandProperty, value);
     }
-
-    /// <summary>
-    /// Invoked when the context menu opened
-    /// </summary>
-    public event EventHandler? DidOpenContextMenu;
+    
 
     /// <summary>
     /// <see cref="ContextMenuHorizontalOptions"/>

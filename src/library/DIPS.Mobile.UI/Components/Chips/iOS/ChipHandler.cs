@@ -1,3 +1,4 @@
+using System.Drawing;
 using DIPS.Mobile.UI.Resources.Colors;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -25,10 +26,23 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         
         // Here we style the button as close as possible to native compact datepicker in iOS
         // We do not use the design system here so this does not diverge at a later point
-        Button.BackgroundColor = new Color(118, 118, 128, 30);
+        Button.Background = new Microsoft.Maui.Graphics.Color(118, 118, 128, 30);
         Button.FontSize = 17;
         Button.CornerRadius = 6;
         Button.Padding = new Thickness(12, 6, 12, 6);
+        Button.Clicked += OnButtonClicked;
+    }
+
+    protected override void DisconnectHandler(UIButton platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        Button.Clicked -= OnButtonClicked;
+    }
+
+    private void OnButtonClicked(object? sender, EventArgs e)
+    {
+        VirtualView.Command?.Execute(VirtualView.CommandParameter);
     }
 
     private static partial void MapTitle(ChipHandler handler, Chip chip)

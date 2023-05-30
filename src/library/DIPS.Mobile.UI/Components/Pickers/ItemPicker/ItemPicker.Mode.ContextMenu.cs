@@ -22,25 +22,25 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
         }
 
-        private static void AddContextMenuItems(ItemPicker itemPicker)
+        private void AddContextMenuItems()
         {
-            if (itemPicker.ItemsSource == null || itemPicker.m_contextMenu == null)
+            if (ItemsSource == null)
             {
                 return;
             }
 
             var group = new ContextMenuGroup() {IsCheckable = true};
-            foreach (var obj in itemPicker.ItemsSource)
+            foreach (var obj in ItemsSource)
             {
-                var itemDisplayName = obj.GetPropertyValue(itemPicker.ItemDisplayProperty);
+                var itemDisplayName = obj.GetPropertyValue(ItemDisplayProperty);
                 group.ItemsSource?.Add(new ContextMenuItem()
                 {
-                    Title = itemDisplayName, IsChecked = itemPicker.SelectedItem == obj
+                    Title = itemDisplayName, IsChecked = SelectedItem == obj
                 });
             }
 
-            itemPicker.m_contextMenu.ItemsSource!.Clear();
-            itemPicker.m_contextMenu.ItemsSource.Add(group);
+            m_contextMenu.ItemsSource!.Clear();
+            m_contextMenu.ItemsSource.Add(group);
         }
 
         private void SetSelectedItemBasedOnContextMenuItem(ContextMenuItem item)

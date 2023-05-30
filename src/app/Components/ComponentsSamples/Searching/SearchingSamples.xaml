@@ -9,10 +9,10 @@
         <searching:SearchingSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <VerticalStackLayout>
-        <dui:Button Text="Open SearchBar"
-                    Command="{Binding NavigateToSearchBar}" />
-        <dui:Button Text="Open SearchPage"
-                    Command="{Binding NavigateToSearchPage}" />
-    </VerticalStackLayout>
+    <dui:VerticalStackLayout>
+        <dui:NavigationListItem Title="Search bar"
+                                Command="{Binding NavigateToSearchBar}" />
+        <dui:NavigationListItem Title="Search page"
+                                Command="{Binding NavigateToSearchPage}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -32,4 +32,8 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Converters.ValueConverters")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Converters.MultiValueConverters")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Effects.DUITouchEffect")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Extensions.Markup")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui", "DIPS.Mobile.UI.Resources.Colors.Deprecated")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Content")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Content.DataTemplateSelectors")]
 

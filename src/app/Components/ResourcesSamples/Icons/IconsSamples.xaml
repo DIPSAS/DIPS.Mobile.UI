@@ -6,39 +6,41 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Components.ResourcesSamples.Icons.IconsSamples">
-    <!-- <Grid RowDefinitions="Auto, *"> -->
-    <!-- <dui:SearchBar Placeholder="Search by color name" TextChanged="InputView_OnTextChanged"/> -->
-    <CollectionView Grid.Row="1"
-                    SelectionMode="None"
-                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Icons}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Grid ColumnSpacing="{dui:Sizes size_3}"
-                      Margin="{dui:Sizes size_2}"
-                      RowSpacing="{dui:Sizes size_2}"
-                      RowDefinitions="75, Auto"
-                      ColumnDefinitions="100"
-                      HorizontalOptions="Start">
-                    <Border HeightRequest="75"
-                            WidthRequest="100"
-                            StrokeThickness="1"
-                            Stroke="{dui:Colors color_neutral_50}"
-                            BackgroundColor="{dui:Colors color_neutral_40}"
-                            Grid.Row="0">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="{dui:CornerRadius size_3}" />
-                        </Border.StrokeShape>
-                
-                        <Image HeightRequest="{dui:Sizes SizeName=size_10}"
-                               WidthRequest="{dui:Sizes SizeName=size_10}"
-                               Source="{Binding Value}" />
-                    </Border>
-                    <dui:Label Grid.Row="1"
-                               VerticalTextAlignment="Center"
-                               HorizontalOptions="Center"
-                               Text="{Binding Key}" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid RowDefinitions="Auto, *">
+        <dui:SearchBar Grid.Row="0"
+                       TextChanged="InputView_OnTextChanged" />
+        <dui:CollectionView Grid.Row="1"
+                            SelectionMode="None"
+                            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Icons}">
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnSpacing="{dui:Sizes size_3}"
+                          Margin="{dui:Sizes size_2}"
+                          RowSpacing="{dui:Sizes size_2}"
+                          RowDefinitions="75, Auto"
+                          ColumnDefinitions="100"
+                          HorizontalOptions="Start">
+                        <Border HeightRequest="75"
+                                WidthRequest="100"
+                                StrokeThickness="1"
+                                Stroke="{dui:Colors color_neutral_50}"
+                                BackgroundColor="{dui:Colors color_neutral_40}"
+                                Grid.Row="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{dui:CornerRadius size_3}" />
+                            </Border.StrokeShape>
+
+                            <Image HeightRequest="{dui:Sizes SizeName=size_10}"
+                                   WidthRequest="{dui:Sizes SizeName=size_10}"
+                                   Source="{Binding Value}" />
+                        </Border>
+                        <dui:Label Grid.Row="1"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalOptions="Center"
+                                   Text="{Binding Key}" />
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+    </Grid>
 </dui:ContentPage>

@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "program": "${env:HOME}/.dotnet/tools/dotnet-script",
-      "args": ["${file}"],
+      "args": ["${workspaceFolder}/build.csx"],
       "windows": {
         "program": "${env:USERPROFILE}/.dotnet/tools/dotnet-script.exe",
       },

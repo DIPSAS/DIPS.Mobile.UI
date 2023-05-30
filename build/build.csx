@@ -9,6 +9,10 @@
 #load "BuildSystem/AzureDevops.csx"
 #load "BuildSystem/Versioning/VersionUtil.csx"
 #load "BuildSystem/Git.csx"
+#load "BuildSystem/Distribute/AppCenter.csx"
+#load "BuildSystem/AppConfig/AppConfig.csx"
+#load "BuildSystem/AppConfig/AppConfigManager.csx"
+#load "BuildSystem/Helpers/DirectoryHelper.csx"
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -21,12 +25,21 @@ private static string SolutionPath = SrcDir;
 private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
 private static string LibraryProjectPath = Path.Combine(LibraryDir, "DIPS.Mobile.UI.csproj");
 //App
-private static string AppDir = Path.Combine(SolutionPath, "app");
+private static string AppDir = Path.Combine(SolutionPath, "app", "Components");
 private static string AppProjectPath = Path.Combine(AppDir, "Components.csproj");
+private static string AppConfigPath = Path.Combine(AppDir, "Resources", "Raw", "appconfig.json");
 //Tests
 private static string TestDir = Path.Combine(SrcDir, "tests");
 private static string NugetTestSolutionPath = Path.Combine(TestDir,"nugettest");
-private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS.Mobile.UI.UnitTests.csproj");;
+private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS.Mobile.UI.UnitTests.csproj");
+
+//Distribution
+
+ private static string AppCenter_iOSApiKey = AzureDevops.GetEnvironmentVariable("appcenter.apikey.dips.mobile.ui.ios");
+ private static string AppCenter_droidApiKey = AzureDevops.GetEnvironmentVariable("appcenter.apikey.dips.mobile.ui.droid");
+private static string AppCenter_iOSAppGroupName = "Components-iOS";
+private static string AppCenter_droidAppGroupName = "Components-Droid";
+private static string AppCenter_DistributionGroupName = "releases";
 
 AsyncStep build = () => dotnet.Build(LibraryProjectPath);
 
@@ -40,6 +53,50 @@ AsyncStep pack = async () =>
     }
 
     await PackLibrary();
+};
+
+AsyncStep packiOS = async () =>
+{
+    if (!Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+    var latestRelease = await AppCenter.GetLatestVersionFromDistributionGroup(AppCenter_iOSAppGroupName, AppCenter_DistributionGroupName, AppCenter_iOSApiKey);
+    var nextReleaseId = latestRelease.Id + 1;
+    AppConfigManager.InsertAppConfig(AppConfigPath, AppCenter_iOSAppGroupName, AppCenter_DistributionGroupName, AppCenter_iOSApiKey);
+    await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), nextReleaseId.ToString());
+};
+
+AsyncStep packDroid = async () =>
+{
+    if (!Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+
+    var latestRelease = await AppCenter.GetLatestVersionFromDistributionGroup(AppCenter_droidAppGroupName, AppCenter_DistributionGroupName, AppCenter_droidApiKey);
+    var nextReleaseId = latestRelease.Id + 1;
+    AppConfigManager.InsertAppConfig(AppConfigPath, AppCenter_droidAppGroupName, AppCenter_DistributionGroupName, AppCenter_droidApiKey);
+    await dotnet.PackAndroid(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), nextReleaseId.ToString());
+};
+
+AsyncStep publishApp = async () =>
+{
+    if (!Directory.Exists(OutputDir))
+    {
+        Directory.CreateDirectory(OutputDir);
+    }
+
+
+    var releaseNotes = VersionUtil.GetReleaseNotesFromChangelog(ChangeLogPath);
+
+    var ipaFile = FileHelper.FindSingleFileByExtension(OutputDir, ".ipa");
+    var iOSReleaseId = await AppCenter.CreateRelease(AppCenter_iOSAppGroupName, ipaFile.FullName, PlatformTarget.iOS, AppCenter_iOSApiKey);
+    await AppCenter.DistributeRelease(iOSReleaseId, AppCenter_iOSAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_iOSApiKey, releaseNotes);
+
+    var apkFile = FileHelper.FindSingleFileByExtension(OutputDir, ".apk");
+    var droidReleaseId = await AppCenter.CreateRelease(AppCenter_droidAppGroupName, apkFile.FullName, PlatformTarget.Android, AppCenter_droidApiKey);
+    await AppCenter.DistributeRelease(droidReleaseId, AppCenter_droidAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_droidApiKey, releaseNotes);
 };
 
 AsyncStep publish = async () =>
@@ -94,6 +151,68 @@ AsyncStep nugetTest = async () =>
     await PackLibrary(packagesDir);
 };
 
+AsyncStep createResourcesPR = async () =>
+{
+    var prBranchName = "designToken-resources-update";
+    
+    //checkout new branch
+    Logger.LogDebug($"Trying to create {prBranchName}");
+    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+
+    //Where is everything located
+    //Generated resources
+    var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
+    var generatedDotnetMauiDir = new DirectoryInfo(Path.Combine(OutputDir, "dotnet", "maui"));
+
+    var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
+    var generatedDotnetMauiColorsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
+    var generatedDotnetMauiIconsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
+    var generatedDotnetMauiSizesDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
+
+    //The source repository paths
+
+    var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
+    var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryDir, "Platforms", "Android"));
+
+    var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
+    var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
+    var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
+
+
+    //Copy to the correct folders in the branch
+    //Colors
+    generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
+
+    //Icons
+    foreach(string svgFile in Directory.GetFiles(libraryDotnetMauiIconsDir.FullName, "*.svg")) // Clean up all old svgs
+    {
+        File.Delete(svgFile);
+    }
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
+    //Sizes
+    DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
+
+    //Bump changelog
+    var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
+    var latestVersion = new Version(VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
+    var nextVersion = new Version(latestVersion.Major, latestVersion.Minor + 1, 0);
+    await FileHelper.PrependToFile(ChangeLogPath, $"## [{nextVersion}] \n- {changesetMessage}\n\n");
+
+    //Commit changes
+    Logger.LogDebug($"Resources moved to folders, commiting changes");
+    await Command.CaptureAsync("git", "add .", RootDir);
+    await Command.CaptureAsync("git", $"commit -m 'Generated'");
+
+    Logger.LogDebug($"Pushing {prBranchName} to repository");
+    await Command.CaptureAsync("git", $"push -f origin {prBranchName}");
+
+    //Create PR
+    await Command.CaptureAsync("gh", $"auth login");
+    await Command.ExecuteAsync("gh", $"pr create --title \"{changesetMessage}\" --body \"Here is the latest resources that was generated by DIPS.Mobile.DesignTokens repository\"");
+};
+
 var args = Args;
 if(args.Count() == 0){
     await ExecuteSteps(new string[]{"help"});
@@ -103,7 +222,6 @@ if(args.Count() == 0){
 }
 
 await ExecuteSteps(args);
-
 
 async Task<FileInfo> PackLibrary(string outputdir = null)
 {
