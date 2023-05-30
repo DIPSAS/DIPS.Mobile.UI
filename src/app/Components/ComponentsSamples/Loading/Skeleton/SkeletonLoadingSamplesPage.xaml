@@ -1,0 +1,51 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:skeleton="clr-namespace:Components.ComponentsSamples.Loading.Skeleton"
+                 x:Class="Components.ComponentsSamples.Loading.Skeleton.SkeletonLoadingSamplesPage"
+                 Padding="{dui:Padding size_3}">
+    <dui:ContentPage.BindingContext>
+        <skeleton:SkeletonSamplePageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:VerticalStackLayout>
+        <dui:ListItem Title="Toggle skeleton loading">
+            <Switch HorizontalOptions="Center"
+                    IsToggled="{Binding IsBusy}"
+                    VerticalOptions="Center" />
+        </dui:ListItem>
+        <dui:ListItem Title="Corner radius"
+                      Subtitle="{Binding Source={x:Reference CornerRadiusSlider}, Path=Value}"
+                      ShouldOverrideContentItemLayoutOptions="True">
+            <Slider x:Name="CornerRadiusSlider"
+                    Minimum="0"
+                    Maximum="40"
+                    HorizontalOptions="Fill" />
+        </dui:ListItem>
+        <dui:ListItem Title="FadeTime (milliseconds)"
+                      Subtitle="{Binding Source={x:Reference FadeTimeEntry}, Path=Text}"
+                      ShouldOverrideContentItemLayoutOptions="True">
+            <Entry x:Name="FadeTimeEntry"
+                   Keyboard="Numeric"
+                   Text="400" />
+        </dui:ListItem>
+        <dui:SkeletonView Margin="{dui:Margin Top=size_3, Bottom=size_3}"
+                          IsLoading="{Binding IsBusy}"
+                          FadeTime="{Binding Source={x:Reference FadeTimeEntry}, Path=Text}">
+            <dui:SkeletonView.Shapes>
+                <dui:SkeletonShape Row="0"
+                                   CornerRadius="{Binding Source={x:Reference CornerRadiusSlider}, Path=Value}" />
+            </dui:SkeletonView.Shapes>
+            <dui:SkeletonView.MainContent>
+
+                <dui:ListItem Title="Name"
+                              Subtitle="This is the item that will load">
+                    <dui:Label Text="Amund Amundsen" />
+                </dui:ListItem>
+            </dui:SkeletonView.MainContent>
+        </dui:SkeletonView>
+    </dui:VerticalStackLayout>
+</dui:ContentPage>

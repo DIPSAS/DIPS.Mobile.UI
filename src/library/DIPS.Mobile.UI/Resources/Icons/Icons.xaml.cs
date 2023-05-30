@@ -15,7 +15,21 @@ namespace DIPS.Mobile.UI.Resources.Icons
         /// </summary>
         /// <param name="iconName">The name of the color to get</param>
         /// <returns><see cref="string"/></returns>
-        public static ImageSource GetIcon(IconName iconName) => IconLookup.GetIcon(iconName);
+        public static ImageSource GetIcon(IconName iconName)
+        {
+            if (!new Icons().TryGetValue(iconName.ToString(), out var value))
+            {
+                return string.Empty;
+            }
+
+            return value switch
+            {
+                null => string.Empty,
+                string theString => ImageSource.FromFile(theString),
+                _ => string.Empty
+            };
+        }
+
         public static string GetIconName(IconName iconName) => iconName.ToString();
     }
 }
