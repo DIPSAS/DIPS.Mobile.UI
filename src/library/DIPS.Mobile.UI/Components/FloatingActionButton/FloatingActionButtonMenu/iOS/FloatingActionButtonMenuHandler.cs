@@ -1,19 +1,21 @@
 using CoreGraphics;
+using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Resources.Colors;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
 
-public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActionButtonMenu, UIStackView>
+public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActionButtonMenu, LayoutView>
 {
     private UIButton m_mainButton = new UIButton();
     private UIStackView m_content = new UIStackView();
     
-    protected override UIStackView CreatePlatformView()
+    protected override LayoutView CreatePlatformView()
     {
         var stackView = new UIStackView()
         {
@@ -22,13 +24,19 @@ public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActio
             Alignment = UIStackViewAlignment.Trailing,
             Spacing = 16,
             ClipsToBounds = true,
-            TranslatesAutoresizingMaskIntoConstraints = false
+            BackgroundColor = new UIColor(0, 0, 0, 0.5f)
         };
+
+        var stackLayout = new VerticalStackLayout
+        {
+            Spacing = 16, BackgroundColor = Colors.GetColor(ColorName.color_system_black)
+        };
+        stackLayout.Add(new Button(){BackgroundColor = Colors.GetColor(ColorName.color_error_dark)});
         
-        return stackView;
+        return stackLayout.ToPlatform(MauiContext!) as LayoutView;
     }
 
-    protected override void ConnectHandler(UIStackView platformView)
+    protected override void ConnectHandler(LayoutView platformView)
     {
         base.ConnectHandler(platformView);
         
@@ -38,10 +46,9 @@ public partial class FloatingActionButtonMenuHandler : ViewHandler<FloatingActio
         m_mainButton.Layer.ShadowOpacity = 0.5f;
         m_mainButton.Layer.CornerRadius = 25;
         m_mainButton.BackgroundColor = UIColor.Brown;
-        m_mainButton.Frame = new CGRect(0, 100, 100, 100);
         
-        platformView.AddArrangedSubview(m_content);
-        platformView.AddArrangedSubview(m_mainButton);
+       // platformView.AddArrangedSubview(m_content);
+       // platformView.AddArrangedSubview(m_mainButton);
 
         /*NSLayoutConstraint.ActivateConstraints(new[]
             {

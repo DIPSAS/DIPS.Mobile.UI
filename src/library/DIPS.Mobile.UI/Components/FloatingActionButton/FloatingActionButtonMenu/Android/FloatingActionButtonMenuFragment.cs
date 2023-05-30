@@ -11,14 +11,16 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMen
 
 public class FloatingActionButtonMenuFragment : Fragment
 {
-    public FloatingActionButtonMenuFragment()
+    private readonly FloatingActionButtonMenu m_fab;
+
+    public FloatingActionButtonMenuFragment(FloatingActionButtonMenu fab)
     {
-        
+        m_fab = fab;
     }
     
     public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
-        return new FloatingActionButtonMenu().ToPlatform(DUI.GetCurrentMauiContext!);
+        return m_fab.ToPlatform(DUI.GetCurrentMauiContext!);
     }
     
 }

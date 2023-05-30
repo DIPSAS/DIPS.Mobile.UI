@@ -1,7 +1,9 @@
+using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
+using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.NavigationMenuButton;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Effects.DUITouchEffect;
@@ -46,12 +48,12 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
-            handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
+       //     handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
 #elif __IOS__
-            handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
+            handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(Components.Searching.iOS.InternalSearchBarHandler));
 #endif
         });
 
@@ -64,9 +66,12 @@ public static class AppHostBuilderExtensions
         return builder;
     }
 
-    public static MauiAppBuilder UseNavigationFab(this MauiAppBuilder builder)
+    public static MauiAppBuilder UseNavigationFab(this MauiAppBuilder builder, Action<List<Type>>? pagesNotContaining = null, Action<ObservableCollection<NavigationMenuButton>>? navigationMenuButtons = null)
     {
-        FloatingActionButtonMenuService.Create();
+        var fabMenu = new FloatingActionButtonMenu();
+        FloatingActionButtonMenuService.AttachToRootWindow(fabMenu);
+        pagesNotContaining?.Invoke(fabMenu.PagesNotContaining);
+        navigationMenuButtons?.Invoke(fabMenu.NavigationMenuButtons);
         return builder;
     }
 }

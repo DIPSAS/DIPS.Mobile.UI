@@ -5,15 +5,18 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMen
 
 public partial class FloatingActionButtonMenuService
 {
-    public static partial void Create()
+    public static async partial void AttachToRootWindow(FloatingActionButtonMenu fab)
     {
-        var fragment = new FloatingActionButtonMenuFragment();
+        var fragment = new FloatingActionButtonMenuFragment(fab);
 
+        // Small delay so that FragmentManager is initialized
+        await Task.Delay(10);
         var fragmentManager = Platform.CurrentActivity.FragmentManager;
 
         fragmentManager.BeginTransaction()
             .Add(global::Android.Resource.Id.Content, fragment)
             .Commit();
+
     }
 
     public static partial void Hide()
