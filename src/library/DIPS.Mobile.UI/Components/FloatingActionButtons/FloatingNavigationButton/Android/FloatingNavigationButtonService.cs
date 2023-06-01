@@ -1,13 +1,13 @@
-using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.Android;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton.Android;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
+namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 
-public partial class FloatingActionButtonMenuService
+public partial class FloatingNavigationButtonService
 {
-    public static async partial void AttachToRootWindow(FloatingActionButtonMenu fab)
+    internal static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
-        var fragment = new FloatingActionButtonMenuFragment(fab);
+        var fragment = new FloatingNavigationButtonMenuFragment(fab);
 
         // Small delay so that FragmentManager is initialized
         await Task.Delay(10);

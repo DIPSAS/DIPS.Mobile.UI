@@ -1,5 +1,8 @@
-﻿using Components.ComponentsSamples.Chips;
-using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.NavigationMenuButton;
+﻿using System.Collections.ObjectModel;
+using Components.ComponentsSamples.Chips;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Extensions.Logging;
 
@@ -12,26 +15,11 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI()
-            .UseNavigationFab(pagesNotContaining =>
-            {
-                pagesNotContaining.Add(typeof(ChipsSamples));
-            }, navigationMenuButtons =>
-            {
-                navigationMenuButtons.Add(new NavigationMenuButton
-                {
-                    Title = "Hei"
-                });
-                navigationMenuButtons.Add(new NavigationMenuButton
-                {
-                    Title = "Hei",
-                    Icon = Icons.GetIcon(IconName.ascending_fill),
-                    Command = new Command(_ => Shell.Current.DisplayAlert("Clicked!", "OK", "OK"))
-                });
-            });
+            .UseDIPSUI();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
         return builder.Build();
     }
 }
+

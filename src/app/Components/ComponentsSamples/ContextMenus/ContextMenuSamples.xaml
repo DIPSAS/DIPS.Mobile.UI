@@ -43,7 +43,7 @@
                 </dui:ContextMenu>
             </dui:ContextMenuEffect.Menu>
         </dui:ListItem>
-
+        
         <!--Checkable items (all)-->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}">
             <dui:ContextMenuEffect.Menu>

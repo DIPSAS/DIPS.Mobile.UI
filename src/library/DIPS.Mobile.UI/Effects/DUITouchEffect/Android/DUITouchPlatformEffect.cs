@@ -72,7 +72,7 @@ public partial class DUITouchPlatformEffect
             new[] { new int[] { } },
             new[] { (int)m_defaultNativeAnimationColor.ToPlatform() });
         
-        m_ripple = new RippleDrawable(colorStateList, null, null);
+        m_ripple = new RippleDrawable(colorStateList, ViewGroup == null ? Control.Background : null, null);
 
         if (ViewGroup != null)
         {
@@ -96,7 +96,7 @@ public partial class DUITouchPlatformEffect
     {
         if (ViewGroup == null)
         {
-            Control.Foreground = m_ripple;
+            Control.Background = m_ripple;
             m_hasRippleDirectlyOnElement = true;
         }
         else

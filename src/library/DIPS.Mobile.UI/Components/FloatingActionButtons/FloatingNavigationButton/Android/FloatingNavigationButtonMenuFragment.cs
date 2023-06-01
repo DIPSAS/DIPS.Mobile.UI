@@ -1,19 +1,17 @@
 using Android.OS;
 using Android.Views;
-using Android.Widget;
-using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using Fragment = Android.App.Fragment;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.Android;
+namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton.Android;
 
-public class FloatingActionButtonMenuFragment : Fragment
+internal class FloatingNavigationButtonMenuFragment : Fragment
 {
-    private readonly FloatingActionButtonMenu m_fab;
+    private readonly FloatingNavigationButton m_fab;
 
-    public FloatingActionButtonMenuFragment(FloatingActionButtonMenu fab)
+    public FloatingNavigationButtonMenuFragment(FloatingNavigationButton fab)
     {
         m_fab = fab;
     }

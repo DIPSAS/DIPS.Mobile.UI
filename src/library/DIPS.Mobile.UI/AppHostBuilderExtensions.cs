@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
-using DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu.NavigationMenuButton;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton;
+using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Effects.DUIImageEffect;
@@ -56,6 +56,7 @@ public static class AppHostBuilderExtensions
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
+            //handlers.AddHandler(typeof(FloatingActionButton), typeof(DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton.Android.FloatingActionButtonHandler));
 #elif __IOS__
             handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(Components.Searching.iOS.InternalSearchBarHandler));
 #endif
@@ -70,13 +71,6 @@ public static class AppHostBuilderExtensions
 
         return builder;
     }
-
-    public static MauiAppBuilder UseNavigationFab(this MauiAppBuilder builder, Action<List<Type>>? pagesNotContaining = null, Action<ObservableCollection<NavigationMenuButton>>? navigationMenuButtons = null)
-    {
-        var fabMenu = new FloatingActionButtonMenu();
-        FloatingActionButtonMenuService.AttachToRootWindow(fabMenu);
-        pagesNotContaining?.Invoke(fabMenu.PagesNotContaining);
-        navigationMenuButtons?.Invoke(fabMenu.NavigationMenuButtons);
-        return builder;
-    }
+    
 }
+

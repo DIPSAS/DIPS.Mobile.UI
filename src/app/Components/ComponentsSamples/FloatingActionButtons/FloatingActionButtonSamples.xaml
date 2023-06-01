@@ -3,11 +3,14 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:floatingActionButton="clr-namespace:DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton;assembly=DIPS.Mobile.UI"
+             xmlns:extendedFloatingActionButton="clr-namespace:DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.FloatingActionButtons.FloatingActionButtonSamples">
     
     <VerticalStackLayout>
         
-        <dui:FloatingActionButtonMenu />
+        <extendedFloatingActionButton:ExtendedFloatingActionButton Icon="{dui:Icons ascending_fill}"
+                                                   HorizontalOptions="Start" />
         
     </VerticalStackLayout>
     

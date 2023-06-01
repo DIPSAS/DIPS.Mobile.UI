@@ -4,11 +4,11 @@ using Microsoft.Maui.Platform;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Components.FloatingActionButton.FloatingActionButtonMenu;
+namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 
-public static partial class FloatingActionButtonMenuService
+public static partial class FloatingNavigationButtonService
 {
-    public static async partial void AttachToRootWindow(FloatingActionButtonMenu fab)
+    internal static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
         // Small delay to wait for iOS to initialize KeyWindow
         await Task.Delay(10);
