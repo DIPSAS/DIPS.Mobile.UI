@@ -49,12 +49,9 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
-           // handlers.AddHandler(typeof(Components.Buttons.ImageButton), typeof(ImageButtonHandler));
-       //     handlers.AddHandler(typeof(FloatingActionButtonMenu), typeof(FloatingActionButtonMenuHandler));
 #if __ANDROID__
             handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
             handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
-            //handlers.AddHandler(typeof(FloatingActionButton), typeof(DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton.Android.FloatingActionButtonHandler));
 #elif __IOS__
             handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(Components.Searching.iOS.InternalSearchBarHandler));
 #endif
