@@ -1,14 +1,19 @@
 /*
 Do not edit directly,
-generated 5/26/2023 6:01:43 PM from DIPS.Mobile.DesignTokens
+generated 6/2/2023 8:12:00 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace  DIPS.Mobile.UI.Resources.Icons
 {
     public enum IconName
     {
-        descending_fill, 
+        bell_fill, 
+descending_fill, 
+schedule_fill, 
 ascending_fill, 
+home_fill, 
+settings_fill, 
+tasklist_line, 
 arrow_right_s_line
     }
 }
