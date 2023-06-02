@@ -50,4 +50,24 @@
       <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <MauiXaml Update="HåvardSamples\HåvardPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="VetleSamples\VetlePage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="HåvardSamples\HåvardPage.xaml.cs">
+        <DependentUpon>Håvard.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="VetleSamples\VetlePage.xaml.cs">
+        <DependentUpon>Vetle.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
 </Project>

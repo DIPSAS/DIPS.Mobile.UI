@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             x:Class="Playground.VetleSamples.VetlePage"
+             x:DataType="{x:Type vetleSamples:VetlePageViewModel}">
+    <dui:ContentPage.BindingContext>
+        <vetleSamples:VetlePageViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <dui:VerticalStackLayout>
+            
+        <dui:Button Text="Navigate" Command="{Binding Navigate}" />
+        
+    </dui:VerticalStackLayout>
+</dui:ContentPage>
