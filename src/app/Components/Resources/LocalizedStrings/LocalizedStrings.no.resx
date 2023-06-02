@@ -53,9 +53,6 @@
     <data name="Icons" xml:space="preserve">
         <value>Ikoner</value>
     </data>
-    <data name="FABs" xml:space="preserve">
-        <value>FABs</value>
-    </data>
     <data name="New_version" xml:space="preserve">
         <value>Ny versjon</value>
     </data>
@@ -121,5 +118,14 @@
     </data>
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Åpne bottom sheet</value>
+    </data>
+    <data name="RemoveNavigationMenuButton" xml:space="preserve">
+        <value>Fjern navigasjonsmeny knapp</value>
+    </data>
+    <data name="AddNavigationMenuButton" xml:space="preserve">
+        <value>Legg til navigasjonsmeny knapp</value>
+    </data>
+    <data name="FloatingActionButtons" xml:space="preserve">
+        <value>Floating Action Buttons</value>
     </data>
 </root>

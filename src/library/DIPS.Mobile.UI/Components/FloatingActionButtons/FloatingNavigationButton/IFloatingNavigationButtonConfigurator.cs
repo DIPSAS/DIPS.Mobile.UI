@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
@@ -6,6 +5,6 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 public interface IFloatingNavigationButtonConfigurator
 {
     void OnBadgeCountChanged(int badgeCount);
-    void AddNavigationButton(string title, ICommand command);
+    void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command);
     void AddPageThatHidesButton(Type page);
 }

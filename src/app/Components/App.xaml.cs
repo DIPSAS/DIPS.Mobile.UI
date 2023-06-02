@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Components.ComponentsSamples.ContextMenus;
+using Components.ComponentsSamples.FloatingActionButtons;
 using Components.Resources.LocalizedStrings;
 using Components.Services;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;
 using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 
 namespace Components;
@@ -36,12 +36,6 @@ public partial class App : Application
     {
         _ = TryGetLatestVersion();
 
-        FloatingNavigationButtonService.AddFloatingNavigationButton(config =>
-        {
-            config.AddNavigationButton("Hei", new Command(() => { }));
-            config.AddPageThatHidesButton(typeof(ContextMenuSamples));
-        });
-        
         base.OnStart();
     }
 

@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 
 public partial class FloatingNavigationButtonService
 {
-    internal static async partial void AttachToRootWindow(FloatingNavigationButton fab)
+    private static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
         var fragment = new FloatingNavigationButtonMenuFragment(fab);
 
@@ -18,10 +18,4 @@ public partial class FloatingNavigationButtonService
             .Commit();
 
     }
-
-    public static partial void Hide()
-    {
-        
-    }
-    
 }

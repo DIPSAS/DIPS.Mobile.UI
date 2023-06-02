@@ -63,9 +63,6 @@
     <data name="Icons" xml:space="preserve">
         <value>Icons</value>
     </data>
-    <data name="FABs" xml:space="preserve">
-        <value>FABs</value>
-    </data>
     <data name="New_version" xml:space="preserve">
         <value>New version</value>
     </data>
@@ -128,5 +125,14 @@
     </data>
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Open bottom sheet</value>
+    </data>
+    <data name="RemoveNavigationMenuButton" xml:space="preserve">
+        <value>Remove navigation menu button</value>
+    </data>
+    <data name="AddNavigationMenuButton" xml:space="preserve">
+        <value>Add navigation menu button</value>
+    </data>
+    <data name="FloatingActionButtons" xml:space="preserve">
+        <value>Floating Action Buttons</value>
     </data>
 </root>

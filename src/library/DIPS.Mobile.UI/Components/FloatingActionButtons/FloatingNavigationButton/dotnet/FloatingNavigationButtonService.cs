@@ -3,13 +3,7 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 
 public partial class FloatingNavigationButtonService
 {
-    internal static partial void AttachToRootWindow(FloatingNavigationButton fab)
+    private static partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
     }
-
-    public static partial void Hide()
-    {
-        
-    }
-    
 }

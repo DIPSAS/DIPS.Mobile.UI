@@ -31,7 +31,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.ListItems, () => new ListItemsSamples()),
             new(SampleType.Components, LocalizedStrings.Chip, () => new ChipsSamples()),
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
-            new(SampleType.Components, LocalizedStrings.FABs, () => new FloatingActionButtonSamples())
+            new(SampleType.Components, LocalizedStrings.FloatingActionButtons, () => new FloatingActionButtonSamples())
         };
     }
 }

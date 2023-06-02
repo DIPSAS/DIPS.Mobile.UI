@@ -15,7 +15,7 @@ internal partial class FloatingNavigationButton : Grid
     private bool m_isExpanded;
     
 #nullable disable
-    private FloatingActionButton.FloatingActionButton m_mainButton;
+    private NavigationMenuButton.NavigationMenuButton m_mainButton;
     private Animation m_fadeOutColorAnimation;
     private Animation m_fadeInColorAnimation;
 #nullable restore
@@ -32,40 +32,30 @@ internal partial class FloatingNavigationButton : Grid
         m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Star } };
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
+        m_contentGrid.CascadeInputTransparent = false;
+        m_contentGrid.InputTransparent = true;
 
         AddMainButton();
         CreateAnimations();
     }
+    
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         
         InputTransparent = true;
-        
-        Microsoft.Maui.Controls.Shell.Current.Navigating += OnNavigating;
-
-        m_floatingNavigationButtonConfigurator.NavigationMenuButtons.CollectionChanged += OnNavigationMenuButtonCollectionChanged;
     }
 
-    private async void OnNavigating(object? sender, ShellNavigatingEventArgs shellNavigatingEventArgs)
-    {
-        // Need a small delay to wait for Shell to set its CurrentPage to the one being navigated to
-        await Task.Delay(10);
-        var currentPage = Microsoft.Maui.Controls.Shell.Current.CurrentPage;
-        if (m_floatingNavigationButtonConfigurator.PagesThatHidesButton.Contains(currentPage.GetType()))
-            _ = Hide();
-        else
-            UnHide();
-    }
-    
-    public void UnHide()
+    public Task Show()
     {
         IsVisible = true;
-        _ = this.FadeTo(1, easing: Easing.CubicOut);
+        return this.FadeTo(1, easing: Easing.CubicOut);
     }
 
     public async Task Hide()
     {
+        if(Opacity == 0)
+            return;
         await this.FadeTo(0, easing: Easing.CubicIn);
         IsVisible = false;
     }
@@ -83,14 +73,15 @@ internal partial class FloatingNavigationButton : Grid
 
     private void AddMainButton()
     {
-        m_mainButton = new FloatingActionButton.FloatingActionButton
+        m_mainButton = new NavigationMenuButton.NavigationMenuButton
         {
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.End,
             Icon = Icons.GetIcon(IconName.arrow_right_s_line),
-            IconRotation = 270,
             ButtonBackgroundColor = Colors.GetColor(ColorName.color_obsolete_accent),
-            Command = new Command(OnClickedMainButton)
+            Command = new Command(OnClickedMainButton),
+            Opacity = .5,
+            IconRotation = 270
         };
         DUIImageEffect.SetColor(m_mainButton, Colors.GetColor(ColorName.color_system_white));
         
@@ -113,6 +104,7 @@ internal partial class FloatingNavigationButton : Grid
                 m_contentGrid.Add(navigationMenuButton);
                 navigationMenuButton.Opacity = 0;
                 navigationMenuButton.VerticalOptions = LayoutOptions.End;
+                navigationMenuButton.HorizontalOptions = LayoutOptions.End;
             }
 
             Expand();
@@ -134,6 +126,9 @@ internal partial class FloatingNavigationButton : Grid
         m_fadeInColorAnimation.Commit(this, "FadeIn", easing: Easing.CubicOut);
         
         m_mainButton.RotateIconTo(90);
+        m_mainButton.HideBadge();
+        m_mainButton.Opacity = 1;
+        
         for (var i = 1; i <= m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count; i++)
         {
             AnimateExpand(i);
@@ -152,6 +147,8 @@ internal partial class FloatingNavigationButton : Grid
         m_fadeOutColorAnimation.Commit(this, "FadeOut", easing: Easing.CubicIn);
         
         m_mainButton.RotateIconTo(270);
+        m_mainButton.Opacity = .5;
+        
         for (var i = 1; i <= m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count; i++)
         {
             AnimateClose(i);
@@ -160,10 +157,14 @@ internal partial class FloatingNavigationButton : Grid
         // Wait for NavigationMenuButtons to animate before removing
         await Task.Delay(250);
             
+        if(m_mainButton.BadgeCount != 0)
+            m_mainButton.ShowBadge();
+        
         foreach (var navigationMenuButton in m_floatingNavigationButtonConfigurator.NavigationMenuButtons)
         {
             m_contentGrid.Remove(navigationMenuButton);
         }
+        
         
     }
 
@@ -183,57 +184,103 @@ internal partial class FloatingNavigationButton : Grid
         navMenuButton.TranslateTo(0, 0, easing: Easing.SpringIn);
     }
 
-
-    /*private static void OnNavigationMenuButtonsChanged(BindableObject bindable, object oldValue, object newValue)
+    public void TryHideOrShowFloatingNavigationButton(ContentPage page)
     {
-        if (bindable is not FloatingNavigationButton floatingActionButtonMenu)
-            return;
-        
-        if (oldValue is ObservableCollection<ExtendedFloatingActionButton.ExtendedFloatingActionButton> oldList)
+        if (m_floatingNavigationButtonConfigurator.PagesThatHidesButton.Contains(page.GetType()))
         {
-            oldList.CollectionChanged -= floatingActionButtonMenu.OnNavigationMenuButtonCollectionChanged;
-            foreach (var item in oldList)
-            {
-                floatingActionButtonMenu.m_contentGrid.Remove(item);
-            }
+            _ = Hide();
         }
-
-        if (newValue is not ObservableCollection<ExtendedFloatingActionButton.ExtendedFloatingActionButton> newList)
-            return;
-
-        foreach (var item in newList)
+        else
         {
-            floatingActionButtonMenu.m_contentGrid.Add(item);
+            _ = Show();
         }
-        
-        newList.CollectionChanged += floatingActionButtonMenu.OnNavigationMenuButtonCollectionChanged;
-
-    }*/
-
-    private void OnNavigationMenuButtonCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    }
+    
+    public void SetBadgeColor(Color color)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add)
-        {
-            foreach (var item in e.NewItems ?? Array.Empty<ExtendedFloatingActionButton.ExtendedFloatingActionButton>())
-            {
-                if(item is not ExtendedFloatingActionButton.ExtendedFloatingActionButton navigationMenuButton)
-                    return;
-                
-                m_contentGrid.Add(navigationMenuButton);
-                AnimateExpand(m_contentGrid.Count - 1);
-            }
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
-        {
-            foreach (var item in e.OldItems ?? Array.Empty<ExtendedFloatingActionButton.ExtendedFloatingActionButton>())
-            {
-                if (item is not ExtendedFloatingActionButton.ExtendedFloatingActionButton navigationMenuButton)
-                    return;
-                
-                m_contentGrid.Remove(navigationMenuButton);
-            }
-        }
-        
+        m_mainButton.BadgeColor = color;
     }
 
+    private void UpdateBadgeCount()
+    {
+        var totalBadgeCount = m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Sum(navBtn => navBtn.BadgeCount);
+        m_mainButton.BadgeCount = totalBadgeCount;
+    }
+
+    public void SetNavigationMenuBadgeCount(string identifier, int value)
+    {
+        var navBtn = GetButtonFromIdentifier(identifier);
+        
+        if(navBtn is null)
+            return;
+
+        navBtn.BadgeCount = value;
+        UpdateBadgeCount();
+    }
+
+    public void ChangeNavigationMenuButtonBadgeColor(string identifier, Color color)
+    {
+        var navBtn = GetButtonFromIdentifier(identifier);
+        
+        if(navBtn is null)
+            return;
+
+        navBtn.BadgeColor = color;
+    }
+    
+    public void RemoveNavigationMenuButton(string identifier)
+    {
+        var navBtn = GetButtonFromIdentifier(identifier);
+
+        if (navBtn is null)
+            return;
+
+        m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Remove(navBtn);
+        m_contentGrid.Remove(navBtn);
+        
+        for (var i = 1; i <= m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count; i++)
+        {
+            AnimateExpand(i);
+        }
+    }
+
+    public void AddNavigationMenuButton(ExtendedNavigationMenuButton.ExtendedNavigationMenuButton navigationMenuButton, int? index)
+    {
+        var insertIndex = index ?? m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count;
+        m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Insert(insertIndex, navigationMenuButton);
+        
+        if(!m_isExpanded)
+            return;
+        
+        m_contentGrid.Insert(insertIndex, navigationMenuButton);
+
+        navigationMenuButton.Opacity = 0;
+        navigationMenuButton.VerticalOptions = LayoutOptions.End;
+        navigationMenuButton.HorizontalOptions = LayoutOptions.End;
+        for (var i = 1; i <= m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count; i++)
+        {
+            AnimateExpand(i);
+        }
+    }
+    
+    public bool ContainsNavigationMenuButton(string identifier)
+    {
+        return GetButtonFromIdentifier(identifier) is not null;
+    }
+    
+    public void ToggleNavigationButton(string identifier)
+    {
+        var navBtn = GetButtonFromIdentifier(identifier);
+        
+        if(navBtn is null)
+            return;
+
+        navBtn.Disabled = !navBtn.Disabled;
+    }
+
+    private ExtendedNavigationMenuButton.ExtendedNavigationMenuButton? GetButtonFromIdentifier(string identifier) => 
+        m_floatingNavigationButtonConfigurator.NavigationMenuButtons.FirstOrDefault(navButton => navButton.AutomationId.Equals(identifier));
+
+
+    
 }

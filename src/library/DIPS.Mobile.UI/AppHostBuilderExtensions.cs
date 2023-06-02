@@ -2,8 +2,6 @@ using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton;
 using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;

@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 
 internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonConfigurator
 {
-    public ObservableCollection<ExtendedFloatingActionButton.ExtendedFloatingActionButton> NavigationMenuButtons
+    public ObservableCollection<ExtendedNavigationMenuButton.ExtendedNavigationMenuButton> NavigationMenuButtons
     {
         get;
     } = new();
@@ -16,9 +16,15 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
     {
     }
 
-    public void AddNavigationButton(string title, ICommand command)
+    public void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command)
     {
-        NavigationMenuButtons.Add(new ExtendedFloatingActionButton.ExtendedFloatingActionButton{ Title = title, Command = command });        
+        NavigationMenuButtons.Add(new ExtendedNavigationMenuButton.ExtendedNavigationMenuButton
+        {
+            AutomationId = identifier,
+            Title = title,
+            Icon = Icons.GetIcon(iconName),
+            Command = command
+        });
     }
 
     public void AddPageThatHidesButton(Type page)

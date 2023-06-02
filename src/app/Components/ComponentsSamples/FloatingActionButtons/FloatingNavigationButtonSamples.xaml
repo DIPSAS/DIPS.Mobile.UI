@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:floatingActionButtons="clr-namespace:Components.ComponentsSamples.FloatingActionButtons"
+             x:Class="Components.ComponentsSamples.FloatingActionButtons.FloatingNavigationButtonSamples"
+             Padding="20, 0"
+             Title="Floating Navigation Button">
+    <dui:ContentPage.BindingContext>
+        <floatingActionButtons:FloatingNavigationButtonSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <dui:VerticalStackLayout>
+        <dui:Label Text="Badge" />
+        <dui:ListItem Title="Count">
+            <Stepper Value="{Binding BadgeCount, Mode=TwoWay}" />
+        </dui:ListItem>
+        <dui:ListItem Title="Color">
+            <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                            Placeholder="Pick Color"
+                            Mode="BottomSheet"
+                            SelectedItemCommand="{Binding ChangeBadgeColorCommand}" />
+        </dui:ListItem>
+        <dui:Button Text="Toggle Enable Button 1" Command="{Binding ToggleCommand}" />
+        <dui:Button Text="Add Button" Command="{Binding AddNavigationMenuButtonCommand}" />
+    </dui:VerticalStackLayout>
+</dui:ContentPage>

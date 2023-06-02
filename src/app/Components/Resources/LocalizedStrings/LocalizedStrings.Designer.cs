@@ -135,12 +135,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string FABs {
-            get {
-                return ResourceManager.GetString("FABs", resourceCulture);
-            }
-        }
-        
         internal static string New_version {
             get {
                 return ResourceManager.GetString("New_version", resourceCulture);
@@ -264,6 +258,24 @@ namespace Components.Resources.LocalizedStrings {
         internal static string BottomSheet_Open {
             get {
                 return ResourceManager.GetString("BottomSheet_Open", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveNavigationMenuButton {
+            get {
+                return ResourceManager.GetString("RemoveNavigationMenuButton", resourceCulture);
+            }
+        }
+        
+        internal static string AddNavigationMenuButton {
+            get {
+                return ResourceManager.GetString("AddNavigationMenuButton", resourceCulture);
+            }
+        }
+        
+        internal static string FloatingActionButtons {
+            get {
+                return ResourceManager.GetString("FloatingActionButtons", resourceCulture);
             }
         }
     }

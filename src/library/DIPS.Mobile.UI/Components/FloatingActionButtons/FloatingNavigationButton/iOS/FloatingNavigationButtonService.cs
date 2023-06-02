@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 
 public static partial class FloatingNavigationButtonService
 {
-    internal static async partial void AttachToRootWindow(FloatingNavigationButton fab)
+    private static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
         // Small delay to wait for iOS to initialize KeyWindow
         await Task.Delay(10);
@@ -19,13 +19,7 @@ public static partial class FloatingNavigationButtonService
             fab.HeightRequest = rootView.Frame.Height;
             fab.WidthRequest = rootView.Frame.Width;
             rootView.AddSubview(fab.ToPlatform(DUI.GetCurrentMauiContext!));
+            
         }
-
     }
-
-    public static partial void Hide()
-    {
-        
-    }
-    
 }

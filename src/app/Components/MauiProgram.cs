@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Components.ComponentsSamples.Chips;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.ExtendedFloatingActionButton;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingActionButton;
 using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Extensions.Logging;
