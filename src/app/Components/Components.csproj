@@ -102,6 +102,10 @@
         <DependentUpon>ColorsSamples.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml.cs">
+        <DependentUpon>SkeletonLoadingSamplesPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -120,6 +124,9 @@
 
     <ItemGroup>
       <MauiXaml Update="ResourcesSamples\Icons\IconsSamples.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>

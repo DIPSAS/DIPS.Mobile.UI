@@ -302,5 +302,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("AddButton", resourceCulture);
             }
         }
+        
+        internal static string SkeletonLoading {
+            get {
+                return ResourceManager.GetString("SkeletonLoading", resourceCulture);
+            }
+        }
+        
+        internal static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
     }
 }

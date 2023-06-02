@@ -18,8 +18,7 @@ public partial class ListItem : Border
             ColumnDefinitions = new ColumnDefinitionCollection
             {
                 new(GridLength.Auto),
-                new(GridLength.Star),
-                new(GridLength.Auto)
+                new(GridLength.Star)
             },
             RowDefinitions = new RowDefinitionCollection()
             {
@@ -51,7 +50,7 @@ public partial class ListItem : Border
             HorizontalTextAlignment = TextAlignment.Start
         };
 
-        if (string.IsNullOrEmpty(SubTitle))
+        if (string.IsNullOrEmpty(Subtitle))
         {
             label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
         }
@@ -62,8 +61,8 @@ public partial class ListItem : Border
 
             var newLine = new Span { Text = Environment.NewLine };
 
-            var subTitle = new Span { FontSize = Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
-            subTitle.SetBinding(Span.TextProperty, new Binding(nameof(SubTitle), source: this));
+            var subTitle = new Span { FontSize = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
+            subTitle.SetBinding(Span.TextProperty, new Binding(nameof(Subtitle), source: this));
                 
             label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle } };
         }
@@ -83,9 +82,13 @@ public partial class ListItem : Border
     {
         if(bindable is not ListItem listItem || newValue is not View view)
             return;
+
+        if (!listItem.ShouldOverrideContentItemLayoutOptions)
+        {
+            view.HorizontalOptions = LayoutOptions.End;    
+        }
         
-        view.HorizontalOptions = LayoutOptions.End;
-        listItem.GridContent.Add(view, 2);
+        listItem.GridContent.Add(view, 1);
     }
  
 }

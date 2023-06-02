@@ -19,18 +19,18 @@ public partial class ListItem
         set => SetValue(TitleProperty, value);
     }
 
-    public static readonly BindableProperty SubTitleProperty = BindableProperty.Create(
-        nameof(SubTitle),
+    public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
+        nameof(Subtitle),
         typeof(string),
         typeof(ListItem));
 
     /// <summary>
     /// Sets the subtitle text that people will see below <see cref="Title"/>
     /// </summary>
-    public string SubTitle
+    public string Subtitle
     {
-        get => (string)GetValue(SubTitleProperty);
-        set => SetValue(SubTitleProperty, value);
+        get => (string)GetValue(SubtitleProperty);
+        set => SetValue(SubtitleProperty, value);
     }
 
     public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
@@ -62,5 +62,19 @@ public partial class ListItem
     {
         get => (BindableObject)GetValue(ContentItemProperty);
         set => SetValue(ContentItemProperty, value);
+    }
+
+    public static readonly BindableProperty ShouldOverrideContentItemLayoutOptionsProperty = BindableProperty.Create(
+        nameof(ShouldOverrideContentItemLayoutOptions),
+        typeof(bool),
+        typeof(ListItem));
+
+    /// <summary>
+    /// By default, the <see cref="ListItem"/> will set the layout options of the <see cref="ContentItem"/> in order for it to be right-aligned. Set this property to override the layoutoptions for your <see cref="ContentItem"/> view.
+    /// </summary>
+    public bool ShouldOverrideContentItemLayoutOptions
+    {
+        get => (bool)GetValue(ShouldOverrideContentItemLayoutOptionsProperty);
+        set => SetValue(ShouldOverrideContentItemLayoutOptionsProperty, value);
     }
 }
