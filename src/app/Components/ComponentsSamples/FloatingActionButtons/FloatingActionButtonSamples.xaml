@@ -10,8 +10,8 @@
         <floatingActionButtons:FloatingActionButtonSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <VerticalStackLayout>
+    <dui:VerticalStackLayout>
         <dui:Button Text="Floating Navigation Button" Command="{Binding NavigateToFloatingNavigationButtonSamples}" />
-    </VerticalStackLayout>
+    </dui:VerticalStackLayout>
     
 </dui:ContentPage>
