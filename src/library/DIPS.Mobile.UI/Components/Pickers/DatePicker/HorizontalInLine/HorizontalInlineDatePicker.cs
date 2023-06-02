@@ -5,35 +5,15 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
 public partial class HorizontalInlineDatePicker : ContentView
 {
-    private readonly SlidableContentLayout m_slidableContentLayout;
+    private SlidableContentLayout m_slidableContentLayout;
     private SelectableDateViewModel? m_selectedDateViewModel;
-    private readonly Microsoft.Maui.Controls.DatePicker m_datePicker;
 
     public HorizontalInlineDatePicker()
     {
-        var grid = new Grid() {RowDefinitions = new RowDefinitionCollection() {new(GridLength.Star)}};
-        HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_2);
-        grid.VerticalOptions = LayoutOptions.Start;
-        grid.BackgroundColor = Microsoft.Maui.Graphics.Colors.Red;
-        //TODO: Test this component
-        m_datePicker = new Microsoft.Maui.Controls.DatePicker() {IsVisible = false};
-
-        /*
-         * <dxui:DatePicker x:Name="datePicker"
-                         Grid.Row="1"
-                         ExtraButtonText="{x:Static Resources:LocalizedStrings.Today}"
-                         ExtraButtonClicked="SetDateToNow"
-                         DateChangedStrategyiOS="WhenDone"
-                         DateSelected="DatePicker_DateSelected"
-                         Opened="DatePicker_Opened"
-                         IsVisible="false" />
-         * 
-         */
-        grid.Add(m_datePicker, 0);
-
         m_slidableContentLayout =
             new SlidableContentLayout()
             {
+                HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_10),
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
             };
         m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;
@@ -56,7 +36,6 @@ public partial class HorizontalInlineDatePicker : ContentView
         */
 
 
-        grid.Add(m_slidableContentLayout, 0);
         /*
          *<Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -85,14 +64,14 @@ public partial class HorizontalInlineDatePicker : ContentView
     </Grid>
          * 
          */
-        Content = grid;
+        Content = m_slidableContentLayout;
     }
 
     private void OnDateTapped(SelectableDateViewModel selectableDateViewModel)
     {
         if (selectableDateViewModel.IsSelected)
         {
-            m_datePicker.Focus(); //Opens the date picker
+            // m_datePicker.Focus(); //Opens the date picker
         }
         else
         {

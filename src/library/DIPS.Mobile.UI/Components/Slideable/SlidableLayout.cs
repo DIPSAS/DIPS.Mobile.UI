@@ -9,12 +9,13 @@ namespace DIPS.Mobile.UI.Components.Slideable
     public class SlidableLayout : ContentView
     {
         private static int m_tappedValue = -3;
-        private readonly PanGestureRecognizer m_rec = new PanGestureRecognizer();
+        private readonly PanGestureRecognizer m_panGestureRecognizer = new PanGestureRecognizer();
         private readonly AccelerationService m_accelerator = new AccelerationService(true);
         private int m_lastId = -2; // Different than default of SlideProperties
         private double m_startSlideLocation;
         private int m_lastIndex = int.MinValue;
         private bool disableTouchScroll;
+
         /// <summary>
         /// Disables touch stopping of the slider.
         /// </summary>
@@ -30,13 +31,11 @@ namespace DIPS.Mobile.UI.Components.Slideable
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
             Config = new SliderConfig(int.MinValue, int.MaxValue);
-            m_rec = new PanGestureRecognizer();
+            m_panGestureRecognizer = new PanGestureRecognizer();
 
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                GestureRecognizers.Add(m_rec);
-                m_rec.PanUpdated += Rec_PanUpdated;
-            }
+
+            GestureRecognizers.Add(m_panGestureRecognizer);
+            m_panGestureRecognizer.PanUpdated += PanGestureRecognizerPanUpdated;
         }
 
         private static void OnChanged(BindableObject bindable, object oldValue, object newValue)
@@ -73,7 +72,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             SlidableProperties.ScrollTo(s => SlideProperties = s, () => SlideProperties, index, length);
         }
 
-        private void Rec_PanUpdated(object sender, PanUpdatedEventArgs e)
+        private void PanGestureRecognizerPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             if (DisableTouchScroll)
             {
@@ -95,7 +94,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             {
                 // Start tracking time
                 m_startSlideLocation = CalculateDist(SlideProperties.Position);
-                PanStarted?.Invoke(this, new PanEventArgs((int) Math.Round(CalculateIndex(m_startSlideLocation))));
+                PanStarted?.Invoke(this, new PanEventArgs((int)Math.Round(CalculateIndex(m_startSlideLocation))));
                 if (VibrateOnSelectionChanged)
                 {
                     m_feedbackGenerator = new SelectionFeedbackGenerator();
@@ -111,11 +110,13 @@ namespace DIPS.Mobile.UI.Components.Slideable
             {
                 index = SlideProperties.Position;
                 m_accelerator.OnDrag(index);
-                SlideProperties = new SlidableProperties(index, m_lastId, e.StatusType != GestureStatus.Completed && e.StatusType != GestureStatus.Canceled);
+                SlideProperties = new SlidableProperties(index, m_lastId,
+                    e.StatusType != GestureStatus.Completed && e.StatusType != GestureStatus.Canceled);
             }
             else
             {
-                SlideProperties = new SlidableProperties(index, m_lastId, e.StatusType != GestureStatus.Completed && e.StatusType != GestureStatus.Canceled);
+                SlideProperties = new SlidableProperties(index, m_lastId,
+                    e.StatusType != GestureStatus.Completed && e.StatusType != GestureStatus.Canceled);
                 OnScrolledInternal();
             }
 
@@ -125,11 +126,11 @@ namespace DIPS.Mobile.UI.Components.Slideable
 
                 if (StopOnGestureEnded)
                 {
-                    PanEnded?.Invoke(this, new PanEventArgs((int) Math.Round(index)));
+                    PanEnded?.Invoke(this, new PanEventArgs((int)Math.Round(index)));
                     m_feedbackGenerator?.Release();
                     return;
                 }
-                
+
                 Device.StartTimer(TimeSpan.FromMilliseconds(20), () => // ~40 fps
                 {
                     if (currentId != SlideProperties.HoldId) return false;
@@ -143,10 +144,10 @@ namespace DIPS.Mobile.UI.Components.Slideable
 
                     if (isDone)
                     {
-                        PanEnded?.Invoke(this, new PanEventArgs((int) Math.Round(index)));
+                        PanEnded?.Invoke(this, new PanEventArgs((int)Math.Round(index)));
                         m_feedbackGenerator?.Release();
                     }
-                    
+
                     return !isDone;
                 });
             }
@@ -184,7 +185,8 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// <param name="value"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected double GetCenterPosition(double value, double index) => Center + GetItemWidth() * (GetIndexFromValue(value) - index);
+        protected double GetCenterPosition(double value, double index) =>
+            Center + GetItemWidth() * (GetIndexFromValue(value) - index);
 
         /// <summary>
         /// Gets the left position of the item, used in drawing a bigger item
@@ -192,7 +194,8 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// <param name="value"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected double GetLeftPosition(double value, double index) => Center + GetItemWidth() * (GetIndexFromValue(value) - 0.5 - index);
+        protected double GetLeftPosition(double value, double index) =>
+            Center + GetItemWidth() * (GetIndexFromValue(value) - 0.5 - index);
 
         /// <summary>
         /// Calculates the distance from the center
@@ -260,7 +263,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             nameof(Config),
             typeof(SliderConfig),
             typeof(SlidableLayout));
-        
+
         /// <summary>
         /// Configuration indicating max and min values of this layout. 
         /// </summary>
@@ -358,38 +361,39 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// <summary>
         /// Disables the scrolling on this Layout. Use this if you layout has to be inside a ScrollView on Android.
         /// </summary>
-        public bool DisableTouchScroll { get => disableTouchScroll;
+        public bool DisableTouchScroll
+        {
+            get => disableTouchScroll;
             set
             {
                 disableTouchScroll = value;
-                GestureRecognizers.Remove(m_rec);
+                GestureRecognizers.Remove(m_panGestureRecognizer);
                 if (!value)
                 {
-                    GestureRecognizers.Add(m_rec);
+                    GestureRecognizers.Add(m_panGestureRecognizer);
                 }
             }
         }
 
         internal void SendPan(float distanceX, float distanceY, GestureStatus status, int id)
         {
-            Rec_PanUpdated(this, new PanUpdatedEventArgs(status, id, distanceX, distanceY));
+            PanGestureRecognizerPanUpdated(this, new PanUpdatedEventArgs(status, id, distanceX, distanceY));
         }
 
         internal void SendTapped(float x, float y)
         {
-            
         }
-        
+
         /// <summary>
         /// Toggles drag effect after pan gesture is completed. Set to true if scroll should stop immediately after finger is lifted. 
         /// </summary>
         public bool StopOnGestureEnded { get; set; }
-        
+
         /// <summary>
         /// Invoked on start of a Pan gesture
         /// </summary>
         public event EventHandler<PanEventArgs> PanStarted;
-        
+
         /// <summary>
         /// Invoked on end of Pan gesture.
         /// </summary>
