@@ -4,7 +4,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton.NavigationMenuButton;
 
-public partial class NavigationMenuButton : Grid
+internal partial class NavigationMenuButton : Grid
 {
     public NavigationMenuButton()
     {

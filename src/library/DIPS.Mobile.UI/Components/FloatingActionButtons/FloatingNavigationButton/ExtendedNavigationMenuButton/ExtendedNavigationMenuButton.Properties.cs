@@ -3,10 +3,11 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton.ExtendedNavigationMenuButton;
 
-public partial class ExtendedNavigationMenuButton
+internal partial class ExtendedNavigationMenuButton
 {
     /// <summary>
-    /// Sets a title that will be beside the button
+    /// Sets a title that will be to the left of the button
+    /// <remarks>If you do not need a title, use <see cref="NavigationMenuButton"/> instead</remarks>
     /// </summary>
     public string Title
     {
@@ -15,7 +16,7 @@ public partial class ExtendedNavigationMenuButton
     }
 
     /// <summary>
-    /// Sets the icon of the ImageButton
+    /// Sets the icon
     /// </summary>
     public ImageSource Icon
     {
@@ -24,7 +25,16 @@ public partial class ExtendedNavigationMenuButton
     }
 
     /// <summary>
-    /// Set rotation of the icon
+    /// Set the button's background color
+    /// </summary>
+    public Color ButtonBackgroundColor
+    {
+        get => (Color)GetValue(ButtonBackgroundColorProperty);
+        set => SetValue(ButtonBackgroundColorProperty, value);
+    }
+    
+    /// <summary>
+    /// Set the icon's rotation
     /// </summary>
     public float IconRotation
     {
@@ -33,7 +43,7 @@ public partial class ExtendedNavigationMenuButton
     }
     
     /// <summary>
-    /// Command to be executed by the button
+    /// Set the command
     /// </summary>
     public ICommand Command
     {
@@ -41,24 +51,28 @@ public partial class ExtendedNavigationMenuButton
         set => SetValue(CommandProperty, value);
     }
 
-    public Color ButtonBackgroundColor
-    {
-        get => (Color)GetValue(ButtonBackgroundColorProperty);
-        set => SetValue(ButtonBackgroundColorProperty, value);
-    }
-    
+    /// <summary>
+    /// Set the badge count
+    /// <remarks>If the badge count is zero, the badge will not be visible</remarks>
+    /// </summary>
     public int BadgeCount
     {
         get => (int)GetValue(BadgeCountProperty);
         set => SetValue(BadgeCountProperty, value);
     }
 
+    /// <summary>
+    /// Set the color of the badge
+    /// </summary>
     public Color BadgeColor
     {
         get => (Color)GetValue(BadgeColorProperty);
         set => SetValue(BadgeColorProperty, value);
     }
     
+    /// <summary>
+    /// Set its state to disabled, will make the opacity .5 and not tappable
+    /// </summary>
     public bool Disabled
     {
         get => (bool)GetValue(DisabledProperty);

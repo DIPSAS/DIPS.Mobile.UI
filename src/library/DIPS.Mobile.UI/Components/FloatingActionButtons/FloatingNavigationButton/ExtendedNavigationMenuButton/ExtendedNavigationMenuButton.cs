@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButt
 /// <summary>
 /// An extended <see cref="NavigationMenuButton"/> that can also display text
 /// </summary>
-public partial class ExtendedNavigationMenuButton : HorizontalStackLayout
+internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
 {
     public ExtendedNavigationMenuButton()
     {

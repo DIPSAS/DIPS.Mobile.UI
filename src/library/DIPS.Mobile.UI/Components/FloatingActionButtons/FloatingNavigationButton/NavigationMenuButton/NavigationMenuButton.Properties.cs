@@ -3,7 +3,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton.NavigationMenuButton;
 
-public partial class NavigationMenuButton
+internal partial class NavigationMenuButton
 {
     /// <summary>
     /// Sets the icon
@@ -14,36 +14,55 @@ public partial class NavigationMenuButton
         set => SetValue(IconProperty, value);
     }
 
+    /// <summary>
+    /// Set the button's background color
+    /// </summary>
     public Color ButtonBackgroundColor
     {
         get => (Color)GetValue(ButtonBackgroundColorProperty);
         set => SetValue(ButtonBackgroundColorProperty, value);
     }
 
+    /// <summary>
+    /// Set the icon's rotation
+    /// </summary>
     public float IconRotation
     {
         get => (float)GetValue(IconRotationProperty);
         set => SetValue(IconRotationProperty, value);
     }
 
+    /// <summary>
+    /// Set the command
+    /// </summary>
     public ICommand Command
     {
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
 
+    /// <summary>
+    /// Set the badge count
+    /// <remarks>If the badge count is zero, the badge will not be visible</remarks>
+    /// </summary>
     public int BadgeCount
     {
         get => (int)GetValue(BadgeCountProperty);
         set => SetValue(BadgeCountProperty, value);
     }
 
+    /// <summary>
+    /// Set the color of the badge
+    /// </summary>
     public Color BadgeColor
     {
         get => (Color)GetValue(BadgeColorProperty);
         set => SetValue(BadgeColorProperty, value);
     }
 
+    /// <summary>
+    /// Set its state to disabled, will make the opacity .5 and not tappable
+    /// </summary>
     public bool Disabled
     {
         get => (bool)GetValue(DisabledProperty);
