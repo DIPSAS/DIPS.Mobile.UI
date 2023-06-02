@@ -22,10 +22,7 @@ public partial class HorizontalInlineDatePicker : ContentView
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
             };
         m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;
-        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView()
-        {
-            Command = new Command<SelectableDateViewModel>(OnDateTapped)
-        });
+        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView(OnDateSelected));
         m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
         m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
         /*
@@ -72,17 +69,10 @@ public partial class HorizontalInlineDatePicker : ContentView
         Content = m_slidableContentLayout;
     }
 
-    private void OnDateTapped(SelectableDateViewModel selectableDateViewModel)
+    private void OnDateSelected(SelectableDateViewModel selectableDateViewModel)
     {
-        if (selectableDateViewModel.IsSelected)
-        {
-            // m_datePicker.Focus(); //Opens the date picker
-        }
-        else
-        {
-            var i = (int)Math.Round((selectableDateViewModel.FullDate.Date.Date - DateTime.Now.Date).TotalDays);
-            m_slidableContentLayout.ScrollTo(i);
-        }
+        var i = (int)Math.Round((selectableDateViewModel.FullDate.Date.Date - DateTime.Now.Date).TotalDays);
+        m_slidableContentLayout.ScrollTo(i);
     }
 
     private object CreateSelectableDateViewModel(int i)

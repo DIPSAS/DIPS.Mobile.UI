@@ -93,7 +93,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         handler.PlatformView.TimeZone = datePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;
     }
 
-    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
+    public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
         handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
     }
@@ -107,5 +107,10 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         platformView.EditingDidEnd -= OnClose;
 
         DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
+    }
+
+    public static partial void MapOpen(DatePickerHandler handler, DatePicker datePicker, object? obj)
+    {
+        
     }
 }

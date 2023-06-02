@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Pickers.Platforms;
 using DIPS.Mobile.UI.Resources.Colors;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -27,6 +28,14 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             {
                 var kind = SelectedDate.Kind;
                 SelectedDate = DateTime.SpecifyKind(MinimumDate.Value, kind);
+            }
+        }
+
+        public void Open()
+        {
+            if (Handler is DatePickerHandler handler)
+            {
+                DatePickerHandler.Open(handler, this);
             }
         }
     }

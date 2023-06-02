@@ -34,7 +34,8 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
         DatePickerService.OpenDatePicker(VirtualView);
     }
 
-    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
+    
+    public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
         var convertedDisplayValue =
             new DateConverter { Format = DateConverter.DateConverterFormat.Default }.Convert(datePicker.SelectedDate, null, null,
@@ -50,5 +51,10 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
         base.DisconnectHandler(platformView);
 
         platformView.Click -= OnClicked;
+    }
+    
+    public static partial void Open(DatePickerHandler handler, DatePicker datePicker)
+    {
+        
     }
 }

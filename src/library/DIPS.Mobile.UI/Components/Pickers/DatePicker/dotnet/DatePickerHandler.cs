@@ -10,14 +10,10 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Only_Here_For_U
         throw new NotImplementedException();
     }
     
-    private partial void AppendPropertyMapper()
-    {
-        
-    }
+    private partial void AppendPropertyMapper() => throw new Only_Here_For_UnitTests();
 
-    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
-    {
-        
-    }
-    
+    public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker) => throw new Only_Here_For_UnitTests();
+
+    public static partial void MapOpen(DatePickerHandler handler, DatePicker datePicker, object? obj) => throw new Only_Here_For_UnitTests();
+
 }

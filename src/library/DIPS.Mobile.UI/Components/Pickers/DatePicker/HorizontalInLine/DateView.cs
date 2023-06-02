@@ -9,15 +9,28 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
 internal class DateView : Grid
 {
-    public DateView()
+    public DateView(Action<SelectableDateViewModel> dateSelected)
     {
         RowSpacing = Sizes.GetSize(SizeName.size_2);
-
         RowDefinitions =
             new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
                 new RowDefinition(GridLength.Auto));
-        // DUITouchEffect.SetCommand(this, Command);
-        // DUITouchEffect.SetCommandParameter(this, BindingContext);
+    
+        var datePicker = new DatePicker(){IsVisible = false};
+        DUITouchEffect.SetCommand(this, new Command(() =>
+        {
+            datePicker.Open();
+        }));
+        datePicker.VerticalOptions = LayoutOptions.Center;
+        datePicker.HorizontalOptions = LayoutOptions.Center;
+        datePicker.SelectedDateCommand = new Command(() =>
+        {
+            
+            if (m_selectableDateViewModel == null) return;
+            dateSelected.Invoke(m_selectableDateViewModel);
+        });
+        Grid.SetRowSpan(datePicker, 3);
+
         SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
@@ -25,6 +38,9 @@ internal class DateView : Grid
                     TrueObject = Colors.GetColor(ColorName.color_primary_90),
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
+
+        // DUITouchEffect.SetCommand(this, command);
+
         //Month and year if year is not current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
         var monthAndYearLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
         var monthAndYearLabelContentView = new ContentView {Content = monthAndYearLabel};
@@ -55,7 +71,7 @@ internal class DateView : Grid
 
         //Month label if year is current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
         var monthLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
-        var monthLabelContentView = new ContentView(){Content = monthLabel};
+        var monthLabelContentView = new ContentView() {Content = monthLabel};
 #if __IOS__
         monthLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
 #endif
@@ -102,22 +118,11 @@ internal class DateView : Grid
             new Binding(nameof(SelectableDateViewModel.DayName)));
 
         this.Add(dayNameLabel, 0, 2);
+        this.Add(datePicker);
     }
 
-    public static readonly BindableProperty CommandProperty = BindableProperty.Create(
-        nameof(Command),
-        typeof(ICommand),
-        typeof(DateView), propertyChanged: (bindable, value, newValue) =>
-        {
-        });
 
     private SelectableDateViewModel m_selectableDateViewModel;
-
-    public ICommand Command
-    {
-        get => (ICommand)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
 
     private Label CreateLabel(Label theLabel)
     {
@@ -133,6 +138,7 @@ internal class DateView : Grid
         if (BindingContext is SelectableDateViewModel selectableDateViewModel)
         {
             m_selectableDateViewModel = selectableDateViewModel;
+            DUITouchEffect.SetCommandParameter(this, m_selectableDateViewModel);
         }
     }
 }
