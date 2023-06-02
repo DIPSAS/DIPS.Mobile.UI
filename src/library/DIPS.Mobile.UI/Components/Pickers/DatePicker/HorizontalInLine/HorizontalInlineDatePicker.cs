@@ -13,7 +13,12 @@ public partial class HorizontalInlineDatePicker : ContentView
         m_slidableContentLayout =
             new SlidableContentLayout()
             {
+#if __IOS__
+                HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_3),
+#elif __ANDROID__
                 HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_10),
+#endif
+                
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
             };
         m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;

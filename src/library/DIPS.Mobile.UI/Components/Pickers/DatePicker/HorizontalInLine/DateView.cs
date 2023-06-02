@@ -12,7 +12,6 @@ internal class DateView : Grid
     public DateView()
     {
         RowSpacing = Sizes.GetSize(SizeName.size_2);
-        // WidthRequest = Sizes.GetSize(SizeName.size_20);
 
         RowDefinitions =
             new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
@@ -29,6 +28,9 @@ internal class DateView : Grid
         //Month and year if year is not current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
         var monthAndYearLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
         var monthAndYearLabelContentView = new ContentView {Content = monthAndYearLabel};
+#if __IOS__
+        monthAndYearLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
+#endif
         monthAndYearLabelContentView.SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
@@ -54,7 +56,9 @@ internal class DateView : Grid
         //Month label if year is current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
         var monthLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
         var monthLabelContentView = new ContentView(){Content = monthLabel};
-        // monthLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_3));
+#if __IOS__
+        monthLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
+#endif
         monthLabelContentView.SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
