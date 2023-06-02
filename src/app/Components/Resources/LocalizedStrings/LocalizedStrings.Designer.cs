@@ -278,5 +278,29 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("FloatingActionButtons", resourceCulture);
             }
         }
+        
+        internal static string Count {
+            get {
+                return ResourceManager.GetString("Count", resourceCulture);
+            }
+        }
+        
+        internal static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        internal static string PickColor {
+            get {
+                return ResourceManager.GetString("PickColor", resourceCulture);
+            }
+        }
+        
+        internal static string AddButton {
+            get {
+                return ResourceManager.GetString("AddButton", resourceCulture);
+            }
+        }
     }
 }

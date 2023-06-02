@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:floatingActionButtons="clr-namespace:Components.ComponentsSamples.FloatingActionButtons"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              x:Class="Components.ComponentsSamples.FloatingActionButtons.FloatingNavigationButtonSamples"
              Padding="20, 0"
              Title="Floating Navigation Button">
@@ -13,16 +14,16 @@
     
     <dui:VerticalStackLayout>
         <dui:Label Text="Badge" />
-        <dui:ListItem Title="Count">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Count}">
             <Stepper Value="{Binding BadgeCount, Mode=TwoWay}" />
         </dui:ListItem>
-        <dui:ListItem Title="Color">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Color}">
             <dui:ItemPicker ItemsSource="{Binding ColorList}"
-                            Placeholder="Pick Color"
+                            Placeholder="{x:Static localizedStrings:LocalizedStrings.PickColor}"
                             Mode="BottomSheet"
                             SelectedItemCommand="{Binding ChangeBadgeColorCommand}" />
         </dui:ListItem>
-        <dui:Button Text="Toggle Enable Button 1" Command="{Binding ToggleCommand}" />
-        <dui:Button Text="Add Button" Command="{Binding AddNavigationMenuButtonCommand}" />
+        <dui:Button Text="Toggle enable button 1" Command="{Binding ToggleCommand}" />
+        <dui:Button Text="{x:Static localizedStrings:LocalizedStrings.AddButton}" Command="{Binding AddNavigationMenuButtonCommand}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

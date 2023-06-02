@@ -128,4 +128,16 @@
     <data name="FloatingActionButtons" xml:space="preserve">
         <value>Floating Action Buttons</value>
     </data>
+    <data name="Count" xml:space="preserve">
+        <value>Antall</value>
+    </data>
+    <data name="Color" xml:space="preserve">
+        <value>Farge</value>
+    </data>
+    <data name="PickColor" xml:space="preserve">
+        <value>Velg farge</value>
+    </data>
+    <data name="AddButton" xml:space="preserve">
+        <value>Legg til knapp</value>
+    </data>
 </root>
