@@ -1,8 +1,13 @@
 <!--
 Do not edit directly,
-generated 5/26/2023 6:01:43 PM from DIPS.Mobile.DesignTokens
+generated 6/2/2023 8:12:00 AM from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Icons.Icons">
+<x:String x:Key="bell_fill">bell_fill.png</x:String>
 <x:String x:Key="descending_fill">descending_fill.png</x:String>
+<x:String x:Key="schedule_fill">schedule_fill.png</x:String>
 <x:String x:Key="ascending_fill">ascending_fill.png</x:String>
+<x:String x:Key="home_fill">home_fill.png</x:String>
+<x:String x:Key="settings_fill">settings_fill.png</x:String>
+<x:String x:Key="tasklist_line">tasklist_line.png</x:String>
 <x:String x:Key="arrow_right_s_line">arrow_right_s_line.png</x:String>
 </ResourceDictionary>
