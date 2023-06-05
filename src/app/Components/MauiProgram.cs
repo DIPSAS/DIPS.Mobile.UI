@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Components.ComponentsSamples.Chips;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
-using DIPS.Mobile.UI.Resources.Icons;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Components;
 

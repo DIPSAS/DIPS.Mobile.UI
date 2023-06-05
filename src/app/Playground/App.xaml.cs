@@ -1,5 +1,5 @@
-﻿using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
-using DIPS.Mobile.UI.Resources.Icons;
+﻿using DIPS.Mobile.UI.Resources.Icons;
+using FloatingNavigationButtonService = DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.FloatingNavigationButtonService;
 
 namespace Playground;
 

@@ -1,16 +1,14 @@
-using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Effects.DUIImageEffect;
-using DIPS.Mobile.UI.Effects.DUITouchEffect;
+using DIPS.Mobile.UI.Effects.ImageTint;
+using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
+using ImageTintPlatformEffect = DIPS.Mobile.UI.Effects.ImageTint.ImageTintPlatformEffect;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
@@ -60,8 +58,8 @@ public static class AppHostBuilderExtensions
         builder.ConfigureEffects(effects =>
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
-            effects.Add(typeof(DUITouchEffect), typeof(DUITouchPlatformEffect));
-            effects.Add(typeof(DUIImageEffect), typeof(DUIImagePlatformEffect));
+            effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
+            effects.Add(typeof(ImageTint), typeof(ImageTintPlatformEffect));
         });
 
         return builder;
