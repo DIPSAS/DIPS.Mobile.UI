@@ -42,7 +42,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
-
+            
             grid.Add(collectionView, 0, (m_searchBar != null) ? 1 : 0);
             Content = grid;
             SubscribeToEvents();
