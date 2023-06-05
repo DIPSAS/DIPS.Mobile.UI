@@ -6,27 +6,27 @@ public partial class Touch : RoutingEffect
 {
     public static ICommand GetCommand(BindableObject view)
     {
-        return (ICommand)view.GetValue(Touch.CommandProperty);
+        return (ICommand)view.GetValue(CommandProperty);
     }
 
     public static void SetCommand(BindableObject view, ICommand command)
     {
-        view.SetValue(Touch.CommandProperty, command);
+        view.SetValue(CommandProperty, command);
     }
 
     public static object GetCommandParameter(BindableObject view)
     {
-        return view.GetValue(Touch.CommandParameterProperty);
+        return view.GetValue(CommandParameterProperty);
     }
 
     public static void SetCommandParameter(BindableObject view, object obj)
     {
-        view.SetValue(Touch.CommandParameterProperty, obj);
+        view.SetValue(CommandParameterProperty, obj);
     }
 
     public static string GetAccessibilityContentDescription(BindableObject view)
     {
-        return (string)view.GetValue(Touch.AccessibilityContentDescriptionProperty);
+        return (string)view.GetValue(AccessibilityContentDescriptionProperty);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public partial class Touch : RoutingEffect
     /// <param name="contentDescription">The string to be read aloud from TalkBack</param>
     public static void SetAccessibilityContentDescription(BindableObject view, string contentDescription)
     {
-        view.SetValue(Touch.AccessibilityContentDescriptionProperty, contentDescription);
+        view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
     
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object? newValue)
