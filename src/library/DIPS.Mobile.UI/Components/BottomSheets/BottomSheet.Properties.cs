@@ -26,15 +26,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(ShouldFitToContentProperty, value);
         }
 
-        public static readonly BindableProperty ToolbarItemsProperty = BindableProperty.Create(
-            nameof(ToolbarItems),
-            typeof(List<VisualElement>),
+        public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
+            nameof(HasSearchBar),
+            typeof(bool),
             typeof(BottomSheet));
 
-        public List<VisualElement> ToolbarItems
+        public bool HasSearchBar
         {
-            get => (List<VisualElement>)GetValue(ToolbarItemsProperty);
-            set => SetValue(ToolbarItemsProperty, value);
+            get => (bool)GetValue(HasSearchBarProperty);
+            set => SetValue(HasSearchBarProperty, value);
         }
 
         public event EventHandler? WillClose;

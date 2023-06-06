@@ -43,7 +43,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             */
             }
 
-            ToolbarItems = new List<VisualElement> { m_searchBar };
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
             

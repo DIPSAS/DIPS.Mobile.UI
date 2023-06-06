@@ -3,13 +3,14 @@ using Microsoft.Maui.Platform;
 using UIKit;
 using Application = Microsoft.Maui.Controls.Application;
 using Colors = Microsoft.Maui.Graphics.Colors;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
 internal class BottomSheetContentPage : ContentPage
 {
-    private UIViewController? m_viewController;
+    private UIViewController? m_viewNavigationController;
     private readonly BottomSheet m_bottomSheet;
     private UISheetPresentationController? m_sheetPresentationController;
 
@@ -17,10 +18,26 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet = bottomSheet;
         bottomSheet.VerticalOptions = LayoutOptions.Start;
-        Content = bottomSheet;
+        
+        if(bottomSheet.HasSearchBar)
+            Content = bottomSheet;
+        {
+            AddSearchBar();
+        }
         
         SetupViewController();
         SubscribeEvents();
+    }
+
+    private void AddSearchBar()
+    {
+        var grid = new Grid()
+        {
+            RowDefinitions = { new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Star) }
+        };
+        
+        
+        
     }
 
     private void SubscribeEvents()
@@ -35,7 +52,7 @@ internal class BottomSheetContentPage : ContentPage
 
     private void Close(object sender, EventArgs e)
     {
-        m_viewController?.DismissViewController(true, null);
+        m_viewNavigationController?.DismissViewController(true, null);
     }
 
     private void SetupViewController()
@@ -45,19 +62,23 @@ internal class BottomSheetContentPage : ContentPage
         {
             return;
         }
-        
-        m_viewController = this.ToUIViewController(mauiContext);
-        if (m_viewController == null) return;
 
-        m_viewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
-        m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+        var navigationPage = new NavigationPage(this);
+        NavigationPage.SetHasNavigationBar(navigationPage, false);
+        m_viewNavigationController = navigationPage.ToUIViewController(mauiContext);
+        //m_viewNavigationController = new UINavigationController(viewController){};
+        
+        if (m_viewNavigationController == null) return;
+        
+        m_viewNavigationController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
+        m_viewNavigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
         if (OperatingSystem.IsIOSVersionAtLeast(15)) //Can use bottom sheet
         {
-            if (m_viewController.SheetPresentationController == null) return;
-            if (m_viewController.SheetPresentationController != null)
+            if (m_viewNavigationController.SheetPresentationController == null) return;
+            if (m_viewNavigationController.SheetPresentationController != null)
             {
-                m_sheetPresentationController = m_viewController.SheetPresentationController;
+                m_sheetPresentationController = m_viewNavigationController.SheetPresentationController;
 
 
                 var prefferedDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
@@ -117,9 +138,9 @@ internal class BottomSheetContentPage : ContentPage
     internal async Task Open()
     {
         var currentViewController = Platform.GetCurrentUIViewController();
-        if (m_viewController != null && currentViewController != null)
+        if (m_viewNavigationController != null && currentViewController != null)
         {
-            await currentViewController.PresentViewControllerAsync(m_viewController, true);
+            await currentViewController.PresentViewControllerAsync(m_viewNavigationController, true);
         }
     }
 
