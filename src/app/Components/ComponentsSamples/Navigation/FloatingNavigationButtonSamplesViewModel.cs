@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using Components.ComponentsSamples.FloatingActionButtons;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.Colors;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -24,7 +23,13 @@ public class FloatingNavigationButtonSamplesViewModel : ViewModel
 
     private void Toggle()
     {
-        FloatingNavigationButtonService.ToggleNavigationButton(FloatingNavigationButtonSamples.Button1Identifier);
+        var availability =
+            FloatingNavigationButtonService.CheckButtonAvailability(FloatingNavigationButtonSamples.Button1Identifier);
+        
+        if(availability == null)
+            return;
+        
+        FloatingNavigationButtonService.SetButtonAvailability(FloatingNavigationButtonSamples.Button1Identifier, (bool)!availability);
     }
 
     public double BadgeCount

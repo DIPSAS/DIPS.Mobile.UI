@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Effects.ImageTint;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
@@ -80,9 +79,9 @@ internal class FloatingNavigationButton : Grid
             ButtonBackgroundColor = Colors.GetColor(ColorName.color_obsolete_accent),
             Command = new Command(OnClickedMainButton),
             Opacity = .5,
-            IconRotation = 270
+            IconRotation = 270,
+            
         };
-        ImageTint.SetColor(m_mainButton, Colors.GetColor(ColorName.color_system_white));
         
         m_contentGrid.Add(m_mainButton);
 
@@ -267,19 +266,24 @@ internal class FloatingNavigationButton : Grid
         return GetButtonFromIdentifier(identifier) is not null;
     }
     
-    public void ToggleNavigationButton(string identifier)
+    public void SetButtonAvailability(string identifier, bool isEnabled)
     {
         var navBtn = GetButtonFromIdentifier(identifier);
         
         if(navBtn is null)
             return;
 
-        navBtn.IsEnabled = !navBtn.IsEnabled;
+        navBtn.IsEnabled = isEnabled;
     }
 
+    public bool CheckButtonAvailability(string identifier)
+    {
+        var navBtn = GetButtonFromIdentifier(identifier);
+        
+        return navBtn is not null && navBtn.IsEnabled;
+    }
+    
     private ExtendedNavigationMenuButton.ExtendedNavigationMenuButton? GetButtonFromIdentifier(string identifier) => 
         m_floatingNavigationButtonConfigurator.NavigationMenuButtons.FirstOrDefault(navButton => navButton.AutomationId.Equals(identifier));
 
-
-    
 }

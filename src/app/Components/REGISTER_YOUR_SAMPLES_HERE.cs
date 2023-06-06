@@ -2,7 +2,6 @@ using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Checkboxes;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
-using Components.ComponentsSamples.FloatingActionButtons;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;

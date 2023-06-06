@@ -64,8 +64,13 @@ public static partial class FloatingNavigationButtonService
         }, index);
     }
 
-    public static void ToggleNavigationButton(string identifier)
+    public static void SetButtonAvailability(string identifier, bool isEnabled)
     {
-        FloatingNavigationButton?.ToggleNavigationButton(identifier);
+        FloatingNavigationButton?.SetButtonAvailability(identifier, isEnabled);
+    }
+
+    public static bool? CheckButtonAvailability(string identifier)
+    {
+        return FloatingNavigationButton?.CheckButtonAvailability(identifier);
     }
 }

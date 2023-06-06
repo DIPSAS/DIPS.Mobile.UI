@@ -1,7 +1,6 @@
 using System.Windows.Input;
-using Components.ComponentsSamples.Navigation;
 
-namespace Components.ComponentsSamples.FloatingActionButtons;
+namespace Components.ComponentsSamples.Navigation;
 
 public class FloatingActionButtonSamplesViewModel
 {

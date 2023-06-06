@@ -4,15 +4,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             x:Class="Playground.VetleSamples.VetleTestPage1">
+             x:Class="Playground.VetleSamples.VetleTestPage1"
+             x:Name="CodeBehind">
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
+    
+    <dui:VerticalStackLayout x:Name="Layout">
         <dui:Label Text="Hei og hå!" />
         
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
+        
+        <Button Clicked="AddButton" />
+
     </dui:VerticalStackLayout>
 </dui:ContentPage>

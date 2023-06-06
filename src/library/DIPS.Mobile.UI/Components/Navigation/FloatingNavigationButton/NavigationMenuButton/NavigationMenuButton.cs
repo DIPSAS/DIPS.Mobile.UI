@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Effects.ImageTint;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -11,10 +11,11 @@ internal partial class NavigationMenuButton : Grid
         RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Auto } };
         ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         
-        ImageButton = new ImageButton
+        ImageButton = new Components.Images.ImageButton()
         {
             BorderColor = Colors.GetColor(ColorName.color_system_white),
-            BorderWidth = 3
+            BorderWidth = 3,
+            TintColor = Colors.GetColor(ColorName.color_system_white)
         };
 
     // Workaround for a bug in Android where the circle gets clipped left, top, right and bottom
@@ -28,11 +29,12 @@ internal partial class NavigationMenuButton : Grid
         ImageButton.BorderWidth = 6;
 #endif
         
-        ImageTint.SetColor(ImageButton, Colors.GetColor(ColorName.color_system_white));
         ImageButton.SetBinding(ImageButton.SourceProperty, new Binding(nameof(Icon), source: this));
         ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
         ImageButton.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
-        
+        ImageButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
+        ImageButton.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source:this));
+
         // Can not use design system here, because we need to set corner radius to half of the width/height
         ImageButton.WidthRequest = 60;
         ImageButton.HeightRequest = 60;
@@ -61,14 +63,13 @@ internal partial class NavigationMenuButton : Grid
             InputTransparent = true
         };
 #if __ANDROID__
-        Badge.Padding = 1;
+        Badge.Padding = new Thickness(1, 0, 1, 1);
 #endif
         Badge.SetBinding(BackgroundColorProperty, new Binding(nameof(BadgeColor), source: this));
 
         Add(ImageButton);
         Add(Badge);
         
-        ImageButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
     }
 
     private Border Badge { get; }

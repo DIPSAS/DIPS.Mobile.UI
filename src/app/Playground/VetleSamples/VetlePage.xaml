@@ -15,5 +15,6 @@
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
         
+        
     </dui:VerticalStackLayout>
 </dui:ContentPage>

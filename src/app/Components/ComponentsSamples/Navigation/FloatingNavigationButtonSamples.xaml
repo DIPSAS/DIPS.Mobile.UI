@@ -6,7 +6,7 @@
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              xmlns:navigation="clr-namespace:Components.ComponentsSamples.Navigation"
              x:Class="Components.ComponentsSamples.Navigation.FloatingNavigationButtonSamples"
-             Padding="20, 0"
+             Padding="{dui:Sizes size_4}"
              Title="Floating Navigation Button">
     <dui:ContentPage.BindingContext>
         <navigation:FloatingNavigationButtonSamplesViewModel />
