@@ -8,7 +8,7 @@
     <dui:ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
     </dui:ContentPage.BindingContext>
-
+<dui:ContentPage.ToolbarItems></dui:ContentPage.ToolbarItems>
     <dui:VerticalStackLayout>
         <!-- Single item -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}">

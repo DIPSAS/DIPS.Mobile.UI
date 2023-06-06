@@ -47,7 +47,6 @@ internal class BottomSheetContentPage : ContentPage
         }
         
         m_viewController = this.ToUIViewController(mauiContext);
-
         if (m_viewController == null) return;
 
         m_viewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;

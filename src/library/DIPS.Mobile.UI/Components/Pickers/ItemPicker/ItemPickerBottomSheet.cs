@@ -38,8 +38,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (m_itemPicker.HasSearchBar)
             {
                 m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
+                /*
                 grid.Add(m_searchBar, 0, 0);
+            */
             }
+
+            ToolbarItems = new List<VisualElement> { m_searchBar };
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
             

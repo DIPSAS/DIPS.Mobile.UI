@@ -26,6 +26,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(ShouldFitToContentProperty, value);
         }
 
+        public static readonly BindableProperty ToolbarItemsProperty = BindableProperty.Create(
+            nameof(ToolbarItems),
+            typeof(List<VisualElement>),
+            typeof(BottomSheet));
+
+        public List<VisualElement> ToolbarItems
+        {
+            get => (List<VisualElement>)GetValue(ToolbarItemsProperty);
+            set => SetValue(ToolbarItemsProperty, value);
+        }
+
         public event EventHandler? WillClose;
         public event EventHandler? DidClose;
         protected virtual void OnDidClose() { }
