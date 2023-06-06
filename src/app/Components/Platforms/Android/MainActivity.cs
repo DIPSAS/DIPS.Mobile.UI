@@ -11,4 +11,5 @@ public class MainActivity : MauiAppCompatActivity
     public MainActivity()
     {
     }
+    
 }

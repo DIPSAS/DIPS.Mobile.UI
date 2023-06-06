@@ -1,5 +1,3 @@
-using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 

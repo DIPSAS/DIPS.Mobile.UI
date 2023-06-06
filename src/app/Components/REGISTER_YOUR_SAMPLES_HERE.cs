@@ -4,6 +4,7 @@ using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
+using Components.ComponentsSamples.Navigation;
 using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Searching;
 using Components.Resources.LocalizedStrings;
@@ -30,8 +31,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Resources, LocalizedStrings.Sizes, () => new SizesSamples()),
             new(SampleType.Components, LocalizedStrings.ListItems, () => new ListItemsSamples()),
             new(SampleType.Components, LocalizedStrings.Chip, () => new ChipsSamples()),
-            new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
-            new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples())
+            new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
+            new(SampleType.Components, LocalizedStrings.Navigation, () => new NavigationSamples()),
+            new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples())
         };
     }
 }

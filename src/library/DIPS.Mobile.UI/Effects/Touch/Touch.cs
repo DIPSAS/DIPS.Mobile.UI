@@ -1,8 +1,8 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
+namespace DIPS.Mobile.UI.Effects.Touch;
 
-public partial class DUITouchEffect : RoutingEffect
+public partial class Touch : RoutingEffect
 {
     public static ICommand GetCommand(BindableObject view)
     {
@@ -48,11 +48,11 @@ public partial class DUITouchEffect : RoutingEffect
         
         if (newValue is ICommand)
         {
-            view.Effects.Add(new DUITouchEffect());
+            view.Effects.Add(new Touch());
         }
         else
         {
-            var toRemove = view.Effects.FirstOrDefault(e => e is DUITouchEffect);
+            var toRemove = view.Effects.FirstOrDefault(e => e is Touch);
             if (toRemove != null)
             {
                 view.Effects.Remove(toRemove);

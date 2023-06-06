@@ -1,3 +1,9 @@
+## [8.0.0]
+- Added FloatingNavigationButton 
+- Added new effect: ImageTint
+- Renamed existing effect: DUITouchEffect => Touch
+- Added test project: Playground
+
 ## [7.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

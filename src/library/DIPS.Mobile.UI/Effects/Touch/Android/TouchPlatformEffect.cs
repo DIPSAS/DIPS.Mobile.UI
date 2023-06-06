@@ -12,9 +12,9 @@ using Rectangle = System.Drawing.Rectangle;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
+namespace DIPS.Mobile.UI.Effects.Touch;
 
-public partial class DUITouchPlatformEffect
+public partial class TouchPlatformEffect
 {
     private readonly Color m_defaultNativeAnimationColor = new(128, 128, 128, 0);
     private FrameLayout? m_rippleView;
@@ -38,9 +38,9 @@ public partial class DUITouchPlatformEffect
         Control.Clickable = true;
         Control.Touch += OnTouch;
         
-        m_command = DUITouchEffect.GetCommand(Element);
-        m_commandParameter = DUITouchEffect.GetCommandParameter(Element);
-        var contentDescription = DUITouchEffect.GetAccessibilityContentDescription(Element);
+        m_command = Touch.GetCommand(Element);
+        m_commandParameter = Touch.GetCommandParameter(Element);
+        var contentDescription = Touch.GetAccessibilityContentDescription(Element);
         
         CreateRipple();
         AddAccessibility();
@@ -72,7 +72,7 @@ public partial class DUITouchPlatformEffect
             new[] { new int[] { } },
             new[] { (int)m_defaultNativeAnimationColor.ToPlatform() });
         
-        m_ripple = new RippleDrawable(colorStateList, null, null);
+        m_ripple = new RippleDrawable(colorStateList, ViewGroup == null ? Control.Background : null, null);
 
         if (ViewGroup != null)
         {
@@ -96,7 +96,7 @@ public partial class DUITouchPlatformEffect
     {
         if (ViewGroup == null)
         {
-            Control.Foreground = m_ripple;
+            Control.Background = m_ripple;
             m_hasRippleDirectlyOnElement = true;
         }
         else
@@ -201,9 +201,9 @@ public partial class DUITouchPlatformEffect
         AccessibilityManager.IAccessibilityStateChangeListener,
         AccessibilityManager.ITouchExplorationStateChangeListener
     {
-        DUITouchPlatformEffect? m_platformTouchEffect;
+        TouchPlatformEffect? m_platformTouchEffect;
 
-        internal AccessibilityListener(DUITouchPlatformEffect platformTouchEffect)
+        internal AccessibilityListener(TouchPlatformEffect platformTouchEffect)
             => this.m_platformTouchEffect = platformTouchEffect;
 
         public void OnAccessibilityStateChanged(bool enabled)

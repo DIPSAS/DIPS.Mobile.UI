@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Playground.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+    xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+    Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Vetle"
+        ContentTemplate="{DataTemplate vetleSamples:VetlePage}"
+        Route="Vetle" />
+    
+    <ShellContent
+        Title="Håvard"
+        ContentTemplate="{DataTemplate håvardSamples:HåvardPage}"
+        Route="Håvard" />
+
+</Shell>

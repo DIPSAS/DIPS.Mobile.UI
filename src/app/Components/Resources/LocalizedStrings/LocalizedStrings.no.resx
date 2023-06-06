@@ -119,10 +119,31 @@
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Åpne bottom sheet</value>
     </data>
+    <data name="RemoveNavigationMenuButton" xml:space="preserve">
+        <value>Fjern navigasjonsmeny knapp</value>
+    </data>
+    <data name="AddNavigationMenuButton" xml:space="preserve">
+        <value>Legg til navigasjonsmeny knapp</value>
+    </data>
+    <data name="Count" xml:space="preserve">
+        <value>Antall</value>
+    </data>
+    <data name="Color" xml:space="preserve">
+        <value>Farge</value>
+    </data>
+    <data name="PickColor" xml:space="preserve">
+        <value>Velg farge</value>
+    </data>
+    <data name="AddButton" xml:space="preserve">
+        <value>Legg til knapp</value>
+    </data>
     <data name="SkeletonLoading" xml:space="preserve">
         <value>Skeleton lasting</value>
     </data>
     <data name="Loading" xml:space="preserve">
         <value>Lasting</value>
+    </data>
+    <data name="Navigation" xml:space="preserve">
+        <value>Navigasjon</value>
     </data>
 </root>

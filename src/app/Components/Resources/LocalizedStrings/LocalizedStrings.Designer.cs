@@ -261,6 +261,42 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
+        internal static string RemoveNavigationMenuButton {
+            get {
+                return ResourceManager.GetString("RemoveNavigationMenuButton", resourceCulture);
+            }
+        }
+        
+        internal static string AddNavigationMenuButton {
+            get {
+                return ResourceManager.GetString("AddNavigationMenuButton", resourceCulture);
+            }
+        }
+        
+        internal static string Count {
+            get {
+                return ResourceManager.GetString("Count", resourceCulture);
+            }
+        }
+        
+        internal static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        internal static string PickColor {
+            get {
+                return ResourceManager.GetString("PickColor", resourceCulture);
+            }
+        }
+        
+        internal static string AddButton {
+            get {
+                return ResourceManager.GetString("AddButton", resourceCulture);
+            }
+        }
+        
         internal static string SkeletonLoading {
             get {
                 return ResourceManager.GetString("SkeletonLoading", resourceCulture);
@@ -270,6 +306,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        internal static string Navigation {
+            get {
+                return ResourceManager.GetString("Navigation", resourceCulture);
             }
         }
     }

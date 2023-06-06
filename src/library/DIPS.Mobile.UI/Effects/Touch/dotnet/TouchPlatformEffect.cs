@@ -1,7 +1,7 @@
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Effects.DUITouchEffect;
+namespace DIPS.Mobile.UI.Effects.Touch;
 
-public partial class DUITouchPlatformEffect
+public partial class TouchPlatformEffect
 {
     protected override partial void OnAttached()
     {
