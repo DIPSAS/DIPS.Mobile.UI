@@ -1,11 +1,11 @@
+using Colors = Microsoft.Maui.Graphics.Colors;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet
     {
-        public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
-            nameof(ShouldFitToContent),
-            typeof(bool),
-            typeof(BottomSheet));
+        
 
         /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
@@ -26,16 +26,23 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(ShouldFitToContentProperty, value);
         }
 
-        public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
-            nameof(HasSearchBar),
-            typeof(bool),
-            typeof(BottomSheet));
-
         public bool HasSearchBar
         {
             get => (bool)GetValue(HasSearchBarProperty);
             set => SetValue(HasSearchBarProperty, value);
         }
+
+        public SearchBar SearchBar { get; } = new() { HasCancelButton = false, BackgroundColor = Colors.Transparent };
+        
+        public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
+            nameof(ShouldFitToContent),
+            typeof(bool),
+            typeof(BottomSheet));
+        
+        public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
+            nameof(HasSearchBar),
+            typeof(bool),
+            typeof(BottomSheet));
 
         public event EventHandler? WillClose;
         public event EventHandler? DidClose;

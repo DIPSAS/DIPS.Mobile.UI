@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
             else if (Mode == PickerMode.BottomSheet)
             {
-                chip.Command = new Command(() => BottomSheetService.OpenBottomSheet(new PickerBottomSheet(this)));
+                chip.Command = new Command(() => BottomSheetService.OpenBottomSheet(new ItemPickerBottomSheet(this)));
             }
         }
 

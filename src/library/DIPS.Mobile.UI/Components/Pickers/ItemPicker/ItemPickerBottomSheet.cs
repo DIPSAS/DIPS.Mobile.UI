@@ -1,21 +1,20 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
-using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
-    public class PickerBottomSheet : BottomSheet
+    public class ItemPickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
         private readonly List<SelectableListItem> m_originalItems;
-        private readonly SearchBar? m_searchBar;
 
-        public PickerBottomSheet(ItemPicker itemPicker)
+        public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
             m_originalItems = new List<SelectableListItem>();
+            
             if (m_itemPicker.ItemsSource != null)
             {
                 foreach (var item in m_itemPicker.ItemsSource)
@@ -26,8 +25,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
 
             Items = new ObservableCollection<SelectableListItem>(m_originalItems);
-
-            var grid = new Grid() {RowDefinitions = new RowDefinitionCollection {new(GridLength.Auto), new(GridLength.Star)}};
+            HasSearchBar = itemPicker.HasSearchBar;
 
             var collectionView = new CollectionView()
             {
@@ -35,43 +33,26 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 Margin = Sizes.GetSize(SizeName.size_2)
             };
 
-            if (m_itemPicker.HasSearchBar)
-            {
-                m_searchBar = new SearchBar() {HasCancelButton = false, BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
-                /*
-                grid.Add(m_searchBar, 0, 0);
-            */
-            }
-
-
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
             
-            grid.Add(collectionView, 0, (m_searchBar != null) ? 1 : 0);
-            Content = grid;
+            Content = collectionView;
             SubscribeToEvents();
         }
 
         private void SubscribeToEvents()
         {
-            if (m_searchBar != null)
-            {
-                m_searchBar.TextChanged += FilterItems;    
-            }
+            SearchBar.TextChanged += FilterItems;    
         }
 
         private void UnSubscribeFromEvents()
         {
-            if (m_searchBar != null)
-            {
-                m_searchBar.TextChanged -= FilterItems;
-            }
+            SearchBar.TextChanged -= FilterItems;
         }
-
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
             nameof(Items),
             typeof(ObservableCollection<SelectableListItem>),
-            typeof(PickerBottomSheet));
+            typeof(ItemPickerBottomSheet));
 
         public ObservableCollection<SelectableListItem> Items
         {
