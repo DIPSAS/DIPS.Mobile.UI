@@ -273,12 +273,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string FloatingActionButtons {
-            get {
-                return ResourceManager.GetString("FloatingActionButtons", resourceCulture);
-            }
-        }
-        
         internal static string Count {
             get {
                 return ResourceManager.GetString("Count", resourceCulture);
@@ -312,6 +306,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        internal static string Navigation {
+            get {
+                return ResourceManager.GetString("Navigation", resourceCulture);
             }
         }
     }

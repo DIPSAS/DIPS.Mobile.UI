@@ -1,9 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using Components.ComponentsSamples.ContextMenus;
-using Components.ComponentsSamples.FloatingActionButtons;
-using Components.Resources.LocalizedStrings;
+﻿using Components.Resources.LocalizedStrings;
 using Components.Services;
-using DIPS.Mobile.UI.Components.FloatingActionButtons.FloatingNavigationButton;
 
 namespace Components;
 

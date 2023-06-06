@@ -1,3 +1,12 @@
+## [8.0.0]
+- Added FloatingNavigationButton 
+- Added new effect: ImageTint
+- Renamed existing effect: DUITouchEffect => Touch
+- Added test project: Playground
+
+## [7.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [7.0.0]
 - ListItem: Renamed SubTitle to Subtitle
 - SkeletonView: Added SkeletonView as a new component. This is placed in the Loading namespace.
