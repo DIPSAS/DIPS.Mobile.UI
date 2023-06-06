@@ -16,5 +16,4 @@ public partial class DatePickerHandler
 
     private partial void AppendPropertyMapper();
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker);
-    public static partial void Open(DatePickerHandler handler, DatePicker datePicker);
 }

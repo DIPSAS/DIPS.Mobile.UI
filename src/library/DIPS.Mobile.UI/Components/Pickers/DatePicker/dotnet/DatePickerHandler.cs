@@ -13,7 +13,4 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Only_Here_For_U
     private partial void AppendPropertyMapper() => throw new Only_Here_For_UnitTests();
 
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker) => throw new Only_Here_For_UnitTests();
-
-    public static partial void MapOpen(DatePickerHandler handler, DatePicker datePicker, object? obj) => throw new Only_Here_For_UnitTests();
-
 }

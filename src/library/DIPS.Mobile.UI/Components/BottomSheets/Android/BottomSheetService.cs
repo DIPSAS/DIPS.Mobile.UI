@@ -10,10 +10,10 @@ public static partial class BottomSheetService
 
     public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
 
-    public static partial  Task CloseCurrentBottomSheet()
+    public static partial Task CloseCurrentBottomSheet(bool animated)
     {
         var currentBottomSheetFragment = CurrentBottomSheetFragment();
-        currentBottomSheetFragment?.Dismiss();
+       currentBottomSheetFragment?.Close();
         return Task.CompletedTask;
     }
 

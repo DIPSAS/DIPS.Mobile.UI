@@ -84,7 +84,25 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 
     private void OnDateSelected(object? sender, EventArgs e)
     {
-        VirtualView.SelectedDate = (DateTime)PlatformView.Date;
+        var dateFormatter = new NSDateFormatter();
+        var isDaylightSavingsTime = dateFormatter.TimeZone.IsDaylightSavingsTime(PlatformView.Date);
+        var isDaylightSavingsTime2 = PlatformView.MinimumDate != null && dateFormatter.TimeZone.IsDaylightSavingsTime(PlatformView.MinimumDate);
+
+        var dateFormater = new NSDateFormatter();
+        dateFormatter.DateFormat = "yyyy-MM-dd"; // this is "2021-10-29"
+// when user selects a date
+        var asd=  dateFormatter.StringFor(PlatformView.Date);
+        var asd2 = DateTime.Parse(asd); THIS WORKS!!
+        
+        if (VirtualView.IgnoreLocalTime)
+        {
+            VirtualView.SelectedDate = new DateTime(((DateTime)PlatformView.Date).Ticks, DateTimeKind.Utc);
+        }
+        else
+        {
+            VirtualView.SelectedDate = new DateTime(((DateTime)PlatformView.Date).Ticks, DateTimeKind.Local);
+        }
+        
         VirtualView.SelectedDateCommand?.Execute(null);
     }
 
@@ -107,10 +125,5 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         platformView.EditingDidEnd -= OnClose;
 
         DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
-    }
-
-    public static partial void MapOpen(DatePickerHandler handler, DatePicker datePicker, object? obj)
-    {
-        
     }
 }

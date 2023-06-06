@@ -30,13 +30,5 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
                 SelectedDate = DateTime.SpecifyKind(MinimumDate.Value, kind);
             }
         }
-
-        public void Open()
-        {
-            if (Handler is DatePickerHandler handler)
-            {
-                DatePickerHandler.Open(handler, this);
-            }
-        }
     }
 }

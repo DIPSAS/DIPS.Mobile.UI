@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Slideable;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -7,6 +8,7 @@ public partial class HorizontalInlineDatePicker : ContentView
 {
     private SlidableContentLayout m_slidableContentLayout;
     private SelectableDateViewModel? m_selectedDateViewModel;
+    private List<SelectableDateViewModel> m_selectableViewModels = new(); 
 
     public HorizontalInlineDatePicker()
     {
@@ -22,7 +24,7 @@ public partial class HorizontalInlineDatePicker : ContentView
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
             };
         m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;
-        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView(OnDateSelected));
+        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView(OnDateTapped));
         m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
         m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
         /*
@@ -69,9 +71,38 @@ public partial class HorizontalInlineDatePicker : ContentView
         Content = m_slidableContentLayout;
     }
 
-    private void OnDateSelected(SelectableDateViewModel selectableDateViewModel)
+    private void OnDateTapped(DateTime dateTime)
     {
-        var i = (int)Math.Round((selectableDateViewModel.FullDate.Date.Date - DateTime.Now.Date).TotalDays);
+        var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
+        if (previousSelectedDateTime == null) return;
+        
+        if (previousSelectedDateTime.FullDate.Date == dateTime.Date) //Tapped the same date that was already selected
+        {
+            var minDateTime = DateTime.Now.AddDays(-MaxSelectableDaysFromToday);
+            var maxDateTime = DateTime.Now.AddDays(MaxSelectableDaysFromToday);
+            var datePicker = new DatePicker()
+            {
+                SelectedDate = dateTime,
+                MinimumDate = minDateTime,
+                MaximumDate = maxDateTime,
+            };
+            datePicker.SelectedDateCommand = new Command(() =>
+            {
+                ScrollToDate(datePicker.SelectedDate);
+            });
+            DatePickerService.Open(datePicker);
+        }
+        else
+        {
+            ScrollToDate(dateTime.Date);
+        }
+        
+        
+    }
+
+    private void ScrollToDate(DateTime date)
+    {
+        var i = (int) Math.Round((date.Date - DateTime.Now.Date).TotalDays);
         m_slidableContentLayout.ScrollTo(i);
     }
 
@@ -85,23 +116,25 @@ public partial class HorizontalInlineDatePicker : ContentView
         {
             m_selectedDateViewModel = selectableDateViewModel;
         }
-
+        
+        m_selectableViewModels.Add(selectableDateViewModel);
         return selectableDateViewModel;
     }
 
     private void OnDateScrolledTo(int i)
     {
         SelectedDate = DateTime.Now.AddDays(i).Date;
-        var selectedDateBindingContext = m_slidableContentLayout.GetView(i)?.BindingContext;
-        if (selectedDateBindingContext is SelectableDateViewModel selectedDateViewModel)
-        {
-            if (m_selectedDateViewModel != null)
-            {
-                m_selectedDateViewModel.IsSelected = false;
-            }
 
-            m_selectedDateViewModel = selectedDateViewModel;
-            selectedDateViewModel.IsSelected = true;
+        var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
+        if (previousSelectedDateTime != null)
+        {
+            previousSelectedDateTime.IsSelected = false;
+        }
+
+        var newSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.FullDate.Date == SelectedDate.Date);
+        if (newSelectedDateTime != null)
+        {
+            newSelectedDateTime.IsSelected = true;
         }
     }
 }

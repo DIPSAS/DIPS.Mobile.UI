@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using Android.App;
 using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 
 // ReSharper disable once InconsistentNaming
@@ -8,7 +10,7 @@ namespace DIPS.Mobile.UI.API.Library;
 
 public static partial class DUI
 {
-    public static void Init(Activity activity)
+    public static void Init(Android.App.Activity activity)
     {
         SplashScreen.InstallSplashScreen(activity);
     }
