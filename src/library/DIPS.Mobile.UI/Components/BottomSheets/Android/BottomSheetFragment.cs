@@ -3,21 +3,13 @@ using Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using AndroidX.ConstraintLayout.Widget;
-using AndroidX.Core.Widget;
-using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.Sizes;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
-using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
-using Application = Microsoft.Maui.Controls.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Orientation = Android.Widget.Orientation;
-using RelativeLayout = Android.Widget.RelativeLayout;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 {
@@ -53,9 +45,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                LayoutParameters =
                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                        ViewGroup.LayoutParams.MatchParent),
-               Orientation = Orientation.Vertical,
-               BackgroundTintList = ColorStateList.ValueOf(Colors.GetColor(ColorName.color_system_black).ToPlatform())
-               
+               Orientation = Orientation.Vertical
            };
 
            //Add a handle, with a innerGrid that works as a big hit box for the user to hit
@@ -78,30 +68,25 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                };
                innerGrid.Add(handle);
 
-               linearLayout.AddView(innerGrid.ToPlatform(mauiContext));
+               linearLayout.AddView(innerGrid.ToPlatform(mauiContext!));
 
            }
 
            if (m_bottomSheet.HasSearchBar)
            {
-               linearLayout.AddView(m_bottomSheet.SearchBar.ToPlatform(mauiContext));
+               linearLayout.AddView(m_bottomSheet.SearchBar.ToPlatform(mauiContext!));
            }
 
-           var wrapper = new LinearLayout(linearLayout.Context)
+           linearLayout.AddView(m_bottomSheet.ToPlatform(mauiContext!));
+
+           if (!m_bottomSheet.ShouldFitToContent)
            {
-               LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                   ViewGroup.LayoutParams.MatchParent),
-               Orientation = Orientation.Vertical
-           };
-           
-           wrapper.AddView(m_bottomSheet.ToPlatform(mauiContext));
-           
-           
-           linearLayout.AddView(wrapper);
-           
-           if(!m_bottomSheet.ShouldFitToContent)
-            // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-            linearLayout.AddView(new AView(Context){LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)});
+                // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
+                linearLayout.AddView(new AView(Context)
+                {
+                    LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
+                });
+           }
            
             return linearLayout;
         }

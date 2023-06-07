@@ -26,6 +26,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(ShouldFitToContentProperty, value);
         }
 
+        /// <summary>
+        /// Determines if the bottom sheet should have a <see cref="Components.Searching.SearchBar"/> at the top
+        /// </summary>
         public bool HasSearchBar
         {
             get => (bool)GetValue(HasSearchBarProperty);
