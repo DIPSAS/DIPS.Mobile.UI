@@ -1,7 +1,7 @@
-using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
+using DIPS.Mobile.UI.Components.Content;
+using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using DIPS.Mobile.UI.Effects.DUITouchEffect;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Markup;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -25,58 +25,12 @@ internal class DateView : Grid
                     TrueObject = Colors.GetColor(ColorName.color_primary_90),
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
-        
-        //Month and year if year is not current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
-        var monthAndYearLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
-        var monthAndYearLabelContentView = new ContentView {Content = monthAndYearLabel};
-#if __IOS__
-        monthAndYearLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
-#endif
-        monthAndYearLabelContentView.SetBinding(BackgroundColorProperty,
-            new Binding(nameof(SelectableDateViewModel.IsSelected),
-                converter: new BoolToObjectConverter()
-                {
-                    TrueObject = Colors.GetColor(ColorName.color_secondary_90),
-                    FalseObject = Colors.GetColor(ColorName.color_neutral_05)
-                }));
-        monthAndYearLabel.SetBinding(IsVisibleProperty,
-            new Binding(nameof(SelectableDateViewModel.IsCurrentYear),
-                converter: new InvertedBoolConverter()));
-        var monthNameSpan =
-            new Span() {FontSize = Sizes.GetSize(SizeName.size_4), TextTransform = TextTransform.Uppercase};
-        monthNameSpan.SetBinding(Span.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.MonthName),
-                converter: new StringCaseConverter() {StringCase = StringCase.Upper}));
-        var blankSpan = new Span() {Text = " "};
-        var yearNameSpan = new Span() {FontSize = Sizes.GetSize(SizeName.size_4)};
-        yearNameSpan.SetBinding(Span.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.YearName)));
-        monthAndYearLabel.FormattedText = new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
-        this.Add(monthAndYearLabelContentView, 0, 0);
 
-        //Month label if year is current year, using contentview because of Release Mode bug on Android where Label backgroundcolor bindings does not work
-        var monthLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
-        var monthLabelContentView = new ContentView() {Content = monthLabel};
-#if __IOS__
-        monthLabelContentView.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
-#endif
-        monthLabelContentView.SetBinding(BackgroundColorProperty,
-            new Binding(nameof(SelectableDateViewModel.IsSelected),
-                converter: new BoolToObjectConverter()
-                {
-                    TrueObject = Colors.GetColor(ColorName.color_secondary_90),
-                    FalseObject = Colors.GetColor(ColorName.color_neutral_05)
-                }));
-        monthLabel.HorizontalTextAlignment = TextAlignment.Center;
-        monthLabel.TextTransform = TextTransform.Uppercase;
-        monthLabel.SetBinding(IsVisibleProperty,
-            new Binding(nameof(SelectableDateViewModel.IsCurrentYear)));
-        monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.MonthName)));
 
-        this.Add(monthLabelContentView, 0, 0);
+        //Month header
+        this.Add(CreateMonthHeaderContentControl(), 0, 0);
 
-        //Year label
+        //Day number label
         var dayLabel = CreateLabel(new Label());
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
@@ -90,7 +44,7 @@ internal class DateView : Grid
 
         this.Add(dayLabel, 0, 1);
 
-        //Day label
+        //Day shortname label
         var dayNameLabel = CreateLabel(new Label());
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
@@ -103,6 +57,50 @@ internal class DateView : Grid
             new Binding(nameof(SelectableDateViewModel.DayName)));
 
         this.Add(dayNameLabel, 0, 2);
+    }
+
+    private ContentControl CreateMonthHeaderContentControl()
+    {
+        var contentControl = new ContentControl();
+#if __IOS__
+        contentControl.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
+#endif
+        contentControl.SetBinding(BackgroundColorProperty,
+            new Binding(nameof(SelectableDateViewModel.IsSelected),
+                converter: new BoolToObjectConverter()
+                {
+                    TrueObject = Colors.GetColor(ColorName.color_secondary_90),
+                    FalseObject = Colors.GetColor(ColorName.color_neutral_05)
+                }));
+        contentControl.SetBinding(ContentControl.SelectorItemProperty, new Binding(nameof(SelectableDateViewModel.IsCurrentYear)));
+        contentControl.TemplateSelector = new BooleanDataTemplateSelector()
+        {
+            TrueTemplate = new DataTemplate(() =>
+            {
+                var monthLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
+                monthLabel.HorizontalTextAlignment = TextAlignment.Center;
+                monthLabel.TextTransform = TextTransform.Uppercase;
+                monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
+                    new Binding(nameof(SelectableDateViewModel.MonthName)));
+                return monthLabel;
+            }),
+            FalseTemplate = new DataTemplate(() =>
+            {
+                var monthAndYearLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
+                var monthNameSpan =
+                    new Span() {FontSize = Sizes.GetSize(SizeName.size_4), TextTransform = TextTransform.Uppercase};
+                monthNameSpan.SetBinding(Span.TextProperty,
+                    new Binding(nameof(SelectableDateViewModel.MonthName),
+                        converter: new StringCaseConverter() {StringCase = StringCase.Upper}));
+                var blankSpan = new Span() {Text = " "};
+                var yearNameSpan = new Span() {FontSize = Sizes.GetSize(SizeName.size_4)};
+                yearNameSpan.SetBinding(Span.TextProperty,
+                    new Binding(nameof(SelectableDateViewModel.YearName)));
+                monthAndYearLabel.FormattedText = new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
+                return monthAndYearLabel;
+            })
+        };
+        return contentControl;
     }
 
 
@@ -141,8 +139,8 @@ internal class DateView : Grid
         if (isSelected)
         {
             GestureRecognizers.Clear(); //Do set selected date, but open date picker
-            DUITouchEffect.SetCommandParameter(this, m_selectableDateViewModel);
-            DUITouchEffect.SetCommand(this, new Command(() =>
+            Touch.SetCommandParameter(this, m_selectableDateViewModel);
+            Touch.SetCommand(this, new Command(() =>
             {
                 m_dateSelectedAction.Invoke(m_selectableDateViewModel.FullDate.Date);
             }));
@@ -153,8 +151,8 @@ internal class DateView : Grid
             {
                 Command = new Command(() => { m_dateSelectedAction.Invoke(m_selectableDateViewModel.FullDate); })
             });
-            DUITouchEffect.SetCommandParameter(this, null!);
-            DUITouchEffect.SetCommand(this, null!);
+            Touch.SetCommandParameter(this, null!);
+            Touch.SetCommand(this, null!);
         }
     }
 }

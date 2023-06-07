@@ -14,7 +14,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 
     protected override UIDatePicker CreatePlatformView()
     {
-        return new UIDatePicker { PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date };
+        return new UIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date};
     }
 
     protected override void ConnectHandler(UIDatePicker platformView)
@@ -33,7 +33,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
     {
         m_isOpen = true;
     }
-    
+
     private void OnClose(object? sender, EventArgs e)
     {
         m_isOpen = false;
@@ -43,7 +43,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
     {
         if (!m_isOpen)
             return;
-        
+
         var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
         currentPresentedUiViewController?.DismissViewController(false, null);
     }
@@ -59,7 +59,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 
     private static void MapMaximumDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        if(datePicker.MaximumDate is null or null)
+        if (datePicker.MaximumDate is null or null)
             return;
 
         handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate();
@@ -67,9 +67,9 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 
     private static void MapMinimumDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        if(datePicker.MinimumDate is null or null)
+        if (datePicker.MinimumDate is null or null)
             return;
-        
+
         handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate();
     }
 
@@ -84,25 +84,19 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
 
     private void OnDateSelected(object? sender, EventArgs e)
     {
-        var dateFormatter = new NSDateFormatter();
-        var isDaylightSavingsTime = dateFormatter.TimeZone.IsDaylightSavingsTime(PlatformView.Date);
-        var isDaylightSavingsTime2 = PlatformView.MinimumDate != null && dateFormatter.TimeZone.IsDaylightSavingsTime(PlatformView.MinimumDate);
+        var timeZone = PlatformView.TimeZone;
+        if (timeZone == null)
+        {
+            timeZone = NSTimeZone.LocalTimeZone;
+        }
+        if (DateTime.TryParse(
+                new NSDateFormatter() {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
+                    PlatformView.Date),
+                out var selectedDate))
+        {
+            VirtualView.SelectedDate = selectedDate;
+        }
 
-        var dateFormater = new NSDateFormatter();
-        dateFormatter.DateFormat = "yyyy-MM-dd"; // this is "2021-10-29"
-// when user selects a date
-        var asd=  dateFormatter.StringFor(PlatformView.Date);
-        var asd2 = DateTime.Parse(asd); THIS WORKS!!
-        
-        if (VirtualView.IgnoreLocalTime)
-        {
-            VirtualView.SelectedDate = new DateTime(((DateTime)PlatformView.Date).Ticks, DateTimeKind.Utc);
-        }
-        else
-        {
-            VirtualView.SelectedDate = new DateTime(((DateTime)PlatformView.Date).Ticks, DateTimeKind.Local);
-        }
-        
         VirtualView.SelectedDateCommand?.Execute(null);
     }
 

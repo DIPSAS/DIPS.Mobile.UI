@@ -14,8 +14,8 @@ public partial class DatePickerService
         
         var inlineDatePicker = new InlineDatePicker()
         {
-            // MaximumDate = datePicker.MaximumDate,
-            // MinimumDate = datePicker.MinimumDate,
+             MaximumDate = datePicker.MaximumDate,
+             MinimumDate = datePicker.MinimumDate,
             SelectedDate = datePicker.SelectedDate,
             IgnoreLocalTime = datePicker.IgnoreLocalTime
         };
