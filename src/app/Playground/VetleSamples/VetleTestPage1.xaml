@@ -17,6 +17,12 @@
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
         
+        <dui:NavigationListItem Title="Open bottomsheet not fit to content"
+                                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetNotFitToContent}}" />
+        
+        <dui:NavigationListItem Title="Open bottomsheet fit to content"
+                                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+        
         <Button Clicked="AddButton" />
 
     </dui:VerticalStackLayout>

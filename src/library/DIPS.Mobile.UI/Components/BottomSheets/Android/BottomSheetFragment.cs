@@ -1,16 +1,22 @@
 using Android.App;
+using Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Widget;
+using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
 using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
+using Application = Microsoft.Maui.Controls.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Orientation = Android.Widget.Orientation;
 using RelativeLayout = Android.Widget.RelativeLayout;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
@@ -38,84 +44,65 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_bottomSheet.WillClose -= Close;
         }
 
-        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container,
-            Bundle? savedInstanceState)
-        {
-            var context = Platform.AppContext;
-            var mauiContext = DUI.GetCurrentMauiContext;
-            if (mauiContext == null || m_bottomSheetBehavior == null) return new AView(context);
-            
-            /*var nestedScrollView =
-                new NestedScrollView(
-                    context); //Required to make sure the sheet scrolls when there is a scrollable content added to it.*/
-            /*var grid = new Grid()
-            {
-                Padding = new Thickness(0,0,0,Sizes.GetSize(SizeName.size_2)),
-                RowSpacing = 0,
-                RowDefinitions = new RowDefinitionCollection()
-                {
-                    new() {Height = GridLength.Auto}, new() {Height = GridLength.Star}
-                }
-            };*/
+       public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
+       {
+           var mauiContext = DUI.GetCurrentMauiContext;
 
-            var linearLayout = new LinearLayout(Context)
-            {
-                LayoutParameters = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.MatchParent)
-            };
+           var linearLayout = new LinearLayout(Context)
+           {
+               LayoutParameters =
+                   new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                       ViewGroup.LayoutParams.MatchParent),
+               Orientation = Orientation.Vertical,
+               BackgroundTintList = ColorStateList.ValueOf(Colors.GetColor(ColorName.color_system_black).ToPlatform())
+               
+           };
 
-            
-            var nestedScrollView = new NestedScrollView(Context)
-            {
-                LayoutParameters = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.WrapContent)
-            };
-            nestedScrollView.AddView(m_bottomSheet.ToPlatform(mauiContext));
-            
-            //Add a handle, with a innerGrid that works as a big hit box for the user to hit
-            //Inspired by com.google.android.material.bottomheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
-            if (m_bottomSheetBehavior.Draggable)
-            {
-                var innerGrid = new Grid {Padding = new Thickness(0,  Sizes.GetSize(SizeName.size_2)), HorizontalOptions = LayoutOptions.Center};
-                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-                {
-                    Command = new Command(ToggleBottomSheetIfPossible)
-                });
-                var handle = new BoxView()
-                {
-                    HeightRequest = 4,
-                    WidthRequest = 32,
-                    CornerRadius = 10,
-                    BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_40),
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                };
-                
-                
-                //Grid.SetRow(innerGrid, 0);
-                //grid.Children.Add(innerGrid);
-                innerGrid.Children.Add(handle);
-                
-                linearLayout.AddView(innerGrid.ToPlatform(mauiContext));
-            }
+           //Add a handle, with a innerGrid that works as a big hit box for the user to hit
+           //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
+           if (m_bottomSheetBehavior!.Draggable)
+           {
+               var innerGrid = new Grid {Padding = new Thickness(0,  Sizes.GetSize(SizeName.size_2))};
+               innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+               {
+                   Command = new Command(ToggleBottomSheetIfPossible)
+               });
+               var handle = new BoxView()
+               {
+                   HeightRequest = 4,
+                   WidthRequest = 32,
+                   CornerRadius = 10,
+                   BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                   HorizontalOptions = LayoutOptions.Center,
+                   VerticalOptions = LayoutOptions.Center
+               };
+               innerGrid.Add(handle);
 
-            
-            Grid.SetRow(m_bottomSheet, 1);
-            //grid.Children.Add(m_bottomSheet);
-            linearLayout.AddView(nestedScrollView);
-            
-            
-            if (!m_bottomSheet.ShouldFitToContent)
-            {
-                var height = DeviceDisplay.Current.MainDisplayInfo.Height;
-               // grid.HeightRequest = height; 
-            }
-           // var aView = grid.ToContainerView(mauiContext);
-            /*nestedScrollView.AddView(aView);
-            nestedScrollView.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.MatchParent);*/
-            
-            
+               linearLayout.AddView(innerGrid.ToPlatform(mauiContext));
+
+           }
+
+           if (m_bottomSheet.HasSearchBar)
+           {
+               linearLayout.AddView(m_bottomSheet.SearchBar.ToPlatform(mauiContext));
+           }
+
+           var wrapper = new LinearLayout(linearLayout.Context)
+           {
+               LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                   ViewGroup.LayoutParams.MatchParent),
+               Orientation = Orientation.Vertical
+           };
+           
+           wrapper.AddView(m_bottomSheet.ToPlatform(mauiContext));
+           
+           
+           linearLayout.AddView(wrapper);
+           
+           if(!m_bottomSheet.ShouldFitToContent)
+            // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
+            linearLayout.AddView(new AView(Context){LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)});
+           
             return linearLayout;
         }
 
