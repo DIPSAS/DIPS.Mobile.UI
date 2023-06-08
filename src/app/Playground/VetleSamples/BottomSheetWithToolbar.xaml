@@ -6,13 +6,14 @@
              xmlns:toolbarConfiguration="clr-namespace:DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;assembly=DIPS.Mobile.UI"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
-             x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}">
+             x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
+             Title="Test Daily Standup">
     <dui:BottomSheet.BindingContext>
         <vetleSamples:BottomSheetWithToolbarViewModel />
     </dui:BottomSheet.BindingContext>
     
     <dui:BottomSheet.ToolbarConfiguration>
-        <toolbarConfiguration:BottomSheetToolbarConfiguration Title="Test2">
+        <toolbarConfiguration:BottomSheetToolbarConfiguration>
             <toolbarConfiguration:BottomSheetToolbarConfiguration.RightToolbarItems>
                 <toolbarConfiguration:BottomSheetActionButton Title="Done" 
                                                               Command="{Binding TestCommand}" />

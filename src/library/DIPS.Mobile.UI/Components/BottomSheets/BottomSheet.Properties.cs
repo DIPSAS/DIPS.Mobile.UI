@@ -33,6 +33,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             get => (bool)GetValue(HasSearchBarProperty);
             set => SetValue(HasSearchBarProperty, value);
         }
+        
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(BottomSheetToolbarConfiguration));
+
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
 
         public static readonly BindableProperty ToolbarConfigurationProperty = BindableProperty.Create(
             nameof(ToolbarConfiguration),

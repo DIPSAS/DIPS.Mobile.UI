@@ -4,16 +4,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;
 
 public class BottomSheetToolbarConfiguration : BindableObject
 {
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-        nameof(Title),
-        typeof(string),
-        typeof(BottomSheetToolbarConfiguration));
-
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
+    
 
     public static readonly BindableProperty BackButtonTextProperty = BindableProperty.Create(
         nameof(BackButtonText),

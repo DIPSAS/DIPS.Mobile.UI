@@ -142,14 +142,25 @@ internal class BottomSheetContentPage : ContentPage
 
     private void ConfigureToolbar()
     {
-        m_viewController!.NavigationItem.Title = m_bottomSheet.ToolbarConfiguration?.Title;
+        m_viewController!.NavigationItem.Title = m_bottomSheet.Title;
 
         m_viewController!.NavigationItem.BackButtonTitle = m_bottomSheet.ToolbarConfiguration?.BackButtonText;
         
         m_viewController.NavigationItem.RightBarButtonItems =
-            m_bottomSheet.ToolbarConfiguration?.RightToolbarItems.Select(actionButton => new ToolbarItem(actionButton.Title, string.Empty, () => actionButton.Command.Execute(null)).ToUIBarButtonItem()).ToArray();
+            m_bottomSheet.ToolbarConfiguration?.RightToolbarItems.Select(CreateUIBarButtonItem).ToArray();
     }
 
+    private UIBarButtonItem CreateUIBarButtonItem(BottomSheetActionButton actionButton)
+    {
+        var uiBarButtonItem = new ToolbarItem(actionButton.Title,
+                string.Empty, 
+                () => actionButton.Command.Execute(null))
+            .ToUIBarButtonItem();
+
+        uiBarButtonItem.Image = UIImage.FromBundle("arrow_right_s_line.png");
+
+        return uiBarButtonItem;
+    }
 
     internal async Task Open()
     {
