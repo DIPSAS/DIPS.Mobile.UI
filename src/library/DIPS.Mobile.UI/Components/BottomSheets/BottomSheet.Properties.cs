@@ -1,12 +1,10 @@
 using System.Windows.Input;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet
     {
-        
         /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
         ///
@@ -35,20 +33,26 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(HasSearchBarProperty, value);
         }
 
-        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
-            nameof(SearchCommand),
-            typeof(ICommand),
-            typeof(BottomSheet));
-
+        /// <summary>
+        /// The command to be executed when the text in the search field is changed
+        /// </summary>
         public ICommand SearchCommand
         {
             get => (ICommand)GetValue(SearchCommandProperty);
             set => SetValue(SearchCommandProperty, value);
         }
 
+        /// <summary>
+        /// Event raised when the text in the search field is changed
+        /// </summary>
         public event EventHandler<TextChangedEventArgs> SearchTextChanged;
 
         internal SearchBar? SearchBar { get; private set; }
+        
+        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
+            nameof(SearchCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
         
         public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
             nameof(ShouldFitToContent),

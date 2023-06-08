@@ -3,8 +3,16 @@
 <dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.TestBottomSheetFitToContent"
-             ShouldFitToContent="True">
+             ShouldFitToContent="True"
+             HasSearchBar="True"
+             SearchCommand="{Binding Navigate}">
+    
+    <dui:BottomSheet.BindingContext>
+        <vetleSamples:VetleTestPage1ViewModel />
+    </dui:BottomSheet.BindingContext>
+    
     <dui:BottomSheet.Resources>
             <ResourceDictionary>
                 
