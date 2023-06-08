@@ -46,8 +46,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// Event raised when the text in the search field is changed
         /// </summary>
         public event EventHandler<TextChangedEventArgs> SearchTextChanged;
-
-        internal SearchBar? SearchBar { get; private set; }
         
         public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
             nameof(SearchCommand),

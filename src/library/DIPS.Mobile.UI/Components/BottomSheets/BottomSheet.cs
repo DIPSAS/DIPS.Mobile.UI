@@ -5,6 +5,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
+        internal SearchBar? SearchBar { get; private set; }
+        
         public void Close()
         {
             WillClose?.Invoke(this, EventArgs.Empty);

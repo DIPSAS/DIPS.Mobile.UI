@@ -2,6 +2,7 @@
 - [Android] Fixed an issue where CollectionView's height inside BottomSheet would expand beyond its items
 - [Android] Fixed an issue where the Handle and Searchbar were scrollable inside BottomSheet
 - [iOS] Fixed an issue where CollectionView's height inside BottomSheet would be cut short
+- Consumers has now the option to include a searchbar in BottomSheet's 
 
 ## [8.0.0]
 - Added FloatingNavigationButton 
