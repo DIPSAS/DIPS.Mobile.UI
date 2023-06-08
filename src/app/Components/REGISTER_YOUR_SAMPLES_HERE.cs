@@ -7,12 +7,10 @@ using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
 using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Searching;
-using Components.ComponentsSamples.SlideLayoutSamples;
 using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples.Colors;
 using Components.ResourcesSamples.Icons;
 using Components.ResourcesSamples.Sizes;
-using DIPS.Mobile.UI.Resources.Icons;
 
 namespace Components;
 
@@ -35,7 +33,6 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
             new(SampleType.Components, LocalizedStrings.Navigation, () => new NavigationSamples()),
             new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
-            new(SampleType.Components, "Slideable", () => new SlideLayoutSamples()),
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples())
         };
     }
