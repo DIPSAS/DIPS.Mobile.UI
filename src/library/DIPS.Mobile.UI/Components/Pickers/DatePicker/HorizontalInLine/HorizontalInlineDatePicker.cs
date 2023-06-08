@@ -24,9 +24,10 @@ public partial class HorizontalInlineDatePicker : ContentView
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
             };
         m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;
-        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView(OnDateTapped));
+        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView());
         m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
         m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
+        m_slidableContentLayout.TappedCommand = new Command<int>(ItemTapped);
         /*
         *  <dxui:SlidableContentLayout.ItemTemplate>
                <DataTemplate x:DataType="{x:Type Common:DateViewModel}">
@@ -71,6 +72,19 @@ public partial class HorizontalInlineDatePicker : ContentView
         Content = m_slidableContentLayout;
     }
 
+    private void ItemTapped(int index)
+    {
+        var selectedDate = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
+        if (selectedDate != null)
+        {
+            var selectedDateIndex = m_selectableViewModels.IndexOf(selectedDate);
+            
+            var tappedIndex = selectedDateIndex + index;
+            var tappedSelectableDateViewModel = m_selectableViewModels[tappedIndex];
+            OnDateTapped(tappedSelectableDateViewModel.FullDate);
+        }
+    }
+
     private void OnDateTapped(DateTime dateTime)
     {
         var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
@@ -88,22 +102,31 @@ public partial class HorizontalInlineDatePicker : ContentView
             };
             datePicker.SelectedDateCommand = new Command(() =>
             {
-                ScrollToDate(datePicker.SelectedDate);
+                ScrollToDate(datePicker.SelectedDate, false);
             });
             DatePickerService.Open(datePicker);
         }
         else
         {
-            ScrollToDate(dateTime.Date);
+            ScrollToDate(dateTime.Date, true);
         }
         
         
     }
 
-    private void ScrollToDate(DateTime date)
+    private void ScrollToDate(DateTime date, bool shouldAnimate)
     {
         var i = (int) Math.Round((date.Date - DateTime.Now.Date).TotalDays);
-        m_slidableContentLayout.ScrollTo(i);
+        
+        if (shouldAnimate)
+        {
+            m_slidableContentLayout.ScrollTo(i);    
+        }
+        else
+        {
+            m_slidableContentLayout.SlideProperties = new SlidableProperties(i);    
+        }
+        
     }
 
     private object CreateSelectableDateViewModel(int i)

@@ -1,25 +1,20 @@
-﻿using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Slideable.Util;
+﻿using DIPS.Mobile.UI.Components.Slideable.Util;
 
 namespace DIPS.Mobile.UI.Components.Slideable
 {
     /// <summary>
     /// Layout used to scroll through indexes smoothly. This has enabled acceleration.
     /// </summary>
-    public class SlidableLayout : ContentView
+    public partial class SlidableLayout : ContentView
     {
-        private static int m_tappedValue = -3;
-        private readonly PanGestureRecognizer m_panGestureRecognizer = new PanGestureRecognizer();
-        private readonly AccelerationService m_accelerator = new AccelerationService(true);
+        private readonly PanGestureRecognizer m_panGestureRecognizer;
+        private readonly AccelerationService m_accelerator = new(true);
         private int m_lastId = -2; // Different than default of SlideProperties
         private double m_startSlideLocation;
         private int m_lastIndex = int.MinValue;
-        private bool disableTouchScroll;
-
-        /// <summary>
-        /// Disables touch stopping of the slider.
-        /// </summary>
-        protected bool m_disableTouchStop;
+        private bool m_disableTouchScroll;
+        private SelectionFeedbackGenerator? m_feedbackGenerator;
+        
 
         /// <summary>
         /// <inheritdoc/>
@@ -28,14 +23,32 @@ namespace DIPS.Mobile.UI.Components.Slideable
         {
             Padding = 0;
             Margin = 0;
-            HorizontalOptions = LayoutOptions.FillAndExpand;
-            VerticalOptions = LayoutOptions.FillAndExpand;
+            HorizontalOptions = LayoutOptions.Fill;
+            VerticalOptions = LayoutOptions.Fill;
             Config = new SliderConfig(int.MinValue, int.MaxValue);
+            
             m_panGestureRecognizer = new PanGestureRecognizer();
 
 
             GestureRecognizers.Add(m_panGestureRecognizer);
+            
             m_panGestureRecognizer.PanUpdated += PanGestureRecognizerPanUpdated;
+
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            GestureRecognizers.Add(tapGestureRecognizer);
+            tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
+        }
+
+        private void OnEntireLayoutTapped(object? sender, Microsoft.Maui.Controls.TappedEventArgs eventArgs)
+        {
+            var point = eventArgs.GetPosition((Element)sender);
+            if (point.HasValue)
+            {
+                var nonRoundedIndex = Math.Max(Config.MinValue, Math.Min(Config.MaxValue, CalculateIndex(point.Value.X)));
+                var index = GetIndexFromValue(nonRoundedIndex);
+                Tapped?.Invoke(this, new TappedEventArgs(index));
+                TappedCommand?.Execute(index);
+            }
         }
 
         private static void OnChanged(BindableObject bindable, object oldValue, object newValue)
@@ -72,7 +85,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             SlidableProperties.ScrollTo(s => SlideProperties = s, () => SlideProperties, index, length);
         }
 
-        private void PanGestureRecognizerPanUpdated(object sender, PanUpdatedEventArgs e)
+        private void PanGestureRecognizerPanUpdated(object? sender, PanUpdatedEventArgs e)
         {
             if (DisableTouchScroll)
             {
@@ -257,116 +270,14 @@ namespace DIPS.Mobile.UI.Components.Slideable
         }
 
         /// <summary>
-        /// <see cref="Config"/>
-        /// </summary>
-        public static readonly BindableProperty ConfigProperty = BindableProperty.Create(
-            nameof(Config),
-            typeof(SliderConfig),
-            typeof(SlidableLayout));
-
-        /// <summary>
-        /// Configuration indicating max and min values of this layout. 
-        /// </summary>
-        public SliderConfig Config
-        {
-            get => (SliderConfig)GetValue(ConfigProperty);
-            set => SetValue(ConfigProperty, value);
-        }
-
-        /// <summary>
-        /// <see cref="SlideProperties"/>
-        /// </summary>
-        public static readonly BindableProperty SlidePropertiesProperty = BindableProperty.Create(
-            nameof(SlideProperties),
-            typeof(SlidableProperties),
-            typeof(SlidableLayout),
-            defaultBindingMode: BindingMode.TwoWay,
-            defaultValue: new SlidableProperties(0),
-            propertyChanged: OnChanged);
-
-        /// <summary>
-        /// Properties used to define where the slider is at the moment, in terms of index and some internal properties used for the scrolling.
-        /// </summary>
-        public SlidableProperties SlideProperties
-        {
-            get => (SlidableProperties)GetValue(SlidePropertiesProperty);
-            set => SetValue(SlidePropertiesProperty, value);
-        }
-
-        /// <summary>
-        /// <see cref="SelectedItemChangedCommand"/>
-        /// </summary>
-        public static readonly BindableProperty SelectedItemChangedCommandProperty = BindableProperty.Create(
-            nameof(SelectedItemChangedCommand),
-            typeof(ICommand),
-            typeof(SlidableLayout));
-
-        /// <summary>
-        /// Command invoked every time the selection of an index changes.
-        /// </summary>
-        public ICommand SelectedItemChangedCommand
-        {
-            get => (ICommand)GetValue(SelectedItemChangedCommandProperty);
-            set => SetValue(SelectedItemChangedCommandProperty, value);
-        }
-
-        /// <summary>
-        /// <see cref="ElementWidth"/>
-        /// </summary>
-        public static readonly BindableProperty ElementWidthProperty = BindableProperty.Create(
-            nameof(ElementWidth),
-            typeof(double),
-            typeof(SlidableLayout),
-            0.2);
-
-        /// <summary>
-        /// Width of an Element, either proportional or exact.
-        /// </summary>
-        public double ElementWidth
-        {
-            get => (double)GetValue(ElementWidthProperty);
-            set => SetValue(ElementWidthProperty, value);
-        }
-
-        /// <summary>
-        /// <see cref="WidthIsProportional"/>
-        /// </summary>
-        public static readonly BindableProperty WidthIsProportionalProperty = BindableProperty.Create(
-            nameof(WidthIsProportional),
-            typeof(bool),
-            typeof(SlidableLayout),
-            true);
-
-        private SelectionFeedbackGenerator m_feedbackGenerator;
-
-
-        /// <summary>
-        /// Default true and defines if the ElementWidth is proportional to the width of the parent or exact pixel values.
-        /// </summary>
-        public bool WidthIsProportional
-        {
-            get => (bool)GetValue(WidthIsProportionalProperty);
-            set => SetValue(WidthIsProportionalProperty, value);
-        }
-
-        /// <summary>
-        /// Set this to true if you want a small vibration every time the index changes.
-        /// </summary>
-        public bool VibrateOnSelectionChanged
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Disables the scrolling on this Layout. Use this if you layout has to be inside a ScrollView on Android.
         /// </summary>
         public bool DisableTouchScroll
         {
-            get => disableTouchScroll;
+            get => m_disableTouchScroll;
             set
             {
-                disableTouchScroll = value;
+                m_disableTouchScroll = value;
                 GestureRecognizers.Remove(m_panGestureRecognizer);
                 if (!value)
                 {
@@ -374,29 +285,5 @@ namespace DIPS.Mobile.UI.Components.Slideable
                 }
             }
         }
-
-        internal void SendPan(float distanceX, float distanceY, GestureStatus status, int id)
-        {
-            PanGestureRecognizerPanUpdated(this, new PanUpdatedEventArgs(status, id, distanceX, distanceY));
-        }
-
-        internal void SendTapped(float x, float y)
-        {
-        }
-
-        /// <summary>
-        /// Toggles drag effect after pan gesture is completed. Set to true if scroll should stop immediately after finger is lifted. 
-        /// </summary>
-        public bool StopOnGestureEnded { get; set; }
-
-        /// <summary>
-        /// Invoked on start of a Pan gesture
-        /// </summary>
-        public event EventHandler<PanEventArgs> PanStarted;
-
-        /// <summary>
-        /// Invoked on end of Pan gesture.
-        /// </summary>
-        public event EventHandler<PanEventArgs> PanEnded;
     }
 }

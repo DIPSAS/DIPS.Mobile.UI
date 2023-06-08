@@ -10,9 +10,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
 internal class DateView : Grid
 {
-    public DateView(Action<DateTime> dateSelected)
+    public DateView()
     {
-        m_dateSelectedAction = dateSelected;
         RowSpacing = Sizes.GetSize(SizeName.size_2);
         RowDefinitions =
             new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
@@ -62,9 +61,8 @@ internal class DateView : Grid
     private ContentControl CreateMonthHeaderContentControl()
     {
         var contentControl = new ContentControl();
-#if __IOS__
-        contentControl.Padding = new Thickness(Sizes.GetSize(SizeName.size_1));
-#endif
+        contentControl.Padding = new Thickness(Sizes.GetSize(SizeName.size_2));
+        
         contentControl.SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
@@ -72,7 +70,8 @@ internal class DateView : Grid
                     TrueObject = Colors.GetColor(ColorName.color_secondary_90),
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
-        contentControl.SetBinding(ContentControl.SelectorItemProperty, new Binding(nameof(SelectableDateViewModel.IsCurrentYear)));
+        contentControl.SetBinding(ContentControl.SelectorItemProperty,
+            new Binding(nameof(SelectableDateViewModel.IsCurrentYear)));
         contentControl.TemplateSelector = new BooleanDataTemplateSelector()
         {
             TrueTemplate = new DataTemplate(() =>
@@ -96,16 +95,13 @@ internal class DateView : Grid
                 var yearNameSpan = new Span() {FontSize = Sizes.GetSize(SizeName.size_4)};
                 yearNameSpan.SetBinding(Span.TextProperty,
                     new Binding(nameof(SelectableDateViewModel.YearName)));
-                monthAndYearLabel.FormattedText = new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
+                monthAndYearLabel.FormattedText =
+                    new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
                 return monthAndYearLabel;
             })
         };
         return contentControl;
     }
-
-
-    private SelectableDateViewModel m_selectableDateViewModel;
-    private readonly Action<DateTime> m_dateSelectedAction;
 
     private Label CreateLabel(Label theLabel)
     {
@@ -113,46 +109,5 @@ internal class DateView : Grid
         theLabel.HorizontalTextAlignment = TextAlignment.Center;
         theLabel.VerticalTextAlignment = TextAlignment.Center;
         return theLabel;
-    }
-
-    protected override void OnBindingContextChanged()
-    {
-        base.OnBindingContextChanged();
-        if (BindingContext is SelectableDateViewModel selectableDateViewModel)
-        {
-            m_selectableDateViewModel = selectableDateViewModel;
-            
-            OnIsSelectedChanged(m_selectableDateViewModel.IsSelected);
-            
-            m_selectableDateViewModel.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName is nameof(SelectableDateViewModel.IsSelected))
-                {
-                    OnIsSelectedChanged(m_selectableDateViewModel.IsSelected);
-                }
-            };
-        }
-    }
-
-    private void OnIsSelectedChanged(bool isSelected)
-    {
-        if (isSelected)
-        {
-            GestureRecognizers.Clear(); //Do set selected date, but open date picker
-            Touch.SetCommandParameter(this, m_selectableDateViewModel);
-            Touch.SetCommand(this, new Command(() =>
-            {
-                m_dateSelectedAction.Invoke(m_selectableDateViewModel.FullDate.Date);
-            }));
-        }
-        else
-        {
-            GestureRecognizers.Add(new TapGestureRecognizer() //Do set selected date and remove opening of date picker
-            {
-                Command = new Command(() => { m_dateSelectedAction.Invoke(m_selectableDateViewModel.FullDate); })
-            });
-            Touch.SetCommandParameter(this, null!);
-            Touch.SetCommand(this, null!);
-        }
     }
 }
