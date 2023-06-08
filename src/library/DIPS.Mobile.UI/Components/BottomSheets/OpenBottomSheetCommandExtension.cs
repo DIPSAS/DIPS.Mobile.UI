@@ -16,10 +16,19 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                     return;
                 }
 
+                try
+                {
+
                 var activatedObject = Activator.CreateInstance(BottomSheetType);
                 if (activatedObject is BottomSheet theBottomSheet)
                 {
                     BottomSheetService.OpenBottomSheet(theBottomSheet);
+                }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
                 }
             });
         }

@@ -23,6 +23,9 @@
         <dui:NavigationListItem Title="Open bottomsheet fit to content"
                                 Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
         
+        <dui:NavigationListItem Title="Open bottomsheet with toolbar"
+                                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
+        
         <Button Clicked="AddButton" />
 
     </dui:VerticalStackLayout>

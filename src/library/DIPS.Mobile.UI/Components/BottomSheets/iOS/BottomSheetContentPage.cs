@@ -1,6 +1,13 @@
+using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;
+using Foundation;
+using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Platform;
+using ObjCRuntime;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Platform = Microsoft.Maui.ApplicationModel.Platform;
 using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
@@ -8,6 +15,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 internal class BottomSheetContentPage : ContentPage
 {
     private UIViewController? m_viewController;
+#nullable disable
+    private UIViewController m_navigationViewController;
+#nullable enable
     private readonly BottomSheet m_bottomSheet;
     private UISheetPresentationController? m_sheetPresentationController;
 
@@ -63,18 +73,24 @@ internal class BottomSheetContentPage : ContentPage
         if (mauiContext == null)
             return;
 
-        m_viewController = this.ToUIViewController(mauiContext);
+        var hasToolbar = m_bottomSheet.ToolbarConfiguration is not null;
         
+        m_viewController = this.ToUIViewController(mauiContext);
+        m_navigationViewController = hasToolbar ? new UINavigationController(this.ToUIViewController(mauiContext)) : m_viewController;
+
         if (m_viewController == null) 
             return;
         
-        m_viewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
-        m_viewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+        if(hasToolbar)
+            ConfigureToolbar();
+        
+        m_navigationViewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
+        m_navigationViewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
         if (!OperatingSystem.IsIOSVersionAtLeast(15) || m_viewController.SheetPresentationController == null) //Can use bottom sheet
             return;
 
-        m_sheetPresentationController = m_viewController.SheetPresentationController;
+        m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
 
         var preferredDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
         var preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
@@ -119,17 +135,28 @@ internal class BottomSheetContentPage : ContentPage
                     : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                 ;
             // view.Bounds = view.Frame.Inset(Sizes.GetSize(SizeName.size_4), bottom);
-            Padding = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0,
+            Padding = new Thickness(0, hasToolbar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
                 bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
         }
     }
 
+    private void ConfigureToolbar()
+    {
+        m_viewController!.NavigationItem.Title = m_bottomSheet.ToolbarConfiguration?.Title;
+
+        m_viewController!.NavigationItem.BackButtonTitle = m_bottomSheet.ToolbarConfiguration?.BackButtonText;
+        
+        m_viewController.NavigationItem.RightBarButtonItems =
+            m_bottomSheet.ToolbarConfiguration?.RightToolbarItems.Select(actionButton => new ToolbarItem(actionButton.Title, string.Empty, () => actionButton.Command.Execute(null)).ToUIBarButtonItem()).ToArray();
+    }
+
+
     internal async Task Open()
     {
         var currentViewController = Platform.GetCurrentUIViewController();
-        if (m_viewController != null && currentViewController != null)
+        if (m_navigationViewController != null && currentViewController != null)
         {
-            await currentViewController.PresentViewControllerAsync(m_viewController, true);
+            await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
         }
     }
 
