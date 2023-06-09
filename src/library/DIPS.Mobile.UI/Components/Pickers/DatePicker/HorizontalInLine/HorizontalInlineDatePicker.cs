@@ -29,47 +29,6 @@ public partial class HorizontalInlineDatePicker : ContentView
         m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
         m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
         m_slidableContentLayout.ContentTapped += ItemTapped;
-        /*
-        *  <dxui:SlidableContentLayout.ItemTemplate>
-               <DataTemplate x:DataType="{x:Type Common:DateViewModel}">
-                   <Calendar:DateView effects:TouchEffect.NativeAnimation="True">
-                       <Calendar:DateView.GestureRecognizers>
-                               <TapGestureRecognizer Tapped="DateTapped" />
-                           </Calendar:DateView.GestureRecognizers>
-                   </Calendar:DateView>
-               </DataTemplate>
-           </dxui:SlidableContentLayout.ItemTemplate>
-        */
-
-
-        /*
-         *<Grid RowSpacing="0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Shared:Separator Grid.Row="0"
-                 Opacity="0.2"/>
-        <!--  A fake datepicker entry to use the built in datepicker when tapping today item  -->
-        <dxui:SlidableContentLayout x:Name="HorizontalCalendarSlideableContentLayout"
-                                    Grid.Row="1"
-                                    BackgroundColor="{x:Static dxui:ColorPalette.LightLight}"
-                                    BindingContextFactory="{Binding CreateDate}"
-                                    ScaleDown="False">
-            <!-- Slideable Content Layout config (to set range) is set in the code behind when context changed -->
-            <dxui:SlidableContentLayout.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type Common:DateViewModel}">
-                    <Calendar:DateView effects:TouchEffect.NativeAnimation="True">
-                        <Calendar:DateView.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="DateTapped" />
-                            </Calendar:DateView.GestureRecognizers>
-                    </Calendar:DateView>
-                </DataTemplate>
-            </dxui:SlidableContentLayout.ItemTemplate>
-        </dxui:SlidableContentLayout>
-    </Grid>
-         * 
-         */
         Content = m_slidableContentLayout;
     }
 
