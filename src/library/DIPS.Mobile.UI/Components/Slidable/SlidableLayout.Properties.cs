@@ -1,7 +1,6 @@
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Slideable.Util;
 
-namespace DIPS.Mobile.UI.Components.Slideable;
+namespace DIPS.Mobile.UI.Components.Slidable;
 
 public partial class SlidableLayout
 {

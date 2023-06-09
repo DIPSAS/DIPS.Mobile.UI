@@ -1,20 +1,19 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
-using DIPS.Mobile.UI.Components.Slideable;
+using DIPS.Mobile.UI.Components.Slidable;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using TappedEventArgs = DIPS.Mobile.UI.Components.Slideable.TappedEventArgs;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
 public partial class HorizontalInlineDatePicker : ContentView
 {
-    private SlideableContentLayout m_slidableContentLayout;
+    private SlidableContentLayout m_slidableContentLayout;
     private List<SelectableDateViewModel> m_selectableViewModels = new();
     private DateTime? m_startDate;
 
     public HorizontalInlineDatePicker()
     {
         m_slidableContentLayout =
-            new SlideableContentLayout()
+            new SlidableContentLayout()
             {
 #if __IOS__
                 HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_3),

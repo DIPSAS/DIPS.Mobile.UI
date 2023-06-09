@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace DIPS.Mobile.UI.Components.Slideable
+namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     /// Properties used for SlideLayout

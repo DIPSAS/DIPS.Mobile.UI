@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace DIPS.Mobile.UI.Components.Slideable.Util
+namespace DIPS.Mobile.UI.Components.Slidable.Util
 {
     /// <summary>
     /// Used to track time.

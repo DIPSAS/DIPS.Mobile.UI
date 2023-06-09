@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable
+﻿namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     /// Config defining the max and min of SlideableLayout

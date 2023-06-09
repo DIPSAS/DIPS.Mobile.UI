@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable.Util
+﻿namespace DIPS.Mobile.UI.Components.Slidable.Util
 {
     /// <summary>
     /// Helps in finding the closest target to snap to.

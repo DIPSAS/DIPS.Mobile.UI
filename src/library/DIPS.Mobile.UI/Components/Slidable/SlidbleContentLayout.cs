@@ -1,12 +1,12 @@
 ﻿using Microsoft.Maui.Layouts;
 
-namespace DIPS.Mobile.UI.Components.Slideable
+namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     /// Layout containing moving layout based on Id, which can be created with a Factory.
     /// </summary>
     [ContentProperty(nameof(ItemTemplate))]
-    public class SlideableContentLayout : SlidableLayout
+    public partial class SlidableContentLayout : SlidableLayout
     {
         private readonly Dictionary<int, View> m_viewMapping = new();
         private readonly HashSet<IView> m_currentChildren = new();
@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public SlideableContentLayout()
+        public SlidableContentLayout()
         {
             Content = m_container;
             m_container.IsClippedToBounds = true;
@@ -152,53 +152,6 @@ namespace DIPS.Mobile.UI.Components.Slideable
             m_viewMapping[id] = element;
             return element;
         }
-
-        /// <summary>
-        /// <see cref="BindingContextFactory"/>
-        /// </summary>
-        public static readonly BindableProperty BindingContextFactoryProperty = BindableProperty.Create(
-            nameof(BindingContextFactory),
-            typeof(Func<int, object>),
-            typeof(SlidableLayout),
-            propertyChanged: (s, e, n) => ((SlideableContentLayout)s).ResetAll());
-
-        /// <summary>
-        /// Factory used to create instaces of the viewmodels scrolled between. Takes an int and returns an object.
-        /// </summary>
-        public Func<int, object> BindingContextFactory
-        {
-            get { return (Func<int, object>)GetValue(BindingContextFactoryProperty); }
-            set { SetValue(BindingContextFactoryProperty, value); }
-        }
-
-        /// <summary>
-        /// <see cref="ItemTemplate"/>
-        /// </summary>
-        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
-            nameof(ItemTemplate),
-            typeof(DataTemplate),
-            typeof(SlidableLayout),
-            propertyChanged: (s, e, n) => ((SlideableContentLayout)s).ResetAll());
-
-
-        /// <summary>
-        /// Template used in creating each item
-        /// </summary>
-        public DataTemplate ItemTemplate
-        {
-            get => (DataTemplate)GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
-        }
-
-        /// <summary>
-        /// Invoked when people tap content in the layout
-        /// </summary>
-        public event EventHandler<ContentTappedEventArgs>? ContentTapped;
-
-        /// <summary>
-        /// Indicates if items should be scaled down when getting further away from the center.
-        /// </summary>
-        public bool ScaleDown { get; set; } = true;
 
         public View? GetView(int index)
         {

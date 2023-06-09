@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable
+﻿namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     ///     Used in <see cref="SlidableLayout.PanEnded" /> and <see cref="SlidableLayout.PanStarted" />

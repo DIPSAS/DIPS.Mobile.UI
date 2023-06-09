@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable.Util
+﻿namespace DIPS.Mobile.UI.Components.Slidable.Util
 {
     /// <summary>
     /// Vibration/haptic feedback.

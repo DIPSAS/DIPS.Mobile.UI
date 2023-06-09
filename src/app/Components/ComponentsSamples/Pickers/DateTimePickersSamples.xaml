@@ -8,6 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:horizontalInLine="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;assembly=DIPS.Mobile.UI"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:slidable="clr-namespace:DIPS.Mobile.UI.Components.Slidable;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Padding="{dui:Sizes size_3}"
                  Title="Date / time pickers">
@@ -15,17 +16,17 @@
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <dui:SlideableContentLayout BindingContextFactory="{Binding CreateMyObjectsBasedOnPosition}">
-        <dui:SlideableContentLayout.Config>
-            <dui:SliderConfig MaxValue="20"
+    <slidable:SlidableContentLayout BindingContextFactory="{Binding CreateMyObjectsBasedOnPosition}">
+        <slidable:SlidableContentLayout.Config>
+            <slidable:SliderConfig MaxValue="20"
                               MinValue="20"/>
-        </dui:SlideableContentLayout.Config>
-        <dui:SlideableContentLayout.ItemTemplate>
+        </slidable:SlidableContentLayout.Config>
+        <slidable:SlidableContentLayout.ItemTemplate>
             <DataTemplate x:DataType="{x:Type system:String}">
                     <dui:Label Text="{Binding .}"/>
             </DataTemplate>
-        </dui:SlideableContentLayout.ItemTemplate>
-    </dui:SlideableContentLayout>
+        </slidable:SlidableContentLayout.ItemTemplate>
+    </slidable:SlidableContentLayout>
     
     <!-- <ScrollView> -->
     <!--     <dui:VerticalStackLayout> -->

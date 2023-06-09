@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable.Util
+﻿namespace DIPS.Mobile.UI.Components.Slidable.Util
 {
     /// <summary>
     /// Class to simulate acceleration. Use this in connection to a repeated invocation after touch and use GetValue

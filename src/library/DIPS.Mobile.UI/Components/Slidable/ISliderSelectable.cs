@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Components.Slideable
+﻿namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     /// Inherit this to get information about selection changes. You have to keep the state yourself if you are doing heavy work.

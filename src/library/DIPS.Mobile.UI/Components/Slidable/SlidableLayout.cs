@@ -1,6 +1,6 @@
-﻿using DIPS.Mobile.UI.Components.Slideable.Util;
+﻿using DIPS.Mobile.UI.Components.Slidable.Util;
 
-namespace DIPS.Mobile.UI.Components.Slideable
+namespace DIPS.Mobile.UI.Components.Slidable
 {
     /// <summary>
     /// Layout used to scroll through indexes smoothly. This has enabled acceleration.
