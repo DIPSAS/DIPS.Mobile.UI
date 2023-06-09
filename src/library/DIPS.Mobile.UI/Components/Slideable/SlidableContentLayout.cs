@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
     /// Layout containing moving layout based on Id, which can be created with a Factory.
     /// </summary>
     [ContentProperty(nameof(ItemTemplate))]
-    public class SlidableContentLayout : SlidableLayout
+    public class SlideableContentLayout : SlidableLayout
     {
         private readonly Dictionary<int, View> m_viewMapping = new();
         private readonly HashSet<IView> m_currentChildren = new();
@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public SlidableContentLayout()
+        public SlideableContentLayout()
         {
             Content = m_container;
             m_container.IsClippedToBounds = true;
@@ -160,7 +160,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             nameof(BindingContextFactory),
             typeof(Func<int, object>),
             typeof(SlidableLayout),
-            propertyChanged: (s, e, n) => ((SlidableContentLayout)s).ResetAll());
+            propertyChanged: (s, e, n) => ((SlideableContentLayout)s).ResetAll());
 
         /// <summary>
         /// Factory used to create instaces of the viewmodels scrolled between. Takes an int and returns an object.
@@ -178,7 +178,7 @@ namespace DIPS.Mobile.UI.Components.Slideable
             nameof(ItemTemplate),
             typeof(DataTemplate),
             typeof(SlidableLayout),
-            propertyChanged: (s, e, n) => ((SlidableContentLayout)s).ResetAll());
+            propertyChanged: (s, e, n) => ((SlideableContentLayout)s).ResetAll());
 
 
         /// <summary>

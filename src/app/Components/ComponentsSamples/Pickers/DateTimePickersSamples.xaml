@@ -7,54 +7,68 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:horizontalInLine="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;assembly=DIPS.Mobile.UI"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Padding="{dui:Sizes size_3}"
                  Title="Date / time pickers">
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <ScrollView>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="DatePicker"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding SelectedBirthday}"
-                            HorizontalOptions="Start" />
-            <dui:Label Text="TimePicker"
-                       Margin="5" />
-            <dui:TimePicker HorizontalOptions="Start"
-                            SelectedTime="{Binding SelectedShoppingTime}" />
-            <dui:Label Text="DateAndTimePicker"
-                       Margin="5" />
-            <dui:DateAndTimePicker VerticalOptions="End"
-                                   SelectedDateTime="{Binding SelectedDeadline}"
-                                   HorizontalOptions="Start" />
-
-
-            <dui:Label Text="DatePicker (With maximum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}" />
-
-            <dui:Label Text="DatePicker (With minimum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test2}"
-                            HorizontalOptions="Start"
-                            MinimumDate="{Binding MinimumDate}" />
-
-            <dui:Label Text="DatePicker (With maximum and minimum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test3}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}"
-                            MinimumDate="{Binding MinimumDate}" />
-            <dui:Label Text="Horizontal inline date picker"
-                       Margin="5" />
-            <dui:HorizontalInlineDatePicker SelectedDate="{Binding Test3}" />
-        </dui:VerticalStackLayout>
-    </ScrollView>
+    
+    <dui:SlideableContentLayout BindingContextFactory="{Binding CreateMyObjectsBasedOnPosition}">
+        <dui:SlideableContentLayout.Config>
+            <dui:SliderConfig MaxValue="20"
+                              MinValue="20"/>
+        </dui:SlideableContentLayout.Config>
+        <dui:SlideableContentLayout.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type system:String}">
+                    <dui:Label Text="{Binding .}"/>
+            </DataTemplate>
+        </dui:SlideableContentLayout.ItemTemplate>
+    </dui:SlideableContentLayout>
+    
+    <!-- <ScrollView> -->
+    <!--     <dui:VerticalStackLayout> -->
+    <!--         <dui:Label Text="DatePicker" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:DatePicker VerticalOptions="End" -->
+    <!--                         SelectedDate="{Binding SelectedBirthday}" -->
+    <!--                         HorizontalOptions="Start" /> -->
+    <!--         <dui:Label Text="TimePicker" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:TimePicker HorizontalOptions="Start" -->
+    <!--                         SelectedTime="{Binding SelectedShoppingTime}" /> -->
+    <!--         <dui:Label Text="DateAndTimePicker" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:DateAndTimePicker VerticalOptions="End" -->
+    <!--                                SelectedDateTime="{Binding SelectedDeadline}" -->
+    <!--                                HorizontalOptions="Start" /> -->
+    <!-- -->
+    <!-- -->
+    <!--         <dui:Label Text="DatePicker (With maximum date)" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:DatePicker VerticalOptions="End" -->
+    <!--                         SelectedDate="{Binding Test}" -->
+    <!--                         HorizontalOptions="Start" -->
+    <!--                         MaximumDate="{Binding MaximumDate}" /> -->
+    <!-- -->
+    <!--         <dui:Label Text="DatePicker (With minimum date)" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:DatePicker VerticalOptions="End" -->
+    <!--                         SelectedDate="{Binding Test2}" -->
+    <!--                         HorizontalOptions="Start" -->
+    <!--                         MinimumDate="{Binding MinimumDate}" /> -->
+    <!-- -->
+    <!--         <dui:Label Text="DatePicker (With maximum and minimum date)" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:DatePicker VerticalOptions="End" -->
+    <!--                         SelectedDate="{Binding Test3}" -->
+    <!--                         HorizontalOptions="Start" -->
+    <!--                         MaximumDate="{Binding MaximumDate}" -->
+    <!--                         MinimumDate="{Binding MinimumDate}" /> -->
+    <!--         <dui:Label Text="Horizontal inline date picker" -->
+    <!--                    Margin="5" /> -->
+    <!--         <dui:HorizontalInlineDatePicker SelectedDate="{Binding Test3}" /> -->
+    <!--     </dui:VerticalStackLayout> -->
+    <!-- </ScrollView> -->
 </dui:ContentPage>

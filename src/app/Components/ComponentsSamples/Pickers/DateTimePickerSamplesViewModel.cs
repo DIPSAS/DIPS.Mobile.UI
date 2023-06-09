@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.ComTypes;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Pickers;
@@ -31,6 +32,9 @@ public class DateTimePickerSamplesViewModel : ViewModel
         get => m_selectedBirthday;
         set => RaiseWhenSet(ref m_selectedBirthday, value);
     }
+
+
+    public Func<int, object> CreateMyObjectsBasedOnPosition => i => $"Number {i}";
 
     public DateTime SelectedDeadline
     {
