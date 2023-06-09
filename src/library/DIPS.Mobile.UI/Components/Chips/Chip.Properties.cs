@@ -45,4 +45,7 @@ public partial class Chip
         get => (object)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
+
+    public event EventHandler? Tapped;
+    
 }

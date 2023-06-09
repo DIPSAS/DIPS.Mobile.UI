@@ -10,5 +10,7 @@ public class BottomSheetWithToolbarViewModel
     }
     
     public ICommand TestCommand { get; }
+    
+    
 
 }

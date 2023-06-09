@@ -2,8 +2,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView"
-                 WillClose="FirstBottomSheetView_OnWillClose"
-                 DidClose="FirstBottomSheetView_OnDidClose">
+                 WillClose="FirstBottomSheetView_OnWillClose"><!--DidClose="FirstBottomSheetView_OnDidClose"-->
     <dui:VerticalStackLayout>
         <dui:Label
             Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 

@@ -108,10 +108,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
         }
 
-        protected override void OnDidClose()
+        protected override void OnDisappearing()
         {
+            base.OnDisappearing();
+            
             UnSubscribeFromEvents();
-            base.OnDidClose();
         }
     }
 }

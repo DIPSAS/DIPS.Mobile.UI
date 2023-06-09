@@ -34,28 +34,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(HasSearchBarProperty, value);
         }
         
-        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-            nameof(Title),
-            typeof(string),
-            typeof(BottomSheetToolbarConfiguration));
-
-        public string Title
-        {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
-
-        public static readonly BindableProperty ToolbarConfigurationProperty = BindableProperty.Create(
-            nameof(ToolbarConfiguration),
-            typeof(BottomSheetToolbarConfiguration),
-            typeof(BottomSheet));
-
-        public BottomSheetToolbarConfiguration? ToolbarConfiguration
-        {
-            get => (BottomSheetToolbarConfiguration?)GetValue(ToolbarConfigurationProperty);
-            set => SetValue(ToolbarConfigurationProperty, value);
-        }
-
         public SearchBar SearchBar { get; } = new() { HasCancelButton = false, BackgroundColor = Colors.Transparent };
         
         public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
@@ -69,8 +47,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(BottomSheet));
 
         public event EventHandler? WillClose;
-        public event EventHandler? DidClose;
-        protected virtual void OnDidClose() { }
         protected virtual void OnWillClose() { }
     }
 }

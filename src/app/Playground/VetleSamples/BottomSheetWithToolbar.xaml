@@ -3,7 +3,6 @@
 <dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:toolbarConfiguration="clr-namespace:DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;assembly=DIPS.Mobile.UI"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
              x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
@@ -12,16 +11,13 @@
         <vetleSamples:BottomSheetWithToolbarViewModel />
     </dui:BottomSheet.BindingContext>
     
-    <dui:BottomSheet.ToolbarConfiguration>
-        <toolbarConfiguration:BottomSheetToolbarConfiguration>
-            <toolbarConfiguration:BottomSheetToolbarConfiguration.RightToolbarItems>
-                <toolbarConfiguration:BottomSheetActionButton Title="Done" 
-                                                              Command="{Binding TestCommand}" />
-                <toolbarConfiguration:BottomSheetActionButton Title="Done2" 
-                                                              Command="{Binding TestCommand}" />
-            </toolbarConfiguration:BottomSheetToolbarConfiguration.RightToolbarItems>    
-        </toolbarConfiguration:BottomSheetToolbarConfiguration>
-    </dui:BottomSheet.ToolbarConfiguration>
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="Test2" />
+        <ToolbarItem Text="Test" 
+                     IconImageSource="{dui:Icons bell_fill}"
+                     Command="{Binding TestCommand}" />
+
+    </dui:BottomSheet.ToolbarItems>
     
         <dui:VerticalStackLayout>
         <dui:Label
@@ -29,7 +25,7 @@
             Padding="{dui:Thickness size_4}"/>
         <dui:ListItem Title="This is a chip:"
                       Margin="{dui:Thickness Top=size_2}">
-            <dui:Chip Title="A chip" />
+            <dui:Chip Title="A chip" Tapped="Chip_OnTapped" />
         </dui:ListItem>
         <dui:ListItem Title="Date">
             <dui:DatePicker />

@@ -12,7 +12,7 @@ using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
-internal class BottomSheetContentPage : ContentPage
+internal class BottomSheetContentPage 
 {
     private UIViewController? m_viewController;
 #nullable disable
@@ -25,20 +25,16 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet = bottomSheet;
 
-        if (!bottomSheet.HasSearchBar)
+        if (bottomSheet.HasSearchBar)
         {
-            Content = bottomSheet;
-        }
-        else
-        {
-            AddWithSearchBar();
+            IncludeSearchBar();
         }
         
         SetupViewController();
         SubscribeEvents();
     }
 
-    private void AddWithSearchBar()
+    private void IncludeSearchBar()
     {
         var grid = new Grid
         {
@@ -46,9 +42,9 @@ internal class BottomSheetContentPage : ContentPage
         };
         
         grid.Add(m_bottomSheet.SearchBar);
-        grid.Add(m_bottomSheet, 0, 1);
+        grid.Add(m_bottomSheet.Content, 0, 1);
 
-        Content = grid;
+       m_bottomSheet.Content = grid;
     }
 
     private void SubscribeEvents()
@@ -64,6 +60,9 @@ internal class BottomSheetContentPage : ContentPage
     private void Close(object? sender, EventArgs e)
     {
         m_viewController?.DismissViewController(true, null);
+        
+        m_bottomSheet.SendDisappearing();
+        UnSubscribeEvents();
     }
 
     private void SetupViewController()
@@ -73,22 +72,34 @@ internal class BottomSheetContentPage : ContentPage
         if (mauiContext == null)
             return;
 
-        var hasToolbar = m_bottomSheet.ToolbarConfiguration is not null;
-        
-        m_viewController = this.ToUIViewController(mauiContext);
-        m_navigationViewController = hasToolbar ? new UINavigationController(this.ToUIViewController(mauiContext)) : m_viewController;
+        m_viewController = m_bottomSheet.ToUIViewController(mauiContext);
+
+        Page navigationPage;
+
+        if (m_bottomSheet.ShouldHaveNavigationBar())
+        {
+            navigationPage = new NavigationPage(m_bottomSheet);
+            navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
+            navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
+        }
+        else
+        {
+            navigationPage = m_bottomSheet;
+        }
+
+        m_navigationViewController = navigationPage.ToUIViewController(mauiContext);
 
         if (m_viewController == null) 
             return;
-        
-        if(hasToolbar)
-            ConfigureToolbar();
         
         m_navigationViewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
         m_navigationViewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
         if (!OperatingSystem.IsIOSVersionAtLeast(15) || m_viewController.SheetPresentationController == null) //Can use bottom sheet
             return;
+        
+        if(m_bottomSheet.ShouldHaveNavigationBar())        
+            ConfigureToolbar();
 
         m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
 
@@ -103,13 +114,13 @@ internal class BottomSheetContentPage : ContentPage
                     resolver  =>
                     {
                         var r = m_bottomSheet.Content.Measure(UIScreen.MainScreen.Bounds.Width, resolver.MaximumDetentValue);
-                        return (float)(r.Request.Height+Padding.Bottom+Padding.Top);
+                        return (float)(r.Request.Height+m_bottomSheet.Padding.Bottom+m_bottomSheet.Padding.Top);
                     });
                 preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;
             }
             else if (OperatingSystem.IsIOSVersionAtLeast(15)) //Select large detent if the content is bigger than medium detent
             {
-                if (Content.Height > Height / 2) //if the content is larger than half the screen when the detent is medium, it means that something is outside of bounds
+                if (m_bottomSheet.Content.Height > m_bottomSheet.Height / 2) //if the content is larger than half the screen when the detent is medium, it means that something is outside of bounds
                 {
                     preferredDetent = UISheetPresentationControllerDetent.CreateLargeDetent();
                     preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Large;
@@ -135,31 +146,23 @@ internal class BottomSheetContentPage : ContentPage
                     : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                 ;
             // view.Bounds = view.Frame.Inset(Sizes.GetSize(SizeName.size_4), bottom);
-            Padding = new Thickness(0, hasToolbar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
+            m_bottomSheet.Padding = new Thickness(0, m_bottomSheet.ShouldHaveNavigationBar() ? 0 : Sizes.GetSize(SizeName.size_4), 0,
                 bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
         }
     }
 
     private void ConfigureToolbar()
     {
-        m_viewController!.NavigationItem.Title = m_bottomSheet.Title;
-
-        m_viewController!.NavigationItem.BackButtonTitle = m_bottomSheet.ToolbarConfiguration?.BackButtonText;
-        
-        m_viewController.NavigationItem.RightBarButtonItems =
-            m_bottomSheet.ToolbarConfiguration?.RightToolbarItems.Select(CreateUIBarButtonItem).ToArray();
+        var navigationController = m_viewController!.NavigationController;
+        RemoveNavigationBarSeparator(navigationController.NavigationBar);
+        // Sets the color for all navigation buttons
+        navigationController.NavigationBar.TintColor = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform(); 
     }
 
-    private UIBarButtonItem CreateUIBarButtonItem(BottomSheetActionButton actionButton)
+    private void RemoveNavigationBarSeparator(UINavigationBar navigationBar)
     {
-        var uiBarButtonItem = new ToolbarItem(actionButton.Title,
-                string.Empty, 
-                () => actionButton.Command.Execute(null))
-            .ToUIBarButtonItem();
-
-        uiBarButtonItem.Image = UIImage.FromBundle("arrow_right_s_line.png");
-
-        return uiBarButtonItem;
+        navigationBar.ShadowImage = new UIImage();
+        navigationBar.SetBackgroundImage(new UIImage(), default);
     }
 
     internal async Task Open()
@@ -168,13 +171,8 @@ internal class BottomSheetContentPage : ContentPage
         if (m_navigationViewController != null && currentViewController != null)
         {
             await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
+            m_bottomSheet.SendAppearing();
         }
     }
-
-    protected override void OnDisappearing()
-    {
-        UnSubscribeEvents();
-        base.OnDisappearing();
-        m_bottomSheet.SendDidClose();
-    }
+    
 }
