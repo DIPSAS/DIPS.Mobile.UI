@@ -1,13 +1,15 @@
 using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Markup;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
+/// <summary>
+/// TODO: Rewrite this so its easy to use publicly if its needed.
+/// </summary>
 internal class DateView : Grid
 {
     public DateView()

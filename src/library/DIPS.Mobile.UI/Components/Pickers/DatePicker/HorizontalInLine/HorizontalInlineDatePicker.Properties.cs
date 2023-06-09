@@ -5,7 +5,11 @@ public partial class HorizontalInlineDatePicker
     public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
         nameof(SelectedDate),
         typeof(DateTime),
-        typeof(HorizontalInlineDatePicker), defaultValue: DateTime.Now);
+        typeof(HorizontalInlineDatePicker), defaultValue: DateTime.Now, BindingMode.TwoWay, propertyChanged: (b, _, _) =>
+        {
+            if (b is not HorizontalInlineDatePicker horizontalInlineDatePicker) return;
+            horizontalInlineDatePicker.OnSelectedDateChanged();
+        }) ;
 
     /// <summary>
     /// The date that people selected from the horizontal in line date picker.

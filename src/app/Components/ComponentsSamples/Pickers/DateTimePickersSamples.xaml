@@ -53,6 +53,6 @@
                         MinimumDate="{Binding MinimumDate}" />
         <dui:Label Text="Horizontal inline date picker"
                    Margin="5" />
-        <dui:HorizontalInlineDatePicker SelectedDate="{Binding SelectedDate}" />
+        <dui:HorizontalInlineDatePicker SelectedDate="{Binding Test3}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -1,14 +1,15 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Slideable;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using TappedEventArgs = DIPS.Mobile.UI.Components.Slideable.TappedEventArgs;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
 public partial class HorizontalInlineDatePicker : ContentView
 {
     private SlidableContentLayout m_slidableContentLayout;
-    private SelectableDateViewModel? m_selectedDateViewModel;
-    private List<SelectableDateViewModel> m_selectableViewModels = new(); 
+    private List<SelectableDateViewModel> m_selectableViewModels = new();
+    private DateTime? m_startDate;
 
     public HorizontalInlineDatePicker()
     {
@@ -27,7 +28,7 @@ public partial class HorizontalInlineDatePicker : ContentView
         m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView());
         m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
         m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
-        m_slidableContentLayout.TappedCommand = new Command<int>(ItemTapped);
+        m_slidableContentLayout.ContentTapped += ItemTapped;
         /*
         *  <dxui:SlidableContentLayout.ItemTemplate>
                <DataTemplate x:DataType="{x:Type Common:DateViewModel}">
@@ -72,72 +73,94 @@ public partial class HorizontalInlineDatePicker : ContentView
         Content = m_slidableContentLayout;
     }
 
-    private void ItemTapped(int index)
+    private void ItemTapped(object? sender, ContentTappedEventArgs contentTappedEventArgs)
     {
-        var selectedDate = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
-        if (selectedDate != null)
-        {
-            var selectedDateIndex = m_selectableViewModels.IndexOf(selectedDate);
-            
-            var tappedIndex = selectedDateIndex + index;
-            var tappedSelectableDateViewModel = m_selectableViewModels[tappedIndex];
-            OnDateTapped(tappedSelectableDateViewModel.FullDate);
-        }
-    }
-
-    private void OnDateTapped(DateTime dateTime)
-    {
+        
+        if (contentTappedEventArgs.View.BindingContext is not SelectableDateViewModel tappedSelectableDateViewModel) return;
+        
         var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
         if (previousSelectedDateTime == null) return;
         
-        if (previousSelectedDateTime.FullDate.Date == dateTime.Date) //Tapped the same date that was already selected
+        if (tappedSelectableDateViewModel.IsSelected) //Tapped the same date that was already selected
         {
-            var minDateTime = DateTime.Now.AddDays(-MaxSelectableDaysFromToday);
-            var maxDateTime = DateTime.Now.AddDays(MaxSelectableDaysFromToday);
+            var minDateTime = SelectedDate.AddDays(-MaxSelectableDaysFromToday);
+            var maxDateTime = SelectedDate.AddDays(MaxSelectableDaysFromToday);
             var datePicker = new DatePicker()
             {
-                SelectedDate = dateTime,
+                SelectedDate = tappedSelectableDateViewModel.FullDate,
                 MinimumDate = minDateTime,
                 MaximumDate = maxDateTime,
             };
             datePicker.SelectedDateCommand = new Command(() =>
             {
-                ScrollToDate(datePicker.SelectedDate, false);
+                if (TryGetIndexFromDate(datePicker.SelectedDate, out var index))
+                {
+                    ScrollToIndex(index, false);
+                }
             });
             DatePickerService.Open(datePicker);
         }
         else
         {
-            ScrollToDate(dateTime.Date, true);
+            ScrollToIndex(contentTappedEventArgs.Index, true);
         }
-        
-        
     }
 
-    private void ScrollToDate(DateTime date, bool shouldAnimate)
+    private bool TryGetIndexFromDate(DateTime dateTime, out int index)
     {
-        var i = (int) Math.Round((date.Date - DateTime.Now.Date).TotalDays);
-        
-        if (shouldAnimate)
+        index = 0;
+        if (m_startDate == null) return false;
+        index = (int) Math.Round((dateTime - m_startDate.Value.Date).TotalDays);
+        return true;
+    }
+    
+    private bool TryGetDateFromIndex(int index, out DateTime dateTime)
+    {
+        dateTime = DateTime.MinValue;
+        if (m_startDate is null) return false;
+        dateTime = m_startDate.Value.AddDays(index);
+        return true;
+    }
+
+    private void ScrollToIndex(int index, bool shouldAnimate)
+    {
+        try
         {
-            m_slidableContentLayout.ScrollTo(i);    
+            if (shouldAnimate)
+            {
+                m_slidableContentLayout.ScrollTo(index);    
+            }
+            else
+            {
+                m_slidableContentLayout.SlideProperties = new SlidableProperties(index);    
+            }
+
         }
-        else
+        catch (Exception e)
         {
-            m_slidableContentLayout.SlideProperties = new SlidableProperties(i);    
+            Console.WriteLine(e);
         }
-        
     }
 
     private object CreateSelectableDateViewModel(int i)
     {
-        var dateTime = DateTime.Now.AddDays(i);
-        var isSelected = dateTime.Date == SelectedDate.Date;
-        var selectableDateViewModel = new SelectableDateViewModel(dateTime, isSelected);
-
-        if (selectableDateViewModel.IsSelected)
+        if (m_startDate == null)
         {
-            m_selectedDateViewModel = selectableDateViewModel;
+            m_startDate = SelectedDate;
+        }
+        
+        var dateTime = m_startDate.Value.AddDays(i);
+        
+        var isSelected = dateTime.Date == m_startDate; //Only true the first time we load the layout, every other event is happening in OnDateScrolledTo
+        var selectableDateViewModel = new SelectableDateViewModel(dateTime, isSelected);
+        
+        if (isSelected)
+        {
+            var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
+            if (previousSelectedDateTime != null)
+            {
+                previousSelectedDateTime.IsSelected = false;
+            }    
         }
         
         m_selectableViewModels.Add(selectableDateViewModel);
@@ -146,18 +169,37 @@ public partial class HorizontalInlineDatePicker : ContentView
 
     private void OnDateScrolledTo(int i)
     {
-        SelectedDate = DateTime.Now.AddDays(i).Date;
+        if (TryGetDateFromIndex(i, out var dateScrolledTo))
+        {
+            if (SelectedDate == dateScrolledTo) return; //No need to update, and to stop this from getting into a infinite loop
+            
+            SelectedDate = dateScrolledTo;
+            
+            UpdateInternalIsSelectedState(dateScrolledTo);
+        }
+    }
 
+    private void UpdateInternalIsSelectedState(DateTime dateScrolledTo)
+    {
         var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
         if (previousSelectedDateTime != null)
         {
             previousSelectedDateTime.IsSelected = false;
         }
 
-        var newSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.FullDate.Date == SelectedDate.Date);
+        var newSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.FullDate.Date == dateScrolledTo.Date);
         if (newSelectedDateTime != null)
         {
             newSelectedDateTime.IsSelected = true;
+        }
+    }
+
+    private void OnSelectedDateChanged()
+    {
+        if (TryGetIndexFromDate(SelectedDate, out var index))
+        {
+            ScrollToIndex(index, false);
+            UpdateInternalIsSelectedState(SelectedDate);
         }
     }
 }

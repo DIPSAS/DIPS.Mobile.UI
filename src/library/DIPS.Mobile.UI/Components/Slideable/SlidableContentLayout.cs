@@ -13,8 +13,8 @@ namespace DIPS.Mobile.UI.Components.Slideable
         private readonly object m_lock = new();
         private readonly AbsoluteLayout m_container = new()
         {
-            HorizontalOptions = LayoutOptions.FillAndExpand,
-            VerticalOptions = LayoutOptions.FillAndExpand,
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
             Padding = 0,
             Margin = 0
         };
@@ -49,53 +49,60 @@ namespace DIPS.Mobile.UI.Components.Slideable
             
             lock (m_lock)
             {
-                base.OnScrolled(index);
-                if (Width < 0.1) return;
-                var center = base.Center;
-                var itemWidth = base.GetItemWidth();
-                var selectedIndex = GetIndexFromValue(index);
-                var itemCount = (center * 2) / itemWidth + 1;
-
-                ClearViewCache(selectedIndex, (int)Math.Floor(itemCount));
-
-                var toAdd = new HashSet<View>();
-                for (var i = index - itemCount; i <= index + itemCount; i++)
+                try
                 {
-                    var iIndex = (int)Math.Floor(i);
-                    if (iIndex < Config.MinValue || iIndex > Config.MaxValue) continue;
-                    var view = CreateItem(iIndex);
+                    base.OnScrolled(index);
+                    if (Width < 0.1) return;
+                    var center = base.Center;
+                    var itemWidth = base.GetItemWidth();
+                    var selectedIndex = GetIndexFromValue(index);
+                    var itemCount = (center * 2) / itemWidth + 1;
 
-                    UpdateSelected(view, selectedIndex == iIndex);
+                    ClearViewCache(selectedIndex, (int)Math.Floor(itemCount));
+
+                    var toAdd = new HashSet<View>();
+                    for (var i = index - itemCount; i <= index + itemCount; i++)
+                    {
+                        var iIndex = (int)Math.Floor(i);
+                        if (iIndex < Config.MinValue || iIndex > Config.MaxValue) continue;
+                        var view = CreateItem(iIndex);
+
+                        UpdateSelected(view, selectedIndex == iIndex);
                     
-                    if (ScaleDown)
-                    {
-                        var dist = (Math.Abs(index - iIndex) / itemCount);
-                        var position = (itemWidth * (1 - dist * 0.33) * (iIndex - index));
-                        AbsoluteLayout.SetLayoutBounds(view, new Rect(Center + position - itemWidth / 2, 0, ElementWidth, 1));
-                        view.Scale = 1 - dist * 0.5;
-                    }
-                    else
-                    {
-                        AbsoluteLayout.SetLayoutBounds(view, new Rect(Center + (iIndex - index) *itemWidth - itemWidth / 2, 0, ElementWidth, 1));
+                        if (ScaleDown)
+                        {
+                            var dist = (Math.Abs(index - iIndex) / itemCount);
+                            var position = (itemWidth * (1 - dist * 0.33) * (iIndex - index));
+                            AbsoluteLayout.SetLayoutBounds(view, new Rect(Center + position - itemWidth / 2, 0, ElementWidth, 1));
+                            view.Scale = 1 - dist * 0.5;
+                        }
+                        else
+                        {
+                            AbsoluteLayout.SetLayoutBounds(view, new Rect(Center + (iIndex - index) *itemWidth - itemWidth / 2, 0, ElementWidth, 1));
+                        }
+
+                        toAdd.Add(view);
                     }
 
-                    toAdd.Add(view);
+                    for (var i = m_container.Children.Count - 1; i >= 0; i--)
+                    {
+                        var item = m_container.Children[i];
+                        if (!toAdd.Contains(item))
+                        {
+                            m_currentChildren.Remove(item);
+                            m_container.Children.RemoveAt(i);
+                        }
+                    }
+                    
+                    foreach (var item in toAdd)
+                    {
+                        if (!m_currentChildren.Add(item)) continue;
+                        m_container.Children.Add(item);
+                    }
                 }
-
-                for (var i = m_container.Children.Count - 1; i >= 0; i--)
+                catch (Exception e)
                 {
-                    var item = m_container.Children[i];
-                    if (!toAdd.Contains(item))
-                    {
-                        m_currentChildren.Remove(item);
-                        m_container.Children.RemoveAt(i);
-                    }
-                }
-
-                foreach (var item in toAdd)
-                {
-                    if (!m_currentChildren.Add(item)) continue;
-                    m_container.Children.Add(item);
+                    Console.WriteLine(e);
                 }
             }
         }
@@ -184,6 +191,11 @@ namespace DIPS.Mobile.UI.Components.Slideable
         }
 
         /// <summary>
+        /// Invoked when people tap content in the layout
+        /// </summary>
+        public event EventHandler<ContentTappedEventArgs>? ContentTapped;
+
+        /// <summary>
         /// Indicates if items should be scaled down when getting further away from the center.
         /// </summary>
         public bool ScaleDown { get; set; } = true;
@@ -194,6 +206,26 @@ namespace DIPS.Mobile.UI.Components.Slideable
             {
                 return m_viewMapping[index];
             }
+        }
+
+        protected override void OnTapped(int index)
+        {
+            base.OnTapped(index);
+            var view = GetView(index);
+            if (view is null) return;
+            ContentTapped?.Invoke(this, new ContentTappedEventArgs(index, view));
+        }
+    }
+
+    public class ContentTappedEventArgs : EventArgs
+    {
+        public int Index { get; }
+        public View View { get; }
+
+        public ContentTappedEventArgs(int index, View view)
+        {
+            Index = index;
+            View = view;
         }
     }
 }

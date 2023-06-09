@@ -45,9 +45,10 @@ namespace DIPS.Mobile.UI.Components.Slideable
             if (point.HasValue)
             {
                 var nonRoundedIndex = Math.Max(Config.MinValue, Math.Min(Config.MaxValue, CalculateIndex(point.Value.X)));
-                var index = GetIndexFromValue(nonRoundedIndex);
-                Tapped?.Invoke(this, new TappedEventArgs(index));
-                TappedCommand?.Execute(index);
+                var relativeIndex = GetIndexFromValue(nonRoundedIndex);
+                var currentIndex = (int)SlideProperties.Position + relativeIndex;
+                Tapped?.Invoke(this, new TappedEventArgs(currentIndex));
+                OnTapped(currentIndex);
             }
         }
 
@@ -233,6 +234,8 @@ namespace DIPS.Mobile.UI.Components.Slideable
 
         private void OnScrolledInternal(bool initial = false)
         {
+            OnScrolled(SlideProperties.Position);
+            
             var index = (int)Math.Round(SlideProperties.Position);
             if (index != m_lastIndex)
             {
@@ -244,8 +247,6 @@ namespace DIPS.Mobile.UI.Components.Slideable
                 SelectedItemChangedCommand?.Execute(index);
                 m_lastIndex = index;
             }
-
-            OnScrolled(SlideProperties.Position);
         }
 
         private void Vibrate()
@@ -266,6 +267,14 @@ namespace DIPS.Mobile.UI.Components.Slideable
         /// </summary>
         /// <param name="index"></param>
         protected virtual void OnScrolled(double index)
+        {
+        }
+        
+        /// <summary>
+        /// Override this to handle the tapping of the view
+        /// </summary>
+        /// <param name="index"></param>
+        protected virtual void OnTapped(int index)
         {
         }
 

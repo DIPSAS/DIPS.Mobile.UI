@@ -125,19 +125,5 @@ public partial class SlidableLayout
     /// Invoked when people tap the slidable layout
     /// </summary>
     public event EventHandler<TappedEventArgs>? Tapped;
-
-    public static readonly BindableProperty TappedCommandProperty = BindableProperty.Create(
-        nameof(TappedCommand),
-        typeof(ICommand),
-        typeof(SlidableLayout));
-
-    /// <summary>
-    /// Executed when people tap the slidable layout
-    /// </summary>
-    /// <remarks>This commands sends the current index of the visible indexes in the layout. Use this index to calculate which item was tapped</remarks>
-    public ICommand? TappedCommand
-    {
-        get => (ICommand)GetValue(TappedCommandProperty);
-        set => SetValue(TappedCommandProperty, value);
-    }
+    
 }
