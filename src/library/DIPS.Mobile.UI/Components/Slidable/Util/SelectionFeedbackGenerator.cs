@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.API.Vibration;
+
 namespace DIPS.Mobile.UI.Components.Slidable.Util
 {
     /// <summary>
@@ -12,12 +14,9 @@ namespace DIPS.Mobile.UI.Components.Slidable.Util
         /// </summary>
         public SelectionFeedbackGenerator()
         {
-            if (Vibration.VibrationService != null)
-            {
-                m_generator = Vibration.VibrationService.Generate();
-            }
+            m_generator = VibrationService.Generate();
         }
-        
+
         /// <summary>
         /// Invoke when a selection has occured. Causes feedback.
         /// </summary>
@@ -25,7 +24,7 @@ namespace DIPS.Mobile.UI.Components.Slidable.Util
         {
             m_generator?.SelectionChanged();
         }
-        
+
         /// <summary>
         /// Invoke right before feedback is required. For example at the start of a pan where several selections occur rapidly. 
         /// </summary>
@@ -41,6 +40,5 @@ namespace DIPS.Mobile.UI.Components.Slidable.Util
         {
             m_generator?.Release();
         }
-
     }
 }

@@ -91,6 +91,7 @@
     <!-- Nuget files to be packed -->
     <ItemGroup>
       <None Remove="Components\Pickers\DatePicker\Service\dotnet\" />
+      <None Remove="API\Vibration\dotnet\" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\..\assets\dips.png" Pack="true" PackagePath="">
@@ -135,6 +136,7 @@
       <Folder Include="Components\Shell\iOS\" />
       <Folder Include="Platforms\Android" />
       <Folder Include="Resources\Splash\" />
+      <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />

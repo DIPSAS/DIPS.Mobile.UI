@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Slidable;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -132,6 +133,7 @@ public partial class HorizontalInlineDatePicker : ContentView
             if (SelectedDate == dateScrolledTo) return; //No need to update, and to stop this from getting into a infinite loop
             
             SelectedDate = dateScrolledTo;
+            VibrationService.Generate().SelectionChanged();
             
             UpdateInternalIsSelectedState(dateScrolledTo);
         }
