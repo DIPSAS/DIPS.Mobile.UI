@@ -3,6 +3,7 @@ using Android.Content.Res;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Handlers;
 using Chip = Google.Android.Material.Chip.Chip;
@@ -31,10 +32,11 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
 
     private void OnClicked(object? sender, EventArgs e)
     {
-        DatePickerService.OpenDatePicker(VirtualView);
+        DatePickerService.Open(VirtualView);
     }
 
-    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
+    
+    public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
         var convertedDisplayValue =
             new DateConverter { Format = DateConverter.DateConverterFormat.Default }.Convert(datePicker.SelectedDate, null, null,
