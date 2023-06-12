@@ -9,7 +9,7 @@ public partial class NavigationListItem : ListItem
         ContentItem = new Image
         {
             Source = Icons.GetIcon(IconName.arrow_right_s_line)
-        };;
+        };
     }
 
     protected override void OnHandlerChanged()
@@ -17,7 +17,11 @@ public partial class NavigationListItem : ListItem
         base.OnHandlerChanged();
         
         Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(this, Command);
+        Touch.SetCommand(this, new Command(() =>
+        {
+            Command?.Execute(CommandParameter);
+            Tapped?.Invoke(this, EventArgs.Empty);
+        }));
     }
     
 }

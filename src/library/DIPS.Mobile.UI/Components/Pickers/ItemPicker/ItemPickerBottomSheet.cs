@@ -70,7 +70,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 }
 
                 m_itemPicker.SelectedItem = theSelectedItem;
-                Close();
+                SendClose();
             }
         }
 
@@ -103,6 +103,5 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 }
             }
         }
-
     }
 }

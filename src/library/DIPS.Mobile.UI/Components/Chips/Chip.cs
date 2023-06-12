@@ -6,4 +6,9 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip : View
 {
+    public void SendTapped()
+    {
+        Command?.Execute(CommandParameter);
+        Tapped?.Invoke(this, EventArgs.Empty);
+    }
 }

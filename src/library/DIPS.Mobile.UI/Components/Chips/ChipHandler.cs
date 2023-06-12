@@ -15,7 +15,7 @@ public partial class ChipHandler
     
     private void OnChipTapped(object? sender, EventArgs e)
     {
-        VirtualView.Command?.Execute(VirtualView.CommandParameter);
+        VirtualView.SendTapped();
     }
     
 }
