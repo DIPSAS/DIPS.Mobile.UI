@@ -1,4 +1,5 @@
 ﻿using DIPS.Mobile.UI;
+using DIPS.Mobile.UI.API.Builder;
 using Microsoft.Extensions.Logging;
 
 namespace Playground;

@@ -2,7 +2,7 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline;
 
-internal partial class InlineDatePickerHandler : DatePickerHandler
+internal class InlineDatePickerHandler : DatePickerHandler
 {
     protected override UIDatePicker CreatePlatformView()
     {
