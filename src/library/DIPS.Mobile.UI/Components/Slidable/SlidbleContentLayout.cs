@@ -160,6 +160,11 @@ namespace DIPS.Mobile.UI.Components.Slidable
                 return m_viewMapping[index];
             }
         }
+        
+        public IList<IView> GetCurrentViews()
+        {
+            return m_container.Children;
+        }
 
         protected override void OnTapped(int index)
         {

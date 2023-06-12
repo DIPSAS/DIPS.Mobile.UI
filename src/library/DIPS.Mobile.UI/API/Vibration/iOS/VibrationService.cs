@@ -25,7 +25,7 @@ namespace DIPS.Mobile.UI.API.Vibration
             new UINotificationFeedbackGenerator().NotificationOccurred(UINotificationFeedbackType.Warning);
         }
 
-        public static void SelectionChanged()
+        public static partial void SelectionChanged()
         {
             new UISelectionFeedbackGenerator().SelectionChanged();
         }
@@ -38,36 +38,6 @@ namespace DIPS.Mobile.UI.API.Vibration
         public static partial void Success()
         {
             new UINotificationFeedbackGenerator().NotificationOccurred(UINotificationFeedbackType.Success);
-        }
-
-        public  static partial IPlatformFeedbackGenerator Generate()
-        {
-            return new PlatformFeedbackGenerator();
-        }
-
-        private class PlatformFeedbackGenerator : IPlatformFeedbackGenerator
-        {
-            private UISelectionFeedbackGenerator? m_generator;
-
-            public PlatformFeedbackGenerator()
-            {
-                m_generator = new UISelectionFeedbackGenerator();
-            }
-
-            public void Prepare()
-            {
-                m_generator?.Prepare();
-            }
-
-            public void Release()
-            {
-                m_generator = null;
-            }
-
-            void IPlatformFeedbackGenerator.SelectionChanged()
-            {
-                m_generator?.SelectionChanged();
-            }
         }
     }
 }

@@ -17,5 +17,6 @@ public static partial class VibrationService
 
     public static partial void Success() => throw new Only_Here_For_UnitTests();
 
-    public static partial IPlatformFeedbackGenerator Generate() => throw new Only_Here_For_UnitTests();
+    public static partial void SelectionChanged() => throw new Only_Here_For_UnitTests();
+
 }

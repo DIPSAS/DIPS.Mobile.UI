@@ -94,10 +94,15 @@ namespace DIPS.Mobile.UI.API.Vibration
             var action = 80;
             s_vibrator?.Vibrate(VibrationEffect.CreateWaveform(new long[] {0, action, pause, action}, -1));
         }
-
-        public static partial IPlatformFeedbackGenerator Generate()
+        
+        public static partial void SelectionChanged()
         {
-            return new PlatformFeedbackGenerator();
+            if (!ShouldVibrate())
+            {
+                return;
+            }
+
+            s_vibrator?.Vibrate(VibrationEffect.CreateOneShot(5, 150));
         }
 
         private static bool ShouldVibrate()
@@ -114,36 +119,6 @@ namespace DIPS.Mobile.UI.API.Vibration
         private static Permission? CheckPermission()
         {
             return Platform.CurrentActivity?.CheckSelfPermission(Manifest.Permission.Vibrate);
-        }
-
-        private class PlatformFeedbackGenerator : IPlatformFeedbackGenerator
-        {
-            private Vibrator? m_vibrator;
-            private readonly VibrationEffect? m_vibrationEffect = VibrationEffect.CreateOneShot(5, 150);
-
-            public PlatformFeedbackGenerator()
-            {
-                m_vibrator ??= Vibrator.FromContext(Platform.AppContext);
-            }
-            
-            public void SelectionChanged()
-            {
-                if (CheckPermission() == Permission.Denied)
-                {
-                    return;
-                }
-
-                m_vibrator?.Vibrate(m_vibrationEffect);
-            }
-
-            public void Prepare()
-            {
-            }
-
-            public void Release()
-            {
-                m_vibrator = null;
-            }
         }
     }
 }

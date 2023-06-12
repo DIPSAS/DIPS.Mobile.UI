@@ -8,7 +8,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 public partial class HorizontalInlineDatePicker : ContentView
 {
     private SlidableContentLayout m_slidableContentLayout;
-    private List<SelectableDateViewModel> m_selectableViewModels = new();
     private DateTime? m_startDate;
 
     public HorizontalInlineDatePicker()
@@ -36,10 +35,7 @@ public partial class HorizontalInlineDatePicker : ContentView
     {
         
         if (contentTappedEventArgs.View.BindingContext is not SelectableDateViewModel tappedSelectableDateViewModel) return;
-        
-        var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
-        if (previousSelectedDateTime == null) return;
-        
+
         if (tappedSelectableDateViewModel.IsSelected) //Tapped the same date that was already selected
         {
             var minDateTime = SelectedDate.AddDays(-MaxSelectableDaysFromToday);
@@ -112,17 +108,6 @@ public partial class HorizontalInlineDatePicker : ContentView
         
         var isSelected = dateTime.Date == m_startDate; //Only true the first time we load the layout, every other event is happening in OnDateScrolledTo
         var selectableDateViewModel = new SelectableDateViewModel(dateTime, isSelected);
-        
-        if (isSelected)
-        {
-            var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
-            if (previousSelectedDateTime != null)
-            {
-                previousSelectedDateTime.IsSelected = false;
-            }    
-        }
-        
-        m_selectableViewModels.Add(selectableDateViewModel);
         return selectableDateViewModel;
     }
 
@@ -133,7 +118,7 @@ public partial class HorizontalInlineDatePicker : ContentView
             if (SelectedDate == dateScrolledTo) return; //No need to update, and to stop this from getting into a infinite loop
             
             SelectedDate = dateScrolledTo;
-            VibrationService.Generate().SelectionChanged();
+            VibrationService.SelectionChanged();
             
             UpdateInternalIsSelectedState(dateScrolledTo);
         }
@@ -141,16 +126,19 @@ public partial class HorizontalInlineDatePicker : ContentView
 
     private void UpdateInternalIsSelectedState(DateTime dateScrolledTo)
     {
-        var previousSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.IsSelected);
-        if (previousSelectedDateTime != null)
+        var views = m_slidableContentLayout.GetCurrentViews();
+        foreach (var currentView in views)
         {
-            previousSelectedDateTime.IsSelected = false;
+            if (currentView is DateView {BindingContext: SelectableDateViewModel currentSelectableDateViewModel})
+            {
+                currentSelectableDateViewModel.IsSelected = false;
+            }
         }
-
-        var newSelectedDateTime = m_selectableViewModels.FirstOrDefault(s => s.FullDate.Date == dateScrolledTo.Date);
-        if (newSelectedDateTime != null)
+        TryGetIndexFromDate(dateScrolledTo, out var index);
+        var view = m_slidableContentLayout.GetView(index);
+        if (view is DateView {BindingContext: SelectableDateViewModel selectableDateViewModel})
         {
-            newSelectedDateTime.IsSelected = true;
+            selectableDateViewModel.IsSelected = true;
         }
     }
 

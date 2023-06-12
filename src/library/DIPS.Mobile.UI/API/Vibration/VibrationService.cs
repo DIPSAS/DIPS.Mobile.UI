@@ -16,5 +16,5 @@ public static partial class VibrationService
 
     public static partial void Success();
 
-    public static partial IPlatformFeedbackGenerator Generate();
+    public static partial void SelectionChanged();
 }

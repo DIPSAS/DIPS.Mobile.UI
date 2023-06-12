@@ -13,7 +13,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
         private double m_startSlideLocation;
         private int m_lastIndex = int.MinValue;
         private bool m_disableTouchScroll;
-        private SelectionFeedbackGenerator? m_feedbackGenerator;
         
 
         /// <summary>
@@ -109,11 +108,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
                 // Start tracking time
                 m_startSlideLocation = CalculateDist(SlideProperties.Position);
                 PanStarted?.Invoke(this, new PanEventArgs((int)Math.Round(CalculateIndex(m_startSlideLocation))));
-                if (VibrateOnSelectionChanged)
-                {
-                    m_feedbackGenerator = new SelectionFeedbackGenerator();
-                    m_feedbackGenerator.Prepare();
-                }
             }
 
             var currentPos = m_startSlideLocation - e.TotalX;
@@ -141,7 +135,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
                 if (StopOnGestureEnded)
                 {
                     PanEnded?.Invoke(this, new PanEventArgs((int)Math.Round(index)));
-                    m_feedbackGenerator?.Release();
                     return;
                 }
 
@@ -159,7 +152,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
                     if (isDone)
                     {
                         PanEnded?.Invoke(this, new PanEventArgs((int)Math.Round(index)));
-                        m_feedbackGenerator?.Release();
                     }
 
                     return !isDone;
@@ -239,26 +231,8 @@ namespace DIPS.Mobile.UI.Components.Slidable
             var index = (int)Math.Round(SlideProperties.Position);
             if (index != m_lastIndex)
             {
-                if (!initial)
-                {
-                    Vibrate();
-                }
-
                 SelectedItemChangedCommand?.Execute(index);
                 m_lastIndex = index;
-            }
-        }
-
-        private void Vibrate()
-        {
-            if (!VibrateOnSelectionChanged) return;
-            try
-            {
-                m_feedbackGenerator?.SelectionChanged();
-            }
-            catch (Exception e)
-            {
-                VibrateOnSelectionChanged = false;
             }
         }
 

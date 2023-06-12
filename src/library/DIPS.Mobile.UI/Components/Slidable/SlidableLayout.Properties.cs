@@ -95,16 +95,6 @@ public partial class SlidableLayout
             get => (bool)GetValue(WidthIsProportionalProperty);
             set => SetValue(WidthIsProportionalProperty, value);
         }
-
-        /// <summary>
-        /// Set this to true if you want a small vibration every time the index changes.
-        /// </summary>
-        public bool VibrateOnSelectionChanged
-        {
-            get;
-            set;
-        }
-
     /// <summary>
     /// Toggles drag effect after pan gesture is completed. Set to true if scroll should stop immediately after finger is lifted. 
     /// </summary>
