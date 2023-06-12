@@ -1,5 +1,6 @@
 ## [10.1.0]
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
+- Added AsyncCommand
 
 ## [9.0.0]
 - Added SlideableLayout
