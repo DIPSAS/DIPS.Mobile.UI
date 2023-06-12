@@ -3,11 +3,13 @@
     <style name="DIPS.ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
+        <item name="backgroundTint">@color/color_neutral_05</item>
     </style>
 
     <style name="DIPS.ShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
+        <item name="backgroundTint">@color/color_neutral_05</item>
     </style>
 
     <style name="DIPS.ShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">

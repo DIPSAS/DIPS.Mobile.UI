@@ -167,7 +167,6 @@ internal class BottomSheetContentPage : ContentPage
         if (m_navigationViewController != null && currentViewController != null)
         {
             await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
-            m_bottomSheet.SendOpen();
         }
     }
 }
@@ -180,7 +179,13 @@ internal class BottomSheetControllerDelegate : UISheetPresentationControllerDele
     {
         m_bottomSheet = bottomSheet;
     }
-    
+
+    public override void WillPresent(UIPresentationController presentationController, UIModalPresentationStyle style,
+        IUIViewControllerTransitionCoordinator? transitionCoordinator)
+    {
+        m_bottomSheet.SendOpen();
+    }
+
     public override void DidDismiss(UIPresentationController presentationController)
     {
         m_bottomSheet.SendClose();

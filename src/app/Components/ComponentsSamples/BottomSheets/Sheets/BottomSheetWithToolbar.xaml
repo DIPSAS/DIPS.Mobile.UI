@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar">
+             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
+             Title="Bottom Sheet">
     
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Bjelle" 
