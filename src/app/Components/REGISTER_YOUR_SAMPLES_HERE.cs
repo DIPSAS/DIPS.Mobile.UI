@@ -11,7 +11,6 @@ using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples.Colors;
 using Components.ResourcesSamples.Icons;
 using Components.ResourcesSamples.Sizes;
-using DIPS.Mobile.UI.Resources.Icons;
 
 namespace Components;
 
@@ -33,7 +32,8 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Chip, () => new ChipsSamples()),
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
             new(SampleType.Components, LocalizedStrings.Navigation, () => new NavigationSamples()),
-            new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples())
+            new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
+            new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples())
         };
     }
 }

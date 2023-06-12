@@ -137,7 +137,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             return dialog;
         }
 
-        private void Close(object? sender, EventArgs? e) => Dismiss();
+        private void Close(object? sender, EventArgs? e)
+        {
+            Close();
+        }
+
+        public void Close()
+        {
+            if (m_bottomSheetBehavior != null)
+            {
+                m_bottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+            }
+
+            Dismiss();
+        }
 
         public override void OnCreate(Bundle? savedInstanceState)
         {

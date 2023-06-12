@@ -12,14 +12,14 @@
                       Margin="{dui:Thickness Top=size_2}">
             <dui:Chip Title="A chip" />
         </dui:ListItem>
-        <dui:ListItem Title="Date">
-            <dui:DatePicker />
-        </dui:ListItem>
-        <dui:ListItem Title="Time">
-            <dui:TimePicker />
-        </dui:ListItem>
-        <dui:ListItem Title="Date / time">
-            <dui:DateAndTimePicker />
-        </dui:ListItem>
+<dui:ListItem Title="Date">
+    <dui:DatePicker />
+</dui:ListItem>
+<dui:ListItem Title="Time">
+    <dui:TimePicker />
+</dui:ListItem>
+<dui:ListItem Title="Date / time">
+    <dui:DateAndTimePicker />
+</dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:BottomSheet>

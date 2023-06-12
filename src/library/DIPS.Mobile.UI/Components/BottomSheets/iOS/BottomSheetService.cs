@@ -9,12 +9,12 @@ public static partial class BottomSheetService
     internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage); 
     public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetContentPage(bottomSheet).Open();
         
-    public static async partial Task CloseCurrentBottomSheet()
+    public static async partial Task CloseCurrentBottomSheet(bool animated)
     {
         var potentialBottomSheetUiViewController = GetCurrentBottomSheetUiViewController();
         if (potentialBottomSheetUiViewController != null)
         {
-            await potentialBottomSheetUiViewController.DismissViewControllerAsync(false);
+            await potentialBottomSheetUiViewController.DismissViewControllerAsync(animated);
             await Task.Delay(100); //Small delay before its actually removed.    
         }
     }

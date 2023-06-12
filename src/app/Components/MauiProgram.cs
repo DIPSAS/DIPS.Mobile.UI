@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DIPS.Mobile.UI.API.Builder;
+using Microsoft.Extensions.Logging;
 
 namespace Components;
 

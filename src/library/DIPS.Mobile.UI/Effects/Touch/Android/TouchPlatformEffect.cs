@@ -195,6 +195,7 @@ public partial class TouchPlatformEffect
         
         m_ripple.Dispose();
         Control.Click -= OnClick;
+        Control.Touch -= OnTouch;
     }
     
     sealed class AccessibilityListener : Java.Lang.Object,

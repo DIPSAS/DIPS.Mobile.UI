@@ -1,71 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
-             x:Class="Components.ComponentsSamples.Pickers.PickersSample">
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+                 x:Class="Components.ComponentsSamples.Pickers.PickersSample">
     <dui:ContentPage.BindingContext>
         <pickers:PickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <ScrollView>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="ItemPicker, Mode: Context Menu"
-                       Margin="5" />
-            <dui:ItemPicker VerticalOptions="Start"
-                            Placeholder="Person"
-                            HorizontalOptions="Start"
-                            Mode="ContextMenu"
-                            ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName"/>
-
-            <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
-                       Margin="5" />
-            <dui:ItemPicker VerticalOptions="Start"
-                            Placeholder="Person"
-                            HorizontalOptions="Start"
-                            Mode="BottomSheet"
-                            SelectedItem="{Binding SelectedPerson}"
-                            ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName" />
-            <dui:Label Text="DatePicker"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding SelectedBirthday}"
-                            HorizontalOptions="Start" />
-            <dui:Label Text="TimePicker"
-                       Margin="5" />
-            <dui:TimePicker HorizontalOptions="Start"
-                            SelectedTime="{Binding SelectedShoppingTime}" />
-            <dui:Label Text="DateAndTimePicker"
-                       Margin="5" />
-            <dui:DateAndTimePicker VerticalOptions="End"
-                                   SelectedDateTime="{Binding SelectedDeadline}"
-                                   HorizontalOptions="Start" />
-            
-            
-            <dui:Label Text="DatePicker (With maximum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}" />
-            
-            <dui:Label Text="DatePicker (With minimum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test2}"
-                            HorizontalOptions="Start"
-                            MinimumDate="{Binding MinimumDate}" />
-            
-            <dui:Label Text="DatePicker (With maximum and minimum date)"
-                       Margin="5" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test3}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}"
-                            MinimumDate="{Binding MinimumDate}" />
-        </dui:VerticalStackLayout>
-    </ScrollView>
+    <dui:VerticalStackLayout>
+        <dui:NavigationListItem Title="Item pickers"
+                                Command="{Binding NavigateToItemPickersSamplesCommand}" />
+        <dui:NavigationListItem Title="Date / time pickers"
+                                Command="{Binding NavigateToDateTimePickersSamplesCommand}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>
