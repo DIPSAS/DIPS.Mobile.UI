@@ -36,17 +36,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
             
             Content = collectionView;
-            SubscribeToEvents();
-        }
-
-        private void SubscribeToEvents()
-        {
-            SearchBar.TextChanged += FilterItems;    
-        }
-
-        private void UnSubscribeFromEvents()
-        {
-            SearchBar.TextChanged -= FilterItems;
         }
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
@@ -81,13 +70,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 }
 
                 m_itemPicker.SelectedItem = theSelectedItem;
-                Close();
+                SendClose();
             }
         }
 
-        private void FilterItems(object? sender, TextChangedEventArgs e)
+        protected override void OnSearchTextChanged(string value)
         {
-            var filterText = e.NewTextValue;
+            base.OnSearchTextChanged(value);
+            
+            FilterItems(value);
+        }
+
+        private void FilterItems(string value)
+        {
+            var filterText = value;
             if (string.IsNullOrEmpty(filterText))
             {
                 Items.Clear();
@@ -106,13 +102,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     Items.Add(item);
                 }
             }
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            
-            UnSubscribeFromEvents();
         }
     }
 }

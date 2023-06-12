@@ -1,7 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar">
+    
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="Bjelle" 
+                     IconImageSource="{dui:Icons bell_fill}" />
+        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
+                     Clicked="MenuItem_OnClicked"/>
+    </dui:BottomSheet.ToolbarItems>
+    
     <dui:VerticalStackLayout>
         <dui:Label
             Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
@@ -20,4 +31,5 @@
             <dui:DateAndTimePicker />
         </dui:ListItem>
     </dui:VerticalStackLayout>
+    
 </dui:BottomSheet>

@@ -1,10 +1,5 @@
-using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;
-using Foundation;
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Platform;
-using ObjCRuntime;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Platform = Microsoft.Maui.ApplicationModel.Platform;
@@ -12,7 +7,7 @@ using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
-internal class BottomSheetContentPage 
+internal class BottomSheetContentPage : ContentPage
 {
     private UIViewController? m_viewController;
 #nullable disable
@@ -24,14 +19,19 @@ internal class BottomSheetContentPage
     public BottomSheetContentPage(BottomSheet bottomSheet)
     {
         m_bottomSheet = bottomSheet;
-
+        
+        this.SetAppThemeColor(BackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
+        
         if (bottomSheet.HasSearchBar)
         {
             IncludeSearchBar();
         }
-        
+        else
+        {
+            Content = bottomSheet;
+        }
+
         SetupViewController();
-        SubscribeEvents();
     }
 
     private void IncludeSearchBar()
@@ -42,27 +42,9 @@ internal class BottomSheetContentPage
         };
         
         grid.Add(m_bottomSheet.SearchBar);
-        grid.Add(m_bottomSheet.Content, 0, 1);
+        grid.Add(m_bottomSheet, 0, 1);
 
-       m_bottomSheet.Content = grid;
-    }
-
-    private void SubscribeEvents()
-    {
-        m_bottomSheet.WillClose += Close;
-    }
-
-    private void UnSubscribeEvents()
-    {
-        m_bottomSheet.WillClose -= Close;
-    }
-
-    private void Close(object? sender, EventArgs e)
-    {
-        m_viewController?.DismissViewController(true, null);
-        
-        m_bottomSheet.SendDisappearing();
-        UnSubscribeEvents();
+        Content = grid;
     }
 
     private void SetupViewController()
@@ -72,23 +54,24 @@ internal class BottomSheetContentPage
         if (mauiContext == null)
             return;
 
-        m_viewController = m_bottomSheet.ToUIViewController(mauiContext);
+        m_viewController = this.ToUIViewController(mauiContext);
 
         Page navigationPage;
 
-        if (m_bottomSheet.ShouldHaveNavigationBar())
+        if (m_bottomSheet.ShouldHaveNavigationBar)
         {
-            navigationPage = new NavigationPage(m_bottomSheet);
+            navigationPage = new NavigationPage(this);
             navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
             navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
+            navigationPage.Disappearing += Test;
         }
         else
         {
-            navigationPage = m_bottomSheet;
+            navigationPage = this;
         }
 
         m_navigationViewController = navigationPage.ToUIViewController(mauiContext);
-
+        
         if (m_viewController == null) 
             return;
         
@@ -98,10 +81,11 @@ internal class BottomSheetContentPage
         if (!OperatingSystem.IsIOSVersionAtLeast(15) || m_viewController.SheetPresentationController == null) //Can use bottom sheet
             return;
         
-        if(m_bottomSheet.ShouldHaveNavigationBar())        
+        if(m_bottomSheet.ShouldHaveNavigationBar)        
             ConfigureToolbar();
 
         m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
+        m_sheetPresentationController!.Delegate = new BottomSheetControllerDelegate(m_bottomSheet);
 
         var preferredDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
         var preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
@@ -140,19 +124,31 @@ internal class BottomSheetContentPage
             m_sheetPresentationController.SelectedDetentIdentifier = preferredDetentIdentifier;
 
             m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+            
 
             var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
                     ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
                     : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
                 ;
             // view.Bounds = view.Frame.Inset(Sizes.GetSize(SizeName.size_4), bottom);
-            m_bottomSheet.Padding = new Thickness(0, m_bottomSheet.ShouldHaveNavigationBar() ? 0 : Sizes.GetSize(SizeName.size_4), 0,
+            this.Padding = new Thickness(0, m_bottomSheet.ShouldHaveNavigationBar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
                 bottom); //Respect grabber and make sure we add some padding to the bottom, depending on if Safe Area (non physical home button) is visible.
         }
     }
 
+    private void Test(object? sender, EventArgs e)
+    {
+        
+    }
+
     private void ConfigureToolbar()
     {
+        Title = m_bottomSheet.Title;
+        foreach (var item in m_bottomSheet.ToolbarItems)
+        {
+            ToolbarItems.Add(item);
+        }
+        
         var navigationController = m_viewController!.NavigationController;
         RemoveNavigationBarSeparator(navigationController.NavigationBar);
         // Sets the color for all navigation buttons
@@ -171,8 +167,22 @@ internal class BottomSheetContentPage
         if (m_navigationViewController != null && currentViewController != null)
         {
             await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
-            m_bottomSheet.SendAppearing();
+            m_bottomSheet.SendOpen();
         }
     }
+}
+
+internal class BottomSheetControllerDelegate : UISheetPresentationControllerDelegate
+{
+    private readonly BottomSheet m_bottomSheet;
+
+    public BottomSheetControllerDelegate(BottomSheet bottomSheet)
+    {
+        m_bottomSheet = bottomSheet;
+    }
     
+    public override void DidDismiss(UIPresentationController presentationController)
+    {
+        m_bottomSheet.SendClose();
+    }
 }

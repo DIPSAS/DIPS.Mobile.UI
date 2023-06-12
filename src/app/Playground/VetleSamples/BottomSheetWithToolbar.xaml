@@ -7,16 +7,11 @@
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
              x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
              Title="Test Daily Standup">
-    <dui:BottomSheet.BindingContext>
-        <vetleSamples:BottomSheetWithToolbarViewModel />
-    </dui:BottomSheet.BindingContext>
-    
+ 
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Test2" />
         <ToolbarItem Text="Test" 
-                     IconImageSource="{dui:Icons bell_fill}"
-                     Command="{Binding TestCommand}" />
-
+                     IconImageSource="{dui:Icons bell_fill}" />
     </dui:BottomSheet.ToolbarItems>
     
         <dui:VerticalStackLayout>

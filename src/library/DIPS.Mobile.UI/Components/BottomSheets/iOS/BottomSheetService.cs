@@ -6,7 +6,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public static partial class BottomSheetService
 {
-    internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage); 
+    internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage);
+    internal static BottomSheet? m_currentOpenedBottomSheet;
     public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetContentPage(bottomSheet).Open();
         
     public static async partial Task CloseCurrentBottomSheet()
@@ -14,7 +15,7 @@ public static partial class BottomSheetService
         var potentialBottomSheetUiViewController = GetCurrentBottomSheetUiViewController();
         if (potentialBottomSheetUiViewController != null)
         {
-            await potentialBottomSheetUiViewController.DismissViewControllerAsync(false);
+            await potentialBottomSheetUiViewController.DismissViewControllerAsync(true);
             await Task.Delay(100); //Small delay before its actually removed.    
         }
     }

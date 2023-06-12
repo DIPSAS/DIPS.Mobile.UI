@@ -4,7 +4,6 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
-using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.API.Library;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
@@ -12,7 +11,6 @@ using Microsoft.Maui.Platform;
 using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
-using Color = Android.Graphics.Color;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Object = Java.Lang.Object;
 using Orientation = Android.Widget.Orientation;
@@ -29,17 +27,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         {
             m_bottomSheet = bottomSheet;
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            m_bottomSheet.WillClose += Close;
-        }
-
-        private void UnSubscribeEvents()
-        {
-            m_bottomSheet.WillClose -= Close;
         }
 
        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
@@ -78,7 +65,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
            }
 
-           if (m_bottomSheet.ShouldHaveNavigationBar())
+           if (m_bottomSheet.ShouldHaveNavigationBar)
            {
                var toolbar = new MaterialToolbar(Context!);
                ConfigureToolbar(toolbar);
@@ -87,7 +74,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
            if (m_bottomSheet.HasSearchBar)
            {
-               linearLayout.AddView(m_bottomSheet.SearchBar.ToPlatform(mauiContext!));
+               linearLayout.AddView(m_bottomSheet.SearchBar!.ToPlatform(mauiContext!));
            }
 
            linearLayout.AddView(m_bottomSheet.ToPlatform(mauiContext!));
@@ -186,8 +173,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             return dialog;
         }
 
-        private void Close(object? sender, EventArgs? e) => Dismiss();
-
         public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
@@ -202,29 +187,28 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             Show(fragmentManager, nameof(BottomSheetFragment));
-            m_bottomSheet.SendAppearing();
+            m_bottomSheet.SendOpen();
             return m_showTaskCompletionSource.Task;
         }
 
         public override void OnDestroy()
         {
-            UnSubscribeEvents();
             base.OnDestroy();
-            m_bottomSheet.SendDisappearing();
+            m_bottomSheet.SendClose();
         }
 
         internal class GenericMenuClickListener : Object, IMenuItemOnMenuItemClickListener
         {
-            readonly Action _callback;
+            readonly Action m_callback;
 
             public GenericMenuClickListener(Action callback)
             {
-                _callback = callback;
+                m_callback = callback;
             }
 
             public bool OnMenuItemClick(IMenuItem item)
             {
-                _callback();
+                m_callback.Invoke();
                 return true;
             }
         }

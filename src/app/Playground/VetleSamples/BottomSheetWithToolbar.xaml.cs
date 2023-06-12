@@ -14,15 +14,13 @@ public partial class BottomSheetWithToolbar
         Navigation.PushAsync(new ContentPage() {Title = "Test", Content = new Label(){Text = "Hei"} });
     }
 
-    protected override void OnAppearing()
+    protected override void OnClosed()
     {
-        base.OnAppearing();
-        
+        base.OnClosed();
     }
 
-    protected override void OnDisappearing()
+    protected override void OnOpened()
     {
-        base.OnDisappearing();
-        
+        base.OnOpened();
     }
 }

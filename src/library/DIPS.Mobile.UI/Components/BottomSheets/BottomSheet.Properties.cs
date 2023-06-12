@@ -1,11 +1,24 @@
-using DIPS.Mobile.UI.Components.BottomSheets.ToolbarConfiguration;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet
     {
+        /// <summary>
+        /// The title that will be displayed in the BottomSheet's navigation bar
+        /// </summary>
+        /// <remarks>Setting the title will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+        
+        /// <summary>
+        /// The toolbar items to be displayed on the right side of the BottomSheet's navigation bar
+        /// </summary>
+        /// <remarks>Setting a <see cref="ToolbarItem"/> will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
+        public IList<ToolbarItem> ToolbarItems { get; internal set; }
 
         /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
@@ -33,8 +46,68 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             get => (bool)GetValue(HasSearchBarProperty);
             set => SetValue(HasSearchBarProperty, value);
         }
+
+        /// <summary>
+        /// The command to be executed when the text in the search field is changed
+        /// </summary>
+        public ICommand SearchCommand
+        {
+            get => (ICommand)GetValue(SearchCommandProperty);
+            set => SetValue(SearchCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Event raised when the text in the search field is changed
+        /// </summary>
+        public event EventHandler<TextChangedEventArgs> SearchTextChanged;
+
+        /// <summary>
+        /// Event raised when the <see cref="BottomSheet"/> is closed
+        /// </summary>
+        public event EventHandler? Closed;
         
-        public SearchBar SearchBar { get; } = new() { HasCancelButton = false, BackgroundColor = Colors.Transparent };
+        /// <summary>
+        /// Event raised when the <see cref="BottomSheet"/> is opened
+        /// </summary>
+        public event EventHandler? Opened;
+
+        /// <summary>
+        /// The command to be executed when the <see cref="BottomSheet"/> is opened
+        /// </summary>
+        public ICommand? OpenedCommand
+        {
+            get => (ICommand)GetValue(OpenedCommandProperty);
+            set => SetValue(OpenedCommandProperty, value);
+        }
+        
+        /// <summary>
+        /// The command to be executed when the <see cref="BottomSheet"/> is closed
+        /// </summary>
+        public ICommand? ClosedCommand
+        {
+            get => (ICommand)GetValue(ClosedCommandProperty);
+            set => SetValue(ClosedCommandProperty, value);
+        }
+        
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(BottomSheet));
+        
+        public static readonly BindableProperty OpenedCommandProperty = BindableProperty.Create(
+            nameof(OpenedCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
+        
+        public static readonly BindableProperty ClosedCommandProperty = BindableProperty.Create(
+            nameof(ClosedCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
+
+        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
+            nameof(SearchCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
         
         public static readonly BindableProperty ShouldFitToContentProperty = BindableProperty.Create(
             nameof(ShouldFitToContent),
@@ -44,9 +117,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
             nameof(HasSearchBar),
             typeof(bool),
-            typeof(BottomSheet));
+            typeof(BottomSheet),
+            propertyChanged: OnHasSearchBarChanged);
 
-        public event EventHandler? WillClose;
-        protected virtual void OnWillClose() { }
     }
 }
