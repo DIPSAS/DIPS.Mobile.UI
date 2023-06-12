@@ -1,9 +1,6 @@
-using System.Windows.Input;
-using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Views;
-using Android.Views.Accessibility;
 using Android.Widget;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
@@ -24,8 +21,6 @@ public partial class TouchPlatformEffect
     
 #nullable disable
     private RippleDrawable m_ripple;
-    private AccessibilityManager m_accessibilityManager;
-    private AccessibilityListener m_accessibilityListener;
 #nullable restore
 
     private bool m_outsideBounds;
@@ -37,7 +32,6 @@ public partial class TouchPlatformEffect
     {
         m_touchMode = Touch.GetTouchMode(Element);
             
-        
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
@@ -55,7 +49,6 @@ public partial class TouchPlatformEffect
         var contentDescription = Touch.GetAccessibilityContentDescription(Element);
         
         CreateRipple();
-        AddAccessibility();
 
         if (string.IsNullOrEmpty(contentDescription))
         {
@@ -75,17 +68,6 @@ public partial class TouchPlatformEffect
     private void OnClick()
     {
         Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
-    }
-
-    private void AddAccessibility()
-    {
-        m_accessibilityManager = Control.Context?.GetSystemService(Context.AccessibilityService) as AccessibilityManager;
-        if (m_accessibilityManager == null)
-            return;
-
-        m_accessibilityListener = new AccessibilityListener(this);
-        m_accessibilityManager.AddAccessibilityStateChangeListener(m_accessibilityListener);
-        m_accessibilityManager.AddTouchExplorationStateChangeListener(m_accessibilityListener);
     }
 
     private void CreateRipple()
@@ -245,34 +227,6 @@ public partial class TouchPlatformEffect
         {
             m_action.Invoke();
             return true;
-        }
-    }
-    
-    sealed class AccessibilityListener : Java.Lang.Object,
-        AccessibilityManager.IAccessibilityStateChangeListener,
-        AccessibilityManager.ITouchExplorationStateChangeListener
-    {
-        TouchPlatformEffect? m_platformTouchEffect;
-
-        internal AccessibilityListener(TouchPlatformEffect platformTouchEffect)
-            => this.m_platformTouchEffect = platformTouchEffect;
-
-        public void OnAccessibilityStateChanged(bool enabled)
-        {
-        }
-
-        public void OnTouchExplorationStateChanged(bool enabled)
-        {
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                m_platformTouchEffect = null;
-            }
-
-            base.Dispose(disposing);
         }
     }
     
