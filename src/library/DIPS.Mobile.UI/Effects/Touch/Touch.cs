@@ -13,7 +13,27 @@ public partial class Touch : RoutingEffect
     {
         view.SetValue(CommandProperty, command);
     }
+    
+    public static ICommand GetLongPressCommand(BindableObject view)
+    {
+        return (ICommand)view.GetValue(LongPressCommandProperty);
+    }
 
+    public static void SetLongPressCommand(BindableObject view, ICommand command)
+    {
+        view.SetValue(LongPressCommandProperty, command);
+    }
+
+    public static object GetLongPressCommandParameter(BindableObject view)
+    {
+        return view.GetValue(LongPressCommandParameterProperty);
+    }
+    
+    public static void GetLongPressCommandParameter(BindableObject view, object obj)
+    {
+        view.SetValue(LongPressCommandParameterProperty, obj);
+    }
+    
     public static object GetCommandParameter(BindableObject view)
     {
         return view.GetValue(CommandParameterProperty);
@@ -39,6 +59,20 @@ public partial class Touch : RoutingEffect
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
     
+    internal static TouchMode GetTouchMode(BindableObject element)
+    {
+        if (GetCommand(element) is not null)
+        {
+            if (GetLongPressCommand(element) is not null)
+                return TouchMode.Both;
+            
+            return TouchMode.Tap;
+        }
+        
+        return TouchMode.LongPress;
+
+    }
+    
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)
@@ -48,15 +82,29 @@ public partial class Touch : RoutingEffect
         
         if (newValue is ICommand)
         {
+            // Refresh
+            RemoveEffect(view);
             view.Effects.Add(new Touch());
         }
         else
         {
-            var toRemove = view.Effects.FirstOrDefault(e => e is Touch);
-            if (toRemove != null)
-            {
-                view.Effects.Remove(toRemove);
-            }
+            RemoveEffect(view);
         }
+    }
+
+    private static void RemoveEffect(View view)
+    {
+        var toRemove = view.Effects.FirstOrDefault(e => e is Touch);
+        if (toRemove != null)
+        {
+            view.Effects.Remove(toRemove);
+        }
+    }
+
+    internal enum TouchMode
+    {
+        Tap,
+        LongPress,
+        Both
     }
 }

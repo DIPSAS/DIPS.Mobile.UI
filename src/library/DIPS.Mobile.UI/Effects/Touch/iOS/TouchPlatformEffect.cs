@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using CoreGraphics;
 using Foundation;
 using UIKit;
@@ -9,68 +8,131 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 public partial class TouchPlatformEffect
 {
     
-#nullable disable
-    private AwesomeUITapGestureRecognizer m_gestureRecognizer;
-#nullable restore
+    private DUITapGestureRecognizer? m_tapGestureRecognizer;
+    private DUILongPressGestureRecognizer? m_longPressGestureRecognizer;
+    private Touch.TouchMode m_touchMode;
 
     protected override partial void OnAttached()
     {
         if(Control is UIButton)
             return;
 
-        m_gestureRecognizer = new AwesomeUITapGestureRecognizer(Control, Element);
-        
-        Control.AddGestureRecognizer(m_gestureRecognizer);
+        m_touchMode = Touch.GetTouchMode(Element);
+
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        {
+            m_tapGestureRecognizer = new DUITapGestureRecognizer(Control, OnTap);
+            Control.AddGestureRecognizer(m_tapGestureRecognizer);
+        }
+
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        {
+            m_longPressGestureRecognizer = new DUILongPressGestureRecognizer(Control, OnLongPress);
+            Control.AddGestureRecognizer(m_longPressGestureRecognizer);
+        }
+
         Control.UserInteractionEnabled = true;
+    }
+
+    private void OnLongPress(UILongPressGestureRecognizer e)
+    {
+        if (e.State != UIGestureRecognizerState.Ended)
+            return;
+
+        if(Touch.GetLongPressCommand(Element).CanExecute(Touch.GetLongPressCommandParameter(Element)))
+            Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
+    }
+
+    private void OnTap()
+    {
+        if(Touch.GetCommand(Element).CanExecute(Touch.GetCommandParameter(Element)))
+            Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
     }
 
     protected override partial void OnDetached()
     {
-        Control.RemoveGestureRecognizer(m_gestureRecognizer);
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        {
+            Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
+        }
+
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        {
+            Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
+        }
+        
         Control.UserInteractionEnabled = false;
     }
+    
+    private static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState, UIView uiView)
+    {
+        switch (state)
+        {
+            case UIGestureRecognizerState.Began:
+                Animate(uiView);
+                break;
+            case UIGestureRecognizerState.Cancelled:
+                SetToOriginalOpacity(uiView, 1);
+                break;
+            case UIGestureRecognizerState.Ended:
+                if (currentState != UIGestureRecognizerState.Cancelled)
+                {
+                    SetToOriginalOpacity(uiView, 1);
+                }
+                break;
+        }
+            
+        currentState = state;
+    }
 
-    public class AwesomeUITapGestureRecognizer : UITapGestureRecognizer
+    private static void SetToOriginalOpacity(UIView uiView, float originalOpacity)
+    {
+        UIView.Animate(duration: 0.2, 0, UIViewAnimationOptions.CurveEaseIn,delegate
+        {
+            uiView.Layer.Opacity = originalOpacity;
+        }, null);
+    }
+
+    private static void Animate(UIView uiView)
+    {
+        UIView.Animate(duration: 0.3, 0, UIViewAnimationOptions.CurveEaseOut,delegate
+        {
+            uiView.Layer.Opacity = 0.5f;
+        }, null);
+    }
+
+    public sealed class DUILongPressGestureRecognizer : UILongPressGestureRecognizer
     {
         private readonly UIView m_uiView;
-        
-        private readonly float m_originalOpacity;
-        
-        private readonly ICommand m_command;
-        private readonly object m_commandParameter;
-
         private UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
-        
-        public AwesomeUITapGestureRecognizer(UIView uiView, BindableObject element)
+
+        public DUILongPressGestureRecognizer(UIView uiView, Action<UILongPressGestureRecognizer> action) : base(action: action)
         {
             m_uiView = uiView;
-            m_originalOpacity = uiView.Layer.Opacity;
-            
-            m_command = Touch.GetCommand(element);
-            m_commandParameter = Touch.GetCommandParameter(element);
 
-            Delegate = new TapGestureRecognizerDelegate();
+            MinimumPressDuration = .5;
+            Delegate = new GestureRecognizerDelegate();
         }
         
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             base.TouchesBegan(touches, evt);
             
-            HandleTouch(UIGestureRecognizerState.Began);
+            HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, m_uiView);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
             base.TouchesEnded(touches, evt);
 
-            HandleTouch(UIGestureRecognizerState.Ended);
+            HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, m_uiView);
         }
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
             base.TouchesCancelled(touches, evt);
             
-            HandleTouch(UIGestureRecognizerState.Cancelled);
+            HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
         }
 
         public override void TouchesMoved(NSSet touches, UIEvent evt)
@@ -79,69 +141,82 @@ public partial class TouchPlatformEffect
 
             if (touchPoint == null || !m_uiView.Bounds.Contains(touchPoint.Value))
             {
-                HandleTouch(UIGestureRecognizerState.Cancelled);
+                HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
+            }
+        }
+        
+        private CGPoint? GetTouchPoint(NSSet touches) =>
+            (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
+        
+    }
+    
+    public class DUITapGestureRecognizer : UITapGestureRecognizer
+    {
+        private readonly UIView m_uiView;
+        private readonly BindableObject m_element;
+
+        private UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
+        
+        public DUITapGestureRecognizer(UIView uiView, Action action) : base(action)
+        {
+            m_uiView = uiView;
+            
+            Delegate = new GestureRecognizerDelegate();
+        }
+
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
+            
+            HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, m_uiView);
+        }
+
+        public override void TouchesEnded(NSSet touches, UIEvent evt)
+        {
+            base.TouchesEnded(touches, evt);
+
+            HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, m_uiView);
+        }
+
+        public override void TouchesCancelled(NSSet touches, UIEvent evt)
+        {
+            base.TouchesCancelled(touches, evt);
+            
+            HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
+        }
+
+        public override void TouchesMoved(NSSet touches, UIEvent evt)
+        {
+            var touchPoint = GetTouchPoint(touches);
+
+            if (touchPoint == null || !m_uiView.Bounds.Contains(touchPoint.Value))
+            {
+                HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
             }
         }
         
         private CGPoint? GetTouchPoint(NSSet touches) =>
             (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
 
-        private void HandleTouch(UIGestureRecognizerState state)
+    }
+    
+    private class GestureRecognizerDelegate : UIGestureRecognizerDelegate
+    {
+        public GestureRecognizerDelegate()
         {
-            switch (state)
-            {
-                case UIGestureRecognizerState.Began:
-                    Animate();
-                    break;
-                case UIGestureRecognizerState.Cancelled:
-                    SetToOriginalOpacity();
-                    break;
-                case UIGestureRecognizerState.Ended:
-                    if (m_currentState != UIGestureRecognizerState.Cancelled)
-                    {
-                        if(m_command.CanExecute(m_commandParameter))
-                            m_command.Execute(m_commandParameter);
-                        
-                        SetToOriginalOpacity();
-                    }
-                    break;
-            }
+        }
             
-            m_currentState = state;
-        }
-
-        private void SetToOriginalOpacity()
+        public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
         {
-            UIView.Animate(duration: 0.2, 0, UIViewAnimationOptions.CurveEaseIn,delegate
+            if (touch.View.IsDescendantOfView(recognizer.View))
             {
-                m_uiView.Layer.Opacity = m_originalOpacity;
-            }, null);
-        }
-
-        private void Animate()
-        {
-            UIView.Animate(duration: 0.3, 0, UIViewAnimationOptions.CurveEaseOut,delegate
-            {
-                m_uiView.Layer.Opacity = 0.5f;
-            }, null);
-        }
-        
-        private class TapGestureRecognizerDelegate : UIGestureRecognizerDelegate
-        {
-            public TapGestureRecognizerDelegate()
-            {
-            }
-            
-            public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
-            {
-                if (touch.View.IsDescendantOfView(recognizer.View))
-                {
-                    return !touch.View.GestureRecognizers?.Any() ?? true;
-                }
+                if (touch.View.Equals(recognizer.View))
+                    return true;
                 
-                return false;
+                return !touch.View.GestureRecognizers?.Any() ?? true;
             }
+                
+            return false;
         }
-
     }
 }
