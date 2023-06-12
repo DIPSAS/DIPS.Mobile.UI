@@ -13,7 +13,7 @@ public static partial class BottomSheetService
     public static partial Task CloseCurrentBottomSheet(bool animated)
     {
         var currentBottomSheetFragment = CurrentBottomSheetFragment();
-       currentBottomSheetFragment?.Close();
+       currentBottomSheetFragment?.Dismiss();
         return Task.CompletedTask;
     }
 
