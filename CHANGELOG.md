@@ -1,3 +1,6 @@
+## [8.2.0]
+- Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
+
 ## [8.1.0]
 - [Android] Fixed an issue where CollectionView's height inside BottomSheet would expand beyond its items
 - [Android] Fixed an issue where the Handle and Searchbar were scrollable inside BottomSheet
