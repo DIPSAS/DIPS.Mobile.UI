@@ -12,9 +12,9 @@ using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
-namespace DIPS.Mobile.UI;
+namespace DIPS.Mobile.UI.API.Builder;
 
-public static class AppHostBuilderExtensions
+public static partial class AppHostBuilderExtensions
 {
     // ReSharper disable once IdentifierTypo
     // ReSharper disable once InconsistentNaming
@@ -23,19 +23,8 @@ public static class AppHostBuilderExtensions
     {
         //Initializers
         DUI.Init();
-#if __ANDROID__
-        builder.ConfigureLifecycleEvents(events =>
-        {
-            events.AddAndroid(android => android
-                .OnCreate((activity, _) => DUI.Init(activity)));
-            events.AddAndroid(android => android.OnPause(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
-        });
-#elif __IOS__
-        builder.ConfigureLifecycleEvents(events =>
-        {
-            events.AddiOS(ios => ios.OnResignActivation(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
-        });
-#endif
+        
+        builder.ConfigureLifecycleEvents(ConfigurePlatformLifecycleEvents);
         
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>
@@ -47,12 +36,8 @@ public static class AppHostBuilderExtensions
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler<ImageButton, ImageButtonHandler>();
-#if __ANDROID__
-            handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
-            handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
-#elif __IOS__
-            handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(Components.Searching.iOS.InternalSearchBarHandler));
-#endif
+            
+            AddPlatformHandlers(handlers);
         });
 
         builder.ConfigureEffects(effects =>
@@ -63,6 +48,9 @@ public static class AppHostBuilderExtensions
 
         return builder;
     }
-    
+
+    static partial void AddPlatformHandlers(IMauiHandlersCollection handlers);
+    static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events);
+
 }
 

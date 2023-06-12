@@ -1,5 +1,11 @@
-## [8.2.0]
+## [10.1.0]
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
+
+## [9.0.0]
+- Added SlideableLayout
+- Added SlideableContentLayout
+- Added HorizontalInlineDatePicker
+- Changed namespace of builder to correspond with internal project structure. Use DIPS.Mobile.UI.API.Builder now.
 
 ## [8.1.0]
 - [Android] Fixed an issue where CollectionView's height inside BottomSheet would expand beyond its items
