@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Commands
+namespace DIPS.Mobile.UI.MVVM.Commands
 {
     /// <summary>
     /// Converts command executes to tasks.

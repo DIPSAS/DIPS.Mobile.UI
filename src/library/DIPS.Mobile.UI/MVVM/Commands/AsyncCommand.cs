@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.Commands
+﻿namespace DIPS.Mobile.UI.MVVM.Commands
 {
     /// <inheritdoc />
     public class AsyncCommand : IAsyncCommand
