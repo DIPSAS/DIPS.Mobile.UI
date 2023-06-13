@@ -1,6 +1,6 @@
 namespace Playground.HåvardSamples;
 
-public partial class HåvardPage : ContentPage
+public partial class HåvardPage
 {
     public HåvardPage()
     {
