@@ -1,3 +1,6 @@
+## [11.2.0]
+- Added Divider
+
 ## [11.1.0]
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
 - Added AsyncCommand
