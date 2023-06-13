@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 6/2/2023 8:12:00 AM from DIPS.Mobile.DesignTokens
+generated 6/13/2023 12:22:07 PM from DIPS.Mobile.DesignTokens
 */
 
 namespace  DIPS.Mobile.UI.Resources.Icons
