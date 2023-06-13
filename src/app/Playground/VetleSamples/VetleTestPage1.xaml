@@ -18,7 +18,7 @@
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
         
-        <dividers:Divider />
+        <dividers:Divider BackgroundColor="Red" />
         
         <dui:NavigationListItem Title="Open bottomsheet not fit to content"
                                 Tapped="NavigationListItem_OnTapped" />

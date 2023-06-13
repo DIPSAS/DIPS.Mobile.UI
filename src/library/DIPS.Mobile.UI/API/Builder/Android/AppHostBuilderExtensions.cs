@@ -1,6 +1,4 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Dividers.Android;
 using Microsoft.Maui.LifecycleEvents;
 
 namespace DIPS.Mobile.UI.API.Builder;

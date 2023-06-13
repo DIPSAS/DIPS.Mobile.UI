@@ -37,7 +37,6 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler<ImageButton, ImageButtonHandler>();
-            handlers.AddHandler<Divider, DividerHandler>();
             
             AddPlatformHandlers(handlers);
         });

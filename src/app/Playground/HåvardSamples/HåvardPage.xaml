@@ -6,12 +6,18 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-    <dui:VerticalStackLayout Spacing="0">
+    <VerticalStackLayout Spacing="0">
         <dui:ListItem CornerRadius="0"
                       Title="Test1" />
         <dui:Divider />
         <dui:ListItem CornerRadius="0"
                       Title="Test2" />
         <dui:Divider />
-    </dui:VerticalStackLayout>
+        <dui:ListItem CornerRadius="0"
+                      Title="Test3" />
+        
+
+    </VerticalStackLayout>
+    
+    
 </dui:ContentPage>
