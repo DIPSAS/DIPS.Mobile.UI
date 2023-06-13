@@ -65,7 +65,7 @@ public partial class HorizontalInlineDatePicker : ContentView
     {
         index = 0;
         if (m_startDate == null) return false;
-        index = (int) Math.Round((dateTime - m_startDate.Value.Date).TotalDays);
+        index = (dateTime.Date - m_startDate.Value.Date).Days;
         return true;
     }
     
@@ -115,7 +115,7 @@ public partial class HorizontalInlineDatePicker : ContentView
     {
         if (TryGetDateFromIndex(i, out var dateScrolledTo))
         {
-            if (SelectedDate == dateScrolledTo) return; //No need to update, and to stop this from getting into a infinite loop
+            if (SelectedDate.Date == dateScrolledTo.Date) return; //No need to update, and to stop this from getting into a infinite loop
             
             SelectedDate = dateScrolledTo;
             VibrationService.SelectionChanged();

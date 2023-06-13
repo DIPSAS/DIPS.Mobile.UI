@@ -17,9 +17,9 @@ public static class dotnet
     }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-7.0
-    public static Task PackiOS(string projectPath, string outputDir, string applicationDisplayVersion, string applicationVersion)
+    public static Task PackiOS(string projectPath, string outputDir, string applicationDisplayVersion)
     {
-        return Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
+        return Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net7.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationDisplayVersion} -o {outputDir}");
     }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-7.0
