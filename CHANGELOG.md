@@ -3,6 +3,9 @@
 - [Android] Removed margin around material buttons
 - [Android] Fixed an issue where ListItem had margin
 
+## [11.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [11.1.0]
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
 - Added AsyncCommand
