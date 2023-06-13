@@ -1,3 +1,6 @@
+## [11.2.0]
+- Added Divider
+
 ## [9.0.0]
 - Added SlideableLayout
 - Added SlideableContentLayout
