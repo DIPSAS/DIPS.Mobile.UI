@@ -11,7 +11,7 @@ namespace DIPS.Mobile.UI.API.Library
         {
             if (BottomSheetService.IsBottomSheetOpen())
             {
-                _ = BottomSheetService.CloseCurrentBottomSheet();    
+                _ = BottomSheetService.CloseCurrentBottomSheet(false);    
             }
             
             RemovePlatformSpecificViewsLocatedOnTopOfPage();

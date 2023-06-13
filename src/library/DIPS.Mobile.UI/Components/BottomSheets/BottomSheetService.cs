@@ -16,7 +16,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// Closes the current presented bottom sheet.
         /// </summary>
         /// <returns></returns>
-        public static partial Task CloseCurrentBottomSheet(bool animated=false);
+        public static partial Task CloseCurrentBottomSheet(bool animated=true);
 
         public static partial bool IsBottomSheetOpen();
     }
