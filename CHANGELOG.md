@@ -1,6 +1,13 @@
-## [10.1.0]
+## [11.1.0]
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
 - Added AsyncCommand
+
+## [11.0.0]
+- [BreakingChange] Changed the animated flag for closing bottom sheets from bottom sheet service from default:false to true.
+- Fixed an issue where HorizontalInlineDatePicker did not set a colors for the date that it started with.
+- Fixed an issue where item picker bottom sheet mode did not close the bottom sheet.
+- Fixed an issue where setting animated flag when closing bottom sheet did not do anything for Android.
+- [ComponentsApp] Added version number to the first pages title.
 
 ## [10.0.0]
 - [BreakingChange] Changed API of BottomSheet regarding events when closing/opening
