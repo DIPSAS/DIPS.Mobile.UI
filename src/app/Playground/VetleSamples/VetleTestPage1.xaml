@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind">
     
@@ -18,7 +17,7 @@
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
         
-        <dividers:Divider />
+        <dui:Divider />
         
         <dui:NavigationListItem Title="Open bottomsheet not fit to content"
                                 Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetNotFitToContent}}" />

@@ -1,6 +1,4 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Dividers.Android;
 using Microsoft.Maui.LifecycleEvents;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -11,7 +9,7 @@ public static partial class AppHostBuilderExtensions
     {
         handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
         handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
-        handlers.AddHandler<Divider, DividerHandler>();
+        
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
