@@ -1,3 +1,7 @@
+## [11.2.1]
+- Made sure that HorizontalInlineDatePicker do not crash when you change date.
+- [ComponentsApp] Made sure the correct version of gets set to the iOS app. 
+
 ## [11.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
