@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Text;
 using Android.Text.Style;
@@ -210,6 +211,19 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             {
                 m_callback.Invoke();
                 return true;
+            }
+        }
+
+        public void Close(bool animated)
+        {
+            if (!animated)
+            {
+                OnStop(); //Kills the fragment without animation
+                OnDestroy(); //Has to call OnDestroy to send the closed event
+            }
+            else
+            {
+                Dismiss();
             }
         }
     }
