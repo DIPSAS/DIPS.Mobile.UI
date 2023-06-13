@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Components.Separator;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
@@ -36,6 +37,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler<ImageButton, ImageButtonHandler>();
+            handlers.AddHandler<Separator, SeparatorHandler>();
             
             AddPlatformHandlers(handlers);
         });
