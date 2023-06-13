@@ -106,7 +106,7 @@ public partial class HorizontalInlineDatePicker : ContentView
         
         var dateTime = m_startDate.Value.AddDays(i);
         
-        var isSelected = dateTime.Date == m_startDate; //Only true the first time we load the layout, every other event is happening in OnDateScrolledTo
+        var isSelected = dateTime.Date == m_startDate.Value.Date; //Only true the first time we load the layout
         var selectableDateViewModel = new SelectableDateViewModel(dateTime, isSelected);
         return selectableDateViewModel;
     }

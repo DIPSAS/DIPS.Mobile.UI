@@ -10,7 +10,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     public MainPage(IEnumerable<SampleType> sampleTypes, List<Sample> samples)
     {
         Padding = Sizes.GetSize(SizeName.size_4);
-        Title = LocalizedStrings.Components;
+        Title = $"{AppInfo.Current.Name} ({AppInfo.Current.VersionString})";
         Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
         {
             ItemsSource = sampleTypes, ItemTemplate = new DataTemplate(() => new NavigateToSamplesItem(samples)),

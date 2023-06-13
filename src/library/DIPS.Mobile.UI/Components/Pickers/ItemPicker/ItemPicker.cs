@@ -1,7 +1,6 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
@@ -49,9 +48,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
             picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
 
-            if (picker.Mode == PickerMode.ContextMenu)
+            switch (picker.Mode)
             {
-                UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user    
+                case PickerMode.ContextMenu:
+                    UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user
+                    break;
+                case PickerMode.BottomSheet:
+                    if (BottomSheetService.IsBottomSheetOpen())
+                    {
+                        BottomSheetService.CloseCurrentBottomSheet();    
+                    }
+                    
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
