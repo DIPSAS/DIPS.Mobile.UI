@@ -20,10 +20,13 @@
         <dui:Divider />
         
         <dui:NavigationListItem Title="Open bottomsheet not fit to content"
-                                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetNotFitToContent}}" />
+                                Tapped="NavigationListItem_OnTapped" />
         
         <dui:NavigationListItem Title="Open bottomsheet fit to content"
-                                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+                                Tapped="Test" />
+        
+        <dui:NavigationListItem Title="Open bottomsheet with toolbar"
+                                Tapped="Lol" />
         
         <Button Clicked="AddButton" />
 

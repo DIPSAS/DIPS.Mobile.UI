@@ -1,13 +1,27 @@
 using System.Windows.Input;
-using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet
     {
         /// <summary>
+        /// The title that will be displayed in the BottomSheet's navigation bar
+        /// </summary>
+        /// <remarks>Setting the title will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+        
+        /// <summary>
+        /// The toolbar items to be displayed on the right side of the BottomSheet's navigation bar
+        /// </summary>
+        /// <remarks>Setting a <see cref="ToolbarItem"/> will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
+        public IList<ToolbarItem> ToolbarItems { get; internal set; }
+
+        /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
-        ///
         /// </summary>
         /// <remarks>
         /// <list type="bullet">
@@ -15,9 +29,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <item><description>iOS less than 15: Will always display as a full screen modal page.</description></item>
         /// <item><description>iOS less than 16: Will try to set size to half the screen, but go to full screen if the content is bigger than half the screen.</description></item>
         /// <item><description>iOS greater or equal to 16: Will set the size to fit the content.</description></item>
-        /// /// <item><description>Do not set <see cref="IsDraggable"/> because dragging the sheet to maximize it is not supported when <see cref="ShouldFitToContent"/></description></item>
+        /// <item><description>Do not set <see cref="IsDraggable"/> because dragging the sheet to maximize it is not supported when <see cref="ShouldFitToContent"/></description></item>
         /// </list>
-       /// </remarks>
+        /// </remarks>
         public bool ShouldFitToContent
         {
             get => (bool)GetValue(ShouldFitToContentProperty);
@@ -46,7 +60,50 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// Event raised when the text in the search field is changed
         /// </summary>
         public event EventHandler<TextChangedEventArgs> SearchTextChanged;
+
+        /// <summary>
+        /// Event raised when the <see cref="BottomSheet"/> is closed
+        /// </summary>
+        public event EventHandler? Closed;
         
+        /// <summary>
+        /// Event raised when the <see cref="BottomSheet"/> is opened
+        /// </summary>
+        public event EventHandler? Opened;
+
+        /// <summary>
+        /// The command to be executed when the <see cref="BottomSheet"/> is opened
+        /// </summary>
+        public ICommand? OpenedCommand
+        {
+            get => (ICommand)GetValue(OpenedCommandProperty);
+            set => SetValue(OpenedCommandProperty, value);
+        }
+        
+        /// <summary>
+        /// The command to be executed when the <see cref="BottomSheet"/> is closed
+        /// </summary>
+        public ICommand? ClosedCommand
+        {
+            get => (ICommand)GetValue(ClosedCommandProperty);
+            set => SetValue(ClosedCommandProperty, value);
+        }
+        
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(BottomSheet));
+        
+        public static readonly BindableProperty OpenedCommandProperty = BindableProperty.Create(
+            nameof(OpenedCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
+        
+        public static readonly BindableProperty ClosedCommandProperty = BindableProperty.Create(
+            nameof(ClosedCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
+
         public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
             nameof(SearchCommand),
             typeof(ICommand),
@@ -63,9 +120,5 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(BottomSheet),
             propertyChanged: OnHasSearchBarChanged);
 
-        public event EventHandler? WillClose;
-        public event EventHandler? DidClose;
-        protected virtual void OnDidClose() { }
-        protected virtual void OnWillClose() { }
     }
 }

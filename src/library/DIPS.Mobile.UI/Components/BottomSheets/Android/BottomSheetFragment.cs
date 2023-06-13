@@ -1,14 +1,19 @@
 using Android.App;
-using Android.Content.Res;
+using Android.Content;
 using Android.OS;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
+using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
+using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Object = Java.Lang.Object;
 using Orientation = Android.Widget.Orientation;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
@@ -23,17 +28,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         {
             m_bottomSheet = bottomSheet;
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            m_bottomSheet.WillClose += Close;
-        }
-
-        private void UnSubscribeEvents()
-        {
-            m_bottomSheet.WillClose -= Close;
         }
 
        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
@@ -43,8 +37,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
            var linearLayout = new LinearLayout(Context)
            {
                LayoutParameters =
-                   new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                       ViewGroup.LayoutParams.MatchParent),
+                   new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                       ViewGroup.LayoutParams.WrapContent),
                Orientation = Orientation.Vertical
            };
 
@@ -72,9 +66,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
            }
 
+           if (m_bottomSheet.ShouldHaveNavigationBar)
+           {
+               var toolbar = new MaterialToolbar(Context!);
+               ConfigureToolbar(toolbar);
+               linearLayout.AddView(toolbar);
+           }
+
            if (m_bottomSheet.HasSearchBar)
            {
-               linearLayout.AddView(m_bottomSheet.SearchBar.ToPlatform(mauiContext!));
+               linearLayout.AddView(m_bottomSheet.SearchBar!.ToPlatform(mauiContext!));
            }
 
            linearLayout.AddView(m_bottomSheet.ToPlatform(mauiContext!));
@@ -82,7 +83,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
            if (!m_bottomSheet.ShouldFitToContent)
            {
                 // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-                linearLayout.AddView(new AView(Context)
+                linearLayout.AddView(new AView(Application.Context)
                 {
                     LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
                 });
@@ -91,15 +92,51 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             return linearLayout;
         }
 
+       private void ConfigureToolbar(MaterialToolbar toolbar)
+       {
+           toolbar.Title = m_bottomSheet.Title;
+           toolbar.TitleCentered = true;
+
+           foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
+           {
+               var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
+               var titleTinted = new SpannableString(toolbarItem.Text);
+               titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
+               
+               var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
+               menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
+               menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
+               SetMenuItemIcon(menuItem, toolbarItem);
+           }
+       }
+       
+       private static void SetMenuItemIcon(IMenuItem menuItem, ToolbarItem toolBarItem)
+       {
+           toolBarItem.IconImageSource.LoadImage(DUI.GetCurrentMauiContext!, result =>
+           {
+               var baseDrawable = result?.Value;
+
+               if (baseDrawable == null)
+                   return;
+
+               using var constant = baseDrawable.GetConstantState();
+               using var newDrawable = constant!.NewDrawable();
+               using var iconDrawable = newDrawable.Mutate();
+               iconDrawable.SetColorFilter(Colors.GetColor(BottomSheet.ToolbarActionButtonsName), FilterMode.SrcAtop);
+
+               menuItem.SetIcon(iconDrawable);
+           });
+       }
+
         private void ToggleBottomSheetIfPossible()
         {
-            if (Dialog is BottomSheetDialog bottomSheetDialog)
-            {
-                var bottomSheetBehavior = bottomSheetDialog.Behavior;
-                var collapsed = bottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
-                bottomSheetBehavior.State =
-                    collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
-            }
+            if (Dialog is not BottomSheetDialog bottomSheetDialog)
+                return;
+
+            var bottomSheetBehavior = bottomSheetDialog.Behavior;
+            var collapsed = bottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
+            bottomSheetBehavior.State =
+                collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
         }
 
         public override Dialog OnCreateDialog(Bundle? savedInstanceState)
@@ -137,21 +174,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             return dialog;
         }
 
-        private void Close(object? sender, EventArgs? e)
-        {
-            Close();
-        }
-
-        public void Close()
-        {
-            if (m_bottomSheetBehavior != null)
-            {
-                m_bottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
-            }
-
-            Dismiss();
-        }
-
         public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
@@ -166,14 +188,43 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             Show(fragmentManager, nameof(BottomSheetFragment));
+            m_bottomSheet.SendOpen();
             return m_showTaskCompletionSource.Task;
         }
 
         public override void OnDestroy()
         {
-            UnSubscribeEvents();
             base.OnDestroy();
-            m_bottomSheet.SendDidClose();
+            m_bottomSheet.SendClose();
+        }
+
+        internal class GenericMenuClickListener : Object, IMenuItemOnMenuItemClickListener
+        {
+            readonly Action m_callback;
+
+            public GenericMenuClickListener(Action callback)
+            {
+                m_callback = callback;
+            }
+
+            public bool OnMenuItemClick(IMenuItem item)
+            {
+                m_callback.Invoke();
+                return true;
+            }
+        }
+
+        public void Close(bool animated)
+        {
+            if (!animated)
+            {
+                OnStop(); //Kills the fragment without animation
+                OnDestroy(); //Has to call OnDestroy to send the closed event
+            }
+            else
+            {
+                Dismiss();
+            }
         }
     }
 }

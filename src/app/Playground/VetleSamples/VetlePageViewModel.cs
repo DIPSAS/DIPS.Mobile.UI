@@ -10,4 +10,5 @@ public class VetlePageViewModel
     }
     
     public ICommand Navigate { get; }
+    public ICommand Test { get; }
 }

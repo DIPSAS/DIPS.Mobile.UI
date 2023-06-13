@@ -25,7 +25,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         platformView.ValueChanged += OnDateSelected;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;
-
+        
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
 

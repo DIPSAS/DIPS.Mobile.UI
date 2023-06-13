@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
+             x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
+             Title="Test Daily Standup">
+ 
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="Test2" />
+        <ToolbarItem Text="Test" 
+                     IconImageSource="{dui:Icons bell_fill}" />
+    </dui:BottomSheet.ToolbarItems>
+    
+        <dui:VerticalStackLayout>
+        <dui:Label
+            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
+            Padding="{dui:Thickness size_4}"/>
+        <dui:ListItem Title="This is a chip:"
+                      Margin="{dui:Thickness Top=size_2}">
+            <dui:Chip Title="A chip" Tapped="Chip_OnTapped" />
+        </dui:ListItem>
+        <dui:ListItem Title="Date">
+            <dui:DatePicker />
+        </dui:ListItem>
+        <dui:ListItem Title="Time">
+            <dui:TimePicker />
+        </dui:ListItem>
+        <dui:ListItem Title="Date / time">
+            <dui:DateAndTimePicker />
+        </dui:ListItem>
+    </dui:VerticalStackLayout>
+    
+</dui:BottomSheet>

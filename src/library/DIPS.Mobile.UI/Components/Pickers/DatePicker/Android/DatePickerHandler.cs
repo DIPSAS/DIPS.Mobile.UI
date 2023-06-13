@@ -24,6 +24,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
 
         platformView.SetDefaultChipAttributes();
         platformView.Click += OnClicked;
+
     }
     
     private partial void AppendPropertyMapper()

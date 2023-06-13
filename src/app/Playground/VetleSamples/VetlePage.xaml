@@ -10,10 +10,21 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem></ToolbarItem>
+    </dui:ContentPage.ToolbarItems>
+    
     <dui:VerticalStackLayout>
             
         <dui:NavigationListItem Title="Navigate" 
                                 Command="{Binding Navigate}" />
+        
+        <Label Text="Lol"
+            dui:Touch.Command="{Binding Navigate}"
+            dui:Touch.LongPressCommand="{Binding Test}"
+                BackgroundColor="Azure"
+                WidthRequest="100"
+                HeightRequest="200"/>
         
         
     </dui:VerticalStackLayout>

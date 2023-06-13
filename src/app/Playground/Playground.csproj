@@ -13,17 +13,27 @@
         <ApplicationTitle>Playground</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.playground</ApplicationId>
+        <ApplicationId>com.dipsas.mobile.ui.playground</ApplicationId>
         <ApplicationIdGuid>1E9B8686-759B-4BA7-891C-8A154E6BB94A</ApplicationIdGuid>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
+    <!-- Intellij Rider is unable to deploy to device for MAUI: https://youtrack.jetbrains.com/issue/RIDER-76794/Cannot-deploy-MAUI-project-to-physical-iOS-device-->
+    <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+        <!--DEBUG ON DEVICE-->
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+        <!--DEBUG ON SIMULATOR-->
+        <!--<RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
+    </PropertyGroup>
+    
+    
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -60,6 +70,9 @@
       <MauiXaml Update="VetleSamples\TestBottomSheetFitToContent.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="VetleSamples\BottomSheetWithToolbar.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -73,6 +86,10 @@
       </Compile>
       <Compile Update="VetleSamples\TestBottomSheetFitToContent.xaml.cs">
         <DependentUpon>TestBottomSheetFitToContent.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="VetleSamples\BottomSheetWithToolbar.xaml.cs">
+        <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

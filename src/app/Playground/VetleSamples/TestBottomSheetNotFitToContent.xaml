@@ -17,6 +17,6 @@
     </dui:BottomSheet.Resources>
 
     
-    <CollectionView ItemsSource="{StaticResource Array}" />
+    <CollectionView ItemsSource="{StaticResource Array}" BackgroundColor="Transparent" />
     
 </dui:BottomSheet>
