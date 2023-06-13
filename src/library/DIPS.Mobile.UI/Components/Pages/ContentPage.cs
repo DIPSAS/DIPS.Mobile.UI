@@ -27,8 +27,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             Microsoft.Maui.Controls.Shell.SetBackgroundColor(this, Colors.GetColor(Shell.Shell.ToolbarBackgroundColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetTitleColor(this, Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetForegroundColor(this, Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName, osAppTheme));
-            
-            
         }
         
         
@@ -57,5 +55,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             SafeAreaInsetsDidChange(thickness);
             return true;
         }
+        
     }
 }

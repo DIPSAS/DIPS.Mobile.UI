@@ -13,7 +13,7 @@ public static partial class BottomSheetService
     public static partial Task CloseCurrentBottomSheet(bool animated)
     {
         var currentBottomSheetFragment = CurrentBottomSheetFragment();
-       currentBottomSheetFragment?.Close();
+       currentBottomSheetFragment?.Dismiss();
         return Task.CompletedTask;
     }
 
@@ -24,10 +24,7 @@ public static partial class BottomSheetService
 
     private static BottomSheetFragment? CurrentBottomSheetFragment()
     {
-        var context = Platform.AppContext;
-        var fragmentManager = context.GetFragmentManager();
-
-        var fragment = fragmentManager?.FindFragmentByTag(BottomSheetFragmentTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(BottomSheetFragmentTag);
         if (fragment is BottomSheetFragment bottomSheetFragment)
         {
             return bottomSheetFragment;

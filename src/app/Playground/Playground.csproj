@@ -60,6 +60,9 @@
       <MauiXaml Update="VetleSamples\TestBottomSheetFitToContent.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="VetleSamples\BottomSheetWithToolbar.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -73,6 +76,10 @@
       </Compile>
       <Compile Update="VetleSamples\TestBottomSheetFitToContent.xaml.cs">
         <DependentUpon>TestBottomSheetFitToContent.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="VetleSamples\BottomSheetWithToolbar.xaml.cs">
+        <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

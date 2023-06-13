@@ -21,6 +21,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 {
                     BottomSheetService.OpenBottomSheet(theBottomSheet);
                 }
+                
             });
         }
 

@@ -14,4 +14,17 @@ public partial class NavigationListItem
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
+
+    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(NavigationListItem));
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
+    public event EventHandler? Tapped;
 }

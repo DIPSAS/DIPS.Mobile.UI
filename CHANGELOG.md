@@ -2,6 +2,11 @@
 - Extended our Touch(effect) to include "LongPressCommand", users can now long press on any element
 - Added AsyncCommand
 
+## [10.0.0]
+- [BreakingChange] Changed API of BottomSheet regarding events when closing/opening
+- Added the ability to set title and toolbar items to BottomSheet
+- [iOS] Fixed an issue where OnClosed were not called when BottomSheet is closed
+
 ## [9.0.0]
 - Added SlideableLayout
 - Added SlideableContentLayout

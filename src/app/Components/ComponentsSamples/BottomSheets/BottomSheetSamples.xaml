@@ -9,7 +9,13 @@
                  xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
-    <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
-                            Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
-                            VerticalOptions="Start" />
+    <dui:VerticalStackLayout>
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
+                                Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
+                                VerticalOptions="Start" />
+        
+        <dui:NavigationListItem Title="Bottom Sheet Toolbar"
+                                Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithToolbar}}"
+                                VerticalOptions="Start" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

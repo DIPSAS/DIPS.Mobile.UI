@@ -10,6 +10,10 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem></ToolbarItem>
+    </dui:ContentPage.ToolbarItems>
+    
     <dui:VerticalStackLayout>
             
         <dui:NavigationListItem Title="Navigate" 

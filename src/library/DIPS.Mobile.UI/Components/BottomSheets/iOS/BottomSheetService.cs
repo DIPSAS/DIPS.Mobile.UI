@@ -6,7 +6,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public static partial class BottomSheetService
 {
-    internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage); 
+    internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage);
+    internal static BottomSheet? m_currentOpenedBottomSheet;
     public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetContentPage(bottomSheet).Open();
         
     public static async partial Task CloseCurrentBottomSheet(bool animated)
