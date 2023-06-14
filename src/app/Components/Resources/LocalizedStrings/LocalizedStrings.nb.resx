@@ -137,4 +137,10 @@
     <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
         <value>Åpne bottom sheet med toolbar</value>
     </data>
+    <data name="SizesAsVisualBoxes" xml:space="preserve">
+        <value>Størrelser som bokser</value>
+    </data>
+    <data name="SizesAsFontSize" xml:space="preserve">
+        <value>Størrelser som font størrelse</value>
+    </data>
 </root>

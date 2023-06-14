@@ -296,5 +296,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BottomSheet_OpenWithToolbar", resourceCulture);
             }
         }
+        
+        internal static string SizesAsVisualBoxes {
+            get {
+                return ResourceManager.GetString("SizesAsVisualBoxes", resourceCulture);
+            }
+        }
+        
+        internal static string SizesAsFontSize {
+            get {
+                return ResourceManager.GetString("SizesAsFontSize", resourceCulture);
+            }
+        }
     }
 }

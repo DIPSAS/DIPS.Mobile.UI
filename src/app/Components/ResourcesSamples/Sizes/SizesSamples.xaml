@@ -6,37 +6,14 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:resourcesSamples="clr-namespace:Components.ResourcesSamples"
+                 xmlns:helpers="clr-namespace:Components.Helpers"
+                 xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ResourcesSamples.Sizes.SizesSamples">
-    <Grid RowDefinitions="Auto, *">
-        <dui:SearchBar Grid.Row="0"
-                       TextChanged="InputView_OnTextChanged" />
-        <dui:CollectionView Grid.Row="1"
-                            Margin="{dui:Sizes size_3}"
-                            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Sizes}">
-            <dui:CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border>
-                        <Grid ColumnSpacing="5"
-                              Margin="{dui:Sizes size_2}"
-                              ColumnDefinitions="75,50, Auto">
-                            <dui:Label Grid.Column="0"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalOptions="Start"
-                                       Text="{Binding Key}" />
-                            <dui:Label Grid.Column="1"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalOptions="Start"
-                                       Text="{Binding Value}" />
-                            <Border Grid.Column="2"
-                                    WidthRequest="{Binding Value}"
-                                    HorizontalOptions="Start"
-                                    IsVisible="{Binding Value, Converter={dui:IsEmptyConverter Inverted=True}}"
-                                    HeightRequest="{dui:Sizes size_5}"
-                                    BackgroundColor="{dui:Colors color_primary_90}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </dui:CollectionView.ItemTemplate>
-        </dui:CollectionView>
-    </Grid>
+    <dui:VerticalStackLayout>
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
+                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsVisualBoxes}}" />
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
+                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsFontSize}}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>
