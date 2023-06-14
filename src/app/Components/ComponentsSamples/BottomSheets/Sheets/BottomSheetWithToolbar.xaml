@@ -4,14 +4,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
-             Title="Bottom Sheet">
+             x:Name="BottomSheet"
+             Title="The title">
+    <dui:BottomSheet.BindingContext>
+        <sheets:BottomSheetWithToolbarViewModel/>
+    </dui:BottomSheet.BindingContext>
     
     <dui:BottomSheet.ToolbarItems>
-        <ToolbarItem Text="Bjelle" 
+        <ToolbarItem 
                      IconImageSource="{dui:Icons bell_fill}" />
-        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
-                     Clicked="MenuItem_OnClicked"/>
+        <ToolbarItem Text="{Binding Title}"
+                     Command="{Binding CloseBottomSheetCommand}"
+        />
     </dui:BottomSheet.ToolbarItems>
     
     <dui:VerticalStackLayout>

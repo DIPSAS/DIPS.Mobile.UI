@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -34,6 +35,7 @@ internal class BottomSheetContentPage : ContentPage
         SetupViewController();
     }
 
+
     private void IncludeSearchBar()
     {
         var grid = new Grid
@@ -63,7 +65,6 @@ internal class BottomSheetContentPage : ContentPage
             navigationPage = new NavigationPage(this);
             navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
             navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
-            navigationPage.Disappearing += Test;
         }
         else
         {
@@ -83,7 +84,7 @@ internal class BottomSheetContentPage : ContentPage
         
         if(m_bottomSheet.ShouldHaveNavigationBar)        
             ConfigureToolbar();
-
+        
         m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
         m_sheetPresentationController!.Delegate = new BottomSheetControllerDelegate(m_bottomSheet);
 
@@ -136,16 +137,12 @@ internal class BottomSheetContentPage : ContentPage
         }
     }
 
-    private void Test(object? sender, EventArgs e)
-    {
-        
-    }
-
     private void ConfigureToolbar()
     {
         Title = m_bottomSheet.Title;
         foreach (var item in m_bottomSheet.ToolbarItems)
         {
+            item.BindingContext = m_bottomSheet.BindingContext;
             ToolbarItems.Add(item);
         }
         
@@ -185,9 +182,10 @@ internal class BottomSheetControllerDelegate : UISheetPresentationControllerDele
     {
         m_bottomSheet.SendOpen();
     }
-
-    public override void DidDismiss(UIPresentationController presentationController)
+    
+    public override void WillDismiss(UIPresentationController presentationController)
     {
         m_bottomSheet.SendClose();
+        BottomSheetService.m_currentOpenedBottomSheet = null;
     }
 }

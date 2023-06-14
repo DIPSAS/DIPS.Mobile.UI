@@ -1,3 +1,9 @@
+## [11.3.3]
+- [DatePicker] Made sure android only sets date when people tap the ok (positive) button.
+- [HorizontaInlineDatePicker] Made sure it doesnt crash when people select a date from the date picker service.
+- [HorizontaInlineDatePicker] Made sure people can not set a date outside of the upper and lower ranges of the horizontal inline date picker.
+- [DatePickerService] Made sure people have to manually close the date picker to set the date.
+
 ## [11.3.0]
 - Added Divider
 - [Android] Removed margin around material buttons
