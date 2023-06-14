@@ -39,5 +39,8 @@
         
         <!-- Removes default margin from material buttons !-->
         <item name="materialButtonStyle">@style/DIPS.Button</item>
+
+        <!-- Change the style of the popup menu (context menu) -->
+        <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
     </style>
 </resources>

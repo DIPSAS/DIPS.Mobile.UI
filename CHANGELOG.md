@@ -6,6 +6,7 @@
 - [DatePickerService] Made sure people have to manually close the date picker to set the date.
 - [BottomSheet] Made sure iOS closed events is called when bottom sheet is programatically closed.
 - [BottomSheet] Made sure toolbar items inherits the consumers bottom sheet binding context.
+- [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
 
 ## [11.3.0]
 - Added Divider

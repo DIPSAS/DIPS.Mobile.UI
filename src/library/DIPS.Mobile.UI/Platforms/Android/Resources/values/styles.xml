@@ -30,4 +30,9 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
+
+    <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/popupmenu_background</item> <!-- Sets the shape and color of the background -->
+        <item name="android:popupElevation">4dp</item> <!-- Determines the shadow -->
+    </style>
 </resources>
