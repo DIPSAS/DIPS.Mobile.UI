@@ -33,9 +33,6 @@
     <data name="Sizes" xml:space="preserve">
         <value>Sizes</value>
     </data>
-    <data name="Sizes_description" xml:space="preserve">
-        <value>The sizes can be used for: Distance between visual objects and radius of corners for visual objects.</value>
-    </data>
     <data name="ContextMenu" xml:space="preserve">
         <value>Context menu</value>
     </data>
@@ -108,9 +105,6 @@
     <data name="Group_Format" xml:space="preserve">
         <value>Group {0}</value>
     </data>
-    <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
-        <value>Very simple bottom sheet</value>
-    </data>
     <data name="SearchPage_PlaceholderText" xml:space="preserve">
         <value>Search for people</value>
     </data>
@@ -125,12 +119,6 @@
     </data>
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Open bottom sheet</value>
-    </data>
-    <data name="RemoveNavigationMenuButton" xml:space="preserve">
-        <value>Remove navigation menu button</value>
-    </data>
-    <data name="AddNavigationMenuButton" xml:space="preserve">
-        <value>Add navigation menu button</value>
     </data>
     <data name="Count" xml:space="preserve">
         <value>Count</value>
@@ -152,5 +140,8 @@
     </data>
     <data name="Navigation" xml:space="preserve">
         <value>Navigation</value>
+    </data>
+    <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
+        <value>Open bottom sheet with toolbar</value>
     </data>
 </root>

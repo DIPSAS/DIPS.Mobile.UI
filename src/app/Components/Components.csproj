@@ -127,7 +127,7 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.no.resx">
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.nb.resx">
         <Generator>ResXFileCodeGenerator</Generator>
       </EmbeddedResource>
     </ItemGroup>

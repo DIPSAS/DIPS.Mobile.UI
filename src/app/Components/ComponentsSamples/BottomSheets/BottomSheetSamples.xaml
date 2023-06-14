@@ -14,7 +14,7 @@
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
                                 VerticalOptions="Start" />
         
-        <dui:NavigationListItem Title="Bottom Sheet Toolbar"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenWithToolbar}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithToolbar}}"
                                 VerticalOptions="Start" />
     </dui:VerticalStackLayout>

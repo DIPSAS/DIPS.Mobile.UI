@@ -97,12 +97,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
            toolbar.Title = m_bottomSheet.Title;
            toolbar.TitleCentered = true;
 
+           if (toolbar.Menu == null) return;
            foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
            {
+               toolbarItem.BindingContext = m_bottomSheet.BindingContext;
                var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
-               var titleTinted = new SpannableString(toolbarItem.Text);
+
+               var text = toolbarItem.Text ?? string.Empty;
+               var titleTinted = new SpannableString(text);
                titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
-               
+
                var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
                menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
                menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
