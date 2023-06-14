@@ -64,7 +64,7 @@ AsyncStep packiOS = async () =>
     var latestRelease = await AppCenter.GetLatestVersionFromDistributionGroup(AppCenter_iOSAppGroupName, AppCenter_DistributionGroupName, AppCenter_iOSApiKey);
     var nextReleaseId = latestRelease.Id + 1;
     AppConfigManager.InsertAppConfig(AppConfigPath, AppCenter_iOSAppGroupName, AppCenter_DistributionGroupName, AppCenter_iOSApiKey);
-    await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath), nextReleaseId.ToString());
+    await dotnet.PackiOS(AppProjectPath, OutputDir, VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath));
 };
 
 AsyncStep packDroid = async () =>
