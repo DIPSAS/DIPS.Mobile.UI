@@ -133,7 +133,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Components\Shell\iOS\" />
       <Folder Include="Platforms\Android" />
       <Folder Include="Resources\Splash\" />
       <Folder Include="API\Vibration\dotnet\" />

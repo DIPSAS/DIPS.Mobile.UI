@@ -14,6 +14,7 @@
     
     <dui:VerticalStackLayout>
         <dui:Label Text="Badge" />
+        <dui:Divider />
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Count}">
             <Stepper Value="{Binding BadgeCount, Mode=TwoWay}" />
         </dui:ListItem>

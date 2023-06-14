@@ -11,8 +11,13 @@ public partial class ListItem : Border
     public ListItem()
     {
         BackgroundColor = Colors.GetColor(ColorName.color_system_white);
-        StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
-
+        StrokeShape = new RoundRectangle 
+        { 
+            CornerRadius = CornerRadius, 
+            StrokeThickness = 0, 
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
+        };
+        
         GridContent = new Grid 
         {
             ColumnDefinitions = new ColumnDefinitionCollection
@@ -38,6 +43,11 @@ public partial class ListItem : Border
         base.OnHandlerChanged();
         
         AddLabel();
+
+#if __ANDROID__
+        // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
+        StrokeThickness = 0;
+#endif
     }
 
     private void AddLabel()
@@ -61,7 +71,7 @@ public partial class ListItem : Border
 
             var newLine = new Span { Text = Environment.NewLine };
 
-            var subTitle = new Span { FontSize = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
+            var subTitle = new Span { FontSize = Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
             subTitle.SetBinding(Span.TextProperty, new Binding(nameof(Subtitle), source: this));
                 
             label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle } };

@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Playground.HåvardSamples.HåvardPage">
-    <ContentPage.Content>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.HåvardSamples.HåvardPage">
+    <VerticalStackLayout Spacing="0">
+        <dui:ListItem CornerRadius="0"
+                      Title="Test1" />
+        <dui:Divider />
+        <dui:ListItem CornerRadius="0"
+                      Title="Test2" />
+        <dui:Divider />
+        <dui:ListItem CornerRadius="0"
+                      Title="Test3" />
         
-    </ContentPage.Content>
-</ContentPage>
+
+    </VerticalStackLayout>
+    
+    
+</dui:ContentPage>

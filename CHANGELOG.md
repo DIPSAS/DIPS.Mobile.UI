@@ -1,3 +1,8 @@
+## [11.3.0]
+- Added Divider
+- [Android] Removed margin around material buttons
+- [Android] Fixed an issue where ListItem had margin
+
 ## [11.2.1]
 - Made sure that HorizontalInlineDatePicker do not crash when you change date.
 - [ComponentsApp] Made sure the correct version of gets set to the iOS app. 

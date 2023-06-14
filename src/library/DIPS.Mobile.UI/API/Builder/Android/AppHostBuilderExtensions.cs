@@ -9,6 +9,7 @@ public static partial class AppHostBuilderExtensions
     {
         handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
         handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
+        
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

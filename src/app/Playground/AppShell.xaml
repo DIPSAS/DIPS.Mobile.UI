@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
+<dui:Shell
     x:Class="Playground.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
     xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+    xmlns:dui="http://dips.com/mobile.ui"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Vetle"
-        ContentTemplate="{DataTemplate vetleSamples:VetlePage}"
-        Route="Vetle" />
-    
-    <ShellContent
-        Title="Håvard"
-        ContentTemplate="{DataTemplate håvardSamples:HåvardPage}"
-        Route="Håvard" />
-
-</Shell>
+    <TabBar>
+        <Tab Title="Vetle">
+            <ShellContent
+                Title="Vetle"
+                ContentTemplate="{DataTemplate vetleSamples:VetlePage}"
+                Route="Vetle" />
+        </Tab>
+        <Tab Title="Håvard">
+            <ShellContent
+                Title="Håvard"
+                ContentTemplate="{DataTemplate håvardSamples:HåvardPage}"
+                Route="Håvard" />
+        </Tab>
+    </TabBar>
+</dui:Shell>

@@ -36,5 +36,8 @@
         
         <!-- Globally set the alert dialog styles if one are to use Material Dialogs -->
         <item name="materialAlertDialogTheme">@style/DIPS.ThemeOverlay.App.MaterialAlertDialog</item>
+        
+        <!-- Removes default margin from material buttons !-->
+        <item name="materialButtonStyle">@style/DIPS.Button</item>
     </style>
 </resources>
