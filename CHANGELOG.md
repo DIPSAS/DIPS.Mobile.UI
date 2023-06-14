@@ -9,6 +9,7 @@
 - [BottomSheet] Made sure toolbar items inherits the consumers bottom sheet binding context.
 - [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
 - [ComponentsApp] Added sizes as font sizes and as boxes to size samples.
+- [ImageButton] Made sure a default TintColor is set to make sure it doesnt crash when its not set.
 
 ## [11.3.0]
 - Added Divider
