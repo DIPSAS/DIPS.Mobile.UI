@@ -1,7 +1,5 @@
-using Android.Content;
-using AndroidX.Fragment.App;
+using Android.Text.Format;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
-using Google.Android.Material.DatePicker;
 using Google.Android.Material.TimePicker;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
@@ -17,7 +15,10 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
     public MaterialTimePickerFragment(TimePicker timePicker)
     {
         m_timePicker = timePicker;
+        var format = (DateFormat.Is24HourFormat(Platform.AppContext)) ? TimeFormat.Clock24h : TimeFormat.Clock12h;
+
         var builder = new MaterialTimePicker.Builder()
+            .SetTimeFormat(format)
             .SetHour(timePicker.SelectedTime.Hours)
             .SetMinute(timePicker.SelectedTime.Minutes);
         m_materialTimePicker = builder.Build();
