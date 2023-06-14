@@ -7,6 +7,7 @@
 - [BottomSheet] Made sure iOS closed events is called when bottom sheet is programatically closed.
 - [BottomSheet] Made sure toolbar items inherits the consumers bottom sheet binding context.
 - [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
+- [ComponentsApp] Added sizes as font sizes and as boxes to size samples.
 
 ## [11.3.0]
 - Added Divider
