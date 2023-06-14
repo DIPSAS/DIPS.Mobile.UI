@@ -36,7 +36,4 @@
     <data name="Button" xml:space="preserve">
         <value>Button</value>
     </data>
-    <data name="SelectDate" xml:space="preserve">
-        <value>Select date</value>
-    </data>
 </root>

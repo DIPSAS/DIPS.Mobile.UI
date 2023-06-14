@@ -29,7 +29,4 @@
     <data name="Button" xml:space="preserve">
         <value>Knapp</value>
     </data>
-    <data name="SelectDate" xml:space="preserve">
-        <value>Velg dato</value>
-    </data>
 </root>
