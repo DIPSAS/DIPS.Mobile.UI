@@ -1,6 +1,6 @@
 <!--
 Do not edit directly,
-generated 6/13/2023 12:32:13 PM from DIPS.Mobile.DesignTokens
+generated 6/15/2023 6:32:20 AM from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DIPS.Mobile.UI.Resources.Icons.Icons">
 <x:String x:Key="information_line">information_line.png</x:String>
 <x:String x:Key="bell_fill">bell_fill.png</x:String>

@@ -1,3 +1,6 @@
+## [11.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [11.3.0]
 - Added Divider
 - [Android] Removed margin around material buttons
