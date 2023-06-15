@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 6/13/2023 12:32:13 PM from DIPS.Mobile.DesignTokens
+generated 6/15/2023 6:32:20 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace  DIPS.Mobile.UI.Resources.Sizes
@@ -32,6 +32,31 @@ size_21,
 size_22, 
 size_23, 
 size_24, 
-size_25
+size_25, 
+size_1_negative, 
+size_2_negative, 
+size_3_negative, 
+size_4_negative, 
+size_5_negative, 
+size_6_negative, 
+size_7_negative, 
+size_8_negative, 
+size_9_negative, 
+size_10_negative, 
+size_11_negative, 
+size_12_negative, 
+size_13_negative, 
+size_14_negative, 
+size_15_negative, 
+size_16_negative, 
+size_17_negative, 
+size_18_negative, 
+size_19_negative, 
+size_20_negative, 
+size_21_negative, 
+size_22_negative, 
+size_23_negative, 
+size_24_negative, 
+size_25_negative
     }
 }
