@@ -13,7 +13,7 @@
     </dui:BottomSheet.BindingContext>
     
     <dui:BottomSheet.ToolbarItems>
-        <ToolbarItem 
+        <ToolbarItem Text="Bjelle"
                      IconImageSource="{dui:Icons bell_fill}" />
         <ToolbarItem Text="{Binding Title}"
                      Command="{Binding CloseBottomSheetCommand}"
