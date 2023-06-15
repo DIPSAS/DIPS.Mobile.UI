@@ -1,8 +1,25 @@
-## [11.6.0] 
+## [12.2.0] 
 - Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
 - Added possibility to set TopDivider and BottomDivider on ListItem
 - Added dui:Image to set color of an image
 
+## [12.1.0] 
+- Added option to add custom view to navigationlistitem
+
+## [12.0.0]
+- [BreakingChange] Changed colors of ContentPage, BottomSheet, Context Menu Android and Chip (Pickers).
+- [DatePicker] Made sure android only sets date when people tap the ok (positive) button.
+- [TimePicker] Made sure android only sets time when people tap the ok (positive) button.
+- [TimePicker] Made sure android timepicker uses 12/24H format based on the users locale.
+- [HorizontaInlineDatePicker] Made sure it doesnt crash when people select a date from the date picker service.
+- [HorizontaInlineDatePicker] Made sure people can not set a date outside of the upper and lower ranges of the horizontal inline date picker.
+- [DatePickerService] Made sure people have to manually close the date picker to set the date.
+- [BottomSheet] Made sure iOS closed events is called when bottom sheet is programatically closed.
+- [BottomSheet] Made sure toolbar items inherits the consumers bottom sheet binding context.
+- [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
+- [ComponentsApp] Added sizes as font sizes and as boxes to size samples.
+- [ImageButton] Made sure a default TintColor is set to make sure it doesnt crash when its not set.
+ 
 ## [11.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

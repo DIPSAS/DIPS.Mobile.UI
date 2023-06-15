@@ -35,7 +35,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                     Shell.Shell.ToolbarTitleTextColorName);
 #else
             m_searchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
-                ColorName.color_neutral_05);
+                BackgroundColorName);
             m_searchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 Shell.Shell.ToolbarTitleTextColorName);
 #endif

@@ -7,9 +7,10 @@ using Object = Java.Lang.Object;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 
-public class MaterialDatePickerFragment : IMaterialDateTimePickerFragment
+public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragment, IMaterialPickerOnPositiveButtonClickListener
 {
     private readonly DatePicker m_datePicker;
+    private readonly MaterialDatePicker m_materialDatePicker;
 
     public MaterialDatePickerFragment(DatePicker datePicker)
     {
@@ -25,11 +26,11 @@ public class MaterialDatePickerFragment : IMaterialDateTimePickerFragment
         if (datePicker.MaximumDate != null)
             calendarConstraints.SetEnd(datePicker.MaximumDate.Value.ToLong());
         
-        var materialDatePicker = builder.SetCalendarConstraints(calendarConstraints.Build()).Build();
+        m_materialDatePicker = builder.SetCalendarConstraints(calendarConstraints.Build()).Build();
+        m_materialDatePicker.AddOnPositiveButtonClickListener(this);
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
-        materialDatePicker.Show(fragmentManager!, DatePickerService.DatePickerTag);
-        materialDatePicker.AddOnDismissListener(new DismissListener(m_datePicker, materialDatePicker));
+        m_materialDatePicker.Show(fragmentManager!, DatePickerService.DatePickerTag);
     }
 
     private void SetDatePickerSelection(MaterialDatePicker.Builder builder)
@@ -55,31 +56,15 @@ public class MaterialDatePickerFragment : IMaterialDateTimePickerFragment
         }
     }
 
-    private class DismissListener : Object, IDialogInterfaceOnDismissListener
+
+    public void OnPositiveButtonClick(Object? p0)
     {
-        private readonly DatePicker m_datePicker;
-        private MaterialDatePicker m_materialDatePicker;
-
-        public DismissListener(DatePicker datePicker, MaterialDatePicker materialDatePicker)
+        if (long.TryParse(m_materialDatePicker.Selection?.ToString(), out var milliseconds))
         {
-            m_datePicker = datePicker;
-            m_materialDatePicker = materialDatePicker;
-        }
-        
-        public void OnDismiss(IDialogInterface? dialog)
-        {
-            if (long.TryParse(m_materialDatePicker.Selection?.ToString(), out var milliseconds))
-            {
-                //Java uses the unix epoch, so we have to create a csharp date time based on the UnixEpoch start with the milliseconds picked by people using the date picker.
-                var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
-                m_datePicker.SelectedDate = m_datePicker.IgnoreLocalTime ? dateFromJava : dateFromJava.ToLocalTime();
-                m_datePicker.SelectedDateCommand?.Execute(null);
-            }
-            
-
-            m_materialDatePicker = null;
+            //Java uses the unix epoch, so we have to create a csharp date time based on the UnixEpoch start with the milliseconds picked by people using the date picker.
+            var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
+            m_datePicker.SelectedDate = m_datePicker.IgnoreLocalTime ? dateFromJava : dateFromJava.ToLocalTime();
+            m_datePicker.SelectedDateCommand?.Execute(null);
         }
     }
-
-    
 }

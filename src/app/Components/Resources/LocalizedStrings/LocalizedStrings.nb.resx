@@ -26,9 +26,6 @@
     <data name="Sizes" xml:space="preserve">
         <value>Størrelser</value>
     </data>
-    <data name="Sizes_description" xml:space="preserve">
-        <value>Størrelsene kan brukes til: Avstand mellom visuelle objekter og radius på hjørner på visuelle objekter.</value>
-    </data>
     <data name="ContextMenu" xml:space="preserve">
         <value>Context menu</value>
     </data>
@@ -98,9 +95,6 @@
     <data name="Group_Format" xml:space="preserve">
         <value>Gruppe {0}</value>
     </data>
-    <data name="BottomSheet_SimpleBottomSheet" xml:space="preserve">
-        <value>Veldig enkel bottom sheet innhold</value>
-    </data>
     <data name="SearchPage_PlaceholderText" xml:space="preserve">
         <value>Søk etter folk</value>
     </data>
@@ -118,12 +112,6 @@
     </data>
     <data name="BottomSheet_Open" xml:space="preserve">
         <value>Åpne bottom sheet</value>
-    </data>
-    <data name="RemoveNavigationMenuButton" xml:space="preserve">
-        <value>Fjern navigasjonsmeny knapp</value>
-    </data>
-    <data name="AddNavigationMenuButton" xml:space="preserve">
-        <value>Legg til navigasjonsmeny knapp</value>
     </data>
     <data name="Count" xml:space="preserve">
         <value>Antall</value>
@@ -145,5 +133,14 @@
     </data>
     <data name="Navigation" xml:space="preserve">
         <value>Navigasjon</value>
+    </data>
+    <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
+        <value>Åpne bottom sheet med toolbar</value>
+    </data>
+    <data name="SizesAsVisualBoxes" xml:space="preserve">
+        <value>Størrelser som bokser</value>
+    </data>
+    <data name="SizesAsFontSize" xml:space="preserve">
+        <value>Størrelser som font størrelse</value>
     </data>
 </root>

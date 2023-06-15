@@ -1,0 +1,18 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ResourcesSamples.Sizes.SizesAsFontSize">
+    <dui:CollectionView ItemSpacing="{dui:Sizes size_2}"
+                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Sizes}">
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:Label Text="{Binding Key}"
+                           FontSize="{Binding Value}" />
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+    </dui:CollectionView>
+</dui:ContentPage>

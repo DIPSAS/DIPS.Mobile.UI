@@ -3,16 +3,12 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                  xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
+                 xmlns:helpers="clr-namespace:Components.Helpers"
                  x:Class="Components.ComponentsSamples.Searching.SearchingSamples">
-
-    <dui:ContentPage.BindingContext>
-        <searching:SearchingSamplesViewModel />
-    </dui:ContentPage.BindingContext>
-
     <dui:VerticalStackLayout>
         <dui:NavigationListItem Title="Search bar"
-                                Command="{Binding NavigateToSearchBar}" />
+                                Command="{helpers:NavigationCommand {x:Type searching:SearchBarSamples}}" />
         <dui:NavigationListItem Title="Search page"
-                                Command="{Binding NavigateToSearchPage}" />
+                                Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

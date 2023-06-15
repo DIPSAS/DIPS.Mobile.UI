@@ -4,16 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:navigation="clr-namespace:Components.ComponentsSamples.Navigation"
+             xmlns:helpers="clr-namespace:Components.Helpers"
              x:Class="Components.ComponentsSamples.Navigation.NavigationSamples"
              Padding="{dui:Sizes size_4}">
-    
-    <dui:ContentPage.BindingContext>
-        <navigation:FloatingActionButtonSamplesViewModel />
-    </dui:ContentPage.BindingContext>
-    
     <dui:VerticalStackLayout>
         <dui:NavigationListItem Title="Floating Navigation Button" 
-                                Command="{Binding NavigateToFloatingNavigationButtonSamples}"
+                                Command="{helpers:NavigationCommand {x:Type navigation:FloatingNavigationButtonSamples}}"
                                  />
     </dui:VerticalStackLayout>
     

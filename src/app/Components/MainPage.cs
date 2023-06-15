@@ -26,7 +26,6 @@ public class NavigateToSamplesItem : NavigationListItem
     public NavigateToSamplesItem(List<Sample> samples)
     {
         m_samples = samples;
-        this.SetBinding(TitleProperty, new Binding(){Path = ""});
         Command = new Command(TryNavigateToSamplesPage);
     }
 
@@ -48,6 +47,12 @@ public class NavigateToSamplesItem : NavigationListItem
         if (BindingContext is SampleType sampleType)
         {
             m_sampleType = sampleType;
+            Title = sampleType switch
+            {
+                SampleType.Components => LocalizedStrings.Components,
+                SampleType.Resources => LocalizedStrings.Resources,
+                _ => "Unknown"
+            };
         }
     }
 }

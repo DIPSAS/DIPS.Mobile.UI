@@ -9,6 +9,8 @@ public partial class HorizontalInlineDatePicker : ContentView
 {
     private SlidableContentLayout m_slidableContentLayout;
     private DateTime? m_startDate;
+    private DateTime? m_maxDateTime;
+    private DateTime? m_minDateTime;
 
     public HorizontalInlineDatePicker()
     {
@@ -38,13 +40,11 @@ public partial class HorizontalInlineDatePicker : ContentView
 
         if (tappedSelectableDateViewModel.IsSelected) //Tapped the same date that was already selected
         {
-            var minDateTime = SelectedDate.AddDays(-MaxSelectableDaysFromToday);
-            var maxDateTime = SelectedDate.AddDays(MaxSelectableDaysFromToday);
             var datePicker = new DatePicker()
             {
                 SelectedDate = tappedSelectableDateViewModel.FullDate,
-                MinimumDate = minDateTime,
-                MaximumDate = maxDateTime,
+                MinimumDate = m_minDateTime,
+                MaximumDate = m_maxDateTime,
             };
             datePicker.SelectedDateCommand = new Command(() =>
             {
@@ -99,9 +99,11 @@ public partial class HorizontalInlineDatePicker : ContentView
 
     private object CreateSelectableDateViewModel(int i)
     {
-        if (m_startDate == null)
+        if (m_startDate == null) //This will only run once
         {
             m_startDate = SelectedDate;
+            m_minDateTime = SelectedDate.AddDays(-MaxSelectableDaysFromToday);
+            m_maxDateTime = SelectedDate.AddDays(MaxSelectableDaysFromToday);
         }
         
         var dateTime = m_startDate.Value.AddDays(i);

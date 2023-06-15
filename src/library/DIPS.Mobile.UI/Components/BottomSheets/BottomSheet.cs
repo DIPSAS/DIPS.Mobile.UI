@@ -6,13 +6,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
-        internal static ColorName ToolbarBackgroundColorName => ColorName.color_neutral_05;
+        internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
 
         public BottomSheet()
         {
-            this.SetAppThemeColor(BackgroundColorProperty, ToolbarBackgroundColorName);
+            this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
         }
