@@ -10,7 +10,9 @@
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:VerticalStackLayout>
-        <dui:NavigationListItem Title="Navigate" />
+        <dui:NavigationListItem Title="Navigate">
+            <dui:Label Text="Something"/>
+        </dui:NavigationListItem>
 
         <dui:ListItem Title="Person">
             <dui:ListItem.BindingContext>

@@ -47,7 +47,7 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
-
+    
     <PropertyGroup>
         <_DROID Condition=" $(TargetFramework.ToLowerInvariant().Contains('android')) ">true</_DROID>
         <_IOS Condition=" $(TargetFramework.ToLowerInvariant().Contains('ios')) ">true</_IOS>
