@@ -1,10 +1,5 @@
-<<<<<<< HEAD:src/library/DIPS.Mobile.UI/Components/Images/ImageButton/ImageButton.Properties.cs
-namespace DIPS.Mobile.UI.Components.Images.ImageButton;
-=======
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-
-namespace DIPS.Mobile.UI.Components.Images;
->>>>>>> main:src/library/DIPS.Mobile.UI/Components/Images/ImageButton.Properties.cs
+namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButton
 {
