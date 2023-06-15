@@ -1,4 +1,5 @@
-## [11.3.1]
+
+## [11.4.1]
 - [DatePicker] Made sure android only sets date when people tap the ok (positive) button.
 - [TimePicker] Made sure android only sets time when people tap the ok (positive) button.
 - [TimePicker] Made sure android timepicker uses 12/24H format based on the users locale.
@@ -10,6 +11,9 @@
 - [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
 - [ComponentsApp] Added sizes as font sizes and as boxes to size samples.
 - [ImageButton] Made sure a default TintColor is set to make sure it doesnt crash when its not set.
+ 
+## [11.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [11.3.0]
 - Added Divider
