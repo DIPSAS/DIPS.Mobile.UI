@@ -1,5 +1,6 @@
 
-## [11.4.1]
+## [12.0.0]
+- [BreakingChange] Changed colors of ContentPage, BottomSheet, Context Menu Android and Chip (Pickers).
 - [DatePicker] Made sure android only sets date when people tap the ok (positive) button.
 - [TimePicker] Made sure android only sets time when people tap the ok (positive) button.
 - [TimePicker] Made sure android timepicker uses 12/24H format based on the users locale.
