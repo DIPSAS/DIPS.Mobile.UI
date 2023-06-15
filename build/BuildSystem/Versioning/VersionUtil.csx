@@ -4,81 +4,106 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 public static class VersionUtil
+{
+    private const string DefaultChangelogFilename = "CHANGELOG.md";
+    public const string HeaderPrefix = "## [";
+    public const string VersionPattern = "[0-9]+.[0-9]+.[0-9]+";
+    public const string HeaderPattern = @"##\s+[0-9]+\.[0-9]+\.[0-9]+";
+
+    /// <summary>
+    /// Gets the release notes for the latest version based on the changelog.
+    /// Extracts all text between the header for the last version and the header for the previous version.
+    /// </summary>
+    /// <param name="changelogPath">Path to the changelog. Default is "BuildEnv.RootDir\CHANGELOG.md".</param>
+    /// <param name="headerPattern">The regex pattern for the headers. Default "### Version [0-9]+\.[0-9]+\.[0-9]+".</param>
+    /// <param name="modifyLogLine">Function to modify every logline before it is added</param>
+    public static string GetReleaseNotesFromChangelog(string changelogPath, string headerPattern = null, Func<string, string> modifyLogLine = null)
     {
-        private const string DefaultChangelogFilename = "CHANGELOG.md";
-        public const string HeaderPrefix = "## [";
-        public const string VersionPattern = "[0-9]+.[0-9]+.[0-9]+";
-        public const string HeaderPattern = @"##\s+[0-9]+\.[0-9]+\.[0-9]+";
+        headerPattern = headerPattern ?? HeaderPattern;
+        var modifier = modifyLogLine ?? (s => s);
+        var changeLogLines = File.ReadAllLines(changelogPath);
+        var headerRegex = new Regex(headerPattern);
 
-        /// <summary>
-        /// Gets the release notes for the latest version based on the changelog.
-        /// Extracts all text between the header for the last version and the header for the previous version.
-        /// </summary>
-        /// <param name="changelogPath">Path to the changelog. Default is "BuildEnv.RootDir\CHANGELOG.md".</param>
-        /// <param name="headerPattern">The regex pattern for the headers. Default "### Version [0-9]+\.[0-9]+\.[0-9]+".</param>
-        /// <param name="modifyLogLine">Function to modify every logline before it is added</param>
-        public static string GetReleaseNotesFromChangelog(string changelogPath, string headerPattern = null, Func<string, string> modifyLogLine = null)
+        var latestVersion = GetFromChangelog(changelogPath, headerPattern);
+
+        var releaseNotes = new List<string>();
+        var blockFound = false;
+        foreach (var changeLogLine in changeLogLines)
         {
-            headerPattern = headerPattern ?? HeaderPattern;
-            var modifier = modifyLogLine ?? (s => s);
-            var changeLogLines = File.ReadAllLines(changelogPath);
-            var headerRegex = new Regex(headerPattern);
-
-            var latestVersion = GetFromChangelog(changelogPath, headerPattern);
-
-            var releaseNotes = new List<string>();
-            var blockFound = false;
-            foreach (var changeLogLine in changeLogLines)
+            if (blockFound && headerRegex.Match(changeLogLine).Success)
             {
-                if (blockFound && headerRegex.Match(changeLogLine).Success)
-                {
-                    break;
-                }
-
-                if (changeLogLine.Contains(latestVersion))
-                {
-                    blockFound = true;
-                }
-
-                if (blockFound)
-                {
-                    var line = modifier(changeLogLine);
-                    if (line != null)
-                    {
-                        releaseNotes.Add(line);
-                    }
-                }
+                break;
             }
 
-            return string.Join(Environment.NewLine, releaseNotes);
-        }
-
-        /// <summary>
-        /// Gets the latest version from the changelog based on a header pattern.
-        /// </summary>
-        /// <param name="changelogPath">Path to the changelog. Default is "BuildEnv.RootDir\CHANGELOG.md".</param>
-        /// <param name="headerPrefix">Prefix for the version header. Default "### Version"</param>
-        /// <param name="versionPattern">The regex pattern for the header containing the version. Default "[0-9]+\.[0-9]+\.[0-9]+".</param>
-        public static string GetLatestVersionFromChangelog(
-            string changelogPath,
-            string headerPrefix = HeaderPrefix,
-            string versionPattern = VersionPattern)
-        {
-            var changeLogContent = File.ReadAllText(changelogPath);
-
-            var headerRegex = new Regex(headerPrefix + versionPattern);
-            var versionRegex = new Regex(versionPattern);
-            var matches = headerRegex.Matches(changeLogContent);
-
-            string version = "0.0.0";
-            foreach (Match match in matches)
+            if (changeLogLine.Contains(latestVersion))
             {
-                var matchVersion = versionRegex.Match(match.Value).Value;
-                version = GetHighestVersion(version, matchVersion);
+                blockFound = true;
             }
 
-            return version;
+            if (blockFound)
+            {
+                var line = modifier(changeLogLine);
+                if (line != null)
+                {
+                    releaseNotes.Add(line);
+                }
+            }
         }
+
+        return string.Join(Environment.NewLine, releaseNotes);
+    }
+
+    /// <summary>
+    /// Gets the latest version from the changelog based on a header pattern.
+    /// </summary>
+    /// <param name="changelogPath">Path to the changelog. Default is "BuildEnv.RootDir\CHANGELOG.md".</param>
+    /// <param name="headerPrefix">Prefix for the version header. Default "### Version"</param>
+    /// <param name="versionPattern">The regex pattern for the header containing the version. Default "[0-9]+\.[0-9]+\.[0-9]+".</param>
+    public static string GetLatestVersionFromChangelog(
+        string changelogPath,
+        string headerPrefix = HeaderPrefix,
+        string versionPattern = VersionPattern)
+    {
+        var changeLogContent = File.ReadAllText(changelogPath);
+
+        var headerRegex = new Regex(headerPrefix + versionPattern);
+        var versionRegex = new Regex(versionPattern);
+        var matches = headerRegex.Matches(changeLogContent);
+
+        string version = "0.0.0";
+        foreach (Match match in matches)
+        {
+            var matchVersion = versionRegex.Match(match.Value).Value;
+            version = GetHighestVersion(version, matchVersion);
+        }
+
+        return version;
+    }
+
+    public static List<string> GetReleaseNoteFromLatestVersion(string changelogPath)
+    {
+        var version = GetLatestVersionFromChangelog(changelogPath);
+        var changeLogContent = File.ReadAllText(changelogPath);
+        changeLogContent = changeLogContent.Replace($"## [{version}]", "");
+        int pTo = changeLogContent.IndexOf("##");
+        var potentialReleaseNotes = changeLogContent.Substring(0, pTo - 0).Split('-').ToList();
+        var releaseNotes = new List<string>();
+        foreach (var potentialReleaseNote in potentialReleaseNotes)
+        {
+            var releaseNote = potentialReleaseNote.Replace("\n","").Replace("\r","");
+            if(string.IsNullOrEmpty(releaseNote)) continue;
+            
+            if (releaseNote.StartsWith(" "))
+            {
+                releaseNote = releaseNote.Remove(0, 1);
+            }
+            releaseNotes.Add(releaseNote);
+        }
+        return releaseNotes;
+    }
+
+
+    
 
         /// <summary>
         /// Gets the latest version from the changelog based on a header pattern.

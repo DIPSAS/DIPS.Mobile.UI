@@ -40,6 +40,8 @@ private static string TestProjectPath = Path.Combine(TestDir, "unittests", "DIPS
 private static string AppCenter_iOSAppGroupName = "Components-iOS";
 private static string AppCenter_droidAppGroupName = "Components-Droid";
 private static string AppCenter_DistributionGroupName = "releases";
+private static string ChangelogHeaderPrefix = "## [";
+private static string VersionPattern = "[0-11]+.[0-11]+.[0-11]+";
 
 AsyncStep build = () => dotnet.Build(LibraryProjectPath);
 
@@ -88,15 +90,15 @@ AsyncStep publishApp = async () =>
     }
 
 
-    var releaseNotes = VersionUtil.GetReleaseNotesFromChangelog(ChangeLogPath);
-
+    var releaseNotes = VersionUtil.GetReleaseNoteFromLatestVersion(ChangeLogPath);
+    var releaseNotesReadAble = string.Join("\n", releaseNotes);
     var ipaFile = FileHelper.FindSingleFileByExtension(OutputDir, ".ipa");
     var iOSReleaseId = await AppCenter.CreateRelease(AppCenter_iOSAppGroupName, ipaFile.FullName, PlatformTarget.iOS, AppCenter_iOSApiKey);
-    await AppCenter.DistributeRelease(iOSReleaseId, AppCenter_iOSAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_iOSApiKey, releaseNotes);
+    await AppCenter.DistributeRelease(iOSReleaseId, AppCenter_iOSAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_iOSApiKey, releaseNotesReadAble);
 
     var apkFile = FileHelper.FindSingleFileByExtension(OutputDir, ".apk");
     var droidReleaseId = await AppCenter.CreateRelease(AppCenter_droidAppGroupName, apkFile.FullName, PlatformTarget.Android, AppCenter_droidApiKey);
-    await AppCenter.DistributeRelease(droidReleaseId, AppCenter_droidAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_droidApiKey, releaseNotes);
+    await AppCenter.DistributeRelease(droidReleaseId, AppCenter_droidAppGroupName, new string[] { AppCenter_DistributionGroupName}, AppCenter_droidApiKey, releaseNotesReadAble);
 };
 
 AsyncStep publish = async () =>
@@ -232,6 +234,7 @@ async Task<FileInfo> PackLibrary(string outputdir = null)
         var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
         version += $"-pre{buildNumber}";
     }
+
     await dotnet.Pack(LibraryProjectPath, version, outputdir);
     return FileHelper.FindSingleFileByExtension(outputdir, ".nupkg");;
 }
