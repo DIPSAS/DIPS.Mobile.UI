@@ -15,8 +15,7 @@ public static class ChipExtensions
         chip.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
         chip.TextSize = 17;
         chip.ChipCornerRadius = 24;
-        
-        SetBackgroundColor(new Color(118, 118, 128, 30), chip);
+        SetBackgroundColor(Color.FromArgb(ChipHandler.BackgroundColorAsHex), chip);
     }
     
     private static void SetBackgroundColor(Color color, Google.Android.Material.Chip.Chip chip)

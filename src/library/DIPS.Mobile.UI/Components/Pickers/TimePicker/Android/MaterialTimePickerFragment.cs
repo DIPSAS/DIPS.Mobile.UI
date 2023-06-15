@@ -1,25 +1,31 @@
-using Android.Content;
-using AndroidX.Fragment.App;
+using Android.Text.Format;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
-using Google.Android.Material.DatePicker;
 using Google.Android.Material.TimePicker;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 
-public class MaterialTimePickerFragment : IMaterialDateTimePickerFragment
+public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragment, View.IOnClickListener
 {
+    private readonly TimePicker m_timePicker;
+    private readonly MaterialTimePicker m_materialTimePicker;
+
     public MaterialTimePickerFragment(TimePicker timePicker)
     {
+        m_timePicker = timePicker;
+        var format = (DateFormat.Is24HourFormat(Platform.AppContext)) ? TimeFormat.Clock24h : TimeFormat.Clock12h;
+
         var builder = new MaterialTimePicker.Builder()
+            .SetTimeFormat(format)
             .SetHour(timePicker.SelectedTime.Hours)
             .SetMinute(timePicker.SelectedTime.Minutes);
-        var materialTimePicker = builder.Build();
+        m_materialTimePicker = builder.Build();
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
-        materialTimePicker.Show(fragmentManager!, TimePickerService.TimePickerTag);
-        materialTimePicker.AddOnDismissListener(new DismissListener(timePicker, materialTimePicker));
+        m_materialTimePicker.Show(fragmentManager!, TimePickerService.TimePickerTag);
+        m_materialTimePicker.AddOnPositiveButtonClickListener(this);
     }
 
     public bool IsOpen()
@@ -38,23 +44,9 @@ public class MaterialTimePickerFragment : IMaterialDateTimePickerFragment
         }
     }
 
-    private class DismissListener : Object, IDialogInterfaceOnDismissListener
+    public void OnClick(View? v)
     {
-        private readonly TimePicker m_timePicker;
-        private MaterialTimePicker m_materialTimePicker;
-
-        public DismissListener(TimePicker timePicker, MaterialTimePicker materialTimePicker)
-        {
-            m_timePicker = timePicker;
-            m_materialTimePicker = materialTimePicker;
-        }
-        
-        public void OnDismiss(IDialogInterface? dialog)
-        {
-            m_timePicker.SelectedTime = new TimeSpan(m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0);
-            m_timePicker.SelectedTimeCommand?.Execute(null);
-            
-            m_materialTimePicker = null;
-        }
+        m_timePicker.SelectedTime = new TimeSpan(m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0);
+        m_timePicker.SelectedTimeCommand?.Execute(null);
     }
 }

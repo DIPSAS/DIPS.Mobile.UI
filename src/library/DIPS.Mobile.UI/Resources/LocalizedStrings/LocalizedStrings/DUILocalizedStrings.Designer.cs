@@ -74,10 +74,18 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Done", resourceCulture);
             }
         }
-        
-        internal static string Button {
-            get {
+
+        internal static string Button
+        {
+            get
+            {
                 return ResourceManager.GetString("Button", resourceCulture);
+            }
+        }
+
+        internal static string SelectDate {
+            get {
+                return ResourceManager.GetString("SelectDate", resourceCulture);
             }
         }
     }

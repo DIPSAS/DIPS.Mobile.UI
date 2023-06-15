@@ -8,24 +8,26 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
-    <dui:ContentPage.BindingContext>
-        <pickers:PickerSamplesViewModel />
-    </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout>
-        <dui:NavigationListItem Title="Navigate"
-                                Command="{Binding TestCommand}" />
+        <dui:NavigationListItem Title="Navigate" />
 
         <dui:ListItem Title="Person">
+            <dui:ListItem.BindingContext>
+                <pickers:ItemPickersSamplesViewModel />
+            </dui:ListItem.BindingContext>
             <dui:ItemPicker Mode="ContextMenu"
                             Placeholder="{x:Static localizedStrings:LocalizedStrings.SelectPerson}"
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName" >
+                            ItemDisplayProperty="DisplayName">
             </dui:ItemPicker>
         </dui:ListItem>
 
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Birthday}">
+            <dui:ListItem.BindingContext>
+                <pickers:DateTimePickerSamplesViewModel />
+            </dui:ListItem.BindingContext>
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
     </dui:VerticalStackLayout>

@@ -75,12 +75,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Sizes_description {
-            get {
-                return ResourceManager.GetString("Sizes_description", resourceCulture);
-            }
-        }
-        
         internal static string ContextMenu {
             get {
                 return ResourceManager.GetString("ContextMenu", resourceCulture);
@@ -225,12 +219,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string BottomSheet_SimpleBottomSheet {
-            get {
-                return ResourceManager.GetString("BottomSheet_SimpleBottomSheet", resourceCulture);
-            }
-        }
-        
         internal static string SearchPage_PlaceholderText {
             get {
                 return ResourceManager.GetString("SearchPage_PlaceholderText", resourceCulture);
@@ -258,18 +246,6 @@ namespace Components.Resources.LocalizedStrings {
         internal static string BottomSheet_Open {
             get {
                 return ResourceManager.GetString("BottomSheet_Open", resourceCulture);
-            }
-        }
-        
-        internal static string RemoveNavigationMenuButton {
-            get {
-                return ResourceManager.GetString("RemoveNavigationMenuButton", resourceCulture);
-            }
-        }
-        
-        internal static string AddNavigationMenuButton {
-            get {
-                return ResourceManager.GetString("AddNavigationMenuButton", resourceCulture);
             }
         }
         
@@ -312,6 +288,24 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Navigation {
             get {
                 return ResourceManager.GetString("Navigation", resourceCulture);
+            }
+        }
+        
+        internal static string BottomSheet_OpenWithToolbar {
+            get {
+                return ResourceManager.GetString("BottomSheet_OpenWithToolbar", resourceCulture);
+            }
+        }
+        
+        internal static string SizesAsVisualBoxes {
+            get {
+                return ResourceManager.GetString("SizesAsVisualBoxes", resourceCulture);
+            }
+        }
+        
+        internal static string SizesAsFontSize {
+            get {
+                return ResourceManager.GetString("SizesAsFontSize", resourceCulture);
             }
         }
     }

@@ -12,21 +12,8 @@ public partial class DatePickerService
         {
             Close();
         }
-        
-        var inlineDatePicker = new InlineDatePicker()
-        {
-             MaximumDate = datePicker.MaximumDate,
-             MinimumDate = datePicker.MinimumDate,
-            SelectedDate = datePicker.SelectedDate,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime
-        };
-        inlineDatePicker.SelectedDateCommand = new Command(() =>
-        {
-            Close();
-            datePicker.SelectedDate = inlineDatePicker.SelectedDate;
-            datePicker.SelectedDateCommand?.Execute(null);
-        });
-        BottomSheetService.OpenBottomSheet(new BottomSheet() {Content = inlineDatePicker, ShouldFitToContent = true});
+       
+        BottomSheetService.OpenBottomSheet(new DatePickerBottomSheet(datePicker));
     }
 
     internal static partial bool IsOpen() => BottomSheetService.IsBottomSheetOpen();

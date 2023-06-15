@@ -58,13 +58,12 @@ public partial class ContextMenuPlatformEffect
         {
             m_contextMenu = contextMenu;
             m_control = view;
-            
             Platform.CurrentActivity!.RegisterActivityLifecycleCallbacks(this);
         }
         
         public void OpenContextMenu(object? sender, EventArgs e)
         {
-            m_popupMenu = new PopupMenu(Platform.AppContext, m_control);
+            m_popupMenu = new PopupMenu(Platform.CurrentActivity, m_control);
             
             m_menuItems = ContextMenuHelper.CreateMenuItems(m_contextMenu.ItemsSource!,
                 m_contextMenu, m_popupMenu);

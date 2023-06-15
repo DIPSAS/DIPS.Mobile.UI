@@ -3,19 +3,19 @@
     <style name="DIPS.ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
-        <item name="backgroundTint">@color/color_neutral_05</item>
+        <item name="backgroundTint">@color/color_system_white</item>
     </style>
 
     <style name="DIPS.ShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
-        <item name="backgroundTint">@color/color_neutral_05</item>
+        <item name="backgroundTint">@color/color_system_white</item>
     </style>
 
     <style name="DIPS.ShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>  <!-- TODO: Use DesignSystem -->
-        <item name="backgroundTint">@color/color_neutral_05</item>
+        <item name="backgroundTint">@color/color_system_white</item>
     </style>
     
     <style name="DIPS.ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -29,5 +29,10 @@
     <style name="DIPS.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/popupmenu_background</item> <!-- Sets the shape and color of the background -->
+        <item name="android:popupElevation">4dp</item> <!-- Determines the shadow -->
     </style>
 </resources>
