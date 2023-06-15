@@ -34,7 +34,10 @@ public partial class SizesAsVisualBoxes
         {
             if (sizePair.Value is int size)
             {
-                sizes.Add(sizePair.Key, size);
+                if(size > 0)
+                {
+                    sizes.Add(sizePair.Key, size);
+                }
             }
         }
         return sizes;
