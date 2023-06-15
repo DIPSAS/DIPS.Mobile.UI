@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Images;
+namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButton
 {
@@ -7,6 +7,9 @@ public partial class ImageButton
         typeof(Color),
         typeof(ImageButton));
 
+    /// <summary>
+    /// Sets the color of the image
+    /// </summary>
     public Color TintColor
     {
         get => (Color)GetValue(TintColorProperty);

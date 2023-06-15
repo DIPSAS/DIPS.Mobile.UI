@@ -2,7 +2,7 @@ using Microsoft.Maui.Platform;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Components.Images;
+namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButtonHandler
 {

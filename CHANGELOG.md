@@ -1,3 +1,8 @@
+## [11.6.0] 
+- Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
+- Added possibility to set TopDivider and BottomDivider on ListItem
+- Added dui:Image to set color of an image
+
 ## [11.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

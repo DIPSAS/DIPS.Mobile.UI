@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Images;
+using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;

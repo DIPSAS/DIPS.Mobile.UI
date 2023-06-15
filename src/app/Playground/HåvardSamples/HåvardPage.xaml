@@ -8,13 +8,14 @@
                  x:Class="Playground.HåvardSamples.HåvardPage">
     <VerticalStackLayout Spacing="0">
         <dui:ListItem CornerRadius="0"
-                      Title="Test1" />
-        <dui:Divider />
+                      Title="Test1"
+                      HasBottomDivider="True"/>
         <dui:ListItem CornerRadius="0"
-                      Title="Test2" />
-        <dui:Divider />
+                      Title="Test2"/>
         <dui:ListItem CornerRadius="0"
-                      Title="Test3" />
+                      Title="Test3"
+                      HasTopDivider="True"
+                      HasBottomDivider="True"/>
         
 
     </VerticalStackLayout>

@@ -1,24 +1,28 @@
+using DIPS.Mobile.UI.Components.Dividers;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 [ContentProperty(nameof(ContentItem))]
-public partial class ListItem : Border
+public partial class ListItem : ContentView
 {
-    private Grid GridContent { get; }
+    private Grid MainContent { get; }
+
+    private VerticalStackLayout RootContent { get; } =
+        new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent };
+
+    public Border Border { get; } = new() {BackgroundColor = Colors.GetColor(ColorName.color_system_white)};
     
     public ListItem()
     {
-        BackgroundColor = Colors.GetColor(ColorName.color_system_white);
-        StrokeShape = new RoundRectangle 
+        Border.StrokeShape = new RoundRectangle 
         { 
             CornerRadius = CornerRadius, 
-            StrokeThickness = 0, 
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
+            StrokeThickness = 0 
         };
         
-        GridContent = new Grid 
+        MainContent = new Grid 
         {
             ColumnDefinitions = new ColumnDefinitionCollection
             {
@@ -35,9 +39,14 @@ public partial class ListItem : Border
                 Sizes.GetSize(SizeName.size_3))
         };
 
-        Content = GridContent;
+        Border.Content = MainContent;
+
+        RootContent.Add(Border);
+        
+        Content = RootContent;
     }
-    
+
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
@@ -46,8 +55,18 @@ public partial class ListItem : Border
 
 #if __ANDROID__
         // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
-        StrokeThickness = 0;
+        Border.StrokeThickness = 0;
 #endif
+
+        if (HasTopDivider)
+        {
+            AddDivider(0);
+        }
+
+        if (HasBottomDivider)
+        {
+            AddDivider(RootContent.Count);
+        }
     }
 
     private void AddLabel()
@@ -79,7 +98,7 @@ public partial class ListItem : Border
 
         label.Margin = new Thickness(0, 0, 10, 0);
         
-        GridContent.Add(label);
+        MainContent.Add(label);
     }
 
     private static void CornerRadiusChanged(BindableObject bindable, object oldValue, object newValue)
@@ -87,7 +106,7 @@ public partial class ListItem : Border
         if(bindable is not ListItem listItem)
             return;
 
-        listItem.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
+        listItem.Border.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
     }
 
     private static void OnContentItemChanged(BindableObject bindable, object oldValue, object newValue)
@@ -101,7 +120,20 @@ public partial class ListItem : Border
             view.VerticalOptions = LayoutOptions.Center;
         }
         
-        listItem.GridContent.Add(view, 1);
+        listItem.MainContent.Add(view, 1);
     }
- 
+
+    private void AddDivider(int row)
+    {
+        var divider = new Divider();
+        if (row > RootContent.Count - 1)
+        {
+            RootContent.Add(divider);
+        }
+        else
+        {
+            RootContent.Insert(row, divider);
+        }
+    }
+
 }

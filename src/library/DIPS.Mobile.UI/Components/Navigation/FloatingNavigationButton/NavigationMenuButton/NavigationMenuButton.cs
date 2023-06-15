@@ -11,7 +11,7 @@ internal partial class NavigationMenuButton : Grid
         RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Auto } };
         ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         
-        ImageButton = new Components.Images.ImageButton()
+        ImageButton = new Images.ImageButton.ImageButton()
         {
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,

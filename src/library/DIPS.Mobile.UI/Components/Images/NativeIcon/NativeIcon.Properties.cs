@@ -1,7 +1,7 @@
 using DIPS.Mobile.UI.Resources.Colors;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.Images
+namespace DIPS.Mobile.UI.Components.Images.NativeIcon
 {
     public partial class NativeIcon
     {
