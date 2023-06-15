@@ -10,6 +10,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         public DatePicker()
         {
             BackgroundColor = Colors.GetColor(ColorName.color_secondary_30);
+            
+#if __IOS__
+            // DatePickers on iOS takes up invisible space
+            WidthRequest = 100;
+#endif
         }
 
         protected override void OnHandlerChanged()

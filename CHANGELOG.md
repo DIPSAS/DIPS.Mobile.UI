@@ -1,3 +1,10 @@
+## [12.2.0] 
+- Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
+- Added possibility to set TopDivider and BottomDivider on ListItem
+- Added dui:Image to set color of an image
+
+## [12.1.0] 
+- Added option to add custom view to navigationlistitem
 
 ## [12.0.0]
 - [BreakingChange] Changed colors of ContentPage, BottomSheet, Context Menu Android and Chip (Pickers).

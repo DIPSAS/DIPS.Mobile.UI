@@ -27,5 +27,20 @@
                 HeightRequest="200"/>
         
         
+        <dui:ListItem Title="asd"
+                      Subtitle="asdaoisdmoiasjdiajsdoijasoidjsaoidjaiodjsoidjaoisjdaoijdoiasjdoi"
+                      HasTopDivider="True"
+                      HasBottomDivider="True">
+            <dui:DatePicker />
+        </dui:ListItem>
+        
+        <dui:ListItem Title="ASIDOjsaiodjqweiqwjoeijqwoiejqoiwjeioqwjeoiqwjoeijqwoiejqwoiejqwoiejqwoieji"
+                      Subtitle="asd" ShouldOverrideContentItemLayoutOptions="True">
+            <Border WidthRequest="70" BackgroundColor="Red" VerticalOptions="Fill"  />
+        </dui:ListItem>
+        
+        <dui:Image TintColor="Green" Source="{dui:Icons bell_fill}" />
+        
+        
     </dui:VerticalStackLayout>
 </dui:ContentPage>

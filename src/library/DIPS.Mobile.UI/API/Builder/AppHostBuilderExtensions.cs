@@ -1,13 +1,14 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Images;
+using DIPS.Mobile.UI.Components.Images.Image;
+using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
@@ -36,7 +37,8 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
-            handlers.AddHandler<ImageButton, ImageButtonHandler>();
+            handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
+            handlers.AddHandler<Image, ImageHandler>();
             
             AddPlatformHandlers(handlers);
         });

@@ -1,14 +1,18 @@
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.Images;
+namespace DIPS.Mobile.UI.Components.Images.Image;
 
-public partial class ImageButton
+public partial class Image
 {
     public static readonly BindableProperty TintColorProperty = BindableProperty.Create(
         nameof(TintColor),
         typeof(Color),
-        typeof(ImageButton), defaultValueCreator: (_ => Colors.GetColor(ColorName.color_system_black)));
+        typeof(Image),
+        defaultValue:Colors.GetColor(ColorName.color_system_black));
 
+    /// <summary>
+    /// Sets the color of the image
+    /// </summary>
     public Color TintColor
     {
         get => (Color)GetValue(TintColorProperty);

@@ -3,7 +3,7 @@ using DIPS.Mobile.UI.Exceptions;
 using Microsoft.Maui.Handlers;
 
 // ReSharper disable once CheckNamespace
-namespace DIPS.Mobile.UI.Components.Images;
+namespace DIPS.Mobile.UI.Components.Images.NativeIcon;
 
 public partial class NativeIconHandler : ViewHandler<NativeIcon, View>
 {
