@@ -2,6 +2,7 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler
 {
+    internal static string BackgroundColorAsHex = "#E5E9EB";
     public ChipHandler() : base(PropertyMapper)
     {
     }

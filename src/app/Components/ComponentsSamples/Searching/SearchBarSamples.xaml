@@ -9,8 +9,7 @@
                  x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
-                 Padding="{dui:Sizes size_3}"
-                 BackgroundColor="{dui:Colors color_neutral_05}">
+                 Padding="{dui:Sizes size_3}">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>

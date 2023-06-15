@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 {
     public partial class ContentPage : Microsoft.Maui.Controls.ContentPage
     {
-        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_30;
+        public static readonly ColorName BackgroundColorName = ColorName.color_secondary_30;
 
         public ContentPage()
         {

@@ -21,7 +21,7 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet = bottomSheet;
         
-        this.SetAppThemeColor(BackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
+        this.SetAppThemeColor(BackgroundColorProperty, BottomSheet.BackgroundColorName);
         
         if (bottomSheet.HasSearchBar)
         {
@@ -63,7 +63,7 @@ internal class BottomSheetContentPage : ContentPage
         if (m_bottomSheet.ShouldHaveNavigationBar)
         {
             navigationPage = new NavigationPage(this);
-            navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.ToolbarBackgroundColorName);
+            navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.BackgroundColorName);
             navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
         }
         else

@@ -18,7 +18,7 @@
         <item name="colorPrimary">@color/color_primary_90</item>
         <item name="colorSecondary">@color/color_secondary_90</item>
 
-        <item name="colorSurface">@color/color_neutral_05</item>
+        <item name="colorSurface">@color/color_system_white</item>
         
         <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">@color/color_primary_d_90</item>
