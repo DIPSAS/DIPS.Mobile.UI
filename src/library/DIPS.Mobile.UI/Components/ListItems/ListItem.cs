@@ -22,8 +22,8 @@ public partial class ListItem : Border
         {
             ColumnDefinitions = new ColumnDefinitionCollection
             {
-                new(GridLength.Auto),
-                new(GridLength.Star)
+                new(GridLength.Star),
+                new(GridLength.Auto)
             },
             RowDefinitions = new RowDefinitionCollection()
             {
@@ -76,6 +76,8 @@ public partial class ListItem : Border
                 
             label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle } };
         }
+
+        label.Margin = new Thickness(0, 0, 10, 0);
         
         GridContent.Add(label);
     }
@@ -93,9 +95,10 @@ public partial class ListItem : Border
         if(bindable is not ListItem listItem || newValue is not View view)
             return;
 
-        if (!listItem.ShouldOverrideContentItemLayoutOptions)
+        if (listItem.ShouldOverrideContentItemLayoutOptions)
         {
-            view.HorizontalOptions = LayoutOptions.End;    
+            view.HorizontalOptions = LayoutOptions.End;
+            view.VerticalOptions = LayoutOptions.Center;
         }
         
         listItem.GridContent.Add(view, 1);

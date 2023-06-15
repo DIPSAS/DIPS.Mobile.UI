@@ -7,6 +7,11 @@ public partial class DateAndTimePicker : View, IDateTimePicker
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+        
+#if __IOS__
+        // DatePickers on iOS takes up invisible space
+        WidthRequest = 200;
+#endif
             
         // SelectedDate should not be above maximum date
         if (MaximumDate != null && SelectedDateTime > MaximumDate)

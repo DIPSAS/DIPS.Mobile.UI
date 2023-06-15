@@ -27,5 +27,15 @@
                 HeightRequest="200"/>
         
         
+        <dui:ListItem Title="ASIDOjsaiodjaoidjaisdjioasdjaiodsapksapodkoapskdpaksopdkpoa"
+                                Subtitle="asiojfoisdjfiodsjiofjsdiofjiodsjfisjiojfsiodjfsasiodjowijdauiwdnajnwdawd">
+            <dui:DatePicker />
+        </dui:ListItem>
+        
+        <dui:ListItem Title="ASIDOjsaiodjaoidjaisdjioasdjaiodsapksapodkoapskdpaksopdkpoa"
+                      Subtitle="asiojfoisdjfiodsjiofjsdiofjiodsjfisjiojfsiodjfsasiodjowijdauiwdnajnwdawd" ShouldOverrideContentItemLayoutOptions="True">
+            <Border WidthRequest="50" BackgroundColor="Red" VerticalOptions="Fill"  />
+        </dui:ListItem>
+        
     </dui:VerticalStackLayout>
 </dui:ContentPage>

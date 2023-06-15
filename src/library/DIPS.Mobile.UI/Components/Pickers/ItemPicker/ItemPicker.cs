@@ -12,6 +12,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         {
             var chip = new Chip();
             chip.SetBinding(Chip.TitleProperty, new Binding(){Path = nameof(Placeholder), Source = this});
+            chip.MaximumWidthRequest = 200;
+            chip.VerticalOptions = LayoutOptions.Center;
             Content = chip;
             
             if (Mode == PickerMode.ContextMenu)
@@ -23,6 +25,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 chip.Command = new Command(() => BottomSheetService.OpenBottomSheet(new ItemPickerBottomSheet(this)));
             }
+
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)

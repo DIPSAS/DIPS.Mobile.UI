@@ -67,7 +67,8 @@ public partial class ListItem
     public static readonly BindableProperty ShouldOverrideContentItemLayoutOptionsProperty = BindableProperty.Create(
         nameof(ShouldOverrideContentItemLayoutOptions),
         typeof(bool),
-        typeof(ListItem));
+        typeof(ListItem),
+        defaultValue: true);
 
     /// <summary>
     /// By default, the <see cref="ListItem"/> will set the layout options of the <see cref="ContentItem"/> in order for it to be right-aligned. Set this property to override the layoutoptions for your <see cref="ContentItem"/> view.

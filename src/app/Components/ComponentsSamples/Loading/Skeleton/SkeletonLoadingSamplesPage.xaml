@@ -19,7 +19,7 @@
         </dui:ListItem>
         <dui:ListItem Title="Corner radius"
                       Subtitle="{Binding Source={x:Reference CornerRadiusSlider}, Path=Value}"
-                      ShouldOverrideContentItemLayoutOptions="True">
+                      ShouldOverrideContentItemLayoutOptions="False">
             <Slider x:Name="CornerRadiusSlider"
                     Minimum="0"
                     Maximum="40"
@@ -27,7 +27,7 @@
         </dui:ListItem>
         <dui:ListItem Title="FadeTime (milliseconds)"
                       Subtitle="{Binding Source={x:Reference FadeTimeEntry}, Path=Text}"
-                      ShouldOverrideContentItemLayoutOptions="True">
+                      ShouldOverrideContentItemLayoutOptions="False">
             <Entry x:Name="FadeTimeEntry"
                    Keyboard="Numeric"
                    Text="400" />
