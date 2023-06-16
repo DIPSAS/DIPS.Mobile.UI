@@ -35,8 +35,10 @@ public partial class SizesAsFontSize
         {
             if (sizePair.Value is int size)
             {
-                if (size == 0) continue;
-                sizes.Add(sizePair.Key, size);
+                if (size > 0)
+                {
+                    sizes.Add(sizePair.Key, size);
+                }
             }
         }
         return sizes;

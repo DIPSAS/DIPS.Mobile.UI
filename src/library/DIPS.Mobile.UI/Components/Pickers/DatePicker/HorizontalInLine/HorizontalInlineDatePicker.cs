@@ -102,8 +102,8 @@ public partial class HorizontalInlineDatePicker : ContentView
         if (m_startDate == null) //This will only run once
         {
             m_startDate = SelectedDate;
-            m_minDateTime = SelectedDate.AddDays(-MaxSelectableDaysFromToday);
-            m_maxDateTime = SelectedDate.AddDays(MaxSelectableDaysFromToday);
+            m_minDateTime = m_startDate.Value.AddDays(-MaxSelectableDaysFromToday).Date;
+            m_maxDateTime = m_startDate.Value.AddDays(MaxSelectableDaysFromToday).Date;
         }
         
         var dateTime = m_startDate.Value.AddDays(i);

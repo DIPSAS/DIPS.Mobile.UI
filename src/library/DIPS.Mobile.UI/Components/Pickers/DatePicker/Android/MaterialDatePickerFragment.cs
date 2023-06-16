@@ -1,7 +1,9 @@
 using Android.Content;
+using Android.OS;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
 using Google.Android.Material.DatePicker;
+using Java.Util;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
 
@@ -19,12 +21,22 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         var builder = MaterialDatePicker.Builder.DatePicker();
         SetDatePickerSelection(builder);
 
+        //Set min and max time
         var calendarConstraints = new CalendarConstraints.Builder();
-
-        if (datePicker.MinimumDate != null)
-            calendarConstraints.SetStart(datePicker.MinimumDate.Value.ToLong());
+        var listValidators = new List<CalendarConstraints.IDateValidator>();
+        if (datePicker.MinimumDate != null) //TODO: Support only setting one of these as well
+        {
+            listValidators.Add(DateValidatorPointForward.From(datePicker.MinimumDate.Value.ToLong()));
+        }
         if (datePicker.MaximumDate != null)
-            calendarConstraints.SetEnd(datePicker.MaximumDate.Value.ToLong());
+        {
+            listValidators.Add(DateValidatorPointBackward.Before(datePicker.MaximumDate.Value.ToLong()));
+        }
+
+        if (listValidators.Any())
+        {
+            calendarConstraints.SetValidator(CompositeDateValidator.AllOf(listValidators));    
+        }
         
         m_materialDatePicker = builder.SetCalendarConstraints(calendarConstraints.Build()).Build();
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
