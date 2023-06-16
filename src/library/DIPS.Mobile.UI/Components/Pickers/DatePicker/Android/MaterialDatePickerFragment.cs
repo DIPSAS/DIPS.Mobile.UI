@@ -80,39 +80,3 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         }
     }
 }
-
-public class Something : Object, CalendarConstraints.IDateValidator
-{
-    private readonly DateTime m_minMinDateTime;
-    private readonly DateTime m_maxMaxDateTime;
-
-    public Something(DateTime minDateTime, DateTime maxDateTime)
-    {
-        m_minMinDateTime = minDateTime;
-        m_maxMaxDateTime = maxDateTime;
-    }
-
-    public int DescribeContents()
-    {
-        return 0;
-    }
-
-    public void WriteToParcel(Parcel dest, ParcelableWriteFlags flags)
-    {
-        dest.WriteLongArray(new []{m_minMinDateTime.ToLong(), m_maxMaxDateTime.ToLong()});
-    }
-
-    public bool IsValid(long p0)
-    {
-        Date date = new Date(p0);
-        var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(p0);
-        var minLong = m_minMinDateTime.ToLong();
-        var maxLong = m_maxMaxDateTime.ToLong();
-        if (dateFromJava > m_minMinDateTime && dateFromJava < m_maxMaxDateTime)
-        {
-            return true;
-        }
-
-        return false;
-    }
-}
