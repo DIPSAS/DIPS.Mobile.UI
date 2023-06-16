@@ -1,7 +1,9 @@
 using Android.Content;
+using Android.OS;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
 using Google.Android.Material.DatePicker;
+using Java.Util;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
 
@@ -19,12 +21,22 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         var builder = MaterialDatePicker.Builder.DatePicker();
         SetDatePickerSelection(builder);
 
+        //Set min and max time
         var calendarConstraints = new CalendarConstraints.Builder();
-
-        if (datePicker.MinimumDate != null)
-            calendarConstraints.SetStart(datePicker.MinimumDate.Value.ToLong());
+        var listValidators = new List<CalendarConstraints.IDateValidator>();
+        if (datePicker.MinimumDate != null) //TODO: Support only setting one of these as well
+        {
+            listValidators.Add(DateValidatorPointForward.From(datePicker.MinimumDate.Value.ToLong()));
+        }
         if (datePicker.MaximumDate != null)
-            calendarConstraints.SetEnd(datePicker.MaximumDate.Value.ToLong());
+        {
+            listValidators.Add(DateValidatorPointBackward.Before(datePicker.MaximumDate.Value.ToLong()));
+        }
+
+        if (listValidators.Any())
+        {
+            calendarConstraints.SetValidator(CompositeDateValidator.AllOf(listValidators));    
+        }
         
         m_materialDatePicker = builder.SetCalendarConstraints(calendarConstraints.Build()).Build();
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
@@ -66,5 +78,41 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             m_datePicker.SelectedDate = m_datePicker.IgnoreLocalTime ? dateFromJava : dateFromJava.ToLocalTime();
             m_datePicker.SelectedDateCommand?.Execute(null);
         }
+    }
+}
+
+public class Something : Object, CalendarConstraints.IDateValidator
+{
+    private readonly DateTime m_minMinDateTime;
+    private readonly DateTime m_maxMaxDateTime;
+
+    public Something(DateTime minDateTime, DateTime maxDateTime)
+    {
+        m_minMinDateTime = minDateTime;
+        m_maxMaxDateTime = maxDateTime;
+    }
+
+    public int DescribeContents()
+    {
+        return 0;
+    }
+
+    public void WriteToParcel(Parcel dest, ParcelableWriteFlags flags)
+    {
+        dest.WriteLongArray(new []{m_minMinDateTime.ToLong(), m_maxMaxDateTime.ToLong()});
+    }
+
+    public bool IsValid(long p0)
+    {
+        Date date = new Date(p0);
+        var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(p0);
+        var minLong = m_minMinDateTime.ToLong();
+        var maxLong = m_maxMaxDateTime.ToLong();
+        if (dateFromJava > m_minMinDateTime && dateFromJava < m_maxMaxDateTime)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
