@@ -1,5 +1,6 @@
 ## [12.2.1] 
 - Fixed an issue with ios Inline date pickers width being too small.
+- Made sure that Android date picker respects the day of min and max dates.
 
 ## [12.2.0] 
 - Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
