@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Images;
+using DIPS.Mobile.UI.Components.SystemMessage;
 using DIPS.Mobile.UI.Resources.Icons;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 
@@ -11,6 +12,7 @@ public partial class VetleTestPage1
     {
         InitializeComponent();
         
+        SystemMessageService.Show("lol");
     }
 
     public void AddButton(object sender, EventArgs eventArgs)
