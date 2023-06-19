@@ -39,9 +39,9 @@
     <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
         <!--DEBUG ON DEVICE-->
-<!--        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>-->
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <!--DEBUG ON SIMULATOR-->
-        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
     </PropertyGroup>
     
     <ItemGroup>
