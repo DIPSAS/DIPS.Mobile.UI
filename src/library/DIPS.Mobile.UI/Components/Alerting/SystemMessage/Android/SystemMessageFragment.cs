@@ -5,7 +5,7 @@ using Microsoft.Maui.Platform;
 using Fragment = Android.App.Fragment;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage.Android;
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage.Android;
 
 internal class SystemMessageFragment : Fragment
 {

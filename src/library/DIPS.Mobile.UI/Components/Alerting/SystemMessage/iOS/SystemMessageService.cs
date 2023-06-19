@@ -1,8 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
-using UIKit;
 
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage;
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 public static partial class SystemMessageService
 {

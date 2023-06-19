@@ -309,9 +309,9 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Alert {
+        internal static string Alerting {
             get {
-                return ResourceManager.GetString("Alert", resourceCulture);
+                return ResourceManager.GetString("Alerting", resourceCulture);
             }
         }
         
@@ -378,6 +378,36 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        internal static string TextColor {
+            get {
+                return ResourceManager.GetString("TextColor", resourceCulture);
+            }
+        }
+        
+        internal static string TextInput {
+            get {
+                return ResourceManager.GetString("TextInput", resourceCulture);
+            }
+        }
+        
+        internal static string BackgroundColor {
+            get {
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
+            }
+        }
+        
+        internal static string IconColor {
+            get {
+                return ResourceManager.GetString("IconColor", resourceCulture);
+            }
+        }
+        
+        internal static string Choose {
+            get {
+                return ResourceManager.GetString("Choose", resourceCulture);
             }
         }
     }

@@ -1,4 +1,4 @@
-using Components.ComponentsSamples.Alerts;
+using Components.ComponentsSamples.Alerting;
 using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Checkboxes;
 using Components.ComponentsSamples.Chips;
@@ -34,7 +34,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),
             new(SampleType.Components, LocalizedStrings.Navigation, () => new NavigationSamples()),
             new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
-            new(SampleType.Components, LocalizedStrings.Alert, () => new AlertSamples()),
+            new(SampleType.Components, LocalizedStrings.Alerting, () => new AlertingSamples()),
         };
     }
 }

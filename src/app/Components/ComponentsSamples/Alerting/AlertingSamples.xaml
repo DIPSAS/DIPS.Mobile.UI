@@ -4,12 +4,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             x:Class="Components.ComponentsSamples.Alerts.AlertSamples">
+             xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
+             xmlns:helpers="clr-namespace:Components.Helpers"
+             x:Class="Components.ComponentsSamples.Alerting.AlertingSamples">
  
     <dui:VerticalStackLayout>
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
-                                Tapped="NavigationListItem_OnTapped" />
+                                Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}" />
         
     </dui:VerticalStackLayout>
     

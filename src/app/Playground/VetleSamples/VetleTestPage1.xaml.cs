@@ -1,5 +1,4 @@
 using DIPS.Mobile.UI.Components.Alerts;
-using DIPS.Mobile.UI.Components.Alerts.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Resources.Icons;

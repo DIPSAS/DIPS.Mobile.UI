@@ -143,8 +143,8 @@
     <data name="SizesAsFontSize" xml:space="preserve">
         <value>Størrelser som font størrelse</value>
     </data>
-    <data name="Alert" xml:space="preserve">
-        <value>Alert</value>
+    <data name="Alerting" xml:space="preserve">
+        <value>Varsling</value>
     </data>
     <data name="SystemMessage" xml:space="preserve">
         <value>System Meldinger</value>
@@ -178,5 +178,20 @@
     </data>
     <data name="Duration" xml:space="preserve">
         <value>Varighet</value>
+    </data>
+    <data name="TextColor" xml:space="preserve">
+        <value>Tekst farge</value>
+    </data>
+    <data name="TextInput" xml:space="preserve">
+        <value>Tekst input</value>
+    </data>
+    <data name="BackgroundColor" xml:space="preserve">
+        <value>Bakgrunnsfarge</value>
+    </data>
+    <data name="IconColor" xml:space="preserve">
+        <value>Ikon farge</value>
+    </data>
+    <data name="Choose" xml:space="preserve">
+        <value>Velg</value>
     </data>
 </root>

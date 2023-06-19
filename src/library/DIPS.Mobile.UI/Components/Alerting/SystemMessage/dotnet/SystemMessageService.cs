@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage;
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 public static partial class SystemMessageService
 {

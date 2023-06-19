@@ -1,13 +1,12 @@
 using System.Windows.Input;
-using Components.Resources.LocalizedStrings;
-using DIPS.Mobile.UI.Components.Alerts.SystemMessage;
+using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Icons;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Enum = System.Enum;
 
-namespace Components.ComponentsSamples.Alerts.SystemMessages;
+namespace Components.ComponentsSamples.Alerting.SystemMessages;
 
 public class SystemMessageSamplesViewModel : ViewModel
 {
@@ -74,17 +73,17 @@ public class SystemMessageSamplesViewModel : ViewModel
     {
         SystemMessageService.Display(config =>
         {
-            config.SetDuration((int)Duration);
+            config.Duration = ((int)Duration);
             if(!string.IsNullOrEmpty(Input))
-                config.SetText(Input);
+                config.Text = Input;
             if(m_selectedIconColor is not null)
-                config.SetIconColor(m_selectedIconColor);
+                config.IconColor = m_selectedIconColor;
             if(m_selectedIcon is not null)
-                config.SetIcon(m_selectedIcon);
+                config.Icon = m_selectedIcon;
             if(m_selectedTextColor is not null)
-                config.SetTextColor(m_selectedTextColor);
+                config.TextColor = m_selectedTextColor;
             if(m_selectedBackgroundColor is not null)
-                config.SetBackgroundColor(m_selectedBackgroundColor);
+                config.BackgroundColor = m_selectedBackgroundColor;
         });
     }
     

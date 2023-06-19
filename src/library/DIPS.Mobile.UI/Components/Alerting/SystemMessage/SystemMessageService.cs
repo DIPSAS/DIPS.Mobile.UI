@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage;
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 public static partial class SystemMessageService
 {
@@ -28,7 +28,7 @@ public static partial class SystemMessageService
             return;
 
         if (animate)
-            await systemMessage.FadeOut();
+            await systemMessage.Hide();
         
         systemMessage.Dispose();
         PlatformRemove();

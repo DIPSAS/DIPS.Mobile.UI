@@ -1,11 +1,14 @@
 using System.Timers;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Timer = System.Timers.Timer;
 
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage;
+#if __IOS__
+using UIKit;
+#endif
+
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 internal class SystemMessage : ContentView, IDisposable
 {
@@ -43,6 +46,7 @@ internal class SystemMessage : ContentView, IDisposable
             }
         };
         
+        
         // We have to fake that border contains the grid, because border does not resize its elements
         // correctly when animating its scale
         var border = new Border
@@ -74,8 +78,14 @@ internal class SystemMessage : ContentView, IDisposable
 
         m_contentGrid.Scale = 0.75;
 
+        var extraVerticalPadding = 0.0;
+        
+#if __IOS__
+        // Respect safe area on iOS
+        extraVerticalPadding = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
+#endif
         Padding = new Thickness(Sizes.GetSize(SizeName.size_10), 
-            Sizes.GetSize(SizeName.size_15));
+            Sizes.GetSize(SizeName.size_15) + extraVerticalPadding);
     }
     
     public void Show()
@@ -94,7 +104,7 @@ internal class SystemMessage : ContentView, IDisposable
         m_onFinished.Invoke();
     }
 
-    public async Task FadeOut()
+    public async Task Hide()
     {
         var fade = m_contentGrid.FadeTo(0, easing: Easing.CubicIn);
         var scale = m_contentGrid.ScaleTo(.75, easing: Easing.CubicIn);

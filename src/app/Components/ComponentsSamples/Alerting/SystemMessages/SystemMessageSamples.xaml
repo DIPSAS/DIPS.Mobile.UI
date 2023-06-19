@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
+             x:Class="Components.ComponentsSamples.Alerting.SystemMessages.SystemMessageSamples"
+             Padding="{dui:Sizes size_5}"
+             Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}">
+    
+    <dui:ContentPage.BindingContext>
+        <systemMessages:SystemMessageSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    <ScrollView>
+        <dui:VerticalStackLayout>
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.TextColor}">
+                <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                                Placeholder="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                                Mode="BottomSheet"
+                                SelectedItemCommand="{Binding ChangeTextColorCommand}" />
+            </dui:ListItem>
+            
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.TextInput}">
+                <Entry Placeholder="{x:Static localizedStrings:LocalizedStrings.ChooseInput}"
+                        Text="{Binding Input}"
+                        HorizontalOptions="Start"/>
+            </dui:ListItem>
+            
+            <Border HeightRequest="10" 
+                    BackgroundColor="Transparent" />
+            
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.BackgroundColor}">
+                <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                                Mode="BottomSheet"
+                                Placeholder="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                                SelectedItemCommand="{Binding ChangeBackgroundColorCommand}" />
+            </dui:ListItem>
+            
+            <Border HeightRequest="10" 
+                    BackgroundColor="Transparent" />
+            
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Icon}">
+                <dui:ItemPicker ItemsSource="{Binding IconList}"
+                                Placeholder="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                                Mode="BottomSheet"
+                                SelectedItemCommand="{Binding ChangeIconCommand}" />
+            </dui:ListItem>
+            
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.IconColor}">
+                <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                                Placeholder="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                                Mode="BottomSheet"
+                                SelectedItemCommand="{Binding ChangeIconColorCommand}" />
+            </dui:ListItem>
+            
+            <Border HeightRequest="10" 
+                    BackgroundColor="Transparent" />
+            
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Duration}">
+                <HorizontalStackLayout Spacing="10">
+                    <dui:Label VerticalOptions="Center"
+                               Text="{Binding Duration}" />
+                    <Stepper Increment="100"
+                             Maximum="100000"
+                             Minimum="100"
+                             Value="{Binding Duration, Mode=TwoWay}" />
+                </HorizontalStackLayout>
+            </dui:ListItem>
+            
+            <Border HeightRequest="10" 
+                    BackgroundColor="Transparent" />
+            
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ShowSystemMessage}"
+                                    Command="{Binding DisplayCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessage}"
+                                    Command="{Binding RemoveCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessageAnimate}"
+                                    Command="{Binding RemoveAnimateCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveAll}"
+                                    Command="{Binding DisposeCommand}"/>
+            
+        </dui:VerticalStackLayout>
+    </ScrollView>
+    
+</dui:ContentPage>

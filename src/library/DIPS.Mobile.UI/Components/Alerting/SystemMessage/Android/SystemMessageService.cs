@@ -1,7 +1,6 @@
-using DIPS.Mobile.UI.Components.Alerts.SystemMessage.Android;
+using DIPS.Mobile.UI.Components.Alerting.SystemMessage.Android;
 
-namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage;
-
+namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 public static partial class SystemMessageService
 {
     private static async partial void PlatformShow(SystemMessage systemMessage)
@@ -19,7 +18,7 @@ public static partial class SystemMessageService
 
     private static partial void PlatformRemove()
     {
-        var fragment = Platform.CurrentActivity.FragmentManager.FindFragmentByTag(SystemMessageTagId.ToString());
+        var fragment = Platform.CurrentActivity.FragmentManager.FindFragmentByTag(Alerting.SystemMessage.SystemMessageService.SystemMessageTagId.ToString());
         if(fragment is not null)
             Platform.CurrentActivity.FragmentManager.BeginTransaction().Remove(fragment).Commit();
     }
