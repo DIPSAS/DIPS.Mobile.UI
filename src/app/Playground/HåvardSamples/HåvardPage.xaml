@@ -5,8 +5,61 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-    <dui:Button Clicked="Button_OnClicked"></dui:Button>
-    
-    
+    <dui:CollectionView>
+        <dui:CollectionView.ItemsSource>
+            <x:Array Type="{x:Type system:String}">
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+            </x:Array>
+        </dui:CollectionView.ItemsSource>
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:ListItem Title="Something"
+                              dui:Touch.Command="{dui:OpenBottomSheetCommand {x:Type håvardSamples:SomeKindaBottomSheet}}">
+                    <dui:Label Text="{Binding .}" />
+                </dui:ListItem>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+    </dui:CollectionView>
+
+
 </dui:ContentPage>
