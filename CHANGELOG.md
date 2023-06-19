@@ -5,6 +5,10 @@
 - Fixed an issue with ios Inline date pickers width being too small.
 - Made sure that Android date picker respects the day of min and max dates.
 
+## [12.2.1]
+- Made sure the Touch effect on iOS does not UI freeze when people touch view elements its attached to.
+- Fixed an issue on iOS with Touch effect when people tap and pan, like in a scrollable view.
+
 ## [12.2.0] 
 - Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
 - Added possibility to set TopDivider and BottomDivider on ListItem
