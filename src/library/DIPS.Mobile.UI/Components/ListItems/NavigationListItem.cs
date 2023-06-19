@@ -33,8 +33,8 @@ public partial class NavigationListItem : ListItem
     {
         base.OnHandlerChanged();
 
-        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(this, new Command(() =>
+        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(Border, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);

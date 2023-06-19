@@ -1,3 +1,7 @@
+## [12.4.0]
+- Fixed an issue where touch effect were not displayed on some devices
+- Changed touch behaviour
+
 ## [12.3.0]
 - Added SystemMessage
 
