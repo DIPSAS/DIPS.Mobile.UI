@@ -5,6 +5,9 @@
 - Fixed an issue with ios Inline date pickers width being too small.
 - Made sure that Android date picker respects the day of min and max dates.
 
+## [12.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [12.2.2]
 - Made sure nuget package uses releaes configuration
 
