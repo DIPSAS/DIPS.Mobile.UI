@@ -1,3 +1,6 @@
+## [12.2.2]
+- Made sure nuget package uses releaes configuration
+
 ## [12.2.1]
 - Made sure the Touch effect on iOS does not UI freeze when people touch view elements its attached to.
 - Fixed an issue on iOS with Touch effect when people tap and pan, like in a scrollable view.
