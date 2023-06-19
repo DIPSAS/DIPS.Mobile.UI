@@ -11,9 +11,9 @@ public static class dotnet
         return Command.ExecuteAsync("dotnet", $"restore {path}");
     }
 
-    public static Task Build(string projectPath)
+    public static Task Build(string projectPath, string configuration = "Release")
     {
-        return Command.ExecuteAsync("dotnet", $"build {projectPath}");
+        return Command.ExecuteAsync("dotnet", $"build {projectPath} -c {configuration}");
     }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-7.0
