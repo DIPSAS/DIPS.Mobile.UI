@@ -1,3 +1,6 @@
+## [12.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [12.2.2]
 - Made sure nuget package uses releaes configuration
 

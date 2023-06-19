@@ -1,6 +1,6 @@
 <!--
 Do not edit directly,
-generated 6/15/2023 6:32:20 AM from DIPS.Mobile.DesignTokens
+generated 6/19/2023 9:53:11 AM from DIPS.Mobile.DesignTokens
 --><ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=System.Runtime" x:Class="DIPS.Mobile.UI.Resources.Sizes.Sizes">
 <sys:Int32 x:Key="size_0">0</sys:Int32>
 <sys:Int32 x:Key="size_1">4</sys:Int32>
