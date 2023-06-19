@@ -29,4 +29,10 @@
     <data name="Button" xml:space="preserve">
         <value>Knapp</value>
     </data>
+    <data name="SystemMessage" xml:space="preserve">
+        <value>System melding</value>
+    </data>
+    <data name="YouHaveNotSetSomeText" xml:space="preserve">
+        <value>Du har ikke skrevet noe tekst</value>
+    </data>
 </root>

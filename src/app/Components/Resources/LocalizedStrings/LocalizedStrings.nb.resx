@@ -143,4 +143,55 @@
     <data name="SizesAsFontSize" xml:space="preserve">
         <value>Størrelser som font størrelse</value>
     </data>
+    <data name="Alerting" xml:space="preserve">
+        <value>Varsling</value>
+    </data>
+    <data name="SystemMessage" xml:space="preserve">
+        <value>System Meldinger</value>
+    </data>
+    <data name="ShowSystemMessage" xml:space="preserve">
+        <value>Vis System Melding</value>
+    </data>
+    <data name="RemoveSystemMessage" xml:space="preserve">
+        <value>Fjern System Melding</value>
+    </data>
+    <data name="RemoveSystemMessageAnimate" xml:space="preserve">
+        <value>Fjern System Melding Animert</value>
+    </data>
+    <data name="RemoveAll" xml:space="preserve">
+        <value>Fjern alle</value>
+    </data>
+    <data name="ChooseInput" xml:space="preserve">
+        <value>Velg input</value>
+    </data>
+    <data name="PickIcon" xml:space="preserve">
+        <value>Velg ikon</value>
+    </data>
+    <data name="Icon" xml:space="preserve">
+        <value>Ikon</value>
+    </data>
+    <data name="Background" xml:space="preserve">
+        <value>Bakgrunn</value>
+    </data>
+    <data name="Text" xml:space="preserve">
+        <value>Tekst</value>
+    </data>
+    <data name="Duration" xml:space="preserve">
+        <value>Varighet</value>
+    </data>
+    <data name="TextColor" xml:space="preserve">
+        <value>Tekst farge</value>
+    </data>
+    <data name="TextInput" xml:space="preserve">
+        <value>Tekst input</value>
+    </data>
+    <data name="BackgroundColor" xml:space="preserve">
+        <value>Bakgrunnsfarge</value>
+    </data>
+    <data name="IconColor" xml:space="preserve">
+        <value>Ikon farge</value>
+    </data>
+    <data name="Choose" xml:space="preserve">
+        <value>Velg</value>
+    </data>
 </root>

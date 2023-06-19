@@ -36,4 +36,10 @@
     <data name="Button" xml:space="preserve">
         <value>Button</value>
     </data>
+    <data name="SystemMessage" xml:space="preserve">
+        <value>System message</value>
+    </data>
+    <data name="YouHaveNotSetSomeText" xml:space="preserve">
+        <value>You have not set some text</value>
+    </data>
 </root>

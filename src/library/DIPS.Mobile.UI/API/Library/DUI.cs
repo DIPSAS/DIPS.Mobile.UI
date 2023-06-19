@@ -4,7 +4,13 @@ namespace DIPS.Mobile.UI.API.Library
 {
     public static partial class DUI
     {
-        public static void Init(){}
+        public static void Init()
+        {
+            PlatformInit();
+        }
+
+        private static partial void PlatformInit();
+        
         public static IMauiContext? GetCurrentMauiContext => Application.Current?.MainPage?.Window.Handler.MauiContext;
 
         public static void RemoveViewsLocatedOnTopOfPage()

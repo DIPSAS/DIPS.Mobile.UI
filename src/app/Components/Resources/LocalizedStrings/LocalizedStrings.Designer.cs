@@ -308,5 +308,107 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("SizesAsFontSize", resourceCulture);
             }
         }
+        
+        internal static string Alerting {
+            get {
+                return ResourceManager.GetString("Alerting", resourceCulture);
+            }
+        }
+        
+        internal static string SystemMessage {
+            get {
+                return ResourceManager.GetString("SystemMessage", resourceCulture);
+            }
+        }
+        
+        internal static string ShowSystemMessage {
+            get {
+                return ResourceManager.GetString("ShowSystemMessage", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveSystemMessage {
+            get {
+                return ResourceManager.GetString("RemoveSystemMessage", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveSystemMessageAnimate {
+            get {
+                return ResourceManager.GetString("RemoveSystemMessageAnimate", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveAll {
+            get {
+                return ResourceManager.GetString("RemoveAll", resourceCulture);
+            }
+        }
+        
+        internal static string ChooseInput {
+            get {
+                return ResourceManager.GetString("ChooseInput", resourceCulture);
+            }
+        }
+        
+        internal static string PickIcon {
+            get {
+                return ResourceManager.GetString("PickIcon", resourceCulture);
+            }
+        }
+        
+        internal static string Icon {
+            get {
+                return ResourceManager.GetString("Icon", resourceCulture);
+            }
+        }
+        
+        internal static string Background {
+            get {
+                return ResourceManager.GetString("Background", resourceCulture);
+            }
+        }
+        
+        internal static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
+            }
+        }
+        
+        internal static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        internal static string TextColor {
+            get {
+                return ResourceManager.GetString("TextColor", resourceCulture);
+            }
+        }
+        
+        internal static string TextInput {
+            get {
+                return ResourceManager.GetString("TextInput", resourceCulture);
+            }
+        }
+        
+        internal static string BackgroundColor {
+            get {
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
+            }
+        }
+        
+        internal static string IconColor {
+            get {
+                return ResourceManager.GetString("IconColor", resourceCulture);
+            }
+        }
+        
+        internal static string Choose {
+            get {
+                return ResourceManager.GetString("Choose", resourceCulture);
+            }
+        }
     }
 }

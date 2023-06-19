@@ -10,12 +10,14 @@ public static partial class FloatingNavigationButtonService
 {
     private static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
-        // Small delay to wait for iOS to initialize KeyWindow
-        await Task.Delay(10);
         if (OperatingSystem.IsIOSVersionAtLeast(14, 1))
         {
-            var appDelegate = UIApplication.SharedApplication.Delegate as MauiUIApplicationDelegate;
-            var rootView = appDelegate.Window.RootViewController!.View!;
+            var rootView = DUI.RootController;
+            if (rootView is null)
+            {
+                await Task.Delay(10);
+                rootView = DUI.RootController;
+            }
             fab.HeightRequest = rootView.Frame.Height;
             fab.WidthRequest = rootView.Frame.Width;
             rootView.AddSubview(fab.ToPlatform(DUI.GetCurrentMauiContext!));

@@ -5,7 +5,9 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.VetlePage"
-             x:DataType="{x:Type vetleSamples:VetlePageViewModel}">
+             x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
+             Padding="15, 20"
+             Scale="1">
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
@@ -40,6 +42,33 @@
         </dui:ListItem>
         
         <dui:Image TintColor="Green" Source="{dui:Icons bell_fill}" />
+        
+        <ContentView>
+        
+            
+            <Grid ColumnDefinitions="Auto, *"
+                  Padding="12"
+                  
+                  ColumnSpacing="4"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center">
+                <Border BackgroundColor="Blue"
+                        Padding="0"
+                        Grid.ColumnSpan="2"
+                        Margin="-12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                </Border>
+                <Label Grid.Row="0" Grid.Column="0" Text=""></Label>
+
+                <dui:Image Source="{dui:Icons bell_fill}"
+                           HorizontalOptions="Start"/>
+                <Label HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Grid.Column="1" Text="asidjapsidjioasjdoiasjdoi" />
+                
+            </Grid>
+            
+        </ContentView>
         
         
     </dui:VerticalStackLayout>
