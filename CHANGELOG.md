@@ -1,3 +1,6 @@
+## [12.3.0]
+- Added SystemMessage
+
 ## [12.2.0] 
 - Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
 - Added possibility to set TopDivider and BottomDivider on ListItem
