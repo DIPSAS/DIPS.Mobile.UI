@@ -5,7 +5,7 @@ using Microsoft.Maui.Platform;
 using Fragment = Android.App.Fragment;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.Components.SystemMessage;
+namespace DIPS.Mobile.UI.Components.Alerts.SystemMessage.Android;
 
 internal class SystemMessageFragment : Fragment
 {
@@ -16,7 +16,7 @@ internal class SystemMessageFragment : Fragment
         m_systemMessage = systemMessage;
     }
     
-    public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
+    public override View OnCreateView(LayoutInflater? inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
         return m_systemMessage.ToPlatform(DUI.GetCurrentMauiContext!);
     }

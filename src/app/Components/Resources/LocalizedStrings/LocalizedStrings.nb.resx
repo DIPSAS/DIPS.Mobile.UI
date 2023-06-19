@@ -143,4 +143,40 @@
     <data name="SizesAsFontSize" xml:space="preserve">
         <value>Størrelser som font størrelse</value>
     </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Alert</value>
+    </data>
+    <data name="SystemMessage" xml:space="preserve">
+        <value>System Meldinger</value>
+    </data>
+    <data name="ShowSystemMessage" xml:space="preserve">
+        <value>Vis System Melding</value>
+    </data>
+    <data name="RemoveSystemMessage" xml:space="preserve">
+        <value>Fjern System Melding</value>
+    </data>
+    <data name="RemoveSystemMessageAnimate" xml:space="preserve">
+        <value>Fjern System Melding Animert</value>
+    </data>
+    <data name="RemoveAll" xml:space="preserve">
+        <value>Fjern alle</value>
+    </data>
+    <data name="ChooseInput" xml:space="preserve">
+        <value>Velg input</value>
+    </data>
+    <data name="PickIcon" xml:space="preserve">
+        <value>Velg ikon</value>
+    </data>
+    <data name="Icon" xml:space="preserve">
+        <value>Ikon</value>
+    </data>
+    <data name="Background" xml:space="preserve">
+        <value>Bakgrunn</value>
+    </data>
+    <data name="Text" xml:space="preserve">
+        <value>Tekst</value>
+    </data>
+    <data name="Duration" xml:space="preserve">
+        <value>Varighet</value>
+    </data>
 </root>

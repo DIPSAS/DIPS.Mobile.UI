@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerts.SystemMessages"
+             x:Class="Components.ComponentsSamples.Alerts.SystemMessages.SystemMessageSamples"
+             Padding="{dui:Sizes size_5}"
+             Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}">
+    
+    <dui:ContentPage.BindingContext>
+        <systemMessages:SystemMessageSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    <ScrollView>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Text}" />
+            <dui:Divider />
+            <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                            HorizontalOptions="Start"
+                            Placeholder="{x:Static localizedStrings:LocalizedStrings.PickColor}"
+                            Mode="BottomSheet"
+                            SelectedItemCommand="{Binding ChangeTextColorCommand}" />
+            <Editor Placeholder="{x:Static localizedStrings:LocalizedStrings.ChooseInput}"
+                    Text="{Binding Input}" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Background}" />
+            <dui:Divider />
+            
+            <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                            HorizontalOptions="Start"
+                            Placeholder="{x:Static localizedStrings:LocalizedStrings.PickColor}"
+                            Mode="BottomSheet"
+                            SelectedItemCommand="{Binding ChangeBackgroundColorCommand}" />
+            
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Icon}" />
+            <dui:Divider />
+            
+            <dui:ItemPicker ItemsSource="{Binding IconList}"
+                            HorizontalOptions="Start"
+                            Placeholder="{x:Static localizedStrings:LocalizedStrings.PickIcon}"
+                            Mode="BottomSheet"
+                            SelectedItemCommand="{Binding ChangeIconCommand}" />
+            
+            <dui:ItemPicker ItemsSource="{Binding ColorList}"
+                            HorizontalOptions="Start"
+                            Placeholder="{x:Static localizedStrings:LocalizedStrings.PickColor}"
+                            Mode="BottomSheet"
+                            SelectedItemCommand="{Binding ChangeIconColorCommand}" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Duration}"
+                       HorizontalOptions="Start"/>
+            <dui:Divider />
+            <dui:Label HorizontalOptions="Start"
+                       Text="{Binding Duration}" />
+            <Stepper HorizontalOptions="Start" 
+                     Increment="100"
+                     Maximum="100000"
+                     Minimum="100"
+                     Value="{Binding Duration, Mode=TwoWay}" />
+            
+            <Border HeightRequest="50" 
+                    BackgroundColor="Transparent" />
+            
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ShowSystemMessage}"
+                                    Command="{Binding DisplayCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessage}"
+                                    Command="{Binding RemoveCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessageAnimate}"
+                                    Command="{Binding RemoveAnimateCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveAll}"
+                                    Command="{Binding DisposeCommand}"/>
+            
+        </dui:VerticalStackLayout>
+    </ScrollView>
+    
+</dui:ContentPage>

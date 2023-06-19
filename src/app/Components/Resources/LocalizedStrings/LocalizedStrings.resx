@@ -150,4 +150,40 @@
     <data name="SizesAsFontSize" xml:space="preserve">
         <value>Sizes as font size</value>
     </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Alert</value>
+    </data>
+    <data name="SystemMessage" xml:space="preserve">
+        <value>System Message</value>
+    </data>
+    <data name="ShowSystemMessage" xml:space="preserve">
+        <value>Show System Message</value>
+    </data>
+    <data name="RemoveSystemMessage" xml:space="preserve">
+        <value>Remove System Message</value>
+    </data>
+    <data name="RemoveSystemMessageAnimate" xml:space="preserve">
+        <value>Remove System Message Animate</value>
+    </data>
+    <data name="RemoveAll" xml:space="preserve">
+        <value>Remove All</value>
+    </data>
+    <data name="ChooseInput" xml:space="preserve">
+        <value>Choose Input</value>
+    </data>
+    <data name="PickIcon" xml:space="preserve">
+        <value>Pick icon</value>
+    </data>
+    <data name="Icon" xml:space="preserve">
+        <value>Icon</value>
+    </data>
+    <data name="Background" xml:space="preserve">
+        <value>Background</value>
+    </data>
+    <data name="Text" xml:space="preserve">
+        <value>Text</value>
+    </data>
+    <data name="Duration" xml:space="preserve">
+        <value>Duration</value>
+    </data>
 </root>

@@ -15,6 +15,10 @@ public static partial class DUI
         SplashScreen.InstallSplashScreen(activity);
     }
     
+    private static partial void PlatformInit()
+    {
+    }
+    
     private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage()
     {
         if (DatePickerService.IsOpen())

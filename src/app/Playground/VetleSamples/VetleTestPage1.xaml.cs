@@ -1,6 +1,7 @@
+using DIPS.Mobile.UI.Components.Alerts;
+using DIPS.Mobile.UI.Components.Alerts.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Images;
-using DIPS.Mobile.UI.Components.SystemMessage;
 using DIPS.Mobile.UI.Resources.Icons;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 
@@ -12,7 +13,11 @@ public partial class VetleTestPage1
     {
         InitializeComponent();
         
-        SystemMessageService.Show("lol");
+        SystemMessageService.Display(config =>
+        {
+            config.SetText("asidjapsidjioasjdoiasjdoiasjoidjasoijdoasijdoiasjdioasjoidajsoidjasoidjasoijdoiasj");
+            config.SetIcon(Icons.GetIcon(IconName.home_fill));
+        });
     }
 
     public void AddButton(object sender, EventArgs eventArgs)
