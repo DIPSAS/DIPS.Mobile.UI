@@ -1,3 +1,6 @@
+## [12.5.0]
+- Added Dialogs
+
 ## [12.4.0]
 - Added SystemMessage
 
