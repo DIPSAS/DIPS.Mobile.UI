@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
@@ -16,6 +17,8 @@ public partial class VetleTestPage1
             config.Text = "asidjapsidjioasjdoiasjdoiasjoidjasoijdoasijdoiasjdioasjoidajsoidjasoidjasoijdoiasj";
             config.Icon = Icons.GetIcon(IconName.home_fill);
         });
+
+        DialogService.ShowMessage("Test", "lol", "awe");
     }
 
     public void AddButton(object sender, EventArgs eventArgs)

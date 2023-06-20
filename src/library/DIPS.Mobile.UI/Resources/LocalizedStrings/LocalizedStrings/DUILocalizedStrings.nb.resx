@@ -35,4 +35,10 @@
     <data name="YouHaveNotSetSomeText" xml:space="preserve">
         <value>Du har ikke skrevet noe tekst</value>
     </data>
+    <data name="Close" xml:space="preserve">
+        <value>Lukk</value>
+    </data>
+    <data name="Details" xml:space="preserve">
+        <value>Detaljer</value>
+    </data>
 </root>

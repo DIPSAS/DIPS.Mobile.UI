@@ -1,3 +1,6 @@
+## [12.4.0]
+- Added Dialogs
+
 ## [12.3.3]
 - Fixed an issue where touch effect were not displayed on some devices
 - Changed touch behaviour

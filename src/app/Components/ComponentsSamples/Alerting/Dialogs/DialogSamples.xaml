@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             x:Class="Components.ComponentsSamples.Alerting.Dialogs.DialogSamples"
+             Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
+             Padding="{dui:Sizes size_5}">
+    <dui:ContentPage.BindingContext>
+        <dialogs:DialogSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+   
+    <dui:VerticalStackLayout>
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDialog}"
+                                    Command="{Binding DisplayDialogCommand}"/>
+            
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTemporaryDialog}"
+                                    Command="{Binding DisplayTemporaryDialogCommand}"/>
+            
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDestructiveDialog}"
+                                    Command="{Binding DisplayDestructiveDialogCommand}"/>
+    </dui:VerticalStackLayout>
+    
+</dui:ContentPage>
