@@ -41,7 +41,12 @@
             <Border WidthRequest="70" BackgroundColor="Red" VerticalOptions="Fill"  />
         </dui:ListItem>
         
-        <dui:Image TintColor="Green" Source="{dui:Icons bell_fill}" />
+        <dui:Image TintColor="Green" Source="{dui:Icons bell_fill}"
+                   dui:Touch.Command="{Binding Navigate}"/>
+        
+        <dui:ImageButton Source="{dui:Icons bell_fill}"
+                         HorizontalOptions="Start"
+                         dui:Touch.Command="{Binding Navigate}"/>
         
         <ContentView>
         

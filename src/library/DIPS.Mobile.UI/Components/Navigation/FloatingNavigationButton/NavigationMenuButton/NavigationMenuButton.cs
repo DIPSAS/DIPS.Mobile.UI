@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -30,7 +31,6 @@ internal partial class NavigationMenuButton : Grid
 #endif
         
         ImageButton.SetBinding(ImageButton.SourceProperty, new Binding(nameof(Icon), source: this));
-        ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
         ImageButton.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
         ImageButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
         ImageButton.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source:this));
@@ -93,7 +93,10 @@ internal partial class NavigationMenuButton : Grid
             ShowBadge();
         else
             HideBadge();
-
+        
+#if __ANDROID__
+        Touch.SetCommand(ImageButton, Command);
+#endif
     }
 
     public void RotateIconTo(float rotation)
