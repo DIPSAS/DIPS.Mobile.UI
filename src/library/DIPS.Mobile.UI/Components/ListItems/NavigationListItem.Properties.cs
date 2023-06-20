@@ -9,7 +9,7 @@ public partial class NavigationListItem
         typeof(ICommand),
         typeof(NavigationListItem));
 
-    public ICommand Command
+    public ICommand? Command
     {
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
