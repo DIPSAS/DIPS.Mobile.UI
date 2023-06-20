@@ -42,4 +42,10 @@
     <data name="YouHaveNotSetSomeText" xml:space="preserve">
         <value>You have not set some text</value>
     </data>
+    <data name="Close" xml:space="preserve">
+        <value>Close</value>
+    </data>
+    <data name="Details" xml:space="preserve">
+        <value>Details</value>
+    </data>
 </root>

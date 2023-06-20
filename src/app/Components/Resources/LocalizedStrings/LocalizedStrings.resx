@@ -201,4 +201,37 @@
     <data name="Choose" xml:space="preserve">
         <value>Choose</value>
     </data>
+    <data name="DisplayDialog" xml:space="preserve">
+        <value>Display dialog</value>
+    </data>
+    <data name="DisplayTemporaryDialog" xml:space="preserve">
+        <value>Display temproary dialog</value>
+    </data>
+    <data name="DisplayErrorDialog" xml:space="preserve">
+        <value>Display error dialog</value>
+    </data>
+    <data name="DisplayDestructiveDialog" xml:space="preserve">
+        <value>Display destructive dialog</value>
+    </data>
+    <data name="Dialog_FakeTitle" xml:space="preserve">
+        <value>Test title</value>
+    </data>
+    <data name="Dialog_FakeDescription" xml:space="preserve">
+        <value>A very long test description...</value>
+    </data>
+    <data name="OK" xml:space="preserve">
+        <value>OK</value>
+    </data>
+    <data name="Dialog_TemporaryDescription" xml:space="preserve">
+        <value>This will disappear in 5 seconds</value>
+    </data>
+    <data name="Dialog_DestructiveDescription" xml:space="preserve">
+        <value>This is a destructive dialog</value>
+    </data>
+    <data name="Destroy" xml:space="preserve">
+        <value>Destroy</value>
+    </data>
+    <data name="Dialog" xml:space="preserve">
+        <value>Dialog</value>
+    </data>
 </root>

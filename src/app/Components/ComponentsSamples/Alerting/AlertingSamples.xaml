@@ -6,12 +6,16 @@
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
              xmlns:helpers="clr-namespace:Components.Helpers"
+             xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
              x:Class="Components.ComponentsSamples.Alerting.AlertingSamples">
  
     <dui:VerticalStackLayout>
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
                                 Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}" />
+        
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
+                                Command="{helpers:NavigationCommand {x:Type dialogs:DialogSamples}}" />
         
     </dui:VerticalStackLayout>
     

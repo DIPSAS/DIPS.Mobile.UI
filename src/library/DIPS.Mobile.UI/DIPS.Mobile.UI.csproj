@@ -75,6 +75,11 @@
           <DependentUpon>SkeletonView.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
     
     <!-- iOS -->
@@ -153,5 +158,11 @@
         <MauiXaml Update="Resources\Icons\Icons.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>DUILocalizedStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 </Project>

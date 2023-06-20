@@ -194,4 +194,37 @@
     <data name="Choose" xml:space="preserve">
         <value>Velg</value>
     </data>
+    <data name="DisplayDialog" xml:space="preserve">
+        <value>Vis dialog</value>
+    </data>
+    <data name="DisplayTemporaryDialog" xml:space="preserve">
+        <value>Vis midlertidig dialog</value>
+    </data>
+    <data name="DisplayErrorDialog" xml:space="preserve">
+        <value>Vis error dialog</value>
+    </data>
+    <data name="DisplayDestructiveDialog" xml:space="preserve">
+        <value>Vis destruktiv dialog</value>
+    </data>
+    <data name="Dialog_FakeTitle" xml:space="preserve">
+        <value>Test tittel</value>
+    </data>
+    <data name="OK" xml:space="preserve">
+        <value>OK</value>
+    </data>
+    <data name="Dialog_TemporaryDescription" xml:space="preserve">
+        <value>Denne vil vare i 5 sekunder</value>
+    </data>
+    <data name="Dialog_DestructiveDescription" xml:space="preserve">
+        <value>Dette er en destruktiv dialog</value>
+    </data>
+    <data name="Destroy" xml:space="preserve">
+        <value>Ødelegg</value>
+    </data>
+    <data name="Dialog" xml:space="preserve">
+        <value>Dialog</value>
+    </data>
+    <data name="Dialog_FakeDescription" xml:space="preserve">
+        <value>En veldig lang beskrivelse</value>
+    </data>
 </root>

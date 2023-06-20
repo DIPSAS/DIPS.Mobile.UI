@@ -410,5 +410,71 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Choose", resourceCulture);
             }
         }
+        
+        internal static string DisplayDialog {
+            get {
+                return ResourceManager.GetString("DisplayDialog", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayTemporaryDialog {
+            get {
+                return ResourceManager.GetString("DisplayTemporaryDialog", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayErrorDialog {
+            get {
+                return ResourceManager.GetString("DisplayErrorDialog", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayDestructiveDialog {
+            get {
+                return ResourceManager.GetString("DisplayDestructiveDialog", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog_FakeTitle {
+            get {
+                return ResourceManager.GetString("Dialog_FakeTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog_FakeDescription {
+            get {
+                return ResourceManager.GetString("Dialog_FakeDescription", resourceCulture);
+            }
+        }
+        
+        internal static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog_TemporaryDescription {
+            get {
+                return ResourceManager.GetString("Dialog_TemporaryDescription", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog_DestructiveDescription {
+            get {
+                return ResourceManager.GetString("Dialog_DestructiveDescription", resourceCulture);
+            }
+        }
+        
+        internal static string Destroy {
+            get {
+                return ResourceManager.GetString("Destroy", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog {
+            get {
+                return ResourceManager.GetString("Dialog", resourceCulture);
+            }
+        }
     }
 }
