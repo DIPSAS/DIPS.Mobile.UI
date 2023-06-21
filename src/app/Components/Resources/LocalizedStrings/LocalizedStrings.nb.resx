@@ -227,4 +227,7 @@
     <data name="Dialog_FakeDescription" xml:space="preserve">
         <value>En veldig lang beskrivelse</value>
     </data>
+    <data name="DisplayTwoDialogs" xml:space="preserve">
+        <value>Vis to dialoger</value>
+    </data>
 </root>
