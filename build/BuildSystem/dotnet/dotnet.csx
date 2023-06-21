@@ -70,7 +70,7 @@ public static class dotnet
         return Command.ExecuteAsync("dotnet", $"test {projectPath} {args}");
     }
 
-    public static Task NugetPush(string nupkgPath, string apiKey, string source, bool skipDuplicate = true)
+    public static Task NugetPush(string nupkgPath, string apiKey, string source, bool skipDuplicate = false)
     {
         string args = $"{nupkgPath} -k {apiKey} -s {source}";
         if (skipDuplicate)
