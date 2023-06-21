@@ -1,11 +1,11 @@
-## [12.4.0]
+## [12.5.0]
 - Added Dialogs
 
-## [12.3.3]
+## [12.4.1]
 - Fixed an issue where touch effect were not displayed on some devices
 - Changed touch behaviour
 
-## [12.3.2]
+## [12.4.0]
 - Added SystemMessage
 
 ## [12.3.1] 
