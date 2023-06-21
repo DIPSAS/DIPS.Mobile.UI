@@ -1,14 +1,12 @@
+## [12.5.0]
+- Added dialogs
+
 ## [12.4.0]
-- Added Dialogs
+- Added SystemMessage
 
 ## [12.3.3]
 - Fixed an issue where touch effect were not displayed on some devices
 - Changed touch behaviour
-
-## [12.3.2]
-- Added SystemMessage
-
-## [12.3.1] 
 - Fixed an issue with ios Inline date pickers width being too small.
 - Made sure that Android date picker respects the day of min and max dates.
 
