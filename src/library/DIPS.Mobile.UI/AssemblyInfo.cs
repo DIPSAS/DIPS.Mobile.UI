@@ -3,6 +3,7 @@ using Microsoft.Maui.Controls.Internals;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: InternalsVisibleTo("DIPS.Mobile.UI.UnitTests")]
+[assembly: InternalsVisibleTo("Components")]
 
 [assembly: Preserve]
 //Add new namespaces below to make them visible when using Custom Namespace : https://learn.microsoft.com/en-us/dotnet/maui/xaml/namespaces/custom-prefix?view=net-maui-7.0

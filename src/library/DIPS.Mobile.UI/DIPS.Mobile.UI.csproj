@@ -64,10 +64,6 @@
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-        <Compile Update="Resources\Icons\Icons.xaml.cs">
-          <DependentUpon>Colors.xaml</DependentUpon>
-          <SubType>Code</SubType>
-        </Compile>
         <Compile Update="Components\Chips\Android\ChipExtensions.cs">
           <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
         </Compile>
@@ -153,11 +149,6 @@
       <Reference Include="Mono.Android">
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.Android.Ref.33\33.0.26\ref\net7.0\Mono.Android.dll</HintPath>
       </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <MauiXaml Update="Resources\Icons\Icons.xaml">
-            <SubType>Designer</SubType>
-        </MauiXaml>
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.resx">

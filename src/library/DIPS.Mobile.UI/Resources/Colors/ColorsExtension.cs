@@ -7,18 +7,12 @@ namespace DIPS.Mobile.UI.Resources.Colors
 
         public static Color GetColor(string colorName)
         {
-            var colors = new Colors();
-            if (!colors.TryGetValue(colorName, out var value))
+            if (!ColorResources.Colors.TryGetValue(colorName, out var value))
             {
                 return Microsoft.Maui.Graphics.Colors.White;
             }
 
-            if (value is Color color)
-            {
-                return color;
-            }
-
-            return Microsoft.Maui.Graphics.Colors.White;
+            return value;
         }
 
         public static Color GetColor(ColorName colorName)

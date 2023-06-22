@@ -45,6 +45,9 @@
         <!--DEBUG ON SIMULATOR-->
         <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <MtouchLink>Full</MtouchLink>
+    </PropertyGroup>
     
     <ItemGroup>
         <!-- App Icon -->

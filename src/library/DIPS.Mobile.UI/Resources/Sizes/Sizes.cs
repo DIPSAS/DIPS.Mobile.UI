@@ -1,11 +1,7 @@
 namespace DIPS.Mobile.UI.Resources.Sizes;
 
-public partial class Sizes
+public static class Sizes
 {
-    public Sizes()
-    {
-        InitializeComponent();
-    }
     /// <summary>
     /// Get the size by <see cref="SizeName"/>
     /// </summary>

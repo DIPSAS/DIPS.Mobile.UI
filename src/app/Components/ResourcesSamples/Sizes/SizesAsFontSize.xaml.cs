@@ -1,9 +1,10 @@
+using DIPS.Mobile.UI.Resources.Sizes;
+
 namespace Components.ResourcesSamples.Sizes;
 
 public partial class SizesAsFontSize
 {
     private Dictionary<string, int> m_sizes;
-    private Dictionary<string, int> m_allSizes;
 
     public SizesAsFontSize()
     {
@@ -13,8 +14,7 @@ public partial class SizesAsFontSize
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Sizes = GetSizes();
-        m_allSizes = Sizes;
+        Sizes = SizeResources.Sizes;
     }
     
     public Dictionary<string, int> Sizes
@@ -27,20 +27,5 @@ public partial class SizesAsFontSize
         }
     }
 
-    private static Dictionary<string, int> GetSizes()
-    {
-        var theSize = new DIPS.Mobile.UI.Resources.Sizes.Sizes();
-        var sizes = new Dictionary<string, int>();
-        foreach (var sizePair in theSize)
-        {
-            if (sizePair.Value is int size)
-            {
-                if (size > 0)
-                {
-                    sizes.Add(sizePair.Key, size);
-                }
-            }
-        }
-        return sizes;
-    }
+ 
 }

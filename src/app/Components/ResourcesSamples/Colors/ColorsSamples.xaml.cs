@@ -18,7 +18,7 @@ namespace Components.ResourcesSamples.Colors
                 Application.Current.RequestedThemeChanged += (sender, args) =>
                 {
                     OnPropertyChanged(nameof(AppTheme));
-                    Colors = GetColors();
+                    Colors = ColorResources.Colors;
                     m_allColors = Colors;
                 };
             }
@@ -27,24 +27,10 @@ namespace Components.ResourcesSamples.Colors
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Colors = GetColors();
+            Colors = ColorResources.Colors;
             m_allColors = Colors;
         }
         
-        private static Dictionary<string, Color> GetColors()
-        {
-            var theColors = new DIPS.Mobile.UI.Resources.Colors.Colors();
-            var colors = new Dictionary<string, Color>();
-            foreach (var colorPair in theColors)
-            {
-                if (colorPair.Value is Color color)
-                {
-                    colors.Add(colorPair.Key, color);
-                }
-            }
-            return colors;
-        }
-
         public Dictionary<string, Color> Colors
         {
             get => m_colors;
