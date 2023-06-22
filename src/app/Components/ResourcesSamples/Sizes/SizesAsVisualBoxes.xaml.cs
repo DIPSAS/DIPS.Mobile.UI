@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Resources.Sizes;
+
 namespace Components.ResourcesSamples.Sizes;
 
 public partial class SizesAsVisualBoxes
@@ -12,7 +14,7 @@ public partial class SizesAsVisualBoxes
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Sizes = GetSizes();
+        Sizes = SizeResources.Sizes;
         m_allSizes = Sizes;
     }
     
@@ -24,23 +26,6 @@ public partial class SizesAsVisualBoxes
             m_sizes = value;
             OnPropertyChanged();
         }
-    }
-
-    private static Dictionary<string, int> GetSizes()
-    {
-        var theSize = new DIPS.Mobile.UI.Resources.Sizes.Sizes();
-        var sizes = new Dictionary<string, int>();
-        foreach (var sizePair in theSize)
-        {
-            if (sizePair.Value is int size)
-            {
-                if(size > 0)
-                {
-                    sizes.Add(sizePair.Key, size);
-                }
-            }
-        }
-        return sizes;
     }
 
     private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)

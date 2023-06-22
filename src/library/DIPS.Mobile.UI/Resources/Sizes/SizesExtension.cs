@@ -13,18 +13,12 @@ namespace DIPS.Mobile.UI.Resources.Sizes
 
         public static int GetSize(string sizeName)
         {
-            var sizes = new Sizes();
-            if (!sizes.TryGetValue(sizeName, out var value))
+            if (!SizeResources.Sizes.TryGetValue(sizeName, out var value))
             {
                 return 0;
             }
 
-            if (value is int size)
-            {
-                return size;
-            }
-
-            return 0;
+            return value;
         }
 
         public static int GetSize(SizeName sizeName)

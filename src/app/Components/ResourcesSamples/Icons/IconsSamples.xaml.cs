@@ -10,33 +10,15 @@ namespace Components.ResourcesSamples.Icons
         public IconsSamples()
         {
             InitializeComponent();
-            Icons = GetIcons();
+            Icons = IconResources.Icons;
             m_allIcons = Icons;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Icons = GetIcons();
+            Icons = IconResources.Icons;
             m_allIcons = Icons;
-        }
-
-        private static Dictionary<string, ImageSource> GetIcons()
-        {
-            var theIcons = new DIPS.Mobile.UI.Resources.Icons.Icons();
-            var icons = new Dictionary<string, ImageSource>();
-            foreach (var colorPair in theIcons)
-            {
-                if (colorPair.Value is string theIconFile)
-                {
-                    var imageSource = ImageSource.FromFile(theIconFile);
-                    icons.Add(colorPair.Key, imageSource);
-                    var image = new Image();
-                    image.Source = imageSource;
-                }
-            }
-
-            return icons;
         }
 
         public Dictionary<string, ImageSource> Icons
