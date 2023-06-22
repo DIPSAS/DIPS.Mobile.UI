@@ -20,9 +20,25 @@ public class DialogSamplesViewModel
         });
         DisplayDestructiveDialogCommand = new Command(() => DialogService.ShowDestructiveConfirmationMessage(LocalizedStrings.Dialog_FakeTitle,
                 LocalizedStrings.Dialog_DestructiveDescription, LocalizedStrings.OK, LocalizedStrings.Destroy));
+        DisplayTwoDialogsCommand = new Command(async () =>
+        {
+            await Task.WhenAll(ShowDialogOne(), ShowDialogTwo());
+        });
     }
     
     public ICommand DisplayDialogCommand { get; }
     public ICommand DisplayTemporaryDialogCommand { get; }
     public ICommand DisplayDestructiveDialogCommand { get; }
+    public ICommand DisplayTwoDialogsCommand { get; }
+        
+    private async Task ShowDialogOne()
+    {
+        await DialogService.ShowMessage("Dialog 1", "Dialog 1", "OK");
+    }
+
+    private async Task ShowDialogTwo()
+    {
+        await Task.Delay(1000);
+        _ = DialogService.ShowMessage("Dialog 2", "Dialog 2", "OK");
+    }
 }

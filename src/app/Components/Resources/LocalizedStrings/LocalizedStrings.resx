@@ -234,4 +234,7 @@
     <data name="Dialog" xml:space="preserve">
         <value>Dialog</value>
     </data>
+    <data name="DisplayTwoDialogs" xml:space="preserve">
+        <value>Display two dialogs</value>
+    </data>
 </root>

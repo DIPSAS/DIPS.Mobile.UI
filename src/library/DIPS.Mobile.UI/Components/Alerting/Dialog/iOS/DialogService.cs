@@ -28,14 +28,14 @@ public static partial class DialogService
         return Show(title, message, actionTitle, closeTitle, true);
     }
 
-    public static partial Task Remove()
+    public async static partial Task Remove()
     {
-        Window.RootViewController?.PresentedViewController?.DismissViewController(false, () =>
+        if (Window.RootViewController?.PresentedViewController is not null)
         {
+            await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
             Window.Hidden = true;
-        });
-        m_taskCompletionSource?.TrySetResult(DialogAction.Closed);
-        return Task.CompletedTask;
+            m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
+        }
     }
 
     private async static Task<DialogAction> Show(
