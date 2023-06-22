@@ -476,5 +476,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Dialog", resourceCulture);
             }
         }
+        
+        internal static string DisplayTwoDialogs {
+            get {
+                return ResourceManager.GetString("DisplayTwoDialogs", resourceCulture);
+            }
+        }
     }
 }

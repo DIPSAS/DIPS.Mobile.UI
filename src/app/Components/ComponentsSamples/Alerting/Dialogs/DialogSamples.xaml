@@ -21,6 +21,9 @@
             
             <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDestructiveDialog}"
                                     Command="{Binding DisplayDestructiveDialogCommand}"/>
+            
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTwoDialogs}"
+                                    Command="{Binding DisplayTwoDialogsCommand}"/>
     </dui:VerticalStackLayout>
     
 </dui:ContentPage>

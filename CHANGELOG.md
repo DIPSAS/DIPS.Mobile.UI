@@ -1,6 +1,9 @@
 ## [12.6.0]
 - Rewrote how icons, sizes and colors are stored
 
+## [12.5.1]
+- [iOS] Fixed an issue when displaying two dialogs concurrently
+
 ## [12.5.0]
 - Added dialogs
 
