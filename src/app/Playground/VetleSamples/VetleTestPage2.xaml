@@ -4,14 +4,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage2"
-             x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}">
+             x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
+             Title="Hoho"
+             modal:Modal.HasNavBar="True">
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid WidthRequest="100"
-            HeightRequest="120"
-            BackgroundColor="Black"
-            dui:Touch.Command="{Binding Test}"
-            dui:Touch.LongPressCommand="{Binding Test}" />
+    
+    <dui:VerticalStackLayout>
+        <dui:NavigationListItem Tapped="NavigationListItem_OnTapped"> </dui:NavigationListItem>
+        
+        <Grid WidthRequest="100"
+                HeightRequest="120"
+                BackgroundColor="Black"
+                dui:Touch.Command="{Binding Test}"
+                dui:Touch.LongPressCommand="{Binding Test}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

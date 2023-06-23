@@ -1,3 +1,6 @@
+## [12.7.0]
+- [Android] Added a workaround to enable toolbar for modal pages
+
 ## [12.6.0]
 - Rewrote how icons, sizes and colors are stored
 

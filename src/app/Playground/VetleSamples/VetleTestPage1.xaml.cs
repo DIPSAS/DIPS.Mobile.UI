@@ -11,14 +11,6 @@ public partial class VetleTestPage1
     public VetleTestPage1()
     {
         InitializeComponent();
-        
-        SystemMessageService.Display(config =>
-        {
-            config.Text = "asidjapsidjioasjdoiasjdoiasjoidjasoijdoasijdoiasjdioasjoidajsoidjasoidjasoijdoiasj";
-            config.Icon = Icons.GetIcon(IconName.home_fill);
-        });
-
-        DialogService.ShowMessage("Test", "lol", "awe");
     }
 
     public void AddButton(object sender, EventArgs eventArgs)

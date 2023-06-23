@@ -4,6 +4,11 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.Image;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+
+#if __ANDROID__
+using DIPS.Mobile.UI.Effects.Modal;
+using DIPS.Mobile.UI.Effects.Modal.Android;
+#endif
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
@@ -47,6 +52,9 @@ public static partial class AppHostBuilderExtensions
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
             effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
+#if __ANDROID__
+            effects.Add<Modal, ModalPlatformEffect>();
+#endif
         });
 
         return builder;
