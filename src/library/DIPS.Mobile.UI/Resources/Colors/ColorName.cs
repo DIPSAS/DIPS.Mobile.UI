@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 6/19/2023 9:53:11 AM from DIPS.Mobile.DesignTokens
+generated 6/26/2023 11:43:04 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Colors
