@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
 using Foundation;
@@ -30,7 +31,7 @@ public partial class TouchPlatformEffect
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
         }
-
+        
         Control.UserInteractionEnabled = true;
     }
 

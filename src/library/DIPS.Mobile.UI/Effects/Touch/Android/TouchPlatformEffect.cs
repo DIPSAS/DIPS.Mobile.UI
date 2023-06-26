@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
 using Action = System.Action;
 using Color = Microsoft.Maui.Graphics.Color;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
@@ -40,7 +41,7 @@ public partial class TouchPlatformEffect
             new[] { Array.Empty<int>() },
             new[] { (int)m_defaultNativeAnimationColor.ToPlatform() });
         
-        var ripple = new RippleDrawable(colorStateList, ViewGroup == null ? Control.Background : null, null);
+        var ripple = new RippleDrawable(colorStateList, null, Control.Background is not null ? new ColorDrawable(Colors.White.ToPlatform()) : null);
         
         if (Control.Background is null)
             Control.Background = ripple;

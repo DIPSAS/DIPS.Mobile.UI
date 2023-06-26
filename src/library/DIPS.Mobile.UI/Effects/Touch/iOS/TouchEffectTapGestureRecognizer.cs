@@ -36,4 +36,20 @@ public class TouchEffectTapGestureRecognizer : UITapGestureRecognizer
 
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
     }
+    
+    public override void TouchesMoved(NSSet touches, UIEvent evt)
+    {
+        base.TouchesMoved(touches, evt);
+        
+        var touchPoint = GetTouchPoint(touches);
+
+        if (touchPoint == null || !m_uiView.Bounds.Contains(touchPoint.Value))
+        {
+            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
+        }
+    }
+    
+    private CGPoint? GetTouchPoint(NSSet touches) =>
+        (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
+    
 }
