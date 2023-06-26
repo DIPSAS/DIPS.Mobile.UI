@@ -96,6 +96,8 @@ internal partial class NavigationMenuButton : Grid
         
 #if __ANDROID__
         Touch.SetCommand(ImageButton, Command);
+#else 
+        ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
 #endif
     }
 

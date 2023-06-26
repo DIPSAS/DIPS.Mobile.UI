@@ -1,3 +1,6 @@
+## [12.9.1]
+- [iOS] Fixed an issue where Floating Navigation Button did not work
+
 ## [12.9.0]
 - Extended NavigationListItem with the possibility to add an icon to it
 - [Android] Fixed an issue where setting padding directly on a (modal)contentpage would also pad the toolbar
