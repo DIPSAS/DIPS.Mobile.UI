@@ -1,3 +1,6 @@
+## [12.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [12.8.0]
 - [iOS] Fixed an issue where touch effect would still be imminent when a user taps and then slides the finger out of bounds
 - [Android] Fixed an issue where touch effect would go out of bounds on some elements
