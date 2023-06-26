@@ -32,5 +32,8 @@
             </dui:ListItem.BindingContext>
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
+        
+        <dui:NavigationListItem Title="Navigate"
+                                Icon="{dui:Icons barcode_fill}"/>
     </dui:VerticalStackLayout>
 </dui:ContentPage>
