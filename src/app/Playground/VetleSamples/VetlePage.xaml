@@ -19,7 +19,10 @@
     <dui:VerticalStackLayout dui:Touch.Command="{Binding Test}">
             
         <dui:NavigationListItem Title="Navigate" 
-                                Command="{Binding Navigate}" />
+                                Command="{Binding Navigate}"
+                                Icon="{dui:Icons heartrate_line}"
+                                IconColor="Teal"
+                                CornerRadius="0"/>
         
         <Grid WidthRequest="100" HeightRequest="100">
             <Image Source="{dui:Icons barcode_fill}" dui:Touch.Command="{Binding Test}" />
