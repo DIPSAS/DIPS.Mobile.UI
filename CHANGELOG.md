@@ -1,3 +1,7 @@
+## [12.9.0]
+- Extended NavigationListItem with the possibility to add an icon to it
+- [Android] Fixed an issue where setting padding directly on a (modal)contentpage would also pad the toolbar
+
 ## [12.8.0]
 - [iOS] Fixed an issue where touch effect would still be imminent when a user taps and then slides the finger out of bounds
 - [Android] Fixed an issue where touch effect would go out of bounds on some elements

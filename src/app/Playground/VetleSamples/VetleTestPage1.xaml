@@ -9,7 +9,8 @@
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
             modal:Modal.HasNavBar="True"
-             Title="Hei">
+             Title="Hei"
+             Padding="30, 30">
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="Hei" />
     </dui:ContentPage.ToolbarItems>

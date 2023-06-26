@@ -23,6 +23,26 @@ public partial class NavigationListItem : ListItem
         ContentItem = m_contentGrid;
     }
 
+    private void CustomizeMainContent()
+    {
+        if(Icon is null)
+            return;
+        
+        foreach (var view in MainContent.Children)
+        {
+            MainContent.SetColumn(view, MainContent.GetColumn(view) + 1);
+        }
+        
+        MainContent.Add(new Images.Image.Image
+        {
+            Source = Icon,
+            TintColor = IconColor,
+            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0)
+        }, 0);
+        MainContent.ColumnDefinitions.Insert(0, new ColumnDefinition(GridLength.Auto));
+        
+    }
+
     private void AddCustomContentItem()
     {
         m_contentGrid.RemoveChildAt(0, 0);
@@ -32,6 +52,8 @@ public partial class NavigationListItem : ListItem
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+        
+        CustomizeMainContent();
 
         Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
         Touch.SetCommand(Border, new Command(() =>

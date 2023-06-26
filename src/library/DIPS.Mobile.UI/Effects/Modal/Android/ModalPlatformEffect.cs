@@ -21,7 +21,8 @@ public class ModalPlatformEffect : PlatformEffect
             BackgroundColor = Colors.GetColor(ColorName.color_primary_90),
         };
         verticalStackLayout.Add(toolbar);
-        verticalStackLayout.Add(contentPage.Content);
+        verticalStackLayout.Add(new ContentView { Content = contentPage.Content, Padding = contentPage.Padding });
+        contentPage.Padding = 0;
         contentPage.Content = verticalStackLayout;
     }
 

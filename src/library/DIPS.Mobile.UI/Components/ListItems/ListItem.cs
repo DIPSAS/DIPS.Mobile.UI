@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 [ContentProperty(nameof(ContentItem))]
 public partial class ListItem : ContentView
 {
-    private Grid MainContent { get; }
+    protected Grid MainContent { get; }
 
     private VerticalStackLayout RootContent { get; } =
         new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent };
@@ -45,7 +45,6 @@ public partial class ListItem : ContentView
         
         Content = RootContent;
     }
-
 
     protected override void OnHandlerChanged()
     {
