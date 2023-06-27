@@ -7,7 +7,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 {
     protected override UIButton CreatePlatformView()
     {
-        return new UIButtonWithExtraTappableArea { AdditionalHitBoxSize = 100 };
+        return new UIButtonWithExtraTappableArea();
     }
 
     private static partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button)

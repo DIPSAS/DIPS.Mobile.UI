@@ -1,6 +1,7 @@
 using System.Reflection.Metadata;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
+using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using UIKit;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -16,7 +17,7 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnAttached()
     {
-        if(Control is Button)
+        if(Control is UIButton)
             return;
         
         m_touchMode = Touch.GetTouchMode(Element);

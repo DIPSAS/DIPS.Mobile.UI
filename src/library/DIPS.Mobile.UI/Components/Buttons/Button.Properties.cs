@@ -7,6 +7,9 @@ namespace DIPS.Mobile.UI.Components.Buttons
             typeof(Thickness),
             typeof(Button));
 
+        /// <summary>
+        /// Sets the value to make the hitbox of the button larger
+        /// </summary>
         public Thickness AdditionalHitBoxSize
         {
             get => (Thickness)GetValue(AdditionalHitBoxSizeProperty);
