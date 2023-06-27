@@ -128,15 +128,7 @@
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
-                        Icon="edit">
-                        <!-- on iOS: set icon to  SF Symbol: pencil -->
-                        <dui:ContextMenuItem.iOSOptions>
-                            <dui:iOSContextMenuItemOptions SystemIconName="pencil" />
-                        </dui:ContextMenuItem.iOSOptions>
-                        <!-- on Android: set icon to material design edit black button -->
-                        <dui:ContextMenuItem.AndroidOptions>
-                            <dui:AndroidContextMenuItemOptions IconResourceName="material_ic_edit_black_24dp" />
-                        </dui:ContextMenuItem.AndroidOptions>
+                        Icon="{dui:Icons internalmessage_fill}">
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>
             </dui:ContextMenuEffect.Menu>

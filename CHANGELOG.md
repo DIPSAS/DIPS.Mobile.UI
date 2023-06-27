@@ -1,6 +1,15 @@
-## [12.9.2]
+## [12.11.0]
 - Extended dui:Button and dui:ImageButton so consumers can set additional hitbox size.
 - Added ripple effect to dui:ImageButton.
+
+## [12.10.0]
+- Added DateTimeFormatter
+
+## [12.9.3]
+- Made sure modal effect on Android to add navbar does not use a vertical stack layout because it will break collection view scrolling on Android.
+
+## [12.9.2]
+- Icons on a context menu item is now of type icon image source.
 
 ## [12.9.1]
 - [iOS] Fixed an issue where Floating Navigation Button did not work

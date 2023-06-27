@@ -72,10 +72,10 @@ public partial class ContextMenuPlatformEffect
                 ? GravityFlags.Right
                 : GravityFlags.Left; ;
             
-            m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
-                !string.IsNullOrEmpty(contextMenuItem.Icon) ||
-                !string.IsNullOrEmpty(contextMenuItem.AndroidOptions
-                    .IconResourceName)));
+             m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
+                 contextMenuItem.Icon != null ||
+                 !string.IsNullOrEmpty(contextMenuItem.AndroidOptions
+                     .IconResourceName)));
             
             SetListeners();
             
