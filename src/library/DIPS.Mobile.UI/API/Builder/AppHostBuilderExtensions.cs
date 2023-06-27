@@ -53,7 +53,7 @@ public static partial class AppHostBuilderExtensions
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
             effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
 #if __ANDROID__
-            effects.Add<Modal, >();
+            effects.Add<Modal, ModalPlatformEffect>();
 #endif
         });
 

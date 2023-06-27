@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Effects.Modal.Android;
 
 public class ModalPlatformEffect : PlatformEffect
 {
-    protected override void OnAttached()ModalPlatformEffect
+    protected override void OnAttached()
     {
         if (Element is not ContentPage contentPage)
             return;
