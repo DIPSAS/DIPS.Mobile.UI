@@ -1,3 +1,6 @@
+## [12.9.2]
+- Icons on a context menu item is now of type icon image source.
+
 ## [12.9.1]
 - [iOS] Fixed an issue where Floating Navigation Button did not work
 

@@ -8,58 +8,12 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-    <dui:CollectionView>
-        <dui:CollectionView.ItemsSource>
-            <x:Array Type="{x:Type system:String}">
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-            </x:Array>
-        </dui:CollectionView.ItemsSource>
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem Title="Something"
-                              dui:Touch.Command="{dui:OpenBottomSheetCommand {x:Type håvardSamples:SomeKindaBottomSheet}}">
-                    <dui:Label Text="{Binding .}" />
-                </dui:ListItem>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
-
-
+   <dui:Label Text="Test"  dui:ContextMenuEffect.Mode="LongPressed"
+   >
+       <dui:ContextMenuEffect.Menu>
+           <dui:ContextMenu>
+               <dui:ContextMenuItem Title="Copy" Icon="{dui:Icons document_fill}" />
+           </dui:ContextMenu>
+       </dui:ContextMenuEffect.Menu>
+    </dui:Label>
 </dui:ContentPage>

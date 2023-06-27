@@ -37,6 +37,11 @@ public partial class ContextMenuItem
         get => (object)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
+
+    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+        nameof(Icon),
+        typeof(ImageSource),
+        typeof(ContextMenuItem));
     
     /// <summary>
     /// The clicked event when the item was clicked
@@ -77,7 +82,11 @@ public partial class ContextMenuItem
     /// <summary>
     /// The icon to be used as a image with the context menu item
     /// </summary>
-    public FileImageSource? Icon { get; set; }
+    public ImageSource? Icon
+    {
+        get => (ImageSource)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
 }
 
 /// <summary>

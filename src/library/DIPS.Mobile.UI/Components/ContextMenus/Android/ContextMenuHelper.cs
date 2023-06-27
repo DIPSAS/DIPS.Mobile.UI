@@ -2,6 +2,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
 using DIPS.Mobile.UI.API.Library;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus.Android;
 
@@ -80,25 +81,36 @@ internal static class ContextMenuHelper
     private static void UpdateMenuItem(ContextMenu contextMenu, int groupIndex,
         ContextMenuItem contextMenuItem, IMenuItem menuItem)
     {
-        if (!string.IsNullOrEmpty(contextMenuItem.Icon))
-        {
+        
             var id = (string.IsNullOrEmpty(contextMenuItem.AndroidOptions.IconResourceName))
-                ? DUI.GetResourceId(contextMenuItem.Icon,"drawable")
+                ? DUI.GetResourceId(GetIconName(contextMenuItem),"drawable")
                 : DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
-
+        
             if (id != null) //Icon not set by consumer or icon not found
             {
                 var icon = Platform.AppContext.GetDrawable((int)id);
                 menuItem.SetIcon(icon);
                 
             }
-        }
 
         TrySetChecked(contextMenu, menuItem, contextMenuItem);
         if (groupIndex == 0) //Not in a group
         {
             contextMenuItem.Parent = contextMenu;
         }
+    }
+
+    private static string GetIconName(ContextMenuItem contextMenuItem)
+    {
+        if (contextMenuItem.Icon == null) return string.Empty;
+
+        if (contextMenuItem.Icon is not FileImageSource fileImageSource)
+        {
+            return string.Empty;
+        }
+
+        var pngEnding = ".png";
+        return fileImageSource.File.EndsWith(pngEnding) ? fileImageSource.File.Replace(pngEnding, "") : string.Empty;
     }
 
     private static void TrySetChecked(ContextMenu contextMenu, IMenuItem menuItem,
