@@ -34,6 +34,7 @@ internal partial class NavigationMenuButton : Grid
         ImageButton.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
         ImageButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
         ImageButton.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source:this));
+        ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
 
         // Can not use design system here, because we need to set corner radius to half of the width/height
         ImageButton.WidthRequest = 60;
@@ -94,11 +95,6 @@ internal partial class NavigationMenuButton : Grid
         else
             HideBadge();
         
-#if __ANDROID__
-        Touch.SetCommand(ImageButton, Command);
-#else 
-        ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
-#endif
     }
 
     public void RotateIconTo(float rotation)

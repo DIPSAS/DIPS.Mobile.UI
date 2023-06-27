@@ -134,7 +134,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Platforms\Android" />
       <Folder Include="Resources\Splash\" />
       <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>

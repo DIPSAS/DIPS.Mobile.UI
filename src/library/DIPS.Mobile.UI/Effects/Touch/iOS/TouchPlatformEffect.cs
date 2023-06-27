@@ -3,6 +3,7 @@ using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
 using Foundation;
 using UIKit;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Effects.Touch;
@@ -15,9 +16,9 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnAttached()
     {
-        if (Control is UIButton)
+        if(Control is Button)
             return;
-
+        
         m_touchMode = Touch.GetTouchMode(Element);
 
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)

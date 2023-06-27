@@ -1,4 +1,5 @@
 ﻿using DIPS.Mobile.UI.Resources.Sizes;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -8,7 +9,7 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         //Adds a extra space in the bottom to make sure the last item is not placed at the very bottom of the page, this makes the last item more accessible for people.
-        Footer = new BoxView() { HeightRequest = Sizes.GetSize(SizeName.size_24) };
+        Footer = new BoxView() { HeightRequest = Sizes.GetSize(SizeName.size_24), BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
         SelectionMode = SelectionMode.None;
         ItemSpacing = Sizes.GetSize(SizeName.size_1);
     }

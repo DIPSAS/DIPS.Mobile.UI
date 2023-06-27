@@ -1,3 +1,7 @@
+## [12.9.2]
+- Extended dui:Button and dui:ImageButton so consumers can set additional hitbox size.
+- Added ripple effect to dui:ImageButton.
+
 ## [12.9.1]
 - [iOS] Fixed an issue where Floating Navigation Button did not work
 

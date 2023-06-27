@@ -16,4 +16,15 @@ public partial class ImageButton
         get => (Color)GetValue(TintColorProperty);
         set => SetValue(TintColorProperty, value);
     }
+
+    public static readonly BindableProperty AdditionalHitBoxSizeProperty = BindableProperty.Create(
+        nameof(AdditionalHitBoxSize),
+        typeof(Thickness),
+        typeof(ImageButton));
+
+    public Thickness AdditionalHitBoxSize
+    {
+        get => (Thickness)GetValue(AdditionalHitBoxSizeProperty);
+        set => SetValue(AdditionalHitBoxSizeProperty, value);
+    }
 }

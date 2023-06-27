@@ -1,15 +1,19 @@
 using Android.Graphics.Drawables;
 using Android.Views;
+using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
-using View = Android.Views.View;
+using AView = Android.Views.View;
+using ARect = Android.Graphics.Rect;
+using View = Microsoft.Maui.Controls.View;
+
 
 namespace DIPS.Mobile.UI.Extensions.Android;
 
 public static class ViewExtensions
 {
     
-    public static T? FindChildView<T>(this ViewGroup? viewGroup) where T : View
+    public static T? FindChildView<T>(this ViewGroup? viewGroup) where T : AView
     {
         if (viewGroup is T view)
         {
@@ -36,7 +40,7 @@ public static class ViewExtensions
         return null;
     }
     
-    internal static void SetRoundedRectangularBackground(this View view, CornerRadius cornerRadius, Color color)
+    internal static void SetRoundedRectangularBackground(this AView view, CornerRadius cornerRadius, Color color)
     {
         var shape = new GradientDrawable();
         shape.SetShape(ShapeType.Rectangle);
@@ -57,29 +61,29 @@ public static class ViewExtensions
         {
             view.SetBackground(shape);
         }
-        if (view.Parent is View parent)
+        if (view.Parent is AView parent)
         {
             BlankBackgroundOnAllParents(parent);
         }
     }
     
-    private static void BlankBackgroundOnAllParents(View view)
+    private static void BlankBackgroundOnAllParents(AView view)
     {
         view.SetBackgroundColor(Microsoft.Maui.Graphics.Colors.Transparent.ToPlatform());
-        if (view.Parent is View parent)
+        if (view.Parent is AView parent)
         {
             BlankBackgroundOnAllParents(parent);
         }
     }
     
-    public static ICollection<View> GetFlatViewHierarchyCollection(this View view)
+    public static ICollection<AView> GetFlatViewHierarchyCollection(this AView view)
     {
-        var collection = new List<View>();
+        var collection = new List<AView>();
         view.AddFlatViewHierarchyToCollection(collection);
         return collection;
     }
 
-    private static void AddFlatViewHierarchyToCollection(this View view, ICollection<View> views)
+    private static void AddFlatViewHierarchyToCollection(this AView view, ICollection<AView> views)
     {
         views.Add(view);
         if (view is not ViewGroup vg)
@@ -92,6 +96,22 @@ public static class ViewExtensions
             var child = vg.GetChildAt(i);
             if (child == null) continue;
             child.AddFlatViewHierarchyToCollection(views);
+        }
+    }
+
+    public static void SetAdditionalHitBoxSize(this AView aView, View view, Thickness additionalHitBoxSize, IMauiContext mauiContext)
+    {
+        var rect = new ARect();
+        aView.GetHitRect(rect);
+
+        rect.Top -= additionalHitBoxSize.Top.ToMauiPixel();
+        rect.Left -= additionalHitBoxSize.Left.ToMauiPixel();
+        rect.Bottom += additionalHitBoxSize.Bottom.ToMauiPixel();
+        rect.Right += additionalHitBoxSize.Right.ToMauiPixel();
+
+        if (view.Parent.ToPlatform(mauiContext) is AView parentView)
+        {
+            parentView.TouchDelegate = new TouchDelegate(rect, aView);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    private readonly Color m_defaultNativeAnimationColor = new(128, 128, 128, 75);
+    internal static readonly Color DefaultNativeAnimationColor = new(128, 128, 128, 75);
 
     private Touch.TouchMode m_touchMode;
 
@@ -39,7 +39,7 @@ public partial class TouchPlatformEffect
         
         var colorStateList = new ColorStateList(
             new[] { Array.Empty<int>() },
-            new[] { (int)m_defaultNativeAnimationColor.ToPlatform() });
+            new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
         
         var ripple = new RippleDrawable(colorStateList, null, Control.Background is not null ? new ColorDrawable(Colors.White.ToPlatform()) : null);
         

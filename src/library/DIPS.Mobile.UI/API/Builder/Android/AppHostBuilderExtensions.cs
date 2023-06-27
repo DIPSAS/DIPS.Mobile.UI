@@ -8,7 +8,6 @@ public static partial class AppHostBuilderExtensions
 {
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
-        handlers.AddHandler(typeof(Button), typeof(DIPS.Mobile.UI.Components.Buttons.Android.ButtonHandler));
         handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
         handlers.AddHandler<DUIToolbar, DUIToolbarHandler>();
     }
