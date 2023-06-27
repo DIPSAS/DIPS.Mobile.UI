@@ -44,11 +44,10 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
 
             else
             {
-                UIImage image = null;
-
-                if (!string.IsNullOrEmpty(contextMenuItem.Icon))
+                UIImage? image = null;
+                if (contextMenuItem.Icon is FileImageSource fileImageSource)
                 {
-                    image = UIImage.FromBundle(contextMenuItem.Icon.File);
+                    image = UIImage.FromBundle(fileImageSource);
                 }
                 
                 if(!string.IsNullOrEmpty(contextMenuItem.iOSOptions.SystemIconName)) //Override image with SF Symbols if this is what the consumer wants
