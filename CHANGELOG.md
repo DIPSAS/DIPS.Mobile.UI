@@ -1,3 +1,7 @@
+
+## [12.9.3]
+- Made sure modal effect on Android to add navbar does not use a vertical stack layout because it will break collection view scrolling on Android.
+
 ## [12.9.2]
 - Icons on a context menu item is now of type icon image source.
 
