@@ -30,13 +30,9 @@
         <!--DEBUG ON DEVICE-->
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <!--DEBUG ON SIMULATOR-->
-<<<<<<< HEAD
-<!--
-        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
--->
-=======
-<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
->>>>>>> main
+
+<!--<RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
+
     </PropertyGroup>
     
     
