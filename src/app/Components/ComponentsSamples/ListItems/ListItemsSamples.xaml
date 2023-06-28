@@ -9,12 +9,14 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
-    <dui:VerticalStackLayout>
-        <dui:NavigationListItem Title="Navigate">
-            <dui:Label Text="Something"/>
+    <dui:VerticalStackLayout Spacing="0">
+        <dui:NavigationListItem Title="Navigate"
+                                HasTopDivider="True">
+            <dui:Label Text="Something" />
         </dui:NavigationListItem>
 
-        <dui:ListItem Title="Person">
+        <dui:ListItem Title="Person"
+                      HasTopDivider="True">
             <dui:ListItem.BindingContext>
                 <pickers:ItemPickersSamplesViewModel />
             </dui:ListItem.BindingContext>
@@ -26,14 +28,18 @@
             </dui:ItemPicker>
         </dui:ListItem>
 
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Birthday}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Birthday}"
+                      HasTopDivider="True">
             <dui:ListItem.BindingContext>
                 <pickers:DateTimePickerSamplesViewModel />
             </dui:ListItem.BindingContext>
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
-        
+
         <dui:NavigationListItem Title="Navigate"
-                                Icon="{dui:Icons barcode_fill}"/>
+                                Icon="{dui:Icons internalmessage_fill}"
+                                IconColor="{dui:Colors color_primary_90}"
+                                HasTopDivider="True"
+                                HasBottomDivider="True" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

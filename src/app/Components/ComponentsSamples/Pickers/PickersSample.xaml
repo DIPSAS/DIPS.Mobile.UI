@@ -8,10 +8,13 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  x:Class="Components.ComponentsSamples.Pickers.PickersSample">
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Item pickers"
-                                Command="{helpers:NavigationCommand {x:Type pickers:ItemPickersSamples}}" />
+                                Command="{helpers:NavigationCommand {x:Type pickers:ItemPickersSamples}}" 
+                                HasTopDivider="True"
+                                HasBottomDivider="True"/>
         <dui:NavigationListItem Title="Date / time pickers"
-                                Command="{helpers:NavigationCommand {x:Type pickers:DateTimePickersSamples}}" />
+                                Command="{helpers:NavigationCommand {x:Type pickers:DateTimePickersSamples}}" 
+                                HasBottomDivider="True"/>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

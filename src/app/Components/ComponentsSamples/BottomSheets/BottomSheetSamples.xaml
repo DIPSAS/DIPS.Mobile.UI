@@ -9,13 +9,16 @@
                  xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
+                                HasTopDivider="True"
+                                HasBottomDivider="True"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
                                 VerticalOptions="Start" />
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenWithToolbar}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithToolbar}}"
-                                VerticalOptions="Start" />
+                                VerticalOptions="Start"
+                                HasBottomDivider="True"/>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

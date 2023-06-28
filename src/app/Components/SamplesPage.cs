@@ -8,7 +8,6 @@ namespace Components
     {
         public SamplesPage(SampleType sampleType, IEnumerable<Sample> samplePages)
         {
-            Padding = Sizes.GetSize(SizeName.size_4);
             Title = sampleType switch
             {
                 SampleType.Components => LocalizedStrings.Components,
@@ -17,6 +16,7 @@ namespace Components
             };
             Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
             {
+                ItemSpacing = 0,
                 ItemsSource = samplePages,
                 ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem()),
             };
@@ -25,17 +25,17 @@ namespace Components
         public class NavigateToSingleSampleItem : NavigationListItem
         {
             private Sample m_sample;
-
+            
 
             public NavigateToSingleSampleItem()
             {
                 Command = new Command(TryNavigateToSingleSamplePage);
+                HasTopDivider = true;
             }
 
             private void TryNavigateToSingleSamplePage()
             {
                 var contentPage = m_sample.PageCreator.Invoke();
-                contentPage.Padding = Sizes.GetSize(SizeName.size_4);
                 contentPage.Title = m_sample.Name;
                 Shell.Current.Navigation.PushAsync(contentPage);
             }

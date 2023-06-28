@@ -1,3 +1,6 @@
+## [13.0.0]
+- [BreakingChange] List item corner radius defaults to 0.
+
 ## [12.11.0]
 - Extended dui:Button and dui:ImageButton so consumers can set additional hitbox size.
 - Added ripple effect to dui:ImageButton.
