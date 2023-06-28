@@ -1,9 +1,9 @@
 /*
 Do not edit directly,
-generated 6/19/2023 9:53:11 AM from DIPS.Mobile.DesignTokens
+generated 6/28/2023 12:02:42 PM from DIPS.Mobile.DesignTokens
 */
 
-namespace  DIPS.Mobile.UI.Resources.Sizes
+namespace DIPS.Mobile.UI.Resources.Sizes
 {
     public enum SizeName
     {

@@ -1,4 +1,7 @@
-//Do not edit directly, generated 22/06/2023 10:21:37 from DIPS.Mobile.DesignTokens
+/*
+Do not edit directly,
+generated 6/28/2023 12:02:42 PM from DIPS.Mobile.DesignTokens
+*/
 
         namespace DIPS.Mobile.UI.Resources.Colors;
         internal static class ColorResources
