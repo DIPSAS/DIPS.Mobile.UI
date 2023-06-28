@@ -14,7 +14,7 @@ public partial class SizesAsVisualBoxes
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Sizes = SizeResources.Sizes;
+        Sizes = SizeResources.Sizes.Where(pair => pair.Value > 0).ToDictionary(pair => pair.Key, pair => pair.Value);
         m_allSizes = Sizes;
     }
     

@@ -1,3 +1,7 @@
+## [13.2.0]
+- Added ActivityIndicator and RefreshView to reuse same colors and size for indicator.
+- [ComponentsApp] Made sure that only positive sizes are displayed in the samples, as negatives or 0 makes sense.
+
 ## [13.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
