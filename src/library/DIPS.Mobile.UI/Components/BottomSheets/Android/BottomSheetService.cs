@@ -1,4 +1,6 @@
+using Android.App;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
+using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
 
 // ReSharper disable once CheckNamespace
@@ -8,28 +10,30 @@ public static partial class BottomSheetService
 {
     internal const string BottomSheetFragmentTag = nameof(BottomSheetFragment);
 
-    public static partial Task OpenBottomSheet(BottomSheet bottomSheet) => new BottomSheetFragment(bottomSheet).Show();
-
-    public static partial Task CloseCurrentBottomSheet(bool animated)
+    internal static BottomSheetFragment? Current { get; set; }
+    
+    public static async partial Task OpenBottomSheet(BottomSheet bottomSheet)
     {
-        var currentBottomSheetFragment = CurrentBottomSheetFragment();
-        currentBottomSheetFragment?.Close(animated);
-        return Task.CompletedTask;
+        if (IsBottomSheetOpen())
+        {
+            await CloseCurrentBottomSheet();
+        }
+
+        var fragment = new BottomSheetFragment(bottomSheet);
+        await fragment.Show();
+        Current = fragment;
+    }
+
+    public static async partial Task CloseCurrentBottomSheet(bool animated)
+    {
+        if (Current != null)
+        {
+            await Current.Close(animated);
+        }
     }
 
     public static partial bool IsBottomSheetOpen()
     {
-        return CurrentBottomSheetFragment() != null;
-    }
-
-    private static BottomSheetFragment? CurrentBottomSheetFragment()
-    {
-        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(BottomSheetFragmentTag);
-        if (fragment is BottomSheetFragment bottomSheetFragment)
-        {
-            return bottomSheetFragment;
-        }
-
-        return null;
+        return Current != null;
     }
 }

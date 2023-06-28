@@ -15,7 +15,6 @@ public static partial class AppHostBuilderExtensions
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
     {
-        events.AddiOS(ios => ios.OnResignActivation(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
     }
 
 }
