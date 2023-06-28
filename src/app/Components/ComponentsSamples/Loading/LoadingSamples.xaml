@@ -16,5 +16,10 @@
                                 HasTopDivider="True"
                                 HasBottomDivider="True"
                                 />
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SkeletonLoading}"
+                                Command="{helpers:NavigationCommand {x:Type skeleton:SkeletonLoadingSamplesPage}}"
+                                HasTopDivider="True"
+                                HasBottomDivider="True"
+        />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

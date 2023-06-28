@@ -1,3 +1,6 @@
+## [13.2.0]
+- Added ActivityIndicator and RefreshView to reuse same colors and size for indicator.
+
 ## [13.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

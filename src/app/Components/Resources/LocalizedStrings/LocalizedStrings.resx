@@ -237,4 +237,13 @@
     <data name="DisplayTwoDialogs" xml:space="preserve">
         <value>Display two dialogs</value>
     </data>
+    <data name="IsRunning" xml:space="preserve">
+        <value>Is running</value>
+    </data>
+    <data name="IsRunningHintText" xml:space="preserve">
+        <value>Toggle if the indicator should load</value>
+    </data>
+    <data name="Size" xml:space="preserve">
+        <value>Size</value>
+    </data>
 </root>

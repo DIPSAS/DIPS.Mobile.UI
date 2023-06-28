@@ -1,0 +1,35 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.ComponentsSamples.Loading.ActivityIndicator.ActivitiyIndicatorSamples"
+                 Padding="{dui:Padding size_3}">
+    <dui:VerticalStackLayout Spacing="0">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.IsRunning}"
+                      Subtitle="{x:Static localizedStrings:LocalizedStrings.IsRunningHintText}"
+                      HasTopDivider="True"
+                      HasBottomDivider="True">
+            <Switch x:Name="IsLoadingToggle"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+        </dui:ListItem>
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Size}"
+                      Subtitle="{Binding Source={x:Reference SizeSlider}, Path=Value}"
+                      ShouldOverrideContentItemLayoutOptions="False"
+                      HasBottomDivider="True">
+            <Slider x:Name="SizeSlider"
+                    Minimum="{dui:Sizes 0}"
+                    Maximum="{dui:Sizes size_25}"
+                    HorizontalOptions="Fill" />
+        </dui:ListItem>
+        <dui:ActivityIndicator HeightRequest="{Binding Source={x:Reference SizeSlider}, Path=Value}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               WidthRequest="{Binding Source={x:Reference SizeSlider}, Path=Value}"
+                               IsRunning="{Binding Source={x:Reference IsLoadingToggle}, Path=IsToggled}" />
+    </dui:VerticalStackLayout>
+</dui:ContentPage>

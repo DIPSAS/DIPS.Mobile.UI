@@ -482,5 +482,23 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("DisplayTwoDialogs", resourceCulture);
             }
         }
+        
+        internal static string IsRunning {
+            get {
+                return ResourceManager.GetString("IsRunning", resourceCulture);
+            }
+        }
+        
+        internal static string IsRunningHintText {
+            get {
+                return ResourceManager.GetString("IsRunningHintText", resourceCulture);
+            }
+        }
+        
+        internal static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
     }
 }

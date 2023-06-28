@@ -230,4 +230,13 @@
     <data name="DisplayTwoDialogs" xml:space="preserve">
         <value>Vis to dialoger</value>
     </data>
+    <data name="IsRunning" xml:space="preserve">
+        <value>Laster</value>
+    </data>
+    <data name="IsRunningHintText" xml:space="preserve">
+        <value>Veksle på  om indikatoren skal laste</value>
+    </data>
+    <data name="Size" xml:space="preserve">
+        <value>Størrelse</value>
+    </data>
 </root>

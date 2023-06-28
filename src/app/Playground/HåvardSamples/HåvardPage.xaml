@@ -5,15 +5,7 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-   <dui:Label Text="Test"  dui:ContextMenuEffect.Mode="LongPressed"
-   >
-       <dui:ContextMenuEffect.Menu>
-           <dui:ContextMenu>
-               <dui:ContextMenuItem Title="Copy" Icon="{dui:Icons document_fill}" />
-           </dui:ContextMenu>
-       </dui:ContextMenuEffect.Menu>
-    </dui:Label>
+   <dui:ActivityIndicator IsRunning="True" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"/>
 </dui:ContentPage>
