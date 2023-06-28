@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Platforms.iOS;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -6,6 +7,14 @@ namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButtonHandler
 {
+    protected override UIButton CreatePlatformView()
+    {
+        return new UIButtonWithExtraTappableArea
+        {
+            ClipsToBounds = true
+        };
+    }
+
     private static async partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
     {
         var tries = 0;
@@ -21,6 +30,12 @@ public partial class ImageButtonHandler
         
         handler.PlatformView.SetImage(handler.PlatformView.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
         handler.PlatformView.TintColor = imageButton.TintColor.ToPlatform();
+    }
+
+    private static partial void MapAdditionalHitBoxSize(ImageButtonHandler handler, ImageButton imageButton)
+    {
+        if (handler.PlatformView is UIButtonWithExtraTappableArea uiButton)
+            uiButton.AdditionalHitBoxSize = imageButton.AdditionalHitBoxSize;
     }
 
 }

@@ -6,6 +6,7 @@ public class VerticalStackLayout : Microsoft.Maui.Controls.VerticalStackLayout
 {
     public VerticalStackLayout()
     {
-        Spacing = Sizes.GetSize(SizeName.size_1);
+       Spacing = Sizes.GetSize(SizeName.size_1);
     }
+  
 }

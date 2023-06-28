@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.Image;
@@ -11,6 +12,7 @@ using DIPS.Mobile.UI.Effects.Modal.Android;
 #endif
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -44,6 +46,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
             handlers.AddHandler<Image, ImageHandler>();
+            handlers.AddHandler<Button, ButtonHandler>();
             
             AddPlatformHandlers(handlers);
         });
