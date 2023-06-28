@@ -5,7 +5,7 @@ public partial class CollectionView
     public static readonly BindableProperty ItemSpacingProperty = BindableProperty.Create(
         nameof(ItemSpacing),
         typeof(double),
-        typeof(CollectionView), propertyChanged: OnItemSpacingPropertyChanged);
+        typeof(CollectionView), propertyChanged: OnItemSpacingPropertyChanged, defaultValue:(double)Sizes.GetSize(SizeName.size_1));
     
     /// <summary>
     /// Adds spacing between the items in the collection view.

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Dividers;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;

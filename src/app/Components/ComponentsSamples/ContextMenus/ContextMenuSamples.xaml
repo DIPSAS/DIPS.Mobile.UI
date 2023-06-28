@@ -7,9 +7,10 @@
     <dui:ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout Spacing="0">
         <!-- Single item -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -30,7 +31,8 @@
         </dui:ListItem>
 
         <!-- Two items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -41,9 +43,10 @@
                 </dui:ContextMenu>
             </dui:ContextMenuEffect.Menu>
         </dui:ListItem>
-        
+
         <!--Checkable items (all)-->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -60,7 +63,8 @@
         </dui:ListItem>
 
         <!--Checkable items (single)-->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Single}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Single}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -75,7 +79,8 @@
         </dui:ListItem>
 
         <!-- Grouped items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -98,7 +103,8 @@
         </dui:ListItem>
 
         <!-- Checkable grouped items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Grouped_Choices_Single}">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Grouped_Choices_Single}"
+                      HasTopDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -123,7 +129,9 @@
         </dui:ListItem>
 
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}"
-                      dui:ContextMenuEffect.Mode="LongPressed">
+                      dui:ContextMenuEffect.Mode="LongPressed"
+                      HasTopDivider="True"
+                      HasBottomDivider="True">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem

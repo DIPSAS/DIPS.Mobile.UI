@@ -83,7 +83,6 @@ public partial class ListItem
         nameof(CornerRadius),
         typeof(CornerRadius),
         typeof(ListItem),
-        defaultValue: new CornerRadius(Sizes.GetSize(SizeName.size_4)),
         propertyChanged:CornerRadiusChanged);
     
     public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
