@@ -2,11 +2,6 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView
 {
-    public static readonly BindableProperty ItemSpacingProperty = BindableProperty.Create(
-        nameof(ItemSpacing),
-        typeof(double),
-        typeof(CollectionView), propertyChanged: OnItemSpacingPropertyChanged, defaultValue:(double)Sizes.GetSize(SizeName.size_1));
-    
     /// <summary>
     /// Adds spacing between the items in the collection view.
     /// </summary>
@@ -16,4 +11,24 @@ public partial class CollectionView
         get => (double)GetValue(ItemSpacingProperty);
         set => SetValue(ItemSpacingProperty, value);
     }
+    
+    /// <summary>
+    /// Adds additional space at the end of the list so people can more easily see and tap the last items.
+    /// </summary>
+    /// <remarks>This is achieved by using the <see cref="CollectionView.Footer"/>. If you overwrite the <see cref="CollectionView.Footer"/> it will be removed</remarks>
+    public bool HasAdditionalSpaceAtTheEnd
+    {
+        get => (bool)GetValue(HasAdditionalSizeAtTheEndProperty);
+        set => SetValue(HasAdditionalSizeAtTheEndProperty, value);
+    }
+
+    public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
+        nameof(HasAdditionalSpaceAtTheEnd),
+        typeof(bool),
+        typeof(CollectionView), defaultValue:true);
+    
+    public static readonly BindableProperty ItemSpacingProperty = BindableProperty.Create(
+        nameof(ItemSpacing),
+        typeof(double),
+        typeof(CollectionView), propertyChanged: OnItemSpacingPropertyChanged, defaultValue:(double)Sizes.GetSize(SizeName.size_1));
 }

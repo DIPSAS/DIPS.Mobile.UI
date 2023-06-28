@@ -12,7 +12,6 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
         Title = $"{AppInfo.Current.Name} ({AppInfo.Current.VersionString})";
         Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
         {
-            ItemSpacing = 0,
             ItemsSource = sampleTypes, ItemTemplate = new DataTemplate(() => new NavigateToSamplesItem(samples)),
         };
     }

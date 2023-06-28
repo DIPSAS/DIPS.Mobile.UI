@@ -5,11 +5,11 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
+    private Border? m_extraSpaceBorder;
+
     public CollectionView()
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
-        //Adds a extra space in the bottom to make sure the last item is not placed at the very bottom of the page, this makes the last item more accessible for people.
-        Footer = new BoxView() { HeightRequest = Sizes.GetSize(SizeName.size_24), BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
         SelectionMode = SelectionMode.None;
     }
     
@@ -26,6 +26,24 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
                 gridItemsLayout.HorizontalItemSpacing = itemsSpacing;
                 gridItemsLayout.VerticalItemSpacing = itemsSpacing;
                 break;
+        }
+    }
+
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        if (HasAdditionalSpaceAtTheEnd && (Footer is null || Footer == m_extraSpaceBorder)) //If the consumer wants it and the footer is not set or the footer is the same border (happens if the size changes)
+        {
+            m_extraSpaceBorder ??= new Border() {BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
+            
+#if __IOS__ //Collectionviews height is always the same, no matter how much is visible, which is the same as the entire screen size
+            var visibleSize = height - Bounds.Y;
+            var nonVisibleSize = height - visibleSize;
+            m_extraSpaceBorder.HeightRequest = nonVisibleSize+((visibleSize)/3); //The border has to be as big as the non visible size + one third of the visible size
+#elif __ANDROID__
+        m_extraSpaceBorder.HeightRequest = height/3; //The border has to be the one third of the visible size
+#endif      
+            Footer = m_extraSpaceBorder;
         }
     }
 }
