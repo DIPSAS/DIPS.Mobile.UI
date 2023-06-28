@@ -1,3 +1,6 @@
+## [13.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [13.0.0]
 - [BreakingChange] List item corner radius defaults to 0.
 
