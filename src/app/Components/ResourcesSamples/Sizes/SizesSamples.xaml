@@ -10,10 +10,13 @@
                  xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ResourcesSamples.Sizes.SizesSamples">
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
-                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsVisualBoxes}}" />
+                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsVisualBoxes}}"
+                                HasBottomDivider="True"
+                                HasTopDivider="True"/>
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
-                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsFontSize}}" />
+                                Command="{helpers:NavigationCommand {x:Type sizes:SizesAsFontSize}}" 
+                                HasBottomDivider="True"/>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

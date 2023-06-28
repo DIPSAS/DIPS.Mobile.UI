@@ -239,4 +239,7 @@
     <data name="Size" xml:space="preserve">
         <value>Størrelse</value>
     </data>
+    <data name="ActivityIndicator" xml:space="preserve">
+        <value>Aktivitetsindikator</value>
+    </data>
 </root>

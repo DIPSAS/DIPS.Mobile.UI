@@ -1,8 +1,8 @@
 namespace Components.ComponentsSamples.Loading.ActivityIndicator;
 
-public partial class ActivitiyIndicatorSamples
+public partial class ActivitiyIndicatorSamplesPage
 {
-    public ActivitiyIndicatorSamples()
+    public ActivitiyIndicatorSamplesPage()
     {
         InitializeComponent();
     }

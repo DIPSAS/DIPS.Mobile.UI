@@ -246,4 +246,7 @@
     <data name="Size" xml:space="preserve">
         <value>Size</value>
     </data>
+    <data name="ActivityIndicator" xml:space="preserve">
+        <value>Activity indicator</value>
+    </data>
 </root>

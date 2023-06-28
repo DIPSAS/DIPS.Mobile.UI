@@ -500,5 +500,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Size", resourceCulture);
             }
         }
+        
+        internal static string ActivityIndicator {
+            get {
+                return ResourceManager.GetString("ActivityIndicator", resourceCulture);
+            }
+        }
     }
 }
