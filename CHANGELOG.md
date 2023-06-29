@@ -1,3 +1,9 @@
+## [13.3.0]
+- [ListItem] Added font attributes for title and subtitle.
+- [BottomSheet] Made sure Android and iOS bottom sheets are always closed from RemoveViewsLocatedOnTopOfPage().
+- [BottomSheet] Made sure Android bottom sheet service returns a task that waits until the fragment is dismissed for consumers to rely on the task from closing methods.
+- [CollectionView] Made sure we add additional space at the end of the list (footer) so the last item is always visible. 1/3 of the visible list will be added as a invisible footer so people can easily see and tap the last item.
+
 ## [13.2.0]
 - Added ActivityIndicator and RefreshView to reuse same colors and size for indicator.
 - [ComponentsApp] Made sure that only positive sizes are displayed in the samples, as negatives or 0 makes sense.

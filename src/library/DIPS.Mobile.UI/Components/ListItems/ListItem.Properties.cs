@@ -18,6 +18,15 @@ public partial class ListItem
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+    
+    /// <summary>
+    /// Sets the font attributes of the <see cref="Title"/>
+    /// </summary>
+    public FontAttributes TitleFontAttributes
+    {
+        get => (FontAttributes)GetValue(TitleFontAttributesProperty);
+        set => SetValue(TitleFontAttributesProperty, value);
+    }
 
     /// <summary>
     /// Sets the subtitle text that people will see below <see cref="Title"/>
@@ -26,6 +35,15 @@ public partial class ListItem
     {
         get => (string)GetValue(SubtitleProperty);
         set => SetValue(SubtitleProperty, value);
+    }
+    
+    /// <summary>
+    /// Sets the font attributes of the <see cref="Subtitle"/>
+    /// </summary>
+    public FontAttributes SubtitleFontAttributes
+    {
+        get => (FontAttributes)GetValue(SubtitleFontAttributesProperty);
+        set => SetValue(SubtitleFontAttributesProperty, value);
     }
 
     /// <summary>
@@ -98,5 +116,15 @@ public partial class ListItem
     public static readonly BindableProperty HasBottomDividerProperty = BindableProperty.Create(
         nameof(HasBottomDivider),
         typeof(bool),
+        typeof(ListItem));
+
+    public static readonly BindableProperty TitleFontAttributesProperty = BindableProperty.Create(
+        nameof(TitleFontAttributes),
+        typeof(FontAttributes),
+        typeof(ListItem));
+    
+    public static readonly BindableProperty SubtitleFontAttributesProperty = BindableProperty.Create(
+        nameof(SubtitleFontAttributes),
+        typeof(FontAttributes),
         typeof(ListItem));
 }
