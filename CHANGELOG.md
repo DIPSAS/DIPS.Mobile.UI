@@ -1,3 +1,7 @@
+## [13.4.0]
+- Added IndicatorView.
+- Made sure RefreshView is wrapping the content in a Grid to fix : https://github.com/dotnet/maui/issues/7315 on dotnet 7.
+
 ## [13.3.0]
 - [ListItem] Added font attributes for title and subtitle.
 - [BottomSheet] Made sure Android and iOS bottom sheets are always closed from RemoveViewsLocatedOnTopOfPage().
