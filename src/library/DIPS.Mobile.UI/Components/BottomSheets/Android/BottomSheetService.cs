@@ -8,8 +8,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public static partial class BottomSheetService
 {
-    internal const string BottomSheetFragmentTag = nameof(BottomSheetFragment);
-
     internal static BottomSheetFragment? Current { get; set; }
     
     public static async partial Task OpenBottomSheet(BottomSheet bottomSheet)
