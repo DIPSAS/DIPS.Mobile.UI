@@ -114,12 +114,12 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(SearchMode),
             typeof(SearchMode),
             typeof(SearchPage),
-            SearchMode.Auto);
+            SearchMode.WhenTextChanged);
 
         /// <summary>
         /// Defines when a search should be triggered.
-        /// <see cref="SearchMode.Auto"/> = search is triggered when a character is typed or removed from the search text
-        /// <see cref="SearchMode.Explicit"/> = search is triggered only when user presses complete on the device's keyboard
+        /// <see cref="Searching.SearchMode.WhenTextChanged"/> = search is triggered when a character is typed or removed from the search text
+        /// <see cref="Searching.SearchMode.WhenTappedComplete"/> = search is triggered only when user presses complete on the device's keyboard
         /// </summary>
         public SearchMode SearchMode
         {

@@ -113,7 +113,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void SearchBarOnTextChanged(object? sender, TextChangedEventArgs e)
         {
-            if (SearchMode is SearchMode.Auto)
+            if (SearchMode is SearchMode.WhenTextChanged)
             {
                 OnSearchQueryChanged(e.NewTextValue);
             }
@@ -208,11 +208,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// Search is triggered whenever the search text changes
         /// </summary>
-        Auto,
+        WhenTextChanged,
         /// <summary>
         /// Search is only triggered when the user presses "Complete" on the device's keyboard
         /// </summary>
-        Explicit
+        WhenTappedComplete
     }
 
     public enum SearchStates
