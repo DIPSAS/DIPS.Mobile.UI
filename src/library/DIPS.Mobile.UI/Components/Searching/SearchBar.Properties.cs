@@ -153,7 +153,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(PlaceholderColorProperty, value);
         }
         
-           public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
+        public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
             typeof(Color),
             typeof(SearchBar));
@@ -232,6 +232,5 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(BarColor),
             typeof(Color),
             typeof(SearchBar));
-
     }
 }
