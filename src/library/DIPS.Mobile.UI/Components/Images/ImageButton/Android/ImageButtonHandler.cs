@@ -35,6 +35,7 @@ public partial class ImageButtonHandler
         PropertyMapper.Add(nameof(IImageButton.Padding), OverrideMapPadding);
     }
 
+    //TODO .NET8: Remove
     // To fix bug: https://github.com/dotnet/maui/pull/14905
     private void OverrideMapPadding(ImageButtonHandler handler, ImageButton imageButton)
     {
