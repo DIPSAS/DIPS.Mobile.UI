@@ -87,10 +87,6 @@ internal partial class NavigationMenuButton : Grid
         // We must set this here, because on Android, the ImageButton disappears when binding rotation
         ImageButton.Rotation = IconRotation;
         
-        // Workaround for a bug when setting padding on ImageButton (Android): https://github.com/dotnet/maui/pull/14905
-        //await Task.Delay(1);
-        
-        
         if(BadgeCount is not 0)
             ShowBadge();
         else
