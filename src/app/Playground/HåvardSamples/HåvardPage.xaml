@@ -7,5 +7,70 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-   <dui:ActivityIndicator IsRunning="True" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"/>
+    <dui:RefreshView>
+       <dui:CollectionView>
+           <dui:CollectionView.ItemsSource>
+               <x:Array Type="{x:Type x:String}">
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+                   <x:String>Item</x:String>
+               </x:Array>
+           </dui:CollectionView.ItemsSource>
+       </dui:CollectionView>
+   </dui:RefreshView>
 </dui:ContentPage>

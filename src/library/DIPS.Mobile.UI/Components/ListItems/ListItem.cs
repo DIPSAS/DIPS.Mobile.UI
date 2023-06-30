@@ -78,25 +78,29 @@ public partial class ListItem : ContentView
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Start
         };
-
+        
         if (string.IsNullOrEmpty(Subtitle))
         {
             label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
+            label.SetBinding(Label.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
         }
         else
         {
             var title = new Span();
             title.SetBinding(Span.TextProperty, new Binding(nameof(Title), source: this));
+            title.SetBinding(Span.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
 
             var newLine = new Span { Text = Environment.NewLine };
 
             var subTitle = new Span { FontSize = Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
             subTitle.SetBinding(Span.TextProperty, new Binding(nameof(Subtitle), source: this));
+            subTitle.SetBinding(Span.FontAttributesProperty, new Binding(nameof(SubtitleFontAttributes), source: this));
+
                 
-            label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle } };
+            label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle }};
         }
 
-        label.Margin = new Thickness(0, 0, 10, 0);
+        label.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), 0);
         
         MainContent.Add(label);
     }

@@ -23,11 +23,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         private readonly BottomSheet m_bottomSheet;
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
         private BottomSheetBehavior? m_bottomSheetBehavior;
+        private TaskCompletionSource<bool> m_dismissTaskCompletionSource;
 
         public BottomSheetFragment(BottomSheet bottomSheet)
         {
             m_bottomSheet = bottomSheet;
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
+            m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
         }
 
        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
@@ -191,6 +193,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (fragmentManager == null) return Task.CompletedTask;
             
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
+            m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
             Show(fragmentManager, nameof(BottomSheetFragment));
             m_bottomSheet.SendOpen();
             return m_showTaskCompletionSource.Task;
@@ -199,9 +202,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
+            m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
+            BottomSheetService.Current = null;
         }
 
+        public Task Close(bool animated)
+        {
+            Dismiss();
+            return m_dismissTaskCompletionSource.Task;
+        }
+        
         internal class GenericMenuClickListener : Object, IMenuItemOnMenuItemClickListener
         {
             readonly Action m_callback;
@@ -215,19 +226,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             {
                 m_callback.Invoke();
                 return true;
-            }
-        }
-
-        public void Close(bool animated)
-        {
-            if (!animated)
-            {
-                OnStop(); //Kills the fragment without animation
-                OnDestroy(); //Has to call OnDestroy to send the closed event
-            }
-            else
-            {
-                Dismiss();
             }
         }
     }

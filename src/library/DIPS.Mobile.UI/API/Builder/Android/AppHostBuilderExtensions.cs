@@ -16,7 +16,6 @@ public static partial class AppHostBuilderExtensions
     {
         events.AddAndroid(android => android
             .OnCreate((activity, _) => DUI.Init(activity)));
-        events.AddAndroid(android => android.OnPause(_ => DUI.RemoveViewsLocatedOnTopOfPage()));
     }
 }
 

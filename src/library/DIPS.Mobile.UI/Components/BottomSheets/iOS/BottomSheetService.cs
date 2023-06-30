@@ -7,33 +7,28 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 public static partial class BottomSheetService
 {
     internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage);
-    internal static BottomSheet? m_currentOpenedBottomSheet;
+    internal static BottomSheetContentPage? Current { get; set; }
     public static partial Task OpenBottomSheet(BottomSheet bottomSheet)
     {
-        m_currentOpenedBottomSheet = bottomSheet;
-        return new BottomSheetContentPage(bottomSheet).Open();
+        if (IsBottomSheetOpen())
+        {
+            CloseCurrentBottomSheet();
+        }
+        
+        Current = new BottomSheetContentPage(bottomSheet);
+        return Current.Open();
     }
 
     public static async partial Task CloseCurrentBottomSheet(bool animated)
     {
-        var potentialBottomSheetUiViewController = GetCurrentBottomSheetUiViewController();
-        if (potentialBottomSheetUiViewController != null)
+        if (Current != null)
         {
-            await potentialBottomSheetUiViewController.DismissViewControllerAsync(animated);
-            await Task.Delay(100); //Small delay before its actually removed.
-            m_currentOpenedBottomSheet?.SendClose();
-            m_currentOpenedBottomSheet = null;
+            await Current.Close(animated);
         }
     }
 
     public static partial bool IsBottomSheetOpen()
     {
-        return GetCurrentBottomSheetUiViewController() != null;
-    }
-
-    private static UIViewController? GetCurrentBottomSheetUiViewController()
-    {
-        var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
-        return currentPresentedUiViewController?.RestorationIdentifier == BottomSheetRestorationIdentifier ? currentPresentedUiViewController : null;
+        return Current != null;
     }
 }

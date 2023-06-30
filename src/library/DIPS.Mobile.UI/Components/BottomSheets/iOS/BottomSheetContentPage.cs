@@ -86,7 +86,7 @@ internal class BottomSheetContentPage : ContentPage
             ConfigureToolbar();
         
         m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
-        m_sheetPresentationController!.Delegate = new BottomSheetControllerDelegate(m_bottomSheet);
+        m_sheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
 
         var preferredDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
         var preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
@@ -166,26 +166,44 @@ internal class BottomSheetContentPage : ContentPage
             await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
         }
     }
+
+    public async Task Close(bool animated)
+    {
+        if (m_navigationViewController == null) return;
+        await m_navigationViewController.DismissViewControllerAsync(animated);
+        await Task.Delay(100);
+        Dispose();
+    }
+
+    internal void Opened()
+    {
+        m_bottomSheet.SendOpen();
+    }
+    
+    internal void Dispose()
+    {
+        m_bottomSheet.SendClose();
+        BottomSheetService.Current = null;
+    }
 }
 
 internal class BottomSheetControllerDelegate : UISheetPresentationControllerDelegate
 {
-    private readonly BottomSheet m_bottomSheet;
+    private readonly BottomSheetContentPage m_bottomSheetContentPage;
 
-    public BottomSheetControllerDelegate(BottomSheet bottomSheet)
+    public BottomSheetControllerDelegate(BottomSheetContentPage bottomSheetContentPageContentPage)
     {
-        m_bottomSheet = bottomSheet;
+        m_bottomSheetContentPage = bottomSheetContentPageContentPage;
     }
 
     public override void WillPresent(UIPresentationController presentationController, UIModalPresentationStyle style,
         IUIViewControllerTransitionCoordinator? transitionCoordinator)
     {
-        m_bottomSheet.SendOpen();
+        m_bottomSheetContentPage.Opened();
     }
     
-    public override void WillDismiss(UIPresentationController presentationController)
+    public override void DidDismiss(UIPresentationController presentationController)
     {
-        m_bottomSheet.SendClose();
-        BottomSheetService.m_currentOpenedBottomSheet = null;
+        m_bottomSheetContentPage.Dispose();
     }
 }
