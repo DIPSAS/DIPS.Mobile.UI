@@ -23,7 +23,7 @@
                     <dui:ImageButton BackgroundColor="Blue" Source="{dui:Icons ascending_fill}" WidthRequest="100" HeightRequest="100"
                                      AdditionalHitBoxSize="50" TintColor="Green"
                                      BorderWidth="6"
-                                     Padding="7"
+                                     Padding="0"
                                      CornerRadius="50"/>
                  
                 

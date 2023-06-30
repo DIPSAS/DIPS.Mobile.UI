@@ -40,6 +40,7 @@ internal partial class NavigationMenuButton : Grid
         ImageButton.WidthRequest = 60;
         ImageButton.HeightRequest = 60;
         ImageButton.CornerRadius = 30;
+        ImageButton.Padding = DeviceInfo.Platform == DevicePlatform.Android ? Sizes.GetSize(SizeName.size_1) : Sizes.GetSize(SizeName.size_3);
 
         BadgeLabel = new Label
         {
@@ -87,8 +88,8 @@ internal partial class NavigationMenuButton : Grid
         ImageButton.Rotation = IconRotation;
         
         // Workaround for a bug when setting padding on ImageButton (Android): https://github.com/dotnet/maui/pull/14905
-        await Task.Delay(1);
-        ImageButton.Padding = Sizes.GetSize(SizeName.size_3);
+        //await Task.Delay(1);
+        
         
         if(BadgeCount is not 0)
             ShowBadge();

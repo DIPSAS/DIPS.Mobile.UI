@@ -5,7 +5,8 @@ using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Images.ImageButton.Android;
 
-// To fix bug: https://github.com/dotnet/maui/pull/14905
+//Remove To fix bug: https://github.com/dotnet/maui/pull/14905
+//TODO .NET8: Remove
 public static class REMOVE_WHEN_BUG_FIXED
 {
     internal static void SetContentPadding(this ShapeableImageView platformButton, IImageButton imageButton)
