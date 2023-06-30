@@ -68,12 +68,12 @@ public partial class TouchPlatformEffect
 
     private void OnLongClick()
     {
-            Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
+        Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
     }
     
     private void OnClick()
     {
-            Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
+        Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
     }
 
     internal class ClickListener : Java.Lang.Object, View.IOnClickListener

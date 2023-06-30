@@ -4,8 +4,6 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class Touch : RoutingEffect
 {
-    private VisualElement? m_element;
-
     public static ICommand GetCommand(BindableObject view)
     {
         return (ICommand)view.GetValue(CommandProperty);
