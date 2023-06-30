@@ -17,7 +17,7 @@ namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButtonHandler
 {
-    protected override async void ConnectHandler(ShapeableImageView platformView)
+    protected override void ConnectHandler(ShapeableImageView platformView)
     {
         base.ConnectHandler(platformView);
         
@@ -28,21 +28,6 @@ public partial class ImageButtonHandler
         
         var ripple = new RippleDrawable(colorStateList, null,  null);
         platformView.Foreground = ripple;
-
-        if (VirtualView is ImageButton imageButton)
-        {
-            if(imageButton.CornerRadius is 0)
-                return;
-
-            /*await Task.Delay(1000);
-            imageButton.Clip = new EllipseGeometry
-            {
-                RadiusX = imageButton.CornerRadius,
-                RadiusY = imageButton.CornerRadius,
-                Center = new Point(new Size(imageButton.CornerRadius))
-            };*/
-        }
-            
     }
 
     private partial void AppendPropertyMapper()
