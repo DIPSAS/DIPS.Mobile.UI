@@ -23,15 +23,21 @@ public partial class TouchPlatformEffect
     protected override partial void OnAttached()
     {
         m_isEnabled = Touch.GetIsEnabled(Element);
+
+        if (!m_isEnabled)
+        {
+            return;
+        }
+        
         m_touchMode = Touch.GetTouchMode(Element);
             
-        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
             Control.SetOnClickListener(new ClickListener(OnClick));
         }
 
-        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             Control.LongClickable = true;
             Control.SetOnLongClickListener(new LongClickListener(OnLongClick));
@@ -62,12 +68,12 @@ public partial class TouchPlatformEffect
 
     private void OnLongClick()
     {
-        Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
+            Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
     }
     
     private void OnClick()
     {
-        Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
+            Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
     }
 
     internal class ClickListener : Java.Lang.Object, View.IOnClickListener
@@ -103,6 +109,20 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnDetached()
     {
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        {
+            Control.Clickable = false;
+            Control.SetOnClickListener(null);
+        }
+
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        {
+            Control.LongClickable = false;
+            Control.SetOnLongClickListener(null);
+        }
+
+        Control.Background = null;
+        Control.ContentDescription = null;
     }
     
 }

@@ -1,3 +1,6 @@
+## [13.3.0]
+- Add IsEnabled property for Touch.
+
 ## [13.2.0]
 - Added ActivityIndicator and RefreshView to reuse same colors and size for indicator.
 - [ComponentsApp] Made sure that only positive sizes are displayed in the samples, as negatives or 0 makes sense.
