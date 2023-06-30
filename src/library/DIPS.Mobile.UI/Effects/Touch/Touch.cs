@@ -4,6 +4,8 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class Touch : RoutingEffect
 {
+    private VisualElement? m_element;
+
     public static ICommand GetCommand(BindableObject view)
     {
         return (ICommand)view.GetValue(CommandProperty);
@@ -58,6 +60,16 @@ public partial class Touch : RoutingEffect
     {
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
+
+    public static bool GetIsEnabled(BindableObject view)
+    {
+        return (bool)view.GetValue(IsEnabledProperty);
+    }
+
+    public static void SetIsEnabled(BindableObject view, bool isEnabled)
+    {
+        view.SetValue(IsEnabledProperty, isEnabled);
+    }
     
     internal static TouchMode GetTouchMode(BindableObject element)
     {
@@ -73,14 +85,12 @@ public partial class Touch : RoutingEffect
 
     }
     
-    private static void OnCommandChanged(BindableObject bindable, object oldValue, object? newValue)
+    private static void OnTouchPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)
-        {
             return;
-        }
         
-        if (newValue is ICommand)
+        if (newValue is ICommand or bool and true)
         {
             // Refresh
             RemoveEffect(view);
@@ -106,5 +116,10 @@ public partial class Touch : RoutingEffect
         Tap,
         LongPress,
         Both
+    }
+
+    public static Touch? PickFrom(BindableObject? bindable)
+    {
+        return (bindable as VisualElement)?.Effects.OfType<Touch>().FirstOrDefault();
     }
 }
