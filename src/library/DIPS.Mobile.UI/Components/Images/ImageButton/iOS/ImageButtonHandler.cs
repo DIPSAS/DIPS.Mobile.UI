@@ -15,6 +15,11 @@ public partial class ImageButtonHandler
         };
     }
 
+    private partial void AppendPropertyMapper()
+    {
+        
+    }
+
     private static async partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
     {
         var tries = 0;

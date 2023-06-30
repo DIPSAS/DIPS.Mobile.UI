@@ -4,8 +4,11 @@ public partial class ImageButtonHandler : Microsoft.Maui.Handlers.ImageButtonHan
 {
     public ImageButtonHandler() : base(PropertyMapper)
     {
+        AppendPropertyMapper();
     }
-    
+
+    private partial void AppendPropertyMapper();
+
     public static IPropertyMapper<ImageButton, ImageButtonHandler> PropertyMapper = new PropertyMapper<ImageButton, ImageButtonHandler>(Mapper)
     {
         [nameof(ImageButton.TintColor)] = TrySetTintColor,
