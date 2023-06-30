@@ -82,10 +82,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty ShouldDelayProperty = BindableProperty.Create(
             nameof(ShouldDelay),
             typeof(bool),
-            typeof(SearchPage));
+            typeof(SearchPage),
+            false);
 
         /// <summary>
-        /// Whether the search invocation should be delayed according to <see cref="Delay"/>.
+        /// Whether the invocation of <see cref="ProvideSearchResult"/> should be delayed according to <see cref="Delay"/>.
         /// </summary>
         public bool ShouldDelay
         {
@@ -100,7 +101,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             500);
 
         /// <summary>
-        /// The amount of delay before search invocation in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
+        /// The amount of delay before invocation of <see cref="ProvideSearchResult"/> in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
         /// is true.
         /// </summary>
         public int Delay
