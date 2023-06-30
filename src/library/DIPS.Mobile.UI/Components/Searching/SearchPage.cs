@@ -43,7 +43,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             m_searchBar.TextChanged += SearchBarOnTextChanged;
-            //TODO:If Mode: WhenKeyboardPressed
+
             m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
             m_searchBar.CancelCommand = new Command(OnCancel);
 
@@ -113,9 +113,10 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void SearchBarOnTextChanged(object? sender, TextChangedEventArgs e)
         {
-            //TODO:If Mode:WhenPeopleType
-            //TODO:If, TypeDelay
-            OnSearchQueryChanged(e.NewTextValue);
+            if (SearchMode is SearchMode.Auto)
+            {
+                OnSearchQueryChanged(e.NewTextValue);
+            }
         }
 
         private async void OnSearchQueryChanged(string searchQuery)
@@ -131,10 +132,14 @@ namespace DIPS.Mobile.UI.Components.Searching
                 return;
             }
 
-            //TODO: Implement delay if its needed from the consumer
             try
             {
                 SetSearchState(SearchStates.Searching);
+
+                if (ShouldDelay && Delay > 0)
+                {
+                    await Task.Delay(Delay, m_searchCancellationToken.Token);
+                }
 
                 var result = await ProvideSearchResult(searchQuery, m_searchCancellationToken.Token);
                 if (result == null)
@@ -196,6 +201,12 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             m_searchBar.IsBusy = visible;
         }
+    }
+
+    public enum SearchMode
+    {
+        Auto,
+        Explicit
     }
 
     public enum SearchStates

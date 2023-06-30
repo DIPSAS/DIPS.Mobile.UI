@@ -79,6 +79,53 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(SearchPlaceholderProperty, value);
         }
 
+        public static readonly BindableProperty ShouldDelayProperty = BindableProperty.Create(
+            nameof(ShouldDelay),
+            typeof(bool),
+            typeof(SearchPage));
+
+        /// <summary>
+        /// Whether the search invocation should be delayed according to <see cref="Delay"/>.
+        /// </summary>
+        public bool ShouldDelay
+        {
+            get => (bool)GetValue(ShouldDelayProperty);
+            set => SetValue(ShouldDelayProperty, value);
+        }
+
+        public static readonly BindableProperty DelayProperty = BindableProperty.Create(
+            nameof(Delay),
+            typeof(int),
+            typeof(SearchPage),
+            500);
+
+        /// <summary>
+        /// The amount of delay before search invocation in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
+        /// is true.
+        /// </summary>
+        public int Delay
+        {
+            get => (int)GetValue(DelayProperty);
+            set => SetValue(DelayProperty, value);
+        }
+
+        public static readonly BindableProperty SearchModeProperty = BindableProperty.Create(
+            nameof(SearchMode),
+            typeof(SearchMode),
+            typeof(SearchPage),
+            SearchMode.Auto);
+
+        /// <summary>
+        /// Defines when a search should be triggered.
+        /// <see cref="SearchMode.Auto"/> = search is triggered when a character is typed or removed from the search text
+        /// <see cref="SearchMode.Explicit"/> = search is triggered only when user presses complete on the device's keyboard
+        /// </summary>
+        public SearchMode SearchMode
+        {
+            get => (SearchMode)GetValue(SearchModeProperty);
+            set => SetValue(SearchModeProperty, value);
+        }
+
         /// <summary>
         /// The method to return the result that people will see when they use the search bar in the search page.
         /// </summary>
