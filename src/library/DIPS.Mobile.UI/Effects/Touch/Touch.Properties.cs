@@ -8,7 +8,7 @@ public partial class Touch
         typeof(ICommand),
         typeof(Touch),
         null,
-        propertyChanged: OnCommandChanged);
+        propertyChanged: OnTouchPropertiesChanged);
     
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.CreateAttached("CommandParameter",
         typeof(object),
@@ -19,7 +19,7 @@ public partial class Touch
         typeof(ICommand),
         typeof(Touch),
         null,
-        propertyChanged: OnCommandChanged);
+        propertyChanged: OnTouchPropertiesChanged);
     
     public static readonly BindableProperty LongPressCommandParameterProperty = BindableProperty.CreateAttached("LongPressCommandParameter",
         typeof(object),
@@ -30,4 +30,10 @@ public partial class Touch
         typeof(string),
         typeof(Touch),
         null);
+
+    public static readonly BindableProperty IsEnabledProperty = BindableProperty.CreateAttached("IsEnabled",
+        typeof(bool),
+        typeof(Touch),
+        true,
+        propertyChanged: OnTouchPropertiesChanged);
 }

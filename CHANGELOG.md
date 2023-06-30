@@ -1,3 +1,6 @@
+## [13.5.0]
+- Add IsEnabled property for Touch.
+
 ## [13.4.0]
 - Added IndicatorView.
 - Made sure RefreshView is wrapping the content in a Grid to fix : https://github.com/dotnet/maui/issues/7315 on dotnet 7.

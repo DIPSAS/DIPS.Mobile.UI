@@ -14,27 +14,29 @@ public partial class TouchPlatformEffect
     private TouchEffectTapGestureRecognizer? m_tapGestureRecognizer;
     private TouchEffectLongPressGestureRecognizer? m_longPressGestureRecognizer;
     private Touch.TouchMode m_touchMode;
+    private bool m_isEnabled;
 
     protected override partial void OnAttached()
     {
         if(Control is UIButton)
             return;
-        
+
+        m_isEnabled = Touch.GetIsEnabled(Element);
         m_touchMode = Touch.GetTouchMode(Element);
 
-        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
-        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_isEnabled)
         {
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
         }
         
-        Control.UserInteractionEnabled = true;
+        Control.UserInteractionEnabled = m_isEnabled;
     }
 
     private void OnLongPress(UILongPressGestureRecognizer e)

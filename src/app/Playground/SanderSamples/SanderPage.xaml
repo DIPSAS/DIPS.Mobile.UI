@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:sanderSamples="clr-namespace:Playground.SanderSamples"
+                 x:Class="Playground.SanderSamples.SanderPage">
+    <dui:ContentPage.BindingContext>
+        <sanderSamples:SanderPageViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <Switch IsToggled="{Binding IsEnabled}"/>
+
+        <CollectionView Grid.Row="1">
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                    <x:String>Item</x:String>
+                </x:Array>
+            </CollectionView.ItemsSource>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="Auto, Auto"
+                          Padding="20"
+                          dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type sanderSamples:SanderPageViewModel}}, Path=TestLongPressCommand}"
+                          dui:Touch.IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type sanderSamples:SanderPageViewModel}}, Path=IsEnabled}">
+                        <dui:Label Grid.Row="0" Text="This is a longer text in order to see the damn touch effect" />
+                        <dui:Label Grid.Row="1" Text="321" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</dui:ContentPage>

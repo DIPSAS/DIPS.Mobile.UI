@@ -58,6 +58,16 @@ public partial class Touch : RoutingEffect
     {
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
+
+    public static bool GetIsEnabled(BindableObject view)
+    {
+        return (bool)view.GetValue(IsEnabledProperty);
+    }
+
+    public static void SetIsEnabled(BindableObject view, bool isEnabled)
+    {
+        view.SetValue(IsEnabledProperty, isEnabled);
+    }
     
     internal static TouchMode GetTouchMode(BindableObject element)
     {
@@ -73,14 +83,12 @@ public partial class Touch : RoutingEffect
 
     }
     
-    private static void OnCommandChanged(BindableObject bindable, object oldValue, object? newValue)
+    private static void OnTouchPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)
-        {
             return;
-        }
         
-        if (newValue is ICommand)
+        if (newValue is ICommand or bool and true)
         {
             // Refresh
             RemoveEffect(view);
@@ -106,5 +114,10 @@ public partial class Touch : RoutingEffect
         Tap,
         LongPress,
         Both
+    }
+
+    public static Touch? PickFrom(BindableObject? bindable)
+    {
+        return (bindable as VisualElement)?.Effects.OfType<Touch>().FirstOrDefault();
     }
 }

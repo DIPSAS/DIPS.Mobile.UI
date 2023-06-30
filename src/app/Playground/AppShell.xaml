@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
     xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+    xmlns:sanderSamples="clr-namespace:Playground.SanderSamples"
     xmlns:dui="http://dips.com/mobile.ui"
     Shell.FlyoutBehavior="Disabled">
 
@@ -20,6 +21,12 @@
                 Title="Håvard"
                 ContentTemplate="{DataTemplate håvardSamples:HåvardPage}"
                 Route="Håvard" />
+        </Tab>
+        <Tab Title="Sander">
+            <ShellContent
+                Title="Sander"
+                ContentTemplate="{DataTemplate sanderSamples:SanderPage}"
+                Route="Sander" />
         </Tab>
     </TabBar>
 </dui:Shell>

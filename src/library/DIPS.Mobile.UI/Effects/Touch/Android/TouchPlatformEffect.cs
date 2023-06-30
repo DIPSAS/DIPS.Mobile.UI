@@ -16,11 +16,19 @@ public partial class TouchPlatformEffect
     internal static readonly Color DefaultNativeAnimationColor = new(128, 128, 128, 75);
 
     private Touch.TouchMode m_touchMode;
+    private bool m_isEnabled;
 
     private ViewGroup? ViewGroup => Container as ViewGroup;
 
     protected override partial void OnAttached()
     {
+        m_isEnabled = Touch.GetIsEnabled(Element);
+
+        if (!m_isEnabled)
+        {
+            return;
+        }
+        
         m_touchMode = Touch.GetTouchMode(Element);
             
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
@@ -101,6 +109,20 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnDetached()
     {
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        {
+            Control.Clickable = false;
+            Control.SetOnClickListener(null);
+        }
+
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        {
+            Control.LongClickable = false;
+            Control.SetOnLongClickListener(null);
+        }
+
+        Control.Background = null;
+        Control.ContentDescription = null;
     }
     
 }
