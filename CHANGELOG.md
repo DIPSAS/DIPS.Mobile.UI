@@ -1,6 +1,7 @@
 ## [13.7.0]
 - Extended FloatingNavigationButton so that consumers can programatically close it and also remove it from layout.
-- [Android] Changed API calls to get FragmentManager so Android < 31 can also execute the code. 
+- [Android] Changed API calls to get FragmentManager so Android < 31 can also execute the code.
+- Changed animation of FloatingNavigationButton.
 
 ## [13.6.1]
 - [Android] dui:ImageButton now fixes padding issue: https://github.com/dotnet/maui/pull/14905
