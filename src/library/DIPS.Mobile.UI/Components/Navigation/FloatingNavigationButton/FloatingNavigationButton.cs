@@ -133,8 +133,11 @@ internal class FloatingNavigationButton : Grid
         }
     }
 
-    private async Task Close()
+    public async Task Close()
     {
+        if(!m_isExpanded)
+            return;
+        
         InputTransparent = true;
         
         m_isExpanded = false;
@@ -169,9 +172,11 @@ internal class FloatingNavigationButton : Grid
     private void AnimateExpand(int index)
     {
         var navMenuButton = m_floatingNavigationButtonConfigurator.NavigationMenuButtons[index - 1];
-
-        navMenuButton.FadeTo(1, easing: Easing.SpringOut);
-        navMenuButton.TranslateTo(0, -MenuButtonsSpacing * index, easing: Easing.SpringOut);
+        
+        navMenuButton.Scale = 0.5;
+        navMenuButton.FadeTo(1, easing: Easing.CubicOut);
+        navMenuButton.TranslateTo(0, -MenuButtonsSpacing * index, easing: Easing.CubicOut);
+        navMenuButton.ScaleTo(1, easing: Easing.CubicOut);
     }
     
     private void AnimateClose(int index)
@@ -179,7 +184,7 @@ internal class FloatingNavigationButton : Grid
         var navMenuButton = m_floatingNavigationButtonConfigurator.NavigationMenuButtons[index - 1];
         
         navMenuButton.FadeTo(0, easing: Easing.CubicIn);
-        navMenuButton.TranslateTo(0, 0, easing: Easing.SpringIn);
+        navMenuButton.TranslateTo(0, 0, easing: Easing.CubicIn);
     }
 
     public void TryHideOrShowFloatingNavigationButton(ContentPage page)

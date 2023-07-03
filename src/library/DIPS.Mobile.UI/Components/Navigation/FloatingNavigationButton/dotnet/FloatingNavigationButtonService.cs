@@ -6,4 +6,8 @@ public partial class FloatingNavigationButtonService
     private static partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
     }
+
+    private static partial void PlatformRemove()
+    {
+    }
 }

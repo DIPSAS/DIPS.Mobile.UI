@@ -506,5 +506,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("ActivityIndicator", resourceCulture);
             }
         }
+        
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
     }
 }

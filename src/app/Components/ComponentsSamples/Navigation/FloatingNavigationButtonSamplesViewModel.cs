@@ -17,6 +17,7 @@ public class FloatingNavigationButtonSamplesViewModel : ViewModel
         RemoveNavigationMenuButtonCommand = new Command(RemoveNavigationMenuButton);
         AddNavigationMenuButtonCommand = new Command(AddNavigationMenuButton);
         ToggleCommand = new Command(Toggle);
+        RemoveCommand = new Command(FloatingNavigationButtonService.Remove);
 
         ColorList = new(DIPS.Mobile.UI.Extensions.Enum.ToList<ColorName>().Select(c => c.ToString()));
     }
@@ -72,4 +73,5 @@ public class FloatingNavigationButtonSamplesViewModel : ViewModel
 
     public List<string> ColorList { get; }
     public ICommand ToggleCommand { get; }
+    public ICommand RemoveCommand { get; }
 }

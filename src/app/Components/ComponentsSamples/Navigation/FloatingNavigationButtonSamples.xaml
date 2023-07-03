@@ -26,5 +26,6 @@
         </dui:ListItem>
         <dui:Button Text="Toggle enable button 1" Command="{Binding ToggleCommand}" />
         <dui:Button Text="{x:Static localizedStrings:LocalizedStrings.AddButton}" Command="{Binding AddNavigationMenuButtonCommand}" />
+        <dui:Button Text="{x:Static localizedStrings:LocalizedStrings.Remove}" Command="{Binding RemoveCommand}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -5,11 +5,13 @@ namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 public static partial class FloatingNavigationButtonService
 {
     private static FloatingNavigationButton? FloatingNavigationButton { get; set; }
+
+    internal const int FloatingNavigationButtonIdentifier = 2910961;
     
     /// <summary>
     /// Adds a <see cref="FloatingNavigationButton"/> to the root window, placed in the bottom right of the screen
     /// </summary>
-    /// <param name="config">To configurate the <see cref="FloatingNavigationButton"/></param>
+    /// <param name="config">To configure the <see cref="FloatingNavigationButton"/></param>
     public static void AddFloatingNavigationButton(Action<IFloatingNavigationButtonConfigurator> config)
     {
         var configurator = new FloatingNavigationButtonConfigurator();
@@ -129,4 +131,22 @@ public static partial class FloatingNavigationButtonService
     {
         return FloatingNavigationButton?.CheckButtonAvailability(identifier);
     }
+
+    /// <summary>
+    /// Closes the <see cref="FloatingNavigationButton"/> if it is expanded
+    /// </summary>
+    public static void Close()
+    {
+        FloatingNavigationButton?.Close();
+    }
+
+    /// <summary>
+    /// Removes the <see cref="FloatingNavigationButton"/> from the layout
+    /// </summary>
+    public static void Remove()
+    {
+        PlatformRemove();
+    }
+
+    private static partial void PlatformRemove();
 }

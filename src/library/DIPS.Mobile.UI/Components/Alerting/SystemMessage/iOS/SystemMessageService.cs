@@ -1,4 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Extensions.iOS;
+using DIPS.Mobile.UI.Platforms.iOS;
 using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
@@ -23,14 +25,7 @@ public static partial class SystemMessageService
 
     private static partial void PlatformRemove()
     {
-        MainThread.BeginInvokeOnMainThread(delegate
-        {
-            foreach (var uiView in DUI.RootController!.Subviews)
-            {
-                if(uiView.Tag == SystemMessageTagId)
-                    uiView.RemoveFromSuperview();
-            }
-        });
+        DUI.RootController!.RemoveUIViewChildWithTag(SystemMessageTagId);
     }
   
 }
