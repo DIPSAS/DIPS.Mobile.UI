@@ -9,5 +9,10 @@ public partial class ImageButtonHandler
     private static partial void MapAdditionalHitBoxSize(ImageButtonHandler handler, ImageButton imageButton)
     {
     }
+
+    private partial void AppendPropertyMapper()
+    {
+        
+    }
     
 }

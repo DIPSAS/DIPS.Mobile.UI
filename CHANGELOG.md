@@ -1,8 +1,10 @@
+## [13.6.1]
+- [Android] dui:ImageButton now fixes padding issue: https://github.com/dotnet/maui/pull/14905
+
 ## [13.6.0]
 - Added ShouldDelay property to SearchPage for enabling a small delay before search is invoked
 - Added Delay property for defining delay in milliseconds (default = 500)
 - Added SearchMode property for disabling automatic search triggering on search text changed
-
 
 ## [13.5.0]
 - Add IsEnabled property for Touch.

@@ -1,14 +1,16 @@
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
+using Android.Widget;
+using DIPS.Mobile.UI.Components.Images.ImageButton.Android;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.ImageView;
 using Google.Android.Material.Shape;
 using Java.Util;
+using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Platform;
 using Colors = Microsoft.Maui.Graphics.Colors;
-using ShapeDrawable = Android.Graphics.Drawables.ShapeDrawable;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Images.ImageButton;
@@ -28,6 +30,23 @@ public partial class ImageButtonHandler
         platformView.Foreground = ripple;
     }
 
+    private partial void AppendPropertyMapper()
+    {
+        PropertyMapper.Add(nameof(IImageButton.Padding), OverrideMapPadding);
+    }
+
+    //TODO .NET8: Remove
+    // To fix bug: https://github.com/dotnet/maui/pull/14905
+    private void OverrideMapPadding(ImageButtonHandler handler, ImageButton imageButton)
+    {
+        handler.PlatformView.SetContentPadding(imageButton);
+        handler.PlatformView.Post(() =>
+        {
+            handler.PlatformView.SetContentPadding(imageButton);
+        });
+        handler.PlatformView.SetContentPadding(imageButton);
+    }
+
     private static partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
     {
         handler.PlatformView.SetColorFilter(imageButton.TintColor.ToPlatform());
@@ -42,3 +61,4 @@ public partial class ImageButtonHandler
     }
 
 }
+

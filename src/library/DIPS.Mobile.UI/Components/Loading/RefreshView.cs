@@ -3,6 +3,7 @@ namespace DIPS.Mobile.UI.Components.Loading;
 [ContentProperty(nameof(MainContent))]
 public partial class RefreshView : Microsoft.Maui.Controls.RefreshView
 {
+    //TODO .NET8: Remove
     public RefreshView()
     {
         this.SetAppThemeColor(RefreshColorProperty, ActivityIndicator.LoadingIndicatorColorName);

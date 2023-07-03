@@ -18,8 +18,15 @@
         
                 <!--<dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
                             AdditionalHitBoxSize="50, 30"/>-->
+                <dui:VerticalStackLayout>
+                    
+                    <dui:ImageButton BackgroundColor="Blue" Source="{dui:Icons ascending_fill}" WidthRequest="100" HeightRequest="100"
+                                     AdditionalHitBoxSize="50" TintColor="Green"
+                                     BorderWidth="6"
+                                     Padding="0"
+                                     CornerRadius="50"/>
+                 
                 
-                <dui:ImageButton Source="{dui:Icons ascending_fill}" WidthRequest="100" HeightRequest="100"
-                                 AdditionalHitBoxSize="50" TintColor="Green" />
+                </dui:VerticalStackLayout>
 
 </dui:ContentPage>
