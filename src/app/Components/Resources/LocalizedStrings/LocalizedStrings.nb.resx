@@ -242,4 +242,7 @@
     <data name="ActivityIndicator" xml:space="preserve">
         <value>Aktivitetsindikator</value>
     </data>
+    <data name="Remove" xml:space="preserve">
+        <value>Fjern</value>
+    </data>
 </root>

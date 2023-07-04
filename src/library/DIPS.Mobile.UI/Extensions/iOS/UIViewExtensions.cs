@@ -87,5 +87,17 @@ namespace DIPS.Mobile.UI.Extensions.iOS
 
             return null;
         }
+        
+        public static void RemoveUIViewChildWithTag(this UIView uiView, int tag)
+        {
+            MainThread.BeginInvokeOnMainThread(delegate
+            {
+                foreach (var uiView in uiView.Subviews)
+                {
+                    if(uiView.Tag == tag)
+                        uiView.RemoveFromSuperview();
+                }
+            });
+        }
     }
 }

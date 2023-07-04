@@ -2,12 +2,11 @@ using Android.OS;
 using Android.Views;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
-using Fragment = Android.App.Fragment;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage.Android;
 
-internal class SystemMessageFragment : Fragment
+internal class SystemMessageFragment : AndroidX.Fragment.App.Fragment
 {
     private readonly SystemMessage m_systemMessage;
 

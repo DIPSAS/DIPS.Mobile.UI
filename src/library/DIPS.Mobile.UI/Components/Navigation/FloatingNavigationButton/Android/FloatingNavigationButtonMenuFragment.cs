@@ -7,11 +7,11 @@ using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Android;
 
-internal class FloatingNavigationButtonMenuFragment : Fragment
+internal class FloatingNavigationButtonMenuFragment : AndroidX.Fragment.App.Fragment
 {
-    private readonly Navigation.FloatingNavigationButton.FloatingNavigationButton m_fab;
+    private readonly FloatingNavigationButton m_fab;
 
-    public FloatingNavigationButtonMenuFragment(Navigation.FloatingNavigationButton.FloatingNavigationButton fab)
+    public FloatingNavigationButtonMenuFragment(FloatingNavigationButton fab)
     {
         m_fab = fab;
     }
