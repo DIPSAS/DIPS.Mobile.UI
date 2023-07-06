@@ -22,23 +22,14 @@
                             AdditionalHitBoxSize="50, 30"/>-->
                 <dui:VerticalStackLayout>
                     
-                    <dui:ImageButton BackgroundColor="Blue" Source="{dui:Icons ascending_fill}" WidthRequest="100" HeightRequest="100"
-                                     AdditionalHitBoxSize="50" TintColor="Green"
-                                     BorderWidth="6"
-                                     Padding="0"
-                                     CornerRadius="50"/>
-                    
-                    
-                    <dui:NavigationListItem Title="Test Vertical"
-                                  Subtitle="wohoo">
-                        <dui:NavigationListItem.VerticalContentItem>
-                            <HorizontalStackLayout VerticalOptions="Center">
-                                <dui:Image Source="{dui:Icons ascending_fill}" />
-                                <Label VerticalTextAlignment="Center" Text="aiosdfkjoakjdoaisj aosijdaoisjdoias doiajso idjasoid jaiosjdoisa jd"></Label>
-                            </HorizontalStackLayout>
-                        </dui:NavigationListItem.VerticalContentItem>    
-                    </dui:NavigationListItem>
+                    <dui:LoadableListItem Title="Testiong"
+                                          IsBusy="{Binding IsProgressing}"
+                                          IsError="{Binding IsError}"
+                                          OnErrorTappedCommand="{Binding RefreshCommand}">
+                        <dui:Label Text="It twerks" />    
+                    </dui:LoadableListItem>
                  
+                    <dui:Button Text="Ok" Command="{Binding Test}" />
                 
                 </dui:VerticalStackLayout>
 

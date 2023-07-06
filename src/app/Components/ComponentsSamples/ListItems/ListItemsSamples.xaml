@@ -7,8 +7,13 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
+    <dui:ContentPage.BindingContext>
+        <listItems:ListItemsSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
                                 HasTopDivider="True">
@@ -56,5 +61,15 @@
             </dui:ListItem.VerticalContentItem>
             
         </dui:ListItem>
+        
+        <dui:LoadableListItem Title="LoadableListView"
+                              Subtitle="Click when error"
+                              IsBusy="{Binding IsBusy}"
+                              IsError="{Binding IsError}"
+                              OnErrorTappedCommand="{Binding RefreshCommand}"
+                              HasBottomDivider="True">
+            <dui:Label Text="All systems working!" />
+        </dui:LoadableListItem>
+        
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -1,3 +1,7 @@
+## [13.10.0]
+- [Android] Fixed visual bug with dui:Touch.IsEnabled
+- Added LoadableListItem
+
 ## [13.9.0]
 - Extended ListItem to be able to contain a vertical content item
 

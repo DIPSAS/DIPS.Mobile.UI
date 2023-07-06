@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Touch;
@@ -123,6 +124,12 @@ public partial class ListItem : ContentView
         {
             view.HorizontalOptions = LayoutOptions.End;
             view.VerticalOptions = LayoutOptions.Center;
+        }
+
+        var existingViewInColumn = listItem.MainContent.Children.FirstOrDefault(child => (listItem.MainContent.GetColumn(child) == 1));
+        if(existingViewInColumn is not null)
+        {
+            listItem.MainContent.Remove(existingViewInColumn);
         }
         
         listItem.MainContent.Add(view, 1);

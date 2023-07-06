@@ -1,6 +1,5 @@
 using Android.Content.Res;
 using Android.Graphics.Drawables;
-using Android.Views;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
 using Action = System.Action;
@@ -17,8 +16,6 @@ public partial class TouchPlatformEffect
 
     private Touch.TouchMode m_touchMode;
     private bool m_isEnabled;
-
-    private ViewGroup? ViewGroup => Container as ViewGroup;
 
     protected override partial void OnAttached()
     {
@@ -50,7 +47,7 @@ public partial class TouchPlatformEffect
             new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
         
         var ripple = new RippleDrawable(colorStateList, null, Control.Background is not null ? new ColorDrawable(Colors.White.ToPlatform()) : null);
-        
+
         if (Control.Background is null)
             Control.Background = ripple;
         else
@@ -111,17 +108,16 @@ public partial class TouchPlatformEffect
     {
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
-            Control.Clickable = false;
             Control.SetOnClickListener(null);
+            Control.Clickable = false;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
-            Control.LongClickable = false;
             Control.SetOnLongClickListener(null);
+            Control.LongClickable = false;
         }
-
-        Control.Background = null;
+        
         Control.ContentDescription = null;
     }
     
