@@ -5,7 +5,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
-[ContentProperty(nameof(ContentItem))]
+[ContentProperty(nameof(HorizontalContentItem))]
 public partial class ListItem : ContentView
 {
     protected Grid MainContent { get; }
@@ -113,7 +113,7 @@ public partial class ListItem : ContentView
         listItem.Border.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
     }
 
-    private static void OnContentItemChanged(BindableObject bindable, object oldValue, object newValue)
+    private static void OnHorizontalContentItemChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if(bindable is not ListItem listItem || newValue is not View view)
             return;
@@ -125,6 +125,22 @@ public partial class ListItem : ContentView
         }
         
         listItem.MainContent.Add(view, 1);
+    }
+    
+    private static void OnVerticalContentItemChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if(bindable is not ListItem listItem || newValue is not View view)
+            return;
+
+        if (listItem.ShouldOverrideContentItemLayoutOptions)
+        {
+            view.HorizontalOptions = LayoutOptions.Start;
+            view.VerticalOptions = LayoutOptions.Center;
+        }
+        
+        listItem.MainContent.AddRowDefinition(new RowDefinition(GridLength.Auto));
+        listItem.MainContent.Add(view, 0, 1);
+        Grid.SetColumnSpan(view, 2);
     }
 
     private void AddDivider(int row)
@@ -139,5 +155,4 @@ public partial class ListItem : ContentView
             RootContent.Insert(row, divider);
         }
     }
-
 }

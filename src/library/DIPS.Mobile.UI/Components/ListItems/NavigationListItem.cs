@@ -20,7 +20,7 @@ public partial class NavigationListItem : ListItem
         }
         
         m_contentGrid.Add(new Image {Source = Icons.GetIcon(IconName.arrow_right_s_line)}, 1);
-        ContentItem = m_contentGrid;
+        HorizontalContentItem = m_contentGrid;
     }
 
     private void CustomizeMainContent()
