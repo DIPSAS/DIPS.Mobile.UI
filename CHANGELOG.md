@@ -1,3 +1,6 @@
+## [13.9.0]
+- Extended ListItem to be able to contain a vertical content item
+
 ## [13.8.0]
 - Added SaveView
 - Added FilledCheckBox
