@@ -5,11 +5,6 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 public partial class SaveView
 {
     /// <summary>
-    /// The action to be executed when <see cref="SaveView"/> started saving
-    /// </summary>
-    public event Action? OnSavingStarted;
-    
-    /// <summary>
     /// Determines whether the <see cref="SaveView"/> is currently saving or not
     /// </summary>
     public bool IsSaving
@@ -58,8 +53,7 @@ public partial class SaveView
         nameof(IsSaving),
         typeof(bool),
         typeof(SaveView),
-        false,
-        propertyChanged: OnIsSavingChanged);
+        false);
 
     public static readonly BindableProperty SavingTextProperty = BindableProperty.Create(
         nameof(SavingText),

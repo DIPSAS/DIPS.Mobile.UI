@@ -66,12 +66,4 @@ public partial class SaveView : ContentView
         }
     }
 
-    private static void OnIsSavingChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if(bindable is not SaveView saveView)
-            return;
-        
-        if(newValue is true)
-            saveView.OnSavingStarted?.Invoke();
-    }
 }
