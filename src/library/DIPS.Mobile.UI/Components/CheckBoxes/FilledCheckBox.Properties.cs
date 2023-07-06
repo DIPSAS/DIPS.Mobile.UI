@@ -11,6 +11,15 @@ public partial class FilledCheckBox
     public Color CheckedBackgroundColor { get; set; } = Colors.GetColor(ColorName.color_success_dark);
 
     /// <summary>
+    ///     Sets the background color of the checkbox when it's unchecked
+    /// </summary>
+    public Color UnCheckedBackgroundColor
+    {
+        get => (Color)GetValue(UnCheckedBackgroundColorProperty);
+        set => SetValue(UnCheckedBackgroundColorProperty, value);
+    }
+    
+    /// <summary>
     ///     The command to run when the checkbox is tapped
     /// </summary>
     public ICommand Command
@@ -72,4 +81,10 @@ public partial class FilledCheckBox
         nameof(Command),
         typeof(ICommand),
         typeof(FilledCheckBox));
+    
+    public static readonly BindableProperty UnCheckedBackgroundColorProperty = BindableProperty.Create(
+        nameof(UnCheckedBackgroundColor),
+        typeof(Color),
+        typeof(FilledCheckBox),
+        defaultValue:Colors.GetColor(ColorName.color_system_white));
 }

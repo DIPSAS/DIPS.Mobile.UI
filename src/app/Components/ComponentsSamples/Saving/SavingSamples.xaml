@@ -7,7 +7,7 @@
              xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
              x:Class="Components.ComponentsSamples.Saving.SavingSamples">
     
-    <dui:NavigationListItem Title="Date / time pickers"
+    <dui:NavigationListItem Title="SaveView"
                             Command="{helpers:NavigationCommand {x:Type saving:SaveViewSamples}}" 
                             HasBottomDivider="True"/>
     

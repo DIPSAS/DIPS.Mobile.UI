@@ -16,11 +16,8 @@ public partial class FilledCheckBox : ContentView
 
     public FilledCheckBox()
     {
-        Container = new Border
-        {
-            BackgroundColor = Colors.GetColor(ColorName.color_system_white),
-            Padding = Sizes.GetSize(SizeName.size_0)
-        };
+        Container = new Border { Padding = Sizes.GetSize(SizeName.size_0) };
+        Container.SetBinding(BackgroundColorProperty, new Binding(nameof(UnCheckedBackgroundColor), source: this));
 
         m_innerBorder = new Border
         {
