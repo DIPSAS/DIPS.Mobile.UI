@@ -12,7 +12,7 @@
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
                                 HasTopDivider="True">
-            <dui:Label Text="Something" />
+            <dui:Label Text="Something" VerticalTextAlignment="Center" />
         </dui:NavigationListItem>
 
         <dui:ListItem Title="Person"
@@ -41,5 +41,20 @@
                                 IconColor="{dui:Colors color_primary_90}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True" />
+        
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog_FakeTitle}"
+                      Subtitle="{x:Static localizedStrings:LocalizedStrings.Dialog_FakeTitle}"
+                      HasBottomDivider="True">
+            
+            <dui:Image Source="{dui:Icons check_line}" />
+                
+            <dui:ListItem.VerticalContentItem>
+                <HorizontalStackLayout>
+                    <dui:Image Source="{dui:Icons placeholdericon_fill}" />
+                    <dui:Label Text="Filter" VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+            </dui:ListItem.VerticalContentItem>
+            
+        </dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

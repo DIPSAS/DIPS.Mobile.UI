@@ -62,17 +62,23 @@ public partial class ListItem
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    public BindableObject VerticalContentItem
+    {
+        get => (BindableObject)GetValue(VerticalContentItemProperty);
+        set => SetValue(VerticalContentItemProperty, value);
+    }
+    
     /// <summary>
     /// Sets the item that will be placed on this element
     /// </summary>
-    public BindableObject ContentItem
+    public BindableObject HorizontalContentItem
     {
         get => (BindableObject)GetValue(ContentItemProperty);
         set => SetValue(ContentItemProperty, value);
     }
 
     /// <summary>
-    /// By default, the <see cref="ListItem"/> will set the layout options of the <see cref="ContentItem"/> in order for it to be right-aligned. Set this property to override the layoutoptions for your <see cref="ContentItem"/> view.
+    /// By default, the <see cref="ListItem"/> will set the layout options of the <see cref="HorizontalContentItem"/> in order for it to be right-aligned. Set this property to override the layoutoptions for your <see cref="HorizontalContentItem"/> view.
     /// </summary>
     public bool ShouldOverrideContentItemLayoutOptions
     {
@@ -99,10 +105,10 @@ public partial class ListItem
         defaultValue:true);
     
     public static readonly BindableProperty ContentItemProperty = BindableProperty.Create(
-        nameof(ContentItem),
+        nameof(HorizontalContentItem),
         typeof(BindableObject),
         typeof(ListItem),
-        propertyChanged:OnContentItemChanged);
+        propertyChanged:OnHorizontalContentItemChanged);
     
     public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
         nameof(CornerRadius),
@@ -135,11 +141,16 @@ public partial class ListItem
         typeof(FontAttributes),
         typeof(ListItem));
     
+    public static readonly BindableProperty VerticalContentItemProperty = BindableProperty.Create(
+        nameof(VerticalContentItem),
+        typeof(BindableObject),
+        typeof(ListItem),
+        propertyChanged:OnVerticalContentItemChanged);
+
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
         typeof(object),
         typeof(ListItem));
-
     
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
