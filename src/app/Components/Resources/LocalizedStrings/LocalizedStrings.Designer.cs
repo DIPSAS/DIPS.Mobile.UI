@@ -512,5 +512,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
+        
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        internal static string Saving {
+            get {
+                return ResourceManager.GetString("Saving", resourceCulture);
+            }
+        }
     }
 }

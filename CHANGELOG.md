@@ -1,3 +1,9 @@
+## [13.8.0]
+- Added SaveView
+- Added FilledCheckBox
+- Added ContentSavePage
+- ListItem can now take in a Command and a CommandParameter
+
 ## [13.7.0]
 - Extended FloatingNavigationButton so that consumers can programatically close it and also remove it from layout.
 - [Android] Changed API calls to get FragmentManager so Android < 31 can also execute the code.

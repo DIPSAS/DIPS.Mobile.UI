@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:helpers="clr-namespace:Components.Helpers"
+             xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
+             x:Class="Components.ComponentsSamples.Saving.SavingSamples">
+    
+    <dui:NavigationListItem Title="Date / time pickers"
+                            Command="{helpers:NavigationCommand {x:Type saving:SaveViewSamples}}" 
+                            HasBottomDivider="True"/>
+    
+</dui:ContentPage>
