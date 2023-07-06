@@ -4,10 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:saveView="clr-namespace:DIPS.Mobile.UI.Components.Saving.SaveView;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
              Padding="15, 20"
              Scale="1">
+    
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
@@ -16,17 +18,9 @@
         <ToolbarItem></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
         
-                <!--<dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
-                            AdditionalHitBoxSize="50, 30"/>-->
-                <dui:VerticalStackLayout>
-                    
-                    <dui:ImageButton BackgroundColor="Blue" Source="{dui:Icons ascending_fill}" WidthRequest="100" HeightRequest="100"
-                                     AdditionalHitBoxSize="50" TintColor="Green"
-                                     BorderWidth="6"
-                                     Padding="0"
-                                     CornerRadius="50"/>
-                 
-                
-                </dui:VerticalStackLayout>
+    <dui:NavigationListItem Command="{Binding Test}" Title="Woho" />
+        
+        
+       
 
 </dui:ContentPage>

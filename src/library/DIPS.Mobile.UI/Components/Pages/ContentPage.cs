@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Saving.SaveView;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Extensions;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -42,19 +43,8 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
+
         }
 
-        internal void SendOnContentAppearing()
-        {
-            OnContentAppearing();
-            ContentAppearing?.Invoke(this, EventArgs.Empty);
-        }
-        
-        internal bool ShouldUpdatePaddingWithSafeArea(Thickness thickness)
-        {
-            SafeAreaInsetsDidChange(thickness);
-            return true;
-        }
-        
     }
 }

@@ -54,13 +54,6 @@ public partial class NavigationListItem : ListItem
         base.OnHandlerChanged();
         
         CustomizeMainContent();
-
-        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(Border, new Command(() =>
-        {
-            Command?.Execute(CommandParameter);
-            Tapped?.Invoke(this, EventArgs.Empty);
-        }));
     }
 
     private void OnCustomContentItemPropertyChanged() => AddCustomContentItem();

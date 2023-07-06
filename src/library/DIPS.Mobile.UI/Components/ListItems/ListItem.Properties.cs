@@ -1,14 +1,21 @@
+using System.Windows.Input;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 public partial class ListItem
 {
-    
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-        nameof(Title),
-        typeof(string),
-        typeof(ListItem));
+    public event EventHandler? Tapped;
+    public object CommandParameter
+    {
+        get => (object)GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+    public ICommand? Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
 
     /// <summary>
     /// Sets the title text of the list item that people will see 
@@ -126,5 +133,22 @@ public partial class ListItem
     public static readonly BindableProperty SubtitleFontAttributesProperty = BindableProperty.Create(
         nameof(SubtitleFontAttributes),
         typeof(FontAttributes),
+        typeof(ListItem));
+    
+    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(ListItem));
+
+    
+    public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+        nameof(Command),
+        typeof(ICommand),
+        typeof(ListItem),
+        propertyChanged:OnCommandChanged);
+    
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+        nameof(Title),
+        typeof(string),
         typeof(ListItem));
 }
