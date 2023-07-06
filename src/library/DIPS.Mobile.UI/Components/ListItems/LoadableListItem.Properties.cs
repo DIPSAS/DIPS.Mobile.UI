@@ -36,10 +36,10 @@ public partial class LoadableListItem
     /// <summary>
     /// The parameter to <see cref="OnErrorTappedCommand"/>
     /// </summary>
-    public object OnErrorTappedParameter
+    public object OnErrorTappedCommandParameter
     {
-        get => GetValue(OnErrorTappedParameterProperty);
-        set => SetValue(OnErrorTappedParameterProperty, value);
+        get => GetValue(OnErrorTappedCommandParameterProperty);
+        set => SetValue(OnErrorTappedCommandParameterProperty, value);
     }
     
     public static readonly BindableProperty IsBusyProperty = BindableProperty.Create(
@@ -59,8 +59,8 @@ public partial class LoadableListItem
         typeof(ICommand),
         typeof(LoadableListItem));
     
-    public static readonly BindableProperty OnErrorTappedParameterProperty = BindableProperty.Create(
-        nameof(OnErrorTappedParameter),
+    public static readonly BindableProperty OnErrorTappedCommandParameterProperty = BindableProperty.Create(
+        nameof(OnErrorTappedCommandParameter),
         typeof(object),
         typeof(LoadableListItem));
 }

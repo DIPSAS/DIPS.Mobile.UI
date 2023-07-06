@@ -34,7 +34,7 @@ public partial class LoadableListItem : ListItem
         HandlerInitialized = true;
         
         Command = OnErrorTappedCommand;
-        CommandParameter = OnErrorTappedParameter;
+        CommandParameter = OnErrorTappedCommandParameter;
         Touch.SetIsEnabled(Border, false);
         
         // Keep ListItem's height the same 
