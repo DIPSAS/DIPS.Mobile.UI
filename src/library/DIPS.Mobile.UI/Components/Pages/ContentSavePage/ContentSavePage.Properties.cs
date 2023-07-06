@@ -8,6 +8,7 @@ public partial class ContentSavePage
     /// <summary>
     /// Determines whether the <see cref="SaveView"/> is currently saving or not
     /// </summary>
+    /// <remarks>The content of this page will be overriden by <see cref="SaveView"/></remarks>
     public bool IsSaving
     {
         get => (bool)GetValue(IsSavingProperty);
@@ -15,7 +16,7 @@ public partial class ContentSavePage
     }
 
     /// <summary>
-    /// The text to be displayed when <see cref="IsSaving"/> is true
+    /// The text to be displayed inside <see cref="SaveView"/> when <see cref="IsSaving"/> is true
     /// </summary>
     public string SavingText
     {
@@ -33,7 +34,7 @@ public partial class ContentSavePage
     }
 
     /// <summary>
-    /// The text to be displayed when <see cref="IsSaving"/> is true
+    /// The text to be displayed inside <see cref="SaveView"/>  when <see cref="IsSaving"/> is true
     /// </summary>
     public string SavingCompletedText
     {
