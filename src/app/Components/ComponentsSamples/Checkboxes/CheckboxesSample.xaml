@@ -5,8 +5,31 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Components.ComponentsSamples.Checkboxes.CheckboxesSample">
-    <StackLayout>
-        <dui:CheckBox Text="Checkbox title" />
-    </StackLayout>
+                 xmlns:checkboxes="clr-namespace:Components.ComponentsSamples.Checkboxes"
+                 x:Class="Components.ComponentsSamples.Checkboxes.CheckboxesSample"
+                 Padding="{dui:Sizes size_2}">
+    <dui:ContentPage.BindingContext>
+        <checkboxes:CheckboxesSampleViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <dui:VerticalStackLayout>
+        <dui:ListItem Title="Checkbox">
+            <dui:CheckBox Text="Checkbox title" />
+        </dui:ListItem>
+        
+        <dui:ListItem Title="FilledCheckBox">
+        <dui:FilledCheckBox IsProgressing="{Binding IsProgressing}"
+                            IsChecked="{Binding IsChecked}"
+                            Command="{Binding SaveCommand}"
+                            UnCheckedBackgroundColor="{dui:Colors color_neutral_10}"
+                            HorizontalOptions="Start"
+                            WidthRequest="100"
+                            HeightRequest="100"
+                            CornerRadius="50" />
+        </dui:ListItem>
+        
+    </dui:VerticalStackLayout>
+    
+    
+    
 </dui:ContentPage>

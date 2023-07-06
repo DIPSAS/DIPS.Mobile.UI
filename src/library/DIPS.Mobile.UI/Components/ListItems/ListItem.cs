@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -153,6 +154,27 @@ public partial class ListItem : ContentView
         else
         {
             RootContent.Insert(row, divider);
+        }
+    }
+
+    private void AddTouch()
+    {
+        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(Border, new Command(() =>
+        {
+            Command?.Execute(CommandParameter);
+            Tapped?.Invoke(this, EventArgs.Empty);
+        }));
+    }
+
+    private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if(bindable is not ListItem listItem)
+            return;
+
+        if (newValue is not null)
+        {
+            listItem.AddTouch();
         }
     }
 }

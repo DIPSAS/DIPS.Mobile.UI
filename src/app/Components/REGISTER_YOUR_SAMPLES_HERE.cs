@@ -7,6 +7,7 @@ using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
 using Components.ComponentsSamples.Pickers;
+using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples.Colors;
@@ -35,6 +36,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Navigation, () => new NavigationSamples()),
             new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
             new(SampleType.Components, LocalizedStrings.Alerting, () => new AlertingSamples()),
+            new(SampleType.Components, LocalizedStrings.Saving, () => new SavingSamples())
         };
     }
 }
