@@ -22,20 +22,13 @@ public class VetlePageViewModel : ViewModel
             await Task.Delay(1000);
             IsError = true;*/
             await Task.Delay(1000);
-            IsError = true;
         });
 
         _ = AddStrings();
         
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
 
-        RefreshCommand = new Command(async () =>
-        {
-            IsProgressing = true;
-            IsError = false;
-            await Task.Delay(1000);
-            IsProgressing = false;
-        });
+      
         
         _ = Test222();
     }
@@ -49,8 +42,13 @@ public class VetlePageViewModel : ViewModel
     private async Task AddStrings()
     {
         await Task.Delay(1000);
-        Strings.Add("newString");
 
+        var newList = new List<string>(Strings);
+        newList.Add("newString");
+
+        Strings = new List<string>(newList);
+        RaisePropertyChanged(nameof(Strings));
+        
         _ = AddStrings();
     }
 
@@ -81,5 +79,5 @@ public class VetlePageViewModel : ViewModel
     }
     
     public string TestString { get; set; }
-    public ObservableCollection<string> Strings { get; } = new();
+    public List<string> Strings { get; private set; } = new();
 }

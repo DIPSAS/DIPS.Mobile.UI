@@ -41,6 +41,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             m_contextMenu.ItemsSource!.Clear();
             m_contextMenu.ItemsSource.Add(group);
+            
+            m_contextMenu.SendItemsSourceUpdated();
         }
 
         private void SetSelectedItemBasedOnContextMenuItem(ContextMenuItem item)
