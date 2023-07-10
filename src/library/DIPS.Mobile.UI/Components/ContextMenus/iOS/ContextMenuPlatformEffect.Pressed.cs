@@ -25,7 +25,6 @@ public partial class ContextMenuPlatformEffect
             uiButton = await CreateOverlayButton();
         }
         m_uiButton = uiButton;
-        //UpdateMenuForNextTimeItOpens();
         m_uiButton.ShowsMenuAsPrimaryAction = true;
         m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
         
