@@ -8,7 +8,8 @@ namespace Playground.VetleSamples;
 public class VetlePageViewModel : ViewModel
 {
     private bool m_isChecked;
-    private bool m_isProgressing;
+    private bool m_isProgressing = true;
+    private bool m_isError;
 
     public VetlePageViewModel()
     {
@@ -16,14 +17,33 @@ public class VetlePageViewModel : ViewModel
         Test = new Command(async () =>
         {
             IsProgressing = true;
-            await Task.Delay(1500);
-            IsProgressing = false;
-            IsChecked = !IsChecked;
+            await Task.Delay(1000);
+            /*IsProgressing = false;
+            await Task.Delay(1000);
+            IsError = true;*/
+            await Task.Delay(1000);
+            IsError = true;
         });
 
         _ = AddStrings();
         
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
+
+        RefreshCommand = new Command(async () =>
+        {
+            IsProgressing = true;
+            IsError = false;
+            await Task.Delay(1000);
+            IsProgressing = false;
+        });
+        
+        _ = Test222();
+    }
+
+    private async Task Test222()
+    {
+        await Task.Delay(1500);
+        IsProgressing = false;
     }
 
     private async Task AddStrings()

@@ -28,6 +28,7 @@
                     
                    
                  
+                    <dui:Button Text="Ok" Command="{Binding Test}" />
                 
                 </dui:VerticalStackLayout>
 
