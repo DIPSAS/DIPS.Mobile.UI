@@ -1,5 +1,5 @@
 ## [13.10.1]
-- Fixed bug where ListItem's ItemsSource would not update itself
+- Fixed bug where ItemPicker's ItemsSource would not update itself
 
 ## [13.10.0]
 - [Android] Fixed visual bug with dui:Touch.IsEnabled
