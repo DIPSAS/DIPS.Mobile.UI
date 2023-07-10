@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
@@ -33,6 +36,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             base.OnHandlerChanging(args);
             
             LayoutContent();
+
+            if (args.NewHandler == null)
+            {
+                if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                    notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+            }
         }
 
         private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
@@ -79,6 +88,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 picker.AddContextMenuItems();
             }
+
+            if (newValue is INotifyCollectionChanged notifyCollectionChanged)
+            {
+                notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
+            }
+        }
+
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            AddContextMenuItems();
         }
 
         private object? GetItemFromDisplayProperty(string toCompare)

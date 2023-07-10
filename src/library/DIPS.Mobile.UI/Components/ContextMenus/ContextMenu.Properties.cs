@@ -4,6 +4,8 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenu : IContextMenu
 {
+    public event Action? ItemsSourceUpdated;
+    
     /// <see cref="Title"/>
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),

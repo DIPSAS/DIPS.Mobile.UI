@@ -16,16 +16,23 @@ public partial class ContextMenuPlatformEffect
     private NSObject m_didEnterBackgroundNotification;
 #nullable restore
     
-    private async Task SetupPressedMode()
+    private async Task SetupPressedMode(ContextMenu contextMenu)
     {
+        contextMenu.ItemsSourceUpdated += ItemsSourceUpdated;
+        
         if (Control is not UIButton uiButton)
         {
             uiButton = await CreateOverlayButton();
         }
+
         m_uiButton = uiButton;
-        UpdateMenuForNextTimeItOpens();
         m_uiButton.ShowsMenuAsPrimaryAction = true;
         m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
+        
+        if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
+        {
+            UpdateMenuForNextTimeItOpens();
+        }
         
         //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
         m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(
@@ -34,6 +41,11 @@ public partial class ContextMenuPlatformEffect
                 m_uiButton.Menu = null;
                 UpdateMenuForNextTimeItOpens();
             });
+    }
+
+    private void ItemsSourceUpdated()
+    {
+        UpdateMenuForNextTimeItOpens();
     }
 
     private async Task<UIButton> CreateOverlayButton()
@@ -68,5 +80,7 @@ public partial class ContextMenuPlatformEffect
             Control.WillRemoveSubview(m_uiButtonToRemove);
         
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
+        
+        m_contextMenu.ItemsSourceUpdated -= ItemsSourceUpdated;
     }
 }

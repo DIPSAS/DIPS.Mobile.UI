@@ -63,4 +63,9 @@ public partial class ContextMenu : Button
             child.IsChecked = false;
         }
     }
+
+    public void SendItemsSourceUpdated()
+    {
+        ItemsSourceUpdated?.Invoke();
+    }
 }

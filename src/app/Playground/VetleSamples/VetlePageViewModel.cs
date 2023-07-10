@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.MVVM;
@@ -21,18 +22,13 @@ public class VetlePageViewModel : ViewModel
             await Task.Delay(1000);
             IsError = true;*/
             await Task.Delay(1000);
-            IsError = true;
         });
 
+        _ = AddStrings();
+        
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
 
-        RefreshCommand = new Command(async () =>
-        {
-            IsProgressing = true;
-            IsError = false;
-            await Task.Delay(1000);
-            IsProgressing = false;
-        });
+      
         
         _ = Test222();
     }
@@ -41,6 +37,19 @@ public class VetlePageViewModel : ViewModel
     {
         await Task.Delay(1500);
         IsProgressing = false;
+    }
+
+    private async Task AddStrings()
+    {
+        await Task.Delay(1000);
+
+        var newList = new List<string>(Strings);
+        newList.Add("newString");
+
+        Strings = new List<string>(newList);
+        RaisePropertyChanged(nameof(Strings));
+        
+        _ = AddStrings();
     }
 
     private void Navigatee()
@@ -70,12 +79,5 @@ public class VetlePageViewModel : ViewModel
     }
     
     public string TestString { get; set; }
-
-    public bool IsError
-    {
-        get => m_isError;
-        set => RaiseWhenSet(ref m_isError, value);
-    }
-
-    public ICommand RefreshCommand { get; }
+    public List<string> Strings { get; private set; } = new();
 }

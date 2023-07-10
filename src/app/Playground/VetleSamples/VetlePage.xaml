@@ -22,14 +22,7 @@
                             AdditionalHitBoxSize="50, 30"/>-->
                 <dui:VerticalStackLayout>
                     
-                    <dui:LoadableListItem Title="Testiong"
-                                          IsBusy="{Binding IsProgressing}"
-                                          IsError="{Binding IsError}"
-                                          OnErrorTappedCommand="{Binding RefreshCommand}">
-                        <dui:Label Text="It twerks" />    
-                    </dui:LoadableListItem>
-                 
-                    <dui:Button Text="Ok" Command="{Binding Test}" />
+                    <dui:ItemPicker ItemsSource="{Binding Strings}" Placeholder="Test"></dui:ItemPicker>
                 
                 </dui:VerticalStackLayout>
 
