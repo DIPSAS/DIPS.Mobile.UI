@@ -24,9 +24,15 @@ public partial class ContextMenuPlatformEffect
         {
             uiButton = await CreateOverlayButton();
         }
+
         m_uiButton = uiButton;
         m_uiButton.ShowsMenuAsPrimaryAction = true;
         m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
+        
+        if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
+        {
+            UpdateMenuForNextTimeItOpens();
+        }
         
         //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
         m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(
