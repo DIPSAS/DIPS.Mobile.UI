@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.MVVM;
@@ -20,7 +21,17 @@ public class VetlePageViewModel : ViewModel
             IsChecked = !IsChecked;
         });
 
+        _ = AddStrings();
+        
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
+    }
+
+    private async Task AddStrings()
+    {
+        await Task.Delay(1000);
+        Strings.Add("newString");
+
+        _ = AddStrings();
     }
 
     private void Navigatee()
@@ -50,4 +61,5 @@ public class VetlePageViewModel : ViewModel
     }
     
     public string TestString { get; set; }
+    public ObservableCollection<string> Strings { get; } = new();
 }
