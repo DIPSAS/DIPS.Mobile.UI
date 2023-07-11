@@ -174,7 +174,7 @@ public partial class ListItem : ContentView
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
-        Touch.SetIsEnabled(Border,false);
+        Touch.SetIsEnabled(Border, Command is not null);
     }
 
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)

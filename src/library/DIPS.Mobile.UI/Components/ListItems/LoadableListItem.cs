@@ -140,7 +140,7 @@ public partial class LoadableListItem : ListItem
         if(bindable is not LoadableListItem loadableListItem)
             return;
 
-        if (!loadableListItem.HandlerInitialized)
+        if (!loadableListItem.HandlerInitialized || loadableListItem.IsError)
         {
             return;
         }
