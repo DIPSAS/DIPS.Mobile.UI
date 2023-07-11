@@ -1,3 +1,6 @@
+## [13.10.2]
+- Extended LoadableListItem with BusyText and ErrorText, also the possibility to fade content in 
+
 ## [13.10.1]
 - Fixed bug where ItemPicker's ItemsSource would not update itself
 
