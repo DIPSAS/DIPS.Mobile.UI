@@ -69,6 +69,8 @@ public partial class ListItem : ContentView
         {
             AddDivider(RootContent.Count);
         }
+        
+        AddTouch();
     }
 
     private void AddLabel()
@@ -172,6 +174,7 @@ public partial class ListItem : ContentView
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
+        Touch.SetIsEnabled(Border,false);
     }
 
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
@@ -179,9 +182,6 @@ public partial class ListItem : ContentView
         if(bindable is not ListItem listItem)
             return;
 
-        if (newValue is not null)
-        {
-            listItem.AddTouch();
-        }
+        Touch.SetIsEnabled(listItem.Border, newValue is not null);
     }
 }

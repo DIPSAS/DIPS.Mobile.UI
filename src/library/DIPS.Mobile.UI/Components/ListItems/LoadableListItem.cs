@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using DIPS.Mobile.UI.Effects.Touch;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -59,6 +60,8 @@ public partial class LoadableListItem : ListItem
     }
     
     private View? m_cachedHorizontalContentItem;
+    private ICommand? m_cachedCommand;
+    private object? m_cachedCommandParameter;
 
     /// Need this property to ensure we cache the right content
     private bool HandlerInitialized { get; set; }
@@ -68,11 +71,9 @@ public partial class LoadableListItem : ListItem
         base.OnHandlerChanged();
 
         m_cachedHorizontalContentItem = (HorizontalContentItem as View)!;
+        m_cachedCommand = Command;
+        m_cachedCommandParameter = CommandParameter;
         HandlerInitialized = true;
-        
-        Command = OnErrorTappedCommand;
-        CommandParameter = OnErrorTappedCommandParameter;
-        Touch.SetIsEnabled(Border, false);
         
         // Keep ListItem's height the same 
         m_busyContent.HeightRequest = m_cachedHorizontalContentItem.HeightRequest;
@@ -94,6 +95,8 @@ public partial class LoadableListItem : ListItem
             return;
 
         HorizontalContentItem = m_busyContent;
+        Command = null;
+        CommandParameter = null;
     }
     
     private async Task SetCachedContent()
@@ -101,6 +104,8 @@ public partial class LoadableListItem : ListItem
         if(IsError || m_cachedHorizontalContentItem is null)
             return;
 
+        Command = m_cachedCommand;
+        CommandParameter = m_cachedCommandParameter;
         if (HorizontalContentItem is not View view)
         {
             HorizontalContentItem = m_cachedHorizontalContentItem;
@@ -126,7 +131,8 @@ public partial class LoadableListItem : ListItem
     {
         HorizontalContentItem = m_errorContent;
         
-        Touch.SetIsEnabled(Border, true);
+        Command = OnErrorTappedCommand;
+        CommandParameter = OnErrorTappedCommandParameter;
     }
 
     private static void OnIsBusyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -173,8 +179,6 @@ public partial class LoadableListItem : ListItem
         {
             _ = loadableListItem.SetCachedContent();
         }
-        
-        Touch.SetIsEnabled(loadableListItem.Border, false);
     }
 
     

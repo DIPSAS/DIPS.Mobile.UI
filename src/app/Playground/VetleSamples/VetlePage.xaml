@@ -27,6 +27,7 @@
                                           Subtitle="This is my subtitle"
                                           BusyText="Loading..."
                                           FadeContentIn="True"
+                                          Command="{Binding Test}"
                                           IsBusy="{Binding IsProgressing}"
                                           IsError="{Binding IsError}">
                         
@@ -37,8 +38,6 @@
                         </Grid>
                         
                     </dui:LoadableListItem>
-                    
-                    <dui:Button Command="{Binding Test}" Text="Ok" />
                 
                 </dui:VerticalStackLayout>
 
