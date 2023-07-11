@@ -21,13 +21,14 @@ public partial class LoadableListItem : ListItem
     {
         m_errorContent = new Grid
         {
+            ColumnSpacing = Sizes.GetSize(SizeName.size_2),
             ColumnDefinitions = new ColumnDefinitionCollection
             {
                 new(GridLength.Star), new(GridLength.Auto)
             }
         };
-        
-        var errorText = new Labels.Label();
+
+        var errorText = new Labels.Label() { VerticalTextAlignment = TextAlignment.Center };
         errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
         m_errorContent.Add(errorText);
 
@@ -42,13 +43,14 @@ public partial class LoadableListItem : ListItem
     {
         m_busyContent = new Grid
         {
+            ColumnSpacing = Sizes.GetSize(SizeName.size_2),
             ColumnDefinitions = new ColumnDefinitionCollection
             {
                 new(GridLength.Star), new(GridLength.Auto)
             }
         };
-        
-        var busyText = new Labels.Label();
+
+        var busyText = new Labels.Label() { VerticalTextAlignment = TextAlignment.Center };
         busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
         m_busyContent.Add(busyText);
         
@@ -94,12 +96,30 @@ public partial class LoadableListItem : ListItem
         HorizontalContentItem = m_busyContent;
     }
     
-    private void SetCachedContent()
+    private async Task SetCachedContent()
     {
         if(IsError || m_cachedHorizontalContentItem is null)
             return;
+
+        if (HorizontalContentItem is not View view)
+        {
+            HorizontalContentItem = m_cachedHorizontalContentItem;
+            return;
+        }
+        
+        if (FadeContentIn)
+        {
+            m_cachedHorizontalContentItem.Opacity = 0;
+            await view.FadeTo(0, easing: Easing.CubicInOut);
+            _ = m_cachedHorizontalContentItem.FadeTo(1, easing: Easing.CubicInOut);
+        }
         
         HorizontalContentItem = m_cachedHorizontalContentItem;
+
+        if (FadeContentIn)
+        {
+            view.Opacity = 1;
+        }
     }
     
     private void SetErrorContent()
@@ -125,7 +145,7 @@ public partial class LoadableListItem : ListItem
         }
         else
         {
-            loadableListItem.SetCachedContent();
+            _ = loadableListItem.SetCachedContent();
         }
     }
 
@@ -151,7 +171,7 @@ public partial class LoadableListItem : ListItem
         }
         else
         {
-            loadableListItem.SetCachedContent();
+            _ = loadableListItem.SetCachedContent();
         }
         
         Touch.SetIsEnabled(loadableListItem.Border, false);

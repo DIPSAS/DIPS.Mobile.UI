@@ -524,5 +524,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Saving", resourceCulture);
             }
         }
+        
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
     }
 }

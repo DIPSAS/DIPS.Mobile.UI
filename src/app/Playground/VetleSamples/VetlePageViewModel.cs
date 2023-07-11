@@ -17,15 +17,26 @@ public class VetlePageViewModel : ViewModel
         Test = new Command(async () =>
         {
             IsProgressing = true;
-            await Task.Delay(1000);
-            /*IsProgressing = false;
-            await Task.Delay(1000);
-            IsError = true;*/
-            await Task.Delay(1000);
+            await Task.Delay(2000);
+            IsError = true;
+            await Task.Delay(2000);
+            IsProgressing = false;
+            IsError = false;
         });
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
 
+        _ = Test2();
+    }
+
+    private async Task Test2()
+    {
+        IsProgressing = true;
+        await Task.Delay(2000);
+        IsError = true;
+        await Task.Delay(2000);
+        IsError = false;
+        IsProgressing = false;
     }
 
 
@@ -47,6 +58,12 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isChecked;
         set => RaiseWhenSet(ref m_isChecked, value);
+    }
+
+    public bool IsError
+    {
+        get => m_isError;
+        set => RaiseWhenSet(ref m_isError, value);
     }
 
     public bool IsProgressing
