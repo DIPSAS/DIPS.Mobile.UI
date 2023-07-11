@@ -1,3 +1,6 @@
+## [13.10.3]
+- Fixed a bug where you could not set Command on LoadableListItem 
+
 ## [13.10.2]
 - Extended LoadableListItem with BusyText and ErrorText, also the possibility to fade content in 
 
