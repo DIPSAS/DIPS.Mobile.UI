@@ -71,5 +71,4 @@ public class VetlePageViewModel : ViewModel
         get => m_isProgressing;
         set => RaiseWhenSet(ref m_isProgressing, value);
     }
-
 }
