@@ -17,40 +17,28 @@ public class VetlePageViewModel : ViewModel
         Test = new Command(async () =>
         {
             IsProgressing = true;
-            await Task.Delay(1000);
-            /*IsProgressing = false;
-            await Task.Delay(1000);
-            IsError = true;*/
-            await Task.Delay(1000);
+            await Task.Delay(2000);
+            IsError = true;
+            await Task.Delay(2000);
+            IsProgressing = false;
+            IsError = false;
         });
 
-        _ = AddStrings();
-        
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
 
-      
-        
-        _ = Test222();
+        _ = Test2();
     }
 
-    private async Task Test222()
+    private async Task Test2()
     {
-        await Task.Delay(1500);
+        IsProgressing = true;
+        await Task.Delay(2000);
+        IsError = true;
+        await Task.Delay(2000);
+        IsError = false;
         IsProgressing = false;
     }
 
-    private async Task AddStrings()
-    {
-        await Task.Delay(1000);
-
-        var newList = new List<string>(Strings);
-        newList.Add("newString");
-
-        Strings = new List<string>(newList);
-        RaisePropertyChanged(nameof(Strings));
-        
-        _ = AddStrings();
-    }
 
     private void Navigatee()
     {
@@ -72,12 +60,15 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_isChecked, value);
     }
 
+    public bool IsError
+    {
+        get => m_isError;
+        set => RaiseWhenSet(ref m_isError, value);
+    }
+
     public bool IsProgressing
     {
         get => m_isProgressing;
         set => RaiseWhenSet(ref m_isProgressing, value);
     }
-    
-    public string TestString { get; set; }
-    public List<string> Strings { get; private set; } = new();
 }

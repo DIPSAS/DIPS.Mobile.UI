@@ -62,12 +62,15 @@
             
         </dui:ListItem>
         
-        <dui:LoadableListItem Title="LoadableListView"
+        <dui:LoadableListItem Title="LoadableListItem"
                               Subtitle="Click when error"
+                              BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
+                              ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
-                              HasBottomDivider="True">
+                              HasBottomDivider="True"
+                              FadeContentIn="True">
             <dui:Label Text="All systems working!" />
         </dui:LoadableListItem>
         
