@@ -7,19 +7,54 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 
 public partial class LoadableListItem : ListItem
 {
-    private readonly ContentView m_busyContent = new()
+    private Grid m_busyContent;
+
+    private Grid m_errorContent;
+
+    public LoadableListItem()
     {
-        Content = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center }
-    };
-    
-    private readonly ContentView m_errorContent = new()
+        CreateBusyContent();
+        CreateErrorContent();
+    }
+
+    private void CreateErrorContent()
     {
-        Content = new Image
+        m_errorContent = new Grid
         {
-            TintColor = Colors.GetColor(ColorName.color_error_dark), 
-            Source = Icons.GetIcon(IconName.failure_fill)
-        }
-    };
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new(GridLength.Star), new(GridLength.Auto)
+            }
+        };
+        
+        var errorText = new Labels.Label();
+        errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
+        m_errorContent.Add(errorText);
+
+        var errorImage = new Image
+        {
+            TintColor = Colors.GetColor(ColorName.color_error_dark), Source = Icons.GetIcon(IconName.failure_fill)
+        };
+        m_errorContent.Add(errorImage, 1);
+    }
+
+    private void CreateBusyContent()
+    {
+        m_busyContent = new Grid
+        {
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new(GridLength.Star), new(GridLength.Auto)
+            }
+        };
+        
+        var busyText = new Labels.Label();
+        busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
+        m_busyContent.Add(busyText);
+        
+        var busyActivityIndicator = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center };
+        m_busyContent.Add(busyActivityIndicator, 1);
+    }
     
     private View? m_cachedHorizontalContentItem;
 

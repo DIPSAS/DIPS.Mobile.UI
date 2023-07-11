@@ -4,6 +4,18 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 
 public partial class LoadableListItem
 {
+    public string ErrorText
+    {
+        get => (string)GetValue(ErrorTextProperty);
+        set => SetValue(ErrorTextProperty, value);
+    }
+    
+    public string BusyText
+    {
+        get => (string)GetValue(BusyTextProperty);
+        set => SetValue(BusyTextProperty, value);
+    }
+    
     /// <summary>
     /// Sets the <see cref="LoadableListItem"/> as busy, will show an <see cref="ActivityIndicator"/>, replacing the <see cref="LoadableListItem"/>'s content
     /// </summary>
@@ -62,5 +74,15 @@ public partial class LoadableListItem
     public static readonly BindableProperty OnErrorTappedCommandParameterProperty = BindableProperty.Create(
         nameof(OnErrorTappedCommandParameter),
         typeof(object),
+        typeof(LoadableListItem));
+    
+    public static readonly BindableProperty BusyTextProperty = BindableProperty.Create(
+        nameof(BusyText),
+        typeof(string),
+        typeof(LoadableListItem));
+    
+    public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(
+        nameof(ErrorText),
+        typeof(string),
         typeof(LoadableListItem));
 }

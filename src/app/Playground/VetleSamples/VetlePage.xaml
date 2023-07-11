@@ -24,11 +24,8 @@
                     
                     <dui:ItemPicker ItemsSource="{Binding Strings}"></dui:ItemPicker>
                     
-                    
-                    
-                   
-                 
                     <dui:Button Text="Ok" Command="{Binding Test}" />
+                    <dui:ItemPicker ItemsSource="{Binding Strings}" Placeholder="Test"></dui:ItemPicker>
                 
                 </dui:VerticalStackLayout>
 
