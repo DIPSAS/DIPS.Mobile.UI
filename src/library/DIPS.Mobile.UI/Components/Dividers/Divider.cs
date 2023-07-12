@@ -6,10 +6,10 @@ public class Divider : ContentView
 {
     public Divider()
     {
-        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_neutral_40);
+        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_neutral_20);
 
         var line = new Line();
-        line.SetBinding(BackgroundProperty, new Binding(nameof(BackgroundProperty), source: this));
+        line.SetBinding(BackgroundProperty, new Binding(nameof(BackgroundColor), source: this));
         Content = line;
     }
 
