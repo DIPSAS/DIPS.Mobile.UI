@@ -19,8 +19,8 @@ public class VetlePageViewModel : ViewModel
             IsProgressing = true;
             await Task.Delay(2000);
             IsError = true;
-            await Task.Delay(2000);
             IsProgressing = false;
+            await Task.Delay(2000);
             IsError = false;
         });
 
@@ -34,9 +34,9 @@ public class VetlePageViewModel : ViewModel
         IsProgressing = true;
         await Task.Delay(2000);
         IsError = true;
+        IsProgressing = false;
         await Task.Delay(2000);
         IsError = false;
-        IsProgressing = false;
     }
 
 

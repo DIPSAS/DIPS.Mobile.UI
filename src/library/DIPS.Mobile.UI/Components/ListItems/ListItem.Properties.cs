@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 public partial class ListItem
 {
     public event EventHandler? Tapped;
-    public object CommandParameter
+    public object? CommandParameter
     {
         get => (object)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
