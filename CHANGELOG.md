@@ -1,3 +1,7 @@
+## [13.10.4]
+- Fixed a bug where items inside ListItem were not clickable
+- Hooked IsEnabled property on ListItem to enable/disable touch
+
 ## [13.10.3]
 - Fixed a bug where you could not set Command on LoadableListItem 
 
