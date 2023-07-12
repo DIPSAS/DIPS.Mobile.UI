@@ -7,7 +7,7 @@ namespace Playground.VetleSamples;
 
 public class VetlePageViewModel : ViewModel
 {
-    private bool m_isChecked;
+    private bool m_isChecked = true;
     private bool m_isProgressing = true;
     private bool m_isError;
 
@@ -16,12 +16,9 @@ public class VetlePageViewModel : ViewModel
         Navigate = new Command(Navigatee);
         Test = new Command(async () =>
         {
-            IsProgressing = true;
-            await Task.Delay(2000);
-            IsError = true;
-            IsProgressing = false;
-            await Task.Delay(2000);
-            IsError = false;
+            IsChecked = true;
+            await Task.Delay(1000);
+            IsChecked = false;
         });
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
