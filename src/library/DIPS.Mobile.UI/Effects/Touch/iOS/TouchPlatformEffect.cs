@@ -35,8 +35,6 @@ public partial class TouchPlatformEffect
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
         }
-        
-        Control.UserInteractionEnabled = m_isEnabled;
     }
 
     private void OnLongPress(UILongPressGestureRecognizer e)
@@ -65,8 +63,6 @@ public partial class TouchPlatformEffect
         {
             Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
         }
-
-        Control.UserInteractionEnabled = false;
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,
