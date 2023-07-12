@@ -49,6 +49,16 @@ public partial class ListItem : ContentView
         Content = RootContent;
     }
 
+    protected override void OnPropertyChanged(string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+
+        if (propertyName.Equals(nameof(IsEnabled)))
+        {
+            SetTouchIsEnabled();
+        }
+    }
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
@@ -174,8 +184,10 @@ public partial class ListItem : ContentView
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
-        Touch.SetIsEnabled(Border, Command is not null);
+        SetTouchIsEnabled();
     }
+
+    private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && Command is not null);
 
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
     {
