@@ -29,12 +29,15 @@
                                           FadeContentIn="True"
                                           Command="{Binding Test}"
                                           IsBusy="{Binding IsProgressing}"
-                                          IsError="{Binding IsError}">
+                                          IsError="{Binding IsError}"
+                                          IsEnabled="False">
                         
                         <Grid RowDefinitions="Auto, Auto">
                             <dui:Label Text="This is my content" />
                             
                             <dui:Label Grid.Row="1" Text="This is my content" />
+                            
+                            <dui:DateAndTimePicker />
                         </Grid>
                         
                     </dui:LoadableListItem>

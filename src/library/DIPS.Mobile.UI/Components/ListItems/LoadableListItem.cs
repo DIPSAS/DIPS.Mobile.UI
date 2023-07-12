@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using DIPS.Mobile.UI.Effects.Touch;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -95,8 +94,7 @@ public partial class LoadableListItem : ListItem
             return;
 
         HorizontalContentItem = m_busyContent;
-        Command = null;
-        CommandParameter = null;
+        IsEnabled = false;
     }
     
     private async Task SetCachedContent()
@@ -104,6 +102,8 @@ public partial class LoadableListItem : ListItem
         if(IsError || m_cachedHorizontalContentItem is null)
             return;
 
+        IsEnabled = true;
+        
         Command = m_cachedCommand;
         CommandParameter = m_cachedCommandParameter;
         if (HorizontalContentItem is not View view)
@@ -129,6 +129,8 @@ public partial class LoadableListItem : ListItem
     
     private void SetErrorContent()
     {
+        IsEnabled = true;
+        
         HorizontalContentItem = m_errorContent;
         
         Command = OnErrorTappedCommand;
