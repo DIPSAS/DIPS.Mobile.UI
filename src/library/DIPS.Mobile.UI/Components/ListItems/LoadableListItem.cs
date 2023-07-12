@@ -102,6 +102,8 @@ public partial class LoadableListItem : ListItem
         if(IsError || m_cachedHorizontalContentItem is null)
             return;
 
+        IsEnabled = true;
+        
         Command = m_cachedCommand;
         CommandParameter = m_cachedCommandParameter;
         if (HorizontalContentItem is not View view)
@@ -127,6 +129,8 @@ public partial class LoadableListItem : ListItem
     
     private void SetErrorContent()
     {
+        IsEnabled = true;
+        
         HorizontalContentItem = m_errorContent;
         
         Command = OnErrorTappedCommand;
