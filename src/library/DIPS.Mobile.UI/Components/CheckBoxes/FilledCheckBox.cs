@@ -9,7 +9,6 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes;
 
 public partial class FilledCheckBox : ContentView
 {
-
     private Border m_innerBorder;
     private readonly Image m_innerImage;
     private readonly ActivityIndicator m_activityIndicator;
