@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Resources.Sizes;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -51,6 +52,18 @@ public partial class ListItem
     {
         get => (FontAttributes)GetValue(SubtitleFontAttributesProperty);
         set => SetValue(SubtitleFontAttributesProperty, value);
+    }
+    
+    public ImageSource? Icon
+    {
+        get => (ImageSource)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+
+    public Color IconColor
+    {
+        get => (Color)GetValue(IconColorProperty);
+        set => SetValue(IconColorProperty, value);
     }
 
     /// <summary>
@@ -162,4 +175,21 @@ public partial class ListItem
         nameof(Title),
         typeof(string),
         typeof(ListItem));
+    
+    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
+        nameof(IconColor),
+        typeof(Color),
+        typeof(ListItem),
+        defaultValue: Colors.GetColor(ColorName.color_system_black));
+
+    
+    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+        nameof(Icon),
+        typeof(ImageSource),
+        typeof(ListItem),
+        propertyChanged: (obj, ov, nv) =>
+        {
+            if(obj is ListItem listItem)
+                listItem.AddIcon();
+        });
 }

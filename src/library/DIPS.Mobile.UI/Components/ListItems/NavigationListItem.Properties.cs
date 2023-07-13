@@ -23,28 +23,4 @@ public partial class NavigationListItem
         get => (IView)GetValue(CustomContentItemProperty);
         set => SetValue(CustomContentItemProperty, value);
     }
-
-    public ImageSource? Icon
-    {
-        get => (ImageSource)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
-
-    public Color IconColor
-    {
-        get => (Color)GetValue(IconColorProperty);
-        set => SetValue(IconColorProperty, value);
-    }
-    
-    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
-        nameof(IconColor),
-        typeof(Color),
-        typeof(NavigationListItem),
-        defaultValue: Colors.GetColor(ColorName.color_system_black));
-
-    
-    public static readonly BindableProperty IconProperty = BindableProperty.Create(
-        nameof(Icon),
-        typeof(ImageSource),
-        typeof(NavigationListItem));
 }

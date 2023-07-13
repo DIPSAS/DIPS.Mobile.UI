@@ -1,3 +1,6 @@
+## [13.10.5]
+- Moved Icon property from NavigationListItem to ListItem
+
 ## [13.10.4]
 - Fixed a bug where items inside ListItem were not clickable
 - Hooked IsEnabled property on ListItem to enable/disable touch
