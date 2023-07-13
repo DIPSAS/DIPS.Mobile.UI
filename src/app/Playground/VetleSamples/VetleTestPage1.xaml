@@ -8,35 +8,45 @@
              xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
-            modal:Modal.HasNavBar="True"
              Title="Hei"
              Padding="30, 30">
+    
+    <dui:ContentPage.BindingContext>
+        <vetleSamples:VetlePageViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="Hei" />
     </dui:ContentPage.ToolbarItems>
     
-    <dui:ContentPage.BindingContext>
+    <!--<dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
-    </dui:ContentPage.BindingContext>
+    </dui:ContentPage.BindingContext>-->
     
     <dui:VerticalStackLayout x:Name="Layout">
-        <dui:Label Text="Hei og hå!" />
-        
-        <dui:NavigationListItem Title="Navigate" 
-                                Command="{Binding Navigate}" />
-        
-        <dividers:Divider BackgroundColor="Red" />
-        
-        <dui:NavigationListItem Title="Open bottomsheet not fit to content"
-                                Tapped="NavigationListItem_OnTapped" />
-        
-        <dui:NavigationListItem Title="Open bottomsheet fit to content"
-                                Tapped="Test" />
-        
-        <dui:NavigationListItem Title="Open bottomsheet with toolbar"
-                                Tapped="Lol" />
-        
-        <Button Clicked="AddButton" />
+        <dui:LoadableListItem ErrorText="Error"
+                              Title="This is my title"
+                              Subtitle="This is my subtitle"
+                              BusyText="Loading..."
+                              FadeContentIn="True"
+                              OnErrorTappedCommand="{Binding Navigate}"
+                              IsBusy="{Binding IsProgressing}"
+                              IsError="{Binding IsError}">
+                        
+            <Grid RowDefinitions="Auto, Auto, Auto">
+                <dui:Label Text="This is my content" />
+                            
+                <dui:Label Grid.Row="1" Text="This is my content" />
+                
+                <dui:Label Grid.Row="2" Text="This is my content" />
+                            
+            </Grid>
+            
+            <dui:LoadableListItem.StaticContentItem>
+                <Image Source="{dui:Icons arrow_right_s_line}" />
+            </dui:LoadableListItem.StaticContentItem>
+                        
+        </dui:LoadableListItem>
 
     </dui:VerticalStackLayout>
 </dui:ContentPage>

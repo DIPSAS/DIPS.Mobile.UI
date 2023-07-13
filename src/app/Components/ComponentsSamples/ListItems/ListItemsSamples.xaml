@@ -74,5 +74,22 @@
             <dui:Label Text="All systems working!" />
         </dui:LoadableListItem>
         
+        <dui:LoadableListItem Title="LoadableListItem"
+                              Subtitle="With static item"
+                              BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
+                              IsBusy="{Binding IsBusy}"
+                              ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
+                              IsError="{Binding IsError}"
+                              OnErrorTappedCommand="{Binding RefreshCommand}"
+                              HasBottomDivider="True"
+                              FadeContentIn="True">
+            
+            <dui:Label Text="All systems working!" />
+            
+            <dui:LoadableListItem.StaticContentItem>
+                <dui:Image Source="{dui:Icons arrow_right_s_line}" />
+            </dui:LoadableListItem.StaticContentItem>
+        </dui:LoadableListItem>
+        
     </dui:VerticalStackLayout>
 </dui:ContentPage>

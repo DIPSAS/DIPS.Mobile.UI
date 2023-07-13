@@ -40,10 +40,7 @@ public class VetlePageViewModel : ViewModel
     private void Navigatee()
     {
         var page = new VetleTestPage1();
-        var navigationPage = new NavigationPage(page);
-        NavigationPage.SetHasNavigationBar(page, true);
-        NavigationPage.SetHasBackButton(page, true);
-        Shell.Current.Navigation.PushModalAsync(navigationPage);
+        Shell.Current.Navigation.PushAsync(page);
     }
     
     public ICommand Navigate { get; }
