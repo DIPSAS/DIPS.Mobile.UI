@@ -1,5 +1,8 @@
-## [13.10.5]
+## [13.10.6]
 - Moved Icon property from NavigationListItem to ListItem
+
+## [13.10.5]
+- Changed color of Divider
 
 ## [13.10.4]
 - Fixed a bug where items inside ListItem were not clickable
