@@ -1,3 +1,6 @@
+## [13.10.6]
+- Moved Icon property from NavigationListItem to ListItem
+
 ## [13.10.5]
 - Changed color of Divider
 

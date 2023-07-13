@@ -4,6 +4,12 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 
 public partial class LoadableListItem
 {
+    public View? StaticContent
+    {
+        get => (View)GetValue(StaticContentProperty);
+        set => SetValue(StaticContentProperty, value);
+    }
+    
     public bool FadeContentIn
     {
         get => (bool)GetValue(FadeContentInProperty);
@@ -95,5 +101,10 @@ public partial class LoadableListItem
     public static readonly BindableProperty FadeContentInProperty = BindableProperty.Create(
         nameof(FadeContentIn),
         typeof(bool),
+        typeof(LoadableListItem));
+    
+    public static readonly BindableProperty StaticContentProperty = BindableProperty.Create(
+        nameof(StaticContent),
+        typeof(View),
         typeof(LoadableListItem));
 }

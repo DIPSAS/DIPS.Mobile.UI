@@ -11,10 +11,20 @@ public partial class LoadableListItem : ListItem
 
     private Grid m_errorContent;
 
+    private Grid m_mainHorizontalContent = new()
+    {
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new(GridLength.Star), new(GridLength.Auto)
+        }
+    };
+
     public LoadableListItem()
     {
         CreateBusyContent();
         CreateErrorContent();
+        
+        
     }
 
     private void CreateErrorContent()
@@ -69,7 +79,7 @@ public partial class LoadableListItem : ListItem
     {
         base.OnHandlerChanged();
 
-        m_cachedHorizontalContentItem = (HorizontalContentItem as View)!;
+        m_mainHorizontalContent.Add(HorizontalContentItem as View);
         m_cachedCommand = Command;
         m_cachedCommandParameter = CommandParameter;
         HandlerInitialized = true;
@@ -85,6 +95,10 @@ public partial class LoadableListItem : ListItem
         else if(IsError)
         {
             SetErrorContent();
+        }
+        else
+        {
+            _ = SetCachedContent();
         }
     }
 

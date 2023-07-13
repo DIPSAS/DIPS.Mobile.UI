@@ -1,9 +1,8 @@
-using System.Xml.Serialization;
-using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -16,7 +15,9 @@ public partial class ListItem : ContentView
         new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent };
 
     public Border Border { get; } = new() {BackgroundColor = Colors.GetColor(ColorName.color_system_white)};
-    
+
+    private Image m_icon = new() { Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0) };
+
     public ListItem()
     {
         Border.StrokeShape = new RoundRectangle 
@@ -62,7 +63,7 @@ public partial class ListItem : ContentView
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-        
+
         AddLabel();
 
 #if __ANDROID__
@@ -81,6 +82,9 @@ public partial class ListItem : ContentView
         }
         
         AddTouch();
+        
+        if(Icon is not null)
+            AddIcon();
     }
 
     private void AddLabel()
@@ -117,6 +121,37 @@ public partial class ListItem : ContentView
         label.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), 0);
         
         MainContent.Add(label);
+    }
+    
+    private void AddIcon()
+    {
+        if (Icon is null || Handler == null)
+        {
+            if (MainContent.Contains(m_icon))
+            {
+                MainContent.Remove(m_icon);
+                MainContent.ColumnDefinitions.RemoveAt(0);
+                ShiftChildrenColumns(-1);
+            }
+            return;
+        }
+        
+        ShiftChildrenColumns(1);
+
+        m_icon.Source = Icon;
+        m_icon.SetBinding(Image.TintColorProperty, new Binding(nameof(IconColor), source: this));
+        
+        MainContent.Add(m_icon, 0);
+        MainContent.ColumnDefinitions.Insert(0, new ColumnDefinition(GridLength.Auto));
+        
+    }
+
+    private void ShiftChildrenColumns(int index)
+    {
+        foreach (var view in MainContent.Children)
+        {
+            MainContent.SetColumn(view, MainContent.GetColumn(view) + index);
+        }
     }
 
     private static void CornerRadiusChanged(BindableObject bindable, object oldValue, object newValue)
