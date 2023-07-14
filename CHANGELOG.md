@@ -2,6 +2,9 @@
 - Changed default values of column width in ListItem for Title and HorizontalContentItem
 - Consumers can now override column width for Title and HorizontalContentItem in ListItem
 
+## [13.12.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [13.11.0]
 - LoadableListItem can now have a static item, that is not affected when the LoadableListItem is set to busy or error.
 - Added properties: TitleTextColor and TitleFontSize on ListItem
