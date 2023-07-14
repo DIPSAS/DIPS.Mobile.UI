@@ -24,6 +24,12 @@
                                 AdditionalHitBoxSize="50, 30"
                                 Command="{Binding Navigate}"/>
                     
+                    <dui:ListItem Title="Test"
+                                  TitleFontSize="30"
+                                  TitleTextColor="Red">
+                        <Label Text="this ma label"></Label>
+                        </dui:ListItem>
+                    
                 
                 </dui:VerticalStackLayout>
 

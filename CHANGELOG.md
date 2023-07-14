@@ -1,5 +1,6 @@
 ## [13.11.0]
 - LoadableListItem can now have a static item, that is not affected when the LoadableListItem is set to busy or error.
+- Added properties: TitleTextColor and TitleFontSize on ListItem
 
 ## [13.10.6]
 - Moved Icon property from NavigationListItem to ListItem
