@@ -67,11 +67,13 @@
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
                               ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
+                              ErrorTextColor="{dui:Colors color_error_dark}"
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
                               HasBottomDivider="True"
                               FadeContentIn="True">
-            <dui:Label Text="All systems working!" />
+            <dui:Label Text="All systems working!" VerticalTextAlignment="Center"/>
+            
         </dui:LoadableListItem>
         
         <dui:LoadableListItem Title="LoadableListItem"
@@ -84,7 +86,7 @@
                               HasBottomDivider="True"
                               FadeContentIn="True">
             
-            <dui:Label Text="All systems working!" />
+            <dui:Label Text="All systems working!" VerticalTextAlignment="Center" />
             
             <dui:LoadableListItem.StaticContentItem>
                 <dui:Image Source="{dui:Icons arrow_right_s_line}" />

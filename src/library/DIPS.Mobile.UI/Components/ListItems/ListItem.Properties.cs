@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -122,6 +123,46 @@ public partial class ListItem
         get => (bool)GetValue(HasBottomDividerProperty);
         set => SetValue(HasBottomDividerProperty, value);
     }
+    
+    [TypeConverter(typeof (GridLengthTypeConverter))]
+    public GridLength HorizontalContentItemColumnWidth
+    {
+        get => (GridLength)GetValue(HorizontalContentItemColumnWidthProperty);
+        set => SetValue(HorizontalContentItemColumnWidthProperty, value);
+    }
+
+    [TypeConverter(typeof (GridLengthTypeConverter))]
+    public GridLength TitleColumnWidth
+    {
+        get => (GridLength)GetValue(TitleColumnWidthProperty);
+        set => SetValue(TitleColumnWidthProperty, value);
+    }
+    
+    public static readonly BindableProperty HorizontalContentItemColumnWidthProperty = BindableProperty.Create(
+        nameof(HorizontalContentItemColumnWidth),
+        typeof(GridLength),
+        typeof(ListItem),
+        propertyChanged:(bindable, _, _) =>
+        {
+            if (bindable is ListItem listItem)
+            {
+                listItem.OnHorizontalContentItemColumnWidthChanged();
+            }
+        },
+        defaultValue:GridLength.Star);
+    
+    public static readonly BindableProperty TitleColumnWidthProperty = BindableProperty.Create(
+        nameof(TitleColumnWidth),
+        typeof(GridLength),
+        typeof(ListItem),
+        propertyChanged:(bindable, _, _) =>
+        {
+            if (bindable is ListItem listItem)
+            {
+                listItem.OnTitleColumnWidthChanged();
+            }
+        },
+        defaultValue:GridLength.Auto);
     
     public static readonly BindableProperty ShouldOverrideContentItemLayoutOptionsProperty = BindableProperty.Create(
         nameof(ShouldOverrideContentItemLayoutOptions),
