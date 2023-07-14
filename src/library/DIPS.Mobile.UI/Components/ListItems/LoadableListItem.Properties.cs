@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -27,6 +28,12 @@ public partial class LoadableListItem
     {
         get => (string)GetValue(ErrorTextProperty);
         set => SetValue(ErrorTextProperty, value);
+    }
+
+    public Color ErrorTextColor
+    {
+        get => (Color)GetValue(ErrorTextColorProperty);
+        set => SetValue(ErrorTextColorProperty, value);
     }
     
     public string BusyText
@@ -119,4 +126,10 @@ public partial class LoadableListItem
         nameof(LoadedContentItem),
         typeof(View),
         typeof(LoadableListItem));
+    
+    public static readonly BindableProperty ErrorTextColorProperty = BindableProperty.Create(
+        nameof(ErrorTextColor),
+        typeof(Color),
+        typeof(LoadableListItem),
+        defaultValue: Colors.GetColor(ColorName.color_neutral_90));
 }

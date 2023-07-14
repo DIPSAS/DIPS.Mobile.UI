@@ -15,7 +15,7 @@ public partial class LoadableListItem : ListItem
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {
-            new(GridLength.Star), new(GridLength.Auto)
+            new(GridLength.Star)
         },
         ColumnSpacing = Sizes.GetSize(SizeName.size_2)
     };
@@ -36,10 +36,12 @@ public partial class LoadableListItem : ListItem
             ColumnDefinitions = new ColumnDefinitionCollection
             {
                 new(GridLength.Star), new(GridLength.Auto)
-            }
+            },
+            VerticalOptions = LayoutOptions.Center
         };
 
-        var errorText = new Labels.Label() { VerticalTextAlignment = TextAlignment.Center };
+        var errorText = new Labels.Label { VerticalTextAlignment = TextAlignment.Center };
+        errorText.SetBinding(Label.TextColorProperty, new Binding(nameof(ErrorTextColor), source: this));
         errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
         m_errorContent.Add(errorText);
 
@@ -61,11 +63,11 @@ public partial class LoadableListItem : ListItem
             }
         };
 
-        var busyText = new Labels.Label() { VerticalTextAlignment = TextAlignment.Center };
+        var busyText = new Labels.Label { VerticalTextAlignment = TextAlignment.Center, TextColor = Colors.GetColor(ColorName.color_neutral_90)};
         busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
         m_busyContent.Add(busyText);
         
-        var busyActivityIndicator = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center };
+        var busyActivityIndicator = new ActivityIndicator { IsRunning = true };
         m_busyContent.Add(busyActivityIndicator, 1);
     }
     
@@ -81,9 +83,12 @@ public partial class LoadableListItem : ListItem
         m_cachedCommandParameter = CommandParameter;
 
         HorizontalContentItem = ContentGrid;
-        
-        if(StaticContentItem is not null)
+
+        if (StaticContentItem is not null)
+        {
             ContentGrid.Add(StaticContentItem, 1);
+            ContentGrid.AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
+        }
         
         if (IsBusy)
         {

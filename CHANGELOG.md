@@ -1,3 +1,7 @@
+## [13.13.0]
+- Changed default values of column width in ListItem for Title and HorizontalContentItem
+- Consumers can now override column width for Title and HorizontalContentItem in ListItem
+
 ## [13.12.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

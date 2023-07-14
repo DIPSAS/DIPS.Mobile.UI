@@ -30,8 +30,8 @@ public partial class ListItem : ContentView
         {
             ColumnDefinitions = new ColumnDefinitionCollection
             {
-                new(GridLength.Star),
-                new(GridLength.Auto)
+                new(TitleColumnWidth),
+                new(HorizontalContentItemColumnWidth)
             },
             RowDefinitions = new RowDefinitionCollection()
             {
@@ -232,5 +232,15 @@ public partial class ListItem : ContentView
             return;
 
         Touch.SetIsEnabled(listItem.Border, newValue is not null);
+    }
+
+    private void OnHorizontalContentItemColumnWidthChanged()
+    {
+        MainContent.ColumnDefinitions.Last().Width = HorizontalContentItemColumnWidth;
+    }
+
+    private void OnTitleColumnWidthChanged()
+    {
+        MainContent.ColumnDefinitions.First().Width = TitleColumnWidth;
     }
 }

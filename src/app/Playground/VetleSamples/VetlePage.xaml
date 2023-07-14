@@ -24,11 +24,26 @@
                                 AdditionalHitBoxSize="50, 30"
                                 Command="{Binding Navigate}"/>
                     
-                    <dui:ListItem Title="Test"
+                    <dui:ListItem Title="Test" ShouldOverrideContentItemLayoutOptions="False">
+                        <ContentView BackgroundColor="Black" />
+                        <dui:ListItem.VerticalContentItem>
+                            <dui:DateAndTimePicker HorizontalOptions="End" />
+                        </dui:ListItem.VerticalContentItem>
+                    </dui:ListItem>
+                    
+                    <dui:ListItem Title="Test sjidjifjsdojfoidsjfs odijfoaisdjfoisa djfoijs adoifjsadoifjsoaidjfoisaj asdajsi"
                                   TitleFontSize="30"
-                                  TitleTextColor="Red">
-                        <Label Text="this ma label"></Label>
-                        </dui:ListItem>
+                                  TitleTextColor="Red"
+                                  TitleColumnWidth="*"
+                                  HorizontalContentItemColumnWidth="Auto"
+                                  ShouldOverrideContentItemLayoutOptions="False">
+                        <dui:DateAndTimePicker />
+                        
+                        <dui:ListItem.VerticalContentItem>
+                            <ContentView BackgroundColor="Black" VerticalOptions="Center" HorizontalOptions="End" />
+                        </dui:ListItem.VerticalContentItem>
+                        
+                    </dui:ListItem>
                     
                 
                 </dui:VerticalStackLayout>
