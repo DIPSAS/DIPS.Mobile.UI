@@ -8,11 +8,20 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 public partial class ListItem
 {
     public event EventHandler? Tapped;
+    
+    /// <summary>
+    /// The parameter of <see cref="Command"/>
+    /// </summary>
     public object? CommandParameter
     {
         get => (object)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
+    
+    /// <summary>
+    /// The Command to be executed when the <see cref="ListItem"/> is tapped
+    /// </summary>
+    /// <remarks>Will automatically add touch effect on <see cref="ListItem"/></remarks>
     public ICommand? Command
     {
         get => (ICommand)GetValue(CommandProperty);
@@ -37,12 +46,18 @@ public partial class ListItem
         set => SetValue(TitleFontAttributesProperty, value);
     }
     
+    /// <summary>
+    /// Sets the text color of <see cref="Title"/>
+    /// </summary>
     public Color TitleTextColor
     {
         get => (Color)GetValue(TitleTextColorProperty);
         set => SetValue(TitleTextColorProperty, value);
     }
 
+    /// <summary>
+    /// Sets the font-size of <see cref="Title"/>
+    /// </summary>
     public double TitleFontSize
     {
         get => (double)GetValue(TitleFontSizeProperty);
@@ -67,12 +82,18 @@ public partial class ListItem
         set => SetValue(SubtitleFontAttributesProperty, value);
     }
     
+    /// <summary>
+    /// Sets the icon that will be displayed to the left of <see cref="Title"/>
+    /// </summary>
     public ImageSource? Icon
     {
         get => (ImageSource)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
+    /// <summary>
+    /// Sets the color of <see cref="Icon"/>
+    /// </summary>
     public Color IconColor
     {
         get => (Color)GetValue(IconColorProperty);
@@ -88,6 +109,9 @@ public partial class ListItem
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    /// <summary>
+    /// The item to be vertically placed relative to <see cref="Title"/>
+    /// </summary>
     public BindableObject VerticalContentItem
     {
         get => (BindableObject)GetValue(VerticalContentItemProperty);
@@ -95,7 +119,7 @@ public partial class ListItem
     }
     
     /// <summary>
-    /// Sets the item that will be placed on this element
+    /// The item to be horizontally placed relative to <see cref="Title"/>
     /// </summary>
     public BindableObject HorizontalContentItem
     {
@@ -112,18 +136,28 @@ public partial class ListItem
         set => SetValue(ShouldOverrideContentItemLayoutOptionsProperty, value);
     }
 
+    /// <summary>
+    /// Determines whether the <see cref="ListItem"/> should display a Divider on the top
+    /// </summary>
     public bool HasTopDivider
     {
         get => (bool)GetValue(HasTopDividerProperty);
         set => SetValue(HasTopDividerProperty, value);
     }
     
+    /// <summary>
+    /// Determines whether the <see cref="ListItem"/> should display a Divider on the bottom
+    /// </summary>
     public bool HasBottomDivider
     {
         get => (bool)GetValue(HasBottomDividerProperty);
         set => SetValue(HasBottomDividerProperty, value);
     }
     
+    /// <summary>
+    /// Sets the <see cref="GridLength"/> of the column that <see cref="HorizontalContentItem"/> resides in
+    /// </summary>
+    /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
     [TypeConverter(typeof (GridLengthTypeConverter))]
     public GridLength HorizontalContentItemColumnWidth
     {
@@ -131,6 +165,10 @@ public partial class ListItem
         set => SetValue(HorizontalContentItemColumnWidthProperty, value);
     }
 
+    /// <summary>
+    /// Sets the <see cref="GridLength"/> of the column that <see cref="Title"/> resides in
+    /// </summary>
+    /// <remarks>The default <see cref="GridLength"/> of this column is 'Star'</remarks>
     [TypeConverter(typeof (GridLengthTypeConverter))]
     public GridLength TitleColumnWidth
     {
