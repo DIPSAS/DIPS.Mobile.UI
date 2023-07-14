@@ -26,14 +26,23 @@
                     
                     <dui:ListItem Title="Test" ShouldOverrideContentItemLayoutOptions="False">
                         <ContentView BackgroundColor="Black" />
+                        <dui:ListItem.VerticalContentItem>
+                            <dui:DateAndTimePicker HorizontalOptions="End" />
+                        </dui:ListItem.VerticalContentItem>
                     </dui:ListItem>
                     
                     <dui:ListItem Title="Test sjidjifjsdojfoidsjfs odijfoaisdjfoisa djfoijs adoifjsadoifjsoaidjfoisaj asdajsi"
                                   TitleFontSize="30"
                                   TitleTextColor="Red"
                                   TitleColumnWidth="*"
-                                  HorizontalContentItemColumnWidth="Auto">
+                                  HorizontalContentItemColumnWidth="Auto"
+                                  ShouldOverrideContentItemLayoutOptions="False">
                         <dui:DateAndTimePicker />
+                        
+                        <dui:ListItem.VerticalContentItem>
+                            <ContentView BackgroundColor="Black" VerticalOptions="Center" HorizontalOptions="End" />
+                        </dui:ListItem.VerticalContentItem>
+                        
                     </dui:ListItem>
                     
                 

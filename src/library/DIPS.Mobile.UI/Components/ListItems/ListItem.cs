@@ -35,7 +35,7 @@ public partial class ListItem : ContentView
             },
             RowDefinitions = new RowDefinitionCollection()
             {
-                new(GridLength.Star)
+                new(GridLength.Auto)
             },
             Padding = new Thickness(Sizes.GetSize(SizeName.size_4), 
                 Sizes.GetSize(SizeName.size_3),
