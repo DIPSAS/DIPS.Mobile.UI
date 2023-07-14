@@ -91,8 +91,6 @@ public partial class ListItem : ContentView
     {
         var label = new Label 
         { 
-            FontSize = Sizes.GetSize(SizeName.size_4),
-            TextColor = Colors.GetColor(ColorName.color_neutral_90),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Start
         };
@@ -101,12 +99,16 @@ public partial class ListItem : ContentView
         {
             label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
             label.SetBinding(Label.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
+            label.SetBinding(Label.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
+            label.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
         }
         else
         {
             var title = new Span();
             title.SetBinding(Span.TextProperty, new Binding(nameof(Title), source: this));
             title.SetBinding(Span.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
+            label.SetBinding(Span.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
+            label.SetBinding(Span.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
 
             var newLine = new Span { Text = Environment.NewLine };
 

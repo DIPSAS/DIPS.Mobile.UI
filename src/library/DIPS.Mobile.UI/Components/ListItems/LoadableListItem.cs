@@ -11,12 +11,13 @@ public partial class LoadableListItem : ListItem
 
     private Grid m_errorContent;
 
-    private Grid m_mainHorizontalContent = new()
+    private Grid ContentGrid { get; } = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {
             new(GridLength.Star), new(GridLength.Auto)
-        }
+        },
+        ColumnSpacing = Sizes.GetSize(SizeName.size_2)
     };
 
     public LoadableListItem()
@@ -68,26 +69,22 @@ public partial class LoadableListItem : ListItem
         m_busyContent.Add(busyActivityIndicator, 1);
     }
     
-    private View? m_cachedHorizontalContentItem;
     private ICommand? m_cachedCommand;
     private object? m_cachedCommandParameter;
 
-    /// Need this property to ensure we cache the right content
-    private bool HandlerInitialized { get; set; }
     
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
 
-        m_mainHorizontalContent.Add(HorizontalContentItem as View);
         m_cachedCommand = Command;
         m_cachedCommandParameter = CommandParameter;
-        HandlerInitialized = true;
-        
-        // Keep ListItem's height the same 
-        m_busyContent.HeightRequest = m_cachedHorizontalContentItem.HeightRequest;
-        m_errorContent.HeightRequest = m_cachedHorizontalContentItem.HeightRequest;
 
+        HorizontalContentItem = ContentGrid;
+        
+        if(StaticContentItem is not null)
+            ContentGrid.Add(StaticContentItem, 1);
+        
         if (IsBusy)
         {
             SetBusyContent();
@@ -98,7 +95,7 @@ public partial class LoadableListItem : ListItem
         }
         else
         {
-            _ = SetCachedContent();
+            SetContent();
         }
     }
 
@@ -107,45 +104,35 @@ public partial class LoadableListItem : ListItem
         if(IsError)
             return;
 
-        HorizontalContentItem = m_busyContent;
+        _ = SwitchContentTo(m_busyContent);
         IsEnabled = false;
     }
     
-    private async Task SetCachedContent()
+    private void SetContent()
     {
-        if(IsError || m_cachedHorizontalContentItem is null)
+        if(IsError)
             return;
 
         IsEnabled = true;
         
         Command = m_cachedCommand;
         CommandParameter = m_cachedCommandParameter;
-        if (HorizontalContentItem is not View view)
-        {
-            HorizontalContentItem = m_cachedHorizontalContentItem;
-            return;
-        }
-        
-        if (FadeContentIn)
-        {
-            m_cachedHorizontalContentItem.Opacity = 0;
-            await view.FadeTo(0, easing: Easing.CubicInOut);
-            _ = m_cachedHorizontalContentItem.FadeTo(1, easing: Easing.CubicInOut);
-        }
-        
-        HorizontalContentItem = m_cachedHorizontalContentItem;
 
-        if (FadeContentIn)
-        {
-            view.Opacity = 1;
-        }
+        _ = SwitchContentTo(LoadedContentItem);
     }
     
     private void SetErrorContent()
     {
         IsEnabled = true;
-        
-        HorizontalContentItem = m_errorContent;
+
+        _ = SwitchContentTo(m_errorContent);
+
+        if (OnErrorTappedCommand is null)
+        {
+            Command = m_cachedCommand;
+            CommandParameter = m_cachedCommandParameter;
+            return;
+        }
         
         Command = OnErrorTappedCommand;
         CommandParameter = OnErrorTappedCommandParameter;
@@ -156,7 +143,7 @@ public partial class LoadableListItem : ListItem
         if(bindable is not LoadableListItem loadableListItem)
             return;
 
-        if (!loadableListItem.HandlerInitialized || loadableListItem.IsError)
+        if (loadableListItem.IsError)
         {
             return;
         }
@@ -167,7 +154,7 @@ public partial class LoadableListItem : ListItem
         }
         else
         {
-            _ = loadableListItem.SetCachedContent();
+            loadableListItem.SetContent();
         }
     }
 
@@ -176,11 +163,6 @@ public partial class LoadableListItem : ListItem
         if(bindable is not LoadableListItem loadableListItem)
             return;
         
-        if (!loadableListItem.HandlerInitialized)
-        {
-            return;
-        }
-
         if (newValue is true)
         {
             loadableListItem.SetErrorContent();
@@ -193,9 +175,31 @@ public partial class LoadableListItem : ListItem
         }
         else
         {
-            _ = loadableListItem.SetCachedContent();
+            loadableListItem.SetContent();
         }
     }
 
-    
+
+    private async Task SwitchContentTo(View view)
+    {
+        var child = ContentGrid.Children.FirstOrDefault();
+
+        var replace = child is not null && child != StaticContentItem;
+
+        
+        if (FadeContentIn && replace && child is View childView)
+        {
+            view.Opacity = 0;
+            await childView.FadeTo(0, easing: Easing.CubicInOut);
+        }
+
+        if(replace)
+            ContentGrid.RemoveAt(0);
+        ContentGrid.Insert(0, view);
+
+        if(FadeContentIn)
+        {
+            await view.FadeTo(1, easing: Easing.CubicInOut);
+        }
+    }
 }

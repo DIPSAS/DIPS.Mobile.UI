@@ -18,29 +18,18 @@
         <ToolbarItem></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
         
-                <!--<dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
-                            AdditionalHitBoxSize="50, 30"/>-->
                 <dui:VerticalStackLayout>
                     
-                    <dui:LoadableListItem ErrorText="Error"
-                                          Title="This is my title"
-                                          Subtitle="This is my subtitle"
-                                          BusyText="Loading..."
-                                          FadeContentIn="True"
-                                          Command="{Binding Test}"
-                                          IsBusy="{Binding IsProgressing}"
-                                          IsError="{Binding IsError}"
-                                          IsEnabled="False">
-                        
-                        <Grid RowDefinitions="Auto, Auto">
-                            <dui:Label Text="This is my content" />
-                            
-                            <dui:Label Grid.Row="1" Text="This is my content" />
-                            
-                            <dui:DateAndTimePicker />
-                        </Grid>
-                        
-                    </dui:LoadableListItem>
+                    <dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
+                                AdditionalHitBoxSize="50, 30"
+                                Command="{Binding Navigate}"/>
+                    
+                    <dui:ListItem Title="Test"
+                                  TitleFontSize="30"
+                                  TitleTextColor="Red">
+                        <Label Text="this ma label"></Label>
+                        </dui:ListItem>
+                    
                 
                 </dui:VerticalStackLayout>
 

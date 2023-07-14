@@ -2,9 +2,16 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
+[ContentProperty(nameof(LoadedContentItem))]
 public partial class LoadableListItem
 {
-    public View? StaticContent
+    public View LoadedContentItem
+    {
+        get => (View)GetValue(LoadedContentItemProperty);
+        set => SetValue(LoadedContentItemProperty, value);
+    }
+    
+    public View? StaticContentItem
     {
         get => (View)GetValue(StaticContentProperty);
         set => SetValue(StaticContentProperty, value);
@@ -51,7 +58,7 @@ public partial class LoadableListItem
     /// The command to be executed if a user taps the <see cref="LoadableListItem"/>
     /// </summary>
     /// <remarks>Will only be executed if <see cref="IsError"/> is true</remarks>
-    public ICommand OnErrorTappedCommand
+    public ICommand? OnErrorTappedCommand
     {
         get => (ICommand)GetValue(OnErrorTappedCommandProperty);
         set => SetValue(OnErrorTappedCommandProperty, value);
@@ -60,7 +67,7 @@ public partial class LoadableListItem
     /// <summary>
     /// The parameter to <see cref="OnErrorTappedCommand"/>
     /// </summary>
-    public object OnErrorTappedCommandParameter
+    public object? OnErrorTappedCommandParameter
     {
         get => GetValue(OnErrorTappedCommandParameterProperty);
         set => SetValue(OnErrorTappedCommandParameterProperty, value);
@@ -104,7 +111,12 @@ public partial class LoadableListItem
         typeof(LoadableListItem));
     
     public static readonly BindableProperty StaticContentProperty = BindableProperty.Create(
-        nameof(StaticContent),
+        nameof(StaticContentItem),
+        typeof(View),
+        typeof(LoadableListItem));
+    
+    public static readonly BindableProperty LoadedContentItemProperty = BindableProperty.Create(
+        nameof(LoadedContentItem),
         typeof(View),
         typeof(LoadableListItem));
 }

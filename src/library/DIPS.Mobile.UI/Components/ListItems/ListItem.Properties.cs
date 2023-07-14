@@ -35,6 +35,18 @@ public partial class ListItem
         get => (FontAttributes)GetValue(TitleFontAttributesProperty);
         set => SetValue(TitleFontAttributesProperty, value);
     }
+    
+    public Color TitleTextColor
+    {
+        get => (Color)GetValue(TitleTextColorProperty);
+        set => SetValue(TitleTextColorProperty, value);
+    }
+
+    public double TitleFontSize
+    {
+        get => (double)GetValue(TitleFontSizeProperty);
+        set => SetValue(TitleFontSizeProperty, value);
+    }
 
     /// <summary>
     /// Sets the subtitle text that people will see below <see cref="Title"/>
@@ -182,6 +194,17 @@ public partial class ListItem
         typeof(ListItem),
         defaultValue: Colors.GetColor(ColorName.color_system_black));
 
+    public static readonly BindableProperty TitleTextColorProperty = BindableProperty.Create(
+        nameof(TitleTextColor),
+        typeof(Color),
+        typeof(ListItem),
+        defaultValue:Colors.GetColor(ColorName.color_neutral_90));
+    
+    public static readonly BindableProperty TitleFontSizeProperty = BindableProperty.Create(
+        nameof(TitleFontSize),
+        typeof(double),
+        typeof(ListItem),
+        defaultValue:(double)Sizes.GetSize(SizeName.size_4));
     
     public static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),
