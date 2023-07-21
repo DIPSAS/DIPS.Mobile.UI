@@ -3,39 +3,65 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
+/// <summary>
+/// This component should be used when <see cref="LoadedContentItem"/> needs to be loaded before
+/// being displayed. It can also be useful to use <see cref="IsError"/> to display when something
+/// wrong has happened
+/// <seealso cref="ListItem"/>
+/// <seealso cref="NavigationListItem"/>
+/// </summary>
 [ContentProperty(nameof(LoadedContentItem))]
 public partial class LoadableListItem
 {
+    /// <summary>
+    /// The content to be displayed when <see cref="IsBusy"/> and <see cref="IsError"/> is false
+    /// </summary>
     public View LoadedContentItem
     {
         get => (View)GetValue(LoadedContentItemProperty);
         set => SetValue(LoadedContentItemProperty, value);
     }
     
+    /// <summary>
+    /// The content to be displayed all the time
+    /// </summary>
+    /// <remarks>Will always be displayed on the right side of <see cref="LoadedContentItem"/></remarks>
     public View? StaticContentItem
     {
         get => (View)GetValue(StaticContentProperty);
         set => SetValue(StaticContentProperty, value);
     }
     
+    /// <summary>
+    /// Determines whether a fading animation should occur when <see cref="LoadableListItem"/> switches content
+    /// </summary>
     public bool FadeContentIn
     {
         get => (bool)GetValue(FadeContentInProperty);
         set => SetValue(FadeContentInProperty, value);
     }
     
+    /// <summary>
+    /// The text to be displayed when <see cref="IsError"/> is true
+    /// </summary>
     public string ErrorText
     {
         get => (string)GetValue(ErrorTextProperty);
         set => SetValue(ErrorTextProperty, value);
     }
 
+    /// <summary>
+    /// The text color of <see cref="ErrorText"/>
+    /// </summary>
     public Color ErrorTextColor
     {
         get => (Color)GetValue(ErrorTextColorProperty);
         set => SetValue(ErrorTextColorProperty, value);
     }
     
+    /// <summary>
+    /// The text to be displayed when <see cref="IsBusy"/> is true
+    /// </summary>
     public string BusyText
     {
         get => (string)GetValue(BusyTextProperty);
