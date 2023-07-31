@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 
 namespace DIPS.Mobile.UI.API.Library
 {
@@ -18,6 +19,11 @@ namespace DIPS.Mobile.UI.API.Library
             if (BottomSheetService.IsBottomSheetOpen())
             {
                 _ = BottomSheetService.CloseCurrentBottomSheet(false);    
+            }
+
+            if (FloatingNavigationButtonService.IsShowing())
+            {
+                FloatingNavigationButtonService.Remove();
             }
             
             RemovePlatformSpecificViewsLocatedOnTopOfPage();

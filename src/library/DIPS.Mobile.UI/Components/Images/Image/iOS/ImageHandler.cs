@@ -7,6 +7,8 @@ public partial class ImageHandler
 {
     private static async partial void TrySetTintColor(ImageHandler handler, Image image)
     {
+        if (image.TintColor == null) return;
+        
         var tries = 0;
         // Wait for Image to be set
         while (handler.PlatformView.Image is null)

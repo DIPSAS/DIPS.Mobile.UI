@@ -149,4 +149,9 @@ public static partial class FloatingNavigationButtonService
     }
 
     private static partial void PlatformRemove();
+
+    public static bool IsShowing()
+    {
+        return FloatingNavigationButton?.IsVisible ?? false;
+    }
 }

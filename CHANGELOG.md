@@ -1,3 +1,6 @@
+## [13.14.0]
+- Added `FloatingNavigationButtonService.Remove()` to `RemoveViewsLocatedOnTopOfPage`
+
 ## [13.13.0]
 - Changed default values of column width in ListItem for Title and HorizontalContentItem
 - Consumers can now override column width for Title and HorizontalContentItem in ListItem
