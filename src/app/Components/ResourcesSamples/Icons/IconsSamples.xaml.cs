@@ -1,3 +1,6 @@
+using System.Windows.Input;
+using Components.ComponentsSamples.BottomSheets;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
 
 namespace Components.ResourcesSamples.Icons
@@ -6,6 +9,10 @@ namespace Components.ResourcesSamples.Icons
     {
         private Dictionary<string, ImageSource> m_icons;
         private Dictionary<string, ImageSource> m_allIcons;
+        public ICommand OpenIconCommand => new Command<string>(iconName =>
+        {
+            BottomSheetService.OpenBottomSheet(new IconBottomSheet(iconName));
+        });
 
         public IconsSamples()
         {

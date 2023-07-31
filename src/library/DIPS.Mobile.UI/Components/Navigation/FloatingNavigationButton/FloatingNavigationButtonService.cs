@@ -28,13 +28,13 @@ public static partial class FloatingNavigationButtonService
     /// <summary>
     /// Hides the <see cref="FloatingNavigationButton"/>
     /// </summary>
-    public static Task Hide() => FloatingNavigationButton?.Hide() ?? Task.CompletedTask;
+    public static Task Hide(bool shouldAnimate = true) => FloatingNavigationButton?.Hide(shouldAnimate) ?? Task.CompletedTask;
     
     /// <summary>
     /// Shows the <see cref="FloatingNavigationButton"/>
     /// </summary>
     /// <returns></returns>
-    public static Task Show() => FloatingNavigationButton?.Show() ?? Task.CompletedTask;
+    public static Task Show(bool shouldAnimate = true) => FloatingNavigationButton?.Show(shouldAnimate) ?? Task.CompletedTask;
 
     /// <summary>
     /// Will try to either hide or show the <see cref="FloatingNavigationButton"/> based on your configuration of <see cref="FloatingNavigationButtonConfigurator"/>

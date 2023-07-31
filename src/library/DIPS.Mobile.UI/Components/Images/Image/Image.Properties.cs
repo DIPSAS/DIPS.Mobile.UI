@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using Microsoft.Maui.Graphics.Converters;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Images.Image;
@@ -12,6 +14,7 @@ public partial class Image
     /// <summary>
     /// Sets the color of the image
     /// </summary>
+    [TypeConverter(typeof(ColorTypeConverter))]
     public Color? TintColor
     {
         get => (Color)GetValue(TintColorProperty);

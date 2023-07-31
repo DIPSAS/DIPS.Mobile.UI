@@ -1,0 +1,22 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ResourcesSamples.Icons.IconBottomSheet"
+                 Title="{Binding .}">
+    <dui:VerticalStackLayout>
+        <dui:ListItem Title="Size"
+                      ShouldOverrideContentItemLayoutOptions="False">
+            <Entry x:Name="SizeEntry"
+                   Keyboard="Numeric"
+                   Text="50" />
+        </dui:ListItem>
+        <dui:Image Grid.Row="1"
+                   HeightRequest="{Binding Source={x:Reference SizeEntry}, Path=Text}"
+                   WidthRequest="{Binding Source={x:Reference SizeEntry}, Path=Text}"
+                   Source="{Binding .}" />
+    </dui:VerticalStackLayout>
+</dui:BottomSheet>

@@ -5,7 +5,8 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Components.ResourcesSamples.Icons.IconsSamples">
+                 x:Class="Components.ResourcesSamples.Icons.IconsSamples"
+                 x:Name="CodeBehind">
     <Grid RowDefinitions="Auto, *">
         <dui:SearchBar Grid.Row="0"
                        TextChanged="InputView_OnTextChanged" />
@@ -19,7 +20,9 @@
                           RowSpacing="{dui:Sizes size_2}"
                           RowDefinitions="75, Auto"
                           ColumnDefinitions="100"
-                          HorizontalOptions="Start">
+                          HorizontalOptions="Start"
+                          dui:Touch.Command="{Binding Source={x:Reference CodeBehind}, Path=OpenIconCommand}"
+                          dui:Touch.CommandParameter="{Binding Key}">
                         <Border HeightRequest="75"
                                 WidthRequest="100"
                                 StrokeThickness="1"

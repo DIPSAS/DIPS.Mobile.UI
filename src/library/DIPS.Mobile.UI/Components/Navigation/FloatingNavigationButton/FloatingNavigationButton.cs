@@ -44,17 +44,32 @@ internal class FloatingNavigationButton : Grid
         InputTransparent = true;
     }
 
-    public Task Show()
+    public async Task Show(bool shouldAnimate)
     {
         IsVisible = true;
-        return this.FadeTo(1, easing: Easing.CubicOut);
+        if (shouldAnimate)
+        {
+            await this.FadeTo(1, easing: Easing.CubicOut);    
+        }
+        else
+        {
+            this.Opacity = 1;
+        }
     }
 
-    public async Task Hide()
+    public async Task Hide(bool shouldAnimate)
     {
         if(Opacity == 0)
             return;
-        await this.FadeTo(0, easing: Easing.CubicIn);
+        if (shouldAnimate)
+        {
+            await this.FadeTo(0, easing: Easing.CubicIn);    
+        }
+        else
+        {
+            this.Opacity = 0;
+        }
+        
         IsVisible = false;
     }
 
@@ -187,15 +202,15 @@ internal class FloatingNavigationButton : Grid
         navMenuButton.TranslateTo(0, 0, easing: Easing.CubicIn);
     }
 
-    public void TryHideOrShowFloatingNavigationButton(ContentPage page)
+    public void TryHideOrShowFloatingNavigationButton(ContentPage page, bool shouldAnimate = false)
     {
         if (m_floatingNavigationButtonConfigurator.PagesThatHidesButton.Contains(page.GetType()))
         {
-            _ = Hide();
+            _ = Hide(shouldAnimate);
         }
         else
         {
-            _ = Show();
+            _ = Show(shouldAnimate);
         }
     }
     
