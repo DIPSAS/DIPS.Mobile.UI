@@ -20,11 +20,6 @@ namespace DIPS.Mobile.UI.API.Library
             {
                 _ = BottomSheetService.CloseCurrentBottomSheet(false);    
             }
-
-            if (FloatingNavigationButtonService.IsShowing())
-            {
-                FloatingNavigationButtonService.Remove();
-            }
             
             RemovePlatformSpecificViewsLocatedOnTopOfPage();
         }

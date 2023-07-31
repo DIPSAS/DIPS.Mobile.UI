@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 
 namespace Playground.HåvardSamples;
 
@@ -11,6 +12,13 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        DUI.RemoveViewsLocatedOnTopOfPage();
+        if (FloatingNavigationButtonService.IsShowing())
+        {
+            FloatingNavigationButtonService.Hide();
+        }
+        else
+        {
+            FloatingNavigationButtonService.Show();
+        }
     }
 }

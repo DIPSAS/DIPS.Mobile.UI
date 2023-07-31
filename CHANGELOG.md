@@ -1,3 +1,6 @@
+## [13.15.0]
+- Rollback changes to 13.14.0 to add FloationgNavButton to RemoveViewsLocatedOnTopOfPage
+
 ## [13.14.0]
 - Added `FloatingNavigationButtonService.Remove()` to `RemoveViewsLocatedOnTopOfPage`
 
