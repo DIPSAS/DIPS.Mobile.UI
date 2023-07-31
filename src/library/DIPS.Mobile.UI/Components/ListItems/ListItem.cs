@@ -142,6 +142,7 @@ public partial class ListItem : ContentView
 
         m_icon.Source = Icon;
         m_icon.SetBinding(Image.TintColorProperty, new Binding(nameof(IconColor), source: this));
+        m_icon.SetBinding(Image.IsVisibleProperty, new Binding(nameof(IsIconVisible), source: this));
         
         MainContent.Add(m_icon, 0);
         MainContent.ColumnDefinitions.Insert(0, new ColumnDefinition(GridLength.Auto));

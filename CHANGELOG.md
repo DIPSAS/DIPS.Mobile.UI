@@ -1,3 +1,6 @@
+## [13.16.0]
+- [ListItem] Added the ability to set the icons visibility.
+
 ## [13.15.0]
 - Rollback changes to 13.14.0 to add FloationgNavButton to RemoveViewsLocatedOnTopOfPage
 

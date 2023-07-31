@@ -99,6 +99,15 @@ public partial class ListItem
         get => (Color)GetValue(IconColorProperty);
         set => SetValue(IconColorProperty, value);
     }
+    
+    /// <summary>
+    /// Determines if the icon should be visible for people.
+    /// </summary>
+    public bool IsIconVisible
+    {
+        get => (bool)GetValue(IsIconVisibleProperty);
+        set => SetValue(IsIconVisibleProperty, value);
+    }
 
     /// <summary>
     /// Sets the <see cref="Microsoft.Maui.CornerRadius"/> of the list item
@@ -294,4 +303,9 @@ public partial class ListItem
             if(obj is ListItem listItem)
                 listItem.AddIcon();
         });
+
+    public static readonly BindableProperty IsIconVisibleProperty = BindableProperty.Create(
+        nameof(IsIconVisible),
+        typeof(bool),
+        typeof(ListItem), defaultValue:true);
 }
