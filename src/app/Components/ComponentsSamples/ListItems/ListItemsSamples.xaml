@@ -24,6 +24,7 @@
                                 HasTopDivider="True"/>
 
         <dui:ListItem Title="Person"
+                      BackgroundColor="Red"
                       HasTopDivider="True">
             <dui:ListItem.BindingContext>
                 <pickers:ItemPickersSamplesViewModel />

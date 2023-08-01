@@ -6,38 +6,60 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 x:Class="Playground.HåvardSamples.HåvardPage">
-    <CollectionView>
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-                <x:String>Item</x:String>
-            </x:Array>
-        </CollectionView.ItemsSource>
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:NavigationListItem Title="{Binding .}" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                 x:Class="Playground.HåvardSamples.HåvardPage"
+                 Padding="0,10">
+    <!-- <dui:ListItem Title="Test" HasBottomDivider="True" HasTopDivider="True" /> -->
+    <Grid RowDefinitions="Auto, *">
+        <Border>
+            <VerticalStackLayout Grid.Row="0"
+                                 BackgroundColor="White"
+                                 VerticalOptions="Start"
+                                 >
+                <dui:Divider />
+                <Grid>
+                    <Label Text="Test"
+                           Padding="20">
+                    </Label>
+                </Grid>
+                <dui:Divider />
+            </VerticalStackLayout>
+            </Border>
+        <!-- <dui:ListItem Grid.Row="1" Title="Test" -->
+        <!--               HasTopDivider="True" -->
+        <!--               HasBottomDivider="True"> -->
+        <!-- </dui:ListItem> -->
+    </Grid>
+    <!-- <CollectionView> -->
+    <!--     <CollectionView.ItemsSource> -->
+    <!--         <x:Array Type="{x:Type x:String}"> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--             <x:String>Item</x:String> -->
+    <!--         </x:Array> -->
+    <!--     </CollectionView.ItemsSource> -->
+    <!--     <CollectionView.ItemTemplate> -->
+    <!--         <DataTemplate> -->
+    <!--             <dui:NavigationListItem Title="{Binding .}" /> -->
+    <!--         </DataTemplate> -->
+    <!--     </CollectionView.ItemTemplate> -->
+    <!-- </CollectionView> -->
 </dui:ContentPage>
