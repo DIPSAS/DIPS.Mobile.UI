@@ -1,3 +1,6 @@
+## [13.17.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [13.16.1]
 - Fixed an issue where dividers was using extra space on iOS.
 
