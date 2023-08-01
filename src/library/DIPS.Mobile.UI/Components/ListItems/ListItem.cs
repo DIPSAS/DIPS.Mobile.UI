@@ -7,23 +7,25 @@ using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 [ContentProperty(nameof(HorizontalContentItem))]
-public partial class ListItem : Border
+public partial class ListItem : ContentView
 {
     protected Grid MainContent { get; }
     private VerticalStackLayout RootContent { get; } =
-        new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent };
+        new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, Spacing = 0};
 
+    public Border Border { get; } = new();
     private Image m_icon = new() { Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0) };
 
     public ListItem()
     {
-        StrokeShape = new RoundRectangle 
+        Border.StrokeShape = new RoundRectangle 
         { 
             CornerRadius = CornerRadius, 
             StrokeThickness = 0 
         };
         
         this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_system_white);
+        Border.SetBinding(BackgroundProperty, new Binding(){Source = this, Path = nameof(BackgroundColorProperty)});
         
         MainContent = new Grid 
         {
@@ -41,7 +43,11 @@ public partial class ListItem : Border
                 Sizes.GetSize(SizeName.size_4),
                 Sizes.GetSize(SizeName.size_3))
         };
-        RootContent.Add(MainContent);
+        
+        Border.Content = MainContent;
+
+        RootContent.Add(Border);
+
         Content = RootContent;
     }
 
@@ -63,7 +69,7 @@ public partial class ListItem : Border
 
 #if __ANDROID__
         // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
-        StrokeThickness = 0;
+        Border.StrokeThickness = 0;
 #endif
 
         if (HasTopDivider)
@@ -157,7 +163,7 @@ public partial class ListItem : Border
         if(bindable is not ListItem listItem)
             return;
 
-        listItem.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
+        listItem.Border.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
     }
 
     private static void OnHorizontalContentItemChanged(BindableObject bindable, object oldValue, object newValue)

@@ -1,3 +1,6 @@
+## [13.16.1]
+- Fixed an issue where dividers was using extra space on iOS.
+
 ## [13.16.0]
 - [ListItem] Added the ability to set the icons visibility.
 - [ListItem] Changed inheritance from ContentView to Border for consumers to modify the shape and colors of the list item.
