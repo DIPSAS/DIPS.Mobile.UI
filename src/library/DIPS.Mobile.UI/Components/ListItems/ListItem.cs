@@ -23,6 +23,8 @@ public partial class ListItem : Border
             StrokeThickness = 0 
         };
         
+        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_system_white);
+        
         MainContent = new Grid 
         {
             ColumnDefinitions = new ColumnDefinitionCollection

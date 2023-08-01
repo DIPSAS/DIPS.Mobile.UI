@@ -7,5 +7,37 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage">
-    <dui:Button Clicked="Button_OnClicked"/>
+    <CollectionView>
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+                <x:String>Item</x:String>
+            </x:Array>
+        </CollectionView.ItemsSource>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:NavigationListItem Title="{Binding .}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </dui:ContentPage>
