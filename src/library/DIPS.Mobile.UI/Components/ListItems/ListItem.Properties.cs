@@ -94,7 +94,7 @@ public partial class ListItem
     /// <summary>
     /// Sets the color of <see cref="Icon"/>
     /// </summary>
-    public Color IconColor
+    public Color? IconColor
     {
         get => (Color)GetValue(IconColorProperty);
         set => SetValue(IconColorProperty, value);
@@ -279,8 +279,7 @@ public partial class ListItem
     public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
         nameof(IconColor),
         typeof(Color),
-        typeof(ListItem),
-        defaultValue: Colors.GetColor(ColorName.color_system_black));
+        typeof(ListItem));
 
     public static readonly BindableProperty TitleTextColorProperty = BindableProperty.Create(
         nameof(TitleTextColor),
