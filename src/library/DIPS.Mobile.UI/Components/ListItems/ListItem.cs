@@ -7,20 +7,17 @@ using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 [ContentProperty(nameof(HorizontalContentItem))]
-public partial class ListItem : ContentView
+public partial class ListItem : Border
 {
     protected Grid MainContent { get; }
-
     private VerticalStackLayout RootContent { get; } =
         new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent };
-
-    public Border Border { get; } = new() {BackgroundColor = Colors.GetColor(ColorName.color_system_white)};
 
     private Image m_icon = new() { Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0) };
 
     public ListItem()
     {
-        Border.StrokeShape = new RoundRectangle 
+        StrokeShape = new RoundRectangle 
         { 
             CornerRadius = CornerRadius, 
             StrokeThickness = 0 
@@ -42,11 +39,7 @@ public partial class ListItem : ContentView
                 Sizes.GetSize(SizeName.size_4),
                 Sizes.GetSize(SizeName.size_3))
         };
-
-        Border.Content = MainContent;
-
-        RootContent.Add(Border);
-        
+        RootContent.Add(MainContent);
         Content = RootContent;
     }
 
@@ -68,7 +61,7 @@ public partial class ListItem : ContentView
 
 #if __ANDROID__
         // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
-        Border.StrokeThickness = 0;
+        StrokeThickness = 0;
 #endif
 
         if (HasTopDivider)
@@ -162,7 +155,7 @@ public partial class ListItem : ContentView
         if(bindable is not ListItem listItem)
             return;
 
-        listItem.Border.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
+        listItem.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
     }
 
     private static void OnHorizontalContentItemChanged(BindableObject bindable, object oldValue, object newValue)
@@ -216,8 +209,8 @@ public partial class ListItem : ContentView
 
     private void AddTouch()
     {
-        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(Border, new Command(() =>
+        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(this, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
@@ -225,14 +218,14 @@ public partial class ListItem : ContentView
         SetTouchIsEnabled();
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && Command is not null);
+    private void SetTouchIsEnabled() => Touch.SetIsEnabled(this, IsEnabled && Command is not null);
 
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if(bindable is not ListItem listItem)
             return;
 
-        Touch.SetIsEnabled(listItem.Border, newValue is not null);
+        Touch.SetIsEnabled(listItem, newValue is not null);
     }
 
     private void OnHorizontalContentItemColumnWidthChanged()

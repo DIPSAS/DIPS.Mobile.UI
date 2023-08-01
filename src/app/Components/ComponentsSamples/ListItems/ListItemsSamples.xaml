@@ -13,12 +13,15 @@
     <dui:ContentPage.BindingContext>
         <listItems:ListItemsSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    
+
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
-                                HasTopDivider="True">
-            <dui:Label Text="Something" VerticalTextAlignment="Center" />
-        </dui:NavigationListItem>
+                                HasTopDivider="True"/>
+        
+        <dui:NavigationListItem Title="Navigate"
+                                Icon="{dui:Icons internalmessage_fill}"
+                                IconColor="{dui:Colors color_primary_90}"
+                                HasTopDivider="True"/>
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">
@@ -41,29 +44,8 @@
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
 
-        <dui:NavigationListItem Title="Navigate"
-                                Icon="{dui:Icons internalmessage_fill}"
-                                IconColor="{dui:Colors color_primary_90}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True" />
-        
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog_FakeTitle}"
-                      Subtitle="{x:Static localizedStrings:LocalizedStrings.Dialog_FakeTitle}"
-                      HasBottomDivider="True">
-            
-            <dui:Image Source="{dui:Icons check_line}" />
-                
-            <dui:ListItem.VerticalContentItem>
-                <HorizontalStackLayout>
-                    <dui:Image Source="{dui:Icons placeholdericon_fill}" />
-                    <dui:Label Text="Filter" VerticalTextAlignment="Center" />
-                </HorizontalStackLayout>
-            </dui:ListItem.VerticalContentItem>
-            
-        </dui:ListItem>
-        
-        <dui:LoadableListItem Title="LoadableListItem"
-                              Subtitle="Click when error"
+        <dui:LoadableListItem Title="Loadable ListItem"
+                              Subtitle="click when error"
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
                               ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
@@ -71,27 +53,12 @@
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
                               HasBottomDivider="True"
+                              HasTopDivider="True"
                               FadeContentIn="True">
-            <dui:Label Text="All systems working!" VerticalTextAlignment="Center"/>
-            
+            <dui:Label Text="All systems working!"
+                       VerticalTextAlignment="Center" />
+
         </dui:LoadableListItem>
-        
-        <dui:LoadableListItem Title="LoadableListItem"
-                              Subtitle="With static item"
-                              BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
-                              IsBusy="{Binding IsBusy}"
-                              ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
-                              IsError="{Binding IsError}"
-                              OnErrorTappedCommand="{Binding RefreshCommand}"
-                              HasBottomDivider="True"
-                              FadeContentIn="True">
-            
-            <dui:Label Text="All systems working!" VerticalTextAlignment="Center" />
-            
-            <dui:LoadableListItem.StaticContentItem>
-                <dui:Image Source="{dui:Icons arrow_right_s_line}" />
-            </dui:LoadableListItem.StaticContentItem>
-        </dui:LoadableListItem>
-        
+
     </dui:VerticalStackLayout>
 </dui:ContentPage>
