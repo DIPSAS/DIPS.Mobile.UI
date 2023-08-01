@@ -94,10 +94,19 @@ public partial class ListItem
     /// <summary>
     /// Sets the color of <see cref="Icon"/>
     /// </summary>
-    public Color IconColor
+    public Color? IconColor
     {
         get => (Color)GetValue(IconColorProperty);
         set => SetValue(IconColorProperty, value);
+    }
+    
+    /// <summary>
+    /// Determines if the icon should be visible for people.
+    /// </summary>
+    public bool IsIconVisible
+    {
+        get => (bool)GetValue(IsIconVisibleProperty);
+        set => SetValue(IsIconVisibleProperty, value);
     }
 
     /// <summary>
@@ -270,8 +279,7 @@ public partial class ListItem
     public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
         nameof(IconColor),
         typeof(Color),
-        typeof(ListItem),
-        defaultValue: Colors.GetColor(ColorName.color_system_black));
+        typeof(ListItem));
 
     public static readonly BindableProperty TitleTextColorProperty = BindableProperty.Create(
         nameof(TitleTextColor),
@@ -294,4 +302,9 @@ public partial class ListItem
             if(obj is ListItem listItem)
                 listItem.AddIcon();
         });
+
+    public static readonly BindableProperty IsIconVisibleProperty = BindableProperty.Create(
+        nameof(IsIconVisible),
+        typeof(bool),
+        typeof(ListItem), defaultValue:true);
 }

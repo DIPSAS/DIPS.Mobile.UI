@@ -1,3 +1,8 @@
+## [13.16.0]
+- [ListItem] Added the ability to set the icons visibility.
+- [ListItem] Changed inheritance from ContentView to Border for consumers to modify the shape and colors of the list item.
+- [ComponentsApp] Cleaned up List Items page.
+
 ## [13.15.0]
 - Rollback changes to 13.14.0 to add FloationgNavButton to RemoveViewsLocatedOnTopOfPage
 
