@@ -24,8 +24,8 @@ public partial class ListItem : ContentView
             StrokeThickness = 0 
         };
         
-        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_system_white);
-        Border.SetBinding(BackgroundProperty, new Binding(){Source = this, Path = nameof(BackgroundColorProperty)});
+        // this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_system_white);
+        Border.SetBinding(Border.BackgroundColorProperty, new Binding(){Source = this, Path = nameof(BackgroundColor)});
         
         MainContent = new Grid 
         {

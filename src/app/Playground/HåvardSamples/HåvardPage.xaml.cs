@@ -12,13 +12,6 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        if (FloatingNavigationButtonService.IsShowing())
-        {
-            FloatingNavigationButtonService.Hide();
-        }
-        else
-        {
-            FloatingNavigationButtonService.Show();
-        }
+        Shell.Current.Navigation.PushAsync(new HåvardPage2());
     }
 }

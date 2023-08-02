@@ -11,32 +11,32 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         //Adds a extra space in the bottom to make sure the last item is not placed at the very bottom of the page, this makes the last item more accessible for people.
-        m_extraSpaceBorder ??= new Border()
-        {
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
-        };
+        m_extraSpaceBorder ??= new Border() {BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
         Footer = m_extraSpaceBorder;
         SelectionMode = SelectionMode.None;
     }
 
-    private static void OnItemSpacingPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+    private void TrySetItemSpacing()
     {
-        if (bindable is not CollectionView collectionView || newvalue is not double itemsSpacing) return;
-
-        switch (collectionView.ItemsLayout)
+        var oldItemsLayout = ItemsLayout;
+        ItemsLayout = oldItemsLayout switch
         {
-            case LinearItemsLayout linearItemsLayout:
-                linearItemsLayout.ItemSpacing = itemsSpacing;
-                break;
-            case GridItemsLayout gridItemsLayout:
-                gridItemsLayout.HorizontalItemSpacing = itemsSpacing;
-                gridItemsLayout.VerticalItemSpacing = itemsSpacing;
-                break;
-        }
+            LinearItemsLayout linearItemsLayout => new LinearItemsLayout(linearItemsLayout.Orientation)
+            {
+                ItemSpacing = ItemSpacing
+            },
+            GridItemsLayout gridItemsLayout => new GridItemsLayout(gridItemsLayout.Span, gridItemsLayout.Orientation)
+            {
+                HorizontalItemSpacing = ItemSpacing, VerticalItemSpacing = ItemSpacing,
+            },
+            _ => null
+        };
     }
 
     protected override void OnSizeAllocated(double width, double height)
     {
+        base.OnSizeAllocated(width, height);
+
 #if __IOS__
         //TODO: Remove .NET 8 when this is fixed: https://github.com/dotnet/maui/issues/7315
         if (Parent is ScrollView scrollView) //To fix an issue where the width of the collectionview has the wrong width on iOS.
@@ -45,7 +45,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         }
 #endif
 
-        base.OnSizeAllocated(width, height);
         if (HasAdditionalSpaceAtTheEnd && Footer == m_extraSpaceBorder)
         {
             AddExtraSpaceAtTheEnd(height);

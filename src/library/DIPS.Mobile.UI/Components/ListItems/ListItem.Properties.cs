@@ -307,4 +307,15 @@ public partial class ListItem
         nameof(IsIconVisible),
         typeof(bool),
         typeof(ListItem), defaultValue:true);
+
+    public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        nameof(BackgroundColor),
+        typeof(Color),
+        typeof(ListItem));
+
+    public new Color BackgroundColor
+    {
+        get => (Color)GetValue(BackgroundColorProperty);
+        set => SetValue(BackgroundColorProperty, value);
+    }
 }
