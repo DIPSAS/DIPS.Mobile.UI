@@ -177,7 +177,7 @@ public partial class ListItem
     /// <summary>
     /// Sets the <see cref="GridLength"/> of the column that <see cref="Title"/> resides in
     /// </summary>
-    /// <remarks>The default <see cref="GridLength"/> of this column is 'Star'</remarks>
+    /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
     [TypeConverter(typeof (GridLengthTypeConverter))]
     public GridLength TitleColumnWidth
     {

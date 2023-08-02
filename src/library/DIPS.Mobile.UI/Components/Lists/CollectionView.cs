@@ -37,6 +37,14 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
     protected override void OnSizeAllocated(double width, double height)
     {
+#if __IOS__
+        //TODO: Remove .NET 8 when this is fixed: https://github.com/dotnet/maui/issues/7315
+        if (Parent is ScrollView scrollView) //To fix an issue where the width of the collectionview has the wrong width on iOS.
+        {
+            WidthRequest = scrollView.Bounds.Width;
+        }
+#endif
+
         base.OnSizeAllocated(width, height);
         if (HasAdditionalSpaceAtTheEnd && Footer == m_extraSpaceBorder)
         {
