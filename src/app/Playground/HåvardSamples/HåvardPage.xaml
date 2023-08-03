@@ -11,7 +11,6 @@
         <håvardSamples:PageViewModel />
     </dui:ContentPage.BindingContext>
     <dui:RefreshView>
-        <ScrollView>
             <dui:CollectionView ItemsSource="{Binding AnimalGroups}"
                             IsGrouped="true">
                 <!-- <CollectionView.ItemsSource> -->
@@ -161,9 +160,10 @@
                     <DataTemplate>
                         <Label Text="{Binding Count, StringFormat='Total animals: {0:D}'}"
                                Margin="0,0,0,10" />
+                        
                     </DataTemplate>
                 </CollectionView.GroupFooterTemplate>
             </dui:CollectionView>
-        </ScrollView>
+        
     </dui:RefreshView>
 </dui:ContentPage>
