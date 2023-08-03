@@ -14,4 +14,9 @@ public partial class HåvardPage
     {
         Shell.Current.Navigation.PushAsync(new HåvardPage2());
     }
+
+    private void ListItem_OnTapped(object sender, EventArgs e)
+    {
+        
+    }
 }

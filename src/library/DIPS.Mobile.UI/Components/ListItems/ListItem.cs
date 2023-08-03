@@ -24,7 +24,7 @@ public partial class ListItem : ContentView
             StrokeThickness = 0 
         };
         
-        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_system_white);
+        BackgroundColor = Colors.GetColor(ColorName.color_system_white);
         Border.SetBinding(Border.BackgroundColorProperty, new Binding(){Source = this, Path = nameof(BackgroundColor)});
         
         MainContent = new Grid 
@@ -48,7 +48,7 @@ public partial class ListItem : ContentView
 
         RootContent.Add(Border);
 
-        Content = RootContent;
+        this.Content = RootContent;
     }
 
     protected override void OnPropertyChanged(string propertyName = null)
@@ -217,8 +217,8 @@ public partial class ListItem : ContentView
 
     private void AddTouch()
     {
-        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(this, new Command(() =>
+        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(Border, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
@@ -226,14 +226,14 @@ public partial class ListItem : ContentView
         SetTouchIsEnabled();
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(this, IsEnabled && Command is not null);
+    private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && Command is not null);
 
     private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if(bindable is not ListItem listItem)
             return;
 
-        Touch.SetIsEnabled(listItem, newValue is not null);
+        Touch.SetIsEnabled(listItem.Border, newValue is not null);
     }
 
     private void OnHorizontalContentItemColumnWidthChanged()
@@ -244,5 +244,14 @@ public partial class ListItem : ContentView
     private void OnTitleColumnWidthChanged()
     {
         MainContent.ColumnDefinitions.First().Width = TitleColumnWidth;
+    }
+
+    private void OnVerticalContentItemRowHeightChanged()
+    {
+        if (VerticalContentItem != null)
+        {
+            MainContent.RowDefinitions.Last().Height = VerticalContentItemRowHeight;    
+        }
+        
     }
 }

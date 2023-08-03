@@ -2,6 +2,7 @@
 - [CollectionView][iOS] Fixed an issue where collectionview had the wrong width when in a scrollview.
 - [RefreshView] Removed workaround code for refreshview when the new collection view hotfix was added to remove complexity.
 - [CollectionView] Fixed an issue where Itemspacing was inherited between collection views between pages.
+- [ListItem] Added `VerticalContentItemRowHeight`.
 
 ## [13.16.1]
 - Fixed an issue where dividers was using extra space on iOS.

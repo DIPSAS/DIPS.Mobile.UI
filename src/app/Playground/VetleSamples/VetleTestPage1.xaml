@@ -33,7 +33,7 @@
                               IsBusy="{Binding IsProgressing}"
                               IsError="{Binding IsError}">
                         
-            <Grid RowDefinitions="Auto, Auto, Auto">
+            <Grid RowDefinitions="Auto, Auto, Auto" BackgroundColor="Red">
                 <dui:Label Text="This is my content" />
                             
                 <dui:Label Grid.Row="1" Text="This is my content" />
@@ -43,7 +43,7 @@
             </Grid>
             
             <dui:LoadableListItem.StaticContentItem>
-                <Image Source="{dui:Icons arrow_right_s_line}" />
+                <Image Source="{dui:Icons arrow_right_s_line}"  />
             </dui:LoadableListItem.StaticContentItem>
                         
         </dui:LoadableListItem>
