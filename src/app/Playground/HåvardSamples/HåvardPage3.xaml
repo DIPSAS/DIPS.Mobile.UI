@@ -1,0 +1,48 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             x:Class="Playground.HåvardSamples.HåvardPage3">
+    <RefreshView>
+        <ScrollView>
+            <dui:CollectionView ItemSpacing="30" AutomationId="ShouldHaveSize30">
+                <dui:CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                        <x:String>Item</x:String>
+                    </x:Array>
+                </dui:CollectionView.ItemsSource>
+                <dui:CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <dui:ListItem TitleColumnWidth="*"
+                                      BackgroundColor="Red"
+                                      HorizontalContentItemColumnWidth="*"/>
+                    </DataTemplate>
+                </dui:CollectionView.ItemTemplate>
+            </dui:CollectionView>
+        </ScrollView>
+    </RefreshView>
+</dui:ContentPage>

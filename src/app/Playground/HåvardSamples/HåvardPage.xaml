@@ -6,60 +6,164 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0,10">
-    <!-- <dui:ListItem Title="Test" HasBottomDivider="True" HasTopDivider="True" /> -->
-    <Grid RowDefinitions="Auto, *">
-        <Border>
-            <VerticalStackLayout Grid.Row="0"
-                                 BackgroundColor="White"
-                                 VerticalOptions="Start"
-                                 >
-                <dui:Divider />
-                <Grid>
-                    <Label Text="Test"
-                           Padding="20">
-                    </Label>
-                </Grid>
-                <dui:Divider />
-            </VerticalStackLayout>
-            </Border>
-        <!-- <dui:ListItem Grid.Row="1" Title="Test" -->
-        <!--               HasTopDivider="True" -->
-        <!--               HasBottomDivider="True"> -->
-        <!-- </dui:ListItem> -->
-    </Grid>
-    <!-- <CollectionView> -->
-    <!--     <CollectionView.ItemsSource> -->
-    <!--         <x:Array Type="{x:Type x:String}"> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--             <x:String>Item</x:String> -->
-    <!--         </x:Array> -->
-    <!--     </CollectionView.ItemsSource> -->
-    <!--     <CollectionView.ItemTemplate> -->
-    <!--         <DataTemplate> -->
-    <!--             <dui:NavigationListItem Title="{Binding .}" /> -->
-    <!--         </DataTemplate> -->
-    <!--     </CollectionView.ItemTemplate> -->
-    <!-- </CollectionView> -->
+                 x:Class="Playground.HåvardSamples.HåvardPage">
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:PageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:RefreshView>
+            <dui:CollectionView ItemsSource="{Binding AnimalGroups}"
+                            IsGrouped="true">
+                <!-- <CollectionView.ItemsSource> -->
+                <!--     <x:Array Type="{x:Type x:String}"> -->
+                <!--         <x:String>Item1</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item</x:String> -->
+                <!--         <x:String>Item100</x:String> -->
+                <!--     </x:Array> -->
+                <!-- </CollectionView.ItemsSource> -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type håvardSamples:Animal}">
+                        <Grid Padding="10"
+                              ColumnDefinitions="Auto,*, Auto"
+                              RowDefinitions="Auto, *">
+                            <Image Grid.RowSpan="2"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="60"
+                                   WidthRequest="60" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding Name}"
+                                   FontAttributes="Bold" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Location}"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="{x:Type håvardSamples:AnimalGroup}">
+                        <Label Text="{Binding Name}"
+                               BackgroundColor="LightGray"
+                               FontSize="Large"
+                               FontAttributes="Bold" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Count, StringFormat='Total animals: {0:D}'}"
+                               Margin="0,0,0,10" />
+                        
+                    </DataTemplate>
+                </CollectionView.GroupFooterTemplate>
+            </dui:CollectionView>
+        
+    </dui:RefreshView>
 </dui:ContentPage>

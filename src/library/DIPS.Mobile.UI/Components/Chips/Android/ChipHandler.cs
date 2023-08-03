@@ -8,13 +8,12 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
 {
     protected override Google.Android.Material.Chip.Chip CreatePlatformView()
     {
-        return new Google.Android.Material.Chip.Chip(Context) {  };
+        return new Google.Android.Material.Chip.Chip(Context);
     }
     
     protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.ConnectHandler(platformView);
-        
         platformView.SetDefaultChipAttributes();
         platformView.Click += OnChipTapped;
     }

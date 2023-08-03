@@ -121,18 +121,18 @@ public partial class ListItem
     /// <summary>
     /// The item to be vertically placed relative to <see cref="Title"/>
     /// </summary>
-    public BindableObject VerticalContentItem
+    public IView? VerticalContentItem
     {
-        get => (BindableObject)GetValue(VerticalContentItemProperty);
+        get => (IView)GetValue(VerticalContentItemProperty);
         set => SetValue(VerticalContentItemProperty, value);
     }
     
     /// <summary>
     /// The item to be horizontally placed relative to <see cref="Title"/>
     /// </summary>
-    public BindableObject HorizontalContentItem
+    public IView HorizontalContentItem
     {
-        get => (BindableObject)GetValue(ContentItemProperty);
+        get => (IView)GetValue(ContentItemProperty);
         set => SetValue(ContentItemProperty, value);
     }
 
@@ -164,7 +164,7 @@ public partial class ListItem
     }
     
     /// <summary>
-    /// Sets the <see cref="GridLength"/> of the column that <see cref="HorizontalContentItem"/> resides in
+    /// Sets the <see cref="GridLength"/> of the column that <see cref="HorizontalContentItem"/> resides in.
     /// </summary>
     /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
     [TypeConverter(typeof (GridLengthTypeConverter))]
@@ -175,14 +175,25 @@ public partial class ListItem
     }
 
     /// <summary>
-    /// Sets the <see cref="GridLength"/> of the column that <see cref="Title"/> resides in
+    /// Sets the <see cref="GridLength"/> of the column that <see cref="Title"/> resides in.
     /// </summary>
-    /// <remarks>The default <see cref="GridLength"/> of this column is 'Star'</remarks>
+    /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
     [TypeConverter(typeof (GridLengthTypeConverter))]
     public GridLength TitleColumnWidth
     {
         get => (GridLength)GetValue(TitleColumnWidthProperty);
         set => SetValue(TitleColumnWidthProperty, value);
+    }
+
+    /// <summary>
+    /// Sets the <see cref="GridLength"/> of the row that <see cref="VerticalContentItem"/> resides in.
+    /// </summary>
+    /// <remarks>The default <see cref="GridLength"/> of this row is 'Auto'</remarks>
+    [TypeConverter(typeof (GridLengthTypeConverter))]
+    public GridLength VerticalContentItemRowHeight
+    {
+        get => (GridLength)GetValue(VerticalContentItemRowHeightProperty);
+        set => SetValue(VerticalContentItemRowHeightProperty, value);
     }
     
     public static readonly BindableProperty HorizontalContentItemColumnWidthProperty = BindableProperty.Create(
@@ -211,6 +222,19 @@ public partial class ListItem
         },
         defaultValue:GridLength.Auto);
     
+    public static readonly BindableProperty VerticalContentItemRowHeightProperty = BindableProperty.Create(
+        nameof(VerticalContentItemRowHeight),
+        typeof(GridLength),
+        typeof(ListItem),
+        propertyChanged:(bindable, _, _) =>
+        {
+            if (bindable is ListItem listItem)
+            {
+                listItem.OnVerticalContentItemRowHeightChanged();
+            }
+        },
+        defaultValue:GridLength.Auto);
+    
     public static readonly BindableProperty ShouldOverrideContentItemLayoutOptionsProperty = BindableProperty.Create(
         nameof(ShouldOverrideContentItemLayoutOptions),
         typeof(bool),
@@ -219,7 +243,7 @@ public partial class ListItem
     
     public static readonly BindableProperty ContentItemProperty = BindableProperty.Create(
         nameof(HorizontalContentItem),
-        typeof(BindableObject),
+        typeof(IView),
         typeof(ListItem),
         propertyChanged:OnHorizontalContentItemChanged);
     
@@ -256,7 +280,7 @@ public partial class ListItem
     
     public static readonly BindableProperty VerticalContentItemProperty = BindableProperty.Create(
         nameof(VerticalContentItem),
-        typeof(BindableObject),
+        typeof(IView),
         typeof(ListItem),
         propertyChanged:OnVerticalContentItemChanged);
 
@@ -307,4 +331,15 @@ public partial class ListItem
         nameof(IsIconVisible),
         typeof(bool),
         typeof(ListItem), defaultValue:true);
+
+    public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        nameof(BackgroundColor),
+        typeof(Color),
+        typeof(ListItem));
+
+    public new Color BackgroundColor
+    {
+        get => (Color)GetValue(BackgroundColorProperty);
+        set => SetValue(BackgroundColorProperty, value);
+    }
 }

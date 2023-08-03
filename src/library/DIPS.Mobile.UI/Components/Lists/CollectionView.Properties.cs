@@ -30,5 +30,5 @@ public partial class CollectionView
     public static readonly BindableProperty ItemSpacingProperty = BindableProperty.Create(
         nameof(ItemSpacing),
         typeof(double),
-        typeof(CollectionView), propertyChanged: OnItemSpacingPropertyChanged, defaultValue:(double)Sizes.GetSize(SizeName.size_1));
+        typeof(CollectionView), propertyChanged: (bindable, value, newValue) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
 }
