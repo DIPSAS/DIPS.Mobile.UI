@@ -19,7 +19,6 @@
     </dui:ContentPage.ToolbarItems>
         
                 <dui:VerticalStackLayout>
-                    
                     <dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
                                 AdditionalHitBoxSize="50, 30"
                                 Command="{Binding Navigate}"/>
