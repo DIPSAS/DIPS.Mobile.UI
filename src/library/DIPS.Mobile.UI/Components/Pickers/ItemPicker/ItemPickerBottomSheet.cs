@@ -1,7 +1,10 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Effects.Touch;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
@@ -14,28 +17,42 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         {
             m_itemPicker = itemPicker;
             m_originalItems = new List<SelectableListItem>();
-            
+
             if (m_itemPicker.ItemsSource != null)
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
                     m_originalItems.Add(new SelectableListItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
-                        item == m_itemPicker.SelectedItem));
+                        item == m_itemPicker.SelectedItem, item));
                 }
             }
 
             Items = new ObservableCollection<SelectableListItem>(m_originalItems);
-            HasSearchBar = itemPicker.HasSearchBar;
+
+            if (m_itemPicker.BottomSheetConfiguration is {HasSearchBar: true})
+            {
+                HasSearchBar = true;    
+            }
 
             var collectionView = new CollectionView()
             {
-                ItemTemplate = new DataTemplate(CreateCheckBox),
-                Margin = Sizes.GetSize(SizeName.size_2)
+                ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
             };
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
-            
+
             Content = collectionView;
+        }
+
+        private object LoadTemplate()
+        {
+            if (m_itemPicker.BottomSheetConfiguration is
+                {SelectableItemTemplate: not null} bottomSheetConfiguration)
+            {
+                return CreateConsumerView(bottomSheetConfiguration.SelectableItemTemplate);
+            }
+
+            return CreateDefaultView();
         }
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
@@ -49,34 +66,52 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             set => SetValue(ItemsProperty, value);
         }
 
-        private IView CreateCheckBox()
+        private IView CreateConsumerView(ControlTemplate selectableItemTemplate)
+        {
+            var contentView = new SelectableItemContentView(){ ControlTemplate = selectableItemTemplate};
+            contentView.SetBinding(SelectableItemContentView.ItemProperty, new Binding(){Path = nameof(SelectableListItem.Item)});
+            contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, new Binding(){Path = nameof(SelectableListItem.IsSelected)});
+            Touch.SetCommand(contentView, new Command(() => ItemWasPicked(contentView)));
+            return contentView;
+        }
+        
+        private IView CreateDefaultView()
         {
             var checkBox = new CheckBox();
             checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableListItem.DisplayName)});
-            checkBox.SetBinding(CheckBox.IsSelectedProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
+            checkBox.SetBinding(CheckBox.IsSelectedProperty,
+                new Binding() {Path = nameof(SelectableListItem.IsSelected)});
             checkBox.Command = new Command(() => ItemWasPicked(checkBox));
             return checkBox;
         }
 
-        private void ItemWasPicked(CheckBox checkBox)
+        private void ItemWasPicked(BindableObject tappedObject)
         {
-            if (checkBox.IsSelected)
+            if (tappedObject.BindingContext is not SelectableListItem selectableListItem) return;
+            var theSelectedItem = m_itemPicker.ItemsSource?.FirstOrDefault(i =>
+                i == selectableListItem.Item);
+            if (theSelectedItem ==
+                m_itemPicker
+                    .SelectedItem) //This happens the first time the list of items was drawn or when people use the search bar to redraw the items
             {
-                var displayName = checkBox.Text;
-                var theSelectedItem = m_itemPicker.ItemsSource?.FirstOrDefault(i => i.GetPropertyValue(m_itemPicker.ItemDisplayProperty) == displayName);
-                if(theSelectedItem == m_itemPicker.SelectedItem) //This happens the first time the list of items was drawn or when people use the search bar to redraw the items
-                {
-                    return;
-                }
-
-                m_itemPicker.SelectedItem = theSelectedItem;
+                return;
             }
+            
+            
+            selectableListItem.IsSelected = !selectableListItem.IsSelected;
+            
+            if (!selectableListItem.IsSelected)
+            {
+                return;
+            }
+
+            m_itemPicker.SelectedItem = theSelectedItem;
         }
 
         protected override void OnSearchTextChanged(string value)
         {
             base.OnSearchTextChanged(value);
-            
+
             FilterItems(value);
         }
 
@@ -101,6 +136,31 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     Items.Add(item);
                 }
             }
+        }
+    }
+
+    public class SelectableItemContentView : ContentView
+    {
+        public static readonly BindableProperty ItemProperty = BindableProperty.Create(
+            nameof(Item),
+            typeof(object),
+            typeof(SelectableListItem));
+
+        public object Item
+        {
+            get => (object)GetValue(ItemProperty);
+            set => SetValue(ItemProperty, value);
+        }
+
+        public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
+            nameof(IsSelected),
+            typeof(bool),
+            typeof(SelectableItemContentView));
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
         }
     }
 }

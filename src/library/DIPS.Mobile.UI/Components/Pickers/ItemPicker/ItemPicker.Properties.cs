@@ -36,7 +36,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// <summary>
         /// The name of the property of <see cref="SelectedItem"/> to use when displaying the  item for people in the picker.
         /// </summary>
-        /// <remarks>When this is not set, it fall back to <code>.ToString()</code> of the <see cref="SelectedItem"/>.</remarks>
+        /// <remarks>
+        /// When this is not set, it fall back to <code>.ToString()</code> of the <see cref="SelectedItem"/>.
+        /// This is used when people search if <see cref="Mode"/> is set to <see cref="PickerMode.BottomSheet"/>
+        /// This is not used if you set a <see cref="BottomSheetConfiguration.SelectableItemTemplate"/>
+        /// </remarks>
         public string? ItemDisplayProperty { get; set; }
 
         public static readonly BindableProperty SelectedItemCommandProperty = BindableProperty.Create(
@@ -60,20 +64,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// </summary>
         public event EventHandler<object>? DidSelectItem;
 
-        public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
-            nameof(HasSearchBar),
-            typeof(bool),
-            typeof(ItemPicker), defaultValue:true);
-
-        /// <summary>
-        /// Determines if a search bar should be visible when the picker is visible for people when in bottom sheet mode.
-        /// </summary>
-        public bool HasSearchBar
-        {
-            get => (bool)GetValue(HasSearchBarProperty);
-            set => SetValue(HasSearchBarProperty, value);
-        }
-
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),
             typeof(string),
@@ -96,6 +86,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// </summary>
         /// <remarks>Best suited when the list of items are short or the names of the items are short.</remarks>
         ContextMenu,
+
         /// <summary>
         /// Display the picker in a sheet.
         /// </summary>

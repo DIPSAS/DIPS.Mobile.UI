@@ -6,13 +6,7 @@ namespace Components.ComponentsSamples.Pickers;
 public class ItemPickersSamplesViewModel : ViewModel
 {
     private Person m_selectedPerson;
-
-    public ItemPickersSamplesViewModel()
-    {
-        People = SampleDataStorage.People;
-    }
-
-    public IEnumerable<Person> People { get; }
+    public IEnumerable<Person> People { get; } = SampleDataStorage.People;
 
     public Person SelectedPerson
     {

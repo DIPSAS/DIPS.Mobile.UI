@@ -6,29 +6,30 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+                 xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers">
     <dui:ContentPage.BindingContext>
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>
     <dui:VerticalStackLayout>
-            <dui:Label Text="ItemPicker, Mode: Context Menu"
-                       Margin="5" />
-            <dui:ItemPicker VerticalOptions="Start"
-                            Placeholder="Person"
-                            HorizontalOptions="Start"
-                            Mode="ContextMenu"
-                            ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName"/>
-    
-            <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
-                       Margin="5" />
-            <dui:ItemPicker VerticalOptions="Start"
-                            Placeholder="Person"
-                            HorizontalOptions="Start"
-                            Mode="BottomSheet"
-                            SelectedItem="{Binding SelectedPerson}"
-                            ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName" />
+        <dui:Label Text="ItemPicker, Mode: Context Menu"
+                   Margin="5" />
+        <dui:ItemPicker VerticalOptions="Start"
+                        Placeholder="Person"
+                        HorizontalOptions="Start"
+                        Mode="ContextMenu"
+                        ItemsSource="{Binding People}"
+                        ItemDisplayProperty="DisplayName" />
+
+        <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
+                   Margin="5" />
+        <dui:ItemPicker VerticalOptions="Start"
+                        Placeholder="Person"
+                        HorizontalOptions="Start"
+                        Mode="BottomSheet"
+                        SelectedItem="{Binding SelectedPerson}"
+                        ItemsSource="{Binding People}"
+                        ItemDisplayProperty="DisplayName" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

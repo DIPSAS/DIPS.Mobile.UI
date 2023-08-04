@@ -1,3 +1,7 @@
+## [14.0.0]
+- [ItemPicker] Added the posibility of adding a custom selectable item template.
+- [ItemPicker][Breaking Change] Should have search bar is now moved to `BottomSheetConfiguration`.
+
 ## [13.17.0]
 - [Colors] Added the posibility of setting an colors `Alpha` if needed.
 - [Button] Made sure the shadows are properly removed no matter what color.
