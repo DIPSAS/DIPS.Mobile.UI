@@ -31,26 +31,5 @@
                         SelectedItem="{Binding SelectedPerson}"
                         ItemsSource="{Binding People}"
                         ItemDisplayProperty="DisplayName" />
-
-
-        <dui:ListItem Title="Contact">
-            <dui:ItemPicker VerticalOptions="Start"
-                            Placeholder="Person"
-                            HorizontalOptions="Start"
-                            Mode="BottomSheet"
-                            ItemsSource="{Binding Contacts}"
-                            ItemDisplayProperty="ShortDisplayName">
-                <dui:ItemPicker.BottomSheetConfiguration>
-                    <dui:BottomSheetConfiguration HasSearchBar="False">
-                        <dui:BottomSheetConfiguration.SelectableItemTemplate>
-                            <ControlTemplate>
-                                <dui:Label Padding="20"
-                                           Text="{TemplateBinding Item.DisplayName}"
-                                           BackgroundColor="{TemplateBinding IsSelected, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_obsolete_success}, FalseObject={dui:Colors color_obsolete_danger}}}" />
-                            </ControlTemplate>
-                        </dui:BottomSheetConfiguration.SelectableItemTemplate>
-                    </dui:BottomSheetConfiguration>
-                </dui:ItemPicker.BottomSheetConfiguration>
-            </dui:ItemPicker></dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>
