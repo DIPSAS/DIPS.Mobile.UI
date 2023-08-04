@@ -12,7 +12,7 @@ public partial class ButtonHandler
     public static IPropertyMapper<Button, ButtonHandler> PropertyMapper =
         new PropertyMapper<Button, ButtonHandler>(Mapper)
         {
-            [nameof(Button.AdditionalHitBoxSize)] = MapAdditionalHitBoxSize
+            [nameof(Button.AdditionalHitBoxSize)] = MapAdditionalHitBoxSize,
         };
 
     private static partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button);

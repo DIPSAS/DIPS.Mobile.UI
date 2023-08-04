@@ -1,3 +1,8 @@
+## [13.17.0]
+- [Colors] Added the posibility of setting an colors `Alpha` if needed.
+- [Button] Made sure the shadows are properly removed no matter what color.
+- [Button] Made sure paddings are correct.
+
 ## [13.16.2]
 - [CollectionView][iOS] Fixed an issue where collectionview had the wrong width when in a scrollview.
 - [RefreshView] Removed workaround code for refreshview when the new collection view hotfix was added to remove complexity.
