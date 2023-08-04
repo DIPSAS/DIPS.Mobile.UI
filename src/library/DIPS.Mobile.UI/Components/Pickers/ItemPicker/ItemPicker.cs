@@ -14,8 +14,10 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private void LayoutContent()
         {
             var chip = new Chip();
+            MaximumWidthRequest = 200;
+            
             chip.SetBinding(Chip.TitleProperty, new Binding(){Path = nameof(Placeholder), Source = this});
-            chip.MaximumWidthRequest = 200;
+            chip.SetBinding(MaximumHeightRequestProperty, new Binding(){Path = nameof(MaximumWidthRequest), Source = this});
             chip.VerticalOptions = LayoutOptions.Center;
             Content = chip;
             
