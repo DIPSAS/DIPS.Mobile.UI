@@ -1,3 +1,6 @@
+## [14.0.1]
+- [ItemPicker] Made sure the search bar is default visible when in bottom sheet mode.
+
 ## [14.0.0]
 - [ItemPicker] Added the posibility of adding a custom selectable item template.
 - [ItemPicker][Breaking Change] Should have search bar is now moved to `BottomSheetConfiguration`.
