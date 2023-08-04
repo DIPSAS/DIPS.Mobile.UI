@@ -29,9 +29,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             Items = new ObservableCollection<SelectableListItem>(m_originalItems);
 
-            if (m_itemPicker.BottomSheetConfiguration is {HasSearchBar: true})
+            switch (m_itemPicker.BottomSheetConfiguration)
             {
-                HasSearchBar = true;    
+                case null:
+                case {HasSearchBar: true}:
+                    HasSearchBar = true;
+                    break;
             }
 
             var collectionView = new CollectionView()
