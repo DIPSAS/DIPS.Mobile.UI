@@ -1,3 +1,6 @@
+## [14.0.2]
+- Fixed bug where content would not expand when setting static content item on LoadableListItem.
+
 ## [14.0.1]
 - [ItemPicker] Made sure the search bar is default visible when in bottom sheet mode.
 

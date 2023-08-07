@@ -19,31 +19,51 @@
     </dui:ContentPage.ToolbarItems>
         
                 <dui:VerticalStackLayout>
-                    <dui:Button Text="Hei og hå" WidthRequest="100" HeightRequest="100" VerticalOptions="Center"
-                                AdditionalHitBoxSize="50, 30"
-                                Command="{Binding Navigate}"/>
-                    
-                    <dui:ListItem Title="Test" ShouldOverrideContentItemLayoutOptions="False">
-                        <ContentView BackgroundColor="Black" />
-                        <dui:ListItem.VerticalContentItem>
-                            <dui:DateAndTimePicker HorizontalOptions="End" />
-                        </dui:ListItem.VerticalContentItem>
-                    </dui:ListItem>
-                    
-                    <dui:ListItem Title="Test sjidjifjsdojfoidsjfs odijfoaisdjfoisa djfoijs adoifjsadoifjsoaidjfoisaj asdajsi"
-                                  TitleFontSize="30"
-                                  TitleTextColor="Red"
-                                  TitleColumnWidth="*"
-                                  HorizontalContentItemColumnWidth="Auto"
-                                  ShouldOverrideContentItemLayoutOptions="False">
-                        <dui:DateAndTimePicker />
+                   
+                    <dui:LoadableListItem Title="Test">
                         
-                        <dui:ListItem.VerticalContentItem>
-                            <ContentView BackgroundColor="Black" VerticalOptions="Center" HorizontalOptions="End" />
-                        </dui:ListItem.VerticalContentItem>
+                      <dui:LoadableListItem.StaticContentItem>
+                        <Image Source="{dui:Icons arrow_right_s_line}"  />
+                      </dui:LoadableListItem.StaticContentItem>
                         
-                    </dui:ListItem>
+                        <FlexLayout Wrap="Wrap" VerticalOptions="Center">
+                            
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            
+                        </FlexLayout>
+                    </dui:LoadableListItem>
                     
+                    <dui:ListItem Title="Test">
+                        
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto" BackgroundColor="Black">
+                            <FlexLayout Wrap="Wrap">
+                            
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
+                            
+                            </FlexLayout>
+                            <Image Source="{dui:Icons arrow_right_s_line}" Grid.Column="1" />
+
+                        </Grid>
+                    </dui:ListItem>
+
                 
                 </dui:VerticalStackLayout>
 
