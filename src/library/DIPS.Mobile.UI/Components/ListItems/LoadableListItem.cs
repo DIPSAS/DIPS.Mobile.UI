@@ -17,7 +17,10 @@ public partial class LoadableListItem : ListItem
         {
             new(GridLength.Star)
         },
-        ColumnSpacing = Sizes.GetSize(SizeName.size_2)
+        RowDefinitions = new RowDefinitionCollection
+        {
+            new (GridLength.Auto)
+        }
     };
 
     public LoadableListItem()
