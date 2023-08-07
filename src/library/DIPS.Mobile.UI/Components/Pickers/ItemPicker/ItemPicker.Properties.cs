@@ -49,7 +49,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             typeof(ItemPicker));
 
         /// <summary>
-        /// The command to be executed when people select an item from the picker.
+        /// The command to be executed when people select/de-select an item from the picker.
         /// </summary>
         public ICommand SelectedItemCommand
         {

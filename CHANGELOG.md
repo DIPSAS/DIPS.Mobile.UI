@@ -1,3 +1,6 @@
+## [14.3.0]
+- [MultiItemPicker] Added new component to pick multiple items.
+
 ## [14.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

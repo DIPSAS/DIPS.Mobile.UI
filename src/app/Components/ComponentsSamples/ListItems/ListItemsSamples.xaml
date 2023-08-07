@@ -8,6 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -16,12 +17,12 @@
 
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
-                                HasTopDivider="True"/>
-        
+                                HasTopDivider="True" />
+
         <dui:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
                                 IconColor="{dui:Colors color_primary_90}"
-                                HasTopDivider="True"/>
+                                HasTopDivider="True" />
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">
@@ -60,5 +61,83 @@
 
         </dui:LoadableListItem>
 
+        <dui:ListItem Title="Til:"
+                      ShouldOverrideContentItemLayoutOptions="False">
+            <Grid ColumnDefinitions="*, Auto">
+                <dui:MultiItemsPicker Grid.Column="0"
+                                      x:Name="Picker"
+                                      Placeholder="Velg mottaker(e)">
+                    <dui:MultiItemsPicker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Test1</x:String>
+                            <x:String>Test2</x:String>
+                            <x:String>Test3</x:String>
+                            <x:String>Test4</x:String>
+                            <x:String>Test5</x:String>
+                            <x:String>Test6</x:String>
+                            <x:String>Test7</x:String>
+                            <x:String>Test8</x:String>
+                            <x:String>Test9</x:String>
+                            <x:String>Test10</x:String>
+                            <x:String>Test11</x:String>
+                        </x:Array>
+                    </dui:MultiItemsPicker.ItemsSource>
+                </dui:MultiItemsPicker>
+                <dui:Image Grid.Column="1"
+                           dui:Touch.Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"
+                           Source="{dui:Icons arrow_right_s_line}" />
+            </Grid>
+        </dui:ListItem>
+        <dui:ListItem Title="Test"
+                      Subtitle="Very very very very long Very very veryVery very very very long Very very veryVery very very very long Very very very">
+            <dui:Image Source="{dui:Icons ascending_fill}" />
+        </dui:ListItem>
+
+        <ContentView>
+            <dui:VerticalStackLayout>
+                <Border dui:Touch.Command="{Binding RefreshCommand}"
+                        dui:Touch.AccessibilityContentDescription="Testing"
+                        Padding="10">
+                    <Grid ColumnDefinitions="Auto, *"
+                          RowDefinitions="Auto">
+                        <Label Grid.Column="0"
+                               Text="Very very very very long Very very very" />
+                        <Label Grid.Column="1"
+                               Text="Very very very very long Very very very" />
+                    </Grid>
+                </Border>
+            </dui:VerticalStackLayout>
+        </ContentView>
+
+        <dui:ListItem Title="Til:"
+                      ShouldOverrideContentItemLayoutOptions="False">
+            <Grid ColumnDefinitions="*, Auto">
+                <ContentView>
+                    <Border>
+                        <FlexLayout Grid.Column="0"
+                                    Direction="Row"
+                                    Wrap="Wrap"
+                                    AlignItems="Start"
+                                    AlignContent="Start"
+                                    JustifyContent="SpaceEvenly">
+                            <dui:Chip Title="Test1" />
+                            <dui:Chip Title="Test2" />
+                            <dui:Chip Title="Test3" />
+                            <dui:Chip Title="Test4" />
+                            <dui:Chip Title="Test5" />
+                            <dui:Chip Title="Test6" />
+                            <!-- <dui:Chip Title="Test7" /> -->
+                            <!-- <dui:Chip Title="Test8" /> -->
+                            <!-- <dui:Chip Title="Test9" /> -->
+                            <!-- <dui:Chip Title="Test10" /> -->
+                            <!-- <dui:Chip Title="Test11" /> -->
+                        </FlexLayout>
+                    </Border>
+                </ContentView>
+                <dui:Image Grid.Column="1"
+                           dui:Touch.Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"
+                           Source="{dui:Icons arrow_right_s_line}" />
+            </Grid>
+        </dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

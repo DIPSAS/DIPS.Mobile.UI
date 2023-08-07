@@ -8,7 +8,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
-    public class ItemPickerBottomSheet : BottomSheet
+    internal class ItemPickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
         private readonly List<SelectableListItem> m_originalItems;
