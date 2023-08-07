@@ -9,11 +9,13 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  BackgroundColor="{dui:Colors color_primary_90}">
 
-    <dui:Button Text="Logg inn"
-           BackgroundColor="{dui:Colors color_system_white, Alpha=0}"
-           TextColor="{dui:Colors color_system_white}"
-           HorizontalOptions="Center"
-           VerticalOptions="Center" />
-
-
+    <VerticalStackLayout>
+        <dui:ListItem Title="Test"
+                      Subtitle="{Binding Source={x:Reference entry}, Path=Text}"
+                      TitleColumnWidth="*">
+            <dui:Label Text="Test"
+                       BackgroundColor="Red" />
+        </dui:ListItem>
+        <Entry x:Name="entry" />
+    </VerticalStackLayout>
 </dui:ContentPage>
