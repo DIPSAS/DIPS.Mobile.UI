@@ -252,11 +252,11 @@ public partial class ListItem
         typeof(CornerRadius),
         typeof(ListItem),
         propertyChanged:CornerRadiusChanged);
-    
+
     public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
         nameof(Subtitle),
         typeof(string),
-        typeof(ListItem));
+        typeof(ListItem), propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddLabel());
     
     public static readonly BindableProperty HasTopDividerProperty = BindableProperty.Create(
         nameof(HasTopDivider),

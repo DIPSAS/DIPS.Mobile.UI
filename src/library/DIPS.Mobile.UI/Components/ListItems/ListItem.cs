@@ -15,6 +15,7 @@ public partial class ListItem : ContentView
 
     public Border Border { get; } = new();
     private Image m_icon = new() { Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0) };
+    private Label m_titleLabel;
 
     public ListItem()
     {
@@ -90,7 +91,12 @@ public partial class ListItem : ContentView
 
     private void AddLabel()
     {
-        var label = new Label 
+        if (MainContent.Contains(m_titleLabel))
+        {
+            MainContent.Remove(m_titleLabel);
+        }
+        
+        m_titleLabel = new Label 
         { 
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Start
@@ -98,18 +104,18 @@ public partial class ListItem : ContentView
         
         if (string.IsNullOrEmpty(Subtitle))
         {
-            label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
-            label.SetBinding(Label.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
-            label.SetBinding(Label.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
-            label.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
+            m_titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
+            m_titleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
+            m_titleLabel.SetBinding(Label.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
+            m_titleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
         }
         else
         {
             var title = new Span();
             title.SetBinding(Span.TextProperty, new Binding(nameof(Title), source: this));
             title.SetBinding(Span.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
-            label.SetBinding(Span.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
-            label.SetBinding(Span.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
+            m_titleLabel.SetBinding(Span.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
+            m_titleLabel.SetBinding(Span.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
 
             var newLine = new Span { Text = Environment.NewLine };
 
@@ -118,12 +124,12 @@ public partial class ListItem : ContentView
             subTitle.SetBinding(Span.FontAttributesProperty, new Binding(nameof(SubtitleFontAttributes), source: this));
 
                 
-            label.FormattedText = new FormattedString { Spans = { title, newLine, subTitle }};
+            m_titleLabel.FormattedText = new FormattedString { Spans = { title, newLine, subTitle }};
         }
 
-        label.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), 0);
+        m_titleLabel.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), 0);
         
-        MainContent.Add(label);
+        MainContent.Add(m_titleLabel);
     }
     
     private void AddIcon()

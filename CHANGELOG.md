@@ -1,3 +1,6 @@
+## [14.0.3]
+- [ListItem] made sure subtitle changes are reflected to title label.
+
 ## [14.0.2]
 - Fixed bug where content would not expand when setting static content item on LoadableListItem.
 
