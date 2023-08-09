@@ -27,8 +27,6 @@ public partial class LoadableListItem : ListItem
     {
         CreateBusyContent();
         CreateErrorContent();
-        
-        
     }
 
     private void CreateErrorContent()
@@ -194,7 +192,6 @@ public partial class LoadableListItem : ListItem
 
         var replace = child is not null && child != StaticContentItem;
 
-        
         if (FadeContentIn && replace && child is View childView)
         {
             view.Opacity = 0;
@@ -208,6 +205,11 @@ public partial class LoadableListItem : ListItem
         if(FadeContentIn)
         {
             await view.FadeTo(1, easing: Easing.CubicInOut);
+        }
+
+        if (LoadedContentItem != null)
+        {
+            LoadedContentItem.InputTransparent = view != LoadedContentItem;
         }
     }
 }

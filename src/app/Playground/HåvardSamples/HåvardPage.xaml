@@ -8,12 +8,9 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="20">
-    
-    <dui:Chip HasCloseButton="True"
-              Title="91358081"
-              HorizontalOptions="Center"
-              VerticalOptions="Center" />
-    
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPageViewModel/>
+    </dui:ContentPage.BindingContext>
     
     <!-- <dui:NavigationListItem Title="Til:" -->
     <!--                         HorizontalContentItemColumnWidth="*" -->

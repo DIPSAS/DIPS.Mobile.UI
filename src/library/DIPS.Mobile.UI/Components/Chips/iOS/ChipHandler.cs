@@ -47,8 +47,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         var uiButton = handler.PlatformView;
         if (handler.VirtualView.HasCloseButton)
         {
-            var image = UIImage.GetSystemImage("xmark.circle.fill",
-                UIImageSymbolConfiguration.Create(Colors.GetColor(ColorName.color_neutral_60).ToPlatform()));
+            var image = UIImage.GetSystemImage("xmark.circle.fill", UIImageSymbolConfiguration.Create(new nfloat(Sizes.GetSize((SizeName.size_4)))));
             if (image == null) return;
             uiButton.SetImage(image, UIControlState.Normal);
 

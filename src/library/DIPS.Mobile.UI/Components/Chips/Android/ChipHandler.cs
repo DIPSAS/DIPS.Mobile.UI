@@ -55,7 +55,6 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         public OnCloseListener(ChipHandler chipHandler)
         {
             m_chipHandler = chipHandler;
-            throw new NotImplementedException();
         }
 
         public void OnClick(global::Android.Views.View? v)

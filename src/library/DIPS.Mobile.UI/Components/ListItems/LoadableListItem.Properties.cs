@@ -16,7 +16,7 @@ public partial class LoadableListItem
     /// <summary>
     /// The content to be displayed when <see cref="IsBusy"/> and <see cref="IsError"/> is false
     /// </summary>
-    public View LoadedContentItem
+    public View? LoadedContentItem
     {
         get => (View)GetValue(LoadedContentItemProperty);
         set => SetValue(LoadedContentItemProperty, value);

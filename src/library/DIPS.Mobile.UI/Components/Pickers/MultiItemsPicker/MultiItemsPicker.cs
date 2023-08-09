@@ -19,7 +19,7 @@ public partial class MultiItemsPicker : ContentView
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         
         m_flexLayout = new FlexLayout()
-        {
+        {   BackgroundColor = Microsoft.Maui.Graphics.Colors.Green,
             Direction = FlexDirection.Row, //Items wrap vertically
             Wrap = FlexWrap.Wrap, //Items should wrap to new lines when they reach the end
             AlignItems = FlexAlignItems.Start, //The items should start at the top of the layout
@@ -97,7 +97,7 @@ public partial class MultiItemsPicker : ContentView
         {
             var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
             if (title == null) continue;
-            var chip = new Chip {Title = title, Command = OpenCommand};
+            var chip = new Chip {Title = title, Command = OpenCommand, HasCloseButton = true, CloseCommand = new Command(() => {DeSelectItem(selectedItem);})};
 #if __IOS__ //Android adds vertical space in a flexlayout, but iOS does not.
             chip.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_1));
 #endif
