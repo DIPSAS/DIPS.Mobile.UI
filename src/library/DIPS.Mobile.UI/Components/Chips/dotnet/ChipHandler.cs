@@ -5,7 +5,10 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, ViewHandler>
 {
-    private static partial void MapTitle(ChipHandler handler, Chip chip) { }
+    private static partial void MapTitle(ChipHandler handler, Chip chip) => throw new Only_Here_For_UnitTests();
+
+    private static partial void MapHasCloseButton(ChipHandler handler, Chip chip) =>
+        throw new Only_Here_For_UnitTests();
 
     protected override ViewHandler CreatePlatformView() => throw new Only_Here_For_UnitTests();
 }

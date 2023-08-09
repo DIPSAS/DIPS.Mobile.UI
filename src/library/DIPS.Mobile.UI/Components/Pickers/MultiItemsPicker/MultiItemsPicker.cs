@@ -1,9 +1,9 @@
-using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
-using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
@@ -16,27 +16,34 @@ public partial class MultiItemsPicker : ContentView
     public MultiItemsPicker()
     {
         OpenCommand = new Command(() => Open());
-        var borderRectangle = new RoundRectangle() {StrokeThickness = 0};
-        borderRectangle.SetBinding(RoundRectangle.CornerRadiusProperty,
-            new Binding {Path = nameof(ContainerCornerRadius), Source = this});
-        var border = new Border() {StrokeShape = borderRectangle};
+        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        
         m_flexLayout = new FlexLayout()
         {
             Direction = FlexDirection.Row, //Items wrap vertically
             Wrap = FlexWrap.Wrap, //Items should wrap to new lines when they reach the end
             AlignItems = FlexAlignItems.Start, //The items should start at the top of the layout
             AlignContent = FlexAlignContent.Start, //The items should start at the top of the layout
-            JustifyContent = FlexJustify.SpaceEvenly //Adds space between each item
+            JustifyContent = FlexJustify.SpaceEvenly
         };
-        m_placeHolderLabel = new Label {VerticalOptions = LayoutOptions.Center};
+        m_placeHolderLabel = new Label
+        {
+            VerticalOptions = LayoutOptions.Center,
+            FontSize = Sizes.GetSize(SizeName.size_4),
+            TextColor = Colors.GetColor(ColorName.color_neutral_60)
+        };
         m_placeHolderLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding() {Path = nameof(Placeholder), Source = this});
+        m_placeHolderLabel.SetBinding(IsVisibleProperty,
+            new Binding()
+            {
+                Path = nameof(Placeholder), Source = this, Converter = new IsEmptyConverter() {Inverted = true}
+            });
         m_flexLayout.Add(m_placeHolderLabel);
 
-        border.Content = m_flexLayout;
-        Touch.SetCommand(border,
+        Touch.SetCommand(this,
             OpenCommand);
-        Content = border;
+        Content = m_flexLayout;
     }
 
     public Task Open()
@@ -90,7 +97,13 @@ public partial class MultiItemsPicker : ContentView
         {
             var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
             if (title == null) continue;
-            m_flexLayout.Add(new Chip {Title = title, Command = OpenCommand});
+            var chip = new Chip {Title = title, Command = OpenCommand};
+#if __IOS__ //Android adds vertical space in a flexlayout, but iOS does not.
+            chip.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_1));
+#endif
+            m_flexLayout.Add(chip);
         }
+        
+        Content = m_flexLayout;
     }
 }

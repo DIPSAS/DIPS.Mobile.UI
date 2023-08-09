@@ -31,24 +31,70 @@ public partial class Chip
         set => SetValue(CommandParameterProperty, value);
     }
 
+    public static readonly BindableProperty HasCloseButtonProperty = BindableProperty.Create(
+        nameof(HasCloseButton),
+        typeof(bool),
+        typeof(Chip));
+
     /// <summary>
-    /// The event to be executed when this is tapped
+    /// Determines if people should be able to interact with close button to the right of the <see cref="Title"/>.
+    /// </summary>
+    public bool HasCloseButton
+    {
+        get => (bool)GetValue(HasCloseButtonProperty);
+        set => SetValue(HasCloseButtonProperty, value);
+    }
+
+    public static readonly BindableProperty CloseCommandProperty = BindableProperty.Create(
+        nameof(CloseCommand),
+        typeof(ICommand),
+        typeof(Chip));
+
+    /// <summary>
+    /// The command to be executed when people tap the close button.
+    /// </summary>
+    public ICommand? CloseCommand
+    {
+        get => (ICommand)GetValue(CloseCommandProperty);
+        set => SetValue(CloseCommandProperty, value);
+    }
+
+    public static readonly BindableProperty CloseCommandParameterProperty = BindableProperty.Create(
+        nameof(CloseCommandParameter),
+        typeof(object),
+        typeof(Chip));
+
+    /// <summary>
+    /// The parameter to be passed to the <see cref="CloseCommand"/> when people tap the close button.
+    /// </summary>
+    public object? CloseCommandParameter
+    {
+        get => (object)GetValue(CloseCommandParameterProperty);
+        set => SetValue(CloseCommandParameterProperty, value);
+    }
+
+    /// <summary>
+    /// The event to be invoked when the chip is tapped.
     /// </summary>
     public event EventHandler? Tapped;
     
+    /// <summary>
+    /// The event to invoked when the chips close button is tapped.
+    /// </summary>
+    public event EventHandler? CloseTapped;
+
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
         typeof(object),
         typeof(Chip));
-    
+
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
         typeof(Chip));
-    
+
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
         typeof(ICommand),
         typeof(Chip));
-    
 }

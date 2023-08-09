@@ -5,17 +5,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 
 public partial class MultiItemsPicker
 {
-    public static readonly BindableProperty ContainerCornerRadiusProperty = BindableProperty.Create(
-        nameof(ContainerCornerRadius),
-        typeof(CornerRadius),
-        typeof(MultiItemsPicker));
-
-    public CornerRadius ContainerCornerRadius
-    {
-        get => (CornerRadius)GetValue(ContainerCornerRadiusProperty);
-        set => SetValue(ContainerCornerRadiusProperty, value);
-    }
-
+    public BottomSheetConfiguration? BottomSheetConfiguration { get; set; }
+    
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
         typeof(IEnumerable),
@@ -42,20 +33,6 @@ public partial class MultiItemsPicker
     {
         get => (IEnumerable<object>)GetValue(SelectedItemsProperty);
         set => SetValue(SelectedItemsProperty, value);
-    }
-
-    public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
-        nameof(HasSearchBar),
-        typeof(bool),
-        typeof(MultiItemsPicker), defaultValue: true);
-
-    /// <summary>
-    /// Determines if a search bar should be visible when the picker is visible for people.
-    /// </summary>
-    public bool HasSearchBar
-    {
-        get => (bool)GetValue(HasSearchBarProperty);
-        set => SetValue(HasSearchBarProperty, value);
     }
     
     /// <summary>

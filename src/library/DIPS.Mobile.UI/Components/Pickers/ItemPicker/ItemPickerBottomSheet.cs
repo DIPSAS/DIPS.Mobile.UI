@@ -142,8 +142,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         }
     }
 
-    public class SelectableItemContentView : ContentView
+    internal class SelectableItemContentView : ContentView
     {
+        public SelectableItemContentView()
+        {
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        }
+        
         public static readonly BindableProperty ItemProperty = BindableProperty.Create(
             nameof(Item),
             typeof(object),

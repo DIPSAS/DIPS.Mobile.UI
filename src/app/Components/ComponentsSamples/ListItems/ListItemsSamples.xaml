@@ -61,83 +61,49 @@
 
         </dui:LoadableListItem>
 
-        <dui:ListItem Title="Til:"
-                      ShouldOverrideContentItemLayoutOptions="False">
-            <Grid ColumnDefinitions="*, Auto">
-                <dui:MultiItemsPicker Grid.Column="0"
-                                      x:Name="Picker"
-                                      Placeholder="Velg mottaker(e)">
-                    <dui:MultiItemsPicker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Test1</x:String>
-                            <x:String>Test2</x:String>
-                            <x:String>Test3</x:String>
-                            <x:String>Test4</x:String>
-                            <x:String>Test5</x:String>
-                            <x:String>Test6</x:String>
-                            <x:String>Test7</x:String>
-                            <x:String>Test8</x:String>
-                            <x:String>Test9</x:String>
-                            <x:String>Test10</x:String>
-                            <x:String>Test11</x:String>
-                        </x:Array>
-                    </dui:MultiItemsPicker.ItemsSource>
-                </dui:MultiItemsPicker>
-                <dui:Image Grid.Column="1"
-                           dui:Touch.Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"
-                           Source="{dui:Icons arrow_right_s_line}" />
-            </Grid>
-        </dui:ListItem>
-        <dui:ListItem Title="Test"
-                      Subtitle="Very very very very long Very very veryVery very very very long Very very veryVery very very very long Very very very">
-            <dui:Image Source="{dui:Icons ascending_fill}" />
-        </dui:ListItem>
-
-        <ContentView>
-            <dui:VerticalStackLayout>
-                <Border dui:Touch.Command="{Binding RefreshCommand}"
-                        dui:Touch.AccessibilityContentDescription="Testing"
-                        Padding="10">
-                    <Grid ColumnDefinitions="Auto, *"
-                          RowDefinitions="Auto">
-                        <Label Grid.Column="0"
-                               Text="Very very very very long Very very very" />
-                        <Label Grid.Column="1"
-                               Text="Very very very very long Very very very" />
-                    </Grid>
-                </Border>
-            </dui:VerticalStackLayout>
-        </ContentView>
-
-        <dui:ListItem Title="Til:"
-                      ShouldOverrideContentItemLayoutOptions="False">
-            <Grid ColumnDefinitions="*, Auto">
-                <ContentView>
-                    <Border>
-                        <FlexLayout Grid.Column="0"
-                                    Direction="Row"
-                                    Wrap="Wrap"
-                                    AlignItems="Start"
-                                    AlignContent="Start"
-                                    JustifyContent="SpaceEvenly">
-                            <dui:Chip Title="Test1" />
-                            <dui:Chip Title="Test2" />
-                            <dui:Chip Title="Test3" />
-                            <dui:Chip Title="Test4" />
-                            <dui:Chip Title="Test5" />
-                            <dui:Chip Title="Test6" />
-                            <!-- <dui:Chip Title="Test7" /> -->
-                            <!-- <dui:Chip Title="Test8" /> -->
-                            <!-- <dui:Chip Title="Test9" /> -->
-                            <!-- <dui:Chip Title="Test10" /> -->
-                            <!-- <dui:Chip Title="Test11" /> -->
-                        </FlexLayout>
-                    </Border>
-                </ContentView>
-                <dui:Image Grid.Column="1"
-                           dui:Touch.Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"
-                           Source="{dui:Icons arrow_right_s_line}" />
-            </Grid>
-        </dui:ListItem>
+         <dui:NavigationListItem Title="Til:"
+                            HorizontalContentItemColumnWidth="*"
+                            ShouldOverrideContentItemLayoutOptions="False"
+                            Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}">
+        <dui:MultiItemsPicker HorizontalOptions="Start"
+                              x:Name="Picker">
+            <dui:MultiItemsPicker.BottomSheetConfiguration>
+                <dui:BottomSheetConfiguration>
+                    <dui:BottomSheetConfiguration.SelectableItemTemplate>
+                        <ControlTemplate>
+                            <dui:Label Text="{TemplateBinding Item}"
+                                       BackgroundColor="{TemplateBinding IsSelected, Converter={dui:BoolToObjectConverter 
+                                                   TrueObject={dui:Colors color_success_light}, 
+                                                   FalseObject={dui:Colors color_error_light}}}" />
+                        </ControlTemplate>
+                    </dui:BottomSheetConfiguration.SelectableItemTemplate>
+                </dui:BottomSheetConfiguration>
+            </dui:MultiItemsPicker.BottomSheetConfiguration>
+            <dui:MultiItemsPicker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>948 19 788</x:String>
+                    <x:String>936 15 719</x:String>
+                    <x:String>418 01 260</x:String>
+                    <x:String>959 94 238</x:String>
+                    <x:String>464 51 717</x:String>
+                    <x:String>916 18 816</x:String>
+                    <x:String> 998 15 227</x:String>
+                    <x:String>468 14 026</x:String>
+                    <x:String>413 10 076</x:String>
+                    <x:String>986 77 073</x:String>
+                    <x:String>979 82 486</x:String>
+                    <x:String>453 26 392</x:String>
+                    <x:String> 439 14 037</x:String>
+                    <x:String>981 84 631</x:String>
+                    <x:String> 431 48 108</x:String>
+                    <x:String> 935 72 873</x:String>
+                    <x:String> 437 05 636</x:String>
+                    <x:String> 949 20 352</x:String>
+                    <x:String> 989 44 231</x:String>
+                    <x:String> 479 45 855</x:String>
+                </x:Array>
+            </dui:MultiItemsPicker.ItemsSource>
+        </dui:MultiItemsPicker>
+    </dui:NavigationListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>
