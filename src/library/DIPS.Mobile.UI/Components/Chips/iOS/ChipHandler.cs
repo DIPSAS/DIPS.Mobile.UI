@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Runtime.Versioning;
+using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
@@ -15,7 +16,7 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, UIButton>
 {
-    private Button m_button;
+    internal Button m_button;
 
     protected override UIButton CreatePlatformView()
     {
@@ -30,11 +31,10 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
         // Here we style the button as close as possible to native compact datepicker in iOS
         // We do not use the design system here so this does not diverge at a later point
-        m_button.Background = Color.FromArgb(BackgroundColorAsHex);
         m_button.FontSize = 17;
         m_button.CornerRadius = 6;
         m_button.Padding = new Thickness(12, 6, 12, 6);
-        platformView.AddGestureRecognizer(new ChipGestureRecgonizer(this));
+        platformView.AddGestureRecognizer(new ChipGestureRecognizer(this));
     }
 
     private static partial void MapTitle(ChipHandler handler, Chip chip)
@@ -47,16 +47,34 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         var uiButton = handler.PlatformView;
         if (handler.VirtualView.HasCloseButton)
         {
-            var image = UIImage.GetSystemImage("xmark.circle.fill", UIImageSymbolConfiguration.Create(new nfloat(Sizes.GetSize((SizeName.size_4)))));
-            if (image == null) return;
-            uiButton.SetImage(image, UIControlState.Normal);
+            if (Icons.TryGetUIImage(iconName: IconName.placeholdericon_fill, out var image))
+            {
+                uiButton.SetImage(image, UIControlState.Normal);
+                ShiftImageToTheRight(handler, uiButton);
+            }
+            else
+            {
+                uiButton.SetImage(null, UIControlState.Normal);
+            }
+        }
+    }
 
-            ShiftImageToTheRight(handler, uiButton);
-        }
-        else
+    private static partial void MapColor(ChipHandler handler, Chip chip)
+    {
+        handler.m_button.BackgroundColor = handler.VirtualView.Color;
+    }
+
+    private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
+    {
+        if (handler.PlatformView.ImageView.Image == null) //Close button is the UIButton imageview
         {
-            uiButton.SetImage(null, UIControlState.Normal);
+            return;
         }
+
+        var imageToTint =
+            handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+        handler.PlatformView.SetImage(imageToTint, UIControlState.Normal);
+        handler.PlatformView.TintColor = handler.VirtualView.CloseButtonColor.ToPlatform();
     }
 
     private static void ShiftImageToTheRight(ChipHandler handler, UIButton uiButton)
@@ -79,14 +97,11 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
             oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right + titleImageSpacing);
     }
 
-    [SupportedOSPlatform("ios14.0")] // MacCatalyst is a superset of iOS, therefore it's also supported.
-    public static void SupportedOnWindowsIos14AndMacCatalyst14() { }
-
-    public class ChipGestureRecgonizer : UITapGestureRecognizer
+    public class ChipGestureRecognizer : UITapGestureRecognizer
     {
         private readonly ChipHandler m_chipHandler;
 
-        public ChipGestureRecgonizer(ChipHandler chipHandler)
+        public ChipGestureRecognizer(ChipHandler chipHandler)
         {
             m_chipHandler = chipHandler;
         }

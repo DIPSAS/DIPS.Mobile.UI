@@ -9,6 +9,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 public partial class MultiItemsPicker : ContentView
 {
     private HorizontalStackLayout m_hStackLayout;
+    private DisplayOrientation m_currentDeviceOrientation;
 
     public MultiItemsPicker()
     {
@@ -23,7 +24,23 @@ public partial class MultiItemsPicker : ContentView
             OpenCommand);
         m_hStackLayout.ChildOutOfBounds += IsChildOutOfBounds;
         Unloaded += Dispose;
+        
         Content = m_hStackLayout;
+
+        DeviceDisplay.Current.MainDisplayInfoChanged += MainDisplayInfoChanged;
+        m_currentDeviceOrientation = DeviceDisplay.Current.MainDisplayInfo.Orientation;
+    }
+    
+    
+    private void MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        if (e.DisplayInfo.Orientation == m_currentDeviceOrientation)
+        {
+            return;
+        }
+        
+        OnSelectedItemsChanged(); //This triggers a redraw and it will make the UI look good for people when they change orientation
+        m_currentDeviceOrientation = e.DisplayInfo.Orientation;
     }
 
     private void IsChildOutOfBounds(object? sender, object e)
@@ -59,6 +76,7 @@ public partial class MultiItemsPicker : ContentView
     {
         Unloaded -= Dispose;
         m_hStackLayout.ChildOutOfBounds -= IsChildOutOfBounds;
+        DeviceDisplay.Current.MainDisplayInfoChanged -= MainDisplayInfoChanged;
     }
 
     public void Open(MultiItemsPicker multiItemsPicker)

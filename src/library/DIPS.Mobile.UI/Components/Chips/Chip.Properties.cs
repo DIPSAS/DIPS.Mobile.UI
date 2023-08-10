@@ -1,9 +1,39 @@
 using System.Windows.Input;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
+    public static readonly BindableProperty ColorProperty = BindableProperty.Create(
+        nameof(Color),
+        typeof(Color),
+        typeof(Chip),
+        defaultValue: Color.FromArgb("#E5E9EB"));
+
+    /// <summary>
+    /// The color of the chip.
+    /// </summary>
+    public Color Color
+    {
+        get => (Color)GetValue(ColorProperty);
+        set => SetValue(ColorProperty, value);
+    }
+
+    public static readonly BindableProperty CloseButtonColorProperty = BindableProperty.Create(
+        nameof(CloseButtonColor),
+        typeof(Color),
+        typeof(Chip), defaultValue: Colors.GetColor(ColorName.color_neutral_50));
+
+    /// <summary>
+    /// The color of the close button that people tap to close the chip.
+    /// </summary>
+    public Color CloseButtonColor
+    {
+        get => (Color)GetValue(CloseButtonColorProperty);
+        set => SetValue(CloseButtonColorProperty, value);
+    }
+
     /// <summary>
     /// Sets the text inside of the chip that people will see
     /// </summary>
@@ -77,7 +107,7 @@ public partial class Chip
     /// The event to be invoked when the chip is tapped.
     /// </summary>
     public event EventHandler? Tapped;
-    
+
     /// <summary>
     /// The event to invoked when the chips close button is tapped.
     /// </summary>

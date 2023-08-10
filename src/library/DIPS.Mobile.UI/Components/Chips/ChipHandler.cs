@@ -2,7 +2,6 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler
 {
-    internal static string BackgroundColorAsHex = "#E5E9EB";
     public ChipHandler() : base(PropertyMapper)
     {
     }
@@ -11,10 +10,15 @@ public partial class ChipHandler
     {
         [nameof(Chip.Title)] = MapTitle,
         [nameof(Chip.HasCloseButton)] = MapHasCloseButton,
+        [nameof(Chip.Color)] = MapColor,
+        [nameof(Chip.CloseButtonColor)] = MapCloseButtonColor,
     };
+
+    private static partial void MapColor(ChipHandler handler, Chip chip);
 
     private static partial void MapTitle(ChipHandler handler, Chip chip);
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip);
+    private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip);
     
     private void OnChipTapped()
     {

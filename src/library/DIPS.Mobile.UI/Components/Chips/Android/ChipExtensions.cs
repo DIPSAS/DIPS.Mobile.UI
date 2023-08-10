@@ -15,11 +15,10 @@ public static class ChipExtensions
         chip.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
         chip.TextSize = Sizes.GetSize(SizeName.size_4);
         chip.ChipCornerRadius = 24;
-        SetBackgroundColor(Color.FromArgb(ChipHandler.BackgroundColorAsHex), chip);
         chip.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310 
     }
     
-    private static void SetBackgroundColor(Color color, Google.Android.Material.Chip.Chip chip)
+    public static void SetBackgroundColor(this Google.Android.Material.Chip.Chip chip,  Color color)
     {
         var states = new[]
         {

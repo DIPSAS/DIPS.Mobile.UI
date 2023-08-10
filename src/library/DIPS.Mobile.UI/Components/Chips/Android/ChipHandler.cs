@@ -1,6 +1,8 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using Java.Interop;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 
 
 // ReSharper disable once CheckNamespace
@@ -38,7 +40,13 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         if (handler.VirtualView.HasCloseButton)
         {
             handler.PlatformView.CloseIconVisible = true;
-            handler.PlatformView.SetOnCloseIconClickListener(new OnCloseListener(handler));    
+            handler.PlatformView.SetOnCloseIconClickListener(new OnCloseListener(handler));
+            DUI.TryGetResourceId(Icons.GetIconName(iconName: IconName.placeholdericon_fill), out var id, defType:"drawable");
+            if (id != 0)
+            {
+                var drawable = Platform.AppContext.Resources?.GetDrawable(id);
+                handler.PlatformView.CloseIcon = drawable;
+            }
         }
         else
         {
@@ -46,6 +54,16 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
             handler.PlatformView.SetOnCloseIconClickListener(null);
         }
         
+    }
+
+    private static partial void MapColor(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.SetBackgroundColor(handler.VirtualView.Color);
+    }
+
+    private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.CloseIcon?.SetTint(handler.VirtualView.CloseButtonColor.ToPlatform());
     }
     
     public class OnCloseListener : Java.Lang.Object, global::Android.Views.View.IOnClickListener
