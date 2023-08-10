@@ -1,3 +1,6 @@
+## [14.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [14.0.3]
 - [ListItem] made sure subtitle changes are reflected to title label.
 
