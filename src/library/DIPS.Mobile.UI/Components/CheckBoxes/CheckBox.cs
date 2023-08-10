@@ -1,7 +1,9 @@
 using DIPS.Mobile.UI.Components.Images;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.CheckBoxes
@@ -13,9 +15,8 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
         public CheckBox()
         {
             Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_2)); //TODO: Use DesignSystem
-
             //Touch
-            GestureRecognizers.Add(new TapGestureRecognizer() {Command = new Command(SetSelectedState)});
+            Touch.SetCommand(this, new Command(SetSelectedState));
 
             //Image
             m_selectedNativeIcon = new NativeIcon() {VerticalOptions = LayoutOptions.Center};

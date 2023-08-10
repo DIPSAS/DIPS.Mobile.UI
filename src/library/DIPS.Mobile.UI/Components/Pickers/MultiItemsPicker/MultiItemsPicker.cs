@@ -2,56 +2,74 @@ using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
-using Microsoft.Maui.Layouts;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
+using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 
 public partial class MultiItemsPicker : ContentView
 {
-    private readonly FlexLayout m_flexLayout;
-    private readonly Label m_placeHolderLabel;
+    private HorizontalStackLayout m_hStackLayout;
 
     public MultiItemsPicker()
     {
-        OpenCommand = new Command(() => Open());
+        OpenCommand = new Command(() => Open(this));
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
-        
-        m_flexLayout = new FlexLayout()
-        {   BackgroundColor = Microsoft.Maui.Graphics.Colors.Green,
-            Direction = FlexDirection.Row, //Items wrap vertically
-            Wrap = FlexWrap.Wrap, //Items should wrap to new lines when they reach the end
-            AlignItems = FlexAlignItems.Start, //The items should start at the top of the layout
-            AlignContent = FlexAlignContent.Start, //The items should start at the top of the layout
-            JustifyContent = FlexJustify.SpaceEvenly
-        };
-        m_placeHolderLabel = new Label
-        {
-            VerticalOptions = LayoutOptions.Center,
-            FontSize = Sizes.GetSize(SizeName.size_4),
-            TextColor = Colors.GetColor(ColorName.color_neutral_60)
-        };
-        m_placeHolderLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding() {Path = nameof(Placeholder), Source = this});
-        m_placeHolderLabel.SetBinding(IsVisibleProperty,
-            new Binding()
-            {
-                Path = nameof(Placeholder), Source = this, Converter = new IsEmptyConverter() {Inverted = true}
-            });
-        m_flexLayout.Add(m_placeHolderLabel);
+
+        m_hStackLayout = new HorizontalStackLayout();
+        CreatePlaceHolder();
+        m_hStackLayout.Add(CreatePlaceHolder());
 
         Touch.SetCommand(this,
             OpenCommand);
-        Content = m_flexLayout;
+        m_hStackLayout.ChildOutOfBounds += IsChildOutOfBounds;
+        Unloaded += Dispose;
+        Content = m_hStackLayout;
     }
 
-    public Task Open()
+    private void IsChildOutOfBounds(object? sender, object e)
     {
-        return BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(this));
+        MergeChips();
     }
 
-    internal void DeSelectItem(object item)
+    private Chip CreatePlaceHolder()
+    {
+        //The reason this is a chip and are flipping the opacity is to make sure the horizontal list item always stays the same height to make sure the UI does not bounce up and down when you add items.
+        var placeHolder = new Chip() {Command = OpenCommand};
+        placeHolder.SetBinding(Chip.TitleProperty,
+            new Binding() {Path = nameof(Placeholder), Source = this});
+        placeHolder.SetBinding(OpacityProperty,
+            new Binding()
+            {
+                Path = nameof(Placeholder),
+                Source = this,
+                Converter = new IsEmptyToObjectConverter() {TrueObject = 0, FalseObject = 1}
+            });
+        placeHolder.SetBinding(Chip.HasCloseButtonProperty,
+            new Binding()
+            {
+                Path = nameof(Placeholder),
+                Source = this,
+                Converter = new IsEmptyToObjectConverter() {TrueObject = true, FalseObject = false}
+            });
+
+        return placeHolder;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Unloaded -= Dispose;
+        m_hStackLayout.ChildOutOfBounds -= IsChildOutOfBounds;
+    }
+
+    public void Open(MultiItemsPicker multiItemsPicker)
+    {
+        if (!BottomSheetService.IsBottomSheetOpen())
+        {
+            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(multiItemsPicker));    
+        }
+    }
+
+    public void DeSelectItem(object item)
     {
         if (SelectedItems == null) return;
         if (!SelectedItems.Contains(item)) return;
@@ -64,7 +82,7 @@ public partial class MultiItemsPicker : ContentView
         DidDeSelectItem?.Invoke(this, item);
     }
 
-    internal void SelectItem(object item)
+    public void SelectItem(object item)
     {
         if (SelectedItems == null || !SelectedItems.Any())
         {
@@ -85,25 +103,60 @@ public partial class MultiItemsPicker : ContentView
 
     private void OnSelectedItemsChanged()
     {
-        m_flexLayout.Clear();
+        m_hStackLayout.Clear();
 
         if (SelectedItems == null || !SelectedItems.Any())
         {
-            m_flexLayout.Add(m_placeHolderLabel);
+            m_hStackLayout.Add(CreatePlaceHolder());
+        }
+        else
+        {
+            foreach (var selectedItem in SelectedItems)
+            {
+                var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
+                if (title == null) continue;
+                var chip = new Chip
+                {
+                    Title = title,
+                    Command = OpenCommand,
+                    Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0),
+                    HasCloseButton = true,
+                    CloseCommand = new Command(() => { DeSelectItem(selectedItem); })
+                };
+
+                m_hStackLayout.Add(chip);
+            }
+        }
+    }
+
+    private async void MergeChips()
+    {
+        if (SelectedItems == null)
+        {
             return;
         }
 
-        foreach (var selectedItem in SelectedItems)
-        {
-            var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
-            if (title == null) continue;
-            var chip = new Chip {Title = title, Command = OpenCommand, HasCloseButton = true, CloseCommand = new Command(() => {DeSelectItem(selectedItem);})};
-#if __IOS__ //Android adds vertical space in a flexlayout, but iOS does not.
-            chip.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_1));
+        m_hStackLayout.Clear();
+#if __ANDROID__
+        await Task.Delay(5); //Because we are in a event that might ruin the stacklayout we have to wait for the stacklayout to be completely drawn.
 #endif
-            m_flexLayout.Add(chip);
-        }
-        
-        Content = m_flexLayout;
+        m_hStackLayout.Add(new Chip()
+        {
+            Title = SelectedItems.Count().ToString(),
+            Command = OpenCommand,
+            HasCloseButton = true,
+            CloseCommand = new Command(() =>
+            {
+                if (SelectedItems == null)
+                {
+                    return;
+                }
+
+                foreach (var selectedItem in SelectedItems)
+                {
+                    DeSelectItem(selectedItem);
+                }
+            })
+        });
     }
 }

@@ -9,6 +9,7 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -16,10 +17,10 @@
     </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout Spacing="0">
-        <dui:NavigationListItem Title="Navigate"
+        <extensions:NavigationListItem Title="Navigate"
                                 HasTopDivider="True" />
 
-        <dui:NavigationListItem Title="Navigate"
+        <extensions:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
                                 IconColor="{dui:Colors color_primary_90}"
                                 HasTopDivider="True" />
@@ -45,7 +46,7 @@
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
 
-        <dui:LoadableListItem Title="Loadable ListItem"
+        <extensions:LoadableListItem Title="Loadable ListItem"
                               Subtitle="click when error"
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
@@ -59,7 +60,7 @@
             <dui:Label Text="All systems working!"
                        VerticalTextAlignment="Center" />
 
-        </dui:LoadableListItem>
+        </extensions:LoadableListItem>
 
         <dui:ListItem Title="Til:"
                       HorizontalContentItemColumnWidth="*"
@@ -118,35 +119,6 @@
                       TitleColumnWidth="50"
                       ShouldOverrideContentItemLayoutOptions="False">
             <Grid ColumnDefinitions="*, Auto">
-                <!--
-                Direction = FlexDirection.Row, //Items wrap vertically
-            Wrap = FlexWrap.Wrap, //Items should wrap to new lines when they reach the end
-            AlignItems = FlexAlignItems.Start, //The items should start at the top of the layout
-            AlignContent = FlexAlignContent.Start, //The items should start at the top of the layout
-            JustifyContent = FlexJustify.SpaceEvenly
-                 -->
-                <ContentView>
-                    <FlexLayout Direction="Row"
-                                Wrap="Wrap"
-                                AlignItems="Start"
-                                AlignContent="Start"
-                                JustifyContent="SpaceEvenly"
-                                Grid.Column="0"
-                                BackgroundColor="Blue">
-                        <dui:Chip Title="948 19 788"
-                                  HasCloseButton="True"
-                                  Margin="0,0,0,5" />
-                        <dui:Chip Title="948 19 788"
-                                  HasCloseButton="True"
-                                  Margin="0,0,0,5" />
-                        <dui:Chip Title="948 19 788"
-                                  HasCloseButton="True"
-                                  Margin="0,0,0,5" />
-                        <dui:Chip Title="94819788"
-                                  HasCloseButton="True"
-                                  Margin="0,0,0,5" />
-                    </FlexLayout>
-                </ContentView>
                 <dui:Image Grid.Column="1"
                            Source="{dui:Icons arrow_right_s_line}" />
             </Grid>

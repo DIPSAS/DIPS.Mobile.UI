@@ -5,6 +5,7 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Alerting.Dialogs.DialogSamples"
              Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
              Padding="{dui:Sizes size_5}">
@@ -13,16 +14,16 @@
     </dui:ContentPage.BindingContext>
    
     <dui:VerticalStackLayout>
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDialog}"
+            <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDialog}"
                                     Command="{Binding DisplayDialogCommand}"/>
             
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTemporaryDialog}"
+            <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTemporaryDialog}"
                                     Command="{Binding DisplayTemporaryDialogCommand}"/>
             
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDestructiveDialog}"
+            <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayDestructiveDialog}"
                                     Command="{Binding DisplayDestructiveDialogCommand}"/>
             
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTwoDialogs}"
+            <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.DisplayTwoDialogs}"
                                     Command="{Binding DisplayTwoDialogsCommand}"/>
     </dui:VerticalStackLayout>
     

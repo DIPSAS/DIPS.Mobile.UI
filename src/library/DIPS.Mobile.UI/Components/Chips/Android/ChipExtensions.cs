@@ -13,9 +13,10 @@ public static class ChipExtensions
         chip.SetPadding(8, 2, 8, 2);
         chip.TextAlignment = (TextAlignment)Microsoft.Maui.TextAlignment.Center;
         chip.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
-        chip.TextSize = 17;
+        chip.TextSize = Sizes.GetSize(SizeName.size_4);
         chip.ChipCornerRadius = 24;
         SetBackgroundColor(Color.FromArgb(ChipHandler.BackgroundColorAsHex), chip);
+        chip.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310 
     }
     
     private static void SetBackgroundColor(Color color, Google.Android.Material.Chip.Chip chip)

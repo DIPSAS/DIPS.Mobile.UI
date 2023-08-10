@@ -9,132 +9,89 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="20">
     <dui:ContentPage.BindingContext>
-        <håvardSamples:HåvardPageViewModel/>
+        <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    
-    <!-- <dui:NavigationListItem Title="Til:" -->
-    <!--                         HorizontalContentItemColumnWidth="*" -->
-    <!--                         ShouldOverrideContentItemLayoutOptions="False" -->
-    <!--                         Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"> -->
-    <!--     <dui:MultiItemsPicker HorizontalOptions="Start" -->
-    <!--                           x:Name="Picker"> -->
-    <!--         <dui:MultiItemsPicker.BottomSheetConfiguration> -->
-    <!--             <dui:BottomSheetConfiguration> -->
-    <!--                 <dui:BottomSheetConfiguration.SelectableItemTemplate> -->
-    <!--                     <ControlTemplate> -->
-    <!--                         <dui:Label Text="{TemplateBinding Item}" -->
-    <!--                                    BackgroundColor="{TemplateBinding IsSelected, Converter={dui:BoolToObjectConverter  -->
-    <!--                                                TrueObject={dui:Colors color_success_light},  -->
-    <!--                                                FalseObject={dui:Colors color_error_light}}}" /> -->
-    <!--                     </ControlTemplate> -->
-    <!--                 </dui:BottomSheetConfiguration.SelectableItemTemplate> -->
-    <!--             </dui:BottomSheetConfiguration> -->
-    <!--         </dui:MultiItemsPicker.BottomSheetConfiguration> -->
-    <!--         <dui:MultiItemsPicker.ItemsSource> -->
-    <!--             <x:Array Type="{x:Type x:String}"> -->
-    <!--                 <x:String>948 19 788</x:String> -->
-    <!--                 <x:String>936 15 719</x:String> -->
-    <!--                 <x:String>418 01 260</x:String> -->
-    <!--                 <x:String>959 94 238</x:String> -->
-    <!--                 <x:String>464 51 717</x:String> -->
-    <!--                 <x:String>916 18 816</x:String> -->
-    <!--                 <x:String> 998 15 227</x:String> -->
-    <!--                 <x:String>468 14 026</x:String> -->
-    <!--                 <x:String>413 10 076</x:String> -->
-    <!--                 <x:String>986 77 073</x:String> -->
-    <!--                 <x:String>979 82 486</x:String> -->
-    <!--                 <x:String>453 26 392</x:String> -->
-    <!--                 <x:String> 439 14 037</x:String> -->
-    <!--                 <x:String>981 84 631</x:String> -->
-    <!--                 <x:String> 431 48 108</x:String> -->
-    <!--                 <x:String> 935 72 873</x:String> -->
-    <!--                 <x:String> 437 05 636</x:String> -->
-    <!--                 <x:String> 949 20 352</x:String> -->
-    <!--                 <x:String> 989 44 231</x:String> -->
-    <!--                 <x:String> 479 45 855</x:String> -->
-    <!--                 <x:String>99945678</x:String> -->
-    <!--                 <x:String>12345478</x:String> -->
-    <!--                 <x:String>12445678</x:String> -->
-    <!--                 <x:String>14345678</x:String> -->
-    <!--                 <x:String>12345674</x:String> -->
-    <!--                 <x:String>12345677</x:String> -->
-    <!--                 <x:String>12345778</x:String> -->
-    <!--                 <x:String>12745678</x:String> -->
-    <!--                 <x:String>72345678</x:String> -->
-    <!--                 <x:String>92345678</x:String> -->
-    <!--                 <x:String>82345678</x:String> -->
-    <!--                 <x:String>52345678</x:String> -->
-    <!--             </x:Array> -->
-    <!--         </dui:MultiItemsPicker.ItemsSource> -->
-    <!--     </dui:MultiItemsPicker> -->
-    <!-- </dui:NavigationListItem> -->
-    <!--
-    Direction = FlexDirection.Row, //Items wrap vertically
-            Wrap = FlexWrap.Wrap, //Items should wrap to new lines when they reach the end
-            AlignItems = FlexAlignItems.Start, //The items should start at the top of the layout
-            AlignContent = FlexAlignContent.Start, //The items should start at the top of the layout
-            JustifyContent = FlexJustify.SpaceEvenly
-     -->
-    <!-- <Grid ColumnDefinitions="*, Auto"> -->
-    <!--     <dui:MultiItemsPicker Grid.Column="0" -->
-    <!--                           Placeholder="Velg mottaker(e)"> -->
-    <!--         <dui:MultiItemsPicker.ItemsSource> -->
-    <!--             <x:Array Type="{x:Type x:String}"> -->
+
+    <VerticalStackLayout>
+        <Entry x:Name="Entry"></Entry>
+        <dui:MultiItemsPickerListItem Title="Til:">
+            <dui:MultiItemsPickerListItem.MultiItemPicker>
+                <dui:MultiItemsPicker>
+                    <dui:MultiItemsPicker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>948 19 788</x:String>
+                            <x:String>936 15 719</x:String>
+                            <x:String>418 01 260</x:String>
+                            <x:String>959 94 238</x:String>
+                            <x:String>464 51 717</x:String>
+                            <x:String>916 18 816</x:String>
+                            <x:String> 998 15 227</x:String>
+                            <x:String>468 14 026</x:String>
+                            <x:String>413 10 076</x:String>
+                            <x:String>986 77 073</x:String>
+                            <x:String>979 82 486</x:String>
+                            <x:String>453 26 392</x:String>
+                            <x:String> 439 14 037</x:String>
+                            <x:String>981 84 631</x:String>
+                            <x:String> 431 48 108</x:String>
+                            <x:String> 935 72 873</x:String>
+                            <x:String> 437 05 636</x:String>
+                            <x:String> 949 20 352</x:String>
+                            <x:String> 989 44 231</x:String>
+                            <x:String> 479 45 855</x:String>
+                        </x:Array>
+                    </dui:MultiItemsPicker.ItemsSource>
+                </dui:MultiItemsPicker>
+            </dui:MultiItemsPickerListItem.MultiItemPicker>
+        </dui:MultiItemsPickerListItem>
+    </VerticalStackLayout>
+    <!-- <HorizontalStackLayout BackgroundColor="Red" -->
+    <!--                        HorizontalOptions="Start" -->
+    <!--                        VerticalOptions="Start"> -->
+    <!--     <dui:Chip Title="Test"/> -->
+    <!-- </HorizontalStackLayout> -->
+
+    <!-- <dui:ListItem Title="Til:" -->
+    <!--               HorizontalContentItemColumnWidth="*" -->
+    <!--               TitleColumnWidth="50" -->
+    <!--               ShouldOverrideContentItemLayoutOptions="False" -->
+    <!--               Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}"> -->
+    <!--     <Grid ColumnDefinitions="*, Auto" -->
+    <!--           RowDefinitions="Auto" -->
+    <!--           ColumnSpacing="0"> -->
     <!-- -->
-    <!--                 <x:String>948 19 788</x:String> -->
-    <!--                 <x:String>936 15 719</x:String> -->
-    <!--                 <x:String>418 01 260</x:String> -->
-    <!--                 <x:String>959 94 238</x:String> -->
-    <!--                 <x:String>464 51 717</x:String> -->
-    <!--                 <x:String>916 18 816</x:String> -->
-    <!--                 <x:String> 998 15 227</x:String> -->
-    <!--                 <x:String>468 14 026</x:String> -->
-    <!--                 <x:String>413 10 076</x:String> -->
-    <!--                 <x:String>986 77 073</x:String> -->
-    <!--                 <x:String>979 82 486</x:String> -->
-    <!--                 <x:String>453 26 392</x:String> -->
-    <!--                 <x:String> 439 14 037</x:String> -->
-    <!--                 <x:String>981 84 631</x:String> -->
-    <!--                 <x:String> 431 48 108</x:String> -->
-    <!--                 <x:String> 935 72 873</x:String> -->
-    <!--                 <x:String> 437 05 636</x:String> -->
-    <!--                 <x:String> 949 20 352</x:String> -->
-    <!--                 <x:String> 989 44 231</x:String> -->
-    <!--                 <x:String> 479 45 855</x:String> -->
-    <!--                 <x:String>99945678</x:String> -->
-    <!--                 <x:String>12345478</x:String> -->
-    <!--                 <x:String>12445678</x:String> -->
-    <!--                 <x:String>14345678</x:String> -->
-    <!--                 <x:String>12345674</x:String> -->
-    <!--                 <x:String>12345677</x:String> -->
-    <!--                 <x:String>12345778</x:String> -->
-    <!--                 <x:String>12745678</x:String> -->
-    <!--                 <x:String>72345678</x:String> -->
-    <!--                 <x:String>92345678</x:String> -->
-    <!--                 <x:String>82345678</x:String> -->
-    <!--                 <x:String>52345678</x:String> -->
-    <!--             </x:Array> -->
-    <!--         </dui:MultiItemsPicker.ItemsSource> -->
-    <!--     </dui:MultiItemsPicker> -->
-    <!--     <dui:Label Grid.Column="1" Text=">"/> -->
-    <!-- </Grid> -->
-
-
-    <!-- <FlexLayout Direction="Row" -->
-    <!--             Wrap="Wrap" -->
-    <!--             AlignItems="Start" -->
-    <!--             AlignContent="Start" -->
-    <!--             > -->
-    <!--     <dui:Chip Title="948 19 788" Margin="0,0,8,0" /> -->
-    <!--     <dui:Chip Title="936 15 719" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="418 01 260" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="959 94 238" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="464 51 717" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="916 18 816" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="998 15 227" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="468 14 026" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="413 10 076" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="986 77 073" Margin="0,0,8,0"/> -->
-    <!--     <dui:Chip Title="979 82 486" Margin="0,0,8,0"/> -->
-    <!-- </FlexLayout> -->
+    <!--         <dui:MultiItemsPicker Grid.Column="0" -->
+    <!--                               x:Name="Picker" -->
+    <!--                               HorizontalOptions="End" -->
+    <!--                               Placeholder="Velg"> -->
+    <!--             <dui:MultiItemsPicker.ItemsSource> -->
+    <!--                 <x:Array Type="{x:Type x:String}"> -->
+    <!--                     <x:String>948 19 788</x:String> -->
+    <!--                     <x:String>936 15 719</x:String> -->
+    <!--                     <x:String>418 01 260</x:String> -->
+    <!--                     <x:String>959 94 238</x:String> -->
+    <!--                     <x:String>464 51 717</x:String> -->
+    <!--                     <x:String>916 18 816</x:String> -->
+    <!--                     <x:String> 998 15 227</x:String> -->
+    <!--                     <x:String>468 14 026</x:String> -->
+    <!--                     <x:String>413 10 076</x:String> -->
+    <!--                     <x:String>986 77 073</x:String> -->
+    <!--                     <x:String>979 82 486</x:String> -->
+    <!--                     <x:String>453 26 392</x:String> -->
+    <!--                     <x:String> 439 14 037</x:String> -->
+    <!--                     <x:String>981 84 631</x:String> -->
+    <!--                     <x:String> 431 48 108</x:String> -->
+    <!--                     <x:String> 935 72 873</x:String> -->
+    <!--                     <x:String> 437 05 636</x:String> -->
+    <!--                     <x:String> 949 20 352</x:String> -->
+    <!--                     <x:String> 989 44 231</x:String> -->
+    <!--                     <x:String> 479 45 855</x:String> -->
+    <!--                 </x:Array> -->
+    <!--             </dui:MultiItemsPicker.ItemsSource> -->
+    <!--         </dui:MultiItemsPicker> -->
+    <!--         <dui:Image Grid.Column="1" -->
+    <!--                    HorizontalOptions="End" -->
+    <!--                    Source="{dui:Icons arrow_right_s_line}" /> -->
+    <!--     </Grid> -->
+    <!-- </dui:ListItem> -->
 </dui:ContentPage>
