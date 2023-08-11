@@ -10,12 +10,6 @@
                  BackgroundColor="{dui:Colors color_primary_90}">
 
     <VerticalStackLayout>
-        <dui:ListItem Title="Test"
-                      Subtitle="{Binding Source={x:Reference entry}, Path=Text}"
-                      TitleColumnWidth="*">
-            <dui:Label Text="Test"
-                       BackgroundColor="Red" />
-        </dui:ListItem>
-        <Entry x:Name="entry" />
+        
     </VerticalStackLayout>
 </dui:ContentPage>

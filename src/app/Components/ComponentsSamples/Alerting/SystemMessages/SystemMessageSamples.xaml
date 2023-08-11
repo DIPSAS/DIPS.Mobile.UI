@@ -5,6 +5,7 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
+             xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Alerting.SystemMessages.SystemMessageSamples"
              Padding="{dui:Sizes size_5}"
              Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}">
@@ -71,13 +72,13 @@
             <Border HeightRequest="10" 
                     BackgroundColor="Transparent" />
             
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ShowSystemMessage}"
+            <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ShowSystemMessage}"
                                     Command="{Binding DisplayCommand}" />
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessage}"
+            <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessage}"
                                     Command="{Binding RemoveCommand}" />
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessageAnimate}"
+            <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessageAnimate}"
                                     Command="{Binding RemoveAnimateCommand}" />
-            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveAll}"
+            <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveAll}"
                                     Command="{Binding DisposeCommand}"/>
             
         </dui:VerticalStackLayout>

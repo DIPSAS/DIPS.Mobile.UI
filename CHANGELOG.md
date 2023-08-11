@@ -1,3 +1,6 @@
+## [15.0.0]
+- [BreakingChange] Refactored ListItem and its API, along with its extensions; LoadableListItem and NavigationListItem.
+
 ## [14.0.3]
 - [ListItem] made sure subtitle changes are reflected to title label.
 

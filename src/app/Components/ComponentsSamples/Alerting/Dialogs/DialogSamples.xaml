@@ -5,6 +5,7 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Alerting.Dialogs.DialogSamples"
              Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
              Padding="{dui:Sizes size_5}">

@@ -1,7 +1,9 @@
+using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.ListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;
 
 /// <summary>
 /// This component should be used when <see cref="LoadedContentItem"/> needs to be loaded before
@@ -10,18 +12,8 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 /// <seealso cref="ListItem"/>
 /// <seealso cref="NavigationListItem"/>
 /// </summary>
-[ContentProperty(nameof(LoadedContentItem))]
 public partial class LoadableListItem
 {
-    /// <summary>
-    /// The content to be displayed when <see cref="IsBusy"/> and <see cref="IsError"/> is false
-    /// </summary>
-    public View LoadedContentItem
-    {
-        get => (View)GetValue(LoadedContentItemProperty);
-        set => SetValue(LoadedContentItemProperty, value);
-    }
-    
     /// <summary>
     /// The content to be displayed all the time
     /// </summary>
@@ -145,11 +137,6 @@ public partial class LoadableListItem
     
     public static readonly BindableProperty StaticContentProperty = BindableProperty.Create(
         nameof(StaticContentItem),
-        typeof(View),
-        typeof(LoadableListItem));
-    
-    public static readonly BindableProperty LoadedContentItemProperty = BindableProperty.Create(
-        nameof(LoadedContentItem),
         typeof(View),
         typeof(LoadableListItem));
     

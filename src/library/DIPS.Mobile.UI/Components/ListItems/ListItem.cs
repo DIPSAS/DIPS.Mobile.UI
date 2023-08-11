@@ -1,21 +1,64 @@
 using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
-[ContentProperty(nameof(HorizontalContentItem))]
+[ContentProperty(nameof(InLineContent))]
 public partial class ListItem : ContentView
 {
-    protected Grid MainContent { get; }
-    private VerticalStackLayout RootContent { get; } =
-        new() { BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, Spacing = 0};
+    private VerticalStackLayout RootContent { get; } = new()
+    {
+        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, 
+        Spacing = 0
+    };
+    
+    internal Grid MainContent { get; } = new()
+    {
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new(GridLength.Auto),
+            new(GridLength.Auto),
+            new(GridLength.Star)
+        },
+        RowDefinitions = new RowDefinitionCollection()
+        {
+            new(GridLength.Auto),
+        },
+        Padding = new Thickness(Sizes.GetSize(SizeName.size_4), 
+            Sizes.GetSize(SizeName.size_3),
+            Sizes.GetSize(SizeName.size_4),
+            Sizes.GetSize(SizeName.size_3))
+    };
 
+    private readonly Grid m_titleAndLabelGrid = new()
+    {
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new(),
+        },
+        RowDefinitions = new RowDefinitionCollection
+        {
+            new(),
+            new()
+        },
+        VerticalOptions = LayoutOptions.Center
+    };
+    
     public Border Border { get; } = new();
-    private Image m_icon = new() { Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0) };
-    private Label m_titleLabel;
+    internal Image ImageIcon { get; private set; }
+    internal Label TitleLabel { get; private set; }
+    internal Label SubtitleLabel { get; private set; }
+    
+    private IView m_oldInLineContent;
+    private IView m_oldUnderlyingContent;
+
+    private Divider? m_topDivider;
+    private Divider? m_bottomDivider;
 
     public ListItem()
     {
@@ -26,29 +69,13 @@ public partial class ListItem : ContentView
         };
         
         BackgroundColor = Colors.GetColor(ColorName.color_system_white);
-        Border.SetBinding(Border.BackgroundColorProperty, new Binding(){Source = this, Path = nameof(BackgroundColor)});
-        
-        MainContent = new Grid 
-        {
-            ColumnDefinitions = new ColumnDefinitionCollection
-            {
-                new(TitleColumnWidth),
-                new(HorizontalContentItemColumnWidth)
-            },
-            RowDefinitions = new RowDefinitionCollection()
-            {
-                new(GridLength.Auto)
-            },
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_4), 
-                Sizes.GetSize(SizeName.size_3),
-                Sizes.GetSize(SizeName.size_4),
-                Sizes.GetSize(SizeName.size_3))
-        };
+        Border.SetBinding(Border.BackgroundColorProperty, new Binding { Source = this, Path = nameof(BackgroundColor)} );
         
         Border.Content = MainContent;
 
+        MainContent.Add(m_titleAndLabelGrid, 1);
         RootContent.Add(Border);
-
+        
         this.Content = RootContent;
     }
 
@@ -66,158 +93,142 @@ public partial class ListItem : ContentView
     {
         base.OnHandlerChanged();
 
-        AddLabel();
-
 #if __ANDROID__
         // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
         Border.StrokeThickness = 0;
 #endif
-
-        if (HasTopDivider)
-        {
-            AddDivider(0);
-        }
-
-        if (HasBottomDivider)
-        {
-            AddDivider(RootContent.Count);
-        }
         
         AddTouch();
-        
-        if(Icon is not null)
-            AddIcon();
     }
 
-    private void AddLabel()
+    private void AddTitle()
     {
-        if (MainContent.Contains(m_titleLabel))
+        if (m_titleAndLabelGrid.Contains(TitleLabel))
         {
-            MainContent.Remove(m_titleLabel);
+            m_titleAndLabelGrid.Remove(TitleLabel);
         }
         
-        m_titleLabel = new Label 
-        { 
-            VerticalTextAlignment = TextAlignment.Center,
-            HorizontalTextAlignment = TextAlignment.Start
+        TitleLabel = new Label
+        {
+            Text = Title
         };
         
-        if (string.IsNullOrEmpty(Subtitle))
-        {
-            m_titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
-            m_titleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
-            m_titleLabel.SetBinding(Label.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
-            m_titleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
-        }
-        else
-        {
-            var title = new Span();
-            title.SetBinding(Span.TextProperty, new Binding(nameof(Title), source: this));
-            title.SetBinding(Span.FontAttributesProperty, new Binding(nameof(TitleFontAttributes), source: this));
-            m_titleLabel.SetBinding(Span.FontSizeProperty, new Binding(nameof(TitleFontSize), source: this));
-            m_titleLabel.SetBinding(Span.TextColorProperty, new Binding(nameof(TitleTextColor), source: this));
+        BindToOptions(TitleOptions);
 
-            var newLine = new Span { Text = Environment.NewLine };
-
-            var subTitle = new Span { FontSize = Sizes.GetSize(SizeName.size_3), TextColor = Colors.GetColor(ColorName.color_neutral_60)};
-            subTitle.SetBinding(Span.TextProperty, new Binding(nameof(Subtitle), source: this));
-            subTitle.SetBinding(Span.FontAttributesProperty, new Binding(nameof(SubtitleFontAttributes), source: this));
-
-                
-            m_titleLabel.FormattedText = new FormattedString { Spans = { title, newLine, subTitle }};
-        }
-
-        m_titleLabel.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), 0);
+        m_titleAndLabelGrid.Insert(0, TitleLabel);
         
-        MainContent.Add(m_titleLabel);
+        UpdateTitleSubtitleLogic();
+    }
+
+    private void AddSubtitle()
+    {
+        if (m_titleAndLabelGrid.Contains(SubtitleLabel))
+        {
+            m_titleAndLabelGrid.Remove(SubtitleLabel);
+        }
+
+        SubtitleLabel = new Label
+        {
+            Text = Subtitle
+        };
+        
+        BindToOptions(SubtitleOptions);
+
+        m_titleAndLabelGrid.Add(SubtitleLabel, 0, 1);
+        
+        UpdateTitleSubtitleLogic();
+    }
+
+    private void UpdateTitleSubtitleLogic()
+    {
+        if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Subtitle))
+        {
+            TitleOptions.VerticalTextAlignment = TextAlignment.End;
+            m_titleAndLabelGrid.SetRowSpan(TitleLabel, 1);
+        }
+        else if (!string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Subtitle))
+        {
+            TitleOptions.VerticalTextAlignment = TextAlignment.Center;
+            m_titleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+        }
     }
     
     private void AddIcon()
     {
-        if (Icon is null || Handler == null)
+        if (MainContent.Contains(ImageIcon))
         {
-            if (MainContent.Contains(m_icon))
-            {
-                MainContent.Remove(m_icon);
-                MainContent.ColumnDefinitions.RemoveAt(0);
-                ShiftChildrenColumns(-1);
-            }
-            return;
+            MainContent.Remove(ImageIcon);
         }
         
-        ShiftChildrenColumns(1);
-
-        m_icon.Source = Icon;
-        m_icon.SetBinding(Image.TintColorProperty, new Binding(nameof(IconColor), source: this));
-        m_icon.SetBinding(Image.IsVisibleProperty, new Binding(nameof(IsIconVisible), source: this));
+        ImageIcon = new Image
+        {
+            Source = Icon
+        };
         
-        MainContent.Add(m_icon, 0);
-        MainContent.ColumnDefinitions.Insert(0, new ColumnDefinition(GridLength.Auto));
+        BindToOptions(IconOptions);
         
+        MainContent.Add(ImageIcon, 0);
     }
 
-    private void ShiftChildrenColumns(int index)
+    protected virtual void AddInLineContent()
     {
-        foreach (var view in MainContent.Children)
-        {
-            MainContent.SetColumn(view, MainContent.GetColumn(view) + index);
-        }
+        SetInLineContent(InLineContent);
     }
 
-    private static void CornerRadiusChanged(BindableObject bindable, object oldValue, object newValue)
+    protected void SetInLineContent(IView view)
     {
-        if(bindable is not ListItem listItem)
-            return;
-
-        listItem.Border.StrokeShape = new RoundRectangle { CornerRadius = (CornerRadius)newValue };
-    }
-
-    private static void OnHorizontalContentItemChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if(bindable is not ListItem listItem || newValue is not View view)
-            return;
-
-        if (listItem.ShouldOverrideContentItemLayoutOptions)
+        if(MainContent.Contains(m_oldInLineContent))
         {
-            view.HorizontalOptions = LayoutOptions.End;
-            view.VerticalOptions = LayoutOptions.Center;
-        }
-
-        var existingViewInColumn = listItem.MainContent.Children.FirstOrDefault(child => (listItem.MainContent.GetColumn(child) == 1));
-        if(existingViewInColumn is not null)
-        {
-            listItem.MainContent.Remove(existingViewInColumn);
+            MainContent.Remove(m_oldInLineContent);
         }
         
-        listItem.MainContent.Add(view, 1);
-    }
-    
-    private static void OnVerticalContentItemChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if(bindable is not ListItem listItem || newValue is not View view)
-            return;
+        BindToOptions(InLineContentOptions);
 
-        if (listItem.ShouldOverrideContentItemLayoutOptions)
-        {
-            view.HorizontalOptions = LayoutOptions.Start;
-            view.VerticalOptions = LayoutOptions.Center;
-        }
-        
-        listItem.MainContent.AddRowDefinition(new RowDefinition(GridLength.Auto));
-        listItem.MainContent.Add(view, 0, 1);
-        Grid.SetColumnSpan(view, 2);
+        MainContent.Add(view, MainContent.ColumnDefinitions.Count - 1);
+
+        m_oldInLineContent = view;
     }
 
-    private void AddDivider(int row)
+    private void AddUnderlyingContent()
     {
-        var divider = new Divider();
-        if (row > RootContent.Count - 1)
+        if (MainContent.Contains(m_oldUnderlyingContent))
         {
-            RootContent.Add(divider);
+            MainContent.Remove(m_oldUnderlyingContent);
         }
         else
         {
-            RootContent.Insert(row, divider);
+            MainContent.AddRowDefinition(new RowDefinition(GridLength.Auto));
+        }
+        
+        MainContent.Add(UnderlyingContent, 0, 1);
+        MainContent.SetColumnSpan(UnderlyingContent, MainContent.ColumnDefinitions.Count);
+        
+        m_oldUnderlyingContent = UnderlyingContent;
+    }
+
+    private void SetCornerRadius()
+    {
+        Border.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
+    }
+    
+    private void AddDivider(bool top)
+    {
+        var divider = new Divider();
+        if (top)
+        {
+            if (RootContent.Contains(m_topDivider))
+                RootContent.Remove(m_topDivider);
+            
+            m_topDivider = divider;
+            RootContent.Insert(0, divider);
+        }
+        else
+        {
+            if (RootContent.Contains(m_bottomDivider))
+                RootContent.Remove(m_bottomDivider);
+            
+            m_bottomDivider = divider;
+            RootContent.Add(divider);
         }
     }
 
@@ -234,30 +245,5 @@ public partial class ListItem : ContentView
 
     private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && Command is not null);
 
-    private static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if(bindable is not ListItem listItem)
-            return;
-
-        Touch.SetIsEnabled(listItem.Border, newValue is not null);
-    }
-
-    private void OnHorizontalContentItemColumnWidthChanged()
-    {
-        MainContent.ColumnDefinitions.Last().Width = HorizontalContentItemColumnWidth;
-    }
-
-    private void OnTitleColumnWidthChanged()
-    {
-        MainContent.ColumnDefinitions.First().Width = TitleColumnWidth;
-    }
-
-    private void OnVerticalContentItemRowHeightChanged()
-    {
-        if (VerticalContentItem != null)
-        {
-            MainContent.RowDefinitions.Last().Height = VerticalContentItemRowHeight;    
-        }
-        
-    }
+    private void BindToOptions(IListItemOptions? options) => options?.Bind(this);
 }

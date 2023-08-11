@@ -10,6 +10,8 @@ public class VetlePageViewModel : ViewModel
     private bool m_isChecked = true;
     private bool m_isProgressing = true;
     private bool m_isError;
+    private bool m_isToggled;
+    private LayoutOptions m_horizontalOptions;
 
     public VetlePageViewModel()
     {
@@ -64,5 +66,28 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isProgressing;
         set => RaiseWhenSet(ref m_isProgressing, value);
+    }
+
+    public LayoutOptions HorizontalOptions
+    {
+        get => m_horizontalOptions;
+        set => RaiseWhenSet(ref m_horizontalOptions, value);
+    }
+
+    public bool IsToggled
+    {
+        get => m_isToggled;
+        set
+        {
+            m_isToggled = value;
+            if (value)
+            {
+                HorizontalOptions = LayoutOptions.Center;
+            }
+            else
+            {
+                HorizontalOptions = LayoutOptions.End;
+            }
+        }
     }
 }

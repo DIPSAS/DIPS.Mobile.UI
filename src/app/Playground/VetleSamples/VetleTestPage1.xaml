@@ -6,6 +6,9 @@
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers;assembly=DIPS.Mobile.UI"
              xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
+             xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
+             xmlns:options="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options;assembly=DIPS.Mobile.UI"
+             xmlns:title="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Title;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
              Title="Hei"
@@ -24,29 +27,10 @@
     </dui:ContentPage.BindingContext>-->
     
     <dui:VerticalStackLayout x:Name="Layout">
-        <dui:LoadableListItem ErrorText="Error"
-                              Title="This is my title"
-                              Subtitle="This is my subtitle"
-                              BusyText="Loading..."
-                              FadeContentIn="True"
-                              OnErrorTappedCommand="{Binding Navigate}"
-                              IsBusy="{Binding IsProgressing}"
-                              IsError="{Binding IsError}">
-                        
-            <Grid RowDefinitions="Auto, Auto, Auto" BackgroundColor="Red">
-                <dui:Label Text="This is my content" />
-                            
-                <dui:Label Grid.Row="1" Text="This is my content" />
-                
-                <dui:Label Grid.Row="2" Text="This is my content" />
-                            
-            </Grid>
-            
-            <dui:LoadableListItem.StaticContentItem>
-                <Image Source="{dui:Icons arrow_right_s_line}"  />
-            </dui:LoadableListItem.StaticContentItem>
-                        
-        </dui:LoadableListItem>
+        <extendedListItems:LoadableListItem Title="Hei" 
+                                            IsBusy="{Binding IsProgressing}" />
 
+       
+                    
     </dui:VerticalStackLayout>
 </dui:ContentPage>

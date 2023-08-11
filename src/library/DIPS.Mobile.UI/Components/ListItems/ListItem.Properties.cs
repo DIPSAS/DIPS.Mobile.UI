@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
-using DIPS.Mobile.UI.Resources.Sizes;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using DIPS.Mobile.UI.Components.ListItems.Options;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -28,45 +28,18 @@ public partial class ListItem
         set => SetValue(CommandProperty, value);
     }
 
-    /// <summary>
-    /// Sets the title text of the list item that people will see 
-    /// </summary>
     public string Title
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-    
-    /// <summary>
-    /// Sets the font attributes of the <see cref="Title"/>
-    /// </summary>
-    public FontAttributes TitleFontAttributes
+
+    public ImageSource Icon
     {
-        get => (FontAttributes)GetValue(TitleFontAttributesProperty);
-        set => SetValue(TitleFontAttributesProperty, value);
+        get => (ImageSource)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
     }
     
-    /// <summary>
-    /// Sets the text color of <see cref="Title"/>
-    /// </summary>
-    public Color TitleTextColor
-    {
-        get => (Color)GetValue(TitleTextColorProperty);
-        set => SetValue(TitleTextColorProperty, value);
-    }
-
-    /// <summary>
-    /// Sets the font-size of <see cref="Title"/>
-    /// </summary>
-    public double TitleFontSize
-    {
-        get => (double)GetValue(TitleFontSizeProperty);
-        set => SetValue(TitleFontSizeProperty, value);
-    }
-
-    /// <summary>
-    /// Sets the subtitle text that people will see below <see cref="Title"/>
-    /// </summary>
     public string Subtitle
     {
         get => (string)GetValue(SubtitleProperty);
@@ -74,39 +47,50 @@ public partial class ListItem
     }
     
     /// <summary>
-    /// Sets the font attributes of the <see cref="Subtitle"/>
+    /// The item to be placed in-line to the title and subtitle
     /// </summary>
-    public FontAttributes SubtitleFontAttributes
+    [TypeConverter(typeof(InLineContentTypeConverter))]
+    public IView InLineContent
     {
-        get => (FontAttributes)GetValue(SubtitleFontAttributesProperty);
-        set => SetValue(SubtitleFontAttributesProperty, value);
+        get => (IView)GetValue(InLineContentProperty);
+        set => SetValue(InLineContentProperty, value);
     }
     
     /// <summary>
-    /// Sets the icon that will be displayed to the left of <see cref="Title"/>
+    /// The item to be placed under <see cref="Title"/> <see cref="Subtitle"/> <see cref="Icon"/> and <see cref="InLineContent"/>
     /// </summary>
-    public ImageSource? Icon
+    [TypeConverter(typeof(UnderlyingContentTypeConverter))]
+    public IView UnderlyingContent
     {
-        get => (ImageSource)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
+        get => (IView)GetValue(UnderlyingContentProperty);
+        set => SetValue(UnderlyingContentProperty, value);
+    }
+    
+    /// <summary>
+    /// Sets the title of the list item that people will see 
+    /// </summary>
+    public Options.Title.Options TitleOptions
+    {
+        get => (Options.Title.Options)GetValue(TitleOptionsProperty);
+        set => SetValue(TitleOptionsProperty, value);
     }
 
     /// <summary>
-    /// Sets the color of <see cref="Icon"/>
+    /// Sets the subtitle that people will see below <see cref="InLineContentOptions"/>
     /// </summary>
-    public Color? IconColor
+    public Options.Subtitle.Options SubtitleOptions
     {
-        get => (Color)GetValue(IconColorProperty);
-        set => SetValue(IconColorProperty, value);
+        get => (Options.Subtitle.Options)GetValue(SubtitleOptionsProperty);
+        set => SetValue(SubtitleOptionsProperty, value);
     }
-    
+
     /// <summary>
-    /// Determines if the icon should be visible for people.
+    /// Sets the icon that will be displayed to the left of <see cref="InLineContentOptions"/>
     /// </summary>
-    public bool IsIconVisible
+    public Options.Icon.Options IconOptions
     {
-        get => (bool)GetValue(IsIconVisibleProperty);
-        set => SetValue(IsIconVisibleProperty, value);
+        get => (Options.Icon.Options)GetValue(IconOptionsProperty);
+        set => SetValue(IconOptionsProperty, value);
     }
 
     /// <summary>
@@ -117,34 +101,13 @@ public partial class ListItem
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// <summary>
-    /// The item to be vertically placed relative to <see cref="Title"/>
-    /// </summary>
-    public IView? VerticalContentItem
-    {
-        get => (IView)GetValue(VerticalContentItemProperty);
-        set => SetValue(VerticalContentItemProperty, value);
-    }
     
-    /// <summary>
-    /// The item to be horizontally placed relative to <see cref="Title"/>
-    /// </summary>
-    public IView HorizontalContentItem
+    public Options.InLineContent.Options InLineContentOptions
     {
-        get => (IView)GetValue(ContentItemProperty);
-        set => SetValue(ContentItemProperty, value);
+        get => (Options.InLineContent.Options)GetValue(InLineContentOptionsProperty);
+        set => SetValue(InLineContentOptionsProperty, value);
     }
-
-    /// <summary>
-    /// By default, the <see cref="ListItem"/> will set the layout options of the <see cref="HorizontalContentItem"/> in order for it to be right-aligned. Set this property to override the layoutoptions for your <see cref="HorizontalContentItem"/> view.
-    /// </summary>
-    public bool ShouldOverrideContentItemLayoutOptions
-    {
-        get => (bool)GetValue(ShouldOverrideContentItemLayoutOptionsProperty);
-        set => SetValue(ShouldOverrideContentItemLayoutOptionsProperty, value);
-    }
-
+   
     /// <summary>
     /// Determines whether the <see cref="ListItem"/> should display a Divider on the top
     /// </summary>
@@ -163,126 +126,23 @@ public partial class ListItem
         set => SetValue(HasBottomDividerProperty, value);
     }
     
-    /// <summary>
-    /// Sets the <see cref="GridLength"/> of the column that <see cref="HorizontalContentItem"/> resides in.
-    /// </summary>
-    /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
-    [TypeConverter(typeof (GridLengthTypeConverter))]
-    public GridLength HorizontalContentItemColumnWidth
-    {
-        get => (GridLength)GetValue(HorizontalContentItemColumnWidthProperty);
-        set => SetValue(HorizontalContentItemColumnWidthProperty, value);
-    }
-
-    /// <summary>
-    /// Sets the <see cref="GridLength"/> of the column that <see cref="Title"/> resides in.
-    /// </summary>
-    /// <remarks>The default <see cref="GridLength"/> of this column is 'Auto'</remarks>
-    [TypeConverter(typeof (GridLengthTypeConverter))]
-    public GridLength TitleColumnWidth
-    {
-        get => (GridLength)GetValue(TitleColumnWidthProperty);
-        set => SetValue(TitleColumnWidthProperty, value);
-    }
-
-    /// <summary>
-    /// Sets the <see cref="GridLength"/> of the row that <see cref="VerticalContentItem"/> resides in.
-    /// </summary>
-    /// <remarks>The default <see cref="GridLength"/> of this row is 'Auto'</remarks>
-    [TypeConverter(typeof (GridLengthTypeConverter))]
-    public GridLength VerticalContentItemRowHeight
-    {
-        get => (GridLength)GetValue(VerticalContentItemRowHeightProperty);
-        set => SetValue(VerticalContentItemRowHeightProperty, value);
-    }
-    
-    public static readonly BindableProperty HorizontalContentItemColumnWidthProperty = BindableProperty.Create(
-        nameof(HorizontalContentItemColumnWidth),
-        typeof(GridLength),
-        typeof(ListItem),
-        propertyChanged:(bindable, _, _) =>
-        {
-            if (bindable is ListItem listItem)
-            {
-                listItem.OnHorizontalContentItemColumnWidthChanged();
-            }
-        },
-        defaultValue:GridLength.Star);
-    
-    public static readonly BindableProperty TitleColumnWidthProperty = BindableProperty.Create(
-        nameof(TitleColumnWidth),
-        typeof(GridLength),
-        typeof(ListItem),
-        propertyChanged:(bindable, _, _) =>
-        {
-            if (bindable is ListItem listItem)
-            {
-                listItem.OnTitleColumnWidthChanged();
-            }
-        },
-        defaultValue:GridLength.Auto);
-    
-    public static readonly BindableProperty VerticalContentItemRowHeightProperty = BindableProperty.Create(
-        nameof(VerticalContentItemRowHeight),
-        typeof(GridLength),
-        typeof(ListItem),
-        propertyChanged:(bindable, _, _) =>
-        {
-            if (bindable is ListItem listItem)
-            {
-                listItem.OnVerticalContentItemRowHeightChanged();
-            }
-        },
-        defaultValue:GridLength.Auto);
-    
-    public static readonly BindableProperty ShouldOverrideContentItemLayoutOptionsProperty = BindableProperty.Create(
-        nameof(ShouldOverrideContentItemLayoutOptions),
-        typeof(bool),
-        typeof(ListItem),
-        defaultValue:true);
-    
-    public static readonly BindableProperty ContentItemProperty = BindableProperty.Create(
-        nameof(HorizontalContentItem),
-        typeof(IView),
-        typeof(ListItem),
-        propertyChanged:OnHorizontalContentItemChanged);
-    
     public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
         nameof(CornerRadius),
         typeof(CornerRadius),
         typeof(ListItem),
-        propertyChanged:CornerRadiusChanged);
-
-    public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
-        nameof(Subtitle),
-        typeof(string),
-        typeof(ListItem), propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddLabel());
+        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).SetCornerRadius()));
     
     public static readonly BindableProperty HasTopDividerProperty = BindableProperty.Create(
         nameof(HasTopDivider),
         typeof(bool),
-        typeof(ListItem));
+        typeof(ListItem),
+        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).AddDivider(true)));
 
     public static readonly BindableProperty HasBottomDividerProperty = BindableProperty.Create(
         nameof(HasBottomDivider),
         typeof(bool),
-        typeof(ListItem));
-
-    public static readonly BindableProperty TitleFontAttributesProperty = BindableProperty.Create(
-        nameof(TitleFontAttributes),
-        typeof(FontAttributes),
-        typeof(ListItem));
-    
-    public static readonly BindableProperty SubtitleFontAttributesProperty = BindableProperty.Create(
-        nameof(SubtitleFontAttributes),
-        typeof(FontAttributes),
-        typeof(ListItem));
-    
-    public static readonly BindableProperty VerticalContentItemProperty = BindableProperty.Create(
-        nameof(VerticalContentItem),
-        typeof(IView),
         typeof(ListItem),
-        propertyChanged:OnVerticalContentItemChanged);
+        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).AddDivider(false)));
 
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
@@ -293,53 +153,90 @@ public partial class ListItem
         nameof(Command),
         typeof(ICommand),
         typeof(ListItem),
-        propertyChanged:OnCommandChanged);
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).SetTouchIsEnabled());
     
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-        nameof(Title),
-        typeof(string),
-        typeof(ListItem));
-    
-    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
-        nameof(IconColor),
-        typeof(Color),
-        typeof(ListItem));
-
-    public static readonly BindableProperty TitleTextColorProperty = BindableProperty.Create(
-        nameof(TitleTextColor),
-        typeof(Color),
-        typeof(ListItem),
-        defaultValue:Colors.GetColor(ColorName.color_neutral_90));
-    
-    public static readonly BindableProperty TitleFontSizeProperty = BindableProperty.Create(
-        nameof(TitleFontSize),
-        typeof(double),
-        typeof(ListItem),
-        defaultValue:(double)Sizes.GetSize(SizeName.size_4));
-    
-    public static readonly BindableProperty IconProperty = BindableProperty.Create(
-        nameof(Icon),
-        typeof(ImageSource),
-        typeof(ListItem),
-        propertyChanged: (obj, ov, nv) =>
-        {
-            if(obj is ListItem listItem)
-                listItem.AddIcon();
-        });
-
-    public static readonly BindableProperty IsIconVisibleProperty = BindableProperty.Create(
-        nameof(IsIconVisible),
-        typeof(bool),
-        typeof(ListItem), defaultValue:true);
-
     public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
         nameof(BackgroundColor),
         typeof(Color),
         typeof(ListItem));
+    
+    public static readonly BindableProperty UnderlyingContentProperty = BindableProperty.Create(
+        nameof(UnderlyingContent),
+        typeof(IView),
+        typeof(ListItem),
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddUnderlyingContent());
+    
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+        nameof(Title),
+        typeof(string),
+        typeof(ListItem), 
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddTitle());
+    
+    public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
+        nameof(Subtitle),
+        typeof(string),
+        typeof(ListItem), 
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddSubtitle());
+
+    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+        nameof(Icon),
+        typeof(ImageSource),
+        typeof(ListItem),
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddIcon());
 
     public new Color BackgroundColor
     {
         get => (Color)GetValue(BackgroundColorProperty);
         set => SetValue(BackgroundColorProperty, value);
     }
+
+#region OptionBindableProperties
+
+    public static readonly BindableProperty TitleOptionsProperty = BindableProperty.Create(
+        nameof(TitleOptions),
+        typeof(Options.Title.Options),
+        typeof(ListItem),
+        defaultValueCreator: CreateOptionsAndBind<Options.Title.Options>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Title.Options)newValue).Bind(((ListItem)bindable)));
+
+    public static readonly BindableProperty SubtitleOptionsProperty = BindableProperty.Create(
+        nameof(SubtitleOptions),
+        typeof(Options.Subtitle.Options),
+        typeof(ListItem),
+        defaultValueCreator: CreateOptionsAndBind<Options.Subtitle.Options>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Subtitle.Options)newValue).Bind(((ListItem)bindable)));
+    
+    public static readonly BindableProperty IconOptionsProperty = BindableProperty.Create(
+        nameof(IconOptions),
+        typeof(Options.Icon.Options),
+        typeof(ListItem),
+        defaultValueCreator: CreateOptionsAndBind<Options.Icon.Options>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Icon.Options)newValue).Bind(((ListItem)bindable)));
+
+    public static readonly BindableProperty InLineContentOptionsProperty = BindableProperty.Create(
+        nameof(InLineContentOptions),
+        typeof(Options.InLineContent.Options),
+        typeof(ListItem),
+        defaultValueCreator: CreateOptionsAndBind<Options.InLineContent.Options>,
+        propertyChanged: (bindable, _, newValue) => ((Options.InLineContent.Options)newValue).Bind(((ListItem)bindable)));
+    
+    private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : IListItemOptions, new()
+    {
+        if (bindable is not ListItem listItem)
+            return default!;
+        
+        var options = new T();
+        options.Bind(listItem);
+
+        return options;
+    }
+
+#endregion
+    
+public static readonly BindableProperty InLineContentProperty = BindableProperty.Create(
+    nameof(InLineContent),
+    typeof(IView),
+    typeof(ListItem),
+    propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddInLineContent());
+    
 }
