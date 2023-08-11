@@ -2,6 +2,7 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler
 {
+    private IconName CloseIconName => IconName.close_line;
     public ChipHandler() : base(PropertyMapper)
     {
     }

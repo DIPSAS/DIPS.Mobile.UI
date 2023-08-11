@@ -21,7 +21,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             nameof(IsSelected),
             typeof(bool),
-            typeof(CheckBox), propertyChanged: IsSelectedChanged);
+            typeof(CheckBox), propertyChanged: IsSelectedChanged, defaultBindingMode: BindingMode.TwoWay);
 
         /// <summary>
         /// A boolean property to determine if the check box is selected.

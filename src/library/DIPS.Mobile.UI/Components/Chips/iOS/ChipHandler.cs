@@ -3,6 +3,7 @@ using System.Runtime.Versioning;
 using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -23,7 +24,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button = new Button();
         return (UIButton)m_button.ToPlatform(MauiContext!);
     }
-
+    
     protected override void ConnectHandler(UIButton platformView)
     {
         base.ConnectHandler(platformView);
@@ -47,9 +48,11 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         var uiButton = handler.PlatformView;
         if (handler.VirtualView.HasCloseButton)
         {
-            if (Icons.TryGetUIImage(iconName: IconName.placeholdericon_fill, out var image))
+            if (Icons.TryGetUIImage(iconName: handler.CloseIconName, out var image))
             {
-                uiButton.SetImage(image, UIControlState.Normal);
+                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+                var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+                uiButton.SetImage(resizedImage, UIControlState.Normal);
                 ShiftImageToTheRight(handler, uiButton);
             }
             else

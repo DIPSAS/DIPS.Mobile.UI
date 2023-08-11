@@ -24,21 +24,21 @@ public partial class MultiItemsPicker : ContentView
             OpenCommand);
         m_hStackLayout.ChildOutOfBounds += IsChildOutOfBounds;
         Unloaded += Dispose;
-        
+
         Content = m_hStackLayout;
 
         DeviceDisplay.Current.MainDisplayInfoChanged += MainDisplayInfoChanged;
         m_currentDeviceOrientation = DeviceDisplay.Current.MainDisplayInfo.Orientation;
     }
-    
-    
+
+
     private void MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
         if (e.DisplayInfo.Orientation == m_currentDeviceOrientation)
         {
             return;
         }
-        
+
         OnSelectedItemsChanged(); //This triggers a redraw and it will make the UI look good for people when they change orientation
         m_currentDeviceOrientation = e.DisplayInfo.Orientation;
     }
@@ -83,7 +83,7 @@ public partial class MultiItemsPicker : ContentView
     {
         if (!BottomSheetService.IsBottomSheetOpen())
         {
-            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(multiItemsPicker));    
+            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(multiItemsPicker));
         }
     }
 
@@ -149,32 +149,28 @@ public partial class MultiItemsPicker : ContentView
 
     private async void MergeChips()
     {
+        var chipIdentifier = "MergedCounterChip";
         if (SelectedItems == null)
         {
             return;
         }
 
+        Chip? mergedChip;
+        var numberOfSelectedItems = SelectedItems.Count().ToString();
+        var view = m_hStackLayout.FirstOrDefault(v => v.AutomationId == chipIdentifier); //Check if it already exists.
+        
+        if (view is Chip chip) //No need to redraw if it already exists. Redrawing leads to a small visual glitch, especially for Android.
+        {
+            mergedChip = chip;
+            mergedChip.Title = numberOfSelectedItems;
+            return;
+        }
+
+        mergedChip = new Chip() {AutomationId = chipIdentifier, Title = numberOfSelectedItems, Command = OpenCommand,};
         m_hStackLayout.Clear();
 #if __ANDROID__
         await Task.Delay(5); //Because we are in a event that might ruin the stacklayout we have to wait for the stacklayout to be completely drawn.
 #endif
-        m_hStackLayout.Add(new Chip()
-        {
-            Title = SelectedItems.Count().ToString(),
-            Command = OpenCommand,
-            HasCloseButton = true,
-            CloseCommand = new Command(() =>
-            {
-                if (SelectedItems == null)
-                {
-                    return;
-                }
-
-                foreach (var selectedItem in SelectedItems)
-                {
-                    DeSelectItem(selectedItem);
-                }
-            })
-        });
+        m_hStackLayout.Add(mergedChip);
     }
 }

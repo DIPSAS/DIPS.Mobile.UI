@@ -41,7 +41,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         {
             handler.PlatformView.CloseIconVisible = true;
             handler.PlatformView.SetOnCloseIconClickListener(new OnCloseListener(handler));
-            DUI.TryGetResourceId(Icons.GetIconName(iconName: IconName.placeholdericon_fill), out var id, defType:"drawable");
+            DUI.TryGetResourceId(Icons.GetIconName(handler.CloseIconName), out var id, defType:"drawable");
             if (id != 0)
             {
                 var drawable = Platform.AppContext.Resources?.GetDrawable(id);
