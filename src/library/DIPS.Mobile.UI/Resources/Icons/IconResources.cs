@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/10/2023 2:04:28 PM from DIPS.Mobile.DesignTokens
+generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
 */
 
         namespace DIPS.Mobile.UI.Resources.Icons;
@@ -28,6 +28,7 @@ generated 8/10/2023 2:04:28 PM from DIPS.Mobile.DesignTokens
 ["bell_fill"] = "bell_fill.png",
 ["filter_fill"] = "filter_fill.png",
 ["chevron_down_line"] = "chevron_down_line.png",
+["close_line"] = "close_line.png",
 ["companion_fill"] = "companion_fill.png",
 ["person_line"] = "person_line.png",
 ["descending_fill"] = "descending_fill.png",
