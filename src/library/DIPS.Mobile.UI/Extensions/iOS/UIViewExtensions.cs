@@ -32,7 +32,7 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             {
                 tabs += "\t";
             }
-
+            
             var returnString = $"\n{tabs}{view.Class.Name}";
 
             depth++;
@@ -42,8 +42,9 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             }
 
             return returnString;
+            
         }
-
+        
 
         public static T? FindParentViewOfType<T>(this UIView? view)
             where T : class

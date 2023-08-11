@@ -11,4 +11,13 @@ public partial class ChipHandler : ViewHandler<Chip, ViewHandler>
         throw new Only_Here_For_UnitTests();
 
     protected override ViewHandler CreatePlatformView() => throw new Only_Here_For_UnitTests();
+    private static partial void MapColor(ChipHandler handler, Chip chip)
+    {
+        throw new Only_Here_For_UnitTests();
+    }
+
+    private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
+    {
+        throw new Only_Here_For_UnitTests();
+    }
 }

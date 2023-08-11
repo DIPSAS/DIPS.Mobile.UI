@@ -23,7 +23,7 @@ public partial class Chip
     public static readonly BindableProperty CloseButtonColorProperty = BindableProperty.Create(
         nameof(CloseButtonColor),
         typeof(Color),
-        typeof(Chip), defaultValue: Colors.GetColor(ColorName.color_neutral_50));
+        typeof(Chip), defaultValue: Colors.GetColor(ColorName.color_neutral_70));
 
     /// <summary>
     /// The color of the close button that people tap to close the chip.
