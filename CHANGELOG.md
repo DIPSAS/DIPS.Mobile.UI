@@ -1,6 +1,12 @@
 ## [15.0.0]
 - [BreakingChange] Refactored ListItem and its API, along with its extensions; LoadableListItem and NavigationListItem.
 
+## [14.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [14.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [14.0.3]
 - [ListItem] made sure subtitle changes are reflected to title label.
 
