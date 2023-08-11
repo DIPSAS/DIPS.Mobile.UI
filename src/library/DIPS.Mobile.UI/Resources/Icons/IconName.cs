@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/10/2023 2:04:28 PM from DIPS.Mobile.DesignTokens
+generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Icons
@@ -27,6 +27,7 @@ document_transfer_line,
 bell_fill, 
 filter_fill, 
 chevron_down_line, 
+close_line, 
 companion_fill, 
 person_line, 
 descending_fill, 
