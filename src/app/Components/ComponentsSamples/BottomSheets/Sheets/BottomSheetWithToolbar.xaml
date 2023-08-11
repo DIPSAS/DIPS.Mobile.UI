@@ -3,7 +3,6 @@
 <dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
              x:Name="BottomSheet"

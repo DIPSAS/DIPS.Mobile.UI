@@ -2,17 +2,15 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
-                 xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  xmlns:helpers="clr-namespace:Components.Helpers"
-                 xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Searching.SearchingSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <extendedListItems:NavigationListItem Title="Search bar"
+        <dui:NavigationListItem Title="Search bar"
                                 Command="{helpers:NavigationCommand {x:Type searching:SearchBarSamples}}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True"/>
 
-        <extendedListItems:NavigationListItem Title="Search page"
+        <dui:NavigationListItem Title="Search page"
                                 Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}"
                                 HasBottomDivider="True"/>
     </dui:VerticalStackLayout>

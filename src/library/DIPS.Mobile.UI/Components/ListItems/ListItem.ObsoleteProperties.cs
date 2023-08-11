@@ -23,19 +23,19 @@ public partial class ListItem
     [Obsolete("Use FontAttributes on Subtitle Options object instead", true)]
     public FontAttributes SubtitleFontAttributes { get; set; }
     
-    [Obsolete("Use Color on Icon Options object instead")]
+    [Obsolete("Use Color on Icon Options object instead", true)]
     public Color? IconColor { get; set; }
     
-    [Obsolete("Use IsVisible on Icon Options object instead")]
+    [Obsolete("Use IsVisible on Icon Options object instead", true)]
     public bool IsIconVisible { get; set; }
     
-    [Obsolete("Use Width on InLineContent Options object instead")]
+    [Obsolete("Use Width on InLineContent Options object instead", true)]
     public GridLength HorizontalContentItemColumnWidth { get; set; }
     
-    [Obsolete("Use Width on Title Options object instead")]
+    [Obsolete("Use Width on Title Options object instead", true)]
     public GridLength TitleColumnWidth { get; set; }
  
-    [Obsolete("Remove, set the height on the content itself")]
+    [Obsolete("Remove, set the height on the content itself", true)]
     public GridLength VerticalContentItemRowHeight { get; set; }
     
 }

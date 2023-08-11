@@ -7,14 +7,13 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:helpers="clr-namespace:Components.Helpers"
-                 xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Pickers.PickersSample">
     <dui:VerticalStackLayout Spacing="0">
-        <extendedListItems:NavigationListItem Title="Item pickers"
+        <dui:NavigationListItem Title="Item pickers"
                                 Command="{helpers:NavigationCommand {x:Type pickers:ItemPickersSamples}}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True"/>
-        <extendedListItems:NavigationListItem Title="Date / time pickers"
+        <dui:NavigationListItem Title="Date / time pickers"
                                 Command="{helpers:NavigationCommand {x:Type pickers:DateTimePickersSamples}}"
                                 HasBottomDivider="True"/>
     </dui:VerticalStackLayout>

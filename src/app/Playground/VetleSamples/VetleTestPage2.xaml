@@ -5,7 +5,6 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
-             xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage2"
              x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
              Title="Hoho"
@@ -15,7 +14,7 @@
     </dui:ContentPage.BindingContext>
     
     <dui:VerticalStackLayout>
-        <extendedListItems:NavigationListItem Tapped="NavigationListItem_OnTapped"> </extendedListItems:NavigationListItem>
+        <dui:NavigationListItem Tapped="NavigationListItem_OnTapped"> </dui:NavigationListItem>
         
         <Grid WidthRequest="100"
                 HeightRequest="120"

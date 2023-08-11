@@ -8,7 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
-                 xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
+                 xmlns:icon="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Icon;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -16,13 +16,16 @@
     </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout Spacing="0">
-        <extendedListItems:NavigationListItem Title="Navigate"
+        <dui:NavigationListItem Title="Navigate"
                                 HasTopDivider="True"/>
         
-        <extendedListItems:NavigationListItem Title="Navigate"
+        <dui:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
-                                IconColor="{dui:Colors color_primary_90}"
-                                HasTopDivider="True"/>
+                                HasTopDivider="True">
+            <dui:NavigationListItem.IconOptions>
+                <icon:Options Color="{dui:Colors color_primary_90}" />
+            </dui:NavigationListItem.IconOptions>
+        </dui:NavigationListItem>
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">

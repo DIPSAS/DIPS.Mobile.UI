@@ -5,18 +5,16 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:resourcesSamples="clr-namespace:Components.ResourcesSamples"
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                 xmlns:extendedListItems="clr-namespace:DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ResourcesSamples.Sizes.SizesSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
                                 Command="{helpers:NavigationCommand {x:Type sizes:SizesAsVisualBoxes}}"
                                 HasBottomDivider="True"
                                 HasTopDivider="True"/>
-        <extendedListItems:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
                                 Command="{helpers:NavigationCommand {x:Type sizes:SizesAsFontSize}}" 
                                 HasBottomDivider="True"/>
     </dui:VerticalStackLayout>
