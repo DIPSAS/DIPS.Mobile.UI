@@ -8,13 +8,14 @@
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ResourcesSamples.Sizes.SizesSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
+        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsVisualBoxes}"
                                 Command="{helpers:NavigationCommand {x:Type sizes:SizesAsVisualBoxes}}"
                                 HasBottomDivider="True"
                                 HasTopDivider="True"/>
-        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
+        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SizesAsFontSize}"
                                 Command="{helpers:NavigationCommand {x:Type sizes:SizesAsFontSize}}" 
                                 HasBottomDivider="True"/>
     </dui:VerticalStackLayout>

@@ -1,9 +1,7 @@
-using System.ComponentModel;
 using System.Windows.Input;
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 /// <summary>
 /// This component should be used when <see cref="LoadedContentItem"/> needs to be loaded before

@@ -1,6 +1,4 @@
-using Colors = Microsoft.Maui.Graphics.Colors;
-
-namespace DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 [ContentProperty(nameof(InLineContent))]
 public partial class NavigationListItem : ListItem

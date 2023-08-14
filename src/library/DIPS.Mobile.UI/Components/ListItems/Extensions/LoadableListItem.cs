@@ -3,7 +3,7 @@ using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
-namespace DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 public partial class LoadableListItem : ListItem
 {

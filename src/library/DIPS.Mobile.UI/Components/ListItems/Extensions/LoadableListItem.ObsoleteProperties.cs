@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.ListItems.ExtendedListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 public partial class LoadableListItem
 {

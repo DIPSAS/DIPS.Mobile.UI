@@ -9,6 +9,7 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
                  xmlns:icon="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Icon;assembly=DIPS.Mobile.UI"
+                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -16,16 +17,16 @@
     </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout Spacing="0">
-        <dui:NavigationListItem Title="Navigate"
+        <extensions:NavigationListItem Title="Navigate"
                                 HasTopDivider="True"/>
         
-        <dui:NavigationListItem Title="Navigate"
+        <extensions:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
                                 HasTopDivider="True">
-            <dui:NavigationListItem.IconOptions>
+            <extensions:NavigationListItem.IconOptions>
                 <icon:IconOptions Color="{dui:Colors color_primary_90}" />
-            </dui:NavigationListItem.IconOptions>
-        </dui:NavigationListItem>
+            </extensions:NavigationListItem.IconOptions>
+        </extensions:NavigationListItem>
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">
@@ -48,7 +49,7 @@
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
 
-        <dui:LoadableListItem Title="Loadable ListItem"
+        <extensions:LoadableListItem Title="Loadable ListItem"
                               Subtitle="click when error"
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
@@ -63,7 +64,7 @@
                        VerticalTextAlignment="Center"
                        HeightRequest="100"/>
 
-        </dui:LoadableListItem>
+        </extensions:LoadableListItem>
 
     </dui:VerticalStackLayout>
 </dui:ContentPage>
