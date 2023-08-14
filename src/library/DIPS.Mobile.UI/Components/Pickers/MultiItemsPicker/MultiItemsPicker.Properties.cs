@@ -44,18 +44,19 @@ public partial class MultiItemsPicker
     /// </remarks>
     public string? ItemDisplayProperty { get; set; }
     
-    public static readonly BindableProperty SelectedItemCommandProperty = BindableProperty.Create(
-        nameof(SelectedItemCommand),
+    public static readonly BindableProperty SelectedItemsCommandProperty = BindableProperty.Create(
+        nameof(SelectedItemsCommand),
         typeof(ICommand),
         typeof(MultiItemsPicker));
 
     /// <summary>
     /// The command to be executed when people select / deselect an item from the picker.
     /// </summary>
-    public ICommand? SelectedItemCommand
+    /// <remarks>The command parameter is <see cref="SelectedItems"/></remarks>
+    public ICommand? SelectedItemsCommand
     {
-        get => (ICommand)GetValue(SelectedItemCommandProperty);
-        set => SetValue(SelectedItemCommandProperty, value);
+        get => (ICommand)GetValue(SelectedItemsCommandProperty);
+        set => SetValue(SelectedItemsCommandProperty, value);
     }
     
     /// <summary>

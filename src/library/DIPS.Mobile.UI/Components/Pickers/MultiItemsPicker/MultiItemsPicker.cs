@@ -100,7 +100,7 @@ public partial class MultiItemsPicker : ContentView
         tempList.Remove(item);
         SelectedItems = tempList;
 
-        SelectedItemCommand?.Execute(SelectedItems);
+        SelectedItemsCommand?.Execute(SelectedItems);
         DidDeSelectItem?.Invoke(this, item);
     }
 
@@ -126,7 +126,7 @@ public partial class MultiItemsPicker : ContentView
             SelectedItems = tempList;
         }
 
-        SelectedItemCommand?.Execute(SelectedItems);
+        SelectedItemsCommand?.Execute(SelectedItems);
         DidSelectItem?.Invoke(this, item);
     }
 
