@@ -1,10 +1,14 @@
+using CoreAnimation;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
@@ -36,16 +40,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
     protected override void ConnectHandler(UIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
-        platformView.PrintAllChildrenOfView();
-        // var uiView = platformView.Subviews.First().Subviews[0]; //<-- 0 her gir oss nesten riktig bakgrunnsfarge
-        // uiView.TintColor = UIColor.Green;
-        // uiView.BackgroundColor = UIColor.Red;
-        platformView.SetDefaultTintColor();
-
-        // platformView.Subviews[0].Subviews[0].Subviews[0].Alpha = 0;
-     
-
-        
+        platformView.SetInLineLabelColors();
         
         platformView.ValueChanged += OnDateSelected;
         platformView.EditingDidBegin += OnOpen;
@@ -54,17 +49,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
 
-    private static void ClearBackgroundColorOfSubview(UIView uiView)
-    {
-        foreach (var subview in uiView.Subviews)
-        {
-            subview.Alpha = 0;
-            if (subview.Subviews.Length > 0)
-            {
-                ClearBackgroundColorOfSubview(subview);
-            }
-        }
-    }
+   
 
     private void OnOpen(object? sender, EventArgs e)
     {

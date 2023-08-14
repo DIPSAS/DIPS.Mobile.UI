@@ -1,5 +1,6 @@
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
+[ContentProperty(nameof(Pickers.MultiItemsPicker.MultiItemsPicker))]
 public partial class MultiItemsPickerListItem : ListItem
 {
     private readonly Grid m_inlineContentGrid;
@@ -25,9 +26,9 @@ public partial class MultiItemsPickerListItem : ListItem
     
     private void MultiItemPickerPropertyChanged()
     {
-        if (MultiItemPicker == null) return;
-        Command = MultiItemPicker.OpenCommand;
-        MultiItemPicker.HorizontalOptions = LayoutOptions.End; //Place it to the right in a list item
-        m_inlineContentGrid.Add(MultiItemPicker, 0);
+        if (MultiItemsPicker == null) return;
+        Command = MultiItemsPicker.OpenCommand;
+        MultiItemsPicker.HorizontalOptions = LayoutOptions.End; //Place it to the right in a list item
+        m_inlineContentGrid.Add(MultiItemsPicker, 0);
     }
 }

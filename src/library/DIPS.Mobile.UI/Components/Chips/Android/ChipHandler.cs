@@ -1,8 +1,12 @@
+using Android.OS;
+using Android.Util;
+using Android.Views;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using Java.Interop;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Application = Android.App.Application;
 
 
 // ReSharper disable once CheckNamespace
@@ -33,6 +37,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.Text = chip.Title;
+        var cornerRadius = handler.PlatformView.ChipCornerRadius;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
@@ -64,6 +69,11 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.CloseIcon?.SetTint(handler.VirtualView.CloseButtonColor.ToPlatform());
+    }
+
+    private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
+    {
+        handler.PlatformView.ChipCornerRadius = (float) (handler.VirtualView.CornerRadius*DeviceDisplay.MainDisplayInfo.Density);
     }
     
     public class OnCloseListener : Java.Lang.Object, global::Android.Views.View.IOnClickListener

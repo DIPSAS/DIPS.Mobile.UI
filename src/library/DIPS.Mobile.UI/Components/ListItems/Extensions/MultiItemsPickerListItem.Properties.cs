@@ -4,14 +4,14 @@ namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 public partial class MultiItemsPickerListItem
 {
-    public static readonly BindableProperty MultiItemPickerProperty = BindableProperty.Create(
-        nameof(MultiItemPicker),
+    public static readonly BindableProperty MultiItemsPickerProperty = BindableProperty.Create(
+        nameof(MultiItemsPicker),
         typeof(MultiItemsPicker),
         typeof(MultiItemsPicker), propertyChanged: (bindable, value, newValue) => ((MultiItemsPickerListItem)bindable).MultiItemPickerPropertyChanged());
 
-    public MultiItemsPicker? MultiItemPicker
+    public MultiItemsPicker? MultiItemsPicker
     {
-        get => (MultiItemsPicker)GetValue(MultiItemPickerProperty);
-        set => SetValue(MultiItemPickerProperty, value);
+        get => (MultiItemsPicker)GetValue(MultiItemsPickerProperty);
+        set => SetValue(MultiItemsPickerProperty, value);
     }
 }

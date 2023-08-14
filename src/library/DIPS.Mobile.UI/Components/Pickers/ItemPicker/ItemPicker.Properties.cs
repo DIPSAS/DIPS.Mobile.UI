@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
@@ -20,16 +21,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
-            typeof(IEnumerable<object>),
+            typeof(IEnumerable),
             typeof(ItemPicker),
             propertyChanged: ItemsSourceChanged);
 
         /// <summary>
         /// The items people can select from when opening the picker.
         /// </summary>
-        public IEnumerable<object>? ItemsSource
+        public IEnumerable? ItemsSource
         {
-            get => (IEnumerable<object>)GetValue(ItemsSourceProperty);
+            get => (IEnumerable)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
@@ -39,7 +40,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// <remarks>
         /// When this is not set, it fall back to <code>.ToString()</code> of the <see cref="SelectedItem"/>.
         /// This is used when people search if <see cref="Mode"/> is set to <see cref="PickerMode.BottomSheet"/>
-        /// This is not used if you set a <see cref="BottomSheetConfiguration.SelectableItemTemplate"/>
+        /// This is not used if you set a <see cref="BottomSheetPickerConfiguration.SelectableItemTemplate"/>
         /// </remarks>
         public string? ItemDisplayProperty { get; set; }
 

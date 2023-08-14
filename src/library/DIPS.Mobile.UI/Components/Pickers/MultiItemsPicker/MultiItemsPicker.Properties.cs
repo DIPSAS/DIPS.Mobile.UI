@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 
 public partial class MultiItemsPicker
 {
-    public BottomSheetConfiguration? BottomSheetConfiguration { get; set; }
+    public BottomSheetPickerConfiguration BottomSheetPickerConfiguration { get; set; } = new();
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
@@ -23,15 +23,15 @@ public partial class MultiItemsPicker
 
     public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(
         nameof(SelectedItems),
-        typeof(IEnumerable<object>),
-        typeof(MultiItemsPicker), propertyChanged: (bindable, value, newValue) => ((MultiItemsPicker)bindable).OnSelectedItemsChanged());
+        typeof(IEnumerable),
+        typeof(MultiItemsPicker), propertyChanged: (bindable, value, newValue) => ((MultiItemsPicker)bindable).OnSelectedItemsChanged(), defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// The items that was selected by people when using the picker.
     /// </summary>
-    public IEnumerable<object>? SelectedItems
+    public IEnumerable? SelectedItems
     {
-        get => (IEnumerable<object>)GetValue(SelectedItemsProperty);
+        get => (IEnumerable)GetValue(SelectedItemsProperty);
         set => SetValue(SelectedItemsProperty, value);
     }
     

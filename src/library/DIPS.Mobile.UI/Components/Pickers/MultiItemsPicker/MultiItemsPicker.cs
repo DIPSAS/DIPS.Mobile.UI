@@ -16,7 +16,10 @@ public partial class MultiItemsPicker : ContentView
         OpenCommand = new Command(() => Open(this));
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
-        m_hStackLayout = new HorizontalStackLayout();
+        m_hStackLayout = new HorizontalStackLayout()
+        {
+            VerticalOptions = LayoutOptions.Start
+        };
         CreatePlaceHolder();
         m_hStackLayout.Add(CreatePlaceHolder());
 
@@ -90,9 +93,10 @@ public partial class MultiItemsPicker : ContentView
     public void DeSelectItem(object item)
     {
         if (SelectedItems == null) return;
-        if (!SelectedItems.Contains(item)) return;
+        var selectedItems = SelectedItems.Cast<object?>().ToList();
+        if (!selectedItems.Contains(item)) return;
 
-        var tempList = SelectedItems.ToList();
+        var tempList = selectedItems.ToList();
         tempList.Remove(item);
         SelectedItems = tempList;
 
@@ -102,15 +106,22 @@ public partial class MultiItemsPicker : ContentView
 
     public void SelectItem(object item)
     {
-        if (SelectedItems == null || !SelectedItems.Any())
+        if (SelectedItems == null)
         {
             SelectedItems = new List<object> {item};
         }
         else
         {
-            if (SelectedItems.Contains(item)) return;
+            var selectedItems = SelectedItems.Cast<object?>().ToList();
+            if (!selectedItems.Any())
+            {
+                SelectedItems = new List<object> {item};
+                return;
+            }
+            
+            if (selectedItems.Contains(item)) return;
 
-            var tempList = SelectedItems.ToList();
+            var tempList = selectedItems.ToList();
             tempList.Add(item);
             SelectedItems = tempList;
         }
@@ -123,12 +134,19 @@ public partial class MultiItemsPicker : ContentView
     {
         m_hStackLayout.Clear();
 
-        if (SelectedItems == null || !SelectedItems.Any())
+        if (SelectedItems == null)
         {
             m_hStackLayout.Add(CreatePlaceHolder());
         }
         else
         {
+            var selectedItems = SelectedItems.Cast<object?>().ToList();
+            if (!selectedItems.Any())
+            {
+                m_hStackLayout.Add(CreatePlaceHolder());
+                return;
+            }
+            
             foreach (var selectedItem in SelectedItems)
             {
                 var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
@@ -156,7 +174,8 @@ public partial class MultiItemsPicker : ContentView
         }
 
         Chip? mergedChip;
-        var numberOfSelectedItems = SelectedItems.Count().ToString();
+        var selectedItems = SelectedItems.Cast<object?>().ToList();
+        var numberOfSelectedItems = selectedItems.Count().ToString();
         var view = m_hStackLayout.FirstOrDefault(v => v.AutomationId == chipIdentifier); //Check if it already exists.
         
         if (view is Chip chip) //No need to redraw if it already exists. Redrawing leads to a small visual glitch, especially for Android.

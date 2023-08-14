@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 using DIPS.Mobile.UI.Effects.Touch;
+using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 
 namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
@@ -16,40 +16,39 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         m_multiItemsPicker = multiItemsPicker;
         m_originalItems = new List<SelectableListItem>();
 
-        //TODO: Move out
         if (m_multiItemsPicker.ItemsSource != null)
         {
             foreach (var item in m_multiItemsPicker.ItemsSource)
             {
+                var isSelected = false;
+                if (multiItemsPicker.SelectedItems != null)
+                {
+                    isSelected = multiItemsPicker.SelectedItems.Cast<object?>().ToList().Contains(item);
+                }
+                
                 m_originalItems.Add(new SelectableListItem(
                     item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty)!,
-                    multiItemsPicker.SelectedItems != null && multiItemsPicker.SelectedItems.Contains(item), item));
+                    isSelected, item));
             }
         }
 
         Items = new ObservableCollection<SelectableListItem>(m_originalItems);
         
-        switch (m_multiItemsPicker.BottomSheetConfiguration)
-        {
-            case null:
-            case {HasSearchBar: true}:
-                HasSearchBar = true;
-                break;
-        }
+        SetBinding(HasSearchBarProperty, new Binding(){Source = m_multiItemsPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
 
         var collectionView = new CollectionView()
         {
             ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
         };
-
+        
         collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
-
-        Content = collectionView;
+        
+        Content = ItemPickerBottomSheet.CreateContentControlForActivityIndicator(collectionView, m_multiItemsPicker.BottomSheetPickerConfiguration);
     }
     
     private object LoadTemplate()
     {
-        if (m_multiItemsPicker.BottomSheetConfiguration is
+        if (m_multiItemsPicker.BottomSheetPickerConfiguration is
             {SelectableItemTemplate: not null} bottomSheetConfiguration)
         {
             return CreateConsumerView(bottomSheetConfiguration.SelectableItemTemplate);
@@ -74,14 +73,12 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
     
     private readonly MultiItemsPicker m_multiItemsPicker;
 
-    //TODO: Move out
     public ObservableCollection<SelectableListItem> Items
     {
         get => (ObservableCollection<SelectableListItem>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
 
-    //TODO: Move out
     private IView CreateDefaultView()
     {
         var checkBox = new CheckBox();
@@ -98,7 +95,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         ToggleItem(selectableListItem.IsSelected = !selectableListItem.IsSelected, selectableListItem);
         
     }
-    //TODO: Move?
+    
     private void ItemWasTapped(CheckBox checkBox)
     {
         if (checkBox.BindingContext is not SelectableListItem selectableListItem) return;
@@ -124,7 +121,6 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         FilterItems(value);
     }
 
-    //TODO: Move out
     private void FilterItems(string value)
     {
         var filterText = value;
@@ -149,9 +145,14 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
         foreach (var selectableListItem in Items)
         {
-            if (m_multiItemsPicker.SelectedItems != null && m_multiItemsPicker.SelectedItems.Contains(selectableListItem.Item))
+            if (m_multiItemsPicker.SelectedItems == null)
             {
-                selectableListItem.IsSelected = true;
+                continue;
+            }
+
+            if (m_multiItemsPicker.SelectedItems.Cast<object?>().ToList().Contains(selectableListItem.Item))
+            {
+                selectableListItem.IsSelected = true;    
             }
         }
     }

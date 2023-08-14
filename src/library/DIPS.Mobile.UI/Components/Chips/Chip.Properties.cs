@@ -5,11 +5,23 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
+
+    public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
+        nameof(CornerRadius),
+        typeof(int),
+        typeof(Chip),
+        defaultValue:Sizes.GetSize(SizeName.size_2));
+
+    public int CornerRadius
+    {
+        get => (int)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly BindableProperty ColorProperty = BindableProperty.Create(
         nameof(Color),
         typeof(Color),
         typeof(Chip),
-        defaultValue: Color.FromArgb("#E5E9EB"));
+        defaultValue: Colors.GetColor(ColorName.color_secondary_30));
 
     /// <summary>
     /// The color of the chip.

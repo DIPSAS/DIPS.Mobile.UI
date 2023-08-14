@@ -33,16 +33,16 @@
                         ItemsSource="{Binding People}"
                         ItemDisplayProperty="DisplayName">
             <dui:ItemPicker.BottomSheetConfiguration>
-                <dui:BottomSheetConfiguration HasSearchBar="True">
-                    <dui:BottomSheetConfiguration.SelectableItemTemplate>
+                <dui:BottomSheetPickerConfiguration HasSearchBar="True">
+                    <dui:BottomSheetPickerConfiguration.SelectableItemTemplate>
                         <ControlTemplate>
                             <dui:Label Text="{TemplateBinding Item.FirstName}"
                                        BackgroundColor="{TemplateBinding IsSelected, Converter={dui:BoolToObjectConverter 
                                                    TrueObject={dui:Colors color_success_light}, 
                                                    FalseObject={dui:Colors color_error_light}}}" />
                         </ControlTemplate>
-                    </dui:BottomSheetConfiguration.SelectableItemTemplate>
-                </dui:BottomSheetConfiguration>
+                    </dui:BottomSheetPickerConfiguration.SelectableItemTemplate>
+                </dui:BottomSheetPickerConfiguration>
             </dui:ItemPicker.BottomSheetConfiguration>
         </dui:ItemPicker>
         <dui:Label Text="MultiItemsPicker"

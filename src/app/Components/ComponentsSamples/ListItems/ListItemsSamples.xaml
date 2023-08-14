@@ -9,7 +9,6 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -17,10 +16,10 @@
     </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout Spacing="0">
-        <extensions:NavigationListItem Title="Navigate"
-                                HasTopDivider="True" />
+        <dui:NavigationListItem Title="Navigate"
+                                       HasTopDivider="True" />
 
-        <extensions:NavigationListItem Title="Navigate"
+        <dui:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
                                 IconColor="{dui:Colors color_primary_90}"
                                 HasTopDivider="True" />
@@ -46,7 +45,7 @@
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
 
-        <extensions:LoadableListItem Title="Loadable ListItem"
+        <dui:LoadableListItem Title="Loadable ListItem"
                               Subtitle="click when error"
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
@@ -60,68 +59,35 @@
             <dui:Label Text="All systems working!"
                        VerticalTextAlignment="Center" />
 
-        </extensions:LoadableListItem>
+        </dui:LoadableListItem>
 
-        <dui:ListItem Title="Til:"
-                      HorizontalContentItemColumnWidth="*"
-                      TitleColumnWidth="50"
-                      ShouldOverrideContentItemLayoutOptions="False"
-                      Command="{Binding Source={x:Reference Picker}, Path=OpenCommand}">
-            <Grid ColumnDefinitions="*, 15"
-                  RowDefinitions="Auto"
-                  ColumnSpacing="0">
-                <dui:MultiItemsPicker Grid.Column="0"
-                                      x:Name="Picker">
-                    <dui:MultiItemsPicker.BottomSheetConfiguration>
-                        <dui:BottomSheetConfiguration>
-                            <dui:BottomSheetConfiguration.SelectableItemTemplate>
-                                <ControlTemplate>
-                                    <dui:Label Text="{TemplateBinding Item}"
-                                               BackgroundColor="{TemplateBinding IsSelected, Converter={dui:BoolToObjectConverter
-                                                   TrueObject={dui:Colors color_success_light},
-                                                   FalseObject={dui:Colors color_error_light}}}" />
-                                </ControlTemplate>
-                            </dui:BottomSheetConfiguration.SelectableItemTemplate>
-                        </dui:BottomSheetConfiguration>
-                    </dui:MultiItemsPicker.BottomSheetConfiguration>
-                    <dui:MultiItemsPicker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>948 19 788</x:String>
-                            <x:String>936 15 719</x:String>
-                            <x:String>418 01 260</x:String>
-                            <x:String>959 94 238</x:String>
-                            <x:String>464 51 717</x:String>
-                            <x:String>916 18 816</x:String>
-                            <x:String> 998 15 227</x:String>
-                            <x:String>468 14 026</x:String>
-                            <x:String>413 10 076</x:String>
-                            <x:String>986 77 073</x:String>
-                            <x:String>979 82 486</x:String>
-                            <x:String>453 26 392</x:String>
-                            <x:String> 439 14 037</x:String>
-                            <x:String>981 84 631</x:String>
-                            <x:String> 431 48 108</x:String>
-                            <x:String> 935 72 873</x:String>
-                            <x:String> 437 05 636</x:String>
-                            <x:String> 949 20 352</x:String>
-                            <x:String> 989 44 231</x:String>
-                            <x:String> 479 45 855</x:String>
-                        </x:Array>
-                    </dui:MultiItemsPicker.ItemsSource>
-                </dui:MultiItemsPicker>
-                <dui:Image BackgroundColor="Blue"
-                           Grid.Column="1"
-                           Source="{dui:Icons arrow_right_s_line}" />
-            </Grid>
-        </dui:ListItem>
-        <dui:ListItem Title="Test"
-                      HorizontalContentItemColumnWidth="*"
-                      TitleColumnWidth="50"
-                      ShouldOverrideContentItemLayoutOptions="False">
-            <Grid ColumnDefinitions="*, Auto">
-                <dui:Image Grid.Column="1"
-                           Source="{dui:Icons arrow_right_s_line}" />
-            </Grid>
-        </dui:ListItem>
+        <dui:MultiItemsPickerListItem Title="Til:">
+            <dui:MultiItemsPicker>
+                <dui:MultiItemsPicker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>948 19 788</x:String>
+                        <x:String>936 15 719</x:String>
+                        <x:String>418 01 260</x:String>
+                        <x:String>959 94 238</x:String>
+                        <x:String>464 51 717</x:String>
+                        <x:String>916 18 816</x:String>
+                        <x:String> 998 15 227</x:String>
+                        <x:String>468 14 026</x:String>
+                        <x:String>413 10 076</x:String>
+                        <x:String>986 77 073</x:String>
+                        <x:String>979 82 486</x:String>
+                        <x:String>453 26 392</x:String>
+                        <x:String> 439 14 037</x:String>
+                        <x:String>981 84 631</x:String>
+                        <x:String> 431 48 108</x:String>
+                        <x:String> 935 72 873</x:String>
+                        <x:String> 437 05 636</x:String>
+                        <x:String> 949 20 352</x:String>
+                        <x:String> 989 44 231</x:String>
+                        <x:String> 479 45 855</x:String>
+                    </x:Array>
+                </dui:MultiItemsPicker.ItemsSource>
+            </dui:MultiItemsPicker>
+        </dui:MultiItemsPickerListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

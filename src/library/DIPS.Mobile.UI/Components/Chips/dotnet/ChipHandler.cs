@@ -20,4 +20,9 @@ public partial class ChipHandler : ViewHandler<Chip, ViewHandler>
     {
         throw new Only_Here_For_UnitTests();
     }
+
+    private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
+    {
+        throw new Only_Here_For_UnitTests();
+    }
 }

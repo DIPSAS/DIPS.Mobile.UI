@@ -13,7 +13,10 @@ public partial class ChipHandler
         [nameof(Chip.HasCloseButton)] = MapHasCloseButton,
         [nameof(Chip.Color)] = MapColor,
         [nameof(Chip.CloseButtonColor)] = MapCloseButtonColor,
+        [nameof(Chip.CornerRadius)] = MapCornerRadius,
     };
+
+    private static partial void MapCornerRadius(ChipHandler handler, Chip chip);
 
     private static partial void MapColor(ChipHandler handler, Chip chip);
 

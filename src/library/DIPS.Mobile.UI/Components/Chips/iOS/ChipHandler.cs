@@ -40,7 +40,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
-        handler.PlatformView.SetTitle(chip.Title, UIControlState.Normal);
+        handler.m_button.Text = chip.Title;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
@@ -78,6 +78,11 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
             handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         handler.PlatformView.SetImage(imageToTint, UIControlState.Normal);
         handler.PlatformView.TintColor = handler.VirtualView.CloseButtonColor.ToPlatform();
+    }
+    
+    private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
+    {
+        handler.m_button.CornerRadius = handler.VirtualView.CornerRadius;
     }
 
     private static void ShiftImageToTheRight(ChipHandler handler, UIButton uiButton)

@@ -89,6 +89,18 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             return null;
         }
         
+        public static void InvokeActionForAllChildren(this UIView uiView, Action<UIView> action)
+        {
+            foreach (var subview in uiView.Subviews)
+            {
+                action.Invoke(uiView);
+                if (subview.Subviews.Length > 0)
+                {
+                    InvokeActionForAllChildren(subview, action);
+                }
+            }
+        }
+        
         public static void RemoveUIViewChildWithTag(this UIView uiView, int tag)
         {
             MainThread.BeginInvokeOnMainThread(delegate

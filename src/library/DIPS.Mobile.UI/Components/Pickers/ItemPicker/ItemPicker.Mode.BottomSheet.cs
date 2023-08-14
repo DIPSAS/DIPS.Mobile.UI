@@ -4,6 +4,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {
-        public BottomSheetConfiguration? BottomSheetConfiguration { get; set; }
+        public BottomSheetPickerConfiguration BottomSheetPickerConfiguration { get; set; } = new();
     }
 }
