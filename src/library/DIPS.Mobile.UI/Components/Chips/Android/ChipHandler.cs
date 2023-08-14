@@ -1,12 +1,9 @@
-using Android.OS;
-using Android.Util;
-using Android.Views;
+using Android.Content.Res;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Chips.Android;
-using Java.Interop;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Application = Android.App.Application;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using TextAlignment = Android.Views.TextAlignment;
 
 
 // ReSharper disable once CheckNamespace
@@ -19,7 +16,12 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.ConnectHandler(platformView);
-        platformView.SetDefaultChipAttributes();
+        platformView.SetPadding(8, 2, 8, 2);
+        platformView.TextAlignment = (TextAlignment) Microsoft.Maui.TextAlignment.Center;
+        platformView.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
+        platformView.TextSize = Sizes.GetSize(SizeName.size_4);
+        platformView.ChipCornerRadius = 24;
+        platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;
     }
 
@@ -63,7 +65,24 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
-        handler.PlatformView.SetBackgroundColor(handler.VirtualView.Color);
+        var color = handler.VirtualView.Color;
+        var states = new[]
+        {
+            new[] { global::Android.Resource.Attribute.StateEnabled}, // enabled
+            new[] {-global::Android.Resource.Attribute.StateEnabled}, // disabled
+            new[] {-global::Android.Resource.Attribute.StateChecked}, // unchecked
+            new[] { global::Android.Resource.Attribute.StateChecked } // pressed
+        };
+
+        var colors = new int[] 
+        {
+            color.ToPlatform(),
+            color.ToPlatform(),
+            color.ToPlatform(),
+            color.ToPlatform()
+        };
+
+        handler.PlatformView.ChipBackgroundColor = new ColorStateList(states, colors);
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)

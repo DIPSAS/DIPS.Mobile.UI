@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.Chips.Android;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using Chip = Google.Android.Material.Chip.Chip;
 
 // ReSharper disable once CheckNamespace
@@ -13,14 +14,13 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, Chip>
 {
     protected override Chip CreatePlatformView()
     {
-        return new Chip(Context);
+        return (Chip)new DIPS.Mobile.UI.Components.Chips.Chip().ToPlatform(MauiContext);
     }
 
     protected override void ConnectHandler(Chip platformView)
     {
         base.ConnectHandler(platformView);
 
-        platformView.SetDefaultChipAttributes();
         platformView.Click += OnClicked;
     }
 
