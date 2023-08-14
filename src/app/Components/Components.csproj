@@ -46,7 +46,7 @@
 -->
 
         <!--DEBUG ON SIMULATOR-->
-        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
     </PropertyGroup>
     
     <ItemGroup>
@@ -122,6 +122,9 @@
         <DependentUpon>SkeletonLoadingSamplesPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Resources\LocalizedStrings\LocalizedStrings.nb.Designer.cs">
+        <DependentUpon>LocalizedStrings.nb.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -135,6 +138,7 @@
       </EmbeddedResource>
       <EmbeddedResource Update="Resources\LocalizedStrings\LocalizedStrings.nb.resx">
         <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>LocalizedStrings.nb.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

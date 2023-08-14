@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Resources.Icons;
 
-public static class Icons
+public static partial class Icons
 {
     /// <summary>
     /// Get the icon value from a <see cref="IconName"/>

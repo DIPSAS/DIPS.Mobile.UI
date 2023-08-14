@@ -4,6 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers;assembly=DIPS.Mobile.UI"
+             xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
              xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
@@ -23,7 +25,7 @@
     </dui:ContentPage.BindingContext>-->
     
     <dui:VerticalStackLayout x:Name="Layout">
-        <extensions:LoadableListItem Title="Hei" 
+        <dui:LoadableListItem Title="Hei" 
                               IsBusy="{Binding IsProgressing}" />
 
        

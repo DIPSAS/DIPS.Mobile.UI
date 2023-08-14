@@ -17,7 +17,7 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, UIDatePicker>
     {
         base.ConnectHandler(platformView);
         
-        platformView.SetDefaultTintColor();
+        platformView.SetInLineLabelColors();
         platformView.ValueChanged += OnTimeSelected;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;

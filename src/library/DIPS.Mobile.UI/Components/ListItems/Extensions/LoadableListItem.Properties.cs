@@ -15,7 +15,6 @@ public partial class LoadableListItem
     /// <summary>
     /// The content to be displayed all the time
     /// </summary>
-    /// <remarks>Will always be displayed on the right side of <see cref="LoadedContentItem"/></remarks>
     public View? StaticContentItem
     {
         get => (View)GetValue(StaticContentProperty);

@@ -64,9 +64,6 @@
     <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-        <Compile Update="Components\Chips\Android\ChipExtensions.cs">
-          <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
-        </Compile>
         <Compile Update="Components\Loading\SkeletonView.xaml.cs">
           <DependentUpon>SkeletonView.xaml</DependentUpon>
           <SubType>Code</SubType>

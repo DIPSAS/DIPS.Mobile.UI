@@ -1,14 +1,17 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Content;
+using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
-    public class ItemPickerBottomSheet : BottomSheet
+    internal class ItemPickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
         private readonly List<SelectableListItem> m_originalItems;
@@ -29,13 +32,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             Items = new ObservableCollection<SelectableListItem>(m_originalItems);
 
-            switch (m_itemPicker.BottomSheetConfiguration)
-            {
-                case null:
-                case {HasSearchBar: true}:
-                    HasSearchBar = true;
-                    break;
-            }
+            SetBinding(HasSearchBarProperty, new Binding(){Source = m_itemPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
 
             var collectionView = new CollectionView()
             {
@@ -43,13 +40,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             };
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
-
-            Content = collectionView;
+            
+            Content = CreateContentControlForActivityIndicator(collectionView, m_itemPicker.BottomSheetPickerConfiguration);
         }
 
         private object LoadTemplate()
         {
-            if (m_itemPicker.BottomSheetConfiguration is
+            if (m_itemPicker.BottomSheetPickerConfiguration is
                 {SelectableItemTemplate: not null} bottomSheetConfiguration)
             {
                 return CreateConsumerView(bottomSheetConfiguration.SelectableItemTemplate);
@@ -71,13 +68,15 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private IView CreateConsumerView(ControlTemplate selectableItemTemplate)
         {
-            var contentView = new SelectableItemContentView(){ ControlTemplate = selectableItemTemplate};
-            contentView.SetBinding(SelectableItemContentView.ItemProperty, new Binding(){Path = nameof(SelectableListItem.Item)});
-            contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, new Binding(){Path = nameof(SelectableListItem.IsSelected)});
+            var contentView = new SelectableItemContentView() {ControlTemplate = selectableItemTemplate};
+            contentView.SetBinding(SelectableItemContentView.ItemProperty,
+                new Binding() {Path = nameof(SelectableListItem.Item)});
+            contentView.SetBinding(SelectableItemContentView.IsSelectedProperty,
+                new Binding() {Path = nameof(SelectableListItem.IsSelected)});
             Touch.SetCommand(contentView, new Command(() => ItemWasPicked(contentView)));
             return contentView;
         }
-        
+
         private IView CreateDefaultView()
         {
             var checkBox = new CheckBox();
@@ -91,18 +90,25 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private void ItemWasPicked(BindableObject tappedObject)
         {
             if (tappedObject.BindingContext is not SelectableListItem selectableListItem) return;
-            var theSelectedItem = m_itemPicker.ItemsSource?.FirstOrDefault(i =>
-                i == selectableListItem.Item);
-            if (theSelectedItem ==
-                m_itemPicker
-                    .SelectedItem) //This happens the first time the list of items was drawn or when people use the search bar to redraw the items
+            if (m_itemPicker.ItemsSource == null) return;
+
+            object? theSelectedItem = null;
+            foreach (var item in m_itemPicker.ItemsSource)
+            {
+                if (item == selectableListItem.Item)
+                {
+                    theSelectedItem = item;
+                }    
+            }
+
+            if (theSelectedItem == m_itemPicker.SelectedItem)
             {
                 return;
             }
-            
-            
+
+
             selectableListItem.IsSelected = !selectableListItem.IsSelected;
-            
+
             if (!selectableListItem.IsSelected)
             {
                 return;
@@ -140,10 +146,39 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 }
             }
         }
+
+        public static ContentControl CreateContentControlForActivityIndicator(CollectionView collectionView, BottomSheetPickerConfiguration? bottomSheetPickerConfiguration)
+        {
+            var contentControl = new ContentControl()
+            {
+                BindingContext = bottomSheetPickerConfiguration,
+                TemplateSelector = new BooleanDataTemplateSelector()
+                {
+                    TrueTemplate = new DataTemplate(() => new ActivityIndicator()
+                    {
+                        IsRunning = true,
+                        IsVisible = true,
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center,
+                        Margin = new Thickness() {Top = Sizes.GetSize(SizeName.size_5)}
+                    }),
+                    FalseTemplate = new DataTemplate(() => collectionView)
+                }
+            };
+            contentControl.SetBinding(ContentControl.SelectorItemProperty,
+                new Binding() {Path = nameof(BottomSheetPickerConfiguration.IsBusy), FallbackValue = false});
+            
+            return contentControl;
+        }
     }
 
-    public class SelectableItemContentView : ContentView
+    internal class SelectableItemContentView : ContentView
     {
+        public SelectableItemContentView()
+        {
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        }
+
         public static readonly BindableProperty ItemProperty = BindableProperty.Create(
             nameof(Item),
             typeof(object),

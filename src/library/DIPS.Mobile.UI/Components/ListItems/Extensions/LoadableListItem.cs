@@ -225,5 +225,10 @@ public partial class LoadableListItem : ListItem
         {
             await view.FadeTo(1, easing: Easing.CubicInOut);
         }
+
+        if (LoadedContentItem != null)
+        {
+            LoadedContentItem.InputTransparent = view != LoadedContentItem;
+        }
     }
 }

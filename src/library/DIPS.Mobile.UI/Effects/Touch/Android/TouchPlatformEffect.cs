@@ -46,7 +46,7 @@ public partial class TouchPlatformEffect
             new[] { Array.Empty<int>() },
             new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
         
-        var ripple = new RippleDrawable(colorStateList, null, Control.Background is not null ? new ColorDrawable(Colors.White.ToPlatform()) : null);
+        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
 
         if (Control.Background is null)
             Control.Background = ripple;

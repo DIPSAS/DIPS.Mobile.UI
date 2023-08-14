@@ -1,5 +1,13 @@
-## [15.0.0]
+## [16.0.0]
 - [BreakingChange] Refactored ListItem and its API, along with its extensions; LoadableListItem and NavigationListItem.
+
+## [15.0.0]
+- [MultiItemPicker] Added new component to pick multiple items.
+- [Chip] Changed default colors and added property to change it.
+- [Chip] Added property to set corner radius.
+- [DatePicker] Made sure the iOS inline date picker follow the same default color as Chip. This however is not the case for [TimePicker] as of yet.
+- [ItemPicker] Renamed BottomSheetConfiguration to BottomSheetPickerConfiguration
+
 
 ## [14.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

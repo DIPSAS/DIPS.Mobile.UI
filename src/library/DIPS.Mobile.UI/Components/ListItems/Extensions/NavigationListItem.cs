@@ -17,8 +17,6 @@ public partial class NavigationListItem : ListItem
         VerticalOptions = LayoutOptions.Center
     };
     
-    
-
     public NavigationListItem()
     {
         m_contentGrid.Add(new Image

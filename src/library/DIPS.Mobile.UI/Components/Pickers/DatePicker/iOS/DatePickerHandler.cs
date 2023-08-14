@@ -1,9 +1,14 @@
+using CoreAnimation;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
@@ -17,17 +22,34 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         return new UIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date};
     }
 
+    public List<UIView> getSubviewsOfView(UIView view)
+    {
+        var subviewArray = new List<UIView>();
+        if (view.Subviews.Length == 0)
+        {
+            return subviewArray;
+        }
+
+        foreach (var subview in view.Subviews)
+        {
+            subviewArray.AddRange(getSubviewsOfView(subview));
+        }
+
+        return subviewArray;
+    }
     protected override void ConnectHandler(UIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
-
-        platformView.SetDefaultTintColor();
+        platformView.SetInLineLabelColors();
+        
         platformView.ValueChanged += OnDateSelected;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;
         
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
+
+   
 
     private void OnOpen(object? sender, EventArgs e)
     {

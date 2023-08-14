@@ -17,7 +17,6 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         handler.PlatformView.UpdateBackground(button);
         
         handler.PlatformView.StateListAnimator = null; //To remove shadows properly, bug in Android
-        
     }
 
 

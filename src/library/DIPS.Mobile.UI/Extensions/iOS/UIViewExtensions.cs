@@ -32,7 +32,7 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             {
                 tabs += "\t";
             }
-
+            
             var returnString = $"\n{tabs}{view.Class.Name}";
 
             depth++;
@@ -42,8 +42,9 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             }
 
             return returnString;
+            
         }
-
+        
 
         public static T? FindParentViewOfType<T>(this UIView? view)
             where T : class
@@ -86,6 +87,18 @@ namespace DIPS.Mobile.UI.Extensions.iOS
             }
 
             return null;
+        }
+        
+        public static void InvokeActionForAllChildren(this UIView uiView, Action<UIView> action)
+        {
+            foreach (var subview in uiView.Subviews)
+            {
+                action.Invoke(uiView);
+                if (subview.Subviews.Length > 0)
+                {
+                    InvokeActionForAllChildren(subview, action);
+                }
+            }
         }
         
         public static void RemoveUIViewChildWithTag(this UIView uiView, int tag)
