@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:inLineContent="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
              Padding="15, 20"
@@ -19,7 +20,24 @@
         
                 <dui:VerticalStackLayout Spacing="0">
                    
-                    <dui:ListItem Title="Test" />
+                    <dui:LoadableListItem IsBusy="{Binding IsBusy}"
+                                          IsError="{Binding IsError}"
+                                          Title="LoadableListItem"
+                                          InLineContent="All systems working!" />
+                    
+                    <dui:ListItem Title="Test">
+                        
+                        <dui:ListItem.InLineContentOptions>
+                            <dui:InLineContentOptions HorizontalOptions="Start" />
+                        </dui:ListItem.InLineContentOptions>
+                        
+                        <dui:ItemPicker Mode="ContextMenu"
+                                        Placeholder="Person"
+                                        SelectedItem="{Binding SelectedPerson}"
+                                        ItemsSource="{Binding People}"
+                                        ItemDisplayProperty="DisplayName" />
+                    </dui:ListItem>
+                    
                     <dui:ListItem Title="Test" HasTopDivider="True"
                                   HasBottomDivider="True"/>
                     <dui:ListItem Title="Test" />

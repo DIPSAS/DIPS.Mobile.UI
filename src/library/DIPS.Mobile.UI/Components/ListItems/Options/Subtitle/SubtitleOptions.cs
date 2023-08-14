@@ -2,7 +2,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
-public partial class Options : BindableObject, IListItemOptions
+public partial class SubtitleOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {

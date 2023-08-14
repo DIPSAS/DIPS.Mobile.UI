@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 
-public partial class Options
+public partial class IconOptions
 {
     public bool IsVisible
     {
@@ -29,23 +29,23 @@ public partial class Options
     public static readonly BindableProperty MarginProperty = BindableProperty.Create(
         nameof(Margin),
         typeof(Thickness),
-        typeof(Options),
+        typeof(IconOptions),
         defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0));
     
     public static readonly BindableProperty VerticalOptionsProperty = BindableProperty.Create(
         nameof(VerticalOptions),
         typeof(LayoutOptions),
-        typeof(Options),
+        typeof(IconOptions),
         defaultValue: LayoutOptions.Center);
     
     public static readonly BindableProperty ColorProperty = BindableProperty.Create(
         nameof(Color),
         typeof(Color),
-        typeof(Options));
+        typeof(IconOptions));
 
     public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
         nameof(IsVisible),
         typeof(bool),
-        typeof(Options),
+        typeof(IconOptions),
         defaultValue: true);
 }

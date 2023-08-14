@@ -3,7 +3,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
 
-public partial class Options
+public partial class TitleOptions
 {
     /// <summary>
     /// Sets the font attributes
@@ -24,7 +24,7 @@ public partial class Options
     }
     
     /// <summary>
-    /// Sets the font-size of <see cref="Options"/>
+    /// Sets the font-size of <see cref="TitleOptions"/>
     /// </summary>
     public double FontSize
     {
@@ -60,13 +60,13 @@ public partial class Options
     public static readonly BindableProperty MarginProperty = BindableProperty.Create(
         nameof(Margin),
         typeof(Thickness),
-        typeof(Options),
+        typeof(TitleOptions),
         defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0));
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),
         typeof(GridLength),
-        typeof(Options),
+        typeof(TitleOptions),
         defaultValue:GridLength.Auto);
     
     public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
@@ -84,18 +84,18 @@ public partial class Options
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),
         typeof(FontAttributes),
-        typeof(Options));
+        typeof(TitleOptions));
     
     public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalTextAlignment),
         typeof(TextAlignment),
-        typeof(Options),
+        typeof(TitleOptions),
         defaultValue:TextAlignment.Start);
     
     public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
         nameof(VerticalTextAlignment),
         typeof(TextAlignment),
-        typeof(Options),
+        typeof(TitleOptions),
         defaultValue:TextAlignment.End);
     
 }

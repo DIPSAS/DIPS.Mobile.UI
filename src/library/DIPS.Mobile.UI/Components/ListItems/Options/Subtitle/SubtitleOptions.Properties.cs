@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
-public partial class Options
+public partial class SubtitleOptions
 {
     
     /// <summary>
@@ -29,18 +29,18 @@ public partial class Options
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),
         typeof(FontAttributes),
-        typeof(Options));
+        typeof(SubtitleOptions));
     
     public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalTextAlignment),
         typeof(TextAlignment),
-        typeof(Options),
+        typeof(SubtitleOptions),
         defaultValue:TextAlignment.Start);
     
     public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
         nameof(VerticalTextAlignment),
         typeof(TextAlignment),
-        typeof(Options),
+        typeof(SubtitleOptions),
         defaultValue:TextAlignment.Start);
    
 }

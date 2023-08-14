@@ -14,7 +14,7 @@
     
     <dui:VerticalStackLayout>
         <dui:ListItem Title="Checkbox">
-            <dui:CheckBox Text="Checkbox title" />
+            <dui:CheckBox Text="Checkbox title" IsSelected="True" />
         </dui:ListItem>
         
         <dui:ListItem Title="FilledCheckBox">

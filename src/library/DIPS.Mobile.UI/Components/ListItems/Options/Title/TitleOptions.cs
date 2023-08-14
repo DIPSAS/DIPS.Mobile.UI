@@ -2,7 +2,7 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
 
-public partial class Options : BindableObject, IListItemOptions
+public partial class TitleOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {

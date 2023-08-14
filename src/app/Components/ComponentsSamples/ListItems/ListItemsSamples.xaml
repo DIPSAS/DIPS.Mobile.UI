@@ -23,7 +23,7 @@
                                 Icon="{dui:Icons internalmessage_fill}"
                                 HasTopDivider="True">
             <dui:NavigationListItem.IconOptions>
-                <icon:Options Color="{dui:Colors color_primary_90}" />
+                <icon:IconOptions Color="{dui:Colors color_primary_90}" />
             </dui:NavigationListItem.IconOptions>
         </dui:NavigationListItem>
 

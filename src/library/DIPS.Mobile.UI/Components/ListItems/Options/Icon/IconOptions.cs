@@ -2,7 +2,7 @@ using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 
-public partial class Options : BindableObject, IListItemOptions
+public partial class IconOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {

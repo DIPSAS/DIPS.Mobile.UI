@@ -69,27 +69,27 @@ public partial class ListItem
     /// <summary>
     /// Sets the title of the list item that people will see 
     /// </summary>
-    public Options.Title.Options TitleOptions
+    public Options.Title.TitleOptions TitleOptions
     {
-        get => (Options.Title.Options)GetValue(TitleOptionsProperty);
+        get => (Options.Title.TitleOptions)GetValue(TitleOptionsProperty);
         set => SetValue(TitleOptionsProperty, value);
     }
 
     /// <summary>
     /// Sets the subtitle that people will see below <see cref="InLineContentOptions"/>
     /// </summary>
-    public Options.Subtitle.Options SubtitleOptions
+    public Options.Subtitle.SubtitleOptions SubtitleOptions
     {
-        get => (Options.Subtitle.Options)GetValue(SubtitleOptionsProperty);
+        get => (Options.Subtitle.SubtitleOptions)GetValue(SubtitleOptionsProperty);
         set => SetValue(SubtitleOptionsProperty, value);
     }
 
     /// <summary>
     /// Sets the icon that will be displayed to the left of <see cref="InLineContentOptions"/>
     /// </summary>
-    public Options.Icon.Options IconOptions
+    public Options.Icon.IconOptions IconOptions
     {
-        get => (Options.Icon.Options)GetValue(IconOptionsProperty);
+        get => (Options.Icon.IconOptions)GetValue(IconOptionsProperty);
         set => SetValue(IconOptionsProperty, value);
     }
 
@@ -102,9 +102,9 @@ public partial class ListItem
         set => SetValue(CornerRadiusProperty, value);
     }
     
-    public Options.InLineContent.Options InLineContentOptions
+    public Options.InLineContent.InLineContentOptions InLineContentOptions
     {
-        get => (Options.InLineContent.Options)GetValue(InLineContentOptionsProperty);
+        get => (Options.InLineContent.InLineContentOptions)GetValue(InLineContentOptionsProperty);
         set => SetValue(InLineContentOptionsProperty, value);
     }
    
@@ -194,31 +194,31 @@ public partial class ListItem
 
     public static readonly BindableProperty TitleOptionsProperty = BindableProperty.Create(
         nameof(TitleOptions),
-        typeof(Options.Title.Options),
+        typeof(Options.Title.TitleOptions),
         typeof(ListItem),
-        defaultValueCreator: CreateOptionsAndBind<Options.Title.Options>,
-        propertyChanged: (bindable, _, newValue) => ((Options.Title.Options)newValue).Bind(((ListItem)bindable)));
+        defaultValueCreator: CreateOptionsAndBind<Options.Title.TitleOptions>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Title.TitleOptions)newValue).Bind(((ListItem)bindable)));
 
     public static readonly BindableProperty SubtitleOptionsProperty = BindableProperty.Create(
         nameof(SubtitleOptions),
-        typeof(Options.Subtitle.Options),
+        typeof(Options.Subtitle.SubtitleOptions),
         typeof(ListItem),
-        defaultValueCreator: CreateOptionsAndBind<Options.Subtitle.Options>,
-        propertyChanged: (bindable, _, newValue) => ((Options.Subtitle.Options)newValue).Bind(((ListItem)bindable)));
+        defaultValueCreator: CreateOptionsAndBind<Options.Subtitle.SubtitleOptions>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Subtitle.SubtitleOptions)newValue).Bind(((ListItem)bindable)));
     
     public static readonly BindableProperty IconOptionsProperty = BindableProperty.Create(
         nameof(IconOptions),
-        typeof(Options.Icon.Options),
+        typeof(Options.Icon.IconOptions),
         typeof(ListItem),
-        defaultValueCreator: CreateOptionsAndBind<Options.Icon.Options>,
-        propertyChanged: (bindable, _, newValue) => ((Options.Icon.Options)newValue).Bind(((ListItem)bindable)));
+        defaultValueCreator: CreateOptionsAndBind<Options.Icon.IconOptions>,
+        propertyChanged: (bindable, _, newValue) => ((Options.Icon.IconOptions)newValue).Bind(((ListItem)bindable)));
 
     public static readonly BindableProperty InLineContentOptionsProperty = BindableProperty.Create(
         nameof(InLineContentOptions),
-        typeof(Options.InLineContent.Options),
+        typeof(Options.InLineContent.InLineContentOptions),
         typeof(ListItem),
-        defaultValueCreator: CreateOptionsAndBind<Options.InLineContent.Options>,
-        propertyChanged: (bindable, _, newValue) => ((Options.InLineContent.Options)newValue).Bind(((ListItem)bindable)));
+        defaultValueCreator: CreateOptionsAndBind<Options.InLineContent.InLineContentOptions>,
+        propertyChanged: (bindable, _, newValue) => ((Options.InLineContent.InLineContentOptions)newValue).Bind(((ListItem)bindable)));
     
     private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : IListItemOptions, new()
     {
