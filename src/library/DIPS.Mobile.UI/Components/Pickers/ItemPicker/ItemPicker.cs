@@ -109,9 +109,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return null;
             }
 
-            var theItem = ItemsSource.FirstOrDefault(i =>
-                toCompare.Equals(i.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
-            return theItem ?? null;
+            return ItemsSource.Cast<object?>().FirstOrDefault(item => toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
         }
     }
 }

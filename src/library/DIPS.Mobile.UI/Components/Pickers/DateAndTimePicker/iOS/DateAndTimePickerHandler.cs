@@ -26,7 +26,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, U
         base.ConnectHandler(platformView);
 
         platformView.ValueChanged += OnDateSelected;
-        platformView.SetDefaultTintColor();
+        platformView.SetInLineLabelColors();
         
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;

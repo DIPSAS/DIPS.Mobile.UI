@@ -1,7 +1,7 @@
 using System.Windows.Input;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.ListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 /// <summary>
 /// This component should be used when <see cref="LoadedContentItem"/> needs to be loaded before
@@ -16,7 +16,7 @@ public partial class LoadableListItem
     /// <summary>
     /// The content to be displayed when <see cref="IsBusy"/> and <see cref="IsError"/> is false
     /// </summary>
-    public View LoadedContentItem
+    public View? LoadedContentItem
     {
         get => (View)GetValue(LoadedContentItemProperty);
         set => SetValue(LoadedContentItemProperty, value);

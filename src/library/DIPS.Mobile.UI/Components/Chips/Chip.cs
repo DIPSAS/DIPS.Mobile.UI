@@ -11,4 +11,10 @@ public partial class Chip : View
         Command?.Execute(CommandParameter);
         Tapped?.Invoke(this, EventArgs.Empty);
     }
+
+    public void SendCloseTapped()
+    {
+        CloseCommand?.Execute(CloseCommandParameter);
+        CloseTapped?.Invoke(this, EventArgs.Empty);
+    }
 }

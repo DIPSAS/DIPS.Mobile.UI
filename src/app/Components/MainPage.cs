@@ -1,5 +1,6 @@
 using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.Components.ListItems;
+using DIPS.Mobile.UI.Components.ListItems.Extensions;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace Components;

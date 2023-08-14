@@ -1,6 +1,4 @@
-using DIPS.Mobile.UI.Effects.Touch;
-
-namespace DIPS.Mobile.UI.Components.ListItems;
+namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 [ContentProperty(nameof(CustomContentItem))]
 public partial class NavigationListItem : ListItem

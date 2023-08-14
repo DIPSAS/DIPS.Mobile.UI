@@ -6,7 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
-                 xmlns:componentsSamples="clr-namespace:Components.ComponentsSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
     <dui:VerticalStackLayout Spacing="0">

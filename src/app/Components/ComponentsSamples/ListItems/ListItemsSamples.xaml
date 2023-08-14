@@ -8,6 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
+                 xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
     <dui:ContentPage.BindingContext>
@@ -16,12 +17,12 @@
 
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
-                                HasTopDivider="True"/>
-        
+                                HasTopDivider="True" />
+
         <dui:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
                                 IconColor="{dui:Colors color_primary_90}"
-                                HasTopDivider="True"/>
+                                HasTopDivider="True" />
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">
@@ -60,5 +61,9 @@
 
         </dui:LoadableListItem>
 
+        <dui:MultiItemsPickerListItem Title="Til:">
+            <dui:MultiItemsPicker ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
+            </dui:MultiItemsPicker>
+        </dui:MultiItemsPickerListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

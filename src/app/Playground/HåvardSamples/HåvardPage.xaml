@@ -1,4 +1,4 @@
-<?xml
+﻿<?xml
     version="1.0"
     encoding="utf-8"?>
 
@@ -7,15 +7,23 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 BackgroundColor="{dui:Colors color_primary_90}">
-
-    <VerticalStackLayout>
-        <dui:ListItem Title="Test"
-                      Subtitle="{Binding Source={x:Reference entry}, Path=Text}"
-                      TitleColumnWidth="*">
-            <dui:Label Text="Test"
-                       BackgroundColor="Red" />
+                 Padding="20">
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:VerticalStackLayout>
+        <dui:ListItem>
+            <dui:Chip Title="Chip"
+                      HorizontalOptions="Center" />
         </dui:ListItem>
-        <Entry x:Name="entry" />
-    </VerticalStackLayout>
+        <dui:ListItem Title="Date">
+            <dui:DatePicker HorizontalOptions="Center" />
+        </dui:ListItem>
+        <dui:ListItem Title="Time">
+            <dui:TimePicker HorizontalOptions="Center" />
+        </dui:ListItem>
+        <dui:ListItem Title="DateAndTime">
+            <dui:DateAndTimePicker HorizontalOptions="Center" />
+        </dui:ListItem>
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

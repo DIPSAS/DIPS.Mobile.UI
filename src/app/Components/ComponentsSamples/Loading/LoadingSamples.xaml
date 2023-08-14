@@ -6,7 +6,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             xmlns:loading="clr-namespace:Components.ComponentsSamples.Loading"
              xmlns:helpers="clr-namespace:Components.Helpers"
              xmlns:skeleton="clr-namespace:Components.ComponentsSamples.Loading.Skeleton"
              xmlns:activityIndicator="clr-namespace:Components.ComponentsSamples.Loading.ActivityIndicator"
