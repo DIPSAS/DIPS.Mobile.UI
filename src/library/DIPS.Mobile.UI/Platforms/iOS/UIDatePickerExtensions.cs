@@ -12,31 +12,39 @@ public static class UIDatePickerExtensions
     public static void SetInLineLabelColors(this UIDatePicker datePicker)
     {
         datePicker.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
-        // datePicker.Subviews[0].InvokeActionForAllChildren(uiview =>
-        // {
-        //     if(uiview.Layer.CornerRadius != 0)
-        //     {
-        //         uiview.Layer.CornerRadius = 0;
-        //         uiview.Layer.BackgroundColor = UIColor.Blue.CGColor;
-        //         uiview.Layer.BackgroundFilters = null;
-        //         if(uiview.Layer.PresentationLayer != null) 
-        //         {
-        //             uiview.Layer.PresentationLayer.BackgroundColor = UIColor.Blue.CGColor;
-        //         }
-        //     }
-        // });
-        // //foreach (var subview in datePicker.Subviews[0].Subviews[1].Subviews)
-        // //{
-        // //    subview.Alpha = 0;
-        // //}
-        // //foreach (var subview in datePicker.Subviews.First().Subviews[1].Subviews)
-        // //{
-        // //    subview.Alpha = 0;
-        // //}
-        //
-        AddBackgroundToInlineLabel(datePicker.Subviews.First().Subviews.First().Subviews.First());
+        
+        //TryAddBackgroundToInLineLabelWhenTimePicker(datePicker); <-- Does not work time picker as of yet, TODO: Fix this.
+        
+        AddBackgroundToInlineLabel(datePicker.Subviews.First().Subviews.First().Subviews.First()); //Works for date picker
     }
 
+    private static void TryAddBackgroundToInLineLabelWhenTimePicker(UIDatePicker datePicker)
+    {
+        datePicker.Subviews[0].InvokeActionForAllChildren(uiview =>
+        {
+            if(uiview.Layer.CornerRadius != 0)
+            {
+                uiview.Layer.CornerRadius = 0;
+                uiview.Layer.BackgroundColor = UIColor.Blue.CGColor;
+                uiview.Layer.BackgroundFilters = null;
+                if(uiview.Layer.PresentationLayer != null) 
+                {
+                    uiview.Layer.PresentationLayer.BackgroundColor = UIColor.Blue.CGColor;
+                }
+            }
+        });
+        
+        //Another test
+        foreach (var subview in datePicker.Subviews[0].Subviews[1].Subviews)
+        {
+            subview.Alpha = 0;
+        }
+        foreach (var subview in datePicker.Subviews.First().Subviews[1].Subviews)
+        {
+            subview.Alpha = 0;
+        }
+        
+    }
     private static void AddBackgroundToInlineLabel(UIView uiView)
     {
         uiView.Alpha = 0; //Remove the gray area

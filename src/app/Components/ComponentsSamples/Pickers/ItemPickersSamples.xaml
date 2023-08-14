@@ -15,7 +15,7 @@
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>
     <dui:VerticalStackLayout>
-        <dui:Label Text="ItemPicker, Mode: ConTitle Menu"
+        <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
         <dui:ItemPicker VerticalOptions="Start"
                         Placeholder="Person"
