@@ -7,17 +7,16 @@
              xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
              xmlns:helpers="clr-namespace:Components.Helpers"
              xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
-             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Alerting.AlertingSamples">
  
     <dui:VerticalStackLayout Spacing="0">
         
-        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
                                 Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True"/>
         
-        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
                                 Command="{helpers:NavigationCommand {x:Type dialogs:DialogSamples}}"
                                 HasBottomDivider="True"/>
         

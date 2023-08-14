@@ -1,6 +1,4 @@
 using System.Globalization;
-using DIPS.Mobile.UI.Components.Chips;
-using DIPS.Mobile.UI.Components.Chips.Android;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Handlers;

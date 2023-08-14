@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers"
@@ -32,7 +33,7 @@
                         SelectedItem="{Binding SelectedPerson}"
                         ItemsSource="{Binding People}"
                         ItemDisplayProperty="DisplayName">
-            <dui:ItemPicker.BottomSheetConfiguration>
+            <dui:ItemPicker.BottomSheetPickerConfiguration>
                 <dui:BottomSheetPickerConfiguration HasSearchBar="True">
                     <dui:BottomSheetPickerConfiguration.SelectableItemTemplate>
                         <ControlTemplate>
@@ -43,29 +44,15 @@
                         </ControlTemplate>
                     </dui:BottomSheetPickerConfiguration.SelectableItemTemplate>
                 </dui:BottomSheetPickerConfiguration>
-            </dui:ItemPicker.BottomSheetConfiguration>
+            </dui:ItemPicker.BottomSheetPickerConfiguration>
         </dui:ItemPicker>
         <dui:Label Text="MultiItemsPicker"
                    Margin="5" />
 
         <dui:MultiItemsPicker VerticalOptions="Start"
-                              Placeholder="Velg mottaker(e)"
-                              HorizontalOptions="Start">
-            <dui:MultiItemsPicker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Test1</x:String>
-                    <x:String>Test2</x:String>
-                    <x:String>Test3</x:String>
-                    <x:String>Test4</x:String>
-                    <x:String>Test5</x:String>
-                    <x:String>Test6</x:String>
-                    <x:String>Test7</x:String>
-                    <x:String>Test8</x:String>
-                    <x:String>Test9</x:String>
-                    <x:String>Test10</x:String>
-                    <x:String>Test11</x:String>
-                </x:Array>
-            </dui:MultiItemsPicker.ItemsSource>
+                              Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
+                              HorizontalOptions="Start"
+                              ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
         </dui:MultiItemsPicker>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

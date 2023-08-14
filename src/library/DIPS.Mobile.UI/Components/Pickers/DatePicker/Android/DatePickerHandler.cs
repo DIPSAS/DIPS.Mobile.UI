@@ -1,8 +1,4 @@
 using System.Globalization;
-using Android.Content.Res;
-using DIPS.Mobile.UI.Components.Chips;
-using DIPS.Mobile.UI.Components.Chips.Android;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Handlers;
