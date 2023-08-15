@@ -25,29 +25,10 @@
     </dui:ContentPage.BindingContext>-->
     
     <dui:VerticalStackLayout x:Name="Layout">
-        <extensions:LoadableListItem ErrorText="Error"
-                              Title="This is my title"
-                              Subtitle="This is my subtitle"
-                              BusyText="Loading..."
-                              FadeContentIn="True"
-                              OnErrorTappedCommand="{Binding Navigate}"
-                              IsBusy="{Binding IsProgressing}"
-                              IsError="{Binding IsError}">
-                        
-            <Grid RowDefinitions="Auto, Auto, Auto" BackgroundColor="Red">
-                <dui:Label Text="This is my content" />
-                            
-                <dui:Label Grid.Row="1" Text="This is my content" />
-                
-                <dui:Label Grid.Row="2" Text="This is my content" />
-                            
-            </Grid>
-            
-            <extensions:LoadableListItem.StaticContentItem>
-                <Image Source="{dui:Icons arrow_right_s_line}"  />
-            </extensions:LoadableListItem.StaticContentItem>
-                        
-        </extensions:LoadableListItem>
+        <dui:LoadableListItem Title="Hei" 
+                              IsBusy="{Binding IsProgressing}" />
 
+       
+                    
     </dui:VerticalStackLayout>
 </dui:ContentPage>

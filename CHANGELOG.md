@@ -1,3 +1,6 @@
+## [16.0.0]
+- [BreakingChange] Refactored ListItem and its API, along with its extensions; LoadableListItem and NavigationListItem. Wiki page with the changes can be found [here](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/ListItem).
+
 ## [15.0.0]
 - [MultiItemPicker] Added new component to pick multiple items.
 - [Chip] Changed default colors and added property to change it.

@@ -1,31 +1,37 @@
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
-[ContentProperty(nameof(CustomContentItem))]
+[ContentProperty(nameof(InLineContent))]
 public partial class NavigationListItem : ListItem
 {
-    private readonly Grid m_contentGrid;
-
+    private readonly Grid m_contentGrid = new()
+    {
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new (GridLength.Star),
+            new(GridLength.Auto)
+        },
+        RowDefinitions = new RowDefinitionCollection
+        {
+            new (GridLength.Auto)
+        },
+        VerticalOptions = LayoutOptions.Center
+    };
+    
     public NavigationListItem()
     {
-        m_contentGrid = new Grid()
+        m_contentGrid.Add(new Image
         {
-            ColumnDefinitions = new ColumnDefinitionCollection() {new(GridLength.Auto), new(GridLength.Auto)}
-        };
-        
-        if (CustomContentItem != null)
-        {
-            AddCustomContentItem();
-        }
-        
-        m_contentGrid.Add(new Image {Source = Icons.GetIcon(IconName.arrow_right_s_line), VerticalOptions = LayoutOptions.Center}, 1);
-        HorizontalContentItem = m_contentGrid;
+            Source = Icons.GetIcon(IconName.arrow_right_s_line), 
+            VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.End
+        }, 1);
     }
 
-    private void AddCustomContentItem()
+    protected override void AddInLineContent()
     {
-        m_contentGrid.RemoveChildAt(0, 0);
-        m_contentGrid.Add(CustomContentItem, 0);
-    }
+        var newInLineContent = InLineContent;
+            
+        m_contentGrid.Insert(0, newInLineContent);
 
-    private void OnCustomContentItemPropertyChanged() => AddCustomContentItem();
+        SetInLineContent(m_contentGrid);
+    }
 }

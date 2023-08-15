@@ -39,9 +39,8 @@
                         </dui:CollectionView.ItemsSource>
                         <dui:CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <dui:ListItem TitleColumnWidth="*"
-                                              BackgroundColor="Red"
-                                              HorizontalContentItemColumnWidth="*" />
+                                <dui:ListItem
+                                              BackgroundColor="Red" />
                             </DataTemplate>
                         </dui:CollectionView.ItemTemplate>
                     </dui:CollectionView>

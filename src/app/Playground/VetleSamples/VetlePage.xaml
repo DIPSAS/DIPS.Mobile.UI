@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:saveView="clr-namespace:DIPS.Mobile.UI.Components.Saving.SaveView;assembly=DIPS.Mobile.UI"
+             xmlns:inLineContent="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;assembly=DIPS.Mobile.UI"
+             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
              Padding="15, 20"
@@ -18,53 +19,28 @@
         <ToolbarItem></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
         
-                <dui:VerticalStackLayout>
+                <dui:VerticalStackLayout Spacing="0">
                    
-                    <dui:LoadableListItem Title="Test">
-                        
-                      <dui:LoadableListItem.StaticContentItem>
-                        <Image Source="{dui:Icons arrow_right_s_line}"  />
-                      </dui:LoadableListItem.StaticContentItem>
-                        
-                        <FlexLayout Wrap="Wrap" VerticalOptions="Center">
-                            
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            
-                        </FlexLayout>
-                    </dui:LoadableListItem>
+                    <extensions:LoadableListItem IsError="{Binding IsError}"
+                                          Title="LoadableListItem"
+                                          InLineContent="All systems working!" />
                     
                     <dui:ListItem Title="Test">
                         
-                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto" BackgroundColor="Black">
-                            <FlexLayout Wrap="Wrap">
-                            
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                                <Border BackgroundColor="Red" WidthRequest="50" HeightRequest="50" />
-                            
-                            </FlexLayout>
-                            <Image Source="{dui:Icons arrow_right_s_line}" Grid.Column="1" />
-
-                        </Grid>
+                        <dui:ListItem.InLineContentOptions>
+                            <dui:InLineContentOptions HorizontalOptions="Start" />
+                        </dui:ListItem.InLineContentOptions>
+                        
                     </dui:ListItem>
-
-                
+                    
+                    <dui:ListItem Title="Test" HasTopDivider="True"
+                                  HasBottomDivider="True"/>
+                    <dui:ListItem Title="Test" />
+                    
+                    <extensions:LoadableListItem Title="Test" InLineContent="Testeren" 
+                                          IsBusy="{Binding IsProgressing}"
+                                          FadeContentIn="True"/>
+                    
                 </dui:VerticalStackLayout>
 
 </dui:ContentPage>

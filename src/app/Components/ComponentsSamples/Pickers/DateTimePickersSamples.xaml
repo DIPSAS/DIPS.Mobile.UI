@@ -6,12 +6,10 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
-                 xmlns:horizontalInLine="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;assembly=DIPS.Mobile.UI"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                 xmlns:slidable="clr-namespace:DIPS.Mobile.UI.Components.Slidable;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Padding="{dui:Sizes size_3}"
-                 Title="Date / time pickers">
+                 Title="Date / time pickers"
+                 BackgroundColor="{dui:Colors color_system_white}">
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>

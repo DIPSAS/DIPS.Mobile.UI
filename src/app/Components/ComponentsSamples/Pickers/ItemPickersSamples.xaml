@@ -10,7 +10,8 @@
                  xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers"
-                 Padding="{dui:Sizes size_4}">
+                 Padding="{dui:Sizes size_4}"
+                 BackgroundColor="{dui:Colors color_system_white}">
     <dui:ContentPage.BindingContext>
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>

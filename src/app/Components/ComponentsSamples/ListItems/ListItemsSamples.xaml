@@ -8,6 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:listItems="clr-namespace:Components.ComponentsSamples.ListItems"
+                 xmlns:icon="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Icon;assembly=DIPS.Mobile.UI"
                  xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.ListItems.ListItemsSamples">
 
@@ -17,12 +18,15 @@
 
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="Navigate"
-                                HasTopDivider="True" />
-
+                                HasTopDivider="True"/>
+        
         <dui:NavigationListItem Title="Navigate"
                                 Icon="{dui:Icons internalmessage_fill}"
-                                IconColor="{dui:Colors color_primary_90}"
-                                HasTopDivider="True" />
+                                HasTopDivider="True">
+            <dui:NavigationListItem.IconOptions>
+                <icon:IconOptions Color="{dui:Colors color_primary_90}" />
+            </dui:NavigationListItem.IconOptions>
+        </dui:NavigationListItem>
 
         <dui:ListItem Title="Person"
                       HasTopDivider="True">
@@ -57,7 +61,8 @@
                               HasTopDivider="True"
                               FadeContentIn="True">
             <dui:Label Text="All systems working!"
-                       VerticalTextAlignment="Center" />
+                       VerticalTextAlignment="Center"
+                       HeightRequest="100"/>
 
         </dui:LoadableListItem>
 

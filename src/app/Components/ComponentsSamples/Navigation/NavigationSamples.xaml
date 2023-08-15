@@ -10,8 +10,7 @@
         <dui:NavigationListItem Title="Floating Navigation Button" 
                                 Command="{helpers:NavigationCommand {x:Type navigation:FloatingNavigationButtonSamples}}"
                                 HasTopDivider="True"
-                                HasBottomDivider="True"
-                                 />
+                                HasBottomDivider="True" />
     </dui:VerticalStackLayout>
     
 </dui:ContentPage>

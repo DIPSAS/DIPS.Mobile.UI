@@ -18,10 +18,12 @@ public partial class MultiItemsPickerListItem : ListItem
             new Image() {Source = Icons.GetIcon(IconName.arrow_right_s_line), HorizontalOptions = LayoutOptions.End},
             1);
 
-        HorizontalContentItemColumnWidth = GridLength.Star;
-        TitleColumnWidth = GridLength.Auto;
-        ShouldOverrideContentItemLayoutOptions = false;
-        HorizontalContentItem = m_inlineContentGrid;
+        InLineContentOptions.Width = GridLength.Star;
+        InLineContentOptions.HorizontalOptions = LayoutOptions.Fill;
+        InLineContentOptions.VerticalOptions = LayoutOptions.Fill;
+        TitleOptions.Width = GridLength.Auto;
+
+        InLineContent = m_inlineContentGrid;
     }
     
     private void MultiItemPickerPropertyChanged()

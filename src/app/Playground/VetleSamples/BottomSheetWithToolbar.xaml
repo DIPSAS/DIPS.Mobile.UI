@@ -14,7 +14,7 @@
                      IconImageSource="{dui:Icons bell_fill}" />
     </dui:BottomSheet.ToolbarItems>
     
-        <dui:VerticalStackLayout>
+        <!--<dui:VerticalStackLayout>
         <dui:Label
             Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
             Padding="{dui:Thickness size_4}"/>
@@ -31,6 +31,6 @@
         <dui:ListItem Title="Date / time">
             <dui:DateAndTimePicker />
         </dui:ListItem>
-    </dui:VerticalStackLayout>
+    </dui:VerticalStackLayout>-->
     
 </dui:BottomSheet>

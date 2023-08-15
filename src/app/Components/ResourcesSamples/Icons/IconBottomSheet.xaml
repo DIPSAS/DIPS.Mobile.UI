@@ -8,8 +8,7 @@
                  x:Class="Components.ResourcesSamples.Icons.IconBottomSheet"
                  Title="{Binding .}">
     <dui:VerticalStackLayout>
-        <dui:ListItem Title="Size"
-                      ShouldOverrideContentItemLayoutOptions="False">
+        <dui:ListItem Title="Size">
             <Entry x:Name="SizeEntry"
                    Keyboard="Numeric"
                    Text="50" />

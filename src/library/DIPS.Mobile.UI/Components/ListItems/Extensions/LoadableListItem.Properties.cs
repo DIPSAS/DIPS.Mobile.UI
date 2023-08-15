@@ -10,22 +10,11 @@ namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 /// <seealso cref="ListItem"/>
 /// <seealso cref="NavigationListItem"/>
 /// </summary>
-[ContentProperty(nameof(LoadedContentItem))]
 public partial class LoadableListItem
 {
     /// <summary>
-    /// The content to be displayed when <see cref="IsBusy"/> and <see cref="IsError"/> is false
-    /// </summary>
-    public View? LoadedContentItem
-    {
-        get => (View)GetValue(LoadedContentItemProperty);
-        set => SetValue(LoadedContentItemProperty, value);
-    }
-    
-    /// <summary>
     /// The content to be displayed all the time
     /// </summary>
-    /// <remarks>Will always be displayed on the right side of <see cref="LoadedContentItem"/></remarks>
     public View? StaticContentItem
     {
         get => (View)GetValue(StaticContentProperty);
@@ -145,11 +134,6 @@ public partial class LoadableListItem
     
     public static readonly BindableProperty StaticContentProperty = BindableProperty.Create(
         nameof(StaticContentItem),
-        typeof(View),
-        typeof(LoadableListItem));
-    
-    public static readonly BindableProperty LoadedContentItemProperty = BindableProperty.Create(
-        nameof(LoadedContentItem),
         typeof(View),
         typeof(LoadableListItem));
     

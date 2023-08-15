@@ -8,6 +8,13 @@ public partial class VetlePage
     {
         InitializeComponent();
     }
-    
 
+
+    private void Switch_OnToggled(object sender, ToggledEventArgs e)
+    {
+        if (e.Value)
+        {
+            
+        }
+    }
 }

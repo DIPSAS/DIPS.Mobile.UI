@@ -7,74 +7,57 @@ namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 public partial class LoadableListItem : ListItem
 {
-    private Grid m_busyContent;
+    private readonly Grid m_busyContent = new()
+    {
+        ColumnSpacing = Sizes.GetSize(SizeName.size_2),
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new(GridLength.Star), new(GridLength.Auto)
+        },
+        RowDefinitions = new RowDefinitionCollection
+        {
+            new(GridLength.Auto)
+        },
+        VerticalOptions = LayoutOptions.Center
+    };
 
-    private Grid m_errorContent;
+    private readonly Grid m_errorContent = new()
+    {
+        ColumnSpacing = Sizes.GetSize(SizeName.size_2),
+        ColumnDefinitions = new ColumnDefinitionCollection
+        {
+            new(GridLength.Star), 
+            new(GridLength.Auto)
+        },
+        RowDefinitions = new RowDefinitionCollection
+        {
+            new(GridLength.Auto)
+        },
+        VerticalOptions = LayoutOptions.Center
+    };
 
     private Grid ContentGrid { get; } = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {
-            new(GridLength.Star)
+            new(GridLength.Star),
+            new(GridLength.Auto)
         },
         RowDefinitions = new RowDefinitionCollection
         {
             new (GridLength.Auto)
-        }
+        },
+        VerticalOptions = LayoutOptions.Center
     };
+    
+    private ICommand? m_cachedCommand;
+    private object? m_cachedCommandParameter;
 
     public LoadableListItem()
     {
         CreateBusyContent();
         CreateErrorContent();
     }
-
-    private void CreateErrorContent()
-    {
-        m_errorContent = new Grid
-        {
-            ColumnSpacing = Sizes.GetSize(SizeName.size_2),
-            ColumnDefinitions = new ColumnDefinitionCollection
-            {
-                new(GridLength.Star), new(GridLength.Auto)
-            },
-            VerticalOptions = LayoutOptions.Center
-        };
-
-        var errorText = new Labels.Label { VerticalTextAlignment = TextAlignment.Center };
-        errorText.SetBinding(Label.TextColorProperty, new Binding(nameof(ErrorTextColor), source: this));
-        errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
-        m_errorContent.Add(errorText);
-
-        var errorImage = new Image
-        {
-            TintColor = Colors.GetColor(ColorName.color_error_dark), Source = Icons.GetIcon(IconName.failure_fill)
-        };
-        m_errorContent.Add(errorImage, 1);
-    }
-
-    private void CreateBusyContent()
-    {
-        m_busyContent = new Grid
-        {
-            ColumnSpacing = Sizes.GetSize(SizeName.size_2),
-            ColumnDefinitions = new ColumnDefinitionCollection
-            {
-                new(GridLength.Star), new(GridLength.Auto)
-            }
-        };
-
-        var busyText = new Labels.Label { VerticalTextAlignment = TextAlignment.Center, TextColor = Colors.GetColor(ColorName.color_neutral_90)};
-        busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
-        m_busyContent.Add(busyText);
-        
-        var busyActivityIndicator = new ActivityIndicator { IsRunning = true };
-        m_busyContent.Add(busyActivityIndicator, 1);
-    }
-    
-    private ICommand? m_cachedCommand;
-    private object? m_cachedCommandParameter;
-
     
     protected override void OnHandlerChanged()
     {
@@ -83,12 +66,9 @@ public partial class LoadableListItem : ListItem
         m_cachedCommand = Command;
         m_cachedCommandParameter = CommandParameter;
 
-        HorizontalContentItem = ContentGrid;
-
         if (StaticContentItem is not null)
         {
             ContentGrid.Add(StaticContentItem, 1);
-            ContentGrid.AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         }
         
         if (IsBusy)
@@ -103,6 +83,45 @@ public partial class LoadableListItem : ListItem
         {
             SetContent();
         }
+    }
+
+    protected override void AddInLineContent()
+    {
+        SetInLineContent(ContentGrid);
+    }
+
+    private void CreateErrorContent()
+    {
+        var errorText = new Labels.Label
+        {
+            VerticalTextAlignment = TextAlignment.Center,
+            HorizontalTextAlignment = TextAlignment.End
+        };
+        errorText.SetBinding(Label.TextColorProperty, new Binding(nameof(ErrorTextColor), source: this));
+        errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
+        m_errorContent.Add(errorText);
+
+        var errorImage = new Image
+        {
+            TintColor = Colors.GetColor(ColorName.color_error_dark), 
+            Source = Icons.GetIcon(IconName.failure_fill)
+        };
+        m_errorContent.Add(errorImage, 1);
+    }
+
+    private void CreateBusyContent()
+    {
+        var busyText = new Labels.Label
+        {
+            VerticalTextAlignment = TextAlignment.Center,
+            HorizontalTextAlignment = TextAlignment.End,
+            TextColor = Colors.GetColor(ColorName.color_neutral_90)
+        };
+        busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
+        m_busyContent.Add(busyText);
+        
+        var busyActivityIndicator = new ActivityIndicator { IsRunning = true };
+        m_busyContent.Add(busyActivityIndicator, 1);
     }
 
     private void SetBusyContent()
@@ -124,7 +143,7 @@ public partial class LoadableListItem : ListItem
         Command = m_cachedCommand;
         CommandParameter = m_cachedCommandParameter;
 
-        _ = SwitchContentTo(LoadedContentItem);
+        _ = SwitchContentTo((InLineContent as View)!);
     }
     
     private void SetErrorContent()
@@ -191,7 +210,7 @@ public partial class LoadableListItem : ListItem
         var child = ContentGrid.Children.FirstOrDefault();
 
         var replace = child is not null && child != StaticContentItem;
-
+        
         if (FadeContentIn && replace && child is View childView)
         {
             view.Opacity = 0;
@@ -201,15 +220,15 @@ public partial class LoadableListItem : ListItem
         if(replace)
             ContentGrid.RemoveAt(0);
         ContentGrid.Insert(0, view);
-
+        
         if(FadeContentIn)
         {
             await view.FadeTo(1, easing: Easing.CubicInOut);
         }
 
-        if (LoadedContentItem != null)
+        if (InLineContent != null)
         {
-            LoadedContentItem.InputTransparent = view != LoadedContentItem;
+            ContentGrid.InputTransparent = view != InLineContent;
         }
     }
 }
