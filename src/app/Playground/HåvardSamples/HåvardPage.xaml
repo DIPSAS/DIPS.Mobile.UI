@@ -13,6 +13,7 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <VerticalStackLayout>
+        
         <dui:TimePicker/>
         <dui:DateAndTimePicker/>
         <dui:DateAndTimePicker/>

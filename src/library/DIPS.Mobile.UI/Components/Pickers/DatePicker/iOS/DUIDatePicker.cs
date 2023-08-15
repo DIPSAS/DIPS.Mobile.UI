@@ -16,32 +16,26 @@ public class DUIDatePicker : UIDatePicker
         ValueChanged += UpdateInLineLayerAttributes;
     }
 
-    internal void UpdateInLineLayerAttributes()
+    private void UpdateInLineLayerAttributes()
     {
         var inlineDateViewLayer = this.Subviews.FirstOrDefault()?.Subviews.FirstOrDefault()?.Subviews
             .FirstOrDefault();
-        SetDefaultLayerAttributes(inlineDateViewLayer?.Layer);
+        SetDefaultLayerAttributes(inlineDateViewLayer);
         
-        var inLineTimeView = this.Subviews.FirstOrDefault()?.Subviews.LastOrDefault();
-        SetDefaultLayerAttributes(inLineTimeView?.Layer);
-        // foreach (var inLineTimeViewSubView in inLineTimeViewSubViews)
-        // {
-        //     SetDefaultLayerAttributes(inLineTimeViewSubView.Superview.Layer);
-        //     SetDefaultLayerAttributes(inLineTimeViewSubView.Layer);
-        // }
+        var inLineTimeView = this.Subviews.FirstOrDefault()?.Subviews.LastOrDefault(); //Tested with physical device iOS 15 and 16, does not work with simulator iOS 14
         
-        // if (OperatingSystem.IsIOSVersionAtLeast(16, 0))
-        // {
-        //     inLineTimeViewLayer = inlineDateViewLayer?.Superview?.Superview;
-        // }
-        //
-        // SetDefaultLayerAttributes(inLineTimeViewLayer?.Layer);
+        if (inLineTimeView is {BackgroundColor: null}) //TODO: iOS 14 (remove when iOS 17 is out). 
+            //This happens for at least iOS 14, we then grab the first subview to set the layer color
+        {
+            inLineTimeView = inLineTimeView.Subviews.FirstOrDefault();
+        }
+        SetDefaultLayerAttributes(inLineTimeView);
         
     }
 
-    private static void SetDefaultLayerAttributes(CALayer? layer)
+    private static void SetDefaultLayerAttributes(UIView? view)
     {
-        if (layer == null)
+        if (view == null)
         {
             return;
         }
@@ -52,8 +46,8 @@ public class DUIDatePicker : UIDatePicker
             return;
         }
 
-        layer.BackgroundColor = defaultColor.ToCGColor();
-        layer.CornerRadius = defaultCornerRadius;
+        view.BackgroundColor = defaultColor.ToPlatform();
+        view.Layer.CornerRadius = defaultCornerRadius;
     }
 
     public void DisposeLayer()
