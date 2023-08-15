@@ -6,24 +6,15 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="20">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
-        <dui:ListItem>
-            <dui:Chip Title="Chip"
-                      HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="Date">
-            <dui:DatePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="Time">
-            <dui:TimePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="DateAndTime">
-            <dui:DateAndTimePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-    </dui:VerticalStackLayout>
+    <VerticalStackLayout>
+        <dui:TimePicker/>
+        <dui:DateAndTimePicker/>
+        <dui:DateAndTimePicker/>
+    </VerticalStackLayout>
 </dui:ContentPage>

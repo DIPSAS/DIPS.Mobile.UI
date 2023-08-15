@@ -6,45 +6,5 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.HåvardSamples.HåvardPage2">
-        <Grid RowDefinitions="Auto, *">
-            <Button Text="Next" Clicked="Button_OnClicked"></Button>
-            <RefreshView Grid.Row="1">
-                <ScrollView >
-                    <dui:CollectionView ItemSpacing="5" AutomationId="ShouldHaveSize5">
-                        <dui:CollectionView.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                                <x:String>Item</x:String>
-                            </x:Array>
-                        </dui:CollectionView.ItemsSource>
-                        <dui:CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <dui:ListItem
-                                              BackgroundColor="Red" />
-                            </DataTemplate>
-                        </dui:CollectionView.ItemTemplate>
-                    </dui:CollectionView>
-                </ScrollView>
-            </RefreshView>
-        </Grid>
+       <dui:DateAndTimePicker/>
 </dui:ContentPage>

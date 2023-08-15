@@ -1,5 +1,6 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
@@ -9,19 +10,19 @@ using UIKit;
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, UIDatePicker>
+public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, DUIDatePicker>
 {
     private bool m_isOpen;
 
-    protected override UIDatePicker CreatePlatformView()
+    protected override DUIDatePicker CreatePlatformView()
     {
-        return new UIDatePicker
+        return new DUIDatePicker
         {
             Mode = UIDatePickerMode.DateAndTime, PreferredDatePickerStyle = UIDatePickerStyle.Compact
         };
     }
     
-    protected override void ConnectHandler(UIDatePicker platformView)
+    protected override void ConnectHandler(DUIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
 
@@ -100,10 +101,11 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, U
         handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
     }
 
-    protected override void DisconnectHandler(UIDatePicker platformView)
+    protected override void DisconnectHandler(DUIDatePicker platformView)
     {
         base.DisconnectHandler(platformView);
 
+        platformView.DisposeLayer();
         platformView.ValueChanged -= OnDateSelected;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;

@@ -1,43 +1,24 @@
-using CoreAnimation;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
 using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
-using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using UIKit;
-using Colors = Microsoft.Maui.Graphics.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
 
-public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
+public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 {
     private bool m_isOpen;
 
-    protected override UIDatePicker CreatePlatformView()
+    protected override DUIDatePicker CreatePlatformView()
     {
-        return new UIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date};
+        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date};
     }
-
-    public List<UIView> getSubviewsOfView(UIView view)
-    {
-        var subviewArray = new List<UIView>();
-        if (view.Subviews.Length == 0)
-        {
-            return subviewArray;
-        }
-
-        foreach (var subview in view.Subviews)
-        {
-            subviewArray.AddRange(getSubviewsOfView(subview));
-        }
-
-        return subviewArray;
-    }
-    protected override void ConnectHandler(UIDatePicker platformView)
+    
+    protected override void ConnectHandler(DUIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
         platformView.SetInLineLabelColors();
@@ -45,7 +26,6 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         platformView.ValueChanged += OnDateSelected;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;
-        
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
 
@@ -132,10 +112,11 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, UIDatePicker>
         handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
     }
 
-    protected override void DisconnectHandler(UIDatePicker platformView)
+    protected override void DisconnectHandler(DUIDatePicker platformView)
     {
         base.DisconnectHandler(platformView);
 
+        platformView.DisposeLayer();
         platformView.ValueChanged -= OnDateSelected;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;

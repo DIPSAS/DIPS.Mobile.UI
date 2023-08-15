@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -7,13 +8,13 @@ using UIKit;
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-public partial class TimePickerHandler : ViewHandler<TimePicker, UIDatePicker>
+public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
 {
-    protected override UIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact };
+    protected override DUIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact };
 
     private bool m_isOpen;
     
-    protected override void ConnectHandler(UIDatePicker platformView)
+    protected override void ConnectHandler(DUIDatePicker platformView)
     {
         base.ConnectHandler(platformView);
         
@@ -77,10 +78,11 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, UIDatePicker>
         handler.PlatformView.SetDate(calendar.DateFromComponents(components), true);
     }
 
-    protected override void DisconnectHandler(UIDatePicker platformView)
+    protected override void DisconnectHandler(DUIDatePicker platformView)
     {
         base.DisconnectHandler(platformView);
         
+        platformView.DisposeLayer();
         platformView.ValueChanged -= OnTimeSelected;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;
