@@ -8,7 +8,8 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Padding="{dui:Sizes size_3}"
-                 Title="Date / time pickers">
+                 Title="Date / time pickers"
+                 BackgroundColor="{dui:Colors color_system_white}">
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
