@@ -15,7 +15,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         private readonly Grid m_grid;
         private readonly CollectionView m_resultCollectionView;
         private readonly SearchBar m_searchBar;
-        private CancellationTokenSource? m_searchCancellationToken;
 
         private View? m_previousView;
 
@@ -42,6 +41,10 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
+            m_searchBar.SetBinding(SearchBar.ShouldDelayProperty,
+                new Binding(nameof(ShouldDelay), source: this));
+            m_searchBar.SetBinding(SearchBar.DelayProperty,
+                new Binding(nameof(DelayProperty), source: this));
             m_searchBar.TextChanged += SearchBarOnTextChanged;
 
             m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
@@ -121,9 +124,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private async void OnSearchQueryChanged(string searchQuery)
         {
-            m_searchCancellationToken?.Cancel(); //Cancel the previous search
-            m_searchCancellationToken = new CancellationTokenSource();
-
             if (string.IsNullOrEmpty(searchQuery))
             {
                 m_resultCollectionView.ItemsSource =
@@ -134,14 +134,13 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             try
             {
-                SetSearchState(SearchStates.Searching);
-
-                if (ShouldDelay && Delay > 0)
+                if (m_searchBar.SearchCancellationToken == null)
                 {
-                    await Task.Delay(Delay, m_searchCancellationToken.Token);
+                    return;
                 }
 
-                var result = await ProvideSearchResult(searchQuery, m_searchCancellationToken.Token);
+                SetSearchState(SearchStates.Searching);
+                var result = await ProvideSearchResult(searchQuery, m_searchBar.SearchCancellationToken.Token);
                 if (result == null)
                 {
                     return;
@@ -156,10 +155,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
                 m_resultCollectionView.ItemsSource = resultCopy;
                 SetSearchState(SearchStates.SearchMatched);
-            }
-            catch (TaskCanceledException) //This means that people has initiated a new search
-            {
-                //Swallow it
             }
             catch (Exception e)
             {
@@ -190,10 +185,13 @@ namespace DIPS.Mobile.UI.Components.Searching
                 SearchStates.NoSearchMatch => NoResultView,
                 _ => HintView
             };
-            
-            //Add new view
-            m_grid.Add(viewToShow, 0, rowChildIndex);
 
+            if (viewToShow != null)
+            {
+                //Add new view
+                m_grid.Add(viewToShow, 0, rowChildIndex);    
+            }
+            
             m_previousView = viewToShow;
         }
 
