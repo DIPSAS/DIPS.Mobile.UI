@@ -2,20 +2,22 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="20">
+                 Padding="20"
+                 ShouldDelay="True">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        
-        <dui:TimePicker/>
-        <dui:DateAndTimePicker/>
-        <dui:DateAndTimePicker/>
-    </VerticalStackLayout>
-</dui:ContentPage>
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate>
+            <Label Text="Test"/>
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
+    <dui:SearchPage.NoResultView>
+            <Label Text="No result"/>
+    </dui:SearchPage.NoResultView>
+</dui:SearchPage>

@@ -4,6 +4,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : View
     {
+        public CancellationTokenSource? SearchCancellationToken { get; private set; }
+
         public SearchBar()
         {
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
@@ -12,12 +14,24 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
         }
         
-        private static void OnTextChanged(BindableObject bindable, object value, object newValue)
+        private async void OnTextChanged(string newTextValue, string oldTextValue)
         {
-            if (bindable is SearchBar searchBar && value is string oldTextValue && newValue is string newTextValue)
+            SearchCancellationToken?.Cancel(); //Cancel the previous search
+            SearchCancellationToken = new CancellationTokenSource();
+
+            try
             {
-                searchBar.TextChanged?.Invoke(searchBar, new TextChangedEventArgs(oldTextValue, newTextValue));
+                if (ShouldDelay && Delay > 0)
+                {
+                    await Task.Delay(Delay, SearchCancellationToken.Token);
+                }
+                TextChanged?.Invoke(this, new TextChangedEventArgs(oldTextValue, newTextValue));
             }
+            catch (TaskCanceledException) //This means that people has initiated a new search
+            {
+                //Swallow it
+            }
+            
         }
     }
 }
