@@ -3,15 +3,14 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                  xmlns:helpers="clr-namespace:Components.Helpers"
-                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Searching.SearchingSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <extensions:NavigationListItem Title="Search bar"
+        <dui:NavigationListItem Title="Search bar"
                                 Command="{helpers:NavigationCommand {x:Type searching:SearchBarSamples}}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True"/>
 
-        <extensions:NavigationListItem Title="Search page"
+        <dui:NavigationListItem Title="Search page"
                                 Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}"
                                 HasBottomDivider="True"/>
     </dui:VerticalStackLayout>

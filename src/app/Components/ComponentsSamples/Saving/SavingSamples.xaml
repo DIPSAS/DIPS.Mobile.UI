@@ -5,10 +5,9 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:helpers="clr-namespace:Components.Helpers"
              xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
-             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Saving.SavingSamples">
     
-    <extensions:NavigationListItem Title="SaveView"
+    <dui:NavigationListItem Title="SaveView"
                             Command="{helpers:NavigationCommand {x:Type saving:SaveViewSamples}}" 
                             HasBottomDivider="True"/>
     

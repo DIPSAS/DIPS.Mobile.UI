@@ -5,10 +5,9 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:navigation="clr-namespace:Components.ComponentsSamples.Navigation"
              xmlns:helpers="clr-namespace:Components.Helpers"
-             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.Navigation.NavigationSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <extensions:NavigationListItem Title="Floating Navigation Button" 
+        <dui:NavigationListItem Title="Floating Navigation Button" 
                                 Command="{helpers:NavigationCommand {x:Type navigation:FloatingNavigationButtonSamples}}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True" />
