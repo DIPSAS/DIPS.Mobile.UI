@@ -11,18 +11,23 @@ public partial class HåvardPage
     public HåvardPage()
     {
         InitializeComponent();
+        BindingContext = new HåvardPageViewModel();
+    }
+
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+        if (BindingContext is HåvardPageViewModel håvardPageViewModel)
+        {
+            håvardPageViewModel.OpenContactsPickerCommand = ItemPicker.OpenCommand;
+            håvardPageViewModel.Initialize();
+        }
     }
 
     public ICommand SearchCommand { get; } = new Command<string>(s =>
     {
 
     });
-
-    public override Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
-    {
-        return Task.FromResult<IEnumerable<object>>(new []{"Håvard Moås"});
-    }
-
     private void Button_OnClicked(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new HåvardPage2());
