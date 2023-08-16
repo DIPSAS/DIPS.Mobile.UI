@@ -1,3 +1,6 @@
+## [16.1.0]
+- Removed obsolete properties from ListItem
+
 ## [16.0.0]
 - [BreakingChange] Refactored ListItem and its API, along with its extensions; LoadableListItem and NavigationListItem.
 
