@@ -13,7 +13,7 @@ public partial class MultiItemsPicker : ContentView
 
     public MultiItemsPicker()
     {
-        OpenCommand = new Command(() => Open(this));
+        OpenCommand = new Command(Open);
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
         m_hStackLayout = new HorizontalStackLayout()
@@ -82,11 +82,11 @@ public partial class MultiItemsPicker : ContentView
         DeviceDisplay.Current.MainDisplayInfoChanged -= MainDisplayInfoChanged;
     }
 
-    public void Open(MultiItemsPicker multiItemsPicker)
+    public void Open()
     {
         if (!BottomSheetService.IsBottomSheetOpen())
         {
-            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(multiItemsPicker));
+            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(this));
         }
     }
 

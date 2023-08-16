@@ -8,9 +8,7 @@ public class HåvardPageViewModel : ViewModel
 {
     private IEnumerable<object> m_selectedItems;
 
-    public ICommand Command { get; } = new Command(() =>
-    {
-    });
+    public ICommand OpenContactsPickerCommand { get; set; }
 
     public HåvardPageViewModel()
     {
@@ -48,4 +46,10 @@ public class HåvardPageViewModel : ViewModel
     }
 
     public ICommand SelectedItemCommand { get; }
+
+    public async void Initialize()
+    {
+        await Task.Delay(2000);
+        OpenContactsPickerCommand.Execute(null);
+    }
 }

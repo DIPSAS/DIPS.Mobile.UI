@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
@@ -28,9 +29,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
             else if (Mode == PickerMode.BottomSheet)
             {
-                chip.Command = new Command(() => BottomSheetService.OpenBottomSheet(new ItemPickerBottomSheet(this)));
+                chip.Command = OpenCommand;
             }
-
+        }
+        
+        public partial void Open()
+        {
+            if (Mode == PickerMode.BottomSheet)
+            {
+                OpenBottomSheet();
+            }
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)

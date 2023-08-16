@@ -82,6 +82,9 @@ public partial class MultiItemsPicker
         get => (string)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
-
+    
+    /// <summary>
+    /// Opens the picker.
+    /// </summary>
     public ICommand OpenCommand { get; }
 }

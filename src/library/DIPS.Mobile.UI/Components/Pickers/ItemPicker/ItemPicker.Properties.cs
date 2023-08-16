@@ -78,6 +78,18 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
+        
+        /// <summary>
+        /// Opens the picker.
+        /// </summary>
+        /// <remarks>This will not work if <see cref="Mode"/> is <see cref="PickerMode.ContextMenu"/></remarks>
+        public ICommand OpenCommand => new Command(Open);
+
+        /// <summary>
+        /// Opens the picker.
+        /// </summary>
+        /// <remarks>This will not work if <see cref="Mode"/> is <see cref="PickerMode.ContextMenu"/></remarks>
+        public partial void Open();
     }
 
     public enum PickerMode
