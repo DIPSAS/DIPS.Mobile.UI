@@ -32,24 +32,14 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 chip.Command = OpenCommand;
             }
         }
-
-        /// <summary>
-        /// Opens the picker.
-        /// </summary>
-        /// <remarks>This will not work if <see cref="Mode"/> is <see cref="Mode.ContextMenu"/></remarks>
-        public void Open()
+        
+        public partial void Open()
         {
             if (Mode == PickerMode.BottomSheet)
             {
                 OpenBottomSheet();
             }
         }
-
-        /// <summary>
-        /// Opens the picker when the <see cref="Mode"/> is <see cref="BottomSheet"/>
-        /// </summary>
-        /// <remarks>This will not work if <see cref="Mode"/> is <see cref="Mode.ContextMenu"/></remarks>
-        public ICommand OpenCommand => new Command(Open);
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
