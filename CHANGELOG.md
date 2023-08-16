@@ -1,3 +1,6 @@
+## [16.2.0]
+- ItemPicker and MultiItemsPicker can now be opened from a `Open()` method or by using `OpenCommand` property.
+
 ## [16.1.0]
 - Removed obsolete properties from ListItem
 
