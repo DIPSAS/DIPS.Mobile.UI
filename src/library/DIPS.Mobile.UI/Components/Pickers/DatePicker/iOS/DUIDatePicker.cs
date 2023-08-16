@@ -18,6 +18,8 @@ public class DUIDatePicker : UIDatePicker
 
     private void UpdateInLineLayerAttributes()
     {
+        if (PreferredDatePickerStyle == UIDatePickerStyle.Inline) return; //Changing these colors when the style is inline will change the entire in line date picker. Which messes up the colors.
+        
         var inlineDateViewLayer = this.Subviews.FirstOrDefault()?.Subviews.FirstOrDefault()?.Subviews
             .FirstOrDefault();
         SetDefaultLayerAttributes(inlineDateViewLayer);

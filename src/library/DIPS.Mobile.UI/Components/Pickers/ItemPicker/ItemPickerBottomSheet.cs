@@ -26,7 +26,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
                     m_originalItems.Add(new SelectableListItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
-                        item == m_itemPicker.SelectedItem, item));
+                        item.Equals(m_itemPicker.SelectedItem), item));
                 }
             }
 
@@ -95,13 +95,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
             {
-                if (item == selectableListItem.Item)
+                if (item.Equals(selectableListItem.Item))
                 {
                     theSelectedItem = item;
                 }    
             }
 
-            if (theSelectedItem == m_itemPicker.SelectedItem)
+            if (theSelectedItem != null && theSelectedItem.Equals(m_itemPicker.SelectedItem))
             {
                 return;
             }
