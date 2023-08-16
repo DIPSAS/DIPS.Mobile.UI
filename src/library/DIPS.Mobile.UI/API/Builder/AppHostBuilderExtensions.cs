@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.Image;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
 #if __ANDROID__
 using DIPS.Mobile.UI.Effects.Modal;
@@ -47,6 +48,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
+            handlers.AddHandler<SegmentedControl, SegmentedControlHandler>();
             
             AddPlatformHandlers(handlers);
         });

@@ -12,4 +12,19 @@ public partial class HåvardPage
     {
         InitializeComponent();
     }
+
+    public ICommand SearchCommand { get; } = new Command<string>(s =>
+    {
+
+    });
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new HåvardPage2());
+    }
+
+    private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        
+    }
 }

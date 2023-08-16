@@ -11,5 +11,10 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:HorizontalInlineDatePicker/>
+    <dui:SegmentedControl>
+        <dui:SegmentControl Title="Test1" Icon="{dui:Icons arrow_right_s_line}"/>
+        <dui:SegmentControl Title="Test2" />
+        <dui:SegmentControl Title="Test3" />
+        <dui:SegmentControl Title="Test4" />
+    </dui:SegmentedControl>
 </dui:ContentPage>
