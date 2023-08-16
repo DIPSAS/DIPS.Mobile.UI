@@ -1,3 +1,6 @@
+## [16.1.0]
+- Removed obsolete properties from ListItem
+
 ## [16.0.1]
 - Made sure in line label for date and time picker has the correct color and that the size is not bigger than what it should.
 - Made sure Delay and ShouldDelay are added to SearchBar as well as SearchPage.
