@@ -153,6 +153,25 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(PlaceholderColorProperty, value);
         }
         
+        /// <summary>
+        /// Whether the invocation of <see cref="ProvideSearchResult"/> should be delayed according to <see cref="Delay"/>.
+        /// </summary>
+        public bool ShouldDelay
+        {
+            get => (bool)GetValue(ShouldDelayProperty);
+            set => SetValue(ShouldDelayProperty, value);
+        }
+
+        /// <summary>
+        /// The amount of delay before invocation of <see cref="ProvideSearchResult"/> in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
+        /// is true.
+        /// </summary>
+        public int Delay
+        {
+            get => (int)GetValue(DelayProperty);
+            set => SetValue(DelayProperty, value);
+        }
+        
         public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
             typeof(Color),
@@ -196,7 +215,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             nameof(Text),
             typeof(string),
-            typeof(SearchBar), propertyChanged: OnTextChanged);
+            typeof(SearchBar), propertyChanged: ((bindable, value, newValue) => ((SearchBar)bindable).OnTextChanged((string)newValue, (string)value)));
         
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),
@@ -232,5 +251,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(BarColor),
             typeof(Color),
             typeof(SearchBar));
+        
+        public static readonly BindableProperty DelayProperty = BindableProperty.Create(
+            nameof(Delay),
+            typeof(int),
+            typeof(SearchPage),
+            500);
+        
+        public static readonly BindableProperty ShouldDelayProperty = BindableProperty.Create(
+            nameof(ShouldDelay),
+            typeof(bool),
+            typeof(SearchPage),
+            false);
+
     }
 }

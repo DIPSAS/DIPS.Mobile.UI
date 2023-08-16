@@ -22,6 +22,7 @@
             <Slider x:Name="CornerRadiusSlider"
                     Minimum="0"
                     Maximum="40"
+                    WidthRequest="150"
                     HorizontalOptions="Fill" />
         </dui:ListItem>
         <dui:ListItem Title="FadeTime (milliseconds)"

@@ -2,28 +2,22 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="20">
+                 Padding="20"
+                 ShouldDelay="True">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
-        <dui:ListItem>
-            <dui:Chip Title="Chip"
-                      HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="Date">
-            <dui:DatePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="Time">
-            <dui:TimePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-        <dui:ListItem Title="DateAndTime">
-            <dui:DateAndTimePicker HorizontalOptions="Center" />
-        </dui:ListItem>
-    </dui:VerticalStackLayout>
-</dui:ContentPage>
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate>
+            <Label Text="Test"/>
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
+    <dui:SearchPage.NoResultView>
+            <Label Text="No result"/>
+    </dui:SearchPage.NoResultView>
+</dui:SearchPage>

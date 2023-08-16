@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The view to show to people when there is no search results.
         /// </summary>
-        public View NoResultView
+        public View? NoResultView
         {
             get => (View)GetValue(EmptyContentProperty);
             set => SetValue(EmptyContentProperty, value);
@@ -26,7 +26,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The view to show to people when they have not searched for anything yet.
         /// </summary>
-        public View HintView
+        public View? HintView
         {
             get => (View)GetValue(HintViewProperty);
             set => SetValue(HintViewProperty, value);
@@ -83,7 +83,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(ShouldDelay),
             typeof(bool),
             typeof(SearchPage),
-            false);
+            defaultValue:SearchBar.ShouldDelayProperty.DefaultValue);
 
         /// <summary>
         /// Whether the invocation of <see cref="ProvideSearchResult"/> should be delayed according to <see cref="Delay"/>.
@@ -98,7 +98,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(Delay),
             typeof(int),
             typeof(SearchPage),
-            500);
+            defaultValue:SearchBar.DelayProperty.DefaultValue);
 
         /// <summary>
         /// The amount of delay before invocation of <see cref="ProvideSearchResult"/> in milliseconds. Is only in effect if <see cref="ShouldDelay"/>

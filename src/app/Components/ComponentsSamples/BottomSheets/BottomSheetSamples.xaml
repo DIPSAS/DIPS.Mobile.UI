@@ -7,16 +7,15 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                 xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.BottomSheets.BottomSheetSamples">
     <dui:VerticalStackLayout Spacing="0">
-        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
                                 HasTopDivider="True"
                                 HasBottomDivider="True"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
                                 VerticalOptions="Start" />
         
-        <extensions:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenWithToolbar}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenWithToolbar}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithToolbar}}"
                                 VerticalOptions="Start"
                                 HasBottomDivider="True"/>
