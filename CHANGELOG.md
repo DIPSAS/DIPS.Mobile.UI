@@ -1,3 +1,7 @@
+## [16.2.1]
+- [ItemPicker] Made sure to use `Equals` instead of memory reference to check if an item was selected the first time `ItemPicker` opens.
+- [HorizontalInlineDatePicker] Fixed an issue where the date picker when people press the current date did not appear on iOS.
+
 ## [16.2.0]
 - ItemPicker and MultiItemsPicker can now be opened from a `Open()` method or by using `OpenCommand` property.
 

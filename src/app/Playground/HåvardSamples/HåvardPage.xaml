@@ -8,9 +8,8 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="20">
-    <VerticalStackLayout>
-        <dui:ItemPicker x:Name="ItemPicker"
-                        Placeholder="Test"
-                        Mode="BottomSheet" />
-    </VerticalStackLayout>
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:HorizontalInlineDatePicker/>
 </dui:ContentPage>
