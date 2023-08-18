@@ -1,3 +1,6 @@
+## [16.2.2]
+- [Android][CollectionView] Fixed a bug where if you set ItemSpacing on a CollectionView, the CollectionView tries to snap to the elements.
+
 ## [16.2.1]
 - [ItemPicker] Made sure to use `Equals` instead of memory reference to check if an item was selected the first time `ItemPicker` opens.
 - [HorizontalInlineDatePicker] Fixed an issue where the date picker when people press the current date did not appear on iOS.

@@ -44,6 +44,60 @@ public class VetlePageViewModel : ViewModel
         var page = new VetleTestPage1();
         Shell.Current.Navigation.PushAsync(page);
     }
+
+    public List<string> TestStrings { get; } = new()
+    {
+        "Test",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+        "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2",
+                       "Test2"
+    };
     
     public ICommand Navigate { get; }
     public ICommand Test { get; }
