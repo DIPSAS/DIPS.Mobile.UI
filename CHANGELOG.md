@@ -1,3 +1,7 @@
+## [16.3.0]
+- [SegmentedControl] Added segmented control.
+- [Label] Changed default text color to neutral_90.
+
 ## [16.2.2]
 - [Android][CollectionView] Fixed a bug where if you set ItemSpacing on a CollectionView, the CollectionView tries to snap to the elements.
 

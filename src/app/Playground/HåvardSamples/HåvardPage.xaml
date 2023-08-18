@@ -7,14 +7,62 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="20">
+                 Padding="0">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:SegmentedControl>
-        <dui:SegmentControl Title="Test1" Icon="{dui:Icons arrow_right_s_line}"/>
-        <dui:SegmentControl Title="Test2" />
-        <dui:SegmentControl Title="Test3" />
-        <dui:SegmentControl Title="Test4" />
-    </dui:SegmentedControl>
+
+    <!-- <Grid RowDefinitions="Auto"> -->
+    <!--     <Border StrokeThickness="1" -->
+    <!--             Stroke="Red" -->
+    <!--             VerticalOptions="Start"> -->
+    <!--         <Border.StrokeShape> -->
+    <!--             <RoundRectangle CornerRadius="8,0,8,0" /> -->
+    <!--         </Border.StrokeShape> -->
+    <!--         <CollectionView VerticalOptions="Start" -->
+    <!--                         HorizontalOptions="Start"> -->
+    <!--             <CollectionView.ItemsLayout> -->
+    <!--                 <LinearItemsLayout Orientation="Horizontal" /> -->
+    <!--             </CollectionView.ItemsLayout> -->
+    <!--             <CollectionView.ItemsSource> -->
+    <!--                 <x:Array Type="{x:Type x:String}"> -->
+    <!--                     <x:String>Ikke utført</x:String> -->
+    <!--                     <x:String>Ikke utført</x:String> -->
+    <!--                     <x:String>Ikke utført</x:String> -->
+    <!--                     <x:String>Ikke utført</x:String> -->
+    <!--                     <x:String>Ikke utført</x:String> -->
+    <!--                 </x:Array> -->
+    <!--             </CollectionView.ItemsSource> -->
+    <!-- -->
+    <!--             <CollectionView.ItemTemplate> -->
+    <!--                 <DataTemplate x:DataType="{x:Type x:String}"> -->
+    <!--                     <Grid ColumnDefinitions="Auto, *"> -->
+    <!--                         <dui:Label Grid.Column="1" -->
+    <!--                                    Text="Test" -->
+    <!--                                    Padding="10" /> -->
+    <!--                         <dui:Divider Grid.Column="0" -->
+    <!--                                      BackgroundColor="Red" /> -->
+    <!-- -->
+    <!--                     </Grid> -->
+    <!--                 </DataTemplate> -->
+    <!--             </CollectionView.ItemTemplate> -->
+    <!--         </CollectionView> -->
+    <!--     </Border> -->
+    <!-- </Grid> -->
+    <Grid RowDefinitions="Auto"
+          VerticalOptions="Start">
+        <dui:SegmentedControl Grid.Row="0"
+                              HorizontalOptions="Center"
+                              VerticalOptions="Start"
+                              HeightRequest="30">
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Ikke utført</x:String>
+                <x:String>Utført siste 9 dager</x:String>
+                <x:String>Utført siste 15 dager</x:String>
+                <x:String>Utført siste 30 dager</x:String>
+                <x:String>Utført siste 90 dager</x:String>
+                <x:String>Utført siste 2 årene</x:String>
+            </x:Array>
+        </dui:SegmentedControl>
+    </Grid>
 </dui:ContentPage>

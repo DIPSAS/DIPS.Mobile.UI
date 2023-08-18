@@ -34,7 +34,6 @@
         
         <!--DEBUG ON SIMULATOR-->
         <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
-
     </PropertyGroup>
 
 

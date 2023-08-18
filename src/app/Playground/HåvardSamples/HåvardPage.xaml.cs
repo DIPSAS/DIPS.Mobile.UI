@@ -27,4 +27,9 @@ public partial class HåvardPage
     {
         
     }
+
+    private void SegmentControl_OnOnSelected(object sender, EventArgs e)
+    {
+        
+    }
 }

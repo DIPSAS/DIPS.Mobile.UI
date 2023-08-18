@@ -5,11 +5,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {
-        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-            nameof(SelectedItem),
-            typeof(object),
-            typeof(ItemPicker), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
-
         /// <summary>
         /// The item that was selected by people when using the picker.
         /// </summary>
@@ -64,12 +59,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// The event to be raised when people select an item from the picker.
         /// </summary>
         public event EventHandler<object>? DidSelectItem;
-
-        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(ItemPicker));
-
+        
         /// <summary>
         /// The place holder for people to see when they have not selected a item.
         /// </summary>
@@ -90,6 +80,18 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// </summary>
         /// <remarks>This will not work if <see cref="Mode"/> is <see cref="PickerMode.ContextMenu"/></remarks>
         public partial void Open();
+
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+            nameof(Placeholder),
+            typeof(string),
+            typeof(ItemPicker));
+        
+        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+            nameof(SelectedItem),
+            typeof(object),
+            typeof(ItemPicker), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
+
+       
     }
 
     public enum PickerMode

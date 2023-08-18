@@ -48,7 +48,6 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
-            handlers.AddHandler<SegmentedControl, SegmentedControlHandler>();
             
             AddPlatformHandlers(handlers);
         });
