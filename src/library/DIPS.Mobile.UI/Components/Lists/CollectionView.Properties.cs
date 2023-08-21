@@ -21,7 +21,7 @@ public partial class CollectionView
         get => (bool)GetValue(HasAdditionalSizeAtTheEndProperty);
         set => SetValue(HasAdditionalSizeAtTheEndProperty, value);
     }
-
+    
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),
         typeof(bool),

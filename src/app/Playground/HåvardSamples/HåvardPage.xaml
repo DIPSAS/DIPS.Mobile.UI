@@ -12,57 +12,53 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!-- <Grid RowDefinitions="Auto"> -->
-    <!--     <Border StrokeThickness="1" -->
-    <!--             Stroke="Red" -->
-    <!--             VerticalOptions="Start"> -->
-    <!--         <Border.StrokeShape> -->
-    <!--             <RoundRectangle CornerRadius="8,0,8,0" /> -->
-    <!--         </Border.StrokeShape> -->
-    <!--         <CollectionView VerticalOptions="Start" -->
-    <!--                         HorizontalOptions="Start"> -->
-    <!--             <CollectionView.ItemsLayout> -->
-    <!--                 <LinearItemsLayout Orientation="Horizontal" /> -->
-    <!--             </CollectionView.ItemsLayout> -->
-    <!--             <CollectionView.ItemsSource> -->
-    <!--                 <x:Array Type="{x:Type x:String}"> -->
-    <!--                     <x:String>Ikke utført</x:String> -->
-    <!--                     <x:String>Ikke utført</x:String> -->
-    <!--                     <x:String>Ikke utført</x:String> -->
-    <!--                     <x:String>Ikke utført</x:String> -->
-    <!--                     <x:String>Ikke utført</x:String> -->
-    <!--                 </x:Array> -->
-    <!--             </CollectionView.ItemsSource> -->
+    <!-- <CollectionView Grid.Row="0" -->
+    <!--                 VerticalOptions="Start" -->
+    <!--                 HorizontalOptions="Start" -->
+    <!--                 HeightRequest="{dui:Sizes size_9}" -->
+    <!--                 HorizontalScrollBarVisibility="Never" -->
+    <!--                 VerticalScrollBarVisibility="Never"> -->
+    <!--     <CollectionView.ItemsLayout> -->
+    <!--         <LinearItemsLayout Orientation="Horizontal" /> -->
+    <!--     </CollectionView.ItemsLayout> -->
+    <!--     <CollectionView.ItemsSource> -->
+    <!--         <x:Array Type="{x:Type x:String}"> -->
+    <!--             <x:String>Ikke utført</x:String> -->
+    <!--             <x:String>Siste 9 dager</x:String> -->
+    <!--             <x:String>Siste 15 dager</x:String> -->
+    <!--             <x:String>Siste 30 dager</x:String> -->
+    <!--             <x:String>Siste 90 dager</x:String> -->
+    <!--             <x:String>Siste 2 årene</x:String> -->
+    <!--         </x:Array> -->
+    <!--     </CollectionView.ItemsSource> -->
     <!-- -->
-    <!--             <CollectionView.ItemTemplate> -->
-    <!--                 <DataTemplate x:DataType="{x:Type x:String}"> -->
-    <!--                     <Grid ColumnDefinitions="Auto, *"> -->
-    <!--                         <dui:Label Grid.Column="1" -->
-    <!--                                    Text="Test" -->
-    <!--                                    Padding="10" /> -->
-    <!--                         <dui:Divider Grid.Column="0" -->
-    <!--                                      BackgroundColor="Red" /> -->
+    <!--     <CollectionView.ItemTemplate> -->
+    <!--         <DataTemplate x:DataType="{x:Type x:String}"> -->
     <!-- -->
-    <!--                     </Grid> -->
-    <!--                 </DataTemplate> -->
-    <!--             </CollectionView.ItemTemplate> -->
-    <!--         </CollectionView> -->
-    <!--     </Border> -->
-    <!-- </Grid> -->
-    <Grid RowDefinitions="Auto"
-          VerticalOptions="Start">
-        <dui:SegmentedControl Grid.Row="0"
-                              HorizontalOptions="Center"
-                              VerticalOptions="Start"
-                              HeightRequest="30">
+    <!--             <Border -->
+    <!--                 dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type håvardSamples:HåvardPageViewModel}}, Path=SelectedItemCommand}" -->
+    <!--                 Stroke="Blue" -->
+    <!--                 BackgroundColor="Red"> -->
+    <!--                 <Border.StrokeShape> -->
+    <!--                     <RoundRectangle CornerRadius="8,0,8,0" /> -->
+    <!--                 </Border.StrokeShape> -->
+    <!--                 <Grid Margin="{dui:Thickness Left=size_4, Right=size_4, Top=size_2, Bottom=size_2}"> -->
+    <!--                     <Label Text="{Binding .}" /> -->
+    <!--                 </Grid> -->
+    <!--             </Border> -->
+    <!--         </DataTemplate> -->
+    <!--     </CollectionView.ItemTemplate> -->
+    <!-- </CollectionView> -->
+    <Grid>
+        <dui:SegmentedControl Grid.Row="0">
             <x:Array Type="{x:Type x:String}">
                 <x:String>Ikke utført</x:String>
-                <x:String>Utført siste 9 dager</x:String>
-                <x:String>Utført siste 15 dager</x:String>
-                <x:String>Utført siste 30 dager</x:String>
-                <x:String>Utført siste 90 dager</x:String>
-                <x:String>Utført siste 2 årene</x:String>
+                <x:String>Siste 9 dager</x:String>
+                <x:String>Siste 15 dager</x:String>
+                <x:String>Siste 30 dager</x:String>
+                <x:String>Siste 90 dager</x:String>
+                <x:String>Siste 2 årene</x:String>
             </x:Array>
-        </dui:SegmentedControl>
-    </Grid>
+        </dui:SegmentedControl></Grid>
+
 </dui:ContentPage>
