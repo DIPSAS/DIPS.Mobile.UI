@@ -232,5 +232,15 @@ public partial class SegmentedControl : ContentView
 
     private void SelectedItemChanged()
     {
+        if (SelectedItem == null)
+        {
+            return;
+        }
+
+        var selectableItem = m_allSelectableItems.FirstOrDefault(s => s.Item.Equals(SelectedItem));
+        if (selectableItem is {IsSelected: false})
+        {
+            selectableItem.IsSelected = true;
+        }
     }
 }
