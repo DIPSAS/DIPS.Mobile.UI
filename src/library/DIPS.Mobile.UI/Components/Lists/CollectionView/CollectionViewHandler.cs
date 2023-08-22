@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Lists;
 
-public partial class CollectionViewHandler
+public partial class CollectionViewHandler : Microsoft.Maui.Controls.Handlers.Items.CollectionViewHandler
 {
     public CollectionViewHandler() : base(CollectionViewPropertyMapper)
     {

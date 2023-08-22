@@ -4,7 +4,7 @@ using Microsoft.Maui.Controls.Handlers.Items;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-public partial class CollectionViewHandler : Microsoft.Maui.Controls.Handlers.Items.CollectionViewHandler
+public partial class CollectionViewHandler
 {
     protected override RecyclerView CreatePlatformView()
     {

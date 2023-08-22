@@ -49,17 +49,43 @@
 
 
     <!-- -->
-    
-    <dui:SegmentedControl>
-        <x:Array Type="{x:Type x:String}">
-            <x:String>Ikke utført</x:String>
-            <x:String>Siste 9 dager</x:String>
-            <x:String>Siste 15 dager</x:String>
-            <x:String>Siste 30 dager</x:String>
-            <x:String>Siste 90 dager</x:String>
-            <x:String>Siste 2 årene</x:String>
-        </x:Array>
-    </dui:SegmentedControl>
+    <dui:ScrollView ShouldBounce="False">
+        <dui:VerticalStackLayout>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/> <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+            <dui:Label Text="Test 123" Padding="20"/>
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+    <!-- <dui:SegmentedControl> -->
+    <!--     <x:Array Type="{x:Type x:String}"> -->
+    <!--         <x:String>Ikke utført</x:String> -->
+    <!--         <x:String>Siste 9 dager</x:String> -->
+    <!--         <x:String>Siste 15 dager</x:String> -->
+    <!--         <x:String>Siste 30 dager</x:String> -->
+    <!--         <x:String>Siste 90 dager</x:String> -->
+    <!--         <x:String>Siste 2 årene</x:String> -->
+    <!--     </x:Array> -->
+    <!-- </dui:SegmentedControl> -->
 
     <!-- <VerticalStackLayout> -->
     <!--     <Switch x:Name="Switch" /> -->
