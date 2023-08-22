@@ -15,9 +15,7 @@
     <!-- <CollectionView Grid.Row="0" -->
     <!--                 VerticalOptions="Start" -->
     <!--                 HorizontalOptions="Start" -->
-    <!--                 HeightRequest="{dui:Sizes size_10}" -->
-    <!--                 HorizontalScrollBarVisibility="Never" -->
-    <!--                 VerticalScrollBarVisibility="Never"> -->
+    <!--                 HeightRequest="{dui:Sizes size_10}"> -->
     <!--     <CollectionView.ItemsLayout> -->
     <!--         <LinearItemsLayout Orientation="Horizontal" ItemSpacing="0" /> -->
     <!--     </CollectionView.ItemsLayout> -->
@@ -34,7 +32,6 @@
     <!--     <CollectionView.ItemTemplate> -->
     <!--         <DataTemplate x:DataType="{x:Type x:String}"> -->
     <!--             <Border -->
-    <!--                 dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type håvardSamples:HåvardPageViewModel}}, Path=SelectedItemCommand}" -->
     <!--                 Stroke="Blue" -->
     <!--                 StrokeThickness="1" -->
     <!--                 Margin="-2,0" -->
@@ -52,6 +49,7 @@
 
 
     <!-- -->
+    
     <dui:SegmentedControl>
         <x:Array Type="{x:Type x:String}">
             <x:String>Ikke utført</x:String>

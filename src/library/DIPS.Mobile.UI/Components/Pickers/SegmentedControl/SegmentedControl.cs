@@ -27,6 +27,7 @@ public partial class SegmentedControl : ContentView
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
             VerticalScrollBarVisibility = ScrollBarVisibility.Never,
             ItemSpacing = 0,
+            ShouldBounce = false
         };
         m_collectionView.ItemTemplate = new DataTemplate(CreateSegment);
 
