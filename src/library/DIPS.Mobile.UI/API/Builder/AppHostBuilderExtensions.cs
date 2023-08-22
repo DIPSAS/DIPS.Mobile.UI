@@ -1,8 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.Images.Image;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
@@ -11,12 +9,17 @@ using DIPS.Mobile.UI.Effects.Modal;
 using DIPS.Mobile.UI.Effects.Modal.Android;
 #endif
 using DIPS.Mobile.UI.Effects.Touch;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
+using ImageHandler = DIPS.Mobile.UI.Components.Images.Image.ImageHandler;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
+using LabelHandler = DIPS.Mobile.UI.Components.Labels.LabelHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
@@ -47,6 +50,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
+            handlers.AddHandler<Label, LabelHandler>();
             
             AddPlatformHandlers(handlers);
         });

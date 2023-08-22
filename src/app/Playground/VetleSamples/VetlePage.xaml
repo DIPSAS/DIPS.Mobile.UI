@@ -4,8 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:inLineContent="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;assembly=DIPS.Mobile.UI"
-             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
              >
@@ -14,19 +12,15 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    
-    
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                        ItemSpacing="{dui:Sizes size_10}">
-            
+    <Grid RowDefinitions="Auto, *">
         
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem  Title="{Binding .}" />
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-        
-    </dui:CollectionView>
+        <Button Command="{Binding Navigate}"></Button>
     
+    <Grid RowDefinitions="*, 6*" Grid.Row="1">
+        
+       
+        
+    </Grid>
+    </Grid>
 
 </dui:ContentPage>

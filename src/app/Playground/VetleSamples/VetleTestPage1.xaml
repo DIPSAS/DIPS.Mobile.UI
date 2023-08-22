@@ -9,8 +9,7 @@
              xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
-             Title="Hei"
-             Padding="30, 30">
+             Title="Hei">
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -24,11 +23,13 @@
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>-->
     
-    <dui:VerticalStackLayout x:Name="Layout">
-        <dui:LoadableListItem Title="Hei" 
-                              IsBusy="{Binding IsProgressing}" />
-
-       
-                    
-    </dui:VerticalStackLayout>
+    <Grid HeightRequest="300" VerticalOptions="Start">
+        
+            <dui:Label LineBreakMode="TailTruncation" 
+                       MaxLines="3"
+                       Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum">
+   
+            </dui:Label>
+        
+        </Grid>
 </dui:ContentPage>
