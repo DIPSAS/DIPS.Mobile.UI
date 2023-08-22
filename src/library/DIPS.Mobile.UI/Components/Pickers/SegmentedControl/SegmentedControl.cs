@@ -61,9 +61,11 @@ public partial class SegmentedControl : ContentView
             VerticalOptions = LayoutOptions.Center,
             HeightRequest = Sizes.GetSize(SizeName.size_10),
             StrokeThickness = 1,
+#if __ANDROID__
             Margin =
                 new Thickness(-2,
                     0), //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, due to bug with MAUI when setting StrokeThickness it has extra margins on the horizontal plane
+#endif
             Stroke = Colors.GetColor(ColorName.color_neutral_30),
             StrokeShape = new RoundRectangle()
             {
@@ -88,15 +90,6 @@ public partial class SegmentedControl : ContentView
                     FalseObject = Colors.GetColor(ColorName.color_system_white)
                 }
             });
-        border.SetBinding(PaddingProperty, new Binding()
-        {
-            Path = nameof(SelectableListItem.IsSelected),
-            Converter = new BoolToObjectConverter()
-            {
-                TrueObject = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)),
-                FalseObject = new Thickness(Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2)),
-            }
-        });
 
         /* *  <Grid ColumnDefinitions="Auto, *"
                               ColumnSpacing="{dui:Sizes size_2}">
@@ -110,9 +103,21 @@ public partial class SegmentedControl : ContentView
         var grid = new Grid()
         {
             VerticalOptions = LayoutOptions.Center,
-            ColumnDefinitions = new ColumnDefinitionCollection() {new(GridLength.Auto), new(GridLength.Auto)}
+            ColumnDefinitions = new ColumnDefinitionCollection() {new(GridLength.Auto), new(GridLength.Auto)},
+            ColumnSpacing = 0,
         };
-
+        grid.SetBinding(PaddingProperty,
+            new Binding()
+            {
+                Path = nameof(SelectableListItem.IsSelected),
+                Converter = new BoolToObjectConverter()
+                {
+                    TrueObject =
+                        new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2),
+                            Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)),
+                    FalseObject = new Thickness(Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2)),
+                }
+            });
         var checkedImage = new Image()
         {
             Source = Icons.GetIcon(IconName.check_line),
@@ -121,10 +126,7 @@ public partial class SegmentedControl : ContentView
             Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0)
         };
         checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
-        var label = new Label()
-        {
-            VerticalTextAlignment = TextAlignment.Center
-        };
+        var label = new Label() {VerticalTextAlignment = TextAlignment.Center};
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding() {Path = nameof(SelectableListItem.DisplayName)});
 
