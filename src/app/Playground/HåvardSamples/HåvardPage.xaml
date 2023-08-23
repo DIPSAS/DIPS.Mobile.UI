@@ -49,11 +49,16 @@
 
 
     <!-- -->
-    
     <VerticalStackLayout>
-        <dui:SegmentedControl x:Name="SegmentedControl" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-        </dui:SegmentedControl>
-        <Label Text="{Binding SelectedItem}"/>
+        <dui:SegmentedControl x:Name="SegmentedControl"
+                              ItemsSource="{Binding Items}"
+                              SelectedItems="{Binding SelectedItems}"
+                              SelectionMode="Multi"
+                              DidSelectItem="SegmentedControl_OnDidSelectItem"
+                              DidDeSelectItem="SegmentedControl_OnDidDeSelectItem"
+                              SelectedItemCommand="{Binding SelectedItemCommand}"/>
+        <CollectionView
+            ItemsSource="{Binding SelectedItems}"/>
     </VerticalStackLayout>
 
     <!-- <VerticalStackLayout> -->

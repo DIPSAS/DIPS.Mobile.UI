@@ -9,12 +9,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 
 internal class MultiItemsPickerBottomSheet : BottomSheet
 {
-    private readonly List<SelectableListItem> m_originalItems;
+    private readonly List<SelectableItemViewModel> m_originalItems;
 
     public MultiItemsPickerBottomSheet(MultiItemsPicker multiItemsPicker)
     {
         m_multiItemsPicker = multiItemsPicker;
-        m_originalItems = new List<SelectableListItem>();
+        m_originalItems = new List<SelectableItemViewModel>();
 
         if (m_multiItemsPicker.ItemsSource != null)
         {
@@ -26,13 +26,13 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
                     isSelected = multiItemsPicker.SelectedItems.Cast<object?>().ToList().Contains(item);
                 }
                 
-                m_originalItems.Add(new SelectableListItem(
+                m_originalItems.Add(new SelectableItemViewModel(
                     item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty)!,
                     isSelected, item));
             }
         }
 
-        Items = new ObservableCollection<SelectableListItem>(m_originalItems);
+        Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
         
         SetBinding(HasSearchBarProperty, new Binding(){Source = m_multiItemsPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
 
@@ -60,57 +60,57 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
     private IView CreateConsumerView(ControlTemplate selectableItemTemplate)
     {
         var contentView = new SelectableItemContentView(){ ControlTemplate = selectableItemTemplate};
-        contentView.SetBinding(SelectableItemContentView.ItemProperty, new Binding(){Path = nameof(SelectableListItem.Item)});
-        contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, new Binding(){Path = nameof(SelectableListItem.IsSelected)});
+        contentView.SetBinding(SelectableItemContentView.ItemProperty, new Binding(){Path = nameof(SelectableItemViewModel.Item)});
+        contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, new Binding(){Path = nameof(SelectableItemViewModel.IsSelected)});
         Touch.SetCommand(contentView, new Command(() => ItemWasTapped(contentView)));
         return contentView;
     }
 
     public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
         nameof(Items),
-        typeof(ObservableCollection<SelectableListItem>),
+        typeof(ObservableCollection<SelectableItemViewModel>),
         typeof(ItemPickerBottomSheet));
     
     private readonly MultiItemsPicker m_multiItemsPicker;
 
-    public ObservableCollection<SelectableListItem> Items
+    public ObservableCollection<SelectableItemViewModel> Items
     {
-        get => (ObservableCollection<SelectableListItem>)GetValue(ItemsProperty);
+        get => (ObservableCollection<SelectableItemViewModel>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
 
     private IView CreateDefaultView()
     {
         var checkBox = new CheckBox();
-        checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableListItem.DisplayName)});
+        checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
         checkBox.SetBinding(CheckBox.IsSelectedProperty,
-            new Binding() {Path = nameof(SelectableListItem.IsSelected)});
+            new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
         checkBox.Command = new Command(() => ItemWasTapped(checkBox));
         return checkBox;
     }
 
     private void ItemWasTapped(BindableObject bindableObject)
     {
-        if (bindableObject.BindingContext is not SelectableListItem selectableListItem) return;
+        if (bindableObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
         ToggleItem(selectableListItem.IsSelected = !selectableListItem.IsSelected, selectableListItem);
         
     }
     
     private void ItemWasTapped(CheckBox checkBox)
     {
-        if (checkBox.BindingContext is not SelectableListItem selectableListItem) return;
+        if (checkBox.BindingContext is not SelectableItemViewModel selectableListItem) return;
         ToggleItem(checkBox.IsSelected, selectableListItem);
     }
 
-    private void ToggleItem(bool isSelected, SelectableListItem selectableListItem)
+    private void ToggleItem(bool isSelected, SelectableItemViewModel selectableItemViewModel)
     {
         if (!isSelected)
         {
-            m_multiItemsPicker.DeSelectItem(selectableListItem.Item);
+            m_multiItemsPicker.DeSelectItem(selectableItemViewModel.Item);
         }
         else
         {
-            m_multiItemsPicker.SelectItem(selectableListItem.Item);
+            m_multiItemsPicker.SelectItem(selectableItemViewModel.Item);
         }
     }
 

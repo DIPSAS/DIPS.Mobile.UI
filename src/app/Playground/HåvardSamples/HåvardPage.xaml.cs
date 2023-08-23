@@ -32,4 +32,14 @@ public partial class HåvardPage
     {
         
     }
+
+    private void SegmentedControl_OnDidSelectItem(object sender, object e)
+    {
+        
+    }
+
+    private void SegmentedControl_OnDidDeSelectItem(object sender, object e)
+    {
+        
+    }
 }

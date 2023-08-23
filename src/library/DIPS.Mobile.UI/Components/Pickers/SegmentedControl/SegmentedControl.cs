@@ -1,11 +1,11 @@
 using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Touch = DIPS.Mobile.UI.Effects.Touch.Touch;
 
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
@@ -13,8 +13,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 public partial class SegmentedControl : ContentView
 {
     private readonly CollectionView m_collectionView;
-    private List<SelectableListItem> m_allSelectableItems = new();
-    private List<View> m_allVisualElements = new();
+    private List<SelectableItemViewModel> m_allSelectableItems = new();
+    private readonly List<View> m_allVisualElements = new();
 
     public SegmentedControl()
     {
@@ -34,27 +34,6 @@ public partial class SegmentedControl : ContentView
         Content = m_collectionView;
     }
 
-    /**
-     *  <Border VerticalOptions="Start"
-                            StrokeThickness="1"
-                            Stroke="{dui:Colors color_neutral_30}"
-                            BackgroundColor="{dui:Colors color_neutral_30}"
-                            Padding="{dui:Thickness Left=size_4, Top=size_2, Right=size_4, Bottom=size_2}"
-                            dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=BindingContext.SelectedItemCommand}">
-                        <!-- If item is first or last -->
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8" />
-                        </Border.StrokeShape>
-                        <Grid ColumnDefinitions="Auto, *"
-                              ColumnSpacing="{dui:Sizes size_2}">
-                            <dui:Image Source="{dui:Icons check_line}"
-                                       HeightRequest="{dui:Sizes size_3}"
-                                       WidthRequest="{dui:Sizes size_3}" />
-                            <dui:Label Grid.Column="1"
-                                       Text="{Binding Title}" />
-                        </Grid>
-                    </Border>
-     */
     private View CreateSegment()
     {
         var border = new Border()
@@ -67,7 +46,7 @@ public partial class SegmentedControl : ContentView
                 new Thickness(-2,
                     0), //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, due to bug with MAUI when setting StrokeThickness it has extra margins on the horizontal plane
 #endif
-            Stroke = Colors.GetColor(ColorName.color_neutral_30),
+            Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle()
             {
                 CornerRadius = new CornerRadius((double)Sizes.GetSize(SizeName.size_8), 0,
@@ -80,27 +59,18 @@ public partial class SegmentedControl : ContentView
 #endif
             }
         };
-        Touch.SetCommand(border, new Command(() => SelectItem((SelectableListItem)border.BindingContext)));
+        
+        Touch.SetCommand(border, new Command(() => OnItemTouched((SelectableItemViewModel)border.BindingContext)));
         border.SetBinding(BackgroundProperty,
             new Binding()
             {
-                Path = nameof(SelectableListItem.IsSelected),
+                Path = nameof(SelectableItemViewModel.IsSelected),
                 Converter = new BoolToObjectConverter()
                 {
-                    TrueObject = Colors.GetColor(ColorName.color_neutral_30),
-                    FalseObject = Colors.GetColor(ColorName.color_system_white)
+                    TrueObject = SelectedColor,
+                    FalseObject = DeSelectedColor
                 }
             });
-
-        /* *  <Grid ColumnDefinitions="Auto, *"
-                              ColumnSpacing="{dui:Sizes size_2}">
-                            <dui:Image Source="{dui:Icons check_line}"
-                                       HeightRequest="{dui:Sizes size_3}"
-                                       WidthRequest="{dui:Sizes size_3}" />
-                            <dui:Label Grid.Column="1"
-                                       Text="{Binding Title}" />
-                        </Grid>
-         */
         var grid = new Grid()
         {
             VerticalOptions = LayoutOptions.Center,
@@ -110,7 +80,7 @@ public partial class SegmentedControl : ContentView
         grid.SetBinding(PaddingProperty,
             new Binding()
             {
-                Path = nameof(SelectableListItem.IsSelected),
+                Path = nameof(SelectableItemViewModel.IsSelected),
                 Converter = new BoolToObjectConverter()
                 {
                     TrueObject =
@@ -126,10 +96,10 @@ public partial class SegmentedControl : ContentView
             HeightRequest = Sizes.GetSize(SizeName.size_3),
             Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0)
         };
-        checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
+        checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
         var label = new Label() {VerticalTextAlignment = TextAlignment.Center};
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding() {Path = nameof(SelectableListItem.DisplayName)});
+            new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
 
         grid.Add(checkedImage, 0);
         grid.Add(label, 1);
@@ -138,7 +108,7 @@ public partial class SegmentedControl : ContentView
         border.SizeChanged += ((sender, args) =>
         {
             if (sender is not View view) return;
-            if (view.BindingContext is not SelectableListItem selectableListItem) return;
+            if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
             var radius = (double)Sizes.GetSize(SizeName.size_8);
             var roundRectangle = new RoundRectangle()
@@ -165,82 +135,55 @@ public partial class SegmentedControl : ContentView
         return border;
     }
 
-    private void SelectItem(SelectableListItem selectableListItem)
+    private void OnItemTouched(SelectableItemViewModel selectableItemViewModel)
     {
-        foreach (var selectableItem in m_allSelectableItems)
+        if (SelectionMode == SelectionMode.Single)
         {
-            selectableItem.IsSelected = false;
+            SelectItem(selectableItemViewModel);
         }
 
-        selectableListItem.IsSelected = true;
-        SelectedItem = selectableListItem.Item;
+        if (SelectionMode == SelectionMode.Multi)
+        {
+            ToggleItem(selectableItemViewModel);
+        }
     }
 
-    /**
-     *  <CollectionView VerticalOptions="Start"
-                        HorizontalOptions="Start">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type dui:SegmentControl}">
-                    <dui:SegmentControl Title="Ikke utført" IsSelected="True" />
-                    <dui:SegmentControl Title="Siste 9 dager" />
-                    <dui:SegmentControl Title="Siste 30 dager" />
-                    <dui:SegmentControl Title="Siste 90 dager" />
-                </x:Array>
-            </CollectionView.ItemsSource>
+    private void SendDidDeSelect(object item)
+    {
+        DidDeSelectItem?.Invoke(this, item);
+        DeSelectedItemCommand?.Execute(item);
+    }
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type dui:SegmentControl}">
-                    <Border VerticalOptions="Start"
-                            StrokeThickness="1"
-                            Stroke="{dui:Colors color_neutral_30}"
-                            BackgroundColor="{dui:Colors color_neutral_30}"
-                            Padding="{dui:Thickness Left=size_4, Top=size_2, Right=size_4, Bottom=size_2}"
-                            dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=BindingContext.SelectedItemCommand}">
-                        <!-- If item is first or last -->
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8" />
-                        </Border.StrokeShape>
-                        <Grid ColumnDefinitions="Auto, *"
-                              ColumnSpacing="{dui:Sizes size_2}">
-                            <dui:Image Source="{dui:Icons check_line}"
-                                       HeightRequest="{dui:Sizes size_3}"
-                                       WidthRequest="{dui:Sizes size_3}" />
-                            <dui:Label Grid.Column="1"
-                                       Text="{Binding Title}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-     */
+    private void SendDidSelect(object item)
+    {
+        DidSelectItem?.Invoke(this, item);
+        SelectedItemCommand?.Execute(item);
+    }
+
     private void ItemsSourceChanged()
     {
         if (ItemsSource == null) return;
-        var selectableListItem = new List<SelectableListItem>();
+        var listOfSelectableItems = new List<SelectableItemViewModel>();
+
         foreach (var item in ItemsSource.Cast<object>().ToList())
         {
-            selectableListItem.Add(new SelectableListItem(item.GetPropertyValue(ItemDisplayProperty) ?? string.Empty,
-                item.Equals(SelectedItem), item));
+            switch (SelectionMode)
+            {
+                case SelectionMode.Single:
+                    AddItemToSelectableItemsToPickFromSingleMode(listOfSelectableItems, item);
+                    break;
+                case SelectionMode.Multi:
+                    {
+                        AddItemToSelectableItemsToPickFromMultiMode(listOfSelectableItems, item);
+                        break;
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
-        m_allSelectableItems = selectableListItem;
+
+        m_allSelectableItems = listOfSelectableItems;
         m_collectionView.ItemsSource = m_allSelectableItems;
-    }
-
-    private void SelectedItemChanged()
-    {
-        if (SelectedItem == null)
-        {
-            return;
-        }
-
-        var selectableItem = m_allSelectableItems.FirstOrDefault(s => s.Item.Equals(SelectedItem));
-        if (selectableItem is {IsSelected: false})
-        {
-            selectableItem.IsSelected = true;
-        }
     }
 }
