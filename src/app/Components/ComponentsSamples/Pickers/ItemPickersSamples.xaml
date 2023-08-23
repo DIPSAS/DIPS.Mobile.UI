@@ -55,5 +55,25 @@
                               HorizontalOptions="Start"
                               ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
         </dui:MultiItemsPicker>
+        <dui:Label Text="SegmentedControl: Mode: Single"
+                   Margin="5" />
+
+        <dui:SegmentedControl SelectionMode="Single">
+            <x:Array Type="{x:Type x:String}">
+                <x:String>First</x:String>
+                <x:String>Second</x:String>
+                <x:String>Third</x:String>
+            </x:Array>
+        </dui:SegmentedControl>
+        <dui:Label Text="SegmentedControl: Mode: Multi"
+                   Margin="5" />
+
+        <dui:SegmentedControl SelectionMode="Multi">
+            <x:Array Type="{x:Type x:String}">
+                <x:String>First</x:String>
+                <x:String>Second</x:String>
+                <x:String>Third</x:String>
+            </x:Array>
+        </dui:SegmentedControl>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

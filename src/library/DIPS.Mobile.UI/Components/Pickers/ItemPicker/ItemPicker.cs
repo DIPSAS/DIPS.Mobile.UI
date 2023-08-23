@@ -65,7 +65,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 return;
             }
-
+            
             picker.Placeholder = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty)!;
             picker.SelectedItemCommand?.Execute(picker.SelectedItem);
             picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);

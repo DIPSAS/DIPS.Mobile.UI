@@ -1,3 +1,10 @@
+## [16.3.0]
+- [SegmentedControl] Added segmented control.
+- [Label] Changed default text color to neutral_90.
+- [CollectionView] Added ShouldBounce property.
+- [ScrollView] Added ScrollView as a component, with ShouldBounce property.
+- [SearchPage] The underlying SearchBar is now public. This can be used to clear the search bar programatically or other things.
+
 ## [16.2.2]
 - [Android][CollectionView] Fixed a bug where if you set ItemSpacing on a CollectionView, the CollectionView tries to snap to the elements.
 
