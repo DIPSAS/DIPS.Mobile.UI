@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.BottomSheets;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
@@ -29,7 +28,7 @@ public partial class SegmentedControl
     /// <summary>
     /// The command to be executed when people de-select an item from the picker.
     /// </summary>
-    public ICommand DeSelectedItemCommand
+    public ICommand? DeSelectedItemCommand
     {
         get => (ICommand)GetValue(DeSelectedItemCommandProperty);
         set => SetValue(DeSelectedItemCommandProperty, value);
@@ -58,6 +57,7 @@ public partial class SegmentedControl
     /// </summary>
     /// <remarks>
     /// When this is not set, it fall back to <code>.ToString()</code> of the <see cref="SelectedItem"/>./>
+    /// This property must be placed before <see cref="ItemsSource"/> is set for it to work properly.
     /// </remarks>
     public string? ItemDisplayProperty { get; set; }
 
@@ -87,7 +87,7 @@ public partial class SegmentedControl
         get => (Color)GetValue(SegmentBorderColorProperty);
         set => SetValue(SegmentBorderColorProperty, value);
     }
-    
+
     /// <summary>
     /// The item that was selected by people when using the picker.
     /// </summary>
@@ -97,7 +97,7 @@ public partial class SegmentedControl
         get => GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
-    
+
     /// <summary>
     /// The items that was selected by people when using the picker.
     /// </summary>
@@ -140,9 +140,23 @@ public partial class SegmentedControl
         typeof(Color),
         typeof(SegmentedControl),
         defaultValue: Colors.GetColor(ColorName.color_system_white));
-    
+
     public static readonly BindableProperty SegmentBorderColorProperty = BindableProperty.Create(
         nameof(SegmentBorderColor),
         typeof(Color),
-        typeof(SegmentedControl), defaultValue:Colors.GetColor(ColorName.color_neutral_30));
+        typeof(SegmentedControl), defaultValue: Colors.GetColor(ColorName.color_neutral_30));
+
+    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+        nameof(SelectedItem),
+        typeof(object),
+        typeof(SegmentedControl),
+        propertyChanged: ((bindable, _, _) => ((SegmentedControl)bindable).SelectedItemChanged()),
+        defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(
+        nameof(SelectedItems),
+        typeof(IEnumerable),
+        typeof(SegmentedControl),
+        propertyChanged: (bindable, _, _) => ((SegmentedControl)bindable).OnSelectedItemsChanged(),
+        defaultBindingMode: BindingMode.TwoWay);
 }

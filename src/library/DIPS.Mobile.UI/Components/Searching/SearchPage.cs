@@ -14,41 +14,40 @@ namespace DIPS.Mobile.UI.Components.Searching
     {
         private readonly Grid m_grid;
         private readonly CollectionView m_resultCollectionView;
-        private readonly SearchBar m_searchBar;
 
         private View? m_previousView;
 
         public SearchPage()
         {
             //Searchbar
-            m_searchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
-            m_searchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
+            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
+            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
                 Shell.Shell.ToolbarBackgroundColorName);
             
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
-                m_searchBar.SetAppThemeColor(SearchBar.TextColorProperty,
+                SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
-                m_searchBar.SetAppThemeColor(SearchBar.IconsColorProperty, 
+                SearchBar.SetAppThemeColor(SearchBar.IconsColorProperty, 
                     Shell.Shell.ToolbarTitleTextColorName);
-                m_searchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
+                SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     Shell.Shell.ToolbarTitleTextColorName);
 #else
-            m_searchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
+            SearchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
-            m_searchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
+            SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 Shell.Shell.ToolbarTitleTextColorName);
 #endif
 
-            m_searchBar.SetBinding(SearchBar.PlaceholderProperty,
+            SearchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
-            m_searchBar.SetBinding(SearchBar.ShouldDelayProperty,
+            SearchBar.SetBinding(SearchBar.ShouldDelayProperty,
                 new Binding(nameof(ShouldDelay), source: this));
-            m_searchBar.SetBinding(SearchBar.DelayProperty,
+            SearchBar.SetBinding(SearchBar.DelayProperty,
                 new Binding(nameof(DelayProperty), source: this));
-            m_searchBar.TextChanged += SearchBarOnTextChanged;
+            SearchBar.TextChanged += SearchBarOnTextChanged;
 
-            m_searchBar.SearchCommand = new Command(() => OnSearchQueryChanged(m_searchBar.Text));
-            m_searchBar.CancelCommand = new Command(OnCancel);
+            SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
+            SearchBar.CancelCommand = new Command(OnCancel);
 
 
             //Result listview
@@ -77,7 +76,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RowSpacing = 0
             };
 
-            m_grid.Add(m_searchBar, 0, 1);
+            m_grid.Add(SearchBar, 0, 1);
 
             base.Content = m_grid;
         }
@@ -90,7 +89,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 return;
             
             SetSearchState(SearchStates.NeedsSearchHint);
-            m_searchBar.Focus();
+            SearchBar.Focus();
             
 #if __IOS__
             if (OperatingSystem.IsIOSVersionAtLeast(14, 1))
@@ -99,7 +98,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 
                 var topBoxView = new BoxView
                 {
-                    BackgroundColor = m_searchBar.BarColor, HeightRequest = safeAreaInsetsTop
+                    BackgroundColor = SearchBar.BarColor, HeightRequest = safeAreaInsetsTop
                 };
                 
                 m_grid.Children.Insert(0, topBoxView);
@@ -134,13 +133,13 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             try
             {
-                if (m_searchBar.SearchCancellationToken == null)
+                if (SearchBar.SearchCancellationToken == null)
                 {
                     return;
                 }
 
                 SetSearchState(SearchStates.Searching);
-                var result = await ProvideSearchResult(searchQuery, m_searchBar.SearchCancellationToken.Token);
+                var result = await ProvideSearchResult(searchQuery, SearchBar.SearchCancellationToken.Token);
                 if (result == null)
                 {
                     return;
@@ -164,7 +163,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         protected override void OnDisappearing()
         {
-            m_searchBar.TextChanged -= SearchBarOnTextChanged;
+            SearchBar.TextChanged -= SearchBarOnTextChanged;
             base.OnDisappearing();
         }
 
@@ -197,7 +196,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void ToggleProgressBarVisibility(bool visible)
         {
-            m_searchBar.IsBusy = visible;
+            SearchBar.IsBusy = visible;
         }
     }
 

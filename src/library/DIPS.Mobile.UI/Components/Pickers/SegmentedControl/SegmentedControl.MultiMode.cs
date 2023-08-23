@@ -1,15 +1,7 @@
-using System.Collections;
-using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
-
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
 public partial class SegmentedControl
 {
-    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(
-        nameof(SelectedItems),
-        typeof(IEnumerable),
-        typeof(SegmentedControl), propertyChanged: (bindable, value, newValue) => ((SegmentedControl)bindable).OnSelectedItemsChanged(), defaultBindingMode: BindingMode.TwoWay);
-
     private void OnSelectedItemsChanged()
     {
         if (SelectedItems == null) return;

@@ -25,7 +25,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
-                    m_originalItems.Add(new SelectableListItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
+                    m_originalItems.Add(new SelectableItemViewModel(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
                         item.Equals(m_itemPicker.SelectedItem), item));
                 }
             }

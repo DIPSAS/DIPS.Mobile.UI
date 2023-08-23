@@ -1,8 +1,6 @@
-using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Touch = DIPS.Mobile.UI.Effects.Touch.Touch;
@@ -14,7 +12,7 @@ public partial class SegmentedControl : ContentView
 {
     private readonly CollectionView m_collectionView;
     private List<SelectableItemViewModel> m_allSelectableItems = new();
-    private readonly List<View> m_allVisualElements = new();
+
 
     public SegmentedControl()
     {
@@ -43,14 +41,14 @@ public partial class SegmentedControl : ContentView
             StrokeThickness = 1,
 #if __ANDROID__
             Margin =
-                new Thickness(-2,
+                new Thickness(-2,0,-1,
                     0), //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, due to bug with MAUI when setting StrokeThickness it has extra margins on the horizontal plane
 #endif
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle()
             {
-                CornerRadius = new CornerRadius((double)Sizes.GetSize(SizeName.size_8), 0,
-                    (double)Sizes.GetSize(SizeName.size_8), 0),
+                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
+                    Sizes.GetSize(SizeName.size_8), 0),
                 //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, this makes sure theres no extra space between each segment
 #if __ANDROID__
                 StrokeThickness = 1
@@ -94,7 +92,7 @@ public partial class SegmentedControl : ContentView
             Source = Icons.GetIcon(IconName.check_line),
             WidthRequest = Sizes.GetSize(SizeName.size_3),
             HeightRequest = Sizes.GetSize(SizeName.size_3),
-            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0)
+            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1)-0.2, 0) //Small 0.2 hack here to make sure the entire border is not larger when the image is visible, The total size from the label to the border should be size_8
         };
         checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
         var label = new Label() {VerticalTextAlignment = TextAlignment.Center};
@@ -104,8 +102,7 @@ public partial class SegmentedControl : ContentView
         grid.Add(checkedImage, 0);
         grid.Add(label, 1);
         border.Content = grid;
-        m_allVisualElements.Add(border);
-        border.SizeChanged += ((sender, args) =>
+        border.SizeChanged += ((sender, _) =>
         {
             if (sender is not View view) return;
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;

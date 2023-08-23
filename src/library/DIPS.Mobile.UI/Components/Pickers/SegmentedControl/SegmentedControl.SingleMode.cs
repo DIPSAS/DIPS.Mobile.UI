@@ -1,17 +1,7 @@
-using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
-
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
 public partial class SegmentedControl
 {
-    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-        nameof(SelectedItem),
-        typeof(object),
-        typeof(SegmentedControl),
-        propertyChanged: ((bindable, _, _) => ((SegmentedControl)bindable).SelectedItemChanged()),
-        defaultBindingMode: BindingMode.TwoWay);
-
     private void SelectedItemChanged()
     {
         if (SelectionMode != SelectionMode.Single) return;
