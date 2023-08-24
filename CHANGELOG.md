@@ -1,3 +1,6 @@
+## [16.3.1]
+- [ComponentsApp] Fixed an issue where the wrong data was displayed when picking items from the multi item picker.
+
 ## [16.3.0]
 - [SegmentedControl] Added segmented control.
 - [Label] Changed default text color to neutral_90.
