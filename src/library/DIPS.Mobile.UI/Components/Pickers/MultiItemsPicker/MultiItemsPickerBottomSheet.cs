@@ -27,7 +27,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
                 }
                 
                 m_originalItems.Add(new SelectableItemViewModel(
-                    item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty)!,
+                    (item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty) ?? item.ToString()) ?? string.Empty,
                     isSelected, item));
             }
         }

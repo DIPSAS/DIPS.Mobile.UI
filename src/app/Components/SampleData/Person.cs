@@ -16,4 +16,6 @@ public class Person
     public string DisplayName => string.IsNullOrEmpty(MiddleName)
         ? $"{FirstName}, {LastName}"
         : $"{FirstName} {MiddleName}, {LastName}";
+
+    public override string ToString() => DisplayName;
 }

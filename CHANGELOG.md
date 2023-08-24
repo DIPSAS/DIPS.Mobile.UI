@@ -1,3 +1,7 @@
+## [16.3.1]
+- [ComponentsApp] Fixed an issue where the wrong data was displayed when picking items from the multi item picker.
+- [MultiItemsPicker] Will now use ToString if ItemDisplayProperty is not set.
+
 ## [16.3.0]
 - [SegmentedControl] Added segmented control.
 - [Label] Changed default text color to neutral_90.
