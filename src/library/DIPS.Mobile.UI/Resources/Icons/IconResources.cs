@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
+generated 8/24/2023 7:38:07 AM from DIPS.Mobile.DesignTokens
 */
 
         namespace DIPS.Mobile.UI.Resources.Icons;
@@ -14,6 +14,8 @@ generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
 ["information_line"] = "information_line.png",
 ["checkin_line"] = "checkin_line.png",
 ["microphone_fill"] = "microphone_fill.png",
+["checkbox_checked_fill"] = "checkbox_checked_fill.png",
+["radio_checked_line"] = "radio_checked_line.png",
 ["bell_line"] = "bell_line.png",
 ["filter_line"] = "filter_line.png",
 ["camera_addnew_fill"] = "camera_addnew_fill.png",
@@ -37,6 +39,7 @@ generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
 ["discrete_important_fill"] = "discrete_important_fill.png",
 ["plus_line"] = "plus_line.png",
 ["document_fill"] = "document_fill.png",
+["checkbox_unchecked_line"] = "checkbox_unchecked_line.png",
 ["respiration_line"] = "respiration_line.png",
 ["chevron_right_line"] = "chevron_right_line.png",
 ["heartrate_line"] = "heartrate_line.png",
@@ -52,6 +55,7 @@ generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
 ["settings_fill"] = "settings_fill.png",
 ["criticalinfo_fill"] = "criticalinfo_fill.png",
 ["internalmessage_fill"] = "internalmessage_fill.png",
+["radio_unchecked_line"] = "radio_unchecked_line.png",
 ["wardstay_fill"] = "wardstay_fill.png",
 ["failure_fill"] = "failure_fill.png",
 ["comment_addnew_line"] = "comment_addnew_line.png",
