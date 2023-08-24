@@ -57,13 +57,15 @@
                               ErrorTextColor="{dui:Colors color_error_dark}"
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
+                              Command="{Binding RefreshCommand}"
                               HasBottomDivider="True"
                               HasTopDivider="True"
                               FadeContentIn="True">
+            
             <dui:Label Text="All systems working!"
                        VerticalTextAlignment="Center"
                        HeightRequest="100"/>
-
+            
         </dui:LoadableListItem>
 
         <dui:MultiItemsPickerListItem Title="Til:">

@@ -1,3 +1,9 @@
+## [16.3.0]
+- [Android] Fixed a bug where content in LoadableListItem were invisible.
+- Fixed a bug where if InLineContent were not set in NavigationListItem, the navigation icon were not visible.
+- Added a new property to dui:Label to check if the text were ellipsized.
+- Fixed a bug where setting LineBreakMode on Label would always truncate to one line.
+
 ## [16.2.2]
 - [Android][CollectionView] Fixed a bug where if you set ItemSpacing on a CollectionView, the CollectionView tries to snap to the elements.
 

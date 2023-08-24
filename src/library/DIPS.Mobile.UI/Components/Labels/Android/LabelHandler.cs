@@ -1,4 +1,5 @@
 using Android.Text;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using DIPS.Mobile.UI.Components.Labels.Android;
 
@@ -8,20 +9,12 @@ public partial class LabelHandler
 {
     protected override AppCompatTextView CreatePlatformView()
     {
-        return new AppCompatTextViewWithCustomEllipse(Context);
+        return new MauiTextView(Context, (VirtualView as Label)!);
     }
 
-    protected override void ConnectHandler(AppCompatTextView platformView)
-    {
-        base.ConnectHandler(platformView);
-        
-        
-        
-    }
-    
     private static partial void MapOverrideMaxLinesAndLineBreakMode(LabelHandler handler, Label label)
     {
-        var textView = handler.PlatformView;
+        var textView = handler.PlatformView as MauiTextView;
 
         textView.Ellipsize = label.LineBreakMode switch
         {

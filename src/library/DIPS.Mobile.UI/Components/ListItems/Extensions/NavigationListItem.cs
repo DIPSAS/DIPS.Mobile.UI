@@ -26,6 +26,16 @@ public partial class NavigationListItem : ListItem
         }, 1);
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+        if(InLineContent is null)
+        {
+            AddInLineContent();
+        }
+    }
+
     protected override void AddInLineContent()
     {
         var newInLineContent = InLineContent;
