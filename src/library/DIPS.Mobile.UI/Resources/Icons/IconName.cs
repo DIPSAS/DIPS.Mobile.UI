@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/11/2023 8:35:06 AM from DIPS.Mobile.DesignTokens
+generated 8/24/2023 7:38:07 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Icons
@@ -13,6 +13,8 @@ chevron_up_line,
 information_line, 
 checkin_line, 
 microphone_fill, 
+checkbox_checked_fill, 
+radio_checked_line, 
 bell_line, 
 filter_line, 
 camera_addnew_fill, 
@@ -36,6 +38,7 @@ schedule_fill,
 discrete_important_fill, 
 plus_line, 
 document_fill, 
+checkbox_unchecked_line, 
 respiration_line, 
 chevron_right_line, 
 heartrate_line, 
@@ -51,6 +54,7 @@ read_fill,
 settings_fill, 
 criticalinfo_fill, 
 internalmessage_fill, 
+radio_unchecked_line, 
 wardstay_fill, 
 failure_fill, 
 comment_addnew_line, 

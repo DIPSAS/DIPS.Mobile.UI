@@ -1,3 +1,6 @@
+## [16.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.3.1]
 - [ComponentsApp] Fixed an issue where the wrong data was displayed when picking items from the multi item picker.
 - [MultiItemsPicker] Will now use ToString if ItemDisplayProperty is not set.
