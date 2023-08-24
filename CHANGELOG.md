@@ -1,8 +1,22 @@
-## [16.3.0]
+## [16.5.0]
 - [Android] Fixed a bug where content in LoadableListItem were invisible.
 - Fixed a bug where if InLineContent were not set in NavigationListItem, the navigation icon were not visible.
 - Added a new property to dui:Label to check if the text were ellipsized.
 - Fixed a bug where setting LineBreakMode on Label would always truncate to one line.
+
+## [16.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.3.1]
+- [ComponentsApp] Fixed an issue where the wrong data was displayed when picking items from the multi item picker.
+- [MultiItemsPicker] Will now use ToString if ItemDisplayProperty is not set.
+
+## [16.3.0]
+- [SegmentedControl] Added segmented control.
+- [Label] Changed default text color to neutral_90.
+- [CollectionView] Added ShouldBounce property.
+- [ScrollView] Added ScrollView as a component, with ShouldBounce property.
+- [SearchPage] The underlying SearchBar is now public. This can be used to clear the search bar programatically or other things.
 
 ## [16.2.2]
 - [Android][CollectionView] Fixed a bug where if you set ItemSpacing on a CollectionView, the CollectionView tries to snap to the elements.

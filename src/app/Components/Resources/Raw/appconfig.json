@@ -1,1 +1,7 @@
-{"AppCenter":{"ApiKey":null,"AppName":"Components-iOS","DistributionGroup":"releases"}}
+{
+  "AppCenter": {
+    "ApiKey": null,
+    "AppName": "Components-iOS",
+    "DistributionGroup": "releases"
+  }
+}

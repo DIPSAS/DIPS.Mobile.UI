@@ -136,5 +136,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <remarks>Doing this asynchronously will display a spinner for people to see during the task. If people start searching while your asynchronous calls are being executed, the <see cref="searchCancellationToken"/> will be cancelled. This means that you have to use it for your asynchronous calls.  </remarks>
         public abstract Task<IEnumerable<object>?> ProvideSearchResult(string searchQuery,
             CancellationToken searchCancellationToken);
+
+        public SearchBar SearchBar { get; }
     }
 }

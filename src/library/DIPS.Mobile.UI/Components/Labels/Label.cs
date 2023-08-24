@@ -4,7 +4,7 @@ namespace DIPS.Mobile.UI.Components.Labels
     {
         public Label()
         {
-            this.SetAppThemeColor(TextColorProperty, ColorName.color_system_black);
+            this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_90);
             MaxLines = int.MaxValue;
         }
     }

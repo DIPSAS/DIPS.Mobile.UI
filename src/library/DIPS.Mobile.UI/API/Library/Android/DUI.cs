@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Android.App;
+using Android.Graphics.Drawables;
 using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
@@ -47,6 +48,31 @@ public static partial class DUI
         
         id = Platform.AppContext.Resources.GetIdentifier(name, defType, defPackage ?? Platform.AppContext.PackageName);
         return id != 0;
+    }
+
+    public static bool TryGetDrawableFromFileName(string fileName, out Drawable? drawable)
+    {
+        TryGetResourceId(fileName, out var id, defType:"drawable");
+        drawable = null;
+        if (id == 0)
+        {
+            return false;
+        }
+
+        drawable = OperatingSystem.IsAndroidVersionAtLeast(31,1) ? Platform.AppContext.Resources?.GetDrawable(id) : Platform.AppContext.Resources?.GetDrawable(id, Platform.CurrentActivity?.Theme);
+        return true;
+
+    }
+    
+    public static bool TryGetDrawableFromFileImageSource(ImageSource imageSource, out Drawable? drawable)
+    {
+        drawable = null;
+        if (imageSource is FileImageSource fileImageSource)
+        {
+            return (TryGetDrawableFromFileName(fileImageSource.File.Replace(".png", ""), out drawable));
+        }
+
+        return false;
     }
     
     /// <summary>

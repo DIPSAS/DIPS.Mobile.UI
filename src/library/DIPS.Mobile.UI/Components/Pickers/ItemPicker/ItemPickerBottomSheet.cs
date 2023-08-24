@@ -14,23 +14,23 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     internal class ItemPickerBottomSheet : BottomSheet
     {
         private readonly ItemPicker m_itemPicker;
-        private readonly List<SelectableListItem> m_originalItems;
+        private readonly List<SelectableItemViewModel> m_originalItems;
 
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
-            m_originalItems = new List<SelectableListItem>();
+            m_originalItems = new List<SelectableItemViewModel>();
 
             if (m_itemPicker.ItemsSource != null)
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
-                    m_originalItems.Add(new SelectableListItem(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
+                    m_originalItems.Add(new SelectableItemViewModel(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
                         item.Equals(m_itemPicker.SelectedItem), item));
                 }
             }
 
-            Items = new ObservableCollection<SelectableListItem>(m_originalItems);
+            Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
 
             SetBinding(HasSearchBarProperty, new Binding(){Source = m_itemPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
 
@@ -57,12 +57,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
             nameof(Items),
-            typeof(ObservableCollection<SelectableListItem>),
+            typeof(ObservableCollection<SelectableItemViewModel>),
             typeof(ItemPickerBottomSheet));
 
-        public ObservableCollection<SelectableListItem> Items
+        public ObservableCollection<SelectableItemViewModel> Items
         {
-            get => (ObservableCollection<SelectableListItem>)GetValue(ItemsProperty);
+            get => (ObservableCollection<SelectableItemViewModel>)GetValue(ItemsProperty);
             set => SetValue(ItemsProperty, value);
         }
 
@@ -70,9 +70,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         {
             var contentView = new SelectableItemContentView() {ControlTemplate = selectableItemTemplate};
             contentView.SetBinding(SelectableItemContentView.ItemProperty,
-                new Binding() {Path = nameof(SelectableListItem.Item)});
+                new Binding() {Path = nameof(SelectableItemViewModel.Item)});
             contentView.SetBinding(SelectableItemContentView.IsSelectedProperty,
-                new Binding() {Path = nameof(SelectableListItem.IsSelected)});
+                new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
             Touch.SetCommand(contentView, new Command(() => ItemWasPicked(contentView)));
             return contentView;
         }
@@ -80,16 +80,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private IView CreateDefaultView()
         {
             var checkBox = new CheckBox();
-            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableListItem.DisplayName)});
+            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
             checkBox.SetBinding(CheckBox.IsSelectedProperty,
-                new Binding() {Path = nameof(SelectableListItem.IsSelected)});
+                new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
             checkBox.Command = new Command(() => ItemWasPicked(checkBox));
             return checkBox;
         }
 
         private void ItemWasPicked(BindableObject tappedObject)
         {
-            if (tappedObject.BindingContext is not SelectableListItem selectableListItem) return;
+            if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
 
             object? theSelectedItem = null;
@@ -182,7 +182,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         public static readonly BindableProperty ItemProperty = BindableProperty.Create(
             nameof(Item),
             typeof(object),
-            typeof(SelectableListItem));
+            typeof(SelectableItemViewModel));
 
         public object Item
         {
