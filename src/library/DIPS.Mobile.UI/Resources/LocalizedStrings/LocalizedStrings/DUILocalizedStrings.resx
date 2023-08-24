@@ -48,4 +48,7 @@
     <data name="Details" xml:space="preserve">
         <value>Details</value>
     </data>
+    <data name="More" xml:space="preserve">
+        <value>More</value>
+    </data>
 </root>

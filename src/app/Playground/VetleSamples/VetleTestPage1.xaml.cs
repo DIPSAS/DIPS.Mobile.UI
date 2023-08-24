@@ -15,7 +15,6 @@ public partial class VetleTestPage1
 
     public void AddButton(object sender, EventArgs eventArgs)
     {
-        Layout.Add(new ImageButton.ImageButton{ TintColor = Colors.Blue, Source = Icons.GetIcon(IconName.bell_fill)});
     }
 
     private void NavigationListItem_OnTapped(object sender, EventArgs e)

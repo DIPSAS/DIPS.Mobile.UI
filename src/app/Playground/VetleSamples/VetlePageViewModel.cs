@@ -12,6 +12,8 @@ public class VetlePageViewModel : ViewModel
     private bool m_isError;
     private bool m_isToggled;
     private LayoutOptions m_horizontalOptions;
+    private bool m_isEllipsized;
+    private int m_maxLines = 3;
 
     public VetlePageViewModel()
     {
@@ -25,8 +27,24 @@ public class VetlePageViewModel : ViewModel
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
 
+        SetMaxLinesCommand = new Command<string>(s => MaxLines = int.Parse(s));
+
         _ = Test2();
     }
+
+    public bool IsEllipsized
+    {
+        get => m_isEllipsized;
+        set => RaiseWhenSet(ref m_isEllipsized, value);
+    }
+
+    public int MaxLines
+    {
+        get => m_maxLines;
+        set => RaiseWhenSet(ref m_maxLines, value);
+    }
+
+    public ICommand SetMaxLinesCommand { get; }
 
     private async Task Test2()
     {

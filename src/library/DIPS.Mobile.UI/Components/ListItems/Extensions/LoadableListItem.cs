@@ -225,10 +225,5 @@ public partial class LoadableListItem : ListItem
         {
             await view.FadeTo(1, easing: Easing.CubicInOut);
         }
-
-        if (InLineContent != null)
-        {
-            ContentGrid.InputTransparent = view != InLineContent;
-        }
     }
 }
