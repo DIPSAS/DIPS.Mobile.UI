@@ -1,3 +1,6 @@
+## [16.5.1]
+- Fixed a bug where setting FormattedText on dui:Label would crash the application.
+
 ## [16.5.0]
 - [Android] Fixed a bug where content in LoadableListItem were invisible.
 - Fixed a bug where if InLineContent were not set in NavigationListItem, the navigation icon were not visible.

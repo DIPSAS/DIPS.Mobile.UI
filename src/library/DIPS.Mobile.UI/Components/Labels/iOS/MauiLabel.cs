@@ -23,9 +23,20 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         CheckIfEllipsized();
     }
 
-    public void CheckIfEllipsized()
+    private void CheckIfEllipsized()
     {
-        var nssString = new NSString(m_label.Text);
+        var text = "";
+        if (m_label.Text is null)
+        {
+            if (m_label.FormattedText is not null)
+                text = m_label.FormattedText.ToString();
+        }
+        else
+        {
+            text = m_label.Text;
+        }
+        
+        var nssString = new NSString(text);
 
         var labelSize = nssString.GetBoundingRect(new CGSize(Bounds.Width, nfloat.PositiveInfinity),
             NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = Font },null);

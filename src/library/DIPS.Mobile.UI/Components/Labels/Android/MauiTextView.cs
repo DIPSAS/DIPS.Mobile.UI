@@ -23,12 +23,23 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
     {
         base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
         
+        var text = "";
+        if (m_label.Text is null)
+        {
+            if (m_label.FormattedText is not null)
+                text = m_label.FormattedText.ToString();
+        }
+        else
+        {
+            text = m_label.Text;
+        }
+        
         var availableViewWidth = MeasuredWidth - (float)CompoundPaddingLeft - CompoundPaddingRight;
         var availableTextWidth = availableViewWidth * MaxLines;
 
-        var ellipsizedText = TextUtils.Ellipsize(m_label.Text, Paint, availableTextWidth, Ellipsize);
+        var ellipsizedText = TextUtils.Ellipsize(text, Paint, availableTextWidth, Ellipsize);
 
-        if (ellipsizedText != m_label.Text)
+        if (ellipsizedText != text)
         {
             m_label.IsEllipsized = true;
         }

@@ -25,10 +25,19 @@
     
     <dui:VerticalStackLayout>
         
-        <dui:NavigationListItem Title="Test" Command="{Binding Navigate}" InLineContent="" />
+        
+        
+        <dui:Label MaxLines="2"
+                   LineBreakMode="TailTruncation">
+            <dui:Label.FormattedText>
+                <FormattedString>
+                    <Span                        Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" />
+ 
+                </FormattedString>
+            </dui:Label.FormattedText>    
+        </dui:Label>
+        
     
-    <Image Source="{dui:Icons important_fill}" BackgroundColor="Red"></Image>
-
     </dui:VerticalStackLayout>
             <!--<dui:Label LineBreakMode="TailTruncation"
                        MaxLines="{Binding MaxLines}"
