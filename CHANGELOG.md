@@ -1,3 +1,6 @@
+## [16.6.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.5.2]
 - [Android] Fixed a bug where setting IsEllipzised property were not set correctly when in a CollectionView
 
