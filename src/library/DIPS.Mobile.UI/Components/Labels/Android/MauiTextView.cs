@@ -19,9 +19,9 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         m_label = label;
     }
 
-    protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    protected override void OnDraw(Canvas? canvas)
     {
-        base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+        base.OnDraw(canvas);
         
         var text = "";
         if (m_label.Text is null)
@@ -47,7 +47,8 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         {
             m_label.IsEllipsized = false;
         }
-
     }
+
+   
 
 }

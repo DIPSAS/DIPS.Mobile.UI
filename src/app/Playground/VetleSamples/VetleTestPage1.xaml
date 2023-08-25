@@ -23,41 +23,69 @@
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>-->
     
-    <dui:VerticalStackLayout>
+    <!--<dui:VerticalStackLayout>
         
         
         
-        <dui:Label MaxLines="2"
-                   LineBreakMode="TailTruncation">
-            <dui:Label.FormattedText>
-                <FormattedString>
-                    <Span                        Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" />
- 
-                </FormattedString>
-            </dui:Label.FormattedText>    
+        <dui:Label MaxLines="{Binding MaxLines}"
+                   LineBreakMode="TailTruncation"
+                   Text="{Binding TestString}"
+                   IsEllipsized="{Binding IsEllipsized}">
+             
         </dui:Label>
         
+        <Border HeightRequest="50" WidthRequest="50" BackgroundColor="Red" IsVisible="{Binding IsEllipsized}" />
+        
     
-    </dui:VerticalStackLayout>
-            <!--<dui:Label LineBreakMode="TailTruncation"
-                       MaxLines="{Binding MaxLines}"
-                       IsEllipsized="{Binding IsEllipsized}"
-                       Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum">
-                       
-            </dui:Label>
+       <Label Text="{Binding IsEllipsized, Converter={dui:BoolToObjectConverter TrueObject=True, FalseObject=False}}" VerticalOptions="End" />
+    
+        <Button Text="2" Command="{Binding SetMaxLinesCommand}"
+                CommandParameter="2"
+                VerticalOptions="End"
+                WidthRequest="30"/>
         
-            <Label Text="{Binding IsEllipsized, Converter={dui:BoolToObjectConverter TrueObject=True, FalseObject=False}}" VerticalOptions="End" />
+        <Button Text="10" Command="{Binding SetMaxLinesCommand}"
+                CommandParameter="10"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                WidthRequest="30"/>
+    </dui:VerticalStackLayout>-->
+    
+    <dui:CollectionView ItemsSource="{Binding TestStrings}">
         
-            <Button Text="2" Command="{Binding SetMaxLinesCommand}"
-                    CommandParameter="2"
-                    VerticalOptions="End"
-                    WidthRequest="30"/>
+    <dui:CollectionView.ItemTemplate>
+        <DataTemplate>
+            <Grid RowDefinitions="Auto, Auto"
+                  ColumnDefinitions="*, Auto">
+                
+                <dui:Label Text="Title"
+                           Grid.Row="0" />
+                
+                <dui:Label MaxLines="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=MaxLines}"
+                           Grid.Row="1"
+                           dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=SetMaxLinesCommand}"
+                           dui:Touch.CommandParameter="100"
+                           LineBreakMode="TailTruncation"
+                           Text="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=TestString}"
+                           IsEllipsized="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsEllipsized}">
+                     
+                </dui:Label>
+                
+                <dui:Label Text="mer" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsEllipsized}" Grid.Column="1" Grid.Row="1"
+                           HorizontalOptions="End"
+                           VerticalOptions="End"/>
+                
+            </Grid>
             
-            <Button Text="10" Command="{Binding SetMaxLinesCommand}"
-                    CommandParameter="10"
-                    VerticalOptions="End"
-                    HorizontalOptions="End"
-                    WidthRequest="30"/>-->
-            
-            
+                    <!--<dui:Label LineBreakMode="TailTruncation"
+                               MaxLines="{Binding MaxLines}"
+                               IsEllipsized="{Binding IsEllipsized}"
+                               Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum">
+                               
+                    </dui:Label>-->
+        </DataTemplate>
+    </dui:CollectionView.ItemTemplate>
+
+    </dui:CollectionView>
+
 </dui:ContentPage>

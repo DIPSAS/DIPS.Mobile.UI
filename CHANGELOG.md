@@ -1,3 +1,6 @@
+## [16.5.2]
+- [Android] Fixed a bug where setting IsEllipzised property were not set correctly when in a CollectionView
+
 ## [16.5.1]
 - Fixed a bug where setting FormattedText on dui:Label would crash the application.
 
