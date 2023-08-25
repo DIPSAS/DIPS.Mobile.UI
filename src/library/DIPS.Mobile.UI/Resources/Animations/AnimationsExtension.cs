@@ -2,12 +2,12 @@ using SkiaSharp.Extended.UI.Controls;
 
 namespace DIPS.Mobile.UI.Resources.Animations;
 
-[ContentProperty(nameof(IconName))]
+[ContentProperty(nameof(AnimationName))]
 public class AnimationsExtension : IMarkupExtension<SKLottieImageSource>
 {
     public AnimationName AnimationName { get; set; }
 
-    public SKLottieImageSource ProvideValue(IServiceProvider serviceProvider) => Resources.Animations.Animations.GetAnimation(AnimationName);
+    public SKLottieImageSource ProvideValue(IServiceProvider serviceProvider) => Animations.GetAnimation(AnimationName);
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
     {
