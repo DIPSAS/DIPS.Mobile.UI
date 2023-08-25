@@ -6,19 +6,26 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:animations="clr-namespace:DIPS.Mobile.UI.Components.Animations;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <controls:SKLottieView Source="{dui:Animations AnimationName=saved}"
-                           RepeatCount="-1"
-                           HeightRequest="100"
-                           WidthRequest="100"
-                           HorizontalOptions="Center"
-                           Progress="{dui:TimeSpan Ticks=3000}" />
+
+    <VerticalStackLayout>
+        <Switch x:Name="Switch1" />
+        <Switch x:Name="Switch2" />
+        <dui:FilledCheckBox IsProgressing="{Binding Source={x:Reference Switch2}, Path=IsToggled}"
+                            IsChecked="{Binding Source={x:Reference Switch1},Path=IsToggled}" />
+    </VerticalStackLayout>
+    <!-- <controls:SKLottieView Source="{dui:Animations AnimationName=saved}" -->
+    <!--                        RepeatCount="-1" -->
+    <!--                        HeightRequest="100" -->
+    <!--                        WidthRequest="100" -->
+    <!--                        HorizontalOptions="Center" -->
+    <!--                        Progress="{dui:TimeSpan Ticks=3000}" /> -->
 
 
 </dui:ContentPage>
