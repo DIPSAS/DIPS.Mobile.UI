@@ -120,7 +120,7 @@
     
     <!-- Animations -->
     <ItemGroup>
-        <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="Resources\Animations\*.json" />
+        <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Animations\*.json" Pack="True" PackagePath="buildTransitive\Resources\Animations\" />

@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
-    <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Animations\*.json" />
+    <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" />
   </ItemGroup>
 </Project>
