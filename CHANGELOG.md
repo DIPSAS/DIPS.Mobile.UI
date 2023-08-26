@@ -1,3 +1,6 @@
+## [16.6.0]
+- Added animations API and added SkiaSharp Lottie nuget dependency.
+
 ## [16.5.2]
 - [Android] Fixed a bug where setting IsEllipzised property were not set correctly when in a CollectionView
 
