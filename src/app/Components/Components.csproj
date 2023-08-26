@@ -57,21 +57,22 @@
             <Color>#ff047f89</Color>
         </MauiIcon>
 
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89" />
 
         <!-- Images -->
-        <MauiImage Include="Resources\Images\*"/>
+        <MauiImage Include="Resources\Images\*" />
 
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*"/>
+        <MauiFont Include="Resources\Fonts\*" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.80" />
     </ItemGroup>
 
     <ItemGroup>
@@ -126,7 +127,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj"/>
+        <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -148,6 +149,7 @@
             <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
+
 
 
 </Project>

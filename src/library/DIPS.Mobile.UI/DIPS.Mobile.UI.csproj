@@ -161,6 +161,6 @@
       </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.70" />
+      <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.80" />
     </ItemGroup>
 </Project>

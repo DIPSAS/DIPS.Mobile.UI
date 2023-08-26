@@ -10,6 +10,7 @@ using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.Resources.LocalizedStrings;
+using Components.ResourcesSamples.Animations;
 using Components.ResourcesSamples.Colors;
 using Components.ResourcesSamples.Icons;
 using Components.ResourcesSamples.Sizes;
@@ -30,6 +31,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Checkboxes, () => new CheckboxesSample()),
             new(SampleType.Resources, LocalizedStrings.Colors, () => new ColorsSamples()),
             new(SampleType.Resources, LocalizedStrings.Sizes, () => new SizesSamples()),
+            new(SampleType.Resources, LocalizedStrings.Animations, () => new AnimationsSamples()),
             new(SampleType.Components, LocalizedStrings.ListItems, () => new ListItemsSamples()),
             new(SampleType.Components, LocalizedStrings.Chip, () => new ChipsSamples()),
             new(SampleType.Resources, LocalizedStrings.Icons, () => new IconsSamples()),

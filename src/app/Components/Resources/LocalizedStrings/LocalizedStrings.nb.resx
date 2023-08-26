@@ -261,4 +261,7 @@
     <data name="To" xml:space="preserve">
         <value>Til</value>
     </data>
+    <data name="Animations" xml:space="preserve">
+        <value>Animasjoner</value>
+    </data>
 </root>

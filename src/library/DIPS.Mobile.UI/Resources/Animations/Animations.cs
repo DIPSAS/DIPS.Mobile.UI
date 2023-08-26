@@ -8,17 +8,16 @@ public class Animations
     private static string RawAnimationsLocationAndroid = "Resources/Animations/";
     private static string RawAnimationsLocationiOS = "Animations\\";
 
-    public static SKLottieImageSource GetAnimation(AnimationName animationName)
+    public static SKLottieImageSource? GetAnimation(AnimationName animationName)
     {
         if (!AnimationResources.Animations.TryGetValue(animationName.ToString(), out var value))
         {
-            return new SKLottieImageSource();
+            return null;
         }
 
-#if __ANDROID__
         var valueToLookFor = RawAnimationsLocationAndroid + value;
-#elif __IOS__
-        var valueToLookFor = RawAnimationsLocationiOS + value;
+#if __IOS__
+         valueToLookFor = RawAnimationsLocationiOS + value;
 #endif
         if (new SKLottieImageSourceConverter().ConvertFromInvariantString(valueToLookFor) is SKLottieImageSource
             skLottieImageSource)
@@ -26,6 +25,6 @@ public class Animations
             return skLottieImageSource;
         }
 
-        return new SKLottieImageSource();
+        return null;
     }
 }

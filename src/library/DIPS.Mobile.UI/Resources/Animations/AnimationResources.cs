@@ -1,4 +1,5 @@
 using SkiaSharp.Extended.UI.Controls;
+using SkiaSharp.Views.Maui.Controls;
 
 namespace DIPS.Mobile.UI.Resources.Animations;
 
