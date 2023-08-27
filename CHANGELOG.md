@@ -1,3 +1,6 @@
+## [16.7.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.6.0]
 - Added animations API and added SkiaSharp Lottie nuget dependency.
 
