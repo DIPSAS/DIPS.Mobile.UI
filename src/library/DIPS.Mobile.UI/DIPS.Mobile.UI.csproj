@@ -117,6 +117,14 @@
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
     </ItemGroup>
+    
+    <!-- Animations -->
+    <ItemGroup>
+        <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Resources\Animations\*.json" Pack="True" PackagePath="buildTransitive\Resources\Animations\" />
+    </ItemGroup>
 
     <!-- Splash -->
     <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
@@ -151,5 +159,8 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>DUILocalizedStrings.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.80" />
     </ItemGroup>
 </Project>

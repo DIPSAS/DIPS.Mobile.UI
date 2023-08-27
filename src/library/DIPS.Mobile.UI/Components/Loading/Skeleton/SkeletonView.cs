@@ -137,16 +137,16 @@ public partial class SkeletonView : ContentView
     private void StartAnimation()
     {
         StopAnimation();
-        var animation = new Animation
+        var animation = new Microsoft.Maui.Controls.Animation
         {
             {
-                0.0, 0.5, new Animation(a =>
+                0.0, 0.5, new Microsoft.Maui.Controls.Animation(a =>
                 {
                     foreach (var box in m_skeletons) box.Scale = a;
                 }, 0.99, 1.01, Easing.BounceOut)
             },
             {
-                0.5, 1.0, new Animation(a =>
+                0.5, 1.0, new Microsoft.Maui.Controls.Animation(a =>
                 {
                     foreach (var box in m_skeletons) box.Scale = a;
                 }, 1.01, 0.99, Easing.BounceOut)

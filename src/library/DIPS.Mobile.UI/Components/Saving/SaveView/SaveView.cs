@@ -13,9 +13,6 @@ public partial class SaveView : ContentView
     {
         var filledCheckBox = new FilledCheckBox
         {
-            HeightRequest = 120,
-            WidthRequest = 120,
-            CornerRadius = 60,
             VerticalOptions = LayoutOptions.Center,
         };
         

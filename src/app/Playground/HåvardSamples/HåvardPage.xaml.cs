@@ -18,28 +18,4 @@ public partial class HåvardPage
 
     });
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        Shell.Current.Navigation.PushAsync(new HåvardPage2());
-    }
-
-    private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
-    {
-        
-    }
-
-    private void SegmentControl_OnOnSelected(object sender, EventArgs e)
-    {
-        
-    }
-
-    private void SegmentedControl_OnDidSelectItem(object sender, object e)
-    {
-        
-    }
-
-    private void SegmentedControl_OnDidDeSelectItem(object sender, object e)
-    {
-        
-    }
 }

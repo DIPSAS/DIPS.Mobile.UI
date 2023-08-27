@@ -14,8 +14,8 @@ internal class FloatingNavigationButton : Grid
     
 #nullable disable
     private NavigationMenuButton.NavigationMenuButton m_mainButton;
-    private Animation m_fadeOutColorAnimation;
-    private Animation m_fadeInColorAnimation;
+    private Microsoft.Maui.Controls.Animation m_fadeOutColorAnimation;
+    private Microsoft.Maui.Controls.Animation m_fadeInColorAnimation;
 #nullable restore
 
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
@@ -80,8 +80,8 @@ internal class FloatingNavigationButton : Grid
 
     private void CreateAnimations()
     {
-        m_fadeOutColorAnimation = new Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 100, 0);
-        m_fadeInColorAnimation = new Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 0, 100);
+        m_fadeOutColorAnimation = new Microsoft.Maui.Controls.Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 100, 0);
+        m_fadeInColorAnimation = new Microsoft.Maui.Controls.Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 0, 100);
     }
 
     private void AddMainButton()
