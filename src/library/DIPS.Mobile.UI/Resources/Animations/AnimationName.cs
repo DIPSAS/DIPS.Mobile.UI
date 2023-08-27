@@ -1,6 +1,12 @@
-namespace DIPS.Mobile.UI.Resources.Animations;
+/*
+Do not edit directly,
+generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
+*/
 
-public enum AnimationName
+namespace DIPS.Mobile.UI.Resources.Animations
 {
-    saved,
+    public enum AnimationName
+    {
+        saved
+    }
 }
