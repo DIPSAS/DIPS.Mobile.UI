@@ -64,7 +64,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
-        handler.m_button.BackgroundColor = handler.VirtualView.Color;
+        handler.PlatformView.BackgroundColor = handler.VirtualView.Color.ToPlatform();
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
@@ -73,7 +73,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         {
             return;
         }
-
+        
         var imageToTint =
             handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         handler.PlatformView.SetImage(imageToTint, UIControlState.Normal);
