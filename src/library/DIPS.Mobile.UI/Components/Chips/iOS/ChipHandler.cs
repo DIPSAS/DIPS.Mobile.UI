@@ -18,7 +18,6 @@ namespace DIPS.Mobile.UI.Components.Chips;
 public partial class ChipHandler : ViewHandler<Chip, UIButton>
 {
     internal Button m_button;
-    private IDisposable m_observer;
 
     protected override UIButton CreatePlatformView()
     {
