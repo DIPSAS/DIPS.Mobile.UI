@@ -8,6 +8,7 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.CheckBoxes
 {
+    [Obsolete("This component is not using the correct styling. Please use Checkmark / RadioButton")]
     public partial class CheckBox : Grid
     {
         private readonly NativeIcon m_selectedNativeIcon;

@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.ListItems;
+using DIPS.Mobile.UI.Components.ListItems.Extensions;
 using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 using DIPS.Mobile.UI.Effects.Touch;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -81,12 +83,13 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
     private IView CreateDefaultView()
     {
-        var checkBox = new CheckBox();
-        checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
-        checkBox.SetBinding(CheckBox.IsSelectedProperty,
+        var checkmarkListItem = new CheckmarkListItem() {HasBottomDivider = true};
+        checkmarkListItem.SetBinding(ListItem.TitleProperty,
+            new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
+        checkmarkListItem.SetBinding(CheckmarkListItem.IsSelectedProperty,
             new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
-        checkBox.Command = new Command(() => ItemWasTapped(checkBox));
-        return checkBox;
+        checkmarkListItem.SelectedCommand = new Command(() => ItemWasTapped(checkmarkListItem));
+        return checkmarkListItem;
     }
 
     private void ItemWasTapped(BindableObject bindableObject)
@@ -96,7 +99,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         
     }
     
-    private void ItemWasTapped(CheckBox checkBox)
+    private void ItemWasTapped(CheckmarkListItem checkBox)
     {
         if (checkBox.BindingContext is not SelectableItemViewModel selectableListItem) return;
         ToggleItem(checkBox.IsSelected, selectableListItem);

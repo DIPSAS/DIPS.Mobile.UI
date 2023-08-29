@@ -57,6 +57,7 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Saving.SaveView")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Pickers.SegmentedControl")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Animations")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Selection")]
 
 
 

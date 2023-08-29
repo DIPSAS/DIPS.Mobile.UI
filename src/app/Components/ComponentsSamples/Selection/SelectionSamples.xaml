@@ -1,0 +1,27 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.Selection.SelectionSamples">
+    <VerticalStackLayout>
+        <dui:Label Text="Switch"
+                   Margin="5" />
+        <dui:Switch HorizontalOptions="Start"
+                x:Name="Switch" />
+        <dui:Label Text="Checkmark"
+                   Margin="5"
+                   dui:Touch.Command="{Binding Source={x:Reference Checkmark}, Path=Command}" />
+        <dui:Checkmark HorizontalOptions="Start"
+                       x:Name="Checkmark"
+                       AdditionalHitBoxSize="10,10" />
+        <dui:Label Text="RadioButton"
+                   Margin="5"
+                   dui:Touch.Command="{Binding Source={x:Reference RadioButton}, Path=Command}" />
+        <dui:RadioButton HorizontalOptions="Start"
+                         x:Name="RadioButton"
+                         AdditionalHitBoxSize="10,10" />
+    </VerticalStackLayout>
+</dui:ContentPage>

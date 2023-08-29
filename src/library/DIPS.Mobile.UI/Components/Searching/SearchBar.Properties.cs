@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -250,7 +251,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty BarColorProperty = BindableProperty.Create(
             nameof(BarColor),
             typeof(Color),
-            typeof(SearchBar));
+            typeof(SearchBar), defaultValue: Colors.Transparent);
         
         public static readonly BindableProperty DelayProperty = BindableProperty.Create(
             nameof(Delay),
