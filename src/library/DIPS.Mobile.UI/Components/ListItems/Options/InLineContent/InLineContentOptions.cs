@@ -6,7 +6,7 @@ public partial class InLineContentOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {
-        BindingContext = listItem.BindingContext;
+        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
         
         if(listItem.InLineContent is not View inLineContent)
             return;

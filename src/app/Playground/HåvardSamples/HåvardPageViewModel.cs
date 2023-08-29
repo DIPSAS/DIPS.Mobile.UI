@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
@@ -15,21 +15,26 @@ public class HåvardPageViewModel : ViewModel
 
     public HåvardPageViewModel()
     {
-        Items = new List<string>()
+        Items = new List<Something>()
         {
-            "948 19 788",
-            "936 15 719",
-            "418 01 260",
-            "959 94 238",
-            "464 51 717",
-            "916 18 816",
-            "998 15 227",
-            "468 14 026",
-            "413 10 076",
-            "986 77 073",
-            "979 82 486",
-            "453 26 392",
-            "439 14 037"
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(false)),
+            new Something(new SomeOtherThing(true)),
+            new Something(new SomeOtherThing(false)),
         };
 
         var items = Items.Take(new Range(0, 4));
@@ -43,7 +48,7 @@ public class HåvardPageViewModel : ViewModel
     
     
 
-    public List<string> Items { get; set; }
+    public List<Something> Items { get; set; }
 
     public IEnumerable<object> SelectedItems
     {
@@ -57,5 +62,46 @@ public class HåvardPageViewModel : ViewModel
     {
         get => m_selectedItem;
         set => RaiseWhenSet(ref m_selectedItem, value);
+    }
+
+    
+    }
+
+public class Something : ViewModel
+{
+    private SomeOtherThing m_theTing;
+
+    public SomeOtherThing TheTing
+    {
+        get => m_theTing;
+        set => RaiseWhenSet(ref m_theTing, value);
+    }
+
+    public Something(SomeOtherThing theTing)
+    {
+        TheTing = theTing;
+    }
+
+    public async void Initialize()
+    {
+        await Task.Delay(1500);
+        var randomNumber = new Random(10).Next(0, 10);
+        TheTing.IsIt = randomNumber > 5;
+    }
+}
+
+public class SomeOtherThing : ViewModel
+{
+    private bool m_isIt;
+
+    public bool IsIt
+    {
+        get => m_isIt;
+        set => RaiseWhenSet(ref m_isIt, value);
+    }
+
+    public SomeOtherThing(bool isIt)
+    {
+        IsIt = isIt;
     }
 }

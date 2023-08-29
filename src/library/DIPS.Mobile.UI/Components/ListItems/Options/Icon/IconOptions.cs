@@ -7,7 +7,7 @@ public partial class IconOptions : BindableObject, IListItemOptions
     
     public void Bind(ListItem listItem)
     {
-        BindingContext = listItem.BindingContext;
+        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
         
         if(listItem.ImageIcon is null)
             return;
