@@ -1,3 +1,6 @@
+# [16.8.2]
+- [ContentControl][iOS] If content is CollectionView we wrap it in a grid with row=auto.
+
 ## [16.8.1]
 - [Chip] Made sure background color of chip is set correctly.
 
