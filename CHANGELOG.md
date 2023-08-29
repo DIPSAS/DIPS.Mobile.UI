@@ -1,3 +1,7 @@
+## [16.8.0]
+- [Checkmark] Added
+- [RadioButton] Added
+
 ## [16.7.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
