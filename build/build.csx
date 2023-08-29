@@ -89,6 +89,12 @@ AsyncStep publishApp = async () =>
         Directory.CreateDirectory(OutputDir);
     }
 
+    if(!(await Git.CurrentBranchIsMain()))
+    {
+        Logger.LogDebug("Current branch is not main branch, this app will not get published to AppCenter");
+        return;
+    }
+
 
     var releaseNotes = VersionUtil.GetReleaseNoteFromLatestVersion(ChangeLogPath);
     var releaseNotesReadAble = string.Join("\n", releaseNotes);

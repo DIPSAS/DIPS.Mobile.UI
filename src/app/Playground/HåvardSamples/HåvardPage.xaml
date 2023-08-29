@@ -13,9 +13,7 @@
     </dui:ContentPage.BindingContext>
     <VerticalStackLayout>
 
-        <dui:ListItem>
-            <dui:MultiItemsPicker ItemsSource="{Binding Items}" Placeholder="Test" SelectedItems="{Binding SelectedItems}"/>
-        </dui:ListItem>
+        <dui:Chip Color="{dui:Colors ColorName=color_error_dark}"/>
         <!-- <Switch x:Name="Switch" -->
         <!--         HorizontalOptions="Start" /> -->
         <!-- <dui:Checkmark HorizontalOptions="Start" -->

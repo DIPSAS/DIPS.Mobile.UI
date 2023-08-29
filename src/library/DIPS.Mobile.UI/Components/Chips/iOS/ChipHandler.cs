@@ -29,7 +29,6 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     {
         base.ConnectHandler(platformView);
         m_button.TextColor = Colors.GetColor(ColorName.color_system_black);
-
         // Here we style the button as close as possible to native compact datepicker in iOS
         // We do not use the design system here so this does not diverge at a later point
         m_button.FontSize = 17;
@@ -37,7 +36,6 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button.Padding = new Thickness(12, 6, 12, 6);
         platformView.AddGestureRecognizer(new ChipGestureRecognizer(this));
     }
-
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.m_button.Text = chip.Title;
@@ -64,7 +62,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
-        handler.m_button.BackgroundColor = handler.VirtualView.Color;
+        handler.PlatformView.BackgroundColor = handler.VirtualView.Color.ToPlatform();
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
@@ -73,7 +71,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         {
             return;
         }
-
+        
         var imageToTint =
             handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         handler.PlatformView.SetImage(imageToTint, UIControlState.Normal);
@@ -82,7 +80,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     
     private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
     {
-        handler.m_button.CornerRadius = handler.VirtualView.CornerRadius;
+        handler.PlatformView.Layer.CornerRadius = handler.VirtualView.CornerRadius;
     }
 
     private static void ShiftImageToTheRight(ChipHandler handler, UIButton uiButton)
