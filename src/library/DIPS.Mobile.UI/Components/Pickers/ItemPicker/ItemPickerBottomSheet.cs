@@ -2,12 +2,19 @@ using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
+using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Components.Labels;
+using DIPS.Mobile.UI.Components.ListItems;
+using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.Selection;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
+using RadioButton = DIPS.Mobile.UI.Components.Selection.RadioButton;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
@@ -25,14 +32,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
-                    m_originalItems.Add(new SelectableItemViewModel(item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
+                    m_originalItems.Add(new SelectableItemViewModel(
+                        item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
                         item.Equals(m_itemPicker.SelectedItem), item));
                 }
             }
 
             Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
 
-            SetBinding(HasSearchBarProperty, new Binding(){Source = m_itemPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
+            SetBinding(HasSearchBarProperty,
+                new Binding()
+                {
+                    Source = m_itemPicker.BottomSheetPickerConfiguration,
+                    Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)
+                });
 
             var collectionView = new CollectionView()
             {
@@ -40,8 +53,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             };
 
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
-            
-            Content = CreateContentControlForActivityIndicator(collectionView, m_itemPicker.BottomSheetPickerConfiguration);
+
+            Content = CreateContentControlForActivityIndicator(collectionView,
+                m_itemPicker.BottomSheetPickerConfiguration);
         }
 
         private object LoadTemplate()
@@ -79,12 +93,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private IView CreateDefaultView()
         {
-            var checkBox = new CheckBox();
-            checkBox.SetBinding(CheckBox.TextProperty, new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
-            checkBox.SetBinding(CheckBox.IsSelectedProperty,
+            var radioButtonListItem = new RadioButtonListItem() {HasBottomDivider = true};
+            radioButtonListItem.SetBinding(ListItem.TitleProperty,
+                new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
+            radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty,
                 new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
-            checkBox.Command = new Command(() => ItemWasPicked(checkBox));
-            return checkBox;
+            radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));
+            return radioButtonListItem;
         }
 
         private void ItemWasPicked(BindableObject tappedObject)
@@ -98,7 +113,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 if (item.Equals(selectableListItem.Item))
                 {
                     theSelectedItem = item;
-                }    
+                }
             }
 
             if (theSelectedItem != null && theSelectedItem.Equals(m_itemPicker.SelectedItem))
@@ -147,7 +162,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
         }
 
-        public static ContentControl CreateContentControlForActivityIndicator(CollectionView collectionView, BottomSheetPickerConfiguration? bottomSheetPickerConfiguration)
+        public static ContentControl CreateContentControlForActivityIndicator(CollectionView collectionView,
+            BottomSheetPickerConfiguration? bottomSheetPickerConfiguration)
         {
             var contentControl = new ContentControl()
             {
@@ -167,7 +183,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             };
             contentControl.SetBinding(ContentControl.SelectorItemProperty,
                 new Binding() {Path = nameof(BottomSheetPickerConfiguration.IsBusy), FallbackValue = false});
-            
+
             return contentControl;
         }
     }

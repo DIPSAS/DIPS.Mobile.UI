@@ -12,11 +12,15 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <VerticalStackLayout>
-        <Switch x:Name="Switch"
-                HorizontalOptions="Start" />
-        <dui:Checkmark HorizontalOptions="Start"
-                       IsSelected="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
-        <dui:RadioButton HorizontalOptions="Start"
-                         IsSelected="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+
+        <dui:ListItem>
+            <dui:MultiItemsPicker ItemsSource="{Binding Items}" Placeholder="Test" SelectedItems="{Binding SelectedItems}"/>
+        </dui:ListItem>
+        <!-- <Switch x:Name="Switch" -->
+        <!--         HorizontalOptions="Start" /> -->
+        <!-- <dui:Checkmark HorizontalOptions="Start" -->
+        <!--                IsSelected="{Binding Source={x:Reference Switch}, Path=IsToggled}" /> -->
+        <!-- <dui:RadioButton HorizontalOptions="Start" -->
+        <!--                  IsSelected="{Binding Source={x:Reference Switch}, Path=IsToggled}" /> -->
     </VerticalStackLayout>
 </dui:ContentPage>

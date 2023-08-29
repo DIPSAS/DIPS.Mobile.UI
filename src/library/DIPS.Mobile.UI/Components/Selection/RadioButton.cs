@@ -4,7 +4,6 @@ public partial class RadioButton : DIPS.Mobile.UI.Components.Images.ImageButton.
 {
     public RadioButton()
     {
-            IsSelected = false;
             Command = new Command(() =>
             {
                 IsSelected = !IsSelected;

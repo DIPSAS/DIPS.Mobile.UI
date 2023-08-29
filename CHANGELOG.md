@@ -1,6 +1,11 @@
 ## [16.8.0]
 - [Checkmark] Added
 - [RadioButton] Added
+- [Switch] Added
+- [SearchBar] Change the default BarColor to Transparent
+- [MultiItemsPicker] Changed the style of the items to select from.
+- [ItemPicker] Changed the style of the items to select from.
+- [ComponentsApp] Removed CheckBoxes samples and added Selection samples.
 
 ## [16.7.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

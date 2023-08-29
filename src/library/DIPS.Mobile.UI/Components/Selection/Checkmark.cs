@@ -8,7 +8,6 @@ public partial class Checkmark : ImageButton, ISelectable
 {
     public Checkmark()
     {
-        IsSelected = false;
         Command = new Command(() =>
         {
             IsSelected = !IsSelected;
@@ -30,5 +29,7 @@ public partial class Checkmark : ImageButton, ISelectable
 #elif __IOS__
         TintColor = IsSelected ? ISelectable.s_tintColor : Colors.Transparent;
 #endif
+        SelectedCommand?.Execute(SelectedCommandParameter);
+        SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }
 }

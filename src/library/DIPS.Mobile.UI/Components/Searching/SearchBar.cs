@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
+using Colors = Microsoft.Maui.Graphics.Colors;
+
 namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : View
@@ -10,7 +12,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
-            this.SetAppThemeColor(BarColorProperty, ColorName.color_neutral_05);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
         }
         
