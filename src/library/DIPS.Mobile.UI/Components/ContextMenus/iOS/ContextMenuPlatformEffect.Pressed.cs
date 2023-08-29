@@ -80,6 +80,7 @@ public partial class ContextMenuPlatformEffect
             Control.WillRemoveSubview(m_uiButtonToRemove);
         
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
+        m_didEnterBackgroundNotification.Dispose();
         
         m_contextMenu.ItemsSourceUpdated -= ItemsSourceUpdated;
     }

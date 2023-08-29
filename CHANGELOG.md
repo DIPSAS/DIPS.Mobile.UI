@@ -1,3 +1,6 @@
+## [16.8.1]
+- [Chip] Made sure background color of chip is set correctly.
+
 ## [16.8.0]
 - [Checkmark] Added
 - [RadioButton] Added
