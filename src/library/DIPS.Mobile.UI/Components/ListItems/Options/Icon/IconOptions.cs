@@ -4,8 +4,11 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 
 public partial class IconOptions : BindableObject, IListItemOptions
 {
+    
     public void Bind(ListItem listItem)
     {
+        BindingContext = listItem.BindingContext;
+        
         if(listItem.ImageIcon is null)
             return;
 

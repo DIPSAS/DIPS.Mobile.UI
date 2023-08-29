@@ -40,6 +40,8 @@ public class HåvardPageViewModel : ViewModel
         {
         });
     }
+    
+    
 
     public List<string> Items { get; set; }
 

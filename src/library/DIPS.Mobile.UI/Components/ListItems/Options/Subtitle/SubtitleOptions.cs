@@ -6,6 +6,8 @@ public partial class SubtitleOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {
+        BindingContext = listItem.BindingContext;
+        
         if(listItem.SubtitleLabel is null)
             return;            
         

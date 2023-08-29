@@ -6,6 +6,8 @@ public partial class TitleOptions : BindableObject, IListItemOptions
 {
     public void Bind(ListItem listItem)
     {
+        BindingContext = listItem.BindingContext;
+        
         if(listItem.TitleLabel is null)
             return;
 

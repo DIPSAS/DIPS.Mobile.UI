@@ -26,20 +26,22 @@
                     </dui:BooleanDataTemplateSelector.TrueTemplate>
                     <dui:BooleanDataTemplateSelector.FalseTemplate>
                         <DataTemplate>
+                            <ScrollView>
                                 <dui:CollectionView ItemsSource="{Binding Items}">
                                     <dui:CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <dui:ListItem Icon="{dui:Icons heartrate_line}"
-                                                          Title="Pulse">
+                                        <DataTemplate x:DataType="{x:Type x:String}">
+                                            <dui:NavigationListItem Icon="{dui:Icons heartrate_line}"
+                                                                    Title="Pulse">
                                                 <dui:ListItem.IconOptions>
                                                     <dui:IconOptions
-                                                        Color="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}}">
+                                                        Color="{Binding ., Converter={dui:IsEmptyToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}}">
                                                     </dui:IconOptions>
                                                 </dui:ListItem.IconOptions>
-                                            </dui:ListItem>
+                                            </dui:NavigationListItem>
                                         </DataTemplate>
                                     </dui:CollectionView.ItemTemplate>
                                 </dui:CollectionView>
+                            </ScrollView>
                         </DataTemplate>
                     </dui:BooleanDataTemplateSelector.FalseTemplate>
                 </dui:BooleanDataTemplateSelector>
