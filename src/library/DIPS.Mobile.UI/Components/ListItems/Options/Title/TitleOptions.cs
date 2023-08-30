@@ -2,11 +2,11 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
 
-public partial class TitleOptions : BindableObject, IListItemOptions
+public partial class TitleOptions : ListItemOptions
 {
-    public void Bind(ListItem listItem)
+    public override void DoBind(ListItem listItem)
     {
-        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
+        base.Bind(listItem);
         
         if(listItem.TitleLabel is null)
             return;

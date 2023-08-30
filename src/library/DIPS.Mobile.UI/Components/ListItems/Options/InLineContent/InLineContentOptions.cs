@@ -2,11 +2,11 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 
-public partial class InLineContentOptions : BindableObject, IListItemOptions
+public partial class InLineContentOptions : ListItemOptions
 {
-    public void Bind(ListItem listItem)
-    {
-        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
+    public override void DoBind(ListItem listItem)
+    { 
+        base.Bind(listItem);
         
         if(listItem.InLineContent is not View inLineContent)
             return;

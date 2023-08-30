@@ -245,5 +245,5 @@ public partial class ListItem : ContentView
 
     private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && Command is not null);
 
-    private void BindToOptions(IListItemOptions? options) => options?.Bind(this);
+    private void BindToOptions(ListItemOptions? options) => options?.Bind(this);
 }

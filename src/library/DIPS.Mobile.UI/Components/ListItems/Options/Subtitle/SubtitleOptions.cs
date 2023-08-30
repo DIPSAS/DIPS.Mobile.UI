@@ -2,11 +2,11 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
-public partial class SubtitleOptions : BindableObject, IListItemOptions
+public partial class SubtitleOptions : ListItemOptions
 {
-    public void Bind(ListItem listItem)
+    public override void DoBind(ListItem listItem)
     {
-        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
+        base.Bind(listItem);
         
         if(listItem.SubtitleLabel is null)
             return;            

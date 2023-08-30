@@ -2,12 +2,12 @@ using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 
-public partial class IconOptions : BindableObject, IListItemOptions
+public partial class IconOptions : ListItemOptions
 {
     
-    public void Bind(ListItem listItem)
+    public override void DoBind(ListItem listItem)
     {
-        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
+        base.Bind(listItem);
         
         if(listItem.ImageIcon is null)
             return;
