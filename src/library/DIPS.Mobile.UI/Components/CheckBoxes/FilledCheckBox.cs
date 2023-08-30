@@ -52,8 +52,7 @@ public partial class FilledCheckBox : ContentView
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-
-        Touch.SetCommand(Container, Command);
+        
         Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
     }
 
@@ -113,6 +112,11 @@ public partial class FilledCheckBox : ContentView
         if (bindable is not FilledCheckBox filledCheckBox)
             return;
 
-        _ = filledCheckBox.SetContainerContent();
+        _ = filledCheckBox.SetContainerContent();   
+    }
+
+    private void OnCommandChanged()
+    {
+        Touch.SetCommand(this, Command);
     }
 }

@@ -75,7 +75,7 @@ public partial class FilledCheckBox
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
         typeof(ICommand),
-        typeof(FilledCheckBox));
+        typeof(FilledCheckBox), propertyChanged:((bindable, value, newValue) => ((FilledCheckBox)bindable).OnCommandChanged()));
     
     public static readonly BindableProperty UnCheckedBackgroundColorProperty = BindableProperty.Create(
         nameof(UnCheckedBackgroundColor),
