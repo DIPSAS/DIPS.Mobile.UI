@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 8:34:12 AM from DIPS.Mobile.DesignTokens
+generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
 */
 
 namespace DIPS.Mobile.UI.Resources.Icons
@@ -21,6 +21,8 @@ checkin_line,
 close_circle_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/folder_off_line.svg">View the icon in the browser</a></summary>
 folder_off_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/close_fill.svg">View the icon in the browser</a></summary>
+close_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/microphone_fill.svg">View the icon in the browser</a></summary>
 microphone_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/checkbox_checked_fill.svg">View the icon in the browser</a></summary>
@@ -33,6 +35,8 @@ bell_line,
 document_off_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/filter_line.svg">View the icon in the browser</a></summary>
 filter_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bed_fill.svg">View the icon in the browser</a></summary>
+bed_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/camera_addnew_fill.svg">View the icon in the browser</a></summary>
 camera_addnew_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/document_line.svg">View the icon in the browser</a></summary>
@@ -41,14 +45,20 @@ document_line,
 beaker_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/camera_addnew_circle_fill.svg">View the icon in the browser</a></summary>
 camera_addnew_circle_fill, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/municipalcare_line.svg">View the icon in the browser</a></summary>
+municipalcare_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/beaker_zoom_fill.svg">View the icon in the browser</a></summary>
 beaker_zoom_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/check_circle_fill.svg">View the icon in the browser</a></summary>
 check_circle_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/barcode_fill.svg">View the icon in the browser</a></summary>
 barcode_fill, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clinicalregistrations_fill.svg">View the icon in the browser</a></summary>
+clinicalregistrations_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/comment_line.svg">View the icon in the browser</a></summary>
 comment_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/pencil_line.svg">View the icon in the browser</a></summary>
+pencil_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/document_transfer_line.svg">View the icon in the browser</a></summary>
 document_transfer_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bell_fill.svg">View the icon in the browser</a></summary>
@@ -89,10 +99,14 @@ checkbox_unchecked_line,
 respiration_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chevron_right_line.svg">View the icon in the browser</a></summary>
 chevron_right_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bells_off_fill.svg">View the icon in the browser</a></summary>
+bells_off_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/heartrate_line.svg">View the icon in the browser</a></summary>
 heartrate_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/star_line.svg">View the icon in the browser</a></summary>
 star_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/drag_fill.svg">View the icon in the browser</a></summary>
+drag_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/change_role_fill.svg">View the icon in the browser</a></summary>
 change_role_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/check_line.svg">View the icon in the browser</a></summary>
@@ -123,6 +137,8 @@ wardstay_fill,
 failure_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/folder_line.svg">View the icon in the browser</a></summary>
 folder_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/not_signed_line.svg">View the icon in the browser</a></summary>
+not_signed_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/comment_addnew_line.svg">View the icon in the browser</a></summary>
 comment_addnew_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/tasklist_line.svg">View the icon in the browser</a></summary>
@@ -135,12 +151,18 @@ chevron_left_line,
 wardstay_absence_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/search_line.svg">View the icon in the browser</a></summary>
 search_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/sort_descending_fill.svg">View the icon in the browser</a></summary>
+sort_descending_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_right_s_line.svg">View the icon in the browser</a></summary>
 arrow_right_s_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/oxygensaturation_line.svg">View the icon in the browser</a></summary>
 oxygensaturation_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/star_fill.svg">View the icon in the browser</a></summary>
 star_fill, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_up_thick_line_fill.svg">View the icon in the browser</a></summary>
+arrow_up_thick_line_fill, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_down_thick_line_fill.svg">View the icon in the browser</a></summary>
+arrow_down_thick_line_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/placeholdericon_fill.svg">View the icon in the browser</a></summary>
 placeholdericon_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/comments_line.svg">View the icon in the browser</a></summary>
@@ -149,6 +171,8 @@ comments_line,
 reply_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plus_thin_line.svg">View the icon in the browser</a></summary>
 plus_thin_line, 
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/sort_ascending_fill.svg">View the icon in the browser</a></summary>
+sort_ascending_fill, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bloodpressure_line.svg">View the icon in the browser</a></summary>
 bloodpressure_line, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/temperature_fill.svg">View the icon in the browser</a></summary>
