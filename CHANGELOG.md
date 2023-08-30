@@ -1,3 +1,6 @@
+## [16.11.1] 
+- Made sure filled check box touch effect works when the command property changes
+
 ## [16.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
