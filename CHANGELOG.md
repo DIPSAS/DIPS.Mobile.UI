@@ -1,3 +1,6 @@
+## [16.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.8.2]
 - [ContentControl][iOS] If content is CollectionView we wrap it in a grid with row=auto.
 - [ListItem] Options now inherit the BindingContext of the ListItem.
