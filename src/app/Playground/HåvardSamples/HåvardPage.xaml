@@ -11,42 +11,47 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-
-        <Switch x:Name="Switch" />
-
-        <dui:ContentControl SelectorItem="{Binding Source={x:Reference Switch}, Path=IsToggled}">
-            <dui:ContentControl.TemplateSelector>
-                <dui:BooleanDataTemplateSelector>
-                    <dui:BooleanDataTemplateSelector.TrueTemplate>
-                        <DataTemplate>
-                            <dui:ActivityIndicator IsRunning="True"
-                                                   IsVisible="True" />
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.TrueTemplate>
-                    <dui:BooleanDataTemplateSelector.FalseTemplate>
-                        <DataTemplate>
-                            <ScrollView>
-                                <dui:CollectionView ItemsSource="{Binding Items}">
-                                    <dui:CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="{x:Type håvardSamples:Something}">
-                                            <dui:NavigationListItem Icon="{dui:Icons heartrate_line}"
-                                                                    Title="Pulse">
-                                                <dui:ListItem.IconOptions>
-                                                    
-                                                    <dui:IconOptions
-                                                        Color="{Binding TheTing.IsIt, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}, FallbackValue={dui:Colors color_error_dark}}">
-                                                    </dui:IconOptions>
-                                                </dui:ListItem.IconOptions>
-                                            </dui:NavigationListItem>
-                                        </DataTemplate>
-                                    </dui:CollectionView.ItemTemplate>
-                                </dui:CollectionView>
-                            </ScrollView>
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.FalseTemplate>
-                </dui:BooleanDataTemplateSelector>
-            </dui:ContentControl.TemplateSelector>
-        </dui:ContentControl>
-    </VerticalStackLayout>
+    <!-- <CollectionView ItemsSource="{Binding Items}"> -->
+    <!--     <CollectionView.Footer> -->
+    <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->
+    <!--     </CollectionView.Footer> -->
+    <!-- </CollectionView> -->
+    <!-- <VerticalStackLayout> -->
+    <!-- -->
+    <!--     <Switch x:Name="Switch" /> -->
+    <!-- -->
+    <!--     <dui:ContentControl SelectorItem="{Binding Source={x:Reference Switch}, Path=IsToggled}"> -->
+    <!--         <dui:ContentControl.TemplateSelector> -->
+    <!--             <dui:BooleanDataTemplateSelector> -->
+    <!--                 <dui:BooleanDataTemplateSelector.TrueTemplate> -->
+    <!--                     <DataTemplate> -->
+    <!--                         <dui:ActivityIndicator IsRunning="True" -->
+    <!--                                                IsVisible="True" /> -->
+    <!--                     </DataTemplate> -->
+    <!--                 </dui:BooleanDataTemplateSelector.TrueTemplate> -->
+    <!--                 <dui:BooleanDataTemplateSelector.FalseTemplate> -->
+    <!--                     <DataTemplate> -->
+    <!--                         <ScrollView> -->
+    <!--                             <dui:CollectionView ItemsSource="{Binding Items}"> -->
+    <!--                                 <dui:CollectionView.ItemTemplate> -->
+    <!--                                     <DataTemplate x:DataType="{x:Type håvardSamples:Something}"> -->
+    <!--                                         <dui:NavigationListItem Icon="{dui:Icons heartrate_line}" -->
+    <!--                                                                 Title="Pulse"> -->
+    <!--                                             <dui:ListItem.IconOptions> -->
+    <!--                                                  -->
+    <!--                                                 <dui:IconOptions -->
+    <!--                                                     Color="{Binding TheTing.IsIt, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}, FallbackValue={dui:Colors color_error_dark}}"> -->
+    <!--                                                 </dui:IconOptions> -->
+    <!--                                             </dui:ListItem.IconOptions> -->
+    <!--                                         </dui:NavigationListItem> -->
+    <!--                                     </DataTemplate> -->
+    <!--                                 </dui:CollectionView.ItemTemplate> -->
+    <!--                             </dui:CollectionView> -->
+    <!--                         </ScrollView> -->
+    <!--                     </DataTemplate> -->
+    <!--                 </dui:BooleanDataTemplateSelector.FalseTemplate> -->
+    <!--             </dui:BooleanDataTemplateSelector> -->
+    <!--         </dui:ContentControl.TemplateSelector> -->
+    <!--     </dui:ContentControl> -->
+    <!-- </VerticalStackLayout> -->
 </dui:ContentPage>
