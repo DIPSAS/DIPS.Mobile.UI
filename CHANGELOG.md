@@ -1,3 +1,6 @@
+## [16.10.1] 
+- [Android] Made sure we safely commit the fragmentmanager when the state was lost to prevent app crashes.
+
 ## [16.10.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
