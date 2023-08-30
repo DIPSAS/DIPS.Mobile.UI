@@ -6,8 +6,6 @@ public partial class SubtitleOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
-        base.Bind(listItem);
-        
         if(listItem.SubtitleLabel is null)
             return;            
         

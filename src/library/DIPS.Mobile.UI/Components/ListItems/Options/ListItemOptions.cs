@@ -7,6 +7,6 @@ public abstract class ListItemOptions : BindableObject
         SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
         DoBind(listItem);
     }
-    TEST FØR DENNE COMMITEN OG ETTER REFAKTORERING PÅ IKONFARGEN (LISTITEM OPTIONS)
+    
     public abstract void DoBind(ListItem listItem);
 }

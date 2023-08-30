@@ -6,8 +6,6 @@ public partial class TitleOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
-        base.Bind(listItem);
-        
         if(listItem.TitleLabel is null)
             return;
 

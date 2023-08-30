@@ -6,8 +6,6 @@ public partial class InLineContentOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     { 
-        base.Bind(listItem);
-        
         if(listItem.InLineContent is not View inLineContent)
             return;
 

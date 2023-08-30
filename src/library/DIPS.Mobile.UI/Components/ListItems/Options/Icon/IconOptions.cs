@@ -7,8 +7,6 @@ public partial class IconOptions : ListItemOptions
     
     public override void DoBind(ListItem listItem)
     {
-        base.Bind(listItem);
-        
         if(listItem.ImageIcon is null)
             return;
 

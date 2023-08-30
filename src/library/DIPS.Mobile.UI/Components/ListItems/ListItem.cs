@@ -50,9 +50,9 @@ public partial class ListItem : ContentView
     };
     
     public Border Border { get; } = new();
-    internal Image ImageIcon { get; private set; }
-    internal Label TitleLabel { get; private set; }
-    internal Label SubtitleLabel { get; private set; }
+    internal Image? ImageIcon { get; private set; }
+    internal Label? TitleLabel { get; private set; }
+    internal Label? SubtitleLabel { get; private set; }
     
     private IView m_oldInLineContent;
     private IView m_oldUnderlyingContent;
