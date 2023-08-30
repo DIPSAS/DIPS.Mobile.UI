@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
+generated 8/30/2023 8:13:50 AM from DIPS.Mobile.DesignTokens
 */
 
         namespace DIPS.Mobile.UI.Resources.Icons;
@@ -13,10 +13,13 @@ generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
 ["chevron_up_line"] = "chevron_up_line.png",
 ["information_line"] = "information_line.png",
 ["checkin_line"] = "checkin_line.png",
+["close_circle_line"] = "close_circle_line.png",
+["folder_off_line"] = "folder_off_line.png",
 ["microphone_fill"] = "microphone_fill.png",
 ["checkbox_checked_fill"] = "checkbox_checked_fill.png",
 ["radio_checked_line"] = "radio_checked_line.png",
 ["bell_line"] = "bell_line.png",
+["document_off_line"] = "document_off_line.png",
 ["filter_line"] = "filter_line.png",
 ["camera_addnew_fill"] = "camera_addnew_fill.png",
 ["document_line"] = "document_line.png",
@@ -30,7 +33,10 @@ generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
 ["bell_fill"] = "bell_fill.png",
 ["filter_fill"] = "filter_fill.png",
 ["chevron_down_line"] = "chevron_down_line.png",
+["test_tube_line"] = "test_tube_line.png",
+["information_fill"] = "information_fill.png",
 ["close_line"] = "close_line.png",
+["test_tube_off_line"] = "test_tube_off_line.png",
 ["companion_fill"] = "companion_fill.png",
 ["person_line"] = "person_line.png",
 ["descending_fill"] = "descending_fill.png",
@@ -38,6 +44,7 @@ generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
 ["schedule_fill"] = "schedule_fill.png",
 ["discrete_important_fill"] = "discrete_important_fill.png",
 ["plus_line"] = "plus_line.png",
+["beaker_line"] = "beaker_line.png",
 ["document_fill"] = "document_fill.png",
 ["checkbox_unchecked_line"] = "checkbox_unchecked_line.png",
 ["respiration_line"] = "respiration_line.png",
@@ -58,6 +65,7 @@ generated 8/27/2023 7:54:30 PM from DIPS.Mobile.DesignTokens
 ["radio_unchecked_line"] = "radio_unchecked_line.png",
 ["wardstay_fill"] = "wardstay_fill.png",
 ["failure_fill"] = "failure_fill.png",
+["folder_line"] = "folder_line.png",
 ["comment_addnew_line"] = "comment_addnew_line.png",
 ["tasklist_line"] = "tasklist_line.png",
 ["important_line"] = "important_line.png",
