@@ -13,6 +13,7 @@
 #load "BuildSystem/AppConfig/AppConfig.csx"
 #load "BuildSystem/AppConfig/AppConfigManager.csx"
 #load "BuildSystem/Helpers/DirectoryHelper.csx"
+#load "BuildSystem/Helpers/WriteToFileHelper.csx"
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -165,8 +166,8 @@ AsyncStep createResourcesPR = async () =>
     
     //checkout new branch
     Logger.LogDebug($"Trying to create {prBranchName}");
-    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
-    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+    //TODO: await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    //TODO: await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
 
     //Where is everything located
     //Generated resources
@@ -196,10 +197,81 @@ AsyncStep createResourcesPR = async () =>
     DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
 
     //Icons
-    foreach(string svgFile in Directory.GetFiles(libraryDotnetMauiIconsDir.FullName, "*.svg")) // Clean up all old svgs
+    
+    var oldFiles = Directory.GetFiles(libraryDotnetMauiIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
+    var generatedFiles = Directory.GetFiles(generatedDotnetMauiIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
+    //Get the newly added icons
+    var newIcons = new List<FileInfo>();
+    foreach (var generatedIcon in generatedFiles)
     {
-        File.Delete(svgFile);
+        if(!oldFiles.Any(f => f.Name.Equals(generatedIcon.Name))){
+            newIcons.Add(generatedIcon);
+        }
     }
+
+    //Get the deleted icons
+    var deletedIcons = new List<FileInfo>();
+    foreach (var oldFile in oldFiles)
+    {
+        if (!generatedFiles.Any(f => f.Name.Equals(oldFile.Name)))
+        {
+            deletedIcons.Add(oldFile);
+        }
+    }
+
+    WriteToFileHelper.WriteToEnumFile(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
+                                    , newIcons.Select(f => f.Name).ToArray(), (enumName =>
+                                    {
+                                        return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
+                                    }), deletedIcons.Select(f => f.Name).ToArray());
+    // }
+
+    // //Modify enum
+    // var iconNameFile = libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs"));
+    // var iconNameContent = await File.ReadAllTextAsync(iconNameFile.FullName);
+    // var enums = iconNameContent.Split(",");
+
+    // var highestIndex = -1;
+    // foreach (var theEnum in enums)
+    // {
+    //     var result = theEnum[(theEnum.LastIndexOf('=') + 1)..];
+    //     if(int.TryParse(result, out var theEnumIndex))
+    //     {
+    //         if (theEnumIndex > highestIndex)
+    //         {
+    //             highestIndex = theEnumIndex;
+    //         }
+    //     }
+    // }
+
+    // foreach (var newFile in newFiles)
+    // {
+    //     var lastComma = iconNameContent.LastIndexOf(',');
+    //     if (lastComma != -1)
+    //     {
+    //         var name = newFile.Name.Replace(".svg", "");
+    //         var comment = $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{newFile.Name}\">View the icon in the browser</a></summary>";
+    //         highestIndex++;
+    //         iconNameContent = iconNameContent.Remove(lastComma, 1).Insert(lastComma, $", \n{comment}\n{name}={highestIndex},");
+    //     }
+    // }
+
+    // foreach (var deletedFile in deletedFiles)
+    // {
+    //     var name = deletedFile.Name.Replace(".svg", "");
+    //     var lineThatContains = enums.FirstOrDefault(s => s.Contains(name));
+    //     if(lineThatContains != null)
+    //     {
+    //         iconNameContent = iconNameContent.Replace(lineThatContains+",", "");
+    //     }
+    // }
+
+    // Console.WriteLine(iconNameContent);
+    // await File.WriteAllTextAsync(iconNameFile.FullName, iconNameContent);
+
+
+    return;
+
     DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
     //Sizes
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
