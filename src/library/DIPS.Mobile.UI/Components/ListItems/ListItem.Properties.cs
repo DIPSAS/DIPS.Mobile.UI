@@ -220,7 +220,7 @@ public partial class ListItem
         defaultValueCreator: CreateOptionsAndBind<Options.InLineContent.InLineContentOptions>,
         propertyChanged: (bindable, _, newValue) => ((Options.InLineContent.InLineContentOptions)newValue).Bind(((ListItem)bindable)));
     
-    private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : IListItemOptions, new()
+    private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : ListItemOptions, new()
     {
         if (bindable is not ListItem listItem)
             return default!;

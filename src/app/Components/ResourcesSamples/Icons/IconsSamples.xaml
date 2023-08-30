@@ -33,7 +33,7 @@
                                 <RoundRectangle CornerRadius="{dui:CornerRadius size_3}" />
                             </Border.StrokeShape>
 
-                            <Image HeightRequest="{dui:Sizes SizeName=size_10}"
+                            <dui:Image HeightRequest="{dui:Sizes SizeName=size_10}"
                                    WidthRequest="{dui:Sizes SizeName=size_10}"
                                    Source="{Binding Value}" />
                         </Border>
