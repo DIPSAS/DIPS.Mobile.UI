@@ -114,7 +114,7 @@ public static class DesignTokenApplier
             var generatedSizesJsonFile = generatedSizesDir.GetFiles().FirstOrDefault(f => f.Extension == ".json");
             var generatedSizesJsonContent = await File.ReadAllTextAsync(generatedSizesJsonFile.FullName);
             var generatedSizes = JsonConvert.DeserializeObject<Dictionary<string, string>>(generatedSizesJsonContent);
-            WriteLine(generatedSizes);
+            
             var librarySizesJsonFile = librarySizesDir.GetFiles().FirstOrDefault(f => f.Extension == ".json");
             var librarySizesJsonContent = await File.ReadAllTextAsync(librarySizesJsonFile.FullName);
             var librarySizes = JsonConvert.DeserializeObject<Dictionary<string, string>>(librarySizesJsonContent);
@@ -128,7 +128,7 @@ public static class DesignTokenApplier
                 var key = generatedSizeKeyValue.Key;
                 var value = generatedSizeKeyValue.Value;
                 var theSameSize = librarySizes.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
-                if (theSameSize == null) //Its a new color
+                if (theSameSize.Key == null) //Its a new color
                 {
                     newSizes.Add(key, value);
                 }
@@ -146,7 +146,7 @@ public static class DesignTokenApplier
                 var key = librarySizeKeyvalue.Key;
                 var value = librarySizeKeyvalue.Key;
                 var theSameSize = generatedSizes.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
-                if(theSameSize == null) //It got removed
+                if(theSameSize.Key == null) //It got removed
                 {
                     removedSizes.Add(key, value);
                 }

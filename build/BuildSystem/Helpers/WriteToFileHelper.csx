@@ -74,7 +74,7 @@ public static class WriteToFileHelper
     {
         var resourcesClassContent = await File.ReadAllTextAsync(resourcesClassFile);
         var keys = resourcesClassContent.Split(",");
-        if(!keys.Contains(keyToUpdate)) return;
+        if(keys.FirstOrDefault(s => s.Contains(keyToUpdate)) == null) return;
 
         //First remove it
         resourcesClassContent = RemoveTextFromContentWithCommas(resourcesClassContent, () => keys.FirstOrDefault(s => s.Contains(keyToUpdate)));
