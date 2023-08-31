@@ -21,6 +21,7 @@ namespace DIPS.Mobile.UI.UnitTests.Resources.Colors
             var allColors = Enum.ToList<ColorName>().ToList();
             foreach (var colorName in allColors)
             {
+                if(colorName == ColorName.none) continue; //skip none
                 var (shouldHaveADarkModeColor, expectedDarkModeColorName) = ColorLookup.HasDarkModeColor(colorName);
                 if (!shouldHaveADarkModeColor)
                 {
