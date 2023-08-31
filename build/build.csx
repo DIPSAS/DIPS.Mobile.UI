@@ -13,7 +13,9 @@
 #load "BuildSystem/AppConfig/AppConfig.csx"
 #load "BuildSystem/AppConfig/AppConfigManager.csx"
 #load "BuildSystem/Helpers/DirectoryHelper.csx"
-#load "BuildSystem/Helpers/WriteToFileHelper.csx"
+#load "BuildSystem/DesignTokens/DesignTokenApplier.csx"
+#r "nuget:Newtonsoft.Json, 13.0.2"
+using Newtonsoft.Json;
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -190,15 +192,16 @@ AsyncStep createResourcesPR = async () =>
     var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
 
     //Icons
-    TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
+    DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
     //Animations
-    TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
+    DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
-    return;
     //Sizes
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
-    
+    await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
+    return;
+
     //Colors
+    DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
     generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
     DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
 
@@ -224,106 +227,8 @@ AsyncStep createResourcesPR = async () =>
 };
 
 
-public void TryAddIcons(DirectoryInfo libraryIconsDir, DirectoryInfo generatedIconsDir)
-{
-    var oldIcons = Directory.GetFiles(libraryIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
-    var generatedIcons = Directory.GetFiles(generatedIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
-    //Get the newly added icons
-    var newIcons = new List<FileInfo>();
-    foreach (var generatedIcon in generatedIcons)
-    {
-        if(!oldIcons.Any(f => f.Name.Equals(generatedIcon.Name))){
-            newIcons.Add(generatedIcon);
-        }
-    }
 
-    //Get the deleted icons
-    var deletedIcons = new List<FileInfo>();
-    foreach (var oldIcon in oldIcons)
-    {
-        if (!generatedIcons.Any(f => f.Name.Equals(oldIcon.Name)))
-        {
-            deletedIcons.Add(oldIcon);
-        }
-    }
-
-
-    WriteToFileHelper.WriteToEnumFile(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
-                                    , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), 
-                                    deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (enumName =>
-                                    {
-                                        return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
-                                    }));
-
-    WriteToFileHelper.WriteToResourcesDictionary(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
-                                                , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
-                                                    return $"\"{key}.png\"";
-                                                })
-                                                ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
-
-
-    //Delete all svgs in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
-    var generatedSvgFilesToAdd = generatedIconsDir.GetFiles().Where(f => f.Extension == ".svg");
-    var librarySvgFilesToRemove = libraryIconsDir.GetFiles().Where(f => f.Extension == ".svg");
-    foreach (var svgToRemove in librarySvgFilesToRemove)
-    {
-        File.Delete(svgToRemove.FullName);
-    }
-    foreach (var fileToAdd in generatedSvgFilesToAdd)
-    {
-        var destination = libraryIconsDir.FullName +"/"+ fileToAdd.Name;
-        File.Copy(fileToAdd.FullName, destination);
-    }
-
-}
-
-public void TryAddAnimations(DirectoryInfo libraryAnimationsDir, DirectoryInfo generatedAnimationsDir)
-{
-    //Animations
-    var oldAnimations = Directory.GetFiles(libraryAnimationsDir.FullName, "*.json").Select(f => new FileInfo(f));
-    var generatedAnimations = Directory.GetFiles(generatedAnimationsDir.FullName, "*.json").Select(f => new FileInfo(f));
-    var newAnimations = new List<FileInfo>();
-    foreach (var generatedAnimation in generatedAnimations)
-    {
-        if(!oldAnimations.Any(f => f.Name.Equals(generatedAnimation.Name))){
-            newAnimations.Add(generatedAnimation);
-        }
-    }
-
-    var deletedAnimations = new List<FileInfo>();
-    foreach (var oldAnimation in oldAnimations)
-    {
-        if (!generatedAnimations.Any(f => f.Name.Equals(oldAnimation.Name)))
-        {
-            deletedAnimations.Add(oldAnimation);
-        }
-    }
-
-
-    WriteToFileHelper.WriteToEnumFile(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationName.cs")).FullName
-                                    , newAnimations.Select(f => f.Name.Replace(".json","")).ToArray(), 
-                                    deletedAnimations.Select(f => f.Name.Replace(".json","")).ToArray());
-
-    WriteToFileHelper.WriteToResourcesDictionary(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationResources.cs")).FullName
-                                                , newAnimations.Select(f => f.Name.Replace(".json","")).ToArray(), (key => {
-                                                    return $"\"{key}.json\"";
-                                                })
-                                                ,deletedAnimations.Select(f => f.Name.Replace(".json","")).ToArray());
-
-
-    //Delete all old jsons in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
-    var generatedAnimationFilesToAdd = generatedAnimationsDir.GetFiles().Where(f => f.Extension == ".json");
-    var libraryAnimationFilesToRemove = libraryAnimationsDir.GetFiles().Where(f => f.Extension == ".json");
-    foreach (var animationToRemove in libraryAnimationFilesToRemove)
-    {
-        File.Delete(animationToRemove.FullName);
-    }
-    foreach (var animationToAdd in generatedAnimationFilesToAdd)
-    {
-        var destination = libraryAnimationsDir.FullName +"/"+ animationToAdd.Name;
-        File.Copy(animationToAdd.FullName, destination);
-    }
-}
+   
 
 // var args = Args;
 var args = new string[] { "createResourcesPR" };

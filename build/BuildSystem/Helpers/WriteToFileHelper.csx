@@ -70,6 +70,26 @@ public static class WriteToFileHelper
 
     }
 
+    public static async void UpdateResourceDictionary(string resourcesClassFile, string keyToUpdate, Func<string,string> valueToAdd)
+    {
+        var resourcesClassContent = await File.ReadAllTextAsync(resourcesClassFile);
+        var keys = resourcesClassContent.Split(",");
+        if(!keys.Contains(keyToUpdate)) return;
+
+        //First remove it
+        resourcesClassContent = RemoveTextFromContentWithCommas(resourcesClassContent, () => keys.FirstOrDefault(s => s.Contains(keyToUpdate)));
+
+        //Then add it
+        var value = valueToAdd.Invoke(keyToUpdate);
+        var keyAndValue = $"\n[\"{keyToUpdate}\"] = {value}";
+        WriteLine("Updating {key} with {value}");
+        resourcesClassContent = AddValueToContentWithCommas(resourcesClassContent, keyAndValue);
+    
+        resourcesClassContent = AddGeneratedComment(resourcesClassContent);
+        await File.WriteAllTextAsync(resourcesClassFile, resourcesClassContent);
+
+    }
+
     private static string AddValueToContentWithCommas(string fileContent, string value)
     {
         WriteLine($"Adding {value}");
