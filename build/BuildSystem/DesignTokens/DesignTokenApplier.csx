@@ -122,35 +122,7 @@ public static class DesignTokenApplier
             Dictionary<string, string> newSizes = new Dictionary<string, string>();
             Dictionary<string, string> removedSizes = new Dictionary<string, string>();
             Dictionary<string, string> updatedSizes = new Dictionary<string, string>();
-
-            foreach (var generatedSizeKeyValue in generatedSizes)
-            {
-                var key = generatedSizeKeyValue.Key;
-                var value = generatedSizeKeyValue.Value;
-                var theSameSize = librarySizes.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
-                if (theSameSize.Key == null) //Its a new color
-                {
-                    newSizes.Add(key, value);
-                }
-                else //It exists from before
-                {
-                    if(theSameSize.Value != value) //But the value has changed
-                    {
-                        updatedSizes.Add(key, value);
-                    }
-                }
-            }
-
-            foreach (var librarySizeKeyvalue in librarySizes)
-            {
-                var key = librarySizeKeyvalue.Key;
-                var value = librarySizeKeyvalue.Key;
-                var theSameSize = generatedSizes.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
-                if(theSameSize.Key == null) //It got removed
-                {
-                    removedSizes.Add(key, value);
-                }
-            }
+            DictionaryDiff(generatedSizes, librarySizes, newSizes, removedSizes, updatedSizes);
 
             //Add and remove
             WriteToFileHelper.WriteToResourcesDictionary(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeResources.cs")).FullName
@@ -175,8 +147,80 @@ public static class DesignTokenApplier
         File.Copy(generatedSizesJsonFile.FullName, librarySizesJsonFile.FullName, true);
     }
 
-    public static void TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
+    public static async Task TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
     {
+        var generatedColorsJsonFile = generatedColorsDir.GetFiles().FirstOrDefault(f => f.Extension == ".json");
+        var generatedColorsJsonContent = await File.ReadAllTextAsync(generatedColorsJsonFile.FullName);
+        var generatedColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(generatedColorsJsonContent);
+        
+        var libraryColorsJsonFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Extension == ".json");
+        var libraryColorsJsonContent = await File.ReadAllTextAsync(libraryColorsJsonFile.FullName);
+        var libraryColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(libraryColorsJsonContent);
 
+        Dictionary<string, string> newColors = new Dictionary<string, string>();
+        Dictionary<string, string> removedColors = new Dictionary<string, string>();
+        Dictionary<string, string> updatedColors = new Dictionary<string, string>();
+        DictionaryDiff(generatedColors, libraryColors, newColors, removedColors, updatedColors);
+
+        //Add and remove
+        WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
+                                                    , newColors.Select(keyValue => keyValue.Key).ToArray(), (key => {
+                                                        var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
+                                                        return $"Color.FromArgb(\"{value}\")";
+                                                    })
+                                                    ,removedColors.Select(keyValue => keyValue.Key).ToArray());
+        WriteToFileHelper.WriteToEnumFile(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorName.cs")).FullName
+                            , newColors.Select(keyValue => keyValue.Key).ToArray(), 
+                            removedColors.Select(keyValue => keyValue.Key).ToArray());
+        //Update
+        foreach (var updatedSize in updatedColors)
+        {
+            WriteToFileHelper.UpdateResourceDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName, updatedSize.Key, (key =>
+            {
+                var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
+                return $"Color.FromArgb(\"{value}\")";
+            }));
+        }
+
+    //Update json file
+
+    File.Copy(generatedColorsJsonFile.FullName, libraryColorsJsonFile.FullName, true);
+    }
+    
+    private static void DictionaryDiff(
+        Dictionary<string,string> firstDictionary,
+        Dictionary<string,string> secondDictionary,
+        Dictionary<string,string> newValues, 
+        Dictionary<string, string> deletedValues, 
+        Dictionary<string,string> updatedValues)
+    {
+        foreach (var generatedSizeKeyValue in firstDictionary)
+            {
+                var key = generatedSizeKeyValue.Key;
+                var value = generatedSizeKeyValue.Value;
+                var theSameSize = secondDictionary.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
+                if (theSameSize.Key == null) //Its a new size
+                {
+                    newValues.Add(key, value);
+                }
+                else //It exists from before
+                {
+                    if(theSameSize.Value != value) //But the value has changed
+                    {
+                        updatedValues.Add(key, value);
+                    }
+                }
+            }
+
+            foreach (var librarySizeKeyvalue in secondDictionary)
+            {
+                var key = librarySizeKeyvalue.Key;
+                var value = librarySizeKeyvalue.Key;
+                var theSameSize = firstDictionary.FirstOrDefault(KeyValuePair => KeyValuePair.Key == key);
+                if(theSameSize.Key == null) //It got removed
+                {
+                    deletedValues.Add(key, value);
+                }
+            }
     }
 }

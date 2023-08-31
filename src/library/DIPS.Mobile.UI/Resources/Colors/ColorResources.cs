@@ -8,6 +8,7 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
         {
             public static Dictionary<string, Color> Colors { get; } = new()
             {
+                ["none"] = Microsoft.Maui.Graphics.Colors.Transparent,
                 ["color_system_black"] = Color.FromArgb("#ff000000"),
 ["color_system_white"] = Color.FromArgb("#ffffffff"),
 ["color_primary_10"] = Color.FromArgb("#fff3f7f8"),
