@@ -2,8 +2,12 @@ public static class WriteToFileHelper
 {
     public static async void WriteToEnumFile(string enumFilePath, string[] enumsToAdd, Func<string,string> enumCommentToAdd, string[] enumsToRemove)
     {
+        if(enumsToAdd.Length == 0 && enumsToRemove.Length == 0) return; //No need to do anything if there is nothing to add
+        
         var enumContent = await File.ReadAllTextAsync(enumFilePath);
         var enums = enumContent.Split(",");
+
+        //Get highest index of enums
         var highestIndex = -1;
         foreach (var theEnum in enums)
         {
@@ -17,6 +21,7 @@ public static class WriteToFileHelper
             }
         }
 
+        //Add enums
         foreach (var enumToAdd in enumsToAdd)
         {
             var lastComma = enumContent.LastIndexOf(',');
@@ -28,6 +33,7 @@ public static class WriteToFileHelper
             }
         }
 
+        //Remove enums
         foreach (var enumToRemove in enumsToRemove)
         {
             var lineThatContains = enums.FirstOrDefault(s => s.Contains(enumToRemove));
@@ -35,6 +41,14 @@ public static class WriteToFileHelper
             {
                 enumContent = enumContent.Replace(lineThatContains+",", "");
             }
+        }
+
+        //Insert generated comment
+        var generatedCommentSplit = enumContent.Split("*/");
+        if(generatedCommentSplit.Length > 0)
+        {
+            var generatedComment = $"/*\nDo not edit directly,\nthis file is generated\n*/";
+            enumContent = enumContent.Replace(generatedCommentSplit[0]+"*/", generatedComment);
         }
 
         Console.WriteLine(enumContent);
