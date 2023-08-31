@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Resources.Colors
 {
     public enum ColorName
     {
+        none=-1,
 color_system_black=0, 
 color_system_white=1, 
 color_primary_10=2, 

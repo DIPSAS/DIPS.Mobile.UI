@@ -8,6 +8,7 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
         {
             public static Dictionary<string, int> Sizes { get; } = new()
             {
+                ["none"] = -1,
                 ["size_0"] = 0,
 ["size_1"] = 4,
 ["size_2"] = 8,

@@ -7,7 +7,8 @@ namespace DIPS.Mobile.UI.Resources.Sizes
 {
     public enum SizeName
     {
-        size_0=0, 
+        none=-1,
+size_0=0, 
 size_1=1, 
 size_2=2, 
 size_3=3, 

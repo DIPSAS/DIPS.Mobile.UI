@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Resources.Animations
 {
     public enum AnimationName
     {
+        none=-1,
         saved=0,
     }
 }
