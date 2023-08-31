@@ -217,17 +217,31 @@ AsyncStep createResourcesPR = async () =>
             deletedIcons.Add(oldFile);
         }
     }
+
+
     WriteToFileHelper.WriteToEnumFile(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
-                                    , newIcons.Select(f => f.Name).ToArray(), (enumName =>
+                                    , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (enumName =>
                                     {
                                         return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
-                                    }), deletedIcons.Select(f => f.Name).ToArray());
+                                    }), deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
     WriteToFileHelper.WriteToResourcesDictionary(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
                                                 , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
-                                                    return $"{key}.png";
+                                                    return $"\"{key}.png\"";
                                                 })
                                                 ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
-
+    //Delete all svgs in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
+    var generatedSvgFilesToAdd = generatedDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == "svg");
+    var librarySvgFilesToRemove = libraryDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == "svg");
+    foreach (var svgToRemove in librarySvgFilesToRemove)
+    {
+        File.Delete(svgToRemove.FullName);
+    }
+    foreach (var fileToAdd in generatedSvgFilesToAdd)
+    {
+        var destination = libraryDotnetMauiIconsDir.FullName + fileToAdd.Name;
+        File.Copy(fileToAdd.FullName, destination);
+    }
+    
 
     // }
 
