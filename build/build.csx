@@ -238,7 +238,7 @@ AsyncStep createResourcesPR = async () =>
     }
     foreach (var fileToAdd in generatedSvgFilesToAdd)
     {
-        var destination = libraryDotnetMauiIconsDir.FullName + fileToAdd.Name;
+        var destination = libraryDotnetMauiIconsDir.FullName +"/"+ fileToAdd.Name;
         File.Copy(fileToAdd.FullName, destination);
     }
     
