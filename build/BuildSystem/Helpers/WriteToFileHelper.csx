@@ -51,7 +51,7 @@ public static class WriteToFileHelper
             enumContent = enumContent.Replace(generatedCommentSplit[0]+"*/", generatedComment);
         }
 
-        Console.WriteLine(enumContent);
-        // await File.WriteAllTextAsync(enumFilePath, enumContent);
+        
+        await File.WriteAllTextAsync(enumFilePath, enumContent);
     }
 }
