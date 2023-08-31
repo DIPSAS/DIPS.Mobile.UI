@@ -166,8 +166,8 @@ AsyncStep createResourcesPR = async () =>
     
     //checkout new branch
     Logger.LogDebug($"Trying to create {prBranchName}");
-    //TODO: await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
-    //TODO: await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
 
     //Where is everything located
     //Generated resources
@@ -224,6 +224,7 @@ AsyncStep createResourcesPR = async () =>
                                     {
                                         return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
                                     }), deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
+
     WriteToFileHelper.WriteToResourcesDictionary(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
                                                 , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
                                                     return $"\"{key}.png\"";
@@ -243,10 +244,6 @@ AsyncStep createResourcesPR = async () =>
         var destination = libraryDotnetMauiIconsDir.FullName +"/"+ fileToAdd.Name;
         File.Copy(fileToAdd.FullName, destination);
     }
-    
-
-
-    return;
 
     //Sizes
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
