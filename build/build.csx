@@ -168,8 +168,8 @@ AsyncStep createResourcesPR = async () =>
     
     //checkout new branch
     Logger.LogDebug($"Trying to create {prBranchName}");
-    //TODO: await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
-    //TODO: await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
 
     //Where is everything located
     //Generated resources
@@ -199,12 +199,9 @@ AsyncStep createResourcesPR = async () =>
     //Sizes
     await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
 
-
     //Colors
-    DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
+    await DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
     generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
-
-    return;
 
     //Bump changelog
     var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
@@ -229,8 +226,7 @@ AsyncStep createResourcesPR = async () =>
 
    
 
-// var args = Args;
-var args = new string[] { "createResourcesPR" };
+var args = Args;
 if(args.Count() == 0){
     await ExecuteSteps(new string[]{"help"});
     WriteLine("Please select steps to run:");
