@@ -1,3 +1,6 @@
+## [16.11.4] 
+- Added unique identifiers for the animations,sizes and colors resources enum.
+
 ## [16.11.3] 
 - Made sure to do a nullcheck on SearchCommand before executing it.
 
