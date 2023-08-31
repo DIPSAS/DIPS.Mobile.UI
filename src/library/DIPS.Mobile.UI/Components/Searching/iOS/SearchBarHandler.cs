@@ -174,7 +174,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private void OnSearchButtonClicked(object? sender, EventArgs e)
     {
-        VirtualView.SearchCommand.Execute(null);
+        VirtualView.SearchCommand?.Execute(null);
     }
 
     private void UnSubscribeToEvents()
