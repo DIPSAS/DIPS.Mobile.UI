@@ -121,7 +121,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The search command that gets invoked when people has tapped the search button in the keyboard.
         /// </summary>
-        public ICommand SearchCommand
+        public ICommand? SearchCommand
         {
             get => (ICommand)GetValue(SearchCommandProperty);
             set => SetValue(SearchCommandProperty, value);

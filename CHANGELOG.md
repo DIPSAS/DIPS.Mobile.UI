@@ -1,3 +1,6 @@
+## [16.11.3] 
+- Made sure to do a nullcheck on SearchCommand before executing it.
+
 ## [16.11.2] 
 - Added unique identifiers for the icon resources enum.
 
