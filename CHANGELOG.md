@@ -1,3 +1,6 @@
+## [16.11.2] 
+- Added unique identifiers for the icon resources enum.
+
 ## [16.11.1] 
 - Made sure filled check box touch effect works when the command property changes
 
