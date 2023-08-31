@@ -169,7 +169,11 @@ public static class DesignTokenApplier
                     return generatedSizes.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                 }));
             }
-        }
+
+        //Update json file
+
+        File.Copy(generatedSizesJsonFile.FullName, librarySizesJsonFile.FullName, true);
+    }
 
     public static void TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
     {

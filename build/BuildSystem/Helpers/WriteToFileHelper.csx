@@ -82,7 +82,7 @@ public static class WriteToFileHelper
         //Then add it
         var value = valueToAdd.Invoke(keyToUpdate);
         var keyAndValue = $"\n[\"{keyToUpdate}\"] = {value}";
-        WriteLine("Updating {key} with {value}");
+        WriteLine($"Updating {keyToUpdate} with {value} ");
         resourcesClassContent = AddValueToContentWithCommas(resourcesClassContent, keyAndValue);
     
         resourcesClassContent = AddGeneratedComment(resourcesClassContent);
