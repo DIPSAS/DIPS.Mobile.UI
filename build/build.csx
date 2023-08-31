@@ -217,14 +217,18 @@ AsyncStep createResourcesPR = async () =>
             deletedIcons.Add(oldFile);
         }
     }
-
     WriteToFileHelper.WriteToEnumFile(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
                                     , newIcons.Select(f => f.Name).ToArray(), (enumName =>
                                     {
                                         return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
                                     }), deletedIcons.Select(f => f.Name).ToArray());
+    WriteToFileHelper.WriteToResourcesDictionary(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
+                                                , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
+                                                    return $"{key}.png";
+                                                })
+                                                ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
 
-    
+
     // }
 
     // //Modify enum
