@@ -230,8 +230,8 @@ AsyncStep createResourcesPR = async () =>
                                                 })
                                                 ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
     //Delete all svgs in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
-    var generatedSvgFilesToAdd = generatedDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == "svg");
-    var librarySvgFilesToRemove = libraryDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == "svg");
+    var generatedSvgFilesToAdd = generatedDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
+    var librarySvgFilesToRemove = libraryDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
     foreach (var svgToRemove in librarySvgFilesToRemove)
     {
         File.Delete(svgToRemove.FullName);
