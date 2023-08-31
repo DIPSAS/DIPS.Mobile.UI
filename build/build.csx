@@ -229,6 +229,8 @@ AsyncStep createResourcesPR = async () =>
                                                     return $"\"{key}.png\"";
                                                 })
                                                 ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
+
+
     //Delete all svgs in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
     var generatedSvgFilesToAdd = generatedDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
     var librarySvgFilesToRemove = libraryDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
@@ -243,55 +245,9 @@ AsyncStep createResourcesPR = async () =>
     }
     
 
-    // }
-
-    // //Modify enum
-    // var iconNameFile = libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs"));
-    // var iconNameContent = await File.ReadAllTextAsync(iconNameFile.FullName);
-    // var enums = iconNameContent.Split(",");
-
-    // var highestIndex = -1;
-    // foreach (var theEnum in enums)
-    // {
-    //     var result = theEnum[(theEnum.LastIndexOf('=') + 1)..];
-    //     if(int.TryParse(result, out var theEnumIndex))
-    //     {
-    //         if (theEnumIndex > highestIndex)
-    //         {
-    //             highestIndex = theEnumIndex;
-    //         }
-    //     }
-    // }
-
-    // foreach (var newFile in newFiles)
-    // {
-    //     var lastComma = iconNameContent.LastIndexOf(',');
-    //     if (lastComma != -1)
-    //     {
-    //         var name = newFile.Name.Replace(".svg", "");
-    //         var comment = $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{newFile.Name}\">View the icon in the browser</a></summary>";
-    //         highestIndex++;
-    //         iconNameContent = iconNameContent.Remove(lastComma, 1).Insert(lastComma, $", \n{comment}\n{name}={highestIndex},");
-    //     }
-    // }
-
-    // foreach (var deletedFile in deletedFiles)
-    // {
-    //     var name = deletedFile.Name.Replace(".svg", "");
-    //     var lineThatContains = enums.FirstOrDefault(s => s.Contains(name));
-    //     if(lineThatContains != null)
-    //     {
-    //         iconNameContent = iconNameContent.Replace(lineThatContains+",", "");
-    //     }
-    // }
-
-    // Console.WriteLine(iconNameContent);
-    // await File.WriteAllTextAsync(iconNameFile.FullName, iconNameContent);
-
 
     return;
 
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiIconsDir.FullName, libraryDotnetMauiIconsDir.FullName, true, true);
     //Sizes
     DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
     //Animations
