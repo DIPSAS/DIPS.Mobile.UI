@@ -147,7 +147,7 @@ public static class DesignTokenApplier
         File.Copy(generatedSizesJsonFile.FullName, librarySizesJsonFile.FullName, true);
     }
 
-    public static async Task TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
+    public static async Task<bool> TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
     {
         var generatedColorsJsonFile = generatedColorsDir.GetFiles().FirstOrDefault(f => f.Extension == ".json");
         var generatedColorsJsonContent = await File.ReadAllTextAsync(generatedColorsJsonFile.FullName);
@@ -161,6 +161,10 @@ public static class DesignTokenApplier
         Dictionary<string, string> removedColors = new Dictionary<string, string>();
         Dictionary<string, string> updatedColors = new Dictionary<string, string>();
         DictionaryDiff(generatedColors, libraryColors, newColors, removedColors, updatedColors);
+        if(!newColors.Any() && !removedColors.Any() && !updatedColors.Any())
+        {
+            return false;
+        }
 
         //Add and remove
         WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
@@ -182,9 +186,9 @@ public static class DesignTokenApplier
             }));
         }
 
-    //Update json file
-
-    File.Copy(generatedColorsJsonFile.FullName, libraryColorsJsonFile.FullName, true);
+        //Update json file
+        File.Copy(generatedColorsJsonFile.FullName, libraryColorsJsonFile.FullName, true);
+        return true;
     }
     
     private static void DictionaryDiff(

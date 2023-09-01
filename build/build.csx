@@ -200,8 +200,11 @@ AsyncStep createResourcesPR = async () =>
     await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
 
     //Colors
-    await DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
-    generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
+    if(await DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir))
+    {
+        generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
+    }
+    
 
     //Bump changelog
     var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
