@@ -8,6 +8,7 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
         {
             public static Dictionary<string, ImageSource> Icons { get; } = new()
             {
+                ["none"] = "placeholdericon_fill.png",
                 ["arrows_outward_line"] = "arrows_outward_line.png",
 ["weight_line"] = "weight_line.png",
 ["chevron_up_line"] = "chevron_up_line.png",

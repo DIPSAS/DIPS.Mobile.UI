@@ -13,7 +13,9 @@
 #load "BuildSystem/AppConfig/AppConfig.csx"
 #load "BuildSystem/AppConfig/AppConfigManager.csx"
 #load "BuildSystem/Helpers/DirectoryHelper.csx"
-#load "BuildSystem/Helpers/WriteToFileHelper.csx"
+#load "BuildSystem/DesignTokens/DesignTokenApplier.csx"
+#r "nuget:Newtonsoft.Json, 13.0.2"
+using Newtonsoft.Json;
 
 private static string LibraryPackageVersion = "1.1.0";
 private static string RootDir = Repository.RootDir();
@@ -172,16 +174,15 @@ AsyncStep createResourcesPR = async () =>
     //Where is everything located
     //Generated resources
     var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
-    var generatedDotnetMauiDir = new DirectoryInfo(Path.Combine(OutputDir, "dotnet", "maui"));
+    var generatedTokensDir = new DirectoryInfo(Path.Combine(OutputDir, "tokens"));
 
     var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
-    var generatedDotnetMauiColorsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
-    var generatedDotnetMauiIconsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
-    var generatedDotnetMauiSizesDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
-    var generatedDotnetMauiAnimationsDir = generatedDotnetMauiDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
+    var generatedDotnetMauiColorsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("colors"));
+    var generatedDotnetMauiIconsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("icons"));
+    var generatedDotnetMauiSizesDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("sizes"));
+    var generatedDotnetMauiAnimationsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("animations"));
 
     //The source repository paths
-
     var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
     var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryDir, "Platforms", "Android"));
 
@@ -190,65 +191,17 @@ AsyncStep createResourcesPR = async () =>
     var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
     var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
 
-
-    //Copy to the correct folders in the branch
-    //Colors
-    generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiColorsDir.FullName, libraryDotnetMauiColorsDir.FullName, true, true);
-
     //Icons
-    var oldFiles = Directory.GetFiles(libraryDotnetMauiIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
-    var generatedFiles = Directory.GetFiles(generatedDotnetMauiIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
-    //Get the newly added icons
-    var newIcons = new List<FileInfo>();
-    foreach (var generatedIcon in generatedFiles)
-    {
-        if(!oldFiles.Any(f => f.Name.Equals(generatedIcon.Name))){
-            newIcons.Add(generatedIcon);
-        }
-    }
-
-    //Get the deleted icons
-    var deletedIcons = new List<FileInfo>();
-    foreach (var oldFile in oldFiles)
-    {
-        if (!generatedFiles.Any(f => f.Name.Equals(oldFile.Name)))
-        {
-            deletedIcons.Add(oldFile);
-        }
-    }
-
-
-    WriteToFileHelper.WriteToEnumFile(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
-                                    , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (enumName =>
-                                    {
-                                        return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
-                                    }), deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
-
-    WriteToFileHelper.WriteToResourcesDictionary(libraryDotnetMauiIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
-                                                , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
-                                                    return $"\"{key}.png\"";
-                                                })
-                                                ,deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray());
-
-
-    //Delete all svgs in the library and replace with the generated ones, this will make sure we get changes (added, edited or removed)
-    var generatedSvgFilesToAdd = generatedDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
-    var librarySvgFilesToRemove = libraryDotnetMauiIconsDir.GetFiles().Where(f => f.Extension == ".svg");
-    foreach (var svgToRemove in librarySvgFilesToRemove)
-    {
-        File.Delete(svgToRemove.FullName);
-    }
-    foreach (var fileToAdd in generatedSvgFilesToAdd)
-    {
-        var destination = libraryDotnetMauiIconsDir.FullName +"/"+ fileToAdd.Name;
-        File.Copy(fileToAdd.FullName, destination);
-    }
+    DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
+    //Animations
+    DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
     //Sizes
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiSizesDir.FullName, libraryDotnetMauiSizesDir.FullName, true, true);
-    //Animations
-    DirectoryHelper.CopyDirectory(generatedDotnetMauiAnimationsDir.FullName, libraryDotnetMauiAnimationsDir.FullName, true, true);
+    await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
+
+    //Colors
+    await DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
+    generatedAndroidColorFile.CopyTo(Path.Combine(libraryAndroidDir.FullName, "Resources", "values", generatedAndroidColorFile.Name), true);
 
     //Bump changelog
     var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
@@ -268,6 +221,10 @@ AsyncStep createResourcesPR = async () =>
     await Command.CaptureAsync("gh", $"auth login");
     await Command.ExecuteAsync("gh", $"pr create --title \"{changesetMessage}\" --body \"Here is the latest resources that was generated by DIPS.Mobile.DesignTokens repository\"");
 };
+
+
+
+   
 
 var args = Args;
 if(args.Count() == 0){

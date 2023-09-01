@@ -1,6 +1,6 @@
 public static class WriteToFileHelper
 {
-    public static async void WriteToEnumFile(string enumFilePath, string[] enumsToAdd, Func<string,string> enumCommentToAdd, string[] enumsToRemove)
+    public static async void WriteToEnumFile(string enumFilePath, string[] enumsToAdd, string[] enumsToRemove, Func<string,string> enumCommentToAdd=null)
     {
         if(enumsToAdd.Length == 0 && enumsToRemove.Length == 0) return; //No need to do anything if there is nothing to add
         
@@ -24,9 +24,13 @@ public static class WriteToFileHelper
         //Add enums
         foreach (var enumToAdd in enumsToAdd)
         {
-            string comment = enumCommentToAdd.Invoke(enumToAdd);
+            var comment = enumCommentToAdd?.Invoke(enumToAdd);
             highestIndex++;
-            var value = $"\n{comment}\n{enumToAdd}={highestIndex}";
+            var value = $"\n{enumToAdd}={highestIndex}";
+            if(comment != null)
+            {
+                value = $"\n{comment}" + value;
+            }
             enumContent = AddValueToContentWithCommas(enumContent, value);
         }
 
@@ -61,6 +65,26 @@ public static class WriteToFileHelper
             resourcesClassContent = RemoveTextFromContentWithCommas(resourcesClassContent, () => keys.FirstOrDefault(s => s.Contains(keyToRemove)));
         }
 
+        resourcesClassContent = AddGeneratedComment(resourcesClassContent);
+        await File.WriteAllTextAsync(resourcesClassFile, resourcesClassContent);
+
+    }
+
+    public static async void UpdateResourceDictionary(string resourcesClassFile, string keyToUpdate, Func<string,string> valueToAdd)
+    {
+        var resourcesClassContent = await File.ReadAllTextAsync(resourcesClassFile);
+        var keys = resourcesClassContent.Split(",");
+        if(keys.FirstOrDefault(s => s.Contains(keyToUpdate)) == null) return;
+
+        //First remove it
+        resourcesClassContent = RemoveTextFromContentWithCommas(resourcesClassContent, () => keys.FirstOrDefault(s => s.Contains(keyToUpdate)));
+
+        //Then add it
+        var value = valueToAdd.Invoke(keyToUpdate);
+        var keyAndValue = $"\n[\"{keyToUpdate}\"] = {value}";
+        WriteLine($"Updating {keyToUpdate} with {value} ");
+        resourcesClassContent = AddValueToContentWithCommas(resourcesClassContent, keyAndValue);
+    
         resourcesClassContent = AddGeneratedComment(resourcesClassContent);
         await File.WriteAllTextAsync(resourcesClassFile, resourcesClassContent);
 

@@ -7,7 +7,9 @@ namespace DIPS.Mobile.UI.Resources.Icons
 {
     public enum IconName
     {
-        ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrows_outward_line.svg">View the icon in the browser</a></summary>
+        ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/placeholdericon_fill.svg">View the icon in the browser</a></summary>
+        none=-1,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrows_outward_line.svg">View the icon in the browser</a></summary>
 arrows_outward_line=0, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/weight_line.svg">View the icon in the browser</a></summary>
 weight_line=1, 
