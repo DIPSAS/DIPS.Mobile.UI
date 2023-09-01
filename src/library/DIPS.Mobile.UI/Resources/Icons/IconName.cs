@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
 namespace DIPS.Mobile.UI.Resources.Icons
@@ -181,5 +181,15 @@ bloodpressure_line=83,
 temperature_fill=84, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/contagious_fill.svg">View the icon in the browser</a></summary>
 contagious_fill=85,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bell_off_fill.svg">View the icon in the browser</a></summary>
+bell_off_fill=86,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/outofrange_fill.svg">View the icon in the browser</a></summary>
+outofrange_fill=87,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bells_fill.svg">View the icon in the browser</a></summary>
+bells_fill=88,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bells_line.svg">View the icon in the browser</a></summary>
+bells_line=89,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/dash_long_fill.svg">View the icon in the browser</a></summary>
+dash_long_fill=90,
     }
 }

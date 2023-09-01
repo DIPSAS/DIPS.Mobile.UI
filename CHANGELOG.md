@@ -1,3 +1,6 @@
+## [16.12.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.11.4] 
 - Added unique identifiers for the animations,sizes and colors resources enum.
 
