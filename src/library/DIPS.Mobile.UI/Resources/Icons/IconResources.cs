@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
         namespace DIPS.Mobile.UI.Resources.Icons;
@@ -95,6 +95,11 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
 ["bloodpressure_line"] = "bloodpressure_line.png",
 ["temperature_fill"] = "temperature_fill.png",
 ["contagious_fill"] = "contagious_fill.png",
+["bell_off_fill"] = "bell_off_fill.png",
+["outofrange_fill"] = "outofrange_fill.png",
+["bells_fill"] = "bells_fill.png",
+["bells_line"] = "bells_line.png",
+["dash_long_fill"] = "dash_long_fill.png",
 
             };
         }
