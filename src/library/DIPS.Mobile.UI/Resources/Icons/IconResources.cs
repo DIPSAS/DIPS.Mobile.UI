@@ -100,6 +100,7 @@ this file is generated
 ["bells_fill"] = "bells_fill.png",
 ["bells_line"] = "bells_line.png",
 ["dash_long_fill"] = "dash_long_fill.png",
+["eye_off_fill"] = "eye_off_fill.png",
 
             };
         }

@@ -191,5 +191,7 @@ bells_fill=88,
 bells_line=89,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/dash_long_fill.svg">View the icon in the browser</a></summary>
 dash_long_fill=90,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/eye_off_fill.svg">View the icon in the browser</a></summary>
+eye_off_fill=91,
     }
 }
