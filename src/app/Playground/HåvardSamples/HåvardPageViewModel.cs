@@ -15,21 +15,21 @@ public class HåvardPageViewModel : ViewModel
     {
         Items = new List<Something>()
         {
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( false)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( true)),
-            new("First",new SomeOtherThing( true))
+            new("1",new SomeOtherThing( true)),
+            new("2",new SomeOtherThing( false)),
+            new("3",new SomeOtherThing( true)),
+            new("4",new SomeOtherThing( true)),
+            new("5",new SomeOtherThing( false)),
+            new("6",new SomeOtherThing( false)),
+            new("7",new SomeOtherThing( true)),
+            new("8",new SomeOtherThing( false)),
+            new("9",new SomeOtherThing( true)),
+            new("10",new SomeOtherThing( false)),
+            new("11",new SomeOtherThing( false)),
+            new("12",new SomeOtherThing( true)),
+            new("13",new SomeOtherThing( true)),
+            new("14",new SomeOtherThing( true)),
+            new("15",new SomeOtherThing( true))
         };
 
         var items = Items.Take(new Range(0, 4));

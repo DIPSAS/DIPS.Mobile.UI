@@ -18,7 +18,9 @@
         <dui:ItemPicker HorizontalOptions="Start"
                         ItemsSource="{Binding Items}"
                         SelectedItem="{Binding SelectedItem}"
+                        ItemDisplayProperty="DisplayName"
                         />
+        
     </VerticalStackLayout>
 
     <!-- <CollectionView ItemsSource="{Binding Items}"> -->

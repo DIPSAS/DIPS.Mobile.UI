@@ -19,12 +19,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 {
                     return;
                 }
-
+                
                 foreach (var item in contextMenuGroup.ItemsSource)
                 {
                     item.IsChecked = false;
                 }
 
+                itemPicker.m_contextMenu.SendItemsSourceUpdated();
                 return;
             }
 
