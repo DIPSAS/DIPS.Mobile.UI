@@ -11,6 +11,18 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
+    <Button Text="Open Bottom Sheet">
+        <Button.Command>
+            <dui:OpenBottomSheetCommand>
+                <dui:OpenBottomSheetCommand.TheBottomSheet>
+                    <DataTemplate>
+                        <håvardSamples:TheBottomSheet />
+                    </DataTemplate>
+                </dui:OpenBottomSheetCommand.TheBottomSheet>
+            </dui:OpenBottomSheetCommand>
+        </Button.Command>
+    </Button>
+    
     <!-- <CollectionView ItemsSource="{Binding Items}"> -->
     <!--     <CollectionView.Footer> -->
     <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->

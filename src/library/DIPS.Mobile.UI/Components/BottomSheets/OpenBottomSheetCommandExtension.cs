@@ -6,18 +6,32 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
     public class OpenBottomSheetCommandExtension : IMarkupExtension<ICommand>
     {
         public Type? BottomSheetType { get; set; }
+        
+        public DataTemplate? TheBottomSheet { get; set; }
 
         public ICommand ProvideValue(IServiceProvider serviceProvider)
         {
             return new Command(() =>
             {
-                if (BottomSheetType == null)
+                var potentialBottomSheet = TheBottomSheet?.CreateContent();
+                switch (potentialBottomSheet)
                 {
-                    return;
-                }
+                    case not BottomSheet when BottomSheetType != null:
+                        {
+                            var activatedObject = Activator.CreateInstance(BottomSheetType);
+                            if (activatedObject is BottomSheet sheet)
+                            {
+                                potentialBottomSheet = sheet;
+                            }
 
-                var activatedObject = Activator.CreateInstance(BottomSheetType);
-                if (activatedObject is BottomSheet theBottomSheet)
+                            break;
+                        }
+                    case BottomSheet sheet:
+                        potentialBottomSheet = sheet;
+                        break;
+                }
+                
+                if (potentialBottomSheet is BottomSheet theBottomSheet)
                 {
                     BottomSheetService.OpenBottomSheet(theBottomSheet);
                 }

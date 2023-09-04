@@ -1,13 +1,22 @@
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Runtime;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.Widget;
+using AndroidX.ConstraintLayout.Widget;
+using AndroidX.Fragment.App;
+using AndroidX.Navigation;
+using AndroidX.Navigation.Fragment;
+using AndroidX.Navigation.UI;
+using Bumptech.Glide.Manager;
 using DIPS.Mobile.UI.API.Library;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
+using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
 using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
@@ -15,6 +24,7 @@ using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Object = Java.Lang.Object;
 using Orientation = Android.Widget.Orientation;
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 {
@@ -24,6 +34,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
         private BottomSheetBehavior? m_bottomSheetBehavior;
         private TaskCompletionSource<bool> m_dismissTaskCompletionSource;
+        private AView m_view;
 
         public BottomSheetFragment(BottomSheet bottomSheet)
         {
@@ -32,107 +43,133 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
         }
 
-       public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
-       {
-           var mauiContext = DUI.GetCurrentMauiContext;
-
-           var linearLayout = new LinearLayout(Context)
-           {
-               LayoutParameters =
-                   new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                       ViewGroup.LayoutParams.WrapContent),
-               Orientation = Orientation.Vertical
-           };
-
-           //Add a handle, with a innerGrid that works as a big hit box for the user to hit
-           //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
-           if (m_bottomSheetBehavior!.Draggable)
-           {
-               var innerGrid = new Grid {Padding = new Thickness(0,  Sizes.GetSize(SizeName.size_2))};
-               innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-               {
-                   Command = new Command(ToggleBottomSheetIfPossible)
-               });
-               var handle = new BoxView()
-               {
-                   HeightRequest = 4,
-                   WidthRequest = 32,
-                   CornerRadius = 10,
-                   BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
-                   HorizontalOptions = LayoutOptions.Center,
-                   VerticalOptions = LayoutOptions.Center
-               };
-               innerGrid.Add(handle);
-
-               linearLayout.AddView(innerGrid.ToPlatform(mauiContext!));
-
-           }
-
-           if (m_bottomSheet.ShouldHaveNavigationBar)
-           {
-               var toolbar = new MaterialToolbar(Context!);
-               ConfigureToolbar(toolbar);
-               linearLayout.AddView(toolbar);
-           }
-
-           if (m_bottomSheet.HasSearchBar)
-           {
-               linearLayout.AddView(m_bottomSheet.SearchBar!.ToPlatform(mauiContext!));
-           }
-
-           linearLayout.AddView(m_bottomSheet.ToPlatform(mauiContext!));
-
-           if (!m_bottomSheet.ShouldFitToContent)
-           {
-                // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-                linearLayout.AddView(new AView(Application.Context)
+        public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
+        {
+            var linearLayout = new LinearLayout(Context)
+            {
+                LayoutParameters =
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                        ViewGroup.LayoutParams.WrapContent),
+                Orientation = Orientation.Vertical
+            };
+            var toolbar = new MaterialToolbar(Context!);
+            // ConfigureToolbar(toolbar);
+            linearLayout.AddView(toolbar);
+            if (m_view is FragmentContainerView fragmentContainerView)
+            {
+                if (fragmentContainerView.Fragment is NavHostFragment navHostFragment)
                 {
-                    LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
-                });
-           }
-           
+                    NavigationUI.SetupWithNavController(toolbar, navHostFragment.NavController);
+                }
+            }
+            linearLayout.AddView(m_view);
             return linearLayout;
         }
 
-       private void ConfigureToolbar(MaterialToolbar toolbar)
-       {
-           toolbar.Title = m_bottomSheet.Title;
-           toolbar.TitleCentered = true;
+        private AView CreateOldView()
+        {
+            var mauiContext = DUI.GetCurrentMauiContext;
+            
+            var linearLayout = new LinearLayout(Context)
+            {
+                LayoutParameters =
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                        ViewGroup.LayoutParams.WrapContent),
+                Orientation = Orientation.Vertical
+            };
+            
+            //Add a handle, with a innerGrid that works as a big hit box for the user to hit
+            //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
+            if (m_bottomSheetBehavior!.Draggable)
+            {
+                var innerGrid = new Grid {Padding = new Thickness(0,  Sizes.GetSize(SizeName.size_2))};
+                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(ToggleBottomSheetIfPossible)
+                });
+                var handle = new BoxView()
+                {
+                    HeightRequest = 4,
+                    WidthRequest = 32,
+                    CornerRadius = 10,
+                    BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                innerGrid.Add(handle);
+            
+                linearLayout.AddView(innerGrid.ToPlatform(mauiContext!));
+            
+            }
+            
+            if (m_bottomSheet.ShouldHaveNavigationBar)
+            {
+                var toolbar = new MaterialToolbar(Context!);
+                ConfigureToolbar(toolbar);
+                linearLayout.AddView(toolbar);
+            }
+            
+            if (m_bottomSheet.HasSearchBar)
+            {
+                linearLayout.AddView(m_bottomSheet.SearchBar!.ToPlatform(mauiContext!));
+            }
+            
+            linearLayout.AddView(m_bottomSheet.ToPlatform(mauiContext!));
+            
+            if (!m_bottomSheet.ShouldFitToContent)
+            {
+                 // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
+                 linearLayout.AddView(new AView(Application.Context)
+                 {
+                     LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
+                 });
+            }
+            
+            return linearLayout;
+        }
 
-           if (toolbar.Menu == null) return;
-           foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
-           {
-               toolbarItem.BindingContext = m_bottomSheet.BindingContext;
-               var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
+        private void ConfigureToolbar(MaterialToolbar toolbar)
+        {
+            toolbar.Title = m_bottomSheet.Title;
+            toolbar.TitleCentered = true;
 
-               var text = toolbarItem.Text ?? string.Empty;
-               var titleTinted = new SpannableString(text);
-               titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
+            if (toolbar.Menu == null) return;
+            foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
+            {
+                toolbarItem.BindingContext = m_bottomSheet.BindingContext;
+                var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
 
-               var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
-               menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
-               menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
-               SetMenuItemIcon(menuItem, toolbarItem);
-           }
-       }
-       
-       private static void SetMenuItemIcon(IMenuItem menuItem, ToolbarItem toolBarItem)
-       {
-           toolBarItem.IconImageSource.LoadImage(DUI.GetCurrentMauiContext!, result =>
-           {
-               var baseDrawable = result?.Value;
+                var text = toolbarItem.Text ?? string.Empty;
+                var titleTinted = new SpannableString(text);
+                titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
 
-               if (baseDrawable == null)
-                   return;
+                var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
+                menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
+                menuItem.SetOnMenuItemClickListener(
+                    new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
+                SetMenuItemIcon(menuItem, toolbarItem);
+            }
+            
+            
+        }
 
-               using var constant = baseDrawable.GetConstantState();
-               using var newDrawable = constant!.NewDrawable();
-               using var iconDrawable = newDrawable.Mutate();
-               iconDrawable.SetColorFilter(Colors.GetColor(BottomSheet.ToolbarActionButtonsName), FilterMode.SrcAtop);
+        private static void SetMenuItemIcon(IMenuItem menuItem, ToolbarItem toolBarItem)
+        {
+            toolBarItem.IconImageSource.LoadImage(DUI.GetCurrentMauiContext!, result =>
+            {
+                var baseDrawable = result?.Value;
 
-               menuItem.SetIcon(iconDrawable);
-           });
-       }
+                if (baseDrawable == null)
+                    return;
+
+                using var constant = baseDrawable.GetConstantState();
+                using var newDrawable = constant!.NewDrawable();
+                using var iconDrawable = newDrawable.Mutate();
+                iconDrawable.SetColorFilter(Colors.GetColor(BottomSheet.ToolbarActionButtonsName), FilterMode.SrcAtop);
+
+                menuItem.SetIcon(iconDrawable);
+            });
+        }
 
         private void ToggleBottomSheetIfPossible()
         {
@@ -150,34 +187,67 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             var context = Platform.AppContext;
             var activity = Platform.CurrentActivity;
             var dialog = base.OnCreateDialog(savedInstanceState);
-            
+
             if (activity is null) return dialog;
-            
+
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
                 bottomSheetDialog.Behavior.FitToContents = m_bottomSheet.ShouldFitToContent;
-                
+
                 if (!m_bottomSheet.ShouldFitToContent)
                 {
                     var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
                     if (fullScreenHeight != null)
                     {
                         bottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
-                    }    
+                    }
                 }
             }
 
             var window = activity.Window;
-            if (window is {Attributes: not null}) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
+            if (window is
+                {
+                    Attributes: not null
+                }) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
             {
                 var flags = window.Attributes.Flags;
                 dialog.Window?.SetFlags(flags, flags);
             }
 
             dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
-
             return dialog;
+        }
+
+        private void CreateView()
+        {
+            var navigationPage = new NavigationPage(new ContentPage());
+            var contentPage = new ContentPage()
+            {
+                Content = new Microsoft.Maui.Controls.Button()
+                {
+                    Text = "Test",
+                    Command = new Command(
+                        () =>
+                        {
+                            navigationPage.PushAsync(new ContentPage()
+                            {
+                                Content = new Microsoft.Maui.Controls.Button()
+                                {
+                                    Text = "Navigate back",
+                                    Command = new Command(() =>
+                                    {
+                                        navigationPage.PopAsync();
+                                    })
+                                }
+                            });
+                        })
+                },
+                Title = "Testing",
+            };
+
+            navigationPage.PushAsync(contentPage);
+            m_view = navigationPage.ToPlatform(DUI.GetCurrentMauiContext);
         }
 
         public override void OnCreate(Bundle? savedInstanceState)
@@ -186,17 +256,19 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             base.OnCreate(savedInstanceState);
         }
 
-        public Task Show()
+        public async Task Show()
         {
             var activity = Platform.CurrentActivity;
             var fragmentManager = activity?.GetFragmentManager();
-            if (fragmentManager == null) return Task.CompletedTask;
+            if (fragmentManager == null) return;
             
+            CreateView();
+            await Task.Delay(500);
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
             Show(fragmentManager, nameof(BottomSheetFragment));
             m_bottomSheet.SendOpen();
-            return m_showTaskCompletionSource.Task;
+            await m_showTaskCompletionSource.Task;
         }
 
         public override void OnDestroy()
@@ -212,7 +284,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             Dismiss();
             return m_dismissTaskCompletionSource.Task;
         }
-        
+
         internal class GenericMenuClickListener : Object, IMenuItemOnMenuItemClickListener
         {
             readonly Action m_callback;
