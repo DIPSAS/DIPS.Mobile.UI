@@ -165,7 +165,21 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         PlatformView.CancelButtonClicked += OnCancelButtonClicked;
         PlatformView.SearchButtonClicked += OnSearchButtonClicked;
         PlatformView.TextChanged += OnSearchTextChanged;
+        if (ClearButton != null)
+        {
+            ClearButton.TouchUpInside += OnClearButtonClicked;    
+        }
     }
+
+    private void OnClearButtonClicked(object? sender, EventArgs e)
+    {
+        VirtualView.ClearTextCommand?.Execute(null);
+    }
+
+    private UIButton? ClearButton =>
+        PlatformView.SearchTextField.ValueForKey(new NSString("_clearButton")) is UIButton clearButton
+            ? clearButton
+            : null;
 
     private void OnSearchTextChanged(object? sender, UISearchBarTextChangedEventArgs e)
     {
@@ -182,6 +196,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         PlatformView.CancelButtonClicked -= OnCancelButtonClicked;
         PlatformView.CancelButtonClicked -= OnSearchButtonClicked;
         PlatformView.TextChanged -= OnSearchTextChanged;
+        if (ClearButton != null)
+        {
+            ClearButton.TouchUpInside += OnClearButtonClicked;    
+        }
     }
 
     private void OnCancelButtonClicked(object? sender, EventArgs e)

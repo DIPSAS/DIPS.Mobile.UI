@@ -17,6 +17,16 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     internal partial class SearchBarHandler : ViewHandler<SearchBar, AView>
     {
+        private ImageView? RemoveTextImageView =>
+            AutoCompleteTextView is {Parent: ViewGroup viewGroup}
+                ? viewGroup.FindChildView<ImageView>() ?? null
+                : null;
+
+        private AutoCompleteTextView? AutoCompleteTextView =>
+            InternalSearchBar.Handler?.PlatformView is not ViewGroup androidView
+                ? null
+                : androidView.FindChildView<AutoCompleteTextView>() ?? null;
+
         private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
@@ -93,12 +103,28 @@ namespace DIPS.Mobile.UI.Components.Searching
                     mauiSearchView.MaxWidth = int.MaxValue;
                 }
             }
+
+            if (RemoveTextImageView != null)
+            {
+                RemoveTextImageView.Click += OnClearTextClicked;    
+            }
+            
         }
 
         protected override void DisconnectHandler(AView platformView)
         {
             base.DisconnectHandler(platformView);
             InternalSearchBar.TextChanged -= SearchBarTextChanged;
+            if (RemoveTextImageView != null)
+            {
+                RemoveTextImageView.Click -= OnClearTextClicked;    
+            }
+        }
+        
+        
+        private void OnClearTextClicked(object? sender, EventArgs e)
+        {
+            VirtualView.ClearTextCommand?.Execute(null);   
         }
 
         private void SearchBarTextChanged(object? sender, TextChangedEventArgs e)
@@ -151,14 +177,10 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void SetHorizontalLineColor(SearchBarHandler handler, Color color)
         {
-            if (handler.InternalSearchBar.Handler?.PlatformView is not ViewGroup androidView)
+            if (handler.AutoCompleteTextView != null)
             {
-                return;
+                handler.AutoCompleteTextView.BackgroundTintList = ColorStateList.ValueOf(color.ToPlatform());    
             }
-
-            var autoCompleteTextView = androidView.FindChildView<AutoCompleteTextView>();
-            
-            autoCompleteTextView.BackgroundTintList = ColorStateList.ValueOf(color.ToPlatform());
         }
 
         private static void MapBarColor(SearchBarHandler handler, SearchBar searchBar)

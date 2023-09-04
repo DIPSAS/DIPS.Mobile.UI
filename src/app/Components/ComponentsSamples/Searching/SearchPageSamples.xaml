@@ -10,6 +10,7 @@
                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                 x:Class="Components.ComponentsSamples.Searching.SearchPageSamples"
                 SearchCommand="{Binding SearchCommand}"
+                SearchMode="WhenTappedComplete"
                 SearchPlaceholder="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
                 Shell.PresentationMode="ModalAnimated"
                 Padding="{dui:Thickness Bottom=size_1}">

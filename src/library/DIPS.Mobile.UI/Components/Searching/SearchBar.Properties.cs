@@ -127,6 +127,22 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(SearchCommandProperty, value);
         }
 
+        public static readonly BindableProperty ClearTextCommandProperty = BindableProperty.Create(
+            nameof(ClearTextCommand),
+            typeof(ICommand),
+            typeof(SearchBar));
+
+        
+        /// <summary>
+        /// Executed when people has tapped the image that clears the text.
+        /// </summary>
+        /// <remarks><see cref="TextChanged"/> and <see cref="Text"/> will be raised when this happens as well.</remarks>
+        public ICommand? ClearTextCommand
+        {
+            get => (ICommand)GetValue(ClearTextCommandProperty);
+            set => SetValue(ClearTextCommandProperty, value);
+        }
+
         /// <summary>
         /// The background color of the textfield.
         /// </summary>
