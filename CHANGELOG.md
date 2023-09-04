@@ -1,3 +1,6 @@
+## [16.13.1]
+- Selected Item can now be set to null. When its set to null the placeholder will be used. 
+
 ## [16.13.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

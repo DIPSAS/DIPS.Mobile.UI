@@ -7,10 +7,22 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0">
+                 Padding="0"
+                 BackgroundColor="White">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Button Text="Wipe it"
+                Command="{Binding Command}" />
+        <dui:ItemPicker HorizontalOptions="Start"
+                        ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding SelectedItem}"
+                        ItemDisplayProperty="DisplayName"
+                        />
+        
+    </VerticalStackLayout>
+
     <!-- <CollectionView ItemsSource="{Binding Items}"> -->
     <!--     <CollectionView.Footer> -->
     <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->

@@ -84,7 +84,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),
             typeof(string),
-            typeof(ItemPicker));
+            typeof(ItemPicker), defaultValue: "     ");
         
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             nameof(SelectedItem),
