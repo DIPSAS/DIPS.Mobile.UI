@@ -7,9 +7,24 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     {
         private static void UpdateContextMenuItems(ItemPicker itemPicker)
         {
-            if (itemPicker.m_contextMenu == null || itemPicker.SelectedItem == null ||
+            if (itemPicker.m_contextMenu == null ||
                 itemPicker.m_contextMenu.ItemsSource!.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
             {
+                return;
+            }
+
+            if (itemPicker.SelectedItem == null) //Reset checked items
+            {
+                if (contextMenuGroup.ItemsSource == null)
+                {
+                    return;
+                }
+
+                foreach (var item in contextMenuGroup.ItemsSource)
+                {
+                    item.IsChecked = false;
+                }
+
                 return;
             }
 
