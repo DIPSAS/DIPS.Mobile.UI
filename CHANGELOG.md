@@ -1,4 +1,4 @@
-## [16.16.1]
+## [16.16.2]
 - [SearchBar] Made sure android removes the text when the clear button is tapped.
 
 ## [16.16.1]
