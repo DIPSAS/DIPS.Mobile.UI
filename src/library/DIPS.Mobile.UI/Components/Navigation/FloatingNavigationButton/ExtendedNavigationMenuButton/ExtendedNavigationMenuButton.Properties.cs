@@ -69,6 +69,17 @@ internal partial class ExtendedNavigationMenuButton
         get => (Color)GetValue(BadgeColorProperty);
         set => SetValue(BadgeColorProperty, value);
     }
+
+    public static readonly BindableProperty IsLastProperty = BindableProperty.Create(
+        nameof(IsLast),
+        typeof(bool),
+        typeof(ExtendedNavigationMenuButton));
+
+    public bool IsLast
+    {
+        get => (bool)GetValue(IsLastProperty);
+        set => SetValue(IsLastProperty, value);
+    }
     
     public static readonly BindableProperty BadgeColorProperty = BindableProperty.Create(
         nameof(BadgeColor),

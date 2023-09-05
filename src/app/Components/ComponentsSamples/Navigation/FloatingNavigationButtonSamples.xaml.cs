@@ -34,7 +34,7 @@ public partial class FloatingNavigationButtonSamples
             config.AddNavigationButton(string.Empty, "Button 3",  IconName.ascending_fill, new Command(() => { }));
             config.AddNavigationButton(string.Empty, "Button 4", IconName.descending_fill, new Command(() => { }));
             config.AddNavigationButton(string.Empty, "Button 5", IconName.descending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Close", IconName.descending_fill, new Command(FloatingNavigationButtonService.Close));
+            config.AddNavigationButton(string.Empty, "Close", IconName.descending_fill, new Command(FloatingNavigationButtonService.Close), isLast: true);
 
         });
     }
