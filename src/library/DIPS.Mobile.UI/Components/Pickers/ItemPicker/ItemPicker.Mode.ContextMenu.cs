@@ -5,15 +5,15 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {
-        private static void UpdateContextMenuItems(ItemPicker itemPicker)
+        private void UpdateContextMenuItems()
         {
-            if (itemPicker.m_contextMenu == null ||
-                itemPicker.m_contextMenu.ItemsSource!.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
+            if (m_contextMenu == null ||
+                m_contextMenu.ItemsSource!.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
             {
                 return;
             }
 
-            if (itemPicker.SelectedItem == null) //Reset checked items
+            if (SelectedItem == null) //Reset checked items
             {
                 if (contextMenuGroup.ItemsSource == null)
                 {
@@ -25,12 +25,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     item.IsChecked = false;
                 }
 
-                itemPicker.m_contextMenu.SendItemsSourceUpdated();
+                m_contextMenu.SendItemsSourceUpdated();
                 return;
             }
 
             var contextMenuItem = contextMenuGroup.ItemsSource?.FirstOrDefault(i =>
-                i.Title != null && i.Title.Equals(itemPicker.SelectedItem.GetPropertyValue(itemPicker.ItemDisplayProperty),
+                i.Title != null && i.Title.Equals(SelectedItem.GetPropertyValue(ItemDisplayProperty),
                     StringComparison.InvariantCultureIgnoreCase));
             if (contextMenuItem != null)
             {

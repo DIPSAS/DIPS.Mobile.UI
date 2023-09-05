@@ -47,6 +47,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.TextChanged += SearchBarOnTextChanged;
 
             SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
+            SearchBar.ClearTextCommand = new Command(() => TextWasClearedFromClick());
             SearchBar.CancelCommand = new Command(OnCancel);
 
 
@@ -79,6 +80,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_grid.Add(SearchBar, 0, 1);
 
             base.Content = m_grid;
+        }
+
+        private void TextWasClearedFromClick()
+        {
+            if (SearchMode is SearchMode.WhenTappedComplete)
+            {
+                SearchBar.Text = string.Empty;
+                OnSearchQueryChanged(string.Empty);
+            }
         }
 
         protected override void OnHandlerChanged()
