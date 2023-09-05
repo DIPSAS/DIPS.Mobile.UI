@@ -1,6 +1,10 @@
 ## [16.16.1]
 - [InLineDatePicker] Fixed an bug where it would sometimes not render until people had tapped or slided the layout.
 
+## [16.16.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+
 ## [16.15.0] 
 - [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.
 
