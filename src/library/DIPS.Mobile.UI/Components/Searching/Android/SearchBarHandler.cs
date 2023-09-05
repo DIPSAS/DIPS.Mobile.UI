@@ -124,6 +124,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         private void OnClearTextClicked(object? sender, EventArgs e)
         {
+            VirtualView.Text = string.Empty;
             VirtualView.ClearTextCommand?.Execute(null);   
         }
 

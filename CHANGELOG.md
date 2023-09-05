@@ -1,3 +1,6 @@
+## [16.16.2]
+- [SearchBar] Made sure android removes the text when the clear button is tapped.
+
 ## [16.16.1]
 - [InLineDatePicker] Fixed an bug where it would sometimes not render until people had tapped or slided the layout.
 
