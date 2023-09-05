@@ -1,3 +1,6 @@
+## [16.15.0] 
+- [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.
+
 ## [16.14.0] 
 - [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).
 - [SearchPage] Make sure clear the text and state of the view when people tap the clear button.
