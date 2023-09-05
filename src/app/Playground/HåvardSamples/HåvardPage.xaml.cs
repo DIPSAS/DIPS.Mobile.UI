@@ -18,4 +18,19 @@ public partial class HåvardPage
 
     });
 
+    public override async Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
+    {
+        await Task.Delay(100, searchCancellationToken);
+        
+        var result = new List<string>()
+        {
+            "First",
+            "Second",
+            "Third",
+            "Fourth",
+            "Fifth",
+        };
+
+        return result;
+    }
 }

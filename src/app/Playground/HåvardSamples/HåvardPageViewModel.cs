@@ -1,4 +1,3 @@
-
 using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
@@ -15,28 +14,28 @@ public class HåvardPageViewModel : ViewModel
     {
         Items = new List<Something>()
         {
-            new("1",new SomeOtherThing( true)),
-            new("2",new SomeOtherThing( false)),
-            new("3",new SomeOtherThing( true)),
-            new("4",new SomeOtherThing( true)),
-            new("5",new SomeOtherThing( false)),
-            new("6",new SomeOtherThing( false)),
-            new("7",new SomeOtherThing( true)),
-            new("8",new SomeOtherThing( false)),
-            new("9",new SomeOtherThing( true)),
-            new("10",new SomeOtherThing( false)),
-            new("11",new SomeOtherThing( false)),
-            new("12",new SomeOtherThing( true)),
-            new("13",new SomeOtherThing( true)),
-            new("14",new SomeOtherThing( true)),
-            new("15",new SomeOtherThing( true))
+            new("1", new SomeOtherThing(true)),
+            new("2", new SomeOtherThing(false)),
+            new("3", new SomeOtherThing(true)),
+            new("4", new SomeOtherThing(true)),
+            new("5", new SomeOtherThing(false)),
+            new("6", new SomeOtherThing(false)),
+            new("7", new SomeOtherThing(true)),
+            new("8", new SomeOtherThing(false)),
+            new("9", new SomeOtherThing(true)),
+            new("10", new SomeOtherThing(false)),
+            new("11", new SomeOtherThing(false)),
+            new("12", new SomeOtherThing(true)),
+            new("13", new SomeOtherThing(true)),
+            new("14", new SomeOtherThing(true)),
+            new("15", new SomeOtherThing(true))
         };
 
         var items = Items.Take(new Range(0, 4));
         SelectedItems = items.ToList();
         SelectedItem = items.First();
-        
-        SelectedItemCommand =  new Command<IEnumerable<object>>(selectedItems =>
+
+        SelectedItemCommand = new Command<IEnumerable<object>>(selectedItems =>
         {
         });
 
@@ -45,8 +44,7 @@ public class HåvardPageViewModel : ViewModel
             SelectedItem = null;
         });
     }
-    
-    
+
 
     public List<Something> Items { get; set; }
 
@@ -63,15 +61,14 @@ public class HåvardPageViewModel : ViewModel
         get => m_selectedItem;
         set => RaiseWhenSet(ref m_selectedItem, value);
     }
-
-    
-    }
+}
 
 public class Something : ViewModel
 {
     private readonly string m_title;
     private SomeOtherThing m_theTing;
     public string DisplayName => m_title;
+
     public SomeOtherThing TheTing
     {
         get => m_theTing;

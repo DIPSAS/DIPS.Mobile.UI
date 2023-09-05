@@ -2,19 +2,25 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0"
-                 BackgroundColor="Green">
-    <dui:ContentPage.BindingContext>
-        <håvardSamples:HåvardPageViewModel />
-    </dui:ContentPage.BindingContext>
-
+                 >
+    <dui:SearchPage.HintView>
+        <Label Text="This is a hint"/>
+    </dui:SearchPage.HintView>
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate>
+            <Label Text="This is a result" />
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
+    <dui:SearchPage.NoResultView>
+            <Label Text="No result" />
+    </dui:SearchPage.NoResultView>
     
-    <dui:HorizontalInlineDatePicker />
     <!-- <CollectionView ItemsSource="{Binding Items}"> -->
     <!--     <CollectionView.Footer> -->
     <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->
@@ -58,4 +64,4 @@
     <!--         </dui:ContentControl.TemplateSelector> -->
     <!--     </dui:ContentControl> -->
     <!-- </VerticalStackLayout> -->
-</dui:ContentPage>
+</dui:SearchPage>
