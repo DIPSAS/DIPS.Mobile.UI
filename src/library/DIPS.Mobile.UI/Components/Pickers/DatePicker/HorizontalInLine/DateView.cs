@@ -14,6 +14,11 @@ internal class DateView : Grid
 {
     public DateView()
     {
+        Loaded += CreateView;
+    }
+
+    private void CreateView(object? sender, EventArgs e)
+    {
         RowSpacing = Sizes.GetSize(SizeName.size_2);
         RowDefinitions =
             new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
@@ -26,8 +31,8 @@ internal class DateView : Grid
                     TrueObject = Colors.GetColor(ColorName.color_primary_90),
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
-
-
+        
+        
         //Month header
         this.Add(CreateMonthHeaderContentControl(), 0, 0);
 
@@ -58,6 +63,7 @@ internal class DateView : Grid
             new Binding(nameof(SelectableDateViewModel.DayName)));
 
         this.Add(dayNameLabel, 0, 2);
+        Loaded -= CreateView;
     }
 
     private ContentControl CreateMonthHeaderContentControl()

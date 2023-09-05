@@ -8,21 +8,13 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0"
-                 BackgroundColor="White">
+                 BackgroundColor="Green">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Button Text="Wipe it"
-                Command="{Binding Command}" />
-        <dui:ItemPicker HorizontalOptions="Start"
-                        ItemsSource="{Binding Items}"
-                        SelectedItem="{Binding SelectedItem}"
-                        ItemDisplayProperty="DisplayName"
-                        />
-        
-    </VerticalStackLayout>
 
+    
+    <dui:HorizontalInlineDatePicker />
     <!-- <CollectionView ItemsSource="{Binding Items}"> -->
     <!--     <CollectionView.Footer> -->
     <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->
