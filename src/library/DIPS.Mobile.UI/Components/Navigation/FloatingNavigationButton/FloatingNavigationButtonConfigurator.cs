@@ -12,13 +12,14 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
 
     public List<Type> PagesThatHidesButton { get; } = new();
     
-    public void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command)
+    public void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command, bool isLast = false)
     {
         NavigationMenuButtons.Add(new ExtendedNavigationMenuButton.ExtendedNavigationMenuButton
         {
             AutomationId = identifier,
             Title = title,
             Icon = Icons.GetIcon(iconName),
+            IsLast = isLast,
             Command = command
         });
     }

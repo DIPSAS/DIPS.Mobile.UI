@@ -101,13 +101,15 @@ public static partial class FloatingNavigationButtonService
     /// <param name="iconName">Sets the icon the button should have</param>
     /// <param name="command">Sets what should happen when the button is tapped</param>
     /// <param name="index">To what index it should be placed in</param>
-    public static void AddNavigationMenuButton(string identifier = "", string title = "", IconName iconName = IconName.arrow_right_s_line, ICommand? command = null, int? index = null)
+    /// <param name="isLast">Indicates that the button should always be last, this will be respected by other buttons getting added</param>
+    public static void AddNavigationMenuButton(string identifier = "", string title = "", IconName iconName = IconName.arrow_right_s_line, ICommand? command = null, int? index = null, bool isLast = false)
     {
         FloatingNavigationButton?.AddNavigationMenuButton(new ExtendedNavigationMenuButton.ExtendedNavigationMenuButton
         {
             AutomationId = identifier,
             Title = title,
             Icon = Icons.GetIcon(iconName),
+            IsLast = isLast,
             Command = command ?? new Command(() => {})
         }, index);
     }
