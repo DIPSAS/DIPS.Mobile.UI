@@ -1,5 +1,8 @@
-## [16.15.0] 
+## [16.16.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.15.0] 
+- [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.
 
 ## [16.14.0] 
 - [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).

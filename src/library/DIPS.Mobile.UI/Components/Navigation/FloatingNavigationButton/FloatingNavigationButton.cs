@@ -264,7 +264,15 @@ internal class FloatingNavigationButton : Grid
 
     public void AddNavigationMenuButton(ExtendedNavigationMenuButton.ExtendedNavigationMenuButton navigationMenuButton, int? index)
     {
-        var insertIndex = index ?? m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count;
+        var insertIndex = m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count;
+        if (index != null)
+        {
+            insertIndex = (int)index;
+        }else if (m_floatingNavigationButtonConfigurator.NavigationMenuButtons.FirstOrDefault(b => b.IsLast) != null)
+        {
+            insertIndex = m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count-1;
+        }
+        
         m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Insert(insertIndex, navigationMenuButton);
         
         if(!m_isExpanded)

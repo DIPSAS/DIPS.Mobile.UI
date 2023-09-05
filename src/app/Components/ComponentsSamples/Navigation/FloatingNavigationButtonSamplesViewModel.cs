@@ -70,6 +70,7 @@ public class FloatingNavigationButtonSamplesViewModel : ViewModel
     public ICommand ChangeBadgeColorCommand { get; }
     public ICommand RemoveNavigationMenuButtonCommand { get; }
     public ICommand AddNavigationMenuButtonCommand { get; }
+    public ICommand AddAButtonThat { get; }
 
     public List<string> ColorList { get; }
     public ICommand ToggleCommand { get; }
