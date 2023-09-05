@@ -11,6 +11,7 @@ using DIPS.Mobile.UI.Effects.Modal.Android;
 #endif
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -70,6 +71,7 @@ public static partial class AppHostBuilderExtensions
 #endif
         });
 
+        builder.UseSkiaSharp();
         return builder;
     }
 

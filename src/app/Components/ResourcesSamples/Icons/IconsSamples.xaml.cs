@@ -9,6 +9,7 @@ namespace Components.ResourcesSamples.Icons
     {
         private Dictionary<string, ImageSource> m_icons;
         private Dictionary<string, ImageSource> m_allIcons;
+
         public ICommand OpenIconCommand => new Command<string>(iconName =>
         {
             BottomSheetService.OpenBottomSheet(new IconBottomSheet(iconName));

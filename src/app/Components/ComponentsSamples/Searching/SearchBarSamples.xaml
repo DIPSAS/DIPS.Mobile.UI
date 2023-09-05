@@ -23,7 +23,9 @@
                        CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
                        TextChanged="InputView_OnTextChanged"
-                       Margin="{dui:Thickness Bottom=size_1}" />
+                       Margin="{dui:Thickness Bottom=size_1}"
+                       TextColor="Red"/>
+        
         <dui:CollectionView Grid.Row="1"
                             BackgroundColor="Transparent"
                             ItemsSource="{Binding People}">

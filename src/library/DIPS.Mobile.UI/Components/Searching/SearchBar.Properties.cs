@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -120,10 +121,26 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The search command that gets invoked when people has tapped the search button in the keyboard.
         /// </summary>
-        public ICommand SearchCommand
+        public ICommand? SearchCommand
         {
             get => (ICommand)GetValue(SearchCommandProperty);
             set => SetValue(SearchCommandProperty, value);
+        }
+
+        public static readonly BindableProperty ClearTextCommandProperty = BindableProperty.Create(
+            nameof(ClearTextCommand),
+            typeof(ICommand),
+            typeof(SearchBar));
+
+        
+        /// <summary>
+        /// Executed when people has tapped the image that clears the text.
+        /// </summary>
+        /// <remarks><see cref="TextChanged"/> and <see cref="Text"/> will be raised when this happens as well.</remarks>
+        public ICommand? ClearTextCommand
+        {
+            get => (ICommand)GetValue(ClearTextCommandProperty);
+            set => SetValue(ClearTextCommandProperty, value);
         }
 
         /// <summary>
@@ -250,7 +267,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty BarColorProperty = BindableProperty.Create(
             nameof(BarColor),
             typeof(Color),
-            typeof(SearchBar));
+            typeof(SearchBar), defaultValue: Colors.Transparent);
         
         public static readonly BindableProperty DelayProperty = BindableProperty.Create(
             nameof(Delay),

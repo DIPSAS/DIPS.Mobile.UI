@@ -5,8 +5,25 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Components.ComponentsSamples.Chips.ChipsSamples">
-    <dui:Chip Title="A chip"
-              HorizontalOptions="Start"
-              VerticalOptions="Start" />
+                 x:Class="Components.ComponentsSamples.Chips.ChipsSamples"
+                 BackgroundColor="{dui:Colors color_system_white}"
+                 Padding="{dui:Sizes size_2}">
+    <dui:VerticalStackLayout>
+        <dui:Label Text="Chip"
+                   Margin="5" />
+        <dui:Chip Title="A chip"
+                  HorizontalOptions="Start"
+                  VerticalOptions="Start"
+                  Tapped="Chip_OnTapped" />
+
+        <dui:Label Text="Chip, closeable"
+                   Margin="5" />
+        <dui:Chip Title="A closeable chip"
+                  HasCloseButton="True"
+                  HorizontalOptions="Start"
+                  VerticalOptions="Start"
+                  Tapped="Chip_OnTapped"
+                  CloseTapped="Chip_OnCloseTapped" />
+    </dui:VerticalStackLayout>
+
 </dui:ContentPage>

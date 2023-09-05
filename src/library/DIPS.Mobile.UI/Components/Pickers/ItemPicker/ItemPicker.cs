@@ -1,7 +1,4 @@
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
@@ -11,26 +8,57 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     public partial class ItemPicker : ContentView
     {
         private readonly ContextMenu m_contextMenu = new ();
+        private readonly Chip m_chip = new()
+        {
+            VerticalOptions = LayoutOptions.Center
+        };
+
+        public ItemPicker()
+        {
+            m_chip.SetBinding(MaximumHeightRequestProperty, new Binding(){Path = nameof(MaximumWidthRequest), Source = this});
+            MaximumWidthRequest = 200;
+            Loaded += OnLoaded;
+            Unloaded += OnUnLoaded;
+        }
+
+        private void OnUnLoaded(object? sender, EventArgs e)
+        {
+            Unloaded -= OnLoaded;
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+        }
+
+        private void OnLoaded(object? sender, EventArgs e)
+        {
+            Loaded -= OnLoaded;
+            LayoutContent();
+        }
 
         private void LayoutContent()
         {
-            var chip = new Chip();
-            MaximumWidthRequest = 200;
-            
-            chip.SetBinding(Chip.TitleProperty, new Binding(){Path = nameof(Placeholder), Source = this});
-            chip.SetBinding(MaximumHeightRequestProperty, new Binding(){Path = nameof(MaximumWidthRequest), Source = this});
-            chip.VerticalOptions = LayoutOptions.Center;
-            Content = chip;
+            Content = m_chip;
             
             if (Mode == PickerMode.ContextMenu)
             {
-                ContextMenuEffect.SetMenu(chip, m_contextMenu);
+                ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
                 m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
             }
             else if (Mode == PickerMode.BottomSheet)
             {
-                chip.Command = OpenCommand;
+                m_chip.Command = OpenCommand;
             }
+            
+            SelectedItemChanged();
+        }
+
+        internal void UpdateChipTitle(string? title)
+        {
+            m_chip.Title = string.IsNullOrEmpty(title) ? Placeholder : title;
         }
         
         public partial void Open()
@@ -41,39 +69,18 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
         }
 
-        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        private void SelectedItemChanged()
         {
-            base.OnHandlerChanging(args);
+            SelectedItemCommand?.Execute(SelectedItem);
+            DidSelectItem?.Invoke(this, SelectedItem!);
+
+            var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
+            UpdateChipTitle(displayName);
             
-            LayoutContent();
-
-            if (args.NewHandler == null)
-            {
-                if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                    notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
-            }
-        }
-
-        private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (bindable is not ItemPicker picker)
-            {
-                return;
-            }
-
-            if (picker.SelectedItem == null)
-            {
-                return;
-            }
-            
-            picker.Placeholder = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty)!;
-            picker.SelectedItemCommand?.Execute(picker.SelectedItem);
-            picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
-
-            switch (picker.Mode)
+            switch (Mode)
             {
                 case PickerMode.ContextMenu:
-                    UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user
+                    UpdateContextMenuItems(); //<-- Needed if the selected item was set programatically, and not by the user
                     break;
                 case PickerMode.BottomSheet:
                     if (BottomSheetService.IsBottomSheetOpen())

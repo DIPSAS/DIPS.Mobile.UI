@@ -17,12 +17,16 @@ public class SaveViewSamplesViewModel : ViewModel
             IsProgressing = false;
             IsChecked = !IsChecked;
         });
-        CompletedCommand = new Command(() => Shell.Current.Navigation.PopAsync());
+        CompletedCommand = new Command(async () =>
+        {
+            await Task.Delay(1000);
+            Shell.Current.Navigation.PopAsync();
+        });
     }
 
     public bool IsChecked
     {
-        get => m_isChecked; 
+        get => m_isChecked;
         private set => RaiseWhenSet(ref m_isChecked, value);
     }
 

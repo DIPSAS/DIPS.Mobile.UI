@@ -6,11 +6,6 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes;
 public partial class FilledCheckBox
 {
     /// <summary>
-    ///     Sets the background color of the checkbox when it's checked
-    /// </summary>
-    public Color CheckedBackgroundColor { get; set; } = Colors.GetColor(ColorName.color_success_dark);
-
-    /// <summary>
     ///     Sets the background color of the checkbox when it's unchecked
     /// </summary>
     public Color UnCheckedBackgroundColor
@@ -80,7 +75,7 @@ public partial class FilledCheckBox
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
         typeof(ICommand),
-        typeof(FilledCheckBox));
+        typeof(FilledCheckBox), propertyChanged:((bindable, value, newValue) => ((FilledCheckBox)bindable).OnCommandChanged()));
     
     public static readonly BindableProperty UnCheckedBackgroundColorProperty = BindableProperty.Create(
         nameof(UnCheckedBackgroundColor),

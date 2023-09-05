@@ -1,6 +1,9 @@
+using System.ComponentModel;
 using DIPS.Mobile.UI.Components.Images.Image;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Resources.Animations;
 using Microsoft.Maui.Controls.Shapes;
+using SkiaSharp.Extended.UI.Controls;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -9,41 +12,31 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes;
 
 public partial class FilledCheckBox : ContentView
 {
-    private Border m_innerBorder;
-    private readonly Image m_innerImage;
     private readonly ActivityIndicator m_activityIndicator;
+    private readonly SKLottieView m_animation;
 
     public FilledCheckBox()
     {
-        Container = new Border { Padding = Sizes.GetSize(SizeName.size_0) };
+        Container = new Border {Padding = Sizes.GetSize(SizeName.size_0)};
         Container.SetBinding(BackgroundColorProperty, new Binding(nameof(UnCheckedBackgroundColor), source: this));
+        WidthRequest = Sizes.GetSize(SizeName.size_25);
+        HeightRequest = Sizes.GetSize(SizeName.size_25);
+        CornerRadius = HeightRequest / 2;
 
-        m_innerBorder = new Border
+        m_animation = new SKLottieView()
         {
-            BackgroundColor = CheckedBackgroundColor,
-            Scale = Sizes.GetSize(SizeName.size_0)
-        };
-
-        m_innerImage = new Image
-        {
-            TintColor = Colors.GetColor(ColorName.color_secondary_30),
-            Source = Icons.GetIcon(IconName.check_line),
-            Aspect = Aspect.AspectFill,
+            Source = Animations.GetAnimation(AnimationName.saved),
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center
+            HorizontalOptions = LayoutOptions.Center,
+            IsAnimationEnabled = false,
+            Opacity = 0
         };
+        m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
+        m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(WidthRequest)));
 
-        m_activityIndicator = new ActivityIndicator { Opacity = Sizes.GetSize(SizeName.size_0) };
-        
-        InnerGrid = new Grid
-        {
-            Children =
-            {
-                m_innerBorder,
-                m_activityIndicator,
-                m_innerImage
-            }
-        };
+        m_activityIndicator = new ActivityIndicator {Opacity = Sizes.GetSize(SizeName.size_0)};
+
+        InnerGrid = new Grid {m_activityIndicator, m_animation};
 
         Container.Content = InnerGrid;
 
@@ -54,67 +47,76 @@ public partial class FilledCheckBox : ContentView
 
     private Grid InnerGrid { get; }
     private Border Container { get; }
-    
-    
+
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         
-        Touch.SetCommand(Container, Command);
-        Container.StrokeShape = new RoundRectangle{ CornerRadius = CornerRadius };
-        m_innerBorder.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
-        
-        m_innerImage.WidthRequest = WidthRequest / 1.5;
-        m_innerImage.HeightRequest = HeightRequest / 1.5;
+        Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
     }
 
     private async Task Animate()
     {
         if (IsChecked)
         {
-            _ = m_innerBorder.FadeTo(1, 500, easing: Easing.CubicIn);
-            _ = m_innerImage.FadeTo(1, easing: Easing.CubicInOut);
-            _ = m_innerImage.ScaleTo(1.25, length: 500, Easing.CubicInOut);
-            await m_innerBorder.ScaleTo(1, 500, easing: Easing.CubicInOut);
-            await Task.Delay(100);
-            await m_innerImage.ScaleTo(1, easing: Easing.CubicInOut);
-            
-            CompletedCommand?.Execute(null);
+            _ = m_animation.FadeTo(1, easing: Easing.CubicInOut);
+
+            //Reset the animation and listen to when its completed
+            m_animation.PropertyChanged += OnAnimationPropertyChanged;
+            m_animation.IsAnimationEnabled = true;
+            m_animation.Progress = new TimeSpan(0);
         }
         else
         {
-            _ = m_innerBorder.ScaleTo(0, 500, easing: Easing.CubicInOut);
-            _ = m_innerBorder.FadeTo(0, 500, easing: Easing.CubicOut);
+            m_animation.IsAnimationEnabled = false;
+            _ = m_animation.FadeTo(0, 500, easing: Easing.CubicOut);
+            m_animation.PropertyChanged -= OnAnimationPropertyChanged;
         }
     }
-    
+
+    private void OnAnimationPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName != null && args.PropertyName.Equals(SKLottieView.IsCompleteProperty.PropertyName) &&
+            m_animation.IsComplete)
+        {
+            CompletedCommand?.Execute(null);
+        }
+    }
+
     private async Task SetContainerContent()
     {
         if (IsProgressing)
         {
-            _ = m_innerImage.FadeTo(0);
+            _ = m_animation.FadeTo(0);
             await m_activityIndicator.FadeTo(1, easing: Easing.CubicInOut);
         }
         else
         {
             await m_activityIndicator.FadeTo(0, easing: Easing.CubicInOut);
         }
+
         m_activityIndicator.IsRunning = IsProgressing;
     }
-    
+
     private static void OnIsCheckedChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if(bindable is not FilledCheckBox filledCheckBox)
+        if (bindable is not FilledCheckBox filledCheckBox)
             return;
-        
+
         _ = filledCheckBox.Animate();
     }
 
     private static void OnIsProgressingChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if(bindable is not FilledCheckBox filledCheckBox)
+        if (bindable is not FilledCheckBox filledCheckBox)
             return;
 
-        _ = filledCheckBox.SetContainerContent();
+        _ = filledCheckBox.SetContainerContent();   
+    }
+
+    private void OnCommandChanged()
+    {
+        Touch.SetCommand(this, Command);
     }
 }

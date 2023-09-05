@@ -81,7 +81,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
             color.ToPlatform(),
             color.ToPlatform()
         };
-
+        
         handler.PlatformView.ChipBackgroundColor = new ColorStateList(states, colors);
     }
 

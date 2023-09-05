@@ -7,160 +7,55 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0">
+                 Padding="0"
+                 BackgroundColor="Green">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!-- <CollectionView Grid.Row="0" -->
-    <!--                 VerticalOptions="Start" -->
-    <!--                 HorizontalOptions="Start" -->
-    <!--                 HeightRequest="{dui:Sizes size_10}"> -->
-    <!--     <CollectionView.ItemsLayout> -->
-    <!--         <LinearItemsLayout Orientation="Horizontal" ItemSpacing="0" /> -->
-    <!--     </CollectionView.ItemsLayout> -->
-    <!--     <CollectionView.ItemsSource> -->
-    <!--         <x:Array Type="{x:Type x:String}"> -->
-    <!--             <x:String>Ikke utført</x:String> -->
-    <!--             <x:String>Siste 9 dager</x:String> -->
-    <!--             <x:String>Siste 15 dager</x:String> -->
-    <!--             <x:String>Siste 30 dager</x:String> -->
-    <!--             <x:String>Siste 90 dager</x:String> -->
-    <!--             <x:String>Siste 2 årene</x:String> -->
-    <!--         </x:Array> -->
-    <!--     </CollectionView.ItemsSource> -->
-    <!--     <CollectionView.ItemTemplate> -->
-    <!--         <DataTemplate x:DataType="{x:Type x:String}"> -->
-    <!--             <Border -->
-    <!--                 Stroke="Blue" -->
-    <!--                 StrokeThickness="1" -->
-    <!--                 Margin="-2,0" -->
-    <!--                 BackgroundColor="Red"> -->
-    <!--                 <Border.StrokeShape> -->
-    <!--                     <RoundRectangle CornerRadius="8,0,8,0" StrokeThickness="1" /> -->
-    <!--                 </Border.StrokeShape> -->
-    <!--                 <Grid Padding="{dui:Thickness Left=size_4, Right=size_4, Top=size_2, Bottom=size_2}"> -->
-    <!--                     <Label Text="{Binding .}" /> -->
-    <!--                 </Grid> -->
-    <!--             </Border> -->
-    <!--         </DataTemplate> -->
-    <!--     </CollectionView.ItemTemplate> -->
+    
+    <dui:HorizontalInlineDatePicker />
+    <!-- <CollectionView ItemsSource="{Binding Items}"> -->
+    <!--     <CollectionView.Footer> -->
+    <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->
+    <!--     </CollectionView.Footer> -->
     <!-- </CollectionView> -->
-
-
-    <!-- -->
-    <VerticalStackLayout>
-        <dui:SegmentedControl x:Name="SegmentedControl"
-                              ItemsSource="{Binding Items}"
-                              SelectedItems="{Binding SelectedItems}"
-                              SelectionMode="Multi"
-                              DidSelectItem="SegmentedControl_OnDidSelectItem"
-                              DidDeSelectItem="SegmentedControl_OnDidDeSelectItem"
-                              SelectedItemCommand="{Binding SelectedItemCommand}"/>
-        <CollectionView
-            ItemsSource="{Binding SelectedItems}"/>
-    </VerticalStackLayout>
-
     <!-- <VerticalStackLayout> -->
+    <!-- -->
     <!--     <Switch x:Name="Switch" /> -->
-    <!--     <Grid ColumnDefinitions="Auto"> -->
-    <!--         <Border VerticalOptions="Center" -->
-    <!--                 HeightRequest="{dui:Sizes size_10}" -->
-    <!--                 StrokeThickness="1" -->
-    <!--                 Margin="{OnPlatform Android='-2,0', iOS='0'}" -->
-    <!--                 Stroke="{dui:Colors color_neutral_30}" -->
-    <!--                 dui:Touch.Command="{Binding SelectedItemCommand}" -->
-    <!--                 BackgroundColor="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_neutral_30}, FalseObject={dui:Colors color_system_white}}}"> -->
-    <!--             <Border.StrokeShape> -->
-    <!--                 <RoundRectangle CornerRadius="{dui:CornerRadius size_8}" -->
-    <!--                                 StrokeThickness="1" /> -->
-    <!--             </Border.StrokeShape> -->
-    <!--             <Grid ColumnDefinitions="Auto, Auto" -->
-    <!--                   ColumnSpacing="0" -->
-    <!--                   VerticalOptions="Center" -->
-    <!--                   Padding="{Binding Source={x:Reference Switch}, Path=IsToggled, -->
-    <!--                   Converter={dui:BoolToObjectConverter -->
-    <!--                   TrueObject={dui:Thickness Left=size_2, Top=size_2, Right=size_2, Bottom=size_2}, -->
-    <!--                   FalseObject={dui:Thickness Left=size_4, Top=size_2, Right=size_4, Bottom=size_2}}}"> -->
-    <!--                 <dui:Image Grid.Column="0" -->
-    <!--                            WidthRequest="{dui:Sizes size_3}" -->
-    <!--                            BackgroundColor="Blue" -->
-    <!--                            HeightRequest="{dui:Sizes size_3}" -->
-    <!--                            Source="{dui:Icons check_line}" -->
-    <!--                            Margin="{dui:Thickness Right=size_1}" -->
-    <!--                            IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" /> -->
-    <!--                 <dui:Label Grid.Column="1" -->
-    <!--                            BackgroundColor="Red" -->
-    <!--                            Text="Siste 90 dager" /> -->
-    <!--             </Grid> -->
-    <!--         </Border> -->
-    <!--     </Grid> -->
+    <!-- -->
+    <!--     <dui:ContentControl SelectorItem="{Binding Source={x:Reference Switch}, Path=IsToggled}"> -->
+    <!--         <dui:ContentControl.TemplateSelector> -->
+    <!--             <dui:BooleanDataTemplateSelector> -->
+    <!--                 <dui:BooleanDataTemplateSelector.TrueTemplate> -->
+    <!--                     <DataTemplate> -->
+    <!--                         <dui:ActivityIndicator IsRunning="True" -->
+    <!--                                                IsVisible="True" /> -->
+    <!--                     </DataTemplate> -->
+    <!--                 </dui:BooleanDataTemplateSelector.TrueTemplate> -->
+    <!--                 <dui:BooleanDataTemplateSelector.FalseTemplate> -->
+    <!--                     <DataTemplate> -->
+    <!--                         <ScrollView> -->
+    <!--                             <dui:CollectionView ItemsSource="{Binding Items}"> -->
+    <!--                                 <dui:CollectionView.ItemTemplate> -->
+    <!--                                     <DataTemplate x:DataType="{x:Type håvardSamples:Something}"> -->
+    <!--                                         <dui:NavigationListItem Icon="{dui:Icons heartrate_line}" -->
+    <!--                                                                 Title="Pulse"> -->
+    <!--                                             <dui:ListItem.IconOptions> -->
+    <!--                                                  -->
+    <!--                                                 <dui:IconOptions -->
+    <!--                                                     Color="{Binding TheTing.IsIt, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}, FallbackValue={dui:Colors color_error_dark}}"> -->
+    <!--                                                 </dui:IconOptions> -->
+    <!--                                             </dui:ListItem.IconOptions> -->
+    <!--                                         </dui:NavigationListItem> -->
+    <!--                                     </DataTemplate> -->
+    <!--                                 </dui:CollectionView.ItemTemplate> -->
+    <!--                             </dui:CollectionView> -->
+    <!--                         </ScrollView> -->
+    <!--                     </DataTemplate> -->
+    <!--                 </dui:BooleanDataTemplateSelector.FalseTemplate> -->
+    <!--             </dui:BooleanDataTemplateSelector> -->
+    <!--         </dui:ContentControl.TemplateSelector> -->
+    <!--     </dui:ContentControl> -->
     <!-- </VerticalStackLayout> -->
-    <!--
-        var grid = new Grid()
-        {
-            VerticalOptions = LayoutOptions.Center,
-            ColumnDefinitions = new ColumnDefinitionCollection() {new(GridLength.Auto), new(GridLength.Auto)},
-            ColumnSpacing = 0,
-        };
-        grid.SetBinding(PaddingProperty,
-            new Binding()
-            {
-                Path = nameof(SelectableListItem.IsSelected),
-                Converter = new BoolToObjectConverter()
-                {
-                    TrueObject =
-                        new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2),
-                            Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2))+new Thickness(border.Margin.HorizontalThickness*-1, border.Margin.VerticalThickness),
-                    FalseObject = new Thickness(Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2))+new Thickness(border.Margin.HorizontalThickness*-1, border.Margin.VerticalThickness),
-                }
-            });
-        // NOE ER FUCKED MED MARGINS, IKKE SAMME SOM FIGMA
-
-        var checkedImage = new Image()
-        {
-            Source = Icons.GetIcon(IconName.check_line),
-            WidthRequest = Sizes.GetSize(SizeName.size_3),
-            HeightRequest = Sizes.GetSize(SizeName.size_3),
-            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_2), 0)
-        };
-        checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableListItem.IsSelected)});
-        var label = new Label() {VerticalTextAlignment = TextAlignment.Center};
-        label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding() {Path = nameof(SelectableListItem.DisplayName)});
-
-        grid.Add(checkedImage, 0);
-        grid.Add(label, 1);
-        border.Content = grid;
-        m_allVisualElements.Add(border);
-        border.SizeChanged += ((sender, args) =>
-        {
-            if (sender is not View view) return;
-            if (view.BindingContext is not SelectableListItem selectableListItem) return;
-
-            var radius = (double)Sizes.GetSize(SizeName.size_8);
-            var roundRectangle = new RoundRectangle()
-            {
-                //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, this makes sure theres no extra space between each segment
-#if __ANDROID__
-                StrokeThickness = 1
-#elif __IOS__
-                StrokeThickness = 0
-#endif
-            };
-            if (m_allSelectableItems.Last() == selectableListItem)
-            {
-                roundRectangle.CornerRadius = new CornerRadius(0, radius, 0, radius);
-            }
-            else if (m_allSelectableItems.First() == selectableListItem)
-            {
-                roundRectangle.CornerRadius = new CornerRadius(radius, 0, radius, 0);
-            }
-
-            border.StrokeShape = roundRectangle;
-        });
-
-        return border;
-
--->
 </dui:ContentPage>

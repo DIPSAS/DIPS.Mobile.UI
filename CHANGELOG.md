@@ -1,3 +1,72 @@
+## [16.16.1]
+- [InLineDatePicker] Fixed an bug where it would sometimes not render until people had tapped or slided the layout.
+
+## [16.16.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.15.0] 
+- [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.
+
+## [16.14.0] 
+- [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).
+- [SearchPage] Make sure clear the text and state of the view when people tap the clear button.
+- [ItemPicker] Made sure Placeholder gets set the first time it draws.
+
+## [16.13.1]
+- Selected Item can now be set to null. When its set to null the placeholder will be used. 
+
+## [16.13.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.12.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.11.4] 
+- Added unique identifiers for the animations,sizes and colors resources enum.
+
+## [16.11.3] 
+- Made sure to do a nullcheck on SearchCommand before executing it.
+
+## [16.11.2] 
+- Added unique identifiers for the icon resources enum.
+
+## [16.11.1] 
+- Made sure filled check box touch effect works when the command property changes
+
+## [16.11.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.10.1] 
+- [Android] Made sure we safely commit the fragmentmanager when the state was lost to prevent app crashes.
+
+## [16.10.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.8.2]
+- [ContentControl][iOS] If content is CollectionView we wrap it in a grid with row=auto.
+- [ListItem] Options now inherit the BindingContext of the ListItem.
+
+## [16.8.1]
+- [Chip] Made sure background color of chip is set correctly.
+
+## [16.8.0]
+- [Checkmark] Added
+- [RadioButton] Added
+- [Switch] Added
+- [SearchBar] Change the default BarColor to Transparent
+- [MultiItemsPicker] Changed the style of the items to select from.
+- [ItemPicker] Changed the style of the items to select from.
+- [ComponentsApp] Removed CheckBoxes samples and added Selection samples.
+
+## [16.7.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [16.6.0]
+- Added animations API and added SkiaSharp Lottie nuget dependency.
+
 ## [16.5.2]
 - [Android] Fixed a bug where setting IsEllipzised property were not set correctly when in a CollectionView
 
