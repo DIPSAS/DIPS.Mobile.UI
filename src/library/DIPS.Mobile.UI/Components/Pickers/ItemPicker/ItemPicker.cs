@@ -1,7 +1,4 @@
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
@@ -20,8 +17,28 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         {
             m_chip.SetBinding(MaximumHeightRequestProperty, new Binding(){Path = nameof(MaximumWidthRequest), Source = this});
             MaximumWidthRequest = 200;
+            Loaded += OnLoaded;
+            Unloaded += OnUnLoaded;
         }
-        
+
+        private void OnUnLoaded(object? sender, EventArgs e)
+        {
+            Unloaded -= OnLoaded;
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+        }
+
+        private void OnLoaded(object? sender, EventArgs e)
+        {
+            Loaded -= OnLoaded;
+            LayoutContent();
+        }
+
         private void LayoutContent()
         {
             Content = m_chip;
@@ -35,6 +52,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 m_chip.Command = OpenCommand;
             }
+            
+            SelectedItemChanged();
         }
 
         internal void UpdateChipTitle(string? title)
@@ -50,36 +69,18 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
         }
 
-        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        private void SelectedItemChanged()
         {
-            base.OnHandlerChanging(args);
-            
-            LayoutContent();
+            SelectedItemCommand?.Execute(SelectedItem);
+            DidSelectItem?.Invoke(this, SelectedItem!);
 
-            if (args.NewHandler == null)
-            {
-                if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                    notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
-            }
-        }
-
-        private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (bindable is not ItemPicker picker)
-            {
-                return;
-            }
+            var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
+            UpdateChipTitle(displayName);
             
-            picker.SelectedItemCommand?.Execute(picker.SelectedItem);
-            picker.DidSelectItem?.Invoke(picker, picker.SelectedItem);
-
-            var displayName = picker.SelectedItem?.GetPropertyValue(picker.ItemDisplayProperty) ?? null;
-            picker.UpdateChipTitle(displayName);
-            
-            switch (picker.Mode)
+            switch (Mode)
             {
                 case PickerMode.ContextMenu:
-                    UpdateContextMenuItems(picker); //<-- Needed if the selected item was set programatically, and not by the user
+                    UpdateContextMenuItems(); //<-- Needed if the selected item was set programatically, and not by the user
                     break;
                 case PickerMode.BottomSheet:
                     if (BottomSheetService.IsBottomSheetOpen())
