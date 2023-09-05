@@ -1,3 +1,6 @@
+## [16.15.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.14.0] 
 - [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).
 - [SearchPage] Make sure clear the text and state of the view when people tap the clear button.

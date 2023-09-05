@@ -101,6 +101,7 @@ this file is generated
 ["bells_line"] = "bells_line.png",
 ["dash_long_fill"] = "dash_long_fill.png",
 ["eye_off_fill"] = "eye_off_fill.png",
+["patient_info_fill"] = "patient_info_fill.png",
 
             };
         }
