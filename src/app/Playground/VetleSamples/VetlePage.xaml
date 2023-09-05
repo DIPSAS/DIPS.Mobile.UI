@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:sorting="clr-namespace:DIPS.Mobile.UI.Components.Sorting;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
              >
@@ -14,13 +15,9 @@
     
     <Grid RowDefinitions="Auto, *">
         
-        <Button Command="{Binding Navigate}"></Button>
-    
-    <Grid RowDefinitions="*, 6*" Grid.Row="1">
-        
-       
-        
-    </Grid>
+        <sorting:SortControl ItemsSource="{Binding SortOptions}"
+                             ItemDisplayProperty="Text" />
+   
     </Grid>
 
 </dui:ContentPage>

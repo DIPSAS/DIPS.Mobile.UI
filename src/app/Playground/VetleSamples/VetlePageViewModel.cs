@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.VetleSamples;
@@ -64,6 +65,15 @@ public class VetlePageViewModel : ViewModel
         var page = new VetleTestPage1();
         Shell.Current.Navigation.PushAsync(page);
     }
+
+    public List<SortOption> SortOptions { get; } = new()
+    {
+        new SortOption("1", "One"),
+        new SortOption("2", "Two"),
+        new SortOption("3", "Three"),
+        new SortOption("4", "Four"),
+        new SortOption("5", "Five"),
+    };
 
     public List<string> TestStrings { get; } = new()
     {
@@ -164,4 +174,16 @@ public class VetlePageViewModel : ViewModel
             }
         }
     }
+}
+
+public class SortOption
+{
+    public SortOption(string text, string identifier)
+    {
+        Text = text;
+        Identifier = identifier;
+    }
+    
+    public string Text { get; }
+    public string Identifier { get; }
 }
