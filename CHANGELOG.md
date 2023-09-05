@@ -1,6 +1,7 @@
 ## [16.14.0] 
 - [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).
 - [SearchPage] Make sure clear the text and state of the view when people tap the clear button.
+- [ItemPicker] Made sure Placeholder gets set the first time it draws.
 
 ## [16.13.1]
 - Selected Item can now be set to null. When its set to null the placeholder will be used. 
