@@ -24,7 +24,7 @@
                              ItemDisplayProperty="Text"
                              InitialSelectedItem="{Binding DefaultSelectedItem}"
                              SelectedItemCommand="{Binding SortingDoneCommand}" />
-        
+
         <dui:CollectionView ItemsSource="{Binding TestStrings}"
                             Grid.Row="1">
                 
