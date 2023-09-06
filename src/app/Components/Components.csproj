@@ -148,6 +148,7 @@
         <MauiXaml Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
+
     </ItemGroup>
 
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:sorting="clr-namespace:Components.ComponentsSamples.Sorting"
+             xmlns:localizedStrings1="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
+             x:Class="Components.ComponentsSamples.Sorting.SortingSamples"
+             x:DataType="{x:Type sorting:SortingSamplesViewModel}"
+             Title="{x:Static localizedStrings1:DUILocalizedStrings.Sort}">
+
+    <dui:ContentPage.BindingContext>
+        <sorting:SortingSamplesViewModel />    
+    </dui:ContentPage.BindingContext>
+    
+    <Grid RowDefinitions="Auto, *">
+        
+        <dui:SortControl ItemsSource="{Binding SortOptions}"
+                         ItemDisplayProperty="Text"
+                         InitialSelectedItem="{Binding InitialSelectedItem}"
+                         InitialSortOrder="{Binding InitialSortOrder}"
+                         SelectedItemCommand="{Binding SortingDoneCommand}"
+                         HorizontalOptions="End"
+                         Margin="0, 20, 20, 20"/>
+        
+        <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            Grid.Row="1">
+            
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    
+                    <dui:ListItem Title="{Binding .}" 
+                                  HasBottomDivider="True" />
+                    
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+            
+        </dui:CollectionView>
+        
+    </Grid>
+    
+</dui:ContentPage>

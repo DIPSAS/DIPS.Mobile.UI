@@ -51,4 +51,7 @@
     <data name="More" xml:space="preserve">
         <value>More</value>
     </data>
+    <data name="Sort" xml:space="preserve">
+        <value>Sort</value>
+    </data>
 </root>

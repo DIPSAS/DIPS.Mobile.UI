@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
@@ -30,7 +31,19 @@ public class VetlePageViewModel : ViewModel
 
         SetMaxLinesCommand = new Command<string>(s => MaxLines = int.Parse(s));
 
+        SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
+
         _ = Test2();
+    }
+
+    private void SortingDone((object, SortOrder) sortResult)
+    {
+        var oldTestStrings = new List<string>(TestStrings);
+        
+        oldTestStrings.Sort(new SortOptionComparer(sortResult.Item1 as SortOption, sortResult.Item2));
+
+        TestStrings = oldTestStrings;
+        RaisePropertyChanged(nameof(TestStrings));
     }
 
     public string TestString { get; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
@@ -68,65 +81,24 @@ public class VetlePageViewModel : ViewModel
 
     public List<SortOption> SortOptions { get; } = new()
     {
-        new SortOption("1", "One"),
-        new SortOption("2", "Two"),
-        new SortOption("3", "Three"),
-        new SortOption("4", "Four"),
-        new SortOption("5", "Five"),
+        new SortOption("Tall", "Number"),
+        new SortOption("Ord", "Words"),
     };
 
-    public List<string> TestStrings { get; } = new()
+    public SortOption DefaultSelectedItem => SortOptions[1];
+
+    public List<string> TestStrings { get; set; } = new()
     {
-        "Test",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-        "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2",
-                       "Test2"
+        "1234567",
+        "7654321",
+        "526321",
+        "271351",
+        "912512",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
     };
     
     public ICommand Navigate { get; }
@@ -174,6 +146,8 @@ public class VetlePageViewModel : ViewModel
             }
         }
     }
+
+    public ICommand SortingDoneCommand { get; }
 }
 
 public class SortOption
@@ -186,4 +160,58 @@ public class SortOption
     
     public string Text { get; }
     public string Identifier { get; }
+}
+
+class SortOptionComparer : IComparer<string>
+{
+    private readonly SortOption m_sortOption;
+    private readonly SortOrder m_sortOrder;
+
+    public SortOptionComparer(SortOption sortOption, SortOrder sortOrder)
+    {
+        m_sortOption = sortOption;
+        m_sortOrder = sortOrder;
+    }
+    
+    public int Compare(string x, string y)
+    {
+        if (m_sortOption.Identifier == "Number")
+        {
+            var xIsNumber = int.TryParse(x, out var number1);
+            var yIsNumber = int.TryParse(y, out var number2);
+
+            var returnValue = 0;
+            
+            if (xIsNumber && yIsNumber)
+            {
+                returnValue = number1.CompareTo(number2);
+            }
+
+            if (xIsNumber && !yIsNumber)
+                returnValue = 1;
+
+            if (!xIsNumber && !yIsNumber)
+                returnValue = -1;
+
+            return m_sortOrder == SortOrder.Ascending ? returnValue : -returnValue;
+        }
+        else
+        {
+            var xIsNumber = int.TryParse(x, out var number1);
+            var yIsNumber = int.TryParse(y, out var number2);
+
+            var returnValue = 0;
+            
+            if (xIsNumber && yIsNumber)
+                returnValue = 0;
+
+            if (!xIsNumber && yIsNumber)
+                returnValue = 1;
+
+            if (!xIsNumber && !yIsNumber)
+                returnValue = String.Compare(x, y, StringComparison.OrdinalIgnoreCase);
+            
+            return m_sortOrder == SortOrder.Ascending ? returnValue : -returnValue;
+        }
+    }
 }

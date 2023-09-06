@@ -4,9 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers;assembly=DIPS.Mobile.UI"
-             xmlns:modal="clr-namespace:DIPS.Mobile.UI.Effects.Modal;assembly=DIPS.Mobile.UI"
-             xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
+             xmlns:sorting="clr-namespace:DIPS.Mobile.UI.Components.Sorting;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
              Title="Hei">
@@ -19,73 +17,24 @@
         <ToolbarItem Text="Hei" />
     </dui:ContentPage.ToolbarItems>
     
-    <!--<dui:ContentPage.BindingContext>
-        <vetleSamples:VetleTestPage1ViewModel />
-    </dui:ContentPage.BindingContext>-->
+    <Grid RowDefinitions="Auto, *">
     
-    <!--<dui:VerticalStackLayout>
-        
-        
-        
-        <dui:Label MaxLines="{Binding MaxLines}"
-                   LineBreakMode="TailTruncation"
-                   Text="{Binding TestString}"
-                   IsEllipsized="{Binding IsEllipsized}">
-             
-        </dui:Label>
-        
-        <Border HeightRequest="50" WidthRequest="50" BackgroundColor="Red" IsVisible="{Binding IsEllipsized}" />
-        
     
-       <Label Text="{Binding IsEllipsized, Converter={dui:BoolToObjectConverter TrueObject=True, FalseObject=False}}" VerticalOptions="End" />
-    
-        <Button Text="2" Command="{Binding SetMaxLinesCommand}"
-                CommandParameter="2"
-                VerticalOptions="End"
-                WidthRequest="30"/>
+        <sorting:SortControl ItemsSource="{Binding SortOptions}"
+                             ItemDisplayProperty="Text"
+                             InitialSelectedItem="{Binding DefaultSelectedItem}"
+                             SelectedItemCommand="{Binding SortingDoneCommand}" />
         
-        <Button Text="10" Command="{Binding SetMaxLinesCommand}"
-                CommandParameter="10"
-                VerticalOptions="End"
-                HorizontalOptions="End"
-                WidthRequest="30"/>
-    </dui:VerticalStackLayout>-->
-    
-    <dui:CollectionView ItemsSource="{Binding TestStrings}">
-        
-    <dui:CollectionView.ItemTemplate>
-        <DataTemplate>
-            <Grid RowDefinitions="Auto, Auto"
-                  ColumnDefinitions="*, Auto">
+        <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            Grid.Row="1">
                 
-                <dui:Label Text="Title"
-                           Grid.Row="0" />
-                
-                <dui:Label MaxLines="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=MaxLines}"
-                           Grid.Row="1"
-                           dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=SetMaxLinesCommand}"
-                           dui:Touch.CommandParameter="100"
-                           LineBreakMode="TailTruncation"
-                           Text="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=TestString}"
-                           IsEllipsized="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsEllipsized}">
-                     
-                </dui:Label>
-                
-                <dui:Label Text="mer" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsEllipsized}" Grid.Column="1" Grid.Row="1"
-                           HorizontalOptions="End"
-                           VerticalOptions="End"/>
-                
-            </Grid>
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <dui:Label Text="{Binding .}" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
             
-                    <!--<dui:Label LineBreakMode="TailTruncation"
-                               MaxLines="{Binding MaxLines}"
-                               IsEllipsized="{Binding IsEllipsized}"
-                               Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum">
-                               
-                    </dui:Label>-->
-        </DataTemplate>
-    </dui:CollectionView.ItemTemplate>
-
-    </dui:CollectionView>
+        </dui:CollectionView>
+    </Grid>
 
 </dui:ContentPage>

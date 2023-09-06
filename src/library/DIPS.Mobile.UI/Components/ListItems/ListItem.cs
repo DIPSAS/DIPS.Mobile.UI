@@ -57,8 +57,8 @@ public partial class ListItem : ContentView
     private IView m_oldInLineContent;
     private IView m_oldUnderlyingContent;
 
-    private Divider? m_topDivider;
-    private Divider? m_bottomDivider;
+    public Divider? TopDivider;
+    public Divider? BottomDivider;
 
     public ListItem()
     {
@@ -216,20 +216,22 @@ public partial class ListItem : ContentView
         var divider = new Divider();
         if (top)
         {
-            if (RootContent.Contains(m_topDivider))
-                RootContent.Remove(m_topDivider);
+            if (RootContent.Contains(TopDivider))
+                RootContent.Remove(TopDivider);
             
-            m_topDivider = divider;
+            TopDivider = divider;
             RootContent.Insert(0, divider);
         }
         else
         {
-            if (RootContent.Contains(m_bottomDivider))
-                RootContent.Remove(m_bottomDivider);
+            if (RootContent.Contains(BottomDivider))
+                RootContent.Remove(BottomDivider);
             
-            m_bottomDivider = divider;
+            BottomDivider = divider;
             RootContent.Add(divider);
         }
+        
+        BindToOptions(DividersOptions);
     }
 
     private void AddTouch()

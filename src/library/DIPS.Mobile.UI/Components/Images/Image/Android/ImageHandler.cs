@@ -10,4 +10,8 @@ public partial class ImageHandler
         handler.PlatformView.SetColorFilter(image.TintColor.ToPlatform());
     }
 
+    private static partial void AppendToPropertyMapper()
+    {
+    }
+    
 }

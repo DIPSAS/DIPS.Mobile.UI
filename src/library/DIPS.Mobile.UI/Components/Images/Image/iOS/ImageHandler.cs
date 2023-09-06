@@ -23,4 +23,14 @@ public partial class ImageHandler
         handler.PlatformView.TintColor = image.TintColor.ToPlatform();
     }
 
+    private static partial void AppendToPropertyMapper()
+    {
+        PropertyMapper.Add(nameof(Image.Source), MapOverrideSource);
+    }
+
+    private static async void MapOverrideSource(ImageHandler handler, Image image)
+    {
+        await handler.SourceLoader.UpdateImageSourceAsync();
+        TrySetTintColor(handler, image);
+    }
 }

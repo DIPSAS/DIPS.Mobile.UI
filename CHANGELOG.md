@@ -1,3 +1,7 @@
+## [16.17.0]
+- Added SortControl
+- [iOS] Fixed a bug where the color of an Image/ImageButton would be reset to black when changing the source in runtime
+
 ## [16.16.1]
 - [InLineDatePicker] Fixed an bug where it would sometimes not render until people had tapped or slided the layout.
 

@@ -9,6 +9,7 @@ using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
+using Components.ComponentsSamples.Sorting;
 using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples.Animations;
 using Components.ResourcesSamples.Colors;
@@ -38,7 +39,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Loading, () => new LoadingSamples()),
             new(SampleType.Components, LocalizedStrings.Alerting, () => new AlertingSamples()),
             new(SampleType.Components, LocalizedStrings.Saving, () => new SavingSamples()),
-            new(SampleType.Components, "Selection", () => new SelectionSamples())
+            new(SampleType.Components, "Selection", () => new SelectionSamples()),
+            new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples())
+
         };
     }
 }

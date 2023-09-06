@@ -1,42 +1,73 @@
-using System.Collections;
 using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Sorting;
 
 public partial class SortControl
 {
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-        nameof(ItemsSource),
-        typeof(IEnumerable),
-        typeof(SortControl));
-
-    public static readonly BindableProperty DoneCommandProperty = BindableProperty.Create(
-        nameof(DoneCommand),
-        typeof(ICommand),
-        typeof(SortControl));
-
     public string ItemDisplayProperty { get; set; }
-
-    private static readonly BindableProperty CurrentSortOrderProperty = BindableProperty.Create(
-        nameof(CurrentSortOrder),
-        typeof(SortOrder),
-        typeof(SortControl));
 
     internal SortOrder CurrentSortOrder
     {
-        get => (SortOrder)GetValue(CurrentSortOrderProperty);
-        set => SetValue(CurrentSortOrderProperty, value);
+        get => m_currentSortOrder;
+        private set
+        {
+            m_currentSortOrder = value;
+            OnSortOrderChanged();
+        }
     }
 
-    public ICommand DoneCommand
+    internal object? SelectedItem
     {
-        get => (ICommand)GetValue(DoneCommandProperty);
-        set => SetValue(DoneCommandProperty, value);
+        get => m_selectedItem;
+        private set
+        {
+            m_selectedItem = value;
+            OnSelectedItemChanged();   
+        }
+    }
+
+    public object? InitialSelectedItem
+    {
+        get => (object)GetValue(InitialSelectedItemProperty);
+        set => SetValue(InitialSelectedItemProperty, value);
+    }
+
+    public SortOrder? InitialSortOrder
+    {
+        get => (SortOrder)GetValue(InitialSortOrderProperty);
+        set => SetValue(InitialSortOrderProperty, value);
     }
     
-    public IEnumerable ItemsSource
+    public Command<(object, SortOrder)> SelectedItemCommand
     {
-        get => (IEnumerable)GetValue(ItemsSourceProperty);
+        get => (Command<(object, SortOrder)>)GetValue(SelectedItemCommandProperty);
+        set => SetValue(SelectedItemCommandProperty, value);
+    }
+    
+    public IEnumerable<object> ItemsSource
+    {
+        get => (IEnumerable<object>)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
+    
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
+            nameof(ItemsSource),
+            typeof(IEnumerable<object>),
+            typeof(SortControl),
+            propertyChanged: (bindable, _, _) => ((SortControl)bindable).OnItemsSourceChanged());
+    
+    public static readonly BindableProperty SelectedItemCommandProperty = BindableProperty.Create(
+        nameof(SelectedItemCommand),
+        typeof(Command<(object, SortOrder)>),
+        typeof(SortControl));
+    
+    public static readonly BindableProperty InitialSelectedItemProperty = BindableProperty.Create(
+        nameof(InitialSelectedItem),
+        typeof(object),
+        typeof(SortControl));
+    
+    public static readonly BindableProperty InitialSortOrderProperty = BindableProperty.Create(
+        nameof(InitialSortOrder),
+        typeof(SortOrder),
+        typeof(SortControl));
 }
