@@ -15,7 +15,7 @@ namespace DIPS.Mobile.UI.Components.Pickers
             IsSelected = isSelected;
             Item = item;
         }
-
+        
         /// <summary>
         /// The name to use when displaying the view model for people.
         /// </summary>

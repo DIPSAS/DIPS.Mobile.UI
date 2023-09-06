@@ -542,5 +542,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Animations", resourceCulture);
             }
         }
+        
+        internal static string Sorting {
+            get {
+                return ResourceManager.GetString("Sorting", resourceCulture);
+            }
+        }
     }
 }

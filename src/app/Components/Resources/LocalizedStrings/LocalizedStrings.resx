@@ -272,4 +272,7 @@
     <data name="Animations" xml:space="preserve">
         <value>Animations</value>
     </data>
+    <data name="Sorting" xml:space="preserve">
+        <value>Sorting</value>
+    </data>
 </root>

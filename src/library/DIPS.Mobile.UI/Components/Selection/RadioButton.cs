@@ -4,12 +4,12 @@ public partial class RadioButton : DIPS.Mobile.UI.Components.Images.ImageButton.
 {
     public RadioButton()
     {
-            Command = new Command(() =>
-            {
-                IsSelected = !IsSelected;
-            });
-            TintColor = ISelectable.s_tintColor;
-            OnIsSelectedChanged();
+        Command = new Command(() =>
+        {
+            IsSelected = !IsSelected;
+        });
+        TintColor = ISelectable.s_tintColor;
+        OnIsSelectedChanged();
     }
 
     private void OnIsSelectedChanged()

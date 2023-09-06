@@ -1,3 +1,8 @@
+## [16.17.0]
+- Added SortControl
+- [iOS] Fixed a bug where the color of an Image/ImageButton would be reset to black when changing the source in runtime
+- Added DividersOptions property to ListItem to be able to set margin on TopDivider and BottomDivider
+
 ## [16.16.2]
 - [SearchBar] Made sure android removes the text when the clear button is tapped.
 
@@ -6,7 +11,6 @@
 
 ## [16.16.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
-
 
 ## [16.15.0] 
 - [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.

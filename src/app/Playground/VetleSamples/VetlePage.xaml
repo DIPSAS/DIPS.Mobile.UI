@@ -4,23 +4,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Dividers;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetlePage"
              x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-             >
+             BackgroundColor="White">
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <Grid RowDefinitions="Auto, *">
         
-        <Button Command="{Binding Navigate}"></Button>
-    
-    <Grid RowDefinitions="*, 6*" Grid.Row="1">
+        <dui:ImageButton Source="{dui:Icons arrow_right_s_line}" 
+                         Command="{Binding Navigate}"
+                         TintColor="Green"
+                         WidthRequest="50"
+                         HeightRequest="50"
+                         x:Name="ImageButton"/>
         
-       
         
-    </Grid>
-    </Grid>
 
 </dui:ContentPage>

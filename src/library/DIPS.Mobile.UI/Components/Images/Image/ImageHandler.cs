@@ -4,6 +4,7 @@ public partial class ImageHandler : Microsoft.Maui.Handlers.ImageHandler
 {
     public ImageHandler() : base(PropertyMapper)
     {
+        AppendToPropertyMapper();
     }
     
     public static IPropertyMapper<Image, ImageHandler> PropertyMapper = new PropertyMapper<Image, ImageHandler>(Mapper)
@@ -11,5 +12,7 @@ public partial class ImageHandler : Microsoft.Maui.Handlers.ImageHandler
         [nameof(Image.TintColor)] = TrySetTintColor
     };
 
+    private static partial void AppendToPropertyMapper();
+    
     private static partial void TrySetTintColor(ImageHandler handler, Image image);
 }
