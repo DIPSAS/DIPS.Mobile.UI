@@ -72,38 +72,17 @@ public partial class SortControl : HorizontalStackLayout
         SelectedItemCommand.Execute((SelectedItem, CurrentSortOrder));
     }
 
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-
-        m_handlerInitialized = true;
-
-        if (InitialSelectedItem is not null)
-        {
-            SelectedItem = InitialSelectedItem;
-        }
-        else
-        {
-            SelectedItem = ItemsSource.FirstOrDefault();
-        }
-
-        if (InitialSortOrder is not null)
-        {
-            CurrentSortOrder = (SortOrder)InitialSortOrder;
-        }
-    }
-
     private void OnItemsSourceChanged()
     {
-        if(InitialSelectedItem is not null || !m_handlerInitialized)
+        if(InitialSelectedItem is not null)
             return;
 
-        SelectedItem = ItemsSource.FirstOrDefault();
+        SelectedItem = ItemsSource?.FirstOrDefault();
     }
 
     private void OnSelectedItemChanged()
     {
-        m_selectedItemText.Text = SelectedItem.GetPropertyValue(ItemDisplayProperty);
+        m_selectedItemText.Text = SelectedItem?.GetPropertyValue(ItemDisplayProperty);
     }
 
     private void OnSortOrderChanged()
