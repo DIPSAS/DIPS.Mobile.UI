@@ -1,3 +1,6 @@
+## [16.17.1]
+- Fixed a bug where SortControl would crash if ItemsSource were not set instantly
+
 ## [16.17.0]
 - Added SortControl
 - [iOS] Fixed a bug where the color of an Image/ImageButton would be reset to black when changing the source in runtime
