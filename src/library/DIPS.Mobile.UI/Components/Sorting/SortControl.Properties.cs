@@ -44,7 +44,7 @@ public partial class SortControl
         set => SetValue(SelectedItemCommandProperty, value);
     }
     
-    public IEnumerable<object> ItemsSource
+    public IEnumerable<object>? ItemsSource
     {
         get => (IEnumerable<object>)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
@@ -64,10 +64,12 @@ public partial class SortControl
     public static readonly BindableProperty InitialSelectedItemProperty = BindableProperty.Create(
         nameof(InitialSelectedItem),
         typeof(object),
-        typeof(SortControl));
+        typeof(SortControl),
+        propertyChanged: (bindable, _, newValue) => ((SortControl)bindable).SelectedItem = newValue);
     
     public static readonly BindableProperty InitialSortOrderProperty = BindableProperty.Create(
         nameof(InitialSortOrder),
         typeof(SortOrder),
-        typeof(SortControl));
+        typeof(SortControl),
+        propertyChanged: (bindable, _, newValue) => ((SortControl)bindable).CurrentSortOrder = (SortOrder)newValue);
 }

@@ -16,6 +16,8 @@ public class VetlePageViewModel : ViewModel
     private LayoutOptions m_horizontalOptions;
     private bool m_isEllipsized;
     private int m_maxLines = 3;
+    private List<SortOption> m_sortOptions;
+    private SortOption m_defaultSelectedItem;
 
     public VetlePageViewModel()
     {
@@ -34,6 +36,18 @@ public class VetlePageViewModel : ViewModel
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
         _ = Test2();
+
+        _ = DelayFunction();
+    }
+
+    private void SortingDone((object, SortOrder) sortResult)
+    {
+        var oldTestStrings = new List<string>(TestStrings);
+        
+        oldTestStrings.Sort(new SortOptionComparer(sortResult.Item1 as SortOption, sortResult.Item2));
+
+        TestStrings = oldTestStrings;
+        RaisePropertyChanged(nameof(TestStrings));
     }
 
     private void SortingDone((object, SortOrder) sortResult)
@@ -72,6 +86,20 @@ public class VetlePageViewModel : ViewModel
         IsError = false;
     }
 
+    private async Task DelayFunction()
+    {
+        await Task.Delay(1000);
+        var sortOptions = new List<SortOption>()
+        {
+            new SortOption("Tall", "Number"),
+            new SortOption("Ord", "Words"),
+        };
+
+        
+        SortOptions = sortOptions;
+        DefaultSelectedItem = sortOptions[1];
+    }
+
 
     private void Navigatee()
     {
@@ -79,13 +107,17 @@ public class VetlePageViewModel : ViewModel
         Shell.Current.Navigation.PushAsync(page);
     }
 
-    public List<SortOption> SortOptions { get; } = new()
+    public List<SortOption> SortOptions
     {
-        new SortOption("Tall", "Number"),
-        new SortOption("Ord", "Words"),
-    };
+        get => m_sortOptions;
+        set => RaiseWhenSet(ref m_sortOptions, value);
+    }
 
-    public SortOption DefaultSelectedItem => SortOptions[1];
+    public SortOption DefaultSelectedItem
+    {
+        get => m_defaultSelectedItem;
+        set => RaiseWhenSet(ref m_defaultSelectedItem, value);
+    }
 
     public List<string> TestStrings { get; set; } = new()
     {

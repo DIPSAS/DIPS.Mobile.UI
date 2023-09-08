@@ -13,13 +13,9 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-        
-        <dui:ImageButton Source="{dui:Icons arrow_right_s_line}" 
-                         Command="{Binding Navigate}"
-                         TintColor="Green"
-                         WidthRequest="50"
-                         HeightRequest="50"
-                         x:Name="ImageButton"/>
+
+<Button Text="nav" Command="{Binding Navigate}"></Button>
+
         
         
 

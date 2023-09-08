@@ -9,15 +9,9 @@ public partial class VetlePage
     {
         InitializeComponent();
         
-        ChangeColor();
     }
 
-    async void ChangeColor()
-    {
-        await Task.Delay(5000);
-        ImageButton.Source = Icons.GetIcon(IconName.patient_info_fill);
-    }
-
+    
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
         if (e.Value)
@@ -25,4 +19,6 @@ public partial class VetlePage
             
         }
     }
+
+    
 }

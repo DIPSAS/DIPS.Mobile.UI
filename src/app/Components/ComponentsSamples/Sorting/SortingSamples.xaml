@@ -27,7 +27,7 @@
                             Grid.Row="1">
             
             <dui:CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
                     
                     <dui:ListItem Title="{Binding .}" 
                                   HasBottomDivider="True" />
