@@ -7,7 +7,7 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Sorting;
 
-public partial class SortControl : HorizontalStackLayout
+public partial class SortControl : Grid
 {
     private readonly Label m_selectedItemText;
     private readonly Image m_sortImage;
@@ -15,21 +15,23 @@ public partial class SortControl : HorizontalStackLayout
     private object? m_selectedItem;
     private SortOrder m_currentSortOrder;
 
-    private bool m_handlerInitialized;
-
     public SortControl()
     {
-        Spacing = Sizes.GetSize(SizeName.size_1);
+        AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
+        AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+        
+        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
         
         Touch.SetCommand(this, new Command(OpenBottomSheet));
         
         m_selectedItemText = new Label
         {
             FontAttributes = FontAttributes.Bold,
-            FontSize = 11,
-            TextTransform = TextTransform.Uppercase,
+            FontSize = 12,
             TextColor = Colors.GetColor(ColorName.color_primary_90),
-            VerticalTextAlignment = TextAlignment.Center
+            VerticalTextAlignment = TextAlignment.Center,
+            MaxLines = 1,
+            LineBreakMode = LineBreakMode.TailTruncation
         };
 
         m_sortImage = new Image
@@ -42,8 +44,8 @@ public partial class SortControl : HorizontalStackLayout
         
         OnSortOrderChanged();
         
-        Add(m_selectedItemText);
         Add(m_sortImage);
+        this.Add(m_selectedItemText, 1);
     }
 
     private void OpenBottomSheet()
@@ -54,7 +56,7 @@ public partial class SortControl : HorizontalStackLayout
     public void ItemSelected(SelectableItemViewModel item)
     {
         // Change sort order if tapped on already selected item
-        if (item.Item == SelectedItem)
+        if (item.Item.Equals(SelectedItem))
         {
             CurrentSortOrder = CurrentSortOrder switch
             {

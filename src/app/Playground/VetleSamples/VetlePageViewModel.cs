@@ -50,16 +50,6 @@ public class VetlePageViewModel : ViewModel
         RaisePropertyChanged(nameof(TestStrings));
     }
 
-    private void SortingDone((object, SortOrder) sortResult)
-    {
-        var oldTestStrings = new List<string>(TestStrings);
-        
-        oldTestStrings.Sort(new SortOptionComparer(sortResult.Item1 as SortOption, sortResult.Item2));
-
-        TestStrings = oldTestStrings;
-        RaisePropertyChanged(nameof(TestStrings));
-    }
-
     public string TestString { get; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
 
     public bool IsEllipsized
@@ -91,7 +81,7 @@ public class VetlePageViewModel : ViewModel
         await Task.Delay(1000);
         var sortOptions = new List<SortOption>()
         {
-            new SortOption("Tall", "Number"),
+            new SortOption("Pasient med fødselsnummer, veldig lang sorteringsmulighet", "Number"),
             new SortOption("Ord", "Words"),
         };
 

@@ -24,6 +24,9 @@ internal class SortControlBottomSheet : BottomSheet
     public SortControlBottomSheet(SortControl sortControl)
     {
         m_sortControl = sortControl;
+        
+        if(m_sortControl.ItemsSource == null || !m_sortControl.ItemsSource.Any())
+            return;
 
         Title = DUILocalizedStrings.Sort;
         
@@ -34,7 +37,7 @@ internal class SortControlBottomSheet : BottomSheet
         {
             selectableViewModels.Add(new SelectableSortOptionViewModel(
                 item.GetPropertyValue(m_sortControl.ItemDisplayProperty)!,
-                item.Equals(m_sortControl.SelectedItem), item, m_sortControl.ItemsSource.LastOrDefault() == item));
+                item.Equals(m_sortControl.SelectedItem), item, m_sortControl.ItemsSource.LastOrDefault()!.Equals(item)));
         }
 
         m_collectionView.ItemsSource = selectableViewModels;
