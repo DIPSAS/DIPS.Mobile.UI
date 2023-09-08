@@ -17,15 +17,20 @@
         <ToolbarItem Text="Hei" />
     </dui:ContentPage.ToolbarItems>
     
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions="*, *">
     
     
         <sorting:SortControl ItemsSource="{Binding SortOptions}"
                              ItemDisplayProperty="Text"
                              InitialSelectedItem="{Binding DefaultSelectedItem}"
-                             SelectedItemCommand="{Binding SortingDoneCommand}" />
+                             SelectedItemCommand="{Binding SortingDoneCommand}"
+                             Grid.Column="1"
+                             HorizontalOptions="End"
+                             VerticalOptions="Center" />
 
         <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            Grid.ColumnSpan="2"
                             Grid.Row="1">
                 
             <dui:CollectionView.ItemTemplate>
