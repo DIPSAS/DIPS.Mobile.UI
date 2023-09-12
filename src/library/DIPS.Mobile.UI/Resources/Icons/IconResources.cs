@@ -102,6 +102,7 @@ this file is generated
 ["dash_long_fill"] = "dash_long_fill.png",
 ["eye_off_fill"] = "eye_off_fill.png",
 ["patient_info_fill"] = "patient_info_fill.png",
+["alert_fill"] = "alert_fill.png",
 
             };
         }
