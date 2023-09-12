@@ -35,11 +35,15 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
+        CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
+
         _ = Test2();
 
         _ = DelayFunction();
     }
 
+    public ICommand CancelCommand { get; }
+    
     private void SortingDone((object, SortOrder) sortResult)
     {
         var oldTestStrings = new List<string>(TestStrings);

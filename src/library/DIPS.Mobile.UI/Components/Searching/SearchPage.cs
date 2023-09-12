@@ -48,7 +48,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
             SearchBar.ClearTextCommand = new Command(TextWasClearedFromClick);
-            SearchBar.CancelCommand = new Command(OnCancel);
+            SearchBar.CancelCommand = CancelCommand;
 
 
             //Result listview
@@ -206,6 +206,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void ToggleProgressBarVisibility(bool visible)
         {
             SearchBar.IsBusy = visible;
+        }
+
+        private void OnCancelCommandChanged()
+        {
+            SearchBar.CancelCommand = CancelCommand;
         }
     }
 

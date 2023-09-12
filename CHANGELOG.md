@@ -1,3 +1,6 @@
+## [16.18.0]
+- Added new property to SearchPage: CancelCommand
+
 ## [16.17.2]
 - Changed design of SortControl
 - Changed so that items will be compared with .Equals function instead of by memory reference in SortControl

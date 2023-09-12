@@ -4,11 +4,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 {
     public abstract partial class SearchPage
     {
-        public static readonly BindableProperty EmptyContentProperty = BindableProperty.Create(
-            nameof(NoResultView),
-            typeof(View),
-            typeof(SearchPage));
-
         /// <summary>
         /// The view to show to people when there is no search results.
         /// </summary>
@@ -17,11 +12,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (View)GetValue(EmptyContentProperty);
             set => SetValue(EmptyContentProperty, value);
         }
-
-        public static readonly BindableProperty HintViewProperty = BindableProperty.Create(
-            nameof(HintView),
-            typeof(View),
-            typeof(SearchPage));
 
         /// <summary>
         /// The view to show to people when they have not searched for anything yet.
@@ -35,11 +25,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         [Obsolete("Setting Content property is the same as setting EmptyResultView")]
         public new View? Content { get; set; }
 
-        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
-            nameof(SearchCommand),
-            typeof(ICommand),
-            typeof(SearchPage));
-
         /// <summary>
         /// The command to be executed when people use the search bar to search. 
         /// </summary>
@@ -50,10 +35,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(SearchCommandProperty, value);
         }
 
-        public static readonly BindableProperty ResultViewProperty = BindableProperty.Create(
-            nameof(ResultItemTemplate),
-            typeof(DataTemplate),
-            typeof(SearchPage));
+        /// <summary>
+        /// The command to be executed when people press the cancel button
+        /// </summary>
+        /// <remarks>Defaults to close the modal</remarks>
+        public ICommand CancelCommand
+        {
+            get => (ICommand)GetValue(CancelCommandProperty);
+            set => SetValue(CancelCommandProperty, value);
+        }
 
         /// <summary>
         /// The view that people will see when they get a result from using the search bar.
@@ -65,11 +55,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(ResultViewProperty, value);
         }
 
-        public static readonly BindableProperty SearchPlaceholderProperty = BindableProperty.Create(
-            nameof(SearchPlaceholder),
-            typeof(string),
-            typeof(SearchPage));
-
         /// <summary>
         /// The placeholder that is visible to people before they start searching.
         /// </summary>
@@ -78,12 +63,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (string)GetValue(SearchPlaceholderProperty);
             set => SetValue(SearchPlaceholderProperty, value);
         }
-
-        public static readonly BindableProperty ShouldDelayProperty = BindableProperty.Create(
-            nameof(ShouldDelay),
-            typeof(bool),
-            typeof(SearchPage),
-            defaultValue:SearchBar.ShouldDelayProperty.DefaultValue);
 
         /// <summary>
         /// Whether the invocation of <see cref="ProvideSearchResult"/> should be delayed according to <see cref="Delay"/>.
@@ -94,12 +73,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(ShouldDelayProperty, value);
         }
 
-        public static readonly BindableProperty DelayProperty = BindableProperty.Create(
-            nameof(Delay),
-            typeof(int),
-            typeof(SearchPage),
-            defaultValue:SearchBar.DelayProperty.DefaultValue);
-
         /// <summary>
         /// The amount of delay before invocation of <see cref="ProvideSearchResult"/> in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
         /// is true.
@@ -109,12 +82,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (int)GetValue(DelayProperty);
             set => SetValue(DelayProperty, value);
         }
-
-        public static readonly BindableProperty SearchModeProperty = BindableProperty.Create(
-            nameof(SearchMode),
-            typeof(SearchMode),
-            typeof(SearchPage),
-            SearchMode.WhenTextChanged);
 
         /// <summary>
         /// Defines when a search should be triggered.
@@ -138,5 +105,55 @@ namespace DIPS.Mobile.UI.Components.Searching
             CancellationToken searchCancellationToken);
 
         public SearchBar SearchBar { get; }
+        
+        public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
+            nameof(CancelCommand),
+            typeof(ICommand),
+            typeof(SearchPage),
+            defaultValue: new Command(OnCancel),
+            propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnCancelCommandChanged());
+        
+        public static readonly BindableProperty SearchModeProperty = BindableProperty.Create(
+            nameof(SearchMode),
+            typeof(SearchMode),
+            typeof(SearchPage),
+            SearchMode.WhenTextChanged);
+        
+        public static readonly BindableProperty DelayProperty = BindableProperty.Create(
+            nameof(Delay),
+            typeof(int),
+            typeof(SearchPage),
+            defaultValue:SearchBar.DelayProperty.DefaultValue);
+        
+        public static readonly BindableProperty ShouldDelayProperty = BindableProperty.Create(
+            nameof(ShouldDelay),
+            typeof(bool),
+            typeof(SearchPage),
+            defaultValue:SearchBar.ShouldDelayProperty.DefaultValue);
+        
+        public static readonly BindableProperty SearchPlaceholderProperty = BindableProperty.Create(
+            nameof(SearchPlaceholder),
+            typeof(string),
+            typeof(SearchPage));
+        
+        public static readonly BindableProperty ResultViewProperty = BindableProperty.Create(
+            nameof(ResultItemTemplate),
+            typeof(DataTemplate),
+            typeof(SearchPage));
+        
+        public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
+            nameof(SearchCommand),
+            typeof(ICommand),
+            typeof(SearchPage));
+        
+        public static readonly BindableProperty HintViewProperty = BindableProperty.Create(
+            nameof(HintView),
+            typeof(View),
+            typeof(SearchPage));
+        
+        public static readonly BindableProperty EmptyContentProperty = BindableProperty.Create(
+            nameof(NoResultView),
+            typeof(View),
+            typeof(SearchPage));
     }
 }

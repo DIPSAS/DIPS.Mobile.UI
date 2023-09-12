@@ -31,4 +31,9 @@ public partial class VetleTestPage1
     {
         BottomSheetService.OpenBottomSheet(new BottomSheetWithToolbar());
     }
+
+    public override Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
+    {
+        return null;
+    }
 }
