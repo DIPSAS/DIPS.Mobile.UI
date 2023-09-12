@@ -195,5 +195,7 @@ dash_long_fill=90,
 eye_off_fill=91,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/patient_info_fill.svg">View the icon in the browser</a></summary>
 patient_info_fill=92,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/alert_fill.svg">View the icon in the browser</a></summary>
+alert_fill=93,
     }
 }

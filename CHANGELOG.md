@@ -1,3 +1,6 @@
+## [16.19.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [16.18.0]
 - Added new property to SearchPage: CancelCommand
 
