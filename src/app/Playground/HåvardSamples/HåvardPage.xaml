@@ -2,121 +2,23 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:dui="http://dips.com/mobile.ui"
-                xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                x:Class="Playground.HåvardSamples.HåvardPage"
-                Padding="0">
-    <dui:SearchPage.HintView>
-        <dui:VerticalStackLayout Grid.Row="0"
-                                 Padding="{dui:Thickness Left=size_10, Right=size_10}"
-                                 IsVisible="{Binding SelectedSchedules, Converter={dui:IsEmptyConverter}}"
-                                 VerticalOptions="Center"
-                                 HorizontalOptions="Center">
-            <dui:Image Source="{dui:Icons search_line}"
-                       TintColor="{dui:Colors color_neutral_40}"
-                       RotationY="180"
-                       HeightRequest="200"
-                       WidthRequest="200"
-                       HorizontalOptions="Center" />
-            <dui:Label FontAttributes="Bold"
-                       FontSize="{dui:Sizes size_4}"
-                       HorizontalOptions="Center"
-                       Text="Search schedules"
-                       TextColor="{dui:Colors color_neutral_40}" />
-            <dui:Label FontSize="{dui:Sizes size_3}"
-                       HorizontalTextAlignment="Center"
-                       Text="No selected schedules"
-                       TextColor="{dui:Colors color_neutral_40}" />
-        </dui:VerticalStackLayout>
-    </dui:SearchPage.HintView>
-    <dui:SearchPage.ResultItemTemplate>
-        <DataTemplate>
-            <Grid RowSpacing="0"
-                  BackgroundColor="{dui:Colors color_system_white}">
-                <Grid.InputTransparent>
-                </Grid.InputTransparent>
-                <Grid.Resources>
-                    <Style TargetType="Label">
-                        <Style.Triggers>
-                            <DataTrigger TargetType="Label"
-                                         Value="True">
-                                <Setter Property="Label.TextColor"
-                                        Value="{dui:Colors color_neutral_30}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="TextColor"
-                                Value="{dui:Colors color_system_black}" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid Padding="{dui:Thickness Left=size_4, Right=size_4, Top=size_2, Bottom=size_2}"
-                      Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <dui:Label Text="{Binding .}"
-                               Grid.Column="0"
-                               FontSize="{dui:Sizes size_4}"
-                               TextColor="{dui:Colors color_neutral_50}"
-                               VerticalTextAlignment="Center" />
-                    <dui:Label Text="{Binding .}"
-                               VerticalTextAlignment="Center"
-                               Grid.Column="1" />
-                </Grid>
-            </Grid>
-        </DataTemplate>
-    </dui:SearchPage.ResultItemTemplate>
-    <dui:SearchPage.NoResultView>
-        <Label Text="No result" />
-    </dui:SearchPage.NoResultView>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+                 x:Class="Playground.HåvardSamples.HåvardPage"
+                 Padding="0"
+                 BackgroundColor="White">
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPageViewModel />
+    </dui:ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Button Command="{Binding Command}"
+                Text="Clear it" />
 
-    <!-- <CollectionView ItemsSource="{Binding Items}"> -->
-    <!--     <CollectionView.Footer> -->
-    <!--         <dui:FilledCheckBox Command="{Binding Command}"/> -->
-    <!--     </CollectionView.Footer> -->
-    <!-- </CollectionView> -->
-    <!-- <VerticalStackLayout> -->
-    <!-- -->
-    <!--     <Switch x:Name="Switch" /> -->
-    <!-- -->
-    <!--     <dui:ContentControl SelectorItem="{Binding Source={x:Reference Switch}, Path=IsToggled}"> -->
-    <!--         <dui:ContentControl.TemplateSelector> -->
-    <!--             <dui:BooleanDataTemplateSelector> -->
-    <!--                 <dui:BooleanDataTemplateSelector.TrueTemplate> -->
-    <!--                     <DataTemplate> -->
-    <!--                         <dui:ActivityIndicator IsRunning="True" -->
-    <!--                                                IsVisible="True" /> -->
-    <!--                     </DataTemplate> -->
-    <!--                 </dui:BooleanDataTemplateSelector.TrueTemplate> -->
-    <!--                 <dui:BooleanDataTemplateSelector.FalseTemplate> -->
-    <!--                     <DataTemplate> -->
-    <!--                         <ScrollView> -->
-    <!--                             <dui:CollectionView ItemsSource="{Binding Items}"> -->
-    <!--                                 <dui:CollectionView.ItemTemplate> -->
-    <!--                                     <DataTemplate x:DataType="{x:Type håvardSamples:Something}"> -->
-    <!--                                         <dui:NavigationListItem Icon="{dui:Icons heartrate_line}" -->
-    <!--                                                                 Title="Pulse"> -->
-    <!--                                             <dui:ListItem.IconOptions> -->
-    <!--                                                  -->
-    <!--                                                 <dui:IconOptions -->
-    <!--                                                     Color="{Binding TheTing.IsIt, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_attention_dark}, FalseObject={dui:Colors color_information_dark}}, FallbackValue={dui:Colors color_error_dark}}"> -->
-    <!--                                                 </dui:IconOptions> -->
-    <!--                                             </dui:ListItem.IconOptions> -->
-    <!--                                         </dui:NavigationListItem> -->
-    <!--                                     </DataTemplate> -->
-    <!--                                 </dui:CollectionView.ItemTemplate> -->
-    <!--                             </dui:CollectionView> -->
-    <!--                         </ScrollView> -->
-    <!--                     </DataTemplate> -->
-    <!--                 </dui:BooleanDataTemplateSelector.FalseTemplate> -->
-    <!--             </dui:BooleanDataTemplateSelector> -->
-    <!--         </dui:ContentControl.TemplateSelector> -->
-    <!--     </dui:ContentControl> -->
-    <!-- </VerticalStackLayout> -->
-</dui:SearchPage>
+        <dui:ItemPicker ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding SelectedItem}"
+                        HorizontalOptions="Center"
+                        ItemDisplayProperty="DisplayName" />
+    </VerticalStackLayout>
+</dui:ContentPage>

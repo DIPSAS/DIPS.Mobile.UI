@@ -118,6 +118,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             if (theSelectedItem != null && theSelectedItem.Equals(m_itemPicker.SelectedItem))
             {
+                //Make sure people can not visually deselect the radio button
+                if (!selectableListItem.IsSelected)
+                {
+                    selectableListItem.IsSelected = true;
+                }
+                
                 return;
             }
             

@@ -14,7 +14,13 @@ public partial class ChipHandler
         [nameof(Chip.Color)] = MapColor,
         [nameof(Chip.CloseButtonColor)] = MapCloseButtonColor,
         [nameof(Chip.CornerRadius)] = MapCornerRadius,
+        [nameof(Chip.BorderWidth)] = MapBorderWidth,
+        [nameof(Chip.BorderColor)] = MapBorderColor,
     };
+
+    private static partial void MapBorderColor(ChipHandler handler, Chip chip);
+
+    private static partial void MapBorderWidth(ChipHandler handler, Chip chip);
 
     private static partial void MapCornerRadius(ChipHandler handler, Chip chip);
 
@@ -24,12 +30,12 @@ public partial class ChipHandler
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip);
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip);
     
-    private void OnChipTapped()
+    internal void OnChipTapped()
     {
         VirtualView.SendTapped();
     }
 
-    private void OnCloseTapped()
+    internal void OnCloseTapped()
     {
         VirtualView.SendCloseTapped();
     }

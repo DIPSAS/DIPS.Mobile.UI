@@ -47,4 +47,7 @@
     <data name="Sort" xml:space="preserve">
         <value>Sortering</value>
     </data>
+    <data name="Choose" xml:space="preserve">
+        <value>Velg</value>
+    </data>
 </root>

@@ -7,6 +7,8 @@ public class HåvardPageViewModel : ViewModel
 {
     private IEnumerable<object> m_selectedItems;
     private object m_selectedItem;
+    private object m_selectedItem2;
+    private List<Something> m_items;
 
     public ICommand Command { get; }
 
@@ -41,12 +43,17 @@ public class HåvardPageViewModel : ViewModel
 
         Command = new Command(() =>
         {
-            SelectedItem = null;
+            var oldItems = Items.Take(new Range(0,1));
+            Items = oldItems.ToList();
         });
     }
 
 
-    public List<Something> Items { get; set; }
+    public List<Something> Items
+    {
+        get => m_items;
+        set => RaiseWhenSet(ref m_items, value);
+    }
 
     public IEnumerable<object> SelectedItems
     {
@@ -60,6 +67,15 @@ public class HåvardPageViewModel : ViewModel
     {
         get => m_selectedItem;
         set => RaiseWhenSet(ref m_selectedItem, value);
+    }
+
+    public object SelectedItem2
+    {
+        get => m_selectedItem2;
+        set
+        {
+            RaiseWhenSet(ref m_selectedItem2, value);
+        }
     }
 }
 

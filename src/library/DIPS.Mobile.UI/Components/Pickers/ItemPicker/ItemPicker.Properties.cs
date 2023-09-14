@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
@@ -59,7 +60,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         /// The event to be raised when people select an item from the picker.
         /// </summary>
         public event EventHandler<object>? DidSelectItem;
-        
+
         /// <summary>
         /// The place holder for people to see when they have not selected a item.
         /// </summary>
@@ -68,7 +69,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
-        
+
         /// <summary>
         /// Opens the picker.
         /// </summary>
@@ -84,14 +85,14 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),
             typeof(string),
-            typeof(ItemPicker), defaultValue: "     ");
-        
+            typeof(ItemPicker), defaultValue: DUILocalizedStrings.Choose);
+
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             nameof(SelectedItem),
             typeof(object),
-            typeof(ItemPicker), propertyChanged: (bindable, value, newValue) => ((ItemPicker)bindable).SelectedItemChanged(), defaultBindingMode: BindingMode.TwoWay);
-
-       
+            typeof(ItemPicker),
+            propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).SelectedItemChanged(),
+            defaultBindingMode: BindingMode.TwoWay);
     }
 
     public enum PickerMode
