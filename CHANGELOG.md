@@ -1,4 +1,7 @@
-## [17.2.0] 
+## [17.3.0]
+- Fixed an issue where ItemPicker in bottom sheet had strange behavior when searching.
+
+## [17.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.1.1]

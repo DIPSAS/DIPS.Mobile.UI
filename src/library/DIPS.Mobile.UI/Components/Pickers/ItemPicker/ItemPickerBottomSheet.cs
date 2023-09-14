@@ -120,10 +120,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 return;
             }
-
-
-            selectableListItem.IsSelected = !selectableListItem.IsSelected;
-
+            
             if (!selectableListItem.IsSelected)
             {
                 return;
