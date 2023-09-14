@@ -1,3 +1,7 @@
+## [17.0.0] 
+- Upgraded project to .NET 8
+- Removed Modal effect
+
 ## [16.19.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

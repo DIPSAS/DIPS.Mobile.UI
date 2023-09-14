@@ -22,7 +22,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     protected override UIButton CreatePlatformView()
     {
         m_button = new Button();
-        return (UIButton)m_button.ToPlatform(MauiContext!);
+        var uiView = m_button.ToPlatform(MauiContext!);
+        return (uiView.Subviews[0] as UIButton)!;
     }
     
     protected override void ConnectHandler(UIButton platformView)

@@ -11,7 +11,13 @@ public partial class VetlePage
         
     }
 
-    
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        
+        
+    }
+
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
         if (e.Value)

@@ -14,8 +14,25 @@
     </dui:ContentPage.BindingContext>
     
 
+    <dui:HorizontalStackLayout>
+        
 <Button Text="nav" Command="{Binding Navigate}"></Button>
+        
+        <Border BackgroundColor="Red"
+                WidthRequest="130"
+                HeightRequest="30" />
+        
+        <Border BackgroundColor="Green"
+                WidthRequest="130"
+                HeightRequest="30" />
+        
+        <Border BackgroundColor="Blue"
+                WidthRequest="130"
+                HeightRequest="30" />
+        
+    </dui:HorizontalStackLayout>
 
+    
         
         
 
