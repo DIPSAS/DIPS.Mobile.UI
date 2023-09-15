@@ -114,14 +114,14 @@
     </ItemGroup>
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
-    <ItemGroup Condition="Exists('Resources\Icons\*.svg')">
+    <ItemGroup>
         <!-- If Icons already exists just update -->
         <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == '' AND Exists('Resources\Icons\*.svg')" Update="Resources\Icons\*.svg" />
         <!-- If Icons does not already exist: include -->
         <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == '' AND !Exists('Resources\Icons\*.svg')" Include="Resources\Icons\*.svg" />
     </ItemGroup>
     <ItemGroup>
-        <None Update="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
+        <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
     </ItemGroup>
     
     <!-- Animations -->
@@ -152,6 +152,11 @@
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
       <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.9.0.1" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.1.9171" />
+    </ItemGroup>
+    
     <ItemGroup>
       <Reference Include="Microsoft.iOS">
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net8.0\Microsoft.iOS.dll</HintPath>
