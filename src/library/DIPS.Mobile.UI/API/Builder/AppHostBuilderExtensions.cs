@@ -5,10 +5,6 @@ using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-#if __ANDROID__
-using DIPS.Mobile.UI.Effects.Modal;
-using DIPS.Mobile.UI.Effects.Modal.Android;
-#endif
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -66,9 +62,6 @@ public static partial class AppHostBuilderExtensions
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
             effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
-#if __ANDROID__
-            effects.Add<Modal, ModalPlatformEffect>();
-#endif
         });
 
         builder.UseSkiaSharp();

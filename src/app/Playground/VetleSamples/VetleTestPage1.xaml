@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              xmlns:sorting="clr-namespace:DIPS.Mobile.UI.Components.Sorting;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
-             Title="Hei"
-             CancelCommand="{Binding CancelCommand}">
+             Title="Hei">
     
     <dui:ContentPage.BindingContext>
-        <vetleSamples:VetlePageViewModel />
+        <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
     
-  
+  <dui:Button Text="Nav" Command="{Binding Navigate}" />
 
-</dui:SearchPage>
+</dui:ContentPage>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+        <TargetFrameworks>net8.0;net8.0-android;net8.0-ios</TargetFrameworks>
 
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
@@ -14,7 +14,7 @@
         <LangVersion>default</LangVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
     </PropertyGroup>
 
@@ -25,7 +25,7 @@
         <Authors>DIPS AS</Authors>
         <Owners>DIPS AS</Owners>
         <NeutralLanguage>en</NeutralLanguage>
-        <Product>DIPS.Mobile.UI (net7.0)</Product>
+        <Product>DIPS.Mobile.UI (net8.0)</Product>
         <Copyright>© DIPS AS 2023. All rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
         <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
@@ -58,13 +58,13 @@
     </PropertyGroup>
     
     <!-- Android -->
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <DocumentationFile>bin\Release\DIPS.Mobile.UI.xml</DocumentationFile>
     </PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
         <Compile Update="Components\Loading\SkeletonView.xaml.cs">
@@ -79,12 +79,12 @@
     </ItemGroup>
     
     <!-- iOS -->
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Equals('net7.0')) != true">
+    <ItemGroup Condition="$(TargetFramework.Equals('net8.0')) != true">
         <Compile Remove="**\dotnet\**\*.cs" />
         <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
@@ -115,7 +115,7 @@
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == ''" Include="Resources\Icons\*.svg" />
+        <MauiImage Include="Resources\Icons\*.svg" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />
@@ -145,16 +145,21 @@
       <Folder Include="Resources\Splash\" />
       <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
       <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
-      <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.10" />
+      <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.9.0.1" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.1.9171" />
+    </ItemGroup>
+    
     <ItemGroup>
       <Reference Include="Microsoft.iOS">
-        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net7.0\Microsoft.iOS.dll</HintPath>
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.iOS.Ref\16.2.1024\ref\net8.0\Microsoft.iOS.dll</HintPath>
       </Reference>
       <Reference Include="Mono.Android">
-        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.Android.Ref.33\33.0.26\ref\net7.0\Mono.Android.dll</HintPath>
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\x64\packs\Microsoft.Android.Ref.33\33.0.26\ref\net8.0\Mono.Android.dll</HintPath>
       </Reference>
     </ItemGroup>
     <ItemGroup>

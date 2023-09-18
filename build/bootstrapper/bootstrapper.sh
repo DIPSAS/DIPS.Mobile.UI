@@ -17,7 +17,7 @@ then
       echo "✅ .NET MAUI was found."
    else
       echo "❌ .NET MAUI was not found, installing..."
-      sudo dotnet workload install maui
+      sudo dotnet workload install maui-android maui-ios
       echo "✅ .NET MAUI was installed."
    fi
 fi
