@@ -55,9 +55,9 @@
             <Color>#ff047f89</Color>
         </MauiIcon>
 
-       <!-- <MauiIcon Include="Resources\AppIcon\appicon.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
             <Color>#ff047f89</Color>
-        </MauiIcon>-->
+        </MauiIcon>
 
         <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89" />
 

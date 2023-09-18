@@ -14,14 +14,15 @@
     </dui:ContentPage.BindingContext>
     
 
-    <dui:HorizontalStackLayout>
+    <dui:VerticalStackLayout>
         
 <Button Text="nav" Command="{Binding Navigate}"></Button>
         
-        <Grid ColumnDefinitions="Auto, *">
-            <dui:Label Text="Lorem ipsum dolor sdoufjsdiofjowsijfiowejoifw" />
+        <Grid ColumnDefinitions="*, *" BackgroundColor="Red">
+            <dui:Label Text="Lorem ipsum dolor sdoufjsdiofjowsijfiowejoifw asdasdasdasd"
+                       LineBreakMode="TailTruncation"/>
             
-            <dui:DatePicker />
+            <dui:DatePicker Grid.Column="1" />
             
         </Grid>
         
@@ -33,7 +34,7 @@
                 WidthRequest="130"
                 HeightRequest="30" />
         
-    </dui:HorizontalStackLayout>
+    </dui:VerticalStackLayout>
 
     
         
