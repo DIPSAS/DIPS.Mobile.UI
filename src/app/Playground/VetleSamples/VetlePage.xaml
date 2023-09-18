@@ -23,7 +23,6 @@
                        LineBreakMode="TailTruncation"/>
             
             <dui:DatePicker Grid.Column="1" />
-            
         </Grid>
         
         <Border BackgroundColor="Green"
