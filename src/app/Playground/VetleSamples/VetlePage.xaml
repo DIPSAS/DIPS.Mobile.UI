@@ -14,26 +14,16 @@
     </dui:ContentPage.BindingContext>
     
 
-    <dui:VerticalStackLayout>
-        
-<Button Text="nav" Command="{Binding Navigate}"></Button>
-        
-        <Grid ColumnDefinitions="*, *" BackgroundColor="Red">
-            <dui:Label Text="Lorem ipsum dolor sdoufjsdiofjowsijfiowejoifw asdasdasdasd"
-                       LineBreakMode="TailTruncation"/>
-            
-            <dui:DatePicker Grid.Column="1" />
-        </Grid>
-        
-        <Border BackgroundColor="Green"
-                WidthRequest="130"
-                HeightRequest="30" />
-        
-        <Border BackgroundColor="Blue"
-                WidthRequest="130"
-                HeightRequest="30" />
-        
-    </dui:VerticalStackLayout>
+<CollectionView ItemsSource="{Binding TestStrings}">
+    
+    <CollectionView.ItemTemplate>
+        <DataTemplate>
+            <dui:Label HeightRequest="500" Text="{Binding .}" />
+        </DataTemplate>
+    </CollectionView.ItemTemplate>
+    
+</CollectionView>        
+
 
     
         

@@ -15,7 +15,7 @@
                             ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Sizes}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border>
+                    <Border BackgroundColor="Transparent">
                         <Grid ColumnSpacing="5"
                               Margin="{dui:Sizes size_2}"
                               ColumnDefinitions="75,50, Auto">
