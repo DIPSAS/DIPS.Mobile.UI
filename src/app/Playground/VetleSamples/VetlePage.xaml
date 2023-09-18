@@ -18,9 +18,12 @@
         
 <Button Text="nav" Command="{Binding Navigate}"></Button>
         
-        <Border BackgroundColor="Red"
-                WidthRequest="130"
-                HeightRequest="30" />
+        <Grid ColumnDefinitions="Auto, *">
+            <dui:Label Text="Lorem ipsum dolor sdoufjsdiofjowsijfiowejoifw" />
+            
+            <dui:DatePicker />
+            
+        </Grid>
         
         <Border BackgroundColor="Green"
                 WidthRequest="130"

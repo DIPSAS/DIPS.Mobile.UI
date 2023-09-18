@@ -115,10 +115,7 @@
     <!-- When referencing the project directly from VS / Rider -->
     <!-- This forces icons to visually look like its two files in VS / Rider, this is not the case -->
     <ItemGroup>
-        <!-- If Icons already exists just update -->
-        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == '' AND Exists('Resources\Icons\*.svg')" Update="Resources\Icons\*.svg" />
-        <!-- If Icons does not already exist: include -->
-        <MauiImage Condition="'$(DIPSIncludeIcons)' == 'True' OR '$(DIPSIncludeIcons)' == '' AND !Exists('Resources\Icons\*.svg')" Include="Resources\Icons\*.svg" />
+        <MauiImage Include="Resources\Icons\*.svg" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\Icons\*.svg" Pack="True" PackagePath="buildTransitive\Resources\Icons\" />

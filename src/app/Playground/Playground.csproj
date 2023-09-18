@@ -29,10 +29,12 @@
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
         <!--DEBUG ON DEVICE-->
 
-<!--        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>-->
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 
         <!--DEBUG ON SIMULATOR-->
+<!--
             <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+-->
     </PropertyGroup>
 
 
