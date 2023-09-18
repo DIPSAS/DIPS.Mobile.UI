@@ -12,13 +12,5 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Button Command="{Binding Command}"
-                Text="Clear it" />
-
-        <dui:ItemPicker ItemsSource="{Binding Items}"
-                        SelectedItem="{Binding SelectedItem}"
-                        HorizontalOptions="Center"
-                        ItemDisplayProperty="DisplayName" />
-    </VerticalStackLayout>
+   <Button Text="Navigate" Clicked="Button_OnClicked"/>
 </dui:ContentPage>

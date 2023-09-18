@@ -17,4 +17,9 @@ public partial class HåvardPage
     {
 
     });
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new HåvardPage2());
+    }
 }
