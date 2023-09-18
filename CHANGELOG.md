@@ -1,3 +1,6 @@
+## [17.1.1]
+- [Components] Fixed an issue where iOS appicon did not work. 
+
 ## [17.1.0] 
 - [Android] Removed workaround for padding on ImageButton
 - Fixed an issue where Components would not build
