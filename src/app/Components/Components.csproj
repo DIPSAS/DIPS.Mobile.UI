@@ -59,8 +59,6 @@
             <Color>#ff047f89</Color>
         </MauiIcon>
 
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#ff047f89" />
-
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
 

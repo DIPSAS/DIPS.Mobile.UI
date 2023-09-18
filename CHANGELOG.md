@@ -1,3 +1,7 @@
+## [17.1.0] 
+- [Android] Removed workaround for padding on ImageButton
+- Fixed an issue where Components would not build
+
 ## [17.0.0] 
 - Upgraded project to .NET 8
 - Removed Modal effect
