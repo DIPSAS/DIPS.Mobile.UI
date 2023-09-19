@@ -14,6 +14,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         public ItemPicker()
         {
+            m_chip.SetBinding(IsEnabledProperty, new Binding() {Path = nameof(IsEnabledProperty), Source = this});
             m_chip.SetBinding(MaximumHeightRequestProperty,
                 new Binding() {Path = nameof(MaximumWidthRequest), Source = this});
             MaximumWidthRequest = 200;
@@ -112,7 +113,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
             }
-            
+
             //Make sure to remove selected item if its not a part of the new items source
             if (picker is {ItemsSource: not null, SelectedItem: not null})
             {
@@ -122,7 +123,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     picker.SelectedItem = null;
                 }
             }
-            
         }
 
         private void OnCollectionChanged(object? sender,

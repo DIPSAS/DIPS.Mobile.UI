@@ -16,10 +16,7 @@ public partial class MultiItemsPicker : ContentView
         OpenCommand = new Command(Open);
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
-        m_hStackLayout = new HorizontalStackLayout()
-        {
-            VerticalOptions = LayoutOptions.Start
-        };
+        m_hStackLayout = new HorizontalStackLayout() {VerticalOptions = LayoutOptions.Start};
         CreatePlaceHolder();
         m_hStackLayout.Add(CreatePlaceHolder());
 
@@ -54,9 +51,13 @@ public partial class MultiItemsPicker : ContentView
     private Chip CreatePlaceHolder()
     {
         //The reason this is a chip and are flipping the opacity is to make sure the horizontal list item always stays the same height to make sure the UI does not bounce up and down when you add items.
-        var placeHolder = new Chip() {Command = OpenCommand, Style = DIPS.Mobile.UI.Resources.Styles.Chip.EmptyInputStyle.Current};
+        var placeHolder = new Chip()
+        {
+            Command = OpenCommand, Style = DIPS.Mobile.UI.Resources.Styles.Chip.EmptyInputStyle.Current
+        };
         placeHolder.SetBinding(Chip.TitleProperty,
             new Binding() {Path = nameof(Placeholder), Source = this});
+        placeHolder.SetBinding(IsEnabledProperty, new Binding() {Path = nameof(IsEnabledProperty), Source = this});
         placeHolder.SetBinding(OpacityProperty,
             new Binding()
             {
@@ -118,7 +119,7 @@ public partial class MultiItemsPicker : ContentView
                 SelectedItems = new List<object> {item};
                 return;
             }
-            
+
             if (selectedItems.Contains(item)) return;
 
             var tempList = selectedItems.ToList();
@@ -146,7 +147,7 @@ public partial class MultiItemsPicker : ContentView
                 m_hStackLayout.Add(CreatePlaceHolder());
                 return;
             }
-            
+
             foreach (var selectedItem in SelectedItems)
             {
                 var title = selectedItem.GetPropertyValue(ItemDisplayProperty);
@@ -177,7 +178,7 @@ public partial class MultiItemsPicker : ContentView
         var selectedItems = SelectedItems.Cast<object?>().ToList();
         var numberOfSelectedItems = selectedItems.Count().ToString();
         var view = m_hStackLayout.FirstOrDefault(v => v.AutomationId == chipIdentifier); //Check if it already exists.
-        
+
         if (view is Chip chip) //No need to redraw if it already exists. Redrawing leads to a small visual glitch, especially for Android.
         {
             mergedChip = chip;
