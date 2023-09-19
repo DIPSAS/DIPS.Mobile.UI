@@ -1,7 +1,10 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.CheckBoxes;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
+using Foundation;
 using Microsoft.Maui.LifecycleEvents;
+using UIKit;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -15,7 +18,11 @@ public static partial class AppHostBuilderExtensions
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
     {
+        events.AddiOS(ios => ios.FinishedLaunching((_, _) =>
+        {
+            FilledCheckBox.EnsureSkLottieResourcesAdded();
+            return true;
+        }));
     }
-
 }
 

@@ -7,6 +7,7 @@
 - [SearchPage] Made sure the Android keyboard is removed when the search page is destroyed.
 - [SearchPage] Made sure Android keyboard is shown when the page is displayed and the search bar has focus.
 - [SearchBar] Made sure we can set focus correct for Android with Focus().
+- [ContentSavePage] Made sure animation is always displaying.
 
 
 ## [17.2.0]

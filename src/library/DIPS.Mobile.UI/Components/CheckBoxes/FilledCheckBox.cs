@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Animations;
 using Microsoft.Maui.Controls.Shapes;
 using SkiaSharp.Extended.UI.Controls;
+using SkiaSharp.Extended.UI.Controls.Themes;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -31,6 +32,7 @@ public partial class FilledCheckBox : ContentView
             IsAnimationEnabled = false,
             Opacity = 0
         };
+
         m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
         m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(WidthRequest)));
 
@@ -48,7 +50,20 @@ public partial class FilledCheckBox : ContentView
     private Grid InnerGrid { get; }
     private Border Container { get; }
 
+    internal static void EnsureSkLottieResourcesAdded()
+    {
+        // try register with the current app
+        var merged = Application.Current?.Resources?.MergedDictionaries;
+        if (merged == null)
+        {
+            return;
+        }
 
+        if (merged.All(dic => dic.GetType() != typeof(SKLottieViewResources)))
+        {
+            merged.Add(new SKLottieViewResources());
+        }
+    }
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();

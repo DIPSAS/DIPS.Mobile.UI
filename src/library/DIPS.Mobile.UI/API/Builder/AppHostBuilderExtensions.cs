@@ -39,6 +39,7 @@ public static partial class AppHostBuilderExtensions
         
         builder.ConfigureLifecycleEvents(ConfigurePlatformLifecycleEvents);
         
+        
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>
         {
