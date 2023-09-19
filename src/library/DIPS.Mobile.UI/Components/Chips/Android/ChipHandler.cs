@@ -1,4 +1,5 @@
 using Android.Content.Res;
+using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using Microsoft.Maui.Handlers;
@@ -40,7 +41,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.Text = chip.Title;
-        var cornerRadius = handler.PlatformView.ChipCornerRadius;
+        handler.PlatformView.Ellipsize = TextUtils.TruncateAt.End;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)

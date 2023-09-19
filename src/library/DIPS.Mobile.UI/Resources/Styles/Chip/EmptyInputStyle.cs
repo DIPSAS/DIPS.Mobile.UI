@@ -21,7 +21,12 @@ public static class EmptyInputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderWidthProperty,
+#if __ANDROID__
+                    Value = 2.0,
+
+#elif __IOS__
                     Value = 1.0,
+#endif
                 },
                 new Setter
                 {

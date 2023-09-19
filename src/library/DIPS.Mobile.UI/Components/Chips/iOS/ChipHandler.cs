@@ -39,6 +39,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.m_button.Text = chip.Title;
+        handler.PlatformView.TitleLabel.LineBreakMode = UILineBreakMode.TailTruncation;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)

@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     public partial class ItemPicker : ContentView
     {
         private readonly ContextMenu m_contextMenu = new();
-        private readonly Chip m_chip = new() {VerticalOptions = LayoutOptions.Center};
+        private readonly Chip m_chip = new();
 
         public ItemPicker()
         {
