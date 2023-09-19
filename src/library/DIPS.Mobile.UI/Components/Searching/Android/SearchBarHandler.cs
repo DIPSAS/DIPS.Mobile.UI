@@ -1,10 +1,11 @@
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using DIPS.Mobile.UI.Components.Searching.Android;
 using DIPS.Mobile.UI.Extensions.Android;
-using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -27,7 +28,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 ? null
                 : androidView.FindChildView<AutoCompleteTextView>() ?? null;
 
-        private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
+        internal Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
         private Grid OuterGrid { get; set; }
@@ -61,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             ProgressBar = new IndeterminateProgressBar();
             Grid.SetColumnSpan(ProgressBar, 2);
             OuterGrid.Add(ProgressBar, 0, 1);
- 
+
             AppendToPropertyMapper();
         }
 
@@ -78,13 +79,15 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapAndroidBusyColor(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.ProgressBar.IndicatorColor = searchBar.AndroidBusyColor ??
-                                             DIPS.Mobile.UI.Resources.Colors.Colors
-                                                 .GetColor(ColorName.color_primary_90);
+                                                 DIPS.Mobile.UI.Resources.Colors.Colors
+                                                     .GetColor(ColorName.color_primary_90);
         }
 
         private static void MapAndroidBusyBackgroundColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            handler.ProgressBar.TrackColor = searchBar.AndroidBusyBackgroundColor ?? DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_30);
+            handler.ProgressBar.TrackColor = searchBar.AndroidBusyBackgroundColor ??
+                                             DIPS.Mobile.UI.Resources.Colors.Colors
+                                                 .GetColor(ColorName.color_neutral_30);
         }
 
         protected override AView CreatePlatformView() => OuterGrid.ToContainerView(MauiContext!);
@@ -106,9 +109,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             if (RemoveTextImageView != null)
             {
-                RemoveTextImageView.Click += OnClearTextClicked;    
+                RemoveTextImageView.Click += OnClearTextClicked;
             }
-            
         }
 
         protected override void DisconnectHandler(AView platformView)
@@ -117,15 +119,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             InternalSearchBar.TextChanged -= SearchBarTextChanged;
             if (RemoveTextImageView != null)
             {
-                RemoveTextImageView.Click -= OnClearTextClicked;    
+                RemoveTextImageView.Click -= OnClearTextClicked;
             }
         }
-        
-        
+
+
         private void OnClearTextClicked(object? sender, EventArgs e)
         {
             VirtualView.Text = string.Empty;
-            VirtualView.ClearTextCommand?.Execute(null);   
+            VirtualView.ClearTextCommand?.Execute(null);
         }
 
         private void SearchBarTextChanged(object? sender, TextChangedEventArgs e)
@@ -173,14 +175,13 @@ namespace DIPS.Mobile.UI.Components.Searching
             handler.CancelButton.TextColor = searchBar.TextColor;
             handler.InternalSearchBar.TextColor = searchBar.TextColor;
             SetHorizontalLineColor(handler, searchBar.TextColor);
-           
         }
 
         private static void SetHorizontalLineColor(SearchBarHandler handler, Color color)
         {
             if (handler.AutoCompleteTextView != null)
             {
-                handler.AutoCompleteTextView.BackgroundTintList = ColorStateList.ValueOf(color.ToPlatform());    
+                handler.AutoCompleteTextView.BackgroundTintList = ColorStateList.ValueOf(color.ToPlatform());
             }
         }
 
@@ -189,7 +190,8 @@ namespace DIPS.Mobile.UI.Components.Searching
             handler.InternalSearchBar.BackgroundColor = searchBar.BarColor;
             handler.OuterGrid.BackgroundColor = searchBar.BarColor;
 
-            MapAndroidBusyBackgroundColor(handler, searchBar); //Make sure the background color of the progress bar is in sync if its not set by the consumer.
+            MapAndroidBusyBackgroundColor(handler,
+                searchBar); //Make sure the background color of the progress bar is in sync if its not set by the consumer.
         }
 
         private static void MapIsBusy(SearchBarHandler handler, SearchBar searchBar)
@@ -235,6 +237,23 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapText(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.InternalSearchBar.Text = searchBar.Text;
+        }
+
+        public bool RemoveKeyboard()
+        {
+            var focusedView = AutoCompleteTextView.Context?.GetActivity()?.Window?.CurrentFocus;
+            if (focusedView == null) return false;
+            
+            using var inputMethodManager =
+                (InputMethodManager?)focusedView.Context?.GetSystemService(Context.InputMethodService);
+            var windowToken = focusedView.WindowToken;
+
+            if (windowToken is not null && inputMethodManager is not null)
+            {
+                return inputMethodManager.HideSoftInputFromWindow(windowToken, HideSoftInputFlags.None);
+            }
+
+            return false;
         }
     }
 }

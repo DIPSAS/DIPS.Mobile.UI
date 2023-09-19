@@ -4,6 +4,9 @@
 - [ItemPicker] The default Placeholder is now `Choose`. The previous value was string empty.
 - [ItemPicker] Fixed an issue where ItemPicker in bottom sheet had strange behavior when searching.
 - [ItemPicker] If the consumer changes ItemsSource when people have selected an item that is not a part of the new ItemsSource, the SelecteItem should be set to null.
+- [SearchPage] Made sure the Android keyboard is removed when the search page is destroyed.
+- [SearchPage] Made sure Android keyboard is shown when the page is displayed and the search bar has focus.
+- [SearchBar] Made sure we can set focus correct for Android with Focus().
 
 
 ## [17.2.0]
