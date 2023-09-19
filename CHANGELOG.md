@@ -1,3 +1,6 @@
+## [17.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.1.1]
 - [Components] Fixed an issue where iOS appicon did not work. 
 

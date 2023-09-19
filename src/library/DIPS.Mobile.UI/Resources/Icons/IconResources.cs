@@ -103,6 +103,9 @@ this file is generated
 ["eye_off_fill"] = "eye_off_fill.png",
 ["patient_info_fill"] = "patient_info_fill.png",
 ["alert_fill"] = "alert_fill.png",
+["flash_line"] = "flash_line.png",
+["flash_fill"] = "flash_fill.png",
+["camera"] = "camera.png",
 
             };
         }

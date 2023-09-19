@@ -197,5 +197,11 @@ eye_off_fill=91,
 patient_info_fill=92,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/alert_fill.svg">View the icon in the browser</a></summary>
 alert_fill=93,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flash_line.svg">View the icon in the browser</a></summary>
+flash_line=94,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flash_fill.svg">View the icon in the browser</a></summary>
+flash_fill=95,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/camera.svg">View the icon in the browser</a></summary>
+camera=96,
     }
 }
