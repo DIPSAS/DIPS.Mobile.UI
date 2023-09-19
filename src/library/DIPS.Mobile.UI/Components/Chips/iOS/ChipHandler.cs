@@ -5,7 +5,6 @@ using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
-using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -35,11 +34,12 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button.FontSize = 17;
         m_button.CornerRadius = 6;
         m_button.Padding = new Thickness(12, 6, 12, 6);
-        platformView.AddGestureRecognizer(new ChipGestureRecognizer(this));
+        platformView.AddGestureRecognizer(new ChipCloseGestureRecognizer(this));
     }
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.m_button.Text = chip.Title;
+        handler.PlatformView.TitleLabel.LineBreakMode = UILineBreakMode.TailTruncation;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
@@ -63,11 +63,14 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
+        if (handler.VirtualView.Color == null) return;
         handler.PlatformView.BackgroundColor = handler.VirtualView.Color.ToPlatform();
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (handler.VirtualView.CloseButtonColor == null) return;
+        
         if (handler.PlatformView.ImageView.Image == null) //Close button is the UIButton imageview
         {
             return;
@@ -103,41 +106,17 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         uiButton.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top, oldContentEdgeInsets.Left,
             oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right + titleImageSpacing);
     }
-
-    public class ChipGestureRecognizer : UITapGestureRecognizer
+    
+    
+    private static partial void MapBorderColor(ChipHandler handler, Chip chip)
     {
-        private readonly ChipHandler m_chipHandler;
-
-        public ChipGestureRecognizer(ChipHandler chipHandler)
-        {
-            m_chipHandler = chipHandler;
-        }
-
-
-        public override void TouchesBegan(NSSet touches, UIEvent evt)
-        {
-            base.TouchesBegan(touches, evt);
-            if (!m_chipHandler.VirtualView.HasCloseButton)
-            {
-                m_chipHandler.OnChipTapped();
-                return;
-            }
-
-            var firstObject = touches.First();
-            if (firstObject is not UITouch uiTouch) return;
-            var uiButton = m_chipHandler.PlatformView;
-            var touchLocationInView = uiTouch.LocationInView(uiButton);
-            var didTouchInsideImage =
-                touchLocationInView.X > uiButton.TitleLabel.Frame.X + uiButton.TitleLabel.Frame.Width;
-
-            if (didTouchInsideImage)
-            {
-                m_chipHandler.OnCloseTapped();
-            }
-            else
-            {
-                m_chipHandler.OnChipTapped();
-            }
-        }
+        if (chip.BorderColor == null) return;
+        handler.PlatformView.Layer.BorderColor = chip.BorderColor.ToCGColor();
     }
+
+    private static partial void MapBorderWidth(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.Layer.BorderWidth = (nfloat)chip.BorderWidth;
+    }
+    
 }

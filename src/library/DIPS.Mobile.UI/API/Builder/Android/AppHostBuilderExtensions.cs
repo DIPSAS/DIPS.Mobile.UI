@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.CheckBoxes;
 using DIPS.Mobile.UI.Components.Toolbars.Android;
 using Microsoft.Maui.LifecycleEvents;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
@@ -16,7 +17,11 @@ public static partial class AppHostBuilderExtensions
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
     {
         events.AddAndroid(android => android
-            .OnCreate((activity, _) => DUI.Init(activity)));
+            .OnCreate((activity, _) =>
+            {
+                DUI.Init(activity);
+                FilledCheckBox.EnsureSkLottieResourcesAdded();
+            }));
     }
 }
 

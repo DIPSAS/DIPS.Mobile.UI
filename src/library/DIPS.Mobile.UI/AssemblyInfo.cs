@@ -60,6 +60,8 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Animations")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Selection")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Sorting")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Sorting")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Resources.Styles")]
 
 
 

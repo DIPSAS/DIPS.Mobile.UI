@@ -1,4 +1,17 @@
-## [17.2.0] 
+## [17.3.0]
+- Fixed an issue where ItemPicker in bottom sheet had strange behavior when searching.
+- [ItemPicker] The style when a placeholder is present has now changed.
+- [ItemPicker] The default Placeholder is now `Choose`. The previous value was string empty.
+- [ItemPicker] Fixed an issue where ItemPicker in bottom sheet had strange behavior when searching.
+- [ItemPicker] If the consumer changes ItemsSource when people have selected an item that is not a part of the new ItemsSource, the SelecteItem should be set to null.
+- [SearchPage] Made sure the Android keyboard is removed when the search page is destroyed.
+- [SearchPage] Made sure Android keyboard is shown when the page is displayed and the search bar has focus.
+- [SearchBar] Made sure we can set focus correct for Android with Focus().
+- [ContentSavePage] Made sure animation is always displaying.
+- [Chip] Made sure truncates and the end of the chip if the title is too long.
+
+
+## [17.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.1.1]

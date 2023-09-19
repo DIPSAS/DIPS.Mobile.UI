@@ -1,14 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:helpers="clr-namespace:Components.Helpers"
-             xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
-             x:Class="Components.ComponentsSamples.Saving.SavingSamples">
-    
-    <dui:NavigationListItem Title="SaveView"
-                            Command="{helpers:NavigationCommand {x:Type saving:SaveViewSamples}}" 
-                            HasBottomDivider="True"/>
-    
-</dui:ContentPage>
+<dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:dui="http://dips.com/mobile.ui"
+                     xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                     xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
+                     x:Class="Components.ComponentsSamples.Saving.SavingSamples"
+                     IsSavingCompleted="{Binding IsChecked}"
+                     IsSaving="{Binding IsProgressing}"
+                     SavingCompletedCommand="{Binding CompletedCommand}"
+                     SavingCompletedText="Completed!"
+                     SavingText="Loading...">
+
+    <dui:ContentSavePage.BindingContext>
+        <saving:SavingSamplesViewModel />
+    </dui:ContentSavePage.BindingContext>
+
+    <dui:VerticalStackLayout>
+        <dui:Label
+            Text="The content of this page has random components inside of it to test the behavior when the user is saving"
+            Padding="{dui:Thickness size_4}" />
+        <dui:ListItem Title="This is a chip:"
+                      Margin="{dui:Thickness Top=size_2}">
+            <dui:Chip Title="A chip" />
+        </dui:ListItem>
+        <dui:ListItem Title="Date">
+            <dui:DatePicker />
+        </dui:ListItem>
+        <dui:ListItem Title="Time">
+            <dui:TimePicker />
+        </dui:ListItem>
+        <dui:ListItem Title="Date / time">
+            <dui:DateAndTimePicker />
+        </dui:ListItem>
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Save}"
+                      Command="{Binding SaveCommand}" />
+
+    </dui:VerticalStackLayout>
+
+</dui:ContentSavePage>

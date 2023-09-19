@@ -19,7 +19,6 @@
         <dui:Label Text="ItemPicker, Mode: Context Menu"
                    Margin="5" />
         <dui:ItemPicker VerticalOptions="Start"
-                        Placeholder="Person"
                         HorizontalOptions="Start"
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
@@ -28,7 +27,6 @@
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
         <dui:ItemPicker VerticalOptions="Start"
-                        Placeholder="Person"
                         HorizontalOptions="Start"
                         Mode="BottomSheet"
                         SelectedItem="{Binding SelectedPerson}"

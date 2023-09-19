@@ -1,5 +1,7 @@
 using Android.Content.Res;
+using Android.Text;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -39,7 +41,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.Text = chip.Title;
-        var cornerRadius = handler.PlatformView.ChipCornerRadius;
+        handler.PlatformView.Ellipsize = TextUtils.TruncateAt.End;
     }
 
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
@@ -47,7 +49,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         if (handler.VirtualView.HasCloseButton)
         {
             handler.PlatformView.CloseIconVisible = true;
-            handler.PlatformView.SetOnCloseIconClickListener(new OnCloseListener(handler));
+            handler.PlatformView.SetOnCloseIconClickListener(new ChipCloseListener(handler));
             DUI.TryGetResourceId(Icons.GetIconName(handler.CloseIconName), out var id, defType:"drawable");
             if (id != 0)
             {
@@ -65,48 +67,52 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
-        var color = handler.VirtualView.Color;
+        if (handler.VirtualView.Color == null) return;
+        handler.PlatformView.ChipBackgroundColor = new ColorStateList(CreateColorStates(handler.VirtualView.Color, out var colors), colors);
+    }
+
+    private static int[][] CreateColorStates(Color color, out int[] colors)
+    {
         var states = new[]
         {
-            new[] { global::Android.Resource.Attribute.StateEnabled}, // enabled
+            new[] {global::Android.Resource.Attribute.StateEnabled}, // enabled
             new[] {-global::Android.Resource.Attribute.StateEnabled}, // disabled
             new[] {-global::Android.Resource.Attribute.StateChecked}, // unchecked
-            new[] { global::Android.Resource.Attribute.StateChecked } // pressed
+            new[] {global::Android.Resource.Attribute.StateChecked} // pressed
         };
 
-        var colors = new int[] 
+        colors = new int[]
         {
             color.ToPlatform(),
             color.ToPlatform(),
             color.ToPlatform(),
             color.ToPlatform()
         };
-        
-        handler.PlatformView.ChipBackgroundColor = new ColorStateList(states, colors);
+        return states;
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (handler.VirtualView.CloseButtonColor == null) return;
         handler.PlatformView.CloseIcon?.SetTint(handler.VirtualView.CloseButtonColor.ToPlatform());
+
     }
 
-    private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
+    private static partial void MapCornerRadius(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.ChipCornerRadius = (float) (handler.VirtualView.CornerRadius*DeviceDisplay.MainDisplayInfo.Density);
     }
-    
-    public class OnCloseListener : Java.Lang.Object, global::Android.Views.View.IOnClickListener
+
+    private static partial void MapBorderColor(ChipHandler handler, Chip chip)
     {
-        private readonly ChipHandler m_chipHandler;
+        if (chip.BorderColor == null) return;
 
-        public OnCloseListener(ChipHandler chipHandler)
-        {
-            m_chipHandler = chipHandler;
-        }
+        handler.PlatformView.ChipStrokeColor =
+            new ColorStateList(CreateColorStates(chip.BorderColor, out var colors), colors);
+    }
 
-        public void OnClick(global::Android.Views.View? v)
-        {
-            m_chipHandler.OnCloseTapped();
-        }
+    private static partial void MapBorderWidth(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.ChipStrokeWidth = (float) chip.BorderWidth;
     }
 }

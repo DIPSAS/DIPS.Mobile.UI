@@ -3,12 +3,12 @@ using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Saving;
 
-public class SaveViewSamplesViewModel : ViewModel
+public class SavingSamplesViewModel : ViewModel
 {
     private bool m_isChecked;
     private bool m_isProgressing;
 
-    public SaveViewSamplesViewModel()
+    public SavingSamplesViewModel()
     {
         SaveCommand = new Command(async () =>
         {

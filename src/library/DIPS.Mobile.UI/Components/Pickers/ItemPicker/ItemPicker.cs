@@ -2,20 +2,21 @@ using System.Collections.Specialized;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker : ContentView
     {
-        private readonly ContextMenu m_contextMenu = new ();
-        private readonly Chip m_chip = new()
-        {
-            VerticalOptions = LayoutOptions.Center
-        };
+        private readonly ContextMenu m_contextMenu = new();
+        private readonly Chip m_chip = new();
 
         public ItemPicker()
         {
-            m_chip.SetBinding(MaximumHeightRequestProperty, new Binding(){Path = nameof(MaximumWidthRequest), Source = this});
+            m_chip.SetBinding(IsEnabledProperty, new Binding() {Path = nameof(IsEnabledProperty), Source = this});
+            m_chip.SetBinding(MaximumHeightRequestProperty,
+                new Binding() {Path = nameof(MaximumWidthRequest), Source = this});
             MaximumWidthRequest = 200;
             Loaded += OnLoaded;
             Unloaded += OnUnLoaded;
@@ -42,7 +43,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private void LayoutContent()
         {
             Content = m_chip;
-            
+
             if (Mode == PickerMode.ContextMenu)
             {
                 ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
@@ -52,15 +53,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 m_chip.Command = OpenCommand;
             }
-            
+
             SelectedItemChanged();
         }
 
         internal void UpdateChipTitle(string? title)
         {
-            m_chip.Title = string.IsNullOrEmpty(title) ? Placeholder : title;
+            var hasPlaceHolder = title == null || string.IsNullOrEmpty(title);
+            m_chip.Title = hasPlaceHolder ? Placeholder : title!;
+            m_chip.Style = hasPlaceHolder ? EmptyInputStyle.Current : InputStyle.Current;
         }
-        
+
         public partial void Open()
         {
             if (Mode == PickerMode.BottomSheet)
@@ -76,7 +79,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
             UpdateChipTitle(displayName);
-            
+
             switch (Mode)
             {
                 case PickerMode.ContextMenu:
@@ -85,9 +88,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 case PickerMode.BottomSheet:
                     if (BottomSheetService.IsBottomSheetOpen())
                     {
-                        BottomSheetService.CloseCurrentBottomSheet();    
+                        BottomSheetService.CloseCurrentBottomSheet();
                     }
-                    
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -110,9 +113,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
             }
+
+            //Make sure to remove selected item if its not a part of the new items source
+            if (picker is {ItemsSource: not null, SelectedItem: not null})
+            {
+                var itemsSource = picker.ItemsSource.Cast<object?>();
+                if (!itemsSource.Contains(picker.SelectedItem))
+                {
+                    picker.SelectedItem = null;
+                }
+            }
         }
 
-        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        private void OnCollectionChanged(object? sender,
+            NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
             AddContextMenuItems();
         }
@@ -124,7 +138,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return null;
             }
 
-            return ItemsSource.Cast<object?>().FirstOrDefault(item => toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
+            return ItemsSource.Cast<object?>().FirstOrDefault(item =>
+                toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
         }
     }
 }

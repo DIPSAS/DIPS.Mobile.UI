@@ -19,6 +19,9 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchPage()
         {
+            Loaded += OnLoaded;
+            Unloaded += OnUnLoaded;
+            
             //Searchbar
             SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
             SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
@@ -82,21 +85,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             base.Content = m_grid;
         }
 
-        private void TextWasClearedFromClick()
+        private void OnUnLoaded(object? sender, EventArgs e)
         {
-            if (SearchMode is SearchMode.WhenTappedComplete)
-            {
-                OnSearchQueryChanged(string.Empty);
-            }
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnLoaded;
+#if __ANDROID__
+            SearchBar.UnFocus();
+#endif
+            
         }
 
-        protected override void OnHandlerChanged()
+        private void OnLoaded(object? sender, EventArgs e)
         {
-            base.OnHandlerChanged();
-
-            if (Handler == null)
-                return;
-            
             SetSearchState(SearchStates.NeedsSearchHint);
             SearchBar.Focus();
             
@@ -116,6 +116,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 #endif
         }
+
+        private void TextWasClearedFromClick()
+        {
+            if (SearchMode is SearchMode.WhenTappedComplete)
+            {
+                OnSearchQueryChanged(string.Empty);
+            }
+        }
+
 
         private static void OnCancel()
         {

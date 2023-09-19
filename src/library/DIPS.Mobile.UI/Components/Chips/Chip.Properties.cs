@@ -5,42 +5,51 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
-
-    public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
-        nameof(CornerRadius),
-        typeof(int),
-        typeof(Chip),
-        defaultValue:Sizes.GetSize(SizeName.size_2));
-
+    /// <summary>
+    /// The color of the chip.
+    /// </summary>
+    public Color? Color
+    {
+        get => (Color)GetValue(ColorProperty);
+        set => SetValue(ColorProperty, value);
+    }
+    
+    /// <summary>
+    /// The radius of the corners of the chip.
+    /// </summary>
     public int CornerRadius
     {
         get => (int)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-    public static readonly BindableProperty ColorProperty = BindableProperty.Create(
-        nameof(Color),
-        typeof(Color),
-        typeof(Chip),
-        defaultValue: Colors.GetColor(ColorName.color_secondary_30));
+    
+    /// <summary>
+    /// The width of the border of the chip.
+    /// </summary>
+    public double BorderWidth
+    {
+        get => (double)GetValue(BorderWidthProperty);
+        set => SetValue(BorderWidthProperty, value);
+    }
 
     /// <summary>
-    /// The color of the chip.
+    /// The color of the borders of the chip.
     /// </summary>
-    public Color Color
+    public Color? BorderColor
     {
-        get => (Color)GetValue(ColorProperty);
-        set => SetValue(ColorProperty, value);
+        get => (Color)GetValue(BorderColorProperty);
+        set => SetValue(BorderColorProperty, value);
     }
 
     public static readonly BindableProperty CloseButtonColorProperty = BindableProperty.Create(
         nameof(CloseButtonColor),
         typeof(Color),
-        typeof(Chip), defaultValue: Colors.GetColor(ColorName.color_neutral_70));
+        typeof(Chip));
 
     /// <summary>
     /// The color of the close button that people tap to close the chip.
     /// </summary>
-    public Color CloseButtonColor
+    public Color? CloseButtonColor
     {
         get => (Color)GetValue(CloseButtonColorProperty);
         set => SetValue(CloseButtonColorProperty, value);
@@ -72,7 +81,12 @@ public partial class Chip
         get => (object)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
-
+    
+    public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
+        nameof(CornerRadius),
+        typeof(int),
+        typeof(Chip));
+    
     public static readonly BindableProperty HasCloseButtonProperty = BindableProperty.Create(
         nameof(HasCloseButton),
         typeof(bool),
@@ -139,4 +153,20 @@ public partial class Chip
         nameof(Command),
         typeof(ICommand),
         typeof(Chip));
+    
+    public static readonly BindableProperty ColorProperty = BindableProperty.Create(
+        nameof(Color),
+        typeof(Color),
+        typeof(Chip));
+
+    public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
+        nameof(BorderColor),
+        typeof(Color),
+        typeof(Chip));
+
+    public static readonly BindableProperty BorderWidthProperty = BindableProperty.Create(
+        nameof(BorderWidth),
+        typeof(double),
+        typeof(Chip));
+
 }

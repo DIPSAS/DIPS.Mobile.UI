@@ -1,7 +1,3 @@
-using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Resources.Colors;
-using Colors = Microsoft.Maui.Graphics.Colors;
-
 namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : View
@@ -14,6 +10,25 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
         }
+
+#if __ANDROID__
+        public new void Focus()
+        {
+            if (Handler is SearchBarHandler searchBarHandler)
+            {
+                searchBarHandler.InternalSearchBar.Focus();
+            }
+        }
+        
+        public void UnFocus()
+        {
+            if (Handler is SearchBarHandler searchBarHandler)
+            {
+                searchBarHandler.RemoveKeyboard();
+            }
+        }
+#endif
+        
         
         private async void OnTextChanged(string newTextValue, string oldTextValue)
         {
