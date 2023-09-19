@@ -92,7 +92,9 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (handler.VirtualView.CloseButtonColor == null) return;
         handler.PlatformView.CloseIcon?.SetTint(handler.VirtualView.CloseButtonColor.ToPlatform());
+
     }
 
     private static partial void MapCornerRadius(ChipHandler handler, Chip chip)

@@ -49,7 +49,7 @@ public partial class Chip
     /// <summary>
     /// The color of the close button that people tap to close the chip.
     /// </summary>
-    public Color CloseButtonColor
+    public Color? CloseButtonColor
     {
         get => (Color)GetValue(CloseButtonColorProperty);
         set => SetValue(CloseButtonColorProperty, value);

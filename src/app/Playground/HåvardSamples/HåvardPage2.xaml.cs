@@ -17,4 +17,10 @@ public partial class HåvardPage2
     {
         Shell.Current.Navigation.PushAsync(new HåvardPage3());
     }
+
+    public override async Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
+    {
+        await Task.Delay(100);
+        return new[] {"Asd"};
+    }
 }

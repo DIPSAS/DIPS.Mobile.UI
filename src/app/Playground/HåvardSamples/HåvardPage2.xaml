@@ -2,60 +2,8 @@
     version="1.0"
     encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.HåvardSamples.HåvardPage2">
-    <dui:ContentPage.Resources>
-        <DataTemplate x:Key="DataTemplate">
-            <ContentView>
-                <dui:ListItem>
-                    <dui:ItemPicker Mode="ContextMenu">
-                        <dui:ItemPicker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>1</x:String>
-                                <x:String>1</x:String>
-                                <x:String>1</x:String>
-                                <x:String>1</x:String>
-                            </x:Array>
-                        </dui:ItemPicker.ItemsSource>
-                        <!-- <dui:ItemPicker.IsEnabled> -->
-                        <!--     <MultiBinding Converter="{dui:LogicalExpressionConverter LogicalGate=Or}"> -->
-                        <!--         <Binding Path="SelectedDepartment" Converter="{dui:IsEmptyConverter Inverted=True}" /> -->
-                        <!--         <Binding Path="OrderIsAlreadyInitialized" Converter="{dui:InvertedBoolConverter}" /> -->
-                        <!--     </MultiBinding> -->
-                        <!-- </dui:ItemPicker.IsEnabled> -->
-                    </dui:ItemPicker>
-                </dui:ListItem>
-            </ContentView>
-        </DataTemplate>
-    </dui:ContentPage.Resources>
-    <Grid RowDefinitions="*">
-        <ContentView Grid.Row="0">
-            <ScrollView>
-                <ContentView>
-                    <ContentView>
-                        <dui:ListItem>
-                            <dui:ItemPicker Mode="ContextMenu">
-                                <dui:ItemPicker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>1</x:String>
-                                        <x:String>1</x:String>
-                                        <x:String>1</x:String>
-                                        <x:String>1</x:String>
-                                    </x:Array>
-                                </dui:ItemPicker.ItemsSource>
-                                <!-- <dui:ItemPicker.IsEnabled> -->
-                                <!--     <MultiBinding Converter="{dui:LogicalExpressionConverter LogicalGate=Or}"> -->
-                                <!--         <Binding Path="SelectedDepartment" Converter="{dui:IsEmptyConverter Inverted=True}" /> -->
-                                <!--         <Binding Path="OrderIsAlreadyInitialized" Converter="{dui:InvertedBoolConverter}" /> -->
-                                <!--     </MultiBinding> -->
-                                <!-- </dui:ItemPicker.IsEnabled> -->
-                            </dui:ItemPicker>
-                        </dui:ListItem>
-                    </ContentView>
-                </ContentView>
-            </ScrollView>
-        </ContentView>
-    </Grid>
-</dui:ContentPage>
+</dui:SearchPage>

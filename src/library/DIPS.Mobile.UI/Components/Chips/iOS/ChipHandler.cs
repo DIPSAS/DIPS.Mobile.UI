@@ -68,6 +68,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (handler.VirtualView.CloseButtonColor == null) return;
+        
         if (handler.PlatformView.ImageView.Image == null) //Close button is the UIButton imageview
         {
             return;

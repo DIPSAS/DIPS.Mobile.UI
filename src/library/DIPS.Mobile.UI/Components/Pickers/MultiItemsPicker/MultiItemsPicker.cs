@@ -54,7 +54,7 @@ public partial class MultiItemsPicker : ContentView
     private Chip CreatePlaceHolder()
     {
         //The reason this is a chip and are flipping the opacity is to make sure the horizontal list item always stays the same height to make sure the UI does not bounce up and down when you add items.
-        var placeHolder = new Chip() {Command = OpenCommand};
+        var placeHolder = new Chip() {Command = OpenCommand, Style = DIPS.Mobile.UI.Resources.Styles.Chip.EmptyInputStyle.Current};
         placeHolder.SetBinding(Chip.TitleProperty,
             new Binding() {Path = nameof(Placeholder), Source = this});
         placeHolder.SetBinding(OpacityProperty,
