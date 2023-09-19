@@ -8,6 +8,7 @@
 - [SearchPage] Made sure Android keyboard is shown when the page is displayed and the search bar has focus.
 - [SearchBar] Made sure we can set focus correct for Android with Focus().
 - [ContentSavePage] Made sure animation is always displaying.
+- [Chip] Made sure truncates and the end of the chip if the title is too long.
 
 
 ## [17.2.0]
