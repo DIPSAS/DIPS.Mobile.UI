@@ -33,6 +33,6 @@
 
     <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@drawable/popupmenu_background</item> <!-- Sets the shape and color of the background -->
-        <item name="android:popupElevation">4dp</item> <!-- Determines the shadow -->
+        <item name="android:popupElevation">10dp</item> <!-- Determines the shadow -->
     </style>
 </resources>
