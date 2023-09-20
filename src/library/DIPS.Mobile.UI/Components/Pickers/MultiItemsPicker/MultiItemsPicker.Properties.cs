@@ -5,6 +5,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 
 public partial class MultiItemsPicker
 {
+
+    public static readonly BindableProperty HasHapticsProperty = BindableProperty.Create(
+        nameof(HasHaptics),
+        typeof(bool),
+        typeof(MultiItemsPicker), defaultValue:true);
+
+    /// <summary>
+    /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the items.
+    /// </summary>
+    public bool HasHaptics
+    {
+        get => (bool)GetValue(HasHapticsProperty);
+        set => SetValue(HasHapticsProperty, value);
+    }
     public BottomSheetPickerConfiguration BottomSheetPickerConfiguration { get; set; } = new();
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(

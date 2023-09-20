@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Converters.ValueConverters;
@@ -158,7 +159,14 @@ public partial class MultiItemsPicker : ContentView
                     Command = OpenCommand,
                     Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0),
                     HasCloseButton = true,
-                    CloseCommand = new Command(() => { DeSelectItem(selectedItem); })
+                    CloseCommand = new Command(() =>
+                    {
+                        DeSelectItem(selectedItem);
+                        if (HasHaptics)
+                        {
+                            VibrationService.SelectionChanged();
+                        }
+                    })
                 };
 
                 m_hStackLayout.Add(chip);
