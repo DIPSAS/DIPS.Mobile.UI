@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.Selection;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -14,6 +15,11 @@ public partial class CheckmarkListItem : ListItem, ISelectable
     {
         Command = new Command(() =>
         {
+            if (HasHaptics)
+            {
+                VibrationService.SelectionChanged();    
+            }
+            
             IsSelected = !IsSelected;
         });
         m_iconOptions = new IconOptions();

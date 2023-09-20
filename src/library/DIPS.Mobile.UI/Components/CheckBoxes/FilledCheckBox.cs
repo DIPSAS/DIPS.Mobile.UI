@@ -96,6 +96,7 @@ public partial class FilledCheckBox : ContentView
             m_animation.IsComplete)
         {
             CompletedCommand?.Execute(null);
+            Completed?.Invoke(this, EventArgs.Empty);
         }
     }
 

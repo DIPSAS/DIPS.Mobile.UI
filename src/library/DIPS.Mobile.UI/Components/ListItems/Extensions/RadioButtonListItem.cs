@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.Selection;
 using SelectionChangedEventArgs = DIPS.Mobile.UI.Components.Selection.SelectionChangedEventArgs;
@@ -15,6 +16,11 @@ public partial class RadioButtonListItem : ListItem, ISelectable
         
         Command = new Command(() =>
         {
+            if (HasHaptics)
+            {
+                VibrationService.SelectionChanged();    
+            }
+            
             IsSelected = !IsSelected;
         });
         m_iconOptions.Color = ISelectable.s_tintColor;

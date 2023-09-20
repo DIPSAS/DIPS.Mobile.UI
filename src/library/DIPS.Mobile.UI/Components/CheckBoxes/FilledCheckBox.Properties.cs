@@ -31,6 +31,11 @@ public partial class FilledCheckBox
         get => (ICommand)GetValue(CompletedCommandProperty);
         set => SetValue(CompletedCommandProperty, value);
     }
+    
+    /// <summary>
+    /// The vent to invoke when the animating
+    /// </summary>
+    public event EventHandler Completed;
 
     /// <summary>
     ///     The corner radius of the checkbox

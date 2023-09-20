@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.CheckBoxes;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -11,14 +12,13 @@ public partial class SaveView : ContentView
 
     public SaveView()
     {
-        var filledCheckBox = new FilledCheckBox
-        {
-            VerticalOptions = LayoutOptions.Center,
-        };
-        
-        filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty, new Binding(nameof(IsSavingCompleted), source: this));
+        var filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
+
+        filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
+            new Binding(nameof(IsSavingCompleted), source: this));
         filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
-        filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty, new Binding(nameof(SavingCompletedCommand), source: this));
+        filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
+            new Binding(nameof(SavingCompletedCommand), source: this));
 
         m_stateLabel = new Label
         {
@@ -34,11 +34,12 @@ public partial class SaveView : ContentView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Spacing = Sizes.GetSize(SizeName.size_12),
-            Children = { filledCheckBox, m_stateLabel }
+            Children = {filledCheckBox, m_stateLabel}
         };
 
         Content = content;
     }
+
 
     protected override void OnHandlerChanged()
     {
@@ -60,6 +61,7 @@ public partial class SaveView : ContentView
         if (newValue is true)
         {
             saveView.SetSavingCompletedText();
+            VibrationService.SelectionChanged();
         }
     }
 
