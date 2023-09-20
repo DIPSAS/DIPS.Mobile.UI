@@ -9,16 +9,15 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 public partial class SaveView : ContentView
 {
     private readonly Label m_stateLabel;
-    private readonly FilledCheckBox m_filledCheckBox;
 
     public SaveView()
     {
-        m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
+        var filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
 
-        m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
+        filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
             new Binding(nameof(IsSavingCompleted), source: this));
-        m_filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
-        m_filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
+        filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
+        filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
             new Binding(nameof(SavingCompletedCommand), source: this));
 
         m_stateLabel = new Label
@@ -35,14 +34,12 @@ public partial class SaveView : ContentView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Spacing = Sizes.GetSize(SizeName.size_12),
-            Children = {m_filledCheckBox, m_stateLabel}
+            Children = {filledCheckBox, m_stateLabel}
         };
+
+        Content = content;
     }
 
-    private void OnAnimationFinished(object? sender, EventArgs e)
-    {
-        VibrationService.SelectionChanged();
-    }
 
     protected override void OnHandlerChanged()
     {
