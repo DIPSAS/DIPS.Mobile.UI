@@ -9,6 +9,7 @@ internal interface  ISelectable
     /// <summary>
     /// Determines if the item is selected.
     /// </summary>
+    
     public bool IsSelected { get; set; }
     /// <summary>
     /// Command that will get executed when a item is selected.
@@ -19,6 +20,7 @@ internal interface  ISelectable
     /// </summary>
     public object? SelectedCommandParameter { get; set; }
 
+    public bool HasHaptics { get; set; }
     public event EventHandler<SelectionChangedEventArgs>? SelectionChanged;
 }
 

@@ -1,3 +1,10 @@
+## [17.4.0]
+- [SaveContentPage] Added haptics when the page has finished saving.
+- [ItemPicker] Added haptics when people select a item.
+- [MultiItemsPicker] Added haptics when people select a items.
+- [Checkmark] Added haptics when people touch it.
+- [RadioButton] Added haptics when people touch it.
+
 ## [17.3.0]
 - Fixed an issue where ItemPicker in bottom sheet had strange behavior when searching.
 - [ItemPicker] The style when a placeholder is present has now changed.

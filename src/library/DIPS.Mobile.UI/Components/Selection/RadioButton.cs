@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.API.Vibration;
+
 namespace DIPS.Mobile.UI.Components.Selection;
 
 public partial class RadioButton : DIPS.Mobile.UI.Components.Images.ImageButton.ImageButton, ISelectable
@@ -6,6 +8,11 @@ public partial class RadioButton : DIPS.Mobile.UI.Components.Images.ImageButton.
     {
         Command = new Command(() =>
         {
+            if (HasHaptics)
+            {
+                VibrationService.SelectionChanged();    
+            }
+            
             IsSelected = !IsSelected;
         });
         TintColor = ISelectable.s_tintColor;

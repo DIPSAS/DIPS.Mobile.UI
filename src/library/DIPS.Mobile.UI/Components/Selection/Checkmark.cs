@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton.ImageButton;
@@ -10,6 +11,11 @@ public partial class Checkmark : ImageButton, ISelectable
     {
         Command = new Command(() =>
         {
+            if (HasHaptics)
+            {
+                VibrationService.SelectionChanged();    
+            }
+            
             IsSelected = !IsSelected;
         });
         HeightRequest = Sizes.GetSize(SizeName.size_6);
