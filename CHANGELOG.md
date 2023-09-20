@@ -1,3 +1,6 @@
+## [17.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.4.0]
 - [SaveContentPage] Added haptics when the page has finished saving.
 - [ItemPicker] Added haptics when people select a item.
