@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -142,6 +143,10 @@ public partial class SegmentedControl : ContentView
         if (SelectionMode == SelectionMode.Multi)
         {
             ToggleItem(selectableItemViewModel);
+        }
+        if (HasHaptics)
+        {
+            VibrationService.SelectionChanged();   
         }
     }
 

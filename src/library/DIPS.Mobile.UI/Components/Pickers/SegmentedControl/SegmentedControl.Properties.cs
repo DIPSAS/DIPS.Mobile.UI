@@ -6,6 +6,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
 public partial class SegmentedControl
 {
+
+    public static readonly BindableProperty HasHapticsProperty = BindableProperty.Create(
+        nameof(HasHaptics),
+        typeof(bool),
+        typeof(SegmentedControl), defaultValue:true);
+
+    /// <summary>
+    /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the segment of the segmented control
+    /// </summary>
+    public bool HasHaptics
+    {
+        get => (bool)GetValue(HasHapticsProperty);
+        set => SetValue(HasHapticsProperty, value);
+    }
     /// <summary>
     /// The event to be raised when people select an item from the <see cref="SegmentedControl"/>.
     /// </summary>
