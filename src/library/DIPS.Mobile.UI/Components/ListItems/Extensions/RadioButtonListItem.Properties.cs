@@ -10,7 +10,7 @@ public partial class RadioButtonListItem
         typeof(CheckmarkListItem), defaultValue:true);
 
     /// <summary>
-    /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the checkmark.
+    /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the radio button.
     /// </summary>
     public bool HasHaptics
     {

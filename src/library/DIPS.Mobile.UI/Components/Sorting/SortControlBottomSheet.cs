@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
@@ -51,7 +52,15 @@ internal class SortControlBottomSheet : BottomSheet
         var radioButtonListItem = new RadioButtonListItem
         {
             VerticalOptions = LayoutOptions.Center,
-            Command = new Command<SelectableItemViewModel>(m_sortControl.ItemSelected)
+            Command = new Command<SelectableItemViewModel>( selectableItemViewModel  =>
+            {
+                if (m_sortControl.HasHaptics)
+                {
+                    VibrationService.SelectionChanged();    
+                }
+                
+                m_sortControl.ItemSelected(selectableItemViewModel);
+            })
         };
 
         var inLineImage = new Image

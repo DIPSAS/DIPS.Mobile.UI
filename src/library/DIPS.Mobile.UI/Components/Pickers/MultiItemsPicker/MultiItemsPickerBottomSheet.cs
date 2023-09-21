@@ -88,6 +88,8 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
             new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
         checkmarkListItem.SetBinding(CheckmarkListItem.IsSelectedProperty,
             new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
+        checkmarkListItem.HasHaptics = m_multiItemsPicker.HasHaptics;
+        
         checkmarkListItem.SelectedCommand = new Command(() => ItemWasTapped(checkmarkListItem));
         return checkmarkListItem;
     }

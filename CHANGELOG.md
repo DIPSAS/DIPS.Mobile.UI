@@ -1,3 +1,9 @@
+## [17.7.0] 
+- [ItemPicker] Added haptics for when people select a item from ItemPicker with context menu mode.
+- [SortControl] Added haptics for when people select a sort option.
+- [SegmentedControl] Added haptics for when people select/deselect a segment from the segmented control.
+- [ContextMenu] Added more shadow to context menu on Android.
+
 ## [17.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

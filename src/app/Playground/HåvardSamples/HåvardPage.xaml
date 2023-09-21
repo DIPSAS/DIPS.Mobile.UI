@@ -8,13 +8,9 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0"
-                 BackgroundColor="White"
-                 Loaded="HåvardPage_OnLoaded">
+                 BackgroundColor="White">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <dui:SearchBar x:Name="SearchBar" />
-        <Button Text="Navigate" Clicked="Button_OnClicked"/>
-    </VerticalStackLayout>
+    <dui:ItemPicker ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"/>
 </dui:ContentPage>

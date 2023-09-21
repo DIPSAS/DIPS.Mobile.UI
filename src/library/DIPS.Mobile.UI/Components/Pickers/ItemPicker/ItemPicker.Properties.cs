@@ -6,6 +6,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
     public partial class ItemPicker
     {
+        public static readonly BindableProperty HasHapticsProperty = BindableProperty.Create(
+            nameof(HasHaptics),
+            typeof(bool),
+            typeof(ItemPicker), defaultValue:true);
+
+        /// <summary>
+        /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the item.
+        /// </summary>
+        public bool HasHaptics
+        {
+            get => (bool)GetValue(HasHapticsProperty);
+            set => SetValue(HasHapticsProperty, value);
+        }
+        
         /// <summary>
         /// The item that was selected by people when using the picker.
         /// </summary>

@@ -17,14 +17,4 @@ public partial class HåvardPage
     {
 
     });
-
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        Shell.Current.Navigation.PushModalAsync(new HåvardPage());
-    }
-
-    private void HåvardPage_OnLoaded(object sender, EventArgs e)
-    {
-        SearchBar.Focus();
-    }
 }

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Extensions;
 
@@ -63,6 +64,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private void SetSelectedItemBasedOnContextMenuItem(ContextMenuItem item)
         {
+            if (HasHaptics)
+            {
+                VibrationService.SelectionChanged();    
+            }
+            
             SelectedItem = GetItemFromDisplayProperty(item.Title!);
         }
     }
