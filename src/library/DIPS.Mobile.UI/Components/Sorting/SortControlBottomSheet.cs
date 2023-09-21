@@ -54,7 +54,11 @@ internal class SortControlBottomSheet : BottomSheet
             VerticalOptions = LayoutOptions.Center,
             Command = new Command<SelectableItemViewModel>( selectableItemViewModel  =>
             {
-                VibrationService.SelectionChanged();
+                if (m_sortControl.HasHaptics)
+                {
+                    VibrationService.SelectionChanged();    
+                }
+                
                 m_sortControl.ItemSelected(selectableItemViewModel);
             })
         };
