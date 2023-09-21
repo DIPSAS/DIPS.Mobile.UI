@@ -203,5 +203,7 @@ flash_line=94,
 flash_fill=95,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/camera.svg">View the icon in the browser</a></summary>
 camera=96,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/list_dots_line.svg">View the icon in the browser</a></summary>
+list_dots_line=97,
     }
 }
