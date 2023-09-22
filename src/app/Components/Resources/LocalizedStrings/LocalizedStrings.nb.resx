@@ -267,4 +267,7 @@
     <data name="Sorting" xml:space="preserve">
         <value>Sortering</value>
     </data>
+    <data name="Buttons" xml:space="preserve">
+        <value>Knapper</value>
+    </data>
 </root>

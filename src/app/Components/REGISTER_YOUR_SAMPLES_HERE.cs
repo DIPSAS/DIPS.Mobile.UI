@@ -1,5 +1,6 @@
 using Components.ComponentsSamples.Alerting;
 using Components.ComponentsSamples.BottomSheets;
+using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.ListItems;
@@ -40,7 +41,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Alerting, () => new AlertingSamples()),
             new(SampleType.Components, LocalizedStrings.Saving, () => new SavingSamples()),
             new(SampleType.Components, "Selection", () => new SelectionSamples()),
-            new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples())
+            new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples()),
+            new(SampleType.Components, LocalizedStrings.Buttons, () => new ButtonsSamples()),
+
 
         };
     }
