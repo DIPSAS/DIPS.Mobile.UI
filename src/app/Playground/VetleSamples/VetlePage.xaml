@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Dividers;assembly=DIPS.Mobile.UI"
-             x:Class="Playground.VetleSamples.VetlePage"
-             x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-             BackgroundColor="White">
-    
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Dividers;assembly=DIPS.Mobile.UI"
+                 x:Class="Playground.VetleSamples.VetlePage"
+                 x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
+                 BackgroundColor="White">
+
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    
-
-<CollectionView ItemsSource="{Binding TestStrings}">
-    
-    <CollectionView.ItemTemplate>
-        <DataTemplate>
-            <dui:Label HeightRequest="500" Text="{Binding .}" />
-        </DataTemplate>
-    </CollectionView.ItemTemplate>
-    
-</CollectionView>        
 
 
-    
+    <dui:VerticalStackLayout Padding="20">
+
+        <!--<Button Text="Hello" 
+                BackgroundColor="Red"
+                CornerRadius="27" />-->
+
+        <dui:Button Text="Hello" 
+                    Style="{dui:Styles Button=SecondaryLarge}"
+                    IsEnabled="{Binding Disabled, Converter={dui:InvertedBoolConverter}}"
+                    Command="{Binding Navigate}"/>
+
+        <Button Command="{Binding DisableCommand}"
+                Text="hei"
+                Background="Green"/>
         
-        
+    </dui:VerticalStackLayout>
+
 
 </dui:ContentPage>

@@ -1,3 +1,6 @@
+## [17.8.0] 
+- Added Buttons
+
 ## [17.7.0] 
 - [ItemPicker] Added haptics for when people select a item from ItemPicker with context menu mode.
 - [SortControl] Added haptics for when people select a sort option.

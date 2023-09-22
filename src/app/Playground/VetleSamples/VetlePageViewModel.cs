@@ -18,6 +18,7 @@ public class VetlePageViewModel : ViewModel
     private int m_maxLines = 3;
     private List<SortOption> m_sortOptions;
     private SortOption m_defaultSelectedItem;
+    private bool m_disabled;
 
     public VetlePageViewModel()
     {
@@ -40,6 +41,25 @@ public class VetlePageViewModel : ViewModel
         _ = Test2();
 
         _ = DelayFunction();
+
+        DisableCommand = new Command(Disable);
+
+        CanExecuteCommand = new Command(() => { }, () => Disabled);
+    }
+
+    private void Disable()
+    {
+        Disabled = !Disabled;
+    }
+
+    public bool Disabled
+    {
+        get => m_disabled;
+        set
+        {
+            RaiseWhenSet(ref m_disabled, value);
+            (CanExecuteCommand as Command).ChangeCanExecute();
+        }
     }
 
     public ICommand CancelCommand { get; }
@@ -97,8 +117,8 @@ public class VetlePageViewModel : ViewModel
 
     private void Navigatee()
     {
-        var page = new NavigationPage(new VetleTestPage1());
-        Shell.Current.Navigation.PushModalAsync(page);
+        var page = new VetleTestPage1();
+        Shell.Current.Navigation.PushAsync(page);
     }
 
     public List<SortOption> SortOptions
@@ -174,6 +194,8 @@ public class VetlePageViewModel : ViewModel
     }
 
     public ICommand SortingDoneCommand { get; }
+    public ICommand DisableCommand { get; }
+    public ICommand CanExecuteCommand { get; }
 }
 
 public class SortOption

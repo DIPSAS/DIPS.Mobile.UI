@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             xmlns:sorting="clr-namespace:DIPS.Mobile.UI.Components.Sorting;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
              Title="Hei">
@@ -13,6 +12,8 @@
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
     
-  <dui:Button Text="Nav" Command="{Binding Navigate}" />
-
+    <dui:VerticalStackLayout>
+        <dui:Button Text="Hello" 
+                    Style="{dui:Styles Button=GhostLarge}"/>
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

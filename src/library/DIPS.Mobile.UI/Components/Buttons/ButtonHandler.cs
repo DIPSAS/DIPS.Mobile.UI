@@ -1,3 +1,6 @@
+using Microsoft.Maui.Handlers;
+using IImage = Microsoft.Maui.IImage;
+
 namespace DIPS.Mobile.UI.Components.Buttons;
 
 public partial class ButtonHandler
@@ -9,11 +12,20 @@ public partial class ButtonHandler
 
     private partial void AppendPropertyMapper();
 
-    public static IPropertyMapper<Button, ButtonHandler> PropertyMapper =
+    public static readonly IPropertyMapper<Button, ButtonHandler> PropertyMapper =
         new PropertyMapper<Button, ButtonHandler>(Mapper)
         {
             [nameof(Button.AdditionalHitBoxSize)] = MapAdditionalHitBoxSize,
+            [nameof(Button.ImageTintColor)] = MapImageTintColor,
+            [nameof(Button.ImageToRightSide)] = MapImageToRightSide,
+            [nameof(IImage.Source)] = OverrideMapImageSource
         };
+
+    private static partial void OverrideMapImageSource(ButtonHandler handler, Button button);
+
+    private static partial void MapImageToRightSide(ButtonHandler handler, Button button);
+
+    private static partial void MapImageTintColor(ButtonHandler handler, Button button);
 
     private static partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button);
 }
