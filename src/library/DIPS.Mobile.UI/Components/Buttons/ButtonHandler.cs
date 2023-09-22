@@ -17,7 +17,7 @@ public partial class ButtonHandler
         {
             [nameof(Button.AdditionalHitBoxSize)] = MapAdditionalHitBoxSize,
             [nameof(Button.ImageTintColor)] = MapImageTintColor,
-            [nameof(Button.ImageToRightSide)] = MapImageToRightSide,
+            [nameof(Button.ImagePlacement)] = MapImageToRightSide,
             [nameof(IImage.Source)] = OverrideMapImageSource
         };
 

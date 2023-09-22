@@ -25,12 +25,12 @@ namespace DIPS.Mobile.UI.Components.Buttons
         }
 
         /// <summary>
-        /// Sets the <see cref="ImageSource"/> to the right side of the text
+        /// Sets the placement of <see cref="ImageSource"/>
         /// </summary>
-        public bool ImageToRightSide
+        public ImagePlacement ImagePlacement
         {
-            get => (bool)GetValue(ImageToRightSideProperty);
-            set => SetValue(ImageToRightSideProperty, value);
+            get => (ImagePlacement)GetValue(ImagePlacementProperty);
+            set => SetValue(ImagePlacementProperty, value);
         }
         
         public static readonly BindableProperty ImageTintColorProperty = BindableProperty.Create(
@@ -39,14 +39,20 @@ namespace DIPS.Mobile.UI.Components.Buttons
             typeof(Button),
             defaultValue: Colors.GetColor(ColorName.color_system_black));
         
-        public static readonly BindableProperty ImageToRightSideProperty = BindableProperty.Create(
-            nameof(ImageToRightSide),
-            typeof(bool),
+        public static readonly BindableProperty ImagePlacementProperty = BindableProperty.Create(
+            nameof(ImagePlacement),
+            typeof(ImagePlacement),
             typeof(Button));
         
         public static readonly BindableProperty AdditionalHitBoxSizeProperty = BindableProperty.Create(
             nameof(AdditionalHitBoxSize),
             typeof(Thickness),
             typeof(Button));
+    }
+
+    public enum ImagePlacement
+    {
+        Left = 0,
+        Right = 1
     }
 }

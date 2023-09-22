@@ -1,5 +1,5 @@
 ## [17.8.0] 
-- Added Buttons
+- Added Button styles
 
 ## [17.7.0] 
 - [ItemPicker] Added haptics for when people select a item from ItemPicker with context menu mode.

@@ -58,7 +58,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     
     private static partial void MapImageToRightSide(ButtonHandler handler, Button button)
     {
-        if(!button.ImageToRightSide)
+        if(button.ImagePlacement == ImagePlacement.Left)
             return;
         
         button.ContentLayout =
