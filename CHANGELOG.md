@@ -1,3 +1,6 @@
+## [17.12.0] 
+- [Layout] Made sure all layouts ignore safe area when its not set by the consumer. Grid, StackLayout etc.
+
 ## [17.11.0] 
 - Changed touch effect color on Android for dui:Buttons
 - Icon size on buttons will now scale down with the Button's height
