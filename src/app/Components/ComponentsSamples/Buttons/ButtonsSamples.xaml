@@ -42,7 +42,7 @@
                 <dui:Button Style="{dui:Styles Button=PrimarySmall}"
                             Text="Small"
                             ImageSource="{dui:Icons bell_line}"
-                            ImagePlacement="True"
+                            ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
             </dui:VerticalStackLayout>
@@ -72,7 +72,7 @@
                             Text="Small"
                             ImageSource="{dui:Icons bell_line}"
                             ImageTintColor="{dui:Colors color_system_black}"
-                            ImagePlacement="True"
+                            ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
             </dui:VerticalStackLayout>
@@ -101,7 +101,7 @@
                 <dui:Button Style="{dui:Styles Button=GhostSmall}"
                             Text="Small"
                             ImageSource="{dui:Icons bell_line}"
-                            ImagePlacement="True"
+                            ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
             </dui:VerticalStackLayout>
