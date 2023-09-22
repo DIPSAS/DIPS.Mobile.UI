@@ -7,10 +7,10 @@ public partial class LayoutHandler : Microsoft.Maui.Handlers.LayoutHandler
     protected override void ConnectHandler(LayoutView platformView)
     {
         base.ConnectHandler(platformView);
-        DoNotIgnoreSafeArea();
+        IgnoreSafeArea();
     }
 
-    private void DoNotIgnoreSafeArea()
+    private void IgnoreSafeArea()
     {
         if (VirtualView is Microsoft.Maui.Controls.Layout layout)
         {
