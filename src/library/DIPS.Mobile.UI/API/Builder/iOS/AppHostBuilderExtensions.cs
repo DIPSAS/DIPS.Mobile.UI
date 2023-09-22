@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.CheckBoxes;
+using DIPS.Mobile.UI.Components.Layout;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using Foundation;
@@ -14,6 +15,7 @@ public static partial class AppHostBuilderExtensions
     {
         handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
         handlers.AddHandler<InlineDatePicker, InlineDatePickerHandler>();
+        handlers.AddHandler<Layout, LayoutHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
