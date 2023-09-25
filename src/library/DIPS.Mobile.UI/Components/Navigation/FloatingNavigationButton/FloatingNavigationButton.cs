@@ -25,33 +25,18 @@ internal class FloatingNavigationButton : Grid
         Add(m_contentGrid);
         
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
-        // CascadeInputTransparent = false;
         
         m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Star } };
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
-        // m_contentGrid.CascadeInputTransparent = false;
 
         AddMainButton();
         CreateAnimations();
-        Loaded += OnLoaded;
-    }
-
-    private void OnLoaded(object? sender, EventArgs e)
-    {
-        Loaded -= OnLoaded;
-        MakeBackgroundNonClickable();
-    }
-
-    private void MakeBackgroundNonClickable()
-    {
-        IsClickable = false;
     }
     
     
     private void MakeBackgroundClickable()
     {
-        // InputTransparent = false;
         IsClickable = true;
     }
 
@@ -155,9 +140,6 @@ internal class FloatingNavigationButton : Grid
         if(!m_isExpanded)
             return;
         
-        // InputTransparent = true;
-        
-
         IsClickable = false;
         
         m_isExpanded = false;
@@ -318,7 +300,7 @@ internal class FloatingNavigationButton : Grid
     public static readonly BindableProperty IsClickableProperty = BindableProperty.Create(
         nameof(IsClickable),
         typeof(bool),
-        typeof(FloatingNavigationButton));
+        typeof(FloatingNavigationButton), defaultValue:false);
 
     public bool IsClickable
     {

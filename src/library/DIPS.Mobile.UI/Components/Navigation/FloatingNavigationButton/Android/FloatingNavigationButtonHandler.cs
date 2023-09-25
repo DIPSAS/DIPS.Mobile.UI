@@ -14,9 +14,7 @@ public partial class FloatingNavigationButtonHandler
         if (floatingNavigationButton.IsClickable)
         {
             aView.Clickable = true;
-            aView.Focusable = true;
-            aView.FocusableInTouchMode = true;
-            aView.SetOnClickListener(new global::DIPS.Mobile.UI.Effects.Touch.TouchPlatformEffect.ClickListener(() =>
+            aView.SetOnClickListener(new Effects.Touch.TouchPlatformEffect.ClickListener(() =>
             {
                 _ = fab.Close();
             }));    
@@ -24,11 +22,6 @@ public partial class FloatingNavigationButtonHandler
         else
         {
             aView.Clickable = false;
-            aView.Focusable = false;
-            aView.FocusableInTouchMode = false;
         }
-        
-
-        
     }
 }
