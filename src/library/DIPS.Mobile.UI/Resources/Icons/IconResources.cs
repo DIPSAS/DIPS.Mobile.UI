@@ -108,6 +108,7 @@ this file is generated
 ["camera"] = "camera.png",
 ["list_dots_line"] = "list_dots_line.png",
 ["qr_code_fill"] = "qr_code_fill.png",
+["server_line"] = "server_line.png",
 
             };
         }
