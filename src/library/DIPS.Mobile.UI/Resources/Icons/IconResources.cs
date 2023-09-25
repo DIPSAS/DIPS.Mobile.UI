@@ -109,6 +109,7 @@ this file is generated
 ["list_dots_line"] = "list_dots_line.png",
 ["qr_code_fill"] = "qr_code_fill.png",
 ["server_line"] = "server_line.png",
+["merknad_dot_fill"] = "merknad_dot_fill.png",
 
             };
         }

@@ -1,3 +1,6 @@
+## [17.12.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.11.0] 
 - Changed touch effect color on Android for dui:Buttons
 - Icon size on buttons will now scale down with the Button's height
