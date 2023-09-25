@@ -19,15 +19,23 @@
         <!--<Button Text="Hello" 
                 BackgroundColor="Red"
                 CornerRadius="27" />-->
+        
+        <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
+                    Text="Test"
+                    ImageSource="{dui:Icons bell_line}"/>
+        
+        <dui:Button Style="{dui:Styles Button=PrimarySmall}"
+                    Text="Test"
+                    ImageSource="{dui:Icons bell_line}"/>
 
         <dui:Button Text="Hello" 
                     Style="{dui:Styles Button=SecondaryLarge}"
                     IsEnabled="{Binding Disabled, Converter={dui:InvertedBoolConverter}}"
                     Command="{Binding Navigate}"/>
 
-        <Button Command="{Binding DisableCommand}"
+        <!--<Button Command="{Binding DisableCommand}"
                 Text="hei"
-                Background="Green"/>
+                Background="Green"/>-->
         
     </dui:VerticalStackLayout>
 
