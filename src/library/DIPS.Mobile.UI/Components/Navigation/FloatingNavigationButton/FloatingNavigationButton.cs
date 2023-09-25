@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
@@ -88,6 +89,7 @@ internal class FloatingNavigationButton : Grid
             IconRotation = 270,
             
         };
+        SemanticProperties.SetDescription(m_mainButton, DUILocalizedStrings.Accessability_FloatingNavigationButton_Description);
         
         m_contentGrid.Add(m_mainButton);
 

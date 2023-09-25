@@ -50,4 +50,7 @@
     <data name="Choose" xml:space="preserve">
         <value>Velg</value>
     </data>
+    <data name="Accessability.FloatingNavigationButton.Description" xml:space="preserve">
+        <value>Navigasjonsmeny, knapp</value>
+    </data>
 </root>

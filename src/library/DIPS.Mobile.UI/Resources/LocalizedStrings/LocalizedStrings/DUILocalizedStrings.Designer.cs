@@ -122,5 +122,11 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Choose", resourceCulture);
             }
         }
+        
+        internal static string Accessability_FloatingNavigationButton_Description {
+            get {
+                return ResourceManager.GetString("Accessability.FloatingNavigationButton.Description", resourceCulture);
+            }
+        }
     }
 }

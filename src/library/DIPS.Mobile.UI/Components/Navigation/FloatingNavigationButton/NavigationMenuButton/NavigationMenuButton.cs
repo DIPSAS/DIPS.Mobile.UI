@@ -44,7 +44,9 @@ internal partial class NavigationMenuButton : Grid
             FontSize = Sizes.GetSize(SizeName.size_3),
             HorizontalTextAlignment = TextAlignment.Center,
             VerticalTextAlignment = TextAlignment.Center,
+            
         };
+        
         
         Badge = new Border
         {
