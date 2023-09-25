@@ -1,6 +1,7 @@
 ## [17.12.0] 
 - [Layout] Made sure all layouts ignore safe area when its not set by the consumer. Grid, StackLayout etc.
 - [FloatingNavigationButton] Made sure people can tap the background of the FAB to close it.
+- [FloatingNavigationButton] Made sure sizes of the icons are smaller for better UX.
 
 ## [17.11.0] 
 - Changed touch effect color on Android for dui:Buttons
