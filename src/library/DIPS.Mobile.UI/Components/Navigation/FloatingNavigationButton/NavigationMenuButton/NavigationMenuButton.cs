@@ -17,7 +17,6 @@ internal partial class NavigationMenuButton : Grid
         {
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
-            // TintColor = Colors.GetColor(ColorName.color_system_white) TODO: LEGG TIL ImageColor på Button
         };
 
     // Workaround for a bug in Android where the circle gets clipped left, top, right and bottom
