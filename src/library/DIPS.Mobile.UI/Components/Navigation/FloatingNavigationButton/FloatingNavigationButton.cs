@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
@@ -13,9 +14,9 @@ internal class FloatingNavigationButton : Grid
     private bool m_isExpanded;
     
 #nullable disable
-    private NavigationMenuButton.NavigationMenuButton m_mainButton;
-    private Microsoft.Maui.Controls.Animation m_fadeOutColorAnimation;
-    private Microsoft.Maui.Controls.Animation m_fadeInColorAnimation;
+    internal NavigationMenuButton.NavigationMenuButton m_mainButton;
+    private Animation m_fadeOutColorAnimation;
+    private Animation m_fadeInColorAnimation;
 #nullable restore
 
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
@@ -25,23 +26,19 @@ internal class FloatingNavigationButton : Grid
         Add(m_contentGrid);
         
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
-        CascadeInputTransparent = false;
         
         m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Star } };
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
-        m_contentGrid.CascadeInputTransparent = false;
-        m_contentGrid.InputTransparent = true;
 
         AddMainButton();
         CreateAnimations();
     }
     
-    protected override void OnHandlerChanged()
+    
+    private void MakeBackgroundClickable()
     {
-        base.OnHandlerChanged();
-        
-        InputTransparent = true;
+        IsClickable = true;
     }
 
     public async Task Show(bool shouldAnimate)
@@ -73,15 +70,10 @@ internal class FloatingNavigationButton : Grid
         IsVisible = false;
     }
 
-    private void OnTappedBackground()
-    {
-        _ = Close();
-    }
-
     private void CreateAnimations()
     {
-        m_fadeOutColorAnimation = new Microsoft.Maui.Controls.Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 100, 0);
-        m_fadeInColorAnimation = new Microsoft.Maui.Controls.Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 0, 100);
+        m_fadeOutColorAnimation = new Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 100, 0);
+        m_fadeInColorAnimation = new Animation(alpha => BackgroundColor = new Color(0, 0, 0, (int)alpha), 0, 100);
     }
 
     private void AddMainButton()
@@ -97,6 +89,7 @@ internal class FloatingNavigationButton : Grid
             IconRotation = 270,
             
         };
+        SemanticProperties.SetDescription(m_mainButton, DUILocalizedStrings.Accessability_FloatingNavigationButton_Description);
         
         m_contentGrid.Add(m_mainButton);
 
@@ -126,14 +119,9 @@ internal class FloatingNavigationButton : Grid
 
     private void Expand()
     {
-        InputTransparent = false;
-        
+        MakeBackgroundClickable();
+
         m_isExpanded = true;
-        
-        GestureRecognizers.Add(new TapGestureRecognizer
-        {
-            Command = new Command(OnTappedBackground)
-        });
         
         this.AbortAnimation("FadeOut");
         m_fadeInColorAnimation.Commit(this, "FadeIn", easing: Easing.CubicOut);
@@ -148,16 +136,15 @@ internal class FloatingNavigationButton : Grid
         }
     }
 
+
     public async Task Close()
     {
         if(!m_isExpanded)
             return;
         
-        InputTransparent = true;
+        IsClickable = false;
         
         m_isExpanded = false;
-        
-        GestureRecognizers.RemoveAt(0);
         
         this.AbortAnimation("FadeIn");
         m_fadeOutColorAnimation.Commit(this, "FadeOut", easing: Easing.CubicIn);
@@ -180,8 +167,6 @@ internal class FloatingNavigationButton : Grid
         {
             m_contentGrid.Remove(navigationMenuButton);
         }
-        
-        
     }
 
     private void AnimateExpand(int index)
@@ -313,5 +298,16 @@ internal class FloatingNavigationButton : Grid
     
     private ExtendedNavigationMenuButton.ExtendedNavigationMenuButton? GetButtonFromIdentifier(string identifier) => 
         m_floatingNavigationButtonConfigurator.NavigationMenuButtons.FirstOrDefault(navButton => navButton.AutomationId.Equals(identifier));
+
+    public static readonly BindableProperty IsClickableProperty = BindableProperty.Create(
+        nameof(IsClickable),
+        typeof(bool),
+        typeof(FloatingNavigationButton), defaultValue:false);
+
+    public bool IsClickable
+    {
+        get => (bool)GetValue(IsClickableProperty);
+        set => SetValue(IsClickableProperty, value);
+    }
 
 }

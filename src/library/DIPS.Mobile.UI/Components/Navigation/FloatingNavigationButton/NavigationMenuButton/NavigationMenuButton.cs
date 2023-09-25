@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.NavigationMenuButton;
@@ -12,35 +13,28 @@ internal partial class NavigationMenuButton : Grid
         RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Auto } };
         ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         
-        ImageButton = new Images.ImageButton.ImageButton()
+        Button = new Button()
         {
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
-            TintColor = Colors.GetColor(ColorName.color_system_white)
         };
 
     // Workaround for a bug in Android where the circle gets clipped left, top, right and bottom
 #if __ANDROID__
-        ImageButton.Clip = new EllipseGeometry
-        {
-            RadiusX = 30,
-            RadiusY = 30,
-            Center = new Point(new Size(30))
-        };
-        ImageButton.BorderWidth = 6;
+        Button.BorderWidth = 3;
 #endif
         
-        ImageButton.SetBinding(ImageButton.SourceProperty, new Binding(nameof(Icon), source: this));
-        ImageButton.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
-        ImageButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
-        ImageButton.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source:this));
-        ImageButton.SetBinding(ImageButton.CommandProperty, new Binding(nameof(Command), source: this));
+        Button.SetBinding(Microsoft.Maui.Controls.Button.ImageSourceProperty, new Binding(nameof(Icon), source: this));
+        Button.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
+        Button.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
+        Button.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source:this));
+        Button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(nameof(Command), source: this));
 
         // Can not use design system here, because we need to set corner radius to half of the width/height
-        ImageButton.WidthRequest = 60;
-        ImageButton.HeightRequest = 60;
-        ImageButton.CornerRadius = 30;
-        ImageButton.Padding = DeviceInfo.Platform == DevicePlatform.Android ? Sizes.GetSize(SizeName.size_1) : Sizes.GetSize(SizeName.size_3);
+        Button.WidthRequest = Sizes.GetSize(SizeName.size_15);
+        Button.HeightRequest = Sizes.GetSize(SizeName.size_15);
+        Button.CornerRadius = (int)(Button.HeightRequest/2);
+        Button.Padding = DeviceInfo.Platform == DevicePlatform.Android ? Sizes.GetSize(SizeName.size_1) : Sizes.GetSize(SizeName.size_3);
 
         BadgeLabel = new Label
         {
@@ -49,8 +43,10 @@ internal partial class NavigationMenuButton : Grid
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             FontSize = Sizes.GetSize(SizeName.size_3),
             HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center
+            VerticalTextAlignment = TextAlignment.Center,
+            
         };
+        
         
         Badge = new Border
         {
@@ -69,7 +65,7 @@ internal partial class NavigationMenuButton : Grid
 #endif
         Badge.SetBinding(BackgroundColorProperty, new Binding(nameof(BadgeColor), source: this));
 
-        Add(ImageButton);
+        Add(Button);
         Add(Badge);
         
     }
@@ -78,14 +74,14 @@ internal partial class NavigationMenuButton : Grid
 
     private Label BadgeLabel { get; }
     
-    private ImageButton ImageButton { get; }
+    private Button Button { get; }
 
     protected override async void OnHandlerChanged()
     {
         base.OnHandlerChanged();
 
         // We must set this here, because on Android, the ImageButton disappears when binding rotation
-        ImageButton.Rotation = IconRotation;
+        Button.Rotation = IconRotation;
         
         if(BadgeCount is not 0)
             ShowBadge();
@@ -96,7 +92,7 @@ internal partial class NavigationMenuButton : Grid
 
     public void RotateIconTo(float rotation)
     {
-        ImageButton.RotateTo(rotation, 125U);
+        Button.RotateTo(rotation, 125U);
     }
 
     private static void OnBadgeCountChanged(BindableObject bindable, object oldValue, object newValue)

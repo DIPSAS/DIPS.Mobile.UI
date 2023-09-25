@@ -19,14 +19,12 @@ namespace DIPS.Mobile.UI.Resources.Styles
         {
             if (Chip != ChipStyle.None)
             {
-                return ChipStyleResources.Styles.TryGetValue(Chip, out var chipStyle) ? chipStyle : new Style(typeof(View));
+                return Styles.GetChipStyle(Chip);
             }
 
             if(Button != ButtonStyle.None)
             {
-                return ButtonStyleResources.Styles.TryGetValue(Button, out var buttonStyle)
-                    ? buttonStyle
-                    : new Style(typeof(View));
+                return Styles.GetButtonStyle(Button);
             }
 
             return new Style(typeof(View));

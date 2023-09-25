@@ -1,6 +1,8 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Resources.Styles.Button;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.ExtendedNavigationMenuButton;
 
@@ -13,39 +15,36 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
     {
         Spacing = 8;
         
-        var label = new Label
+        var labelButton = new Button()
         {
+            Style = DIPS.Mobile.UI.Resources.Styles.Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
-            VerticalTextAlignment = TextAlignment.Center,
-            HorizontalTextAlignment = TextAlignment.Center,
+            BackgroundColor = Colors.GetColor(ColorName.color_system_white), 
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };
-        label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
-        
-        TextBorder = new Border
-        {
-            BackgroundColor = Colors.GetColor(ColorName.color_system_white),
-            StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.size_2) },
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_2)),
-            VerticalOptions = LayoutOptions.Center,
-            Content = label
-        };
-        TextBorder.SetBinding(OpacityProperty, new Binding(nameof(IsEnabled), converter: new BoolToObjectConverter{TrueObject = (double)1, FalseObject = 0.5}, source: this));
+        labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(nameof(Title), source: this));
+        labelButton.SetBinding(IsEnabledProperty,
+            new Binding(nameof(IsEnabled), source: this));
 
 
         var floatingActionButton = new NavigationMenuButton.NavigationMenuButton();
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.IconProperty, new Binding(nameof(Icon), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.CommandProperty, new Binding(nameof(Command), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.ButtonBackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeCountProperty, new Binding(nameof(BadgeCount), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeColorProperty, new Binding(nameof(BadgeColor), source: this));
+        AutomationProperties.SetExcludedWithChildren(floatingActionButton, true);
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.IconProperty,
+            new Binding(nameof(Icon), source: this));
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.CommandProperty,
+            new Binding(nameof(Command), source: this));
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.ButtonBackgroundColorProperty,
+            new Binding(nameof(ButtonBackgroundColor), source: this));
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeCountProperty,
+            new Binding(nameof(BadgeCount), source: this));
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeColorProperty,
+            new Binding(nameof(BadgeColor), source: this));
         floatingActionButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
         
-        Add(TextBorder);
+
+
+        Add(labelButton);
         Add(floatingActionButton);
     }
-
-    public Border TextBorder { get; set; }
-
 }

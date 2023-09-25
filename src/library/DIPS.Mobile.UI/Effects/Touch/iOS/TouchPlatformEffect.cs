@@ -20,7 +20,7 @@ public partial class TouchPlatformEffect
     {
         if(Control is UIButton)
             return;
-
+        
         m_isEnabled = Touch.GetIsEnabled(Element);
         m_touchMode = Touch.GetTouchMode(Element);
 

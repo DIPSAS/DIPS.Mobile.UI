@@ -15,10 +15,6 @@
 
 
     <dui:VerticalStackLayout Padding="20">
-
-        <!--<Button Text="Hello" 
-                BackgroundColor="Red"
-                CornerRadius="27" />-->
         
         <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
                     Text="Test"
@@ -32,10 +28,7 @@
                     Style="{dui:Styles Button=SecondaryLarge}"
                     IsEnabled="{Binding Disabled, Converter={dui:InvertedBoolConverter}}"
                     Command="{Binding Navigate}"/>
-
-        <!--<Button Command="{Binding DisableCommand}"
-                Text="hei"
-                Background="Green"/>-->
+        
         
     </dui:VerticalStackLayout>
 
