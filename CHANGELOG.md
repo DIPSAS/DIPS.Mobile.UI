@@ -1,3 +1,6 @@
+## [17.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.8.0] 
 - Added Button styles
 
