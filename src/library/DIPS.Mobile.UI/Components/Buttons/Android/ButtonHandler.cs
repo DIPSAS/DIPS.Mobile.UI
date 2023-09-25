@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.Button;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Buttons;
 
@@ -20,8 +21,9 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     protected override void ConnectHandler(MaterialButton platformView)
     {
         base.ConnectHandler(platformView);
-        
-        var ripple = new RippleDrawable(Resources.Colors.Colors.GetColor(ColorName.color_neutral_40).ToDefaultColorStateList(),
+
+        var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+        var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
             null,
             platformView.Background);
 
@@ -31,6 +33,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         platformView.CornerRadius = (int)platformView.Context.ToPixels(VirtualView.CornerRadius);
         platformView.Foreground = ripple;
 
+        platformView.IconSize = (int)platformView.Context.ToPixels(VirtualView.Height / 2);
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
 
