@@ -207,5 +207,7 @@ camera=96,
 list_dots_line=97,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/qr_code_fill.svg">View the icon in the browser</a></summary>
 qr_code_fill=98,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/server_line.svg">View the icon in the browser</a></summary>
+server_line=99,
     }
 }
