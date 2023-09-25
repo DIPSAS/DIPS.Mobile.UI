@@ -18,7 +18,8 @@ internal class FloatingNavigationButtonMenuFragment : AndroidX.Fragment.App.Frag
     
     public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
-        return m_fab.ToPlatform(DUI.GetCurrentMauiContext!);
+        var view =  m_fab.ToPlatform(DUI.GetCurrentMauiContext!);
+        return view;
     }
     
 }

@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Lists;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 using DIPS.Mobile.UI.Effects.Touch;
@@ -55,6 +56,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Label, LabelHandler>();
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
+            handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
             
             AddPlatformHandlers(handlers);
         });
