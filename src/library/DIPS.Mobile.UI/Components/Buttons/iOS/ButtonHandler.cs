@@ -1,7 +1,9 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.Platforms.iOS;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using IImage = Microsoft.Maui.IImage;
 
 namespace DIPS.Mobile.UI.Components.Buttons;
 
@@ -52,9 +54,6 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         
         handler.PlatformView.SetImage(handler.PlatformView.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
         handler.PlatformView.ImageView.TintColor = button.ImageTintColor.ToPlatform();
-        handler.PlatformView.ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-
-        
     }
 
     private static partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button)

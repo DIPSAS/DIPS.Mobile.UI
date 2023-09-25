@@ -107,6 +107,8 @@ this file is generated
 ["flash_fill"] = "flash_fill.png",
 ["camera"] = "camera.png",
 ["list_dots_line"] = "list_dots_line.png",
+["qr_code_fill"] = "qr_code_fill.png",
+["server_line"] = "server_line.png",
 
             };
         }
