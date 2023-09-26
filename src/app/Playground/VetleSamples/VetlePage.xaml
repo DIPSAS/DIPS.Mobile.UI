@@ -20,6 +20,22 @@
                     Text="Test"
                     ImageSource="{dui:Icons bell_line}"/>
         
+        <dui:ImageButton Source="{dui:Icons alert_fill}"
+                         TintColor="Green"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Padding="{dui:Sizes size_4}"
+                         HeightRequest="50"
+                         WidthRequest="50"
+                         BorderColor="Red"
+                         BorderWidth="1"/>
+        
+        <dui:ImageButton Source="{dui:Icons alert_fill}"
+                         TintColor="Red" />
+        
+        <dui:ImageButton Source="{dui:Icons alert_fill}"
+                         TintColor="Green" />
+        
         <dui:Button Style="{dui:Styles Button=PrimarySmall}"
                     Text="Test"
                     ImageSource="{dui:Icons bell_line}"/>

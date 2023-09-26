@@ -39,7 +39,7 @@ public partial class ImageButtonHandler
             tries++;
         }
         
-        handler.PlatformView.SetImage(handler.PlatformView.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+        handler.PlatformView.SetImage(handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
         handler.PlatformView.TintColor = imageButton.TintColor.ToPlatform();
     }
 
