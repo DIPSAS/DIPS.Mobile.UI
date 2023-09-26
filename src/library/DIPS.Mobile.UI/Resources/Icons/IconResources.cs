@@ -110,6 +110,7 @@ this file is generated
 ["qr_code_fill"] = "qr_code_fill.png",
 ["server_line"] = "server_line.png",
 ["merknad_dot_fill"] = "merknad_dot_fill.png",
+["flash_off_fill"] = "flash_off_fill.png",
 
             };
         }
