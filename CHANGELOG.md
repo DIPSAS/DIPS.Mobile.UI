@@ -1,3 +1,6 @@
+## [17.13.1] 
+- Fixed an issue where app would crash trying to set tint color on Button when using hot reload
+
 ## [17.13.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
