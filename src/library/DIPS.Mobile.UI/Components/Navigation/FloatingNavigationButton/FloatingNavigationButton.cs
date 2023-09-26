@@ -33,7 +33,8 @@ internal class FloatingNavigationButton : Grid
 
         AddMainButton();
         CreateAnimations();
-#if __IOS__
+        
+#if __IOS__ //Somehow this is needed on iOS when the view draws to make it input transparent, the handler code was not enough.
         InputTransparent = true;
         CascadeInputTransparent = false;
 #endif
