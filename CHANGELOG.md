@@ -1,3 +1,6 @@
+## [17.12.3] 
+- Fixed an issue where app would crash trying to set tint color on ImageButton when using hot reload
+
 ## [17.12.2] 
 - [FloatingNavigationButton] Fixed an bug where the entire page of the app was not clickable until you opened the Floating Navigation.
 
