@@ -52,7 +52,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         if(handler.PlatformView.ImageView.Image is null)
             return;
         
-        handler.PlatformView.SetImage(handler.PlatformView.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+        handler.PlatformView.SetImage(handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
         handler.PlatformView.ImageView.TintColor = button.ImageTintColor.ToPlatform();
     }
 

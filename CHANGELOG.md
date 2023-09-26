@@ -1,3 +1,6 @@
+## [17.12.4] 
+- Fixed an issue where app would crash trying to set tint color on Button when using hot reload
+
 ## [17.12.3] 
 - Fixed an issue where app would crash trying to set tint color on ImageButton when using hot reload
 
