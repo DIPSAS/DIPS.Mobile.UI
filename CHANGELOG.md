@@ -1,3 +1,6 @@
+## [17.12.2] 
+- [FloatingNavigationButton] Fixed an bug where the entire page of the app was not clickable until you opened the Floating Navigation.
+
 ## [17.12.1] 
 - [Layout] Made sure all layouts ignore safe area when its not set by the consumer. Grid, StackLayout etc.
 - [FloatingNavigationButton] Made sure people can tap the background of the FAB to close it.

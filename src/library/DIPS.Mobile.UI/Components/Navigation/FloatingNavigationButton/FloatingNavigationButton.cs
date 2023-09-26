@@ -33,9 +33,13 @@ internal class FloatingNavigationButton : Grid
 
         AddMainButton();
         CreateAnimations();
+#if __IOS__
+        InputTransparent = true;
+        CascadeInputTransparent = false;
+#endif
     }
-    
-    
+
+
     private void MakeBackgroundClickable()
     {
         IsClickable = true;
