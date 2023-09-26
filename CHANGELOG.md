@@ -1,3 +1,6 @@
+## [17.13.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.12.3] 
 - Fixed an issue where app would crash trying to set tint color on ImageButton when using hot reload
 
