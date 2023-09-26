@@ -211,5 +211,7 @@ qr_code_fill=98,
 server_line=99,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/merknad_dot_fill.svg">View the icon in the browser</a></summary>
 merknad_dot_fill=100,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flash_off_fill.svg">View the icon in the browser</a></summary>
+flash_off_fill=101,
     }
 }
