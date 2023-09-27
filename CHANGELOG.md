@@ -1,3 +1,6 @@
+## [17.13.2]
+- [FloatingNavigationButton] Made sure people can tap the right side of the screen.
+
 ## [17.13.1] 
 - Fixed an issue where app would crash trying to set tint color on Button when using hot reload
 
