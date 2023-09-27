@@ -30,7 +30,9 @@ internal class FloatingNavigationButton : Grid
         m_contentGrid.RowDefinitions = new RowDefinitionCollection { new() { Height = GridLength.Star } };
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection { new() { Width = GridLength.Auto } };
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
-
+        m_contentGrid.InputTransparent = true; //Do not remove, this has to be input transparent so people can tap the right side of the screen.
+        m_contentGrid.CascadeInputTransparent = false; //Do not remove, this will make sure that each button from the FAB is tappable
+        
         AddMainButton();
         CreateAnimations();
         
