@@ -213,5 +213,7 @@ server_line=99,
 merknad_dot_fill=100,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flash_off_fill.svg">View the icon in the browser</a></summary>
 flash_off_fill=101,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/menu_line.svg">View the icon in the browser</a></summary>
+menu_line=102,
     }
 }

@@ -1,3 +1,6 @@
+## [17.14.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.13.2]
 - [FloatingNavigationButton] Made sure people can tap the right side of the screen.
 

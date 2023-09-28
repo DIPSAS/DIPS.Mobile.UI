@@ -111,6 +111,7 @@ this file is generated
 ["server_line"] = "server_line.png",
 ["merknad_dot_fill"] = "merknad_dot_fill.png",
 ["flash_off_fill"] = "flash_off_fill.png",
+["menu_line"] = "menu_line.png",
 
             };
         }
