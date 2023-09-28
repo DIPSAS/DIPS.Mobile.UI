@@ -1,6 +1,5 @@
 using Microsoft.Maui.Controls.Platform.Compatibility;
 using Microsoft.Maui.Platform;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Shell.Android;
 
@@ -22,7 +21,7 @@ internal class CustomToolbarAppearanceTracker : IShellToolbarAppearanceTracker
         {
             var toolbarItem = toolbar.Menu.GetItem(i);
             
-            toolbarItem!.SetIconTintList(Colors.GetColor(Shell.ToolbarTitleTextColorName, Application.Current!.RequestedTheme).ToDefaultColorStateList());
+            toolbarItem!.SetIconTintList(appearance.ForegroundColor.ToDefaultColorStateList());
         }
     }
 
