@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -89,14 +90,16 @@ internal class FloatingNavigationButton : Grid
         {
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.End,
-            Icon = Icons.GetIcon(IconName.arrow_right_s_line),
+            Icon = Icons.GetIcon(IconName.list_dots_line),
             ButtonBackgroundColor = Colors.GetColor(ColorName.color_obsolete_accent),
             Command = new Command(OnClickedMainButton),
-            Opacity = .5,
-            IconRotation = 270,
             
         };
-        SemanticProperties.SetDescription(m_mainButton, DUILocalizedStrings.Accessability_FloatingNavigationButton_Description);
+        
+        //Accessibility
+        SemanticProperties.SetDescription(m_mainButton.Button,
+            SemanticDescription.GetDescription(
+                DUILocalizedStrings.Accessability_FloatingNavigationButton_Description, ControlType.Button));
         
         m_contentGrid.Add(m_mainButton);
 
@@ -133,7 +136,6 @@ internal class FloatingNavigationButton : Grid
         this.AbortAnimation("FadeOut");
         m_fadeInColorAnimation.Commit(this, "FadeIn", easing: Easing.CubicOut);
         
-        m_mainButton.RotateIconTo(90);
         m_mainButton.HideBadge();
         m_mainButton.Opacity = 1;
         
@@ -156,7 +158,6 @@ internal class FloatingNavigationButton : Grid
         this.AbortAnimation("FadeIn");
         m_fadeOutColorAnimation.Commit(this, "FadeOut", easing: Easing.CubicIn);
         
-        m_mainButton.RotateIconTo(270);
         m_mainButton.Opacity = .5;
         
         for (var i = 1; i <= m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count; i++)

@@ -60,4 +60,10 @@
     <data name="Accessability.FloatingNavigationButton.Description" xml:space="preserve">
         <value>Navigation menu, button</value>
     </data>
+    <data name="Label" xml:space="preserve">
+        <value>Label</value>
+    </data>
+    <data name="Choice" xml:space="preserve">
+        <value>Choice</value>
+    </data>
 </root>

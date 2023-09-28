@@ -26,6 +26,8 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
         labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(nameof(Title), source: this));
         labelButton.SetBinding(IsEnabledProperty,
             new Binding(nameof(IsEnabled), source: this));
+        labelButton.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty,
+            new Binding(nameof(Command), source: this));
 
 
         var floatingActionButton = new NavigationMenuButton.NavigationMenuButton();

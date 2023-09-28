@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -35,7 +36,8 @@ internal partial class NavigationMenuButton : Grid
         Button.HeightRequest = Sizes.GetSize(SizeName.size_15);
         Button.CornerRadius = (int)(Button.HeightRequest/2);
         Button.Padding = DeviceInfo.Platform == DevicePlatform.Android ? Sizes.GetSize(SizeName.size_1) : Sizes.GetSize(SizeName.size_3);
-
+        
+        
         BadgeLabel = new Label
         {
             TextColor = Colors.GetColor(ColorName.color_system_white),
@@ -74,7 +76,7 @@ internal partial class NavigationMenuButton : Grid
 
     private Label BadgeLabel { get; }
     
-    private Button Button { get; }
+    internal Button Button { get; }
 
     protected override async void OnHandlerChanged()
     {
