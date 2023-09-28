@@ -1,5 +1,11 @@
-## [17.13.2] 
+## [17.14.1] 
 - [Android] Fixed an issue where icon in ToolbarItem did not set correct color
+
+## [17.14.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [17.13.2]
+- [FloatingNavigationButton] Made sure people can tap the right side of the screen.
 
 ## [17.13.1] 
 - Fixed an issue where app would crash trying to set tint color on Button when using hot reload
