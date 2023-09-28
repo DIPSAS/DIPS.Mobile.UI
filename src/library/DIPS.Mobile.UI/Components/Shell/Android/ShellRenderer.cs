@@ -6,17 +6,16 @@ namespace DIPS.Mobile.UI.Components.Shell.Android;
 public class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibility.ShellRenderer
 {
     protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker() {
-        return new CustomToolbarAppearanceTracker();
+        return new CustomToolbarAppearanceTracker(this);
     }
 }
 
-internal class CustomToolbarAppearanceTracker : IShellToolbarAppearanceTracker
+internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 {
-    public void Dispose() {
-    }
-
-    public void SetAppearance(AndroidX.AppCompat.Widget.Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
+    public override void SetAppearance(AndroidX.AppCompat.Widget.Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
     {
+        base.SetAppearance(toolbar, toolbarTracker, appearance);
+        
         for (var i = 0; i < toolbar.Menu?.Size(); i++)
         {
             var toolbarItem = toolbar.Menu.GetItem(i);
@@ -25,7 +24,7 @@ internal class CustomToolbarAppearanceTracker : IShellToolbarAppearanceTracker
         }
     }
 
-    public void ResetAppearance(AndroidX.AppCompat.Widget.Toolbar toolbar, IShellToolbarTracker toolbarTracker)
+    public CustomToolbarAppearanceTracker(IShellContext shellContext) : base(shellContext)
     {
     }
 }
