@@ -1,3 +1,6 @@
+## [17.13.2] 
+- Fixed an issue where icon in ToolbarItem did not set correct color
+
 ## [17.13.1] 
 - Fixed an issue where app would crash trying to set tint color on Button when using hot reload
 
