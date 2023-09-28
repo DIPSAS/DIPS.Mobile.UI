@@ -7,12 +7,18 @@
                  xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Dividers;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
+                 Shell.ForegroundColor="Red"
+                 
                  BackgroundColor="White">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" />
+        <ToolbarItem Text="Test" />
+    </dui:ContentPage.ToolbarItems>
 
     <dui:VerticalStackLayout Padding="20">
         

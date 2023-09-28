@@ -1,5 +1,3 @@
-using DIPS.Mobile.UI.Resources.Colors;
-
 namespace DIPS.Mobile.UI.Components.Shell
 {
     public class Shell : Microsoft.Maui.Controls.Shell
