@@ -8,7 +8,6 @@ public partial class VetlePage
     public VetlePage()
     {
         InitializeComponent();
-        
     }
 
     protected override void OnSizeAllocated(double width, double height)

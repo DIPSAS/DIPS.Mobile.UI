@@ -4,7 +4,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                 xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Dividers;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  BackgroundColor="White">
@@ -13,6 +12,10 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" />
+        <ToolbarItem Text="Test" />
+    </dui:ContentPage.ToolbarItems>
 
     <dui:VerticalStackLayout Padding="20">
         

@@ -1,3 +1,6 @@
+## [17.14.1] 
+- [Android] Fixed an issue where icon in ToolbarItem did not set correct color
+
 ## [17.14.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
