@@ -22,7 +22,7 @@ public static partial class AppHostBuilderExtensions
     {
         events.AddiOS(ios => ios.FinishedLaunching((_, _) =>
         {
-            FilledCheckBox.EnsureSkLottieResourcesAdded();
+            DUI.EnsureSkLottieResourcesAdded();
             return true;
         }));
     }

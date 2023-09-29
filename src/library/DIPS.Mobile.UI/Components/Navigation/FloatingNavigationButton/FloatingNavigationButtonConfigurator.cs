@@ -20,7 +20,7 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
             Title = title,
             Icon = Icons.GetIcon(iconName),
             IsLast = isLast,
-            Command = command
+            Command = command,
         });
     }
 

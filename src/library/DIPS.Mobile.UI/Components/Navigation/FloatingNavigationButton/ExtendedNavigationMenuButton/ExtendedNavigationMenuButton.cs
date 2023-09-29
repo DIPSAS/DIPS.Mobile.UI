@@ -11,21 +11,26 @@ namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Extended
 /// </summary>
 internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
 {
+    private readonly Button m_labelButton;
+
     public ExtendedNavigationMenuButton()
     {
         Spacing = 8;
         
-        var labelButton = new Button()
+        m_labelButton = new Button()
         {
+            
             Style = DIPS.Mobile.UI.Resources.Styles.Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             BackgroundColor = Colors.GetColor(ColorName.color_system_white), 
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };
-        labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(nameof(Title), source: this));
-        labelButton.SetBinding(IsEnabledProperty,
+        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(nameof(Title), source: this));
+        m_labelButton.SetBinding(IsEnabledProperty,
             new Binding(nameof(IsEnabled), source: this));
+        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty,
+            new Binding(nameof(Command), source: this));
 
 
         var floatingActionButton = new NavigationMenuButton.NavigationMenuButton();
@@ -44,7 +49,12 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
         
 
 
-        Add(labelButton);
+        Add(m_labelButton);
         Add(floatingActionButton);
+    }
+
+    public void SetSemanticFocus()
+    {
+        m_labelButton.SetSemanticFocus();
     }
 }

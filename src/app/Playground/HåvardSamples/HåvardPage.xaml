@@ -6,11 +6,12 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+                 xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0"
-                 BackgroundColor="White">
+                 BackgroundColor="Black">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:ItemPicker ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"/>
+    <dui:ItemPicker ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" HorizontalOptions="End"/>
 </dui:ContentPage>

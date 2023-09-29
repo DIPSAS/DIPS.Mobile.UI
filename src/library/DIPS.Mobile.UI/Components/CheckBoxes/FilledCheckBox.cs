@@ -49,21 +49,7 @@ public partial class FilledCheckBox : ContentView
 
     private Grid InnerGrid { get; }
     private Border Container { get; }
-
-    internal static void EnsureSkLottieResourcesAdded()
-    {
-        // try register with the current app
-        var merged = Application.Current?.Resources?.MergedDictionaries;
-        if (merged == null)
-        {
-            return;
-        }
-
-        if (merged.All(dic => dic.GetType() != typeof(SKLottieViewResources)))
-        {
-            merged.Add(new SKLottieViewResources());
-        }
-    }
+    
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();

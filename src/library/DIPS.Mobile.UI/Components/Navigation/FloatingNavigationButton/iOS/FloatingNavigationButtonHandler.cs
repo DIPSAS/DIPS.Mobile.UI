@@ -16,7 +16,7 @@ public partial class FloatingNavigationButtonHandler
             uiView.UserInteractionEnabled = true;
             uiView.GestureRecognizers = new UIGestureRecognizer[]
             {
-                new UITapGestureRecognizer(() =>
+                new UITapGestureRecognizer(e =>
                 {
                     _ = fab.Close();
                 })

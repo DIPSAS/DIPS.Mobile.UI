@@ -1,3 +1,9 @@
+## [17.15.0] 
+- [FloatingNavigationButton] Changed the colors when opened and closed.
+- [FloatingNavigationButton] Removed opacity.
+- [FloatingNavigationButton] Changed the menu icons when opened and closed.
+- [FloatingNavigationButton] Made sure VoiceOver and TalkBack works better with the component.
+
 ## [17.14.1] 
 - [Android] Fixed an issue where icon in ToolbarItem did not set correct color
 

@@ -11,17 +11,17 @@ public partial class App : Application
 
         MainPage = new AppShell();
     }
-
+    
     protected override void OnStart()
     {
         base.OnStart();
         
         FloatingNavigationButtonService.AddFloatingNavigationButton(config =>
         {
-            config.AddNavigationButton(string.Empty, "Button 1", IconName.arrow_right_s_line, new Command(() => {}));
-            config.AddNavigationButton(string.Empty, "Button 2", IconName.ascending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Button 3",  IconName.ascending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Button 4", IconName.descending_fill, new Command(() => { }));
+            config.AddNavigationButton(string.Empty, "A button", IconName.comment_line, new Command(() => {}));
+            config.AddNavigationButton(string.Empty, "Another button", IconName.bell_line, new Command(() => { }));
+            config.AddNavigationButton(string.Empty, "This button?",  IconName.alert_fill, new Command(() => { }));
+            config.AddNavigationButton(string.Empty, "No button", IconName.close_line, new Command(() => { }));
         });
     }
 }
