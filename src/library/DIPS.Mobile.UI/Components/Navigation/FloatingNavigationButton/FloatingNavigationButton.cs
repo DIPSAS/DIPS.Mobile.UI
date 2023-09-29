@@ -136,7 +136,7 @@ internal class FloatingNavigationButton : Grid
 
         var menuAnimation = new SKLottieView()
         {
-            Source = Animations.GetAnimation(AnimationName.menu),
+            // Source = Animations.GetAnimation(AnimationName.menu),
             IsAnimationEnabled = false, //Do not animate when rendered
             RepeatCount = -1, //Runs for ever
             RepeatMode = SKLottieRepeatMode.Reverse //Make sure it will animate back
