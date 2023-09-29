@@ -23,7 +23,7 @@ public static partial class AppHostBuilderExtensions
             .OnCreate((activity, _) =>
             {
                 DUI.Init(activity);
-                FilledCheckBox.EnsureSkLottieResourcesAdded();
+                DUI.EnsureSkLottieResourcesAdded();
             }));
     }
 }
