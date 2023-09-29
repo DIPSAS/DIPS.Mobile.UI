@@ -5,6 +5,11 @@ using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Components.SegmentedControl;
+
+#if __IOS__
+using DIPS.Mobile.UI.Components.SegmentedControl.iOS;
+#endif
 
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
@@ -57,6 +62,10 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
+#if __IOS__
+            handlers.AddHandler<ProSegmentedControl, SegmentedControlHandler>(); 
+#endif
+           
             
             AddPlatformHandlers(handlers);
         });
