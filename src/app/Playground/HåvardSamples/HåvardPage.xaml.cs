@@ -16,10 +16,7 @@ public partial class HåvardPage
 
     public ICommand SearchCommand => new Command<string>(async s =>
     {
-        MenuLottieView.PropertyChanged += OnPropertyChanged;
-        MenuLottieView.IsAnimationEnabled = true;
-        await Task.Delay((int)MenuLottieView.Duration.TotalMilliseconds);
-        MenuLottieView.IsAnimationEnabled = false;
+        
     });
 
     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
