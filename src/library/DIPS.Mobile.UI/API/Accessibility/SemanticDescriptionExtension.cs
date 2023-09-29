@@ -38,12 +38,10 @@ public static class SemanticDescription
         switch (type)
         {
             case ControlType.None:
+            case ControlType.Label:
                 break;
             case ControlType.Button:
                 controlType = DUILocalizedStrings.Button;
-                break;
-            case ControlType.Label:
-                controlType = DUILocalizedStrings.Label;
                 break;
             case ControlType.Choice:
                 controlType = DUILocalizedStrings.Choice;

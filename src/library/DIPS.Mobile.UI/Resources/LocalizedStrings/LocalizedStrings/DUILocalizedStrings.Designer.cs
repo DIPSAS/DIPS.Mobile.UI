@@ -129,12 +129,6 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
-        internal static string Label {
-            get {
-                return ResourceManager.GetString("Label", resourceCulture);
-            }
-        }
-        
         internal static string Choice {
             get {
                 return ResourceManager.GetString("Choice", resourceCulture);
