@@ -61,7 +61,7 @@ public partial class SaveView : ContentView
         if (newValue is true)
         {
             saveView.SetSavingCompletedText();
-            VibrationService.SelectionChanged();
+            VibrationService.Success();
         }
     }
 
