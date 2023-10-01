@@ -37,25 +37,19 @@ public partial class SegmentedControl : ContentView
     {
         var border = new Border()
         {
+// #if __ANDROID__ //TODO: On Android, each item has spacing in between them, so we move them a tiny bit to the right
+//             Margin = new Thickness(0, 0, -2, 0),
+// #endif
             VerticalOptions = LayoutOptions.Center,
             HeightRequest = Sizes.GetSize(SizeName.size_10),
             StrokeThickness = 1,
-#if __ANDROID__
-            Margin =
-                new Thickness(-2,0,-1,
-                    0), //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, due to bug with MAUI when setting StrokeThickness it has extra margins on the horizontal plane
-#endif
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle()
             {
                 CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
                     Sizes.GetSize(SizeName.size_8), 0),
-                //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, this makes sure theres no extra space between each segment
-#if __ANDROID__
-                StrokeThickness = 1
-#elif __IOS__
                 StrokeThickness = 0
-#endif
+
             }
         };
         
@@ -109,15 +103,7 @@ public partial class SegmentedControl : ContentView
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
             var radius = (double)Sizes.GetSize(SizeName.size_8);
-            var roundRectangle = new RoundRectangle()
-            {
-                //TODO: Fix Dotnet 8. https://github.com/dotnet/maui/issues/7764, this makes sure theres no extra space between each segment
-#if __ANDROID__
-                StrokeThickness = 1
-#elif __IOS__
-                StrokeThickness = 0
-#endif
-            };
+            var roundRectangle = new RoundRectangle() { StrokeThickness = 0};
             if (m_allSelectableItems.Last() == selectableListItem)
             {
                 roundRectangle.CornerRadius = new CornerRadius(0, radius, 0, radius);
