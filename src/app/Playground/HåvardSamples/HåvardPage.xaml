@@ -8,10 +8,13 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0"
-                 BackgroundColor="Black">
+                 Padding="0">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:ItemPicker ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" HorizontalOptions="End"/>
+    <dui:SegmentedControl HorizontalOptions="Center"
+                          VerticalOptions="Center"
+                          >
+        <x:String>dette</x:String>
+    </dui:SegmentedControl>
 </dui:ContentPage>

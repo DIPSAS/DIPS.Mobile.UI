@@ -1,3 +1,8 @@
+## [17.15.1] 
+- [SaveView] Changed vibration effect to `success` vibration.
+- [Switch] Made sure it takes less space on Android.
+- [SegmentedControl] Made sure it does not clip on Android.
+
 ## [17.15.0] 
 - [FloatingNavigationButton] Changed the colors when opened and closed.
 - [FloatingNavigationButton] Removed opacity.

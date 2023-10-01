@@ -116,6 +116,11 @@ public class Something : ViewModel
         var randomNumber = new Random(10).Next(0, 10);
         TheTing.IsIt = randomNumber > 5;
     }
+
+    public override string ToString()
+    {
+        return m_title;
+    }
 }
 
 public class SomeOtherThing : ViewModel
