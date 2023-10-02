@@ -1,3 +1,7 @@
+## [17.16.0]
+- [FilledCheckBox][SaveView][ContentSavePage] Changed the way the filled checkedbox looks when its not checked.
+
+
 ## [17.15.1] 
 - [SaveView] Changed vibration effect to `success` vibration.
 - [Switch] Made sure it takes less space on Android.
