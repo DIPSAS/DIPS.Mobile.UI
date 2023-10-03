@@ -15,6 +15,8 @@ public partial class FilledCheckBox : ContentView
 {
     private readonly ActivityIndicator m_activityIndicator;
     private readonly SKLottieView m_animation;
+    private readonly Image m_nonCheckedImage;
+    internal static double IsNotCheckedOpacity => 0.25;
 
     public FilledCheckBox()
     {
@@ -29,14 +31,14 @@ public partial class FilledCheckBox : ContentView
             Source = Animations.GetAnimation(AnimationName.saved),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            IsAnimationEnabled = false,
-            Opacity = 0
+            IsAnimationEnabled = true,
+            Opacity = IsNotCheckedOpacity
         };
 
         m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
         m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(WidthRequest)));
 
-        m_activityIndicator = new ActivityIndicator {Opacity = Sizes.GetSize(SizeName.size_0)};
+        m_activityIndicator = new ActivityIndicator {Opacity = 0};
 
         InnerGrid = new Grid {m_activityIndicator, m_animation};
 
@@ -49,11 +51,11 @@ public partial class FilledCheckBox : ContentView
 
     private Grid InnerGrid { get; }
     private Border Container { get; }
-    
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-        
+
         Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
     }
 
@@ -61,6 +63,7 @@ public partial class FilledCheckBox : ContentView
     {
         if (IsChecked)
         {
+            await m_animation.FadeTo(0);
             _ = m_animation.FadeTo(1, easing: Easing.CubicInOut);
 
             //Reset the animation and listen to when its completed
@@ -71,7 +74,7 @@ public partial class FilledCheckBox : ContentView
         else
         {
             m_animation.IsAnimationEnabled = false;
-            _ = m_animation.FadeTo(0, 500, easing: Easing.CubicOut);
+            _ = m_animation.FadeTo(IsNotCheckedOpacity, 500, easing: Easing.CubicOut);
             m_animation.PropertyChanged -= OnAnimationPropertyChanged;
         }
     }
@@ -95,6 +98,15 @@ public partial class FilledCheckBox : ContentView
         }
         else
         {
+            if (IsChecked)
+            {
+                _ = m_animation.FadeTo(1);
+            }
+            else
+            {
+                _ = m_animation.FadeTo(IsNotCheckedOpacity);
+            }
+
             await m_activityIndicator.FadeTo(0, easing: Easing.CubicInOut);
         }
 
@@ -114,7 +126,7 @@ public partial class FilledCheckBox : ContentView
         if (bindable is not FilledCheckBox filledCheckBox)
             return;
 
-        _ = filledCheckBox.SetContainerContent();   
+        _ = filledCheckBox.SetContainerContent();
     }
 
     private void OnCommandChanged()
