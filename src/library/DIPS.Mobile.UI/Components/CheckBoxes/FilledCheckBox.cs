@@ -16,7 +16,7 @@ public partial class FilledCheckBox : ContentView
     private readonly ActivityIndicator m_activityIndicator;
     private readonly SKLottieView m_animation;
     private readonly Image m_nonCheckedImage;
-    internal static double IsNotCheckedOpacity => 0.3;
+    internal static double IsNotCheckedOpacity => 0.25;
 
     public FilledCheckBox()
     {

@@ -12,7 +12,7 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-
+    
     <dui:VerticalStackLayout>
         <dui:Switch x:Name="Switch"
                     IsToggled="False" />
