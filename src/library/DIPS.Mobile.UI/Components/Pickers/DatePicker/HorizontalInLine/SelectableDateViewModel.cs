@@ -4,7 +4,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
-internal class SelectableDateViewModel : ViewModel
+public class SelectableDateViewModel : ViewModel
 {
     private readonly DateTime m_dateTime;
     private bool m_isSelected;

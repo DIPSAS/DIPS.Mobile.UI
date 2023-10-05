@@ -1,3 +1,6 @@
+## [17.16.1]
+- Made `DateView` and `SelectableDateViewModel` part of the public API
+
 ## [17.16.0]
 - [FilledCheckBox][SaveView][ContentSavePage] Changed the way the filled checkedbox looks when its not checked.
 
