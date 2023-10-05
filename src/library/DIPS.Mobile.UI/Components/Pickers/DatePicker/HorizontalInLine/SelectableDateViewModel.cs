@@ -4,7 +4,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
-internal class SelectableDateViewModel : ViewModel
+public class SelectableDateViewModel : ViewModel
 {
     private readonly DateTime m_dateTime;
     private bool m_isSelected;
@@ -31,6 +31,8 @@ internal class SelectableDateViewModel : ViewModel
         DateTime.Now.Date == FullDate.Date
             ? DUILocalizedStrings.Today
             : m_dateTime.ToString("dddd", CultureInfo.CurrentCulture).Substring(0, 3);
+
+    public string FormattedTime => m_dateTime.ToString("HH:mm", CultureInfo.InvariantCulture);
 
     public bool IsCurrentYear => m_dateTime.Year == DateTime.Now.Year;
 }

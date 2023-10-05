@@ -4,25 +4,22 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 
-/// <summary>
-/// TODO: Rewrite this so its easy to use publicly if its needed.
-/// </summary>
-public class DateView : DateViewBase
+public class DateTimeView : DateViewBase
 {
     protected override void OnViewCreated()
     {
-        //Day shortname label
-        var dayNameLabel = CreateLabel(new Label());
-        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
+        //Time of day label
+        var timeOfDayLabel = CreateLabel(new Label(), SizeName.size_3);
+        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
                 {
                     TrueObject = Colors.GetColor(ColorName.color_system_white),
                     FalseObject = Colors.GetColor(ColorName.color_system_black),
                 }));
-        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.DayName)));
+        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
+            new Binding(nameof(SelectableDateViewModel.FormattedTime)));
 
-        this.Add(dayNameLabel, 0, 2);
+        this.Add(timeOfDayLabel, 0, 2);
     }
 }
