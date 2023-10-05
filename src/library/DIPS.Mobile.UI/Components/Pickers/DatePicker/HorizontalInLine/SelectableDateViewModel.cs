@@ -32,7 +32,7 @@ public class SelectableDateViewModel : ViewModel
             ? DUILocalizedStrings.Today
             : m_dateTime.ToString("dddd", CultureInfo.CurrentCulture).Substring(0, 3);
 
-    public string FormattedTime => m_dateTime.TimeOfDay.ToString("HH:mm", CultureInfo.InvariantCulture);
+    public string FormattedTime => m_dateTime.ToString("HH:mm", CultureInfo.InvariantCulture);
 
     public bool IsCurrentYear => m_dateTime.Year == DateTime.Now.Year;
 }
