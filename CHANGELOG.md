@@ -1,4 +1,5 @@
-## [17.16.1]
+## [17.17.0]
+- Added `DateTimeView` component
 - Made `DateView` and `SelectableDateViewModel` part of the public API
 
 ## [17.16.0]
