@@ -50,6 +50,7 @@ public abstract class DateViewBase : Grid
 
         this.Add(dayLabel, 0, 1);
 
+        OnViewCreated();
         
         Loaded -= CreateView;
     }
