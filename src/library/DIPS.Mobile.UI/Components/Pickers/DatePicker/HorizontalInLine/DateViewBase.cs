@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 /// </summary>
 public abstract class DateViewBase : Grid
 {
-    public DateViewBase()
+    protected DateViewBase()
     {
         Loaded += CreateView;
     }
@@ -20,9 +20,9 @@ public abstract class DateViewBase : Grid
     private void CreateView(object? sender, EventArgs e)
     {
         RowSpacing = Sizes.GetSize(SizeName.size_2);
-        // RowDefinitions =
-        //     new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
-        //         new RowDefinition(GridLength.Auto));
+        RowDefinitions =
+            new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Auto));
 
         SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
@@ -45,7 +45,7 @@ public abstract class DateViewBase : Grid
                     TrueObject = Colors.GetColor(ColorName.color_system_white),
                     FalseObject = Colors.GetColor(ColorName.color_system_black),
                 }));
-        dayLabel.SetBinding(Label.TextProperty,
+        dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding(nameof(SelectableDateViewModel.Day)));
 
         this.Add(dayLabel, 0, 1);
