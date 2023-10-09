@@ -19,15 +19,16 @@ public class VetlePageViewModel : ViewModel
     private List<SortOption> m_sortOptions;
     private SortOption m_defaultSelectedItem;
     private bool m_disabled;
+    private bool m_isSaving;
 
     public VetlePageViewModel()
     {
         Navigate = new Command(Navigatee);
         Test = new Command(async () =>
         {
-            IsChecked = true;
+            IsSaving = true;
             await Task.Delay(1000);
-            IsChecked = false;
+            IsSaving = false;
         });
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
@@ -196,6 +197,12 @@ public class VetlePageViewModel : ViewModel
     public ICommand SortingDoneCommand { get; }
     public ICommand DisableCommand { get; }
     public ICommand CanExecuteCommand { get; }
+
+    public bool IsSaving
+    {
+        get => m_isSaving;
+        set => RaiseWhenSet(ref m_isSaving, value);
+    }
 }
 
 public class SortOption

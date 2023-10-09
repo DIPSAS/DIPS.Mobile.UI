@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                 BackgroundColor="White">
+                 BackgroundColor="White"
+                 IsSaving="{Binding IsSaving}"
+                 SavingText="Saving">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -21,35 +23,13 @@
         
         <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
                     Text="Test"
+                    Command="{Binding Test}"
                     ImageSource="{dui:Icons bell_line}"/>
         
-        <dui:ImageButton Source="{dui:Icons alert_fill}"
-                         TintColor="Green"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         Padding="{dui:Sizes size_4}"
-                         HeightRequest="50"
-                         WidthRequest="50"
-                         BorderColor="Red"
-                         BorderWidth="1"/>
-        
-        <dui:ImageButton Source="{dui:Icons alert_fill}"
-                         TintColor="Red" />
-        
-        <dui:ImageButton Source="{dui:Icons alert_fill}"
-                         TintColor="Green" />
-        
-        <dui:Button Style="{dui:Styles Button=PrimarySmall}"
-                    Text="Test"
-                    ImageSource="{dui:Icons bell_line}"/>
-
-        <dui:Button Text="Hello" 
-                    Style="{dui:Styles Button=SecondaryLarge}"
-                    IsEnabled="{Binding Disabled, Converter={dui:InvertedBoolConverter}}"
-                    Command="{Binding Navigate}"/>
+       
         
         
     </dui:VerticalStackLayout>
 
 
-</dui:ContentPage>
+</dui:ContentSavePage>
