@@ -4,7 +4,9 @@ namespace DIPS.Mobile.UI.Components.Pages.ContentSavePage;
 
 public partial class ContentSavePage : ContentPage
 {
-    private async void CreateSaveView()
+    private View? OriginalContent { get; set; }
+
+    private async Task CreateSaveView()
     {
         await Content.FadeTo(0, 150, Easing.CubicInOut);
 
@@ -19,6 +21,15 @@ public partial class ContentSavePage : ContentPage
 
         _ = saveView.FadeTo(1, easing: Easing.CubicInOut);
     }
+    
+    private async Task GoBackToDefaultContent()
+    {
+        await Content.FadeTo(0, 150, Easing.CubicInOut);
+
+        Content = OriginalContent;
+
+        _ = OriginalContent!.FadeTo(1, easing: Easing.CubicInOut);
+    }
 
     private static void IsSavingChanged(BindableObject bindableObject, object oldValue, object newValue)
     {
@@ -27,7 +38,12 @@ public partial class ContentSavePage : ContentPage
 
         if (newValue is true)
         {
-            contentPage.CreateSaveView();
+            contentPage.OriginalContent = contentPage.Content;
+            _ = contentPage.CreateSaveView();
+        }
+        else if (contentPage.OriginalContent is not null)
+        {
+            _ = contentPage.GoBackToDefaultContent();
         }
     }
 }
