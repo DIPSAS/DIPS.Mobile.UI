@@ -36,6 +36,13 @@ namespace DIPS.Mobile.UI.Components.Slidable
             var tapGestureRecognizer = new TapGestureRecognizer();
             GestureRecognizers.Add(tapGestureRecognizer);
             tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object? sender, EventArgs e)
+        {
+            Loaded -= OnLoaded;
+            OnScrolledInternal(true);
         }
 
         private void OnEntireLayoutTapped(object? sender, Microsoft.Maui.Controls.TappedEventArgs eventArgs)
@@ -60,17 +67,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
             }
 
             me.OnScrolledInternal();
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(width, height);
-            OnScrolledInternal(true);
         }
 
         private static int s_scrollToId = -42;
