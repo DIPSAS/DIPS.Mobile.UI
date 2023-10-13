@@ -1,6 +1,8 @@
 using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -20,17 +22,15 @@ public class DUIDatePicker : UIDatePicker
     {
         if (PreferredDatePickerStyle == UIDatePickerStyle.Inline) return; //Changing these colors when the style is inline will change the entire in line date picker. Which messes up the colors.
         
+        //Tested on iOS 15,16,17
+        
+        //In line date picker
         var inlineDateViewLayer = this.Subviews.FirstOrDefault()?.Subviews.FirstOrDefault()?.Subviews
             .FirstOrDefault();
         SetDefaultLayerAttributes(inlineDateViewLayer);
         
-        var inLineTimeView = this.Subviews.FirstOrDefault()?.Subviews.LastOrDefault(); //Tested with physical device iOS 15 and 16, does not work with simulator iOS 14
-        
-        if (inLineTimeView is {BackgroundColor: null}) //TODO: iOS 14 (remove when iOS 17 is out). 
-            //This happens for at least iOS 14, we then grab the first subview to set the layer color
-        {
-            inLineTimeView = inLineTimeView.Subviews.FirstOrDefault();
-        }
+        //In line time picker
+        var inLineTimeView = this.Subviews.FirstOrDefault()?.Subviews.LastOrDefault();
         SetDefaultLayerAttributes(inLineTimeView);
         
     }
@@ -42,11 +42,8 @@ public class DUIDatePicker : UIDatePicker
             return;
         }
 
-        if (Chip.ColorProperty.DefaultValue is not Color defaultColor ||
-            Chip.CornerRadiusProperty.DefaultValue is not int defaultCornerRadius)
-        {
-            return;
-        }
+        var defaultColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_secondary_30);
+        var defaultCornerRadius = DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2);
 
         view.BackgroundColor = defaultColor.ToPlatform();
         view.Layer.CornerRadius = defaultCornerRadius;

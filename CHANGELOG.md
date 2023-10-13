@@ -1,3 +1,6 @@
+## [17.17.2]
+- [DatePicker][DateAndTimePicker] Fixed default colors being broken on iOS.
+
 ## [17.17.1]
 - [ContentSavePage] Setting IsSaving back to 'false' will now switch the content back to the original content
 
