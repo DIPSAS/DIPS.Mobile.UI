@@ -56,6 +56,28 @@ public partial class TitleOptions
         get => (Thickness)GetValue(MarginProperty);
         set => SetValue(MarginProperty, value);
     }
+
+    public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
+        nameof(MaxLines),
+        typeof(int),
+        typeof(TitleOptions), defaultValue: Label.MaxLinesProperty.DefaultValue);
+
+    public int MaxLines
+    {
+        get => (int)GetValue(MaxLinesProperty);
+        set => SetValue(MaxLinesProperty, value);
+    }
+
+    public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
+        nameof(LineBreakMode),
+        typeof(LineBreakMode),
+        typeof(TitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
+
+    public LineBreakMode LineBreakMode
+    {
+        get => (LineBreakMode)GetValue(LineBreakModeProperty);
+        set => SetValue(LineBreakModeProperty, value);
+    }
     
     public static readonly BindableProperty MarginProperty = BindableProperty.Create(
         nameof(Margin),

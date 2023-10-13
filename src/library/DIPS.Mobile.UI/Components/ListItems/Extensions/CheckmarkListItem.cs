@@ -1,6 +1,8 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
+using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
+using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Components.Selection;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using SelectionChangedEventArgs = DIPS.Mobile.UI.Components.Selection.SelectionChangedEventArgs;
@@ -24,6 +26,10 @@ public partial class CheckmarkListItem : ListItem, ISelectable
         });
         m_iconOptions = new IconOptions();
         IconOptions = m_iconOptions;
+        //Forces the title to take full width
+        TitleOptions = new TitleOptions() {Width = GridLength.Star}; 
+        InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
+        
 #if __ANDROID__
         m_iconOptions.Color = ISelectable.s_tintColor;
 #elif __IOS__
