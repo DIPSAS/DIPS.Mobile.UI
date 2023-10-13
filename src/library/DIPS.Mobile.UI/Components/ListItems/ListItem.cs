@@ -49,7 +49,7 @@ public partial class ListItem : ContentView
         VerticalOptions = LayoutOptions.Center
     };
     
-    public Border Border { get; } = new();
+    internal Border Border { get; } = new();
     internal Image? ImageIcon { get; private set; }
     internal Label? TitleLabel { get; private set; }
     internal Label? SubtitleLabel { get; private set; }

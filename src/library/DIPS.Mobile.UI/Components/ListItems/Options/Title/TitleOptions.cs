@@ -14,10 +14,13 @@ public partial class TitleOptions : ListItemOptions
         listItem.TitleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
         listItem.TitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, new Binding(nameof(HorizontalTextAlignment), source: this));
         listItem.TitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
-        listItem.TitleLabel.SetBinding(Label.MaxLinesProperty, new Binding(nameof(MaxLines), source: this));
         listItem.TitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
         listItem.TitleLabel.SetBinding(View.MarginProperty, new Binding(nameof(Margin), source: this));
         
+        if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
+        {
+            listItem.TitleLabel.MaxLines = MaxLines;
+        }
     }
 
 }

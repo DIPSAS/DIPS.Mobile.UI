@@ -12,6 +12,5 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:NavigationListItem Title="Veeeeeeeery loooooong iteeeeeeesssssssm">
-    </dui:NavigationListItem>
+    <dui:RadioButtonListItem Title="Teeeeeeeeeeeest dette her som er langt som bare det" />
 </dui:ContentPage>
