@@ -1,3 +1,6 @@
+## [17.17.3]
+- [ImageButton] Made sure ImageButton padding is correctly set when IsVisible is flipped for Android
+
 ## [17.17.2]
 - [DatePicker][DateAndTimePicker] Fixed default colors being broken on iOS.
 

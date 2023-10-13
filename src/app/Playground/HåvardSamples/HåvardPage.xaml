@@ -12,6 +12,47 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:DateAndTimePicker VerticalOptions="Center" />
-    
+    <FlexLayout Wrap="Wrap"
+                AlignContent="Start"
+                AlignItems="Start">
+        <Switch x:Name="Switch"
+                IsToggled="True" />
+        <FlexLayout.Resources>
+            <Style x:Key="RoundedSmallButton"
+                   TargetType="{x:Type dui:ImageButton}">
+                <Setter Property="Padding"
+                        Value="{OnPlatform Android={dui:Sizes size_1}, iOS={dui:Sizes size_2}}" />
+                <Setter Property="BackgroundColor"
+                        Value="{dui:Colors color_primary_90}" />
+                <Setter Property="HeightRequest"
+                        Value="{dui:Sizes size_10}" />
+                <Setter Property="WidthRequest"
+                        Value="{dui:Sizes size_10}" />
+                <Setter Property="CornerRadius"
+                        Value="{dui:Sizes size_5}" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="TintColor"
+                        Value="{dui:Colors color_system_white}" />
+                <Setter Property="Margin"
+                        Value="{dui:Thickness Right=size_2}" />
+                <Setter Property="Command"
+                        Value="{Binding Source={RelativeSource AncestorType={x:Type håvardSamples:HåvardPage}}, Path=NavigateCommand}" />
+                <Setter Property="IsVisible"
+                        Value="{Binding Source={x:Reference Switch},Path=IsToggled}" />
+            </Style>
+        </FlexLayout.Resources>
+
+        <!-- Create document -->
+        <dui:ImageButton Style="{StaticResource RoundedSmallButton}"
+                         Source="{dui:Icons document_fill}" />
+        <dui:Button IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                    Style="{dui:Styles Button=None}"
+                    Padding="20"
+                    Text="Test"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+    </FlexLayout>
 </dui:ContentPage>

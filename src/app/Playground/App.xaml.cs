@@ -1,4 +1,5 @@
 ﻿using DIPS.Mobile.UI.Resources.Icons;
+using Playground.HåvardSamples;
 using FloatingNavigationButtonService = DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.FloatingNavigationButtonService;
 
 namespace Playground;
@@ -9,7 +10,7 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        MainPage = new NavigationPage(new HåvardPage());
     }
     
     protected override void OnStart()
