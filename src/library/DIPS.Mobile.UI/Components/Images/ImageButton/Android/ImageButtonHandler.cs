@@ -1,15 +1,19 @@
+using System.ComponentModel;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.ImageView;
 using Microsoft.Maui.Platform;
+using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
 public partial class ImageButtonHandler
 {
+
+    private partial void AppendPropertyMapper() { }
     protected override void ConnectHandler(ShapeableImageView platformView)
     {
         base.ConnectHandler(platformView);
@@ -21,10 +25,6 @@ public partial class ImageButtonHandler
         
         var ripple = new RippleDrawable(colorStateList, null,  null);
         platformView.Foreground = ripple;
-    }
-
-    private partial void AppendPropertyMapper()
-    {
     }
 
     private static partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
@@ -39,6 +39,5 @@ public partial class ImageButtonHandler
         handler.PlatformView.SetAdditionalHitBoxSize(imageButton, imageButton.AdditionalHitBoxSize, handler.MauiContext!);
         
     }
-
 }
 
