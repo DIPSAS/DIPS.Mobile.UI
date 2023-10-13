@@ -33,6 +33,7 @@ public partial class AnimationsSamples
         {
             if (Enum.TryParse<AnimationName>(animation.Key, out var theEnum))
             {
+                if (theEnum == AnimationName.none) continue;
                 m_allAnimations.Add(theEnum);
             }
         }

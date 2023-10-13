@@ -1,3 +1,9 @@
+## [17.18.0]
+- [ListItem] Title will wrap better for consumers.
+- [ListItem][TitleOptions] Added ability to control `LineBreakMode` and `MaxLines` to support truncation and wrapping properly.
+- [ListItem] Made sure width options are set even if the corresponding view for the options is not set.
+- [ComponentsApp] Made sure `none` is not added to animations page.
+
 ## [17.17.3]
 - [ImageButton] Made sure ImageButton padding is correctly set when IsVisible is flipped for Android
 

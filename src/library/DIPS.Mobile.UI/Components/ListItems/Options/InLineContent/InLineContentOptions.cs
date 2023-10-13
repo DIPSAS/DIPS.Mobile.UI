@@ -6,12 +6,15 @@ public partial class InLineContentOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     { 
-        if(listItem.InLineContent is not View inLineContent)
+        listItem.MainContent.ColumnDefinitions[2].Width = Width;
+
+        if (listItem.InLineContent is not View inLineContent)
+        {
             return;
+        }
 
         inLineContent.SetBinding(View.HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), source: this));
         inLineContent.SetBinding(View.VerticalOptionsProperty, new Binding(nameof(VerticalOptions), source: this));
-        listItem.MainContent.ColumnDefinitions[2].Width = Width;
     }
 
 }
