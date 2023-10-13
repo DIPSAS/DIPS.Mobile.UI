@@ -13,6 +13,12 @@ the [wiki](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki) section.
 Please make sure to read the [Getting started](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Getting-Started) before
 using the library for your app.
 
+# Compatibility
+
+- The library supports developing on `.NET MAUI` for mobile.
+- This library is aimed at mobile development and it supports `iOS` and `Android` applications. 
+    - The library is compatible with the latest `iOS` and `Android` versions minus 2.
+
 ## Build status
 
 ![Nuget](https://img.shields.io/nuget/v/dips.mobile.ui?color=success&logoColor=white&logo=NuGet) ![GitHub last commit](https://img.shields.io/github/last-commit/Dipsas/DIPS.Mobile.UI)

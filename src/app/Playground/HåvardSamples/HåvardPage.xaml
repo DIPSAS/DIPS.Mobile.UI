@@ -12,13 +12,6 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
+    <dui:DateAndTimePicker VerticalOptions="Center" />
     
-    <dui:VerticalStackLayout>
-        <dui:Switch x:Name="Switch"
-                    IsToggled="False" />
-        <dui:Switch x:Name="Switch2"
-                    IsToggled="False" />
-        <dui:SaveView IsSaving="{Binding Source={x:Reference Switch2}, Path=IsToggled}"
-                      IsSavingCompleted="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
-    </dui:VerticalStackLayout>
 </dui:ContentPage>
