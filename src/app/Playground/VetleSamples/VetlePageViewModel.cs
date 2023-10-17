@@ -46,6 +46,8 @@ public class VetlePageViewModel : ViewModel
         DisableCommand = new Command(Disable);
 
         CanExecuteCommand = new Command(() => { }, () => Disabled);
+
+        CheckCommand = new Command(() => IsChecked = !IsChecked);
     }
 
     private void Disable()
@@ -90,6 +92,8 @@ public class VetlePageViewModel : ViewModel
     }
 
     public ICommand SetMaxLinesCommand { get; }
+    
+    public ICommand CheckCommand { get; }
 
     private async Task Test2()
     {

@@ -27,8 +27,26 @@
                     ImageSource="{dui:Icons bell_line}"/>
         
        
-        
-        
+        <BoxView HeightRequest="50"
+                 WidthRequest="50"
+                 BackgroundColor="Red"
+                 dui:ContextMenuEffect.Mode="LongPressed">
+            
+            <dui:ContextMenuEffect.Menu>
+                
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem IsCheckable="True"
+                                         IsChecked="{Binding IsChecked}"
+                                         Title="Test"
+                                         Command="{Binding CheckCommand}">
+                        
+                    </dui:ContextMenuItem>
+                </dui:ContextMenu>
+                
+            </dui:ContextMenuEffect.Menu>
+        </BoxView>
+
+
     </dui:VerticalStackLayout>
 
 
