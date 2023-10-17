@@ -6,7 +6,7 @@ public partial class InLineContentOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     { 
-        listItem.MainContent.ColumnDefinitions[2].Width = Width;
+        listItem.ContainerGrid.ColumnDefinitions[2].Width = Width;
 
         if (listItem.InLineContent is not View inLineContent)
         {

@@ -11,13 +11,13 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 [ContentProperty(nameof(InLineContent))]
 public partial class ListItem : ContentView
 {
-    private VerticalStackLayout RootContent { get; } = new()
+    private VerticalStackLayout RootVerticalStackLayout { get; } = new()
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, 
         Spacing = 0
     };
     
-    internal Grid MainContent { get; } = new()
+    internal Grid ContainerGrid { get; } = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {
@@ -29,7 +29,7 @@ public partial class ListItem : ContentView
         {
             new(GridLength.Auto),
         },
-        Padding = new Thickness(Sizes.GetSize(SizeName.size_4), 
+        Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 
             Sizes.GetSize(SizeName.size_3),
             Sizes.GetSize(SizeName.size_4),
             Sizes.GetSize(SizeName.size_3))
@@ -62,21 +62,29 @@ public partial class ListItem : ContentView
 
     public ListItem()
     {
+        ((ContentView)this).BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        
         Border.StrokeShape = new RoundRectangle 
         { 
             CornerRadius = CornerRadius, 
             StrokeThickness = 0 
         };
         
-        BackgroundColor = Colors.GetColor(ColorName.color_system_white);
-        Border.SetBinding(Border.BackgroundColorProperty, new Binding { Source = this, Path = nameof(BackgroundColor)} );
-        
-        Border.Content = MainContent;
+        BindBorder();
 
-        MainContent.Add(m_titleAndLabelGrid, 1);
-        RootContent.Add(Border);
+        Border.Content = ContainerGrid;
+
+        ContainerGrid.Add(m_titleAndLabelGrid, 1);
+        RootVerticalStackLayout.Add(Border);
         
-        this.Content = RootContent;
+        this.Content = RootVerticalStackLayout;
+    }
+
+    private void BindBorder()
+    {
+        Border.SetBinding(Border.BackgroundColorProperty, new Binding {Source = this, Path = nameof(BackgroundColor)});
+        Border.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
+        Border.SetBinding(Border.PaddingProperty, new Binding {Source = this, Path = nameof(Padding)});
     }
 
     protected override void OnPropertyChanged(string propertyName = null)
@@ -155,9 +163,9 @@ public partial class ListItem : ContentView
     
     private void AddIcon()
     {
-        if (MainContent.Contains(ImageIcon))
+        if (ContainerGrid.Contains(ImageIcon))
         {
-            MainContent.Remove(ImageIcon);
+            ContainerGrid.Remove(ImageIcon);
         }
         
         ImageIcon = new Image
@@ -167,7 +175,7 @@ public partial class ListItem : ContentView
         
         BindToOptions(IconOptions);
         
-        MainContent.Add(ImageIcon, 0);
+        ContainerGrid.Add(ImageIcon, 0);
     }
 
     protected virtual void AddInLineContent()
@@ -177,31 +185,31 @@ public partial class ListItem : ContentView
 
     protected void SetInLineContent(IView view)
     {
-        if(MainContent.Contains(m_oldInLineContent))
+        if(ContainerGrid.Contains(m_oldInLineContent))
         {
-            MainContent.Remove(m_oldInLineContent);
+            ContainerGrid.Remove(m_oldInLineContent);
         }
         
         BindToOptions(InLineContentOptions);
 
-        MainContent.Add(view, MainContent.ColumnDefinitions.Count - 1);
+        ContainerGrid.Add(view, ContainerGrid.ColumnDefinitions.Count - 1);
 
         m_oldInLineContent = view;
     }
 
     private void AddUnderlyingContent()
     {
-        if (MainContent.Contains(m_oldUnderlyingContent))
+        if (ContainerGrid.Contains(m_oldUnderlyingContent))
         {
-            MainContent.Remove(m_oldUnderlyingContent);
+            ContainerGrid.Remove(m_oldUnderlyingContent);
         }
         else
         {
-            MainContent.AddRowDefinition(new RowDefinition(GridLength.Auto));
+            ContainerGrid.AddRowDefinition(new RowDefinition(GridLength.Auto));
         }
         
-        MainContent.Add(UnderlyingContent, 0, 1);
-        MainContent.SetColumnSpan(UnderlyingContent, MainContent.ColumnDefinitions.Count);
+        ContainerGrid.Add(UnderlyingContent, 0, 1);
+        ContainerGrid.SetColumnSpan(UnderlyingContent, ContainerGrid.ColumnDefinitions.Count);
         
         m_oldUnderlyingContent = UnderlyingContent;
     }
@@ -216,19 +224,19 @@ public partial class ListItem : ContentView
         var divider = new Divider();
         if (top)
         {
-            if (RootContent.Contains(TopDivider))
-                RootContent.Remove(TopDivider);
+            if (RootVerticalStackLayout.Contains(TopDivider))
+                RootVerticalStackLayout.Remove(TopDivider);
             
             TopDivider = divider;
-            RootContent.Insert(0, divider);
+            RootVerticalStackLayout.Insert(0, divider);
         }
         else
         {
-            if (RootContent.Contains(BottomDivider))
-                RootContent.Remove(BottomDivider);
+            if (RootVerticalStackLayout.Contains(BottomDivider))
+                RootVerticalStackLayout.Remove(BottomDivider);
             
             BottomDivider = divider;
-            RootContent.Add(divider);
+            RootVerticalStackLayout.Add(divider);
         }
         
         BindToOptions(DividersOptions);
