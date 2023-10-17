@@ -14,5 +14,5 @@
     </dui:ContentPage.BindingContext>
     <dui:ListItem BackgroundColor="Red"
                   CornerRadius="8"
-                  Margin="10,0"/>
+                  Margin="5,0"/>
 </dui:ContentPage>

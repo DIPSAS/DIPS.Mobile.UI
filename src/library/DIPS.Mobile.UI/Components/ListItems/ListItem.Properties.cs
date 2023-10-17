@@ -158,26 +158,26 @@ namespace DIPS.Mobile.UI.Components.ListItems
             set => SetValue(BackgroundColorProperty, value);
         }
         
-        public new double Margin
+        public new Thickness Margin
         {
-            get => (double)GetValue(MarginProperty);
+            get => (Thickness)GetValue(MarginProperty);
             set => SetValue(MarginProperty, value);
         }
         
-        public new double Padding
+        public new Thickness Padding
         {
-            get => (double)GetValue(PaddingProperty);
+            get => (Thickness)GetValue(PaddingProperty);
             set => SetValue(PaddingProperty, value);
         }
 
-        public static readonly BindableProperty MarginProperty = BindableProperty.Create(
+        public new static readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
-            typeof(double),
+            typeof(Thickness),
             typeof(ListItem));
 
-        public static readonly BindableProperty PaddingProperty = BindableProperty.Create(
+        public new static readonly BindableProperty PaddingProperty = BindableProperty.Create(
             nameof(Padding),
-            typeof(double),
+            typeof(Thickness),
             typeof(ListItem));
         
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
