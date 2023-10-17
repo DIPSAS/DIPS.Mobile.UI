@@ -13,6 +13,9 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
         var items = contextMenuItems.ToArray();
         foreach (var contextMenuItem in items)
         {
+            if (!contextMenuItem.IsVisible)
+                continue;
+            
             UIMenuElement uiMenuElement;
             if (contextMenuItem is ContextMenuGroup contextMenuGroup) //Recursively add menu items from a group
             {
@@ -41,7 +44,6 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                     continue;
                 }
             }
-
             else
             {
                 UIImage? image = null;

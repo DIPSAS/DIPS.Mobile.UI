@@ -8,7 +8,8 @@
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                      BackgroundColor="White"
                      IsSaving="{Binding IsSaving}"
-                     SavingText="Saving">
+                     SavingText="Saving"
+                     x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -23,7 +24,7 @@
 
         <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
                     Text="Test"
-                    Command="{Binding Test}"
+                    Command="{Binding CheckCommand}"
                     ImageSource="{dui:Icons bell_line}" />
 
         <dui:CollectionView ItemsSource="{Binding TestStrings}">
@@ -37,13 +38,16 @@
                         <dui:ContextMenuEffect.Menu>
 
                             <dui:ContextMenu>
-                                <dui:ContextMenuItem IsCheckable="True"
-                                                     IsChecked="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsChecked}"
-                                                     Title="Test"
-                                                     Icon="{dui:Icons bell_fill}"
-                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=CheckCommand}">
+                                <dui:ContextMenuItem Title="Test"
+                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
 
                                 </dui:ContextMenuItem>
+                                
+                                <dui:ContextMenuItem 
+                                                     Title="Test2"
+                                                     Icon="{dui:Icons bell_fill}"
+                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}"/>
+
                             </dui:ContextMenu>
 
                         </dui:ContextMenuEffect.Menu>

@@ -20,16 +20,25 @@ public partial class ContextMenuPlatformEffect
             return;
 
         m_contextMenu.BindingContext = Element.BindingContext;
+
+        var configurator = new LongPressContextMenuDelegate(m_contextMenu);
         
-        m_interaction = new UIContextMenuInteraction(new LongPressContextMenuConfigurator(m_contextMenu));
+        m_interaction = new UIContextMenuInteraction(configurator);
         Control.AddInteraction(m_interaction);
     }
     
-    public class LongPressContextMenuConfigurator : UIContextMenuInteractionDelegate
+    public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
     {
         private readonly ContextMenu m_contextMenu;
 
-        public LongPressContextMenuConfigurator(ContextMenu contextMenu)
+        /// <summary>
+        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
+        /// </summary>
+        public LongPressContextMenuDelegate(IntPtr handle) : base(handle)
+        {
+        }
+
+        public LongPressContextMenuDelegate(ContextMenu contextMenu)
         {
             m_contextMenu = contextMenu;
         }
