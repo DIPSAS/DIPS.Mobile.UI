@@ -46,24 +46,25 @@ public partial class ContextMenuPlatformEffect
         {
         }
         
-        public ContextMenu ContextMenu { get; set; }
+        public ContextMenu? ContextMenu { get; set; }
     }
     
     public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
     {
-        private readonly ContextMenu m_contextMenu;
-
-        /// <summary>
-        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
-        /// </summary>
         public LongPressContextMenuDelegate()
         {
         }
 
+        /// <summary>
+        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
+        /// </summary>
         public LongPressContextMenuDelegate(IntPtr intPtr) : base(intPtr)
         {
         }
 
+        /// <summary>
+        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
+        /// </summary>
         public LongPressContextMenuDelegate(NativeHandle handle) : base(handle)
         {
         }
@@ -76,7 +77,7 @@ public partial class ContextMenuPlatformEffect
             var contextMenu = longPressInteraction.ContextMenu;
             
             var dict = ContextMenuHelper.CreateMenuItems(
-                contextMenu.ItemsSource!,
+                contextMenu!.ItemsSource!,
                 contextMenu);
             var menu = UIMenu.Create(contextMenu.Title, dict.Select(k => k.Value).ToArray());
         
