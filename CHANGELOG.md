@@ -1,3 +1,6 @@
+## [17.19.1]
+- Fixed an issue where ContextMenuEffect could not be used in a CollectionView
+
 ## [17.19.0]
 - Made property 'IsChecked' bindable in ContextMenuItem
 

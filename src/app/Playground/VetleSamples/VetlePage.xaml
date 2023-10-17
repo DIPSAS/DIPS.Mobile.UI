@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                 x:Class="Playground.VetleSamples.VetlePage"
-                 x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                 BackgroundColor="White"
-                 IsSaving="{Binding IsSaving}"
-                 SavingText="Saving">
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:dui="http://dips.com/mobile.ui"
+                     xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                     x:Class="Playground.VetleSamples.VetlePage"
+                     x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
+                     BackgroundColor="White"
+                     IsSaving="{Binding IsSaving}"
+                     SavingText="Saving">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -20,31 +20,38 @@
     </dui:ContentPage.ToolbarItems>
 
     <dui:VerticalStackLayout Padding="20">
-        
+
         <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
                     Text="Test"
                     Command="{Binding Test}"
-                    ImageSource="{dui:Icons bell_line}"/>
-        
-       
-        <BoxView HeightRequest="50"
-                 WidthRequest="50"
-                 BackgroundColor="Red"
-                 dui:ContextMenuEffect.Mode="LongPressed">
-            
-            <dui:ContextMenuEffect.Menu>
-                
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem IsCheckable="True"
-                                         IsChecked="{Binding IsChecked}"
-                                         Title="Test"
-                                         Command="{Binding CheckCommand}">
-                        
-                    </dui:ContextMenuItem>
-                </dui:ContextMenu>
-                
-            </dui:ContextMenuEffect.Menu>
-        </BoxView>
+                    ImageSource="{dui:Icons bell_line}" />
+
+        <dui:CollectionView ItemsSource="{Binding TestStrings}">
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <BoxView HeightRequest="50"
+                             WidthRequest="50"
+                             BackgroundColor="Red"
+                             dui:ContextMenuEffect.Mode="LongPressed">
+
+                        <dui:ContextMenuEffect.Menu>
+
+                            <dui:ContextMenu>
+                                <dui:ContextMenuItem IsCheckable="True"
+                                                     IsChecked="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=IsChecked}"
+                                                     Title="Test"
+                                                     Icon="{dui:Icons bell_fill}"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=CheckCommand}">
+
+                                </dui:ContextMenuItem>
+                            </dui:ContextMenu>
+
+                        </dui:ContextMenuEffect.Menu>
+                    </BoxView>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+
+        </dui:CollectionView>
 
 
     </dui:VerticalStackLayout>
