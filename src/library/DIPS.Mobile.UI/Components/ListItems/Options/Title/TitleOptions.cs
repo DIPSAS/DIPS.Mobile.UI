@@ -4,7 +4,7 @@ public partial class TitleOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
-        listItem.MainContent.ColumnDefinitions[1].Width = Width;
+        listItem.ContainerGrid.ColumnDefinitions[1].Width = Width;
         
         if(listItem.TitleLabel is null)
             return;
