@@ -2,7 +2,7 @@
 - [iOS] Fixed another issue where Context menu would crash when in a CollectionView
 
 ## [17.19.3]
-- [iOS] Fixed another issue where Context menu would crash when in a CollectionView
+- [ListItem] Margin and Paddings are now set on the underlying Border to prevent glitching placements of the containers contet.
 
 ## [17.19.2]
 - [iOS] Fixed an issue where Context menu would crash when in a CollectionView
