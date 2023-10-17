@@ -3,6 +3,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems
 {
@@ -148,6 +149,37 @@ namespace DIPS.Mobile.UI.Components.ListItems
             set => SetValue(HasBottomDividerProperty, value);
         }
     
+        /// <summary>
+        /// The background color of the <see cref="ListItem"/>
+        /// </summary>
+        public new Color BackgroundColor
+        {
+            get => (Color)GetValue(BackgroundColorProperty);
+            set => SetValue(BackgroundColorProperty, value);
+        }
+        
+        public new double Margin
+        {
+            get => (double)GetValue(MarginProperty);
+            set => SetValue(MarginProperty, value);
+        }
+        
+        public new double Padding
+        {
+            get => (double)GetValue(PaddingProperty);
+            set => SetValue(PaddingProperty, value);
+        }
+
+        public static readonly BindableProperty MarginProperty = BindableProperty.Create(
+            nameof(Margin),
+            typeof(double),
+            typeof(ListItem));
+
+        public static readonly BindableProperty PaddingProperty = BindableProperty.Create(
+            nameof(Padding),
+            typeof(double),
+            typeof(ListItem));
+        
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
             typeof(CornerRadius),
@@ -180,7 +212,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
             nameof(BackgroundColor),
             typeof(Color),
-            typeof(ListItem));
+            typeof(ListItem), defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_white));
     
         public static readonly BindableProperty UnderlyingContentProperty = BindableProperty.Create(
             nameof(UnderlyingContent),
@@ -211,12 +243,6 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(IView),
             typeof(ListItem),
             propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddInLineContent());
-        
-        public new Color BackgroundColor
-        {
-            get => (Color)GetValue(BackgroundColorProperty);
-            set => SetValue(BackgroundColorProperty, value);
-        }
 
         #region OptionBindableProperties
 
