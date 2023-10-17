@@ -16,8 +16,27 @@ public partial class ContextMenuItem
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
         typeof(ICommand),
-        typeof(ContextMenus.ContextMenuItem));
+        typeof(ContextMenuItem));
 
+    /// <summary>
+    /// <see cref="CommandParameter"/>
+    /// </summary>
+    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(ContextMenuItem));
+    
+    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+        nameof(Icon),
+        typeof(ImageSource),
+        typeof(ContextMenuItem));
+    
+    public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
+        nameof(IsVisible),
+        typeof(bool),
+        typeof(ContextMenuItem),
+        defaultValue: true);
+    
     /// <summary>
     /// The command to run when the item was clicked
     /// </summary>
@@ -28,14 +47,6 @@ public partial class ContextMenuItem
     }
 
     /// <summary>
-    /// <see cref="CommandParameter"/>
-    /// </summary>
-    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
-        nameof(CommandParameter),
-        typeof(object),
-        typeof(ContextMenus.ContextMenuItem));
-
-    /// <summary>
     /// The command parameter to send to the command when the item was clicked
     /// </summary>
     public object CommandParameter
@@ -44,10 +55,14 @@ public partial class ContextMenuItem
         set => SetValue(CommandParameterProperty, value);
     }
 
-    public static readonly BindableProperty IconProperty = BindableProperty.Create(
-        nameof(Icon),
-        typeof(ImageSource),
-        typeof(ContextMenuItem));
+    /// <summary>
+    /// Determines if the <see cref="ContextMenuItem"/> is visible in the context menu
+    /// </summary>
+    public bool IsVisible
+    {
+        get => (bool)GetValue(IsVisibleProperty);
+        set => SetValue(IsVisibleProperty, value);
+    }
     
     /// <summary>
     /// The clicked event when the item was clicked

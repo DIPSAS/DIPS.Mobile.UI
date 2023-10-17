@@ -48,6 +48,12 @@ public class VetlePageViewModel : ViewModel
         CanExecuteCommand = new Command(() => { }, () => Disabled);
 
         CheckCommand = new Command(() => IsChecked = !IsChecked);
+        
+        TestObjects.Add(new TestObject(CheckCommand));
+        TestObjects.Add(new TestObject(CheckCommand));
+        TestObjects.Add(new TestObject(CheckCommand));
+        TestObjects.Add(new TestObject(CheckCommand));
+
     }
 
     private void Disable()
@@ -151,6 +157,8 @@ public class VetlePageViewModel : ViewModel
         "ØDEGÅÅRD",
         "Testern",
     };
+
+    public List<TestObject> TestObjects { get; } = new List<TestObject>();
     
     public ICommand Navigate { get; }
     public ICommand Test { get; }
@@ -273,4 +281,16 @@ class SortOptionComparer : IComparer<string>
             return m_sortOrder == SortOrder.Ascending ? returnValue : -returnValue;
         }
     }
+
+}
+public class TestObject
+{
+    public TestObject(ICommand command)
+    {
+        Command = command;
+    }
+    
+    public ICommand Command { get; }
+
+    public bool IsChecked { get; } = true;
 }

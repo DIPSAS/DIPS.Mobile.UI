@@ -1,3 +1,7 @@
+## [17.19.2]
+- [iOS] Fixed an issue where Context menu would crash when in a CollectionView
+- Added 'IsVisible' property to ContextMenuItem
+
 ## [17.19.1]
 - Fixed an issue where ContextMenuEffect could not be used in a CollectionView
 

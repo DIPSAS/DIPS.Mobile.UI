@@ -16,6 +16,9 @@ internal static class ContextMenuHelper
 
         foreach (var contextMenuItem in items)
         {
+            if (!contextMenuItem.IsVisible)
+                continue;
+            
             var index = items.IndexOf(contextMenuItem);
             if (contextMenuItem is ContextMenuGroup contextMenuGroup)
             {
