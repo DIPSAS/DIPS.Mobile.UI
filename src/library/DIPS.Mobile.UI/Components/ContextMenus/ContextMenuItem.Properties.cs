@@ -4,6 +4,12 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuItem
 {
+    
+    public static readonly BindableProperty IsCheckedProperty = BindableProperty.Create(
+        nameof(IsChecked),
+        typeof(bool),
+        typeof(ContextMenuItem));
+    
     /// <summary>
     /// <see cref="Command"/>
     /// </summary>
@@ -57,11 +63,15 @@ public partial class ContextMenuItem
     /// Determines if the native check mark should be added to the item when its tapped
     /// </summary>
     public bool IsCheckable { get; set; }
-    
+
     /// <summary>
-    /// Determines if the item should be default checked when its opened for the first time
+    /// Determines if the item should be checked when its opened
     /// </summary>
-    public bool IsChecked { get; set; }
+    public bool IsChecked
+    {
+        get => (bool)GetValue(IsCheckedProperty);
+        set => SetValue(IsCheckedProperty, value);
+    }
     
     /// <summary>
     /// The parent of the context menu item

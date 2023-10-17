@@ -10,7 +10,7 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        MainPage = new NavigationPage(new HåvardPage());
+        MainPage = new AppShell();
     }
     
     protected override void OnStart()

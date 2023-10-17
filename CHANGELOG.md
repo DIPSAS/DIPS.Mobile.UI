@@ -1,3 +1,6 @@
+## [17.19.0]
+- Made property 'IsChecked' bindable in ContextMenuItem
+
 ## [17.18.0]
 - [ListItem] Title will wrap better for consumers.
 - [ListItem][TitleOptions] Added ability to control `LineBreakMode` and `MaxLines` to support truncation and wrapping properly.
