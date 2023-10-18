@@ -6,7 +6,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
     public partial class Button : Microsoft.Maui.Controls.Button
     {
         private Style? m_buttonStyleBasedOn;
-        private Color? m_lastImageTintColor;
 
         public Button()
         {
@@ -31,7 +30,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
                 if (m_buttonStyleBasedOn is not null)
                 {
                     Style.BasedOn = m_buttonStyleBasedOn;
-                    ImageTintColor = m_lastImageTintColor!;
                 }
             }
             else
@@ -39,7 +37,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
                 if (m_buttonStyleBasedOn is null)
                 {
                     m_buttonStyleBasedOn = Style.BasedOn;
-                    m_lastImageTintColor = ImageTintColor;
                 }
                 
                 Style.BasedOn = ButtonTypeStyle.Disabled;

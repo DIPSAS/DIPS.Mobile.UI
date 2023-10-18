@@ -99,7 +99,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 new Setter
                 {
                     Property = DIPS.Mobile.UI.Components.Buttons.Button.ImageTintColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                    Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
                 },
                 new Setter
                 {
