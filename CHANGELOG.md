@@ -1,3 +1,6 @@
+## [17.20.1]
+- [Button] Changed the disabled text color of buttons.
+
 ## [17.20.0]
 - [Button][Styles] Added PrimaryRoundedSmall/Large
 - [Button][Styles] Added SecondaryRoundedSmall/Large
