@@ -21,10 +21,10 @@
             <!-- Create document -->
             <dui:Button ImageSource="{dui:Icons alert_fill}"
                         Text="test"
-                        Style="{dui:Styles Button=PrimaryRoundedSmall}" />
+                        Style="{dui:Styles Button=PrimaryIconButtonSmall}" />
 
             <dui:Button ImageSource="{dui:Icons alert_fill}"
-                        Style="{dui:Styles Button=PrimaryRoundedLarge}"
+                        Style="{dui:Styles Button=PrimaryIconButtonLarge}"
                         IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
         </FlexLayout>
     </VerticalStackLayout>

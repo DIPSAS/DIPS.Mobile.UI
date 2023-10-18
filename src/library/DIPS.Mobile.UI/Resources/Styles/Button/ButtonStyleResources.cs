@@ -6,15 +6,15 @@ internal class ButtonStyleResources
     {
         [ButtonStyle.PrimaryLarge] = ButtonTypeStyle.PrimaryLarge,
         [ButtonStyle.PrimarySmall] = ButtonTypeStyle.PrimarySmall,
-        [ButtonStyle.PrimaryRoundedSmall] = ButtonTypeStyle.PrimaryRoundedSmall,
-        [ButtonStyle.PrimaryRoundedLarge] = ButtonTypeStyle.PrimaryRoundedLarge,
+        [ButtonStyle.PrimaryIconButtonSmall] = ButtonTypeStyle.PrimaryIconButtonSmall,
+        [ButtonStyle.PrimaryIconButtonLarge] = ButtonTypeStyle.PrimaryIconButtonLarge,
         [ButtonStyle.SecondaryLarge] = ButtonTypeStyle.SecondaryLarge,
         [ButtonStyle.SecondarySmall] = ButtonTypeStyle.SecondarySmall,
-        [ButtonStyle.SecondaryRoundedSmall] = ButtonTypeStyle.SecondaryRoundedSmall,
-        [ButtonStyle.SecondaryRoundedLarge] = ButtonTypeStyle.SecondaryRoundedLarge,
+        [ButtonStyle.SecondaryIconButtonSmall] = ButtonTypeStyle.SecondaryIconButtonSmall,
+        [ButtonStyle.SecondaryIconButtonLarge] = ButtonTypeStyle.SecondaryIconButtonLarge,
         [ButtonStyle.GhostLarge] = ButtonTypeStyle.GhostLarge,
         [ButtonStyle.GhostSmall] = ButtonTypeStyle.GhostSmall,
-        [ButtonStyle.GhostRoundedSmall] = ButtonTypeStyle.GhostRoundedSmall,
-        [ButtonStyle.GhostRoundedLarge] = ButtonTypeStyle.GhostRoundedLarge,
+        [ButtonStyle.GhostIconButtonSmall] = ButtonTypeStyle.GhostIconButtonSmall,
+        [ButtonStyle.GhostIconButtonLarge] = ButtonTypeStyle.GhostIconButtonLarge,
     };
 }
