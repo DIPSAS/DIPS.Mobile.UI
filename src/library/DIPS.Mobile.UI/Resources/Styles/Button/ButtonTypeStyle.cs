@@ -94,7 +94,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 new Setter
                 {
                     Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                    Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
                 },
                 new Setter
                 {
