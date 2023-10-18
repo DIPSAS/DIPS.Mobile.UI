@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.ListItems;
+
 namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public class ContextMenuEffect : RoutingEffect
@@ -46,6 +48,14 @@ public class ContextMenuEffect : RoutingEffect
     {
         if (bindableObject is not View button)
         {
+            return;
+        }
+
+        // A workaround for when setting context menu on a ListItem, both the Touch API and Context Menu must be set on the same Element
+        if (button is ListItem listItem)
+        {
+            SetMode(listItem.Border, GetMode(bindableObject));
+            SetMenu(listItem.Border, GetMenu(bindableObject));
             return;
         }
 
