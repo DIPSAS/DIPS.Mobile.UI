@@ -1,3 +1,6 @@
+## [17.20.2]
+- [Button] Renamed Rounded styles to IconButton
+
 ## [17.20.1]
 - [Button] Changed the disabled text color of buttons.
 

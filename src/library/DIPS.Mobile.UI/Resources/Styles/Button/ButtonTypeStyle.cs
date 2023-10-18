@@ -251,7 +251,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 }
             }
         };
-        public static Style PrimaryRoundedSmall => new(typeof(Components.Buttons.Button))
+        public static Style PrimaryIconButtonSmall => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Primary,
             Setters =
@@ -281,7 +281,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
             }
         };
         
-        public static Style PrimaryRoundedLarge => new(typeof(Components.Buttons.Button))
+        public static Style PrimaryIconButtonLarge => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Primary,
             Setters =
@@ -311,7 +311,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
             }
         };
         
-        public static Style GhostRoundedSmall => new(typeof(Components.Buttons.Button))
+        public static Style GhostIconButtonSmall => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Ghost,
             Setters =
@@ -341,7 +341,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
             }
         };
         
-        public static Style GhostRoundedLarge => new(typeof(Components.Buttons.Button))
+        public static Style GhostIconButtonLarge => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Ghost,
             Setters =
@@ -371,7 +371,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
             }
         };
         
-        public static Style SecondaryRoundedSmall => new(typeof(Components.Buttons.Button))
+        public static Style SecondaryIconButtonSmall => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Secondary,
             Setters =
@@ -401,7 +401,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
             }
         };
         
-        public static Style SecondaryRoundedLarge => new(typeof(Components.Buttons.Button))
+        public static Style SecondaryIconButtonLarge => new(typeof(Components.Buttons.Button))
         {
             BasedOn = Secondary,
             Setters =

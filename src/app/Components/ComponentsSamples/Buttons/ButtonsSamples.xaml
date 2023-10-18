@@ -44,10 +44,10 @@
                             ImageSource="{dui:Icons bell_line}"
                             ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
-                <dui:Button Style="{dui:Styles Button=PrimaryRoundedSmall}"
+                <dui:Button Style="{dui:Styles Button=PrimaryIconButtonSmall}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
-                <dui:Button Style="{dui:Styles Button=PrimaryRoundedLarge}"
+                <dui:Button Style="{dui:Styles Button=PrimaryIconButtonLarge}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
@@ -81,11 +81,11 @@
                             ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
                 
-                <dui:Button Style="{dui:Styles Button=SecondaryRoundedSmall}"
+                <dui:Button Style="{dui:Styles Button=SecondaryIconButtonSmall}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
                 
-                <dui:Button Style="{dui:Styles Button=SecondaryRoundedLarge}"
+                <dui:Button Style="{dui:Styles Button=SecondaryIconButtonLarge}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
@@ -118,11 +118,11 @@
                             ImagePlacement="Right"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
                 
-                <dui:Button Style="{dui:Styles Button=GhostRoundedSmall}"
+                <dui:Button Style="{dui:Styles Button=GhostIconButtonSmall}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
                 
-                <dui:Button Style="{dui:Styles Button=GhostRoundedLarge}"
+                <dui:Button Style="{dui:Styles Button=GhostIconButtonLarge}"
                             ImageSource="{dui:Icons bell_line}"
                             IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
