@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.ListItems.Options;
+using DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;
 using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -120,6 +121,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
         {
             get => (Options.InLineContent.InLineContentOptions)GetValue(InLineContentOptionsProperty);
             set => SetValue(InLineContentOptionsProperty, value);
+        }
+
+        public ContextMenuOptions ContextMenuOptions
+        {
+            get => (ContextMenuOptions)GetValue(ContextMenuOptionsProperty);
+            set => SetValue(ContextMenuOptionsProperty, value);
         }
         
         /// <summary>
@@ -280,6 +287,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(ListItem),
             defaultValueCreator: CreateOptionsAndBind<DividersOptions>,
             propertyChanged: (bindable, _, newValue) => ((DividersOptions)newValue).Bind((ListItem)bindable));
+        
+        public static readonly BindableProperty ContextMenuOptionsProperty = BindableProperty.Create(
+            nameof(ContextMenuOptions),
+            typeof(ContextMenuOptions),
+            typeof(ListItem),
+            propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddContextMenu());
     
         private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : ListItemOptions, new()
         {

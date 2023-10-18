@@ -1,5 +1,5 @@
 ## [17.19.5]
-- [Android] Fixed an issue when setting context menu on ListItem
+- Added ContextMenuOptions on ListItem
 
 ## [17.19.4]
 - [iOS] Fixed another issue where Context menu would crash when in a CollectionView

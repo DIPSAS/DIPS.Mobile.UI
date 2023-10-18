@@ -51,14 +51,6 @@ public class ContextMenuEffect : RoutingEffect
             return;
         }
 
-        // A workaround for when setting context menu on a ListItem, both the Touch API and Context Menu must be set on the same Element
-        if (button is ListItem listItem)
-        {
-            SetMode(listItem.Border, GetMode(bindableObject));
-            SetMenu(listItem.Border, GetMenu(bindableObject));
-            return;
-        }
-
         var shouldHaveContextMenu = newValue != null;
         if (shouldHaveContextMenu)
         {
