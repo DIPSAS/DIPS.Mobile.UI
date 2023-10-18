@@ -8,5 +8,11 @@ public enum ButtonStyle
     SecondaryLarge = 3,
     SecondarySmall = 4,
     GhostLarge = 5,
-    GhostSmall = 6
+    GhostSmall = 6,
+    PrimaryRoundedSmall = 7,
+    PrimaryRoundedLarge = 8,
+    SecondaryRoundedSmall = 9,
+    SecondaryRoundedLarge = 10,
+    GhostRoundedSmall = 11,
+    GhostRoundedLarge = 12,
 }

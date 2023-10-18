@@ -43,7 +43,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
                 }
                 
                 Style.BasedOn = ButtonTypeStyle.Disabled;
-                ImageTintColor = Colors.GetColor(ColorName.color_system_black);
             }
         }
         
