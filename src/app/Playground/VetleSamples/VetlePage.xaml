@@ -26,8 +26,14 @@
                     Text="Test"
                     Command="{Binding CheckCommand}"
                     ImageSource="{dui:Icons bell_line}" />
+        
+        <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
+                    Text="Test"
+                    Command="{Binding Navigate}"
+                    ImageSource="{dui:Icons bell_line}" />
 
-        <dui:CollectionView ItemsSource="{Binding TestStrings}">
+        <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            ItemSpacing="5">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
                     <BoxView HeightRequest="50"
@@ -42,6 +48,7 @@
                                                      IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
 
                                 </dui:ContextMenuItem>
+                                
                                 
                                 <dui:ContextMenuItem 
                                                      Title="Test2"
