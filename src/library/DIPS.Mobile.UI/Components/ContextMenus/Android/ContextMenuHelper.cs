@@ -1,8 +1,11 @@
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus.Android;
 
@@ -85,17 +88,26 @@ internal static class ContextMenuHelper
         ContextMenuItem contextMenuItem, IMenuItem menuItem)
     {
         
-            var id = (string.IsNullOrEmpty(contextMenuItem.AndroidOptions.IconResourceName))
-                ? DUI.GetResourceId(GetIconName(contextMenuItem),"drawable")
-                : DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
-        
-            if (id != null) //Icon not set by consumer or icon not found
-            {
-                var icon = Platform.AppContext.GetDrawable((int)id);
-                menuItem.SetIcon(icon);
-                
-            }
+        var id = (string.IsNullOrEmpty(contextMenuItem.AndroidOptions.IconResourceName))
+            ? DUI.GetResourceId(GetIconName(contextMenuItem),"drawable")
+            : DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
+    
+        if (id != null) //Icon not set by consumer or icon not found
+        {
+            var icon = Platform.AppContext.GetDrawable((int)id);
+            menuItem.SetIcon(icon);
+            
+        }
 
+        if (contextMenuItem.IsDestructive)
+        {
+            var s = new SpannableString(contextMenuItem.Title);
+            s.SetSpan(new ForegroundColorSpan(Colors.GetColor(ColorName.color_obsolete_danger).ToPlatform()), 0, s.Length(), 0);
+            menuItem.SetTitle(s);
+            menuItem.SetIconTintList(Colors.GetColor(ColorName.color_obsolete_danger).ToDefaultColorStateList());
+        }
+
+        
         TrySetChecked(contextMenu, menuItem, contextMenuItem);
         if (groupIndex == 0) //Not in a group
         {

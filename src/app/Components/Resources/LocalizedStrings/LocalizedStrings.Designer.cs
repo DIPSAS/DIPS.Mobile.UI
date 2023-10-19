@@ -554,5 +554,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Buttons", resourceCulture);
             }
         }
+        
+        internal static string Context_Menu_LongPressWithDestructiveAction {
+            get {
+                return ResourceManager.GetString("Context_Menu_LongPressWithDestructiveAction", resourceCulture);
+            }
+        }
     }
 }

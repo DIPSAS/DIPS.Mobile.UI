@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.Components.ContextMenus;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
 
@@ -59,8 +61,19 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                     image = systemImage ?? image;
                 }
                 
+                if (contextMenuItem.IsDestructive)
+                {
+                    image = image?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                        .ApplyTintColor(UIColor.SystemRed);
+                }
+                
                 var uiAction = UIAction.Create(contextMenuItem.Title, image, null,
                     uiAction => OnMenuItemClick(uiAction, contextMenuItem, contextMenu, callBackWhenItemTapped));
+
+                if (contextMenuItem.IsDestructive)
+                {
+                    uiAction.Attributes = UIMenuElementAttributes.Destructive;
+                }
 
                 if (contextMenuItem.IsChecked)
                 {

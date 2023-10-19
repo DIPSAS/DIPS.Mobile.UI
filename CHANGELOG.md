@@ -1,3 +1,6 @@
+## [17.21.0]
+- Added 'IsDestructive' property on ContextMenuItem
+
 ## [17.20.3]
 - Added ContextMenuOptions on ListItem
 - [Android] Fixed an issue where setting both ContextMenu and Touch API, would disable ContextMenu

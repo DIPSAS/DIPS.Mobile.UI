@@ -62,15 +62,15 @@
                                 
                         <dui:ListItem.ContextMenu>
                                             <dui:ContextMenu>
-                                                <dui:ContextMenuItem Title="Test"
+                                                <dui:ContextMenuItem Title="Test12312312321321312321321321312321"
                                                                      IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
 
                                                 </dui:ContextMenuItem>
 
                                                 <dui:ContextMenuItem
-                                                    Title="Test2"
-                                                    Icon="{dui:Icons bell_fill}"
-                                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
+                                                    Title="Test12312312321321312321321321312321"
+                                                    IsDestructive="True"
+                                                    Icon="{dui:Icons bell_fill}" />
 
                                             </dui:ContextMenu>
                                             
