@@ -1,3 +1,7 @@
+## [17.22.0]
+- Added 'FormattedText' property on TitleOptions
+- Added 'IsDebugMode' and 'DebugOptions' property on ListItem
+
 ## [17.21.0]
 - Added 'IsDestructive' property on ContextMenuItem
 

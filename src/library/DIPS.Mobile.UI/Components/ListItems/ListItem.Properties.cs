@@ -5,7 +5,7 @@ using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;
 using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using DebuggingOptions = DIPS.Mobile.UI.Components.ListItems.Options.Debugging.DebuggingOptions;
 
 namespace DIPS.Mobile.UI.Components.ListItems
 {
@@ -58,12 +58,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
             get => (string)GetValue(SubtitleProperty);
             set => SetValue(SubtitleProperty, value);
         }
-    
+        
         /// <summary>
         /// The item to be placed in-line to the title and subtitle
         /// </summary>
         [TypeConverter(typeof(InLineContentTypeConverter))]
-        public IView InLineContent
+        public IView? InLineContent
         {
             get => (IView)GetValue(InLineContentProperty);
             set => SetValue(InLineContentProperty, value);
@@ -73,7 +73,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
         /// The item to be placed under <see cref="Title"/> <see cref="Subtitle"/> <see cref="Icon"/> and <see cref="InLineContent"/>
         /// </summary>
         [TypeConverter(typeof(UnderlyingContentTypeConverter))]
-        public IView UnderlyingContent
+        public IView? UnderlyingContent
         {
             get => (IView)GetValue(UnderlyingContentProperty);
             set => SetValue(UnderlyingContentProperty, value);
@@ -107,6 +107,15 @@ namespace DIPS.Mobile.UI.Components.ListItems
         }
 
         /// <summary>
+        /// Sets options for debugging purposes
+        /// </summary>
+        public DebuggingOptions DebuggingOptions
+        {
+            get => (DebuggingOptions)GetValue(DebuggingOptionsProperty);
+            set => SetValue(DebuggingOptionsProperty, value);
+        }
+
+        /// <summary>
         /// Sets the <see cref="Microsoft.Maui.CornerRadius"/> of the list item
         /// </summary>
         public CornerRadius CornerRadius
@@ -124,6 +133,9 @@ namespace DIPS.Mobile.UI.Components.ListItems
             set => SetValue(InLineContentOptionsProperty, value);
         }
 
+        /// <summary>
+        /// Configures the <see cref="ContextMenu"/>
+        /// </summary>
         public ContextMenuOptions ContextMenuOptions
         {
             get => (ContextMenuOptions)GetValue(ContextMenuOptionsProperty);
@@ -178,11 +190,28 @@ namespace DIPS.Mobile.UI.Components.ListItems
             set => SetValue(PaddingProperty, value);
         }
 
+        /// <summary>
+        /// Sets the Context Menu for the <see cref="ListItem"/>
+        /// </summary>
         public ContextMenu ContextMenu
         {
             get => (ContextMenu)GetValue(ContextMenuProperty);
             set => SetValue(ContextMenuProperty, value);
         }
+        
+        /// <summary>
+        /// Sets the <see cref="ListItem"/> in debug mode
+        /// </summary>
+        public bool IsDebugMode
+        {
+            get => (bool)GetValue(IsDebugModeProperty);
+            set => SetValue(IsDebugModeProperty, value);
+        }
+        
+        public static readonly BindableProperty IsDebugModeProperty = BindableProperty.Create(
+            nameof(IsDebugMode),
+            typeof(bool),
+            typeof(ListItem));
         
         public static readonly BindableProperty ContextMenuProperty = BindableProperty.Create(
             nameof(ContextMenu),
@@ -308,6 +337,13 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(ListItem),
             defaultValueCreator: CreateOptionsAndBind<ContextMenuOptions>,
             propertyChanged: (bindable, _, newValue) => ((ContextMenuOptions)newValue).Bind((ListItem)bindable));
+        
+        public static readonly BindableProperty DebuggingOptionsProperty = BindableProperty.Create(
+            nameof(DebuggingOptions),
+            typeof(DebuggingOptions),
+            typeof(ListItem),
+            defaultValueCreator: CreateOptionsAndBind<DebuggingOptions>,
+            propertyChanged: (bindable, _, newValue) => ((DebuggingOptions)newValue).Bind((ListItem)bindable));
     
         private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : ListItemOptions, new()
         {

@@ -16,6 +16,7 @@ public partial class TitleOptions : ListItemOptions
         listItem.TitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
         listItem.TitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
         listItem.TitleLabel.SetBinding(View.MarginProperty, new Binding(nameof(Margin), source: this));
+        listItem.TitleLabel.SetBinding(Label.FormattedTextProperty, new Binding(nameof(FormattedText), source: this));
         
         if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
         {
