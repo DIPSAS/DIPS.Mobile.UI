@@ -69,8 +69,8 @@
 
                                                 <dui:ContextMenuItem
                                                     Title="Test2"
-                                                    Icon="{dui:Icons bell_fill}"
-                                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
+                                                    IsDestructive="True"
+                                                    Icon="{dui:Icons bell_fill}" />
 
                                             </dui:ContextMenu>
                                             

@@ -61,6 +61,9 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                 
                 var uiAction = UIAction.Create(contextMenuItem.Title, image, null,
                     uiAction => OnMenuItemClick(uiAction, contextMenuItem, contextMenu, callBackWhenItemTapped));
+                
+                if(contextMenuItem.IsDestructive)
+                    uiAction.Attributes = UIMenuElementAttributes.Destructive;
 
                 if (contextMenuItem.IsChecked)
                 {

@@ -36,6 +36,21 @@ public partial class ContextMenuItem
         typeof(bool),
         typeof(ContextMenuItem),
         defaultValue: true);
+
+    public static readonly BindableProperty IsDestructiveProperty = BindableProperty.Create(
+        nameof(IsDestructive),
+        typeof(bool),
+        typeof(ContextMenuItem));
+
+    /// <summary>
+    /// Whether the menu item should be displayed as destructive, which means red text
+    /// </summary>
+    /// <remarks>Only works on iOS</remarks>
+    public bool IsDestructive
+    {
+        get => (bool)GetValue(IsDestructiveProperty);
+        set => SetValue(IsDestructiveProperty, value);
+    }
     
     /// <summary>
     /// The command to run when the item was clicked
