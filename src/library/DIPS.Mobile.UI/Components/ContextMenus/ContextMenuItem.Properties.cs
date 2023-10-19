@@ -97,10 +97,19 @@ public partial class ContextMenuItem
         set => SetValue(TitleProperty, value);
     }
 
+    public static readonly BindableProperty IsCheckableProperty = BindableProperty.Create(
+        nameof(IsCheckable),
+        typeof(bool),
+        typeof(ContextMenuItem));
+    
     /// <summary>
     /// Determines if the native check mark should be added to the item when its tapped
     /// </summary>
-    public bool IsCheckable { get; set; }
+    public bool IsCheckable
+    {
+        get => (bool)GetValue(IsCheckableProperty);
+        set => SetValue(IsCheckableProperty, value);
+    }
 
     /// <summary>
     /// Determines if the item should be checked when its opened
