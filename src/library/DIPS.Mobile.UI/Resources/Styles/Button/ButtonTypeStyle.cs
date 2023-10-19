@@ -94,7 +94,12 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 new Setter
                 {
                     Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                    Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
+                },
+                new Setter
+                {
+                    Property = DIPS.Mobile.UI.Components.Buttons.Button.ImageTintColorProperty,
+                    Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
                 },
                 new Setter
                 {
@@ -246,6 +251,184 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 }
             }
         };
-    
+        public static Style PrimaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Primary,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
+        
+        public static Style PrimaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Primary,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
+        
+        public static Style GhostIconButtonSmall => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Ghost,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
+        
+        public static Style GhostIconButtonLarge => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Ghost,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
+        
+        public static Style SecondaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Secondary,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_10)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
+        
+        public static Style SecondaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+        {
+            BasedOn = Secondary,
+            Setters =
+            {
+                new Setter()
+                {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_14)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                },
+                new Setter()
+                {
+                    Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                    Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        ? Sizes.Sizes.GetSize(SizeName.size_1)
+                        : Sizes.Sizes.GetSize(SizeName.size_2)
+                }
+            }
+        };
     }
 }

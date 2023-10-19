@@ -12,7 +12,20 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:ListItem BackgroundColor="Red"
-                  CornerRadius="8"
-                  Margin="5,0"/>
+    <!-- Create document -->
+    <VerticalStackLayout>
+        <dui:Switch x:Name="Switch" />
+        <FlexLayout Wrap="Wrap"
+                    AlignContent="Start"
+                    AlignItems="Start">
+            <!-- Create document -->
+            <dui:Button ImageSource="{dui:Icons alert_fill}"
+                        Text="test"
+                        Style="{dui:Styles Button=PrimaryIconButtonSmall}" />
+
+            <dui:Button ImageSource="{dui:Icons alert_fill}"
+                        Style="{dui:Styles Button=PrimaryIconButtonLarge}"
+                        IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        </FlexLayout>
+    </VerticalStackLayout>
 </dui:ContentPage>
