@@ -5,6 +5,7 @@
                      xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                      xmlns:contextMenu="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;assembly=DIPS.Mobile.UI"
+                     xmlns:debug="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Debug;assembly=DIPS.Mobile.UI"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                      BackgroundColor="White"
@@ -23,17 +24,22 @@
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:ListItem>
+        <dui:ListItem IsDebugMode="True"
+                      Title="hei"
+                      Icon="{dui:Icons arrow_down_thick_line_fill}">
             
-            <dui:ListItem.TitleOptions>
-                <dui:TitleOptions>
-                    <dui:TitleOptions.FormattedText>
-                        <FormattedString>
-                            <Span Text="Hei dette er emg" />
-                        </FormattedString>
-                    </dui:TitleOptions.FormattedText>
-                </dui:TitleOptions>
-            </dui:ListItem.TitleOptions>
+            <dui:ListItem.InLineContentOptions>
+                <dui:InLineContentOptions HorizontalOptions="Fill"
+                                          VerticalOptions="Fill"></dui:InLineContentOptions>
+            </dui:ListItem.InLineContentOptions>
+            
+            <dui:Label Text="hew" HorizontalOptions="Fill"></dui:Label>
+            
+            <dui:ListItem.UnderlyingContent>
+                <Label Text="hei"  />
+            </dui:ListItem.UnderlyingContent>
+            
+            
             
         </dui:ListItem>
 

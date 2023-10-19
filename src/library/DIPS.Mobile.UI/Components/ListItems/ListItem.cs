@@ -3,7 +3,6 @@ using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -36,7 +35,7 @@ public partial class ListItem : ContentView
             Sizes.GetSize(SizeName.size_3))
     };
 
-    private readonly Grid m_titleAndLabelGrid = new()
+    internal Grid TitleAndLabelGrid { get; } = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {
@@ -55,8 +54,8 @@ public partial class ListItem : ContentView
     internal Label TitleLabel { get; private set; } = new();
     internal Label? SubtitleLabel { get; private set; }
     
-    private IView m_oldInLineContent;
-    private IView m_oldUnderlyingContent;
+    private IView? m_oldInLineContent;
+    private IView? m_oldUnderlyingContent;
 
     public Divider? TopDivider;
     public Divider? BottomDivider;
@@ -75,10 +74,10 @@ public partial class ListItem : ContentView
 
         Border.Content = ContainerGrid;
 
-        ContainerGrid.Add(m_titleAndLabelGrid, 1);
+        ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootVerticalStackLayout.Add(Border);
         
-        m_titleAndLabelGrid.Add(TitleLabel);
+        TitleAndLabelGrid.Add(TitleLabel);
         
         this.Content = RootVerticalStackLayout;
     }
@@ -114,9 +113,9 @@ public partial class ListItem : ContentView
 
     private void AddTitle()
     {
-        if (m_titleAndLabelGrid.Contains(TitleLabel))
+        if (TitleAndLabelGrid.Contains(TitleLabel))
         {
-            m_titleAndLabelGrid.Remove(TitleLabel);
+            TitleAndLabelGrid.Remove(TitleLabel);
         }
         
         TitleLabel = new Label
@@ -126,16 +125,19 @@ public partial class ListItem : ContentView
         
         BindToOptions(TitleOptions);
 
-        m_titleAndLabelGrid.Insert(0, TitleLabel);
+        TitleAndLabelGrid.Insert(0, TitleLabel);
         
         UpdateTitleSubtitleLogic();
+        
+        if(IsDebugMode)
+            BindToOptions(DebugOptions);
     }
 
     private void AddSubtitle()
     {
-        if (m_titleAndLabelGrid.Contains(SubtitleLabel))
+        if (TitleAndLabelGrid.Contains(SubtitleLabel))
         {
-            m_titleAndLabelGrid.Remove(SubtitleLabel);
+            TitleAndLabelGrid.Remove(SubtitleLabel);
         }
 
         SubtitleLabel = new Label
@@ -145,9 +147,12 @@ public partial class ListItem : ContentView
         
         BindToOptions(SubtitleOptions);
 
-        m_titleAndLabelGrid.Add(SubtitleLabel, 0, 1);
+        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
         UpdateTitleSubtitleLogic();
+        
+        if(IsDebugMode)
+            BindToOptions(DebugOptions);
     }
 
     private void UpdateTitleSubtitleLogic()
@@ -155,12 +160,12 @@ public partial class ListItem : ContentView
         if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Subtitle))
         {
             TitleOptions.VerticalTextAlignment = TextAlignment.End;
-            m_titleAndLabelGrid.SetRowSpan(TitleLabel, 1);
+            TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
         }
         else if (!string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Subtitle))
         {
             TitleOptions.VerticalTextAlignment = TextAlignment.Center;
-            m_titleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+            TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
         }
     }
     
@@ -179,6 +184,9 @@ public partial class ListItem : ContentView
         BindToOptions(IconOptions);
         
         ContainerGrid.Add(ImageIcon, 0);
+        
+        if(IsDebugMode)
+            BindToOptions(DebugOptions);
     }
 
     protected virtual void AddInLineContent()
@@ -186,7 +194,7 @@ public partial class ListItem : ContentView
         SetInLineContent(InLineContent);
     }
 
-    protected void SetInLineContent(IView view)
+    protected void SetInLineContent(IView? view)
     {
         if(ContainerGrid.Contains(m_oldInLineContent))
         {
@@ -198,6 +206,9 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(view, ContainerGrid.ColumnDefinitions.Count - 1);
 
         m_oldInLineContent = view;
+        
+        if(IsDebugMode)
+            BindToOptions(DebugOptions);
     }
 
     private void AddUnderlyingContent()
@@ -215,6 +226,9 @@ public partial class ListItem : ContentView
         ContainerGrid.SetColumnSpan(UnderlyingContent, ContainerGrid.ColumnDefinitions.Count);
         
         m_oldUnderlyingContent = UnderlyingContent;
+        
+        if(IsDebugMode)
+            BindToOptions(DebugOptions);
     }
 
     private void SetCornerRadius()
