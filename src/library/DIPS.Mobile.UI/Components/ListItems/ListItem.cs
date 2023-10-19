@@ -130,7 +130,7 @@ public partial class ListItem : ContentView
         UpdateTitleSubtitleLogic();
         
         if(IsDebugMode)
-            BindToOptions(DebugOptions);
+            BindToOptions(DebuggingOptions);
     }
 
     private void AddSubtitle()
@@ -152,7 +152,7 @@ public partial class ListItem : ContentView
         UpdateTitleSubtitleLogic();
         
         if(IsDebugMode)
-            BindToOptions(DebugOptions);
+            BindToOptions(DebuggingOptions);
     }
 
     private void UpdateTitleSubtitleLogic()
@@ -186,7 +186,7 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(ImageIcon, 0);
         
         if(IsDebugMode)
-            BindToOptions(DebugOptions);
+            BindToOptions(DebuggingOptions);
     }
 
     protected virtual void AddInLineContent()
@@ -208,7 +208,7 @@ public partial class ListItem : ContentView
         m_oldInLineContent = view;
         
         if(IsDebugMode)
-            BindToOptions(DebugOptions);
+            BindToOptions(DebuggingOptions);
     }
 
     private void AddUnderlyingContent()
@@ -228,7 +228,7 @@ public partial class ListItem : ContentView
         m_oldUnderlyingContent = UnderlyingContent;
         
         if(IsDebugMode)
-            BindToOptions(DebugOptions);
+            BindToOptions(DebuggingOptions);
     }
 
     private void SetCornerRadius()

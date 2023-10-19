@@ -3,10 +3,9 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;
-using DIPS.Mobile.UI.Components.ListItems.Options.Debug;
 using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using DebuggingOptions = DIPS.Mobile.UI.Components.ListItems.Options.Debugging.DebuggingOptions;
 
 namespace DIPS.Mobile.UI.Components.ListItems
 {
@@ -110,10 +109,10 @@ namespace DIPS.Mobile.UI.Components.ListItems
         /// <summary>
         /// Sets options for debugging purposes
         /// </summary>
-        public DebugOptions DebugOptions
+        public DebuggingOptions DebuggingOptions
         {
-            get => (DebugOptions)GetValue(DebugOptionsProperty);
-            set => SetValue(DebugOptionsProperty, value);
+            get => (DebuggingOptions)GetValue(DebuggingOptionsProperty);
+            set => SetValue(DebuggingOptionsProperty, value);
         }
 
         /// <summary>
@@ -339,12 +338,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
             defaultValueCreator: CreateOptionsAndBind<ContextMenuOptions>,
             propertyChanged: (bindable, _, newValue) => ((ContextMenuOptions)newValue).Bind((ListItem)bindable));
         
-        public static readonly BindableProperty DebugOptionsProperty = BindableProperty.Create(
-            nameof(DebugOptions),
-            typeof(DebugOptions),
+        public static readonly BindableProperty DebuggingOptionsProperty = BindableProperty.Create(
+            nameof(DebuggingOptions),
+            typeof(DebuggingOptions),
             typeof(ListItem),
-            defaultValueCreator: CreateOptionsAndBind<DebugOptions>,
-            propertyChanged: (bindable, _, newValue) => ((DebugOptions)newValue).Bind((ListItem)bindable));
+            defaultValueCreator: CreateOptionsAndBind<DebuggingOptions>,
+            propertyChanged: (bindable, _, newValue) => ((DebuggingOptions)newValue).Bind((ListItem)bindable));
     
         private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : ListItemOptions, new()
         {
