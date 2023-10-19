@@ -1,3 +1,7 @@
+## [17.22.1]
+- [RefreshView] Removed work around for RefreshView for .NET 7 which causes a glitch for iOS CollectionView in .NET 8.
+- [ContextMenuItem] Made sure Item is a bindable property.
+
 ## [17.22.0]
 - Added 'FormattedText' property on TitleOptions
 - Added 'IsDebugMode' and 'DebugOptions' property on ListItem

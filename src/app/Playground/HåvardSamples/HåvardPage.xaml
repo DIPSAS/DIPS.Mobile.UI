@@ -13,19 +13,12 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <!-- Create document -->
-    <VerticalStackLayout>
-        <dui:Switch x:Name="Switch" />
-        <FlexLayout Wrap="Wrap"
-                    AlignContent="Start"
-                    AlignItems="Start">
-            <!-- Create document -->
-            <dui:Button ImageSource="{dui:Icons alert_fill}"
-                        Text="test"
-                        Style="{dui:Styles Button=PrimaryIconButtonSmall}" />
-
-            <dui:Button ImageSource="{dui:Icons alert_fill}"
-                        Style="{dui:Styles Button=PrimaryIconButtonLarge}"
-                        IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
-        </FlexLayout>
-    </VerticalStackLayout>
+    <dui:ListItem Title="Test">
+        <dui:ListItem.ContextMenu>
+            <dui:ContextMenu>
+                <dui:ContextMenuItem
+                    Title="{Binding Items.Count, Converter={dui:IsEmptyToObjectConverter TrueObject='True', FalseObject='False'}}" />
+            </dui:ContextMenu>
+        </dui:ListItem.ContextMenu>
+    </dui:ListItem>
 </dui:ContentPage>
