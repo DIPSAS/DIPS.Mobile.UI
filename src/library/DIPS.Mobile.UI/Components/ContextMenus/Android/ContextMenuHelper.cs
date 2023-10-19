@@ -104,6 +104,7 @@ internal static class ContextMenuHelper
             var s = new SpannableString(contextMenuItem.Title);
             s.SetSpan(new ForegroundColorSpan(Colors.GetColor(ColorName.color_obsolete_danger).ToPlatform()), 0, s.Length(), 0);
             menuItem.SetTitle(s);
+            menuItem.SetIconTintList(Colors.GetColor(ColorName.color_obsolete_danger).ToDefaultColorStateList());
         }
 
         

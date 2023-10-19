@@ -64,7 +64,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                 if (contextMenuItem.IsDestructive)
                 {
                     image = image?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-                        .ApplyTintColor(UIColor.Red);
+                        .ApplyTintColor(UIColor.SystemRed);
                 }
                 
                 var uiAction = UIAction.Create(contextMenuItem.Title, image, null,
