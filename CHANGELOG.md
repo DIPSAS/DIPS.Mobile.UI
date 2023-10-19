@@ -1,3 +1,6 @@
+## [17.22.0]
+- Added 'FormattedText' property on TitleOptions
+
 ## [17.21.0]
 - Added 'IsDestructive' property on ContextMenuItem
 

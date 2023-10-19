@@ -52,7 +52,7 @@ public partial class ListItem : ContentView
     
     internal Border Border { get; } = new();
     internal Image? ImageIcon { get; private set; }
-    internal Label? TitleLabel { get; private set; }
+    internal Label TitleLabel { get; private set; } = new();
     internal Label? SubtitleLabel { get; private set; }
     
     private IView m_oldInLineContent;
@@ -77,6 +77,8 @@ public partial class ListItem : ContentView
 
         ContainerGrid.Add(m_titleAndLabelGrid, 1);
         RootVerticalStackLayout.Add(Border);
+        
+        m_titleAndLabelGrid.Add(TitleLabel);
         
         this.Content = RootVerticalStackLayout;
     }

@@ -57,27 +57,38 @@ public partial class TitleOptions
         set => SetValue(MarginProperty, value);
     }
 
-    public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
-        nameof(MaxLines),
-        typeof(int),
-        typeof(TitleOptions), defaultValue: Label.MaxLinesProperty.DefaultValue);
-
     public int MaxLines
     {
         get => (int)GetValue(MaxLinesProperty);
         set => SetValue(MaxLinesProperty, value);
     }
 
-    public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
-        nameof(LineBreakMode),
-        typeof(LineBreakMode),
-        typeof(TitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
-
     public LineBreakMode LineBreakMode
     {
         get => (LineBreakMode)GetValue(LineBreakModeProperty);
         set => SetValue(LineBreakModeProperty, value);
     }
+
+    public FormattedString FormattedText
+    {
+        get => (FormattedString)GetValue(FormattedTextProperty);
+        set => SetValue(FormattedTextProperty, value);
+    }
+    
+    public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
+        nameof(FormattedText),
+        typeof(FormattedString),
+        typeof(TitleOptions));
+    
+    public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
+        nameof(MaxLines),
+        typeof(int),
+        typeof(TitleOptions), defaultValue: Label.MaxLinesProperty.DefaultValue);
+    
+    public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
+        nameof(LineBreakMode),
+        typeof(LineBreakMode),
+        typeof(TitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
     
     public static readonly BindableProperty MarginProperty = BindableProperty.Create(
         nameof(Margin),

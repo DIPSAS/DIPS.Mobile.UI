@@ -23,67 +23,19 @@
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                            ItemSpacing="5">
-            <dui:CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <!--<ContentView HeightRequest="50"
-                                 WidthRequest="50"
-                                 BackgroundColor="Red"
-                                 dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CheckCommand}"
-                                 dui:ContextMenuEffect.Mode="Pressed">
-                        
-                        <dui:ContextMenuEffect.Menu>
-                            <dui:ContextMenu>
-                                <dui:ContextMenuItem Title="Test"
-                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
-
-                                </dui:ContextMenuItem>
-
-                                <dui:ContextMenuItem
-                                    Title="Test2"
-                                    Icon="{dui:Icons bell_fill}"
-                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
-
-                            </dui:ContextMenu>
-                        </dui:ContextMenuEffect.Menu>
-                        
-                    </ContentView>-->
-                    <dui:ListItem Title="Test" Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}"
-                                 
-                                  
-                                  
-                                  
-                    >
-                        
-                        <dui:ListItem.ContextMenuOptions>
-                            <dui:ContextMenuOptions Mode="LongPressed" />
-                        </dui:ListItem.ContextMenuOptions>
-                                
-                        <dui:ListItem.ContextMenu>
-                                            <dui:ContextMenu>
-                                                <dui:ContextMenuItem Title="Test12312312321321312321321321312321"
-                                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
-
-                                                </dui:ContextMenuItem>
-
-                                                <dui:ContextMenuItem
-                                                    Title="Test12312312321321312321321321312321"
-                                                    IsDestructive="True"
-                                                    Icon="{dui:Icons bell_fill}" />
-
-                                            </dui:ContextMenu>
-                                            
-                                    </dui:ListItem.ContextMenu>
-                                    
-
-                                
-                            </dui:ListItem>
-
-                </DataTemplate>
-            </dui:CollectionView.ItemTemplate>
-
-        </dui:CollectionView>
+        <dui:ListItem>
+            
+            <dui:ListItem.TitleOptions>
+                <dui:TitleOptions>
+                    <dui:TitleOptions.FormattedText>
+                        <FormattedString>
+                            <Span Text="Hei dette er emg" />
+                        </FormattedString>
+                    </dui:TitleOptions.FormattedText>
+                </dui:TitleOptions>
+            </dui:ListItem.TitleOptions>
+            
+        </dui:ListItem>
 
 
     </dui:VerticalStackLayout>
