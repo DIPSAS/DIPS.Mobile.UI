@@ -54,7 +54,7 @@ public partial class ListItem : ContentView
     internal Label TitleLabel { get; private set; } = new();
     internal Label? SubtitleLabel { get; private set; }
     
-    private IView? m_oldInLineContent;
+    private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
 
     public Divider? TopDivider;
@@ -191,10 +191,10 @@ public partial class ListItem : ContentView
 
     protected virtual void AddInLineContent()
     {
-        SetInLineContent(InLineContent);
+        SetInLineContent(InLineContent!);
     }
 
-    protected void SetInLineContent(IView? view)
+    protected void SetInLineContent(IView view)
     {
         if(ContainerGrid.Contains(m_oldInLineContent))
         {

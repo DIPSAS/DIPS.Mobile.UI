@@ -36,7 +36,7 @@ public partial class LoadableListItem : ListItem
         VerticalOptions = LayoutOptions.Center
     };
 
-    private Grid? ContentGrid { get; } = new()
+    private Grid ContentGrid { get; } = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection
         {

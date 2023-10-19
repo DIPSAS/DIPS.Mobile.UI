@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 [ContentProperty(nameof(InLineContent))]
 public partial class NavigationListItem : ListItem
 {
-    private readonly Grid? m_contentGrid = new()
+    private readonly Grid m_contentGrid = new()
     {
         ColumnDefinitions = new ColumnDefinitionCollection {new(GridLength.Star), new(GridLength.Auto)},
         RowDefinitions = new RowDefinitionCollection {new(GridLength.Auto)},
