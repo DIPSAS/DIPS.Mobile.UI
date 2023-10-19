@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ListItems.Options;
+using DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;
 using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -121,6 +123,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
             get => (Options.InLineContent.InLineContentOptions)GetValue(InLineContentOptionsProperty);
             set => SetValue(InLineContentOptionsProperty, value);
         }
+
+        public ContextMenuOptions ContextMenuOptions
+        {
+            get => (ContextMenuOptions)GetValue(ContextMenuOptionsProperty);
+            set => SetValue(ContextMenuOptionsProperty, value);
+        }
         
         /// <summary>
         /// Configures the top and bottom divider of the <see cref="ListItem"/>
@@ -170,6 +178,18 @@ namespace DIPS.Mobile.UI.Components.ListItems
             set => SetValue(PaddingProperty, value);
         }
 
+        public ContextMenu ContextMenu
+        {
+            get => (ContextMenu)GetValue(ContextMenuProperty);
+            set => SetValue(ContextMenuProperty, value);
+        }
+        
+        public static readonly BindableProperty ContextMenuProperty = BindableProperty.Create(
+            nameof(ContextMenu),
+            typeof(ContextMenu),
+            typeof(ListItem),
+            propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddContextMenu());
+        
         public new static readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
             typeof(Thickness),
@@ -207,6 +227,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
             nameof(Command),
             typeof(ICommand),
             typeof(ListItem),
+            defaultValue:null,
             propertyChanged: (bindable, _, _) => ((ListItem)bindable).SetTouchIsEnabled());
     
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
@@ -280,6 +301,13 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(ListItem),
             defaultValueCreator: CreateOptionsAndBind<DividersOptions>,
             propertyChanged: (bindable, _, newValue) => ((DividersOptions)newValue).Bind((ListItem)bindable));
+        
+        public static readonly BindableProperty ContextMenuOptionsProperty = BindableProperty.Create(
+            nameof(ContextMenuOptions),
+            typeof(ContextMenuOptions),
+            typeof(ListItem),
+            defaultValueCreator: CreateOptionsAndBind<ContextMenuOptions>,
+            propertyChanged: (bindable, _, newValue) => ((ContextMenuOptions)newValue).Bind((ListItem)bindable));
     
         private static T CreateOptionsAndBind<T>(BindableObject bindable) where T : ListItemOptions, new()
         {

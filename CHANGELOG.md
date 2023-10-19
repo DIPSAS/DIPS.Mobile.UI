@@ -1,3 +1,7 @@
+## [17.20.3]
+- Added ContextMenuOptions on ListItem
+- [Android] Fixed an issue where setting both ContextMenu and Touch API, would disable ContextMenu
+
 ## [17.20.2]
 - [Button] Renamed Rounded styles to IconButton
 

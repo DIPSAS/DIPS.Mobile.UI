@@ -14,10 +14,10 @@ public partial class FloatingNavigationButtonHandler
         if (floatingNavigationButton.IsClickable)
         {
             aView.Clickable = true;
-            aView.SetOnClickListener(new Effects.Touch.TouchPlatformEffect.ClickListener(() =>
+            aView.Click += (_, _) =>
             {
                 _ = fab.Close();
-            }));    
+            };    
         }
         else
         {

@@ -4,6 +4,7 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                      xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                     xmlns:contextMenu="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.ContextMenu;assembly=DIPS.Mobile.UI"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                      BackgroundColor="White"
@@ -22,43 +23,63 @@
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
-                    Text="Test"
-                    Command="{Binding CheckCommand}"
-                    ImageSource="{dui:Icons bell_line}" />
-        
-        <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
-                    Text="Test"
-                    Command="{Binding Navigate}"
-                    ImageSource="{dui:Icons bell_line}" />
-
         <dui:CollectionView ItemsSource="{Binding TestStrings}"
                             ItemSpacing="5">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <BoxView HeightRequest="50"
-                             WidthRequest="50"
-                             BackgroundColor="Red"
-                             dui:ContextMenuEffect.Mode="LongPressed">
-
+                    <!--<ContentView HeightRequest="50"
+                                 WidthRequest="50"
+                                 BackgroundColor="Red"
+                                 dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CheckCommand}"
+                                 dui:ContextMenuEffect.Mode="Pressed">
+                        
                         <dui:ContextMenuEffect.Menu>
-
                             <dui:ContextMenu>
                                 <dui:ContextMenuItem Title="Test"
                                                      IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
 
                                 </dui:ContextMenuItem>
-                                
-                                
-                                <dui:ContextMenuItem 
-                                                     Title="Test2"
-                                                     Icon="{dui:Icons bell_fill}"
-                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}"/>
+
+                                <dui:ContextMenuItem
+                                    Title="Test2"
+                                    Icon="{dui:Icons bell_fill}"
+                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
 
                             </dui:ContextMenu>
-
                         </dui:ContextMenuEffect.Menu>
-                    </BoxView>
+                        
+                    </ContentView>-->
+                    <dui:ListItem Title="Test" Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}"
+                                 
+                                  
+                                  
+                                  
+                    >
+                        
+                        <dui:ListItem.ContextMenuOptions>
+                            <dui:ContextMenuOptions Mode="LongPressed" />
+                        </dui:ListItem.ContextMenuOptions>
+                                
+                        <dui:ListItem.ContextMenu>
+                                            <dui:ContextMenu>
+                                                <dui:ContextMenuItem Title="Test"
+                                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
+
+                                                </dui:ContextMenuItem>
+
+                                                <dui:ContextMenuItem
+                                                    Title="Test2"
+                                                    Icon="{dui:Icons bell_fill}"
+                                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
+
+                                            </dui:ContextMenu>
+                                            
+                                    </dui:ListItem.ContextMenu>
+                                    
+
+                                
+                            </dui:ListItem>
+
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
 

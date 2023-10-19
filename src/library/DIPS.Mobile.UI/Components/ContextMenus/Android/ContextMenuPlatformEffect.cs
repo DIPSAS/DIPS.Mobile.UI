@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
+using DIPS.Mobile.UI.Effects.Touch;
 using Application = Android.App.Application;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
@@ -16,13 +17,14 @@ public partial class ContextMenuPlatformEffect
     
 #nullable disable
     private ContextMenuHandler m_contextMenuBehaviour;
+    private ContextMenuEffect.ContextMenuMode m_mode;
 #nullable restore
 
     protected override partial void OnAttached()
     {
         m_contextMenu = ContextMenuEffect.GetMenu(Element);
 
-        var mode = ContextMenuEffect.GetMode(Element);
+        m_mode = ContextMenuEffect.GetMode(Element);
 
         if (m_contextMenu == null)
         {
@@ -33,7 +35,7 @@ public partial class ContextMenuPlatformEffect
 
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 
-        if (mode == ContextMenuEffect.ContextMenuMode.Pressed)
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             Control.Clickable = true;
             Control.Click += m_contextMenuBehaviour.OpenContextMenu;
@@ -175,7 +177,19 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnDetached()
     {
-        Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
+        {
+            Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnClickListeners)
+                Control.Clickable = false;
+        }
+        else
+        {
+            Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnLongClickListeners)
+                Control.Clickable = false;
+        }
+        
         Platform.CurrentActivity!.UnregisterActivityLifecycleCallbacks(m_contextMenuBehaviour);
     }
 }

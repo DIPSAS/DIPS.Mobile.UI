@@ -17,6 +17,9 @@ public partial class TouchPlatformEffect
     private Touch.TouchMode m_touchMode;
     private bool m_isEnabled;
 
+    private bool m_changedBackground;
+    private Drawable? m_defaultBackground;
+
     protected override partial void OnAttached()
     {
         m_isEnabled = Touch.GetIsEnabled(Element);
@@ -27,17 +30,17 @@ public partial class TouchPlatformEffect
         }
         
         m_touchMode = Touch.GetTouchMode(Element);
-            
+        
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
-            Control.SetOnClickListener(new ClickListener(OnClick));
+            Control.Click += OnClick;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             Control.LongClickable = true;
-            Control.SetOnLongClickListener(new LongClickListener(OnLongClick));
+            Control.LongClick += OnLongClick;
         }
         
         var contentDescription = Touch.GetAccessibilityContentDescription(Element);
@@ -49,9 +52,16 @@ public partial class TouchPlatformEffect
         var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
 
         if (Control.Background is null)
+        {
+            m_changedBackground = true;
+            m_defaultBackground = Control.Background;
             Control.Background = ripple;
+        }
         else
+        {
+            m_defaultBackground = Control.Foreground;
             Control.Foreground = ripple;
+        }
         
         if (string.IsNullOrEmpty(contentDescription))
         {
@@ -63,62 +73,42 @@ public partial class TouchPlatformEffect
         }
     }
 
-    private void OnLongClick()
+    private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
     {
         Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
     }
     
-    private void OnClick()
+    private void OnClick(object? sender, EventArgs eventArgs)
     {
         Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
-    }
-
-    internal class ClickListener : Java.Lang.Object, View.IOnClickListener
-    {
-        private readonly Action m_action;
-
-        public ClickListener(Action action)
-        {
-            m_action = action;
-        }
-        
-        public void OnClick(View? v)
-        {
-            m_action.Invoke();
-        }
-    }
-
-    internal class LongClickListener : Java.Lang.Object, View.IOnLongClickListener
-    {
-        private readonly Action m_action;
-
-        public LongClickListener(Action action)
-        {
-            m_action = action;
-        }
-        
-        public bool OnLongClick(View? v)
-        {
-            m_action.Invoke();
-            return true;
-        }
     }
 
     protected override partial void OnDetached()
     {
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
-            Control.SetOnClickListener(null);
-            Control.Clickable = false;
+            Control.Click -= OnClick;
+            if(!Control.HasOnClickListeners)
+                Control.Clickable = false;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
-            Control.SetOnLongClickListener(null);
-            Control.LongClickable = false;
+            Control.LongClick -= OnLongClick;
+            if(!Control.HasOnLongClickListeners)
+                Control.LongClickable = false;
         }
         
         Control.ContentDescription = null;
+
+        if (m_changedBackground)
+        {
+            Control.Background = m_defaultBackground;
+        }
+        else
+        {
+            Control.Foreground = m_defaultBackground;
+        }
     }
     
 }
