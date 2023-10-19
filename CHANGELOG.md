@@ -1,4 +1,4 @@
-## [17.20.4]
+## [17.21.0]
 - Added 'IsDestructive' property on ContextMenuItem
 
 ## [17.20.3]
