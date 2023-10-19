@@ -30,38 +30,55 @@
                     <!--<ContentView HeightRequest="50"
                                  WidthRequest="50"
                                  BackgroundColor="Red"
-                                 dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=CancelCommand}"
-                                 dui:Touch.LongPressCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=Navigate}">
+                                 dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CheckCommand}"
+                                 dui:ContextMenuEffect.Mode="Pressed">
+                        
+                        <dui:ContextMenuEffect.Menu>
+                            <dui:ContextMenu>
+                                <dui:ContextMenuItem Title="Test"
+                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
+
+                                </dui:ContextMenuItem>
+
+                                <dui:ContextMenuItem
+                                    Title="Test2"
+                                    Icon="{dui:Icons bell_fill}"
+                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
+
+                            </dui:ContextMenu>
+                        </dui:ContextMenuEffect.Menu>
                         
                     </ContentView>-->
-                    <dui:NavigationListItem Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}"
-                                                    Title="Test"
-                                                    >
+                    <dui:ListItem Title="Test" Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}"
+                                 
+                                  
+                                  
+                                  
+                    >
+                        
+                        <dui:ListItem.ContextMenuOptions>
+                            <dui:ContextMenuOptions Mode="LongPressed" />
+                        </dui:ListItem.ContextMenuOptions>
                                 
-                                    <dui:NavigationListItem.ContextMenuOptions>
-                                        <dui:ContextMenuOptions Mode="LongPressed">
+                        <dui:ListItem.ContextMenu>
+                                            <dui:ContextMenu>
+                                                <dui:ContextMenuItem Title="Test"
+                                                                     IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
+
+                                                </dui:ContextMenuItem>
+
+                                                <dui:ContextMenuItem
+                                                    Title="Test2"
+                                                    Icon="{dui:Icons bell_fill}"
+                                                    IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
+
+                                            </dui:ContextMenu>
                                             
-                                            <dui:ContextMenuOptions.Menu>
-                                                <dui:ContextMenu>
-                                                    <dui:ContextMenuItem Title="Test"
-                                                                         IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked}">
-
-                                                    </dui:ContextMenuItem>
-
-                                                    <dui:ContextMenuItem
-                                                        Title="Test2"
-                                                        Icon="{dui:Icons bell_fill}"
-                                                        IsVisible="{Binding Source={x:Reference This}, Path=BindingContext.IsChecked, Converter={dui:InvertedBoolConverter}}" />
-
-                                                </dui:ContextMenu>
-                                            </dui:ContextMenuOptions.Menu>
-                                            
-                                        </dui:ContextMenuOptions>
-                                    </dui:NavigationListItem.ContextMenuOptions>
+                                    </dui:ListItem.ContextMenu>
                                     
 
                                 
-                            </dui:NavigationListItem>
+                            </dui:ListItem>
 
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>

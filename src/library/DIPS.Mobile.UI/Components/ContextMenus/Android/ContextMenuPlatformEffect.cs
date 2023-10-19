@@ -17,13 +17,14 @@ public partial class ContextMenuPlatformEffect
     
 #nullable disable
     private ContextMenuHandler m_contextMenuBehaviour;
+    private ContextMenuEffect.ContextMenuMode m_mode;
 #nullable restore
 
     protected override partial void OnAttached()
     {
         m_contextMenu = ContextMenuEffect.GetMenu(Element);
 
-        var mode = ContextMenuEffect.GetMode(Element);
+        m_mode = ContextMenuEffect.GetMode(Element);
 
         if (m_contextMenu == null)
         {
@@ -34,15 +35,15 @@ public partial class ContextMenuPlatformEffect
 
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 
-        if (mode == ContextMenuEffect.ContextMenuMode.Pressed)
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             Control.Clickable = true;
-            Control.SetOnClickListener(new TouchPlatformEffect.ClickListener(m_contextMenuBehaviour.OpenContextMenu));
+            Control.Click += m_contextMenuBehaviour.OpenContextMenu;
         }
         else
         {
             Control.LongClickable = true;
-            Control.SetOnLongClickListener(new TouchPlatformEffect.LongClickListener(m_contextMenuBehaviour.OpenContextMenu));
+            Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
         }
     }
 
@@ -62,7 +63,7 @@ public partial class ContextMenuPlatformEffect
             Platform.CurrentActivity!.RegisterActivityLifecycleCallbacks(this);
         }
         
-        public void OpenContextMenu()
+        public void OpenContextMenu(object? sender, EventArgs e)
         {
             m_popupMenu = new PopupMenu(Platform.CurrentActivity, m_control);
             
@@ -176,8 +177,19 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnDetached()
     {
-        Control.SetOnClickListener(null);
-        Control.SetOnLongClickListener(null);
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
+        {
+            Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnClickListeners)
+                Control.Clickable = false;
+        }
+        else
+        {
+            Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnLongClickListeners)
+                Control.Clickable = false;
+        }
+        
         Platform.CurrentActivity!.UnregisterActivityLifecycleCallbacks(m_contextMenuBehaviour);
     }
 }

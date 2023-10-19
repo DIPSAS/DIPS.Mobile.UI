@@ -1,5 +1,6 @@
 ## [17.19.5]
 - Added ContextMenuOptions on ListItem
+- [Android] Fixed an issue where setting both ContextMenu and Touch API, would disable ContextMenu
 
 ## [17.19.4]
 - [iOS] Fixed another issue where Context menu would crash when in a CollectionView

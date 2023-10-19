@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
@@ -259,6 +260,7 @@ public partial class ListItem : ContentView
 
     private void AddContextMenu()
     {
+        ContextMenuEffect.SetMenu(Border, ContextMenu);
         BindToOptions(ContextMenuOptions);
     }
 }

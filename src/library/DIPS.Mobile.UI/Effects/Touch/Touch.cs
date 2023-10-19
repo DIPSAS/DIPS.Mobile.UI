@@ -88,24 +88,23 @@ public partial class Touch : RoutingEffect
         if (bindable is not View view)
             return;
         
-        if (newValue is ICommand or bool and true)
+        if (newValue is ICommand or true)
         {
             // Refresh
-            RemoveEffect(view);
+            RemoveEffects(view);
             view.Effects.Add(new Touch());
         }
         else
         {
-            RemoveEffect(view);
+            RemoveEffects(view);
         }
     }
 
-    private static void RemoveEffect(View view)
+    private static void RemoveEffects(View view)
     {
-        var toRemove = view.Effects.FirstOrDefault(e => e is Touch);
-        if (toRemove != null)
+        while (view.Effects.Any(e => e is Touch))
         {
-            view.Effects.Remove(toRemove);
+            view.Effects.Remove(view.Effects.FirstOrDefault(e => e is Touch));
         }
     }
 
