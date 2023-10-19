@@ -82,11 +82,20 @@ public partial class ContextMenuItem
     /// The clicked event when the item was clicked
     /// </summary>
     public event EventHandler? DidClick;
+
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+        nameof(Title),
+        typeof(string),
+        typeof(ContextMenuItem));
     
     /// <summary>
     /// The title of the context menu item
     /// </summary>
-    public string? Title { get; set; }
+    public string? Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
 
     /// <summary>
     /// Determines if the native check mark should be added to the item when its tapped
