@@ -43,9 +43,8 @@ public partial class ContextMenuItem
         typeof(ContextMenuItem));
 
     /// <summary>
-    /// Whether the menu item should be displayed as destructive, which means red text
+    /// Whether the menu item should be displayed as destructive, which means red text and icon
     /// </summary>
-    /// <remarks>Only works on iOS</remarks>
     public bool IsDestructive
     {
         get => (bool)GetValue(IsDestructiveProperty);
