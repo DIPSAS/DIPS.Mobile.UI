@@ -7,7 +7,7 @@ public partial class RadioButtonListItem
     public static readonly BindableProperty HasHapticsProperty = BindableProperty.Create(
         nameof(HasHaptics),
         typeof(bool),
-        typeof(CheckmarkListItem), defaultValue:true);
+        typeof(RadioButtonListItem), defaultValue:true);
 
     /// <summary>
     /// Determines if the phone should stimulate the sense of touch and motion by the use of vibration when people tap the radio button.

@@ -23,6 +23,8 @@ public partial class CheckmarkListItem : ListItem, ISelectable
             }
             
             IsSelected = !IsSelected;
+            
+            SelectedCommand?.Execute(SelectedCommandParameter);
         });
         m_iconOptions = new IconOptions();
         IconOptions = m_iconOptions;
@@ -47,7 +49,7 @@ public partial class CheckmarkListItem : ListItem, ISelectable
         m_iconOptions.Color = IsSelected ? ISelectable.s_tintColor : Colors.Transparent;
 #endif
         
-        SelectedCommand?.Execute(SelectedCommandParameter);
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }
+    
 }
