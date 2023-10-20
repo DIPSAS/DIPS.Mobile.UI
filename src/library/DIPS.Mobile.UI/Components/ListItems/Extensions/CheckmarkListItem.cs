@@ -25,7 +25,6 @@ public partial class CheckmarkListItem : ListItem, ISelectable
             IsSelected = !IsSelected;
             
             SelectedCommand?.Execute(SelectedCommandParameter);
-            SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
         });
         m_iconOptions = new IconOptions();
         IconOptions = m_iconOptions;
@@ -49,6 +48,8 @@ public partial class CheckmarkListItem : ListItem, ISelectable
 #elif __IOS__
         m_iconOptions.Color = IsSelected ? ISelectable.s_tintColor : Colors.Transparent;
 #endif
+        
+        SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }
     
 }
