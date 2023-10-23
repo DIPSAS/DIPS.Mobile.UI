@@ -13,14 +13,13 @@
     </dui:ContentPage.BindingContext>
     
     <dui:ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" />
+        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
         <ToolbarItem Text="Test" />
         <ToolbarItem IconImageSource="{dui:Icons beaker_zoom_fill}" />
 
     </dui:ContentPage.ToolbarItems>
     
     <dui:VerticalStackLayout>
-        <dui:Button Text="Hello" 
-                    Style="{dui:Styles Button=GhostLarge}"/>
+        <dui:SearchBar />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

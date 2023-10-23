@@ -9,6 +9,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
+
+#if __ANDROID__
+            Unloaded += OnUnloaded;
+#endif
         }
 
 #if __ANDROID__
@@ -27,8 +31,13 @@ namespace DIPS.Mobile.UI.Components.Searching
                 searchBarHandler.RemoveKeyboard();
             }
         }
-#endif
         
+        private void OnUnloaded(object? sender, EventArgs e)
+        {
+            UnFocus();
+            Unloaded -= OnUnloaded;
+        }
+#endif
         
         private async void OnTextChanged(string newTextValue, string oldTextValue)
         {
@@ -49,5 +58,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
             
         }
+        
     }
 }
