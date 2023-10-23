@@ -1,3 +1,6 @@
+## [17.23.2]
+- [iOS] Possible fix for crash when using long press context menu
+
 ## [17.23.1]
 - [Android] Keyboard will now close when navigating from a searchbar
 
