@@ -27,6 +27,12 @@
                       Icon="{dui:Icons arrow_down_thick_line_fill}"
                       Command="{Binding Navigate}">
             
+            <dui:ListItem.ContextMenu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="test" />
+                </dui:ContextMenu>
+            </dui:ListItem.ContextMenu>
+            
             <dui:ListItem.DebuggingOptions>
                 <dui:DebuggingOptions />
             </dui:ListItem.DebuggingOptions>

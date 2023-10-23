@@ -1,7 +1,6 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
-using Foundation;
-using ObjCRuntime;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
@@ -9,9 +8,10 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
-    
+    private readonly LongPressContextMenuDelegate m_delegate = new();
+
 #nullable disable
-    private LongPressInteraction m_interaction;
+    private UIContextMenuInteraction m_interaction;
 #nullable restore
     
     private void OnLongPressed()
@@ -23,70 +23,26 @@ public partial class ContextMenuPlatformEffect
 
         m_contextMenu.BindingContext = Element.BindingContext;
 
-        var delegater = new LongPressContextMenuDelegate();
-
-        m_interaction = new LongPressInteraction(delegater);
-        m_interaction.ContextMenu = m_contextMenu;
+        m_interaction = new UIContextMenuInteraction(m_delegate);
         
         Control.AddInteraction(m_interaction);
     }
 
-    public class LongPressInteraction : UIContextMenuInteraction
-    {
-        
-        protected LongPressInteraction(NSObjectFlag t) : base(t)
-        {
-        }
-
-        protected internal LongPressInteraction(NativeHandle handle) : base(handle)
-        {
-        }
-
-        public LongPressInteraction(IUIContextMenuInteractionDelegate @delegate) : base(@delegate)
-        {
-        }
-        
-        public ContextMenu? ContextMenu { get; set; }
-    }
-    
     public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
     {
-        public LongPressContextMenuDelegate()
-        {
-        }
-
-        /// <summary>
-        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
-        /// </summary>
-        public LongPressContextMenuDelegate(IntPtr intPtr) : base(intPtr)
-        {
-        }
-
-        /// <summary>
-        /// DO NOT REMOVE, WILL CRASH IF THIS IS NOT DECLARED
-        /// </summary>
-        public LongPressContextMenuDelegate(NativeHandle handle) : base(handle)
-        {
-        }
-
         public override UIContextMenuConfiguration? GetConfigurationForMenu(UIContextMenuInteraction interaction, CGPoint location)
         {
-            if (interaction is not LongPressInteraction longPressInteraction)
-                return new UIContextMenuConfiguration();
+            if (interaction.View is not MauiView view)
+                return null; 
 
-            var contextMenu = longPressInteraction.ContextMenu;
+            var contextMenu = ContextMenuEffect.GetMenu(((VisualElement)view.View!));
             
             var dict = ContextMenuHelper.CreateMenuItems(
                 contextMenu!.ItemsSource!,
                 contextMenu);
             var menu = UIMenu.Create(contextMenu.Title, dict.Select(k => k.Value).ToArray());
-        
-            return UIContextMenuConfiguration.Create(null, null, actions => menu);
-        }
 
-        protected override void Dispose(bool disposing)
-        {
-            
+            return UIContextMenuConfiguration.Create(null, null, actions => menu);
         }
     }
 
