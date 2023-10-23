@@ -129,7 +129,7 @@ public class VetlePageViewModel : ViewModel
     private void Navigatee()
     {
         var page = new VetleTestPage1();
-        Shell.Current.Navigation.PushAsync(page);
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
     }
 
     public List<SortOption> SortOptions

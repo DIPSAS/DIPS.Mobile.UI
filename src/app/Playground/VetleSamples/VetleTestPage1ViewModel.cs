@@ -8,7 +8,7 @@ public class VetleTestPage1ViewModel
     public VetleTestPage1ViewModel()
     {
         Navigate = new Command(() => Shell.Current.Navigation.PushModalAsync(new VetleTestPage2()));
-        Test = new Command(() => Console.Write("LKOL"));
+        Test = new Command(() => Shell.Current.Navigation.PopModalAsync());
     }
     
     public ICommand Navigate { get; }

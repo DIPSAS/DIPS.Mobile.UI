@@ -1,3 +1,6 @@
+## [17.23.1]
+- [Android] Keyboard will now close when navigating from a searchbar
+
 ## [17.23.0]
 - Modified 'CheckmarkListItem' so that changing IsSelected does not fire SelectedCommand
 

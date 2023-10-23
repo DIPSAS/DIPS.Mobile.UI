@@ -24,7 +24,8 @@
 
         <dui:ListItem IsDebugMode="True"
                       Title="hei"
-                      Icon="{dui:Icons arrow_down_thick_line_fill}">
+                      Icon="{dui:Icons arrow_down_thick_line_fill}"
+                      Command="{Binding Navigate}">
             
             <dui:ListItem.DebuggingOptions>
                 <dui:DebuggingOptions />
