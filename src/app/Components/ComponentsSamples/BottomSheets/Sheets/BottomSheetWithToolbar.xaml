@@ -6,6 +6,7 @@
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
              x:Name="BottomSheet"
+             ShouldFitToContent="True"
              Title="The title">
     <dui:BottomSheet.BindingContext>
         <sheets:BottomSheetWithToolbarViewModel/>
