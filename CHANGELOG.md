@@ -1,3 +1,6 @@
+## [17.32.3]
+- [iOS] Fixed ShouldFitToContent on BottomSheet ignoring height of navigation bar
+
 ## [17.23.2]
 - [iOS] Possible fix for crash when using long press context menu
 
