@@ -105,7 +105,14 @@ internal class BottomSheetContentPage : ContentPage
                     resolver  =>
                     {
                         var r = m_bottomSheet.Content.Measure(UIScreen.MainScreen.Bounds.Width, resolver.MaximumDetentValue);
-                        return (float)(r.Request.Height+m_bottomSheet.Padding.Bottom+m_bottomSheet.Padding.Top);
+                        double navBarHeight = 0;
+                        if (m_bottomSheet.ShouldHaveNavigationBar)
+                        {
+                            var navigationController = m_viewController!.NavigationController;
+                            navBarHeight = navigationController!.NavigationBar.Frame.Height;
+                        }
+                        
+                        return (float)(r.Request.Height+m_bottomSheet.Padding.Bottom+m_bottomSheet.Padding.Top+navBarHeight);
                     });
                 preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Unknown;
             }
