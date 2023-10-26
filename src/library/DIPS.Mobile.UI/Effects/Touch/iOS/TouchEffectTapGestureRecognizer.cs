@@ -11,9 +11,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     private readonly Action m_onTap;
 
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
-    private CGPoint? startPoint;
 
-    private float m_touchMovementThreshold = 100;
     private bool m_isCancelled;
 
     public TouchEffectTapGestureRecognizer(UIView uiView, Action onTap)
@@ -28,8 +26,6 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     {
         base.TouchesBegan(touches, evt);
         
-        startPoint = GetTouchPoint(touches);
-
         m_isCancelled = false;
 
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, m_uiView);

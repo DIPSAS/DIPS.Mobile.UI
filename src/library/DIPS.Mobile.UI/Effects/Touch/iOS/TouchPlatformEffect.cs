@@ -60,7 +60,7 @@ public partial class TouchPlatformEffect
         {
             if (Control.GestureRecognizers != null)
             {
-                Control.UserInteractionEnabled = true;
+                Control.UserInteractionEnabled = false;
                 Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
             }
         }
