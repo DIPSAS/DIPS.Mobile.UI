@@ -1,4 +1,4 @@
-## [17.23.5]
+## [17.24.0]
 - Added support for dividers in context menu
 
 ## [17.23.4]
