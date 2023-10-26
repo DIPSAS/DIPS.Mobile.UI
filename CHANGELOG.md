@@ -1,4 +1,4 @@
-## [17.32.3]
+## [17.23.3]
 - [iOS] Fixed ShouldFitToContent on BottomSheet ignoring height of navigation bar
 
 ## [17.23.2]
