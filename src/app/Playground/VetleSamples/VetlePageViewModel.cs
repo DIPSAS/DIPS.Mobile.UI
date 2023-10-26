@@ -31,7 +31,8 @@ public class VetlePageViewModel : ViewModel
             IsSaving = false;
         });
 
-        CompletedCommand = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
+        CompletedCommand = new Command(() => DialogService.ShowMessage("Test asd asdasd a sadasdas dsa", "test lang tesktsdtsdfsefseasdaawdkjawoidjiaowjdo iawjd9oia jwodijawo dijaw uoid jawuidjh awiudhawiud hiawuh " +
+            "asdasdasdasdsadasd diuawhdiuawhdiuawhdiuawhiduhawiudhwaiu dhiauw dhiawudh iawuhd iauwhd iawhdiuawhdiawuhdiaw diuwa hdiuhwaid uhawiduhawdfsefasefase fse fase fase fase fasefasefasefseaf saef sae fsaef seaf sea efsa fsae", "ok"));
 
         SetMaxLinesCommand = new Command<string>(s => MaxLines = int.Parse(s));
 

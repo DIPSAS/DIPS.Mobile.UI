@@ -1,3 +1,7 @@
+## [17.23.4]
+- [Android] Fixed an issue where the action buttons in dialogs were not sometimes placed on the bottom
+- Fixed an issue where the first and the last button in segmentedcontrol were squished to the side when selected
+
 ## [17.23.3]
 - [iOS] Fixed ShouldFitToContent on BottomSheet ignoring height of navigation bar
 

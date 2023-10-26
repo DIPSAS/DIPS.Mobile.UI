@@ -1,9 +1,12 @@
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Colors = Microsoft.Maui.Graphics.Colors;
+using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
 using Touch = DIPS.Mobile.UI.Effects.Touch.Touch;
 
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
@@ -37,9 +40,6 @@ public partial class SegmentedControl : ContentView
     {
         var border = new Border()
         {
-// #if __ANDROID__ //TODO: On Android, each item has spacing in between them, so we move them a tiny bit to the right
-//             Margin = new Thickness(0, 0, -2, 0),
-// #endif
             VerticalOptions = LayoutOptions.Center,
             HeightRequest = Sizes.GetSize(SizeName.size_10),
             StrokeThickness = 1,
@@ -64,22 +64,19 @@ public partial class SegmentedControl : ContentView
                     FalseObject = DeSelectedColor
                 }
             });
-        var grid = new Grid()
+        var horizontalStackLayout = new HorizontalStackLayout()
         {
             VerticalOptions = LayoutOptions.Center,
-            ColumnDefinitions = new ColumnDefinitionCollection() {new(GridLength.Auto), new(GridLength.Auto)},
-            ColumnSpacing = 0,
+            Spacing = Sizes.GetSize(SizeName.size_1)
         };
-        grid.SetBinding(PaddingProperty,
+        horizontalStackLayout.SetBinding(PaddingProperty,
             new Binding()
             {
                 Path = nameof(SelectableItemViewModel.IsSelected),
                 Converter = new BoolToObjectConverter()
                 {
-                    TrueObject =
-                        new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2),
-                            Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)),
-                    FalseObject = new Thickness(Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2)),
+                    TrueObject = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),
+                    FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.size_2))
                 }
             });
         var checkedImage = new Image()
@@ -87,16 +84,15 @@ public partial class SegmentedControl : ContentView
             Source = Icons.GetIcon(IconName.check_line),
             WidthRequest = Sizes.GetSize(SizeName.size_3),
             HeightRequest = Sizes.GetSize(SizeName.size_3),
-            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1)-0.2, 0) //Small 0.2 hack here to make sure the entire border is not larger when the image is visible, The total size from the label to the border should be size_8
         };
         checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
-        var label = new Label() {VerticalTextAlignment = TextAlignment.Center};
+        var label = new Label() {VerticalTextAlignment = TextAlignment.Center, FontSize = 14};
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
 
-        grid.Add(checkedImage, 0);
-        grid.Add(label, 1);
-        border.Content = grid;
+        horizontalStackLayout.Add(checkedImage);
+        horizontalStackLayout.Add(label);
+        border.Content = horizontalStackLayout;
         border.SizeChanged += ((sender, _) =>
         {
             if (sender is not View view) return;
