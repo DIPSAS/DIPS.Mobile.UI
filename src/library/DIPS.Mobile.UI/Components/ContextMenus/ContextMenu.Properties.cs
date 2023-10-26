@@ -35,16 +35,16 @@ public partial class ContextMenu : IContextMenu
     /// </summary>
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
-        typeof(IList<ContextMenuItem>),
+        typeof(IList<IContextMenuItem>),
         typeof(ContextMenu),
-        defaultValueCreator:(bindable => new List<ContextMenuItem>()));
+        defaultValueCreator:(bindable => new List<IContextMenuItem>()));
 
     /// <summary>
     /// The context menu items to display in the context menu when its opened
     /// </summary>
-    public IList<ContextMenuItem>? ItemsSource
+    public IList<IContextMenuItem>? ItemsSource
     {
-        get => (IList<ContextMenuItem>)GetValue(ItemsSourceProperty);
+        get => (IList<IContextMenuItem>)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 

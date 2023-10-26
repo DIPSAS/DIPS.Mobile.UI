@@ -273,4 +273,7 @@
     <data name="Context_Menu_LongPressWithDestructiveAction" xml:space="preserve">
         <value>Long press menu med en destruktiv handling</value>
     </data>
+    <data name="Context_Menu_Divider" xml:space="preserve">
+        <value>Context menu divider</value>
+    </data>
 </root>

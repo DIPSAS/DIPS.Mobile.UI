@@ -186,6 +186,37 @@
                 </dui:ContextMenu>
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
+        
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Divider}"
+                      HasBottomDivider="True">
+                <dui:ListItem.ContextMenuOptions>
+                    <dui:ContextMenuOptions Mode="Pressed" />
+                </dui:ListItem.ContextMenuOptions>
+            
+            <dui:ListItem.ContextMenu>
+                
+                <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem
+                        IsDestructive="True"
+                        Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
+                        Icon="{dui:Icons internalmessage_fill}">
+                    </dui:ContextMenuItem>
+                    <dui:ContextMenuSeparatorItem />
+                    <dui:ContextMenuItem
+                        Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
+                        Icon="edit">
+                        <!-- on iOS: set icon to  SF Symbol: pencil -->
+                        <dui:ContextMenuItem.iOSOptions>
+                            <dui:iOSContextMenuItemOptions SystemIconName="pencil" />
+                        </dui:ContextMenuItem.iOSOptions>
+                        <!-- on Android: set icon to material design edit black button -->
+                        <dui:ContextMenuItem.AndroidOptions>
+                            <dui:AndroidContextMenuItemOptions IconResourceName="material_ic_edit_black_24dp" />
+                        </dui:ContextMenuItem.AndroidOptions>
+                    </dui:ContextMenuItem>
+                </dui:ContextMenu>
+            </dui:ListItem.ContextMenu>
+        </dui:ListItem>
 
     </dui:VerticalStackLayout>
 </dui:ContentPage>

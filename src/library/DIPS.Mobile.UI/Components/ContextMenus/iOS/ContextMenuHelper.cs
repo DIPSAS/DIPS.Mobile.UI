@@ -7,23 +7,23 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
 
  internal static class ContextMenuHelper
  {
-    internal static Dictionary<ContextMenuItem, UIMenuElement> CreateMenuItems(
-        IEnumerable<ContextMenuItem> contextMenuItems,
+    internal static Dictionary<IContextMenuItem, UIMenuElement> CreateMenuItems(
+        IEnumerable<IContextMenuItem> contextMenuItems,
         ContextMenu contextMenu, Action callBackWhenItemTapped = null, ContextMenuGroup menuGroup = null)
     {
-        var dict = new Dictionary<ContextMenuItem, UIMenuElement>();
+        var dict = new Dictionary<IContextMenuItem, UIMenuElement>();
         var items = contextMenuItems.ToArray();
         foreach (var contextMenuItem in items)
         {
             if (!contextMenuItem.IsVisible)
                 continue;
             
-            UIMenuElement uiMenuElement;
+            UIMenuElement uiMenuElement = null!;
             if (contextMenuItem is ContextMenuGroup contextMenuGroup) //Recursively add menu items from a group
             {
                 contextMenuGroup.Parent = contextMenu;
                 
-                foreach (var c in contextMenuGroup.ItemsSource)
+                foreach (var c in contextMenuGroup.ItemsSource!)
                 {
                     if (!c.IsCheckable && contextMenuGroup.IsCheckable)//Inherit isCheckable from the parent context menu group if the item is not checkable
                     {
@@ -35,7 +35,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                 if (items.Count(i => i is ContextMenuGroup) >
                     1) //If there is more than one group, add the group title and group the items
                 {
-                    uiMenuElement = UIMenu.Create(contextMenuGroup.Title, newDict.Select(k => k.Value).ToArray());
+                    uiMenuElement = UIMenu.Create(contextMenuGroup.Title!, newDict.Select(k => k.Value).ToArray());
                 }
                 else //Only one group, add this to the root of the menu so the user does not have to tap an extra time to get to the items.
                 {
@@ -46,51 +46,60 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                     continue;
                 }
             }
+            else if (contextMenuItem is ContextMenuSeparatorItem)
+            {
+                uiMenuElement = UIMenu.Create("", null, UIMenuIdentifier.None, UIMenuOptions.DisplayInline,
+                    dict.Select(element => element.Value).ToArray());
+
+                dict.Clear();
+            }
             else
             {
+                var menuItem = (contextMenuItem as ContextMenuItem)!;
+                
                 UIImage? image = null;
-                if (contextMenuItem.Icon is FileImageSource fileImageSource)
+                if (menuItem.Icon is FileImageSource fileImageSource)
                 {
                     image = UIImage.FromBundle(fileImageSource);
                 }
                 
-                if(!string.IsNullOrEmpty(contextMenuItem.iOSOptions.SystemIconName)) //Override image with SF Symbols if this is what the consumer wants
+                if(!string.IsNullOrEmpty(menuItem.iOSOptions.SystemIconName)) //Override image with SF Symbols if this is what the consumer wants
                 {
 
-                    var systemImage = UIImage.GetSystemImage(contextMenuItem.iOSOptions.SystemIconName);
+                    var systemImage = UIImage.GetSystemImage(menuItem.iOSOptions.SystemIconName);
                     image = systemImage ?? image;
                 }
                 
-                if (contextMenuItem.IsDestructive)
+                if (menuItem.IsDestructive)
                 {
                     image = image?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
                         .ApplyTintColor(UIColor.SystemRed);
                 }
                 
-                var uiAction = UIAction.Create(contextMenuItem.Title, image, null,
-                    uiAction => OnMenuItemClick(uiAction, contextMenuItem, contextMenu, callBackWhenItemTapped));
+                var uiAction = UIAction.Create(menuItem.Title!, image, null,
+                    uiAction => OnMenuItemClick(uiAction, menuItem, contextMenu, callBackWhenItemTapped));
 
-                if (contextMenuItem.IsDestructive)
+                if (menuItem.IsDestructive)
                 {
                     uiAction.Attributes = UIMenuElementAttributes.Destructive;
                 }
 
-                if (contextMenuItem.IsChecked)
+                if (menuItem.IsChecked)
                 {
-                    contextMenu.ResetIsCheckedForTheRest(contextMenuItem);
+                    contextMenu.ResetIsCheckedForTheRest(menuItem);
                 }
                 
-                SetCorrectUiActionState(contextMenuItem, uiAction); //Setting the correct check mark if it can
+                SetCorrectUiActionState(menuItem, uiAction); //Setting the correct check mark if it can
 
                 uiMenuElement = uiAction;
 
                 if (menuGroup != null)
                 {
-                    contextMenuItem.Parent = menuGroup;
+                    menuItem.Parent = menuGroup;
                 }
                 else
                 {
-                    contextMenuItem.Parent = contextMenu;
+                    menuItem.Parent = contextMenu;
                 }
             }
 
