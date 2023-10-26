@@ -16,35 +16,62 @@
     </dui:ContentPage.BindingContext>
 
     <dui:ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" />
+        <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:ListItem IsDebugMode="True"
-                      Title="hei"
-                      Icon="{dui:Icons arrow_down_thick_line_fill}"
-                      Command="{Binding Navigate}">
+        <dui:SegmentedControl SelectionMode="Multi">
+            <x:Array Type="{x:Type x:String}">
+                <x:String>First</x:String>
+                <x:String>Second</x:String>
+                <x:String>Third</x:String>
+            </x:Array>
+        </dui:SegmentedControl>
+        
+        <Switch x:Name="Switch" Toggled="Switch_OnToggled" />
+        
+        <Border BackgroundColor="Red"
+                HorizontalOptions="Center"
+                
+                VerticalOptions="Center"
+                HeightRequest="{dui:Sizes size_10}">
             
-            <dui:ListItem.DebuggingOptions>
-                <dui:DebuggingOptions />
-            </dui:ListItem.DebuggingOptions>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
+            </Border.StrokeShape>
             
-            <dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions HorizontalOptions="Fill"
-                                          VerticalOptions="Fill"></dui:InLineContentOptions>
-            </dui:ListItem.InLineContentOptions>
+            <HorizontalStackLayout 
+                Spacing="{dui:Sizes size_1}"
+                  Padding="{dui:Thickness Left=size_5, Top=size_2, Right=size_5, Bottom=size_2}"
+                  VerticalOptions="Center"
+                  x:Name="Grid">
+                <dui:Image BackgroundColor="Blue" WidthRequest="{dui:Sizes size_3}" IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                                                                                      HeightRequest="{dui:Sizes size_3}"
+                                                                                      Source="{dui:Icons check_line}"/>
+                <Label Grid.Column="1" BackgroundColor="Green" Text="Third" VerticalTextAlignment="Center" FontSize="14" />
+            </HorizontalStackLayout>
             
-            <dui:Label Text="hew" HorizontalOptions="Fill"></dui:Label>
+        </Border>
+        
+        <Border BackgroundColor="Green"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HeightRequest="{dui:Sizes size_10}">
             
-            <dui:ListItem.UnderlyingContent>
-                <Label Text="hei"  />
-            </dui:ListItem.UnderlyingContent>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
+            </Border.StrokeShape>
             
+            <HorizontalStackLayout 
+                  VerticalOptions="Center"
+                  Padding="{dui:Thickness Left=size_5, Top=size_2, Right=size_5, Bottom=size_2}">
+              
+                <Label Text="Third" Grid.Column="1" VerticalTextAlignment="Center" FontSize="14" />
+            </HorizontalStackLayout>
             
-            
-        </dui:ListItem>
+        </Border>
 
 
     </dui:VerticalStackLayout>

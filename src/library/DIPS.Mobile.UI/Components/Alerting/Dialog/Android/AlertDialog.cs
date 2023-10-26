@@ -1,5 +1,6 @@
 using Android.Content;
 using Android.OS;
+using Android.Views;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Library;
 using Google.Android.Material.Dialog;
@@ -39,20 +40,22 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog.Android
         public override global::Android.App.Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             var builder = new MaterialAlertDialogBuilder(DUI.GetCurrentMauiContext!.Context!)
-                .SetOnCancelListener(this)
-                .SetTitle(m_title)
+                .SetOnCancelListener(this)!
+                .SetTitle(m_title)!
                 .SetMessage(m_message);
             
             if (m_cancelTitle != null)
             {
-                builder.SetNegativeButton(m_cancelTitle, ((_, _) => { }));
+                builder?.SetNegativeButton(m_cancelTitle, ((_, _) => { }));
             }
-            builder.SetPositiveButton(m_actionTitle, ((_, _) => m_onActionTapped.Invoke()));
+            builder?.SetPositiveButton(m_actionTitle, ((_, _) => m_onActionTapped.Invoke()));
 
-            var dialog = builder.Create();
-            dialog.ShowEvent += OnShow;
+            var dialog = builder?.Create();
             
-            var window = ((global::Android.App.Activity)Context).Window;
+            dialog?.Window?.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+            dialog!.ShowEvent += OnShow;
+            
+            var window = (((global::Android.App.Activity)Context!)).Window;
             if (window is {Attributes: { }}) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
             {
                 var flags = window.Attributes.Flags;
