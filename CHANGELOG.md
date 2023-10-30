@@ -1,3 +1,6 @@
+## [17.24.0]
+- Added support for dividers in context menu
+
 ## [17.23.5]
 - [iOS] Fixed an issue where having native buttons in a subview of a view that has the touch API on it, would fire both the button and the view that has the touch api .
 - [iOS] Fixed an issue with the touch API, where if you press and then drag the element, the touch effect would never go back to its default state.

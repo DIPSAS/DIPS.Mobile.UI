@@ -52,7 +52,7 @@ public partial class ContextMenuPlatformEffect
         private readonly ContextMenu m_contextMenu;
         private readonly View m_control;
         
-        private Dictionary<ContextMenuItem, IMenuItem> m_menuItems;
+        private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu m_popupMenu;
         private bool m_isShowing;
 
@@ -75,9 +75,14 @@ public partial class ContextMenuPlatformEffect
                 : GravityFlags.Left; ;
             
              m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
-                 contextMenuItem.Icon != null ||
-                 !string.IsNullOrEmpty(contextMenuItem.AndroidOptions
-                     .IconResourceName)));
+             {
+                 if (contextMenuItem is not ContextMenuItem menuItem)
+                     return false;
+                 
+                 return menuItem.Icon != null ||
+                        !string.IsNullOrEmpty(menuItem.AndroidOptions
+                            .IconResourceName);
+             }));
             
             SetListeners();
             
@@ -94,8 +99,7 @@ public partial class ContextMenuPlatformEffect
         
         public bool OnMenuItemClick(IMenuItem? theTappedNativeItem)
         {
-            var tappedContextMenuItem = m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key;
-            if (tappedContextMenuItem != null)
+            if (m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key is ContextMenuItem tappedContextMenuItem)
             {
                 if (theTappedNativeItem!.IsCheckable) //check the item
                 {

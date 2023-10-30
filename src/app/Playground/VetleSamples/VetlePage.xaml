@@ -22,35 +22,30 @@
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:ListItem Title="Test"
-                      BackgroundColor="Green"
-                      Command="{Binding Navigate}">
+        <dui:ListItem Title="Test!">
+            <dui:ListItem.ContextMenu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="Hei på deg" />
+                    <dui:ContextMenuItem Title="Hei på deg" />
+                    <dui:ContextMenuItem Title="Hei på deg" />
+                    <dui:ContextMenuItem Title="Hei på deg" />
+
+                    <dui:ContextMenuSeparatorItem />
+                    <dui:ContextMenuItem Title="Nice" />
+                    <dui:ContextMenuSeparatorItem />
+
+                    <dui:ContextMenuItem Title="Nice12" />
+                    <dui:ContextMenuItem Title="Nice12" />
+                    <dui:ContextMenuItem Title="Nice12" />
+                    <dui:ContextMenuSeparatorItem />
+                    <dui:ContextMenuItem Title="Nice12" />
+
+
+                </dui:ContextMenu>
+            </dui:ListItem.ContextMenu>
             
-            <Border WidthRequest="150"
-                     HeightRequest="150"
-                     BackgroundColor="Yellow"
-                dui:Touch.Command="{Binding Test}" />
             
-            <dui:ListItem.UnderlyingContent>
-                
-                
-                <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}" HeightRequest="150"
-                         BackgroundColor="Red"
-                         WidthRequest="150" >
-                    
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            
-                        <Button HeightRequest="75"
-                                WidthRequest="75"
-                                Text="25"
-                                Command="{Binding Source={x:Reference This}, Path=BindingContext.CompletedCommand}"
-                                BackgroundColor="Brown"></Button>
-                        </DataTemplate>
-                        
-                    </BindableLayout.ItemTemplate>
-                    
-                </dui:VerticalStackLayout>
+        </dui:ListItem>
 
             </dui:ListItem.UnderlyingContent>
             

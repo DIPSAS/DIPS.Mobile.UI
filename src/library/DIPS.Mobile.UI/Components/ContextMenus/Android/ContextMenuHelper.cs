@@ -11,10 +11,10 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.Android;
 
 internal static class ContextMenuHelper
 {
-    internal static Dictionary<ContextMenuItem, IMenuItem> CreateMenuItems(IEnumerable<ContextMenuItem> contextMenuItems,
+    internal static Dictionary<IContextMenuItem, IMenuItem> CreateMenuItems(IEnumerable<IContextMenuItem> contextMenuItems,
         ContextMenu contextMenu, PopupMenu popupMenu, int groupIndex = 0)
     {
-        var dict = new Dictionary<ContextMenuItem, IMenuItem>();
+        var dict = new Dictionary<IContextMenuItem, IMenuItem>();
         var items = contextMenuItems.ToList();
 
         foreach (var contextMenuItem in items)
@@ -61,7 +61,7 @@ internal static class ContextMenuHelper
                     foreach (var pair in newDict)
                     {
                         var contextMenuItemInGroup = pair.Key;
-                        contextMenuItemInGroup.Parent = contextMenuGroup;
+                        (contextMenuItemInGroup as ContextMenuItem)!.Parent  = contextMenuGroup;
                         dict.Add(contextMenuItemInGroup, pair.Value);
                     }
                   
@@ -71,10 +71,15 @@ internal static class ContextMenuHelper
                     }
                 }
             }
+            else if (contextMenuItem is ContextMenuSeparatorItem)
+            {
+                popupMenu.Menu!.SetGroupDividerEnabled(true);
+                groupIndex++;
+            }
             else
             {
-                var menuItem = popupMenu.Menu.Add(groupIndex, index, Menu.None, contextMenuItem.Title);
-                UpdateMenuItem(contextMenu, groupIndex, contextMenuItem, menuItem);
+                var menuItem = popupMenu.Menu.Add(groupIndex, index, Menu.None, (contextMenuItem as ContextMenuItem)!.Title);
+                UpdateMenuItem(contextMenu, groupIndex, contextMenuItem as ContextMenuItem, menuItem);
 
                 dict.Add(contextMenuItem, menuItem);
             }

@@ -560,5 +560,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Context_Menu_LongPressWithDestructiveAction", resourceCulture);
             }
         }
+        
+        internal static string Context_Menu_Divider {
+            get {
+                return ResourceManager.GetString("Context_Menu_Divider", resourceCulture);
+            }
+        }
     }
 }

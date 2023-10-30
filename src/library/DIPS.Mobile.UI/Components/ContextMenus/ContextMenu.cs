@@ -19,7 +19,7 @@ public partial class ContextMenu : Button
         {
             foreach (var c in ItemsSource)
             {
-                c.BindingContext = BindingContext;
+                (c as Element)!.BindingContext = BindingContext;
             }
         }
     }
@@ -60,7 +60,8 @@ public partial class ContextMenu : Button
                 }
             }
 
-            child.IsChecked = false;
+            if(child is ContextMenuItem menuItem)
+                menuItem.IsChecked = false;
         }
     }
 
