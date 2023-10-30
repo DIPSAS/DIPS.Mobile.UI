@@ -1,5 +1,5 @@
 ## [17.24.1]
-- Fixed a bug where items inside ListItem were sometimes not tappable
+- [iOS] Fixed a bug where items inside ListItem were sometimes not tappable
 
 ## [17.24.0]
 - Added support for dividers in context menu
