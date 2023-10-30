@@ -1,3 +1,7 @@
+## [17.23.5]
+- [iOS] Fixed an issue where having native buttons in a subview of a view that has the touch API on it, would fire both the button and the view that has the touch api .
+- [iOS] Fixed an issue with the touch API, where if you press and then drag the element, the touch effect would never go back to its default state.
+
 ## [17.23.4]
 - [Android] Fixed an issue where the action buttons in dialogs were not sometimes placed on the bottom
 - Fixed an issue where the first and the last button in segmentedcontrol were squished to the side when selected
