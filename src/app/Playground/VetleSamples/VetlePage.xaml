@@ -22,42 +22,10 @@
 
     <dui:VerticalStackLayout Padding="20">
 
-        <dui:ListItem Title="Test!">
-            <dui:ListItem.ContextMenu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="Hei på deg" />
-                    <dui:ContextMenuItem Title="Hei på deg" />
-                    <dui:ContextMenuItem Title="Hei på deg" />
-                    <dui:ContextMenuItem Title="Hei på deg" />
-
-                    <dui:ContextMenuSeparatorItem />
-                    <dui:ContextMenuItem Title="Nice" />
-                    <dui:ContextMenuSeparatorItem />
-
-                    <dui:ContextMenuItem Title="Nice12" />
-                    <dui:ContextMenuItem Title="Nice12" />
-                    <dui:ContextMenuItem Title="Nice12" />
-                    <dui:ContextMenuSeparatorItem />
-                    <dui:ContextMenuItem Title="Nice12" />
-
-
-                </dui:ContextMenu>
-            </dui:ListItem.ContextMenu>
-            
-            
+        <dui:ListItem Title="Test!!" Command="{Binding Navigate}">
+            <dui:DatePicker />
         </dui:ListItem>
-
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Hei"
-                      Command="{Binding Navigate}"></dui:ListItem>
-        
-            <Border WidthRequest="150"
-                     HeightRequest="150"
-                     BackgroundColor="Yellow"
-                dui:Touch.Command="{Binding Test}" />
+           
 
     </dui:VerticalStackLayout>
 

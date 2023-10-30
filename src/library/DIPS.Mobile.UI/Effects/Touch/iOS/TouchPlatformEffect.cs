@@ -27,8 +27,6 @@ public partial class TouchPlatformEffect
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
-
-            Control.UserInteractionEnabled = true;
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
@@ -60,7 +58,6 @@ public partial class TouchPlatformEffect
         {
             if (Control.GestureRecognizers != null)
             {
-                Control.UserInteractionEnabled = false;
                 Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
             }
         }
