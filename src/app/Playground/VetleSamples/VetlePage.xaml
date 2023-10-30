@@ -47,6 +47,17 @@
             
         </dui:ListItem>
 
+            </dui:ListItem.UnderlyingContent>
+            
+        </dui:ListItem>
+        
+        <dui:ListItem Title="Hei"
+                      Command="{Binding Navigate}"></dui:ListItem>
+        
+            <Border WidthRequest="150"
+                     HeightRequest="150"
+                     BackgroundColor="Yellow"
+                dui:Touch.Command="{Binding Test}" />
 
     </dui:VerticalStackLayout>
 

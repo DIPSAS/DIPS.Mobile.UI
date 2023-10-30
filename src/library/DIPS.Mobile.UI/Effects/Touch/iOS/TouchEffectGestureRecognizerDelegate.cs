@@ -11,7 +11,7 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
             if (touch.View.Equals(recognizer.View))
                 return true;
 
-            return !touch.View.GestureRecognizers?.Any() ?? true;
+            return !touch.View.GestureRecognizers?.Any() ?? touch.View is not UIControl;
         }
 
         return false;
