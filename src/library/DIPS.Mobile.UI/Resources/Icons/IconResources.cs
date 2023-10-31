@@ -124,6 +124,10 @@ this file is generated
 ["arrow_back_line"] = "arrow_back_line.png",
 ["edit_line"] = "edit_line.png",
 ["delete_line"] = "delete_line.png",
+["document_format_line"] = "document_format_line.png",
+["expandall_fill"] = "expandall_fill.png",
+["ehr_line"] = "ehr_line.png",
+["ehr_folder_line"] = "ehr_folder_line.png",
 
             };
         }
