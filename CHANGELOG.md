@@ -1,3 +1,6 @@
+## [17.25.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [17.24.1]
 - [iOS] Fixed a bug where items inside ListItem were sometimes not tappable
 
