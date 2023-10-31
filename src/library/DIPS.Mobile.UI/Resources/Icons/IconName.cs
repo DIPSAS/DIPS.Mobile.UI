@@ -239,5 +239,13 @@ arrow_back_line=112,
 edit_line=113,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/delete_line.svg">View the icon in the browser</a></summary>
 delete_line=114,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/document_format_line.svg">View the icon in the browser</a></summary>
+document_format_line=115,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/expandall_fill.svg">View the icon in the browser</a></summary>
+expandall_fill=116,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/ehr_line.svg">View the icon in the browser</a></summary>
+ehr_line=117,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/ehr_folder_line.svg">View the icon in the browser</a></summary>
+ehr_folder_line=118,
     }
 }
