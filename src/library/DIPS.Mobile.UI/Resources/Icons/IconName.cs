@@ -247,5 +247,7 @@ expandall_fill=116,
 ehr_line=117,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/ehr_folder_line.svg">View the icon in the browser</a></summary>
 ehr_folder_line=118,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/more_fill.svg">View the icon in the browser</a></summary>
+more_fill=119,
     }
 }

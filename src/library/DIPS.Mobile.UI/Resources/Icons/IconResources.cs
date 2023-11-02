@@ -128,6 +128,7 @@ this file is generated
 ["expandall_fill"] = "expandall_fill.png",
 ["ehr_line"] = "ehr_line.png",
 ["ehr_folder_line"] = "ehr_folder_line.png",
+["more_fill"] = "more_fill.png",
 
             };
         }
