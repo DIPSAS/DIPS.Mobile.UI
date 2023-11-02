@@ -20,14 +20,26 @@
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
 
-    <dui:VerticalStackLayout Padding="20">
+    <dui:ScrollView>
+        <dui:VerticalStackLayout>
 
-        <dui:ListItem Title="Test!!" Command="{Binding Navigate}">
-            <dui:DatePicker />
-        </dui:ListItem>
-           
+            <dui:ListItem Title="Test"
+                          Subtitle="Test">
+            </dui:ListItem>
 
-    </dui:VerticalStackLayout>
+            <dui:Label Text="Test"
+                       Style="{dui:Styles Label=Body300}" />
+            
+            
+            <dui:Label Text="Test"
+                       Style="{dui:Styles Label=Body200}" />
+            
+            <dui:Chip Title="Test" HorizontalOptions="Start"
+                      Command="{Binding Navigate}"></dui:Chip>
 
+            <dui:DatePicker HorizontalOptions="Start" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
 
 </dui:ContentSavePage>

@@ -3,6 +3,7 @@ using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
+using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
@@ -43,6 +44,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Selection", () => new SelectionSamples()),
             new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples()),
             new(SampleType.Components, LocalizedStrings.Buttons, () => new ButtonsSamples()),
+            new(SampleType.Components, "Labels", () => new LabelsSamples())
 
 
         };

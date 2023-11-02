@@ -37,7 +37,7 @@
                                 <Line BackgroundColor="Black"
                                       HeightRequest="1"
                                       Grid.Row="1" />
-                                <Label Grid.Row="2"
+                                <dui:Label Grid.Row="2"
                                        Margin="{dui:Thickness size_2}"
                                        Text="{Binding Key}" />
                             </Grid>

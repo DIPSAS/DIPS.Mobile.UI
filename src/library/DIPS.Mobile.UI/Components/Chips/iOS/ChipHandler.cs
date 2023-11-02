@@ -1,14 +1,7 @@
-using System.Drawing;
-using System.Runtime.Versioning;
-using CoreAnimation;
-using CoreGraphics;
-using DIPS.Mobile.UI.Effects.Touch.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
-using DIPS.Mobile.UI.Resources.Colors;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Color = Microsoft.Maui.Graphics.Color;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 // ReSharper disable once CheckNamespace
@@ -16,11 +9,11 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, UIButton>
 {
-    internal Button m_button;
+    private Components.Buttons.Button m_button;
 
     protected override UIButton CreatePlatformView()
     {
-        m_button = new Button();
+        m_button = new Components.Buttons.Button();
         var uiView = m_button.ToPlatform(MauiContext!);
         return (uiView.Subviews[0] as UIButton)!;
     }
