@@ -64,6 +64,12 @@ public partial class Chip
         set => SetValue(TitleProperty, value);
     }
 
+    public Color? TitleColor
+    {
+        get => (Color?)GetValue(TitleColorProperty);
+        set => SetValue(TitleColorProperty, value);
+    }
+
     /// <summary>
     /// The command to execute when people tap the chip.
     /// </summary>
@@ -129,6 +135,12 @@ public partial class Chip
         set => SetValue(CloseCommandParameterProperty, value);
     }
 
+    public bool? IsToggled
+    {
+        get => (bool?)GetValue(IsToggledProperty);
+        set => SetValue(IsToggledProperty, value);
+    }
+
     /// <summary>
     /// The event to be invoked when the chip is tapped.
     /// </summary>
@@ -148,6 +160,12 @@ public partial class Chip
         nameof(Title),
         typeof(string),
         typeof(Chip));
+    
+    public static readonly BindableProperty TitleColorProperty = BindableProperty.Create(
+        nameof(TitleColor),
+        typeof(Color),
+        typeof(Chip),
+        Colors.GetColor(ColorName.color_neutral_90));
 
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
@@ -167,6 +185,11 @@ public partial class Chip
     public static readonly BindableProperty BorderWidthProperty = BindableProperty.Create(
         nameof(BorderWidth),
         typeof(double),
+        typeof(Chip));
+    
+    public static readonly BindableProperty IsToggledProperty = BindableProperty.Create(
+        nameof(IsToggled),
+        typeof(bool),
         typeof(Chip));
 
 }

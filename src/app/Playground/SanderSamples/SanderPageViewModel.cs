@@ -1,30 +1,34 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
+using Playground.HåvardSamples;
 
 namespace Playground.SanderSamples;
 
 public class SanderPageViewModel : ViewModel
 {
-    private bool m_isEnabled = true;
+    private bool m_isToggled;
+    private bool m_isClosed;
 
     public SanderPageViewModel()
     {
-        TestCommand = new Command(() =>
-        {
-            Console.WriteLine("Tapped");
-            IsEnabled = false;
-        });
-        TestLongPressCommand = new Command(() => Console.WriteLine("Looooong press"));
-        SwapTouchIsEnabledCommand = new Command(() => IsEnabled = !IsEnabled);
+        TestCommand = new Command(() => IsToggled = !IsToggled);
+        CloseCommand = new Command(() => IsClosed = true);
     }
 
-    public bool IsEnabled
+    public bool IsClosed
     {
-        get => m_isEnabled;
-        set => RaiseWhenSet(ref m_isEnabled, value);
+        get => m_isClosed;
+        set => RaiseWhenSet(ref m_isClosed, value);
     }
-    
+
     public ICommand TestCommand { get; }
-    public ICommand TestLongPressCommand { get; }
-    public ICommand SwapTouchIsEnabledCommand { get; }
+
+    public bool IsToggled
+    {
+        get => m_isToggled;
+        set => RaiseWhenSet(ref m_isToggled, value);
+    }
+
+    public ICommand CloseCommand { get; }
 }

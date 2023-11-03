@@ -9,48 +9,34 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *"
+          ColumnDefinitions="*, *"
+          RowSpacing="4"
+          ColumnSpacing="4">
+        
+        <dui:Chip Grid.Column="0"
+                  Title="Test1" 
+                  Style="{dui:Styles Chip=Input}" />
 
-        <Switch IsToggled="{Binding IsEnabled}"/>
+        
+        <dui:Chip Grid.Column="1"
+                  Title="Test2" 
+                  Style="{dui:Styles Chip=Toggle}"
+                  IsToggled="{Binding IsToggled}"
+                  Command="{Binding TestCommand}"/>
+        
+        <dui:Chip Grid.Row="1"
+                  Grid.Column="0"
+                  Title="Test3"
+                  Style="{dui:Styles Chip=Input}"
+                  HasCloseButton="True"
+                  CloseButtonColor="{dui:Colors color_system_black}"
+                  CloseCommand="{Binding CloseCommand}"/>
 
-        <CollectionView Grid.Row="1">
-            <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                    <x:String>Item</x:String>
-                </x:Array>
-            </CollectionView.ItemsSource>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid RowDefinitions="Auto, Auto"
-                          Padding="20"
-                          dui:Touch.Command="{Binding Source={RelativeSource AncestorType={x:Type sanderSamples:SanderPageViewModel}}, Path=TestLongPressCommand}"
-                          dui:Touch.IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type sanderSamples:SanderPageViewModel}}, Path=IsEnabled}">
-                        <dui:Label Grid.Row="0" Text="This is a longer text in order to see the damn touch effect" />
-                        <dui:Label Grid.Row="1" Text="321" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <dui:Chip Grid.Row="1"
+                  Grid.Column="1"
+                  Title="Test4"
+                  Style="{dui:Styles Chip=EmptyInput}"/>
+        
     </Grid>
 </dui:ContentPage>

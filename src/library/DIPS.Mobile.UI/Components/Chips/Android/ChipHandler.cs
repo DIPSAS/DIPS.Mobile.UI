@@ -115,4 +115,12 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         handler.PlatformView.ChipStrokeWidth = (float) chip.BorderWidth;
     }
+    
+    private static partial void MapTitleColor(ChipHandler handler, Chip chip)
+    {
+    }
+    
+    private static partial void MapStyle(ChipHandler handler, Chip chip)
+    {
+    }
 }

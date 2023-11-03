@@ -5,6 +5,8 @@ using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -36,6 +38,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button.Padding = new Thickness(12, 6, 12, 6);
         platformView.AddGestureRecognizer(new ChipCloseGestureRecognizer(this));
     }
+    
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.m_button.Text = chip.Title;
@@ -118,5 +121,61 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     {
         handler.PlatformView.Layer.BorderWidth = (nfloat)chip.BorderWidth;
     }
+
+    private static partial void MapTitleColor(ChipHandler handler, Chip chip)
+    {
+        if (chip.TitleColor is null) return;
+        handler.PlatformView.SetTitleColor(chip.TitleColor.ToPlatform(), UIControlState.Normal);
+        handler.PlatformView.TintColor = chip.TitleColor.ToPlatform();
+    }
+
+    private static partial void MapStyle(ChipHandler handler, Chip chip)
+    {
+        var uiButton = handler.PlatformView;
+        if ((bool)handler.VirtualView.IsToggled!)
+        {
+            if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
+            {
+                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+                var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+                uiButton.SetImage(resizedImage, UIControlState.Normal);
+                ShiftImageToTheLeft(handler, uiButton);
+            }
+            else
+            {
+                uiButton.SetImage(null, UIControlState.Normal);
+            }
+        }
+        else
+        {
+            if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
+            {
+                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+                var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+                uiButton.SetImage(resizedImage, UIControlState.Normal);
+                ShiftImageToTheRight(handler, uiButton);
+            }
+            uiButton.SetImage(null, UIControlState.Normal);
+        }
+    }
     
+    private static void ShiftImageToTheLeft(ChipHandler handler, UIButton uiButton)
+    {
+        if (!OperatingSystem.IsIOSVersionAtLeast(14, 1))
+        {
+            return;
+        }
+
+        var imageWidth = uiButton.ImageView.IntrinsicContentSize.Width;
+        uiButton.TitleEdgeInsets = new UIEdgeInsets(0, imageWidth, 0, -imageWidth);
+
+        var titleWidth = uiButton.TitleLabel.IntrinsicContentSize.Width;
+        var titleImageSpacing = Sizes.GetSize(SizeName.size_2);
+        var spacing = titleWidth + titleImageSpacing;
+        uiButton.ImageEdgeInsets = new UIEdgeInsets(0, -spacing, 0, spacing);
+
+        var oldContentEdgeInsets = uiButton.ContentEdgeInsets;
+        uiButton.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top, oldContentEdgeInsets.Left ,
+            oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right- titleImageSpacing);
+    }
 }

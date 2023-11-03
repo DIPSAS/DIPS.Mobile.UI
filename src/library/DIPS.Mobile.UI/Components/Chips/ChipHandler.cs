@@ -1,8 +1,12 @@
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
+
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler
 {
     private IconName CloseIconName => IconName.close_line;
+    private IconName ToggledIconName => IconName.check_line;
     public ChipHandler() : base(PropertyMapper)
     {
     }
@@ -16,6 +20,8 @@ public partial class ChipHandler
         [nameof(Chip.CornerRadius)] = MapCornerRadius,
         [nameof(Chip.BorderWidth)] = MapBorderWidth,
         [nameof(Chip.BorderColor)] = MapBorderColor,
+        [nameof(Chip.Style)] = MapStyle,
+        [nameof(Chip.TitleColor)] = MapTitleColor,
     };
 
     private static partial void MapBorderColor(ChipHandler handler, Chip chip);
@@ -29,10 +35,25 @@ public partial class ChipHandler
     private static partial void MapTitle(ChipHandler handler, Chip chip);
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip);
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip);
+    private static partial void MapStyle(ChipHandler handler, Chip chip);
+    private static partial void MapTitleColor(ChipHandler handler, Chip chip);
+    
     
     internal void OnChipTapped()
     {
+        var wasToggled = (bool)VirtualView.IsToggled!;
+        
         VirtualView.SendTapped();
+        
+        switch (wasToggled)
+        {
+            case true when !(bool)VirtualView.IsToggled!:
+                VirtualView.Style = ToggleStyle.ToggledOff;
+                break;
+            case false when (bool)VirtualView.IsToggled!:
+                VirtualView.Style = ToggleStyle.ToggledOn;
+                break;
+        }
     }
 
     internal void OnCloseTapped()
