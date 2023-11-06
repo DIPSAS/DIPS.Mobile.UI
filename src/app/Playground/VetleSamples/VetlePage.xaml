@@ -19,15 +19,9 @@
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
-
-    <dui:VerticalStackLayout Padding="20">
-
-        <dui:ListItem Title="Test!!" Command="{Binding Navigate}">
-            <dui:DatePicker />
-        </dui:ListItem>
-           
-
-    </dui:VerticalStackLayout>
-
+<dui:VerticalStackLayout>
+    
+    
+</dui:VerticalStackLayout>
 
 </dui:ContentSavePage>

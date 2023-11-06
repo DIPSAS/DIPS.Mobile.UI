@@ -3,6 +3,8 @@ using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -30,7 +32,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             m_selectedNativeIcon.Margin = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
 
             //Title label
-            var itemLabel = new Label() {VerticalTextAlignment = TextAlignment.Center};
+            var itemLabel = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
             itemLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding() {Source = this, Path = nameof(Text)});
             
             ColumnDefinitions = new ColumnDefinitionCollection()

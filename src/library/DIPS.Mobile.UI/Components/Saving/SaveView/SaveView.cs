@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.CheckBoxes;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
@@ -22,7 +24,7 @@ public partial class SaveView : ContentView
 
         m_stateLabel = new Label
         {
-            FontSize = Sizes.GetSize(SizeName.size_5),
+            Style = Styles.GetLabelStyle(LabelStyle.Header500),
             VerticalOptions = LayoutOptions.Start,
             HorizontalTextAlignment = TextAlignment.Center,
             FontAttributes = FontAttributes.Bold

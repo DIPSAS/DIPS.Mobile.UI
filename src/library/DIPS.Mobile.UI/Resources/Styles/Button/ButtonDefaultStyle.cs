@@ -8,8 +8,13 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 {
                     new Setter
                     {
+                        Property = Microsoft.Maui.Controls.Button.FontFamilyProperty,
+                        Value = "Body"
+                    },
+                    new Setter
+                    {
                         Property = Microsoft.Maui.Controls.Button.FontSizeProperty,
-                        Value = Sizes.Sizes.GetSize(SizeName.size_4)
+                        Value = 16
                     }
                 } 
             };
