@@ -1,6 +1,7 @@
 ## [18.0.0]
 - [BreakingChange] Changed TitleOptions property from FontSize to Style
 - Added styles for Labels
+- [iOS] Fixed periodic crash on initialization of Button in new .NET MAUI version.
 
 ## [17.26.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
