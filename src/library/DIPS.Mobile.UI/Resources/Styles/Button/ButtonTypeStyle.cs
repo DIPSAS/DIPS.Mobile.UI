@@ -66,7 +66,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button
                 new Setter
                 {
                     Property = VisualElement.BackgroundColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_secondary_20)
+                    Value = Microsoft.Maui.Graphics.Colors.Transparent
                 },
                 new Setter
                 {
