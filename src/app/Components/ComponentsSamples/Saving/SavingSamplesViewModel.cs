@@ -14,7 +14,6 @@ public class SavingSamplesViewModel : ViewModel
         {
             IsProgressing = true;
             await Task.Delay(1500);
-            IsProgressing = false;
             IsChecked = !IsChecked;
         });
         CompletedCommand = new Command(async () =>

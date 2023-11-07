@@ -1,3 +1,9 @@
+## [18.1.0]
+- [Android] Fixed a bug where progress bar would not take full width in Searchbar
+- Set Ghost buttons to transparent background
+- Cleaned up unused component
+- Fixed a bug in SavingSamples where it would remove the SaveView before popping the page
+
 ## [18.0.0]
 - [BreakingChange] Changed TitleOptions property from FontSize to Style
 - Added styles for Labels

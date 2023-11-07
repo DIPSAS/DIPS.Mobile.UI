@@ -19,7 +19,12 @@
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
-<dui:VerticalStackLayout>
+<dui:VerticalStackLayout x:Name="Indeterminate">
+    
+    <dui:SearchBar IsBusy="True" HasBusyIndication="True" HasCancelButton="True">
+        
+    </dui:SearchBar>
+    
     
     
 </dui:VerticalStackLayout>
