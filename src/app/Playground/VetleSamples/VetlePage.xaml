@@ -4,6 +4,9 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                      xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                     xmlns:inputs="clr-namespace:DIPS.Mobile.UI.Components.Inputs;assembly=DIPS.Mobile.UI"
+                     xmlns:textInputs="clr-namespace:DIPS.Mobile.UI.Components.TextInputs;assembly=DIPS.Mobile.UI"
+                     xmlns:textFields="clr-namespace:DIPS.Mobile.UI.Components.TextFields;assembly=DIPS.Mobile.UI"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                      BackgroundColor="White"
@@ -21,12 +24,14 @@
     </dui:ContentPage.ToolbarItems>
 <dui:VerticalStackLayout x:Name="Indeterminate">
     
-    <dui:SearchBar IsBusy="True" HasBusyIndication="True" HasCancelButton="True">
-        
-    </dui:SearchBar>
+    <textFields:Entry HasBorder="False" ShouldSelectAllTextOnFocused="True" />
     
+    <BoxView HeightRequest="50"
+             WidthRequest="50"
+             BackgroundColor="Red"></BoxView>
     
-    
+    <textFields:Entry HasBorder="False" Placeholder="Skriv inn tekst..." ShouldSelectAllTextOnFocused="True" />
+
 </dui:VerticalStackLayout>
 
 </dui:ContentSavePage>
