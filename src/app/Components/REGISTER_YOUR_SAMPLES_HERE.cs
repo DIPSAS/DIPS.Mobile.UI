@@ -12,6 +12,7 @@ using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
+using Components.ComponentsSamples.TextFields;
 using Components.Resources.LocalizedStrings;
 using Components.ResourcesSamples.Animations;
 using Components.ResourcesSamples.Colors;
@@ -44,7 +45,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Selection", () => new SelectionSamples()),
             new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples()),
             new(SampleType.Components, LocalizedStrings.Buttons, () => new ButtonsSamples()),
-            new(SampleType.Components, "Labels", () => new LabelsSamples())
+            new(SampleType.Components, "Labels", () => new LabelsSamples()),
+            new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples())
+
 
 
         };

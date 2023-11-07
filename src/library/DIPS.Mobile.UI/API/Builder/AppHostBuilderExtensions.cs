@@ -2,7 +2,6 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
-using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
@@ -15,6 +14,8 @@ using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
+using Entry = DIPS.Mobile.UI.Components.TextFields.Entry;
+using EntryHandler = DIPS.Mobile.UI.Components.TextFields.EntryHandler;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 using ImageHandler = DIPS.Mobile.UI.Components.Images.Image.ImageHandler;
@@ -57,6 +58,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
+            handlers.AddHandler<Entry, EntryHandler>();
             
             AddPlatformHandlers(handlers);
         });

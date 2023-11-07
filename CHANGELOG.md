@@ -1,3 +1,6 @@
+## [18.2.0]
+- Added new control: 'Entry'
+
 ## [18.1.0]
 - [Android] Fixed a bug where progress bar would not take full width in Searchbar
 - Set Ghost buttons to transparent background
