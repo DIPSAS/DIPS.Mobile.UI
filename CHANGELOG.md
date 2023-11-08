@@ -1,3 +1,6 @@
+## [18.3.0]
+- Added toggleable property on `Chip`
+
 ## [18.2.0]
 - Added new control: 'Entry'
 
