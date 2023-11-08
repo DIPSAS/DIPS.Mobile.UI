@@ -20,6 +20,12 @@ public static class EmptyInputStyle
                 },
                 new Setter
                 {
+                    Property = Components.Chips.Chip.TitleColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
+                        ColorName.color_system_black)
+                },
+                new Setter
+                {
                     Property = Components.Chips.Chip.BorderWidthProperty,
 #if __ANDROID__
                     Value = 2.0,

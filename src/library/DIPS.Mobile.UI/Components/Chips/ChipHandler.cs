@@ -20,8 +20,9 @@ public partial class ChipHandler
         [nameof(Chip.CornerRadius)] = MapCornerRadius,
         [nameof(Chip.BorderWidth)] = MapBorderWidth,
         [nameof(Chip.BorderColor)] = MapBorderColor,
-        [nameof(Chip.Style)] = MapStyle,
+        [nameof(Chip.IsToggled)] = MapIsToggled,
         [nameof(Chip.TitleColor)] = MapTitleColor,
+        [nameof(Chip.IsToggleable)] = MapIsToggleable,
     };
 
     private static partial void MapBorderColor(ChipHandler handler, Chip chip);
@@ -35,25 +36,16 @@ public partial class ChipHandler
     private static partial void MapTitle(ChipHandler handler, Chip chip);
     private static partial void MapHasCloseButton(ChipHandler handler, Chip chip);
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip);
-    private static partial void MapStyle(ChipHandler handler, Chip chip);
+    private static partial void MapIsToggled(ChipHandler handler, Chip chip);
     private static partial void MapTitleColor(ChipHandler handler, Chip chip);
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip);
+
+    
     
     
     internal void OnChipTapped()
     {
-        var wasToggled = (bool)VirtualView.IsToggled!;
-        
         VirtualView.SendTapped();
-        
-        switch (wasToggled)
-        {
-            case true when !(bool)VirtualView.IsToggled!:
-                VirtualView.Style = ToggleStyle.ToggledOff;
-                break;
-            case false when (bool)VirtualView.IsToggled!:
-                VirtualView.Style = ToggleStyle.ToggledOn;
-                break;
-        }
     }
 
     internal void OnCloseTapped()

@@ -41,8 +41,14 @@ public partial class ChipHandler : ViewHandler<Chip, ViewHandler>
         throw new Only_Here_For_UnitTests();
     }
     
-    private static partial void MapStyle(ChipHandler handler, Chip chip)
+    private static partial void MapIsToggled(ChipHandler handler, Chip chip)
     {
         throw new Only_Here_For_UnitTests();
     }
+
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
+    {
+        throw new Only_Here_For_UnitTests();
+    }
+
 }

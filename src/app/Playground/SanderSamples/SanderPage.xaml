@@ -10,33 +10,32 @@
     </dui:ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto, Auto, *"
-          ColumnDefinitions="*, *"
+          ColumnDefinitions="*, Auto, *"
           RowSpacing="4"
           ColumnSpacing="4">
         
-        <dui:Chip Grid.Column="0"
-                  Title="Test1" 
-                  Style="{dui:Styles Chip=Input}" />
+        <dui:Chip Title="Denne også med langt navn" 
+                  HasCloseButton="True"
+                  Style="{dui:Styles Chip=EmptyInput}"/>
 
         
         <dui:Chip Grid.Column="1"
-                  Title="Test2" 
-                  Style="{dui:Styles Chip=Toggle}"
-                  IsToggled="{Binding IsToggled}"
-                  Command="{Binding TestCommand}"/>
+                  Title="Tester med langt navn"
+                  IsToggleable="True"
+                  Style="{dui:Styles Chip=Input}"
+                  IsToggled="{Binding IsToggled}"/>
         
-        <dui:Chip Grid.Row="1"
-                  Grid.Column="0"
+        <dui:Chip Grid.Column="2"
                   Title="Test3"
                   Style="{dui:Styles Chip=Input}"
                   HasCloseButton="True"
                   CloseButtonColor="{dui:Colors color_system_black}"
                   CloseCommand="{Binding CloseCommand}"/>
-
-        <dui:Chip Grid.Row="1"
-                  Grid.Column="1"
-                  Title="Test4"
-                  Style="{dui:Styles Chip=EmptyInput}"/>
+        
+        <!-- <dui:Chip Grid.Row="1" -->
+        <!--           Grid.Column="1" -->
+        <!--           Title="Test4" -->
+        <!--           Style="{dui:Styles Chip=EmptyInput}"/> -->
         
     </Grid>
 </dui:ContentPage>

@@ -64,6 +64,9 @@ public partial class Chip
         set => SetValue(TitleProperty, value);
     }
 
+    /// <summary>
+    /// Sets the text color of the chip
+    /// </summary>
     public Color? TitleColor
     {
         get => (Color?)GetValue(TitleColorProperty);
@@ -111,6 +114,17 @@ public partial class Chip
         nameof(CloseCommand),
         typeof(ICommand),
         typeof(Chip));
+    
+    /// <summary>
+    /// Determines if this is a chip that can be toggled.
+    /// When toggled on, a check icon appears left of the <see cref="Title"/>, and the <see cref="Color"/> and
+    /// <see cref="TitleColor"/> changes.
+    /// </summary>
+    public bool IsToggleable 
+    {
+        get => (bool)GetValue(IsToggleableProperty);
+        set => SetValue(IsToggleableProperty, value);
+    }
 
     /// <summary>
     /// The command to be executed when people tap the close button.
@@ -135,9 +149,13 @@ public partial class Chip
         set => SetValue(CloseCommandParameterProperty, value);
     }
 
-    public bool? IsToggled
+    /// <summary>
+    /// Indicates whether chip that is <see cref="IsToggleable"/> is toggled or not.
+    /// Default <see cref="BindingMode"/> is TwoWay.
+    /// </summary>
+    public bool IsToggled
     {
-        get => (bool?)GetValue(IsToggledProperty);
+        get => (bool)GetValue(IsToggledProperty);
         set => SetValue(IsToggledProperty, value);
     }
 
@@ -189,6 +207,12 @@ public partial class Chip
     
     public static readonly BindableProperty IsToggledProperty = BindableProperty.Create(
         nameof(IsToggled),
+        typeof(bool),
+        typeof(Chip),
+        defaultBindingMode: BindingMode.TwoWay);
+    
+    public static readonly BindableProperty IsToggleableProperty = BindableProperty.Create(
+        nameof(IsToggleable),
         typeof(bool),
         typeof(Chip));
 

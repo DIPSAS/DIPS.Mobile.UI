@@ -37,6 +37,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button.CornerRadius = 6;
         m_button.Padding = new Thickness(12, 6, 12, 6);
         platformView.AddGestureRecognizer(new ChipCloseGestureRecognizer(this));
+        platformView.AddGestureRecognizer(new ChipToggleGestureRecognizer(this));
     }
     
     private static partial void MapTitle(ChipHandler handler, Chip chip)
@@ -72,6 +73,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (!handler.VirtualView.HasCloseButton) return;
+        
         if (handler.VirtualView.CloseButtonColor == null) return;
         
         if (handler.PlatformView.ImageView.Image == null) //Close button is the UIButton imageview
@@ -129,53 +132,76 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         handler.PlatformView.TintColor = chip.TitleColor.ToPlatform();
     }
 
-    private static partial void MapStyle(ChipHandler handler, Chip chip)
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
     {
-        var uiButton = handler.PlatformView;
-        if ((bool)handler.VirtualView.IsToggled!)
+        if (!handler.VirtualView.IsToggleable) return;
+        
+        if (!OperatingSystem.IsIOSVersionAtLeast(14, 1))
         {
-            if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
+            return;
+        }
+        
+        if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
+        {
+            var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+            var imageWidth = resizedImage.Size.Width;
+            
+            var oldContentEdgeInsets = handler.PlatformView.ContentEdgeInsets;
+            handler.PlatformView.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top,  imageWidth,
+                oldContentEdgeInsets.Bottom, imageWidth);
+            // handler.PlatformView.TitleEdgeInsets = new UIEdgeInsets(0, imageWidth, 0, imageWidth);
+        }
+    }
+
+    private static partial void MapIsToggled(ChipHandler handler, Chip chip)
+    {
+        //Make sure not to mess with close button
+        if (handler.VirtualView.HasCloseButton)
+            return;
+
+        if (!handler.VirtualView.IsToggleable)
+            return;
+        
+        var uiButton = handler.PlatformView;
+        if (handler.VirtualView.IsToggled!)
+        {
+            if (!Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
             {
-                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
-                var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
-                uiButton.SetImage(resizedImage, UIControlState.Normal);
-                ShiftImageToTheLeft(handler, uiButton);
+                return;
             }
-            else
-            {
-                uiButton.SetImage(null, UIControlState.Normal);
-            }
+
+            handler.PlatformView.ContentMode = UIViewContentMode.ScaleAspectFit;
+            var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+            uiButton.ContentEdgeInsets = new UIEdgeInsets(0, -resizedImage.Size.Width, 0, -resizedImage.Size.Width);
+            handler.PlatformView.SetImage(resizedImage, UIControlState.Normal);
+            CenterContent(handler, uiButton, true);
         }
         else
         {
-            if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
-            {
-                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
-                var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
-                uiButton.SetImage(resizedImage, UIControlState.Normal);
-                ShiftImageToTheRight(handler, uiButton);
-            }
+            if (uiButton.ImageView.Image is null)
+                return; 
+            
+            CenterContent(handler, uiButton);
             uiButton.SetImage(null, UIControlState.Normal);
         }
     }
     
-    private static void ShiftImageToTheLeft(ChipHandler handler, UIButton uiButton)
+    private static void CenterContent(ChipHandler handler, UIButton uiButton, bool imageIsDisplayed = false)
     {
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1))
         {
             return;
         }
 
-        var imageWidth = uiButton.ImageView.IntrinsicContentSize.Width;
-        uiButton.TitleEdgeInsets = new UIEdgeInsets(0, imageWidth, 0, -imageWidth);
-
-        var titleWidth = uiButton.TitleLabel.IntrinsicContentSize.Width;
         var titleImageSpacing = Sizes.GetSize(SizeName.size_2);
-        var spacing = titleWidth + titleImageSpacing;
-        uiButton.ImageEdgeInsets = new UIEdgeInsets(0, -spacing, 0, spacing);
 
-        var oldContentEdgeInsets = uiButton.ContentEdgeInsets;
-        uiButton.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top, oldContentEdgeInsets.Left ,
-            oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right- titleImageSpacing);
+        if (imageIsDisplayed)
+        {
+            uiButton.TitleEdgeInsets = new UIEdgeInsets(0, titleImageSpacing, 0, titleImageSpacing);
+        }
+        else
+        {
+            uiButton.TitleEdgeInsets = new UIEdgeInsets(0, -titleImageSpacing, 0, -titleImageSpacing);
+        }
     }
 }

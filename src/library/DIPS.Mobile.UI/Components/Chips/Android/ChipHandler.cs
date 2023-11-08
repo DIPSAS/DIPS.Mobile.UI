@@ -1,7 +1,9 @@
 using Android.Content.Res;
+using Android.Runtime;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
+using Java.Interop;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -78,11 +80,13 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
             new[] {global::Android.Resource.Attribute.StateEnabled}, // enabled
             new[] {-global::Android.Resource.Attribute.StateEnabled}, // disabled
             new[] {-global::Android.Resource.Attribute.StateChecked}, // unchecked
+            new[] {global::Android.Resource.Attribute.StateChecked}, // checked
             new[] {global::Android.Resource.Attribute.StateChecked} // pressed
         };
 
         colors = new int[]
         {
+            color.ToPlatform(),
             color.ToPlatform(),
             color.ToPlatform(),
             color.ToPlatform(),
@@ -118,9 +122,45 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     
     private static partial void MapTitleColor(ChipHandler handler, Chip chip)
     {
+        if (chip.TitleColor is null) return;
+        handler.PlatformView.SetTextColor(chip.TitleColor.ToPlatform());
+        handler.PlatformView.CheckedIconTint = new ColorStateList(CreateColorStates(handler.VirtualView.TitleColor, out var colors), colors);
+    }
+
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
+    {
+        if (!handler.VirtualView.IsToggleable)
+            return;
+        
+        handler.PlatformView.Checkable = true;
+        DUI.TryGetResourceId(Icons.GetIconName(handler.ToggledIconName), out var id, defType:"drawable");
+        if (id is not 0)
+        {
+            var drawable = Platform.AppContext.Resources?.GetDrawable(id);
+            handler.PlatformView.CheckedIcon = drawable;
+        }
+        handler.PlatformView.SetOnCheckedChangeListener(new OnToggledChangedListener(handler));
     }
     
-    private static partial void MapStyle(ChipHandler handler, Chip chip)
+    private static partial void MapIsToggled(ChipHandler handler, Chip chip)
     {
+        //Make sure not to mess with close button
+        if (handler.VirtualView.HasCloseButton)
+            return;
+
+        if (!handler.VirtualView.IsToggleable)
+            return;
+        
+        if (handler.VirtualView.IsToggled)
+        {
+            handler.PlatformView.Checked = true;
+            handler.PlatformView.CheckedIconVisible = true;
+        }
+        else
+        {
+            handler.PlatformView.Checked = false;
+            handler.PlatformView.CheckedIconVisible = false;
+        }
+        
     }
 }

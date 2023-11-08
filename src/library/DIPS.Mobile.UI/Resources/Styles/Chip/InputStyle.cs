@@ -22,6 +22,11 @@ public static class InputStyle
                     Property = Components.Chips.Chip.CornerRadiusProperty,
                     Value = DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
                 },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.TitleColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_black)
+                },
             },
         };
 }

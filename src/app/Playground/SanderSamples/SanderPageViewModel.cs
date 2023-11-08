@@ -12,7 +12,7 @@ public class SanderPageViewModel : ViewModel
 
     public SanderPageViewModel()
     {
-        TestCommand = new Command(() => IsToggled = !IsToggled);
+        // TestCommand = new Command(() => IsToggled = !IsToggled);
         CloseCommand = new Command(() => IsClosed = true);
     }
 
