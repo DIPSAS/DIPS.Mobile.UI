@@ -1,5 +1,6 @@
-## [18.3.0]
+## [19.0.0]
 - Added toggleable property on `Chip`
+- [BreakingChange] Change property `Chip.HasCloseButton` to `Chip.IsCloseable`
 
 ## [18.2.0]
 - Added new control: 'Entry'
