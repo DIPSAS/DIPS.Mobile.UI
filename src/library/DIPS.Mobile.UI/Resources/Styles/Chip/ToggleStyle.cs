@@ -1,28 +1,28 @@
 namespace DIPS.Mobile.UI.Resources.Styles.Chip;
 
-public static class EmptyInputStyle
+internal static class ToggleStyle
 {
-    public static Style Current =>
+    internal static Style ToggledOn =>
         new(typeof(Components.Chips.Chip))
         {
             Setters =
             {
-                new Setter()
-                {
-                    Property = Components.Chips.Chip.CornerRadiusProperty,
-                    Value = DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
-                },
                 new Setter
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_system_white)
+                    Value = Colors.Colors.GetColor(
+                        ColorName.color_primary_80)
+                },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.CornerRadiusProperty,
+                    Value = Sizes.Sizes.GetSize(SizeName.size_2)
                 },
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_system_black)
+                    Value = Colors.Colors.GetColor(
+                        ColorName.color_system_white)
                 },
                 new Setter
                 {

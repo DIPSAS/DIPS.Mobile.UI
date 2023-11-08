@@ -28,17 +28,19 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         m_button.CornerRadius = 6;
         m_button.Padding = new Thickness(12, 6, 12, 6);
         platformView.AddGestureRecognizer(new ChipCloseGestureRecognizer(this));
+        platformView.AddGestureRecognizer(new ChipToggleGestureRecognizer(this));
     }
+    
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.m_button.Text = chip.Title;
         handler.PlatformView.TitleLabel.LineBreakMode = UILineBreakMode.TailTruncation;
     }
 
-    private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
+    private static partial void MapIsCloseable(ChipHandler handler, Chip chip)
     {
         var uiButton = handler.PlatformView;
-        if (handler.VirtualView.HasCloseButton)
+        if (handler.VirtualView.IsCloseable)
         {
             if (Icons.TryGetUIImage(iconName: handler.CloseIconName, out var image))
             {
@@ -62,6 +64,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
+        if (!handler.VirtualView.IsCloseable) return;
+        
         if (handler.VirtualView.CloseButtonColor == null) return;
         
         if (handler.PlatformView.ImageView.Image == null) //Close button is the UIButton imageview
@@ -111,5 +115,68 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     {
         handler.PlatformView.Layer.BorderWidth = (nfloat)chip.BorderWidth;
     }
+
+    private static partial void MapTitleColor(ChipHandler handler, Chip chip)
+    {
+        if (chip.TitleColor is null) return;
+        handler.PlatformView.SetTitleColor(chip.TitleColor.ToPlatform(), UIControlState.Normal);
+        
+        if (!handler.VirtualView.IsToggleable || !handler.VirtualView.IsToggled) return; //Do not change close icon color
+        var imageToTint = handler.PlatformView.ImageView.Image?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+        handler.PlatformView.SetImage(imageToTint, UIControlState.Normal);
+        handler.PlatformView.TintColor = chip.TitleColor.ToPlatform();
+    }
+
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
+    {
+        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable) return;
+        
+        if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
+        
+        if (Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image))
+        {
+            var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+            var imageWidth = resizedImage.Size.Width;
+            
+            var oldContentEdgeInsets = handler.PlatformView.ContentEdgeInsets;
+            handler.PlatformView.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top,  imageWidth,
+                oldContentEdgeInsets.Bottom, imageWidth);
+        }
+    }
+
+    private static partial void MapIsToggled(ChipHandler handler, Chip chip)
+    {
+        //Make sure not to mess with close button
+        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable) return;
+        
+        var uiButton = handler.PlatformView;
+        if (handler.VirtualView.IsToggled)
+        {
+            if (!Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image)) return;
+
+            uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+            var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
+            uiButton.ContentEdgeInsets = new UIEdgeInsets(0, -resizedImage.Size.Width, 0, -resizedImage.Size.Width);
+            uiButton.SetImage(resizedImage, UIControlState.Normal);
+            CenterContent(handler, uiButton, true);
+        }
+        else
+        {
+            if (uiButton.ImageView.Image is null) return; 
+            
+            CenterContent(handler, uiButton);
+            uiButton.SetImage(null, UIControlState.Normal);
+        }
+    }
     
+    private static void CenterContent(ChipHandler handler, UIButton uiButton, bool imageIsDisplayed = false)
+    {
+        if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
+
+        var titleImageSpacing = Sizes.GetSize(SizeName.size_2);
+
+        uiButton.TitleEdgeInsets = imageIsDisplayed 
+            ? new UIEdgeInsets(0, titleImageSpacing, 0, titleImageSpacing) 
+            : new UIEdgeInsets(0, -titleImageSpacing, 0, -titleImageSpacing);
+    }
 }
