@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.Labels.LabelsSamples">
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout>
+
+            <dui:Label Text="Header1000"
+                       Style="{dui:Styles Label=Header1000}" />
+
+            <dui:Label Text="Header900"
+                       Style="{dui:Styles Label=Header900}" />
+
+            <dui:Label Text="Header800"
+                       Style="{dui:Styles Label=Header800}" />
+
+            <dui:Label Text="Header700"
+                       Style="{dui:Styles Label=Header700}" />
+
+            <dui:Label Text="Header600"
+                       Style="{dui:Styles Label=Header600}" />
+
+            <dui:Label Text="Header500"
+                       Style="{dui:Styles Label=Header500}" />
+
+            <dui:Divider Margin="{dui:Thickness Top=size_2, Bottom=size_2}" />
+
+            <dui:Label Text="UI400"
+                       Style="{dui:Styles Label=UI400}" />
+
+            <dui:Label Text="UI300"
+                       Style="{dui:Styles Label=UI300}" />
+
+            <dui:Label Text="UI200"
+                       Style="{dui:Styles Label=UI200}" />
+
+            <dui:Label Text="UI100"
+                       Style="{dui:Styles Label=UI100}" />
+
+            <dui:Divider Margin="{dui:Thickness Top=size_2, Bottom=size_2}" />
+
+            <dui:Label Text="Body400"
+                       Style="{dui:Styles Label=Body400}" />
+
+            <dui:Label Text="Body300"
+                       Style="{dui:Styles Label=Body300}" />
+
+            <dui:Label Text="Body200"
+                       Style="{dui:Styles Label=Body200}" />
+
+            <dui:Label Text="Body100"
+                       Style="{dui:Styles Label=Body100}" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

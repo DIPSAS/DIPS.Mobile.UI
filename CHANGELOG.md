@@ -1,3 +1,34 @@
+## [18.2.0]
+- Added new control: 'Entry'
+
+## [18.1.0]
+- [Android] Fixed a bug where progress bar would not take full width in Searchbar
+- Set Ghost buttons to transparent background
+- Cleaned up unused component
+- Fixed a bug in SavingSamples where it would remove the SaveView before popping the page
+
+## [18.0.0]
+- [BreakingChange] Changed TitleOptions property from FontSize to Style
+- Added styles for Labels
+- [iOS] Fixed periodic crash on initialization of Button in new .NET MAUI version.
+- Upgraded to newest .NET MAUI version
+
+## [17.26.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [17.25.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [17.24.1]
+- [iOS] Fixed a bug where items inside ListItem were sometimes not tappable
+
+## [17.24.0]
+- Added support for dividers in context menu
+
+## [17.23.5]
+- [iOS] Fixed an issue where having native buttons in a subview of a view that has the touch API on it, would fire both the button and the view that has the touch api .
+- [iOS] Fixed an issue with the touch API, where if you press and then drag the element, the touch effect would never go back to its default state.
+
 ## [17.23.4]
 - [Android] Fixed an issue where the action buttons in dialogs were not sometimes placed on the bottom
 - Fixed an issue where the first and the last button in segmentedcontrol were squished to the side when selected

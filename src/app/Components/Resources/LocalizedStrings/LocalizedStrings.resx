@@ -281,4 +281,19 @@
     <data name="Context_Menu_LongPressWithDestructiveAction" xml:space="preserve">
         <value>Long press menu with a destructive action</value>
     </data>
+    <data name="Context_Menu_Divider" xml:space="preserve">
+        <value>Context menu divider</value>
+    </data>
+    <data name="SelectAllTextOnFocus" xml:space="preserve">
+        <value>Select all text on focus</value>
+    </data>
+    <data name="InputText" xml:space="preserve">
+        <value>Input text...</value>
+    </data>
+    <data name="Unfocus" xml:space="preserve">
+        <value>Unfocus</value>
+    </data>
+    <data name="TextFields" xml:space="preserve">
+        <value>Text fields</value>
+    </data>
 </root>

@@ -1,6 +1,8 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -86,7 +88,7 @@ public partial class SegmentedControl : ContentView
             HeightRequest = Sizes.GetSize(SizeName.size_3),
         };
         checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
-        var label = new Label() {VerticalTextAlignment = TextAlignment.Center, FontSize = 14};
+        var label = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
 

@@ -4,9 +4,16 @@ using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using Java.Interop;
+using Android.Graphics.Fonts;
+using Android.Text;
+using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips.Android;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Font = Microsoft.Maui.Graphics.Font;
 using TextAlignment = Android.Views.TextAlignment;
 
 
@@ -21,9 +28,11 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         base.ConnectHandler(platformView);
         platformView.SetPadding(8, 2, 8, 2);
+        
+        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
+        platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
         platformView.TextAlignment = (TextAlignment) Microsoft.Maui.TextAlignment.Center;
         platformView.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
-        platformView.TextSize = Sizes.GetSize(SizeName.size_4);
         platformView.ChipCornerRadius = 24;
         platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;

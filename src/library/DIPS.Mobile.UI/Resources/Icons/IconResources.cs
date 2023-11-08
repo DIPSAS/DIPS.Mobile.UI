@@ -112,6 +112,22 @@ this file is generated
 ["merknad_dot_fill"] = "merknad_dot_fill.png",
 ["flash_off_fill"] = "flash_off_fill.png",
 ["menu_line"] = "menu_line.png",
+["arrow_forward_line"] = "arrow_forward_line.png",
+["save_fill"] = "save_fill.png",
+["pdf_line"] = "pdf_line.png",
+["pencil_fill"] = "pencil_fill.png",
+["text_line"] = "text_line.png",
+["image_line"] = "image_line.png",
+["save_line"] = "save_line.png",
+["image_fill"] = "image_fill.png",
+["delete_fill"] = "delete_fill.png",
+["arrow_back_line"] = "arrow_back_line.png",
+["edit_line"] = "edit_line.png",
+["delete_line"] = "delete_line.png",
+["document_format_line"] = "document_format_line.png",
+["expandall_fill"] = "expandall_fill.png",
+["ehr_line"] = "ehr_line.png",
+["ehr_folder_line"] = "ehr_folder_line.png",
 
             };
         }

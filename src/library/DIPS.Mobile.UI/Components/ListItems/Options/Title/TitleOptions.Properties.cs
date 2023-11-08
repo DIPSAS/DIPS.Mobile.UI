@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
@@ -22,14 +24,14 @@ public partial class TitleOptions
         get => (Color)GetValue(TextColorProperty);
         set => SetValue(TextColorProperty, value);
     }
-    
+
     /// <summary>
-    /// Sets the font-size of <see cref="TitleOptions"/>
+    /// Sets the style
     /// </summary>
-    public double FontSize
+    public Style Style
     {
-        get => (double)GetValue(FontSizeProperty);
-        set => SetValue(FontSizeProperty, value);
+        get => (Style)GetValue(StyleProperty);
+        set => SetValue(StyleProperty, value);
     }
     
     [TypeConverter(typeof(GridLengthTypeConverter))]
@@ -102,12 +104,6 @@ public partial class TitleOptions
         typeof(TitleOptions),
         defaultValue:GridLength.Auto);
     
-    public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
-        nameof(FontSize),
-        typeof(double),
-        typeof(ListItem),
-        defaultValue:(double)Sizes.GetSize(SizeName.size_4));
-    
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
         typeof(Color),
@@ -130,5 +126,11 @@ public partial class TitleOptions
         typeof(TextAlignment),
         typeof(TitleOptions),
         defaultValue:TextAlignment.End);
+    
+    public static readonly BindableProperty StyleProperty = BindableProperty.Create(
+        nameof(Style),
+        typeof(Style),
+        typeof(TitleOptions),
+        defaultValue:Styles.GetLabelStyle(LabelStyle.Body300));
     
 }

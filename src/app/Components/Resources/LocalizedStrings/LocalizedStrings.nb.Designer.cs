@@ -560,5 +560,35 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Context_Menu_LongPressWithDestructiveAction", resourceCulture);
             }
         }
+        
+        internal static string Context_Menu_Divider {
+            get {
+                return ResourceManager.GetString("Context_Menu_Divider", resourceCulture);
+            }
+        }
+        
+        internal static string SelectAllTextOnFocus {
+            get {
+                return ResourceManager.GetString("SelectAllTextOnFocus", resourceCulture);
+            }
+        }
+        
+        internal static string InputText {
+            get {
+                return ResourceManager.GetString("InputText", resourceCulture);
+            }
+        }
+        
+        internal static string Unfocus {
+            get {
+                return ResourceManager.GetString("Unfocus", resourceCulture);
+            }
+        }
+        
+        internal static string TextFields {
+            get {
+                return ResourceManager.GetString("TextFields", resourceCulture);
+            }
+        }
     }
 }

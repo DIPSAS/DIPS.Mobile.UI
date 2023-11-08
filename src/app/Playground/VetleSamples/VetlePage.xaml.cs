@@ -29,16 +29,6 @@ public partial class VetlePage
 
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-        if (e.Value)
-        {
-            Grid.Padding = new Thickness(12, 8, 12, 8);
-
-        }
-        else
-        {
-            Grid.Padding = new Thickness(20, 8, 20, 8);
-
-
-        }
+       
     }
 }

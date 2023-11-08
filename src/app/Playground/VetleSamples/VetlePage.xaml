@@ -4,6 +4,9 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                      xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                     xmlns:inputs="clr-namespace:DIPS.Mobile.UI.Components.Inputs;assembly=DIPS.Mobile.UI"
+                     xmlns:textInputs="clr-namespace:DIPS.Mobile.UI.Components.TextInputs;assembly=DIPS.Mobile.UI"
+                     xmlns:textFields="clr-namespace:DIPS.Mobile.UI.Components.TextFields;assembly=DIPS.Mobile.UI"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                      BackgroundColor="White"
@@ -19,62 +22,16 @@
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
+<dui:VerticalStackLayout x:Name="Indeterminate">
+    
+    <textFields:Entry HasBorder="False" ShouldSelectAllTextOnFocused="True" />
+    
+    <BoxView HeightRequest="50"
+             WidthRequest="50"
+             BackgroundColor="Red"></BoxView>
+    
+    <textFields:Entry HasBorder="False" Placeholder="Skriv inn tekst..." ShouldSelectAllTextOnFocused="True" />
 
-    <dui:VerticalStackLayout Padding="20">
-
-        <dui:SegmentedControl SelectionMode="Multi">
-            <x:Array Type="{x:Type x:String}">
-                <x:String>First</x:String>
-                <x:String>Second</x:String>
-                <x:String>Third</x:String>
-            </x:Array>
-        </dui:SegmentedControl>
-        
-        <Switch x:Name="Switch" Toggled="Switch_OnToggled" />
-        
-        <Border BackgroundColor="Red"
-                HorizontalOptions="Center"
-                
-                VerticalOptions="Center"
-                HeightRequest="{dui:Sizes size_10}">
-            
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
-            </Border.StrokeShape>
-            
-            <HorizontalStackLayout 
-                Spacing="{dui:Sizes size_1}"
-                  Padding="{dui:Thickness Left=size_5, Top=size_2, Right=size_5, Bottom=size_2}"
-                  VerticalOptions="Center"
-                  x:Name="Grid">
-                <dui:Image BackgroundColor="Blue" WidthRequest="{dui:Sizes size_3}" IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"
-                                                                                      HeightRequest="{dui:Sizes size_3}"
-                                                                                      Source="{dui:Icons check_line}"/>
-                <Label Grid.Column="1" BackgroundColor="Green" Text="Third" VerticalTextAlignment="Center" FontSize="14" />
-            </HorizontalStackLayout>
-            
-        </Border>
-        
-        <Border BackgroundColor="Green"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                HeightRequest="{dui:Sizes size_10}">
-            
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
-            </Border.StrokeShape>
-            
-            <HorizontalStackLayout 
-                  VerticalOptions="Center"
-                  Padding="{dui:Thickness Left=size_5, Top=size_2, Right=size_5, Bottom=size_2}">
-              
-                <Label Text="Third" Grid.Column="1" VerticalTextAlignment="Center" FontSize="14" />
-            </HorizontalStackLayout>
-            
-        </Border>
-
-
-    </dui:VerticalStackLayout>
-
+</dui:VerticalStackLayout>
 
 </dui:ContentSavePage>

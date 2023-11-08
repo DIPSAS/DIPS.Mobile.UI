@@ -273,4 +273,19 @@
     <data name="Context_Menu_LongPressWithDestructiveAction" xml:space="preserve">
         <value>Long press menu med en destruktiv handling</value>
     </data>
+    <data name="Context_Menu_Divider" xml:space="preserve">
+        <value>Context menu divider</value>
+    </data>
+    <data name="SelectAllTextOnFocus" xml:space="preserve">
+        <value>Merk tekst når fokusert</value>
+    </data>
+    <data name="InputText" xml:space="preserve">
+        <value>Skriv inn tekst...</value>
+    </data>
+    <data name="Unfocus" xml:space="preserve">
+        <value>Ufokuser</value>
+    </data>
+    <data name="TextFields" xml:space="preserve">
+        <value>Tekstfelter</value>
+    </data>
 </root>

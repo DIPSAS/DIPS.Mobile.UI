@@ -12,53 +12,53 @@
         <Grid RowDefinitions="Auto, 20, Auto, 20, Auto">
 
             <dui:VerticalStackLayout>
-                <dui:Label Text="Buttons disabled"
-                           FontAttributes="Bold"
-                           FontSize="16"
-                           HorizontalOptions="End" />
+                <dui:VerticalStackLayout>
+                    <dui:Label Text="Buttons disabled"
+                               Style="{dui:Styles Label=Header500}"
+                               HorizontalOptions="End" />
 
-                <Switch x:Name="Switch"
-                        HorizontalOptions="End" />
-            </dui:VerticalStackLayout>
+                    <Switch x:Name="Switch"
+                            HorizontalOptions="End" />
+                </dui:VerticalStackLayout>
 
-            <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
-                                     HorizontalOptions="Start">
-                <dui:Label Text="Primary"
-                           FontAttributes="Bold"
-                           FontSize="16" />
-                <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
-                            Text="Large"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
+                                         HorizontalOptions="Start">
 
-                <dui:Button Style="{dui:Styles Button=PrimarySmall}"
-                            Text="Small"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                    <dui:Label Text="Primary"
+                               Style="{dui:Styles Label=Header500}" />
+                    <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
+                                Text="Large"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
-                <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
-                            Text="Large"
-                            ImageSource="{dui:Icons bell_line}"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                    <dui:Button Style="{dui:Styles Button=PrimarySmall}"
+                                Text="Small"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
-                <dui:Button Style="{dui:Styles Button=PrimarySmall}"
-                            Text="Small"
-                            ImageSource="{dui:Icons bell_line}"
-                            ImagePlacement="Right"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
-                <dui:Button Style="{dui:Styles Button=PrimaryIconButtonSmall}"
-                            ImageSource="{dui:Icons bell_line}"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
-                <dui:Button Style="{dui:Styles Button=PrimaryIconButtonLarge}"
-                            ImageSource="{dui:Icons bell_line}"
-                            IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                    <dui:Button Style="{dui:Styles Button=PrimaryLarge}"
+                                Text="Large"
+                                ImageSource="{dui:Icons bell_line}"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
 
+                    <dui:Button Style="{dui:Styles Button=PrimarySmall}"
+                                Text="Small"
+                                ImageSource="{dui:Icons bell_line}"
+                                ImagePlacement="Right"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                    <dui:Button Style="{dui:Styles Button=PrimaryIconButtonSmall}"
+                                ImageSource="{dui:Icons bell_line}"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+                    <dui:Button Style="{dui:Styles Button=PrimaryIconButtonLarge}"
+                                ImageSource="{dui:Icons bell_line}"
+                                IsEnabled="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:InvertedBoolConverter}}" />
+
+                </dui:VerticalStackLayout>
             </dui:VerticalStackLayout>
 
             <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
                                      HorizontalOptions="Start"
                                      Grid.Row="2">
                 <dui:Label Text="Secondary"
-                           FontAttributes="Bold"
-                           FontSize="16" />
+                           Style="{dui:Styles Label=Header500}" />
                 
                 <dui:Button Style="{dui:Styles Button=SecondaryLarge}"
                             Text="Large"
@@ -95,8 +95,7 @@
                                      HorizontalOptions="Start"
                                      Grid.Row="4">
                 <dui:Label Text="Ghost"
-                           FontAttributes="Bold"
-                           FontSize="16" />
+                           Style="{dui:Styles Label=Header500}" />
 
                 <dui:Button Style="{dui:Styles Button=GhostLarge}"
                             Text="Large"

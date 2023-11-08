@@ -14,6 +14,13 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDIPSUI();
         
+        builder.ConfigureFonts(fonts =>
+        {
+            fonts.AddFont("OpenSans-Bold.ttf", "Header");
+            fonts.AddFont("OpenSans-Medium.ttf", "UI");
+            fonts.AddFont("OpenSans-Regular.ttf", "Body");
+        });
+        
         //Close things when the app is going to background and back again
 #if __ANDROID__
         builder.ConfigureLifecycleEvents(events =>

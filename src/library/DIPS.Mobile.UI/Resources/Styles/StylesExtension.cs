@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 
 namespace DIPS.Mobile.UI.Resources.Styles
 {
@@ -14,6 +15,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
         /// The <see cref="ButtonStyle"/> to look for.
         /// </summary>
         public ButtonStyle Button { get; set; }
+        
+        /// <summary>
+        /// The <see cref="LabelStyle"/> to look for.
+        /// </summary>
+        public LabelStyle Label { get; set; }
 
         public Style ProvideValue(IServiceProvider serviceProvider)
         {
@@ -25,6 +31,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
             if(Button != ButtonStyle.None)
             {
                 return Styles.GetButtonStyle(Button);
+            }
+
+            if (Label != LabelStyle.None)
+            {
+                return Styles.GetLabelStyle(Label);
             }
 
             return new Style(typeof(View));

@@ -13,12 +13,15 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+            .UseDIPSUI();
+        
+        builder.ConfigureFonts(fonts =>
+        {
+            fonts.AddFont("OpenSans-Bold.ttf", "Header");
+            fonts.AddFont("OpenSans-Medium.ttf", "UI");
+            fonts.AddFont("OpenSans-Regular.ttf", "Body");
+        });
+        
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
