@@ -1,3 +1,6 @@
+## [18.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [18.2.0]
 - Added new control: 'Entry'
 

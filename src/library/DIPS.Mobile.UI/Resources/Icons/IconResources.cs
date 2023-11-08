@@ -44,7 +44,6 @@ this file is generated
 ["close_line"] = "close_line.png",
 ["test_tube_off_line"] = "test_tube_off_line.png",
 ["companion_fill"] = "companion_fill.png",
-["person_line"] = "person_line.png",
 ["descending_fill"] = "descending_fill.png",
 ["patient_list_fill"] = "patient_list_fill.png",
 ["schedule_fill"] = "schedule_fill.png",
@@ -128,6 +127,8 @@ this file is generated
 ["expandall_fill"] = "expandall_fill.png",
 ["ehr_line"] = "ehr_line.png",
 ["ehr_folder_line"] = "ehr_folder_line.png",
+["person_fill"] = "person_fill.png",
+["more_fill"] = "more_fill.png",
 
             };
         }

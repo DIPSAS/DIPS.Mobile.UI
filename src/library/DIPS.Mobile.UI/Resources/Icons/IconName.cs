@@ -79,8 +79,6 @@ close_line=32,
 test_tube_off_line=33, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/companion_fill.svg">View the icon in the browser</a></summary>
 companion_fill=34, 
-///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/person_line.svg">View the icon in the browser</a></summary>
-person_line=35, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/descending_fill.svg">View the icon in the browser</a></summary>
 descending_fill=36, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/patient_list_fill.svg">View the icon in the browser</a></summary>
@@ -247,5 +245,9 @@ expandall_fill=116,
 ehr_line=117,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/ehr_folder_line.svg">View the icon in the browser</a></summary>
 ehr_folder_line=118,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/person_fill.svg">View the icon in the browser</a></summary>
+person_fill=119,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/more_fill.svg">View the icon in the browser</a></summary>
+more_fill=120,
     }
 }
