@@ -19,7 +19,7 @@
         <dui:Label Text="Chip, closeable"
                    Margin="5" />
         <dui:Chip Title="A closeable chip"
-                  HasCloseButton="True"
+                  IsCloseable="True"
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
                   Tapped="Chip_OnTapped"

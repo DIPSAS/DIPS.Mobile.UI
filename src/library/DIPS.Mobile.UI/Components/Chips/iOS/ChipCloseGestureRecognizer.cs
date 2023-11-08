@@ -16,7 +16,7 @@ public class ChipCloseGestureRecognizer : UITapGestureRecognizer
     public override void TouchesBegan(NSSet touches, UIEvent evt)
     {
         base.TouchesBegan(touches, evt);
-        if (!m_chipHandler.VirtualView.HasCloseButton)
+        if (!m_chipHandler.VirtualView.IsCloseable)
         {
             m_chipHandler.OnChipTapped();
             return;

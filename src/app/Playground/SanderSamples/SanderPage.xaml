@@ -15,7 +15,7 @@
           ColumnSpacing="4">
         
         <dui:Chip Title="Denne også med langt navn" 
-                  HasCloseButton="True"
+                  IsCloseable="True"
                   Style="{dui:Styles Chip=EmptyInput}"/>
 
         
@@ -28,7 +28,7 @@
         <dui:Chip Grid.Column="2"
                   Title="Test3"
                   Style="{dui:Styles Chip=Input}"
-                  HasCloseButton="True"
+                  IsCloseable="True"
                   CloseButtonColor="{dui:Colors color_system_black}"
                   CloseCommand="{Binding CloseCommand}"/>
         

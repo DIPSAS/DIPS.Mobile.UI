@@ -46,6 +46,8 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     protected override void DisconnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.DisconnectHandler(platformView);
+        platformView.SetOnCloseIconClickListener(null);
+        platformView.SetOnCheckedChangeListener(null);
         platformView.Click -= OnChipTapped;
     }
 
@@ -55,9 +57,9 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         handler.PlatformView.Ellipsize = TextUtils.TruncateAt.End;
     }
 
-    private static partial void MapHasCloseButton(ChipHandler handler, Chip chip)
+    private static partial void MapIsCloseable(ChipHandler handler, Chip chip)
     {
-        if (handler.VirtualView.HasCloseButton)
+        if (handler.VirtualView.IsCloseable)
         {
             handler.PlatformView.CloseIconVisible = true;
             handler.PlatformView.SetOnCloseIconClickListener(new ChipCloseListener(handler));
@@ -133,15 +135,16 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         if (chip.TitleColor is null) return;
         handler.PlatformView.SetTextColor(chip.TitleColor.ToPlatform());
+        if (!handler.VirtualView.IsToggleable) return; //Do not change close icon color
         handler.PlatformView.CheckedIconTint = new ColorStateList(CreateColorStates(handler.VirtualView.TitleColor, out var colors), colors);
     }
 
     private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
     {
-        if (!handler.VirtualView.IsToggleable)
+        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable)
             return;
         
-        handler.PlatformView.Checkable = true;
+        handler.PlatformView.Checkable = handler.PlatformView.CheckedIconVisible = true;
         DUI.TryGetResourceId(Icons.GetIconName(handler.ToggledIconName), out var id, defType:"drawable");
         if (id is not 0)
         {
@@ -153,23 +156,10 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     
     private static partial void MapIsToggled(ChipHandler handler, Chip chip)
     {
-        //Make sure not to mess with close button
-        if (handler.VirtualView.HasCloseButton)
+        //Make sure not to mess with close button + check if chip actually is toggleable
+        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable)
             return;
 
-        if (!handler.VirtualView.IsToggleable)
-            return;
-        
-        if (handler.VirtualView.IsToggled)
-        {
-            handler.PlatformView.Checked = true;
-            handler.PlatformView.CheckedIconVisible = true;
-        }
-        else
-        {
-            handler.PlatformView.Checked = false;
-            handler.PlatformView.CheckedIconVisible = false;
-        }
-        
+        handler.PlatformView.Checked = handler.VirtualView.IsToggled;
     }
 }

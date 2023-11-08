@@ -66,7 +66,7 @@ public partial class MultiItemsPicker : ContentView
                 Source = this,
                 Converter = new IsEmptyToObjectConverter() {TrueObject = 0, FalseObject = 1}
             });
-        placeHolder.SetBinding(Chip.HasCloseButtonProperty,
+        placeHolder.SetBinding(Chip.IsCloseableProperty,
             new Binding()
             {
                 Path = nameof(Placeholder),
@@ -158,7 +158,7 @@ public partial class MultiItemsPicker : ContentView
                     Title = title,
                     Command = OpenCommand,
                     Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0),
-                    HasCloseButton = true,
+                    IsCloseable = true,
                     CloseCommand = new Command(() =>
                     {
                         DeSelectItem(selectedItem);

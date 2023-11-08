@@ -1,13 +1,10 @@
-using DIPS.Mobile.UI.Extensions;
-using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip : View
 {
-    private Style? m_buttonToggleStyle;
+    private static Style? m_buttonToggleStyle;
 
     public Chip()
     {
@@ -25,17 +22,7 @@ public partial class Chip : View
         CloseCommand?.Execute(CloseCommandParameter);
         CloseTapped?.Invoke(this, EventArgs.Empty);
     }
-    
-    protected override void OnPropertyChanged(string propertyName = null)
-    {
-        base.OnPropertyChanged(propertyName);
-            
-        if (propertyName == IsToggledProperty.PropertyName)
-        {
-            OnIsToggledChanged();
-        }
-    }
-    
+
     private void OnIsToggledChanged()
     {
         if (!IsToggled)
@@ -47,11 +34,8 @@ public partial class Chip : View
         }
         else
         {
-            if (m_buttonToggleStyle is null)
-            {
-                m_buttonToggleStyle = Style;
-            }
-                
+            m_buttonToggleStyle ??= Style;
+
             Style = ToggleStyle.ToggledOn;
         }
     }

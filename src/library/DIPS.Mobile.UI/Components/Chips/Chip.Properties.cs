@@ -96,18 +96,18 @@ public partial class Chip
         typeof(int),
         typeof(Chip));
     
-    public static readonly BindableProperty HasCloseButtonProperty = BindableProperty.Create(
-        nameof(HasCloseButton),
+    public static readonly BindableProperty IsCloseableProperty = BindableProperty.Create(
+        nameof(IsCloseable),
         typeof(bool),
         typeof(Chip));
 
     /// <summary>
     /// Determines if people should be able to interact with close button to the right of the <see cref="Title"/>.
     /// </summary>
-    public bool HasCloseButton
+    public bool IsCloseable
     {
-        get => (bool)GetValue(HasCloseButtonProperty);
-        set => SetValue(HasCloseButtonProperty, value);
+        get => (bool)GetValue(IsCloseableProperty);
+        set => SetValue(IsCloseableProperty, value);
     }
 
     public static readonly BindableProperty CloseCommandProperty = BindableProperty.Create(
@@ -209,7 +209,8 @@ public partial class Chip
         nameof(IsToggled),
         typeof(bool),
         typeof(Chip),
-        defaultBindingMode: BindingMode.TwoWay);
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((Chip)bindable).OnIsToggledChanged());
     
     public static readonly BindableProperty IsToggleableProperty = BindableProperty.Create(
         nameof(IsToggleable),
