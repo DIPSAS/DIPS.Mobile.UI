@@ -1,3 +1,6 @@
+## [19.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [19.0.1]
 - [iOS] Fix distance between toggled icon and title on `Chip`.
 
