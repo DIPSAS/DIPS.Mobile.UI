@@ -138,6 +138,8 @@ this file is generated
 ["more_fill"] = "more_fill.png",
 ["c_line"] = "c_line.png",
 ["emergency_line"] = "emergency_line.png",
+["attachment_line"] = "attachment_line.png",
+["collapse_line"] = "collapse_line.png",
 
             };
         }
