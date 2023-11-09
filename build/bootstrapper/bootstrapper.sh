@@ -3,18 +3,19 @@
 echo "🥾 ---- Running bootstrapper ---- 🥾"
 
 # Check if you are running macos
-if sw_vers -productname | grep -q 'macOS' ; then
-   echo "✅ You are running on  software."
-      if sudo xcode-select -p | grep -q '15.0.1'; then
-         echo "✅ You are running on Xcode 15.0.1"
-      else
-         echo "Trying to select Xcode 15.0.1"
-         sudo xcode-select -s /Applications/Xcode_15.0.1.app
-         echo "✅ You are now running on Xcode 15.0.1"
-      fi
-      
+if ! type sw_vers &> /dev/null; then
+  echo "🪟 You are probably running on Windows"
+elif sw_vers -productname | grep -q 'macOS'; then
+  echo "✅ You are running on  software."
+  if sudo xcode-select -p | grep -q '15.0.1'; then
+     echo "✅ You are running on Xcode 15.0.1"
+  else
+     echo "Trying to select Xcode 15.0.1"
+     sudo xcode-select -s /Applications/Xcode_15.0.1.app
+     echo "✅ You are now running on Xcode 15.0.1"
+  fi
 else
-   echo "❌ You are not running on  software. This build system requires you to run on a Mac."
+  echo "🐧 Is this a penguin i see in the distance?"
 fi
 
 #dotnet-script
