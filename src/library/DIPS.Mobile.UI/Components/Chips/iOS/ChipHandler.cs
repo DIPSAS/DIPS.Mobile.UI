@@ -139,8 +139,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
             var imageWidth = resizedImage.Size.Width;
             
             var oldContentEdgeInsets = handler.PlatformView.ContentEdgeInsets;
-            handler.PlatformView.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top,  imageWidth,
-                oldContentEdgeInsets.Bottom, imageWidth);
+            handler.PlatformView.ContentEdgeInsets = new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left + imageWidth,
+                oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right + imageWidth);
         }
     }
 
@@ -172,11 +172,22 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     private static void CenterContent(ChipHandler handler, UIButton uiButton, bool imageIsDisplayed = false)
     {
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
-
-        var titleImageSpacing = Sizes.GetSize(SizeName.size_2);
-
+         
+        var imageWidth = uiButton.ImageView.IntrinsicContentSize.Width;
+        
         uiButton.TitleEdgeInsets = imageIsDisplayed 
-            ? new UIEdgeInsets(0, titleImageSpacing, 0, titleImageSpacing) 
-            : new UIEdgeInsets(0, -titleImageSpacing, 0, -titleImageSpacing);
+            ? new UIEdgeInsets(0, imageWidth, 0, 0) 
+            : new UIEdgeInsets(0, 0, 0, imageWidth);
+        
+        uiButton.ImageEdgeInsets = imageIsDisplayed
+            ? new UIEdgeInsets(0, imageWidth, 0, imageWidth)
+            : new UIEdgeInsets(0, -imageWidth, 0, -imageWidth);
+        
+        var oldContentEdgeInsets = uiButton.ContentEdgeInsets;
+        uiButton.ContentEdgeInsets = imageIsDisplayed 
+            ? new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left - imageWidth,
+            oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right) 
+            : new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left + (2*imageWidth),
+                oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right) ;
     }
 }

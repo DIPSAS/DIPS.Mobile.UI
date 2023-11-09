@@ -1,3 +1,6 @@
+## [19.0.1]
+- [iOS] Fix distance between toggled icon and title on `Chip`.
+
 ## [19.0.0]
 - Added toggleable property on `Chip`
 - [BreakingChange] Change property `Chip.HasCloseButton` to `Chip.IsCloseable`
