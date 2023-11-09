@@ -15,7 +15,7 @@ elif sw_vers -productname | grep -q 'macOS'; then
      echo "✅ You are now running on Xcode 15.0.1"
   fi
 else
-  echo "🐧 Is this a penguin i see in the distance?"
+  echo "🐧 Is this a penguin I see in the distance?"
 fi
 
 #dotnet-script
