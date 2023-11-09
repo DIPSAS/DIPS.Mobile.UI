@@ -267,5 +267,9 @@ more_fill=127,
 c_line=128,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/emergency_line.svg">View the icon in the browser</a></summary>
 emergency_line=129,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/attachment_line.svg">View the icon in the browser</a></summary>
+attachment_line=130,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/collapse_line.svg">View the icon in the browser</a></summary>
+collapse_line=131,
     }
 }
