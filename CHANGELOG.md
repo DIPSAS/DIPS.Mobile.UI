@@ -1,3 +1,6 @@
+## [19.3.1]
+- Ensure correct style is set for toggleable `Chip` when toggled off.
+
 ## [19.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
