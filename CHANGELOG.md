@@ -1,3 +1,6 @@
+## [19.3.2]
+- Increased base size of icons.
+
 ## [19.3.1]
 - Ensure correct style is set for toggleable `Chip` when toggled off.
 
