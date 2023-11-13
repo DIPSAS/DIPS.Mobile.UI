@@ -7,7 +7,7 @@ using Colors = Microsoft.Maui.Graphics.Colors;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.Components.TextFields;
+namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 public partial class EntryHandler 
 {
@@ -18,6 +18,7 @@ public partial class EntryHandler
         base.ConnectHandler(platformView);
 
         DefaultBackground = platformView.Background;
+        
     }
 
     private static partial void MapShouldSelectTextOnTapped(EntryHandler handler, Entry entry)

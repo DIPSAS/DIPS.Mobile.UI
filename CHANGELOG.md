@@ -1,3 +1,14 @@
+## [19.3.0] 
+- Changed default page background-color.
+- Added new component: dui:Editor.
+- Changed from 16 -> 12 padding left and right in ListItem
+- Changed from 16 -> 8 margin between icon and title in ListItem
+- Moved icon to the left of the text in SortControl
+- Set font-size, fontfamily and placeholdercolor in dui:Entry
+- Set default textcolor and placeholdercolor in dui:SearchBar
+- Changed default tintcolor for dui:Image.
+- Added new style for Labels: 'SectionHeader'
+
 ## [19.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

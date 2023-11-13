@@ -19,7 +19,49 @@
 
     </dui:ContentPage.ToolbarItems>
     
-    <dui:VerticalStackLayout>
-        <dui:SearchBar />
-    </dui:VerticalStackLayout>
+    <Grid RowDefinitions="Auto, *">
+        <ContentView>
+        <Grid RowDefinitions="Auto, *, Auto"
+              RowSpacing="0">
+        
+            <dui:Divider Grid.Row="0" />
+        
+            <Grid Grid.Row="1"
+                  Padding="{dui:Thickness Left=size_4, Right=size_4, Top=size_3, Bottom=size_3}"
+                  ColumnDefinitions="*, Auto">
+                <dui:Label Grid.Column="0"
+                           Text="GHehe"
+                           Style="{dui:Styles Label=UI300}"
+                           LineBreakMode="TailTruncation"
+                           VerticalTextAlignment="Center" />
+
+                <dui:Label Text="hehe"
+                           HorizontalOptions="End"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="End"
+                           TextColor="{dui:Colors color_neutral_80}"
+                           Grid.Column="1"
+                           Style="{dui:Styles Label=Body200}" />
+            </Grid>
+        
+            <dui:Divider Grid.Row="2" />
+        </Grid>   
+        </ContentView>
+        
+        <dui:ScrollView Grid.Row="1">
+            <dui:VerticalStackLayout x:Name="Indeterminate">
+    
+                <dui:Editor HasBorder="False" ShouldSelectAllTextOnFocused="True" />
+    
+                <BoxView HeightRequest="50"
+                         WidthRequest="50"
+                         BackgroundColor="Red"></BoxView>
+    
+                <dui:Editor HasBorder="False" Placeholder="Skriv inn tekst..."
+                            ShouldSelectAllTextOnFocused="True" />
+
+            </dui:VerticalStackLayout>
+        </dui:ScrollView>
+        
+    </Grid>
 </dui:ContentPage>

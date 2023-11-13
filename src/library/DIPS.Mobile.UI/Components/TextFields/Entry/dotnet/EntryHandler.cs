@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.TextFields;
+namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 public partial class EntryHandler 
 {
