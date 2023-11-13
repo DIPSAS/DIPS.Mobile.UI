@@ -8,7 +8,7 @@ public partial class Chip : View
 
     public Chip()
     {
-        Style = InputStyle.Current;
+        Style = m_buttonToggleStyle = InputStyle.Current;
     }
 
     public void SendTapped()
@@ -34,7 +34,7 @@ public partial class Chip : View
         }
         else
         {
-            m_buttonToggleStyle ??= Style;
+            m_buttonToggleStyle = Style;
 
             Style = ToggleStyle.ToggledOn;
         }

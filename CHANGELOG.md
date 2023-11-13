@@ -1,4 +1,4 @@
-## [19.3.0] 
+## [19.4.0] 
 - Changed default page background-color.
 - Added new component: dui:Editor.
 - Changed from 16 -> 12 padding left and right in ListItem
@@ -8,6 +8,18 @@
 - Set default textcolor and placeholdercolor in dui:SearchBar
 - Changed default tintcolor for dui:Image.
 - Added new style for Labels: 'SectionHeader'
+
+## [19.3.3]
+- Reset base size changes on icons.
+
+## [19.3.2]
+- Increased base size of icons.
+
+## [19.3.1]
+- Ensure correct style is set for toggleable `Chip` when toggled off.
+
+## [19.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [19.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
