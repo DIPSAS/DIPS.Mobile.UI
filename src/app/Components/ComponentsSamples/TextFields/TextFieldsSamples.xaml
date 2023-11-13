@@ -7,6 +7,9 @@
              xmlns:entries="clr-namespace:Components.ComponentsSamples.TextFields"
              x:Class="Components.ComponentsSamples.TextFields.TextFieldsSamples">
 
-    <dui:NavigationListItem Title="Entry" Command="{helpers:NavigationCommand {x:Type entries:EntrySamples}}" />
-    
+    <dui:VerticalStackLayout Spacing="0">
+        <dui:NavigationListItem Title="Entry" Command="{helpers:NavigationCommand {x:Type entries:EntrySamples}}"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Editor" Command="{helpers:NavigationCommand {x:Type entries:EditorSamples}}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

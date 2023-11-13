@@ -29,9 +29,9 @@ public partial class ListItem : ContentView
         {
             new(GridLength.Auto),
         },
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 
+        Margin = new Thickness(Sizes.GetSize(SizeName.size_3), 
             Sizes.GetSize(SizeName.size_3),
-            Sizes.GetSize(SizeName.size_4),
+            Sizes.GetSize(SizeName.size_3),
             Sizes.GetSize(SizeName.size_3))
     };
 

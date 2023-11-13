@@ -1,6 +1,8 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Pickers;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -26,8 +28,7 @@ public partial class SortControl : Grid
         
         m_selectedItemText = new Label
         {
-            FontAttributes = FontAttributes.Bold,
-            FontSize = 12,
+            Style = Styles.GetLabelStyle(LabelStyle.UI200),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             VerticalTextAlignment = TextAlignment.Center,
             MaxLines = 1,
@@ -44,8 +45,8 @@ public partial class SortControl : Grid
         
         OnSortOrderChanged();
         
-        Add(m_sortImage);
-        this.Add(m_selectedItemText, 1);
+        this.Add(m_selectedItemText);
+        this.Add(m_sortImage, 1);
     }
 
     private void OpenBottomSheet()

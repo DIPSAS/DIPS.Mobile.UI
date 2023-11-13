@@ -3,7 +3,7 @@ using Microsoft.Maui.Platform;
 using UIKit;
 using Entry = DIPS.Mobile.UI.Components.TextFields.Entry;
 
-namespace DIPS.Mobile.UI.Components.TextFields;
+namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 public partial class EntryHandler 
 {
@@ -14,7 +14,7 @@ public partial class EntryHandler
         platformView.EditingDidBegin += OnEditingDidBegin;
     }
     
-    private static partial void MapShouldSelectTextOnTapped(TextFields.EntryHandler handler, Entry entry)
+    private static partial void MapShouldSelectTextOnTapped(EntryHandler handler, Entry entry)
     {
     }
 
@@ -27,7 +27,7 @@ public partial class EntryHandler
         PlatformView.SelectAll(null);    
     }
 
-    private static partial void MapHasBorder(TextFields.EntryHandler handler, Entry entry)
+    private static partial void MapHasBorder(EntryHandler handler, Entry entry)
     {
         handler.PlatformView.BorderStyle = entry.HasBorder ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
     }

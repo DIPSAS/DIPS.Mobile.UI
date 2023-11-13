@@ -1,14 +1,13 @@
-namespace DIPS.Mobile.UI.Components.TextFields;
+namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 
-public partial class Entry
+public partial class Editor
 {
-   
     /// <summary>
-    /// Determines whether the <see cref="Entry"/> should have borders
+    /// Determines whether the <see cref="Editor"/> should have borders
     /// </summary>
     /// <remarks>
     /// Android: A line below the Entry
-    /// iOS: A border around the Entry
+    /// iOS: No border
     /// </remarks>
     public bool HasBorder
     {
@@ -17,7 +16,7 @@ public partial class Entry
     }
 
     /// <summary>
-    /// Determines whether all the text in the <see cref="Entry"/> should be selected when user taps the <see cref="Entry"/>
+    /// Determines whether all the text in the <see cref="Editor"/> should be selected when user taps the <see cref="Editor"/>
     /// </summary>
     public bool ShouldSelectAllTextOnFocused
     {
@@ -28,10 +27,10 @@ public partial class Entry
     public static readonly BindableProperty HasBorderProperty = BindableProperty.Create(
         nameof(HasBorder),
         typeof(bool),
-        typeof(Entry));
+        typeof(Editor));
     
     public static readonly BindableProperty ShouldSelectTextOnTappedProperty = BindableProperty.Create(
         nameof(ShouldSelectAllTextOnFocused),
         typeof(bool),
-        typeof(Entry));
+        typeof(Editor));
 }

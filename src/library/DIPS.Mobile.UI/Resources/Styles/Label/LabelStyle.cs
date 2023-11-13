@@ -16,5 +16,6 @@ public enum LabelStyle
     Header800=11,
     Header700=12,
     Header600=13,
-    Header500=14
+    Header500=14,
+    SectionHeader=15
 }

@@ -4,22 +4,24 @@ internal class LabelStyleResources
 {
     public static Dictionary<LabelStyle, Style> Styles { get; } = new()
     {
-        [LabelStyle.Body400] = LabelTypeStyle.Body.ConcatenateWithStyle(LabelWeightStyle.FourHundred), 
-        [LabelStyle.Body300] = LabelTypeStyle.Body.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred), 
-        [LabelStyle.Body200] = LabelTypeStyle.Body.ConcatenateWithStyle(LabelWeightStyle.TwoHundred), 
-        [LabelStyle.Body100] = LabelTypeStyle.Body.ConcatenateWithStyle(LabelWeightStyle.OneHundred), 
+        [LabelStyle.Body400] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.FourHundred), 
+        [LabelStyle.Body300] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred), 
+        [LabelStyle.Body200] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.TwoHundred), 
+        [LabelStyle.Body100] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.OneHundred), 
         
-        [LabelStyle.UI400] = LabelTypeStyle.UI.ConcatenateWithStyle(LabelWeightStyle.FourHundred), 
-        [LabelStyle.UI300] = LabelTypeStyle.UI.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred), 
-        [LabelStyle.UI200] = LabelTypeStyle.UI.ConcatenateWithStyle(LabelWeightStyle.TwoHundred), 
-        [LabelStyle.UI100] = LabelTypeStyle.UI.ConcatenateWithStyle(LabelWeightStyle.OneHundred), 
+        [LabelStyle.UI400] = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.FourHundred), 
+        [LabelStyle.UI300] = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred), 
+        [LabelStyle.UI200] = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.TwoHundred), 
+        [LabelStyle.UI100] = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.OneHundred), 
 
-        [LabelStyle.Header1000] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.OneThousand), 
-        [LabelStyle.Header900] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.NineHundred), 
-        [LabelStyle.Header800] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.EightHundred), 
-        [LabelStyle.Header700] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SevenHundred), 
-        [LabelStyle.Header600] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SixHundred), 
-        [LabelStyle.Header500] = LabelTypeStyle.Header.ConcatenateWithStyle(LabelWeightStyle.FiveHundred)
+        [LabelStyle.Header1000] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.OneThousand), 
+        [LabelStyle.Header900] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.NineHundred), 
+        [LabelStyle.Header800] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.EightHundred), 
+        [LabelStyle.Header700] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SevenHundred), 
+        [LabelStyle.Header600] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SixHundred), 
+        [LabelStyle.Header500] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.FiveHundred),
+        
+        [LabelStyle.SectionHeader] = LabelTypeStyle.SectionHeader
     };
    
 }

@@ -53,7 +53,12 @@
 
             <dui:Label Text="Body100"
                        Style="{dui:Styles Label=Body100}" />
-
+            
+            <dui:Divider Margin="{dui:Thickness Top=size_2, Bottom=size_2}" />
+            
+            <dui:Label Text="SectionHeader"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            
         </dui:VerticalStackLayout>
     </dui:ScrollView>
 

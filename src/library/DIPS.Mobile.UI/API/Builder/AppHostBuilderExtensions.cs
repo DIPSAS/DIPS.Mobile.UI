@@ -4,7 +4,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-
+using DIPS.Mobile.UI.Components.TextFields.Editor;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -14,8 +14,9 @@ using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
-using Entry = DIPS.Mobile.UI.Components.TextFields.Entry;
-using EntryHandler = DIPS.Mobile.UI.Components.TextFields.EntryHandler;
+using Editor = DIPS.Mobile.UI.Components.TextFields.Editor.Editor;
+using Entry = DIPS.Mobile.UI.Components.TextFields.Entry.Entry;
+using EntryHandler = DIPS.Mobile.UI.Components.TextFields.Entry.EntryHandler;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 using ImageHandler = DIPS.Mobile.UI.Components.Images.Image.ImageHandler;
@@ -59,6 +60,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
             handlers.AddHandler<Entry, EntryHandler>();
+            handlers.AddHandler<Editor, EditorHandler>();
             
             AddPlatformHandlers(handlers);
         });
