@@ -1,3 +1,6 @@
+## [19.4.1] 
+- Fixed bug where label styles not always being set
+
 ## [19.4.0] 
 - Changed default page background-color.
 - Added new component: dui:Editor.
