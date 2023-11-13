@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Label;
 
 internal class LabelStyleResources
 {
-    public static Dictionary<LabelStyle, Style> Styles => new() 
+    public static Dictionary<LabelStyle, Style> Styles = new() 
     {
         [LabelStyle.Body400] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.FourHundred), 
         [LabelStyle.Body300] = LabelFontFamilyStyle.Body.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred), 

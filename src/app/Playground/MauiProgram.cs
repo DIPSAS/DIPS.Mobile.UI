@@ -18,7 +18,7 @@ public static class MauiProgram
         builder.ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Bold.ttf", "Header");
-            fonts.AddFont("OpenSans-Medium.ttf", "UI");
+            fonts.AddFont("OpenSans-SemiBold.ttf", "UI");
             fonts.AddFont("OpenSans-Regular.ttf", "Body");
         });
         

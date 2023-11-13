@@ -1,5 +1,6 @@
 ## [19.4.1] 
-- Fixed bug where label styles not always being set
+- Fixed an issue where SectionHeader style was not correct
+- Changed 'UI' font to a more bold font so that it is easier to differentiate between 'UI' and 'Body' fonts. 
 
 ## [19.4.0] 
 - Changed default page background-color.

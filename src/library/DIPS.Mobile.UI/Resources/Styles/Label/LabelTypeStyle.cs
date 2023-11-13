@@ -4,7 +4,7 @@ public class LabelTypeStyle
 {
     internal static Style SectionHeader => new(typeof(Components.Labels.Label))
     {
-        BasedOn = LabelFontFamilyStyle.UI.BasedOn = LabelWeightStyle.ThreeHundred,
+        BasedOn = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.ThreeHundred),
         Setters =
         {
             new Setter
