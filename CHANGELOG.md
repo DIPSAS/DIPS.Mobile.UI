@@ -1,3 +1,6 @@
+## [19.3.3]
+- Reset base size changes on icons.
+
 ## [19.3.2]
 - Increased base size of icons.
 

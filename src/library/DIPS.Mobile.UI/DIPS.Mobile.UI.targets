@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <MauiImage Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" BaseSize="72,72"/>
+    <MauiImage Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
     <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" />
   </ItemGroup>
