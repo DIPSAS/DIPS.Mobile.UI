@@ -1,3 +1,6 @@
+## [19.4.3] 
+- Changed default dui:ContentPage background color
+
 ## [19.4.2] 
 - Reverted change where color on Image were default set
 
