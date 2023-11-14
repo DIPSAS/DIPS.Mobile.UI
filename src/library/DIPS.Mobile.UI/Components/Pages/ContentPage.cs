@@ -1,13 +1,10 @@
-using DIPS.Mobile.UI.Components.Saving.SaveView;
-using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Extensions;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages
 {
     public partial class ContentPage : Microsoft.Maui.Controls.ContentPage
     {
-        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_05;
+        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_10;
 
         public ContentPage()
         {
