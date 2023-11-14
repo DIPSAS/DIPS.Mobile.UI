@@ -9,8 +9,7 @@ public partial class Image
     public static readonly BindableProperty TintColorProperty = BindableProperty.Create(
         nameof(TintColor),
         typeof(Color),
-        typeof(Image),
-        defaultValue: Colors.GetColor(ColorName.color_neutral_80));
+        typeof(Image));
 
     /// <summary>
     /// Sets the color of the image

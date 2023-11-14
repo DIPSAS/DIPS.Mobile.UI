@@ -1,3 +1,6 @@
+## [19.4.2] 
+- Reverted change where color on Image were default set
+
 ## [19.4.1] 
 - Fixed an issue where SectionHeader style was not correct
 - Changed 'UI' font to a more bold font so that it is easier to differentiate between 'UI' and 'Body' fonts. 
