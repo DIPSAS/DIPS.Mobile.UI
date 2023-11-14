@@ -1,3 +1,6 @@
+## [19.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [19.4.3] 
 - Changed default dui:ContentPage background color
 
