@@ -271,5 +271,9 @@ emergency_line=129,
 attachment_line=130,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/collapse_line.svg">View the icon in the browser</a></summary>
 collapse_line=131,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bacteria_line.svg">View the icon in the browser</a></summary>
+bacteria_line=132,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/x-ray.svg">View the icon in the browser</a></summary>
+x-ray=133,
     }
 }

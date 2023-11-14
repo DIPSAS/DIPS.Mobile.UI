@@ -140,6 +140,8 @@ this file is generated
 ["emergency_line"] = "emergency_line.png",
 ["attachment_line"] = "attachment_line.png",
 ["collapse_line"] = "collapse_line.png",
+["bacteria_line"] = "bacteria_line.png",
+["x-ray"] = "x-ray.png",
 
             };
         }
