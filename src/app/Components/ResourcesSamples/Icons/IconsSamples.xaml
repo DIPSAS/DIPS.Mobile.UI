@@ -35,7 +35,6 @@
 
                             <dui:Image HeightRequest="{dui:Sizes SizeName=size_10}"
                                    WidthRequest="{dui:Sizes SizeName=size_10}"
-                                   TintColor=""
                                    Source="{Binding Value}" />
                         </Border>
                         <dui:Label Grid.Row="1"
