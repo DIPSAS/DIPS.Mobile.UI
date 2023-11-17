@@ -1,3 +1,6 @@
+## [19.5.1]
+- Fix not being able to set `LoadableListItem.ContextMenu`
+
 ## [19.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
