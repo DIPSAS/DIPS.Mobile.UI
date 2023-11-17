@@ -56,7 +56,7 @@ public partial class TouchPlatformEffect
     {
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
-            if (Control.GestureRecognizers != null)
+            if (Control.GestureRecognizers != null && m_tapGestureRecognizer is not null)
             {
                 Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
             }
@@ -64,7 +64,7 @@ public partial class TouchPlatformEffect
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
-            if(Control.GestureRecognizers != null)
+            if(Control.GestureRecognizers != null && m_longPressGestureRecognizer is not null)
                 Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
         }
     }
