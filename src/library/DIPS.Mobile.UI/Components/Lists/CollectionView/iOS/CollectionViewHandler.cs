@@ -1,3 +1,4 @@
+using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -14,6 +15,14 @@ public partial class CollectionViewHandler
             {
                 uiCollectionView.Bounces = collectionView.ShouldBounce;
             }
+        }
+    }
+
+    internal partial void ReloadData(CollectionViewHandler handler)
+    {
+        if (handler.PlatformView.Subviews[0] is UICollectionView uiCollectionView)
+        {
+            uiCollectionView.ReloadData();
         }
     }
 }

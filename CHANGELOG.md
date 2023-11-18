@@ -1,3 +1,6 @@
+## [19.7.0]
+- [CollectionView] Added ReloadData method for consumers to redraw all items without modifying ItemSource. 
+
 ## [19.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
