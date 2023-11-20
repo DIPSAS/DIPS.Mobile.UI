@@ -1,8 +1,8 @@
 namespace Components.ComponentsSamples.BottomSheets.Sheets;
 
-public partial class BottomSheetNotClosableBySwipe
+public partial class BottomSheetNotClosableByInteracting
 {
-    public BottomSheetNotClosableBySwipe()
+    public BottomSheetNotClosableByInteracting()
     {
         InitializeComponent();
     }

@@ -609,9 +609,9 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string BottomSheet_OpenNonSwipeClosable {
+        internal static string BottomSheet_OpenNotClosableInteracting {
             get {
-                return ResourceManager.GetString("BottomSheet_OpenNonSwipeClosable", resourceCulture);
+                return ResourceManager.GetString("BottomSheet_OpenNotClosableInteracting", resourceCulture);
             }
         }
     }

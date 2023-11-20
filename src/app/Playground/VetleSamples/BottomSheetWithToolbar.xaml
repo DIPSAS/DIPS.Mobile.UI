@@ -7,7 +7,7 @@
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
              x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
              Title="Test Daily Standup"
-             IsCloseableBySwipe="False">
+             IsInteractiveCloseable="False">
  
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Test2" />

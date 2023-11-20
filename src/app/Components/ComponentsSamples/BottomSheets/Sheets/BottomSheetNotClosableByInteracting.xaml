@@ -4,10 +4,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
-             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetNotClosableBySwipe"
+             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetNotClosableByInteracting"
              x:DataType="{x:Type sheets:BottomSheetWithToolbarViewModel}"
              Title="The title"
-             IsCloseableBySwipe="False"
+             IsInteractiveCloseable="False"
              OnBackButtonPressedCommand="{Binding TryCloseBottomSheetCommand}">
     
     <dui:BottomSheet.BindingContext>

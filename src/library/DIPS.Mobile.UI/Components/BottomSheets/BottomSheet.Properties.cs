@@ -39,17 +39,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
-        /// Determines whether the <see cref="BottomSheet"/> is closeable by swiping down
+        /// Determines whether the <see cref="BottomSheet"/> is closeable by interacting with the <see cref="BottomSheet"/>
         /// </summary>
-        /// <remarks>On Android a <see cref="BottomSheet"/> can be closed by using the back button, the <see cref="BottomSheet"/> will not be closed, but <see cref="OnBackButtonPressedCommand"/> will be executed, and the <see cref="BottomSheet"/> can then be programatically closed if you wish</remarks>
-        public bool IsCloseableBySwipe
+        /// <remarks>
+        /// NB: Consumers must give the user a way to close the <see cref="BottomSheet"/> programatically.
+        /// On Android a <see cref="BottomSheet"/> can be closed by using the back button, the <see cref="BottomSheet"/> will not be closed, but <see cref="OnBackButtonPressedCommand"/> will be executed, and the <see cref="BottomSheet"/> can then be programatically closed if you wish
+        /// </remarks>
+        public bool IsInteractiveCloseable
         {
-            get => (bool)GetValue(IsCloseableBySwipeProperty);
-            set => SetValue(IsCloseableBySwipeProperty, value);
+            get => (bool)GetValue(IsInteractiveCloseableProperty);
+            set => SetValue(IsInteractiveCloseableProperty, value);
         }
 
         /// <summary>
-        /// Executed when <see cref="IsCloseableBySwipe"/> is set to true
+        /// Executed when <see cref="IsInteractiveCloseable"/> is set to true
         /// </summary>
         /// <remarks>Only executed on Android</remarks>
         public ICommand? OnBackButtonPressedCommand
@@ -140,8 +143,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(BottomSheet),
             propertyChanged: OnHasSearchBarChanged);
         
-        public static readonly BindableProperty IsCloseableBySwipeProperty = BindableProperty.Create(
-            nameof(IsCloseableBySwipe),
+        public static readonly BindableProperty IsInteractiveCloseableProperty = BindableProperty.Create(
+            nameof(IsInteractiveCloseable),
             typeof(bool),
             typeof(BottomSheet),
             true,

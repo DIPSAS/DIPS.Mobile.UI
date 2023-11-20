@@ -88,7 +88,7 @@ internal class BottomSheetContentPage : ContentPage
         if (m_viewController.SheetPresentationController == null) //Can use bottom sheet
             return;
 
-        if (!m_bottomSheet.IsCloseableBySwipe)
+        if (!m_bottomSheet.IsInteractiveCloseable)
         {
             m_navigationViewController.ModalInPresentation = true;
         }

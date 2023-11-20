@@ -297,7 +297,7 @@
     <data name="Yes" xml:space="preserve">
         <value>Ja</value>
     </data>
-    <data name="BottomSheet_OpenNonSwipeClosable" xml:space="preserve">
-        <value>Åpne bottom sheet som ikke kan lukkes med sveiping</value>
+    <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
+        <value>Åpne bottom sheet som ikke kan lukkes ved å interagere med bottom sheeten</value>
     </data>
 </root>

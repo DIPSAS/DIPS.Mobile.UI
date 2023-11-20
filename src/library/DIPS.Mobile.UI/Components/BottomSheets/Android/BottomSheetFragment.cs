@@ -156,7 +156,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
-                if (!m_bottomSheet.IsCloseableBySwipe)
+                if (!m_bottomSheet.IsInteractiveCloseable)
                 {
                     bottomSheetDialog.SetCancelable(false);
                     bottomSheetDialog.SetCanceledOnTouchOutside(false);

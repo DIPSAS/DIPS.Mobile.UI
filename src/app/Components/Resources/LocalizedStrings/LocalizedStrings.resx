@@ -305,7 +305,7 @@
     <data name="Yes" xml:space="preserve">
         <value>Yes</value>
     </data>
-    <data name="BottomSheet_OpenNonSwipeClosable" xml:space="preserve">
-        <value>Open bottom sheet that is not closable by swiping</value>
+    <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
+        <value>Open bottom sheet that is not closable by interacting with the bottomsheet</value>
     </data>
 </root>
