@@ -52,7 +52,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
-        /// Executed when <see cref="IsInteractiveCloseable"/> is set to true
+        /// Executed when hardware back button is pressed and <see cref="IsInteractiveCloseable"/> is set to true
         /// </summary>
         /// <remarks>Only executed on Android</remarks>
         public ICommand? OnBackButtonPressedCommand
