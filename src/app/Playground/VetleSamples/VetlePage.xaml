@@ -20,11 +20,11 @@
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
     
-    
-    
-    
-    <dui:Editor Placeholder="Tst" VerticalTextAlignment="Start" ShouldSelectAllTextOnFocused="True" />
-    
+    <dui:NavigationListItem Title="tst"
+                            HasTopDivider="True"
+                            HasBottomDivider="True"
+                            Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"
+                            VerticalOptions="Start" />    
 
 
 </dui:ContentSavePage>

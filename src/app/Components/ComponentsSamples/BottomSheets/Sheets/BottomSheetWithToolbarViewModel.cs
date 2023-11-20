@@ -1,4 +1,6 @@
 using System.Windows.Input;
+using Components.Resources.LocalizedStrings;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.MVVM;
 
@@ -8,11 +10,24 @@ public class BottomSheetWithToolbarViewModel : ViewModel
 {
     public BottomSheetWithToolbarViewModel()
     {
-        CloseBottomSheetCommand = new Command(() => { BottomSheetService.CloseCurrentBottomSheet(); });        
+        CloseBottomSheetCommand = new Command(() => { BottomSheetService.CloseCurrentBottomSheet(); });
+
+        TryCloseBottomSheetCommand = new Command(TryCloseBottomSheet);
     }
-    
+
+    private async void TryCloseBottomSheet()
+    {
+        var result = await DialogService.ShowConfirmationMessage(LocalizedStrings.AreYouSure_,
+            LocalizedStrings.ThisWillCloseBottomSheet, LocalizedStrings.Cancel, LocalizedStrings.Yes);
+
+        if (result == DialogAction.TappedAction)
+        {
+            _ = BottomSheetService.CloseCurrentBottomSheet();
+        }
+    }
+
     public ICommand CloseBottomSheetCommand { get; set; }
 
-    public string Title => "Cancel";
+    public ICommand TryCloseBottomSheetCommand { get; set; }
 
 }

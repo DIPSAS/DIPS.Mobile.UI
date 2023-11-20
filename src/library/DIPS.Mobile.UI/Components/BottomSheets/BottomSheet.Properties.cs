@@ -39,6 +39,29 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
+        /// Determines whether the <see cref="BottomSheet"/> is closeable by interacting with the <see cref="BottomSheet"/>
+        /// </summary>
+        /// <remarks>
+        /// NB: Consumers must give the user a way to close the <see cref="BottomSheet"/> programatically.
+        /// On Android a <see cref="BottomSheet"/> can be closed by using the back button, the <see cref="BottomSheet"/> will not be closed, but <see cref="OnBackButtonPressedCommand"/> will be executed, and the <see cref="BottomSheet"/> can then be programatically closed if you wish
+        /// </remarks>
+        public bool IsInteractiveCloseable
+        {
+            get => (bool)GetValue(IsInteractiveCloseableProperty);
+            set => SetValue(IsInteractiveCloseableProperty, value);
+        }
+
+        /// <summary>
+        /// Executed when hardware back button is pressed and <see cref="IsInteractiveCloseable"/> is set to true
+        /// </summary>
+        /// <remarks>Only executed on Android</remarks>
+        public ICommand? OnBackButtonPressedCommand
+        {
+            get => (ICommand?)GetValue(OnBackButtonPressedCommandProperty);
+            set => SetValue(OnBackButtonPressedCommandProperty, value);
+        }
+
+        /// <summary>
         /// Determines if the bottom sheet should have a <see cref="Components.Searching.SearchBar"/> at the top
         /// </summary>
         public bool HasSearchBar
@@ -119,6 +142,18 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(bool),
             typeof(BottomSheet),
             propertyChanged: OnHasSearchBarChanged);
+        
+        public static readonly BindableProperty IsInteractiveCloseableProperty = BindableProperty.Create(
+            nameof(IsInteractiveCloseable),
+            typeof(bool),
+            typeof(BottomSheet),
+            true,
+            BindingMode.OneTime);
+        
+        public static readonly BindableProperty OnBackButtonPressedCommandProperty = BindableProperty.Create(
+            nameof(OnBackButtonPressedCommand),
+            typeof(ICommand),
+            typeof(BottomSheet));
 
     }
 }

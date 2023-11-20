@@ -144,7 +144,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             bottomSheetBehavior.State =
                 collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
         }
-
+        
         public override Dialog OnCreateDialog(Bundle? savedInstanceState)
         {
             var context = Platform.AppContext;
@@ -156,6 +156,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
+                if (!m_bottomSheet.IsInteractiveCloseable)
+                {
+                    bottomSheetDialog.SetCancelable(false);
+                    bottomSheetDialog.SetCanceledOnTouchOutside(false);
+                    bottomSheetDialog.Behavior.AddBottomSheetCallback(new BottomSheetCallback(bottomSheetDialog.Behavior));
+                    bottomSheetDialog.SetOnKeyListener(new KeyListener(m_bottomSheet));
+                }
+                
                 bottomSheetDialog.Behavior.FitToContents = m_bottomSheet.ShouldFitToContent;
                 
                 if (!m_bottomSheet.ShouldFitToContent)
@@ -179,7 +187,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
             return dialog;
         }
-
+        
         public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
@@ -229,4 +237,46 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             }
         }
     }
+
+    internal class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
+
+    {
+        private readonly BottomSheetBehavior m_behavior;
+
+        public BottomSheetCallback(BottomSheetBehavior behavior)
+        {
+            m_behavior = behavior;
+        }
+
+        public override void OnSlide(AView bottomSheet, float slideOffset)
+        {
+            if (slideOffset < 0)
+            {
+                m_behavior.State = BottomSheetBehavior.StateHalfExpanded;
+            }
+        }
+
+        public override void OnStateChanged(AView bottomSheet, int newState)
+        {
+        }
+
+    }
+    
+    internal class KeyListener : Object, IDialogInterfaceOnKeyListener
+    {
+        private readonly BottomSheet m_bottomSheet;
+
+        public KeyListener(BottomSheet bottomSheet)
+        {
+            m_bottomSheet = bottomSheet;
+        }
+        
+        public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e)
+        {
+            m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
+            
+            return true;
+        }
+    }
+    
 }

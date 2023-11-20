@@ -296,4 +296,16 @@
     <data name="TextFields" xml:space="preserve">
         <value>Text fields</value>
     </data>
+    <data name="AreYouSure?" xml:space="preserve">
+        <value>Are you sure?</value>
+    </data>
+    <data name="ThisWillCloseBottomSheet" xml:space="preserve">
+        <value>This will close the bottomsheet</value>
+    </data>
+    <data name="Yes" xml:space="preserve">
+        <value>Yes</value>
+    </data>
+    <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
+        <value>Open bottom sheet that is closable only by tapping button</value>
+    </data>
 </root>

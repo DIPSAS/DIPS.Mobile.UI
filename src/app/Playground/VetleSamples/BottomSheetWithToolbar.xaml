@@ -6,7 +6,8 @@
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
              x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
-             Title="Test Daily Standup">
+             Title="Test Daily Standup"
+             IsInteractiveCloseable="False">
  
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Test2" />
@@ -32,5 +33,6 @@
             <dui:DateAndTimePicker />
         </dui:ListItem>
     </dui:VerticalStackLayout>-->
+        <Label Text="Hei" />
     
 </dui:BottomSheet>

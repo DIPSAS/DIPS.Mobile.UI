@@ -5,19 +5,20 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
-             x:Name="BottomSheet"
-             ShouldFitToContent="True"
-             Title="The title">
+             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetNotClosableByInteracting"
+             x:DataType="{x:Type sheets:BottomSheetWithToolbarViewModel}"
+             Title="The title"
+             IsInteractiveCloseable="False"
+             OnBackButtonPressedCommand="{Binding TryCloseBottomSheetCommand}">
+    
     <dui:BottomSheet.BindingContext>
         <sheets:BottomSheetWithToolbarViewModel/>
     </dui:BottomSheet.BindingContext>
     
     <dui:BottomSheet.ToolbarItems>
-        <ToolbarItem Text="Bell"
-                     IconImageSource="{dui:Icons bell_fill}" />
+      
         <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
-                     Command="{Binding CloseBottomSheetCommand}" />
+                     Command="{Binding TryCloseBottomSheetCommand}" />
     </dui:BottomSheet.ToolbarItems>
     
     <dui:VerticalStackLayout>
@@ -38,5 +39,5 @@
             <dui:DateAndTimePicker />
         </dui:ListItem>
     </dui:VerticalStackLayout>
-    
+        
 </dui:BottomSheet>
