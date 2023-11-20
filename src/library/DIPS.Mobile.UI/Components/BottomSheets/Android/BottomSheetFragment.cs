@@ -242,7 +242,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
     {
         private readonly BottomSheetBehavior m_behavior;
-        private float m_slideOffset = 0.5f;
 
         public BottomSheetCallback(BottomSheetBehavior behavior)
         {
@@ -251,8 +250,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
         public override void OnSlide(AView bottomSheet, float slideOffset)
         {
-            m_slideOffset = slideOffset;
-            if (m_slideOffset < 0)
+            if (slideOffset < 0)
             {
                 m_behavior.State = BottomSheetBehavior.StateHalfExpanded;
             }
@@ -264,13 +262,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
     }
     
-    internal class KeyListener : Java.Lang.Object, IDialogInterfaceOnKeyListener
+    internal class KeyListener : Object, IDialogInterfaceOnKeyListener
     {
         private readonly BottomSheet m_bottomSheet;
 
-        public KeyListener(BottomSheet m_bottomSheet)
+        public KeyListener(BottomSheet bottomSheet)
         {
-            this.m_bottomSheet = m_bottomSheet;
+            m_bottomSheet = bottomSheet;
         }
         
         public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e)
