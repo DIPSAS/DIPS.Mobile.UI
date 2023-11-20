@@ -102,7 +102,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             base.ConnectHandler(platformView);
 
-            InternalSearchBar.TextChanged += SearchBarTextChanged;
+            
             if (InternalSearchBar.Handler != null)
             {
                 if (InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
@@ -112,20 +112,34 @@ namespace DIPS.Mobile.UI.Components.Searching
                 }
             }
 
+            SubscribeToEvents();
+        }
+
+        private void SubscribeToEvents()
+        {
+            InternalSearchBar.TextChanged += SearchBarTextChanged;
             if (RemoveTextImageView != null)
             {
                 RemoveTextImageView.Click += OnClearTextClicked;
             }
+
+            InternalSearchBar.Focused += OnInternalSearchBarFocused;
         }
 
         protected override void DisconnectHandler(AView platformView)
         {
             base.DisconnectHandler(platformView);
+            UnsubscribeToEvents();
+        }
+
+        private void UnsubscribeToEvents()
+        {
             InternalSearchBar.TextChanged -= SearchBarTextChanged;
             if (RemoveTextImageView != null)
             {
                 RemoveTextImageView.Click -= OnClearTextClicked;
             }
+            InternalSearchBar.Focused -= OnInternalSearchBarFocused;
         }
 
 

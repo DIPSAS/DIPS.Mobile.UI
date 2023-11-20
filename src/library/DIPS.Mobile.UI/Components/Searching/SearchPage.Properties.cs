@@ -74,6 +74,15 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
 
         /// <summary>
+        /// Determines if the page should automatically focus the search bar when it loads.
+        /// </summary>
+        public bool ShouldAutoFocus
+        {
+            get => (bool)GetValue(ShouldAutoFocusProperty);
+            set => SetValue(ShouldAutoFocusProperty, value);
+        }
+
+        /// <summary>
         /// The amount of delay before invocation of <see cref="ProvideSearchResult"/> in milliseconds. Is only in effect if <see cref="ShouldDelay"/>
         /// is true.
         /// </summary>
@@ -103,6 +112,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <remarks>Doing this asynchronously will display a spinner for people to see during the task. If people start searching while your asynchronous calls are being executed, the <see cref="searchCancellationToken"/> will be cancelled. This means that you have to use it for your asynchronous calls.  </remarks>
         public abstract Task<IEnumerable<object>?> ProvideSearchResult(string searchQuery,
             CancellationToken searchCancellationToken);
+        
+        /// <summary>
+        /// Event to be raised when the <see cref="SearchBar"/> was focused.
+        /// </summary>
+        public event EventHandler<EventArgs> SearchBarFocused;
 
         public SearchBar SearchBar { get; }
         
@@ -155,5 +169,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(NoResultView),
             typeof(View),
             typeof(SearchPage));
+        
+        public static readonly BindableProperty ShouldAutoFocusProperty = BindableProperty.Create(
+            nameof(ShouldAutoFocus),
+            typeof(bool),
+            typeof(SearchPage), defaultValue: true);
     }
 }

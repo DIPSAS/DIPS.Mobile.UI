@@ -23,4 +23,9 @@ public partial class HåvardPage2
         await Task.Delay(100);
         return new[] {"Asd"};
     }
+
+    private void HåvardPage2_OnSearchBarFocused(object sender, EventArgs e)
+    {
+        
+    }
 }

@@ -189,6 +189,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(DelayProperty, value);
         }
         
+        /// <summary>
+        /// Event to be raised when the <see cref="SearchBar"/> was focused.
+        /// </summary>
+        public new event EventHandler<EventArgs> Focused;
+        
         public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
             typeof(Color),

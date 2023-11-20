@@ -22,4 +22,9 @@ internal partial class SearchBarHandler
         [nameof(SearchBar.Text)] = MapText,
         [nameof(SearchBar.CancelButtonTextColor)] = MapCancelButtonTextColor,
     };
+    
+    private void OnInternalSearchBarFocused(object? sender, FocusEventArgs e)
+    {
+        VirtualView.SendFocused();
+    }
 }

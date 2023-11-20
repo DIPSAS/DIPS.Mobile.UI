@@ -1,3 +1,8 @@
+## [19.10.0]
+- [SearchBar] Hooked up Focused event from internal serach bar to the component.
+- [SearchPage] Added ShouldAutoFocus for the consumer to disable focusing.
+- [SearchPage] Added SearchBarFocused event.
+
 ## [19.9.0]
 - Bottom sheets can now be set to not be dismissed when user swipes down the bottomsheet.
     - Added two new properties to BottomSheet: 'IsInteractiveCloseable' and 'OnBackButtonPressedCommand'.
