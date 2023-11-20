@@ -17,13 +17,13 @@ public class HåvardPageViewModel : ViewModel
     {
         Items = new List<Something>()
         {
-            new("1", new SomeOtherThing(true)),
-            new("2", new SomeOtherThing(false)),
-            new("3", new SomeOtherThing(true)),
-            new("4", new SomeOtherThing(true)),
-            new("5", new SomeOtherThing(false)),
-            new("6", new SomeOtherThing(false)),
-            new("7", new SomeOtherThing(true)),
+            new("Based on your input, get a random alpha numeric string. The random string generator creates a series of numbers and letters that have no pattern. These can be helpful for creating security codes.", new SomeOtherThing(true)),
+            new("With this utility you generate a 16 character output based on your input of numbers and upper and lower case letters.  Random strings can be unique. Used in computing, a random string generator can also be called a random character string generator. This is an important tool if you want to generate a unique set of strings. The utility generates a sequence that lacks a pattern and is random.", new SomeOtherThing(false)),
+            new("Possible applications for a random string generator could be for statistical sampling, simulations, and cryptography.  For security reasons, a random string generator can be useful. ", new SomeOtherThing(true)),
+            new("The generation of this type of random string can be a common or typical task in computer programming.  Some forms of randomness concern hash or seach algorithms.  Another task that is random concerns selecting music tracks.", new SomeOtherThing(true)),
+            new("Very small", new SomeOtherThing(false)),
+            new("Very very very small", new SomeOtherThing(false)),
+            new("Very very very veeeeeeery small", new SomeOtherThing(true)),
             new("8", new SomeOtherThing(false)),
             new("9", new SomeOtherThing(true)),
             new("10", new SomeOtherThing(false)),

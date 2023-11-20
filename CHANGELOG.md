@@ -1,5 +1,8 @@
-## [19.7.0]
+## [19.8.0]
 - Added `TextColor` and `Style` properties to `SubtitleOptions`
+
+## [19.7.0]
+- [CollectionView] Added ReloadData method for consumers to redraw all items without modifying ItemSource. 
 
 ## [19.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
