@@ -1,3 +1,7 @@
+## [19.9.0]
+- Bottom sheets can now be set to not be dismissed when user swipes down the bottomsheet.
+    - Added two new properties to BottomSheet: 'IsClosableOnSwipe' and 'OnBackButtonPressedCommand'.g
+
 ## [19.8.0]
 - Added `TextColor` and `Style` properties to `SubtitleOptions`
 

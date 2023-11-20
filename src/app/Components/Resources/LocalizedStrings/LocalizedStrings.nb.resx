@@ -288,4 +288,16 @@
     <data name="TextFields" xml:space="preserve">
         <value>Tekstfelter</value>
     </data>
+    <data name="AreYouSure?" xml:space="preserve">
+        <value>Er du sikker?</value>
+    </data>
+    <data name="ThisWillCloseBottomSheet" xml:space="preserve">
+        <value>Dette vil lukke bottomsheeten</value>
+    </data>
+    <data name="Yes" xml:space="preserve">
+        <value>Ja</value>
+    </data>
+    <data name="BottomSheet_OpenNonSwipeClosable" xml:space="preserve">
+        <value>Åpne bottom sheet som ikke kan lukkes med sveiping</value>
+    </data>
 </root>

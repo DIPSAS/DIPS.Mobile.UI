@@ -590,5 +590,29 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("TextFields", resourceCulture);
             }
         }
+        
+        internal static string AreYouSure_ {
+            get {
+                return ResourceManager.GetString("AreYouSure?", resourceCulture);
+            }
+        }
+        
+        internal static string ThisWillCloseBottomSheet {
+            get {
+                return ResourceManager.GetString("ThisWillCloseBottomSheet", resourceCulture);
+            }
+        }
+        
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        internal static string BottomSheet_OpenNonSwipeClosable {
+            get {
+                return ResourceManager.GetString("BottomSheet_OpenNonSwipeClosable", resourceCulture);
+            }
+        }
     }
 }
