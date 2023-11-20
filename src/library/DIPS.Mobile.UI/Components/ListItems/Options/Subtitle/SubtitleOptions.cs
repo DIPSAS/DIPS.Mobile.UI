@@ -14,8 +14,8 @@ public partial class SubtitleOptions : ListItemOptions
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(FontAttributes), source: this));
         listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, new Binding(nameof(HorizontalTextAlignment), source: this));
         listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
-        listItem.SubtitleLabel.Style = Styles.GetLabelStyle(LabelStyle.Body200);
-        listItem.SubtitleLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+        listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, new Binding(nameof(Style), source: this));
+        listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
 
     }
 }

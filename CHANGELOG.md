@@ -1,3 +1,6 @@
+## [19.7.0]
+- Added `TextColor` and `Style` properties to `SubtitleOptions`
+
 ## [19.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
