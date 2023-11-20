@@ -93,13 +93,20 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.UnFocus();
 #endif
             
+            SearchBar.Focused -= OnSearchBarFocused;
+            
         }
 
         private void OnLoaded(object? sender, EventArgs e)
         {
             SetSearchState(SearchStates.NeedsSearchHint);
-            SearchBar.Focus();
-            
+            if (ShouldAutoFocus)
+            {
+                SearchBar.Focus();    
+            }
+
+            SearchBar.Focused += OnSearchBarFocused;
+
 #if __IOS__
             if (OperatingSystem.IsIOSVersionAtLeast(14, 1))
             {
@@ -115,6 +122,11 @@ namespace DIPS.Mobile.UI.Components.Searching
                 topBoxView.Margin = new Thickness(0, -safeAreaInsetsTop, 0, 0);
             }
 #endif
+        }
+
+        private void OnSearchBarFocused(object? sender, EventArgs eventArgs)
+        {
+            SearchBarFocused?.Invoke(this, EventArgs.Empty);
         }
 
         private void TextWasClearedFromClick()

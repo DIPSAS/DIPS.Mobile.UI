@@ -55,7 +55,7 @@ public partial class HåvardPage
     private void Button_OnClicked(object sender, EventArgs e)
     {
         HideText = !HideText;
-        // CollectionView.ReloadData();
+        App.Current.MainPage.Navigation.PushAsync(new HåvardPage2());
     }
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(

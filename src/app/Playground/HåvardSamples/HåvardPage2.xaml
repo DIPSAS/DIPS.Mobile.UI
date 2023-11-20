@@ -5,5 +5,7 @@
 <dui:SearchPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Playground.HåvardSamples.HåvardPage2">
+                 x:Class="Playground.HåvardSamples.HåvardPage2"
+                 SearchBarFocused="HåvardPage2_OnSearchBarFocused"
+                 ShouldAutoFocus="False">
 </dui:SearchPage>

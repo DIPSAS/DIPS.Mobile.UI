@@ -14,7 +14,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 {
     private partial void Construct()
     {
-        MauiSearchBar = new InternalSearchBar();
+        InternalSearchBar = new InternalSearchBar();
         ActivityIndicatorView = new UIActivityIndicatorView();
         
         AppendToPropertyMapper();
@@ -25,7 +25,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         SearchBarPropertyMapper.Add(nameof(SearchBar.iOSSearchFieldBackgroundColor), MapiOSSearchFieldBackgroundColor);
     }
 
-    private Microsoft.Maui.Controls.SearchBar MauiSearchBar { get; set; }
+    private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
     private UIActivityIndicatorView ActivityIndicatorView { get; set; }
     private UIImageView MagnifierIcon { get; set;}
 
@@ -42,13 +42,13 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapTextColor(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.MauiSearchBar.TextColor = searchBar.TextColor;
-        handler.MauiSearchBar.CancelButtonColor = searchBar.TextColor;
+        handler.InternalSearchBar.TextColor = searchBar.TextColor;
+        handler.InternalSearchBar.CancelButtonColor = searchBar.TextColor;
     }
 
     private static void MapPlaceholder(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.MauiSearchBar.Placeholder = searchBar.Placeholder;
+        handler.InternalSearchBar.Placeholder = searchBar.Placeholder;
     }
 
     private static void MapHasBusyIndication(SearchBarHandler handler, SearchBar searchBar)
@@ -142,7 +142,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     protected override DuiSearchBar CreatePlatformView()
     {
-        var uiSearchBar = (DuiSearchBar) MauiSearchBar.ToPlatform(MauiContext);
+        var uiSearchBar = (DuiSearchBar) InternalSearchBar.ToPlatform(MauiContext);
         return uiSearchBar;
     }
 
@@ -169,6 +169,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         {
             ClearButton.TouchUpInside += OnClearButtonClicked;    
         }
+        InternalSearchBar.Focused += OnInternalSearchBarFocused;
     }
 
     private void OnClearButtonClicked(object? sender, EventArgs e)
@@ -200,6 +201,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         {
             ClearButton.TouchUpInside += OnClearButtonClicked;    
         }
+        InternalSearchBar.Focused += OnInternalSearchBarFocused;
     }
 
     private void OnCancelButtonClicked(object? sender, EventArgs e)
@@ -216,6 +218,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.MauiSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
+        handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
 }

@@ -13,32 +13,7 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <!-- Create document -->
-    <Grid RowDefinitions="Auto, *">
-        <Button Grid.Row="0"
-                Text="Skjul/Vis"
-                Clicked="Button_OnClicked" />
-        <CollectionView Grid.Row="1"
-                            x:Name="CollectionView"
-                            Margin="10"
-                            ItemsSource="{Binding Items}"
-                            ItemSizingStrategy="MeasureAllItems">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type håvardSamples:Something}">
-                    <Border BackgroundColor="{dui:Colors color_information_dark}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8" />
-                        </Border.StrokeShape>
-                        <Grid RowDefinitions="Auto, Auto">
-                            <Label Grid.Row="0"
-                                   Text="Denne er fast"
-                                   FontAttributes="Bold"
-                                   VerticalOptions="Start" />
-                            <Label Grid.Row="1"
-                                   Text="{Binding DisplayName}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+    <Button Grid.Row="0"
+            Text="Skjul/Vis"
+            Clicked="Button_OnClicked" />
 </dui:ContentPage>
