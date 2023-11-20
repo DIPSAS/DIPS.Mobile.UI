@@ -18,31 +18,54 @@ public partial class HåvardPage
 
     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        
     }
 
     private void BindableObject_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        
     }
 
     private void BindableObject_OnPropertyChanging(object sender, PropertyChangingEventArgs e)
     {
-        
     }
 
     private void VisualElement_OnMeasureInvalidated(object sender, EventArgs e)
     {
-        
     }
 
     private void Element_OnHandlerChanged(object sender, EventArgs e)
     {
-        
     }
 
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
-        
+    }
+
+    private void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+    {
+        if (sender is not View view) return;
+        if (view.HeightRequest == -1)
+        {
+            view.HeightRequest = 60;
+            return;
+        }
+
+        view.HeightRequest = -1;
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        HideText = !HideText;
+        // CollectionView.ReloadData();
+    }
+
+    public static readonly BindableProperty HideTextProperty = BindableProperty.Create(
+        nameof(HideText),
+        typeof(bool),
+        typeof(HåvardPage));
+
+    public bool HideText
+    {
+        get => (bool)GetValue(HideTextProperty);
+        set => SetValue(HideTextProperty, value);
     }
 }

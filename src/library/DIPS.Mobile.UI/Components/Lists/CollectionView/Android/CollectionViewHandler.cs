@@ -21,4 +21,16 @@ public partial class CollectionViewHandler
                 collectionView.ShouldBounce ? OverScrollMode.Always : OverScrollMode.Never;
         }
     }
+
+    internal partial void ReloadData(CollectionViewHandler handler)
+    {
+        if (handler.PlatformView is not MauiRecyclerView
+            recyclerView)
+        {
+            return;
+        }
+
+        var adapter = recyclerView.GetAdapter();
+        adapter?.NotifyDataSetChanged();
+    }
 }

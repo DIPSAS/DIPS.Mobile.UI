@@ -46,4 +46,16 @@ public partial class CollectionView
         nameof(ItemSpacing),
         typeof(double),
         typeof(CollectionView), propertyChanged: (bindable, value, newValue) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
+
+    /// <summary>
+    /// Reloads all the data in the <see cref="CollectionView"/>
+    /// </summary>
+    /// <remarks>Use this if you need to re draw the items.</remarks>
+    public void ReloadData()
+    {
+        if (Handler is CollectionViewHandler handler)
+        {
+            handler.ReloadData(handler);
+        }
+    }
 }

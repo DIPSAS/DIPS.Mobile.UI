@@ -12,4 +12,6 @@ public partial class CollectionViewHandler : Microsoft.Maui.Controls.Handlers.It
     };
 
     private static partial void MapShouldBounce(CollectionViewHandler handler, Microsoft.Maui.Controls.CollectionView virtualView);
+
+    internal partial void ReloadData(CollectionViewHandler handler);
 }
