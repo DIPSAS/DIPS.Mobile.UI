@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithToolbar"
              x:Name="BottomSheet"
              ShouldFitToContent="True"
@@ -15,9 +16,8 @@
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Bell"
                      IconImageSource="{dui:Icons bell_fill}" />
-        <ToolbarItem Text="{Binding Title}"
-                     Command="{Binding CloseBottomSheetCommand}"
-        />
+        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
+                     Command="{Binding CloseBottomSheetCommand}" />
     </dui:BottomSheet.ToolbarItems>
     
     <dui:VerticalStackLayout>

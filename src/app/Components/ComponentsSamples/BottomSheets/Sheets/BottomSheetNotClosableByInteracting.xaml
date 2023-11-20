@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
+             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetNotClosableByInteracting"
              x:DataType="{x:Type sheets:BottomSheetWithToolbarViewModel}"
              Title="The title"
@@ -16,7 +17,7 @@
     
     <dui:BottomSheet.ToolbarItems>
       
-        <ToolbarItem Text="{Binding Title}"
+        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
                      Command="{Binding TryCloseBottomSheetCommand}" />
     </dui:BottomSheet.ToolbarItems>
     

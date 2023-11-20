@@ -298,6 +298,6 @@
         <value>Ja</value>
     </data>
     <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
-        <value>Åpne bottom sheet som ikke kan lukkes ved å interagere med bottom sheeten</value>
+        <value>Åpne bottom sheet som bare kan lukkes ved hjelp av en knapp</value>
     </data>
 </root>

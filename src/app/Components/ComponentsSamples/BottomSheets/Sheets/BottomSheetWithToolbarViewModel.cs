@@ -30,7 +30,4 @@ public class BottomSheetWithToolbarViewModel : ViewModel
 
     public ICommand TryCloseBottomSheetCommand { get; set; }
 
-    
-    public string Title => "Close";
-
 }
