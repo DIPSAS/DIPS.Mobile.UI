@@ -12,6 +12,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Xamarin.Google.Crypto.Tink.Shaded.Protobuf;
 using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
 using Color = Microsoft.Maui.Graphics.Color;
@@ -35,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         internal Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
-        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() { Spacing = 0 };
+        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() {Spacing = 0};
 
         private partial void Construct()
         {
@@ -61,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge)
             };
             grid.Add(CancelButton, 1);
-            
+
             OuterVerticalStackLayout.Add(grid);
 
             //Add progressbar
@@ -102,7 +103,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             base.ConnectHandler(platformView);
 
-            
+
             if (InternalSearchBar.Handler != null)
             {
                 if (InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
@@ -139,6 +140,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 RemoveTextImageView.Click -= OnClearTextClicked;
             }
+
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
         }
 
@@ -258,21 +260,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             handler.InternalSearchBar.Text = searchBar.Text;
         }
 
-        public bool RemoveKeyboard()
-        {
-            var focusedView = AutoCompleteTextView.Context?.GetActivity()?.Window?.CurrentFocus;
-            if (focusedView == null) return false;
-            
-            using var inputMethodManager =
-                (InputMethodManager?)focusedView.Context?.GetSystemService(Context.InputMethodService);
-            var windowToken = focusedView.WindowToken;
+        public partial void Focus()
+            => InternalSearchBar.Focus();
 
-            if (windowToken is not null && inputMethodManager is not null)
-            {
-                return inputMethodManager.HideSoftInputFromWindow(windowToken, HideSoftInputFlags.None);
-            }
-
-            return false;
-        }
+        public partial void UnFocus()
+            => InternalSearchBar.Unfocus();
     }
 }

@@ -10,35 +10,33 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
 
-#if __ANDROID__
             Unloaded += OnUnloaded;
-#endif
         }
 
-#if __ANDROID__
+
         public new void Focus()
         {
             if (Handler is SearchBarHandler searchBarHandler)
             {
-                searchBarHandler.InternalSearchBar.Focus();
+                searchBarHandler.Focus();
             }
         }
-        
-        public void UnFocus()
+
+        public new void Unfocus()
         {
             if (Handler is SearchBarHandler searchBarHandler)
             {
-                searchBarHandler.RemoveKeyboard();
+                searchBarHandler.UnFocus();
             }
         }
-        
+
         private void OnUnloaded(object? sender, EventArgs e)
         {
-            UnFocus();
+            Unfocus();
             Unloaded -= OnUnloaded;
         }
-#endif
-        
+
+
         private async void OnTextChanged(string newTextValue, string oldTextValue)
         {
             SearchCancellationToken?.Cancel(); //Cancel the previous search
@@ -50,18 +48,18 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     await Task.Delay(Delay, SearchCancellationToken.Token);
                 }
+
                 TextChanged?.Invoke(this, new TextChangedEventArgs(oldTextValue, newTextValue));
             }
             catch (TaskCanceledException) //This means that people has initiated a new search
             {
                 //Swallow it
             }
-            
         }
 
         internal void SendFocused()
         {
-            Focused?.Invoke(this ,EventArgs.Empty);
+            Focused?.Invoke(this, EventArgs.Empty);
         }
     }
 }

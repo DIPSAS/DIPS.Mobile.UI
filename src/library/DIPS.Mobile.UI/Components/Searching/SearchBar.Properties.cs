@@ -237,7 +237,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             nameof(Text),
             typeof(string),
-            typeof(SearchBar), propertyChanged: ((bindable, value, newValue) => ((SearchBar)bindable).OnTextChanged((string)newValue, (string)value)));
+            typeof(SearchBar), propertyChanged: ((bindable, value, newValue) => ((SearchBar)bindable).OnTextChanged((string)newValue, (string)value)), defaultBindingMode:BindingMode.TwoWay);
         
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),

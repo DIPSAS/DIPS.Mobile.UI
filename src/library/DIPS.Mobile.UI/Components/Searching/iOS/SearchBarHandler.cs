@@ -16,7 +16,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         InternalSearchBar = new InternalSearchBar();
         ActivityIndicatorView = new UIActivityIndicatorView();
-        
+
         AppendToPropertyMapper();
     }
 
@@ -27,11 +27,11 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
     private UIActivityIndicatorView ActivityIndicatorView { get; set; }
-    private UIImageView MagnifierIcon { get; set;}
+    private UIImageView MagnifierIcon { get; set; }
 
     private static void MapText(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.VirtualView.Text = searchBar.Text;
+        handler.InternalSearchBar.Text = searchBar.Text;
         MapHasCancelButton(handler, searchBar);
     }
 
@@ -58,10 +58,11 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapiOSSearchFieldBackgroundColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
     {
-        if(searchBar.iOSSearchFieldBackgroundColor == null)
+        if (searchBar.iOSSearchFieldBackgroundColor == null)
             return;
 
-        searchBarHandler.PlatformView.SearchTextField.BackgroundColor = searchBar.iOSSearchFieldBackgroundColor.ToPlatform();
+        searchBarHandler.PlatformView.SearchTextField.BackgroundColor =
+            searchBar.iOSSearchFieldBackgroundColor.ToPlatform();
     }
 
     /// <summary>
@@ -73,12 +74,12 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         {
             return;
         }
-            
-        
+
+
         handler.PlatformView.Layer.BorderWidth = 1;
         handler.PlatformView.Layer.BorderColor = searchBar.BarColor?.ToCGColor();
         handler.VirtualView.BackgroundColor = searchBar.BarColor;
-        
+
         var cancelButton = handler.PlatformView.FindDescendantView<UIButton>();
 
         if (cancelButton == null)
@@ -97,15 +98,16 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         if (!searchBar.HasBusyIndication)
             return;
 
-        
+
         if (searchBar.IsBusy)
         {
             searchBarHandler.ActivityIndicatorView.Color = searchBar.IconsColor?.ToPlatform();
             searchBarHandler.ActivityIndicatorView.StartAnimating();
-                
-            if (searchBarHandler.PlatformView.SearchTextField.LeftView is not UIImageView uiImageView) //Magnifier icon on the left
-                return;                    
-                
+
+            if (searchBarHandler.PlatformView.SearchTextField
+                    .LeftView is not UIImageView uiImageView) //Magnifier icon on the left
+                return;
+
             var leftViewSize = uiImageView.Frame.Size;
             searchBarHandler.ActivityIndicatorView.Center = new CGPoint(x:
                 leftViewSize.Width / 2, y: leftViewSize.Height / 2);
@@ -113,50 +115,51 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         }
         else
         {
-           searchBarHandler.ActivityIndicatorView.RemoveFromSuperview();
-           searchBarHandler.PlatformView.SearchTextField.LeftView = searchBarHandler.MagnifierIcon;
+            searchBarHandler.ActivityIndicatorView.RemoveFromSuperview();
+            searchBarHandler.PlatformView.SearchTextField.LeftView = searchBarHandler.MagnifierIcon;
         }
     }
 
     private static void MapIconsColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
     {
-        if (searchBarHandler.PlatformView.SearchTextField.LeftView is not UIImageView uiImageView) //Magnifier icon on the left
+        if (searchBarHandler.PlatformView.SearchTextField
+                .LeftView is not UIImageView uiImageView) //Magnifier icon on the left
             return;
-        
+
         uiImageView.TintColor = searchBar.IconsColor?.ToPlatform();
     }
 
     private static void MapHasCancelButton(SearchBarHandler searchBarHandler, SearchBar internalSearchBar)
     {
         searchBarHandler.PlatformView.ShowsCancelButton = internalSearchBar.HasCancelButton;
-        
-        if(!internalSearchBar.HasCancelButton) 
+
+        if (!internalSearchBar.HasCancelButton)
             return;
-        
+
         var cancelButton = searchBarHandler.PlatformView.FindChildView<UIButton>();
-        if(cancelButton == null)
+        if (cancelButton == null)
             return;
-        
+
         cancelButton.Enabled = true;
     }
 
     protected override DuiSearchBar CreatePlatformView()
     {
-        var uiSearchBar = (DuiSearchBar) InternalSearchBar.ToPlatform(MauiContext);
+        var uiSearchBar = (DuiSearchBar)InternalSearchBar.ToPlatform(MauiContext);
         return uiSearchBar;
     }
 
     protected override void ConnectHandler(DuiSearchBar platformView)
     {
         base.ConnectHandler(platformView);
-        
+
         platformView.SearchBarStyle = UISearchBarStyle.Minimal;
 
         if (platformView.SearchTextField.LeftView is UIImageView uiImageView) //Magnifier icon on the left
         {
             MagnifierIcon = uiImageView;
         }
-        
+
         SubscribeToEvents();
     }
 
@@ -167,8 +170,9 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         PlatformView.TextChanged += OnSearchTextChanged;
         if (ClearButton != null)
         {
-            ClearButton.TouchUpInside += OnClearButtonClicked;    
+            ClearButton.TouchUpInside += OnClearButtonClicked;
         }
+
         InternalSearchBar.Focused += OnInternalSearchBarFocused;
     }
 
@@ -199,8 +203,9 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         PlatformView.TextChanged -= OnSearchTextChanged;
         if (ClearButton != null)
         {
-            ClearButton.TouchUpInside += OnClearButtonClicked;    
+            ClearButton.TouchUpInside += OnClearButtonClicked;
         }
+
         InternalSearchBar.Focused += OnInternalSearchBarFocused;
     }
 
@@ -212,7 +217,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     protected override void DisconnectHandler(DuiSearchBar platformView)
     {
         base.DisconnectHandler(platformView);
-        
+
         UnSubscribeToEvents();
     }
 
@@ -220,4 +225,8 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
+
+    public partial void Focus() => InternalSearchBar.Focus();
+
+    public partial void UnFocus() => InternalSearchBar.Unfocus();
 }

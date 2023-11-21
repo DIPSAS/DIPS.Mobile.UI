@@ -1,3 +1,7 @@
+## [19.11.0]
+- [SearchBar] Made it possible to Focus and Unfocus
+- [SearchBar] Made sure consumers can set `Text` property.
+
 ## [19.10.1]
 - Fixed an issue with ListItem where Dividers took up space in height
 - Fixed an issue where setting CornerRadius on ListItem would make the ListItem take up more space in height

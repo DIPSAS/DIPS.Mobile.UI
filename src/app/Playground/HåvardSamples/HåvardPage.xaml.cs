@@ -52,11 +52,6 @@ public partial class HåvardPage
         view.HeightRequest = -1;
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        HideText = !HideText;
-        App.Current.MainPage.Navigation.PushAsync(new HåvardPage2());
-    }
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(
         nameof(HideText),
@@ -67,5 +62,11 @@ public partial class HåvardPage
     {
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        SearchBar.Text = string.Empty;
+        SearchBar.Unfocus();
     }
 }
