@@ -31,7 +31,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapText(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.VirtualView.Text = searchBar.Text;
+        handler.InternalSearchBar.Text = searchBar.Text;
         MapHasCancelButton(handler, searchBar);
     }
 
@@ -220,4 +220,15 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
+    
+    public partial void Focus()
+    {
+        InternalSearchBar.Focus();   
+    }
+
+    public partial void UnFocus()
+    {
+        InternalSearchBar.Unfocus();
+    }
+    
 }

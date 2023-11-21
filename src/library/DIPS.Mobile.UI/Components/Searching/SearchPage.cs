@@ -89,9 +89,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             Loaded -= OnLoaded;
             Unloaded -= OnUnLoaded;
-#if __ANDROID__
-            SearchBar.UnFocus();
-#endif
+            SearchBar.Unfocus();
             
             SearchBar.Focused -= OnSearchBarFocused;
             
