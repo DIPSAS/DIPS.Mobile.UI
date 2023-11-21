@@ -6,7 +6,7 @@
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                     BackgroundColor="White"
+                     BackgroundColor="Gray"
                      IsSaving="{Binding IsSaving}"
                      SavingText="Saving"
                      x:Name="This">
@@ -20,11 +20,44 @@
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
     
-    <dui:NavigationListItem Title="tst"
-                            HasTopDivider="True"
-                            HasBottomDivider="True"
-                            Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"
-                            VerticalOptions="Start" />    
+    <dui:VerticalStackLayout Spacing="0">
+        
+        <dui:ListItem Title="Test!!"
+                      HasBottomDivider="True" />
+        <dui:ListItem Title="Test!!"
+                      HasBottomDivider="True" />
+        <dui:ListItem Title="Test!!"
+                      HasBottomDivider="True" />
+        <dui:ListItem Title="Test!!" />
+        <dui:ListItem Title="Test!!" />
+        <dui:ListItem Title="Test!!"
+                      HasBottomDivider="True"
+                      CornerRadius="12">
+            
+            <dui:ListItem.DividersOptions>
+                <dui:DividersOptions BottomDividerMargin="50, 0, 0, 0" />
+            </dui:ListItem.DividersOptions>
+            
+        </dui:ListItem>
+        <dui:ListItem Title="Test!!" CornerRadius="12" />
+        
+        <BoxView HeightRequest="100"></BoxView>
+        
+        <Border Padding="0" BackgroundColor="White">
+            <Label Text="test"></Label>
+            
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" StrokeThickness="0"></RoundRectangle>
+            </Border.StrokeShape>
+        </Border>
+        
+        <Border BackgroundColor="White" Padding="0">
+            <Label Text="test"></Label>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" StrokeThickness="0"></RoundRectangle>
+            </Border.StrokeShape>
+        </Border>
+    </dui:VerticalStackLayout>
 
 
 </dui:ContentSavePage>

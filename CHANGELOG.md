@@ -1,3 +1,7 @@
+## [19.10.1]
+- Fixed an issue with ListItem where Dividers took up space in height
+- Fixed an issue where setting CornerRadius on ListItem would make the ListItem take up more space in height
+
 ## [19.10.0]
 - [SearchBar] Hooked up Focused event from internal serach bar to the component.
 - [SearchPage] Added ShouldAutoFocus for the consumer to disable focusing.
