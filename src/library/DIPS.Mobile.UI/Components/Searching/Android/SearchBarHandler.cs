@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         internal Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
-        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() { Spacing = 0 };
+        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() {Spacing = 0};
 
         private partial void Construct()
         {
@@ -62,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge)
             };
             grid.Add(CancelButton, 1);
-            
+
             OuterVerticalStackLayout.Add(grid);
 
             //Add progressbar
@@ -103,7 +103,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             base.ConnectHandler(platformView);
 
-            
+
             if (InternalSearchBar.Handler != null)
             {
                 if (InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
@@ -140,6 +140,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             {
                 RemoveTextImageView.Click -= OnClearTextClicked;
             }
+
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
         }
 
@@ -260,25 +261,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
 
         public partial void Focus()
-        {
-            InternalSearchBar.Focus();   
-        }
+            => InternalSearchBar.Focus();
+
         public partial void UnFocus()
-        {
-            InternalSearchBar.Unfocus();
-        //     var focusedView = AutoCompleteTextView.Context?.GetActivity()?.Window?.CurrentFocus;
-        //     if (focusedView == null) return false;
-        //     
-        //     using var inputMethodManager =
-        //         (InputMethodManager?)focusedView.Context?.GetSystemService(Context.InputMethodService);
-        //     var windowToken = focusedView.WindowToken;
-        //
-        //     if (windowToken is not null && inputMethodManager is not null)
-        //     {
-        //         return inputMethodManager.HideSoftInputFromWindow(windowToken, HideSoftInputFlags.None);
-        //     }
-        //
-        //     return false;
-        }
+            => InternalSearchBar.Unfocus();
     }
 }
