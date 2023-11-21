@@ -11,10 +11,9 @@ namespace DIPS.Mobile.UI.Components.ListItems;
 [ContentProperty(nameof(InLineContent))]
 public partial class ListItem : ContentView
 {
-    private VerticalStackLayout RootVerticalStackLayout { get; } = new()
+    private Grid RootGrid { get; } = new()
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, 
-        Spacing = 0
     };
     
     internal Grid ContainerGrid { get; } = new()
@@ -75,11 +74,11 @@ public partial class ListItem : ContentView
         Border.Content = ContainerGrid;
 
         ContainerGrid.Add(TitleAndLabelGrid, 1);
-        RootVerticalStackLayout.Add(Border);
+        RootGrid.Add(Border);
         
         TitleAndLabelGrid.Add(TitleLabel);
         
-        this.Content = RootVerticalStackLayout;
+        this.Content = RootGrid;
     }
 
     private void BindBorder()
@@ -233,7 +232,7 @@ public partial class ListItem : ContentView
 
     private void SetCornerRadius()
     {
-        Border.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
+        Border.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius, StrokeThickness = 0};
     }
     
     private void AddDivider(bool top)
@@ -241,19 +240,21 @@ public partial class ListItem : ContentView
         var divider = new Divider();
         if (top)
         {
-            if (RootVerticalStackLayout.Contains(TopDivider))
-                RootVerticalStackLayout.Remove(TopDivider);
+            if (RootGrid.Contains(TopDivider))
+                RootGrid.Remove(TopDivider);
             
             TopDivider = divider;
-            RootVerticalStackLayout.Insert(0, divider);
+            TopDivider.VerticalOptions = LayoutOptions.Start;
+            RootGrid.Add(divider);
         }
         else
         {
-            if (RootVerticalStackLayout.Contains(BottomDivider))
-                RootVerticalStackLayout.Remove(BottomDivider);
+            if (RootGrid.Contains(BottomDivider))
+                RootGrid.Remove(BottomDivider);
             
             BottomDivider = divider;
-            RootVerticalStackLayout.Add(divider);
+            BottomDivider.VerticalOptions = LayoutOptions.End;
+            RootGrid.Add(divider);
         }
         
         BindToOptions(DividersOptions);
