@@ -300,4 +300,7 @@
     <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
         <value>Åpne bottom sheet som bare kan lukkes ved hjelp av en knapp</value>
     </data>
+    <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
+        <value>Én handling og én gruppe</value>
+    </data>
 </root>

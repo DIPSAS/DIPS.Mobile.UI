@@ -7,28 +7,27 @@ namespace Playground.SanderSamples;
 
 public class SanderPageViewModel : ViewModel
 {
-    private bool m_isToggled;
-    private bool m_isClosed;
+    private bool m_isBusy = true; 
 
     public SanderPageViewModel()
     {
-        // TestCommand = new Command(() => IsToggled = !IsToggled);
-        CloseCommand = new Command(() => IsClosed = true);
+        NavigateCommand = new Command(() => Console.WriteLine("tHis is a test"));
+        Initialize();
     }
 
-    public bool IsClosed
+    private void Initialize()
     {
-        get => m_isClosed;
-        set => RaiseWhenSet(ref m_isClosed, value);
+        Thread.Sleep(10000);
+        IsBusy = false;
     }
 
     public ICommand TestCommand { get; }
 
-    public bool IsToggled
+    public bool IsBusy
     {
-        get => m_isToggled;
-        set => RaiseWhenSet(ref m_isToggled, value);
+        get => m_isBusy;
+        set => RaiseWhenSet(ref m_isBusy, value);
     }
 
-    public ICommand CloseCommand { get; }
+    public ICommand NavigateCommand { get; }
 }
