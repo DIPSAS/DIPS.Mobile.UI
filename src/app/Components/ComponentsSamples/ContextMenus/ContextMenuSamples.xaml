@@ -196,8 +196,7 @@
 
                     <dui:ContextMenuSeparatorItem />
 
-                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=1}"
-                                          Icon="{dui:Icons plus_thin_line}">
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=1}">
                         <dui:ContextMenuItem
                             Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
                             Icon="{dui:Icons internalmessage_fill}" />
