@@ -10,12 +10,6 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <Tab Title="Sander">
-            <ShellContent
-                Title="Sander"
-                ContentTemplate="{DataTemplate sanderSamples:SanderPage}"
-                Route="Sander" />
-        </Tab>
         <Tab Title="Vetle">
             <ShellContent
                 Title="Vetle"
@@ -27,6 +21,12 @@
                 Title="Håvard"
                 ContentTemplate="{DataTemplate håvardSamples:HåvardPage}"
                 Route="Håvard" />
+        </Tab>
+        <Tab Title="Sander">
+            <ShellContent
+                Title="Sander"
+                ContentTemplate="{DataTemplate sanderSamples:SanderPage}"
+                Route="Sander" />
         </Tab>
     </TabBar>
 </dui:Shell>
