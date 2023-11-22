@@ -1,3 +1,6 @@
+## [19.11.1]
+- [ContextMenu] Group `ContextMenuGroup` if at least one item alongside it. 
+
 ## [19.11.0]
 - [SearchBar] Made it possible to Focus and Unfocus
 - [SearchBar] Made sure consumers can set `Text` property.
