@@ -10,12 +10,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
 internal class BottomSheetContentPage : ContentPage
 {
-    private UIViewController? m_viewController;
-#nullable disable
-    private UIViewController m_navigationViewController;
-#nullable enable
+
     private readonly BottomSheet m_bottomSheet;
-    private UISheetPresentationController? m_sheetPresentationController;
+
+    // public UIViewController UINavigationController { get; set; }
+    public UIViewController? UIViewController { get; set; }
+    public UISheetPresentationController? UISheetPresentationController { get; set; }
 
     public BottomSheetContentPage(BottomSheet bottomSheet)
     {
@@ -35,6 +35,45 @@ internal class BottomSheetContentPage : ContentPage
         SetupViewController();
     }
 
+    public static async Task CreateAndShowBottomSheet(bool shouldHaveNavigationBar)
+    {
+        var mauiContext = DUI.GetCurrentMauiContext;
+        if (mauiContext == null) return;
+    
+        
+        Page page = new ContentPage();
+        NavigationPage? navigationPage = null;
+        if (shouldHaveNavigationBar)
+        {
+            navigationPage = new NavigationPage(page);
+            navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.BackgroundColorName);
+            navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
+            
+        }
+
+        var uiViewController  = page.ToUIViewController(mauiContext);
+        UIViewController? navigationController; 
+        if (navigationPage != null)
+        {
+            navigationController = navigationPage.ToUIViewController(mauiContext);
+            navigationController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
+            navigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+            ConfigureToolbar(uiViewController);
+        }
+        else
+        {
+            navigationController = page.ToUIViewController(mauiContext);
+        }
+        
+        var uiSheetPresentationController = navigationController.SheetPresentationController;
+        
+        //TODO: MOVE TO HANDLER:
+        //uiSheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
+        var currentViewController = Platform.GetCurrentUIViewController();
+        if (currentViewController == null) return;
+        await currentViewController.PresentViewControllerAsync(navigationController, true);
+    }
+
 
     private void IncludeSearchBar()
     {
@@ -52,53 +91,50 @@ internal class BottomSheetContentPage : ContentPage
 #pragma warning disable CA1416
     private void SetupViewController()
     {
-        if (!OperatingSystem.IsIOSVersionAtLeast(15))
-        {
-            return;
-        }
-        
-        var mauiContext = DUI.GetCurrentMauiContext;
-        
-        if (mauiContext == null)
-            return;
+        // if (!OperatingSystem.IsIOSVersionAtLeast(15))
+        // {
+        //     return;
+        // }
+        //
+        // var mauiContext = DUI.GetCurrentMauiContext;
+        //
+        // if (mauiContext == null)
+        //     return;
+        //
+        // UIViewController = this.ToUIViewController(mauiContext);
+        //
+        // Page navigationPage;
+        //
+        // if (m_bottomSheet.ShouldHaveNavigationBar)
+        // {
+        //     navigationPage = new NavigationPage(this);
+        //     navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.BackgroundColorName);
+        //     navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
+        // }
+        // else
+        // {
+        //     navigationPage = this;
+        // }
+        //
+        // UINavigationController = navigationPage.ToUIViewController(mauiContext);
+        //
+        // if (UIViewController == null) 
+        //     return;
+        //
+        // UINavigationController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
+        // UINavigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+        //
+        // if (UIViewController.SheetPresentationController == null) //Can use bottom sheet
+        //     return;
+        //
+        //
+        // if(m_bottomSheet.ShouldHaveNavigationBar)        
+        //     ConfigureToolbar();
+        //
+        // UISheetPresentationController = UINavigationController.SheetPresentationController;
+        // UISheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
 
-        m_viewController = this.ToUIViewController(mauiContext);
-
-        Page navigationPage;
-
-        if (m_bottomSheet.ShouldHaveNavigationBar)
-        {
-            navigationPage = new NavigationPage(this);
-            navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.BackgroundColorName);
-            navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
-        }
-        else
-        {
-            navigationPage = this;
-        }
-
-        m_navigationViewController = navigationPage.ToUIViewController(mauiContext);
-        
-        if (m_viewController == null) 
-            return;
-        
-        m_navigationViewController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
-        m_navigationViewController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-        
-        if (m_viewController.SheetPresentationController == null) //Can use bottom sheet
-            return;
-
-        if (!m_bottomSheet.IsInteractiveCloseable)
-        {
-            m_navigationViewController.ModalInPresentation = true;
-        }
-        
-        if(m_bottomSheet.ShouldHaveNavigationBar)        
-            ConfigureToolbar();
-        
-        m_sheetPresentationController = m_navigationViewController.SheetPresentationController;
-        m_sheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
-
+        //Todo: Kan muligens flyttes til handler
         var preferredDetent = UISheetPresentationControllerDetent.CreateMediumDetent();
         var preferredDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
 
@@ -113,7 +149,7 @@ internal class BottomSheetContentPage : ContentPage
                         double navBarHeight = 0;
                         if (m_bottomSheet.ShouldHaveNavigationBar)
                         {
-                            var navigationController = m_viewController!.NavigationController;
+                            var navigationController = UIViewController!.NavigationController;
                             navBarHeight = navigationController!.NavigationBar.Frame.Height;
                         }
                         
@@ -131,17 +167,17 @@ internal class BottomSheetContentPage : ContentPage
             }
         }
         
-        m_sheetPresentationController.Detents = (m_bottomSheet.ShouldFitToContent)
+        UISheetPresentationController.Detents = (m_bottomSheet.ShouldFitToContent)
 
             ? new[] {preferredDetent}
             : new[] {preferredDetent, UISheetPresentationControllerDetent.CreateLargeDetent(),};
 
         //Add grabber
-        m_sheetPresentationController.PrefersGrabberVisible = true;
+        UISheetPresentationController.PrefersGrabberVisible = true;
 
-        m_sheetPresentationController.SelectedDetentIdentifier = preferredDetentIdentifier;
+        UISheetPresentationController.SelectedDetentIdentifier = preferredDetentIdentifier;
 
-        m_sheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+        UISheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
             
 
         var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
@@ -153,43 +189,45 @@ internal class BottomSheetContentPage : ContentPage
     }
 #pragma warning restore CA1416
 
-    private void ConfigureToolbar()
+    private static void ConfigureToolbar(UIViewController uiViewController)
     {
-        Title = m_bottomSheet.Title;
-        foreach (var item in m_bottomSheet.ToolbarItems)
-        {
-            item.BindingContext = m_bottomSheet.BindingContext;
-            ToolbarItems.Add(item);
-        }
+        //TODO: Move to handler
+        // Title = m_bottomSheet.Title;
+        // foreach (var item in m_bottomSheet.ToolbarItems)
+        // {
+        //     item.BindingContext = m_bottomSheet.BindingContext;
+        //     ToolbarItems.Add(item);
+        // }
         
-        var navigationController = m_viewController!.NavigationController;
+        var navigationController = uiViewController!.NavigationController;
+        if (navigationController == null) return;
         RemoveNavigationBarSeparator(navigationController.NavigationBar);
         // Sets the color for all navigation buttons
         navigationController.NavigationBar.TintColor = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform(); 
     }
 
-    private void RemoveNavigationBarSeparator(UINavigationBar navigationBar)
+    private static void RemoveNavigationBarSeparator(UINavigationBar navigationBar)
     {
         navigationBar.ShadowImage = new UIImage();
         navigationBar.SetBackgroundImage(new UIImage(), default);
     }
 
-    internal async Task Open()
-    {
-        var currentViewController = Platform.GetCurrentUIViewController();
-        if (m_navigationViewController != null && currentViewController != null)
-        {
-            await currentViewController.PresentViewControllerAsync(m_navigationViewController, true);
-        }
-    }
-
-    public async Task Close(bool animated)
-    {
-        if (m_navigationViewController == null) return;
-        await m_navigationViewController.DismissViewControllerAsync(animated);
-        await Task.Delay(100);
-        Dispose();
-    }
+    // internal async Task Open()
+    // {
+    //     var currentViewController = Platform.GetCurrentUIViewController();
+    //     if (UINavigationController != null && currentViewController != null)
+    //     {
+    //         await currentViewController.PresentViewControllerAsync(UINavigationController, true);
+    //     }
+    // }
+    //
+    // public async Task Close(bool animated)
+    // {
+    //     if (UINavigationController == null) return;
+    //     await UINavigationController.DismissViewControllerAsync(animated);
+    //     await Task.Delay(100);
+    //     Dispose();
+    // }
 
     internal void Opened()
     {
@@ -200,26 +238,5 @@ internal class BottomSheetContentPage : ContentPage
     {
         m_bottomSheet.SendClose();
         BottomSheetService.Current = null;
-    }
-}
-
-internal class BottomSheetControllerDelegate : UISheetPresentationControllerDelegate
-{
-    private readonly BottomSheetContentPage m_bottomSheetContentPage;
-
-    public BottomSheetControllerDelegate(BottomSheetContentPage bottomSheetContentPageContentPage)
-    {
-        m_bottomSheetContentPage = bottomSheetContentPageContentPage;
-    }
-
-    public override void WillPresent(UIPresentationController presentationController, UIModalPresentationStyle style,
-        IUIViewControllerTransitionCoordinator? transitionCoordinator)
-    {
-        m_bottomSheetContentPage.Opened();
-    }
-    
-    public override void DidDismiss(UIPresentationController presentationController)
-    {
-        m_bottomSheetContentPage.Dispose();
     }
 }

@@ -1,5 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Resources.Icons;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Playground.HåvardSamples;
@@ -66,7 +69,16 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        SearchBar.Text = string.Empty;
-        SearchBar.Unfocus();
+        var bottomSheet = new BottomSheet()
+        {
+            Title = "My bottom sheet",
+            IsInteractiveCloseable = false,
+            HasSearchBar = true,
+            ShouldFitToContent = true,
+            ToolbarItems = {new ToolbarItem() {Text = "Test", IconImageSource = Icons.GetIcon(IconName.alert_fill)}}
+        };
+        var command = new Command(() => bottomSheet.ShouldFitToContent = !bottomSheet.ShouldFitToContent);
+        bottomSheet.Content = new Button() {HeightRequest = 100, Text = "Tap me!", Command = command};
+        BottomSheetService.OpenBottomSheet(bottomSheet);
     }
 }

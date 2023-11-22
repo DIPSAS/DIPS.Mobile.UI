@@ -155,5 +155,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(ICommand),
             typeof(BottomSheet));
 
+
+#if __IOS__
+        public UIKit.UIViewController? UIViewController { get; internal set; }
+        public UIKit.UIViewController NavigationController { get; set; }
+        public ContentPage ContentPage { get; set; }
+
+        public UIKit.UISheetPresentationController UISheetPresentationController;
+#endif
     }
 }

@@ -16,6 +16,9 @@ public partial class Button
         var largeButtonHeight = Sizes.GetSize(SizeName.size_12);
         
         var percentOfHeight = (float)height / largeButtonHeight;
-        ((Handler!.PlatformView as UIButton)!).ImageView.Transform = CGAffineTransform.MakeScale(percentOfHeight, percentOfHeight);
+        if (Handler?.PlatformView is UIButton uiButton)
+        {
+            uiButton.ImageView.Transform = CGAffineTransform.MakeScale(percentOfHeight, percentOfHeight);
+        }
     }
 }

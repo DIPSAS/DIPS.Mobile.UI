@@ -70,6 +70,5 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         protected virtual void OnSearchTextChanged(string value)
         {
         }
-
     }
 }

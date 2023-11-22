@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
@@ -61,6 +62,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
             handlers.AddHandler<Entry, EntryHandler>();
             handlers.AddHandler<Editor, EditorHandler>();
+            handlers.AddHandler<BottomSheet, BottomSheetHandler>();
             
             AddPlatformHandlers(handlers);
         });
