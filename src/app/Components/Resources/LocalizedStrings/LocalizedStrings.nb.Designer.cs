@@ -614,5 +614,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BottomSheet_OpenNotClosableInteracting", resourceCulture);
             }
         }
+        
+        internal static string Context_Menu_LongPress_OneItemOneGroup {
+            get {
+                return ResourceManager.GetString("Context_Menu_LongPress_OneItemOneGroup", resourceCulture);
+            }
+        }
     }
 }

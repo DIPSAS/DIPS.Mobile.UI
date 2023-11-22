@@ -11,11 +11,11 @@
         <!-- Single item -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -33,17 +33,17 @@
                     </dui:ContextMenuItem>
                 </dui:ContextMenu>
             </dui:ListItem.ContextMenu>
-            
+
         </dui:ListItem>
 
         <!-- Two items -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -58,11 +58,11 @@
         <!--Checkable items (all)-->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -78,14 +78,14 @@
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
 
-        <!--Checkable items (single)-->
+        <!-- Checkable items (single) -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Single}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -102,11 +102,11 @@
         <!-- Grouped items -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -131,11 +131,11 @@
         <!-- Checkable grouped items -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Grouped_Choices_Single}"
                       HasTopDivider="True">
-            
+
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu VerticalOptions="Start"
                                  ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -162,45 +162,68 @@
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}"
                       HasTopDivider="True"
                       HasBottomDivider="True">
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
-                        Icon="{dui:Icons internalmessage_fill}">
-                    </dui:ContextMenuItem>
+                        Icon="{dui:Icons internalmessage_fill}" />
                 </dui:ContextMenu>
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
-        
+
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithDestructiveAction}"
                       HasBottomDivider="True">
-            
+
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem
                         IsDestructive="True"
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
-                        Icon="{dui:Icons internalmessage_fill}">
-                    </dui:ContextMenuItem>
+                        Icon="{dui:Icons internalmessage_fill}" />
                 </dui:ContextMenu>
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
         
+        <!-- One item + one meny -->
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPress_OneItemOneGroup}"
+                      HasBottomDivider="True">
+            <dui:ListItem.ContextMenu>
+                <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem
+                        Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
+                        Icon="{dui:Icons internalmessage_fill}" />
+
+                    <dui:ContextMenuSeparatorItem />
+
+                    <dui:ContextMenuGroup Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Group_Format}, Argument=1}">
+                        <dui:ContextMenuItem
+                            Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
+                            Icon="{dui:Icons internalmessage_fill}" />
+                        <dui:ContextMenuItem
+                            Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}"
+                            Icon="{dui:Icons internalmessage_fill}" />
+                        <dui:ContextMenuItem
+                            Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=3}"
+                            Icon="{dui:Icons internalmessage_fill}" />
+                    </dui:ContextMenuGroup>
+                </dui:ContextMenu>
+            </dui:ListItem.ContextMenu>
+        </dui:ListItem>
+
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Divider}"
                       HasBottomDivider="True">
-                <dui:ListItem.ContextMenuOptions>
-                    <dui:ContextMenuOptions Mode="Pressed" />
-                </dui:ListItem.ContextMenuOptions>
-            
+            <dui:ListItem.ContextMenuOptions>
+                <dui:ContextMenuOptions Mode="Pressed" />
+            </dui:ListItem.ContextMenuOptions>
+
             <dui:ListItem.ContextMenu>
-                
+
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem
                         IsDestructive="True"
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
-                        Icon="{dui:Icons internalmessage_fill}">
-                    </dui:ContextMenuItem>
+                        Icon="{dui:Icons internalmessage_fill}" />
                     <dui:ContextMenuSeparatorItem />
                     <dui:ContextMenuItem
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"

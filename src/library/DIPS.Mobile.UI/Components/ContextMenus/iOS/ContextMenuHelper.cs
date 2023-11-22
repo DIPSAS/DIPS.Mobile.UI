@@ -13,6 +13,11 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
     {
         var dict = new Dictionary<IContextMenuItem, UIMenuElement>();
         var items = contextMenuItems.ToArray();
+        var hasAtleastOneItemAlongsideGroup = 
+            items.Length > 1 
+            && items.Any(i => i is ContextMenuItem) 
+            && items.Count(i => i is ContextMenuGroup) == 1; //If at least one item alongside menu group
+        
         foreach (var contextMenuItem in items)
         {
             if (!contextMenuItem.IsVisible)
@@ -33,7 +38,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
 
                 var newDict = CreateMenuItems(contextMenuGroup.ItemsSource, contextMenu, callBackWhenItemTapped, contextMenuGroup);
                 if (items.Count(i => i is ContextMenuGroup) >
-                    1) //If there is more than one group, add the group title and group the items
+                    1 || hasAtleastOneItemAlongsideGroup) //If there is more than one group or one group alongside items, add the group title and group the items
                 {
                     uiMenuElement = UIMenu.Create(contextMenuGroup.Title!, newDict.Select(k => k.Value).ToArray());
                 }
