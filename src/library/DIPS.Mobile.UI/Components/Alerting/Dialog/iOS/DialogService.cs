@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 public static partial class DialogService
 {
     private static TaskCompletionSource<DialogAction>? m_taskCompletionSource;
-    private static UIWindow Window { get; set; } = new() { BackgroundColor = Colors.Transparent.ToPlatform() };
+    private static UIWindow Window => UIApplication.SharedApplication.KeyWindow!;
     
     private static UIWindow KeyWindow { get; set; }
 
@@ -35,8 +35,6 @@ public static partial class DialogService
         if (Window.RootViewController?.PresentedViewController is not null)
         {
             await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
-            Window.Hidden = true;
-            Window.ResignKeyWindow();
             m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
         }
     }
@@ -50,8 +48,6 @@ public static partial class DialogService
     {
         await Remove();
         
-        Window = new UIWindow { BackgroundColor = Colors.Transparent.ToPlatform() };
-
         m_taskCompletionSource = new TaskCompletionSource<DialogAction>();
 
         var uiAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
@@ -63,7 +59,6 @@ public static partial class DialogService
                     UIAlertActionStyle.Default,
                     _ =>
                     {
-                        Window.Hidden = true;
                         m_taskCompletionSource?.SetResult(DialogAction.Closed);
                     }));
         }
@@ -74,20 +69,19 @@ public static partial class DialogService
                 isDestructiveDialog ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default,
                 _ =>
                 {
-                    Window.Hidden = true;
                     m_taskCompletionSource?.SetResult(DialogAction.TappedAction);
                 }));
         
-        Window.RootViewController = new UIViewController();
-        if (Window.RootViewController.View == null)
-        {
-            return await m_taskCompletionSource.Task;
-        }
-        
-        Window.RootViewController.View.BackgroundColor = Colors.Transparent.ToPlatform();
-        Window.WindowLevel = UIWindowLevel.Alert + 1;
-        Window.MakeKeyAndVisible();
-        Window.RootViewController.PresentViewController(uiAlertController, true, () => { });
+        // Window.RootViewController = new UIViewController();
+        // if (Window.RootViewController.View == null)
+        // {
+        //     return await m_taskCompletionSource.Task;
+        // }
+        //
+        // Window.RootViewController.View.BackgroundColor = Colors.Transparent.ToPlatform();
+        // Window.WindowLevel = UIWindowLevel.Alert + 1;
+        // Window.MakeKeyAndVisible();
+        Window.RootViewController!.PresentViewController(uiAlertController, true, () => { });
 
         return await m_taskCompletionSource.Task;
     }
