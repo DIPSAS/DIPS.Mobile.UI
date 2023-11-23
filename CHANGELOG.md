@@ -1,3 +1,6 @@
+## [19.11.2]
+- Pre-release
+
 ## [19.11.1]
 - [ContextMenu] Group `ContextMenuGroup` if at least one item alongside it. 
 
