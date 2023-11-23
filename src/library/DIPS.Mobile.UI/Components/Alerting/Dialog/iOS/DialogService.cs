@@ -1,7 +1,4 @@
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
-using Microsoft.Maui.Platform;
 using UIKit;
-using Colors = Microsoft.Maui.Graphics.Colors;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
@@ -13,6 +10,8 @@ public static partial class DialogService
     
     private static UIWindow KeyWindow { get; set; }
 
+    private static UIAlertController? m_currentAlertController;
+    
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
     {
         return Show(title, message, actionTitle);
@@ -32,10 +31,11 @@ public static partial class DialogService
 
     public async static partial Task Remove()
     {
-        if (Window.RootViewController?.PresentedViewController is not null)
+        if (m_currentAlertController is not null)
         {
-            await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
-            m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
+            await m_currentAlertController.DismissViewControllerAsync(false)!;
+            m_currentAlertController = null;
+            m_taskCompletionSource?.TrySetResult(DialogAction.Closed);
         }
     }
 
@@ -50,25 +50,27 @@ public static partial class DialogService
         
         m_taskCompletionSource = new TaskCompletionSource<DialogAction>();
 
-        var uiAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+        m_currentAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
         if (cancelButtonTitle is not null)
         {
-            uiAlertController.AddAction(
+            m_currentAlertController.AddAction(
                 UIAlertAction.Create(
                     cancelButtonTitle,
                     UIAlertActionStyle.Default,
                     _ =>
                     {
+                        m_currentAlertController = null;
                         m_taskCompletionSource?.SetResult(DialogAction.Closed);
                     }));
         }
 
-        uiAlertController.AddAction(
+        m_currentAlertController.AddAction(
             UIAlertAction.Create(
                 actionButtonTitle,
                 isDestructiveDialog ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default,
                 _ =>
                 {
+                    m_currentAlertController = null;
                     m_taskCompletionSource?.SetResult(DialogAction.TappedAction);
                 }));
         
@@ -81,7 +83,7 @@ public static partial class DialogService
         // Window.RootViewController.View.BackgroundColor = Colors.Transparent.ToPlatform();
         // Window.WindowLevel = UIWindowLevel.Alert + 1;
         // Window.MakeKeyAndVisible();
-        Window.RootViewController!.PresentViewController(uiAlertController, true, () => { });
+        Window.RootViewController!.PresentViewController(m_currentAlertController, true, () => { });
 
         return await m_taskCompletionSource.Task;
     }
