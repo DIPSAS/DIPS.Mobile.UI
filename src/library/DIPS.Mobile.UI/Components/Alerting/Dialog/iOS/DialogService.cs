@@ -32,9 +32,8 @@ public static partial class DialogService
     {
         if (Window.RootViewController?.PresentedViewController is not null)
         {
-            await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
+            //await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
             Window.Hidden = true;
-            Window.Dispose();
             m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
         }
     }
