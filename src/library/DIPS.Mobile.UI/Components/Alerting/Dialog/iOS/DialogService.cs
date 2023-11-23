@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 public static partial class DialogService
 {
     private static TaskCompletionSource<DialogAction>? m_taskCompletionSource;
-    private static UIWindow Window { get; } = new() { BackgroundColor = Colors.Transparent.ToPlatform() };
+    private static UIWindow Window { get; set; } = new() { BackgroundColor = Colors.Transparent.ToPlatform() };
 
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
     {
@@ -33,8 +33,8 @@ public static partial class DialogService
         if (Window.RootViewController?.PresentedViewController is not null)
         {
             await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
-            await Window.RootViewController?.DismissViewControllerAsync(false)!;
             Window.Hidden = true;
+            Window.Dispose();
             m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
         }
     }
@@ -47,6 +47,8 @@ public static partial class DialogService
         bool isDestructiveDialog = false)
     {
         await Remove();
+        
+        Window = new UIWindow { BackgroundColor = Colors.Transparent.ToPlatform() };
 
         m_taskCompletionSource = new TaskCompletionSource<DialogAction>();
 
