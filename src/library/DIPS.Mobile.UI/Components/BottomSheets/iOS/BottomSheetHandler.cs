@@ -35,7 +35,7 @@ public partial class BottomSheetHandler : ContentViewHandler
                 ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
                 : Sizes.GetSize(SizeName.size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
             ;
-        m_bottomSheet.ContentPage.Padding = new Thickness(0, m_bottomSheet.ShouldHaveNavigationBar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
+        m_bottomSheet.WrappingContentPage.Padding = new Thickness(0, m_bottomSheet.ShouldHaveNavigationBar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
             bottom); 
     }
 
@@ -90,7 +90,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        bottomSheet.ContentPage.Title = bottomSheet.Title;
+        bottomSheet.WrappingContentPage.Title = bottomSheet.Title;
     }
 
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
@@ -98,7 +98,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         foreach (var item in bottomSheet.ToolbarItems)
         {
             item.BindingContext = bottomSheet.BindingContext;
-            bottomSheet.ContentPage.ToolbarItems.Add(item);
+            bottomSheet.WrappingContentPage.ToolbarItems.Add(item);
         }
     }
 
@@ -114,11 +114,11 @@ public partial class BottomSheetHandler : ContentViewHandler
             grid.Add(bottomSheet.SearchBar);
             grid.Add(bottomSheet, 0, 1);
 
-            bottomSheet.ContentPage.Content = grid;
+            bottomSheet.WrappingContentPage.Content = grid;
         }
         else
         {
-            bottomSheet.ContentPage.Content = bottomSheet;
+            bottomSheet.WrappingContentPage.Content = bottomSheet;
         }
     }
 

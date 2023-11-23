@@ -76,7 +76,7 @@ public static partial class BottomSheetService
             bottomSheet.UIViewController = uiViewController;
             bottomSheet.NavigationController = navigationController;
             bottomSheet.UISheetPresentationController = uiSheetPresentationController;
-            bottomSheet.ContentPage = page;
+            bottomSheet.WrappingContentPage = page;
             page.Content = bottomSheet;
             if (bottomSheet.Handler is BottomSheetHandler bottomSheetHandler)
             {

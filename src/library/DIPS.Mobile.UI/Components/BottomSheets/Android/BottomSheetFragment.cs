@@ -96,10 +96,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
        private void ConfigureToolbar(MaterialToolbar toolbar)
        {
+           //TODO: Move to Mapper in handler
            toolbar.Title = m_bottomSheet.Title;
            toolbar.TitleCentered = true;
 
+           //TODO: Move to mapper in handler
            if (toolbar.Menu == null) return;
+           
            foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
            {
                toolbarItem.BindingContext = m_bottomSheet.BindingContext;
@@ -156,6 +159,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
+                
+                //TODO: Move to handler
                 if (!m_bottomSheet.IsInteractiveCloseable)
                 {
                     bottomSheetDialog.SetCancelable(false);
@@ -164,8 +169,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                     bottomSheetDialog.SetOnKeyListener(new KeyListener(m_bottomSheet));
                 }
                 
+                //TODO: Move to handler
                 bottomSheetDialog.Behavior.FitToContents = m_bottomSheet.ShouldFitToContent;
-                
                 if (!m_bottomSheet.ShouldFitToContent)
                 {
                     var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
