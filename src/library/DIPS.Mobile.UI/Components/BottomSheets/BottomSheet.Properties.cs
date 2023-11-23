@@ -163,5 +163,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         public UIKit.UISheetPresentationController UISheetPresentationController;
 #endif
+
+#if __ANDROID__
+        public Google.Android.Material.BottomSheet.BottomSheetDialog BottomSheetDialog { get; set; }
+#endif
     }
 }

@@ -77,11 +77,9 @@ public static partial class BottomSheetService
             bottomSheet.NavigationController = navigationController;
             bottomSheet.UISheetPresentationController = uiSheetPresentationController;
             bottomSheet.WrappingContentPage = page;
-            page.Content = bottomSheet;
-            if (bottomSheet.Handler is BottomSheetHandler bottomSheetHandler)
-            {
-                bottomSheetHandler.OnBeforeOpening();
-            }
+            page.Content = bottomSheet; //Triggers handler creation
+            if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
+            bottomSheetHandler.OnBeforeOpening();
         
             await currentViewController.PresentViewControllerAsync(navigationController, true);
         }
