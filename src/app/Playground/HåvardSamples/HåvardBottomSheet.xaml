@@ -1,0 +1,29 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 x:Class="Playground.HåvardSamples.HåvardBottomSheet"
+                 xmlns:dui="http://dips.com/mobile.ui">
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="MenuItem_OnClicked" />
+    </dui:BottomSheet.ToolbarItems>
+    <VerticalStackLayout>
+        <dui:ListItem Title="HasSearchBar">
+            <Switch
+                IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=HasSearchBar}" />
+        </dui:ListItem>
+        <dui:ListItem Title="IsInteractiveCloseable">
+            <Switch
+                IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=IsInteractiveCloseable}" />
+        </dui:ListItem>
+        <dui:ListItem Title="ShouldFitToContent">
+            <Switch
+                IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=ShouldFitToContent}" />
+        </dui:ListItem>
+        <Entry Placeholder="Title"
+               Text="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=Title}" />
+    </VerticalStackLayout>
+</dui:BottomSheet>

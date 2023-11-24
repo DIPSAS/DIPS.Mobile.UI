@@ -211,32 +211,4 @@ internal class BottomSheetContentPage : ContentPage
         navigationBar.ShadowImage = new UIImage();
         navigationBar.SetBackgroundImage(new UIImage(), default);
     }
-
-    // internal async Task Open()
-    // {
-    //     var currentViewController = Platform.GetCurrentUIViewController();
-    //     if (UINavigationController != null && currentViewController != null)
-    //     {
-    //         await currentViewController.PresentViewControllerAsync(UINavigationController, true);
-    //     }
-    // }
-    //
-    // public async Task Close(bool animated)
-    // {
-    //     if (UINavigationController == null) return;
-    //     await UINavigationController.DismissViewControllerAsync(animated);
-    //     await Task.Delay(100);
-    //     Dispose();
-    // }
-
-    internal void Opened()
-    {
-        m_bottomSheet.SendOpen();
-    }
-    
-    internal void Dispose()
-    {
-        m_bottomSheet.SendClose();
-        BottomSheetService.Current = null;
-    }
 }

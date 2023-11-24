@@ -8,30 +8,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public static partial class BottomSheetService
 {
-    internal static BottomSheetFragment? Current { get; set; }
-    
-    public static async partial Task OpenBottomSheet(BottomSheet bottomSheet)
-    {
-        if (IsBottomSheetOpen())
-        {
-            await CloseCurrentBottomSheet();
-        }
 
-        var fragment = new BottomSheetFragment(bottomSheet);
-        await fragment.Show();
-        Current = fragment;
+    internal static partial Task PlatformOpen(BottomSheet bottomSheet)
+    {
+        bottomSheet.BottomSheetFragment = new BottomSheetFragment(bottomSheet);
+        return bottomSheet.BottomSheetFragment.Show();
     }
 
-    public static async partial Task CloseCurrentBottomSheet(bool animated)
+    public static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
-        if (Current != null)
-        {
-            await Current.Close(animated);
-        }
-    }
-
-    public static partial bool IsBottomSheetOpen()
-    {
-        return Current != null;
+        return bottomSheet.BottomSheetFragment.Close(animated);
     }
 }

@@ -1,6 +1,7 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
@@ -8,7 +9,7 @@ using AView = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 {
-    internal class BottomSheetFragment : BottomSheetDialogFragment
+    public class BottomSheetFragment : BottomSheetDialogFragment
     {
         private readonly BottomSheet m_bottomSheet;
         private TaskCompletionSource<bool> m_showTaskCompletionSource;
@@ -29,15 +30,28 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (mauiContext == null) return errorView;
 
             if (Dialog is not BottomSheetDialog bottomSheetDialog) return errorView;
+            if (m_bottomSheetBehavior == null) return errorView;
+            if (Context == null) return errorView;
+
+            var rootLayout = new LinearLayout(Context)
+            {
+                LayoutParameters =
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                        ViewGroup.LayoutParams.WrapContent),
+                Orientation = Orientation.Vertical
+            };
+
+            m_bottomSheet.RootLayout = rootLayout;
             m_bottomSheet.BottomSheetDialog = bottomSheetDialog;
+            m_bottomSheet.BottomSheetBehavior = m_bottomSheetBehavior;
 
 
             var bottomSheetView = m_bottomSheet.ToPlatform(mauiContext!); //Triggers handler creation
             if (m_bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return errorView;
             if (m_bottomSheetBehavior == null) return errorView;
-            if (Context == null) return errorView;
-            
-            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, m_bottomSheetBehavior, bottomSheetView);
+
+
+            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, bottomSheetView, rootLayout);
         }
 
         public override Dialog OnCreateDialog(Bundle? savedInstanceState)
@@ -91,7 +105,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             base.OnDestroy();
             m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
-            BottomSheetService.Current = null;
+            BottomSheetService.LatestBottomSheet = null;
         }
 
         public Task Close(bool animated)

@@ -1,11 +1,9 @@
 using Android.Content;
-using Android.Provider;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
-using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Handlers;
@@ -21,98 +19,115 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 public partial class BottomSheetHandler : ContentViewHandler
 {
     private BottomSheet m_bottomSheet;
+    private LinearLayout m_linearLayout;
+    private static AView? m_emptyNonFitToContentView;
+    private AView? m_searchBarView;
+    private MaterialToolbar? m_toolbar;
 
-    public AView OnBeforeOpening(IMauiContext mauiContext, Context context,
-        BottomSheetBehavior bottomSheetBehavior, AView bottomSheetAndroidView)
+    public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
+        LinearLayout rootLayout)
     {
         if (VirtualView is not BottomSheet bottomSheet) return new AView(Context);
         m_bottomSheet = bottomSheet;
-        
-        var linearLayout = new LinearLayout(Context)
-            {
-                LayoutParameters =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                        ViewGroup.LayoutParams.WrapContent),
-                Orientation = Orientation.Vertical
-            };
-        
-            //Add a handle, with a innerGrid that works as a big hit box for the user to hit
-            //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
-            if (bottomSheetBehavior!.Draggable)
-            {
-                var innerGrid = new Grid {Padding = new Thickness(0, Sizes.GetSize(SizeName.size_2))};
-                innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-                {
-                    Command = new Command(ToggleBottomSheetIfPossible)
-                });
-                var handle = new BoxView()
-                {
-                    HeightRequest = 4,
-                    WidthRequest = 32,
-                    CornerRadius = 10,
-                    BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                };
-                innerGrid.Add(handle);
+        bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(
+            new BottomSheetCallback(this));
+        bottomSheet.BottomSheetDialog.SetOnKeyListener(new KeyListener(this));
 
-                linearLayout.AddView(innerGrid.ToPlatform(mauiContext!), 0);
-            }
-
-            if (m_bottomSheet.ShouldHaveNavigationBar)
-            {
-                var toolbar = new MaterialToolbar(Context!);
-                ConfigureToolbar(toolbar);
-                linearLayout.AddView(toolbar, 1);
-            }
-
-            if (m_bottomSheet.HasSearchBar)
-            {
-                linearLayout.AddView(m_bottomSheet.SearchBar!.ToPlatform(mauiContext!), 2);
-            }
-
-            //TODO: This will trigger handler
-            linearLayout.AddView(bottomSheetAndroidView, 3);
-
-            if (!m_bottomSheet.ShouldFitToContent)
-            {
-                // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-                linearLayout.AddView(new AView(Application.Context)
-                {
-                    LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                        ViewGroup.LayoutParams.MatchParent)
-                });
-            }
-
-            return linearLayout;
-    }
-    
-    private void ConfigureToolbar(MaterialToolbar toolbar)
-    {
-        //TODO: Move to Mapper in handler
-        toolbar.Title = m_bottomSheet.Title;
-        toolbar.TitleCentered = true;
-
-        //TODO: Move to mapper in handler
-        if (toolbar.Menu == null) return;
-
-        foreach (var toolbarItem in m_bottomSheet.ToolbarItems)
+        //Add a handle, with a innerGrid that works as a big hit box for the user to hit
+        //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
+        if (m_bottomSheet.BottomSheetBehavior.Draggable)
         {
-            toolbarItem.BindingContext = m_bottomSheet.BindingContext;
-            var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
+            var innerGrid = new Grid {Padding = new Thickness(0, Sizes.GetSize(SizeName.size_2))};
+            innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(ToggleBottomSheetIfPossible)
+            });
+            var handle = new BoxView()
+            {
+                HeightRequest = 4,
+                WidthRequest = 32,
+                CornerRadius = 10,
+                BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+            innerGrid.Add(handle);
 
-            var text = toolbarItem.Text ?? string.Empty;
-            var titleTinted = new SpannableString(text);
-            titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
+            rootLayout.AddView(innerGrid.ToPlatform(mauiContext!));
+        }
 
-            var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
-            menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
-            menuItem.SetOnMenuItemClickListener(
-                new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
-            SetMenuItemIcon(menuItem, toolbarItem);
+
+        m_toolbar = new MaterialToolbar(context);
+        rootLayout.AddView(m_toolbar);
+        ToggleToolbarVisibility(bottomSheet);
+
+        m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext!);
+        rootLayout.AddView(m_searchBarView);
+        ToggleSearchBar();
+        MapToolbarItems(this, bottomSheet);
+
+        rootLayout.AddView(bottomSheetAndroidView);
+
+        if (!m_bottomSheet.ShouldFitToContent)
+        {
+            // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
+            m_emptyNonFitToContentView = new AView(Application.Context)
+            {
+                LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.MatchParent)
+            };
+            rootLayout.AddView(m_emptyNonFitToContentView);
+        }
+
+        return m_linearLayout = rootLayout;
+    }
+
+    private void ToggleToolbarVisibility(BottomSheet bottomSheet)
+    {
+        if (m_toolbar is not { } toolbar) return;
+        toolbar.Visibility = bottomSheet.ShouldHaveNavigationBar ? ViewStates.Visible : ViewStates.Gone;
+    }
+
+    private void ToggleSearchBar()
+    {
+        if (m_searchBarView == null) return;
+        if (m_bottomSheet.HasSearchBar)
+        {
+            m_searchBarView.Visibility = ViewStates.Visible;
+        }
+        else
+        {
+            m_searchBarView.Visibility = ViewStates.Gone;
         }
     }
-    
+
+    private void ToggleFitToContent(BottomSheet bottomSheet)
+    {
+        var context = Platform.AppContext;
+
+        bottomSheet.BottomSheetDialog.Behavior.FitToContents = bottomSheet.ShouldFitToContent;
+        if (!bottomSheet.ShouldFitToContent)
+        {
+            var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
+            if (fullScreenHeight != null)
+            {
+                bottomSheet.BottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
+            }
+        }
+
+        if (m_emptyNonFitToContentView != null) //Only add there is something in the bottom sheet
+        {
+            if (!bottomSheet.ShouldFitToContent)
+            {
+                m_emptyNonFitToContentView.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                m_emptyNonFitToContentView.Visibility = ViewStates.Gone;
+            }
+        }
+    }
+
     private static void SetMenuItemIcon(IMenuItem menuItem, ToolbarItem toolBarItem)
     {
         toolBarItem.IconImageSource.LoadImage(DUI.GetCurrentMauiContext!, result =>
@@ -130,7 +145,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             menuItem.SetIcon(iconDrawable);
         });
     }
-    
+
     private void ToggleBottomSheetIfPossible()
     {
         var bottomSheetBehavior = m_bottomSheet.BottomSheetDialog.Behavior;
@@ -138,90 +153,103 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheetBehavior.State =
             collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
     }
-    
+
     public static partial void MapShouldFitToContent(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        var context = Platform.AppContext;
-        bottomSheet.BottomSheetDialog.Behavior.FitToContents = bottomSheet.ShouldFitToContent;
-        if (!bottomSheet.ShouldFitToContent)
+        handler.ToggleFitToContent(bottomSheet);
+    }
+
+    public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        handler.ToggleSearchBar();
+    }
+
+    public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        handler.ToggleToolbarVisibility(bottomSheet);
+        
+        if (handler.m_toolbar is not { } toolbar)
         {
-            var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
-            if (fullScreenHeight != null)
-            {
-                bottomSheet.BottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
-            }
+            return;
+        }
+
+        if (toolbar.Menu == null) return;
+
+        foreach (var toolbarItem in bottomSheet.ToolbarItems)
+        {
+            toolbarItem.BindingContext = bottomSheet.BindingContext;
+            var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
+
+            var text = toolbarItem.Text;
+            var titleTinted = new SpannableString(text);
+            titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
+
+            var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
+            menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
+            menuItem.SetOnMenuItemClickListener(
+                new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
+            SetMenuItemIcon(menuItem, toolbarItem);
         }
     }
 
-    public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet){}
-    public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet){}
+    public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        handler.ToggleToolbarVisibility(bottomSheet);
+        if (handler.m_toolbar is not { } toolbar)
+        {
+            return;
+        }
 
-    public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet){}
+        toolbar.Title = bottomSheet.Title;
+        toolbar.TitleCentered = true;
+    }
 
     public static partial void MapIsInteractiveCloseable(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        if (!bottomSheet.IsInteractiveCloseable)
+        bottomSheet.BottomSheetDialog.SetCancelable(bottomSheet.IsInteractiveCloseable);
+        bottomSheet.BottomSheetDialog.SetCanceledOnTouchOutside(bottomSheet.IsInteractiveCloseable);
+    }
+
+    private void OnSlide(float slideOffset)
+    {
+        if (slideOffset < 0 && !m_bottomSheet.IsInteractiveCloseable)
         {
-            bottomSheet.BottomSheetDialog.SetCancelable(false);
-            bottomSheet.BottomSheetDialog.SetCanceledOnTouchOutside(false);
-            bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(
-                new BottomSheetCallback(bottomSheet.BottomSheetDialog.Behavior));
-            bottomSheet.BottomSheetDialog.SetOnKeyListener(new KeyListener(bottomSheet));
+            m_bottomSheet.BottomSheetBehavior.State = BottomSheetBehavior.StateDragging;
         }
     }
-    
+
+    private bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
+    {
+        m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
+        return !m_bottomSheet.IsInteractiveCloseable; //Returning true will block back key action
+    }
+
     internal class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
     {
-        private readonly BottomSheetBehavior m_behavior;
+        private readonly BottomSheetHandler m_bottomSheetHandler;
 
-        public BottomSheetCallback(BottomSheetBehavior behavior)
+        public BottomSheetCallback(BottomSheetHandler bottomSheetHandler)
         {
-            m_behavior = behavior;
+            m_bottomSheetHandler = bottomSheetHandler;
         }
 
-        public override void OnSlide(AView bottomSheet, float slideOffset)
-        {
-            if (slideOffset < 0)
-            {
-                m_behavior.State = BottomSheetBehavior.StateHalfExpanded;
-            }
-        }
+        public override void OnSlide(AView bottomSheet, float slideOffset) => m_bottomSheetHandler.OnSlide(slideOffset);
 
-        public override void OnStateChanged(AView bottomSheet, int newState)
+        public override void OnStateChanged(AView p0, int p1)
         {
         }
     }
-    
+
     internal class KeyListener : Java.Lang.Object, IDialogInterfaceOnKeyListener
     {
-        private readonly BottomSheet m_bottomSheet;
+        private readonly BottomSheetHandler m_bottomSheetHandler;
 
-        public KeyListener(BottomSheet bottomSheet)
+        public KeyListener(BottomSheetHandler bottomSheetHandler)
         {
-            m_bottomSheet = bottomSheet;
+            m_bottomSheetHandler = bottomSheetHandler;
         }
 
-        public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e)
-        {
-            m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
-
-            return true;
-        }
-    }
-    
-    internal class GenericMenuClickListener : Java.Lang.Object, IMenuItemOnMenuItemClickListener
-    {
-        readonly Action m_callback;
-
-        public GenericMenuClickListener(Action callback)
-        {
-            m_callback = callback;
-        }
-
-        public bool OnMenuItemClick(IMenuItem item)
-        {
-            m_callback.Invoke();
-            return true;
-        }
+        public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e) =>
+            m_bottomSheetHandler.OnKey(dialog, keyCode, e);
     }
 }

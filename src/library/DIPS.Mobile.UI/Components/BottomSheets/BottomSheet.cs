@@ -15,9 +15,24 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
+            
+            SearchBar = new SearchBar { HasCancelButton = false, BackgroundColor = Colors.Transparent };
+            SearchBar.TextChanged += OnSearchTextChanged;
+            Unloaded += OnUnLoaded;
+        }
+
+        private void OnUnLoaded(object? sender, EventArgs e)
+        {
+            Unloaded -= OnUnLoaded;
+            SearchBar.TextChanged -= OnSearchTextChanged;
+        }
+
+        public void Close()
+        {
+            BottomSheetService.Close(this);
         }
         
-        internal SearchBar? SearchBar { get; private set; }
+        internal SearchBar SearchBar { get; private set; }
         
         internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is { Count: > 0 };
         
@@ -33,23 +48,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             Opened?.Invoke(this, EventArgs.Empty);
             OpenedCommand?.Execute(null);
             OnOpened();
-        }
-
-        private static void OnHasSearchBarChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if(bindable is not BottomSheet bottomSheet)
-                return;
-
-            if (newValue is true)
-            {
-                bottomSheet.SearchBar = new SearchBar { HasCancelButton = false, BackgroundColor = Colors.Transparent };
-                bottomSheet.SearchBar.TextChanged += bottomSheet.OnSearchTextChanged;
-            }
-            else
-            {
-                bottomSheet.SearchBar!.TextChanged -= bottomSheet.OnSearchTextChanged;
-                bottomSheet.SearchBar = null;
-            }
         }
 
         private void OnSearchTextChanged(object? sender, TextChangedEventArgs args)

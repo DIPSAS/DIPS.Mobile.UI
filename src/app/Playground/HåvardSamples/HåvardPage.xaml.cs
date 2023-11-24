@@ -69,24 +69,6 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        var bottomSheet = new BottomSheet()
-        {
-            Title = "My bottom sheet",
-            HasSearchBar = true,
-            ShouldFitToContent = true,
-            ToolbarItems =
-            {
-                new ToolbarItem()
-                {
-                    Text = "Test",
-                    IconImageSource = Icons.GetIcon(IconName.close_line),
-                    Command = new Command(() => BottomSheetService.CloseCurrentBottomSheet())
-                }
-            }
-        };
-        
-        var command = new Command(() => bottomSheet.ShouldFitToContent = !bottomSheet.ShouldFitToContent);
-        bottomSheet.Content = new Button() {HeightRequest = 100, Text = "Tap me!", Command = command};
-        BottomSheetService.OpenBottomSheet(bottomSheet);
+        BottomSheetService.Open(new HåvardBottomSheet());
     }
 }

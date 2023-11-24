@@ -14,21 +14,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 public static partial class BottomSheetService
 {
     internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage);
-    internal static BottomSheet? Current { get; set; }
 
-    public static partial Task OpenBottomSheet(BottomSheet bottomSheet)
-    {
-        if (IsBottomSheetOpen())
-        {
-            CloseCurrentBottomSheet();
-        }
-
-        Current = bottomSheet;
-
-        return Open(bottomSheet);
-    }
-
-    internal async static Task Open(BottomSheet bottomSheet)
+    internal async static partial Task PlatformOpen(BottomSheet bottomSheet)
     {
         try
         {
@@ -41,7 +28,8 @@ public static partial class BottomSheetService
             if (bottomSheet.ShouldHaveNavigationBar)
             {
                 navigationPage = new NavigationPage(page);
-                navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty, BottomSheet.BackgroundColorName);
+                navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty,
+                    BottomSheet.BackgroundColorName);
                 navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
             }
 
@@ -52,15 +40,16 @@ public static partial class BottomSheetService
                 navigationController = navigationPage.ToUIViewController(mauiContext);
                 navigationController.RestorationIdentifier = BottomSheetRestorationIdentifier;
                 navigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-            
+
                 if (uiViewController!.NavigationController == null) return;
                 var navController = uiViewController.NavigationController;
-            
+
                 if (navController?.NavigationBar == null) return;
                 navController.NavigationBar.ShadowImage = new UIImage();
                 navController.NavigationBar.SetBackgroundImage(new UIImage(), default);
                 // Sets the color for all navigation buttons
-                navController.NavigationBar.TintColor = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
+                navController.NavigationBar.TintColor =
+                    Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
             }
             else
             {
@@ -69,7 +58,7 @@ public static partial class BottomSheetService
 
             var uiSheetPresentationController = navigationController.SheetPresentationController;
             if (uiSheetPresentationController == null) return;
-        
+
             var currentViewController = Platform.GetCurrentUIViewController();
             if (currentViewController == null) return;
 
@@ -80,7 +69,7 @@ public static partial class BottomSheetService
             page.Content = bottomSheet; //Triggers handler creation
             if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
             bottomSheetHandler.OnBeforeOpening();
-        
+
             await currentViewController.PresentViewControllerAsync(navigationController, true);
         }
         catch (Exception e)
@@ -89,20 +78,11 @@ public static partial class BottomSheetService
             throw;
         }
     }
-
-    public static async partial Task CloseCurrentBottomSheet(bool animated)
+    public async static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
-        if (Current is { } bottomSheet)
-        {
-            await bottomSheet.NavigationController.DismissViewControllerAsync(animated);
-            await Task.Delay(100);
-            if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
-            bottomSheetHandler.Dispose();
-        }
-    }
-
-    public static partial bool IsBottomSheetOpen()
-    {
-        return Current != null;
+        await bottomSheet.NavigationController.DismissViewControllerAsync(animated);
+        await Task.Delay(100);
+        if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
+        bottomSheetHandler.Dispose();
     }
 }
