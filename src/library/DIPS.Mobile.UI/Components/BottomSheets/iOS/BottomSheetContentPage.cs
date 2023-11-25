@@ -56,7 +56,6 @@ internal class BottomSheetContentPage : ContentPage
         if (navigationPage != null)
         {
             navigationController = navigationPage.ToUIViewController(mauiContext);
-            navigationController.RestorationIdentifier = BottomSheetService.BottomSheetRestorationIdentifier;
             navigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
             ConfigureToolbar(uiViewController);
         }

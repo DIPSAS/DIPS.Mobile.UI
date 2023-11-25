@@ -10,7 +10,7 @@ public class BottomSheetWithToolbarViewModel : ViewModel
 {
     public BottomSheetWithToolbarViewModel()
     {
-        CloseBottomSheetCommand = new Command(() => { BottomSheetService.CloseCurrentBottomSheet(); });
+        CloseBottomSheetCommand = new Command(() => { BottomSheetService.CloseAll(); });
 
         TryCloseBottomSheetCommand = new Command(TryCloseBottomSheet);
     }
@@ -22,7 +22,7 @@ public class BottomSheetWithToolbarViewModel : ViewModel
 
         if (result == DialogAction.TappedAction)
         {
-            _ = BottomSheetService.CloseCurrentBottomSheet();
+            _ = BottomSheetService.CloseAll();
         }
     }
 

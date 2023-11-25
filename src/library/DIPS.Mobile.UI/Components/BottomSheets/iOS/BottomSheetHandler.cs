@@ -125,7 +125,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     internal void Dispose()
     {
         m_bottomSheet.SendClose();
-        BottomSheetService.LatestBottomSheet = null;
+        BottomSheetService.RemoveFromStack(m_bottomSheet);
     }
 
     internal void Opened()

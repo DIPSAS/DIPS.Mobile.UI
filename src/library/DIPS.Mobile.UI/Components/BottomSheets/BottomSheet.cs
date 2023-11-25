@@ -20,16 +20,30 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             SearchBar.TextChanged += OnSearchTextChanged;
             Unloaded += OnUnLoaded;
         }
+        
+        /// <summary>
+        /// <see cref="BottomSheetService.Close"/>
+        /// </summary>
+        /// <param name="animated"></param>
+        /// <returns></returns>
+        public Task Close(bool animated = true)
+        {
+            return BottomSheetService.Close(this, animated);
+        }
+
+        /// <summary>
+        /// <see cref="BottomSheetService.Open"/>
+        /// </summary>
+        /// <returns></returns>
+        public Task Open()
+        {
+            return BottomSheetService.Open(this);
+        }
 
         private void OnUnLoaded(object? sender, EventArgs e)
         {
             Unloaded -= OnUnLoaded;
             SearchBar.TextChanged -= OnSearchTextChanged;
-        }
-
-        public void Close()
-        {
-            BottomSheetService.Close(this);
         }
         
         internal SearchBar SearchBar { get; private set; }

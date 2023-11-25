@@ -18,4 +18,18 @@ public partial class HåvardBottomSheet : BottomSheet
     {
         this.Close();
     }
+
+    private void CloseAllBottomSheets(object sender, EventArgs e)
+    {
+        BottomSheetService.CloseAll();
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        new BottomSheet()
+        {
+            Title = "Second bottom sheet",
+            Content = new Button() {Text = "Close all", Command = new Command(() => BottomSheetService.CloseAll())}
+        }.Open();
+    }
 }

@@ -13,7 +13,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public static partial class BottomSheetService
 {
-    internal const string BottomSheetRestorationIdentifier = nameof(BottomSheetContentPage);
 
     internal async static partial Task PlatformOpen(BottomSheet bottomSheet)
     {
@@ -38,7 +37,6 @@ public static partial class BottomSheetService
             if (navigationPage != null)
             {
                 navigationController = navigationPage.ToUIViewController(mauiContext);
-                navigationController.RestorationIdentifier = BottomSheetRestorationIdentifier;
                 navigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
                 if (uiViewController!.NavigationController == null) return;
@@ -69,7 +67,6 @@ public static partial class BottomSheetService
             page.Content = bottomSheet; //Triggers handler creation
             if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
             bottomSheetHandler.OnBeforeOpening();
-
             await currentViewController.PresentViewControllerAsync(navigationController, true);
         }
         catch (Exception e)
@@ -80,7 +77,8 @@ public static partial class BottomSheetService
     }
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
-        await bottomSheet.NavigationController.DismissViewControllerAsync(animated);
+        if (bottomSheet.UIViewController == null) return;
+        await bottomSheet.UIViewController.DismissViewControllerAsync(animated);
         await Task.Delay(100);
         if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
         bottomSheetHandler.Dispose();
