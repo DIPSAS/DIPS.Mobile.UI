@@ -15,10 +15,10 @@ public partial class BottomSheetHandler
             [nameof(BottomSheet.Title)] = MapTitle,
             [nameof(BottomSheet.ToolbarItems)] = MapToolbarItems,
             [nameof(BottomSheet.HasSearchBar)] = MapHasSearchBar,
-            [nameof(BottomSheet.ShouldFitToContent)] = MapShouldFitToContent,
+            [nameof(BottomSheet.Positioning)] = MapPositioning,
         };
 
-    public static partial void MapShouldFitToContent(BottomSheetHandler handler, BottomSheet bottomSheet);
+    private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet);
 
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet);
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet);

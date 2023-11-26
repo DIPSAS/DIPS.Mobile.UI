@@ -15,12 +15,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
-            
-            SearchBar = new SearchBar { HasCancelButton = false, BackgroundColor = Colors.Transparent };
+
+            SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
             Unloaded += OnUnLoaded;
         }
-        
+
         /// <summary>
         /// <see cref="BottomSheetService.Close"/>
         /// </summary>
@@ -29,6 +29,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public Task Close(bool animated = true)
         {
             return BottomSheetService.Close(this, animated);
+        }
+
+        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
+            nameof(Positioning),
+            typeof(Positioning),
+            typeof(BottomSheet));
+
+        public Positioning Positioning
+        {
+            get => (Positioning)GetValue(PositioningProperty);
+            set => SetValue(PositioningProperty, value);
         }
 
         /// <summary>
@@ -45,11 +56,11 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             Unloaded -= OnUnLoaded;
             SearchBar.TextChanged -= OnSearchTextChanged;
         }
-        
+
         internal SearchBar SearchBar { get; private set; }
-        
-        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is { Count: > 0 };
-        
+
+        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is {Count: > 0};
+
         internal void SendClose()
         {
             Closed?.Invoke(this, EventArgs.Empty);
@@ -70,7 +81,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             SearchCommand?.Execute(args.NewTextValue);
             OnSearchTextChanged(args.NewTextValue);
         }
-        
+
         protected virtual void OnClosed()
         {
         }
@@ -82,5 +93,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         protected virtual void OnSearchTextChanged(string value)
         {
         }
+    }
+
+    public enum Positioning
+    {
+        /// <summary>
+        /// The medium position which covers half of the screen.
+        /// </summary>
+        Medium = 0,
+        /// <summary>
+        /// A large position which covers most of the screen.
+        /// </summary>
+        Large = 2,
+        /// <summary>
+        /// The position is determined by the content and will fit the screen.
+        /// </summary>
+        Fit = 4,
     }
 }

@@ -68,15 +68,19 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         rootLayout.AddView(bottomSheetAndroidView);
 
-        if (!m_bottomSheet.ShouldFitToContent)
+        if (m_bottomSheet.Positioning is not Positioning.Fit)
         {
-            // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-            m_emptyNonFitToContentView = new AView(Application.Context)
+            var width = Platform.AppContext.Resources?.DisplayMetrics?.WidthPixels;
+            if (width.HasValue)
             {
-                LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.MatchParent)
-            };
-            rootLayout.AddView(m_emptyNonFitToContentView);
+                // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
+                m_emptyNonFitToContentView = new AView(Application.Context)
+                {
+                    LayoutParameters = new ViewGroup.LayoutParams(width.Value,
+                        ViewGroup.LayoutParams.MatchParent)
+                };
+                rootLayout.AddView(m_emptyNonFitToContentView);
+            }
         }
 
         return m_linearLayout = rootLayout;
@@ -103,21 +107,9 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private void ToggleFitToContent(BottomSheet bottomSheet)
     {
-        var context = Platform.AppContext;
-
-        bottomSheet.BottomSheetDialog.Behavior.FitToContents = bottomSheet.ShouldFitToContent;
-        if (!bottomSheet.ShouldFitToContent)
-        {
-            var fullScreenHeight = context.Resources?.DisplayMetrics?.HeightPixels;
-            if (fullScreenHeight != null)
-            {
-                bottomSheet.BottomSheetDialog.Behavior.PeekHeight = fullScreenHeight.Value / 2;
-            }
-        }
-
         if (m_emptyNonFitToContentView != null) //Only add there is something in the bottom sheet
         {
-            if (!bottomSheet.ShouldFitToContent)
+            if (bottomSheet.Positioning is not Positioning.Fit)
             {
                 m_emptyNonFitToContentView.Visibility = ViewStates.Visible;
             }
@@ -146,17 +138,27 @@ public partial class BottomSheetHandler : ContentViewHandler
         });
     }
 
+    private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        //Reset fit to content stuff in case it changes
+        bottomSheet.BottomSheetDialog.Behavior.FitToContents =
+            (bottomSheet.Positioning) == Positioning.Fit; 
+        handler.ToggleFitToContent(bottomSheet);
+
+        bottomSheet.BottomSheetDialog.Behavior.State = bottomSheet.Positioning switch
+        {
+            Positioning.Medium => BottomSheetBehavior.StateHalfExpanded,
+            Positioning.Large => BottomSheetBehavior.StateExpanded,
+            _ => bottomSheet.BottomSheetDialog.Behavior.State
+        };
+    }
+
     private void ToggleBottomSheetIfPossible()
     {
         var bottomSheetBehavior = m_bottomSheet.BottomSheetDialog.Behavior;
         var collapsed = m_bottomSheet.BottomSheetDialog.Behavior.State == BottomSheetBehavior.StateCollapsed;
         bottomSheetBehavior.State =
             collapsed ? BottomSheetBehavior.StateExpanded : BottomSheetBehavior.StateCollapsed;
-    }
-
-    public static partial void MapShouldFitToContent(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        handler.ToggleFitToContent(bottomSheet);
     }
 
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet)
@@ -167,7 +169,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         handler.ToggleToolbarVisibility(bottomSheet);
-        
+
         if (handler.m_toolbar is not { } toolbar)
         {
             return;
@@ -215,6 +217,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (slideOffset < 0 && !m_bottomSheet.IsInteractiveCloseable)
         {
             m_bottomSheet.BottomSheetBehavior.State = BottomSheetBehavior.StateDragging;
+            return;
         }
     }
 

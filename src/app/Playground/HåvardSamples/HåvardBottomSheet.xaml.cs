@@ -32,4 +32,17 @@ public partial class HåvardBottomSheet : BottomSheet
             Content = new Button() {Text = "Close all", Command = new Command(() => BottomSheetService.CloseAll())}
         }.Open();
     }
+
+    private void Switch_OnToggled(object sender, ToggledEventArgs e)
+    {
+        if (Positioning == Positioning.Fit)
+        {
+            Positioning = Positioning.Medium;
+        }
+        else
+        {
+            Positioning = Positioning.Fit;
+
+        }
+    }
 }

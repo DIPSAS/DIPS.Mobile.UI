@@ -32,6 +32,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <item><description>Do not set <see cref="IsDraggable"/> because dragging the sheet to maximize it is not supported when <see cref="ShouldFitToContent"/></description></item>
         /// </list>
         /// </remarks>
+        [Obsolete("Removed, use Positioning=Fit")]
         public bool ShouldFitToContent
         {
             get => (bool)GetValue(ShouldFitToContentProperty);
