@@ -119,14 +119,6 @@
         <Compile Update="Resources\LocalizedStrings\LocalizedStrings.nb.Designer.cs">
             <DependentUpon>LocalizedStrings.nb.resx</DependentUpon>
         </Compile>
-        <Compile Update="ComponentsSamples\TextFields\Editor\EditorSamples.xaml.cs">
-          <DependentUpon>EditorSamples.xaml</DependentUpon>
-          <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="ComponentsSamples\TextFields\Entry\EntrySamples.xaml.cs">
-          <DependentUpon>EntrySamples.xaml</DependentUpon>
-          <SubType>Code</SubType>
-        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -151,13 +143,6 @@
         <MauiXaml Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
-        <MauiXaml Update="ComponentsSamples\TextFields\Editor\EditorSamples.xaml">
-          <SubType>Designer</SubType>
-        </MauiXaml>
-        <MauiXaml Update="ComponentsSamples\TextFields\Entry\EntrySamples.xaml">
-          <SubType>Designer</SubType>
-        </MauiXaml>
-
     </ItemGroup>
 
 
