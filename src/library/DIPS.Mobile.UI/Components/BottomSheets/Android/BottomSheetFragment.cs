@@ -106,6 +106,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
+            m_bottomSheet.Handler?.DisconnectHandler();
         }
 
         public Task Close(bool animated)

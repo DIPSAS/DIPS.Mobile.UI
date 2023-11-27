@@ -1,12 +1,13 @@
 using Microsoft.Maui.Handlers;
 using UIKit;
+using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheetHandler : ContentViewHandler
 {
     private BottomSheet m_bottomSheet;
-
+    
     public void OnBeforeOpening()
     {
         if (VirtualView is not BottomSheet bottomSheet) return;
@@ -76,6 +77,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         m_bottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(m_bottomSheet);
+        m_bottomSheet.Handler?.DisconnectHandler();
     }
 
     internal void Opened()
@@ -172,5 +174,6 @@ internal class BottomSheetControllerDelegate : UISheetPresentationControllerDele
     public override void DidDismiss(UIPresentationController presentationController)
     {
         m_bottomSheetHandler.Dispose();
+
     }
 }

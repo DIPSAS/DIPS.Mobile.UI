@@ -18,7 +18,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
             SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
-            Unloaded += OnUnLoaded;
         }
 
         /// <summary>
@@ -49,12 +48,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public Task Open()
         {
             return BottomSheetService.Open(this);
-        }
-
-        private void OnUnLoaded(object? sender, EventArgs e)
-        {
-            Unloaded -= OnUnLoaded;
-            SearchBar.TextChanged -= OnSearchTextChanged;
         }
 
         internal SearchBar SearchBar { get; private set; }
@@ -92,6 +85,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         protected virtual void OnSearchTextChanged(string value)
         {
+        }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+            if (args.NewHandler == null) //Disconnect
+            {
+                SearchBar.TextChanged -= OnSearchTextChanged;
+            }
         }
     }
 
