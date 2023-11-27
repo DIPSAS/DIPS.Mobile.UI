@@ -4,15 +4,15 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class Label
 {
-    public static readonly BindableProperty IsEllipsizedProperty = BindableProperty.Create(
-        nameof(IsEllipsized),
+    public static readonly BindableProperty IsTruncatedProperty = BindableProperty.Create(
+        nameof(IsTruncated),
         typeof(bool),
         typeof(Label),
-        defaultBindingMode: BindingMode.TwoWay);
+        defaultBindingMode: BindingMode.OneWayToSource);
 
-    public bool IsEllipsized
+    public bool IsTruncated
     {
-        get => (bool)GetValue(IsEllipsizedProperty);
-        set => SetValue(IsEllipsizedProperty, value);
+        get => (bool)GetValue(IsTruncatedProperty);
+        set => SetValue(IsTruncatedProperty, value);
     }
 }

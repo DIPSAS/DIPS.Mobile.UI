@@ -134,5 +134,23 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Choice", resourceCulture);
             }
         }
+        
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        internal static string InputSampleText {
+            get {
+                return ResourceManager.GetString("InputSampleText", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_InputField_HelpText {
+            get {
+                return ResourceManager.GetString("Accessability.InputField.HelpText", resourceCulture);
+            }
+        }
     }
 }

@@ -63,4 +63,13 @@
     <data name="Choice" xml:space="preserve">
         <value>Choice</value>
     </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="InputSampleText" xml:space="preserve">
+        <value>Input sample text</value>
+    </data>
+    <data name="Accessability.InputField.HelpText" xml:space="preserve">
+        <value>Tap to input text</value>
+    </data>
 </root>

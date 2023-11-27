@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.TextFields.MultiLineTextArea.MultiLineInputFieldSamples"
+                 Padding="20"
+                 Title="MultiLineInputField">
+
+    <dui:ScrollView VerticalScrollBarVisibility="Never">
+
+        <dui:VerticalStackLayout>
+
+            <dui:ListItem Title="HeaderText">
+                <dui:Entry HasBorder="True"
+                           x:Name="MultiLineEntry"
+                           Text="Label" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="MaxLines">
+                <dui:HorizontalStackLayout Spacing="8">
+
+                    <Stepper Minimum="1"
+                             Value="5"
+                             x:Name="Stepper"
+                             ValueChanged="Stepper_OnValueChanged" />
+
+                    <dui:Label Text="{Binding Source={x:Reference Stepper}, Path=Value}"
+                               VerticalTextAlignment="Center"
+                               Style="{dui:Styles Label=UI300}" />
+
+                </dui:HorizontalStackLayout>
+            </dui:ListItem>
+
+            <dui:ListItem Title="Truncate">
+                <dui:Switch x:Name="TruncateSwitch" Toggled="TruncateSwitch_OnToggled" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="HelpText">
+                <Switch x:Name="HelpTextSwitch" />
+            </dui:ListItem>
+
+            <dui:Button Text="{x:Static localizedStrings:DUILocalizedStrings.InputSampleText}"
+                        Clicked="Button_OnClicked" />
+
+            <dui:MultiLineInputField HeaderText="{Binding Source={x:Reference MultiLineEntry}, Path=Text}"
+                                     x:Name="MultiLineTextArea"
+                                     HelpText="{Binding Source={x:Reference HelpTextSwitch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject='HelpText', FalseObject=''}}" />
+
+            <BoxView HeightRequest="1000" />
+        </dui:VerticalStackLayout>
+
+    </dui:ScrollView>
+
+</dui:ContentPage>

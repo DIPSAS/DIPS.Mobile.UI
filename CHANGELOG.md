@@ -1,3 +1,9 @@
+## [19.12.0]
+- Renamed 'IsEllipsized' property to 'IsTruncated' in Label
+- Now checks if the Label is truncated, does not matter if LineBreakMode is set (Ellipsis is apparent)
+- Added new components: SingleLineInputField and MultiLineInputField
+- Can now disable default padding in dui:Entry and dui:Editor
+
 ## [19.11.0]
 - [SearchBar] Made it possible to Focus and Unfocus
 - [SearchBar] Made sure consumers can set `Text` property.

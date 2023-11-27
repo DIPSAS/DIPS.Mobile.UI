@@ -1,12 +1,12 @@
-namespace Components.ComponentsSamples.TextFields;
+namespace Components.ComponentsSamples.TextFields.Entry;
 
-public partial class EditorSamples
+public partial class EntrySamples
 {
-    public EditorSamples()
+    public EntrySamples()
     {
         InitializeComponent();
     }
-    
+
     private void Switch_OnToggled(object? sender, ToggledEventArgs e)
     {
         Entry.ShouldSelectAllTextOnFocused = e.Value;

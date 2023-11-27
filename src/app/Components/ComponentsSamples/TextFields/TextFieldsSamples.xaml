@@ -2,14 +2,25 @@
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
              xmlns:helpers="clr-namespace:Components.Helpers"
-             xmlns:entries="clr-namespace:Components.ComponentsSamples.TextFields"
+             xmlns:entry="clr-namespace:Components.ComponentsSamples.TextFields.Entry"
+             xmlns:editor="clr-namespace:Components.ComponentsSamples.TextFields.Editor"
+             xmlns:textArea="clr-namespace:Components.ComponentsSamples.TextFields.SingleLineTextArea"
+             xmlns:multiLineTextArea="clr-namespace:Components.ComponentsSamples.TextFields.MultiLineTextArea"
+             xmlns:dui="http://dips.com/mobile.ui"
              x:Class="Components.ComponentsSamples.TextFields.TextFieldsSamples">
 
     <dui:VerticalStackLayout Spacing="0">
-        <dui:NavigationListItem Title="Entry" Command="{helpers:NavigationCommand {x:Type entries:EntrySamples}}"
+        <dui:NavigationListItem Title="Entry" 
+                                Command="{helpers:NavigationCommand {x:Type entry:EntrySamples}}"
                                 HasBottomDivider="True" />
-        <dui:NavigationListItem Title="Editor" Command="{helpers:NavigationCommand {x:Type entries:EditorSamples}}" />
+        <dui:NavigationListItem Title="Editor" 
+                                Command="{helpers:NavigationCommand {x:Type editor:EditorSamples}}"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="SingleLineInputField" 
+                                Command="{helpers:NavigationCommand {x:Type textArea:SingleLineInputFieldSamples}}"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="MultiLineInputField" 
+                                Command="{helpers:NavigationCommand {x:Type multiLineTextArea:MultiLineInputFieldSamples}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

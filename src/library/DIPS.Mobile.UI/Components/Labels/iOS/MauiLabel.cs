@@ -20,10 +20,10 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     {
         base.LayoutSubviews();
 
-        CheckIfEllipsized();
+        CheckIfTruncated();
     }
 
-    private void CheckIfEllipsized()
+    private void CheckIfTruncated()
     {
         var text = "";
         if (m_label.Text is null)
@@ -48,11 +48,11 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         
         if (numberOfLines > m_label.MaxLines)
         {
-            m_label.IsEllipsized = true;
+            m_label.IsTruncated = true;
         }
         else
         {
-            m_label.IsEllipsized = false;
+            m_label.IsTruncated = false;
         }
     }
 }
