@@ -12,7 +12,7 @@ namespace Components.ResourcesSamples.Icons
 
         public ICommand OpenIconCommand => new Command<string>(iconName =>
         {
-            BottomSheetService.OpenBottomSheet(new IconBottomSheet(iconName));
+            BottomSheetService.Open(new IconBottomSheet(iconName));
         });
 
         public IconsSamples()

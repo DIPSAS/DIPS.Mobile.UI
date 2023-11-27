@@ -16,7 +16,11 @@ internal static class ContextMenuHelper
     {
         var dict = new Dictionary<IContextMenuItem, IMenuItem>();
         var items = contextMenuItems.ToList();
-
+        var hasAtleastOneItemAlongsideGroup = 
+            items.Count > 1 
+            && items.Any(i => i is ContextMenuItem) 
+            && items.Count(i => i is ContextMenuGroup) == 1; //If at least one item alongside menu group
+        
         foreach (var contextMenuItem in items)
         {
             if (!contextMenuItem.IsVisible)
@@ -29,7 +33,7 @@ internal static class ContextMenuHelper
                 groupIndex += 1;
 
                 if (items.Count(i => i is ContextMenuGroup) >
-                    1) //If there is more than one group, add the group title and group the items
+                    1 || hasAtleastOneItemAlongsideGroup) //If there is more than one group or one group alongside items, add the group title and group the items
                 {
                     var groupMenu = popupMenu.Menu.AddSubMenu(groupIndex, index, Menu.None,
                         contextMenuGroup.Title);

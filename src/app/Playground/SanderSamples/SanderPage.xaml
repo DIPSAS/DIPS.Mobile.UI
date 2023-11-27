@@ -9,33 +9,16 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *"
-          ColumnDefinitions="*, Auto, *"
-          RowSpacing="4"
-          ColumnSpacing="4">
-        
-        <dui:Chip Title="Denne også med langt navn" 
-                  IsCloseable="True"
-                  Style="{dui:Styles Chip=EmptyInput}"/>
+    <Grid Padding="{dui:Padding UniformSize=size_2}">
+        <dui:LoadableListItem Title="This is a test"
+                              IsBusy="{Binding IsBusy}"
+                              Command="{Binding NavigateCommand}">
+            <dui:LoadableListItem.ContextMenu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="Also a test!" />
+                </dui:ContextMenu>
+            </dui:LoadableListItem.ContextMenu>
+        </dui:LoadableListItem>
 
-        
-        <dui:Chip Grid.Column="1"
-                  Title="Tester med langt navn"
-                  IsToggleable="True"
-                  Style="{dui:Styles Chip=Input}"
-                  IsToggled="{Binding IsToggled}"/>
-        
-        <dui:Chip Grid.Column="2"
-                  Title="Test3"
-                  Style="{dui:Styles Chip=Input}"
-                  IsCloseable="True"
-                  CloseButtonColor="{dui:Colors color_system_black}"
-                  CloseCommand="{Binding CloseCommand}"/>
-        
-        <!-- <dui:Chip Grid.Row="1" -->
-        <!--           Grid.Column="1" -->
-        <!--           Title="Test4" -->
-        <!--           Style="{dui:Styles Chip=EmptyInput}"/> -->
-        
     </Grid>
 </dui:ContentPage>

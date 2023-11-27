@@ -19,7 +19,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 var activatedObject = Activator.CreateInstance(BottomSheetType);
                 if (activatedObject is BottomSheet theBottomSheet)
                 {
-                    BottomSheetService.OpenBottomSheet(theBottomSheet);
+                    BottomSheetService.Open(theBottomSheet);
                 }
                 
             });

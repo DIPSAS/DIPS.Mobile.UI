@@ -308,4 +308,7 @@
     <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
         <value>Open bottom sheet that is closable only by tapping button</value>
     </data>
+    <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
+        <value>Single item and single group</value>
+    </data>
 </root>

@@ -86,9 +86,9 @@ public partial class MultiItemsPicker : ContentView
 
     public void Open()
     {
-        if (!BottomSheetService.IsBottomSheetOpen())
+        if (!BottomSheetService.IsOpen())
         {
-            BottomSheetService.OpenBottomSheet(new MultiItemsPickerBottomSheet(this));
+            BottomSheetService.Open(new MultiItemsPickerBottomSheet(this));
         }
     }
 

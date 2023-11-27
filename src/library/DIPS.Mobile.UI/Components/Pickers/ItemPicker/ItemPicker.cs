@@ -86,9 +86,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     UpdateContextMenuItems(); //<-- Needed if the selected item was set programatically, and not by the user
                     break;
                 case PickerMode.BottomSheet:
-                    if (BottomSheetService.IsBottomSheetOpen())
+                    if (BottomSheetService.IsOpen())
                     {
-                        BottomSheetService.CloseCurrentBottomSheet();
+                        BottomSheetService.CloseAll();
                     }
 
                     break;
