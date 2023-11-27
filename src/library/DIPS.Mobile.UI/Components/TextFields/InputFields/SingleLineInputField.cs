@@ -160,6 +160,8 @@ public partial class SingleLineInputField : Grid
         
         Focused?.Invoke(this, e);
         
+        Touch.SetIsEnabled(m_contentBorder, false);
+        
         AutomationProperties.SetIsInAccessibleTree(m_contentBorder, false);
     }
 
@@ -195,6 +197,8 @@ public partial class SingleLineInputField : Grid
         
         Style = m_lastStyle;
         
+        Touch.SetIsEnabled(m_contentBorder, true);
+
         UpdateInputViewVisibility();
         ValidateMargin(prevBorderThickness);
         OnTextChanged();
