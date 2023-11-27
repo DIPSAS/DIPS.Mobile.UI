@@ -7,7 +7,7 @@
                  x:Class="Playground.HåvardSamples.HåvardBottomSheet"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 Positioning="Fit">
+                 >
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Close"
                      Clicked="MenuItem_OnClicked" />

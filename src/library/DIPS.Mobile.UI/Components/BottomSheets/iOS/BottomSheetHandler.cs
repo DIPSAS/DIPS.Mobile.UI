@@ -10,11 +10,6 @@ public partial class BottomSheetHandler : ContentViewHandler
 {
     private BottomSheet m_bottomSheet;
 
-    protected override void ConnectHandler(ContentView platformView)
-    {
-        base.ConnectHandler(platformView);
-    }
-
     public void OnBeforeOpening()
     {
         if (VirtualView is not BottomSheet bottomSheet) return;
@@ -98,6 +93,8 @@ public partial class BottomSheetHandler : ContentViewHandler
             UISheetPresentationControllerDetent.CreateMediumDetent(),
             UISheetPresentationControllerDetent.CreateLargeDetent(),
         };
+        
+        
         var preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
         switch (bottomSheet.Positioning)
         {
@@ -122,6 +119,17 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         bottomSheet.UISheetPresentationController.Detents = detents.ToArray();
         bottomSheet.UISheetPresentationController.SelectedDetentIdentifier = preferredDetent;
+    }
+
+    private static Positioning GetCurrentPosition(UISheetPresentationController sheetPresentationController)
+    {
+        return sheetPresentationController.SelectedDetentIdentifier switch
+        {
+            UISheetPresentationControllerDetentIdentifier.Unknown => Positioning.Fit,
+            UISheetPresentationControllerDetentIdentifier.Medium => Positioning.Medium,
+            UISheetPresentationControllerDetentIdentifier.Large => Positioning.Large,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     private static UISheetPresentationControllerDetent? TryCreateFitToContentDetent(BottomSheet bottomSheet)
