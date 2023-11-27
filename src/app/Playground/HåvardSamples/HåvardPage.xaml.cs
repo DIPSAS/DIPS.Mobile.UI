@@ -1,5 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Resources.Icons;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Playground.HåvardSamples;
@@ -66,7 +69,6 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        SearchBar.Text = string.Empty;
-        SearchBar.Unfocus();
+        BottomSheetService.Open(new HåvardBottomSheet());
     }
 }

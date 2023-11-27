@@ -5,19 +5,56 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
     /// </summary>
     public static partial class BottomSheetService
     {
+        public static List<BottomSheet>? BottomSheetStack { get; internal set; }
+
         /// <summary>
         /// Presents a bottom sheet for people to see.
         /// </summary>
         /// <param name="bottomSheet">The view to display inside the bottom sheet.</param>
         /// <returns></returns>
-        public static partial Task OpenBottomSheet(BottomSheet bottomSheet);
+        public static Task Open(BottomSheet bottomSheet)
+        {
+            BottomSheetStack ??= [];
+            BottomSheetStack.Add(bottomSheet);
+            return PlatformOpen(bottomSheet);
+        }
 
         /// <summary>
-        /// Closes the current presented bottom sheet.
+        /// Close the presentation of the all bottom sheets in the <see cref="BottomSheetStack"/>.
         /// </summary>
         /// <returns></returns>
-        public static partial Task CloseCurrentBottomSheet(bool animated=true);
+        public static async Task CloseAll(bool animated = true)
+        {
+            if (BottomSheetStack == null) return;
 
-        public static partial bool IsBottomSheetOpen();
+            //Make a copy and reverse it.
+            //If its not reversed, it wont work on iOS because of sheets being presented on top of each other.
+            //If its not a copy, exception will be thrown because we remove from the stack during iterations of the stack.
+            var stack = BottomSheetStack.ToArray().Reverse();
+            foreach (var bottomSheet in stack)
+            {
+                await bottomSheet.Close(animated);
+            }
+        }
+
+        /// <summary>
+        /// Determines if any bottom sheets is open.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsOpen()
+        {
+            return BottomSheetStack?.Count > 0;
+        }
+
+        /// <summary>
+        /// Close the presentation of the the bottom sheet.
+        /// </summary>
+        /// <param name="bottomSheet">The bottom sheet to close</param>
+        /// <param name="animated">Determines if the bottom sheet should animate when its closing.</param>
+        /// <returns></returns>
+        public static partial Task Close(BottomSheet bottomSheet, bool animated = true);
+
+        internal static partial Task PlatformOpen(BottomSheet bottomSheet);
+        internal static void RemoveFromStack(BottomSheet bottomSheet) => BottomSheetStack?.Remove(bottomSheet);
     }
 }

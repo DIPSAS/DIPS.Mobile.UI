@@ -1,3 +1,11 @@
+## [20.0.0]
+- [BottomSheet] Will now respond to property changes when its open.
+- [BottomSheet] Added new `Position` property which will determine what position the bottom sheet will present in when opened.
+- [BottomSheet] People can drag the bottom sheet to large when the position is medium and vica versa.
+- [BottomSheet] Consumer can open multiple bottom sheets and close them by using `BottomSheetService.CloseAll()`
+- [BottomSheet][BreakingChange] Replaced `OpenBottomSheet()` with `Open()`
+- [BottomSheet][BreakingChange] ShouldFitContent is replaced with `Position` = `Fit`
+
 ## [19.11.1]
 - [ContextMenu] Group `ContextMenuGroup` if at least one item alongside it. 
 

@@ -15,12 +15,45 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
+
+            SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
+            SearchBar.TextChanged += OnSearchTextChanged;
         }
-        
-        internal SearchBar? SearchBar { get; private set; }
-        
-        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is { Count: > 0 };
-        
+
+        /// <summary>
+        /// <see cref="BottomSheetService.Close"/>
+        /// </summary>
+        /// <param name="animated"></param>
+        /// <returns></returns>
+        public Task Close(bool animated = true)
+        {
+            return BottomSheetService.Close(this, animated);
+        }
+
+        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
+            nameof(Positioning),
+            typeof(Positioning),
+            typeof(BottomSheet));
+
+        public Positioning Positioning
+        {
+            get => (Positioning)GetValue(PositioningProperty);
+            set => SetValue(PositioningProperty, value);
+        }
+
+        /// <summary>
+        /// <see cref="BottomSheetService.Open"/>
+        /// </summary>
+        /// <returns></returns>
+        public Task Open()
+        {
+            return BottomSheetService.Open(this);
+        }
+
+        internal SearchBar SearchBar { get; private set; }
+
+        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is {Count: > 0};
+
         internal void SendClose()
         {
             Closed?.Invoke(this, EventArgs.Empty);
@@ -35,30 +68,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             OnOpened();
         }
 
-        private static void OnHasSearchBarChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if(bindable is not BottomSheet bottomSheet)
-                return;
-
-            if (newValue is true)
-            {
-                bottomSheet.SearchBar = new SearchBar { HasCancelButton = false, BackgroundColor = Colors.Transparent };
-                bottomSheet.SearchBar.TextChanged += bottomSheet.OnSearchTextChanged;
-            }
-            else
-            {
-                bottomSheet.SearchBar!.TextChanged -= bottomSheet.OnSearchTextChanged;
-                bottomSheet.SearchBar = null;
-            }
-        }
-
         private void OnSearchTextChanged(object? sender, TextChangedEventArgs args)
         {
             SearchTextChanged?.Invoke(SearchBar, args);
             SearchCommand?.Execute(args.NewTextValue);
             OnSearchTextChanged(args.NewTextValue);
         }
-        
+
         protected virtual void OnClosed()
         {
         }
@@ -71,5 +87,29 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
         }
 
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+            if (args.NewHandler == null) //Disconnect
+            {
+                SearchBar.TextChanged -= OnSearchTextChanged;
+            }
+        }
+    }
+
+    public enum Positioning
+    {
+        /// <summary>
+        /// The medium position which covers half of the screen.
+        /// </summary>
+        Medium = 0,
+        /// <summary>
+        /// A large position which covers most of the screen.
+        /// </summary>
+        Large = 2,
+        /// <summary>
+        /// The position is determined by the content and will fit the screen.
+        /// </summary>
+        Fit = 4,
     }
 }

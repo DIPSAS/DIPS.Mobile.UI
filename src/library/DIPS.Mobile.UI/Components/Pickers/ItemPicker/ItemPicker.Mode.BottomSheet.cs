@@ -7,6 +7,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     {
         public BottomSheetPickerConfiguration BottomSheetPickerConfiguration { get; set; } = new();
 
-        internal void OpenBottomSheet() => BottomSheetService.OpenBottomSheet(new ItemPickerBottomSheet(this));
+        internal void OpenBottomSheet() => BottomSheetService.Open(new ItemPickerBottomSheet(this));
     }
 }

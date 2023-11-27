@@ -32,6 +32,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <item><description>Do not set <see cref="IsDraggable"/> because dragging the sheet to maximize it is not supported when <see cref="ShouldFitToContent"/></description></item>
         /// </list>
         /// </remarks>
+        [Obsolete("Removed, use Positioning=Fit")]
         public bool ShouldFitToContent
         {
             get => (bool)GetValue(ShouldFitToContentProperty);
@@ -140,8 +141,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public static readonly BindableProperty HasSearchBarProperty = BindableProperty.Create(
             nameof(HasSearchBar),
             typeof(bool),
-            typeof(BottomSheet),
-            propertyChanged: OnHasSearchBarChanged);
+            typeof(BottomSheet));
         
         public static readonly BindableProperty IsInteractiveCloseableProperty = BindableProperty.Create(
             nameof(IsInteractiveCloseable),
@@ -155,5 +155,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             typeof(ICommand),
             typeof(BottomSheet));
 
+
+#if __IOS__
+        public UIKit.UIViewController? UIViewController { get; internal set; }
+        public UIKit.UIViewController NavigationController { get; set; }
+        public ContentPage WrappingContentPage { get; set; }
+
+        public UIKit.UISheetPresentationController UISheetPresentationController;
+#endif
+
+#if __ANDROID__
+        public Google.Android.Material.BottomSheet.BottomSheetDialog BottomSheetDialog { get; set; }
+        public  Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
+        public Android.BottomSheetFragment BottomSheetFragment { get; set; }
+        public global::Android.Widget.LinearLayout RootLayout { get; set; }
+#endif
     }
 }
