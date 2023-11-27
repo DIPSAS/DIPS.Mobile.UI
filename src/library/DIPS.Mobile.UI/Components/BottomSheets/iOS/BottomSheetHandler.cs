@@ -1,8 +1,5 @@
-using DIPS.Mobile.UI.Components.BottomSheets.iOS;
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Handlers;
 using UIKit;
-using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 

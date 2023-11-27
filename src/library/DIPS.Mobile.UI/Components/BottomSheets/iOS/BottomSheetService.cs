@@ -1,11 +1,8 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.BottomSheets.iOS;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using NavigationPage = Microsoft.Maui.Controls.NavigationPage;
-using Page = Microsoft.Maui.Controls.Page;
 using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 // ReSharper disable once CheckNamespace

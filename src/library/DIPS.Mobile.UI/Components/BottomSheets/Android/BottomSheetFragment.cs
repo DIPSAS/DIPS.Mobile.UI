@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             var rootLayout = new LinearLayout(Context)
             {
                 LayoutParameters =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                         ViewGroup.LayoutParams.WrapContent),
                 Orientation = Orientation.Vertical
             };
