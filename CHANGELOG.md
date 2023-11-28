@@ -1,3 +1,6 @@
+## [20.0.1]
+- [ContextMenu] Add icon to group if Icon property is set and `IsCheckable` is false.
+
 ## [20.0.0]
 - [BottomSheet] Will now respond to property changes when its open.
 - [BottomSheet] Added new `Position` property which will determine what position the bottom sheet will present in when opened.
