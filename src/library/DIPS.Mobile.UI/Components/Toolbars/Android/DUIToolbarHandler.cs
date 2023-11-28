@@ -69,7 +69,7 @@ internal class DUIToolbarHandler : ViewHandler<DUIToolbar, MaterialToolbar>
 
             var menuItem = PlatformView.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
             menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
-            menuItem.SetOnMenuItemClickListener(new BottomSheetFragment.GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
+            menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
             SetMenuItemIcon(menuItem, toolbarItem);
         }
     }

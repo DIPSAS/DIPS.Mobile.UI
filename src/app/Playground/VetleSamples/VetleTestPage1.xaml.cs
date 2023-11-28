@@ -19,17 +19,17 @@ public partial class VetleTestPage1
 
     private void NavigationListItem_OnTapped(object sender, EventArgs e)
     {
-        BottomSheetService.OpenBottomSheet(new TestBottomSheetNotFitToContent());
+        new TestBottomSheetNotFitToContent().Open();
     }
 
     private void Test(object sender, EventArgs e)
     {
-        BottomSheetService.OpenBottomSheet(new TestBottomSheetFitToContent());
+        new TestBottomSheetFitToContent().Open();
     }
 
     private void Lol(object sender, EventArgs e)
     {
-        BottomSheetService.OpenBottomSheet(new BottomSheetWithToolbar());
+        new BottomSheetWithToolbar().Open();
     }
 
    

@@ -13,10 +13,10 @@ public partial class DatePickerService
             Close();
         }
        
-        BottomSheetService.OpenBottomSheet(new DatePickerBottomSheet(datePicker));
+        BottomSheetService.Open(new DatePickerBottomSheet(datePicker));
     }
 
-    internal static partial bool IsOpen() => BottomSheetService.IsBottomSheetOpen();
+    internal static partial bool IsOpen() => BottomSheetService.IsOpen();
 
-    public static partial void Close() => BottomSheetService.CloseCurrentBottomSheet(true);
+    public static partial void Close() => BottomSheetService.CloseAll(true);
 }

@@ -51,7 +51,7 @@ public partial class SortControl : Grid
 
     private void OpenBottomSheet()
     {
-        BottomSheetService.OpenBottomSheet(new SortControlBottomSheet(this));
+        BottomSheetService.Open(new SortControlBottomSheet(this));
     }
     
     public void ItemSelected(SelectableItemViewModel item)
@@ -70,7 +70,7 @@ public partial class SortControl : Grid
             SelectedItem = item.Item;
         }
 
-        BottomSheetService.CloseCurrentBottomSheet();
+        BottomSheetService.CloseAll();
         
         SelectedItemCommand.Execute((SelectedItem, CurrentSortOrder));
     }
