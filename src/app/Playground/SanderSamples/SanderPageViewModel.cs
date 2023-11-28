@@ -11,7 +11,7 @@ public class SanderPageViewModel : ViewModel
 
     public SanderPageViewModel()
     {
-        NavigateCommand = new Command(() => Console.WriteLine("tHis is a test"));
+        TestCommand = new Command(() => IsBusy = !IsBusy);
         Initialize();
     }
 
@@ -29,5 +29,4 @@ public class SanderPageViewModel : ViewModel
         set => RaiseWhenSet(ref m_isBusy, value);
     }
 
-    public ICommand NavigateCommand { get; }
 }

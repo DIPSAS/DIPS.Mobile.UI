@@ -9,16 +9,30 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid Padding="{dui:Padding UniformSize=size_2}">
-        <dui:LoadableListItem Title="This is a test"
-                              IsBusy="{Binding IsBusy}"
-                              Command="{Binding NavigateCommand}">
-            <dui:LoadableListItem.ContextMenu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="Also a test!" />
-                </dui:ContextMenu>
-            </dui:LoadableListItem.ContextMenu>
-        </dui:LoadableListItem>
+    <Grid RowDefinitions="Auto, Auto, Auto">
+        <dui:SkeletonView IsLoading="{Binding IsBusy}">
+            <dui:SkeletonView.Shapes>
+                <dui:SkeletonShape Width="100"
+                                   Height="20"/>
+            </dui:SkeletonView.Shapes>
+            <dui:Label Text="VISIT, Wilma"
+                       Style="{dui:Styles Label=UI300}"/>
+        </dui:SkeletonView>
 
+        <dui:SkeletonView Grid.Row="1" 
+                          IsLoading="{Binding IsBusy}">
+            <dui:SkeletonView.Shapes>
+                <dui:SkeletonShape Row="1" 
+                                   Width="200"
+                                   Height="20"/>
+            </dui:SkeletonView.Shapes>
+            <dui:Label Text="12345678987 - 28år - hijdosfpa"
+                       Style="{dui:Styles Label=UI200}"/>
+        </dui:SkeletonView>
+        
+        <dui:Button Grid.Row="2" 
+                    Text="Test"
+                    Command="{Binding TestCommand}"
+                    Margin="{dui:Thickness Top=size_4}"/>
     </Grid>
 </dui:ContentPage>
