@@ -19,6 +19,20 @@ public partial class EntryHandler
 
         DefaultBackground = platformView.Background;
         
+        platformView.FocusChange += OnFocusChanged;
+    }
+
+    private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)
+    {
+        PlatformView.SetBackground(((VirtualView as Entry)!).HasBorder ? DefaultBackground : null);
+    }
+
+    private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
+    {
+        if(entry.ShouldUseDefaultPadding)
+            return;
+        
+        handler.PlatformView.SetPadding(0, 0, 0, 0);
     }
 
     private static partial void MapShouldSelectTextOnTapped(EntryHandler handler, Entry entry)
@@ -30,5 +44,12 @@ public partial class EntryHandler
     {
         await Task.Delay(1);
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
+    }
+
+    protected override void DisconnectHandler(AppCompatEditText platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        platformView.FocusChange -= OnFocusChanged;
     }
 }

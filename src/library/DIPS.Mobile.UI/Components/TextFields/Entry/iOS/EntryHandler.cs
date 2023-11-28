@@ -18,6 +18,11 @@ public partial class EntryHandler
     {
     }
 
+    private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
+    {
+        
+    }
+
     private async void OnEditingDidBegin(object? sender, EventArgs e)
     {
         if(!((VirtualView as Entry)!).ShouldSelectAllTextOnFocused)

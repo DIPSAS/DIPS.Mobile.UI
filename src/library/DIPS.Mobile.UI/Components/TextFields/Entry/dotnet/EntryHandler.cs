@@ -11,4 +11,9 @@ public partial class EntryHandler
     {
         
     }
+    
+    private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
+    {
+        
+    }
 }

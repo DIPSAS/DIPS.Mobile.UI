@@ -2,13 +2,13 @@
 
 <dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                     xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                     xmlns:dui="http://dips.com/mobile.ui"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                     BackgroundColor="Gray"
                      IsSaving="{Binding IsSaving}"
                      SavingText="Saving"
+                     Padding="20"
                      x:Name="This">
 
     <dui:ContentPage.BindingContext>
@@ -21,42 +21,44 @@
     </dui:ContentPage.ToolbarItems>
     
     <dui:VerticalStackLayout Spacing="0">
-        
-        <dui:ListItem Title="Test!!"
-                      HasBottomDivider="True" />
-        <dui:ListItem Title="Test!!"
-                      HasBottomDivider="True" />
-        <dui:ListItem Title="Test!!"
-                      HasBottomDivider="True" />
-        <dui:ListItem Title="Test!!" />
-        <dui:ListItem Title="Test!!" />
-        <dui:ListItem Title="Test!!"
-                      HasBottomDivider="True"
-                      CornerRadius="12">
+       
+        <Grid RowDefinitions="*, Auto">
+            <Border StrokeThickness="1"
+                    Stroke="{dui:Colors color_primary_90}">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4" />
+                </Border.StrokeShape>
+                
+                <Grid RowDefinitions="*, Auto, Auto"
+                      BackgroundColor="Red"
+                      
+                      MinimumHeightRequest="52"
+                      Margin="16, 8, 8, 8">
+                    
+                    <dui:Label Text="hei" BackgroundColor="Green"
+                               VerticalTextAlignment="Center"/>
+                
+                    <dui:Editor Grid.Row="1" IsVisible="True" />
+                    
+                </Grid>
             
-            <dui:ListItem.DividersOptions>
-                <dui:DividersOptions BottomDividerMargin="50, 0, 0, 0" />
-            </dui:ListItem.DividersOptions>
+            </Border>
+        </Grid>
             
-        </dui:ListItem>
-        <dui:ListItem Title="Test!!" CornerRadius="12" />
+        <dui:SingleLineInputField HeaderText="SingleLine"
+                                >
+           
         
-        <BoxView HeightRequest="100"></BoxView>
+           
+        </dui:SingleLineInputField>
         
-        <Border Padding="0" BackgroundColor="White">
-            <Label Text="test"></Label>
-            
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12" StrokeThickness="0"></RoundRectangle>
-            </Border.StrokeShape>
-        </Border>
+        <dui:MultiLineInputField x:Name="TextArea"
+                               HeaderText="MultiLine"
+                               MaxLines="2" />
         
-        <Border BackgroundColor="White" Padding="0">
-            <Label Text="test"></Label>
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12" StrokeThickness="0"></RoundRectangle>
-            </Border.StrokeShape>
-        </Border>
+        <dui:Label Text="{Binding Source={x:Reference TextArea}, Path=IsTruncated, Converter={dui:BoolToObjectConverter TrueObject=Yes, FalseObject=No}}" />
+        
     </dui:VerticalStackLayout>
 
 

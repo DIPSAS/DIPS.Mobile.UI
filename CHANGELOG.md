@@ -1,3 +1,9 @@
+## [20.1.0]
+- Renamed 'IsEllipsized' property to 'IsTruncated' in Label
+- Now checks if the Label is truncated, does not matter if LineBreakMode is set (Ellipsis is apparent)
+- Added new components: SingleLineInputField and MultiLineInputField
+- Can now disable default padding in dui:Entry and dui:Editor
+
 ## [20.0.0]
 - [BottomSheet] Will now respond to property changes when its open.
 - [BottomSheet] Added new `Position` property which will determine what position the bottom sheet will present in when opened.
