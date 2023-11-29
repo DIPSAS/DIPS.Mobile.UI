@@ -273,5 +273,21 @@ attachment_line=130,
 collapse_line=131,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bacteria_line.svg">View the icon in the browser</a></summary>
 bacteria_line=132,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/location_time_line.svg">View the icon in the browser</a></summary>
+location_time_line=133,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/patient_line.svg">View the icon in the browser</a></summary>
+patient_line=134,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/video_chat_line.svg">View the icon in the browser</a></summary>
+video_chat_line=135,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/mail_open_line.svg">View the icon in the browser</a></summary>
+mail_open_line=136,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/location_time_fill.svg">View the icon in the browser</a></summary>
+location_time_fill=137,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/mail_unread_line.svg">View the icon in the browser</a></summary>
+mail_unread_line=138,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chart_line.svg">View the icon in the browser</a></summary>
+chart_line=139,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/heart_pulse_line.svg">View the icon in the browser</a></summary>
+heart_pulse_line=140,
     }
 }

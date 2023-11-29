@@ -141,6 +141,14 @@ this file is generated
 ["attachment_line"] = "attachment_line.png",
 ["collapse_line"] = "collapse_line.png",
 ["bacteria_line"] = "bacteria_line.png",
+["location_time_line"] = "location_time_line.png",
+["patient_line"] = "patient_line.png",
+["video_chat_line"] = "video_chat_line.png",
+["mail_open_line"] = "mail_open_line.png",
+["location_time_fill"] = "location_time_fill.png",
+["mail_unread_line"] = "mail_unread_line.png",
+["chart_line"] = "chart_line.png",
+["heart_pulse_line"] = "heart_pulse_line.png",
 
             };
         }

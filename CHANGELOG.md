@@ -1,3 +1,6 @@
+## [20.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [20.1.0]
 - Renamed 'IsEllipsized' property to 'IsTruncated' in Label
 - Now checks if the Label is truncated, does not matter if LineBreakMode is set (Ellipsis is apparent)
