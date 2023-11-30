@@ -75,6 +75,11 @@ public static partial class BottomSheetService
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
         if (bottomSheet.UIViewController == null) return;
+        
+        if (bottomSheet.BottomBarUIViewController != null)
+        {
+            await bottomSheet.BottomBarUIViewController.DismissViewControllerAsync(false);    
+        }
         await bottomSheet.UIViewController.DismissViewControllerAsync(animated);
         await Task.Delay(100);
         if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;

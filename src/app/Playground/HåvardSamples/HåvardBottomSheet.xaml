@@ -7,27 +7,65 @@
                  x:Class="Playground.HåvardSamples.HåvardBottomSheet"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 >
+                 IsInteractiveCloseable="True">
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Go to" />
+    </dui:BottomSheet.BottombarButtons>
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Close"
                      Clicked="MenuItem_OnClicked" />
     </dui:BottomSheet.ToolbarItems>
-    <VerticalStackLayout>
-        <dui:ListItem Title="HasSearchBar">
-            <Switch
-                IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=HasSearchBar}" />
-        </dui:ListItem>
-        <dui:ListItem Title="IsInteractiveCloseable">
-            <Switch
-                IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=IsInteractiveCloseable}" />
-        </dui:ListItem>
-        <dui:ListItem Title="ShouldFitToContent">
-            <Switch
-                Toggled="Switch_OnToggled"/>
-        </dui:ListItem>
-        <Entry Placeholder="Title"
-               Text="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=Title}" />
-        <dui:Button Text="Open new bottom sheet" Command="{dui:OpenBottomSheetCommand {x:Type håvardSamples:HåvardBottomSheet}}"/>
-        <dui:Button Text="Close all bottom sheets" Clicked="CloseAllBottomSheets"/>
-    </VerticalStackLayout>
+    <Grid>
+        <dui:ScrollView>
+            <VerticalStackLayout>
+                <dui:ListItem Title="HasSearchBar">
+                    <Switch
+                        IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=HasSearchBar}" />
+                </dui:ListItem>
+                <dui:ListItem Title="IsInteractiveCloseable">
+                    <Switch
+                        IsToggled="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=IsInteractiveCloseable}" />
+                </dui:ListItem>
+                <dui:ListItem Title="ShouldFitToContent">
+                    <Switch Toggled="Switch_OnToggled" />
+                </dui:ListItem>
+                <Entry Placeholder="Title"
+                       Text="{Binding Source={RelativeSource AncestorType={x:Type dui:BottomSheet}}, Path=Title}" />
+                <!-- <dui:Button Text="Open new bottom sheet" -->
+                <!--             Command="{dui:OpenBottomSheetCommand {x:Type håvardSamples:HåvardBottomSheet}}" /> -->
+                <!-- <dui:Button Text="Close all bottom sheets" /> -->
+                <dui:NavigationListItem Title="This" />
+                <dui:NavigationListItem Title="That" />
+                <dui:NavigationListItem Title="That" />
+                <dui:NavigationListItem Title="That" />
+                <dui:NavigationListItem Title="That" />
+                <dui:NavigationListItem Title="That" />
+            </VerticalStackLayout>
+        </dui:ScrollView>
+        <!-- <dui:CollectionView> -->
+        <!--     <dui:CollectionView.ItemsSource> -->
+        <!--         <x:Array Type="{x:Type x:String}"> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--             <x:String>Item 1</x:String> -->
+        <!--         </x:Array> -->
+        <!--     </dui:CollectionView.ItemsSource> -->
+        <!--     <dui:CollectionView.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <dui:Label Padding="20" Text="{Binding .}"/> -->
+        <!--         </DataTemplate> -->
+        <!--     </dui:CollectionView.ItemTemplate> -->
+        <!-- </dui:CollectionView> -->
+    </Grid>
 </dui:BottomSheet>

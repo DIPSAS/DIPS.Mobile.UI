@@ -1,5 +1,10 @@
+using CoreGraphics;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Layouts;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
@@ -7,14 +12,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 public partial class BottomSheetHandler : ContentViewHandler
 {
     private BottomSheet m_bottomSheet;
-    
+
     public void OnBeforeOpening()
     {
         if (VirtualView is not BottomSheet bottomSheet) return;
 
         m_bottomSheet = bottomSheet;
 
-        bottomSheet.UISheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
+        bottomSheet.UISheetPresentationController!.Delegate =
+            new BottomSheetControllerDelegate() {BottomSheetHandler = this};
+        bottomSheet.UISheetPresentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
 
 
         //Add grabber
@@ -73,6 +80,59 @@ public partial class BottomSheetHandler : ContentViewHandler
         }
     }
 
+    private async static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        if (handler.MauiContext == null || bottomSheet.UIViewController == null ||
+            !bottomSheet.BottombarButtons.Any()) return;
+        if (bottomSheet.BottomBarUIViewController != null) return; //Already presenting
+        // await Task.Delay(750);
+        // var border = new Border()
+        // {
+        //     VerticalOptions = LayoutOptions.End,
+        //     HeightRequest = 80,
+        //     BackgroundColor = Colors.Green
+        // };
+        // //https://learn.microsoft.com/en-us/dotnet/maui/user-interface/brushes/lineargradient?view=net-maui-8.0#create-a-vertical-linear-gradient
+        // border.Background = new LinearGradientBrush()
+        // {
+        //     EndPoint = new Point(0, 1),
+        //     GradientStops = new GradientStopCollection()
+        //     {
+        //         new() {Color = Colors.Transparent, Offset = 0.1f}, new() {Color = Colors.White, Offset = 1.0f}
+        //     }
+        // };
+        // var horizontalStackLayout = new HorizontalStackLayout() {HorizontalOptions = LayoutOptions.Center,};
+        // foreach (var button in bottomSheet.BottombarButtons)
+        // {
+        //     horizontalStackLayout.Add(button);
+        // }
+        //
+        // border.Content = horizontalStackLayout;
+        // var view = border.ToPlatform(handler.MauiContext);
+        // bottomSheet.UIViewController.View?.AddSubview(view);
+        // bottomSheet.UIViewController.ParentViewController.View.AddSubview((view));
+        //floatingButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+
+        
+        
+        
+        // var contentPage =
+        //     new ContentPage() {Content = border, BackgroundColor = Colors.Transparent};
+        // bottomSheet.BottomBarUIViewController = contentPage.ToUIViewController(handler.MauiContext);
+        // var uiViewController = new UIViewController() {View = view};
+        // //Set auto layout IOS?!
+        // bottomSheet.BottomBarUIViewController = uiViewController;
+        // bottomSheet.BottomBarUIViewController.ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
+        //
+        // await bottomSheet.UIViewController.PresentViewControllerAsync(bottomSheet.BottomBarUIViewController, true);
+
+        // var  y = UIScreen.MainScreen.Bounds.Size.Height - size.Height;
+        // view.Frame = new CGRect(0, y, view.Frame.Size.Width, view.Frame.Size.Height);
+//         present view controller which is invisible?
+// remember to remove when closing
+    }
+
     internal void Dispose()
     {
         m_bottomSheet.SendClose();
@@ -92,8 +152,8 @@ public partial class BottomSheetHandler : ContentViewHandler
             UISheetPresentationControllerDetent.CreateMediumDetent(),
             UISheetPresentationControllerDetent.CreateLargeDetent(),
         };
-        
-        
+
+
         var preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
         switch (bottomSheet.Positioning)
         {
@@ -104,14 +164,15 @@ public partial class BottomSheetHandler : ContentViewHandler
                 preferredDetent = UISheetPresentationControllerDetentIdentifier.Large;
                 break;
             case Positioning.Fit:
-                
-                    var fitToContentDetent = TryCreateFitToContentDetent(bottomSheet);
-                    if (fitToContentDetent != null)
-                    {
-                        detents.Add(fitToContentDetent);
-                        preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
-                    }
-                    break;
+
+                var fitToContentDetent = TryCreateFitToContentDetent(bottomSheet);
+                if (fitToContentDetent != null)
+                {
+                    detents.Add(fitToContentDetent);
+                    preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
+                }
+
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -158,22 +219,16 @@ public partial class BottomSheetHandler : ContentViewHandler
 
 internal class BottomSheetControllerDelegate : UISheetPresentationControllerDelegate
 {
-    private readonly BottomSheetHandler m_bottomSheetHandler;
-
-    public BottomSheetControllerDelegate(BottomSheetHandler bottomSheetHandler)
-    {
-        m_bottomSheetHandler = bottomSheetHandler;
-    }
+    public BottomSheetHandler? BottomSheetHandler { get; set; }
 
     public override void WillPresent(UIPresentationController presentationController, UIModalPresentationStyle style,
         IUIViewControllerTransitionCoordinator? transitionCoordinator)
     {
-        m_bottomSheetHandler.Opened();
+        BottomSheetHandler?.Opened();
     }
 
     public override void DidDismiss(UIPresentationController presentationController)
     {
-        m_bottomSheetHandler.Dispose();
-
+        BottomSheetHandler?.Dispose();
     }
 }

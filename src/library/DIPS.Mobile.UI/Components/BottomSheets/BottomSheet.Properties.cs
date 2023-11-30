@@ -19,6 +19,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <remarks>Setting a <see cref="ToolbarItem"/> will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
         public IList<ToolbarItem> ToolbarItems { get; internal set; }
+        
+        /// <summary>
+        /// The bottom bar items to be displayed in the bottom of the bottom sheet.
+        /// </summary>
+        public IList<Button> BottombarButtons { get; internal set; }
+
+        /// <summary>
+        /// Determines if the bottom sheet has bottom bar buttons
+        /// </summary>
+        public bool HasBottomBarButtons => BottombarButtons.Any();
 
         /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
@@ -161,7 +171,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public UIKit.UIViewController NavigationController { get; set; }
         public ContentPage WrappingContentPage { get; set; }
 
-        public UIKit.UISheetPresentationController UISheetPresentationController;
+        public UIKit.UISheetPresentationController UISheetPresentationController { get; internal set; }
+        public UIKit.UIViewController? BottomBarUIViewController { get; internal set; }
 #endif
 
 #if __ANDROID__
@@ -169,6 +180,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public  Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
         public Android.BottomSheetFragment BottomSheetFragment { get; set; }
         public global::Android.Widget.LinearLayout RootLayout { get; set; }
+        public Android.BottomBarFragment? BottomBarFragment { get; set; }
 #endif
     }
 }

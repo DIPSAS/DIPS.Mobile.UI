@@ -15,6 +15,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
+            BottombarButtons = new ObservableCollection<Button>();
 
             SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
