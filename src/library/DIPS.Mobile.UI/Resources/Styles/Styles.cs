@@ -24,7 +24,7 @@ public static class Styles
         return LabelStyleResources.Styles.TryGetValue(style, out var labelStyle) ? labelStyle : new Style(typeof(View));
     }
 
-    public static Style GetTextAreaStyle(InputFieldStyle style)
+    public static Style GetInputFieldStyle(InputFieldStyle style)
     {
         return InputFieldStyleResources.Styles.TryGetValue(style, out var textAreaStyle)
             ? textAreaStyle

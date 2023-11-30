@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.TextFields.InputFields;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
 namespace DIPS.Mobile.UI.Resources.Styles.InputField;
 
@@ -41,6 +42,32 @@ public class InputFieldTypeStyle
             {
                 Property = SingleLineInputField.BorderThicknessProperty,
                 Value = 2
+            }
+        }
+    };
+
+    public static Style Error => new(typeof(MultiLineInputField))
+    {
+        BasedOn = InputFieldDefaultStyle.Current,
+        Setters =
+        {
+            new Setter
+            {
+                Property = SingleLineInputField.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_error_dark)
+            }
+        }
+    };
+    
+    public static Style Success => new(typeof(MultiLineInputField))
+    {
+        BasedOn = InputFieldDefaultStyle.Current,
+        Setters =
+        {
+            new Setter
+            {
+                Property = SingleLineInputField.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_success_dark)
             }
         }
     };

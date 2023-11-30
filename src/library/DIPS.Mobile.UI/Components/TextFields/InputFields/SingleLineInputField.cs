@@ -12,28 +12,29 @@ namespace DIPS.Mobile.UI.Components.TextFields.InputFields;
 
 public partial class SingleLineInputField : Grid
 {
-    private Style? m_lastStyle;
-    
 #nullable disable
-    internal InputView InputView { get; set; }
+    protected InputView InputView { get; set; }
 #nullable enable
 
-    private readonly Label m_helpTextLabel = new()
+    protected readonly Label HelpTextLabel = new()
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body100),
-        TextColor = Colors.GetColor(ColorName.color_neutral_60),
         IsVisible = false,
         Margin = new Thickness(16, 0, 0, 0)
     };
     
-    private readonly Label m_headerText = new()
+    protected readonly Label HeaderTextLabel = new()
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body200),
         TextColor = Colors.GetColor(ColorName.color_neutral_70),
-        VerticalTextAlignment = TextAlignment.Center
+        VerticalOptions = LayoutOptions.Center,
+        HorizontalOptions = LayoutOptions.Start,
+        AnchorX = 0
     };
+
+    protected Grid ContentBorderGrid { get; } = new();
     
-    internal Grid InnerGrid { get; } = new()
+    protected Grid InnerGrid { get; } = new()
     { 
         Margin = new Thickness(16, 8, 8, 8),
         RowDefinitions = new RowDefinitionCollection { new(GridLength.Star), new(GridLength.Auto), new(GridLength.Auto) }
@@ -46,11 +47,12 @@ public partial class SingleLineInputField : Grid
 
     public SingleLineInputField()
     {
-        Style = Styles.GetTextAreaStyle(InputFieldStyle.Default);
+        Style = Styles.GetInputFieldStyle(InputFieldStyle.Default);
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         RowSpacing = 4;
         
         AutomationProperties.SetIsInAccessibleTree(this, false);
+        AutomationProperties.SetIsInAccessibleTree(ContentBorderGrid, false);
         
         AddRowDefinition(new RowDefinition(GridLength.Star));
         AddRowDefinition(new RowDefinition(GridLength.Auto));
@@ -68,25 +70,27 @@ public partial class SingleLineInputField : Grid
 
     private void SetupHeaderText()
     {
-        m_headerText.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HeaderText), source: this));
+        HeaderTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HeaderText), source: this));
         
-        InnerGrid.Add(m_headerText);
+        InnerGrid.Add(HeaderTextLabel);
         
-        AutomationProperties.SetIsInAccessibleTree(m_headerText, false);
+        AutomationProperties.SetIsInAccessibleTree(HeaderTextLabel, false);
     }
     
     private void SetupHelpText()
     {
-        m_helpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HelpText), source: this));
+        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HelpText), source: this));
+        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, new Binding(nameof(HelpTextColor), source: this));
         
-        this.Add(m_helpTextLabel, 0, 1);
+        this.Add(HelpTextLabel, 0, 1);
         
-        AutomationProperties.SetIsInAccessibleTree(m_helpTextLabel, false);
+        AutomationProperties.SetIsInAccessibleTree(HelpTextLabel, false);
     }
 
     private void SetupContentBorder()
     {
-        m_contentBorder.Content = InnerGrid;
+        ContentBorderGrid.Add(InnerGrid);
+        m_contentBorder.Content = ContentBorderGrid;
         m_contentBorder.SetBinding(MinimumHeightRequestProperty, new Binding(nameof(MinimumHeightRequest), source: this));
         m_contentBorder.SetBinding(Border.StrokeThicknessProperty, new Binding(nameof(BorderThickness), source: this));
         m_contentBorder.SetBinding(Border.StrokeProperty,  new Binding(nameof(BorderColor), source: this));
@@ -95,6 +99,7 @@ public partial class SingleLineInputField : Grid
         
         SemanticProperties.SetDescription(m_contentBorder, SemanticDescription.GetDescription(DUILocalizedStrings.Accessability_InputField_HelpText, ControlType.Button));
     }
+
 
     protected virtual void CreateInputView()
     {
@@ -119,10 +124,10 @@ public partial class SingleLineInputField : Grid
         
         InputView.Focused += OnInputViewFocused;
         InputView.Unfocused += OnInputViewUnFocused;
-        
+
         InnerGrid.Add(InputView, 0, 1);
     }
-
+    
     protected override void OnPropertyChanged(string? propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
@@ -135,32 +140,28 @@ public partial class SingleLineInputField : Grid
 
     private void OnIsEnabledChanged(bool isEnabled)
     {
-        Touch.SetIsEnabled(m_contentBorder, isEnabled);
+        SetTouchEnabled(isEnabled);
         
-        if (isEnabled && m_lastStyle is not null)
-        {
-            Style = m_lastStyle;
-        }
-        else
-        {
-            m_lastStyle = Style;
-            Style = Styles.GetTextAreaStyle(InputFieldStyle.Disabled);
-        }
+        SetStyle();
+    }
+
+    protected void SetTouchEnabled(bool isEnabled)
+    {
+        Touch.SetIsEnabled(m_contentBorder, isEnabled);
     }
 
     protected virtual void OnInputViewFocused(object? sender, FocusEventArgs e)
     {
         var prevBorderThickness = BorderThickness;
         
-        m_lastStyle = Style;
-        Style = Styles.GetTextAreaStyle(InputFieldStyle.Focused);
+        SetStyle();
 
         ValidateMargin(prevBorderThickness);
-        m_headerText.Style = Styles.GetLabelStyle(LabelStyle.Body100);
+        ChangeHeaderTextStyle();
         
         Focused?.Invoke(this, e);
         
-        Touch.SetIsEnabled(m_contentBorder, false);
+        SetTouchEnabled(false);
         
         AutomationProperties.SetIsInAccessibleTree(m_contentBorder, false);
     }
@@ -184,8 +185,6 @@ public partial class SingleLineInputField : Grid
 
     protected virtual void OnInputViewUnFocused(object? sender, FocusEventArgs e)
     {
-        if(m_lastStyle is null)
-            return;
         
 // An ugly workaround to hide keyboard on Android
 #if __ANDROID__
@@ -195,9 +194,9 @@ public partial class SingleLineInputField : Grid
         
         var prevBorderThickness = BorderThickness;
         
-        Style = m_lastStyle;
+        SetStyle();
         
-        Touch.SetIsEnabled(m_contentBorder, true);
+        SetTouchEnabled(true);
 
         UpdateInputViewVisibility();
         ValidateMargin(prevBorderThickness);
@@ -206,6 +205,16 @@ public partial class SingleLineInputField : Grid
         Unfocused?.Invoke(this, e);
         
         AutomationProperties.SetIsInAccessibleTree(m_contentBorder, true);
+    }
+
+    protected virtual void SetStyle()
+    {
+        var style = IsEnabled ? Styles.GetInputFieldStyle(InputFieldStyle.Default) : Styles.GetInputFieldStyle(InputFieldStyle.Disabled);
+
+        if (IsFocused)
+            style = Styles.GetInputFieldStyle(InputFieldStyle.Focused);
+
+        Style = style;
     }
     
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -232,7 +241,26 @@ public partial class SingleLineInputField : Grid
         if (InputView is null)
             return;
 
-        m_headerText.Style = InputView.IsFocused ? Styles.GetLabelStyle(LabelStyle.Body100) : Styles.GetLabelStyle(Text == string.Empty ? LabelStyle.Body200 : LabelStyle.Body100);
+        ChangeHeaderTextStyle();
+    }
+
+    protected virtual void ChangeHeaderTextStyle()
+    {
+        HeaderTextLabel.Style = InputView.IsFocused ? Styles.GetLabelStyle(LabelStyle.Body100) : Styles.GetLabelStyle(Text == string.Empty ? LabelStyle.Body200 : LabelStyle.Body100);
+        
+        if(InputView.IsFocused)
+            HeaderTextLabel.ScaleTo(.85);
+        else
+        {
+            if (Text == string.Empty)
+            {
+                HeaderTextLabel.ScaleTo(1, easing: Easing.CubicOut);
+            }
+            else
+            {
+                HeaderTextLabel.ScaleTo(.85, easing: Easing.CubicOut);
+            }
+        }
     }
 
     private void UpdateInputViewVisibility()
@@ -255,7 +283,7 @@ public partial class SingleLineInputField : Grid
     {
         UpdateSemanticHint();
         
-        m_helpTextLabel.IsVisible = HelpText != string.Empty;
+        HelpTextLabel.IsVisible = HelpText != string.Empty;
     }
 
     private void OnHeaderTextChanged()

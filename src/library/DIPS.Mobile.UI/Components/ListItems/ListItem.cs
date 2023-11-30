@@ -27,11 +27,7 @@ public partial class ListItem : ContentView
         RowDefinitions = new RowDefinitionCollection()
         {
             new(GridLength.Auto),
-        },
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_3), 
-            Sizes.GetSize(SizeName.size_3),
-            Sizes.GetSize(SizeName.size_3),
-            Sizes.GetSize(SizeName.size_3))
+        }
     };
 
     internal Grid TitleAndLabelGrid { get; } = new()
@@ -69,6 +65,8 @@ public partial class ListItem : ContentView
             StrokeThickness = 0 
         };
         
+        ContainerGrid.SetBinding(Grid.MarginProperty, new Binding(nameof(Padding), source: this));
+        
         BindBorder();
 
         Border.Content = ContainerGrid;
@@ -85,7 +83,6 @@ public partial class ListItem : ContentView
     {
         Border.SetBinding(Border.BackgroundColorProperty, new Binding {Source = this, Path = nameof(BackgroundColor)});
         Border.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
-        Border.SetBinding(Border.PaddingProperty, new Binding {Source = this, Path = nameof(Padding)});
     }
 
     protected override void OnPropertyChanged(string propertyName = null)

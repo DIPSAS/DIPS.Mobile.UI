@@ -72,4 +72,7 @@
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
         <value>Tap to input text</value>
     </data>
+    <data name="Saving" xml:space="preserve">
+        <value>Saving</value>
+    </data>
 </root>

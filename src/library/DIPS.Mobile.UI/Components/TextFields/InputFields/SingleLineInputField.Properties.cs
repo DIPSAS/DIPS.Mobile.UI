@@ -23,6 +23,15 @@ public partial class SingleLineInputField
     }
 
     /// <summary>
+    /// Sets the text color of the <see cref="HelpText"/>
+    /// </summary>
+    public Color HelpTextColor
+    {
+        get => (Color)GetValue(HelpTextColorProperty);
+        set => SetValue(HelpTextColorProperty, value);
+    }
+
+    /// <summary>
     /// Sets the text color of the input field 
     /// </summary>
     public Color InputTextColor
@@ -127,5 +136,10 @@ public partial class SingleLineInputField
         typeof(string),
         typeof(SingleLineInputField),
         propertyChanged: (bindable, _, _) => ((SingleLineInputField)bindable).OnHeaderTextChanged());
+    
+    public static readonly BindableProperty HelpTextColorProperty = BindableProperty.Create(
+        nameof(HelpTextColor),
+        typeof(Color),
+        typeof(SingleLineInputField));
 
 }

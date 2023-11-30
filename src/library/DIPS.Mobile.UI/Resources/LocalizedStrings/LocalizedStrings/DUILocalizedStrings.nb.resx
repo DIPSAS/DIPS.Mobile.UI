@@ -65,4 +65,7 @@
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
         <value>Trykk for å skrive inn tekst</value>
     </data>
+    <data name="Saving" xml:space="preserve">
+        <value>Lagrer</value>
+    </data>
 </root>

@@ -6,6 +6,8 @@ public class InputFieldStyleResources
     {
         [InputFieldStyle.Default] = InputFieldDefaultStyle.Current,
         [InputFieldStyle.Focused] = InputFieldTypeStyle.Focused,
-        [InputFieldStyle.Disabled] = InputFieldTypeStyle.Disabled
+        [InputFieldStyle.Disabled] = InputFieldTypeStyle.Disabled,
+        [InputFieldStyle.Error] = InputFieldTypeStyle.Error,
+        [InputFieldStyle.Success] = InputFieldTypeStyle.Success
     };
 }

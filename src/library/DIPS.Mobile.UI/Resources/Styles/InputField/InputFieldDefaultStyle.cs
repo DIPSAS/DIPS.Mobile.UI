@@ -27,6 +27,11 @@ public class InputFieldDefaultStyle
             {
                 Property = VisualElement.MinimumHeightRequestProperty,
                 Value = 52
+            },
+            new Setter
+            {
+                Property = SingleLineInputField.HelpTextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
             }
         }
     };

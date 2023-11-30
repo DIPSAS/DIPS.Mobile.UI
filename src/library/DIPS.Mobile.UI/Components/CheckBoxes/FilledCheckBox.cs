@@ -16,7 +16,6 @@ public partial class FilledCheckBox : ContentView
     private readonly ActivityIndicator m_activityIndicator;
     private readonly SKLottieView m_animation;
     private readonly Image m_nonCheckedImage;
-    internal static double IsNotCheckedOpacity => 0.25;
 
     public FilledCheckBox()
     {
@@ -31,12 +30,14 @@ public partial class FilledCheckBox : ContentView
             Source = Animations.GetAnimation(AnimationName.saved),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            IsAnimationEnabled = true,
-            Opacity = IsNotCheckedOpacity
+            IsAnimationEnabled = true
         };
 
-        m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
-        m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(WidthRequest)));
+        m_animation.SetBinding(OpacityProperty, new Binding(nameof(IsNotCheckedOpacity), source: this, mode: BindingMode.OneTime));
+        m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(Height)));
+        m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(Width)));
+        m_animation.SetBinding(MaximumHeightRequestProperty, new Binding(nameof(MaximumHeightRequest), source: this));
+        m_animation.SetBinding(MaximumWidthRequestProperty, new Binding(nameof(MaximumWidthRequest), source: this));
 
         m_activityIndicator = new ActivityIndicator {Opacity = 0};
 

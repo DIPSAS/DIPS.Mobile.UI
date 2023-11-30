@@ -1,3 +1,7 @@
+## [20.2.0]
+- Added new properties to MultiLineInputField so that consumers can give users feedback when saving
+- Fixed an issue where consumers could not set the padding of ListItem to zero.
+
 ## [20.1.0]
 - Renamed 'IsEllipsized' property to 'IsTruncated' in Label
 - Now checks if the Label is truncated, does not matter if LineBreakMode is set (Ellipsis is apparent)
