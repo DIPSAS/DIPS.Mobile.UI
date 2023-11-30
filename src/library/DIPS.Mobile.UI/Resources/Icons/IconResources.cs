@@ -154,6 +154,8 @@ this file is generated
 ["list_settings_line"] = "list_settings_line.png",
 ["chart_line"] = "chart_line.png",
 ["heart_pulse_line"] = "heart_pulse_line.png",
+["reply-line"] = "reply-line.png",
+["care_line"] = "care_line.png",
 
             };
         }

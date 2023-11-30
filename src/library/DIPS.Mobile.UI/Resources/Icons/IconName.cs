@@ -299,5 +299,9 @@ list_settings_line=143,
 chart_line=144,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/heart_pulse_line.svg">View the icon in the browser</a></summary>
 heart_pulse_line=145,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/reply-line.svg">View the icon in the browser</a></summary>
+reply-line=146,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/care_line.svg">View the icon in the browser</a></summary>
+care_line=147,
     }
 }
