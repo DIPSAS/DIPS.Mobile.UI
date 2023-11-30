@@ -25,22 +25,7 @@ public class BottomBarFragment(BottomSheetHandler bottomSheetHandler, IMauiConte
     public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
         m_border = bottomSheetHandler.m_bottomSheet.CreateBottomBar();
-        var view = m_border.ToPlatform(mauiContext);
-        TranslucentBackground(view);
-        return view;
-    }
-
-    private void TranslucentBackground(View view)
-    {
-        if (m_border == null) return;
-        
-        view.SetMinimumHeight(300);
-        view.Background =
-            new GradientDrawable(GradientDrawable.Orientation.TopBottom,
-                new int[]
-                {
-                    Color.Transparent, m_border.BackgroundColor.ToPlatform(), m_border.BackgroundColor.ToPlatform()
-                });
+        return m_border.ToPlatform(mauiContext);
     }
 
     public override Dialog OnCreateDialog(Bundle? savedInstanceState)
