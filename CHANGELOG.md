@@ -1,6 +1,12 @@
-## [20.2.0]
+## [20.4.0]
 - Added new properties to MultiLineInputField so that consumers can give users feedback when saving
 - Fixed an issue where consumers could not set the padding of ListItem to zero.
+
+## [20.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [20.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [20.1.0]
 - Renamed 'IsEllipsized' property to 'IsTruncated' in Label

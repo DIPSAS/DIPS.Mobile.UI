@@ -141,6 +141,22 @@ this file is generated
 ["attachment_line"] = "attachment_line.png",
 ["collapse_line"] = "collapse_line.png",
 ["bacteria_line"] = "bacteria_line.png",
+["location_time_line"] = "location_time_line.png",
+["patient_line"] = "patient_line.png",
+["video_chat_line"] = "video_chat_line.png",
+["mail_open_line"] = "mail_open_line.png",
+["patient_list_line"] = "patient_list_line.png",
+["location_time_fill"] = "location_time_fill.png",
+["microphone_line"] = "microphone_line.png",
+["mail_unread_line"] = "mail_unread_line.png",
+["clinicalregistrations_line"] = "clinicalregistrations_line.png",
+["beaker_zoom_line"] = "beaker_zoom_line.png",
+["list_settings_line"] = "list_settings_line.png",
+["chart_line"] = "chart_line.png",
+["heart_pulse_line"] = "heart_pulse_line.png",
+["task_line"] = "task_line.png",
+["care_line"] = "care_line.png",
+["reply_line"] = "reply_line.png",
 
             };
         }
