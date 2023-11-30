@@ -33,15 +33,6 @@ public partial class FilledCheckBox
     }
 
     /// <summary>
-    /// The opacity the animation will start at when unchecked
-    /// </summary>
-    public double IsNotCheckedOpacity
-    {
-        get => (double)GetValue(IsNotCheckedOpacityProperty);
-        set => SetValue(IsNotCheckedOpacityProperty, value);
-    }
-    
-    /// <summary>
     /// The vent to invoke when the animating
     /// </summary>
     public event EventHandler Completed;
@@ -97,10 +88,4 @@ public partial class FilledCheckBox
         typeof(FilledCheckBox),
         defaultValue:Colors.GetColor(ColorName.color_system_white));
     
-    public static readonly BindableProperty IsNotCheckedOpacityProperty = BindableProperty.Create(
-        nameof(IsNotCheckedOpacity),
-        typeof(double),
-        typeof(FilledCheckBox),
-        defaultBindingMode:BindingMode.OneTime,
-        defaultValue:.25);
 }
