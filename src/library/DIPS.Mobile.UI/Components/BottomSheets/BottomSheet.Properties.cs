@@ -172,7 +172,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public ContentPage WrappingContentPage { get; set; }
 
         public UIKit.UISheetPresentationController UISheetPresentationController { get; internal set; }
-        public UIKit.UIViewController? BottomBarUIViewController { get; internal set; }
 #endif
 
 #if __ANDROID__

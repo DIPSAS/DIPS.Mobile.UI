@@ -100,26 +100,6 @@ public partial class BottomSheetHandler : ContentViewHandler
             }
             grid.Add(bottomBar);
             bottomSheet.WrappingContentPage.Content = grid;
-
-            // bottomBar.HandlerChanged += (sender, args) =>
-            // {
-            //     if (bottomBar.Handler is BorderHandler borderHandler)
-            //     {
-            //         if (borderHandler.PlatformView is UIView uiView)
-            //         {
-            //             var maskview = new UIView(new CGRect(0,0, DeviceDisplay.Current.MainDisplayInfo.Width, 200)){RestorationIdentifier = "fadeview"} ;
-            //             var gradientMaskLayer = new CAGradientLayer();
-            //             gradientMaskLayer.Frame = maskview.Frame;
-            //
-            //             gradientMaskLayer.Colors = [bottomSheet.BackgroundColor.WithAlpha(0).ToCGColor(), bottomSheet.BackgroundColor.ToCGColor()];
-            //             gradientMaskLayer.Locations = [0.0,0.2];
-            //             maskview.Layer.AddSublayer(gradientMaskLayer);
-            //             uiView.AddSubviews(maskview); 
-            //             // IKKE ADD DET PÅ TOP, DA BLOKKERER DET DET SOM LIGGER BAK!
-            //             // FINN EN BEDRE EVENT Å GJØRE DETTE PÅ, DET KOMMER LITT SENT
-            //         }
-            //     }
-            // };
         }
     }
 
