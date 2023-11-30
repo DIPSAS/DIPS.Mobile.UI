@@ -99,20 +99,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         internal Border CreateBottomBar()
         {
-            var border = new Border()
+            var border = new Border
             {
                 Padding = Sizes.GetSize(SizeName.size_2),
                 StrokeThickness = 0,
                 VerticalOptions = LayoutOptions.End,
-                HeightRequest = 100,
-            };
-            border.Background = new LinearGradientBrush()
-            {
-                EndPoint = new Point(0, 1),
-                GradientStops = new GradientStopCollection()
+                HeightRequest = 120,
+                Background = new LinearGradientBrush()
                 {
-                    new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
-                    new() {Color = this.BackgroundColor, Offset = 0.22f}
+                    EndPoint = new Point(0, 1),
+                    GradientStops = new GradientStopCollection()
+                    {
+                        new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
+                        new() {Color = this.BackgroundColor, Offset = 0.22f}
+                    }
                 }
             };
             var horizontalStackLayout = new HorizontalStackLayout()
