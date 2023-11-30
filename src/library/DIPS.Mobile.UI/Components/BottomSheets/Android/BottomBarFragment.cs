@@ -14,40 +14,33 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android;
 public class BottomBarFragment(BottomSheetHandler bottomSheetHandler, IMauiContext mauiContext) : DialogFragment
 {
     private Border? m_border;
-    private HorizontalStackLayout? m_horizontalStackLayout;
 
     public override void OnCreate(Bundle? savedInstanceState)
     {
-        SetStyle(DialogFragment.StyleNoFrame, global::Android.Resource.Style.Theme);
+        SetStyle(StyleNoFrame, global::Android.Resource.Style.Theme);
 
         base.OnCreate(savedInstanceState);
     }
 
     public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
-        m_border = new Border()
-        {
-            Padding = Sizes.GetSize(SizeName.size_2),
-            StrokeThickness = 0,
-            VerticalOptions = LayoutOptions.End,
-            HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = bottomSheetHandler.m_bottomSheet.BackgroundColor
-        };
-        m_horizontalStackLayout = new HorizontalStackLayout()
-        {
-            HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.End,
-        };
-        foreach (var button in bottomSheetHandler.m_bottomSheet.BottombarButtons)
-        {
-            m_horizontalStackLayout.Add(button);
-        }
-
-        m_border.Content = m_horizontalStackLayout;
-        var view =  m_border.ToPlatform(mauiContext);
-        view.SetMinimumHeight(500);
-        view.Background =
-            new GradientDrawable(GradientDrawable.Orientation.TopBottom, new int[] {Color.Transparent, m_border.BackgroundColor.ToPlatform()});
+        m_border = bottomSheetHandler.m_bottomSheet.CreateBottomBar();
+        var view = m_border.ToPlatform(mauiContext);
+        TranslucentBackground(view);
         return view;
+    }
+
+    private void TranslucentBackground(View view)
+    {
+        if (m_border == null) return;
+        
+        view.SetMinimumHeight(300);
+        view.Background =
+            new GradientDrawable(GradientDrawable.Orientation.TopBottom,
+                new int[]
+                {
+                    Color.Transparent, m_border.BackgroundColor.ToPlatform(), m_border.BackgroundColor.ToPlatform()
+                });
     }
 
     public override Dialog OnCreateDialog(Bundle? savedInstanceState)
@@ -102,7 +95,7 @@ public class BottomBarFragment(BottomSheetHandler bottomSheetHandler, IMauiConte
         }
         else if (slideOffset > -0.55 && theViewToFadeOut.TranslationY > 0)
         {
-            theViewToFadeOut.TranslateTo(0,0);
+            theViewToFadeOut.TranslateTo(0, 0);
         }
     }
 }
