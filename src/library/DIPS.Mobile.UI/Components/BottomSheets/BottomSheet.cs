@@ -104,8 +104,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 Padding = Sizes.GetSize(SizeName.size_2),
                 StrokeThickness = 0,
                 VerticalOptions = LayoutOptions.End,
-                HorizontalOptions = LayoutOptions.Center,
-                BackgroundColor = this.BackgroundColor
+                HeightRequest = 100,
+            };
+            border.Background = new LinearGradientBrush()
+            {
+                EndPoint = new Point(0, 1),
+                GradientStops = new GradientStopCollection()
+                {
+                    new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
+                    new() {Color = this.BackgroundColor, Offset = 0.22f}
+                }
             };
             var horizontalStackLayout = new HorizontalStackLayout()
             {

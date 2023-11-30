@@ -1,4 +1,7 @@
+using CoreAnimation;
 using CoreGraphics;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Layouts;
 using Microsoft.Maui.Platform;
@@ -6,6 +9,7 @@ using UIKit;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -82,55 +86,41 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private async static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        if (handler.MauiContext == null || bottomSheet.UIViewController == null ||
-            !bottomSheet.BottombarButtons.Any()) return;
-        if (bottomSheet.BottomBarUIViewController != null) return; //Already presenting
-        // await Task.Delay(750);
-        // var border = new Border()
-        // {
-        //     VerticalOptions = LayoutOptions.End,
-        //     HeightRequest = 80,
-        //     BackgroundColor = Colors.Green
-        // };
-        // //https://learn.microsoft.com/en-us/dotnet/maui/user-interface/brushes/lineargradient?view=net-maui-8.0#create-a-vertical-linear-gradient
-        // border.Background = new LinearGradientBrush()
-        // {
-        //     EndPoint = new Point(0, 1),
-        //     GradientStops = new GradientStopCollection()
-        //     {
-        //         new() {Color = Colors.Transparent, Offset = 0.1f}, new() {Color = Colors.White, Offset = 1.0f}
-        //     }
-        // };
-        // var horizontalStackLayout = new HorizontalStackLayout() {HorizontalOptions = LayoutOptions.Center,};
-        // foreach (var button in bottomSheet.BottombarButtons)
-        // {
-        //     horizontalStackLayout.Add(button);
-        // }
-        //
-        // border.Content = horizontalStackLayout;
-        // var view = border.ToPlatform(handler.MauiContext);
-        // bottomSheet.UIViewController.View?.AddSubview(view);
-        // bottomSheet.UIViewController.ParentViewController.View.AddSubview((view));
-        //floatingButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
+        if (bottomSheet.HasBottomBarButtons)
+        {
+            var grid = new Grid(){IgnoreSafeArea = true};
+            var oldContent = bottomSheet.WrappingContentPage.Content;
+            grid.Add(oldContent);
+            var bottomBar = bottomSheet.CreateBottomBar();
+            //add extra space to not get too close to bottom safe area
+            if (UIApplication.SharedApplication.Delegate.GetWindow().SafeAreaInsets.Bottom > 0)
+            {
+                if (bottomBar.Content == null) return;
+                bottomBar.Content.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));    
+            }
+            grid.Add(bottomBar);
+            bottomSheet.WrappingContentPage.Content = grid;
 
-        
-        
-        
-        // var contentPage =
-        //     new ContentPage() {Content = border, BackgroundColor = Colors.Transparent};
-        // bottomSheet.BottomBarUIViewController = contentPage.ToUIViewController(handler.MauiContext);
-        // var uiViewController = new UIViewController() {View = view};
-        // //Set auto layout IOS?!
-        // bottomSheet.BottomBarUIViewController = uiViewController;
-        // bottomSheet.BottomBarUIViewController.ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-        //
-        // await bottomSheet.UIViewController.PresentViewControllerAsync(bottomSheet.BottomBarUIViewController, true);
-
-        // var  y = UIScreen.MainScreen.Bounds.Size.Height - size.Height;
-        // view.Frame = new CGRect(0, y, view.Frame.Size.Width, view.Frame.Size.Height);
-//         present view controller which is invisible?
-// remember to remove when closing
+            // bottomBar.HandlerChanged += (sender, args) =>
+            // {
+            //     if (bottomBar.Handler is BorderHandler borderHandler)
+            //     {
+            //         if (borderHandler.PlatformView is UIView uiView)
+            //         {
+            //             var maskview = new UIView(new CGRect(0,0, DeviceDisplay.Current.MainDisplayInfo.Width, 200)){RestorationIdentifier = "fadeview"} ;
+            //             var gradientMaskLayer = new CAGradientLayer();
+            //             gradientMaskLayer.Frame = maskview.Frame;
+            //
+            //             gradientMaskLayer.Colors = [bottomSheet.BackgroundColor.WithAlpha(0).ToCGColor(), bottomSheet.BackgroundColor.ToCGColor()];
+            //             gradientMaskLayer.Locations = [0.0,0.2];
+            //             maskview.Layer.AddSublayer(gradientMaskLayer);
+            //             uiView.AddSubviews(maskview); 
+            //             // IKKE ADD DET PÅ TOP, DA BLOKKERER DET DET SOM LIGGER BAK!
+            //             // FINN EN BEDRE EVENT Å GJØRE DETTE PÅ, DET KOMMER LITT SENT
+            //         }
+            //     }
+            // };
+        }
     }
 
     internal void Dispose()
