@@ -22,6 +22,20 @@ public partial class InLineContentOptions
         get => (GridLength)GetValue(WidthProperty);
         set => SetValue(WidthProperty, value);
     }
+
+    /// <summary>
+    /// Determines whether the InLineContent should span over the UnderlyingContent of the ListItem
+    /// </summary>
+    public bool SpanOverUnderlyingContent
+    {
+        get => (bool)GetValue(SpanOverUnderlyingContentProperty);
+        set => SetValue(SpanOverUnderlyingContentProperty, value);
+    }
+    
+    public static readonly BindableProperty SpanOverUnderlyingContentProperty = BindableProperty.Create(
+        nameof(SpanOverUnderlyingContent),
+        typeof(bool),
+        typeof(InLineContentOptions));
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),

@@ -2,6 +2,7 @@ namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 
 public partial class EditorHandler : Microsoft.Maui.Handlers.EditorHandler
 {
+    private bool m_firstTimeFocus = true;
     public EditorHandler() : base(PropertyMapper)
     {
     }

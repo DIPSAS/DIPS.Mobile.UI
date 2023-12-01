@@ -8,8 +8,12 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  IsInteractiveCloseable="True">
+    <dui:BottomSheet.BindingContext>
+        <håvardSamples:HåvardPageViewModel />
+    </dui:BottomSheet.BindingContext>
     <dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Go to" />
+        <dui:Button Text="Go to" 
+                    Command="{Binding Test}" />
     </dui:BottomSheet.BottombarButtons>
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Close"

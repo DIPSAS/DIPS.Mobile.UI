@@ -197,9 +197,9 @@ public partial class ListItem : ContentView
             ContainerGrid.Remove(m_oldInLineContent);
         }
         
-        BindToOptions(InLineContentOptions);
-
         ContainerGrid.Add(view, ContainerGrid.ColumnDefinitions.Count - 1);
+        
+        BindToOptions(InLineContentOptions);
 
         m_oldInLineContent = view;
         

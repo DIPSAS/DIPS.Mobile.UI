@@ -1,3 +1,8 @@
+## [20.6.0]
+- Added new option to InLineContentOptions in ListItem so that the InLineContent can span over UnderlyingContent
+- Fixed an issue where focusing on a dui:Editor for the first time would not place cursor at the end of the text
+- Fixed an issue where the BindingContext were not set for BottomBarButtons in a BottomSheet
+
 ## [20.5.0]
 - Added new properties to MultiLineInputField so that consumers can give users feedback when saving
 - Fixed an issue where consumers could not set the padding of ListItem to zero.

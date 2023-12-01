@@ -25,6 +25,13 @@ public partial class EditorHandler
 
     private async void OnFocus(object? sender, EventArgs e)
     {
+        if (m_firstTimeFocus)
+        {
+            PlatformView.SelectedTextRange = PlatformView.GetTextRange(PlatformView.EndOfDocument, PlatformView.EndOfDocument);
+
+            m_firstTimeFocus = false;
+        }
+        
         if(!((VirtualView as Editor)!).ShouldSelectAllTextOnFocused)
             return;
         
