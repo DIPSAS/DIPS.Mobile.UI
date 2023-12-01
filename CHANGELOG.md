@@ -1,6 +1,9 @@
-## [20.4.0]
+## [20.5.0]
 - Added new properties to MultiLineInputField so that consumers can give users feedback when saving
 - Fixed an issue where consumers could not set the padding of ListItem to zero.
+
+## [20.4.0]
+- [BottomSheet] Added BottomBarButtons, to add floating buttons to the bottom of the bottom sheet.
 
 ## [20.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

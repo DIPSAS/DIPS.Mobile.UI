@@ -12,5 +12,8 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-   <dui:Button Text="Open sheet" Clicked="Button_OnClicked"></dui:Button>
+    <dui:Button VerticalOptions="Center"
+                Text="Open sheet"
+                Clicked="Button_OnClicked">
+    </dui:Button>
 </dui:ContentPage>

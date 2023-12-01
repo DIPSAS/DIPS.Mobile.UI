@@ -15,6 +15,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
+            BottombarButtons = new ObservableCollection<Button>();
 
             SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
@@ -95,21 +96,36 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 SearchBar.TextChanged -= OnSearchTextChanged;
             }
         }
-    }
 
-    public enum Positioning
-    {
-        /// <summary>
-        /// The medium position which covers half of the screen.
-        /// </summary>
-        Medium = 0,
-        /// <summary>
-        /// A large position which covers most of the screen.
-        /// </summary>
-        Large = 2,
-        /// <summary>
-        /// The position is determined by the content and will fit the screen.
-        /// </summary>
-        Fit = 4,
+        internal Border CreateBottomBar()
+        {
+            var border = new Border
+            {
+                Padding = Sizes.GetSize(SizeName.size_2),
+                StrokeThickness = 0,
+                VerticalOptions = LayoutOptions.End,
+                HeightRequest = 120,
+                Background = new LinearGradientBrush()
+                {
+                    EndPoint = new Point(0, 1),
+                    GradientStops = new GradientStopCollection()
+                    {
+                        new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
+                        new() {Color = this.BackgroundColor, Offset = 0.22f}
+                    }
+                }
+            };
+            var horizontalStackLayout = new HorizontalStackLayout()
+            {
+                HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.End,
+            };
+            foreach (var button in BottombarButtons)
+            {
+                horizontalStackLayout.Add(button);
+            }
+
+            border.Content = horizontalStackLayout;
+            return border;
+        }
     }
 }
