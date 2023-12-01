@@ -24,9 +24,8 @@ public partial class InLineContentOptions
     }
 
     /// <summary>
-    /// Set the RowSpan
+    /// Determines whether the InLineContent should span over the UnderlyingContent of the ListItem
     /// </summary>
-    /// <remarks>Use 1 to be in the same row as Title. Use 2 to span over underlying content</remarks>
     public bool SpanOverUnderlyingContent
     {
         get => (bool)GetValue(SpanOverUnderlyingContentProperty);
