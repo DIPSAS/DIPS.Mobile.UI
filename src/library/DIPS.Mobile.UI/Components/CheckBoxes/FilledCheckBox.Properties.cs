@@ -31,7 +31,7 @@ public partial class FilledCheckBox
         get => (ICommand)GetValue(CompletedCommandProperty);
         set => SetValue(CompletedCommandProperty, value);
     }
-    
+
     /// <summary>
     /// The vent to invoke when the animating
     /// </summary>
@@ -87,4 +87,5 @@ public partial class FilledCheckBox
         typeof(Color),
         typeof(FilledCheckBox),
         defaultValue:Colors.GetColor(ColorName.color_system_white));
+    
 }

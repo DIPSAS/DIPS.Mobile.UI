@@ -20,15 +20,31 @@ public class VetlePageViewModel : ViewModel
     private SortOption m_defaultSelectedItem;
     private bool m_disabled;
     private bool m_isSaving;
+    private bool m_isSavingCompleted;
 
     public VetlePageViewModel()
     {
         Navigate = new Command(Navigatee);
-        Test = new Command(async () =>
+        SaveSuccess = new Command(async () =>
         {
+            IsSavingCompleted = false;
+            IsError = false;
             IsSaving = true;
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             IsSaving = false;
+            IsSavingCompleted = true;
+            IsSavingCompleted = false;
+        });
+
+        SaveError = new Command(async () =>
+        {
+            IsSavingCompleted = false;
+            IsError = false;
+            IsSaving = true;
+            await Task.Delay(2000);
+            IsSaving = false;
+            IsError = true;
+            IsSavingCompleted = true;
         });
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test asd asdasd a sadasdas dsa", "test lang tesktsdtsdfsefseasdaawdkjawoidjiaowjdo iawjd9oia jwodijawo dijaw uoid jawuidjh awiudhawiud hiawuh " +
@@ -39,8 +55,6 @@ public class VetlePageViewModel : ViewModel
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
         CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
-
-        _ = Test2();
 
         _ = DelayFunction();
 
@@ -162,8 +176,8 @@ public class VetlePageViewModel : ViewModel
     public List<TestObject> TestObjects { get; } = new List<TestObject>();
     
     public ICommand Navigate { get; }
-    public ICommand Test { get; }
-    
+    public ICommand SaveSuccess { get; }
+    public ICommand SaveError { get; }
     public ICommand CompletedCommand { get; }
 
     public bool IsChecked
@@ -215,6 +229,12 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isSaving;
         set => RaiseWhenSet(ref m_isSaving, value);
+    }
+
+    public bool IsSavingCompleted
+    {
+        get => m_isSavingCompleted;
+        set => RaiseWhenSet(ref m_isSavingCompleted, value);
     }
 }
 

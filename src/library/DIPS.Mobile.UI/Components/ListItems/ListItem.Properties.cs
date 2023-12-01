@@ -227,7 +227,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
         public new static readonly BindableProperty PaddingProperty = BindableProperty.Create(
             nameof(Padding),
             typeof(Thickness),
-            typeof(ListItem));
+            typeof(ListItem),
+            new Thickness(
+            Sizes.GetSize(SizeName.size_3), 
+            Sizes.GetSize(SizeName.size_3),
+            Sizes.GetSize(SizeName.size_3),
+            Sizes.GetSize(SizeName.size_3)));
         
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),

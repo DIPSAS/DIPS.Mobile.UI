@@ -4,13 +4,28 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:multiLineTextArea="clr-namespace:Components.ComponentsSamples.TextFields.MultiLineTextArea"
                  x:Class="Components.ComponentsSamples.TextFields.MultiLineTextArea.MultiLineInputFieldSamples"
                  Padding="20"
+                 x:Name="This"
                  Title="MultiLineInputField">
 
+    <dui:ContentPage.BindingContext>
+        <multiLineTextArea:MultiLineInputFieldSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:ScrollView VerticalScrollBarVisibility="Never">
 
         <dui:VerticalStackLayout>
+            
+            <dui:MultiLineInputField HeaderText="{Binding Source={x:Reference MultiLineEntry}, Path=Text}"
+                                     x:Name="MultiLineTextArea"
+                                     HelpText="{Binding Source={x:Reference HelpTextSwitch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject='HelpText', FalseObject=''}}"
+                                     IsError="{Binding IsError}"
+                                     ErrorText="Error"
+                                     IsSaving="{Binding IsSaving}"
+                                     IsSavingSuccess="{Binding IsSavingCompleted}"
+                                     SaveCommand="{Binding SaveCommand}" />
 
             <dui:ListItem Title="HeaderText">
                 <dui:Entry HasBorder="True"
@@ -38,15 +53,18 @@
             </dui:ListItem>
 
             <dui:ListItem Title="HelpText">
-                <Switch x:Name="HelpTextSwitch" />
+                <Switch x:Name="HelpTextSwitch"
+                        IsToggled="True" />
+            </dui:ListItem>
+            
+            <dui:ListItem Title="Error Save">
+                <Switch x:Name="ErrorSwitch" IsToggled="{Binding IsErrorSwitchEnabled}" />
             </dui:ListItem>
 
             <dui:Button Text="{x:Static localizedStrings:DUILocalizedStrings.InputSampleText}"
                         Clicked="Button_OnClicked" />
 
-            <dui:MultiLineInputField HeaderText="{Binding Source={x:Reference MultiLineEntry}, Path=Text}"
-                                     x:Name="MultiLineTextArea"
-                                     HelpText="{Binding Source={x:Reference HelpTextSwitch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject='HelpText', FalseObject=''}}" />
+           
 
             <BoxView HeightRequest="1000" />
         </dui:VerticalStackLayout>

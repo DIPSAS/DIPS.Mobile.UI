@@ -1,3 +1,6 @@
+using System.Windows.Input;
+using DIPS.Mobile.UI.MVVM;
+
 namespace Components.ComponentsSamples.TextFields.MultiLineTextArea;
 
 public partial class MultiLineInputFieldSamples
@@ -6,7 +9,7 @@ public partial class MultiLineInputFieldSamples
     {
         InitializeComponent();
     }
-    
+
     private void Button_OnClicked(object? sender, EventArgs e)
     {
         MultiLineTextArea.Text =

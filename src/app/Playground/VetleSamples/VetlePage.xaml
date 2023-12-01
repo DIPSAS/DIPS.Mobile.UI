@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                      xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                      xmlns:dui="http://dips.com/mobile.ui"
                      x:Class="Playground.VetleSamples.VetlePage"
                      x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                     IsSaving="{Binding IsSaving}"
-                     SavingText="Saving"
                      Padding="20"
                      x:Name="This">
 
@@ -19,47 +17,19 @@
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
-    
+
     <dui:VerticalStackLayout Spacing="0">
-       
-        <Grid RowDefinitions="*, Auto">
-            <Border StrokeThickness="1"
-                    Stroke="{dui:Colors color_primary_90}">
-                
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="4" />
-                </Border.StrokeShape>
-                
-                <Grid RowDefinitions="*, Auto, Auto"
-                      BackgroundColor="Red"
-                      
-                      MinimumHeightRequest="52"
-                      Margin="16, 8, 8, 8">
-                    
-                    <dui:Label Text="hei" BackgroundColor="Green"
-                               VerticalTextAlignment="Center"/>
-                
-                    <dui:Editor Grid.Row="1" IsVisible="True" />
-                    
-                </Grid>
+
+        <dui:ListItem Title="Test" IsDebugMode="True" Padding="0">
             
-            </Border>
-        </Grid>
+            <BoxView HeightRequest="100" BackgroundColor="Green" WidthRequest="100"></BoxView>
             
-        <dui:SingleLineInputField HeaderText="SingleLine"
-                                >
-           
-        
-           
-        </dui:SingleLineInputField>
-        
-        <dui:MultiLineInputField x:Name="TextArea"
-                               HeaderText="MultiLine"
-                               MaxLines="2" />
-        
-        <dui:Label Text="{Binding Source={x:Reference TextArea}, Path=IsTruncated, Converter={dui:BoolToObjectConverter TrueObject=Yes, FalseObject=No}}" />
-        
+            <dui:ListItem.TitleOptions>
+                <dui:TitleOptions VerticalTextAlignment="Start"></dui:TitleOptions>
+            </dui:ListItem.TitleOptions>
+        </dui:ListItem>
+
     </dui:VerticalStackLayout>
 
 
-</dui:ContentSavePage>
+</dui:ContentPage>

@@ -43,7 +43,7 @@ namespace DIPS.Mobile.UI.Resources.Styles
 
             if (InputField != InputFieldStyle.None)
             {
-                return Styles.GetTextAreaStyle(InputField);
+                return Styles.GetInputFieldStyle(InputField);
             }
 
             return new Style(typeof(View));
