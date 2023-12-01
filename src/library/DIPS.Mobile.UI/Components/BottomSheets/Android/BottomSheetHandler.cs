@@ -1,3 +1,4 @@
+using Android.App;
 using Android.Content;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
@@ -6,19 +7,20 @@ using Android.Views;
 using Android.Widget;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
+using Java.Lang;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Orientation = Android.Widget.Orientation;
+using DIPS.Mobile.UI.Components.BottomSheets.Android;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheetHandler : ContentViewHandler
 {
-    private BottomSheet m_bottomSheet;
+    internal BottomSheet m_bottomSheet;
     private LinearLayout m_linearLayout;
     private static AView? m_emptyNonFitToContentView;
     private AView? m_searchBarView;
@@ -212,16 +214,35 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.SetCanceledOnTouchOutside(bottomSheet.IsInteractiveCloseable);
     }
 
+    private static async partial  void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        if (!bottomSheet.BottombarButtons.Any() || bottomSheet.BottomBarFragment != null) return;
+        if (handler.Context.GetFragmentManager()is not {}fragmentManager) return;
+        bottomSheet.BottomBarFragment = new BottomBarFragment(handler, handler.MauiContext);
+        
+        //Wait for bottom sheet to be open
+        while (!bottomSheet.BottomSheetFragment.IsVisible)
+        {
+            await Task.Delay(150);
+        }
+        bottomSheet.BottomBarFragment.Show(fragmentManager, nameof(BottomBarFragment));
+        
+    }
+
+    /// <summary>
+    /// 1.0 = full screen
+    /// 0.0 = medium screen
+    /// -1.0 = closed
+    /// </summary>
     private void OnSlide(float slideOffset)
     {
-        if (slideOffset < 0 && !m_bottomSheet.IsInteractiveCloseable)
+        if (m_bottomSheet.HasBottomBarButtons)
         {
-            m_bottomSheet.BottomSheetBehavior.State = BottomSheetBehavior.StateDragging;
-            return;
+            m_bottomSheet.BottomBarFragment?.OnBottomSheetSlide(slideOffset);
         }
     }
 
-    private bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
+    internal bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
     {
         m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
         return !m_bottomSheet.IsInteractiveCloseable; //Returning true will block back key action
@@ -236,7 +257,10 @@ public partial class BottomSheetHandler : ContentViewHandler
             m_bottomSheetHandler = bottomSheetHandler;
         }
 
-        public override void OnSlide(AView bottomSheet, float slideOffset) => m_bottomSheetHandler.OnSlide(slideOffset);
+        public override void OnSlide(AView bottomSheet, float slideOffset)
+        {
+            m_bottomSheetHandler.OnSlide(slideOffset);
+        }
 
         public override void OnStateChanged(AView p0, int p1)
         {

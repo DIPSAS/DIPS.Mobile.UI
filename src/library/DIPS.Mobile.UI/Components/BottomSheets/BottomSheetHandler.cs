@@ -16,7 +16,10 @@ public partial class BottomSheetHandler
             [nameof(BottomSheet.ToolbarItems)] = MapToolbarItems,
             [nameof(BottomSheet.HasSearchBar)] = MapHasSearchBar,
             [nameof(BottomSheet.Positioning)] = MapPositioning,
+            [nameof(BottomSheet.BottombarButtons)] = MapBottomBar,
         };
+
+    private static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet);
 
     private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet);
 

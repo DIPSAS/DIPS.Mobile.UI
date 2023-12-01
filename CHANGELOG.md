@@ -1,3 +1,6 @@
+## [20.4.0]
+- [BottomSheet] Added BottomBarButtons, to add floating buttons to the bottom of the bottom sheet.
+
 ## [20.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

@@ -103,6 +103,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
+            m_bottomSheet.BottomBarFragment?.Dismiss();
             m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
