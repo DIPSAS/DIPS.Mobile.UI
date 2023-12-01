@@ -1,8 +1,6 @@
 using Android.Graphics.Drawables;
-using Android.Graphics.Text;
 using AndroidX.AppCompat.Widget;
 using Microsoft.Maui.Controls.Platform;
-using Microsoft.Maui.Platform;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.TextFields.Editor;
@@ -10,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 public partial class EditorHandler
 {
     private Drawable? DefaultBackground { get; set; }
-    
+
     protected override void ConnectHandler(AppCompatEditText platformView)
     {
         base.ConnectHandler(platformView);
@@ -22,6 +20,16 @@ public partial class EditorHandler
 
     private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)
     {
+        if (m_firstTimeFocus)
+        {
+            if (PlatformView.Text != null)
+            {
+                PlatformView.SetSelection(PlatformView.Text.Length);
+            }
+
+            m_firstTimeFocus = false;
+        }
+        
         PlatformView.SetBackground(((VirtualView as Editor)!).HasBorder ? DefaultBackground : null);
     }
 

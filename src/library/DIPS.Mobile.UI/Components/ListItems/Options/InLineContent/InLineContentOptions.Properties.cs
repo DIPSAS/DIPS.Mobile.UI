@@ -22,6 +22,21 @@ public partial class InLineContentOptions
         get => (GridLength)GetValue(WidthProperty);
         set => SetValue(WidthProperty, value);
     }
+
+    /// <summary>
+    /// Set the RowSpan
+    /// </summary>
+    /// <remarks>Use 1 to be in the same row as Title. Use 2 to span over underlying content</remarks>
+    public bool SpanOverUnderlyingContent
+    {
+        get => (bool)GetValue(SpanOverUnderlyingContentProperty);
+        set => SetValue(SpanOverUnderlyingContentProperty, value);
+    }
+    
+    public static readonly BindableProperty SpanOverUnderlyingContentProperty = BindableProperty.Create(
+        nameof(SpanOverUnderlyingContent),
+        typeof(bool),
+        typeof(InLineContentOptions));
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),

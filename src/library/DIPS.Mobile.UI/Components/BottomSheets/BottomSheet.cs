@@ -125,6 +125,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             }
 
             border.Content = horizontalStackLayout;
+            border.BindingContext = BindingContext;
             return border;
         }
     }
