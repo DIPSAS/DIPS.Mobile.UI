@@ -11,10 +11,28 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
             if (touch.View.Equals(recognizer.View))
                 return true;
 
-            return !touch.View.GestureRecognizers?.Any() ?? touch.View is not UIControl;
+            if (touch.View is UIControl)
+                return false;
+
+            return CheckRecognizers(touch.View, recognizer.View);
         }
 
         return false;
+    }
+
+    private bool CheckRecognizers(UIView view, UIView superViewThatContainsRecognizer)
+    {
+        var gestureRecognizers = view.GestureRecognizers;
+
+        if (view.Equals(superViewThatContainsRecognizer))
+            return true;
+        
+        if (gestureRecognizers is not null && gestureRecognizers.Any())
+        {
+            return false;
+        }
+
+        return CheckRecognizers(view.Superview, superViewThatContainsRecognizer);
     }
 
     public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer,

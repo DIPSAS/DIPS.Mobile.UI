@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                     xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                     xmlns:dui="http://dips.com/mobile.ui"
-                     x:Class="Playground.VetleSamples.VetlePage"
-                     x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
-                     Padding="20"
-                     x:Name="This">
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.VetleSamples.VetlePage"
+                 x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
+                 Padding="20"
+                 x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -17,14 +17,133 @@
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
         <ToolbarItem Text="Test" />
     </dui:ContentPage.ToolbarItems>
+    
+    <dui:ContentPage.Resources>
+        
+        <DataTemplate x:Key="Template1">
+
+            <dui:ListItem Title="Template1"
+                          IsDebugMode="True"
+                          Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}">
+
+                <dui:ListItem.TitleOptions>
+                    <dui:TitleOptions Width="Auto"
+                                      Margin="{dui:Thickness Right=size_2}"
+                                      Style="{dui:Styles Label=UI300}"
+                                      MaxLines="2" />
+                </dui:ListItem.TitleOptions>
+                <dui:ListItem.InLineContentOptions>
+                    <dui:InLineContentOptions Width="*"
+                                              HorizontalOptions="Fill" 
+                                              VerticalOptions="Start"
+                                              SpanOverUnderlyingContent="True"/>
+                </dui:ListItem.InLineContentOptions>
+                        
+                <BoxView HeightRequest="500" WidthRequest="100"></BoxView>
+
+                <dui:ListItem.UnderlyingContent>
+                    <dui:VerticalStackLayout dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CompletedCommand}">
+                        <dui:Label Text="HOho"></dui:Label>
+                        <dui:Label Text="Hei"
+                                   >
+                        </dui:Label>
+                    </dui:VerticalStackLayout>
+                </dui:ListItem.UnderlyingContent>
+
+            </dui:ListItem>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="Template2">
+
+            <dui:ListItem Title="Template2"
+                          IsDebugMode="True"
+                          Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}">
+
+                <dui:ListItem.TitleOptions>
+                    <dui:TitleOptions Width="Auto"
+                                      Margin="{dui:Thickness Right=size_2}"
+                                      Style="{dui:Styles Label=UI300}"
+                                      MaxLines="2" />
+                </dui:ListItem.TitleOptions>
+                <dui:ListItem.InLineContentOptions>
+                    <dui:InLineContentOptions Width="*"
+                                              HorizontalOptions="Fill" 
+                                              VerticalOptions="Start"
+                                              SpanOverUnderlyingContent="True"/>
+                </dui:ListItem.InLineContentOptions>
+                        
+                <BoxView HeightRequest="100" WidthRequest="100"></BoxView>
+
+                <dui:ListItem.UnderlyingContent>
+                    <dui:VerticalStackLayout>
+                                
+                        <dui:Label Text="HOho"></dui:Label>
+                        <dui:Label Text="Hei"
+                                   dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CompletedCommand}">
+                        </dui:Label>
+                    </dui:VerticalStackLayout>
+                </dui:ListItem.UnderlyingContent>
+
+            </dui:ListItem>
+        </DataTemplate>
+        
+        
+        
+        <vetleSamples:TemplateSelector x:Key="TemplateSelector"
+                                       Test1="{StaticResource Template1}"
+                                       Test2="{StaticResource Template2}" />
+    </dui:ContentPage.Resources>
 
     <dui:VerticalStackLayout Spacing="0">
 
-        <dui:MultiLineInputField IsSaving="{Binding IsSaving}" />
+        <!--<dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            ItemTemplate="{StaticResource TemplateSelector}"
+                            ItemSizingStrategy="MeasureAllItems">
 
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" Text="Save" />
+        </dui:CollectionView>-->
         
-        
+        <CollectionView ItemsSource="{Binding TestStrings}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:Key="Template1">
+
+                    <dui:ListItem Title="Template1"
+                                  IsDebugMode="True"
+                                  Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}">
+
+                        <dui:ListItem.TitleOptions>
+                            <dui:TitleOptions Width="Auto"
+                                              Margin="{dui:Thickness Right=size_2}"
+                                              Style="{dui:Styles Label=UI300}"
+                                              MaxLines="2" />
+                        </dui:ListItem.TitleOptions>
+                        <dui:ListItem.InLineContentOptions>
+                            <dui:InLineContentOptions Width="*"
+                                                      HorizontalOptions="Fill" 
+                                                      VerticalOptions="Start"
+                                                      SpanOverUnderlyingContent="True"/>
+                        </dui:ListItem.InLineContentOptions>
+                        
+                        <BoxView HeightRequest="500" WidthRequest="100"></BoxView>
+
+                        <dui:ListItem.UnderlyingContent>
+                            <VerticalStackLayout>
+                            <VerticalStackLayout>
+                            <dui:VerticalStackLayout dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CompletedCommand}">
+                                <dui:Label Text="HOho"></dui:Label>
+                                <dui:Label Text="Hei" 
+                                >
+                                </dui:Label>
+                            </dui:VerticalStackLayout>
+                            </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </dui:ListItem.UnderlyingContent>
+
+                    </dui:ListItem>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
     </dui:VerticalStackLayout>
 
 
