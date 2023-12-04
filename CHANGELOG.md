@@ -1,3 +1,6 @@
+## [20.7.1]
+- Fix padding for toggleable chip on iOS.
+
 ## [20.7.0]
 - [MultiLineInputField] Buttons will be disabled when programatically saving
 - Fixed an issue where the 'IsInteractiveCloseable' property on BottomSheet was set to BindingMode.OneTime
