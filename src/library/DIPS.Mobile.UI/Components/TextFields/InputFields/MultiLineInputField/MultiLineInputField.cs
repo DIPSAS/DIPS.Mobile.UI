@@ -197,6 +197,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         FadeOutContent();
             
+        ToggleButtonsVisibility(false);
         m_activityIndicator.IsVisible = true;
         _ = m_activityIndicator.FadeTo(1);
 
