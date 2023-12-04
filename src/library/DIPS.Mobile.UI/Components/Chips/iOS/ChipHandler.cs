@@ -156,7 +156,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
             uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
             var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
-            uiButton.ContentEdgeInsets = new UIEdgeInsets(0, -resizedImage.Size.Width, 0, -resizedImage.Size.Width);
+            uiButton.ContentEdgeInsets = new UIEdgeInsets(uiButton.ContentEdgeInsets.Top, uiButton.ContentEdgeInsets.Left-resizedImage.Size.Width, uiButton.ContentEdgeInsets.Bottom, uiButton.ContentEdgeInsets.Right-resizedImage.Size.Width);            
             uiButton.SetImage(resizedImage, UIControlState.Normal);
             CenterContent(handler, uiButton, true);
         }
@@ -174,20 +174,20 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
          
         var imageWidth = uiButton.ImageView.IntrinsicContentSize.Width;
+        var oldContentEdgeInsets = uiButton.ContentEdgeInsets;
         
         uiButton.TitleEdgeInsets = imageIsDisplayed 
-            ? new UIEdgeInsets(0, imageWidth, 0, 0) 
-            : new UIEdgeInsets(0, 0, 0, imageWidth);
-        
-        uiButton.ImageEdgeInsets = imageIsDisplayed
-            ? new UIEdgeInsets(0, imageWidth, 0, imageWidth)
+            ? new UIEdgeInsets(0, 0, 0, -imageWidth) 
             : new UIEdgeInsets(0, -imageWidth, 0, -imageWidth);
         
-        var oldContentEdgeInsets = uiButton.ContentEdgeInsets;
+        uiButton.ImageEdgeInsets = imageIsDisplayed
+            ? new UIEdgeInsets(0, -imageWidth, 0, -imageWidth)
+            : new UIEdgeInsets(0, 0, 0, 0);
+        
         uiButton.ContentEdgeInsets = imageIsDisplayed 
-            ? new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left - imageWidth,
-            oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right) 
-            : new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left + (2*imageWidth),
+            ? new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left,
+            oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right + imageWidth) 
+            : new UIEdgeInsets(oldContentEdgeInsets.Top,  oldContentEdgeInsets.Left + imageWidth,
                 oldContentEdgeInsets.Bottom, oldContentEdgeInsets.Right) ;
     }
 }
