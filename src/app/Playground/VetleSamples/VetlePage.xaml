@@ -20,24 +20,10 @@
 
     <dui:VerticalStackLayout Spacing="0">
 
-        <dui:ListItem Title="Test" IsDebugMode="True" Padding="0"
-                      Command="{Binding Navigate}">
-            
-            <dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions SpanOverUnderlyingContent="True"  />
-            </dui:ListItem.InLineContentOptions>
-            
-            <BoxView WidthRequest="100" VerticalOptions="Fill" HeightRequest="10" />
-            
-            <dui:ListItem.UnderlyingContent>
-                
-                <dui:Label Text="Hei og hå!"></dui:Label>
-                
-            </dui:ListItem.UnderlyingContent>
-            
-            
-        </dui:ListItem>
+        <dui:MultiLineInputField IsSaving="{Binding IsSaving}" />
 
+        <dui:Button Command="{Binding SaveSuccess}" Text="Save" />
+        
     </dui:VerticalStackLayout>
 
 

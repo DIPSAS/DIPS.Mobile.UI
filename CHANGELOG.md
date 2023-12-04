@@ -1,3 +1,7 @@
+## [20.7.0]
+- [MultiLineInputField] Buttons will be disabled when programatically saving
+- Fixed an issue where the 'IsInteractiveCloseable' property on BottomSheet was set to BindingMode.OneTime
+
 ## [20.6.0]
 - Added new option to InLineContentOptions in ListItem so that the InLineContent can span over UnderlyingContent
 - Fixed an issue where focusing on a dui:Editor for the first time would not place cursor at the end of the text
