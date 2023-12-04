@@ -1,5 +1,5 @@
 ## [20.7.3]
-- Pro
+- [iOS] Fixed an issue with nesting of the touch API, where several touch commands would fire at the same time.
 
 ## [20.7.2]
 - [Android] Fixed an issue where the keyboard would not show up if BottomBarButtons were set in a BottomSheet
