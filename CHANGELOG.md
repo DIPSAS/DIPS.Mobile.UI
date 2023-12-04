@@ -1,3 +1,6 @@
+## [20.7.2]
+- [Android] Fixed an issue where the keyboard would not show up if BottomBarButtons were set in a BottomSheet 
+
 ## [20.7.1]
 - Fix padding for toggleable chip on iOS.
 

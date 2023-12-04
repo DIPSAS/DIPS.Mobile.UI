@@ -1,4 +1,3 @@
-using Android.App;
 using Android.Content;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
@@ -7,32 +6,39 @@ using Android.Views;
 using Android.Widget;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
-using Java.Lang;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using DIPS.Mobile.UI.Components.BottomSheets.Android;
+using Object = Java.Lang.Object;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheetHandler : ContentViewHandler
 {
+#nullable disable
     internal BottomSheet m_bottomSheet;
-    private LinearLayout m_linearLayout;
+#nullable enable
+    
+    internal RelativeLayout m_linearLayout;
     private static AView? m_emptyNonFitToContentView;
     private AView? m_searchBarView;
     private MaterialToolbar? m_toolbar;
+    
+    internal ContentViewGroup? m_bottomBar;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
-        LinearLayout rootLayout)
+        RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
     {
         if (VirtualView is not BottomSheet bottomSheet) return new AView(Context);
+        
         m_bottomSheet = bottomSheet;
+        
         bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(
             new BottomSheetCallback(this));
+        bottomSheet.BottomSheetDialog.SetOnShowListener(new DialogInterfaceOnShowListener(this));
         bottomSheet.BottomSheetDialog.SetOnKeyListener(new KeyListener(this));
 
         //Add a handle, with a innerGrid that works as a big hit box for the user to hit
@@ -55,20 +61,20 @@ public partial class BottomSheetHandler : ContentViewHandler
             };
             innerGrid.Add(handle);
 
-            rootLayout.AddView(innerGrid.ToPlatform(mauiContext!));
+            bottomSheetLayout.AddView(innerGrid.ToPlatform(mauiContext!));
         }
 
 
         m_toolbar = new MaterialToolbar(context);
-        rootLayout.AddView(m_toolbar);
+        bottomSheetLayout.AddView(m_toolbar);
         ToggleToolbarVisibility(bottomSheet);
 
         m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext!);
-        rootLayout.AddView(m_searchBarView);
+        bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
         MapToolbarItems(this, bottomSheet);
 
-        rootLayout.AddView(bottomSheetAndroidView);
+        bottomSheetLayout.AddView(bottomSheetAndroidView);
 
         if (m_bottomSheet.Positioning is not Positioning.Fit)
         {
@@ -83,6 +89,15 @@ public partial class BottomSheetHandler : ContentViewHandler
                 };
                 rootLayout.AddView(m_emptyNonFitToContentView);
             }
+        }
+
+        if (m_bottomSheet.HasBottomBarButtons)
+        {
+            m_bottomBar = (ContentViewGroup)m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
+            m_bottomBar.LayoutParameters =
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+            
+            rootLayout.AddView(m_bottomBar);
         }
 
         return m_linearLayout = rootLayout;
@@ -216,16 +231,6 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private static async partial  void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        if (!bottomSheet.BottombarButtons.Any() || bottomSheet.BottomBarFragment != null) return;
-        if (handler.Context.GetFragmentManager()is not {}fragmentManager) return;
-        bottomSheet.BottomBarFragment = new BottomBarFragment(handler, handler.MauiContext);
-        
-        //Wait for bottom sheet to be open
-        while (!bottomSheet.BottomSheetFragment.IsVisible)
-        {
-            await Task.Delay(150);
-        }
-        bottomSheet.BottomBarFragment.Show(fragmentManager, nameof(BottomBarFragment));
         
     }
 
@@ -234,14 +239,25 @@ public partial class BottomSheetHandler : ContentViewHandler
     /// 0.0 = medium screen
     /// -1.0 = closed
     /// </summary>
-    private void OnSlide(float slideOffset)
+    private void OnSlide(float slideOffset, AView bottomSheet)
     {
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            m_bottomSheet.BottomBarFragment?.OnBottomSheetSlide(slideOffset);
+            if(slideOffset < -.35)
+                return;
+            
+            SetBottomBarTranslation(bottomSheet);
         }
     }
 
+    internal void SetBottomBarTranslation(AView view)
+    {
+        var bottomSheetVisibleHeight = view.Height - view.Top;
+                
+        if(m_bottomBar is not null)
+            m_bottomBar.TranslationY = bottomSheetVisibleHeight - m_bottomBar.Height;
+    }
+    
     internal bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
     {
         m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
@@ -259,7 +275,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         public override void OnSlide(AView bottomSheet, float slideOffset)
         {
-            m_bottomSheetHandler.OnSlide(slideOffset);
+            m_bottomSheetHandler.OnSlide(slideOffset, bottomSheet);
         }
 
         public override void OnStateChanged(AView p0, int p1)
@@ -268,7 +284,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     }
 
     internal class KeyListener : Java.Lang.Object, IDialogInterfaceOnKeyListener
-    {
+    {   
         private readonly BottomSheetHandler m_bottomSheetHandler;
 
         public KeyListener(BottomSheetHandler bottomSheetHandler)
@@ -278,5 +294,23 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e) =>
             m_bottomSheetHandler.OnKey(dialog, keyCode, e);
+    }
+}
+
+public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListener
+{
+    private readonly BottomSheetHandler m_handler;
+
+    public DialogInterfaceOnShowListener(BottomSheetHandler handler)
+    {
+        m_handler = handler;
+    }
+    
+    public void OnShow(IDialogInterface? dialog)
+    {
+        if (m_handler.m_linearLayout.Parent is FrameLayout frameLayout)
+        {
+            m_handler.SetBottomBarTranslation(frameLayout);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Button = Microsoft.Maui.Controls.Button;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
@@ -177,8 +178,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public Google.Android.Material.BottomSheet.BottomSheetDialog BottomSheetDialog { get; set; }
         public  Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
         public Android.BottomSheetFragment BottomSheetFragment { get; set; }
-        public global::Android.Widget.LinearLayout RootLayout { get; set; }
-        public Android.BottomBarFragment? BottomBarFragment { get; set; }
+        public global::Android.Widget.RelativeLayout RootLayout { get; set; }
 #endif
     }
 }

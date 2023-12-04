@@ -33,25 +33,32 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (m_bottomSheetBehavior == null) return errorView;
             if (Context == null) return errorView;
 
-            var rootLayout = new LinearLayout(Context)
+            var rootLayout = new RelativeLayout(Context)
             {
                 LayoutParameters =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                         ViewGroup.LayoutParams.WrapContent),
+            };
+
+            var bottomSheetLayout = new LinearLayout(Context)
+            {
+                LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent),
                 Orientation = Orientation.Vertical
             };
 
+            rootLayout.AddView(bottomSheetLayout);
+            
             m_bottomSheet.RootLayout = rootLayout;
             m_bottomSheet.BottomSheetDialog = bottomSheetDialog;
             m_bottomSheet.BottomSheetBehavior = m_bottomSheetBehavior;
 
-
-            var bottomSheetView = m_bottomSheet.ToPlatform(mauiContext!); //Triggers handler creation
+            var bottomSheetView = m_bottomSheet.ToPlatform(mauiContext); //Triggers handler creation
+            
             if (m_bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return errorView;
             if (m_bottomSheetBehavior == null) return errorView;
 
-
-            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, bottomSheetView, rootLayout);
+            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, bottomSheetView, rootLayout, bottomSheetLayout);
         }
 
         public override Dialog OnCreateDialog(Bundle? savedInstanceState)
@@ -103,7 +110,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
-            m_bottomSheet.BottomBarFragment?.Dismiss();
             m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
