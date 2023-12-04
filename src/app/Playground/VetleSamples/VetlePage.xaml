@@ -22,7 +22,8 @@
 
         <dui:MultiLineInputField IsSaving="{Binding IsSaving}" />
 
-        <dui:Button Command="{Binding SaveSuccess}" Text="Save" />
+        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" Text="Save" />
+        
         
     </dui:VerticalStackLayout>
 
