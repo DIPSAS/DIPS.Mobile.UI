@@ -103,8 +103,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         return m_linearLayout = rootLayout;
     }
 
-   
-
     private void ToggleToolbarVisibility(BottomSheet bottomSheet)
     {
         if (m_toolbar is not { } toolbar) return;
@@ -245,6 +243,9 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         if (m_bottomSheet.HasBottomBarButtons)
         {
+            if(slideOffset < -.35)
+                return;
+            
             var bottomSheetVisibleHeight = bottomSheet.Height - bottomSheet.Top;
                 
             if(m_bottomBar is not null)
@@ -308,6 +309,7 @@ public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListe
                 
             if(m_handler.m_bottomSheet is not null)
                 m_handler.m_bottomBar.TranslationY = bottomSheetVisibleHeight - m_handler.m_bottomBar.Height;
+            
         }
     }
 }
