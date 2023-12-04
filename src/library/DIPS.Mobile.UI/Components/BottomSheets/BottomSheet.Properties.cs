@@ -157,8 +157,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             nameof(IsInteractiveCloseable),
             typeof(bool),
             typeof(BottomSheet),
-            true,
-            BindingMode.OneTime);
+            true);
         
         public static readonly BindableProperty OnBackButtonPressedCommandProperty = BindableProperty.Create(
             nameof(OnBackButtonPressedCommand),
