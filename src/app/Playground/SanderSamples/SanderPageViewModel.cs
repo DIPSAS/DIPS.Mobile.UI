@@ -7,7 +7,7 @@ namespace Playground.SanderSamples;
 
 public class SanderPageViewModel : ViewModel
 {
-    private bool m_isBusy = true; 
+    private bool m_isToggled = true; 
 
     public SanderPageViewModel()
     {
@@ -17,16 +17,15 @@ public class SanderPageViewModel : ViewModel
 
     private void Initialize()
     {
-        Thread.Sleep(10000);
-        IsBusy = false;
+        IsToggled = false;
     }
 
     public ICommand TestCommand { get; }
 
-    public bool IsBusy
+    public bool IsToggled
     {
-        get => m_isBusy;
-        set => RaiseWhenSet(ref m_isBusy, value);
+        get => m_isToggled;
+        set => RaiseWhenSet(ref m_isToggled, value);
     }
 
     public ICommand NavigateCommand { get; }

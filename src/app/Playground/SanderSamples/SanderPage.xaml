@@ -9,16 +9,31 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid Padding="{dui:Padding UniformSize=size_2}">
-        <dui:LoadableListItem Title="This is a test"
-                              IsBusy="{Binding IsBusy}"
-                              Command="{Binding NavigateCommand}">
-            <dui:LoadableListItem.ContextMenu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="Also a test!" />
-                </dui:ContextMenu>
-            </dui:LoadableListItem.ContextMenu>
-        </dui:LoadableListItem>
+    <Grid RowSpacing="{dui:Sizes size_2}"
+          Padding="{dui:Thickness Left=size_2, Right=size_2}"
+          RowDefinitions="Auto, *">
+        <Grid ColumnDefinitions="*, *"
+              Padding="{dui:Thickness Left=size_2, Bottom=size_1, Top=size_4}">
 
+            <dui:Label Text="Pasienter (20)"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="Start"
+                       Style="{dui:Styles Label=UI300}" />
+
+            <dui:Chip Grid.Column="1"
+                      Title="Skjul merknad"
+                      Style="{dui:Styles Chip=EmptyInput}"
+                      IsToggleable="True"
+                      IsToggled="{Binding IsToggled}"
+                      HorizontalOptions="End" />
+
+        </Grid>
+        <BoxView VerticalOptions="Start"
+                 BackgroundColor="Red"
+                 IsVisible="{Binding IsToggled, Converter={dui:InvertedBoolConverter}}"/>
+        
+        <BoxView VerticalOptions="End"
+                 BackgroundColor="Red"
+                 IsVisible="{Binding IsToggled}"/>
     </Grid>
 </dui:ContentPage>
