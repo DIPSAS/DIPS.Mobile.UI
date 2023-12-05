@@ -40,7 +40,7 @@
     </dui:VerticalStackLayout>
     
     <dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Hei" Clicked="Button_OnClicked" />
+        <dui:Button Text="Hei" HorizontalOptions="Fill" Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
 
     </dui:BottomSheet.BottombarButtons>
     

@@ -6,6 +6,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
+        internal const int BottomBarHeight = 120;
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
@@ -90,10 +91,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             var border = new Border
             {
-                Padding = Sizes.GetSize(SizeName.size_2),
+                Padding = Sizes.GetSize(SizeName.size_3),
                 StrokeThickness = 0,
                 VerticalOptions = LayoutOptions.End,
-                HeightRequest = 120,
+                HeightRequest = BottomBarHeight,
                 Background = new LinearGradientBrush()
                 {
                     EndPoint = new Point(0, 1),
@@ -104,16 +105,18 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                     }
                 }
             };
-            var horizontalStackLayout = new HorizontalStackLayout()
+            var grid = new Grid
             {
-                HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.End,
+                ColumnSpacing = Sizes.GetSize(SizeName.size_2), VerticalOptions = LayoutOptions.End,
+                RowDefinitions = new RowDefinitionCollection(){new(GridLength.Star)}
             };
             foreach (var button in BottombarButtons)
             {
-                horizontalStackLayout.Add(button);
+                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                grid.Add(button, grid.ColumnDefinitions.Count - 1);
             }
 
-            border.Content = horizontalStackLayout;
+            border.Content = grid;
             border.BindingContext = BindingContext;
             return border;
         }
