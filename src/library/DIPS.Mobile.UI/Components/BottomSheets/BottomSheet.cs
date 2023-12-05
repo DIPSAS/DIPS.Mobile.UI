@@ -90,7 +90,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             var border = new Border
             {
-                Padding = Sizes.GetSize(SizeName.size_2),
+                Padding = Sizes.GetSize(SizeName.size_3),
                 StrokeThickness = 0,
                 VerticalOptions = LayoutOptions.End,
                 HeightRequest = 120,
@@ -104,16 +104,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                     }
                 }
             };
-            var horizontalStackLayout = new HorizontalStackLayout()
-            {
-                HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.End,
-            };
+            var grid = new Grid { ColumnSpacing = Sizes.GetSize(SizeName.size_2) };
             foreach (var button in BottombarButtons)
             {
-                horizontalStackLayout.Add(button);
+                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                grid.Add(button, grid.ColumnDefinitions.Count - 1);
             }
 
-            border.Content = horizontalStackLayout;
+            border.Content = grid;
             border.BindingContext = BindingContext;
             return border;
         }

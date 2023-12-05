@@ -1,3 +1,6 @@
+## [20.8.1]
+- Fixed an issue where buttons could not take up full width
+
 ## [20.8.0]
 - Fixed an issue where changing the 'Position' property on BottomSheet would only run one time.
 - [iOS] Fixed an issue where changing the 'Position' property on BottomSheet would not animate the change
