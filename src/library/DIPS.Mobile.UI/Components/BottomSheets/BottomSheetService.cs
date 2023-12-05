@@ -57,10 +57,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <summary>
         /// Sets the positioning of the last opened BottomSheet
         /// </summary>
-        /// <returns>returns false if the BottomSheet is already expanded or there is no BottomSheet opened</returns>
+        /// <returns>returns false if there is no BottomSheet opened</returns>
         public static bool TrySetPositionOfLastOpenedBottomSheet(Positioning positioning, out Positioning fromPosition)
         {
-            fromPosition = Positioning.Large;
+            fromPosition = positioning;
             
             var lastBottomSheetOpened = BottomSheetStack?.LastOrDefault();
             
@@ -69,7 +69,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
             if (lastBottomSheetOpened.Positioning == positioning)
             {
-                return false;
+                return true;
             }
 
             fromPosition = lastBottomSheetOpened.Positioning;

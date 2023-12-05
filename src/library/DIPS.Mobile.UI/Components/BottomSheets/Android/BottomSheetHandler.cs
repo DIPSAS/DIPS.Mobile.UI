@@ -286,6 +286,8 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         public override void OnStateChanged(AView bottomSheet, int state)
         {
+            m_bottomSheetHandler.SetBottomBarTranslation(bottomSheet);
+            
             m_bottomSheetHandler.m_bottomSheet.Positioning = state switch
             {
                 BottomSheetBehavior.StateExpanded => Positioning.Large,
