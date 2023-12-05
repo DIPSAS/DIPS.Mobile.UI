@@ -15,7 +15,7 @@
 
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding CompletedCommand}" />
-        <ToolbarItem Text="Test" />
+        <ToolbarItem Text="Test" Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
     </dui:ContentPage.ToolbarItems>
     
     <dui:ContentPage.Resources>

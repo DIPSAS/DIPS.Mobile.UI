@@ -16,4 +16,12 @@ public enum Positioning
     /// The position is determined by the content and will fit the screen.
     /// </summary>
     Fit = 4,
+    
+    /// <summary>
+    /// Showing its peek height
+    /// </summary>
+    /// <remarks>Android specific</remarks>
+    Collapsed = 5
+    
+    
 }

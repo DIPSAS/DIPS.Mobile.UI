@@ -54,6 +54,29 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <returns></returns>
         public static partial Task Close(BottomSheet bottomSheet, bool animated = true);
 
+        /// <summary>
+        /// Sets the positioning of the last opened BottomSheet
+        /// </summary>
+        /// <returns>returns false if the BottomSheet is already expanded or there is no BottomSheet opened</returns>
+        public static bool TrySetPositionOfLastOpenedBottomSheet(Positioning positioning, out Positioning fromPosition)
+        {
+            fromPosition = Positioning.Large;
+            
+            var lastBottomSheetOpened = BottomSheetStack?.LastOrDefault();
+            
+            if(lastBottomSheetOpened is null)
+                return false;
+
+            if (lastBottomSheetOpened.Positioning == positioning)
+            {
+                return false;
+            }
+
+            fromPosition = lastBottomSheetOpened.Positioning;
+            lastBottomSheetOpened.Positioning = positioning;
+            return true;
+        }
+        
         internal static partial Task PlatformOpen(BottomSheet bottomSheet);
         internal static void RemoveFromStack(BottomSheet bottomSheet) => BottomSheetStack?.Remove(bottomSheet);
     }

@@ -1,5 +1,6 @@
 using Android.Graphics.Drawables;
 using AndroidX.AppCompat.Widget;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using Microsoft.Maui.Controls.Platform;
 using View = Android.Views.View;
 
@@ -7,6 +8,7 @@ namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 
 public partial class EditorHandler
 {
+    private Positioning m_bottomSheetFromPosition;
     private Drawable? DefaultBackground { get; set; }
 
     protected override void ConnectHandler(AppCompatEditText platformView)
@@ -31,6 +33,18 @@ public partial class EditorHandler
         }
         
         PlatformView.SetBackground(((VirtualView as Editor)!).HasBorder ? DefaultBackground : null);
+
+        if (e.HasFocus)
+        {
+            if (BottomSheetService.TrySetPositionOfLastOpenedBottomSheet(Positioning.Large, out var fromPosition))
+            {
+                m_bottomSheetFromPosition = fromPosition;
+            }
+        }
+        else
+        {
+            BottomSheetService.TrySetPositionOfLastOpenedBottomSheet(m_bottomSheetFromPosition, out var fromPosition);
+        }
     }
 
     private static partial void MapShouldSelectTextOnTapped(EditorHandler handler, Editor entry)

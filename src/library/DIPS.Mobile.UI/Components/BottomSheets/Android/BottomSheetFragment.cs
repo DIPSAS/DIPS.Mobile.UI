@@ -83,14 +83,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                 dialog.Window?.SetFlags(flags, flags);
             }
 
-            dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
-
             return dialog;
         }
 
         public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
+            
             base.OnCreate(savedInstanceState);
         }
 
