@@ -95,7 +95,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         {
             m_bottomBar = (ContentViewGroup)m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
             m_bottomBar.LayoutParameters =
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(120));
             
             rootLayout.AddView(m_bottomBar);
         }

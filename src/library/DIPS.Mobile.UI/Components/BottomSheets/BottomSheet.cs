@@ -104,7 +104,11 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                     }
                 }
             };
-            var grid = new Grid { ColumnSpacing = Sizes.GetSize(SizeName.size_2) };
+            var grid = new Grid
+            {
+                ColumnSpacing = Sizes.GetSize(SizeName.size_2), VerticalOptions = LayoutOptions.End,
+                RowDefinitions = new RowDefinitionCollection(){new(GridLength.Star)}
+            };
             foreach (var button in BottombarButtons)
             {
                 grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));

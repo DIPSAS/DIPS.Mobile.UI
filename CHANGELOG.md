@@ -1,5 +1,6 @@
 ## [20.8.1]
-- Fixed an issue where buttons in BottombarButtons (BottomSheet) could not take up full width
+- Fixed an issue where buttons in BottombarButtons (BottomSheet) did not take up full width
+- [Android] Fixed an issue where the Bottombar had too low height
 
 ## [20.8.0]
 - Fixed an issue where changing the 'Position' property on BottomSheet would only run one time.

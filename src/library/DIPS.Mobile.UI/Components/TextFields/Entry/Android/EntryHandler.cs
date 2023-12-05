@@ -1,6 +1,5 @@
 using Android.Graphics.Drawables;
 using AndroidX.AppCompat.Widget;
-using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
@@ -22,7 +21,6 @@ public partial class EntryHandler
         var fragment = activity?.GetFragmentManager()?.FindFragmentByTag(nameof(BottomSheetFragment));
         if (fragment is BottomSheetFragment bottomSheetDialogFragment)
         {
-            
             bottomSheetDialogFragment.AttachInputView((VirtualView as InputView)!);
         }
     }
