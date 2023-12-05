@@ -5,8 +5,6 @@ namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 public partial class Entry : Microsoft.Maui.Controls.Entry
 {
-    private Positioning m_bottomSheetFromPosition;
-    
     public Entry()
     {
         PlaceholderColor = Colors.GetColor(ColorName.color_neutral_60);
