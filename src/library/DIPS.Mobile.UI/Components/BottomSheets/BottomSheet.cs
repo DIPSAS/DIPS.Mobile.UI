@@ -6,6 +6,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
+        internal const int BottomBarHeight = 120;
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
@@ -93,7 +94,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 Padding = Sizes.GetSize(SizeName.size_3),
                 StrokeThickness = 0,
                 VerticalOptions = LayoutOptions.End,
-                HeightRequest = 120,
+                HeightRequest = BottomBarHeight,
                 Background = new LinearGradientBrush()
                 {
                     EndPoint = new Point(0, 1),
