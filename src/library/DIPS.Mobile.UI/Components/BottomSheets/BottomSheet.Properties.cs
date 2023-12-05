@@ -106,6 +106,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         public event EventHandler? Opened;
 
+        internal event Action<Positioning>? OnPositioningChanged;
+
         /// <summary>
         /// The command to be executed when the <see cref="BottomSheet"/> is opened
         /// </summary>
@@ -123,6 +125,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             get => (ICommand)GetValue(ClosedCommandProperty);
             set => SetValue(ClosedCommandProperty, value);
         }
+        
+        public Positioning Positioning
+        {
+            get => (Positioning)GetValue(PositioningProperty);
+            set
+            {
+                SetValue(PositioningProperty, value);
+                OnPositioningChanged?.Invoke(value);
+            }
+        }
+
+        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
+            nameof(Positioning),
+            typeof(Positioning),
+            typeof(BottomSheet));
         
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             nameof(Title),

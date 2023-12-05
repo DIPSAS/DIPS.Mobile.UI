@@ -170,10 +170,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         {
             bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
         }
-        else if (bottomSheet.Positioning == Positioning.Collapsed)
-        {
-            bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
-        }
     }
 
     private void ToggleBottomSheetIfPossible()
@@ -249,7 +245,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            if(slideOffset < -.35)
+            if(slideOffset < 0)
                 return;
             
             SetBottomBarTranslation(bottomSheet);
@@ -286,13 +282,11 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         public override void OnStateChanged(AView bottomSheet, int state)
         {
-            m_bottomSheetHandler.SetBottomBarTranslation(bottomSheet);
-            
             m_bottomSheetHandler.m_bottomSheet.Positioning = state switch
             {
                 BottomSheetBehavior.StateExpanded => Positioning.Large,
                 BottomSheetBehavior.StateHalfExpanded => Positioning.Medium,
-                BottomSheetBehavior.StateCollapsed => Positioning.Collapsed,
+                BottomSheetBehavior.StateCollapsed => Positioning.Medium,
                 _ => m_bottomSheetHandler.m_bottomSheet.Positioning
             };
         }
