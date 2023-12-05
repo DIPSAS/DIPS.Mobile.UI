@@ -23,6 +23,8 @@ public partial class EntryHandler
         {
             bottomSheetDialogFragment.AttachInputView((VirtualView as InputView)!);
         }
+        
+        platformView.FocusChange += OnFocusChanged;
     }
 
     private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)
