@@ -31,17 +31,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             return BottomSheetService.Close(this, animated);
         }
 
-        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
-            nameof(Positioning),
-            typeof(Positioning),
-            typeof(BottomSheet));
-
-        public Positioning Positioning
-        {
-            get => (Positioning)GetValue(PositioningProperty);
-            set => SetValue(PositioningProperty, value);
-        }
-
         /// <summary>
         /// <see cref="BottomSheetService.Open"/>
         /// </summary>

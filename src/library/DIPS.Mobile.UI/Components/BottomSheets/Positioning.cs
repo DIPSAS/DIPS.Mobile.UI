@@ -15,5 +15,5 @@ public enum Positioning
     /// <summary>
     /// The position is determined by the content and will fit the screen.
     /// </summary>
-    Fit = 4,
+    Fit = 4
 }

@@ -99,7 +99,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             
             rootLayout.AddView(m_bottomBar);
         }
-
+        
         return m_linearLayout = rootLayout;
     }
 
@@ -162,12 +162,14 @@ public partial class BottomSheetHandler : ContentViewHandler
             (bottomSheet.Positioning) == Positioning.Fit; 
         handler.ToggleFitToContent(bottomSheet);
 
-        bottomSheet.BottomSheetDialog.Behavior.State = bottomSheet.Positioning switch
+        if (bottomSheet.Positioning == Positioning.Large)
         {
-            Positioning.Medium => BottomSheetBehavior.StateHalfExpanded,
-            Positioning.Large => BottomSheetBehavior.StateExpanded,
-            _ => bottomSheet.BottomSheetDialog.Behavior.State
-        };
+            bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateExpanded;
+        }
+        else if (bottomSheet.Positioning == Positioning.Medium)
+        {
+            bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
+        }
     }
 
     private void ToggleBottomSheetIfPossible()
@@ -243,7 +245,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            if(slideOffset < -.35)
+            if(slideOffset < 0)
                 return;
             
             SetBottomBarTranslation(bottomSheet);
@@ -278,8 +280,15 @@ public partial class BottomSheetHandler : ContentViewHandler
             m_bottomSheetHandler.OnSlide(slideOffset, bottomSheet);
         }
 
-        public override void OnStateChanged(AView p0, int p1)
+        public override void OnStateChanged(AView bottomSheet, int state)
         {
+            m_bottomSheetHandler.m_bottomSheet.Positioning = state switch
+            {
+                BottomSheetBehavior.StateExpanded => Positioning.Large,
+                BottomSheetBehavior.StateHalfExpanded => Positioning.Medium,
+                BottomSheetBehavior.StateCollapsed => Positioning.Medium,
+                _ => m_bottomSheetHandler.m_bottomSheet.Positioning
+            };
         }
     }
 

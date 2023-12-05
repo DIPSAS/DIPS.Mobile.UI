@@ -7,19 +7,23 @@
              x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
              x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
              Title="Test Daily Standup"
-             IsInteractiveCloseable="True">
+             IsInteractiveCloseable="True"
+             Positioning="Large">
  
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Test2" />
         <ToolbarItem Text="Test" 
                      IconImageSource="{dui:Icons bell_fill}" />
     </dui:BottomSheet.ToolbarItems>
-    <dui:ScrollView>
         
-        <!--<dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
         <dui:Label
             Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
             Padding="{dui:Thickness size_4}"/>
+            <dui:MultiLineInputField />
+        <dui:MultiLineInputField />
+        <dui:MultiLineInputField />
+
         <dui:ListItem Title="This is a chip:"
                       Margin="{dui:Thickness Top=size_2}">
             <dui:Chip Title="A chip" Tapped="Chip_OnTapped" />
@@ -33,16 +37,10 @@
         <dui:ListItem Title="Date / time">
             <dui:DateAndTimePicker />
         </dui:ListItem>
-    </dui:VerticalStackLayout>-->
-        <dui:VerticalStackLayout>
-            
-            <Label Text="Hei" />
-            <BoxView BackgroundColor="Red" HeightRequest="10000" />
-        </dui:VerticalStackLayout>
-    </dui:ScrollView>
+    </dui:VerticalStackLayout>
     
     <dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Hei" />
+        <dui:Button Text="Hei" Clicked="Button_OnClicked" />
 
     </dui:BottomSheet.BottombarButtons>
     

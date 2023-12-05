@@ -1,3 +1,9 @@
+## [20.8.0]
+- Fixed an issue where changing the 'Position' property on BottomSheet would only run one time.
+- [iOS] Fixed an issue where changing the 'Position' property on BottomSheet would not animate the change
+- Added the ability to set the position of the last opened BottomSheet in BottomSheetService
+- [Android] dui:Entry and dui:Editor will now expand the BottomSheet it is in when they have focus
+
 ## [20.7.3]
 - [iOS] Fixed an issue with nesting of the touch API, where several touch commands would fire at the same time.
 
