@@ -1,3 +1,6 @@
+## [20.8.2]
+- [Android] Fixed a regression bug where the cursor would not be set at the end of the text when focusing Editor
+
 ## [20.8.1]
 - Fixed an issue where buttons in BottombarButtons (BottomSheet) did not take up full width
 - [Android] Fixed an issue where the Bottombar had too low height
