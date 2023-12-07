@@ -1,6 +1,7 @@
 using Components.ComponentsSamples.Alerting;
 using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
+using Components.ComponentsSamples.Camera;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.Labels;
@@ -46,9 +47,8 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Sorting, () => new SortingSamples()),
             new(SampleType.Components, LocalizedStrings.Buttons, () => new ButtonsSamples()),
             new(SampleType.Components, "Labels", () => new LabelsSamples()),
-            new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples())
-
-
+            new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples()),
+            new(SampleType.Components, "Camera", () => new CameraSamples())
 
         };
     }

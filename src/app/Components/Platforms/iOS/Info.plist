@@ -34,6 +34,10 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>no</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Needs access to the camera in order to take photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need access to the microphone to record dictations.</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
