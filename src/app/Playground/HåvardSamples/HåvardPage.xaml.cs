@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
+using Playground.HåvardSamples.Scanning;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
@@ -13,6 +13,7 @@ public partial class HåvardPage
     public HåvardPage()
     {
         InitializeComponent();
+        m_scanner = new Scanner();
     }
 
     public ICommand NavigateCommand => new Command<string>(async s =>
@@ -62,19 +63,28 @@ public partial class HåvardPage
         typeof(bool),
         typeof(HåvardPage));
 
+    private readonly Scanner m_scanner;
+
     public bool HideText
     {
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
     }
 
-
-    private void Button_OnClicked(object sender, EventArgs e)
+    private void StartScanning(object sender, EventArgs e)
     {
-        SystemMessageService.Display(configurator =>
+        try
         {
-            configurator.Text = "Testing";
-            configurator.BackgroundColor = Colors.Red;
-        });
+            m_scanner.Start(Preview);
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);
+        }
+    }
+
+    private void StopScanning(object sender, EventArgs e)
+    {
+        m_scanner.Stop();
     }
 }

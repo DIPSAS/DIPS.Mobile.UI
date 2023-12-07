@@ -2,6 +2,8 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
+using Playground.HåvardSamples.Scanning;
 
 namespace Playground;
 
