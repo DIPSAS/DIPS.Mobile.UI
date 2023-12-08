@@ -74,7 +74,7 @@
     
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
         <!-- Have to downgrade due to issue : https://github.com/xamarin/GooglePlayServicesComponents/issues/825 -->
-        <PackageReference Include="Xamarin.GooglePlayServices.MLKit.BarcodeScanning" Version="116.3.0.1" />
+        <PackageReference Include="Xamarin.GooglePlayServices.MLKit.BarcodeScanning" Version="118.3.0.1" />
     </ItemGroup>
     
     <ItemGroup>

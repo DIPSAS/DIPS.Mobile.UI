@@ -35,7 +35,9 @@ public partial class Scanner
             }    
         }
         
-        new CameraSource().Start(preview, m_context);
+        var camera = new CameraSource().Start(preview, m_context);
+        camera.StartPreview();
+        camera.SetPreviewDisplay(); <-- set preview
         
         // var options = new BarcodeScannerOptions.Builder()
         //     .SetBarcodeFormats(

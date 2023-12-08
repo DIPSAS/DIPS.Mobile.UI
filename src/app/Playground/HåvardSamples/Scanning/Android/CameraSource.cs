@@ -33,13 +33,13 @@ public class CameraSource : Java.Lang.Object, Camera.IPreviewCallback
 
     private Dictionary<byte[],ByteBuffer> m_bytesToByteBuffer;
 
-    public Camera Start(Preview preview, Context context)
+    public Camera? Start(Preview preview, Context context)
     {
         var camera = Camera.Open();
-        if (camera == null) return;
+        if (camera == null) return null;
 
         var parameters = camera.GetParameters();
-        SetPreviewAndPictureSize(preview, parameters);
+        SetPreviewAndPictureSize(camera, context, preview, parameters);
         SetRotation(context, camera, camera.GetParameters());
 
         var previewFpsRange = SelectPreviewFpsRange(camera);
@@ -61,13 +61,13 @@ public class CameraSource : Java.Lang.Object, Camera.IPreviewCallback
         if (m_previewSize != null)
         {
             camera.AddCallbackBuffer(CreatePreviewBuffer(m_previewSize));
-            FORTSETT UNDER OG HER https://github.com/googlesamples/mlkit/blob/master/android/material-showcase/app/src/main/java/com/google/mlkit/md/camera/CameraSource.kt
-            camera.addCallbackBuffer(createPreviewBuffer(it))
-            camera.addCallbackBuffer(createPreviewBuffer(it))
-            camera.addCallbackBuffer(createPreviewBuffer(it))
+            camera.AddCallbackBuffer(CreatePreviewBuffer(m_previewSize));
+            camera.AddCallbackBuffer(CreatePreviewBuffer(m_previewSize));
+            camera.AddCallbackBuffer(CreatePreviewBuffer(m_previewSize));
         }
 
         return camera;
+        //inspiration = https://github.com/googlesamples/mlkit/blob/master/android/material-showcase/app/src/main/java/com/google/mlkit/md/camera/CameraSource.kt
     }
 
     private Byte[] CreatePreviewBuffer(Size previewSize)
