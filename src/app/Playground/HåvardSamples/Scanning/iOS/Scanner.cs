@@ -14,6 +14,7 @@ public partial class Scanner
 {
     private readonly object m_isLockedForConfiguration = new object();
     private AVCaptureSession m_captureSession;
+    private TaskCompletionSource<string> m_result;
 
     //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
     public static async Task<bool> IsAuthorized()
@@ -42,11 +43,12 @@ public partial class Scanner
         }
     }
 
-    public async partial Task Start(Preview preview)
+    public async partial Task<string> Start(Preview preview)
     {
-        if (!await IsAuthorized()) return;
-
+        if (!await IsAuthorized()) return string.Empty;
+        
         m_captureSession = new AVCaptureSession();
+        m_result = new TaskCompletionSource<string>();
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
 
@@ -110,6 +112,11 @@ public partial class Scanner
 
             captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
+                if (!string.IsNullOrEmpty(s.StringValue))
+                {
+                    m_result.TrySetResult(s.StringValue);
+                }
+                
             }), DispatchQueue.MainQueue);
             //Add bar code scanning metadata
             //https://barcode-labels.com/getting-started/barcodes/types/
@@ -176,15 +183,17 @@ public partial class Scanner
                 captureDevice.UnlockForConfiguration();
             })
         });
+
+        return await m_result.Task;
     }
 }
 
 public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
 {
-    private readonly Action<string> m_onSuccess;
+    private readonly Action<AVMetadataMachineReadableCodeObject> m_onSuccess;
 
 
-    public CaptureDelegate(Action<string> onSuccess)
+    public CaptureDelegate(Action<AVMetadataMachineReadableCodeObject> onSuccess)
     {
         m_onSuccess = onSuccess;
     }
@@ -210,7 +219,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
                 {
                     Console.WriteLine($@"Barcode scanner found type: {readableObject.Type}");
                     Console.WriteLine($@"Barcode scanner value: {stringValue}");
-                    m_onSuccess.Invoke(stringValue);
+                    m_onSuccess.Invoke(readableObject);
                 }
             }
         }

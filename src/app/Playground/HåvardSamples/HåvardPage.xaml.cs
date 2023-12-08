@@ -71,11 +71,13 @@ public partial class HåvardPage
         set => SetValue(HideTextProperty, value);
     }
 
-    private void StartScanning(object sender, EventArgs e)
+    private async void StartScanning(object sender, EventArgs e)
     {
         try
         {
-            m_scanner.Start(Preview);
+            var result = await m_scanner.Start(Preview);
+            m_scanner.Stop();
+            Application.Current.MainPage.DisplayAlert("Woah!", result, "Ok");
         }
         catch (Exception exception)
         {
