@@ -101,6 +101,7 @@ public partial class Scanner
         }
 
         //Set quality
+        //TODO: Research if this affects bar code scanning
         m_captureSession.SessionPreset = AVCaptureSession.PresetPhoto;
 
         //Add barcode camera output
@@ -157,7 +158,7 @@ public partial class Scanner
             {
                 try
                 {
-                    m_captureSession.StartRunning();
+                    m_captureSession.StartRunning();                    
                 }
                 catch (Exception e)
                 {
@@ -197,7 +198,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
     {
         m_onSuccess = onSuccess;
     }
-
+    
     public override void DidOutputMetadataObjects(AVCaptureMetadataOutput captureOutput,
         AVMetadataObject[] metadataObjects,
         AVCaptureConnection connection)
