@@ -2,9 +2,13 @@ using Android;
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Tasks;
+using Android.Views;
+using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
+using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.API.Library;
+using Microsoft.Maui.Handlers;
 using Playground.HåvardSamples.Scanning.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Barcode.Common;
@@ -15,7 +19,7 @@ namespace Playground.HåvardSamples.Scanning;
 //Based on:
 //- https://developers.google.com/ml-kit/vision/barcode-scanning/android
 // -https://github.com/googlesamples/mlkit/tree/master/android/material-showcase/app/src/main/java/com/google/mlkit/md/barcodedetection
-public partial class Scanner 
+public partial class Scanner
 {
     private readonly Context m_context;
 
@@ -23,7 +27,7 @@ public partial class Scanner
     {
         m_context = DUI.GetCurrentMauiContext?.Context;
     }
-    
+
     public async partial Task<string> Start(Preview preview)
     {
         var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
@@ -32,13 +36,21 @@ public partial class Scanner
             if (await Permissions.RequestAsync<Permissions.Camera>() != PermissionStatus.Granted)
             {
                 return string.Empty;
-            }    
+            }
         }
-        
+
+        if (preview.PreviewView.Handler is not ContentViewHandler contentViewHandler) return string.Empty;
+        var surfaceView = new SurfaceView(m_context)
+        {
+            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.MatchParent)
+        };
+        contentViewHandler.PlatformView.AddView(surfaceView);
+
         var camera = new CameraSource().Start(preview, m_context);
         camera.StartPreview();
-        camera.SetPreviewDisplay(); <-- set preview
-        
+        camera.SetPreviewDisplay(surfaceView.Holder);
+
         // var options = new BarcodeScannerOptions.Builder()
         //     .SetBarcodeFormats(
         //         Barcode.FormatQrCode,
@@ -83,7 +95,7 @@ public partial class Scanner
         // {
         //
         // }
-        
+
         return string.Empty;
     }
 
