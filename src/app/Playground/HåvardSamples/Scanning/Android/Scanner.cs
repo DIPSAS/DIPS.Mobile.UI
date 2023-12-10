@@ -48,6 +48,7 @@ public partial class Scanner
         contentViewHandler.PlatformView.AddView(surfaceView);
 
         var camera = new CameraSource().Start(preview, m_context);
+        CHECK OUT OTHER VIEWS TO PREVIEW
         camera.StartPreview();
         camera.SetPreviewDisplay(surfaceView.Holder);
 

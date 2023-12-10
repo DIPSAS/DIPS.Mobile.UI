@@ -3,14 +3,10 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Hardware;
-using Android.Media.TV;
 using Android.Views;
-using AndroidX.ConstraintLayout.Core.Motion.Utils;
 using Java.Nio;
-using Java.Util;
 using Camera = Android.Hardware.Camera;
 using Size = Android.Util.Size;
-using Utils = Microsoft.VisualBasic.CompilerServices.Utils;
 
 namespace Playground.HåvardSamples.Scanning.Android;
 #pragma warning disable CS0618 // Type or member is obsolete
