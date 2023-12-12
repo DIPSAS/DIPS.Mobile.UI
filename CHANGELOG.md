@@ -1,5 +1,6 @@
 ## [20.9.0]
 - [SearchPage] Made sure keyboard will disapear when scrolling the result.
+- [SearchPage] Keyboard is now removed when people tap the cancel button.
 
 ## [20.8.3]
 - SaveView will now only vibrate on success when user actually taps the
