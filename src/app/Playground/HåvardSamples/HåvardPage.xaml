@@ -12,8 +12,10 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:Button VerticalOptions="Center"
-                Text="Search"
-                Clicked="Button_OnClicked">
-    </dui:Button>
+    <VerticalStackLayout>
+        <dui:Button VerticalOptions="Center"
+                    Text="Search"
+                    Clicked="Button_OnClicked"/>
+        <Stepper x:Name="Stepper"/>
+    </VerticalStackLayout>
 </dui:ContentPage>

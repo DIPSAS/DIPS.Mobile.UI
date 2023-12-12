@@ -51,9 +51,9 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         m_extraSpaceBorder.HeightRequest =
             nonVisibleSize +
             ((visibleSize) /
-             3); //The border has to be as big as the non visible size + one third of the visible size
+             2); //The border has to be as big as the non visible size + one half of the visible sizevef
 #elif __ANDROID__
-        m_extraSpaceBorder.HeightRequest = height/3; //The border has to be the one third of the visible size
+        m_extraSpaceBorder.HeightRequest = height/2; //The border has to be half the visible size
 #endif
     }
 }

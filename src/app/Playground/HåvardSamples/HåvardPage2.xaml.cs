@@ -8,8 +8,11 @@ namespace Playground.HåvardSamples;
 
 public partial class HåvardPage2
 {
-    public HåvardPage2()
+    private readonly int m_lengthOfResults;
+
+    public HåvardPage2(int lengthOfResults)
     {
+        m_lengthOfResults = lengthOfResults;
         InitializeComponent();
     }
 
@@ -21,12 +24,12 @@ public partial class HåvardPage2
     public override async Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
     {
         await Task.Delay(100);
-        return new[]
+        var list = new List<string>();
+        for (int i = 0; i < m_lengthOfResults; i++)
         {
-            "Asd",
-            "Asd",
-            "Asd",
-        };
+            list.Add("Asd");
+        }
+        return list;
     }
 
     private void HåvardPage2_OnSearchBarFocused(object sender, EventArgs e)
