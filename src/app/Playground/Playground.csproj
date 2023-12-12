@@ -40,11 +40,6 @@
 
 
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <MtouchDebug>true</MtouchDebug>
-      <DeviceSpecificBuild>true</DeviceSpecificBuild>
-    </PropertyGroup>
-
 
     <ItemGroup>
         <!-- App Icon -->
