@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.CheckBoxes;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -40,8 +41,18 @@ public partial class SaveView : ContentView
         };
 
         Content = content;
+        
+        Touch.SetCommand(this, new Command(() =>
+        {
+            Command?.Execute(CommandParameter);
+            DidTapToSave = true;
+        }));
+        
+        // The SaveView should default to not being tappable, only when Command is set should the view be tappable
+        Touch.SetIsEnabled(this, false);
     }
-
+    
+    private bool DidTapToSave { get; set; }
 
     protected override void OnHandlerChanged()
     {
@@ -63,8 +74,16 @@ public partial class SaveView : ContentView
         if (newValue is true)
         {
             saveView.SetSavingCompletedText();
-            VibrationService.Success();
+            if (saveView.DidTapToSave)
+            {
+                VibrationService.Success();
+                saveView.DidTapToSave = false;
+            }
         }
     }
 
+    private void OnCommandChanged()
+    {
+        Touch.SetIsEnabled(this, Command is not null);
+    }
 }
