@@ -124,7 +124,13 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RemoveTextImageView.Click += OnClearTextClicked;
             }
 
+            CancelButton.Clicked += OnCancelClicked;
             InternalSearchBar.Focused += OnInternalSearchBarFocused;
+        }
+
+        private void OnCancelClicked(object? sender, EventArgs e)
+        {
+            UnFocus();
         }
 
         protected override void DisconnectHandler(AView platformView)
@@ -142,6 +148,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
+            CancelButton.Clicked -= OnCancelClicked;
         }
 
 

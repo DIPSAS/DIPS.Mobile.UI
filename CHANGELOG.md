@@ -1,3 +1,6 @@
+## [20.9.0]
+- [SearchPage] Made sure keyboard will disapear when scrolling the result.
+
 ## [20.8.3]
 - SaveView will now only vibrate on success when user actually taps the
 SaveView (Added new property 'Command' to SaveView)

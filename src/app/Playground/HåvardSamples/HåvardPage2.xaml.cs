@@ -21,7 +21,33 @@ public partial class HåvardPage2
     public override async Task<IEnumerable<object>> ProvideSearchResult(string searchQuery, CancellationToken searchCancellationToken)
     {
         await Task.Delay(100);
-        return new[] {"Asd"};
+        return new[]
+        {
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+            "Asd",
+        };
     }
 
     private void HåvardPage2_OnSearchBarFocused(object sender, EventArgs e)

@@ -13,7 +13,7 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <dui:Button VerticalOptions="Center"
-                Text="Open sheet"
+                Text="Search"
                 Clicked="Button_OnClicked">
     </dui:Button>
 </dui:ContentPage>

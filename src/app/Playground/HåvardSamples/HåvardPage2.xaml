@@ -8,4 +8,10 @@
                  x:Class="Playground.HåvardSamples.HåvardPage2"
                  SearchBarFocused="HåvardPage2_OnSearchBarFocused"
                  ShouldAutoFocus="False">
+    <dui:SearchPage.ResultItemTemplate>
+        <DataTemplate>
+            <Border Padding="50" BackgroundColor="Green" Margin="5">
+                <dui:Label Text="Dette er en test" /></Border>
+        </DataTemplate>
+    </dui:SearchPage.ResultItemTemplate>
 </dui:SearchPage>
