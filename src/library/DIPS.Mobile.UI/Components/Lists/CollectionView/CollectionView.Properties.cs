@@ -1,5 +1,3 @@
-using UIKit;
-
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView
