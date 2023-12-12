@@ -12,10 +12,20 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <dui:Button VerticalOptions="Center"
-                    Text="Search"
-                    Clicked="Button_OnClicked"/>
-        <Stepper x:Name="Stepper"/>
-    </VerticalStackLayout>
+    <Grid Grid.RowDefinitions="Auto, Auto, *">
+        <Border Grid.Row="0" HeightRequest="85" BackgroundColor="Red" />
+        <Border Grid.Row="1" HeightRequest="50" BackgroundColor="Blue" />
+        <dui:CollectionView Grid.Row="2" ItemsSource="{Binding Items}">
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="50"
+                            BackgroundColor="Green"
+                            Margin="5">
+                        <dui:Label Text="Dette er en test" />
+                    </Border>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+        
+    </Grid>
 </dui:ContentPage>

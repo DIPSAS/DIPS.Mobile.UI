@@ -45,6 +45,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
     private void AddExtraSpaceAtTheEnd()
     {
-        m_extraSpaceBorder.HeightRequest = ContentHeight/2; //The border has to be half the visible size
+        m_extraSpaceBorder.HeightRequest = Height/2; //The border has to be half the visible size
     }
 }

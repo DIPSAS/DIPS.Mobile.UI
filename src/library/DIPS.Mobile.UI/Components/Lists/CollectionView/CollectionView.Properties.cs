@@ -1,3 +1,5 @@
+using UIKit;
+
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView
@@ -35,26 +37,6 @@ public partial class CollectionView
     {
         get => (bool)GetValue(ShouldBounceProperty);
         set => SetValue(ShouldBounceProperty, value);
-    }
-
-    public double ContentHeight {
-        get
-        {
-            var contentHeight = Height;
-#if __IOS__
-            if (Handler is not CollectionViewHandler collectionViewHandler)
-            {
-                return contentHeight;
-            }
-
-            if (collectionViewHandler.PlatformView.Subviews [0] is UIKit.UICollectionView uiCollectionView)
-            {
-                contentHeight= uiCollectionView.CollectionViewLayout.CollectionViewContentSize.Height;
-            }
-#endif
-            return contentHeight;
-        }
-
     }
     
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
