@@ -12,15 +12,16 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 public partial class SaveView : ContentView
 {
     private readonly Label m_stateLabel;
+    private readonly FilledCheckBox m_filledCheckBox;
 
     public SaveView()
     {
-        var filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
+        m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
 
-        filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
             new Binding(nameof(IsSavingCompleted), source: this));
-        filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
-        filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
+        m_filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
             new Binding(nameof(SavingCompletedCommand), source: this));
 
         m_stateLabel = new Label
@@ -37,19 +38,19 @@ public partial class SaveView : ContentView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Spacing = Sizes.GetSize(SizeName.size_12),
-            Children = {filledCheckBox, m_stateLabel}
+            Children = {m_filledCheckBox, m_stateLabel}
         };
 
         Content = content;
         
-        Touch.SetCommand(this, new Command(() =>
+        Touch.SetCommand(m_filledCheckBox, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             DidTapToSave = true;
         }));
         
         // The SaveView should default to not being tappable, only when Command is set should the view be tappable
-        Touch.SetIsEnabled(this, false);
+        Touch.SetIsEnabled(m_filledCheckBox, false);
     }
     
     private bool DidTapToSave { get; set; }
@@ -84,6 +85,6 @@ public partial class SaveView : ContentView
 
     private void OnCommandChanged()
     {
-        Touch.SetIsEnabled(this, Command is not null);
+        Touch.SetIsEnabled(m_filledCheckBox, Command is not null);
     }
 }
