@@ -48,6 +48,24 @@ public partial class SaveView
         get => (ICommand)GetValue(SavingCompletedCommandProperty);
         set => SetValue(SavingCompletedCommandProperty, value);
     }
+
+    /// <summary>
+    /// The Command to be executed when <see cref="SaveView"/> is tapped
+    /// </summary>
+    public ICommand? Command
+    {
+        get => (ICommand?)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>
+    /// The CommandParameter to be sent with <see cref="Command"/>
+    /// </summary>
+    public object? CommandParameter
+    {
+        get => (object?)GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
     
     public static readonly BindableProperty IsSavingProperty = BindableProperty.Create(
         nameof(IsSaving),
@@ -76,4 +94,15 @@ public partial class SaveView
         nameof(SavingCompletedCommand),
         typeof(ICommand), 
         typeof(SaveView));
+    
+    public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(SaveView));
+    
+    public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+        nameof(Command),
+        typeof(ICommand),
+        typeof(SaveView),
+        propertyChanged: (bindable, _, _) => ((SaveView)bindable).OnCommandChanged());
 }

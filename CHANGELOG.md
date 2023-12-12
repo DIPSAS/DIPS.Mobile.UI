@@ -1,3 +1,7 @@
+## [20.8.3]
+- SaveView will now only vibrate on success when user actually taps the
+SaveView (Added new property 'Command' to SaveView)
+
 ## [20.8.2]
 - [Android] Fixed a regression bug where the cursor would not be set at the end of the text when focusing Editor
 

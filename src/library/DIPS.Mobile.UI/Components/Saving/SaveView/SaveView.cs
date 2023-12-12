@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.CheckBoxes;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -11,15 +12,16 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 public partial class SaveView : ContentView
 {
     private readonly Label m_stateLabel;
+    private readonly FilledCheckBox m_filledCheckBox;
 
     public SaveView()
     {
-        var filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
+        m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center,};
 
-        filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
             new Binding(nameof(IsSavingCompleted), source: this));
-        filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
-        filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
+        m_filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
             new Binding(nameof(SavingCompletedCommand), source: this));
 
         m_stateLabel = new Label
@@ -36,12 +38,22 @@ public partial class SaveView : ContentView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Spacing = Sizes.GetSize(SizeName.size_12),
-            Children = {filledCheckBox, m_stateLabel}
+            Children = {m_filledCheckBox, m_stateLabel}
         };
 
         Content = content;
+        
+        Touch.SetCommand(m_filledCheckBox, new Command(() =>
+        {
+            Command?.Execute(CommandParameter);
+            DidTapToSave = true;
+        }));
+        
+        // The SaveView should default to not being tappable, only when Command is set should the view be tappable
+        Touch.SetIsEnabled(m_filledCheckBox, false);
     }
-
+    
+    private bool DidTapToSave { get; set; }
 
     protected override void OnHandlerChanged()
     {
@@ -63,8 +75,16 @@ public partial class SaveView : ContentView
         if (newValue is true)
         {
             saveView.SetSavingCompletedText();
-            VibrationService.Success();
+            if (saveView.DidTapToSave)
+            {
+                VibrationService.Success();
+                saveView.DidTapToSave = false;
+            }
         }
     }
 
+    private void OnCommandChanged()
+    {
+        Touch.SetIsEnabled(m_filledCheckBox, Command is not null);
+    }
 }
