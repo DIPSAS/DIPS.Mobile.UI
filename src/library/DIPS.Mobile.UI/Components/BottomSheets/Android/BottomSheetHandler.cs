@@ -202,8 +202,12 @@ public partial class BottomSheetHandler : ContentViewHandler
             var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
 
             var text = toolbarItem.Text;
-            var titleTinted = new SpannableString(text);
-            titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);
+            SpannableString? titleTinted = null;
+            if (!string.IsNullOrEmpty(text))
+            {
+                titleTinted = new SpannableString(text);
+                titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);    
+            }
 
             var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
             menuItem!.SetShowAsAction(ShowAsAction.IfRoom);

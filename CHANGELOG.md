@@ -1,3 +1,6 @@
+## [20.10.1]
+- [BottomSheet][Android] Made sure consumers do not need to set the text of a toolbar item to add the toolbar item on Android.
+
 ## [20.10.0]
 - [ScrollView] Added additional space at the bottom of scroll view to make sure the last item is scrolled to approx half the size of the scrollview for better UX.
 
