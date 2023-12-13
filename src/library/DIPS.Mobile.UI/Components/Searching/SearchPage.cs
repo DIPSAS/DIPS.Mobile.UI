@@ -101,6 +101,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             Loaded -= OnLoaded;
             Unloaded -= OnUnLoaded;
+            SearchBar.Unfocus();
             m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
             
             SearchBar.Focused -= OnSearchBarFocused;
