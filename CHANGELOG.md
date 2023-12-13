@@ -1,3 +1,9 @@
+## [20.9.0]
+- [SearchPage] Made sure keyboard will disapear when scrolling the result.
+- [SearchPage] Keyboard is now removed when people tap the cancel button.
+- [CollectionView] Added a new ContentHeight property that will return the correct height of the CollectionView on iOS and Android.
+- [CollectionView] Changed the size of the invisible footer from 1/3 to 1/2 of the CollectionView.
+
 ## [20.8.3]
 - SaveView will now only vibrate on success when user actually taps the
 SaveView (Added new property 'Command' to SaveView)

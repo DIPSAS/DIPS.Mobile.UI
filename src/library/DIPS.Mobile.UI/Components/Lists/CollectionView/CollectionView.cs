@@ -39,21 +39,12 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
         if (HasAdditionalSpaceAtTheEnd && Footer == m_extraSpaceBorder)
         {
-            AddExtraSpaceAtTheEnd(height);
+            AddExtraSpaceAtTheEnd();
         }
     }
 
-    private void AddExtraSpaceAtTheEnd(double height)
+    private void AddExtraSpaceAtTheEnd()
     {
-#if __IOS__ //Collectionviews height is bigger than the visual height of the collection view
-        var visibleSize = height - Bounds.Y;
-        var nonVisibleSize = height - visibleSize;
-        m_extraSpaceBorder.HeightRequest =
-            nonVisibleSize +
-            ((visibleSize) /
-             3); //The border has to be as big as the non visible size + one third of the visible size
-#elif __ANDROID__
-        m_extraSpaceBorder.HeightRequest = height/3; //The border has to be the one third of the visible size
-#endif
+        m_extraSpaceBorder.HeightRequest = Height/2; //The border has to be half the visible size
     }
 }

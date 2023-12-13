@@ -13,7 +13,15 @@ public partial class CollectionViewHandler
         {
             if (virtualView is CollectionView collectionView)
             {
-                uiCollectionView.Bounces = collectionView.ShouldBounce;
+                if (virtualView.ItemsLayout is ItemsLayout {Orientation: ItemsLayoutOrientation.Horizontal})
+                {
+                    uiCollectionView.AlwaysBounceHorizontal = collectionView.ShouldBounce;
+                }
+                else
+                {
+                    uiCollectionView.AlwaysBounceVertical = collectionView.ShouldBounce;
+                }
+                 
             }
         }
     }
