@@ -31,7 +31,7 @@ public partial class ScrollView
     public static readonly BindableProperty AndroidAdditionalSpaceAtEndProperty = BindableProperty.Create(
         nameof(AndroidAdditionalSpaceAtEnd),
         typeof(double),
-        typeof(ScrollView), defaultValue:Sizes.GetSize(SizeName.size_25) * 4);
+        typeof(ScrollView), defaultValue: (double)Sizes.GetSize(SizeName.size_25) * 4);
 
     /// <summary>
     /// Additional space at the end for Android is hardcoded, this can be set by adjusting this property.
