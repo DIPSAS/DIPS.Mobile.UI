@@ -3,14 +3,12 @@ namespace DIPS.Mobile.UI.Components.Lists;
 public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
 {
     private bool m_hasAddedSpaceToBottom;
-    private double m_originalHeight;
 
     public ScrollView()
     {
 #if __ANDROID__ //Not possible to set padding on scroll view after its rendered
-        AdjustPadding(Sizes.GetSize(SizeName.size_25) * 4);
+        AdjustPadding(AndroidAdditionalSpaceAtEnd);
 #endif
-        
     }
 
 #if __IOS__
@@ -31,6 +29,6 @@ public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
             var newPadding = new Thickness(oldPadding.Left, oldPadding.Top, oldPadding.Right,
                 (int)(oldPadding.Bottom + (height / 2)));
             Padding = newPadding;
-        }
+        } 
     }
 }
