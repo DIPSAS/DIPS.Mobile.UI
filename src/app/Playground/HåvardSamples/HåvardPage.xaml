@@ -12,6 +12,7 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
+    
     <dui:ScrollView>
         <dui:VerticalStackLayout Grid.Row="2"
                                  BindableLayout.ItemsSource="{Binding Items}">
