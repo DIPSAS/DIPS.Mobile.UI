@@ -16,4 +16,15 @@ public partial class ScrollView
         get => (bool)GetValue(ShouldBounceProperty);
         set => SetValue(ShouldBounceProperty, value);
     }
+
+    public static readonly BindableProperty HasAdditionalSpaceAtTheEndProperty = BindableProperty.Create(
+        nameof(HasAdditionalSpaceAtTheEnd),
+        typeof(bool),
+        typeof(ScrollView), defaultValue:true);
+
+    public bool HasAdditionalSpaceAtTheEnd
+    {
+        get => (bool)GetValue(HasAdditionalSpaceAtTheEndProperty);
+        set => SetValue(HasAdditionalSpaceAtTheEndProperty, value);
+    }
 }

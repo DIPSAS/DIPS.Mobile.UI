@@ -1,3 +1,6 @@
+## [20.10.0]
+- [ScrollView] Added additional space at the bottom of scroll view to make sure the last item is scrolled to approx half the size of the scrollview for better UX.
+
 ## [20.9.0]
 - [SearchPage] Made sure keyboard will disapear when scrolling the result.
 - [SearchPage] Keyboard is now removed when people tap the cancel button.
