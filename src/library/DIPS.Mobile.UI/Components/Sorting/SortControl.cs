@@ -26,6 +26,14 @@ public partial class SortControl : Grid
         
         Touch.SetCommand(this, new Command(OpenBottomSheet));
         
+        m_sortImage = new Image
+        {
+            TintColor = Colors.GetColor(ColorName.color_primary_90),
+            VerticalOptions = LayoutOptions.Center,
+            WidthRequest = Sizes.GetSize(SizeName.size_5),
+            HeightRequest = Sizes.GetSize(SizeName.size_5)
+        };
+        
         m_selectedItemText = new Label
         {
             Style = Styles.GetLabelStyle(LabelStyle.UI200),
@@ -35,18 +43,11 @@ public partial class SortControl : Grid
             LineBreakMode = LineBreakMode.TailTruncation
         };
 
-        m_sortImage = new Image
-        {
-            TintColor = Colors.GetColor(ColorName.color_primary_90),
-            VerticalOptions = LayoutOptions.Center,
-            WidthRequest = Sizes.GetSize(SizeName.size_5),
-            HeightRequest = Sizes.GetSize(SizeName.size_5)
-        };
         
         OnSortOrderChanged();
         
-        this.Add(m_selectedItemText);
-        this.Add(m_sortImage, 1);
+        this.Add(m_sortImage, 0);
+        this.Add(m_selectedItemText, 1);
     }
 
     private void OpenBottomSheet()
