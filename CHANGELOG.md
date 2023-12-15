@@ -1,3 +1,6 @@
+## [20.10.2]
+- Moved the sort icon to the left side of the text in SortControl, this implicitly also fixes that the text wont ever get truncated
+
 ## [20.10.1]
 - [BottomSheet][Android] Made sure consumers do not need to set the text of a toolbar item to add the toolbar item on Android.
 

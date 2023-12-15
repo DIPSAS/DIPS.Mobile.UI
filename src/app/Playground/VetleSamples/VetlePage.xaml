@@ -96,52 +96,17 @@
 
     <dui:VerticalStackLayout Spacing="0">
 
-        <!--<dui:CollectionView ItemsSource="{Binding TestStrings}"
-                            ItemTemplate="{StaticResource TemplateSelector}"
-                            ItemSizingStrategy="MeasureAllItems">
-
-        </dui:CollectionView>-->
+        <Grid ColumnDefinitions="Auto, *">
+            
+            <BoxView HeightRequest="20"
+                     WidthRequest="200"
+                     BackgroundColor="Red"></BoxView>
+            
+            <dui:SortControl Grid.Column="1" InitialSelectedItem="Lolaoisdmoiasjdoiajsoidjasoisdjoiasj" />
+            
+        </Grid>
         
-        <CollectionView ItemsSource="{Binding TestStrings}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:Key="Template1">
-
-                    <dui:ListItem Title="Template1"
-                                  IsDebugMode="True"
-                                  Command="{Binding Source={x:Reference This}, Path=BindingContext.Navigate}">
-
-                        <dui:ListItem.TitleOptions>
-                            <dui:TitleOptions Width="Auto"
-                                              Margin="{dui:Thickness Right=size_2}"
-                                              Style="{dui:Styles Label=UI300}"
-                                              MaxLines="2" />
-                        </dui:ListItem.TitleOptions>
-                        <dui:ListItem.InLineContentOptions>
-                            <dui:InLineContentOptions Width="*"
-                                                      HorizontalOptions="Fill" 
-                                                      VerticalOptions="Start"
-                                                      SpanOverUnderlyingContent="True"/>
-                        </dui:ListItem.InLineContentOptions>
-                        
-                        <BoxView HeightRequest="500" WidthRequest="100"></BoxView>
-
-                        <dui:ListItem.UnderlyingContent>
-                            <VerticalStackLayout>
-                            <VerticalStackLayout>
-                            <dui:VerticalStackLayout dui:Touch.Command="{Binding Source={x:Reference This}, Path=BindingContext.CompletedCommand}">
-                                <dui:Label Text="HOho"></dui:Label>
-                                <dui:Label Text="Hei" 
-                                >
-                                </dui:Label>
-                            </dui:VerticalStackLayout>
-                            </VerticalStackLayout>
-                            </VerticalStackLayout>
-                        </dui:ListItem.UnderlyingContent>
-
-                    </dui:ListItem>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+       
 
 
     </dui:VerticalStackLayout>
