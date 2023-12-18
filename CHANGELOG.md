@@ -1,6 +1,7 @@
 ## [20.11.0]
 - [iOS] Fixed an issue where releasing the long-press context menu interaction too early would fire off the tap event.
 - Added a new control: 'ListItemContainer'
+- Changed default padding of ListItem and dui:ContentPage
 
 ## [20.10.2]
 - Moved the sort icon to the left side of the text in SortControl, this implicitly also fixes that the text wont ever get truncated
