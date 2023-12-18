@@ -10,17 +10,14 @@
              xmlns:dui="http://dips.com/mobile.ui"
              x:Class="Components.ComponentsSamples.TextFields.TextFieldsSamples">
 
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         <dui:NavigationListItem Title="Entry" 
-                                Command="{helpers:NavigationCommand {x:Type entry:EntrySamples}}"
-                                HasBottomDivider="True" />
+                                Command="{helpers:NavigationCommand {x:Type entry:EntrySamples}}"/>
         <dui:NavigationListItem Title="Editor" 
-                                Command="{helpers:NavigationCommand {x:Type editor:EditorSamples}}"
-                                HasBottomDivider="True" />
+                                Command="{helpers:NavigationCommand {x:Type editor:EditorSamples}}" />
         <dui:NavigationListItem Title="SingleLineInputField" 
-                                Command="{helpers:NavigationCommand {x:Type textArea:SingleLineInputFieldSamples}}"
-                                HasBottomDivider="True" />
+                                Command="{helpers:NavigationCommand {x:Type textArea:SingleLineInputFieldSamples}}" />
         <dui:NavigationListItem Title="MultiLineInputField" 
                                 Command="{helpers:NavigationCommand {x:Type multiLineTextArea:MultiLineInputFieldSamples}}" />
-    </dui:VerticalStackLayout>
+    </dui:ListItemContainer>
 </dui:ContentPage>

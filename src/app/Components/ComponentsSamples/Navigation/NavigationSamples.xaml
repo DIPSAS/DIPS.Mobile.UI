@@ -6,11 +6,9 @@
              xmlns:navigation="clr-namespace:Components.ComponentsSamples.Navigation"
              xmlns:helpers="clr-namespace:Components.Helpers"
              x:Class="Components.ComponentsSamples.Navigation.NavigationSamples">
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         <dui:NavigationListItem Title="Floating Navigation Button" 
-                                Command="{helpers:NavigationCommand {x:Type navigation:FloatingNavigationButtonSamples}}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True" />
-    </dui:VerticalStackLayout>
+                                Command="{helpers:NavigationCommand {x:Type navigation:FloatingNavigationButtonSamples}}"/>
+    </dui:ListItemContainer>
     
 </dui:ContentPage>

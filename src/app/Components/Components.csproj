@@ -37,18 +37,18 @@
 
     <!-- Intellij Rider is unable to deploy to device for MAUI: https://youtrack.jetbrains.com/issue/RIDER-76794/Cannot-deploy-MAUI-project-to-physical-iOS-device-->
     <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
-<!--    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">-->
-<!--        &lt;!&ndash;DEBUG ON DEVICE&ndash;&gt;-->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+        <!--DEBUG ON DEVICE-->
 
 
-<!--        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>-->
-<!--        -->
-<!--        &lt;!&ndash;DEBUG ON SIMULATOR&ndash;&gt;-->
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+        
+        <!--DEBUG ON SIMULATOR-->
 
-<!--&lt;!&ndash;-->
-<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
-<!--&ndash;&gt;-->
-<!--    </PropertyGroup>-->
+<!--
+        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+-->
+    </PropertyGroup>
 
     <ItemGroup>
 

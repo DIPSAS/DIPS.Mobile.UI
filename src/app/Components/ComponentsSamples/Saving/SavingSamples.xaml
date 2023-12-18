@@ -18,12 +18,11 @@
         <saving:SavingSamplesViewModel />
     </dui:ContentSavePage.BindingContext>
 
-    <dui:VerticalStackLayout>
+    <dui:ListItemContainer>
         <dui:Label
             Text="The content of this page has random components inside of it to test the behavior when the user is saving"
             Padding="{dui:Thickness size_4}" />
-        <dui:ListItem Title="This is a chip:"
-                      Margin="{dui:Thickness Top=size_2}">
+        <dui:ListItem Title="This is a chip:">
             <dui:Chip Title="A chip" />
         </dui:ListItem>
         <dui:ListItem Title="Date">
@@ -38,6 +37,6 @@
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Save}"
                       Command="{Binding SaveCommand}" />
 
-    </dui:VerticalStackLayout>
+    </dui:ListItemContainer>
 
 </dui:ContentSavePage>

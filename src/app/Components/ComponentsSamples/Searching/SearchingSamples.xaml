@@ -4,14 +4,11 @@
                  xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  x:Class="Components.ComponentsSamples.Searching.SearchingSamples">
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         <dui:NavigationListItem Title="Search bar"
-                                Command="{helpers:NavigationCommand {x:Type searching:SearchBarSamples}}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True"/>
+                                Command="{helpers:NavigationCommand {x:Type searching:SearchBarSamples}}" />
 
         <dui:NavigationListItem Title="Search page"
-                                Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}"
-                                HasBottomDivider="True"/>
-    </dui:VerticalStackLayout>
+                                Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}" />
+    </dui:ListItemContainer>
 </dui:ContentPage>

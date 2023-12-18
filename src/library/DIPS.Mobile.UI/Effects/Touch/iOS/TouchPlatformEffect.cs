@@ -48,6 +48,9 @@ public partial class TouchPlatformEffect
 
     private void OnTap()
     {
+        if(!Touch.GetIsEnabled(Element))
+            return;
+        
         if (Touch.GetCommand(Element).CanExecute(Touch.GetCommandParameter(Element)))
             Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
     }

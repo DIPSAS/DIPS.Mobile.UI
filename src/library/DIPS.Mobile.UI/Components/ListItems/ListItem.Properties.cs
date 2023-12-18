@@ -229,9 +229,9 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(Thickness),
             typeof(ListItem),
             new Thickness(
-            Sizes.GetSize(SizeName.size_3), 
+            Sizes.GetSize(SizeName.size_2), 
             Sizes.GetSize(SizeName.size_3),
-            Sizes.GetSize(SizeName.size_3),
+            Sizes.GetSize(SizeName.size_2),
             Sizes.GetSize(SizeName.size_3)));
         
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(

@@ -7,9 +7,7 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
-                 Padding="{dui:Sizes size_3}"
-                 Title="Date / time pickers"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 Title="Date / time pickers">
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>

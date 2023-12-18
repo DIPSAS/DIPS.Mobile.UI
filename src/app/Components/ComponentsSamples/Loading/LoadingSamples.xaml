@@ -10,16 +10,10 @@
              xmlns:skeleton="clr-namespace:Components.ComponentsSamples.Loading.Skeleton"
              xmlns:activityIndicator="clr-namespace:Components.ComponentsSamples.Loading.ActivityIndicator"
              x:Class="Components.ComponentsSamples.Loading.LoadingSamples">
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SkeletonLoading}"
-                                Command="{helpers:NavigationCommand {x:Type skeleton:SkeletonLoadingSamplesPage}}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True"
-                                />
+                                Command="{helpers:NavigationCommand {x:Type skeleton:SkeletonLoadingSamplesPage}}" />
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ActivityIndicator}"
-                                Command="{helpers:NavigationCommand {x:Type activityIndicator:ActivitiyIndicatorSamplesPage}}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True"
-        />
-    </dui:VerticalStackLayout>
+                                Command="{helpers:NavigationCommand {x:Type activityIndicator:ActivitiyIndicatorSamplesPage}}" />
+    </dui:ListItemContainer>
 </dui:ContentPage>

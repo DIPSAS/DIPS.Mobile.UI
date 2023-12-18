@@ -9,9 +9,7 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
-                 Title="Item pickers"
-                 Padding="{dui:Sizes size_4}"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 Title="Item pickers">
     <dui:ContentPage.BindingContext>
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>

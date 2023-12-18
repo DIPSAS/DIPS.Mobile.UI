@@ -16,20 +16,17 @@
         <listItems:ListItemsSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:VerticalStackLayout Spacing="0">
-        <dui:NavigationListItem Title="Navigate"
-                                HasTopDivider="True"/>
+    <dui:ListItemContainer>
+        <dui:NavigationListItem Title="Navigate" />
         
         <dui:NavigationListItem Title="Navigate"
-                                Icon="{dui:Icons internalmessage_fill}"
-                                HasTopDivider="True">
+                                Icon="{dui:Icons internalmessage_fill}">
             <dui:NavigationListItem.IconOptions>
                 <icon:IconOptions Color="{dui:Colors color_primary_90}" />
             </dui:NavigationListItem.IconOptions>
         </dui:NavigationListItem>
 
-        <dui:ListItem Title="Person"
-                      HasTopDivider="True">
+        <dui:ListItem Title="Person">
             <dui:ListItem.BindingContext>
                 <pickers:ItemPickersSamplesViewModel />
             </dui:ListItem.BindingContext>
@@ -41,8 +38,7 @@
             </dui:ItemPicker>
         </dui:ListItem>
 
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Birthday}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Birthday}">
             <dui:ListItem.BindingContext>
                 <pickers:DateTimePickerSamplesViewModel />
             </dui:ListItem.BindingContext>
@@ -58,8 +54,6 @@
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
                               Command="{Binding RefreshCommand}"
-                              HasBottomDivider="True"
-                              HasTopDivider="True"
                               FadeContentIn="True">
             
             <dui:Label Text="All systems working!"
@@ -72,5 +66,5 @@
             <dui:MultiItemsPicker ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
             </dui:MultiItemsPicker>
         </dui:MultiItemsPickerListItem>
-    </dui:VerticalStackLayout>
+    </dui:ListItemContainer>
 </dui:ContentPage>

@@ -9,17 +9,14 @@
              xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
              x:Class="Components.ComponentsSamples.Alerting.AlertingSamples">
  
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
-                                Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}"
-                                HasTopDivider="True"
-                                HasBottomDivider="True"/>
+                                Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}" />
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
-                                Command="{helpers:NavigationCommand {x:Type dialogs:DialogSamples}}"
-                                HasBottomDivider="True"/>
+                                Command="{helpers:NavigationCommand {x:Type dialogs:DialogSamples}}" />
         
-    </dui:VerticalStackLayout>
+    </dui:ListItemContainer>
     
 </dui:ContentPage>

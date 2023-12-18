@@ -7,10 +7,9 @@
     <dui:ContentPage.BindingContext>
         <contextMenu:ContextMenuSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout Spacing="0">
+    <dui:ListItemContainer>
         <!-- Single item -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_SingleAction}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -37,8 +36,7 @@
         </dui:ListItem>
 
         <!-- Two items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_TwoActions}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -56,8 +54,7 @@
         </dui:ListItem>
 
         <!--Checkable items (all)-->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Multiple}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -79,8 +76,7 @@
         </dui:ListItem>
 
         <!-- Checkable items (single) -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Single}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Choices_Single}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -100,8 +96,7 @@
         </dui:ListItem>
 
         <!-- Grouped items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_GroupedActions}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -129,8 +124,7 @@
         </dui:ListItem>
 
         <!-- Checkable grouped items -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Grouped_Choices_Single}"
-                      HasTopDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Grouped_Choices_Single}">
 
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
@@ -159,9 +153,7 @@
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
 
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}">
 
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -172,8 +164,7 @@
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
 
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithDestructiveAction}"
-                      HasBottomDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithDestructiveAction}">
 
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -186,8 +177,7 @@
         </dui:ListItem>
         
         <!-- One item + one meny -->
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPress_OneItemOneGroup}"
-                      HasBottomDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPress_OneItemOneGroup}">
             <dui:ListItem.ContextMenu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem
@@ -211,8 +201,7 @@
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
 
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Divider}"
-                      HasBottomDivider="True">
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Divider}">
             <dui:ListItem.ContextMenuOptions>
                 <dui:ContextMenuOptions Mode="Pressed" />
             </dui:ListItem.ContextMenuOptions>
@@ -241,5 +230,5 @@
             </dui:ListItem.ContextMenu>
         </dui:ListItem>
 
-    </dui:VerticalStackLayout>
+    </dui:ListItemContainer>
 </dui:ContentPage>

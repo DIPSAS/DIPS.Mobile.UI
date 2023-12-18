@@ -16,6 +16,8 @@ namespace DIPS.Mobile.UI.Components.Pages
             SetColors(Application.Current.RequestedTheme);
             Application.Current.RequestedThemeChanged +=
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
+
+            Padding = Sizes.GetSize(SizeName.size_3);
         }
 
         private void SetColors(AppTheme osAppTheme)

@@ -1,6 +1,7 @@
 using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace Components
@@ -19,19 +20,20 @@ namespace Components
             {
                 ItemSpacing = 0,
                 ItemsSource = samplePages,
-                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem()),
+                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem(samplePages)),
             };
         }
 
         public class NavigateToSingleSampleItem : NavigationListItem
         {
+            private readonly IEnumerable<Sample> m_samplePages;
             private Sample m_sample;
             
 
-            public NavigateToSingleSampleItem()
+            public NavigateToSingleSampleItem(IEnumerable<Sample> samplePages)
             {
+                m_samplePages = samplePages;
                 Command = new Command(TryNavigateToSingleSamplePage);
-                HasTopDivider = true;
             }
 
             private void TryNavigateToSingleSamplePage()
@@ -48,6 +50,22 @@ namespace Components
                 {
                     m_sample = sample;
                     Title = m_sample.Name;
+
+                    if (m_samplePages.First() == sample)
+                    {
+                        CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0);
+                    }
+                    else if (m_samplePages.Last() == sample)
+                    {
+                        HasTopDivider = true;
+                        DividersOptions = new DividersOptions { TopDividerMargin = new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0) };
+                        CornerRadius = new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2));
+                    }
+                    else
+                    {
+                        HasTopDivider = true;
+                        DividersOptions = new DividersOptions { TopDividerMargin = new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0) };
+                    }
                 }
             }
         }

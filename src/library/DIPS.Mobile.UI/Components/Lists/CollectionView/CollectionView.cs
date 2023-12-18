@@ -42,6 +42,8 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             AddExtraSpaceAtTheEnd();
         }
     }
+    
+    
 
     private void AddExtraSpaceAtTheEnd()
     {
