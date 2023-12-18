@@ -30,13 +30,6 @@ public partial class ContextMenuPlatformEffect
 
     public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
     {
-        public override void WillDisplayMenu(UIContextMenuInteraction interaction, UIContextMenuConfiguration configuration,
-            IUIContextMenuInteractionAnimating? animator)
-        {
-            
-            
-        }
-
         public override void WillEnd(UIContextMenuInteraction interaction, UIContextMenuConfiguration configuration,
             IUIContextMenuInteractionAnimating? animator)
         {
