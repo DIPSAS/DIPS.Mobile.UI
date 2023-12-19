@@ -73,6 +73,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
         MapToolbarItems(this, bottomSheet);
+        MapTitle(this, bottomSheet);
 
         bottomSheetLayout.AddView(bottomSheetAndroidView);
 
