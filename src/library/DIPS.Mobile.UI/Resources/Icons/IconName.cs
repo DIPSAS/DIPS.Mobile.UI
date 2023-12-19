@@ -305,5 +305,7 @@ task_line=146,
 care_line=147,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/reply_line.svg">View the icon in the browser</a></summary>
 reply_line=148,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/list_add_line.svg">View the icon in the browser</a></summary>
+list_add_line=149,
     }
 }
