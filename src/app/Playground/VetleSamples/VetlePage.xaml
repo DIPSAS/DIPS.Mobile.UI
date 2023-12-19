@@ -22,8 +22,8 @@
         </CollectionView.ItemTemplate>
         
     </dui:CollectionView>-->
-    <verticalStackLayout:VerticalStackLayout Spacing="0"
-                                             VerticalOptions="Start">
+    <dui:VerticalStackLayout Spacing="0"
+                             VerticalOptions="Start">
         
         
         <dui:ListItem Title="1234" AutoDivider="True" IsVisible="False" />
@@ -35,7 +35,7 @@
 
         <Switch x:Name="Switch" />
         
-    </verticalStackLayout:VerticalStackLayout>
+    </dui:VerticalStackLayout>
 
 
 </dui:ContentPage>
