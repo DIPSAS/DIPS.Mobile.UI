@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Lists;
 
-public partial class VerticalStackLayout : Microsoft.Maui.Controls.VerticalStackLayout
+public class VerticalStackLayout : Microsoft.Maui.Controls.VerticalStackLayout
 {
     public VerticalStackLayout()
     {
