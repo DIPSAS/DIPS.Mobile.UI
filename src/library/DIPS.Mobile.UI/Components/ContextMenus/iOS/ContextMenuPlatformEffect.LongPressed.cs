@@ -1,5 +1,6 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
+using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -30,10 +31,21 @@ public partial class ContextMenuPlatformEffect
 
     public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
     {
+        public override void WillEnd(UIContextMenuInteraction interaction, UIContextMenuConfiguration configuration,
+            IUIContextMenuInteractionAnimating? animator)
+        {
+            if (interaction.View is not MauiView view)
+                return; 
+
+            Touch.SetIsEnabled((VisualElement)view.View, true);
+        }
+        
         public override UIContextMenuConfiguration? GetConfigurationForMenu(UIContextMenuInteraction interaction, CGPoint location)
         {
             if (interaction.View is not MauiView view)
                 return null; 
+            
+            Touch.SetIsEnabled((VisualElement)view.View, false);
 
             var contextMenu = ContextMenuEffect.GetMenu(((VisualElement)view.View!));
             

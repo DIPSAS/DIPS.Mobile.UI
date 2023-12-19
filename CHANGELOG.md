@@ -1,3 +1,7 @@
+## [20.12.0]
+- [iOS] Fixed an issue where releasing the long-press context menu interaction too early would fire off the tap event.
+- Changed default padding of ListItem
+
 ## [20.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
