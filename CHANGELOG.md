@@ -1,3 +1,6 @@
+## [20.12.1]
+- [BottomSheet] Made sure `Title` is visible for Android.
+
 ## [20.12.0]
 - Added `MaxWidth` to `ListItem.TitleOptions`
 
