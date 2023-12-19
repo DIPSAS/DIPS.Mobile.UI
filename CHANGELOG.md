@@ -1,3 +1,7 @@
+## [20.13.0]
+- Set default margin for dividers on ListItem.
+- Added behavior to ListItem: 'AutoDivider'
+
 ## [20.12.0]
 - Added `MaxWidth` to `ListItem.TitleOptions`
 
