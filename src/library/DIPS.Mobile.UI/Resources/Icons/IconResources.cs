@@ -157,6 +157,7 @@ this file is generated
 ["task_line"] = "task_line.png",
 ["care_line"] = "care_line.png",
 ["reply_line"] = "reply_line.png",
+["list_add_line"] = "list_add_line.png",
 
             };
         }

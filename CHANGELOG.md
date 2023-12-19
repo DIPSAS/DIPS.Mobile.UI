@@ -1,3 +1,6 @@
+## [20.11.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [20.10.2]
 - Moved the sort icon to the left side of the text in SortControl, this implicitly also fixes that the text wont ever get truncated
 
