@@ -1,3 +1,6 @@
+## [20.12.0]
+- Added `MaxWidth` to `ListItem.TitleOptions`
+
 ## [20.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
