@@ -76,6 +76,12 @@ public partial class TitleOptions
         get => (FormattedString)GetValue(FormattedTextProperty);
         set => SetValue(FormattedTextProperty, value);
     }
+
+    public double MaxWidth
+    {
+        get => (double)GetValue(MaxWidthProperty);
+        set => SetValue(MaxWidthProperty, value);
+    }
     
     public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
         nameof(FormattedText),
@@ -132,5 +138,11 @@ public partial class TitleOptions
         typeof(Style),
         typeof(TitleOptions),
         defaultValue:Styles.GetLabelStyle(LabelStyle.Body300));
-    
+
+    public static readonly BindableProperty MaxWidthProperty = BindableProperty.Create(
+        nameof(MaxWidth),
+        typeof(double),
+        typeof(TitleOptions),
+        double.PositiveInfinity);
+
 }
