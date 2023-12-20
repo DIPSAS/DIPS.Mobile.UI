@@ -1,5 +1,5 @@
 ## [21.1.0]
-- Changed so that TryHideOrShowFloatingNavigationButton only takes in Page
+- Changed so that FloatingNavigationButton only takes in Page to show or hide the button
 
 ## [21.0.0]
 - [BreakingChange] Changed so that any type can be compared with when checking to hide the floating navigation button.
