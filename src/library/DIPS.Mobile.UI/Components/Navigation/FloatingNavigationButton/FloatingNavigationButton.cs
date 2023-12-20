@@ -31,10 +31,6 @@ internal class FloatingNavigationButton : Grid
     private Animation m_fadeInColorAnimation;
 #nullable restore
     
-    private double m_prevHeightRequest;
-    private double m_prevWidthRequest;
-
-
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
     {
         m_floatingNavigationButtonConfigurator = floatingNavigationButtonConfigurator;
@@ -44,7 +40,7 @@ internal class FloatingNavigationButton : Grid
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
 
         m_contentGrid.RowDefinitions = new RowDefinitionCollection {new() {Height = GridLength.Star}};
-        m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection {new() {Width = GridLength.Star}};
+        m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection {new() {Width = GridLength.Auto}};
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
         m_contentGrid.InputTransparent =
             true; //Do not remove, this has to be input transparent so people can tap the right side of the screen.
