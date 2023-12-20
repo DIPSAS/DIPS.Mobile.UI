@@ -21,7 +21,7 @@ public partial class VetlePage
     {
         base.OnAppearing();
         
-        FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this.GetType());
+        FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
     }
 
     public ICommand TestCommand { get; }

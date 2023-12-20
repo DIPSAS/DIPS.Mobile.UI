@@ -10,7 +10,7 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
         get;
     } = new();
 
-    public List<Type> TypesThatHidesButton { get; } = new();
+    public List<Type> PagesThatHidesButton { get; } = new();
     
     public void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command, bool isLast = false)
     {
@@ -24,8 +24,8 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
         });
     }
 
-    public void AddPageThatHidesButton(Type page)
+    public void AddPageThatHidesButton<T>() where T : Page
     {
-        TypesThatHidesButton.Add(page);
+        PagesThatHidesButton.Add(typeof(T));
     }
 }
