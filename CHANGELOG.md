@@ -1,3 +1,6 @@
+## [20.13.1]
+- [BottomSheet][Android] Fixed an issue where pressing delete buttons when the bottom sheet was open caused it to try closing.
+
 ## [20.13.0]
 - Set default margin for dividers on ListItem.
 - Added new property to ListItem: 'AutoDivider'

@@ -69,6 +69,8 @@ public partial class HåvardPage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
+        // Shell.Current.Navigation.PushAsync(new HåvardPage3());
         // Shell.Current.Navigation.PushModalAsync(new HåvardPage2((int)Stepper.Value));
+        BottomSheetService.Open(new HåvardBottomSheet());
     }
 }
