@@ -15,7 +15,6 @@ public class AutoDividerBehavior : Behavior<ListItem>
 
         m_listItem = listItem;
 
-        m_listItem.ParentChanged += OnParentChanged;
     }
 
     private void OnParentChanged(object? sender, EventArgs e)
