@@ -5,7 +5,6 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 

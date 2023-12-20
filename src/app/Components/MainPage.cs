@@ -27,7 +27,7 @@ public class NavigateToSamplesItem : NavigationListItem
     {
         m_samples = samples;
         Command = new Command(TryNavigateToSamplesPage);
-        HasTopDivider = true;
+        AutoDivider = true;
     }
 
     private void TryNavigateToSamplesPage()

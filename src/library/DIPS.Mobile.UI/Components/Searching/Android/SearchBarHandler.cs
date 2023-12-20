@@ -17,7 +17,6 @@ using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
 using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
