@@ -39,10 +39,10 @@ public static partial class FloatingNavigationButtonService
     /// <summary>
     /// Will try to either hide or show the <see cref="FloatingNavigationButton"/> based on your configuration of <see cref="FloatingNavigationButtonConfigurator"/>
     /// </summary>
-    /// <param name="page"></param>
-    public static void TryHideOrShowFloatingNavigationButton(ContentPage page)
+    /// <param name="page">The page type to compare with</param>
+    public static void TryHideOrShowFloatingNavigationButton(Type page, bool shouldAnimate = true)
     {
-        FloatingNavigationButton?.TryHideOrShowFloatingNavigationButton(page);
+        FloatingNavigationButton?.TryHideOrShowFloatingNavigationButton(page, shouldAnimate);
     }
 
     /// <summary>
