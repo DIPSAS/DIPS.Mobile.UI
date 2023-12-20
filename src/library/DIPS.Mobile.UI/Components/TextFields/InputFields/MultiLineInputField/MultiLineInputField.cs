@@ -76,14 +76,14 @@ public partial class MultiLineInputField : SingleLineInputField
         {
             Text = DUILocalizedStrings.Cancel, 
             Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
-            Command = new Command(() => OnButtonTapped(false))
+            Command = new Command(OnCancelTapped)
         };
 
         var doneButton = new Button
         {
             Text = DUILocalizedStrings.Save, 
             Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
-            Command = new Command(() => OnButtonTapped(true)),
+            Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
 
@@ -141,18 +141,26 @@ public partial class MultiLineInputField : SingleLineInputField
         m_buttonsLayout!.IsVisible = isEnabled;
     }
 
-    private void OnButtonTapped(bool isSaving)
+    private void OnSaveTapped()
     {
-        if (isSaving)
-        {
-            m_textWhenFirstFocused = InputView?.Text;
-            SaveCommand?.Execute(SaveCommandParameter);
-        }
-        else
-        {
-            InputView!.Text = m_textWhenFirstFocused;
-        }
+        m_textWhenFirstFocused = InputView?.Text;
+        SaveTapped?.Invoke(this, EventArgs.Empty);
+        SaveCommand?.Execute(SaveCommandParameter);
 
+        ResetFocus();
+    }
+    
+    private void OnCancelTapped()
+    {
+        InputView!.Text = m_textWhenFirstFocused;
+        CancelTapped?.Invoke(this, EventArgs.Empty);
+        CancelCommand?.Execute(CancelCommandParameter);
+        
+        ResetFocus();   
+    }
+
+    private void ResetFocus()
+    {
         if (!InputView!.IsFocused)
         {
             Reset();
@@ -161,7 +169,6 @@ public partial class MultiLineInputField : SingleLineInputField
         {
             InputView?.Unfocus();
         }
-        
     }
 
     protected override void OnTextChanged()
