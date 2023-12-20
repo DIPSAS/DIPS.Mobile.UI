@@ -270,9 +270,9 @@ internal class FloatingNavigationButton : Grid
         m_contentGrid.Remove(navMenuButton);
     }
 
-    public void TryHideOrShowFloatingNavigationButton(Type page, bool shouldAnimate = true)
+    public void TryHideOrShowFloatingNavigationButton(Type type, bool shouldAnimate = true)
     {
-        if (m_floatingNavigationButtonConfigurator.PagesThatHidesButton.Contains(page))
+        if (m_floatingNavigationButtonConfigurator.TypesThatHidesButton.Contains(type))
         {
             _ = Hide(shouldAnimate);
         }
