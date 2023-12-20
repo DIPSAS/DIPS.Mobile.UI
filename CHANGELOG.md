@@ -2,6 +2,10 @@
 - Set default margin for dividers on ListItem.
 - Added new property to ListItem: 'AutoDivider'
 
+## [20.12.2]
+- [iOS] Fixed an issue where releasing the long-press context menu interaction too early would fire off the tap event.
+- Changed default padding of ListItem
+
 ## [20.12.1]
 - [BottomSheet] Made sure `Title` is visible for Android.
 
