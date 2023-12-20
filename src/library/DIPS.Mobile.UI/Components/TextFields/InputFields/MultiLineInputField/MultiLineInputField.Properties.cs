@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Microsoft.Maui.Controls.Internals;
 
 namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
@@ -24,7 +25,7 @@ public partial class MultiLineInputField
     }
 
     /// <summary>
-    /// Executed when the Save Button is tapped
+    ///  Executed when people tap the save button.
     /// </summary>
     /// <remarks>The text gets sent as a string to the <see cref="Command"/> as a CommandParameter</remarks>
     public ICommand? SaveCommand
@@ -32,6 +33,30 @@ public partial class MultiLineInputField
         get => (ICommand?)GetValue(SaveCommandProperty);
         set => SetValue(SaveCommandProperty, value);
     }
+
+    /// <summary>
+    /// Event that will be invoked when people tap the save button.
+    /// </summary>
+    public event EventHandler? SaveTapped; 
+    
+    /// <summary>
+    /// Executed when people tap the cancel button.
+    /// </summary>
+    /// <remarks>Use <see cref="CancelCommandParameter"/></remarks> to send objects to the command.
+    public ICommand CancelCommand
+    {
+        get => (ICommand)GetValue(CancelCommandProperty);
+        set => SetValue(CancelCommandProperty, value);
+    }
+
+    public object CancelCommandParameter
+    {
+        get => (object)GetValue(CancelCommandParameterProperty);
+        set => SetValue(CancelCommandParameterProperty, value);
+    }
+    
+    /// Event that will be invoked when people tap the cancel button.
+    public event EventHandler? CancelTapped;
 
     /// <summary>
     /// The parameter to be sent with <see cref="SaveCommand"/>
@@ -117,6 +142,16 @@ public partial class MultiLineInputField
     
     public static readonly BindableProperty SaveCommandParameterProperty = BindableProperty.Create(
         nameof(SaveCommandParameter),
+        typeof(object),
+        typeof(MultiLineInputField));
+    
+    public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
+        nameof(CancelCommand),
+        typeof(ICommand),
+        typeof(MultiLineInputField));
+    
+    public static readonly BindableProperty CancelCommandParameterProperty = BindableProperty.Create(
+        nameof(CancelCommandParameter),
         typeof(object),
         typeof(MultiLineInputField));
 }
