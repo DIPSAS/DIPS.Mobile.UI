@@ -30,17 +30,21 @@ internal class FloatingNavigationButton : Grid
     private Animation m_fadeOutColorAnimation;
     private Animation m_fadeInColorAnimation;
 #nullable restore
+    
+    private double m_prevHeightRequest;
+    private double m_prevWidthRequest;
+
 
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
     {
         m_floatingNavigationButtonConfigurator = floatingNavigationButtonConfigurator;
-
+        
         Add(m_contentGrid);
 
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
 
         m_contentGrid.RowDefinitions = new RowDefinitionCollection {new() {Height = GridLength.Star}};
-        m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection {new() {Width = GridLength.Auto}};
+        m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection {new() {Width = GridLength.Star}};
         m_contentGrid.HorizontalOptions = LayoutOptions.End;
         m_contentGrid.InputTransparent =
             true; //Do not remove, this has to be input transparent so people can tap the right side of the screen.
@@ -54,8 +58,16 @@ internal class FloatingNavigationButton : Grid
         InputTransparent = true;
         CascadeInputTransparent = false;
 #endif
+
+        DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
     }
-    
+
+    private void OnOrientationChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        WidthRequest = e.DisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+        HeightRequest = e.DisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+    }
+
     public async Task Show(bool shouldAnimate)
     {
         IsVisible = true;
@@ -382,6 +394,8 @@ internal class FloatingNavigationButton : Grid
         nameof(IsClickable),
         typeof(bool),
         typeof(FloatingNavigationButton), defaultValue: false);
+
+
 
     public bool IsClickable
     {

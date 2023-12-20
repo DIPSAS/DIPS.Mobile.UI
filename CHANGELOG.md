@@ -1,3 +1,6 @@
+## [20.13.1]
+- Fixed an issue where floating navigation button would go out of bounds when changing orientation
+
 ## [20.13.0]
 - Set default margin for dividers on ListItem.
 - Added new property to ListItem: 'AutoDivider'
