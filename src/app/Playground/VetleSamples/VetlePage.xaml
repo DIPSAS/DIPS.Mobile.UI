@@ -29,7 +29,8 @@
         <dui:ListItem Title="1234" AutoDivider="True" IsVisible="False" />
         <dui:ListItem Title="Test123" AutoDivider="True" />
 
-        <dui:ListItem Title="Test1234" AutoDivider="True" />
+        <dui:ListItem Title="Test1234" AutoDivider="True"
+                      Command="{Binding Navigate}"/>
         <dui:ListItem Title="Test1234" AutoDivider="True"
                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
 

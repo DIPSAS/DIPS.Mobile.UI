@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 
@@ -14,6 +15,13 @@ public partial class VetlePage
 
     private void Test123()
     {
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this.GetType());
     }
 
     public ICommand TestCommand { get; }
