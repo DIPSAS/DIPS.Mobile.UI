@@ -267,8 +267,14 @@ public partial class BottomSheetHandler : ContentViewHandler
     
     internal bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
     {
+        if (keyCode != Keycode.Back)
+        {
+            return false;
+        }
+
         m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
         return !m_bottomSheet.IsInteractiveCloseable; //Returning true will block back key action
+
     }
 
     internal class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
