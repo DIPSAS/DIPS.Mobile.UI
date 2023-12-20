@@ -21,7 +21,6 @@ public partial class VetlePage
     {
         base.OnAppearing();
         
-        FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
     }
 
     public ICommand TestCommand { get; }
@@ -35,8 +34,9 @@ public partial class VetlePage
 
 
 
+
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-       
+        ShouldHideFloatingNavigationMenuButton = e.Value;
     }
 }

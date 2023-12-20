@@ -23,9 +23,4 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
             Command = command,
         });
     }
-
-    public void AddPageThatHidesButton<T>() where T : Page
-    {
-        PagesThatHidesButton.Add(typeof(T));
-    }
 }

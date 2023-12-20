@@ -11,7 +11,7 @@ public class VetleTestPage1ViewModel : ViewModel
 
     public VetleTestPage1ViewModel()
     {
-        Navigate = new Command(() => Shell.Current.Navigation.PushModalAsync(new VetleTestPage2()));
+        Navigate = new Command(() => Shell.Current.Navigation.PushAsync(new VetleTestPage2()));
         Test = new Command(() => Shell.Current.Navigation.PopModalAsync());
 
         SaveCommand = new Command(async () =>

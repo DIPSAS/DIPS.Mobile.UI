@@ -1,5 +1,6 @@
-## [21.1.0]
-- Changed so that FloatingNavigationButton only takes in Page to show or hide the button
+## [22.0.0]
+- Added new property to ContentPage: 'ShouldHideFloatingNavigationMenuButton'.
+- [BreakingChange] Removed the ability to set predefined pages where the FloatingNavigationMenuButton would hide itself automatically.
 
 ## [21.0.0]
 - [BreakingChange] Changed so that any type can be compared with when checking to hide the floating navigation button.

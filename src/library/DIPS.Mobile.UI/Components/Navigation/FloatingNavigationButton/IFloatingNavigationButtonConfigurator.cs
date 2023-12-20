@@ -5,5 +5,4 @@ namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 public interface IFloatingNavigationButtonConfigurator
 {
     void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command, bool isLast = false);
-    void AddPageThatHidesButton<T>() where T : Page;
 }

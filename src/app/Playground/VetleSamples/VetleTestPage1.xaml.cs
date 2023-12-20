@@ -18,7 +18,7 @@ public partial class VetleTestPage1
     {
         base.OnAppearing();
         
-        FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
+        //FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
     }
 
     public void AddButton(object sender, EventArgs eventArgs)

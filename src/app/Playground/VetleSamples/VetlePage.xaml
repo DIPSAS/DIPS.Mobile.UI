@@ -4,7 +4,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:verticalStackLayout="clr-namespace:DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
@@ -34,7 +33,7 @@
         <dui:ListItem Title="Test1234" AutoDivider="True"
                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
 
-        <Switch x:Name="Switch" />
+        <Switch x:Name="Switch" Toggled="Switch_OnToggled" />
         
     </dui:VerticalStackLayout>
 
