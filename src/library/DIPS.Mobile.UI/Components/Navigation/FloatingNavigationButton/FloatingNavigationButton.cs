@@ -404,6 +404,6 @@ internal class FloatingNavigationButton : Grid
         if (args.NewHandler is null)
             return;
         
-        DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
+        DeviceDisplay.MainDisplayInfoChanged -= OnOrientationChanged;
     }
 }
