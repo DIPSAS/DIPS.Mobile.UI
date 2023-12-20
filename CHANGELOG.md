@@ -1,6 +1,6 @@
 ## [20.13.0]
 - Set default margin for dividers on ListItem.
-- Added behavior to ListItem: 'AutoDivider'
+- Added new property to ListItem: 'AutoDivider'
 
 ## [20.12.1]
 - [BottomSheet] Made sure `Title` is visible for Android.
