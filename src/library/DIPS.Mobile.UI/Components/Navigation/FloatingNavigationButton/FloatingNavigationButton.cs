@@ -390,12 +390,20 @@ internal class FloatingNavigationButton : Grid
         nameof(IsClickable),
         typeof(bool),
         typeof(FloatingNavigationButton), defaultValue: false);
-
-
-
+    
     public bool IsClickable
     {
         get => (bool)GetValue(IsClickableProperty);
         set => SetValue(IsClickableProperty, value);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+            return;
+        
+        DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
     }
 }
