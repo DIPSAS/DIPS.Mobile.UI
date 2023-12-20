@@ -1,5 +1,5 @@
-## [20.14.2]
-- Changed so that any type can be compared with when checking to hide the floating navigation button.
+## [21.0.0]
+- [BreakingChange] Changed so that any type can be compared with when checking to hide the floating navigation button.
 
 ## [20.14.1]
 - Fixed an issue where floating navigation button would go out of bounds when changing orientation
