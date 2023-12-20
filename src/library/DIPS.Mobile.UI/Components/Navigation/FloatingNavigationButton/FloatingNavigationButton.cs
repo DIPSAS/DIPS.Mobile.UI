@@ -30,11 +30,11 @@ internal class FloatingNavigationButton : Grid
     private Animation m_fadeOutColorAnimation;
     private Animation m_fadeInColorAnimation;
 #nullable restore
-
+    
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
     {
         m_floatingNavigationButtonConfigurator = floatingNavigationButtonConfigurator;
-
+        
         Add(m_contentGrid);
 
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
@@ -54,8 +54,16 @@ internal class FloatingNavigationButton : Grid
         InputTransparent = true;
         CascadeInputTransparent = false;
 #endif
+
+        DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
     }
-    
+
+    private void OnOrientationChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        WidthRequest = e.DisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+        HeightRequest = e.DisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+    }
+
     public async Task Show(bool shouldAnimate)
     {
         IsVisible = true;
@@ -382,10 +390,20 @@ internal class FloatingNavigationButton : Grid
         nameof(IsClickable),
         typeof(bool),
         typeof(FloatingNavigationButton), defaultValue: false);
-
+    
     public bool IsClickable
     {
         get => (bool)GetValue(IsClickableProperty);
         set => SetValue(IsClickableProperty, value);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+            return;
+        
+        DeviceDisplay.MainDisplayInfoChanged -= OnOrientationChanged;
     }
 }
