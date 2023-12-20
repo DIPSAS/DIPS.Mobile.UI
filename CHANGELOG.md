@@ -1,3 +1,7 @@
+## [20.14.0]
+- [MultiLineInputField] Added CancelCommand.
+- [MultiLineInputField] Added Save and Cancel tapped events.
+
 ## [20.13.1]
 - [BottomSheet][Android] Fixed an issue where pressing delete buttons when the bottom sheet was open caused it to try closing.
 
