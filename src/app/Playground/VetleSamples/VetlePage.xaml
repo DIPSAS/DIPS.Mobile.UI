@@ -25,16 +25,14 @@
                              VerticalOptions="Start">
         
         
-        <dui:ListItem Title="1234" AutoDivider="True" IsVisible="False" />
-        <dui:ListItem Title="Test123" AutoDivider="True" />
+       <dui:Editor Keyboard="{x:Static Keyboard.Text}" />
+       
+       <Entry Keyboard="{x:Static Keyboard.Text}">
+         
+       
+           
+       </Entry>
 
-        <dui:ListItem Title="Test1234" AutoDivider="True"
-                      Command="{Binding Navigate}"/>
-        <dui:ListItem Title="Test1234" AutoDivider="True"
-                      IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
-
-        <Switch x:Name="Switch" Toggled="Switch_OnToggled" />
-        
     </dui:VerticalStackLayout>
 
 

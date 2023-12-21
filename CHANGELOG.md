@@ -1,3 +1,6 @@
+## [22.0.1]
+- Make sure dui:Editor and dui:Entry capitalizes each new sentence.
+
 ## [22.0.0]
 - Added new property to ContentPage: 'ShouldHideFloatingNavigationMenuButton'.
 - [BreakingChange] Removed the ability to set predefined pages where the FloatingNavigationMenuButton would hide itself automatically.
