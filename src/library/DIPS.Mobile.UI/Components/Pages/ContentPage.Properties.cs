@@ -12,7 +12,7 @@ public partial class ContentPage
         propertyChanged: (bindable, _, _) => ((ContentPage)bindable).HideOrShowFloatingNavigationMenu());
 
     /// <summary>
-    /// Determines whether the Floating navigation menu button should be hidden or not
+    /// Determines whether the FloatingNavigationMenuButton should be hidden or not
     /// </summary>
     /// <remarks>Modal pages will always cover the button</remarks>
     public bool ShouldHideFloatingNavigationMenuButton
@@ -20,4 +20,10 @@ public partial class ContentPage
         get => (bool)GetValue(ShouldHideFloatingNavigationMenuProperty);
         set => SetValue(ShouldHideFloatingNavigationMenuProperty, value);
     }
+    
+    /// <summary>
+    /// If the ContentPage has run its <see cref="OnAppearing"/>
+    /// </summary>
+    public bool HasAppeared { get; private set; }
+
 }   

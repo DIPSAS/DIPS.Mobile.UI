@@ -6,7 +6,6 @@ namespace DIPS.Mobile.UI.Components.Pages
     public partial class ContentPage : Microsoft.Maui.Controls.ContentPage
     {
         public static readonly ColorName BackgroundColorName = ColorName.color_neutral_10;
-        private bool m_hasAppeared;
 
         public ContentPage()
         {
@@ -24,14 +23,14 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnAppearing();
 
-            m_hasAppeared = true;
+            HasAppeared = true;
 
             HideOrShowFloatingNavigationMenu();
         }
 
         private void HideOrShowFloatingNavigationMenu()
         {
-            if (!m_hasAppeared)
+            if (!HasAppeared)
                 return;
             
             if (ShouldHideFloatingNavigationMenuButton)
@@ -63,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnDisappearing();
 
-            m_hasAppeared = false;
+            HasAppeared = false;
             
             if (Application.Current != null)
             {
