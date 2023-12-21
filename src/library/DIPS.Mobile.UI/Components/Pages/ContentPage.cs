@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages
@@ -18,6 +19,30 @@ namespace DIPS.Mobile.UI.Components.Pages
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            HasAppeared = true;
+
+            HideOrShowFloatingNavigationMenu();
+        }
+
+        private void HideOrShowFloatingNavigationMenu()
+        {
+            if (!HasAppeared)
+                return;
+            
+            if (ShouldHideFloatingNavigationMenuButton)
+            {
+                FloatingNavigationButtonService.Hide();
+            }
+            else
+            {
+                FloatingNavigationButtonService.Show();
+            }
+        }
+
         private void SetColors(AppTheme osAppTheme)
         {
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
@@ -36,12 +61,14 @@ namespace DIPS.Mobile.UI.Components.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+
+            HasAppeared = false;
+            
             if (Application.Current != null)
             {
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
 
         }
-
     }
 }

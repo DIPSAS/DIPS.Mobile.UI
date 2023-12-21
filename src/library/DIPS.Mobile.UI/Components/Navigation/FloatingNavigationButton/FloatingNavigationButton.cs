@@ -270,18 +270,6 @@ internal class FloatingNavigationButton : Grid
         m_contentGrid.Remove(navMenuButton);
     }
 
-    public void TryHideOrShowFloatingNavigationButton(Type type, bool shouldAnimate = true)
-    {
-        if (m_floatingNavigationButtonConfigurator.TypesThatHidesButton.Contains(type))
-        {
-            _ = Hide(shouldAnimate);
-        }
-        else
-        {
-            _ = Show(shouldAnimate);
-        }
-    }
-
     public void SetBadgeColor(Color color)
     {
         m_mainButton.BadgeColor = color;

@@ -6,7 +6,8 @@
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.VetleTestPage1"
              x:Name="CodeBehind"
-             Title="Hei">
+             Title="Hei"
+             ShouldHideFloatingNavigationMenuButton="True">
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
@@ -21,9 +22,7 @@
     
     <Grid RowDefinitions="Auto, *">
        
-        <dui:SaveView Command="{Binding SaveCommand}"
-                      IsSaving="{Binding IsSaving}"
-                      IsSavingCompleted="{Binding IsSavingCompleted}"/>
+        <Button Text="Test" Command="{Binding Navigate}" />
         
     </Grid>
 </dui:ContentPage>

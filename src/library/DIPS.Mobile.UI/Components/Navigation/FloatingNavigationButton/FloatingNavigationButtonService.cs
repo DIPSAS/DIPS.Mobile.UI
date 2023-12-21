@@ -37,16 +37,6 @@ public static partial class FloatingNavigationButtonService
     public static Task Show(bool shouldAnimate = true) => FloatingNavigationButton?.Show(shouldAnimate) ?? Task.CompletedTask;
 
     /// <summary>
-    /// Will try to either hide or show the <see cref="FloatingNavigationButton"/> based on your configuration of <see cref="FloatingNavigationButtonConfigurator"/>
-    /// </summary>
-    /// <param name="type">The type to compare with</param>
-    /// <param name="shouldAnimate">If the button should animate by fading</param>
-    public static void TryHideOrShowFloatingNavigationButton(Type type, bool shouldAnimate = true)
-    {
-        FloatingNavigationButton?.TryHideOrShowFloatingNavigationButton(type, shouldAnimate);
-    }
-
-    /// <summary>
     /// Sets the badge count of a <see cref="NavigationMenuButton"/>
     /// </summary>
     /// <param name="identifier">Which <see cref="NavigationMenuButton"/> badge count to be changed</param>

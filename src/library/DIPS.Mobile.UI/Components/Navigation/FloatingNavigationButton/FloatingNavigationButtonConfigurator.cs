@@ -10,8 +10,6 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
         get;
     } = new();
 
-    public List<Type> TypesThatHidesButton { get; } = new();
-    
     public void AddNavigationButton(string identifier, string title, IconName iconName, ICommand command, bool isLast = false)
     {
         NavigationMenuButtons.Add(new ExtendedNavigationMenuButton.ExtendedNavigationMenuButton
@@ -22,10 +20,5 @@ internal class FloatingNavigationButtonConfigurator : IFloatingNavigationButtonC
             IsLast = isLast,
             Command = command,
         });
-    }
-
-    public void AddPageThatHidesButton(Type page)
-    {
-        TypesThatHidesButton.Add(page);
     }
 }
