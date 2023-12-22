@@ -276,7 +276,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             if (handler.InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
             {
-                mauiSearchView.ImeOptions = (int)(searchBar.ReturnKeyType == SearchBarReturnKeyType.Done
+                mauiSearchView.ImeOptions = (int)(searchBar.ReturnKeyType == ReturnType.Done
                     ? ImeAction.Done
                     : ImeAction.Search);
             }

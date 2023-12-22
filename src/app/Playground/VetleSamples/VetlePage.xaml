@@ -13,27 +13,24 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!--<dui:CollectionView ItemsSource="{Binding TestStrings}">
+    <!--<dui:CollectionView ItemsSource="{Binding TestStrings}"
+                        VerticalOptions="Start">
+        <dui:CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Horizontal"
+                               ItemSpacing="10"/>
+        </dui:CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <dui:ListItem Title="{Binding .}" AutoDivider="True" />
+               <BoxView BackgroundColor="Red"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        VerticalOptions="Start" />
             </DataTemplate>
         </CollectionView.ItemTemplate>
         
     </dui:CollectionView>-->
-    <dui:VerticalStackLayout Spacing="0"
-                             VerticalOptions="Start">
-        
-        <dui:SearchBar ReturnKeyType="Done"
-                       ShouldCloseKeyboardOnReturnKeyTapped="True" />
-       <dui:Editor Keyboard="{x:Static Keyboard.Text}" />
-       <Entry>
-         
-       
-           
-       </Entry>
-
-    </dui:VerticalStackLayout>
+    
+   <dui:Entry />
 
 
 </dui:ContentPage>

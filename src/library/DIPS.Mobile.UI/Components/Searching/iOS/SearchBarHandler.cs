@@ -233,7 +233,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
     {
-        handler.PlatformView.ReturnKeyType = searchBar.ReturnKeyType == SearchBarReturnKeyType.Done
+        handler.PlatformView.ReturnKeyType = searchBar.ReturnKeyType == ReturnType.Done
             ? UIReturnKeyType.Done
             : UIReturnKeyType.Search;
     }

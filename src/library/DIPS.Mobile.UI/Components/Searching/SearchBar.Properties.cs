@@ -18,9 +18,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// iOS: Sets the text of the return key
         /// Android: Sets the icon of the return key
         /// </summary>
-        public SearchBarReturnKeyType ReturnKeyType
+        public ReturnType ReturnKeyType
         {
-            get => (SearchBarReturnKeyType)GetValue(ReturnKeyTypeProperty);
+            get => (ReturnType)GetValue(ReturnKeyTypeProperty);
             set => SetValue(ReturnKeyTypeProperty, value);
         }
         
@@ -309,9 +309,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         public static readonly BindableProperty ReturnKeyTypeProperty = BindableProperty.Create(
             nameof(ReturnKeyType),
-            typeof(SearchBarReturnKeyType),
+            typeof(ReturnType),
             typeof(SearchBar),
-            SearchBarReturnKeyType.Search);
+            ReturnType.Search);
         
         public static readonly BindableProperty ShouldCloseKeyboardOnSearchProperty = BindableProperty.Create(
             nameof(ShouldCloseKeyboardOnReturnKeyTapped),
@@ -319,11 +319,5 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(SearchBar),
             true);
 
-    }
-
-    public enum SearchBarReturnKeyType
-    {
-        Search = 0,
-        Done = 1
     }
 }

@@ -25,7 +25,6 @@ public partial class EntryHandler
 
     private async void OnEditingDidBegin(object? sender, EventArgs e)
     {
-        PlatformView.ReturnKeyType = UIReturnKeyType.Done;
         if(!((VirtualView as Entry)!).ShouldSelectAllTextOnFocused)
             return;
         

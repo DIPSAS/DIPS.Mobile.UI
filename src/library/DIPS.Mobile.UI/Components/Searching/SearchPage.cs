@@ -253,8 +253,8 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void OnSearchModeChanged()
         {
             SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
-                SearchBarReturnKeyType.Done :
-                SearchBarReturnKeyType.Search;
+                ReturnType.Done :
+                ReturnType.Search;
         }
     }
 
