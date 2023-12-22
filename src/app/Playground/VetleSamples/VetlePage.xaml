@@ -24,10 +24,10 @@
     <dui:VerticalStackLayout Spacing="0"
                              VerticalOptions="Start">
         
-        
+        <dui:SearchBar ReturnKeyType="Done"
+                       ShouldCloseKeyboardOnReturnKeyTapped="True" />
        <dui:Editor Keyboard="{x:Static Keyboard.Text}" />
-       
-       <Entry Keyboard="{x:Static Keyboard.Text}">
+       <Entry>
          
        
            

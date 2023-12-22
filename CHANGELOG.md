@@ -1,3 +1,9 @@
+## [22.1.0]
+- Introduced two new properties on SearchBar.
+- Keyboard now dismisses when pressing return key when having focus on dui:SearchBar
+- [iOS] Fixed an issue where the return key were not set as 'Done' when focusing dui:Entry 
+- [Android] Fixed an issue where dui:Entry were not unfocused when pressing the return key
+
 ## [22.0.1]
 - Make sure dui:Editor and dui:Entry capitalizes each new sentence.
 

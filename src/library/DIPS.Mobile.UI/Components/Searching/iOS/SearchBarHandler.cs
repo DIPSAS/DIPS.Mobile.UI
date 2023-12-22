@@ -193,6 +193,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private void OnSearchButtonClicked(object? sender, EventArgs e)
     {
+        if (VirtualView.ShouldCloseKeyboardOnReturnKeyTapped)
+        {
+            UnFocus();
+        }
         VirtualView.SearchCommand?.Execute(null);
     }
 
@@ -227,6 +231,13 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
 
+    private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
+    {
+        handler.PlatformView.ReturnKeyType = searchBar.ReturnKeyType == SearchBarReturnKeyType.Done
+            ? UIReturnKeyType.Done
+            : UIReturnKeyType.Search;
+    }
+    
     public partial void Focus() => InternalSearchBar.Focus();
 
     public partial void UnFocus() => InternalSearchBar.Unfocus();

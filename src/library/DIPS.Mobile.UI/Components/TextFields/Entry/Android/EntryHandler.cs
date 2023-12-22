@@ -1,8 +1,10 @@
 using Android.Graphics.Drawables;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
+using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.TextFields.Entry;
@@ -17,6 +19,8 @@ public partial class EntryHandler
 
         DefaultBackground = platformView.Background;
         
+        platformView.EditorAction += PlatformViewOnEditorAction;
+        
         var activity = Platform.CurrentActivity;
         var fragment = activity?.GetFragmentManager()?.FindFragmentByTag(nameof(BottomSheetFragment));
         if (fragment is BottomSheetFragment bottomSheetDialogFragment)
@@ -25,6 +29,11 @@ public partial class EntryHandler
         }
         
         platformView.FocusChange += OnFocusChanged;
+    }
+
+    private void PlatformViewOnEditorAction(object? sender, TextView.EditorActionEventArgs e)
+    {
+        PlatformView.Unfocus(VirtualView);
     }
 
     private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)

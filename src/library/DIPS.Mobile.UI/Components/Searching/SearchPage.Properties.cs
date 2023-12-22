@@ -131,7 +131,8 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(SearchMode),
             typeof(SearchMode),
             typeof(SearchPage),
-            SearchMode.WhenTextChanged);
+            SearchMode.WhenTextChanged,
+            propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnSearchModeChanged());
         
         public static readonly BindableProperty DelayProperty = BindableProperty.Create(
             nameof(Delay),

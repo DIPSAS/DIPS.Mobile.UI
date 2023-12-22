@@ -10,7 +10,7 @@ public partial class EntryHandler
     protected override void ConnectHandler(MauiTextField platformView)
     {
         base.ConnectHandler(platformView);
-        
+
         platformView.EditingDidBegin += OnEditingDidBegin;
     }
     
@@ -25,6 +25,7 @@ public partial class EntryHandler
 
     private async void OnEditingDidBegin(object? sender, EventArgs e)
     {
+        PlatformView.ReturnKeyType = UIReturnKeyType.Done;
         if(!((VirtualView as Entry)!).ShouldSelectAllTextOnFocused)
             return;
         

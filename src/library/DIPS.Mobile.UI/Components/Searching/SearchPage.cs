@@ -25,7 +25,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             Unloaded += OnUnLoaded;
             
             //Searchbar
-            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
+            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
             SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
                 Shell.Shell.ToolbarBackgroundColorName);
             
@@ -42,7 +42,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 Shell.Shell.ToolbarTitleTextColorName);
 #endif
-
+            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty,
+                new Binding(nameof(SearchMode), source: this));
+            
+            
             SearchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             SearchBar.SetBinding(SearchBar.ShouldDelayProperty,
@@ -85,6 +88,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_grid.Add(SearchBar, 0, 1);
 
+            OnSearchModeChanged();
+            
             base.Content = m_grid;
         }
 
@@ -243,6 +248,13 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void OnCancelCommandChanged()
         {
             SearchBar.CancelCommand = CancelCommand;
+        }
+
+        private void OnSearchModeChanged()
+        {
+            SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
+                SearchBarReturnKeyType.Done :
+                SearchBarReturnKeyType.Search;
         }
     }
 
