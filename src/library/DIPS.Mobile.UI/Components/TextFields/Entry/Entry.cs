@@ -12,5 +12,6 @@ public partial class Entry : Microsoft.Maui.Controls.Entry
         FontSize = 16;
         TextColor = Colors.GetColor(ColorName.color_neutral_90);
         Keyboard = Keyboard.Text;
+        ReturnType = ReturnType.Done;
     }
 }

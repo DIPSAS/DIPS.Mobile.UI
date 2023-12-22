@@ -10,7 +10,7 @@ public partial class EntryHandler
     protected override void ConnectHandler(MauiTextField platformView)
     {
         base.ConnectHandler(platformView);
-        
+
         platformView.EditingDidBegin += OnEditingDidBegin;
     }
     

@@ -6,6 +6,25 @@ namespace DIPS.Mobile.UI.Components.Searching
     public partial class SearchBar
     {
         /// <summary>
+        /// Determines whether the keyboard should be closed when return key tapped
+        /// </summary>
+        public bool ShouldCloseKeyboardOnReturnKeyTapped
+        {
+            get => (bool)GetValue(ShouldCloseKeyboardOnSearchProperty);
+            set => SetValue(ShouldCloseKeyboardOnSearchProperty, value);
+        }
+        
+        /// <summary>
+        /// iOS: Sets the text of the return key
+        /// Android: Sets the icon of the return key
+        /// </summary>
+        public ReturnType ReturnKeyType
+        {
+            get => (ReturnType)GetValue(ReturnKeyTypeProperty);
+            set => SetValue(ReturnKeyTypeProperty, value);
+        }
+        
+        /// <summary>
         /// Sets the color of the icons that people see in the search bar.
         /// </summary>
         public Color? IconsColor
@@ -287,6 +306,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(bool),
             typeof(SearchPage),
             false);
+        
+        public static readonly BindableProperty ReturnKeyTypeProperty = BindableProperty.Create(
+            nameof(ReturnKeyType),
+            typeof(ReturnType),
+            typeof(SearchBar),
+            ReturnType.Search);
+        
+        public static readonly BindableProperty ShouldCloseKeyboardOnSearchProperty = BindableProperty.Create(
+            nameof(ShouldCloseKeyboardOnReturnKeyTapped),
+            typeof(bool),
+            typeof(SearchBar),
+            true);
 
     }
 }
