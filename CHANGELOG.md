@@ -1,3 +1,6 @@
+## [22.1.1]
+- [Button] Fixed an issue when setting image to a button taking the entire parent space.
+
 ## [22.1.0]
 - Introduced two new properties on SearchBar.
 - Keyboard now dismisses when pressing return key when having focus on dui:SearchBar
