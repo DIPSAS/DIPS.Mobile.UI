@@ -65,5 +65,6 @@ public partial class EntryHandler
         base.DisconnectHandler(platformView);
         
         platformView.FocusChange -= OnFocusChanged;
+        platformView.EditorAction -= PlatformViewOnEditorAction;
     }
 }
