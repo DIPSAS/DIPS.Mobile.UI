@@ -22,6 +22,24 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
     }
 
+    //TODO: .NET 8 vNext, workaround developed by looking at : https://github.com/dotnet/maui/pull/18521
+    //TODO. .NET 8 vNext, Remove when its confirmed that this is released: https://github.com/dotnet/maui/issues/18504
+    public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
+    {
+        var desiredSize = base.GetDesiredSize(widthConstraint, heightConstraint);
+        if (PlatformView is not UIButton uiButton)
+        {
+            return desiredSize;
+        }
+        if (uiButton.ImageView?.Image is not null &&
+            uiButton.CurrentTitle is null) //This is a ImageButton, the normal logic should run for a ImageButton
+        {
+            return desiredSize;
+        }
+        
+        return new Size(uiButton.IntrinsicContentSize.Width, uiButton.IntrinsicContentSize.Height);
+    }
+
     private static partial void MapImageToRightSide(ButtonHandler handler, Button button)
     {
         if(button.ImagePlacement == ImagePlacement.Left)

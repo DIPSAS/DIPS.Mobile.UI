@@ -11,15 +11,8 @@
     <dui:BottomSheet.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:BottomSheet.BindingContext>
-    <dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Go to"
-                    Command="{Binding Test}" />
-    </dui:BottomSheet.BottombarButtons>
-    <dui:BottomSheet.ToolbarItems>
-        <ToolbarItem Text="Close"
-                     Clicked="MenuItem_OnClicked" />
-    </dui:BottomSheet.ToolbarItems>
-    <dui:MultiLineInputField HeaderText="Testing"
-                             SaveCommand="{Binding Command}"
-                             CancelCommand="{Binding Command}" />
+    <dui:VerticalStackLayout>
+        <dui:Button Text="Med bilde"
+                    ImageSource="{dui:Icons alert_fill}" />
+    </dui:VerticalStackLayout>
 </dui:BottomSheet>
