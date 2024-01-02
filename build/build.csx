@@ -115,10 +115,9 @@ AsyncStep publish = async () =>
     var nupkgFile = FileHelper.FindSingleFileByExtension(OutputDir, ".nupkg");
 
     //Code sign
-    var codeSignPath = AzureDevops.GetEnvironmentVariable("codesign.securefilepath");
-    var codesignPw = AzureDevops.GetEnvironmentVariable("nuget.dipsas.certpw");
+    var certificateThumbprint = AzureDevops.GetEnvironmentVariable("nuget.dipsas.digicertone.cert.thumbprint");
 
-    await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -CertificatePath {codeSignPath} -CertificatePassword {codesignPw}  -Timestamper http://timestamp.digicert.com/");
+    await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -Certificate Fingerprint {certificateThumbprint} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite -Timestamper http://timestamp.digicert.com/");
 
     //Push
     var apiKey = AzureDevops.GetEnvironmentVariable("dipsmobileuiNugetApiKey");
