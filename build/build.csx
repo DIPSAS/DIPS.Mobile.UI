@@ -117,7 +117,7 @@ AsyncStep publish = async () =>
     //Code sign
     var certificateThumbprint = AzureDevops.GetEnvironmentVariable("nuget.dipsas.digicertone.cert.thumbprint");
 
-    await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -Certificate Fingerprint {certificateThumbprint} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite -Timestamper http://timestamp.digicert.com/");
+    await Command.ExecuteAsync("nuget", $"sign {nupkgFile.FullName} -CertificateFingerprint {certificateThumbprint} -HashAlgorithm SHA256 -Verbosity detailed -Overwrite -Timestamper http://timestamp.digicert.com/");
 
     //Push
     var apiKey = AzureDevops.GetEnvironmentVariable("dipsmobileuiNugetApiKey");
