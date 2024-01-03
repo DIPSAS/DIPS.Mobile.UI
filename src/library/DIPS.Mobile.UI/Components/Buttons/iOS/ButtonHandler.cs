@@ -32,7 +32,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
             return desiredSize;
         }
         if (uiButton.ImageView?.Image is not null &&
-            uiButton.CurrentTitle is null) //This is a ImageButton, the normal logic should run for a ImageButton
+            string.IsNullOrEmpty(uiButton.CurrentTitle)) //This is a ImageButton, the normal logic should run for a ImageButton
         {
             return desiredSize;
         }

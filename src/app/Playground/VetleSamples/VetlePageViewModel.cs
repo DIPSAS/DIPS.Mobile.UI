@@ -94,7 +94,6 @@ public class VetlePageViewModel : ViewModel
         
         oldTestStrings.Sort(new SortOptionComparer(sortResult.Item1 as SortOption, sortResult.Item2));
 
-        TestStrings = oldTestStrings;
         RaisePropertyChanged(nameof(TestStrings));
     }
 
@@ -159,7 +158,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_defaultSelectedItem, value);
     }
 
-    public List<string> TestStrings { get; set; } = new()
+    public ObservableCollection<string> TestStrings { get; set; } = new()
     {
         "1234567",
         "7654321",
@@ -172,6 +171,12 @@ public class VetlePageViewModel : ViewModel
         "ØDEGÅÅRD",
         "Testern",
     };
+
+    public ICommand RemoveStringCommand => new Command(s =>
+    {
+        var firstOrDefault = TestStrings.FirstOrDefault(testString => (string)s == testString);
+        TestStrings.Remove(firstOrDefault);
+    });
 
     public List<TestObject> TestObjects { get; } = new List<TestObject>();
     
