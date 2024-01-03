@@ -13,24 +13,29 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!--<dui:CollectionView ItemsSource="{Binding TestStrings}"
+    <Grid>
+    <dui:CollectionView ItemsSource="{Binding TestStrings}"
                         VerticalOptions="Start">
         <dui:CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Horizontal"
-                               ItemSpacing="10"/>
+            <LinearItemsLayout Orientation="Vertical"
+                               ItemSpacing="10" />
         </dui:CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
+        <dui:CollectionView.ItemTemplate>
             <DataTemplate>
-               <BoxView BackgroundColor="Red"
-                        WidthRequest="50"
-                        HeightRequest="50"
-                        VerticalOptions="Start" />
+                
+                <dui:Chip IsCloseable="True"
+                          Title="{Binding .}"
+                          WidthRequest="50"
+                          CloseCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=RemoveStringCommand}"
+                          CloseCommandParameter="{Binding .}"
+                          HeightRequest="50"
+                          VerticalOptions="Start" />
             </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </dui:CollectionView>-->
-    
-   <dui:Entry />
+        </dui:CollectionView.ItemTemplate>
 
+    </dui:CollectionView>
 
+        <dui:Button ImageSource="{dui:Icons arrow_back_line}"
+                    Style="{dui:Styles Button=PrimaryIconButtonLarge}"/>
+    </Grid>
 </dui:ContentPage>
