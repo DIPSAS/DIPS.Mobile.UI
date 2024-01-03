@@ -31,12 +31,18 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         {
             return desiredSize;
         }
-        if (uiButton.ImageView?.Image is not null &&
-            string.IsNullOrEmpty(uiButton.CurrentTitle)) //This is a ImageButton, the normal logic should run for a ImageButton
+
+        if (uiButton.ImageView.Image is not null && string.IsNullOrEmpty(uiButton.CurrentTitle)) //A button with only a image
         {
             return desiredSize;
         }
         
+        if (uiButton.ImageView.Image is null && !string.IsNullOrEmpty(uiButton.CurrentTitle)) //A button with only a title
+        {
+            return desiredSize;
+        }
+        
+        //A button with both title and image, which has the bug
         return new Size(uiButton.IntrinsicContentSize.Width, uiButton.IntrinsicContentSize.Height);
     }
 
