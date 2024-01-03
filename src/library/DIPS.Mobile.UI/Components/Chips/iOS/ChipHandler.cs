@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Extensions.iOS;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -47,7 +48,8 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
                 uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
                 var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
                 uiButton.SetImage(resizedImage, UIControlState.Normal);
-                ShiftImageToTheRight(handler, uiButton);
+                handler.m_button.ImagePlacement = ImagePlacement.Right;
+                //ShiftImageToTheRight(handler, uiButton);
             }
             else
             {
