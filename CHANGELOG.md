@@ -1,3 +1,6 @@
+## [22.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [22.1.1]
 - [Button] Fixed an issue when setting image to a button taking the entire parent space.
 
