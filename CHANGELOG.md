@@ -1,3 +1,6 @@
+## [22.1.2]
+- [SlidableLayout] Fixed a bug where you couldn't tap the next element (only the previous) in a slidable layout
+
 ## [22.1.1]
 - [Button] Fixed an issue when setting image to a button taking the entire parent space.
 
