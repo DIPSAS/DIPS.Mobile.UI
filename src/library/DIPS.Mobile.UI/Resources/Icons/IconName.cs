@@ -307,5 +307,9 @@ care_line=147,
 reply_line=148,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/list_add_line.svg">View the icon in the browser</a></summary>
 list_add_line=149,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flashlight_on_circle.svg">View the icon in the browser</a></summary>
+flashlight_on_circle=150,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flashlight_off_fill.svg">View the icon in the browser</a></summary>
+flashlight_off_fill=151,
     }
 }

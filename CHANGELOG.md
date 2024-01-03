@@ -1,3 +1,6 @@
+## [22.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [22.1.2]
 - [SlidableLayout] Fixed a bug where you couldn't tap the next element (only the previous) in a slidable layout
 
