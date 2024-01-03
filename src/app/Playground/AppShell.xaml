@@ -7,6 +7,7 @@
     xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
     xmlns:sanderSamples="clr-namespace:Playground.SanderSamples"
     xmlns:dui="http://dips.com/mobile.ui"
+    xmlns:eirikSamples="clr-namespace:Playground.EirikSamples"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
@@ -27,6 +28,12 @@
                 Title="Sander"
                 ContentTemplate="{DataTemplate sanderSamples:SanderPage}"
                 Route="Sander" />
+        </Tab>
+        <Tab Title="Eirik">
+            <ShellContent
+                Title="Eirik"
+                ContentTemplate="{DataTemplate eirikSamples:EirikPage}"
+                Route="Eirik"/>
         </Tab>
     </TabBar>
 </dui:Shell>

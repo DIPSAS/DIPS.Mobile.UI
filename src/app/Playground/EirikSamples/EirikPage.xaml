@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:eirikSamples="clr-namespace:Playground.EirikSamples"
+             x:Class="Playground.EirikSamples.EirikPage"
+             x:DataType="{x:Type eirikSamples:EirikPageViewModel}">
+    <dui:ContentPage.BindingContext>
+        <eirikSamples:EirikPageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:SlidableContentLayout x:Name="SlidableContentLayout"
+                               ContentTapped="SlidableContentLayout_OnContentTapped"
+                               BindingContextFactory="{Binding DateViewModelFactory}"
+                               Config="{Binding Config}"
+                               SlideProperties="{Binding Properties}"
+                               ScaleDown="False"
+                               DisableTouchScroll="False">
+        <dui:SlidableContentLayout.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type dui:SelectableDateViewModel}">
+                <dui:DateView />
+            </DataTemplate>
+        </dui:SlidableContentLayout.ItemTemplate>
+    </dui:SlidableContentLayout>
+</dui:ContentPage>

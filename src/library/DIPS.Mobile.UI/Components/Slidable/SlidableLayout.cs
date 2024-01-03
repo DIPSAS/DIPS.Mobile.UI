@@ -43,9 +43,9 @@ namespace DIPS.Mobile.UI.Components.Slidable
             var point = eventArgs.GetPosition((Element)sender);
             if (point.HasValue)
             {
-                var nonRoundedIndex = Math.Max(Config.MinValue, Math.Min(Config.MaxValue, CalculateIndex(point.Value.X)));
+                var nonRoundedIndex = CalculateIndex(point.Value.X);
                 var relativeIndex = GetIndexFromValue(nonRoundedIndex);
-                var currentIndex = (int)SlideProperties.Position + relativeIndex;
+                var currentIndex = Math.Clamp((int)SlideProperties.Position + relativeIndex, Config.MinValue, Config.MaxValue);
                 Tapped?.Invoke(this, new TappedEventArgs(currentIndex));
                 OnTapped(currentIndex);
             }
