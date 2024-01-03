@@ -1,3 +1,6 @@
+## [22.2.1]
+- [Button][iOS] Made sure setting size from the library only happens when the button has a text and a an image.
+
 ## [22.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
