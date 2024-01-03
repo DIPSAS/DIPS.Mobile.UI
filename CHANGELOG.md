@@ -1,3 +1,6 @@
+## [22.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [22.1.3]
 - Fixed an issue where the floating navigation button sometimes did not respect changing orientation.
 - Fixed an issue where buttons with only an icon did not have the correct layout.
