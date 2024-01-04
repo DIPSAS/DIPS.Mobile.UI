@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
     /// <summary>
     /// Layout used to scroll through indexes smoothly. This has enabled acceleration.
     /// </summary>
-    public partial class SlidableLayout : ContentView
+    public abstract partial class SlidableLayout : ContentView
     {
         private readonly PanGestureRecognizer m_panGestureRecognizer;
         private readonly AccelerationService m_accelerator = new(true);
@@ -13,6 +13,10 @@ namespace DIPS.Mobile.UI.Components.Slidable
         private double m_startSlideLocation;
         private int m_lastIndex = int.MinValue;
         private bool m_disableTouchScroll;
+        private bool m_hasInitialized;
+
+        private DisplayOrientation m_currentOrientation;
+
         
 
         /// <summary>
@@ -36,6 +40,8 @@ namespace DIPS.Mobile.UI.Components.Slidable
             var tapGestureRecognizer = new TapGestureRecognizer();
             GestureRecognizers.Add(tapGestureRecognizer);
             tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
+
+            m_currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
         }
 
         private void OnEntireLayoutTapped(object? sender, Microsoft.Maui.Controls.TappedEventArgs eventArgs)
@@ -61,7 +67,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
 
             me.OnScrolledInternal();
         }
-
+        
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -70,8 +76,23 @@ namespace DIPS.Mobile.UI.Components.Slidable
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
-            OnScrolledInternal(true);
+
+            if (width > 0 && !m_hasInitialized)
+            {
+                OnScrolledInternal(true);
+                m_hasInitialized = true;
+                return;
+            }
+            
+            if (m_currentOrientation != DeviceDisplay.MainDisplayInfo.Orientation)
+            {
+                m_currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
+                Redraw();
+                OnScrolledInternal(true);
+            }
         }
+
+        public abstract void Redraw();
 
         private static int s_scrollToId = -42;
 
@@ -138,7 +159,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
                     return;
                 }
 
-                Device.StartTimer(TimeSpan.FromMilliseconds(20), () => // ~40 fps
+                Dispatcher.StartTimer(TimeSpan.FromMilliseconds(10), () => // ~80 fps
                 {
                     if (currentId != SlideProperties.HoldId) return false;
                     m_accelerator.Min = Config.MinValue - 0.45;
@@ -224,16 +245,17 @@ namespace DIPS.Mobile.UI.Components.Slidable
             return Width * ElementWidth;
         }
 
-        private void OnScrolledInternal(bool initial = false)
+        protected void OnScrolledInternal(bool force = false)
         {
             OnScrolled(SlideProperties.Position);
             
             var index = (int)Math.Round(SlideProperties.Position);
-            if (index != m_lastIndex)
-            {
-                SelectedItemChangedCommand?.Execute(index);
-                m_lastIndex = index;
-            }
+            
+            if (!force && index == m_lastIndex)
+                return;
+
+            SelectedItemChangedCommand?.Execute(index);
+            m_lastIndex = index;
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
         /// <summary>
         ///     Signals to the control that its content should be redrawn.
         /// </summary>
-        public void Redraw()
+        public override void Redraw()
         {
             ResetAll();
         }

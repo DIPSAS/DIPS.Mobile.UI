@@ -13,6 +13,6 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
    
-    <dui:HorizontalInlineDatePicker />
-
+    <dui:HorizontalInlineDatePicker  />
+    
 </dui:ContentPage>

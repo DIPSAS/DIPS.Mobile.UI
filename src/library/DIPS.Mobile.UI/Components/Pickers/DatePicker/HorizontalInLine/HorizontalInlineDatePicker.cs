@@ -15,23 +15,28 @@ public partial class HorizontalInlineDatePicker : ContentView
     public HorizontalInlineDatePicker()
     {
         m_slidableContentLayout =
-            new SlidableContentLayout()
+            new SlidableContentLayout
             {
-#if __IOS__
-                HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_3),
-#elif __ANDROID__
-                HeightRequest = Sizes.GetSize(SizeName.size_25) + Sizes.GetSize(SizeName.size_10),
-#endif
-                
+                HeightRequest = GetHeightBasedOnScreenHeight(),
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
+                BindingContextFactory = CreateSelectableDateViewModel,
+                ItemTemplate = new DataTemplate(() => new DateView()),
+                Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday),
+                SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo)
             };
-        m_slidableContentLayout.BindingContextFactory = CreateSelectableDateViewModel;
-        m_slidableContentLayout.ItemTemplate = new DataTemplate(() => new DateView());
-        m_slidableContentLayout.Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday);
-        m_slidableContentLayout.SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo);
         m_slidableContentLayout.ContentTapped += ItemTapped;
         Content = m_slidableContentLayout;
+        
+        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
     }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        m_slidableContentLayout.HeightRequest = GetHeightBasedOnScreenHeight();
+    }
+
+    private double GetHeightBasedOnScreenHeight() =>
+        DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density / 6.5;
 
     private void ItemTapped(object? sender, ContentTappedEventArgs contentTappedEventArgs)
     {
@@ -117,12 +122,14 @@ public partial class HorizontalInlineDatePicker : ContentView
     {
         if (TryGetDateFromIndex(i, out var dateScrolledTo))
         {
+            UpdateInternalIsSelectedState(dateScrolledTo);
+            
             if (SelectedDate.Date == dateScrolledTo.Date) return; //No need to update, and to stop this from getting into a infinite loop
             
             SelectedDate = dateScrolledTo;
             VibrationService.SelectionChanged();
             
-            UpdateInternalIsSelectedState(dateScrolledTo);
+            
         }
     }
 
@@ -148,8 +155,21 @@ public partial class HorizontalInlineDatePicker : ContentView
     {
         if (TryGetIndexFromDate(SelectedDate, out var index))
         {
-            ScrollToIndex(index, false);
-            UpdateInternalIsSelectedState(SelectedDate);
+            var slidableContentLayoutIndex = (int)Math.Round(m_slidableContentLayout.SlideProperties.Position);
+            if (slidableContentLayoutIndex != index)
+            {
+                ScrollToIndex(index, false);
+            }
+        }
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            DeviceDisplay.MainDisplayInfoChanged -= DeviceDisplayOnMainDisplayInfoChanged;
         }
     }
 }
