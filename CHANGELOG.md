@@ -1,3 +1,8 @@
+## [22.2.2]
+- [iOS] Chip will now have touch effect when tapping
+- [iOS] Fixed an issue where the commands would fire when touches began and not ending on Chip
+- Cleanup in ChipHandler for iOS
+
 ## [22.2.1]
 - [Button][iOS] Made sure setting size from the library only happens when the button has a text and a an image.
 

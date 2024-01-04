@@ -12,30 +12,34 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-
-    <Grid>
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                        VerticalOptions="Start">
-        <dui:CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical"
-                               ItemSpacing="10" />
-        </dui:CollectionView.ItemsLayout>
-        <dui:CollectionView.ItemTemplate>
+    <VerticalStackLayout>
+<ScrollView Orientation="Horizontal">
+    <dui:HorizontalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}"
+                               Spacing="5"
+                               x:Name="HorizontalStackLayout">
+        
+        <BindableLayout.ItemTemplate>
             <DataTemplate>
-                
+                <!--<Grid>
+                <dui:Button ImageSource="{dui:Icons arrow_back_line}"
+                            Text="{Binding . }"
+                            ImagePlacement="Right" />
+                </Grid>-->
+                <Grid>
                 <dui:Chip IsCloseable="True"
                           Title="{Binding .}"
-                          WidthRequest="50"
+                          VerticalOptions="Center"
                           CloseCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=RemoveStringCommand}"
-                          CloseCommandParameter="{Binding .}"
-                          HeightRequest="50"
-                          VerticalOptions="Start" />
+                          CloseCommandParameter="{Binding .}"/>
+                </Grid>
             </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+            
+        </BindableLayout.ItemTemplate>
 
-    </dui:CollectionView>
+    </dui:HorizontalStackLayout>
+</ScrollView>
+        <dui:Button Text="Update"
+                    Clicked="Button_OnClicked"></dui:Button>
+    </VerticalStackLayout>
 
-        <dui:Button ImageSource="{dui:Icons arrow_back_line}"
-                    Style="{dui:Styles Button=PrimaryIconButtonLarge}"/>
-    </Grid>
 </dui:ContentPage>

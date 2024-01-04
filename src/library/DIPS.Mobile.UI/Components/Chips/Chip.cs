@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Resources.Styles.Chip;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
