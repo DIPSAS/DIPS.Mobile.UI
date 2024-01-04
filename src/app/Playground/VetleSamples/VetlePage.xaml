@@ -12,34 +12,7 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-<ScrollView Orientation="Horizontal">
-    <dui:HorizontalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}"
-                               Spacing="5"
-                               x:Name="HorizontalStackLayout">
-        
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <!--<Grid>
-                <dui:Button ImageSource="{dui:Icons arrow_back_line}"
-                            Text="{Binding . }"
-                            ImagePlacement="Right" />
-                </Grid>-->
-                <Grid>
-                <dui:Chip IsCloseable="True"
-                          Title="{Binding .}"
-                          VerticalOptions="Center"
-                          CloseCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=RemoveStringCommand}"
-                          CloseCommandParameter="{Binding .}"/>
-                </Grid>
-            </DataTemplate>
-            
-        </BindableLayout.ItemTemplate>
-
-    </dui:HorizontalStackLayout>
-</ScrollView>
-        <dui:Button Text="Update"
-                    Clicked="Button_OnClicked"></dui:Button>
-    </VerticalStackLayout>
+   
+    <dui:HorizontalInlineDatePicker />
 
 </dui:ContentPage>
