@@ -1,5 +1,5 @@
 ## [22.2.2]
-- [iOS] Chip will not have touch effect when tapping
+- [iOS] Chip will now have touch effect when tapping
 - [iOS] Fixed an issue where the commands would fire when touches began and not ending on Chip
 - Cleanup in ChipHandler for iOS
 
