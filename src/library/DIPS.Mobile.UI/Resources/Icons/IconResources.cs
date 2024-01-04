@@ -158,8 +158,8 @@ this file is generated
 ["care_line"] = "care_line.png",
 ["reply_line"] = "reply_line.png",
 ["list_add_line"] = "list_add_line.png",
-["flashlight_on_circle"] = "flashlight_on_circle.png",
 ["flashlight_off_fill"] = "flashlight_off_fill.png",
+["flashlight_on_fill"] = "flashlight_on_fill.png",
 
             };
         }
