@@ -20,6 +20,13 @@ public class DateTimeView : DateViewBase
         timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding(nameof(SelectableDateViewModel.FormattedTime)));
 
-        this.Add(timeOfDayLabel, 0, 2);
+        if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+        {
+            this.Add(timeOfDayLabel, 0, 2);
+        }
+        else
+        {
+            this.Add(timeOfDayLabel, 2);
+        }
     }
 }
