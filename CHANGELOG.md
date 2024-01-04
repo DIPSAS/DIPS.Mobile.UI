@@ -1,3 +1,6 @@
+## [22.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [22.2.2]
 - [iOS] Chip will now have touch effect when tapping
 - [iOS] Fixed an issue where the commands would fire when touches began and not ending on Chip
