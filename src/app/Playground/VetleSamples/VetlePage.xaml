@@ -13,28 +13,33 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid>
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                        VerticalOptions="Start">
-        <dui:CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical"
-                               ItemSpacing="10" />
-        </dui:CollectionView.ItemsLayout>
-        <dui:CollectionView.ItemTemplate>
+    <CollectionView ItemsSource="{Binding TestStrings}"
+                        ItemSizingStrategy="MeasureAllItems">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Horizontal"
+                             HorizontalItemSpacing="20"
+                             VerticalItemSpacing="20"
+                                />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Grid>
-                <dui:Button 
-                          Text="{Binding .}"
-                          HorizontalOptions="Start"
-                          HeightRequest="50"
-                          ImagePlacement="Right"
-                          ImageSource="{dui:Icons r_line}"
-                          VerticalOptions="Start" />
+                <dui:Button ImageSource="{dui:Icons arrow_back_line}"
+                            Text="{Binding . }"
+                            ImagePlacement="Right" />
                 </Grid>
+                <!--<Grid>
+                <dui:Cip IsCloseable="True"
+                          Margin="{dui:Thickness Right=size_5}"
+                          Title="{Binding .}"
+                          HorizontalOptions="Start"
+                          VerticalOptions="Center"
+                          CloseCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=RemoveStringCommand}"
+                          CloseCommandParameter="{Binding .}"/>
+                </Grid>-->
             </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+        </CollectionView.ItemTemplate>
 
-    </dui:CollectionView>
+    </CollectionView>
 
-    </Grid>
 </dui:ContentPage>

@@ -1,59 +1,111 @@
 using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Extensions.iOS;
+using DIPS.Mobile.UI.Platforms.iOS;
+using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, UIButton>
 {
-    private Components.Buttons.Button m_button;
-
     protected override UIButton CreatePlatformView()
     {
-        m_button = new Components.Buttons.Button();
-        var uiView = m_button.ToPlatform(MauiContext!);
-        return (uiView.Subviews[0] as UIButton)!;
+        return new ChipButton { OnTapped = OnTappedButtonChip };
     }
-    
+
+    private void OnTappedButtonChip(NSSet touches)
+    {
+        if (VirtualView.IsToggleable)
+        {
+            VirtualView.IsToggled = !VirtualView.IsToggled;
+            return;
+        }
+        
+        if (!VirtualView.IsCloseable)
+        {
+            OnChipTapped();
+            return;
+        }
+
+        var firstObject = touches.First();
+        if (firstObject is not UITouch uiTouch) return;
+        var uiButton = PlatformView;
+        var touchLocationInView = uiTouch.LocationInView(uiButton);
+        var didTouchInsideImage =
+            touchLocationInView.X > uiButton.TitleLabel.Frame.X + uiButton.TitleLabel.Frame.Width;
+
+        if (didTouchInsideImage)
+        {
+            OnCloseTapped();
+        }
+        else
+        {
+            OnChipTapped();
+        }
+    }
+
     protected override void ConnectHandler(UIButton platformView)
     {
         base.ConnectHandler(platformView);
-        m_button.TextColor = Colors.GetColor(ColorName.color_system_black);
+        platformView.SetTitleColor(Colors.GetColor(ColorName.color_system_black).ToPlatform(), UIControlState.Normal);
         // Here we style the button as close as possible to native compact datepicker in iOS
         // We do not use the design system here so this does not diverge at a later point
-        m_button.FontSize = 17;
-        m_button.CornerRadius = 6;
-        m_button.Padding = new Thickness(12, 6, 12, 6);
-        platformView.AddGestureRecognizer(new ChipCloseGestureRecognizer(this));
-        platformView.AddGestureRecognizer(new ChipToggleGestureRecognizer(this));
+        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
+        platformView.Layer.CornerRadius = 6;
+        platformView.UpdateFont(new Label { FontSize = 17 }, fontManager!);
+        platformView.UpdatePadding(new Thickness(12, 6, 12, 6));
+    }
+    
+    //TODO: .NET 8 vNext, workaround developed by looking at : https://github.com/dotnet/maui/pull/18521
+    //TODO. .NET 8 vNext, Remove when its confirmed that this is released: https://github.com/dotnet/maui/issues/18504
+    public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
+    {
+        var desiredSize = base.GetDesiredSize(widthConstraint, heightConstraint);
+        if (PlatformView is not UIButton uiButton)
+        {
+            return desiredSize;
+        }
+
+        if (uiButton.ImageView.Image is not null && string.IsNullOrEmpty(uiButton.CurrentTitle)) //A chip with only a image
+        {
+            return desiredSize;
+        }
+        
+        if (uiButton.ImageView.Image is null && !string.IsNullOrEmpty(uiButton.CurrentTitle)) //A chip with only a title
+        {
+            return desiredSize;
+        }
+        
+        //A button with both title and image, which has the bug
+        return new Size(uiButton.IntrinsicContentSize.Width, uiButton.IntrinsicContentSize.Height);
     }
     
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
-        handler.m_button.Text = chip.Title;
+        handler.PlatformView.SetTitle(chip.Title, UIControlState.Normal);
         handler.PlatformView.TitleLabel.LineBreakMode = UILineBreakMode.TailTruncation;
     }
 
     private static partial void MapIsCloseable(ChipHandler handler, Chip chip)
     {
-        var uiButton = handler.PlatformView;
         if (handler.VirtualView.IsCloseable)
         {
             if (Icons.TryGetUIImage(iconName: handler.CloseIconName, out var image))
             {
-                uiButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+                handler.PlatformView.ContentMode = UIViewContentMode.ScaleAspectFit;
                 var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
-                uiButton.SetImage(resizedImage, UIControlState.Normal);
-                handler.m_button.ImagePlacement = ImagePlacement.Right;
-                //ShiftImageToTheRight(handler, uiButton);
+                handler.PlatformView.SetImage(resizedImage, UIControlState.Normal);
+                //ShiftImageToTheRight(handler.PlatformView);
             }
             else
             {
-                uiButton.SetImage(null, UIControlState.Normal);
+                handler.PlatformView.SetImage(null, UIControlState.Normal);
             }
         }
     }
@@ -81,12 +133,12 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         handler.PlatformView.TintColor = handler.VirtualView.CloseButtonColor.ToPlatform();
     }
     
-    private static partial void MapCornerRadius(ChipHandler handler, Chip arg2)
+    private static partial void MapCornerRadius(ChipHandler handler, Chip chip)
     {
-        handler.PlatformView.Layer.CornerRadius = handler.VirtualView.CornerRadius;
+        handler.PlatformView.Layer.CornerRadius = chip.CornerRadius;
     }
 
-    private static void ShiftImageToTheRight(ChipHandler handler, UIButton uiButton)
+    private static void ShiftImageToTheRight(UIButton uiButton)
     {
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1))
         {
@@ -131,7 +183,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
 
     private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
     {
-        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable) return;
+        if (chip.IsCloseable || !chip.IsToggleable) return;
         
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
         
@@ -149,10 +201,10 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     private static partial void MapIsToggled(ChipHandler handler, Chip chip)
     {
         //Make sure not to mess with close button
-        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable) return;
+        if (chip.IsCloseable || !chip.IsToggleable) return;
         
         var uiButton = handler.PlatformView;
-        if (handler.VirtualView.IsToggled)
+        if (chip.IsToggled)
         {
             if (!Icons.TryGetUIImage(iconName: handler.ToggledIconName, out var image)) return;
 
@@ -160,18 +212,18 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
             var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
             uiButton.ContentEdgeInsets = new UIEdgeInsets(uiButton.ContentEdgeInsets.Top, uiButton.ContentEdgeInsets.Left-resizedImage.Size.Width, uiButton.ContentEdgeInsets.Bottom, uiButton.ContentEdgeInsets.Right-resizedImage.Size.Width);            
             uiButton.SetImage(resizedImage, UIControlState.Normal);
-            CenterContent(handler, uiButton, true);
+            CenterContent(uiButton, true);
         }
         else
         {
             if (uiButton.ImageView.Image is null) return; 
             
-            CenterContent(handler, uiButton);
+            CenterContent(uiButton);
             uiButton.SetImage(null, UIControlState.Normal);
         }
     }
     
-    private static void CenterContent(ChipHandler handler, UIButton uiButton, bool imageIsDisplayed = false)
+    private static void CenterContent(UIButton uiButton, bool imageIsDisplayed = false)
     {
         if (!OperatingSystem.IsIOSVersionAtLeast(14, 1)) return;
          
