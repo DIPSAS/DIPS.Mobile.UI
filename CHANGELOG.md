@@ -1,5 +1,7 @@
 ## [22.2.2]
-- [Android] Fixed an issue where the text was not centered if the height was above the default in ItemPicker
+- [iOS] Chip will not have touch effect when tapping
+- [iOS] Fixed an issue where the commands would fire when touches began and not ending on Chip
+- Cleanup in ChipHandler for iOS
 
 ## [22.2.1]
 - [Button][iOS] Made sure setting size from the library only happens when the button has a text and a an image.

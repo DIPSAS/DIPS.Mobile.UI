@@ -81,7 +81,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         {
             return desiredSize;
         }
-        
+
         //A button with both title and image, which has the bug
         return new Size(uiButton.IntrinsicContentSize.Width, uiButton.IntrinsicContentSize.Height);
     }
@@ -101,7 +101,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
                 handler.PlatformView.ContentMode = UIViewContentMode.ScaleAspectFit;
                 var resizedImage = image!.ResizeImage(handler.PlatformView.TitleLabel.Font.PointSize);
                 handler.PlatformView.SetImage(resizedImage, UIControlState.Normal);
-                //ShiftImageToTheRight(handler.PlatformView);
+                ShiftImageToTheRight(handler.PlatformView);
             }
             else
             {

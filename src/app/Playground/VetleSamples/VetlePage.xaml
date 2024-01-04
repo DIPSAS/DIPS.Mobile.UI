@@ -12,34 +12,34 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-
-    <CollectionView ItemsSource="{Binding TestStrings}"
-                        ItemSizingStrategy="MeasureAllItems">
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Horizontal"
-                             HorizontalItemSpacing="20"
-                             VerticalItemSpacing="20"
-                                />
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
+    <VerticalStackLayout>
+<ScrollView Orientation="Horizontal">
+    <dui:HorizontalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}"
+                               Spacing="5"
+                               x:Name="HorizontalStackLayout">
+        
+        <BindableLayout.ItemTemplate>
             <DataTemplate>
-                <Grid>
+                <!--<Grid>
                 <dui:Button ImageSource="{dui:Icons arrow_back_line}"
                             Text="{Binding . }"
                             ImagePlacement="Right" />
-                </Grid>
-                <!--<Grid>
-                <dui:Cip IsCloseable="True"
-                          Margin="{dui:Thickness Right=size_5}"
+                </Grid>-->
+                <Grid>
+                <dui:Chip IsCloseable="True"
                           Title="{Binding .}"
-                          HorizontalOptions="Start"
                           VerticalOptions="Center"
                           CloseCommand="{Binding Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}, Path=RemoveStringCommand}"
                           CloseCommandParameter="{Binding .}"/>
-                </Grid>-->
+                </Grid>
             </DataTemplate>
-        </CollectionView.ItemTemplate>
+            
+        </BindableLayout.ItemTemplate>
 
-    </CollectionView>
+    </dui:HorizontalStackLayout>
+</ScrollView>
+        <dui:Button Text="Update"
+                    Clicked="Button_OnClicked"></dui:Button>
+    </VerticalStackLayout>
 
 </dui:ContentPage>
