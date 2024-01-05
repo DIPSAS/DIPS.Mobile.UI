@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Selection;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
@@ -22,6 +23,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     {
         private readonly ItemPicker m_itemPicker;
         private readonly List<SelectableItemViewModel> m_originalItems;
+        private readonly CollectionView m_collectionView;
 
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
@@ -46,16 +48,30 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     Source = m_itemPicker.BottomSheetPickerConfiguration,
                     Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)
                 });
+            
+            SetBinding(ShouldAutoFocusSearchBarProperty,
+                new Binding(nameof(ItemPicker.ShouldAutoFocusSearchBar), source: m_itemPicker));
 
-            var collectionView = new CollectionView()
+            m_collectionView = new CollectionView()
             {
                 ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
             };
+            
+            m_collectionView.Scrolled += OnCollectionViewScrolled;
 
-            collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+            m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
 
-            Content = CreateContentControlForActivityIndicator(collectionView,
+            Content = CreateContentControlForActivityIndicator(m_collectionView,
                 m_itemPicker.BottomSheetPickerConfiguration);
+        }
+        
+        private void OnCollectionViewScrolled(object? sender, ItemsViewScrolledEventArgs e)
+        {
+#if __ANDROID__ //Scrolled gets kicked off when you change the collections item source for some reason, so we have to detect if its a scroll or not
+            if (m_collectionView.Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) return; //0 is idle
+#endif
+               
+            SearchBar.Unfocus();
         }
 
         private object LoadTemplate()
@@ -73,6 +89,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             nameof(Items),
             typeof(ObservableCollection<SelectableItemViewModel>),
             typeof(ItemPickerBottomSheet));
+
 
         public ObservableCollection<SelectableItemViewModel> Items
         {
@@ -188,6 +205,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 new Binding() {Path = nameof(BottomSheetPickerConfiguration.IsBusy), FallbackValue = false});
 
             return contentControl;
+        }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+            {
+                m_collectionView.Scrolled -= OnCollectionViewScrolled;
+            }
         }
     }
 

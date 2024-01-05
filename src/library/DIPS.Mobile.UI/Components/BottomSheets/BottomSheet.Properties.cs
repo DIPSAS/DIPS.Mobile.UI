@@ -82,6 +82,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(HasSearchBarProperty, value);
         }
 
+        public static readonly BindableProperty ShouldAutoFocusSearchBarProperty = BindableProperty.Create(
+            nameof(ShouldAutoFocusSearchBar),
+            typeof(bool),
+            typeof(BottomSheet));
+
+        /// <summary>
+        /// Determines whether the search bar should be focused when opening the bottom sheet
+        /// </summary>
+        /// <remarks>Only valid when <see cref="HasSearchBar"/> is true</remarks>
+        public bool ShouldAutoFocusSearchBar
+        {
+            get => (bool)GetValue(ShouldAutoFocusSearchBarProperty);
+            set => SetValue(ShouldAutoFocusSearchBarProperty, value);
+        }
+        
         /// <summary>
         /// The command to be executed when the text in the search field is changed
         /// </summary>

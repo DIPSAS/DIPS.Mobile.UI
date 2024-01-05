@@ -1,3 +1,7 @@
+## [22.4.0]
+- Fixed an issue where keyboard would still be opened when scrolling in ItemPicker bottomsheet.
+- Added new property: 'ShouldAutoFocusSearchBar' for BottomSheet and ItemPicker. 
+
 ## [22.3.1] 
 - Fixed an issue where HorizontalInlineDatePicker took too much height when in landscape mode.
 - Fixed an issue where HorizontalInlineDatePicker would instantly snap to dates when scrolling.
