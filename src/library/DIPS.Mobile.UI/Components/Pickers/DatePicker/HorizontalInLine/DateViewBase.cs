@@ -17,13 +17,8 @@ public abstract class DateViewBase : Grid
         Loaded += CreateView;
     }
 
-    private void CreateView(object? sender, EventArgs e)
+    private void CreateView(object? sender, EventArgs eventArgs)
     {
-        RowSpacing = Sizes.GetSize(SizeName.size_2);
-        RowDefinitions =
-            new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
-                new RowDefinition(GridLength.Auto));
-
         SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
@@ -32,7 +27,25 @@ public abstract class DateViewBase : Grid
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
         
+        if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+        {
+            CreatePortraitView();
+        }
+        else
+        {
+            CreateLandscapeView();
+        }
         
+        Loaded -= CreateView;
+    }
+    
+    private void CreatePortraitView()
+    {
+        RowSpacing = Sizes.GetSize(SizeName.size_2);
+        RowDefinitions =
+            new RowDefinitionCollection(new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Auto));
+
         //Month header
         this.Add(CreateMonthHeaderContentControl(), 0, 0);
 
@@ -52,7 +65,32 @@ public abstract class DateViewBase : Grid
 
         OnViewCreated();
         
-        Loaded -= CreateView;
+    }
+
+    private void CreateLandscapeView()
+    {
+        ColumnDefinitions =
+            new ColumnDefinitionCollection(new ColumnDefinition(new GridLength(2, GridUnitType.Star)), 
+                new ColumnDefinition(GridLength.Star), new ColumnDefinition(new GridLength(2, GridUnitType.Star)));
+        
+        //Month header
+        this.Add(CreateMonthHeaderContentControl());
+        
+        //Day number label
+        var dayLabel = CreateLabel(new Label());
+        dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
+            new Binding(nameof(SelectableDateViewModel.IsSelected),
+                converter: new BoolToObjectConverter()
+                {
+                    TrueObject = Colors.GetColor(ColorName.color_system_white),
+                    FalseObject = Colors.GetColor(ColorName.color_system_black),
+                }));
+        dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
+            new Binding(nameof(SelectableDateViewModel.Day)));
+
+        this.Add(dayLabel, 1, 0);
+
+        OnViewCreated();
     }
     
     protected virtual void OnViewCreated() {}
@@ -61,7 +99,7 @@ public abstract class DateViewBase : Grid
     {
         var contentControl = new ContentControl();
         contentControl.Padding = new Thickness(Sizes.GetSize(SizeName.size_2));
-        
+
         contentControl.SetBinding(BackgroundColorProperty,
             new Binding(nameof(SelectableDateViewModel.IsSelected),
                 converter: new BoolToObjectConverter()
@@ -69,6 +107,7 @@ public abstract class DateViewBase : Grid
                     TrueObject = Colors.GetColor(ColorName.color_secondary_90),
                     FalseObject = Colors.GetColor(ColorName.color_neutral_05)
                 }));
+        
         contentControl.SetBinding(ContentControl.SelectorItemProperty,
             new Binding(nameof(SelectableDateViewModel.IsCurrentYear)));
         contentControl.TemplateSelector = new BooleanDataTemplateSelector()
@@ -80,6 +119,18 @@ public abstract class DateViewBase : Grid
                 monthLabel.TextTransform = TextTransform.Uppercase;
                 monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
                     new Binding(nameof(SelectableDateViewModel.MonthName)));
+
+                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
+                {
+                    monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
+                        new Binding(nameof(SelectableDateViewModel.IsSelected),
+                            converter: new BoolToObjectConverter()
+                            {
+                                TrueObject = Colors.GetColor(ColorName.color_system_white),
+                                FalseObject = Colors.GetColor(ColorName.color_system_black),
+                            }));
+                }
+
                 return monthLabel;
             }),
             FalseTemplate = new DataTemplate(() =>
@@ -96,6 +147,18 @@ public abstract class DateViewBase : Grid
                     new Binding(nameof(SelectableDateViewModel.YearName)));
                 monthAndYearLabel.FormattedText =
                     new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
+
+                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
+                {
+                    monthAndYearLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
+                        new Binding(nameof(SelectableDateViewModel.IsSelected),
+                            converter: new BoolToObjectConverter()
+                            {
+                                TrueObject = Colors.GetColor(ColorName.color_system_white),
+                                FalseObject = Colors.GetColor(ColorName.color_system_black),
+                            }));
+                }
+
                 return monthAndYearLabel;
             })
         };

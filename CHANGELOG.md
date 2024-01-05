@@ -1,3 +1,8 @@
+## [22.3.1] 
+- Fixed an issue where HorizontalInlineDatePicker took too much height when in landscape mode.
+- Fixed an issue where HorizontalInlineDatePicker would instantly snap to dates when scrolling.
+- DateView now changes its view based on its orientation.
+
 ## [22.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

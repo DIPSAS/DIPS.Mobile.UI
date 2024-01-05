@@ -41,8 +41,5 @@ public partial class VetlePage
         ShouldHideFloatingNavigationMenuButton = e.Value;
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        HorizontalStackLayout.InvalidateMeasureNonVirtual(InvalidationTrigger.HorizontalOptionsChanged);
-    }
+    
 }
