@@ -13,6 +13,8 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
    
-    <dui:HorizontalInlineDatePicker  />
+    <dui:ItemPicker ItemsSource="{Binding TestStrings}"
+                    Mode="BottomSheet"
+                    ShouldAutoFocusSearchBar="True" />
     
 </dui:ContentPage>

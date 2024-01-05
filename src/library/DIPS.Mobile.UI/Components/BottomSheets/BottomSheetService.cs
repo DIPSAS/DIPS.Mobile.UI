@@ -12,11 +12,24 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <param name="bottomSheet">The view to display inside the bottom sheet.</param>
         /// <returns></returns>
-        public static Task Open(BottomSheet bottomSheet)
+        public static async Task Open(BottomSheet bottomSheet)
         {
             BottomSheetStack ??= [];
             BottomSheetStack.Add(bottomSheet);
-            return PlatformOpen(bottomSheet);
+
+            var shouldFocusSearchBarOnOpen = bottomSheet is { HasSearchBar: true, ShouldAutoFocusSearchBar: true };
+            if (shouldFocusSearchBarOnOpen)
+            {
+                bottomSheet.Positioning = Positioning.Large;
+            }
+            
+            await PlatformOpen(bottomSheet);
+
+            if (shouldFocusSearchBarOnOpen)
+            {
+                await Task.Delay(1);
+                bottomSheet.SearchBar.Focus();
+            }
         }
 
         /// <summary>
