@@ -1,3 +1,6 @@
+## [22.4.1]
+- [SearchBar] Made sure unfocused event was correctly mapped.
+
 ## [22.4.0]
 - Fixed an issue where keyboard would still be opened when scrolling in ItemPicker bottomsheet.
 - Added new property: 'ShouldAutoFocusSearchBar' for BottomSheet and ItemPicker. 
