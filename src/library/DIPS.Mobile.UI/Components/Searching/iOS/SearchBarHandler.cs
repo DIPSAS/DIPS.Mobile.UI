@@ -174,6 +174,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         }
 
         InternalSearchBar.Focused += OnInternalSearchBarFocused;
+        InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
     }
 
     private void OnClearButtonClicked(object? sender, EventArgs e)
@@ -210,7 +211,8 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             ClearButton.TouchUpInside += OnClearButtonClicked;
         }
 
-        InternalSearchBar.Focused += OnInternalSearchBarFocused;
+        InternalSearchBar.Focused -= OnInternalSearchBarFocused;
+        InternalSearchBar.Unfocused -= OnInternalSearchBarUnFocused;
     }
 
     private void OnCancelButtonClicked(object? sender, EventArgs e)

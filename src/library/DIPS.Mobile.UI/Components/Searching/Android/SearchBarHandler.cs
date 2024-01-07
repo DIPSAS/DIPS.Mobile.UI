@@ -136,6 +136,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             CancelButton.Clicked += OnCancelClicked;
             InternalSearchBar.Focused += OnInternalSearchBarFocused;
+            InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
         }
 
         private void OnCancelClicked(object? sender, EventArgs e)
@@ -158,6 +159,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
+            InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
             CancelButton.Clicked -= OnCancelClicked;
         }
 
