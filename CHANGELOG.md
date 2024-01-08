@@ -1,3 +1,6 @@
+## [22.4.3]
+- [ContextMenu] Fixed Context Menu data context not getting updated in collections that are updated from another page
+
 ## [22.4.2]
 - [iOS][ItemPicker] Ensure chip resizes when selected item changes.
 

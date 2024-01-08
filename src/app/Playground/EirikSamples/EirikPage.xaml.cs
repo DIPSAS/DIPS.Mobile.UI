@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Components.Slidable;
+using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 namespace Playground.EirikSamples;
 
@@ -9,9 +9,13 @@ public partial class EirikPage
         InitializeComponent();
     }
 
-    private void SlidableContentLayout_OnContentTapped(object sender, ContentTappedEventArgs e)
+    private void ContextMenu_OnBindingContextChanged(object sender, EventArgs e)
     {
-        Console.WriteLine(e.Index);
-        SlidableContentLayout.ScrollTo(e.Index);
+        SystemMessageService.Display(config: configurator => configurator.Text = "CONTEXT MENU binding context changed!");
+    }
+
+    private void ListItemOnBindingContextChanged(object sender, EventArgs e)
+    {
+        SystemMessageService.Display(config: configurator => configurator.Text = "LIST ITEM binding context changed!");
     }
 }
