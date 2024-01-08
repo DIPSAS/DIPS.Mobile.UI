@@ -218,7 +218,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     private void OnCancelButtonClicked(object? sender, EventArgs e)
     {
         UnFocus();
-        VirtualView.CancelCommand.Execute(VirtualView.CancelCommandParameter);
+        VirtualView.CancelCommand?.Execute(VirtualView.CancelCommandParameter);
     }
 
     protected override void DisconnectHandler(DuiSearchBar platformView)
