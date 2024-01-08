@@ -1,3 +1,6 @@
+## [22.4.1]
+- [SearchBar] Made sure `CancelCommand` is nullable and cancling without having a `CancelCommand` does not crash.
+
 ## [22.4.2]
 - [iOS][ItemPicker] Ensure chip resizes when selected item changes.
 
