@@ -1,3 +1,6 @@
+## [22.4.2]
+- [iOS][ItemPicker] Ensure chip resizes when selected item changes.
+
 ## [22.4.1]
 - [SearchBar] Made sure unfocused event was correctly mapped.
 

@@ -88,6 +88,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
     
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
+        handler.PlatformView.TranslatesAutoresizingMaskIntoConstraints = false;
         handler.PlatformView.SetTitle(chip.Title, UIControlState.Normal);
         handler.PlatformView.TitleLabel.LineBreakMode = UILineBreakMode.TailTruncation;
     }
