@@ -4,7 +4,6 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public class ContextMenuEffect : RoutingEffect
 {
-    
     /// <summary>
     /// Set the ContextMenu mode
     /// </summary>
@@ -50,11 +49,12 @@ public class ContextMenuEffect : RoutingEffect
         {
             return;
         }
-
+        
         var shouldHaveContextMenu = newValue != null;
         if (shouldHaveContextMenu)
         {
             button.Effects.Add(new ContextMenuEffect());
+            button.BindingContextChanged += View_OnBindingContextChanged;
         }
         else
         {
@@ -63,7 +63,19 @@ public class ContextMenuEffect : RoutingEffect
             {
                 button.Effects.Remove(toRemove);
             }
+
+            button.BindingContextChanged -= View_OnBindingContextChanged;
         }
+    }
+
+    private static void View_OnBindingContextChanged(object? sender, EventArgs e)
+    {
+        if (sender is not View view) return;
+
+        var contextMenu = GetMenu(view);
+        if (contextMenu is null) return;
+
+        contextMenu.BindingContext = view.BindingContext;
     }
 
     public enum ContextMenuMode

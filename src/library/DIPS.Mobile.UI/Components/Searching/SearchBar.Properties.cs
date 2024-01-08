@@ -81,9 +81,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The command to be executed when people tap the cancel button.
         /// </summary>
-        public ICommand CancelCommand
+        public ICommand? CancelCommand
         {
-            get => (ICommand)GetValue(CancelCommandProperty);
+            get => (ICommand?)GetValue(CancelCommandProperty);
             set => SetValue(CancelCommandProperty, value);
         }
 
