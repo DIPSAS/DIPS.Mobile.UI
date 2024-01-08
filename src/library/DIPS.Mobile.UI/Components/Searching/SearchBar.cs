@@ -61,5 +61,10 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             Focused?.Invoke(this, EventArgs.Empty);
         }
+
+        internal void SendUnfocused()
+        {
+            Unfocused?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

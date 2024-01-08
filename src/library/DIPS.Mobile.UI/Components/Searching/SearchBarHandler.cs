@@ -28,6 +28,11 @@ internal partial class SearchBarHandler
     {
         VirtualView.SendFocused();
     }
+    
+    private void OnInternalSearchBarUnFocused(object? sender, FocusEventArgs e)
+    {
+        VirtualView.SendUnfocused();
+    }
 
     public partial void Focus();
 
