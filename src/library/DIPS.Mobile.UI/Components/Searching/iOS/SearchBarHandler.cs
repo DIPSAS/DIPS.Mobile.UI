@@ -141,6 +141,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             return;
 
         cancelButton.Enabled = true;
+        MapCancelButtonTextColor(searchBarHandler, internalSearchBar); //Make sure to reset colors
     }
 
     protected override DuiSearchBar CreatePlatformView()
