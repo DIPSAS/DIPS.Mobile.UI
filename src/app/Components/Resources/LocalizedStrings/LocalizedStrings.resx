@@ -314,9 +314,6 @@
     <data name="DefaultStateViews" xml:space="preserve">
         <value>Default state views</value>
     </data>
-    <data name="ThisIsEmptyView" xml:space="preserve">
-        <value />
-    </data>
     <data name="CustomStateViews" xml:space="preserve">
         <value>Custom state views</value>
     </data>

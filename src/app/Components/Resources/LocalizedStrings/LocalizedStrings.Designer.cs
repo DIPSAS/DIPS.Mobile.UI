@@ -627,12 +627,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string ThisIsEmptyView {
-            get {
-                return ResourceManager.GetString("ThisIsEmptyView", resourceCulture);
-            }
-        }
-        
         internal static string CustomStateViews {
             get {
                 return ResourceManager.GetString("CustomStateViews", resourceCulture);
