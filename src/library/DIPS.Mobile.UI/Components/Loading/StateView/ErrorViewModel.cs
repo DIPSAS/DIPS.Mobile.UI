@@ -4,7 +4,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-internal class ErrorViewModel : ViewModel
+public class ErrorViewModel : ViewModel
 {
     private string m_title = DUILocalizedStrings.ErrorViewTitle;
     private string m_description = DUILocalizedStrings.ErrorViewDescription;
