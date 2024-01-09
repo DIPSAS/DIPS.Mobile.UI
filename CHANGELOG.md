@@ -1,3 +1,6 @@
+## [22.5.0]
+- Added StateView.
+
 ## [22.4.4]
 - [SearchBar] Made sure to colorize cancel button when HasCancelButton has changed on ios.
 

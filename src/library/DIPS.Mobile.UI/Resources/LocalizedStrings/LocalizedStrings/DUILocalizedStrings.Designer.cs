@@ -158,5 +158,29 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Saving", resourceCulture);
             }
         }
+        
+        internal static string EmptyViewTitle {
+            get {
+                return ResourceManager.GetString("EmptyViewTitle", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyViewDescription {
+            get {
+                return ResourceManager.GetString("EmptyViewDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ErrorViewTitle {
+            get {
+                return ResourceManager.GetString("ErrorViewTitle", resourceCulture);
+            }
+        }
+        
+        internal static string ErrorViewDescription {
+            get {
+                return ResourceManager.GetString("ErrorViewDescription", resourceCulture);
+            }
+        }
     }
 }

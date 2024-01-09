@@ -13,8 +13,13 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
    
-    <dui:ItemPicker ItemsSource="{Binding TestStrings}"
-                    Mode="BottomSheet"
-                    ShouldAutoFocusSearchBar="True" />
-    
+    <Grid>
+    <stateView:StateView CurrentState="{Binding CurrentState}"
+                         StateViewModel="{Binding StateViewModel}">
+        
+        <dui:Label Text="Hello this is me!" />
+        
+    </stateView:StateView>
+    <dui:Button HorizontalOptions="End" Text="e" Command="{Binding SaveSuccess}"></dui:Button>
+    </Grid>
 </dui:ContentPage>

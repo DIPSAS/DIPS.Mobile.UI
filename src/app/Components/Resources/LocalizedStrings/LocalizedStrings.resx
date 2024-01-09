@@ -311,4 +311,13 @@
     <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
         <value>Single item and single group</value>
     </data>
+    <data name="DefaultStateViews" xml:space="preserve">
+        <value>Default state views</value>
+    </data>
+    <data name="CustomStateViews" xml:space="preserve">
+        <value>Custom state views</value>
+    </data>
+    <data name="NoItemsToChooseFrom" xml:space="preserve">
+        <value>No items to choose from</value>
+    </data>
 </root>

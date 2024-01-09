@@ -21,19 +21,16 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
+    private State m_currentState = State.Error;
+    private StateViewModel m_stateViewModel;
 
     public VetlePageViewModel()
     {
+        
         Navigate = new Command(Navigatee);
         SaveSuccess = new Command(async () =>
         {
-            IsSavingCompleted = false;
-            IsError = false;
-            IsSaving = true;
-            await Task.Delay(2000);
-            IsSaving = false;
-            IsSavingCompleted = true;
-            IsSavingCompleted = false;
+            CurrentState = State.Error;
         });
 
         SaveError = new Command(async () =>
@@ -240,6 +237,29 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isSavingCompleted;
         set => RaiseWhenSet(ref m_isSavingCompleted, value);
+    }
+
+    public State CurrentState
+    {
+        get => m_currentState;
+        set => RaiseWhenSet(ref m_currentState, value);
+    }
+
+    public StateViewModel StateViewModel
+    {
+        get => m_stateViewModel;
+        set
+        {
+            m_stateViewModel = value;
+
+            m_stateViewModel.ErrorViewTitle = "Hei og hå!";
+            m_stateViewModel.RefreshCommand = new Command(async () =>
+            {
+                await Task.Delay(1000);
+                CurrentState = State.Default;
+                m_stateViewModel.IsRefreshing = false;
+            });
+        }
     }
 }
 
