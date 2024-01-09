@@ -13,6 +13,8 @@ public class ErrorViewModel : ViewModel
     
     private ICommand? m_refreshCommand;
     
+    private ImageSource? m_icon;
+    
     /// <summary>
     /// Sets the title
     /// </summary>
@@ -47,5 +49,15 @@ public class ErrorViewModel : ViewModel
     {
         get => m_refreshCommand;
         set => RaiseWhenSet(ref m_refreshCommand, value);
+    }
+    
+    /// <summary>
+    /// Sets the icon
+    /// </summary>
+    /// <remarks>Optional</remarks>
+    public ImageSource? Icon
+    {
+        get => m_icon;
+        set => RaiseWhenSet(ref m_icon, value);
     }
 }

@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.MVVM;
+using DIPS.Mobile.UI.Resources.Icons;
 
 namespace Components.ComponentsSamples.Loading.StateView;
 
@@ -48,6 +49,8 @@ public class StateViewSamplesViewModel : ViewModel
 
             m_myStateViewModel.Error.Title = "This is an error title";
             m_myStateViewModel.Error.Description = "Description of the error";
+
+            m_myStateViewModel.Empty.Icon = Icons.GetIcon(IconName.beaker_fill);
 
             m_myStateViewModel.Error.RefreshCommand = new Command(async () =>
             {
