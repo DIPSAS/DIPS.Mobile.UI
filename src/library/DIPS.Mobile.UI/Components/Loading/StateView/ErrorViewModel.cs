@@ -13,24 +13,36 @@ public class ErrorViewModel : ViewModel
     
     private ICommand? m_refreshCommand;
     
+    /// <summary>
+    /// Sets the title
+    /// </summary>
     public string Title
     {
         get => m_title;
         set => RaiseWhenSet(ref m_title, value);
     }
 
+    /// <summary>
+    /// Sets the description
+    /// </summary>
     public string Description
     {
         get => m_description;
         set => RaiseWhenSet(ref m_description, value);
     }
 
+    /// <summary>
+    /// Is used with <see cref="RefreshView"/> to determine if it is refreshing or not
+    /// </summary>
     public bool IsRefreshing
     {
         get => m_isRefreshing;
         set => RaiseWhenSet(ref m_isRefreshing, value);
     }
 
+    /// <summary>
+    /// Is used with <see cref="RefreshView"/> and is executed when the user has pulled to refresh
+    /// </summary>
     public ICommand? RefreshCommand
     {
         get => m_refreshCommand;

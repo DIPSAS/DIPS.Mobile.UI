@@ -1,13 +1,13 @@
 namespace DIPS.Mobile.UI.Components.Loading.StateView
 {
     [ContentProperty(nameof(DefaultView))]
-    public partial class StateView : ContentView
+    public partial class StateView : ContentView, IStateChangedAware
     {
         private View? m_currentViewVisible;
     
-        private async Task OnStateChanged()
+        public async Task OnStateChanged(State state)
         {
-            var viewToDisplay = GetViewByState();
+            var viewToDisplay = GetViewByState(state);
             
             if (m_currentViewVisible is null)
             {
@@ -26,14 +26,15 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             m_currentViewVisible = viewToDisplay;
         }
 
-        private View GetViewByState()
+        private View GetViewByState(State state)
             =>
-                CurrentState switch
+                state switch
                 {
                     State.Default => (View)DefaultView,
                     State.Loading => (View)LoadingView,
                     State.Error => (View)ErrorView,
                     State.Empty => (View)EmptyView,
+                    State.None => new Label(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
 

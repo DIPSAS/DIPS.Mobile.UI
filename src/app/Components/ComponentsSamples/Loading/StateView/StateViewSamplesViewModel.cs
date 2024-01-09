@@ -6,8 +6,8 @@ namespace Components.ComponentsSamples.Loading.StateView;
 
 public class StateViewSamplesViewModel : ViewModel
 {
-    private State m_currentState;
     private StateViewModel m_myStateViewModel;
+    private StateViewModel m_myOtherStateViewModel;
 
     public StateViewSamplesViewModel()
     {
@@ -15,32 +15,30 @@ public class StateViewSamplesViewModel : ViewModel
         {
             if (obj == "Default")
             {
-                CurrentState = State.Default;
+                m_myStateViewModel!.CurrentState = State.Default;
+                m_myOtherStateViewModel!.CurrentState = State.Default;
             }
 
             if (obj == "Loading")
             {
-                CurrentState = State.Loading;
+                m_myStateViewModel!.CurrentState = State.Loading;
+                m_myOtherStateViewModel!.CurrentState = State.Loading;
             }
 
             if (obj == "Error")
             {
-                CurrentState = State.Error;
+                m_myStateViewModel!.CurrentState = State.Error;
+                m_myOtherStateViewModel!.CurrentState = State.Error;
             }
 
             if (obj == "Empty")
             {
-                CurrentState = State.Empty;
+                m_myStateViewModel!.CurrentState = State.Empty;
+                m_myOtherStateViewModel!.CurrentState = State.Empty;
             }
         });
     }
     
-    public State CurrentState
-    {
-        get => m_currentState;
-        set => RaiseWhenSet(ref m_currentState, value);
-    }
-
     public StateViewModel MyStateViewModel
     {
         get => m_myStateViewModel;
@@ -56,9 +54,15 @@ public class StateViewSamplesViewModel : ViewModel
                 m_myStateViewModel.Error.IsRefreshing = false;
                 await Task.Delay(1000);
                 // The error is resolved
-                CurrentState = State.Default;
+                m_myStateViewModel.CurrentState = State.Default;
             });
         }
+    }
+
+    public StateViewModel MyOtherStateViewModel
+    {
+        get => m_myOtherStateViewModel;
+        set => m_myOtherStateViewModel = value;
     }
 
     public ICommand SelectedItemCommand { get; }

@@ -46,14 +46,11 @@
             <dui:Label Style="{dui:Styles Label=SectionHeader}"
                        Text="{x:Static localizedStrings:LocalizedStrings.DefaultStateViews}" />
 
-            <dui:StateView CurrentState="{Binding CurrentState}"
-                           ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
+            <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
                            StateViewModel="{Binding MyStateViewModel}"
                            Grid.Row="1">
 
-                <dui:Label Text="Default!"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center" />
+          
 
             </dui:StateView>
         </Grid>
@@ -63,8 +60,8 @@
             <dui:Label Style="{dui:Styles Label=SectionHeader}"
                        Text="{x:Static localizedStrings:LocalizedStrings.CustomStateViews}" />
 
-            <dui:StateView CurrentState="{Binding CurrentState}"
-                           ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}">
+            <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
+                           StateViewModel="{Binding MyOtherStateViewModel}">
 
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}">
                     <dui:ItemPicker>
