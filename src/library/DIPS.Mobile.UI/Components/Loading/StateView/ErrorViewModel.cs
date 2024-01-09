@@ -6,23 +6,23 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
 internal class ErrorViewModel : ViewModel
 {
-    private string m_errorViewTitle = DUILocalizedStrings.ErrorViewTitle;
-    private string m_errorViewDescription = DUILocalizedStrings.ErrorViewDescription;
+    private string m_title = DUILocalizedStrings.ErrorViewTitle;
+    private string m_description = DUILocalizedStrings.ErrorViewDescription;
     
     private bool m_isRefreshing;
     
     private ICommand? m_refreshCommand;
     
-    public string ErrorViewTitle
+    public string Title
     {
-        get => m_errorViewTitle;
-        set => RaiseWhenSet(ref m_errorViewTitle, value);
+        get => m_title;
+        set => RaiseWhenSet(ref m_title, value);
     }
 
-    public string ErrorViewDescription
+    public string Description
     {
-        get => m_errorViewDescription;
-        set => RaiseWhenSet(ref m_errorViewDescription, value);
+        get => m_description;
+        set => RaiseWhenSet(ref m_description, value);
     }
 
     public bool IsRefreshing

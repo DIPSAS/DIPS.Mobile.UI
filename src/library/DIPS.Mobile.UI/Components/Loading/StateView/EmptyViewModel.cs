@@ -5,18 +5,18 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
 internal class EmptyViewModel : ViewModel
 {
-    private string m_emptyTitle = DUILocalizedStrings.EmptyViewTitle;
-    private string m_emptyDescription = DUILocalizedStrings.EmptyViewDescription;
+    private string m_title = DUILocalizedStrings.EmptyViewTitle;
+    private string m_description = DUILocalizedStrings.EmptyViewDescription;
 
-    public string EmptyTitle
+    public string Title
     {
-        get => m_emptyTitle;
-        set => RaiseWhenSet(ref m_emptyTitle, value);
+        get => m_title;
+        set => RaiseWhenSet(ref m_title, value);
     }
 
-    public string EmptyDescription
+    public string Description
     {
-        get => m_emptyDescription;
-        set => RaiseWhenSet(ref m_emptyDescription, value);
+        get => m_description;
+        set => RaiseWhenSet(ref m_description, value);
     }
 }

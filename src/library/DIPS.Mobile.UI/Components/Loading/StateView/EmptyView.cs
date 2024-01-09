@@ -22,7 +22,7 @@ internal class EmptyView : VerticalStackLayout
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
        
-        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.EmptyTitle)));
+        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Title)));
 
         var descriptionLabel = new Label
         {
@@ -30,7 +30,7 @@ internal class EmptyView : VerticalStackLayout
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };
-        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.EmptyDescription)));
+        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Description)));
         
         Add(titleLabel);
         Add(descriptionLabel);

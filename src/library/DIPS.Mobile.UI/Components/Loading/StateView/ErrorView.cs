@@ -27,7 +27,7 @@ internal class ErrorView : RefreshView
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
 
-        titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.ErrorViewTitle)));
+        titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.Title)));
 
         var descriptionLabel = new Labels.Label
         {
@@ -35,7 +35,7 @@ internal class ErrorView : RefreshView
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
         };
-        descriptionLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.ErrorViewDescription)));
+        descriptionLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.Description)));
 
         verticalStackLayout.Add(titleLabel);
         verticalStackLayout.Add(descriptionLabel);

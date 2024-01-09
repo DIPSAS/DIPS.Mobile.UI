@@ -48,8 +48,8 @@ public class StateViewSamplesViewModel : ViewModel
         {
             m_myStateViewModel = value;
 
-            m_myStateViewModel.Error.ErrorViewTitle = "This is an error title";
-            m_myStateViewModel.Error.ErrorViewDescription = "Description of the error";
+            m_myStateViewModel.Error.Title = "This is an error title";
+            m_myStateViewModel.Error.Description = "Description of the error";
 
             m_myStateViewModel.Error.RefreshCommand = new Command(async () =>
             {
