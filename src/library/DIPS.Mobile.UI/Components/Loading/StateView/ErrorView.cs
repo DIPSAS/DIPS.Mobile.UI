@@ -5,7 +5,7 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-public class ErrorView : RefreshView
+internal class ErrorView : RefreshView
 {
     public ErrorView()
     {

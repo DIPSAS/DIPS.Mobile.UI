@@ -6,7 +6,7 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-public class EmptyView : VerticalStackLayout
+internal class EmptyView : VerticalStackLayout
 {
     public EmptyView()
     {
