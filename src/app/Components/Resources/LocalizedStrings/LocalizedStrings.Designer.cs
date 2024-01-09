@@ -620,5 +620,29 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Context_Menu_LongPress_OneItemOneGroup", resourceCulture);
             }
         }
+        
+        internal static string DefaultStateViews {
+            get {
+                return ResourceManager.GetString("DefaultStateViews", resourceCulture);
+            }
+        }
+        
+        internal static string ThisIsEmptyView {
+            get {
+                return ResourceManager.GetString("ThisIsEmptyView", resourceCulture);
+            }
+        }
+        
+        internal static string CustomStateViews {
+            get {
+                return ResourceManager.GetString("CustomStateViews", resourceCulture);
+            }
+        }
+        
+        internal static string NoItemsToChooseFrom {
+            get {
+                return ResourceManager.GetString("NoItemsToChooseFrom", resourceCulture);
+            }
+        }
     }
 }

@@ -1,3 +1,6 @@
+## [22.5.0]
+- Added StateView.
+
 ## [22.4.3]
 - [ContextMenu] Fixed Context Menu data context not getting updated in collections that are updated from another page
 - [SearchBar] Made sure `CancelCommand` is nullable and cancling without having a `CancelCommand` does not crash.

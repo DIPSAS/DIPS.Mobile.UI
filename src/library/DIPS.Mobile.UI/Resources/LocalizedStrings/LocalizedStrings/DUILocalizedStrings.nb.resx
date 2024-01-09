@@ -68,4 +68,16 @@
     <data name="Saving" xml:space="preserve">
         <value>Lagrer</value>
     </data>
+    <data name="EmptyViewTitle" xml:space="preserve">
+        <value>Tittel når data er tom</value>
+    </data>
+    <data name="EmptyViewDescription" xml:space="preserve">
+        <value>Beskrivelse når data er tom</value>
+    </data>
+    <data name="ErrorViewTitle" xml:space="preserve">
+        <value>Tittel når det oppstår feil</value>
+    </data>
+    <data name="ErrorViewDescription" xml:space="preserve">
+        <value>Beskrivelse når det oppstår en feil</value>
+    </data>
 </root>

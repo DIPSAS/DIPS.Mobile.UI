@@ -303,4 +303,13 @@
     <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
         <value>Én handling og én gruppe</value>
     </data>
+    <data name="DefaultStateViews" xml:space="preserve">
+        <value>Standard tilstand views</value>
+    </data>
+    <data name="CustomStateViews" xml:space="preserve">
+        <value>Tilpasset state views</value>
+    </data>
+    <data name="NoItemsToChooseFrom" xml:space="preserve">
+        <value>Ingen elementer å velge mellom</value>
+    </data>
 </root>
