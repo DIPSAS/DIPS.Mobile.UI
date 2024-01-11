@@ -1,3 +1,6 @@
+## [22.5.2]
+- [SystemMessage] Removed animation from the Android implementation to make sure the system message is horizontally in center and that the font size is correct.
+
 ## [22.5.1]
 - [ListItem] Made sure list item can be subscribed to and tapped on without having to set the `Command` as well.
 
