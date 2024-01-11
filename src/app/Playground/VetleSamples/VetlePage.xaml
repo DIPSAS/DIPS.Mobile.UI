@@ -13,13 +13,6 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
    
-    <Grid>
-    <stateView:StateView CurrentState="{Binding CurrentState}"
-                         StateViewModel="{Binding StateViewModel}">
+    <dui:Button Text="Hello" Command="{Binding Navigate}" />
         
-        <dui:Label Text="Hello this is me!" />
-        
-    </stateView:StateView>
-    <dui:Button HorizontalOptions="End" Text="e" Command="{Binding SaveSuccess}"></dui:Button>
-    </Grid>
 </dui:ContentPage>

@@ -1,5 +1,3 @@
-using System.Windows.Input;
-
 namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class Label
@@ -14,5 +12,16 @@ public partial class Label
     {
         get => (bool)GetValue(IsTruncatedProperty);
         set => SetValue(IsTruncatedProperty, value);
+    }
+
+    public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
+        nameof(TruncatedText),
+        typeof(string),
+        typeof(Label));
+
+    public string TruncatedText
+    {
+        get => (string)GetValue(TruncatedTextProperty);
+        set => SetValue(TruncatedTextProperty, value);
     }
 }

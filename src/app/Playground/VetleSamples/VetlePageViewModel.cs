@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.MVVM;
 
@@ -252,12 +253,12 @@ public class VetlePageViewModel : ViewModel
         {
             m_stateViewModel = value;
 
-            m_stateViewModel.ErrorViewTitle = "Hei og hå!";
-            m_stateViewModel.RefreshCommand = new Command(async () =>
+            m_stateViewModel.Error.Title = "Hei og hå!";
+            m_stateViewModel.Error.RefreshCommand = new Command(async () =>
             {
                 await Task.Delay(1000);
                 CurrentState = State.Default;
-                m_stateViewModel.IsRefreshing = false;
+                m_stateViewModel.Error.IsRefreshing = false;
             });
         }
     }
