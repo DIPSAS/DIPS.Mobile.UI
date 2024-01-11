@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.MVVM;
 
@@ -30,7 +31,6 @@ public class VetlePageViewModel : ViewModel
         Navigate = new Command(Navigatee);
         SaveSuccess = new Command(async () =>
         {
-            CurrentState = State.Error;
         });
 
         SaveError = new Command(async () =>
@@ -239,26 +239,11 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_isSavingCompleted, value);
     }
 
-    public State CurrentState
-    {
-        get => m_currentState;
-        set => RaiseWhenSet(ref m_currentState, value);
-    }
-
     public StateViewModel StateViewModel
     {
         get => m_stateViewModel;
         set
         {
-            m_stateViewModel = value;
-
-            m_stateViewModel.ErrorViewTitle = "Hei og hå!";
-            m_stateViewModel.RefreshCommand = new Command(async () =>
-            {
-                await Task.Delay(1000);
-                CurrentState = State.Default;
-                m_stateViewModel.IsRefreshing = false;
-            });
         }
     }
 }
