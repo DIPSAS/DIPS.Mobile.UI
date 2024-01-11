@@ -94,9 +94,14 @@ internal class SystemMessage : ContentView, IDisposable
         
         m_timer.Enabled = true;
         m_timer.Elapsed += OnTimerEnded;
-        
+
+#if __ANDROID__ //Skip animation until this is fixed: https://github.com/dotnet/maui/issues/11852
+        m_contentGrid.Opacity = 1;
+        m_contentGrid.Scale = 1;
+#else
         m_contentGrid.FadeTo(1, easing: Easing.CubicOut);
         m_contentGrid.ScaleTo(1, easing: Easing.CubicOut);
+#endif
     }
 
     private void OnTimerEnded(object? sender, ElapsedEventArgs e)

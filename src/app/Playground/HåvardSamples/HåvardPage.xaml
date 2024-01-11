@@ -12,6 +12,16 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    
-  <dui:NavigationListItem Title="Tap me" Tapped="Button_OnClicked"/>
+
+    <Grid RowDefinitions="Auto, *">
+        <BoxView Grid.Row="0"
+                 WidthRequest="100"
+                 HeightRequest="40"
+                 BackgroundColor="Blue"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Start" />
+        <dui:Button Grid.Row="1"
+                    Text="Tap me"
+                    Clicked="Button_OnClicked" />
+    </Grid>
 </dui:ContentPage>
