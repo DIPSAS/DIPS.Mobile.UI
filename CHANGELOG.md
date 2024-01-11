@@ -1,3 +1,6 @@
+## [22.5.1]
+- [ListItem] Made sure list item can be subscribed to and tapped on without having to set the `Command` as well.
+
 ## [22.5.0]
 - Added StateView.
 
