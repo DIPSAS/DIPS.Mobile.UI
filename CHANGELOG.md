@@ -1,3 +1,6 @@
+## [22.5.3]
+- [ScrollView] Fixed an issue where on iOS it sometimes would take more space than what it should.
+
 ## [22.5.2]
 - [SystemMessage] Removed animation from the Android implementation to make sure the system message is horizontally in center and that the font size is correct.
 
