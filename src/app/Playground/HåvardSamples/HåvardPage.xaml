@@ -13,5 +13,5 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     
-  <dui:Button Text="Navigate" Clicked="Button_OnClicked"/>
+  <dui:NavigationListItem Title="Tap me" Tapped="Button_OnClicked"/>
 </dui:ContentPage>
