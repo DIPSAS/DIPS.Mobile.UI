@@ -16,6 +16,7 @@ public partial class Label
     /// <summary>
     /// Replaces the standard "..." truncate text with <see cref="TruncatedText"/>
     /// </summary>
+    /// <remarks><b>NB!</b> Will completely break <see cref="FormattedString"/>, so make sure you have not set any spans on this Label</remarks>
     public string TruncatedText
     {
         get => (string)GetValue(TruncatedTextProperty);
