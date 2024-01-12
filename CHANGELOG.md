@@ -1,3 +1,7 @@
+## [23.0.0]
+- [BreakingChange] [StateView] ViewModel is now in charge of creating 'StateViewModel', added new property: 'ShouldUpdateViewWhenStateSetToSame'
+- [iOS] [Label] Added a null check when checking for truncation 
+
 ## [22.6.0]
 - Added two new properties to Label: 'TruncatedText' and 'TruncatedTextColor'
 

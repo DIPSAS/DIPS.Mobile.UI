@@ -2,9 +2,8 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
 public enum State
 {
-    None = 0,
-    Default = 1,
-    Loading = 2,
-    Error = 3,
-    Empty = 4
+    Default = 0,
+    Loading = 1,
+    Error = 2,
+    Empty = 3
 }

@@ -47,6 +47,9 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     private bool CheckIfTruncated(string? stringToCheck = null)
     {
         var text = stringToCheck ?? GetTextFromLabel();
+
+        if (string.IsNullOrEmpty(text))
+            return false;
         
         var nssString = new NSString(text);
 

@@ -1,5 +1,3 @@
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
-
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
 public partial class StateView
@@ -56,42 +54,51 @@ public partial class StateView
     /// <summary>
     /// The view model to configure <see cref="StateView"/>
     /// </summary>
-    public StateViewModel StateViewModel
+    /// <remarks><b>NB!</b> This must be made in your viewmodel</remarks>
+    public StateViewModel? StateViewModel
     {
         get => (StateViewModel)GetValue(StateViewModelProperty);
         set => SetValue(StateViewModelProperty, value);
+    }
+
+    /// <summary>
+    /// When the CurrentState in StateViewModel changes to the same, determines whether <see cref="OnStateChanged"/> should be called. This can be useful if <see cref="ShouldFadeBetweenStates"/> is true and you want an effect that the view has been updated for instance.
+    /// </summary>
+    public bool ShouldUpdateViewWhenStateSetToSame
+    {
+        get => (bool)GetValue(ShouldUpdateViewWhenStateChangedToSameProperty);
+        set => SetValue(ShouldUpdateViewWhenStateChangedToSameProperty, value);
     }
     
     public static readonly BindableProperty DefaultViewProperty = BindableProperty.Create(
         nameof(DefaultView),
         typeof(IView),
-        typeof(StateView),
-        defaultValueCreator: CreateAndSetBindingContext<DefaultView>);
+        typeof(StateView));
     
     public static readonly BindableProperty LoadingViewProperty = BindableProperty.Create(
         nameof(LoadingView),
         typeof(IView),
         typeof(StateView),
-        defaultValueCreator: CreateAndSetBindingContext<LoadingView>);
+        new LoadingView());
     
     public static readonly BindableProperty ErrorViewProperty = BindableProperty.Create(
         nameof(ErrorView),
         typeof(IView),
         typeof(StateView),
-        defaultValueCreator: CreateAndSetBindingContext<ErrorView>);
+        new ErrorView());
     
     public static readonly BindableProperty EmptyViewProperty = BindableProperty.Create(
         nameof(EmptyView),
         typeof(IView),
         typeof(StateView),
-        defaultValueCreator: CreateAndSetBindingContext<EmptyView>);
-    
+        new EmptyView());
+
     public static readonly BindableProperty StateViewModelProperty = BindableProperty.Create(
         nameof(StateViewModel),
         typeof(StateViewModel),
         typeof(StateView),
-        defaultBindingMode:BindingMode.OneWayToSource,
-        defaultValueCreator: bindable =>  bindable is not StateView stateView ? null! : new StateViewModel(stateView));
+        defaultBindingMode: BindingMode.OneWay,
+        propertyChanged: (bindable, _, _) => ((StateView)bindable).OnStateViewModelChanged());
 
     public static readonly BindableProperty ShouldFadeBetweenStatesProperty = BindableProperty.Create(
         nameof(ShouldFadeBetweenStates),
@@ -99,22 +106,11 @@ public partial class StateView
         typeof(StateView),
         defaultValue: true);
     
-    private static View CreateAndSetBindingContext<T>(BindableObject bindableObject) where T : View, new()
-    {
-        if (bindableObject is not StateView stateView)
-            return null!;
-
-        var view = new T();
-
-        view.BindingContext = view switch
-        {
-            Loading.StateView.ErrorView => stateView.StateViewModel.Error,
-            Loading.StateView.EmptyView => stateView.StateViewModel.Empty,
-            Loading.StateView.LoadingView => stateView.StateViewModel.Loading,
-            Loading.StateView.DefaultView => stateView.StateViewModel.Default,
-            _ => view.BindingContext
-        };
-
-        return view;
-    }
+    public static readonly BindableProperty ShouldUpdateViewWhenStateChangedToSameProperty = BindableProperty.Create(
+        nameof(ShouldUpdateViewWhenStateSetToSame),
+        typeof(bool),
+        typeof(StateView),
+        false);
+    
+    
 }

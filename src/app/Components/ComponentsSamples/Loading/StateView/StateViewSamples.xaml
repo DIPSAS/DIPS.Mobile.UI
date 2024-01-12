@@ -27,7 +27,8 @@
 
             <dui:ListItem.UnderlyingContent>
                 <dui:ItemPicker SelectedItemCommand="{Binding SelectedItemCommand}"
-                                Margin="{dui:Thickness Top=size_2}">
+                                Margin="{dui:Thickness Top=size_2}"
+                                SelectedItem="{Binding SelectedState}">
                     <dui:ItemPicker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Default</x:String>
@@ -49,9 +50,9 @@
             <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
                            StateViewModel="{Binding MyStateViewModel}"
                            Grid.Row="1">
-
-          
-
+                
+                <dui:Label Text="Default" />
+                
             </dui:StateView>
         </Grid>
 
@@ -61,7 +62,7 @@
                        Text="{x:Static localizedStrings:LocalizedStrings.CustomStateViews}" />
 
             <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
-                           StateViewModel="{Binding MyOtherStateViewModel}">
+                           StateViewModel="{Binding MyStateViewModel}">
 
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}">
                     <dui:ItemPicker>
