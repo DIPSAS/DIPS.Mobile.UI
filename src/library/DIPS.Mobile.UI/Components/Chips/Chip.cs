@@ -10,6 +10,13 @@ public partial class Chip : View
     public Chip()
     {
         Style = m_buttonToggleStyle = InputStyle.Current;
+        Unloaded += Dispose;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Handler = null;
+        Unloaded -= Dispose;
     }
 
     public void SendTapped()

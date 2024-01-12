@@ -55,7 +55,14 @@ internal class FloatingNavigationButton : Grid
         CascadeInputTransparent = false;
 #endif
 
+        Unloaded += Dispose;
         DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        DeviceDisplay.MainDisplayInfoChanged -= OnOrientationChanged;
+        Unloaded -= Dispose;
     }
 
     private void OnOrientationChanged(object? sender, DisplayInfoChangedEventArgs e)
@@ -383,15 +390,5 @@ internal class FloatingNavigationButton : Grid
     {
         get => (bool)GetValue(IsClickableProperty);
         set => SetValue(IsClickableProperty, value);
-    }
-
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-
-        if (args.NewHandler is not null)
-            return;
-        
-        DeviceDisplay.MainDisplayInfoChanged -= OnOrientationChanged;
     }
 }

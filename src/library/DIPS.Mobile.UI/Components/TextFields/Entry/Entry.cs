@@ -13,5 +13,12 @@ public partial class Entry : Microsoft.Maui.Controls.Entry
         TextColor = Colors.GetColor(ColorName.color_neutral_90);
         Keyboard = Keyboard.Text;
         ReturnType = ReturnType.Done;
+        Unloaded += Dispose;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Unloaded -= Dispose;
+        Handler = null;
     }
 }

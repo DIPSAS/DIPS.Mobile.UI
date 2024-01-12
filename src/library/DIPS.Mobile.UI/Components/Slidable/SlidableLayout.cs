@@ -37,11 +37,17 @@ namespace DIPS.Mobile.UI.Components.Slidable
             
             m_panGestureRecognizer.PanUpdated += PanGestureRecognizerPanUpdated;
 
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            GestureRecognizers.Add(tapGestureRecognizer);
-            tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
+            m_tapgestureRecognizer = new TapGestureRecognizer();
+            GestureRecognizers.Add(m_tapgestureRecognizer);
+            m_tapgestureRecognizer.Tapped += OnEntireLayoutTapped;
 
             m_currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
+            Unloaded += Dispose;
+        }
+
+        private void Dispose(object? sender, EventArgs e)
+        {
+            m_tapgestureRecognizer.Tapped -= OnEntireLayoutTapped;
         }
 
         private void OnEntireLayoutTapped(object? sender, Microsoft.Maui.Controls.TappedEventArgs eventArgs)
@@ -95,6 +101,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
         public abstract void Redraw();
 
         private static int s_scrollToId = -42;
+        private readonly TapGestureRecognizer m_tapgestureRecognizer;
 
         /// <summary>
         /// Scrolls to the index

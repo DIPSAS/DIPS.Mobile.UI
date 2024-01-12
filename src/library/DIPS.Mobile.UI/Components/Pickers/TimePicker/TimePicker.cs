@@ -14,5 +14,13 @@ public partial class TimePicker : View, IDateTimePicker
         // DatePickers on iOS takes up invisible space
         WidthRequest = 100;
 #endif
+
+        Unloaded += Dispose;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Unloaded -= Dispose;
+        Handler = null;
     }
 }

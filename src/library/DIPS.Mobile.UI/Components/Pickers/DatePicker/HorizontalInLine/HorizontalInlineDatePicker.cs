@@ -28,6 +28,14 @@ public partial class HorizontalInlineDatePicker : ContentView
         Content = m_slidableContentLayout;
         
         DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
+        Unloaded += Dispose;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Unloaded -= Dispose;
+        DeviceDisplay.MainDisplayInfoChanged -= DeviceDisplayOnMainDisplayInfoChanged;
+
     }
 
     private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
@@ -160,16 +168,6 @@ public partial class HorizontalInlineDatePicker : ContentView
             {
                 ScrollToIndex(index, false);
             }
-        }
-    }
-
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-
-        if (args.NewHandler is null)
-        {
-            DeviceDisplay.MainDisplayInfoChanged -= DeviceDisplayOnMainDisplayInfoChanged;
         }
     }
 }
