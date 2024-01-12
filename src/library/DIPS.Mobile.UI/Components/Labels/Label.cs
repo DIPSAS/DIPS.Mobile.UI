@@ -11,13 +11,5 @@ namespace DIPS.Mobile.UI.Components.Labels
             MaxLines = int.MaxValue;
             Style = Styles.GetLabelStyle(LabelStyle.Body300);
         }
-
-
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(width, height);
-            
-            
-        }
     }
 }

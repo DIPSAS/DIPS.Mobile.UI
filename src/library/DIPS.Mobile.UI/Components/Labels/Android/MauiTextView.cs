@@ -1,8 +1,6 @@
 using Android.Content;
 using Android.Graphics;
 using Android.Text;
-using Android.Views;
-using Java.Lang;
 
 namespace DIPS.Mobile.UI.Components.Labels.Android;
 

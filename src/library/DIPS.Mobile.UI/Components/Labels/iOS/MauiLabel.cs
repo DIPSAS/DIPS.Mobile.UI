@@ -1,7 +1,6 @@
 using CoreGraphics;
 using Foundation;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
