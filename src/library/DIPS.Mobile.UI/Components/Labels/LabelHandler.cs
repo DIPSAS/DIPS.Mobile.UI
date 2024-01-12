@@ -13,6 +13,5 @@ public partial class LabelHandler : Microsoft.Maui.Handlers.LabelHandler
             [nameof(Label.LineBreakMode)] = MapOverrideMaxLinesAndLineBreakMode,
         };
 
-
     private static partial void MapOverrideMaxLinesAndLineBreakMode(LabelHandler handler, Label label);
 }

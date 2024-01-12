@@ -1,4 +1,3 @@
-using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Labels;

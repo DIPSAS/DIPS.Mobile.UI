@@ -9,22 +9,28 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
     private readonly Label m_label;
 
-    private readonly string m_originalText;
+    private string m_originalText;
     
     private string m_textAfterCustomTruncation;
     private int m_maxLinesAfterCustomTruncation;
 
+    private bool m_firstDraw = true;
+
     public MauiLabel(Label label)
     {
         m_label = label;
-
-        m_originalText = GetTextFromLabel();
     }
     
     public override void LayoutSubviews()
     {
         base.LayoutSubviews();
 
+        if (m_firstDraw)
+        {
+            m_originalText = GetTextFromLabel();
+            m_firstDraw = false;
+        }
+        
         // Because SetTruncatedText() fires this function we have to check if the text is any different from after setting the custom truncation text or if MaxLines is set to something else, if not, we know that the consumer has not done any changes to the Label
         if (m_textAfterCustomTruncation == GetTextFromLabel() && m_maxLinesAfterCustomTruncation == m_label.MaxLines)
             return;
@@ -39,9 +45,9 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         SetTruncatedText();
     }
 
-    private bool CheckIfTruncated()
+    private bool CheckIfTruncated(string? stringToCheck = null)
     {
-        var text = GetTextFromLabel();
+        var text = stringToCheck ?? GetTextFromLabel();
         
         var nssString = new NSString(text);
 
@@ -61,12 +67,6 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         if(!m_label.IsTruncated || string.IsNullOrEmpty(m_label.TruncatedText) || string.IsNullOrEmpty(Text))
             return;
 
-        m_label.FormattedText = new FormattedString { Spans =
-        {
-            new Span { Text = Text, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
-            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily, TextColor = Colors.GetColor(ColorName.color_primary_90) } 
-        } };
-        
         RemoveTextUntilNotTruncated();
 
         m_textAfterCustomTruncation = GetTextFromLabel();
@@ -75,13 +75,20 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void RemoveTextUntilNotTruncated()
     {
-        while (CheckIfTruncated())
+        var modifiedOriginalText = m_originalText;
+        while (true)
         {
-            var modifiedString = m_label.FormattedText.Spans[0].Text
-                .Substring(0, m_label.FormattedText.Spans[0].Text.Length - 1);
+            modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
 
-            m_label.FormattedText.Spans[0].Text = modifiedString;
+            if (!CheckIfTruncated(modifiedOriginalText + m_label.TruncatedText))
+                break;
         }
+        
+        m_label.FormattedText = new FormattedString { Spans =
+        {
+            new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
+            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = "UI", TextColor = m_label.TruncatedTextColor } 
+        } };
     }
 
     private string GetTextFromLabel()
