@@ -22,8 +22,6 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
-    private State m_currentState = State.Error;
-    private StateViewModel m_stateViewModel;
 
     public VetlePageViewModel()
     {
@@ -239,22 +237,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_isSavingCompleted, value);
     }
 
-    public StateViewModel StateViewModel
-    {
-        get => m_stateViewModel;
-        set
-        {
-            m_stateViewModel = value;
-
-            m_stateViewModel.Error.Title = "Hei og hå!";
-            m_stateViewModel.Error.RefreshCommand = new Command(async () =>
-            {
-                await Task.Delay(1000);
-                CurrentState = State.Default;
-                m_stateViewModel.Error.IsRefreshing = false;
-            });
-        }
-    }
+    public StateViewModel StateViewModel { get; set; } = new(State.Loading);
 }
 
 public class SortOption

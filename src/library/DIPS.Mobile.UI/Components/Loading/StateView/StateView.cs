@@ -1,11 +1,12 @@
 namespace DIPS.Mobile.UI.Components.Loading.StateView
 {
     [ContentProperty(nameof(DefaultView))]
-    public partial class StateView : ContentView, IStateChangedAware
+    public partial class StateView : ContentView
     {
         private View? m_currentViewVisible;
+        private State? m_lastState;
     
-        public async Task OnStateChanged(State state)
+        public async void OnStateChanged(State state)
         {
             var viewToDisplay = GetViewByState(state);
             
@@ -15,6 +16,11 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                 Content = viewToDisplay;
                 return;
             }
+            
+            if (!ShouldUpdateViewWhenStateSetToSame && m_lastState == state)
+                return;
+
+            m_lastState = state;
 
             await FadeOut(m_currentViewVisible);
 
@@ -34,7 +40,6 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                     State.Loading => (View)LoadingView,
                     State.Error => (View)ErrorView,
                     State.Empty => (View)EmptyView,
-                    State.None => new Label(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
@@ -65,6 +70,40 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                 {
                     viewToFade.Opacity = 1;
                 }
+            }
+        }
+
+        private void OnStateViewModelChanged()
+        {
+            if(StateViewModel is null)
+                return;
+
+            if (ErrorView is ErrorView errorView)
+            {
+                errorView.BindingContext = StateViewModel.Error;
+            }
+
+            if (LoadingView is LoadingView loadingView)
+            {
+                loadingView.BindingContext = StateViewModel.Loading;
+            }
+
+            if (EmptyView is EmptyView emptyView)
+            {
+                emptyView.BindingContext = StateViewModel.Empty;
+            }
+            
+            StateViewModel.OnStateChanged -= OnStateChanged;
+            StateViewModel.OnStateChanged += OnStateChanged;
+        }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null && StateViewModel is not null)
+            {
+                StateViewModel.OnStateChanged -= OnStateChanged;
             }
         }
     }

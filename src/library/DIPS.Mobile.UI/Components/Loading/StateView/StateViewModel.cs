@@ -7,14 +7,15 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView;
 /// </summary>
 public class StateViewModel : ViewModel
 {
-    private readonly IStateChangedAware m_stateChangedAware;
     
     private State m_currentState;
 
-    public StateViewModel(IStateChangedAware stateChangedAware)
+    public StateViewModel(State startingState)
     {
-        m_stateChangedAware = stateChangedAware;
+        CurrentState = startingState;
     }
+
+    public event Action<State>? OnStateChanged;
     
     /// <summary>
     /// View model to the default implementation <see cref="EmptyView"/>
@@ -42,7 +43,7 @@ public class StateViewModel : ViewModel
         set
         {
             m_currentState = value;
-            m_stateChangedAware.OnStateChanged(value);
+            OnStateChanged?.Invoke(value);
         }
     }
 

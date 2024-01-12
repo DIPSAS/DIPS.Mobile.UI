@@ -7,65 +7,46 @@ namespace Components.ComponentsSamples.Loading.StateView;
 
 public class StateViewSamplesViewModel : ViewModel
 {
-    private StateViewModel m_myStateViewModel;
-    private StateViewModel m_myOtherStateViewModel;
+    private string m_selectedState = "Loading";
 
     public StateViewSamplesViewModel()
     {
         SelectedItemCommand = new Command<string>(obj =>
         {
-            if (obj == "Default")
+            SelectedState = obj;
+            
+            if (SelectedState == "Default")
             {
-                m_myStateViewModel!.CurrentState = State.Default;
-                m_myOtherStateViewModel!.CurrentState = State.Default;
+                MyStateViewModel!.CurrentState = State.Default;
+                MyStateViewModel!.CurrentState = State.Default;
             }
 
-            if (obj == "Loading")
+            if (SelectedState == "Loading")
             {
-                m_myStateViewModel!.CurrentState = State.Loading;
-                m_myOtherStateViewModel!.CurrentState = State.Loading;
+                MyStateViewModel!.CurrentState = State.Loading;
+                MyStateViewModel!.CurrentState = State.Loading;
             }
 
-            if (obj == "Error")
+            if (SelectedState == "Error")
             {
-                m_myStateViewModel!.CurrentState = State.Error;
-                m_myOtherStateViewModel!.CurrentState = State.Error;
+                MyStateViewModel!.CurrentState = State.Error;
+                MyStateViewModel!.CurrentState = State.Error;
             }
 
-            if (obj == "Empty")
+            if (SelectedState == "Empty")
             {
-                m_myStateViewModel!.CurrentState = State.Empty;
-                m_myOtherStateViewModel!.CurrentState = State.Empty;
+                MyStateViewModel!.CurrentState = State.Empty;
+                MyStateViewModel!.CurrentState = State.Empty;
             }
         });
     }
-    
-    public StateViewModel MyStateViewModel
+
+    public StateViewModel MyStateViewModel { get; } = new (State.Loading);
+
+    public string SelectedState
     {
-        get => m_myStateViewModel;
-        set
-        {
-            m_myStateViewModel = value;
-
-            m_myStateViewModel.Error.Title = "This is an error title";
-            m_myStateViewModel.Error.Description = "Description of the error";
-
-            m_myStateViewModel.Empty.Icon = Icons.GetIcon(IconName.beaker_fill);
-
-            m_myStateViewModel.Error.RefreshCommand = new Command(async () =>
-            {
-                m_myStateViewModel.Error.IsRefreshing = false;
-                await Task.Delay(1000);
-                // The error is resolved
-                m_myStateViewModel.CurrentState = State.Default;
-            });
-        }
-    }
-
-    public StateViewModel MyOtherStateViewModel
-    {
-        get => m_myOtherStateViewModel;
-        set => m_myOtherStateViewModel = value;
+        get => m_selectedState;
+        set => RaiseWhenSet(ref m_selectedState, value);
     }
 
     public ICommand SelectedItemCommand { get; }
