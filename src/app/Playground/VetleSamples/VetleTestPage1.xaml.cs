@@ -40,5 +40,17 @@ public partial class VetleTestPage1
         new BottomSheetWithToolbar().Open();
     }
 
-   
+
+    private void Element_OnHandlerChanging(object sender, HandlerChangingEventArgs e)
+    {
+       
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            StateView.Handler.DisconnectHandler();
+    }
 }

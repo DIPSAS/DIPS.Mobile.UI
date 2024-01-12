@@ -138,8 +138,14 @@ public class VetlePageViewModel : ViewModel
     private void Navigatee()
     {
         var page = new VetleTestPage1();
+        var vm = new VetleTestPage1ViewModel();
+        page.BindingContext = vm;
         Shell.Current.Navigation.PushAsync(page);
     }
+
+   
+
+   
 
     public List<SortOption> SortOptions
     {

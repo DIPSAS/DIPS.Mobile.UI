@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.VetleSamples;
@@ -12,17 +13,26 @@ public class VetleTestPage1ViewModel : ViewModel
     public VetleTestPage1ViewModel()
     {
         Navigate = new Command(() => Shell.Current.Navigation.PushAsync(new VetleTestPage2()));
-        Test = new Command(() => Shell.Current.Navigation.PopModalAsync());
+        Test = new Command(() => _  = Refresh());
 
-        SaveCommand = new Command(async () =>
-        {
-            IsSaving = true;
-            await Task.Delay(2000);
-            IsSavingCompleted = true;
-            IsSaving = false;
-        });
+        _ = Initialize();
     }
-    
+
+    private async Task Refresh()
+    {
+        StateViewModel.CurrentState = State.Loading;
+        _ = Initialize();
+    }
+
+    //public VitalSignViewModel VitalSignViewModel { get; } = new();
+
+    private async Task Initialize()
+    {
+        //_ = VitalSignViewModel.Initialize();
+        await Task.Delay(1000);
+        StateViewModel.CurrentState = State.Default;
+    }
+
     public ICommand Navigate { get; }
     
     public ICommand Test { get; }
@@ -38,6 +48,8 @@ public class VetleTestPage1ViewModel : ViewModel
         get => m_isSaving;
         set => RaiseWhenSet(ref m_isSaving, value);
     }
+
+    public StateViewModel StateViewModel { get; } = new StateViewModel(State.Loading);
 
     public ICommand SaveCommand { get; }
 }

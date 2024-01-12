@@ -21,7 +21,7 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             };
         }
         
-        public async void OnStateChanged(State state)
+        private async void OnStateChanged(State state)
         {
             var viewToDisplay = GetViewByState(state);
             
@@ -93,23 +93,13 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             if(StateViewModel is null)
                 return;
 
-            if (ErrorView is ErrorView errorView)
-            {
-                errorView.BindingContext = StateViewModel.Error;
-            }
-
-            if (LoadingView is LoadingView loadingView)
-            {
-                loadingView.BindingContext = StateViewModel.Loading;
-            }
-
-            if (EmptyView is EmptyView emptyView)
-            {
-                emptyView.BindingContext = StateViewModel.Empty;
-            }
+            ErrorView ??= new ErrorView { BindingContext = StateViewModel.Error };
+            LoadingView ??= new LoadingView { BindingContext = StateViewModel.Loading };
+            EmptyView ??= new EmptyView { BindingContext = StateViewModel.Empty };
             
-            StateViewModel.OnStateChanged -= OnStateChanged;
             StateViewModel.OnStateChanged += OnStateChanged;
+            
+            OnStateChanged(StateViewModel.CurrentState);
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)

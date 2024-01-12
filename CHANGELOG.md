@@ -1,3 +1,7 @@
+## [23.0.1]
+- [StateView] Fixed an issue where the starting state was not set
+- [StateView] Fixed an issue where the default views would always reference to the same object in memory, even though user has navigated back from the page and navigated in again
+
 ## [23.0.0]
 - [BreakingChange] [StateView] ViewModel is now in charge of creating 'StateViewModel', added new property: 'ShouldUpdateViewWhenStateSetToSame'
 - [iOS] [Label] Added a null check when checking for truncation 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             x:Class="Playground.VetleSamples.VitalSignView"
+             x:DataType="{x:Type vetleSamples:VitalSignViewModel}">
+    
+    <Border StrokeThickness="0">
+        
+        <dui:StateView StateViewModel="{Binding StateViewModel}">
+            
+            <dui:Label Text="This is my default view" />
+            
+        </dui:StateView>
+
+    </Border>
+    
+</ContentView>

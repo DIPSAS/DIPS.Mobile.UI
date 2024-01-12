@@ -11,5 +11,10 @@ namespace DIPS.Mobile.UI.Components.Labels
             MaxLines = int.MaxValue;
             Style = Styles.GetLabelStyle(LabelStyle.Body300);
         }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+        }
     }
 }
