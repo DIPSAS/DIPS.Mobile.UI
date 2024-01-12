@@ -31,7 +31,6 @@ public class VetlePageViewModel : ViewModel
         Navigate = new Command(Navigatee);
         SaveSuccess = new Command(async () =>
         {
-            CurrentState = State.Error;
         });
 
         SaveError = new Command(async () =>
@@ -238,12 +237,6 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isSavingCompleted;
         set => RaiseWhenSet(ref m_isSavingCompleted, value);
-    }
-
-    public State CurrentState
-    {
-        get => m_currentState;
-        set => RaiseWhenSet(ref m_currentState, value);
     }
 
     public StateViewModel StateViewModel
