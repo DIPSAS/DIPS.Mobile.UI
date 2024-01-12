@@ -1,3 +1,6 @@
+## [22.6.0]
+- Added two new properties to Label: 'TruncatedText' and 'TruncatedTextColor'
+
 ## [22.5.2]
 - [SystemMessage] Removed animation from the Android implementation to make sure the system message is horizontally in center and that the font size is correct.
 

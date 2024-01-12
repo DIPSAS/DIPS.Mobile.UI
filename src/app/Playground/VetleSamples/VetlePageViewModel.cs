@@ -244,6 +244,15 @@ public class VetlePageViewModel : ViewModel
         get => m_stateViewModel;
         set
         {
+            m_stateViewModel = value;
+
+            m_stateViewModel.Error.Title = "Hei og hå!";
+            m_stateViewModel.Error.RefreshCommand = new Command(async () =>
+            {
+                await Task.Delay(1000);
+                CurrentState = State.Default;
+                m_stateViewModel.Error.IsRefreshing = false;
+            });
         }
     }
 }
