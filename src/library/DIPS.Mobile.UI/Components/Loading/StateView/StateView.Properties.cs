@@ -54,6 +54,7 @@ public partial class StateView
     /// <summary>
     /// The view model to configure <see cref="StateView"/>
     /// </summary>
+    /// <remarks><b>NB!</b> This must be made in your viewmodel</remarks>
     public StateViewModel? StateViewModel
     {
         get => (StateViewModel)GetValue(StateViewModelProperty);

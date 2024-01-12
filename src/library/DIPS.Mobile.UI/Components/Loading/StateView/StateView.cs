@@ -1,3 +1,7 @@
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
+
 namespace DIPS.Mobile.UI.Components.Loading.StateView
 {
     [ContentProperty(nameof(DefaultView))]
@@ -5,7 +9,18 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
     {
         private View? m_currentViewVisible;
         private State? m_lastState;
-    
+
+        public StateView()
+        {
+            Content = new Label
+            {
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Style = Styles.GetLabelStyle(LabelStyle.Header500),
+                Text = "You have not created a StateViewModel in your ViewModel or not bound to it"
+            };
+        }
+        
         public async void OnStateChanged(State state)
         {
             var viewToDisplay = GetViewByState(state);
