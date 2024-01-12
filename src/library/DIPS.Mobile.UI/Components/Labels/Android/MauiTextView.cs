@@ -68,7 +68,6 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         
         m_label.FormattedText = new FormattedString { Spans =
         {
-            // We remove a bit more on Android, because sometimes the actual custom truncation text gets truncated
             new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
             new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily, TextColor = m_label.TruncatedTextColor } 
         } };
