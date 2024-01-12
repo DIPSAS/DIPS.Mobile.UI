@@ -17,26 +17,22 @@ public class StateViewSamplesViewModel : ViewModel
             
             if (SelectedState == "Default")
             {
-                MyStateViewModel!.CurrentState = State.Default;
-                MyStateViewModel!.CurrentState = State.Default;
+                MyStateViewModel.CurrentState = State.Default;
             }
 
             if (SelectedState == "Loading")
             {
-                MyStateViewModel!.CurrentState = State.Loading;
-                MyStateViewModel!.CurrentState = State.Loading;
+                MyStateViewModel.CurrentState = State.Loading;
             }
 
             if (SelectedState == "Error")
             {
-                MyStateViewModel!.CurrentState = State.Error;
-                MyStateViewModel!.CurrentState = State.Error;
+                MyStateViewModel.CurrentState = State.Error;
             }
 
             if (SelectedState == "Empty")
             {
-                MyStateViewModel!.CurrentState = State.Empty;
-                MyStateViewModel!.CurrentState = State.Empty;
+                MyStateViewModel.CurrentState = State.Empty;
             }
         });
     }
