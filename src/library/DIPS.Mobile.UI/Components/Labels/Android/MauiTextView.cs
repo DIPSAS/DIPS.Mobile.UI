@@ -22,7 +22,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         m_label = label;
     }
 
-    protected override async void OnDraw(Canvas? canvas)
+    protected override void OnDraw(Canvas? canvas)
     {
         base.OnDraw(canvas);
 
@@ -72,7 +72,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         {
             // We remove a bit more on Android, because sometimes the actual custom truncation text gets truncated
             new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
-            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = "UI", TextColor = m_label.TruncatedTextColor } 
+            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily, TextColor = m_label.TruncatedTextColor } 
         } };
         
     }

@@ -1,3 +1,6 @@
+## [22.6.0]
+- Added two new properties to Label: 'TruncatedText' and 'TruncatedTextColor'
+
 ## [22.5.0]
 - Added StateView.
 

@@ -56,10 +56,10 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
         var numberOfLines = (int)Math.Ceiling(new nfloat(labelSize.Height) / Font.LineHeight);
 
-        if (m_label.MaxLines == -1)
+        if (Lines == -1)
             return false;
             
-        return numberOfLines > m_label.MaxLines;
+        return numberOfLines > Lines;
     }
 
     public void SetTruncatedText()
@@ -87,7 +87,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         m_label.FormattedText = new FormattedString { Spans =
         {
             new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
-            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = "UI", TextColor = m_label.TruncatedTextColor } 
+            new Span { Text = m_label.TruncatedText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily, TextColor = m_label.TruncatedTextColor } 
         } };
     }
 

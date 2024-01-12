@@ -32,7 +32,7 @@
 "
                    LineBreakMode="TailTruncation"
                    TruncatedText="... mer"
-                   MaxLines="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject=100, FalseObject=1}}"
+                   MaxLines="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject=100, FalseObject=8}}"
                    x:Name="Label">
             
             
