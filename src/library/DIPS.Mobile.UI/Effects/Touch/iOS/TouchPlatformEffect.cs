@@ -18,6 +18,11 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnAttached()
     {
+        if (Element is VisualElement visualElement)
+        {
+            visualElement.Unloaded += Dispose;
+        }
+        
         if(Control is UIButton)
             return;
         
@@ -34,6 +39,15 @@ public partial class TouchPlatformEffect
         {
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
+        }
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        if (Element is VisualElement visualElement)
+        {
+            OnDetached();
+            visualElement.Unloaded -= Dispose;
         }
     }
 

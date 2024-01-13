@@ -14,7 +14,11 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <dui:Button Text="Open context menu"
-                Unloaded="VisualElement_OnUnloaded"
-                dui:Touch.Command="{Binding Command}">
+                dui:ContextMenuEffect.Mode="LongPressed">
+        <dui:ContextMenuEffect.Menu>
+            <dui:ContextMenu>
+                <dui:ContextMenuItem Title="Testing"/>
+            </dui:ContextMenu>
+        </dui:ContextMenuEffect.Menu>
     </dui:Button>
 </dui:ContentPage>

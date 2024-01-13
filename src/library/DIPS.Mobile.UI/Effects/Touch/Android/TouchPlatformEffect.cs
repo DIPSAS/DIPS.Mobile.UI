@@ -22,6 +22,11 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnAttached()
     {
+        if (Element is VisualElement visualElement)
+        {
+            visualElement.Unloaded += Dispose;
+        }
+        
         m_isEnabled = Touch.GetIsEnabled(Element);
 
         if (!m_isEnabled)
@@ -72,10 +77,7 @@ public partial class TouchPlatformEffect
             Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
         }
 
-        if (Element is VisualElement visualElement)
-        {
-            visualElement.Unloaded += Dispose;
-        }
+       
     }
 
     //To prevent memory leaks, we have to make sure OnDeAttached gets called.

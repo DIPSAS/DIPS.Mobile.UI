@@ -78,7 +78,8 @@ public partial class ContextMenuPlatformEffect
     {
         if(m_uiButtonToRemove != null)
             Control.WillRemoveSubview(m_uiButtonToRemove);
-        
+
+        m_uiButton.Menu = null; //This has to nullified or else it will create a memory leak.
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
         m_didEnterBackgroundNotification.Dispose();
         
