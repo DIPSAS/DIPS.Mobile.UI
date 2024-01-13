@@ -26,4 +26,10 @@ public partial class ContentPage
     /// </summary>
     public bool HasAppeared { get; private set; }
 
+    /// <summary>
+    /// Determines if the content page should force garbage collection and log it to the console when navigated to.
+    /// </summary>
+    /// <remarks>This will only run when debugging.</remarks>
+    public bool ShouldGarbageCollectAndLogWhenNavigatedTo { get; set; }
+
 }   
