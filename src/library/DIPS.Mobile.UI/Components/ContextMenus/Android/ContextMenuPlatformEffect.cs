@@ -22,10 +22,12 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnAttached()
     {
-        m_contextMenu = ContextMenuEffect.GetMenu(Element);
-        m_contextMenu.Unloaded += (sender, args) =>
+        if (Element is VisualElement visualElement)
         {
-        };
+            visualElement.Unloaded += Dispose;
+        }
+        
+        m_contextMenu = ContextMenuEffect.GetMenu(Element);
         m_mode = ContextMenuEffect.GetMode(Element);
 
         if (m_contextMenu == null)
@@ -46,11 +48,6 @@ public partial class ContextMenuPlatformEffect
         {
             Control.LongClickable = true;
             Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
-        }
-
-        if (Element is VisualElement visualElement)
-        {
-            visualElement.Unloaded += Dispose;
         }
     }
 
