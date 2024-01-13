@@ -20,13 +20,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             Application.Current.RequestedThemeChanged +=
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
         }
-        
-        ~ContentPage()
-        {
-#if DEBUG
-            Console.WriteLine($"Called finalizer an instance of {GetType()}. Title is {Title}");
-#endif
-        }
 
         ~ContentPage()
         {

@@ -10,6 +10,13 @@ namespace DIPS.Mobile.UI.Components.Labels
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_90);
             MaxLines = int.MaxValue;
             Style = Styles.GetLabelStyle(LabelStyle.Body300);
+            Unloaded += Dispose;
+        }
+
+        private void Dispose(object? sender, EventArgs e)
+        {
+            Handler = null;
+            Unloaded -= Dispose;
         }
     }
 }

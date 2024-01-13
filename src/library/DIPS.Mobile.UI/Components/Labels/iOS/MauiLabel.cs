@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
-    private readonly Label m_label;
+    private Label m_label;
 
     private string m_originalText;
     
@@ -18,8 +18,15 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     public MauiLabel(Label label)
     {
         m_label = label;
+        m_label.Unloaded += Dispose;
     }
-    
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        m_label.Unloaded -= Dispose;
+        m_label = null; //This is needed, or else it will create a memory leak.
+    }
+
     public override void LayoutSubviews()
     {
         base.LayoutSubviews();

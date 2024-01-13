@@ -67,14 +67,10 @@ public partial class HåvardPage
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
     }
-
+    
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        SystemMessageService.Display(configurator =>
-        {
-            configurator.Text = "Testing";
-            configurator.BackgroundColor = Colors.Red;
-        });
+        Shell.Current.Navigation.PushAsync(new HåvardPage3());
     }
 }

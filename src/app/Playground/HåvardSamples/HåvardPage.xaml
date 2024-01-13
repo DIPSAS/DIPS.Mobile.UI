@@ -8,15 +8,12 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0">
+                 Padding="0"
+                 ShouldGarbageCollectAndLogWhenNavigatedTo="True">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
 
-    <dui:Image Source="{dui:Icons alert_fill}"
-               HeightRequest="50"
-               WidthRequest="50"
-               TintColor="Red"/>
-    <!-- <dui:Button Text="Has tooltip" TooltipText="This is a tooltip"/> -->
+    <dui:Button Text="Navigate" Clicked="Button_OnClicked"></dui:Button>
 </dui:ContentPage>
