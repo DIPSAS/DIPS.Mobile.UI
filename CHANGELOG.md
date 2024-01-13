@@ -1,3 +1,6 @@
+## [24.0.1]
+- Fixed memory leaks for Touch and Context Menu effects.
+
 ## [24.0.0]
 - [BreakingChange][StateView] Added the ability for consumer to add a RefreshView to some state views.
 
