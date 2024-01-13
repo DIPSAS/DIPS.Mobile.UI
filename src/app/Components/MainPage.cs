@@ -7,7 +7,8 @@ namespace Components;
 
 public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 {
-  
+
+    private CancellationTokenSource? cts;
     public MainPage(IEnumerable<SampleType> sampleTypes, List<Sample> samples)
     {
         Title = $"{AppInfo.Current.Name} ({AppInfo.Current.VersionString})";
@@ -15,6 +16,39 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
         {
             ItemsSource = sampleTypes, ItemTemplate = new DataTemplate(() => new NavigateToSamplesItem(samples)),
         };
+    }
+    
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        cts = new CancellationTokenSource();
+        Task.Run(async () =>
+        {
+            try
+            {
+                while (true)
+                {
+                    cts.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(2000);
+                    await MainThread.InvokeOnMainThreadAsync(() =>
+                    {
+                        Console.WriteLine("Force GC");
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                    });
+                }
+            }
+            catch
+            {
+            }
+        });
+    }
+    
+    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
+    {
+        cts?.Dispose();
+        cts = null;
+        base.OnNavigatingFrom(args);
     }
 }
 
