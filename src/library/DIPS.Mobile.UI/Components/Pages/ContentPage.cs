@@ -23,7 +23,9 @@ namespace DIPS.Mobile.UI.Components.Pages
         
         ~ContentPage()
         {
+#if DEBUG
             Console.WriteLine($"Called finalizer an instance of {GetType()}. Title is {Title}");
+#endif
         }
 
         ~ContentPage()

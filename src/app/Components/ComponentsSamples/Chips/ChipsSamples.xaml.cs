@@ -7,6 +7,15 @@ public partial class ChipsSamples
     public ChipsSamples()
     {
         InitializeComponent();
+        var page = App.Current.MainPage;
+        if (page != null)
+        {
+            page.NavigatedTo += (sender, args) =>
+            {
+
+            };
+        }
+        
     }
 
     private void Chip_OnTapped(object? sender, EventArgs e)

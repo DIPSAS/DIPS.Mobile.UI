@@ -22,6 +22,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             SearchBar.TextChanged += OnSearchTextChanged;
         }
 
+        ~BottomSheet()
+        {
+#if DEBUG
+            Console.WriteLine($"Called finalizer an instance of {GetType()}. Title is {Title}");
+#endif
+        }
+
         /// <summary>
         /// <see cref="BottomSheetService.Close"/>
         /// </summary>
