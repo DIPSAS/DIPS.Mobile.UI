@@ -1,6 +1,9 @@
-## [23.0.1]
+## [23.1.1]
 - [StateView] Fixed an issue where the starting state was not set
 - [StateView] Fixed an issue where the default views would always reference to the same object in memory, even though user has navigated back from the page and navigated in again
+
+## [23.1.0]
+- Added option to turn on garbage collection logging when debugging for content pages.
 
 ## [23.0.0]
 - [BreakingChange] [StateView] ViewModel is now in charge of creating 'StateViewModel', added new property: 'ShouldUpdateViewWhenStateSetToSame'
