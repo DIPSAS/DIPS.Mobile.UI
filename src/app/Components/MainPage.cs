@@ -36,6 +36,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
                         Console.WriteLine("Force GC");
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
+                        Console.WriteLine("Full collection total memory: "+GC.GetTotalMemory(true));
                     });
                 }
             }

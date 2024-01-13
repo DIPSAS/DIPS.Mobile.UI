@@ -7,14 +7,10 @@ public partial class ChipsSamples
     public ChipsSamples()
     {
         InitializeComponent();
-        var page = App.Current.MainPage;
-        if (page != null)
-        {
-            page.NavigatedTo += (sender, args) =>
-            {
+    }
 
-            };
-        }
+    private void CurrentOnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
         
     }
 
