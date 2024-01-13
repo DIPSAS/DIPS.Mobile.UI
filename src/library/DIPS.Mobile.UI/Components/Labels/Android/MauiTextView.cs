@@ -77,7 +77,11 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
     public bool CheckIfTruncated(string? stringToCheck = null)
     {
         var text = stringToCheck ?? GetTextFromLabel();
-
+        if (string.IsNullOrEmpty(text))
+        {
+            return false;
+        }
+        
         var tempPaint = new TextPaint(Paint)
         {
             TextSize = TextSize,
@@ -97,7 +101,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         return staticLayout.LineCount > m_label.MaxLines;
     }
     
-    private string GetTextFromLabel()
+    private string? GetTextFromLabel()
     {
         if (!string.IsNullOrEmpty(m_label.Text))
             return m_label.Text;

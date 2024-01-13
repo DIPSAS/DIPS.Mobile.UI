@@ -1,3 +1,6 @@
+## [23.1.2]
+- [Label] Fixed an issue where Label would crash application if Text was not set.
+
 ## [23.1.1]
 - [StateView] Fixed an issue where the starting state was not set
 - [StateView] Fixed an issue where the default views would always reference to the same object in memory, even though user has navigated back from the page and navigated in again
