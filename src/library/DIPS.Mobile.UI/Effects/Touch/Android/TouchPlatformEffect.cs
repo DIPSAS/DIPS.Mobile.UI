@@ -28,9 +28,9 @@ public partial class TouchPlatformEffect
         {
             return;
         }
-        
+
         m_touchMode = Touch.GetTouchMode(Element);
-        
+
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
@@ -42,13 +42,13 @@ public partial class TouchPlatformEffect
             Control.LongClickable = true;
             Control.LongClick += OnLongClick;
         }
-        
+
         var contentDescription = Touch.GetAccessibilityContentDescription(Element);
-        
+
         var colorStateList = new ColorStateList(
-            new[] { Array.Empty<int>() },
-            new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
-        
+            new[] {Array.Empty<int>()},
+            new[] {(int)DefaultNativeAnimationColor.ToPlatform()});
+
         var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
 
         if (Control.Background is null)
@@ -62,7 +62,7 @@ public partial class TouchPlatformEffect
             m_defaultBackground = Control.Foreground;
             Control.Foreground = ripple;
         }
-        
+
         if (string.IsNullOrEmpty(contentDescription))
         {
             Control.ContentDescription = DUILocalizedStrings.Button;
@@ -71,13 +71,31 @@ public partial class TouchPlatformEffect
         {
             Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
         }
+
+        if (Element is VisualElement visualElement)
+        {
+            visualElement.Unloaded += Dispose;
+        }
+    }
+
+    //To prevent memory leaks, we have to make sure OnDeAttached gets called.
+    //This should get called from this doc, but when we navigate out of the page on Android it does not:
+    //https://learn.microsoft.com/en-us/dotnet/maui/migration/effects?view=net-maui-8.0
+    //This was randomly found in an issue: https://github.com/dotnet/maui/issues/2973#issuecomment-947930148
+    private void Dispose(object? sender, EventArgs e)
+    {
+        if (Element is VisualElement visualElement)
+        {
+            OnDetached();
+            visualElement.Unloaded -= Dispose;
+        }
     }
 
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
     {
         Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
     }
-    
+
     private void OnClick(object? sender, EventArgs eventArgs)
     {
         Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
@@ -88,17 +106,17 @@ public partial class TouchPlatformEffect
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Click -= OnClick;
-            if(!Control.HasOnClickListeners)
+            if (!Control.HasOnClickListeners)
                 Control.Clickable = false;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             Control.LongClick -= OnLongClick;
-            if(!Control.HasOnLongClickListeners)
+            if (!Control.HasOnLongClickListeners)
                 Control.LongClickable = false;
         }
-        
+
         Control.ContentDescription = null;
 
         if (m_changedBackground)
@@ -110,5 +128,4 @@ public partial class TouchPlatformEffect
             Control.Foreground = m_defaultBackground;
         }
     }
-    
 }
