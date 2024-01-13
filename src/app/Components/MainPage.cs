@@ -22,6 +22,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
         base.OnNavigatedTo(args);
         cts = new CancellationTokenSource();
+#if DEBUG
         Task.Run(async () =>
         {
             try
@@ -42,6 +43,7 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
             {
             }
         });
+#endif
     }
     
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
