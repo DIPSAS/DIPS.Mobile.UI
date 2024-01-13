@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 public partial class ContextMenuPlatformEffect
 {
     private ContextMenu? m_contextMenu;
-    
+
 #nullable disable
     private ContextMenuHandler m_contextMenuBehaviour;
     private ContextMenuEffect.ContextMenuMode m_mode;
@@ -23,7 +23,9 @@ public partial class ContextMenuPlatformEffect
     protected override partial void OnAttached()
     {
         m_contextMenu = ContextMenuEffect.GetMenu(Element);
-
+        m_contextMenu.Unloaded += (sender, args) =>
+        {
+        };
         m_mode = ContextMenuEffect.GetMode(Element);
 
         if (m_contextMenu == null)
@@ -45,13 +47,32 @@ public partial class ContextMenuPlatformEffect
             Control.LongClickable = true;
             Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
         }
+
+        if (Element is VisualElement visualElement)
+        {
+            visualElement.Unloaded += Dispose;
+        }
     }
 
-    public class ContextMenuHandler : Object, PopupMenu.IOnMenuItemClickListener, Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener
+    //To prevent memory leaks, we have to make sure OnDeAttached gets called.
+    //This should get called from this doc, but when we navigate out of the page on Android it does not:
+    //https://learn.microsoft.com/en-us/dotnet/maui/migration/effects?view=net-maui-8.0
+    //This was randomly found in an issue: https://github.com/dotnet/maui/issues/2973#issuecomment-947930148
+    private void Dispose(object? sender, EventArgs e)
+    {
+        if (Element is VisualElement visualElement)
+        {
+            OnDetached();
+            visualElement.Unloaded -= Dispose;
+        }
+    }
+
+    public class ContextMenuHandler : Object, PopupMenu.IOnMenuItemClickListener,
+        Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener
     {
         private readonly ContextMenu m_contextMenu;
         private readonly View m_control;
-        
+
         private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu m_popupMenu;
         private bool m_isShowing;
@@ -62,32 +83,33 @@ public partial class ContextMenuPlatformEffect
             m_control = view;
             Platform.CurrentActivity!.RegisterActivityLifecycleCallbacks(this);
         }
-        
+
         public void OpenContextMenu(object? sender, EventArgs e)
         {
             m_popupMenu = new PopupMenu(Platform.CurrentActivity, m_control);
-            
+
             m_menuItems = ContextMenuHelper.CreateMenuItems(m_contextMenu.ItemsSource!,
                 m_contextMenu, m_popupMenu);
-            
+
             m_popupMenu.Gravity = (m_contextMenu!.ContextMenuHorizontalOptions == ContextMenuHorizontalOptions.Right)
                 ? GravityFlags.Right
-                : GravityFlags.Left; ;
-            
-             m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
-             {
-                 if (contextMenuItem is not ContextMenuItem menuItem)
-                     return false;
-                 
-                 return menuItem.Icon != null ||
-                        !string.IsNullOrEmpty(menuItem.AndroidOptions
-                            .IconResourceName);
-             }));
-            
+                : GravityFlags.Left;
+            ;
+
+            m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
+            {
+                if (contextMenuItem is not ContextMenuItem menuItem)
+                    return false;
+
+                return menuItem.Icon != null ||
+                       !string.IsNullOrEmpty(menuItem.AndroidOptions
+                           .IconResourceName);
+            }));
+
             SetListeners();
-            
+
             m_popupMenu.Show();
-            
+
             m_isShowing = true;
         }
 
@@ -96,10 +118,11 @@ public partial class ContextMenuPlatformEffect
             m_popupMenu.SetOnDismissListener(this);
             m_popupMenu.SetOnMenuItemClickListener(this);
         }
-        
+
         public bool OnMenuItemClick(IMenuItem? theTappedNativeItem)
         {
-            if (m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key is ContextMenuItem tappedContextMenuItem)
+            if (m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key is ContextMenuItem
+                tappedContextMenuItem)
             {
                 if (theTappedNativeItem!.IsCheckable) //check the item
                 {
@@ -116,11 +139,12 @@ public partial class ContextMenuPlatformEffect
                                 foreach (var pair in m_menuItems)
                                 {
                                     var nativeMenuItem = pair.Value;
-                                    if (nativeMenuItem.GroupId == theTappedNativeItem.GroupId) //Uncheck previous items in the same group
+                                    if (nativeMenuItem.GroupId ==
+                                        theTappedNativeItem.GroupId) //Uncheck previous items in the same group
                                     {
                                         if (nativeMenuItem.IsChecked)
                                         {
-                                            nativeMenuItem.SetChecked(false);    
+                                            nativeMenuItem.SetChecked(false);
                                         }
                                     }
                                 }
@@ -153,7 +177,7 @@ public partial class ContextMenuPlatformEffect
         {
             if (m_isShowing)
             {
-                m_popupMenu.Dismiss();    
+                m_popupMenu.Dismiss();
             }
         }
 
@@ -193,7 +217,7 @@ public partial class ContextMenuPlatformEffect
             if (!Control.HasOnLongClickListeners)
                 Control.Clickable = false;
         }
-        
+
         Platform.CurrentActivity!.UnregisterActivityLifecycleCallbacks(m_contextMenuBehaviour);
     }
 }
