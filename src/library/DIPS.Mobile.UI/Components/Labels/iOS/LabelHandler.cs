@@ -35,5 +35,4 @@ public partial class LabelHandler
 
         handler.PlatformView.Lines = label.MaxLines;
     }
-
 }
