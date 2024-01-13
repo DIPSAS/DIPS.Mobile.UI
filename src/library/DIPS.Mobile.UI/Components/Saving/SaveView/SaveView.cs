@@ -50,8 +50,15 @@ public partial class SaveView : ContentView
         
         // The SaveView should default to not being tappable, only when Command is set should the view be tappable
         Touch.SetIsEnabled(m_filledCheckBox, false);
+        Unloaded += Dispose;
     }
-    
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Handler = null;
+        Unloaded -= Dispose;
+    }
+
     private bool DidTapToSave { get; set; }
 
     protected override void OnHandlerChanged()

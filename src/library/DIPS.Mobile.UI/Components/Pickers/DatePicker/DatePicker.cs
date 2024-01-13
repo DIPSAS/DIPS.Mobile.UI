@@ -15,6 +15,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             // DatePickers on iOS takes up invisible space
             WidthRequest = 100;
 #endif
+            Unloaded += Dispose;
+        }
+
+        private void Dispose(object? sender, EventArgs e)
+        {
+            Handler = null;
+            Unloaded -= Dispose;
         }
 
         protected override void OnHandlerChanged()

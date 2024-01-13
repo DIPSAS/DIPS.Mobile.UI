@@ -4,6 +4,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 public partial class DateAndTimePicker : View, IDateTimePicker
 {
+    public DateAndTimePicker()
+    {
+        Unloaded += Dispose;
+    }
+
+    private void Dispose(object? sender, EventArgs e)
+    {
+        Handler = null;
+        Unloaded -= Dispose;
+    }
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();

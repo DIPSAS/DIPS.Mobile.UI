@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
 
-            Unloaded += OnUnloaded;
+            Unloaded += Dispose;
         }
 
 
@@ -30,10 +30,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
         }
 
-        private void OnUnloaded(object? sender, EventArgs e)
+        private void Dispose(object? sender, EventArgs e)
         {
             Unfocus();
-            Unloaded -= OnUnloaded;
+            Unloaded -= Dispose;
         }
 
 
