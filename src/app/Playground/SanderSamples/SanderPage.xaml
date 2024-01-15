@@ -11,29 +11,23 @@
 
     <Grid RowSpacing="{dui:Sizes size_2}"
           Padding="{dui:Thickness Left=size_2, Right=size_2}"
-          RowDefinitions="Auto, *">
-        <Grid ColumnDefinitions="*, *"
-              Padding="{dui:Thickness Left=size_2, Bottom=size_1, Top=size_4}">
+          RowDefinitions="Auto, Auto">
 
-            <dui:Label Text="Pasienter (20)"
-                       VerticalTextAlignment="Center"
-                       HorizontalOptions="Start"
-                       Style="{dui:Styles Label=UI300}" />
-
-            <dui:Chip Grid.Column="1"
-                      Title="Skjul merknad"
-                      Style="{dui:Styles Chip=EmptyInput}"
-                      IsToggleable="True"
-                      IsToggled="{Binding IsToggled}"
-                      HorizontalOptions="End" />
-
-        </Grid>
-        <BoxView VerticalOptions="Start"
-                 BackgroundColor="Red"
-                 IsVisible="{Binding IsToggled, Converter={dui:InvertedBoolConverter}}"/>
+        <dui:Button Text="Press"
+                    Command="{Binding TestCommand}"/>
         
-        <BoxView VerticalOptions="End"
-                 BackgroundColor="Red"
-                 IsVisible="{Binding IsToggled}"/>
+        <dui:SkeletonView Grid.Row="1" 
+                          FadeTime="500"
+                          IsLoading="{Binding IsToggled}"
+                          SkeletonColor="#AAEAE7E9">
+            <dui:SkeletonView.Shapes>
+                <dui:SkeletonShape Width="200"
+                                   Height="{dui:Sizes size_4}"
+                                   VerticalAlignment="Center"
+                                   CornerRadius="{dui:Sizes size_1}" />
+            </dui:SkeletonView.Shapes>
+            
+            <dui:Label Text="{Binding TestText}"/>
+        </dui:SkeletonView>
     </Grid>
 </dui:ContentPage>
