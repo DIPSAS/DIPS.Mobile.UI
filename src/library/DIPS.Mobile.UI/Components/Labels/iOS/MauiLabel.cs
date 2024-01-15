@@ -24,6 +24,9 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     {
         base.LayoutSubviews();
 
+        if(string.IsNullOrEmpty(GetTextFromLabel()))
+            return;
+        
         if (m_firstDraw)
         {
             m_originalText = GetTextFromLabel();

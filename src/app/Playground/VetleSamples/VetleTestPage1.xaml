@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             x:Class="Playground.VetleSamples.VetleTestPage1"
-             x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
-             x:Name="CodeBehind"
-             Title="Hei"
-             ShouldHideFloatingNavigationMenuButton="True">
-    
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 x:Class="Playground.VetleSamples.VetleTestPage1"
+                 x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
+                 x:Name="CodeBehind"
+                 Title="Hei"
+                 ShouldHideFloatingNavigationMenuButton="True">
+
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
         <ToolbarItem Text="Test" />
         <ToolbarItem IconImageSource="{dui:Icons beaker_zoom_fill}" />
 
     </dui:ContentPage.ToolbarItems>
-    
-        <dui:StateView StateViewModel="{Binding StateViewModel}"
-                       x:Name="StateView">
-            
-            <dui:StateView.LoadingView>
-                <Label Text="kuk"></Label>
-            </dui:StateView.LoadingView>
-            
-            <Grid RowDefinitions="100">
-            <Label Text="lol"  />    
-            <!--<vetleSamples:VitalSignView BindingContext="{Binding VitalSignViewModel}" />-->
-            
+    <Grid x:Name="Grid">
+        <dui:SkeletonView
+            IsLoading="{Binding IsBusy}"
+            FadeTime="500"
+            SkeletonColor="#AAEAE7E9">
+            <dui:SkeletonView.Shapes>
+                <dui:SkeletonShape Width="275"
+                                   Height="{dui:Sizes size_5}"
+                                   HorizontalAlignment="Start"
+                                   VerticalAlignment="Start" />
+            </dui:SkeletonView.Shapes>
+            <Grid
+                HorizontalOptions="Start"
+                ColumnDefinitions="*, Auto"
+                ColumnSpacing="{dui:Sizes size_2}">
+                <dui:Label Text="{Binding TestString}"
+                           Style="{dui:Styles Label=UI300}"
+                           MaxLines="1"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{dui:Colors color_neutral_80}"
+                           HorizontalOptions="Start" />
+
             </Grid>
-        </dui:StateView>
+
+        </dui:SkeletonView>
+
+        
+        <dui:Button Command="{Binding Test}" Text="ye" />
+
+    </Grid>
 </dui:ContentPage>

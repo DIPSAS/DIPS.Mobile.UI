@@ -2,6 +2,8 @@ using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.TextFields.InputFields;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 using DIPS.Mobile.UI.Resources.Icons;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 
@@ -49,8 +51,10 @@ public partial class VetleTestPage1
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
-        
-        if(args.NewHandler is null)
-            StateView.Handler.DisconnectHandler();
+ 
     }
+
+    public string TestString { get; } = "lol";
+    
+    
 }
