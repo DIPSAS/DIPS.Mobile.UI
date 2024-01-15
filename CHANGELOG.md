@@ -1,3 +1,6 @@
+## [23.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [23.1.2]
 - [Label] Fixed an issue where Label would crash application if Text was not set.
 
