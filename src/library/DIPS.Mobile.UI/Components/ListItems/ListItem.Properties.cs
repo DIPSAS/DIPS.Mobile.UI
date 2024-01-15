@@ -254,7 +254,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(ListItem),
-            propertyChanged: ((bindable, _, _) => ((ListItem)bindable).SetCornerRadius()));
+            propertyChanged: ((bindable, _, _) => ((ListItem)bindable).SetCornerRadiusPlatform()));
     
         public static readonly BindableProperty HasTopDividerProperty = BindableProperty.Create(
             nameof(HasTopDivider),

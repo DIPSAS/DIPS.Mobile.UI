@@ -1,3 +1,11 @@
+## [24.0.0]
+- [ListItem] Fixed memory leaks.
+- [Icons][BreakingChanged] Changed Icons extension to return string and not imagesource to prevent memory leaks.
+- [ContextMenu] Fixed memory leaks.
+- [Touch] Fixed memory leaks.
+- [Label] Fixed memory leaks.
+
+
 ## [23.1.2]
 - [Label] Fixed an issue where Label would crash application if Text was not set.
 
