@@ -160,6 +160,7 @@ this file is generated
 ["list_add_line"] = "list_add_line.png",
 ["flashlight_off_fill"] = "flashlight_off_fill.png",
 ["flashlight_on_fill"] = "flashlight_on_fill.png",
+["eye_fill"] = "eye_fill.png",
 
             };
         }

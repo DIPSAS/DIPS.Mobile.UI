@@ -311,5 +311,7 @@ list_add_line=149,
 flashlight_off_fill=151,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/flashlight_on_fill.svg">View the icon in the browser</a></summary>
 flashlight_on_fill=152,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/eye_fill.svg">View the icon in the browser</a></summary>
+eye_fill=153,
     }
 }
