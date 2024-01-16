@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-             x:Class="Playground.VetleSamples.VetleTestPage1"
-             x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
-             x:Name="CodeBehind"
-             Title="Hei"
-             ShouldHideFloatingNavigationMenuButton="True">
-    
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 x:Class="Playground.VetleSamples.VetleTestPage1"
+                 x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
+                 x:Name="CodeBehind"
+                 Title="Hei"
+                 ShouldHideFloatingNavigationMenuButton="True">
+
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
         <ToolbarItem Text="Test" />
         <ToolbarItem IconImageSource="{dui:Icons beaker_zoom_fill}" />
 
     </dui:ContentPage.ToolbarItems>
-    
-        <dui:StateView StateViewModel="{Binding StateViewModel}"
-                       x:Name="StateView">
-            
-            <dui:StateView.LoadingView>
-                <Label Text="kuk"></Label>
-            </dui:StateView.LoadingView>
-            
-            <Grid RowDefinitions="100">
-            <Label Text="lol"  />    
-            <!--<vetleSamples:VitalSignView BindingContext="{Binding VitalSignViewModel}" />-->
-            
-            </Grid>
-        </dui:StateView>
+
+    <dui:StateView StateViewModel="{Binding StateViewModel}">
+
+        <dui:CollectionView
+            ItemsSource="{Binding TestStrings}">
+
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <dui:Label Text="{Binding .}" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+    </dui:StateView>
+
+
 </dui:ContentPage>

@@ -6,18 +6,11 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-internal class ErrorView : RefreshView
+internal class ErrorView : ScrollView
 {
     public ErrorView()
     {
-        SetBinding(CommandProperty, new Binding(nameof(ErrorViewModel.RefreshCommand)));
-        SetBinding(IsRefreshingProperty, new Binding(nameof(ErrorViewModel.IsRefreshing)));
-
         var verticalStackLayout = new VerticalStackLayout { Spacing = 0, VerticalOptions = LayoutOptions.Center };
-
-        var scrollView = new ScrollView();
-
-        scrollView.AddLogicalChild(verticalStackLayout);
 
         var icon = new Images.Image.Image
         {
@@ -53,7 +46,6 @@ internal class ErrorView : RefreshView
         verticalStackLayout.Add(titleLabel);
         verticalStackLayout.Add(descriptionLabel);
 
-        scrollView.Content = verticalStackLayout;
-        Content = scrollView;
+        Content = verticalStackLayout;
     }
 }

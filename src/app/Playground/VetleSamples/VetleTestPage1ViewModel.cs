@@ -1,5 +1,5 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.MVVM;
 
@@ -9,6 +9,7 @@ public class VetleTestPage1ViewModel : ViewModel
 {
     private bool m_isSavingCompleted;
     private bool m_isSaving;
+    private bool m_isRefreshing;
 
     public VetleTestPage1ViewModel()
     {
@@ -16,12 +17,29 @@ public class VetleTestPage1ViewModel : ViewModel
         Test = new Command(() => _  = Refresh());
 
         _ = Initialize();
+
+        StateViewModel.Default.HasRefreshView = true;
+        StateViewModel.Error.HasRefreshView = true;
+        StateViewModel.RefreshCommand = new Command(() => _ = Refresh());
     }
+
+  
 
     private async Task Refresh()
     {
-        StateViewModel.CurrentState = State.Loading;
-        _ = Initialize();
+        await Task.Delay(1000);
+        await Task.Delay(1000);
+        StateViewModel.IsRefreshing = false;
+
+        if (StateViewModel.CurrentState == State.Default)
+        {
+            StateViewModel.CurrentState = State.Error;
+        }
+        else
+        {
+            StateViewModel.CurrentState = State.Default;
+        }
+        
     }
 
     //public VitalSignViewModel VitalSignViewModel { get; } = new();
@@ -32,6 +50,21 @@ public class VetleTestPage1ViewModel : ViewModel
         await Task.Delay(1000);
         StateViewModel.CurrentState = State.Default;
     }
+    
+    public ObservableCollection<string> TestStrings { get; set; } = new()
+    {
+        "1234567",
+        "7654321",
+        "526321",
+        "271351",
+        "912512",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+    };
+
 
     public ICommand Navigate { get; }
     

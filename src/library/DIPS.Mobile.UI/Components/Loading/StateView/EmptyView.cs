@@ -8,13 +8,12 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-internal class EmptyView : VerticalStackLayout
+internal class EmptyView : ScrollView
 {
     public EmptyView()
     {
-        Spacing = 0;
-        VerticalOptions = LayoutOptions.Center;
-
+        var verticalStackLayout = new VerticalStackLayout { Spacing = 0, VerticalOptions = LayoutOptions.Center };
+        
         var icon = new Image
         {
             WidthRequest = Sizes.GetSize(SizeName.size_15),
@@ -44,9 +43,11 @@ internal class EmptyView : VerticalStackLayout
         };
         descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Description)));
         
-        Add(icon);
-        Add(titleLabel);
-        Add(descriptionLabel);
+        verticalStackLayout.Add(icon);
+        verticalStackLayout.Add(titleLabel);
+        verticalStackLayout.Add(descriptionLabel);
+
+        Content = verticalStackLayout;
     }
 
 }

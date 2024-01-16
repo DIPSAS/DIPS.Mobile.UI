@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
@@ -9,6 +10,7 @@ public class StateViewModel : ViewModel
 {
     
     private State m_currentState;
+    private bool m_isRefreshing;
 
     public StateViewModel(State startingState)
     {
@@ -54,5 +56,19 @@ public class StateViewModel : ViewModel
     public void GoToState(State state)
     {
         CurrentState = state;
+    }
+    
+    /// <summary>
+    /// Sets the <see cref="RefreshView"/>'s <see cref="Command"/>, if you have set HasRefreshView on either <see cref="Default"/>, <see cref="Error"/> or <see cref="Empty"/>
+    /// </summary>
+    public ICommand RefreshCommand { get; set; }
+
+    /// <summary>
+    /// Determines whether the <see cref="RefreshView"/> is refreshing or not
+    /// </summary>
+    public bool IsRefreshing
+    {
+        get => m_isRefreshing;
+        set => RaiseWhenSet(ref m_isRefreshing, value);
     }
 }

@@ -46,11 +46,6 @@ public partial class VetleTestPage1
        
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-        
-        if(args.NewHandler is null)
-            StateView.Handler.DisconnectHandler();
-    }
+
+   
 }

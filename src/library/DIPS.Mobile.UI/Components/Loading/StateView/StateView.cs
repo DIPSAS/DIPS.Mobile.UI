@@ -23,12 +23,20 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
         
         private async void OnStateChanged(State state)
         {
-            var viewToDisplay = GetViewByState(state);
+            var viewToDisplayAndItsViewModel = GetViewAndViewModelByState(state);
+
+            if (ShouldWrapRefreshViewAroundView(viewToDisplayAndItsViewModel.Item2))
+            {
+                var refreshView = new RefreshView { Content = viewToDisplayAndItsViewModel.Item1 };
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.CommandProperty, new Binding(nameof(StateViewModel.RefreshCommand), source: StateViewModel));
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new Binding(nameof(StateViewModel.IsRefreshing), source: StateViewModel));
+                viewToDisplayAndItsViewModel.Item1 = refreshView;
+            }
             
             if (m_currentViewVisible is null)
             {
-                m_currentViewVisible = viewToDisplay;
-                Content = viewToDisplay;
+                m_currentViewVisible = viewToDisplayAndItsViewModel.Item1;
+                Content = viewToDisplayAndItsViewModel.Item1;
                 return;
             }
             
@@ -39,22 +47,25 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
 
             await FadeOut(m_currentViewVisible);
 
-            viewToDisplay.Opacity = 0;
-            Content = viewToDisplay;
+            viewToDisplayAndItsViewModel.Item1.Opacity = 0;
+            Content = viewToDisplayAndItsViewModel.Item1;
 
-            await FadeIn(viewToDisplay);
+            await FadeIn(viewToDisplayAndItsViewModel.Item1);
 
-            m_currentViewVisible = viewToDisplay;
+            m_currentViewVisible = viewToDisplayAndItsViewModel.Item1;
         }
 
-        private View GetViewByState(State state)
+        private bool ShouldWrapRefreshViewAroundView(IRefreshAbleViewModel? refreshAbleViewModel) =>
+            refreshAbleViewModel?.HasRefreshView ?? false;
+
+        private (View, IRefreshAbleViewModel?) GetViewAndViewModelByState(State state)
             =>
                 state switch
                 {
-                    State.Default => (View)DefaultView,
-                    State.Loading => (View)LoadingView,
-                    State.Error => (View)ErrorView,
-                    State.Empty => (View)EmptyView,
+                    State.Default => ((View)DefaultView, StateViewModel?.Default),
+                    State.Loading => ((View)LoadingView!, null),
+                    State.Error => ((View)ErrorView!, StateViewModel?.Error),
+                    State.Empty => ((View)EmptyView!, StateViewModel?.Empty),
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
@@ -70,6 +81,14 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                 {
                     viewToFade.Opacity = 0;
                 }
+
+                if (m_currentViewVisible is RefreshView refreshView)
+                {
+                    // Apparently DisconnectHandler() is not enough
+                    refreshView.Command = null;
+                }
+                
+                m_currentViewVisible?.Handler?.DisconnectHandler();
             }
         }
         
