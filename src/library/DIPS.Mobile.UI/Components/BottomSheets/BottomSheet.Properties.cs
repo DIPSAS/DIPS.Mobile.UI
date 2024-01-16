@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Button = Microsoft.Maui.Controls.Button;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
@@ -19,6 +20,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <remarks>Setting a <see cref="ToolbarItem"/> will automatically add a navigation bar to the <see cref="BottomSheet"/></remarks>
         public IList<ToolbarItem> ToolbarItems { get; internal set; }
+        
+        /// <summary>
+        /// The bottom bar items to be displayed in the bottom of the bottom sheet.
+        /// </summary>
+        public IList<Button> BottombarButtons { get; internal set; }
+
+        /// <summary>
+        /// Determines if the bottom sheet has bottom bar buttons
+        /// </summary>
+        public bool HasBottomBarButtons => BottombarButtons.Any();
 
         /// <summary>
         /// Determines if the bottom sheet should be sized to fit the content of the bottom sheet.
@@ -71,6 +82,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(HasSearchBarProperty, value);
         }
 
+        public static readonly BindableProperty ShouldAutoFocusSearchBarProperty = BindableProperty.Create(
+            nameof(ShouldAutoFocusSearchBar),
+            typeof(bool),
+            typeof(BottomSheet));
+
+        /// <summary>
+        /// Determines whether the search bar should be focused when opening the bottom sheet
+        /// </summary>
+        /// <remarks>Only valid when <see cref="HasSearchBar"/> is true</remarks>
+        public bool ShouldAutoFocusSearchBar
+        {
+            get => (bool)GetValue(ShouldAutoFocusSearchBarProperty);
+            set => SetValue(ShouldAutoFocusSearchBarProperty, value);
+        }
+        
         /// <summary>
         /// The command to be executed when the text in the search field is changed
         /// </summary>
@@ -95,6 +121,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         public event EventHandler? Opened;
 
+        internal event Action<Positioning>? OnPositioningChanged;
+
         /// <summary>
         /// The command to be executed when the <see cref="BottomSheet"/> is opened
         /// </summary>
@@ -112,6 +140,21 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             get => (ICommand)GetValue(ClosedCommandProperty);
             set => SetValue(ClosedCommandProperty, value);
         }
+        
+        public Positioning Positioning
+        {
+            get => (Positioning)GetValue(PositioningProperty);
+            set
+            {
+                SetValue(PositioningProperty, value);
+                OnPositioningChanged?.Invoke(value);
+            }
+        }
+
+        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
+            nameof(Positioning),
+            typeof(Positioning),
+            typeof(BottomSheet));
         
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             nameof(Title),
@@ -147,8 +190,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             nameof(IsInteractiveCloseable),
             typeof(bool),
             typeof(BottomSheet),
-            true,
-            BindingMode.OneTime);
+            true);
         
         public static readonly BindableProperty OnBackButtonPressedCommandProperty = BindableProperty.Create(
             nameof(OnBackButtonPressedCommand),
@@ -161,14 +203,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public UIKit.UIViewController NavigationController { get; set; }
         public ContentPage WrappingContentPage { get; set; }
 
-        public UIKit.UISheetPresentationController UISheetPresentationController;
+        public UIKit.UISheetPresentationController UISheetPresentationController { get; internal set; }
 #endif
 
 #if __ANDROID__
         public Google.Android.Material.BottomSheet.BottomSheetDialog BottomSheetDialog { get; set; }
         public  Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
         public Android.BottomSheetFragment BottomSheetFragment { get; set; }
-        public global::Android.Widget.LinearLayout RootLayout { get; set; }
+        public global::Android.Widget.RelativeLayout RootLayout { get; set; }
 #endif
     }
 }

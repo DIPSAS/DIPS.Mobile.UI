@@ -6,6 +6,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
+        internal const int BottomBarHeight = 120;
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
@@ -15,6 +16,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             ToolbarItems = new ObservableCollection<ToolbarItem>();
+            BottombarButtons = new ObservableCollection<Button>();
 
             SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
@@ -28,17 +30,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public Task Close(bool animated = true)
         {
             return BottomSheetService.Close(this, animated);
-        }
-
-        public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
-            nameof(Positioning),
-            typeof(Positioning),
-            typeof(BottomSheet));
-
-        public Positioning Positioning
-        {
-            get => (Positioning)GetValue(PositioningProperty);
-            set => SetValue(PositioningProperty, value);
         }
 
         /// <summary>
@@ -95,21 +86,39 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 SearchBar.TextChanged -= OnSearchTextChanged;
             }
         }
-    }
 
-    public enum Positioning
-    {
-        /// <summary>
-        /// The medium position which covers half of the screen.
-        /// </summary>
-        Medium = 0,
-        /// <summary>
-        /// A large position which covers most of the screen.
-        /// </summary>
-        Large = 2,
-        /// <summary>
-        /// The position is determined by the content and will fit the screen.
-        /// </summary>
-        Fit = 4,
+        internal Border CreateBottomBar()
+        {
+            var border = new Border
+            {
+                Padding = Sizes.GetSize(SizeName.size_3),
+                StrokeThickness = 0,
+                VerticalOptions = LayoutOptions.End,
+                HeightRequest = BottomBarHeight,
+                Background = new LinearGradientBrush()
+                {
+                    EndPoint = new Point(0, 1),
+                    GradientStops = new GradientStopCollection()
+                    {
+                        new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
+                        new() {Color = this.BackgroundColor, Offset = 0.22f}
+                    }
+                }
+            };
+            var grid = new Grid
+            {
+                ColumnSpacing = Sizes.GetSize(SizeName.size_2), VerticalOptions = LayoutOptions.End,
+                RowDefinitions = new RowDefinitionCollection(){new(GridLength.Star)}
+            };
+            foreach (var button in BottombarButtons)
+            {
+                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                grid.Add(button, grid.ColumnDefinitions.Count - 1);
+            }
+
+            border.Content = grid;
+            border.BindingContext = BindingContext;
+            return border;
+        }
     }
 }

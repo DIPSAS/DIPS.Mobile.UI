@@ -16,11 +16,16 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         private BottomSheetBehavior? m_bottomSheetBehavior;
         private TaskCompletionSource<bool> m_dismissTaskCompletionSource;
 
+        private List<InputView> m_attachedInputViews = new();
+        private Positioning m_bottomSheetPositioningBeforeFocusedInputView;
+
         public BottomSheetFragment(BottomSheet bottomSheet)
         {
             m_bottomSheet = bottomSheet;
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
+
+            m_bottomSheet.OnPositioningChanged += OnBottomSheetPositioningChanged;
         }
 
         public override AView OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
@@ -33,25 +38,32 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (m_bottomSheetBehavior == null) return errorView;
             if (Context == null) return errorView;
 
-            var rootLayout = new LinearLayout(Context)
+            var rootLayout = new RelativeLayout(Context)
             {
                 LayoutParameters =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                         ViewGroup.LayoutParams.WrapContent),
+            };
+
+            var bottomSheetLayout = new LinearLayout(Context)
+            {
+                LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent),
                 Orientation = Orientation.Vertical
             };
 
+            rootLayout.AddView(bottomSheetLayout);
+            
             m_bottomSheet.RootLayout = rootLayout;
             m_bottomSheet.BottomSheetDialog = bottomSheetDialog;
             m_bottomSheet.BottomSheetBehavior = m_bottomSheetBehavior;
 
-
-            var bottomSheetView = m_bottomSheet.ToPlatform(mauiContext!); //Triggers handler creation
+            var bottomSheetView = m_bottomSheet.ToPlatform(mauiContext); //Triggers handler creation
+            
             if (m_bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return errorView;
             if (m_bottomSheetBehavior == null) return errorView;
 
-
-            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, bottomSheetView, rootLayout);
+            return bottomSheetHandler.OnBeforeOpening(mauiContext, Context, bottomSheetView, rootLayout, bottomSheetLayout);
         }
 
         public override Dialog OnCreateDialog(Bundle? savedInstanceState)
@@ -64,6 +76,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             if (dialog is BottomSheetDialog bottomSheetDialog)
             {
                 m_bottomSheetBehavior = bottomSheetDialog.Behavior;
+                
+                var displayMetrics = Resources.DisplayMetrics;
+                var screenHeight = displayMetrics.HeightPixels;
+
+                // Calculate the peek height as 50% of the screen height
+                var peekHeight = (int)(0.5 * screenHeight);
+                m_bottomSheetBehavior.SetPeekHeight(peekHeight, false);
             }
 
             var window = activity.Window;
@@ -76,14 +95,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                 dialog.Window?.SetFlags(flags, flags);
             }
 
-            dialog.Window?.SetSoftInputMode(SoftInput.AdjustResize);
-
             return dialog;
         }
 
         public override void OnCreate(Bundle? savedInstanceState)
         {
             m_showTaskCompletionSource.SetResult(true);
+            
             base.OnCreate(savedInstanceState);
         }
 
@@ -107,12 +125,55 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
             m_bottomSheet.Handler?.DisconnectHandler();
+
+            foreach (var inputView in m_attachedInputViews)
+            {
+                inputView.Focused -= OnInputViewFocused;
+            }
+
+            m_bottomSheet.OnPositioningChanged -= OnBottomSheetPositioningChanged;
         }
 
         public Task Close(bool animated)
         {
             Dismiss();
             return m_dismissTaskCompletionSource.Task;
+        }
+
+        public void AttachInputView(InputView inputView)
+        {
+            m_attachedInputViews.Add(inputView);
+
+            inputView.Focused += OnInputViewFocused;
+        }
+
+        private void OnInputViewFocused(object? sender, FocusEventArgs e)
+        {
+            m_bottomSheetPositioningBeforeFocusedInputView = m_bottomSheet.Positioning;
+            m_bottomSheet.Positioning = Positioning.Large;
+
+            ((sender as InputView)!).Unfocused += OnInputViewUnFocused;
+        }
+
+        private void OnInputViewUnFocused(object? sender, FocusEventArgs e)
+        {
+            m_bottomSheet.Positioning = m_bottomSheetPositioningBeforeFocusedInputView;
+
+            ((sender as InputView)!).Unfocused -= OnInputViewUnFocused;
+        }
+        
+        private void OnBottomSheetPositioningChanged(Positioning positioning)
+        {
+            if (positioning != Positioning.Medium)
+                return;
+
+            foreach (var inputView in m_attachedInputViews)
+            {
+                inputView.Unfocused -= OnInputViewUnFocused;
+                
+                if(inputView.IsFocused)
+                    inputView.Unfocus();
+            }
         }
     }
 }

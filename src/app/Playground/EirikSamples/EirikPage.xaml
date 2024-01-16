@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:eirikSamples="clr-namespace:Playground.EirikSamples"
+             x:Class="Playground.EirikSamples.EirikPage"
+             x:DataType="{x:Type eirikSamples:EirikPageViewModel}"
+             x:Name="This">
+    <dui:ContentPage.BindingContext>
+        <eirikSamples:EirikPageViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:VerticalStackLayout>
+        <dui:CollectionView ItemsSource="{Binding List}"
+                            IsGrouped="True">
+            <dui:CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="{x:Type eirikSamples:GroupedStrings}">
+                    <dui:Label Text="{Binding GroupTitle}"/>
+                </DataTemplate>
+            </dui:CollectionView.GroupHeaderTemplate>
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
+                    <dui:ListItem Title="{Binding .}"
+                                  HasBottomDivider="True"
+                                  HasTopDivider="True"
+                                  BindingContextChanged="ListItemOnBindingContextChanged">
+                        <dui:ListItem.ContextMenu>
+                            <dui:ContextMenu BindingContextChanged="ContextMenu_OnBindingContextChanged">
+                                <dui:ContextMenuItem Title="Show system message"
+                                                     Command="{Binding BindingContext.ShowSystemMessageCommand, Source={x:Reference This}}"
+                                                     CommandParameter="{Binding .}"/>
+                                <dui:ContextMenuItem Title="Remove"
+                                                     Command="{Binding BindingContext.RemoveFromListCommand, Source={x:Reference This}}"
+                                                     CommandParameter="{Binding .}"/>
+                            </dui:ContextMenu>
+                        </dui:ListItem.ContextMenu>
+                    </dui:ListItem>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+        <dui:Button Text="Add to list"
+                    Command="{Binding AddToListCommand}"/>
+        <dui:Button Text="Navigate"
+                    Command="{Binding NavigateCommand}"/>
+    </dui:VerticalStackLayout>
+</dui:ContentPage>

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -67,8 +68,13 @@ public partial class HåvardPage
         set => SetValue(HideTextProperty, value);
     }
 
+
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        BottomSheetService.Open(new HåvardBottomSheet());
+        SystemMessageService.Display(configurator =>
+        {
+            configurator.Text = "Testing";
+            configurator.BackgroundColor = Colors.Red;
+        });
     }
 }

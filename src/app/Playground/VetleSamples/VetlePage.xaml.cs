@@ -1,5 +1,7 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Resources.Icons;
+using Microsoft.Maui.Controls.Internals;
 using Playground.HåvardSamples;
 
 namespace Playground.VetleSamples;
@@ -16,6 +18,12 @@ public partial class VetlePage
     {
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+    }
+
     public ICommand TestCommand { get; }
 
     protected override void OnSizeAllocated(double width, double height)
@@ -27,8 +35,11 @@ public partial class VetlePage
 
 
 
+
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-       
+        ShouldHideFloatingNavigationMenuButton = e.Value;
     }
+
+    
 }

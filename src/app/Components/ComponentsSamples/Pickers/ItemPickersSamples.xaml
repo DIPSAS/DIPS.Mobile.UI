@@ -23,7 +23,7 @@
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
                         ItemDisplayProperty="DisplayName" />
-
+        
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
         <dui:ItemPicker VerticalOptions="Start"
@@ -33,7 +33,7 @@
                         ItemsSource="{Binding People}" />
         <dui:Label Text="MultiItemsPicker"
                    Margin="5" />
-
+        
         <dui:MultiItemsPicker VerticalOptions="Start"
                               Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
                               HorizontalOptions="Start"
@@ -41,7 +41,7 @@
         </dui:MultiItemsPicker>
         <dui:Label Text="SegmentedControl: Mode: Single"
                    Margin="5" />
-
+        
         <dui:SegmentedControl SelectionMode="Single">
             <x:Array Type="{x:Type x:String}">
                 <x:String>First</x:String>
@@ -51,7 +51,7 @@
         </dui:SegmentedControl>
         <dui:Label Text="SegmentedControl: Mode: Multi"
                    Margin="5" />
-
+        
         <dui:SegmentedControl SelectionMode="Multi">
             <x:Array Type="{x:Type x:String}">
                 <x:String>First</x:String>
@@ -59,5 +59,18 @@
                 <x:String>Third</x:String>
             </x:Array>
         </dui:SegmentedControl>
+        
+        <dui:Label Text="Picker in ListItem"
+                   Margin="5" />
+        
+        <dui:ListItem Title="Title"
+                      CornerRadius="{dui:Sizes size_4}"
+                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                      BackgroundColor="{dui:Colors color_neutral_05}">
+            
+            <dui:ItemPicker Mode="ContextMenu"
+                            ItemsSource="{Binding People}"
+                            ItemDisplayProperty="DisplayName"/>
+        </dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

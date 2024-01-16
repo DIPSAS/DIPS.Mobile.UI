@@ -1,5 +1,193 @@
-## [20.0.1]
+## [23.2.1]
 - [ContextMenu] Add icon to group if Icon property is set and `IsCheckable` is false.
+
+## [23.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [23.1.2]
+- [Label] Fixed an issue where Label would crash application if Text was not set.
+
+## [23.1.1]
+- [StateView] Fixed an issue where the starting state was not set
+- [StateView] Fixed an issue where the default views would always reference to the same object in memory, even though user has navigated back from the page and navigated in again
+
+## [23.1.0]
+- Added option to turn on garbage collection logging when debugging for content pages.
+
+## [23.0.0]
+- [BreakingChange] [StateView] ViewModel is now in charge of creating 'StateViewModel', added new property: 'ShouldUpdateViewWhenStateSetToSame'
+- [iOS] [Label] Added a null check when checking for truncation 
+
+## [22.6.0]
+- Added two new properties to Label: 'TruncatedText' and 'TruncatedTextColor'
+
+## [22.5.2]
+- [SystemMessage] Removed animation from the Android implementation to make sure the system message is horizontally in center and that the font size is correct.
+
+## [22.5.1]
+- [ListItem] Made sure list item can be subscribed to and tapped on without having to set the `Command` as well.
+
+## [22.5.0]
+- Added StateView.
+
+## [22.4.4]
+- [SearchBar] Made sure to colorize cancel button when HasCancelButton has changed on ios.
+
+## [22.4.3]
+- [ContextMenu] Fixed Context Menu data context not getting updated in collections that are updated from another page
+- [SearchBar] Made sure `CancelCommand` is nullable and cancling without having a `CancelCommand` does not crash.
+
+## [22.4.2]
+- [iOS][ItemPicker] Ensure chip resizes when selected item changes.
+
+## [22.4.1]
+- [SearchBar] Made sure unfocused event was correctly mapped.
+
+## [22.4.0]
+- Fixed an issue where keyboard would still be opened when scrolling in ItemPicker bottomsheet.
+- Added new property: 'ShouldAutoFocusSearchBar' for BottomSheet and ItemPicker. 
+
+## [22.3.1] 
+- Fixed an issue where HorizontalInlineDatePicker took too much height when in landscape mode.
+- Fixed an issue where HorizontalInlineDatePicker would instantly snap to dates when scrolling.
+- DateView now changes its view based on its orientation.
+
+## [22.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [22.2.2]
+- [iOS] Chip will now have touch effect when tapping
+- [iOS] Fixed an issue where the commands would fire when touches began and not ending on Chip
+- Cleanup in ChipHandler for iOS
+
+## [22.2.1]
+- [Button][iOS] Made sure setting size from the library only happens when the button has a text and a an image.
+
+## [22.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [22.1.3]
+- Fixed an issue where the floating navigation button sometimes did not respect changing orientation.
+- Fixed an issue where buttons with only an icon did not have the correct layout.
+
+## [22.1.2]
+- [SlidableLayout] Fixed a bug where you couldn't tap the next element (only the previous) in a slidable layout
+
+## [22.1.1]
+- [Button] Fixed an issue when setting image to a button taking the entire parent space.
+
+## [22.1.0]
+- Introduced two new properties on SearchBar.
+- Keyboard now dismisses when pressing return key when having focus on dui:SearchBar
+- SearchPage now changes the text/icon of return key determined by 'SearchMode'
+- [iOS] Fixed an issue where the return key were not set as 'Done' when focusing dui:Entry 
+- [Android] Fixed an issue where dui:Entry were not unfocused when pressing the return key
+
+## [22.0.1]
+- Make sure dui:Editor and dui:Entry capitalizes each new sentence.
+
+## [22.0.0]
+- Added new property to ContentPage: 'ShouldHideFloatingNavigationMenuButton'.
+- [BreakingChange] Removed the ability to set predefined pages where the FloatingNavigationMenuButton would hide itself automatically.
+
+## [21.0.0]
+- [BreakingChange] Changed so that any type can be compared with when checking to hide the floating navigation button.
+
+## [20.14.1]
+- Fixed an issue where floating navigation button would go out of bounds when changing orientation
+
+## [20.14.0]
+- [MultiLineInputField] Added CancelCommand.
+- [MultiLineInputField] Added Save and Cancel tapped events.
+
+## [20.13.1]
+- [BottomSheet][Android] Fixed an issue where pressing delete buttons when the bottom sheet was open caused it to try closing.
+
+## [20.13.0]
+- Set default margin for dividers on ListItem.
+- Added new property to ListItem: 'AutoDivider'
+
+## [20.12.2]
+- [iOS] Fixed an issue where releasing the long-press context menu interaction too early would fire off the tap event.
+- Changed default padding of ListItem
+
+## [20.12.1]
+- [BottomSheet] Made sure `Title` is visible for Android.
+
+## [20.12.0]
+- Added `MaxWidth` to `ListItem.TitleOptions`
+
+## [20.11.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [20.10.2]
+- Moved the sort icon to the left side of the text in SortControl, this implicitly also fixes that the text wont ever get truncated
+
+## [20.10.1]
+- [BottomSheet][Android] Made sure consumers do not need to set the text of a toolbar item to add the toolbar item on Android.
+
+## [20.10.0]
+- [ScrollView] Added additional space at the bottom of scroll view to make sure the last item is scrolled to approx half the size of the scrollview for better UX.
+
+## [20.9.0]
+- [SearchPage] Made sure keyboard will disapear when scrolling the result.
+- [SearchPage] Keyboard is now removed when people tap the cancel button.
+- [CollectionView] Added a new ContentHeight property that will return the correct height of the CollectionView on iOS and Android.
+- [CollectionView] Changed the size of the invisible footer from 1/3 to 1/2 of the CollectionView.
+
+## [20.8.3]
+- SaveView will now only vibrate on success when user actually taps the
+SaveView (Added new property 'Command' to SaveView)
+
+## [20.8.2]
+- [Android] Fixed a regression bug where the cursor would not be set at the end of the text when focusing Editor
+
+## [20.8.1]
+- Fixed an issue where buttons in BottombarButtons (BottomSheet) did not take up full width
+- [Android] Fixed an issue where the Bottombar had too low height
+
+## [20.8.0]
+- Fixed an issue where changing the 'Position' property on BottomSheet would only run one time.
+- [iOS] Fixed an issue where changing the 'Position' property on BottomSheet would not animate the change
+- Added the ability to set the position of the last opened BottomSheet in BottomSheetService
+- [Android] dui:Entry and dui:Editor will now expand the BottomSheet it is in when they have focus
+
+## [20.7.3]
+- [iOS] Fixed an issue with nesting of the touch API, where several touch commands would fire at the same time.
+
+## [20.7.2]
+- [Android] Fixed an issue where the keyboard would not show up if BottomBarButtons were set in a BottomSheet
+
+## [20.7.1]
+- Fix padding for toggleable chip on iOS.
+
+## [20.7.0]
+- [MultiLineInputField] Buttons will be disabled when programatically saving
+- Fixed an issue where the 'IsInteractiveCloseable' property on BottomSheet was set to BindingMode.OneTime
+
+## [20.6.0]
+- Added new option to InLineContentOptions in ListItem so that the InLineContent can span over UnderlyingContent
+- Fixed an issue where focusing on a dui:Editor for the first time would not place cursor at the end of the text
+- Fixed an issue where the BindingContext were not set for BottomBarButtons in a BottomSheet
+
+## [20.5.0]
+- Added new properties to MultiLineInputField so that consumers can give users feedback when saving
+- Fixed an issue where consumers could not set the padding of ListItem to zero.
+
+## [20.4.0]
+- [BottomSheet] Added BottomBarButtons, to add floating buttons to the bottom of the bottom sheet.
+
+## [20.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [20.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [20.1.0]
+- Renamed 'IsEllipsized' property to 'IsTruncated' in Label
+- Now checks if the Label is truncated, does not matter if LineBreakMode is set (Ellipsis is apparent)
+- Added new components: SingleLineInputField and MultiLineInputField
+- Can now disable default padding in dui:Entry and dui:Editor
 
 ## [20.0.0]
 - [BottomSheet] Will now respond to property changes when its open.

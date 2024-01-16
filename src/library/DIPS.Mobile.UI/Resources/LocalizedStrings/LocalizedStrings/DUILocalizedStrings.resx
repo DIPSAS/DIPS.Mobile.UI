@@ -63,4 +63,28 @@
     <data name="Choice" xml:space="preserve">
         <value>Choice</value>
     </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="InputSampleText" xml:space="preserve">
+        <value>Input sample text</value>
+    </data>
+    <data name="Accessability.InputField.HelpText" xml:space="preserve">
+        <value>Tap to input text</value>
+    </data>
+    <data name="Saving" xml:space="preserve">
+        <value>Saving</value>
+    </data>
+    <data name="EmptyViewTitle" xml:space="preserve">
+        <value>Title when data is empty</value>
+    </data>
+    <data name="EmptyViewDescription" xml:space="preserve">
+        <value>Description when data is empty</value>
+    </data>
+    <data name="ErrorViewTitle" xml:space="preserve">
+        <value>Title when error</value>
+    </data>
+    <data name="ErrorViewDescription" xml:space="preserve">
+        <value>Description when error</value>
+    </data>
 </root>

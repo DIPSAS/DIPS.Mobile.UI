@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;</TargetFrameworks>
+        <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
         <OutputType>Exe</OutputType>
         <RootNamespace>Components</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -37,16 +37,18 @@
 
     <!-- Intellij Rider is unable to deploy to device for MAUI: https://youtrack.jetbrains.com/issue/RIDER-76794/Cannot-deploy-MAUI-project-to-physical-iOS-device-->
     <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
-    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
-        <!--DEBUG ON DEVICE-->
+<!--    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">-->
+<!--        &lt;!&ndash;DEBUG ON DEVICE&ndash;&gt;-->
 
 
 <!--        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>-->
-        
-        <!--DEBUG ON SIMULATOR-->
+<!--        -->
+<!--        &lt;!&ndash;DEBUG ON SIMULATOR&ndash;&gt;-->
 
-        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
-    </PropertyGroup>
+<!--&lt;!&ndash;-->
+<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
+<!--&ndash;&gt;-->
+<!--    </PropertyGroup>-->
 
     <ItemGroup>
 
@@ -143,7 +145,6 @@
         <MauiXaml Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
-
     </ItemGroup>
 
 

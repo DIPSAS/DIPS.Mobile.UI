@@ -24,6 +24,18 @@ public partial class Editor
         set => SetValue(ShouldSelectTextOnTappedProperty, value);
     }
     
+    public bool ShouldUseDefaultPadding
+    {
+        get => (bool)GetValue(ShouldUseDefaultPaddingProperty);
+        set => SetValue(ShouldUseDefaultPaddingProperty, value);
+    }
+
+    public static readonly BindableProperty ShouldUseDefaultPaddingProperty = BindableProperty.Create(
+        nameof(ShouldUseDefaultPadding),
+        typeof(bool),
+        typeof(Editor),
+        true);
+    
     public static readonly BindableProperty HasBorderProperty = BindableProperty.Create(
         nameof(HasBorder),
         typeof(bool),
@@ -33,4 +45,5 @@ public partial class Editor
         nameof(ShouldSelectAllTextOnFocused),
         typeof(bool),
         typeof(Editor));
+
 }

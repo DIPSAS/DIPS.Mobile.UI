@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Resources.Icons;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 
@@ -11,6 +12,13 @@ public partial class VetleTestPage1
     public VetleTestPage1()
     {
         InitializeComponent();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        //FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
     }
 
     public void AddButton(object sender, EventArgs eventArgs)
@@ -32,5 +40,17 @@ public partial class VetleTestPage1
         new BottomSheetWithToolbar().Open();
     }
 
-   
+
+    private void Element_OnHandlerChanging(object sender, HandlerChangingEventArgs e)
+    {
+       
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            StateView.Handler.DisconnectHandler();
+    }
 }

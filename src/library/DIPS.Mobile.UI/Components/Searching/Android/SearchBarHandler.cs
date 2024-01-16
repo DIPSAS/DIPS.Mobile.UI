@@ -17,7 +17,6 @@ using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
 using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -76,10 +75,8 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             SearchBarPropertyMapper.Add(nameof(SearchBar.CancelCommand), MapCancelCommand);
             SearchBarPropertyMapper.Add(nameof(SearchBar.CancelCommandParameter), MapCancelCommandParameter);
-            SearchBarPropertyMapper.Add(nameof(SearchBar.SearchCommand), MapSearchCommand);
             SearchBarPropertyMapper.Add(nameof(SearchBar.AndroidBusyBackgroundColor), MapAndroidBusyBackgroundColor);
             SearchBarPropertyMapper.Add(nameof(SearchBar.AndroidBusyColor), MapAndroidBusyColor);
-            SearchBarPropertyMapper.Add(nameof(SearchBar.SearchCommand), MapSearchCommand);
         }
 
         private static void MapAndroidBusyColor(SearchBarHandler handler, SearchBar searchBar)
@@ -111,8 +108,21 @@ namespace DIPS.Mobile.UI.Components.Searching
                     //Fixes this issue : https://github.com/dotnet/maui/issues/10823
                     mauiSearchView.MaxWidth = int.MaxValue;
                 }
-            }
 
+                InternalSearchBar.SearchCommand = new Command(() =>
+                {
+                    if (VirtualView.ShouldCloseKeyboardOnReturnKeyTapped)
+                    {
+                        // An ugly workaround to hide keyboard on Android
+                        InternalSearchBar.IsEnabled = false;
+                        InternalSearchBar.IsEnabled = true;
+                        UnFocus();
+                    }
+
+                    VirtualView.SearchCommand?.Execute(null);
+
+                });
+            }
             SubscribeToEvents();
         }
 
@@ -124,7 +134,14 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RemoveTextImageView.Click += OnClearTextClicked;
             }
 
+            CancelButton.Clicked += OnCancelClicked;
             InternalSearchBar.Focused += OnInternalSearchBarFocused;
+            InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
+        }
+
+        private void OnCancelClicked(object? sender, EventArgs e)
+        {
+            UnFocus();
         }
 
         protected override void DisconnectHandler(AView platformView)
@@ -142,6 +159,8 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
+            InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
+            CancelButton.Clicked -= OnCancelClicked;
         }
 
 
@@ -159,11 +178,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.CancelButton.TextColor = searchBar.CancelButtonTextColor;
-        }
-
-        private static void MapSearchCommand(SearchBarHandler handler, SearchBar searchBar)
-        {
-            handler.InternalSearchBar.SearchCommand = searchBar.SearchCommand;
         }
 
         private static void MapHasBusyIndication(SearchBarHandler handler, SearchBar searchBar)
@@ -258,6 +272,17 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapText(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.InternalSearchBar.Text = searchBar.Text;
+        }
+        
+        private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
+        {
+            if (handler.InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
+            {
+                mauiSearchView.ImeOptions = (int)(searchBar.ReturnKeyType == ReturnType.Done
+                    ? ImeAction.Done
+                    : ImeAction.Search);
+            }
+
         }
 
         public partial void Focus()

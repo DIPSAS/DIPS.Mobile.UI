@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
+using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 
 namespace DIPS.Mobile.UI.Resources.Styles
@@ -20,6 +21,8 @@ namespace DIPS.Mobile.UI.Resources.Styles
         /// The <see cref="LabelStyle"/> to look for.
         /// </summary>
         public LabelStyle Label { get; set; }
+        
+        public InputFieldStyle InputField { get; set; }
 
         public Style ProvideValue(IServiceProvider serviceProvider)
         {
@@ -36,6 +39,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
             if (Label != LabelStyle.None)
             {
                 return Styles.GetLabelStyle(Label);
+            }
+
+            if (InputField != InputFieldStyle.None)
+            {
+                return Styles.GetInputFieldStyle(InputField);
             }
 
             return new Style(typeof(View));

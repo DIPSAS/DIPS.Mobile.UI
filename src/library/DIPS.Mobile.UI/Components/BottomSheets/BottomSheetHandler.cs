@@ -11,12 +11,15 @@ public partial class BottomSheetHandler
     public static readonly IPropertyMapper<BottomSheet, BottomSheetHandler> BottomSheetMapper =
         new PropertyMapper<BottomSheet, BottomSheetHandler>(Mapper)
         {
-            [nameof(BottomSheet.IsInteractiveCloseable)] = MapIsInteractiveCloseable,
-            [nameof(BottomSheet.Title)] = MapTitle,
-            [nameof(BottomSheet.ToolbarItems)] = MapToolbarItems,
-            [nameof(BottomSheet.HasSearchBar)] = MapHasSearchBar,
-            [nameof(BottomSheet.Positioning)] = MapPositioning,
+            [nameof(BottomSheets.BottomSheet.IsInteractiveCloseable)] = MapIsInteractiveCloseable,
+            [nameof(BottomSheets.BottomSheet.Title)] = MapTitle,
+            [nameof(BottomSheets.BottomSheet.ToolbarItems)] = MapToolbarItems,
+            [nameof(BottomSheets.BottomSheet.HasSearchBar)] = MapHasSearchBar,
+            [nameof(BottomSheets.BottomSheet.Positioning)] = MapPositioning,
+            [nameof(BottomSheets.BottomSheet.BottombarButtons)] = MapBottomBar,
         };
+
+    private static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet);
 
     private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet);
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
+                 xmlns:localizedStrings1="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.TextFields.SingleLineTextArea.SingleLineInputFieldSamples"
+                 Padding="20"
+                 Title="SingleLineInputField">
+
+    <dui:VerticalStackLayout Spacing="10">
+
+
+        <dui:ListItem Title="HeaderText">
+            <dui:Entry HasBorder="True"
+                       x:Name="SingleLineEntry"
+                       Text="Label" />
+
+            <dui:ListItem.TitleOptions>
+                <dui:TitleOptions Width="*" />
+            </dui:ListItem.TitleOptions>
+
+            <dui:ListItem.InLineContentOptions>
+                <dui:InLineContentOptions Width="*" />
+            </dui:ListItem.InLineContentOptions>
+        </dui:ListItem>
+
+        <dui:ListItem Title="HelpText">
+            <Switch x:Name="HelpTextSwitch" />
+        </dui:ListItem>
+
+
+        <dui:SingleLineInputField HeaderText="{Binding Source={x:Reference SingleLineEntry}, Path=Text}"
+                                  x:Name="TextArea"
+                                  HelpText="{Binding Source={x:Reference HelpTextSwitch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject='HelpText', FalseObject=''}}" />
+
+        <dui:Button Text="{x:Static localizedStrings1:LocalizedStrings.Unfocus}"
+                    Clicked="Button_OnClicked" />
+
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>

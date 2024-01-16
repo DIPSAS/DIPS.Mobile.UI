@@ -9,4 +9,10 @@ public partial class EditorHandler
     private static async partial void MapHasBorder(EditorHandler handler, Editor entry)
     {
     }
+    
+    private static partial void MapShouldUseDefaultPadding(EditorHandler handler, Editor editor)
+    {
+        
+    }
+
 }

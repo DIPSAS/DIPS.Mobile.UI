@@ -6,6 +6,25 @@ namespace DIPS.Mobile.UI.Components.Searching
     public partial class SearchBar
     {
         /// <summary>
+        /// Determines whether the keyboard should be closed when return key tapped
+        /// </summary>
+        public bool ShouldCloseKeyboardOnReturnKeyTapped
+        {
+            get => (bool)GetValue(ShouldCloseKeyboardOnSearchProperty);
+            set => SetValue(ShouldCloseKeyboardOnSearchProperty, value);
+        }
+        
+        /// <summary>
+        /// iOS: Sets the text of the return key
+        /// Android: Sets the icon of the return key
+        /// </summary>
+        public ReturnType ReturnKeyType
+        {
+            get => (ReturnType)GetValue(ReturnKeyTypeProperty);
+            set => SetValue(ReturnKeyTypeProperty, value);
+        }
+        
+        /// <summary>
         /// Sets the color of the icons that people see in the search bar.
         /// </summary>
         public Color? IconsColor
@@ -62,9 +81,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The command to be executed when people tap the cancel button.
         /// </summary>
-        public ICommand CancelCommand
+        public ICommand? CancelCommand
         {
-            get => (ICommand)GetValue(CancelCommandProperty);
+            get => (ICommand?)GetValue(CancelCommandProperty);
             set => SetValue(CancelCommandProperty, value);
         }
 
@@ -193,6 +212,10 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// Event to be raised when the <see cref="SearchBar"/> was focused.
         /// </summary>
         public new event EventHandler<EventArgs> Focused;
+        /// <summary>
+        /// Event to be raised when the <see cref="SearchBar"/> was unfocused.
+        /// </summary>
+        public new event EventHandler<EventArgs> Unfocused;
         
         public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
@@ -287,6 +310,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(bool),
             typeof(SearchPage),
             false);
+        
+        public static readonly BindableProperty ReturnKeyTypeProperty = BindableProperty.Create(
+            nameof(ReturnKeyType),
+            typeof(ReturnType),
+            typeof(SearchBar),
+            ReturnType.Search);
+        
+        public static readonly BindableProperty ShouldCloseKeyboardOnSearchProperty = BindableProperty.Create(
+            nameof(ShouldCloseKeyboardOnReturnKeyTapped),
+            typeof(bool),
+            typeof(SearchBar),
+            true);
 
     }
 }

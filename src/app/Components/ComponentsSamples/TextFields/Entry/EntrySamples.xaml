@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-             x:Class="Components.ComponentsSamples.TextFields.EditorSamples">
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.ComponentsSamples.TextFields.Entry.EntrySamples"
+                 Padding="{dui:Sizes size_5}"
+                 Title="Entry">
 
     <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
 
         <dui:VerticalStackLayout>
 
-            <dui:ListItem Title="Border" IsVisible="{OnPlatform Android=True, iOS=False}">
+            <dui:ListItem Title="Border">
                 <dui:Switch x:Name="BorderSwitch" />
             </dui:ListItem>
             
@@ -23,12 +25,10 @@
         <dui:Button Text="{x:Static localizedStrings:LocalizedStrings.Unfocus}"
                     Clicked="Button_OnClicked"/>
         
-        <dui:Editor Placeholder="{x:Static localizedStrings:LocalizedStrings.InputText}"
-                    BackgroundColor="{dui:Colors color_system_white}"
-                    HeightRequest="500"
-                    HasBorder="{Binding Source={x:Reference BorderSwitch}, Path=IsToggled}"
-                    x:Name="Entry" />
+        <dui:Entry Placeholder="{x:Static localizedStrings:LocalizedStrings.InputText}"
+                   BackgroundColor="{dui:Colors color_system_white}"
+                   HasBorder="{Binding Source={x:Reference BorderSwitch}, Path=IsToggled}"
+                   x:Name="Entry" />
         
     </dui:VerticalStackLayout>
-    
 </dui:ContentPage>

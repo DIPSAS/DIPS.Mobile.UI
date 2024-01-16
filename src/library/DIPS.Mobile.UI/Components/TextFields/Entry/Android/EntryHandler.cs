@@ -1,9 +1,9 @@
-using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Widget;
 using AndroidX.AppCompat.Widget;
+using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
@@ -19,6 +19,34 @@ public partial class EntryHandler
 
         DefaultBackground = platformView.Background;
         
+        platformView.EditorAction += PlatformViewOnEditorAction;
+        
+        var activity = Platform.CurrentActivity;
+        var fragment = activity?.GetFragmentManager()?.FindFragmentByTag(nameof(BottomSheetFragment));
+        if (fragment is BottomSheetFragment bottomSheetDialogFragment)
+        {
+            bottomSheetDialogFragment.AttachInputView((VirtualView as InputView)!);
+        }
+        
+        platformView.FocusChange += OnFocusChanged;
+    }
+
+    private void PlatformViewOnEditorAction(object? sender, TextView.EditorActionEventArgs e)
+    {
+        PlatformView.Unfocus(VirtualView);
+    }
+
+    private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)
+    {
+        PlatformView.SetBackground(((VirtualView as Entry)!).HasBorder ? DefaultBackground : null);
+    }
+
+    private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
+    {
+        if(entry.ShouldUseDefaultPadding)
+            return;
+        
+        handler.PlatformView.SetPadding(0, 0, 0, 0);
     }
 
     private static partial void MapShouldSelectTextOnTapped(EntryHandler handler, Entry entry)
@@ -30,5 +58,13 @@ public partial class EntryHandler
     {
         await Task.Delay(1);
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
+    }
+
+    protected override void DisconnectHandler(AppCompatEditText platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        platformView.FocusChange -= OnFocusChanged;
+        platformView.EditorAction -= PlatformViewOnEditorAction;
     }
 }

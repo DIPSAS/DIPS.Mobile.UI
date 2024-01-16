@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:stateView="clr-namespace:Components.ComponentsSamples.Loading.StateView"
+                 x:Class="Components.ComponentsSamples.Loading.StateView.StateViewSamples"
+                 x:DataType="{x:Type stateView:StateViewSamplesViewModel}"
+                 Title="StateView"
+                 Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_3}">
+
+    <dui:ContentPage.BindingContext>
+        <stateView:StateViewSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *, *"
+          Padding="{dui:Thickness Bottom=size_10}">
+
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Animations}"
+                      Margin="{dui:Thickness Bottom=size_2}"
+                      CornerRadius="{dui:CornerRadius size_2}">
+
+            <Switch x:Name="AnimationSwitch"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+
+            <dui:ListItem.UnderlyingContent>
+                <dui:ItemPicker SelectedItemCommand="{Binding SelectedItemCommand}"
+                                Margin="{dui:Thickness Top=size_2}"
+                                SelectedItem="{Binding SelectedState}">
+                    <dui:ItemPicker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Default</x:String>
+                            <x:String>Loading</x:String>
+                            <x:String>Error</x:String>
+                            <x:String>Empty</x:String>
+                        </x:Array>
+                    </dui:ItemPicker.ItemsSource>
+                </dui:ItemPicker>
+            </dui:ListItem.UnderlyingContent>
+        </dui:ListItem>
+
+
+        <Grid Grid.Row="1"
+              RowDefinitions="Auto, *">
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="{x:Static localizedStrings:LocalizedStrings.DefaultStateViews}" />
+
+            <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
+                           StateViewModel="{Binding MyStateViewModel}"
+                           Grid.Row="1">
+                
+                <dui:Label Text="Default" />
+                
+            </dui:StateView>
+        </Grid>
+
+        <dui:VerticalStackLayout Grid.Row="2">
+
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="{x:Static localizedStrings:LocalizedStrings.CustomStateViews}" />
+
+            <dui:StateView ShouldFadeBetweenStates="{Binding Source={x:Reference AnimationSwitch}, Path=IsToggled}"
+                           StateViewModel="{Binding MyStateViewModel}">
+
+                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}">
+                    <dui:ItemPicker>
+                        <dui:ItemPicker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>First</x:String>
+                                <x:String>Second</x:String>
+                                <x:String>Third</x:String>
+                            </x:Array>
+                        </dui:ItemPicker.ItemsSource>
+                    </dui:ItemPicker>
+                </dui:ListItem>
+
+                <dui:StateView.EmptyView>
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.NoItemsToChooseFrom}" />
+                </dui:StateView.EmptyView>
+
+                <dui:StateView.ErrorView>
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
+                        <dui:Image Source="{dui:Icons failure_fill}" TintColor="{dui:Colors color_error_dark}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Error}"
+                                   Style="{dui:Styles Label=UI300}"
+                                   TextColor="{dui:Colors color_error_dark}" />
+                    </dui:HorizontalStackLayout>
+                </dui:StateView.ErrorView>
+
+                <dui:StateView.LoadingView>
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
+                        <dui:ActivityIndicator IsRunning="True" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Loading}" />
+                    </dui:HorizontalStackLayout>
+                </dui:StateView.LoadingView>
+
+            </dui:StateView>
+        </dui:VerticalStackLayout>
+
+    </Grid>
+
+</dui:ContentPage>

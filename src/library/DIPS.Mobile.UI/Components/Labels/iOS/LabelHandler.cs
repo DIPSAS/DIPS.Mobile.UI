@@ -1,11 +1,10 @@
-using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class LabelHandler
 {
-    protected override Microsoft.Maui.Platform.MauiLabel CreatePlatformView()
+    protected override MauiLabel CreatePlatformView()
     {
         return new MauiLabel(VirtualView as Label);
     }

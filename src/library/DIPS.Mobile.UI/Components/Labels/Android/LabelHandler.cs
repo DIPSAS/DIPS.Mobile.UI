@@ -1,7 +1,7 @@
 using Android.Text;
-using Android.Widget;
 using AndroidX.AppCompat.Widget;
-using DIPS.Mobile.UI.Components.Labels.Android;
+using Microsoft.Maui.Platform;
+using MauiTextView = DIPS.Mobile.UI.Components.Labels.Android.MauiTextView;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
@@ -29,4 +29,6 @@ public partial class LabelHandler
 
         textView.SetMaxLines(label.MaxLines);
     }
+
+    
 }

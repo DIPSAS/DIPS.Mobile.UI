@@ -3,9 +3,11 @@ using DIPS.Mobile.UI.Components.Searching.iOS;
 using UIKit;
 #endif
 
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
+using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -23,7 +25,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             Unloaded += OnUnLoaded;
             
             //Searchbar
-            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true };
+            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
             SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
                 Shell.Shell.ToolbarBackgroundColorName);
             
@@ -40,7 +42,10 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 Shell.Shell.ToolbarTitleTextColorName);
 #endif
-
+            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty,
+                new Binding(nameof(SearchMode), source: this));
+            
+            
             SearchBar.SetBinding(SearchBar.PlaceholderProperty,
                 new Binding(nameof(SearchPlaceholder), source: this));
             SearchBar.SetBinding(SearchBar.ShouldDelayProperty,
@@ -56,6 +61,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             //Result listview
             m_resultCollectionView = new CollectionView();
+            m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
             m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty,
                 new Binding() {Path = nameof(ResultItemTemplate), Source = this});
 
@@ -82,14 +88,25 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_grid.Add(SearchBar, 0, 1);
 
+            OnSearchModeChanged();
+            
             base.Content = m_grid;
+        }
+
+        private void OnCollectionViewScrolled(object? sender, ItemsViewScrolledEventArgs e)
+        {
+#if __ANDROID__ //Scrolled gets kicked off when you change the collections item source for some reason, so we have to detect if its a scroll or not
+                if (m_resultCollectionView.Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) return; //0 is idle
+#endif
+               
+            SearchBar.Unfocus();
         }
 
         private void OnUnLoaded(object? sender, EventArgs e)
         {
             Loaded -= OnLoaded;
             Unloaded -= OnUnLoaded;
-            SearchBar.Unfocus();
+            m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
             
             SearchBar.Focused -= OnSearchBarFocused;
             
@@ -192,6 +209,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         protected override void OnDisappearing()
         {
             SearchBar.TextChanged -= SearchBarOnTextChanged;
+            SearchBar.Unfocus();
             base.OnDisappearing();
         }
 
@@ -230,6 +248,13 @@ namespace DIPS.Mobile.UI.Components.Searching
         private void OnCancelCommandChanged()
         {
             SearchBar.CancelCommand = CancelCommand;
+        }
+
+        private void OnSearchModeChanged()
+        {
+            SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
+                ReturnType.Done :
+                ReturnType.Search;
         }
     }
 

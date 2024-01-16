@@ -1,35 +1,46 @@
+using CoreAnimation;
+using CoreGraphics;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Layouts;
+using Microsoft.Maui.Platform;
 using UIKit;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheetHandler : ContentViewHandler
 {
-    private BottomSheet m_bottomSheet;
-    
+    internal BottomSheet BottomSheet { get; set; }
+
     public void OnBeforeOpening()
     {
         if (VirtualView is not BottomSheet bottomSheet) return;
 
-        m_bottomSheet = bottomSheet;
+        BottomSheet = bottomSheet;
 
-        bottomSheet.UISheetPresentationController!.Delegate = new BottomSheetControllerDelegate(this);
+        bottomSheet.UISheetPresentationController!.Delegate =
+            new BottomSheetControllerDelegate() {BottomSheetHandler = this};
+        bottomSheet.UISheetPresentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
 
 
         //Add grabber
         bottomSheet.UISheetPresentationController.PrefersGrabberVisible = true;
 
         bottomSheet.UISheetPresentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
-
+        
 
         var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
                 ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
                 : Sizes.GetSize(SizeName
                     .size_1) //There is no phyiscal home button, but we need some air between the safe area and the content
             ;
-        m_bottomSheet.WrappingContentPage.Padding = new Thickness(0,
-            m_bottomSheet.ShouldHaveNavigationBar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
+        BottomSheet.WrappingContentPage.Padding = new Thickness(0,
+            BottomSheet.ShouldHaveNavigationBar ? 0 : Sizes.GetSize(SizeName.size_4), 0,
             bottom);
     }
 
@@ -73,16 +84,35 @@ public partial class BottomSheetHandler : ContentViewHandler
         }
     }
 
+    private async static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        if (bottomSheet.HasBottomBarButtons)
+        {
+            var grid = new Grid(){IgnoreSafeArea = true};
+            var oldContent = bottomSheet.WrappingContentPage.Content;
+            grid.Add(oldContent);
+            var bottomBar = bottomSheet.CreateBottomBar();
+            //add extra space to not get too close to bottom safe area
+            if (UIApplication.SharedApplication.Delegate.GetWindow().SafeAreaInsets.Bottom > 0)
+            {
+                if (bottomBar.Content == null) return;
+                bottomBar.Content.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));    
+            }
+            grid.Add(bottomBar);
+            bottomSheet.WrappingContentPage.Content = grid;
+        }
+    }
+
     internal void Dispose()
     {
-        m_bottomSheet.SendClose();
-        BottomSheetService.RemoveFromStack(m_bottomSheet);
-        m_bottomSheet.Handler?.DisconnectHandler();
+        BottomSheet.SendClose();
+        BottomSheetService.RemoveFromStack(BottomSheet);
+        BottomSheet.Handler?.DisconnectHandler();
     }
 
     internal void Opened()
     {
-        m_bottomSheet.SendOpen();
+        BottomSheet.SendOpen();
     }
 
     private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet)
@@ -92,8 +122,8 @@ public partial class BottomSheetHandler : ContentViewHandler
             UISheetPresentationControllerDetent.CreateMediumDetent(),
             UISheetPresentationControllerDetent.CreateLargeDetent(),
         };
-        
-        
+
+
         var preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
         switch (bottomSheet.Positioning)
         {
@@ -104,23 +134,32 @@ public partial class BottomSheetHandler : ContentViewHandler
                 preferredDetent = UISheetPresentationControllerDetentIdentifier.Large;
                 break;
             case Positioning.Fit:
-                
-                    var fitToContentDetent = TryCreateFitToContentDetent(bottomSheet);
-                    if (fitToContentDetent != null)
-                    {
-                        detents.Add(fitToContentDetent);
-                        preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
-                    }
-                    break;
+
+                var fitToContentDetent = TryCreateFitToContentDetent(bottomSheet);
+                if (fitToContentDetent != null)
+                {
+                    detents.Add(fitToContentDetent);
+                    preferredDetent = UISheetPresentationControllerDetentIdentifier.Unknown;
+                }
+
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        bottomSheet.UISheetPresentationController.Detents = detents.ToArray();
-        bottomSheet.UISheetPresentationController.SelectedDetentIdentifier = preferredDetent;
+        // Means this is the first time this function is run
+        if (bottomSheet.UISheetPresentationController.Detents.Length == 1)
+        {
+            bottomSheet.UISheetPresentationController.Detents = detents.ToArray();
+            bottomSheet.UISheetPresentationController.SelectedDetentIdentifier = preferredDetent;
+        }
+        else
+        {
+            bottomSheet.UISheetPresentationController.AnimateChanges(() => bottomSheet.UISheetPresentationController.SelectedDetentIdentifier = preferredDetent);
+        }
     }
 
-    private static Positioning GetCurrentPosition(UISheetPresentationController sheetPresentationController)
+    internal static Positioning GetCurrentPosition(UISheetPresentationController sheetPresentationController)
     {
         return sheetPresentationController.SelectedDetentIdentifier switch
         {
@@ -158,22 +197,21 @@ public partial class BottomSheetHandler : ContentViewHandler
 
 internal class BottomSheetControllerDelegate : UISheetPresentationControllerDelegate
 {
-    private readonly BottomSheetHandler m_bottomSheetHandler;
-
-    public BottomSheetControllerDelegate(BottomSheetHandler bottomSheetHandler)
-    {
-        m_bottomSheetHandler = bottomSheetHandler;
-    }
+    public BottomSheetHandler? BottomSheetHandler { get; set; }
 
     public override void WillPresent(UIPresentationController presentationController, UIModalPresentationStyle style,
         IUIViewControllerTransitionCoordinator? transitionCoordinator)
     {
-        m_bottomSheetHandler.Opened();
+        BottomSheetHandler?.Opened();
+    }
+
+    public override void DidChangeSelectedDetentIdentifier(UISheetPresentationController sheetPresentationController)
+    {
+        BottomSheetHandler!.BottomSheet.Positioning = BottomSheetHandler.GetCurrentPosition(sheetPresentationController);
     }
 
     public override void DidDismiss(UIPresentationController presentationController)
     {
-        m_bottomSheetHandler.Dispose();
-
+        BottomSheetHandler?.Dispose();
     }
 }

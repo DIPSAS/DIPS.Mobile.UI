@@ -23,6 +23,13 @@ public class DateView : DateViewBase
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
             new Binding(nameof(SelectableDateViewModel.DayName)));
 
-        this.Add(dayNameLabel, 0, 2);
+        if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
+        {
+            this.Add(dayNameLabel, 0, 2);
+        }
+        else
+        {
+            this.Add(dayNameLabel, 2);
+        }
     }
 }

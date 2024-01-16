@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.MVVM;
 
@@ -20,15 +21,25 @@ public class VetlePageViewModel : ViewModel
     private SortOption m_defaultSelectedItem;
     private bool m_disabled;
     private bool m_isSaving;
+    private bool m_isSavingCompleted;
 
     public VetlePageViewModel()
     {
+        
         Navigate = new Command(Navigatee);
-        Test = new Command(async () =>
+        SaveSuccess = new Command(async () =>
         {
+        });
+
+        SaveError = new Command(async () =>
+        {
+            IsSavingCompleted = false;
+            IsError = false;
             IsSaving = true;
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             IsSaving = false;
+            IsError = true;
+            IsSavingCompleted = true;
         });
 
         CompletedCommand = new Command(() => DialogService.ShowMessage("Test asd asdasd a sadasdas dsa", "test lang tesktsdtsdfsefseasdaawdkjawoidjiaowjdo iawjd9oia jwodijawo dijaw uoid jawuidjh awiudhawiud hiawuh " +
@@ -39,8 +50,6 @@ public class VetlePageViewModel : ViewModel
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
         CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
-
-        _ = Test2();
 
         _ = DelayFunction();
 
@@ -80,7 +89,6 @@ public class VetlePageViewModel : ViewModel
         
         oldTestStrings.Sort(new SortOptionComparer(sortResult.Item1 as SortOption, sortResult.Item2));
 
-        TestStrings = oldTestStrings;
         RaisePropertyChanged(nameof(TestStrings));
     }
 
@@ -130,8 +138,14 @@ public class VetlePageViewModel : ViewModel
     private void Navigatee()
     {
         var page = new VetleTestPage1();
+        var vm = new VetleTestPage1ViewModel();
+        page.BindingContext = vm;
         Shell.Current.Navigation.PushAsync(page);
     }
+
+   
+
+   
 
     public List<SortOption> SortOptions
     {
@@ -145,7 +159,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_defaultSelectedItem, value);
     }
 
-    public List<string> TestStrings { get; set; } = new()
+    public ObservableCollection<string> TestStrings { get; set; } = new()
     {
         "1234567",
         "7654321",
@@ -159,11 +173,17 @@ public class VetlePageViewModel : ViewModel
         "Testern",
     };
 
+    public ICommand RemoveStringCommand => new Command(s =>
+    {
+        var firstOrDefault = TestStrings.FirstOrDefault(testString => (string)s == testString);
+        TestStrings.Remove(firstOrDefault);
+    });
+
     public List<TestObject> TestObjects { get; } = new List<TestObject>();
     
     public ICommand Navigate { get; }
-    public ICommand Test { get; }
-    
+    public ICommand SaveSuccess { get; }
+    public ICommand SaveError { get; }
     public ICommand CompletedCommand { get; }
 
     public bool IsChecked
@@ -216,6 +236,14 @@ public class VetlePageViewModel : ViewModel
         get => m_isSaving;
         set => RaiseWhenSet(ref m_isSaving, value);
     }
+
+    public bool IsSavingCompleted
+    {
+        get => m_isSavingCompleted;
+        set => RaiseWhenSet(ref m_isSavingCompleted, value);
+    }
+
+    public StateViewModel StateViewModel { get; set; } = new(State.Loading);
 }
 
 public class SortOption

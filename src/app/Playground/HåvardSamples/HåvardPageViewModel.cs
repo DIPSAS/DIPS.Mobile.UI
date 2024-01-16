@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.HåvardSamples;
@@ -13,6 +14,8 @@ public class HåvardPageViewModel : ViewModel
 
     public ICommand Command { get; }
 
+    public ICommand Test { get; }
+    
     public HåvardPageViewModel()
     {
         Items = new List<Something>()
@@ -34,6 +37,8 @@ public class HåvardPageViewModel : ViewModel
             new("15", new SomeOtherThing(true))
         };
 
+        Test = new Command(() => DialogService.ShowMessage("Test", "test", "ok"));
+        
         var items = Items.Take(new Range(0, 4));
         SelectedItems = items.ToList();
         SelectedItem = items.First();

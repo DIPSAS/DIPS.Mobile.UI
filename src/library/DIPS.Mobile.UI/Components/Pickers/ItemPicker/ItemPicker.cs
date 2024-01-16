@@ -16,7 +16,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         {
             m_chip.SetBinding(IsEnabledProperty, new Binding() {Path = nameof(IsEnabledProperty), Source = this});
             m_chip.SetBinding(MaximumHeightRequestProperty,
-                new Binding() {Path = nameof(MaximumWidthRequest), Source = this});
+                new Binding() {Path = nameof(MaximumHeightRequest), Source = this});
             MaximumWidthRequest = 200;
             Loaded += OnLoaded;
             Unloaded += OnUnLoaded;

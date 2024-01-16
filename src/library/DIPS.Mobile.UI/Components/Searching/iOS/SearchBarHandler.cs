@@ -141,6 +141,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             return;
 
         cancelButton.Enabled = true;
+        MapCancelButtonTextColor(searchBarHandler, internalSearchBar); //Make sure to reset colors
     }
 
     protected override DuiSearchBar CreatePlatformView()
@@ -174,6 +175,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         }
 
         InternalSearchBar.Focused += OnInternalSearchBarFocused;
+        InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
     }
 
     private void OnClearButtonClicked(object? sender, EventArgs e)
@@ -193,6 +195,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private void OnSearchButtonClicked(object? sender, EventArgs e)
     {
+        if (VirtualView.ShouldCloseKeyboardOnReturnKeyTapped)
+        {
+            UnFocus();
+        }
         VirtualView.SearchCommand?.Execute(null);
     }
 
@@ -206,12 +212,14 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             ClearButton.TouchUpInside += OnClearButtonClicked;
         }
 
-        InternalSearchBar.Focused += OnInternalSearchBarFocused;
+        InternalSearchBar.Focused -= OnInternalSearchBarFocused;
+        InternalSearchBar.Unfocused -= OnInternalSearchBarUnFocused;
     }
 
     private void OnCancelButtonClicked(object? sender, EventArgs e)
     {
-        VirtualView.CancelCommand.Execute(VirtualView.CancelCommandParameter);
+        UnFocus();
+        VirtualView.CancelCommand?.Execute(VirtualView.CancelCommandParameter);
     }
 
     protected override void DisconnectHandler(DuiSearchBar platformView)
@@ -226,6 +234,13 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
 
+    private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
+    {
+        handler.PlatformView.ReturnKeyType = searchBar.ReturnKeyType == ReturnType.Done
+            ? UIReturnKeyType.Done
+            : UIReturnKeyType.Search;
+    }
+    
     public partial void Focus() => InternalSearchBar.Focus();
 
     public partial void UnFocus() => InternalSearchBar.Unfocus();

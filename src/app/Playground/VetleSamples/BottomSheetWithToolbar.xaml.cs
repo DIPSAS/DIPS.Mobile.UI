@@ -1,4 +1,6 @@
 
+using DIPS.Mobile.UI.Components.BottomSheets;
+
 namespace Playground.VetleSamples;
 
 public partial class BottomSheetWithToolbar
@@ -22,5 +24,10 @@ public partial class BottomSheetWithToolbar
     protected override void OnOpened()
     {
         base.OnOpened();
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        this.Positioning = Positioning.Large;
     }
 }

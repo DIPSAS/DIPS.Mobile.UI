@@ -10,12 +10,17 @@ public partial class EntryHandler
     protected override void ConnectHandler(MauiTextField platformView)
     {
         base.ConnectHandler(platformView);
-        
+
         platformView.EditingDidBegin += OnEditingDidBegin;
     }
     
     private static partial void MapShouldSelectTextOnTapped(EntryHandler handler, Entry entry)
     {
+    }
+
+    private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
+    {
+        
     }
 
     private async void OnEditingDidBegin(object? sender, EventArgs e)

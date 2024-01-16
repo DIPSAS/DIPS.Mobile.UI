@@ -31,7 +31,7 @@ namespace Components
             public NavigateToSingleSampleItem()
             {
                 Command = new Command(TryNavigateToSingleSamplePage);
-                HasTopDivider = true;
+                AutoDivider = true;
             }
 
             private void TryNavigateToSingleSamplePage()

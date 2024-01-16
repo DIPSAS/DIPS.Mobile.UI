@@ -11,7 +11,14 @@ public partial class ScrollViewHandler
         {
             if (virtualView is ScrollView scrollView)
             {
-                uiScrollView.Bounces = scrollView.ShouldBounce;
+                if (handler.VirtualView.Orientation == ScrollOrientation.Vertical)
+                {
+                    uiScrollView.AlwaysBounceVertical = scrollView.ShouldBounce;
+                }
+                else if (handler.VirtualView.Orientation == ScrollOrientation.Horizontal)
+                {
+                    uiScrollView.AlwaysBounceHorizontal = scrollView.ShouldBounce;
+                }
             }
         }
     }

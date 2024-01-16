@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;</TargetFrameworks>
+        <TargetFramework>net8.0-ios</TargetFramework>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>Playground</RootNamespace>
@@ -23,23 +23,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
     </PropertyGroup>
-
-    <!-- Intellij Rider is unable to deploy to device for MAUI: https://youtrack.jetbrains.com/issue/RIDER-76794/Cannot-deploy-MAUI-project-to-physical-iOS-device-->
-    <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
-    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
-        <!--DEBUG ON DEVICE-->
-
-        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-
-        <!--DEBUG ON SIMULATOR-->
-
-
-<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
-
-
-    </PropertyGroup>
-
-
+    
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>

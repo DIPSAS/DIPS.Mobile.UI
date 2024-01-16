@@ -24,6 +24,22 @@ public partial class Entry
         get => (bool)GetValue(ShouldSelectTextOnTappedProperty);
         set => SetValue(ShouldSelectTextOnTappedProperty, value);
     }
+
+    /// <summary>
+    /// Whether the <see cref="Entry"/> should use the default padding from the platform or not
+    /// </summary>
+    /// <remarks>Only works on Android, iOS does not set padding as default</remarks>
+    public bool ShouldUseDefaultPadding
+    {
+        get => (bool)GetValue(ShouldUseDefaultPaddingProperty);
+        set => SetValue(ShouldUseDefaultPaddingProperty, value);
+    }
+    
+    public static readonly BindableProperty ShouldUseDefaultPaddingProperty = BindableProperty.Create(
+        nameof(ShouldUseDefaultPadding),
+        typeof(bool),
+        typeof(Entry),
+        true);
     
     public static readonly BindableProperty HasBorderProperty = BindableProperty.Create(
         nameof(HasBorder),

@@ -56,4 +56,28 @@
     <data name="Choice" xml:space="preserve">
         <value>Valg</value>
     </data>
+    <data name="Save" xml:space="preserve">
+        <value>Lagre</value>
+    </data>
+    <data name="InputSampleText" xml:space="preserve">
+        <value>Sett inn eksempeltekst</value>
+    </data>
+    <data name="Accessability.InputField.HelpText" xml:space="preserve">
+        <value>Trykk for å skrive inn tekst</value>
+    </data>
+    <data name="Saving" xml:space="preserve">
+        <value>Lagrer</value>
+    </data>
+    <data name="EmptyViewTitle" xml:space="preserve">
+        <value>Tittel når data er tom</value>
+    </data>
+    <data name="EmptyViewDescription" xml:space="preserve">
+        <value>Beskrivelse når data er tom</value>
+    </data>
+    <data name="ErrorViewTitle" xml:space="preserve">
+        <value>Tittel når det oppstår feil</value>
+    </data>
+    <data name="ErrorViewDescription" xml:space="preserve">
+        <value>Beskrivelse når det oppstår en feil</value>
+    </data>
 </root>

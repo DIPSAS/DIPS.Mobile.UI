@@ -30,11 +30,11 @@ internal class FloatingNavigationButton : Grid
     private Animation m_fadeOutColorAnimation;
     private Animation m_fadeInColorAnimation;
 #nullable restore
-
+    
     public FloatingNavigationButton(FloatingNavigationButtonConfigurator floatingNavigationButtonConfigurator)
     {
         m_floatingNavigationButtonConfigurator = floatingNavigationButtonConfigurator;
-
+        
         Add(m_contentGrid);
 
         Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
@@ -54,8 +54,16 @@ internal class FloatingNavigationButton : Grid
         InputTransparent = true;
         CascadeInputTransparent = false;
 #endif
+
+        DeviceDisplay.MainDisplayInfoChanged += OnOrientationChanged;
     }
-    
+
+    private void OnOrientationChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        WidthRequest = e.DisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+        HeightRequest = e.DisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+    }
+
     public async Task Show(bool shouldAnimate)
     {
         IsVisible = true;
@@ -262,18 +270,6 @@ internal class FloatingNavigationButton : Grid
         m_contentGrid.Remove(navMenuButton);
     }
 
-    public void TryHideOrShowFloatingNavigationButton(ContentPage page, bool shouldAnimate = false)
-    {
-        if (m_floatingNavigationButtonConfigurator.PagesThatHidesButton.Contains(page.GetType()))
-        {
-            _ = Hide(shouldAnimate);
-        }
-        else
-        {
-            _ = Show(shouldAnimate);
-        }
-    }
-
     public void SetBadgeColor(Color color)
     {
         m_mainButton.BadgeColor = color;
@@ -382,10 +378,20 @@ internal class FloatingNavigationButton : Grid
         nameof(IsClickable),
         typeof(bool),
         typeof(FloatingNavigationButton), defaultValue: false);
-
+    
     public bool IsClickable
     {
         get => (bool)GetValue(IsClickableProperty);
         set => SetValue(IsClickableProperty, value);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+            return;
+        
+        DeviceDisplay.MainDisplayInfoChanged -= OnOrientationChanged;
     }
 }

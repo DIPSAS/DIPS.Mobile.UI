@@ -40,6 +40,9 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, Microsoft.Maui.
 
     private static void MapCancelButtonTextColor(SearchBarHandler searchBarHandler, SearchBar searchBar) =>
         throw new Only_Here_For_UnitTests();
+    
+    private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar) =>
+        throw new Only_Here_For_UnitTests();
 
     public partial void Focus() => throw new Only_Here_For_UnitTests();
     public partial void UnFocus() => throw new Only_Here_For_UnitTests();

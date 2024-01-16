@@ -2,7 +2,7 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Slidable;
 
-public partial class SlidableLayout
+public abstract partial class SlidableLayout
 {
      /// <summary>
         /// <see cref="Config"/>

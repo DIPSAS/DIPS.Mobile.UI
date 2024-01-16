@@ -19,6 +19,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             get => (bool)GetValue(HasHapticsProperty);
             set => SetValue(HasHapticsProperty, value);
         }
+
+        /// <summary>
+        /// Determines whether the search bar should be focused when opening ItemPicker
+        /// </summary>
+        /// <remarks>Only valid when <see cref="Mode"/> is set to BottomSheet</remarks>
+        public bool ShouldAutoFocusSearchBar
+        {
+            get => (bool)GetValue(AutoFocusSearchBarProperty);
+            set => SetValue(AutoFocusSearchBarProperty, value);
+        }
         
         /// <summary>
         /// The item that was selected by people when using the picker.
@@ -107,6 +117,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             typeof(ItemPicker),
             propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).SelectedItemChanged(),
             defaultBindingMode: BindingMode.TwoWay);
+        
+        public static readonly BindableProperty AutoFocusSearchBarProperty = BindableProperty.Create(
+            nameof(ShouldAutoFocusSearchBar),
+            typeof(bool),
+            typeof(ItemPicker));
     }
 
     public enum PickerMode

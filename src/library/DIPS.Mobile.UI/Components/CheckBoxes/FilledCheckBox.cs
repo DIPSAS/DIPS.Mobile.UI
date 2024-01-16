@@ -31,8 +31,7 @@ public partial class FilledCheckBox : ContentView
             Source = Animations.GetAnimation(AnimationName.saved),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            IsAnimationEnabled = true,
-            Opacity = IsNotCheckedOpacity
+            IsAnimationEnabled = true
         };
 
         m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
