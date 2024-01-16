@@ -4,14 +4,10 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-public class ErrorViewModel : ViewModel
+public class ErrorViewModel : ViewModel, IRefreshableViewModel
 {
     private string m_title = DUILocalizedStrings.ErrorViewTitle;
     private string m_description = DUILocalizedStrings.ErrorViewDescription;
-    
-    private bool m_isRefreshing;
-    
-    private ICommand? m_refreshCommand;
     
     private ImageSource? m_icon;
     
@@ -34,24 +30,6 @@ public class ErrorViewModel : ViewModel
     }
 
     /// <summary>
-    /// Is used with <see cref="RefreshView"/> to determine if it is refreshing or not
-    /// </summary>
-    public bool IsRefreshing
-    {
-        get => m_isRefreshing;
-        set => RaiseWhenSet(ref m_isRefreshing, value);
-    }
-
-    /// <summary>
-    /// Is used with <see cref="RefreshView"/> and is executed when the user has pulled to refresh
-    /// </summary>
-    public ICommand? RefreshCommand
-    {
-        get => m_refreshCommand;
-        set => RaiseWhenSet(ref m_refreshCommand, value);
-    }
-    
-    /// <summary>
     /// Sets the icon
     /// </summary>
     /// <remarks>Optional</remarks>
@@ -60,4 +38,6 @@ public class ErrorViewModel : ViewModel
         get => m_icon;
         set => RaiseWhenSet(ref m_icon, value);
     }
+    
+    public bool HasRefreshView { get; set; }
 }
