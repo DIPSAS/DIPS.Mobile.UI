@@ -7,17 +7,21 @@ namespace Playground.SanderSamples;
 
 public class SanderPageViewModel : ViewModel
 {
-    private bool m_isToggled = true; 
+    private bool m_isToggled = true;
+    private string m_testText;
 
     public SanderPageViewModel()
     {
-        TestCommand = new Command(() => IsBusy = !IsBusy);
         Initialize();
+        TestCommand = new Command(() =>
+        {
+            TestText = IsToggled ? "This is a test" : string.Empty;
+            IsToggled = !IsToggled;
+        });
     }
 
     private void Initialize()
     {
-        IsToggled = false;
     }
 
     public ICommand TestCommand { get; }
@@ -28,4 +32,11 @@ public class SanderPageViewModel : ViewModel
         set => RaiseWhenSet(ref m_isToggled, value);
     }
 
+    public string TestText
+    {
+        get => m_testText;
+        set => RaiseWhenSet(ref m_testText, value);
+    }
+
+    public ICommand NavigateCommand { get; }
 }

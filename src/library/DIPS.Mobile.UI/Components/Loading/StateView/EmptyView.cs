@@ -28,6 +28,7 @@ internal class EmptyView : VerticalStackLayout
         {
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
+            HorizontalTextAlignment = TextAlignment.Center,
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_3)),
             TextColor = Colors.GetColor(ColorName.color_neutral_80),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
@@ -38,7 +39,8 @@ internal class EmptyView : VerticalStackLayout
         {
             TextColor = Colors.GetColor(ColorName.color_neutral_70),
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center
+            HorizontalOptions = LayoutOptions.Center,
+            HorizontalTextAlignment = TextAlignment.Center
         };
         descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Description)));
         
