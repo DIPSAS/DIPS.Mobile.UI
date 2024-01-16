@@ -1,3 +1,6 @@
+## [23.2.2]
+- Fixed an issue where title and description on EmptyView and ErrorView were not horizontally aligned
+
 ## [23.2.1]
 - [Label] Fixed an issue where label would not be shown if text was set after view was loaded.
 
