@@ -12,4 +12,14 @@ public partial class HåvardPage3
     {
         InitializeComponent();
     }
+
+    private void VisualElement_OnUnloaded(object sender, EventArgs e)
+    {
+        
+    }
+
+    private void HåvardPage3_OnUnloaded(object sender, EventArgs e)
+    {
+        
+    }
 }

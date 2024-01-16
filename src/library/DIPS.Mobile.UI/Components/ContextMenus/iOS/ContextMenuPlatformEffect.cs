@@ -15,6 +15,11 @@ public partial class ContextMenuPlatformEffect
     
     protected override partial void OnAttached()
     {
+        if (Element is VisualElement visualElement)
+        {
+            visualElement.Unloaded += Dispose;
+        }
+        
         m_contextMenu = ContextMenuEffect.GetMenu(Element);
         
         if (m_contextMenu == null)
@@ -34,7 +39,16 @@ public partial class ContextMenuPlatformEffect
         }
     }
 
-    
+    private void Dispose(object? sender, EventArgs e)
+    {
+        if (Element is VisualElement visualElement)
+        {
+            OnDetached();
+            visualElement.Unloaded -= Dispose;
+        }
+    }
+
+
     protected override partial void OnDetached()
     {
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
