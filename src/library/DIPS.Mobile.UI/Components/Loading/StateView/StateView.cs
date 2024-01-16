@@ -84,11 +84,8 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
 
                 if (m_currentViewVisible is RefreshView refreshView)
                 {
-                    // Apparently DisconnectHandler() is not enough
                     refreshView.Command = null;
                 }
-                
-                m_currentViewVisible?.Handler?.DisconnectHandler();
             }
         }
         
