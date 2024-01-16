@@ -1,3 +1,6 @@
+## [23.2.1]
+- [Label] Fixed an issue where label would not be shown if text was set after view was loaded.
+
 ## [23.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

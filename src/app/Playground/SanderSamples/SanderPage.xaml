@@ -9,15 +9,12 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowSpacing="{dui:Sizes size_2}"
-          Padding="{dui:Thickness Left=size_2, Right=size_2}"
-          RowDefinitions="Auto, Auto">
+    <dui:VerticalStackLayout>
 
         <dui:Button Text="Press"
                     Command="{Binding TestCommand}"/>
         
-        <dui:SkeletonView Grid.Row="1" 
-                          FadeTime="500"
+        <dui:SkeletonView FadeTime="500"
                           IsLoading="{Binding IsToggled}"
                           SkeletonColor="#AAEAE7E9">
             <dui:SkeletonView.Shapes>
@@ -29,5 +26,5 @@
             
             <dui:Label Text="{Binding TestText}"/>
         </dui:SkeletonView>
-    </Grid>
+    </dui:VerticalStackLayout>
 </dui:ContentPage>
