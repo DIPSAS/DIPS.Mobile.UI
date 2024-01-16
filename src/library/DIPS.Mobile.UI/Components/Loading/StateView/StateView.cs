@@ -55,10 +55,10 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             m_currentViewVisible = viewToDisplayAndItsViewModel.Item1;
         }
 
-        private bool ShouldWrapRefreshViewAroundView(IRefreshAbleViewModel? refreshAbleViewModel) =>
+        private bool ShouldWrapRefreshViewAroundView(IRefreshableViewModel? refreshAbleViewModel) =>
             refreshAbleViewModel?.HasRefreshView ?? false;
 
-        private (View, IRefreshAbleViewModel?) GetViewAndViewModelByState(State state)
+        private (View, IRefreshableViewModel?) GetViewAndViewModelByState(State state)
             =>
                 state switch
                 {

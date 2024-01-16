@@ -2,7 +2,7 @@ using DIPS.Mobile.UI.MVVM;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-public class DefaultViewModel : ViewModel, IRefreshAbleViewModel
+public class DefaultViewModel : ViewModel, IRefreshableViewModel
 {
     private string m_title = "Default view has not been set";
 

@@ -3,7 +3,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-public class EmptyViewModel : ViewModel, IRefreshAbleViewModel
+public class EmptyViewModel : ViewModel, IRefreshableViewModel
 {
     private string m_title = DUILocalizedStrings.EmptyViewTitle;
     private string m_description = DUILocalizedStrings.EmptyViewDescription;
