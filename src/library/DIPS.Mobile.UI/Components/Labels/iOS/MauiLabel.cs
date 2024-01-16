@@ -24,6 +24,10 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     {
         base.LayoutSubviews();
 
+        // If text has not been set yet
+        if (string.IsNullOrEmpty(GetTextFromLabel()))
+            return;
+
         if (m_firstDraw)
         {
             m_originalText = GetTextFromLabel();
