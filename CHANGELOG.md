@@ -1,3 +1,6 @@
+## [23.3.0]
+- [Android] Made it possible to disable scroll views
+
 ## [23.2.2]
 - Fixed an issue where title and description on EmptyView and ErrorView were not horizontally aligned
 

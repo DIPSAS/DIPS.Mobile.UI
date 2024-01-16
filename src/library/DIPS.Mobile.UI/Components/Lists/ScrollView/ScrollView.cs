@@ -4,11 +4,22 @@ public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
 {
     private bool m_hasAddedSpaceToBottom;
 
+    public static readonly BindableProperty ScrollEnabledProperty = BindableProperty.Create(
+        nameof(ScrollEnabled),
+        typeof(bool),
+        typeof(ScrollView));
+    
     public ScrollView()
     {
 #if __ANDROID__ //Not possible to set padding on scroll view after its rendered
         AdjustPadding(AndroidAdditionalSpaceAtEnd);
 #endif
+    }
+    
+    public bool ScrollEnabled
+    {
+        get => (bool)GetValue(ScrollEnabledProperty);
+        set => SetValue(ScrollEnabledProperty, value);
     }
 
 #if __IOS__
@@ -18,7 +29,6 @@ public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
         AdjustPadding(height);
     }
 #endif
-
 
     private void AdjustPadding(double height)
     {
