@@ -50,11 +50,15 @@ internal static class ContextMenuHelper
                         UpdateMenuItem(contextMenu, groupIndex, contextMenuItemInGroup, menuItem);
                         dict.Add(contextMenuItemInGroup, menuItem);
                     }
-
-
+                    
                     if (contextMenuGroup.IsCheckable)
                     {
                         groupMenu.SetGroupCheckable(groupIndex, contextMenuGroup.IsCheckable, false);
+                    }
+                    
+                    if (contextMenuGroup.Icon is not null && !contextMenuGroup.IsCheckable) //Android does not seem to handle checkable group + icon on group
+                    {
+                        UpdateMenuGroup(contextMenuGroup, groupMenu);
                     }
                 }
                 else //Only one group, add this to the root of the menu so the user does not have to tap an extra time to get to the items.
@@ -124,6 +128,19 @@ internal static class ContextMenuHelper
         }
     }
 
+    private static void UpdateMenuGroup(ContextMenuItem contextMenuItem, ISubMenu subMenu)
+    {
+        var id = (string.IsNullOrEmpty(contextMenuItem.AndroidOptions.IconResourceName))
+            ? DUI.GetResourceId(GetIconName(contextMenuItem),"drawable")
+            : DUI.GetResourceId(contextMenuItem.AndroidOptions.IconResourceName,"drawable");
+        
+        if (id != null) //Icon not set by consumer or icon not found
+        {
+            var icon = Platform.AppContext.GetDrawable((int)id);
+            subMenu.SetIcon(icon);
+        }
+    }
+    
     private static string GetIconName(ContextMenuItem contextMenuItem)
     {
         if (contextMenuItem.Icon == null) return string.Empty;

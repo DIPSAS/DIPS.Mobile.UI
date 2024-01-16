@@ -1,6 +1,9 @@
 ## [24.0.0]
 - [BreakingChange][StateView] Added the ability for consumer to add a RefreshView to some state views.
 
+## [23.2.3]
+- [ContextMenu] Add icon to group if Icon property is set and `IsCheckable` is false.
+
 ## [23.2.2]
 - Fixed an issue where title and description on EmptyView and ErrorView were not horizontally aligned
 

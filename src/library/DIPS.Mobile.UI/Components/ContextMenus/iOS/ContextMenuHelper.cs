@@ -40,7 +40,22 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                 if (items.Count(i => i is ContextMenuGroup) >
                     1 || hasAtleastOneItemAlongsideGroup) //If there is more than one group or one group alongside items, add the group title and group the items
                 {
-                    uiMenuElement = UIMenu.Create(contextMenuGroup.Title!, newDict.Select(k => k.Value).ToArray());
+                    if (contextMenuGroup.Icon is not null && !contextMenuGroup.IsCheckable) //Check IsCheckable as Android does not seem to handle checkable group + icon on group
+                    {
+                        var group = (contextMenuItem as ContextMenuGroup)!;
+                    
+                        UIImage? image = null;
+                        if (group.Icon is FileImageSource fileImageSource)
+                        {
+                            image = UIImage.FromBundle(fileImageSource);
+                        }
+                    
+                        uiMenuElement = UIMenu.Create(contextMenuGroup.Title!, image, UIMenuIdentifier.None, UIMenuOptions.SingleSelection,newDict.Select(k => k.Value).ToArray());
+                    }
+                    else
+                    {
+                        uiMenuElement = UIMenu.Create(contextMenuGroup.Title!, newDict.Select(k => k.Value).ToArray());
+                    }
                 }
                 else //Only one group, add this to the root of the menu so the user does not have to tap an extra time to get to the items.
                 {
