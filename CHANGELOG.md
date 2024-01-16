@@ -1,3 +1,6 @@
+## [24.0.2]
+- Reset before memory leak.
+
 ## [24.0.0]
 - [BreakingChange][StateView] Added the ability for consumer to add a RefreshView to some state views.
 
