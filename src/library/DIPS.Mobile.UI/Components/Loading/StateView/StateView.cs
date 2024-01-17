@@ -25,18 +25,10 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
         {
             var viewToDisplayAndItsViewModel = GetViewAndViewModelByState(state);
 
-            if (ShouldWrapRefreshViewAroundView(viewToDisplayAndItsViewModel.Item2))
-            {
-                var refreshView = new RefreshView { Content = viewToDisplayAndItsViewModel.Item1 };
-                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.CommandProperty, new Binding(nameof(StateViewModel.RefreshCommand), source: StateViewModel));
-                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new Binding(nameof(StateViewModel.IsRefreshing), source: StateViewModel));
-                viewToDisplayAndItsViewModel.Item1 = refreshView;
-            }
-            
             if (m_currentViewVisible is null)
             {
                 m_currentViewVisible = viewToDisplayAndItsViewModel.Item1;
-                Content = viewToDisplayAndItsViewModel.Item1;
+                SetContent(viewToDisplayAndItsViewModel.Item1, ShouldWrapRefreshViewAroundView(viewToDisplayAndItsViewModel.Item2));
                 return;
             }
             
@@ -48,11 +40,38 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             await FadeOut(m_currentViewVisible);
 
             viewToDisplayAndItsViewModel.Item1.Opacity = 0;
-            Content = viewToDisplayAndItsViewModel.Item1;
+            SetContent(viewToDisplayAndItsViewModel.Item1, ShouldWrapRefreshViewAroundView(viewToDisplayAndItsViewModel.Item2));
 
             await FadeIn(viewToDisplayAndItsViewModel.Item1);
 
             m_currentViewVisible = viewToDisplayAndItsViewModel.Item1;
+        }
+
+        private void SetContent(View view, bool wrapRefreshViewAround)
+        {
+            if (wrapRefreshViewAround)
+            {
+                var refreshView = new RefreshView();
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.CommandProperty, new Binding(nameof(StateViewModel.RefreshCommand), source: StateViewModel));
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new Binding(nameof(StateViewModel.IsRefreshing), source: StateViewModel));
+                refreshView.Content = view;
+                refreshView.Unloaded += RefreshViewOnUnloaded;
+                Content = refreshView;
+            }
+            else
+            {
+                Content = view;
+            }
+        }
+
+        private void RefreshViewOnUnloaded(object? sender, EventArgs e)
+        {
+            if (sender is not RefreshView refreshView)
+                return;
+
+            refreshView.Command = null;
+            refreshView.Handler?.DisconnectHandler();
+            refreshView.Unloaded -= RefreshViewOnUnloaded;
         }
 
         private bool ShouldWrapRefreshViewAroundView(IRefreshableViewModel? refreshAbleViewModel) =>
@@ -80,11 +99,6 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                 else
                 {
                     viewToFade.Opacity = 0;
-                }
-
-                if (m_currentViewVisible is RefreshView refreshView)
-                {
-                    refreshView.Command = null;
                 }
             }
         }
