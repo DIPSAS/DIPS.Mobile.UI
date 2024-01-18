@@ -1,3 +1,6 @@
+## [24.0.3]
+- [StateView] Fixed an issue where RefreshCommand would get executed several times when consumer enabling RefreshView for default implementations.
+
 ## [24.0.2]
 - Reset before memory leak.
 
