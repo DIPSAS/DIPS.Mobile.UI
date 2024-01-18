@@ -26,7 +26,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 #if DEBUG
             if (ShouldGarbageCollectAndLogWhenNavigatedTo)
             {
-                Console.WriteLine($"Called finalizer an instance of {GetType()}. Title of page is {Title}");
+                Console.WriteLine($"Called finalizer an instance of {GetType().Name}");
             }   
 #endif
         }
@@ -57,7 +57,7 @@ namespace DIPS.Mobile.UI.Components.Pages
                             await Task.Delay(2000);
                             await MainThread.InvokeOnMainThreadAsync(() =>
                             {
-                                Console.WriteLine("Force GC");
+                                Console.WriteLine("GC Collect");
                                 GC.Collect();
                                 GC.WaitForPendingFinalizers();
                                 Console.WriteLine("Full collection total memory: " + GC.GetTotalMemory(true));
@@ -74,8 +74,13 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
         {
-            m_garbageCollectionCts?.Dispose();
-            m_garbageCollectionCts = null;
+#if DEBUG
+            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+            {
+                m_garbageCollectionCts?.Dispose();
+                m_garbageCollectionCts = null;
+            }
+#endif
             base.OnNavigatingFrom(args);
         }
 
