@@ -24,7 +24,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         ~ContentPage()
         {
 #if DEBUG
-            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+            if (ShouldGarbageCollectAndLogWhenNavigatedTo || ShouldLogWhenGarbageCollected)
             {
                 Console.WriteLine($"Called finalizer an instance of {GetType().Name}");
             }   

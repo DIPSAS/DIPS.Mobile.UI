@@ -31,5 +31,11 @@ public partial class ContentPage
     /// </summary>
     /// <remarks>This will only run when debugging.</remarks>
     public bool ShouldGarbageCollectAndLogWhenNavigatedTo { get; set; }
+    
+    /// <summary>
+    /// Will log to Console when the finalizer has run. This happens when the object was garbage collected.
+    /// </summary>
+    /// <remarks>This will only run in Debug</remarks>
+    public bool ShouldLogWhenGarbageCollected { get; set; }
 
 }   

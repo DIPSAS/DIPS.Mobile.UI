@@ -1,7 +1,7 @@
 ﻿namespace DIPS.Mobile.UI.API.GarbageCollection;
 
 /// <summary>
-/// Use this class to monitor an object.
+/// Use this class to monitor an object at a point where it should be garbage collected.
 /// </summary>
 /// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public class GCCollectionMonitor
@@ -38,8 +38,14 @@ public class GCCollectionMonitor
         if (shouldPrintTotalMemory && shouldLookForAliveness)
         {
             Print($"Collections total memory before: {GC.GetTotalMemory(true)} byte");
-        }    
-    
+        }
+
+        if (shouldLookForAliveness)
+        {
+            Print("Forcing garbage collection to look for aliveness");
+        }
+        
+        
         while (++currentCollection <= maxCollections && m_references.Count != 0)
         {
             GC.Collect();

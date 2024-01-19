@@ -8,6 +8,22 @@ namespace DIPS.Mobile.UI.MVVM;
 /// </summary>
 public abstract class ViewModel : INotifyPropertyChanged
 {
+    ~ViewModel()
+    {
+#if DEBUG
+        if (ShouldLogWhenGarbageCollected)
+        {
+            Console.WriteLine($"Called finalizer an instance of {GetType().Name}");
+        }
+#endif
+    }
+
+    /// <summary>
+    /// Will log to Console when the finalizer has run. This happens when the object was garbage collected.
+    /// </summary>
+    /// <remarks>This will only run in Debug</remarks>
+    public bool ShouldLogWhenGarbageCollected { get; set; }
+
     /// <summary>
     /// Sets a value to a backing field if it passes a equality check and notifies property changed.
     /// </summary>

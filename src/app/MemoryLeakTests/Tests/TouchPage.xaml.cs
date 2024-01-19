@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MemoryLeakTests.Tests;
 
-public partial class TouchPage : ContentPage
+public partial class TouchPage
 {
     public TouchPage()
     {
