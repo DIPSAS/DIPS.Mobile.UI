@@ -7,5 +7,7 @@
              xmlns:tests="clr-namespace:MemoryLeakTests.Tests"
              xmlns:memoryLeakTests="clr-namespace:MemoryLeakTests"
              x:Class="MemoryLeakTests.Tests.MyViewPage">
-    <memoryLeakTests:MyView/>
+    <VerticalStackLayout>
+        <memoryLeakTests:MyView />
+    </VerticalStackLayout>
 </ContentPage>

@@ -3,6 +3,7 @@
 /// <summary>
 /// Use this class to monitor an object.
 /// </summary>
+/// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public class GCCollectionMonitor
 {
     private readonly List<Tuple<string, WeakReference<object>>> m_references = [];
@@ -32,33 +33,49 @@ public class GCCollectionMonitor
 
         const int maxCollections = 5;
         var currentCollection = 0;
+        var shouldLookForAliveness = m_references.Count != 0;
+        
+        if (shouldPrintTotalMemory && shouldLookForAliveness)
+        {
+            Print($"Collections total memory before: {GC.GetTotalMemory(true)} byte");
+        }    
+    
         while (++currentCollection <= maxCollections && m_references.Count != 0)
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
             foreach (var reference in m_references.ToArray())
             {
-                if (reference.Item2.TryGetTarget(out object? target))
+                Print($"{nameof(GCCollectionMonitor)}: Checking collection #{currentCollection} for objects");
+                if (reference.Item2.TryGetTarget(out var target))
                 {
                     if (currentCollection == maxCollections)
                     {
-                        Console.WriteLine($@"🧟 {target.GetType().Name} is a zombie!");
+                        Print($@"🧟 {target.GetType().Name} is a zombie!");
                         m_references.Remove(reference);
                     }
                 }
                 else
                 {
-                    Console.WriteLine($@"✅{reference.Item1} released after {currentCollection} collections");
+                    Print($@"✅{reference.Item1} released after {currentCollection} collections");
                     m_references.Remove(reference);
-                }   
+                }
             }
 
             await Task.Delay(500);
-            if (shouldPrintTotalMemory)
+            if (m_references.Count == 0) //Finished looking for objects
             {
-                Console.WriteLine("Full collection total memory: " + GC.GetTotalMemory(true));    
+                if (shouldPrintTotalMemory)
+                {
+                    Print($"Collections total memory after: {GC.GetTotalMemory(true)} byte");
+                }    
             }
         }
 #endif
+    }
+
+    internal void Print(string text)
+    {
+        Console.WriteLine($@"{nameof(GCCollectionMonitor)}: {text}");
     }
 }
