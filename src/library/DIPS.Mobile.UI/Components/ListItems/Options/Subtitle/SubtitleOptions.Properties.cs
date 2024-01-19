@@ -46,6 +46,28 @@ public partial class SubtitleOptions
         get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
         set => SetValue(VerticalTextAlignmentProperty, value);
     }
+
+    public LineBreakMode LineBreakMode
+    {
+        get => (LineBreakMode)GetValue(LineBreakModeProperty);
+        set => SetValue(LineBreakModeProperty, value);
+    }
+
+    public int MaxLines
+    {
+        get => (int)GetValue(MaxLinesProperty);
+        set => SetValue(MaxLinesProperty, value);
+    }
+    
+    public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
+        nameof(LineBreakMode),
+        typeof(LineBreakMode),
+        typeof(SubtitleOptions));
+    
+    public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
+        nameof(MaxLines),
+        typeof(int),
+        typeof(SubtitleOptions));
     
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),

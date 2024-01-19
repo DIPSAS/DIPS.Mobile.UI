@@ -1,3 +1,6 @@
+## [24.2.0]
+- [ListItem] Added `MaxLines` and `LineBreakMode` to subtitle
+
 ## [24.1.0]
 - [GarbageCollection] Added garbage collection API to use whever you want.
 - [MemoryLeaks] Added memory leaks project to use for testing in the future.

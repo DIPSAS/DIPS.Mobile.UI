@@ -16,6 +16,11 @@ public partial class SubtitleOptions : ListItemOptions
         listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
         listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, new Binding(nameof(Style), source: this));
         listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
+        listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
 
+        if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
+        {
+            listItem.SubtitleLabel.MaxLines = MaxLines;
+        }
     }
 }
