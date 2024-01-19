@@ -1,4 +1,4 @@
-﻿namespace DIPS.Mobile.UI.API.GarbageCollection;
+﻿namespace DIPS.Mobile.UI.MemoryManagement;
 
 /// <summary>
 /// Use this class to monitor an object at a point where it should be garbage collected.
@@ -37,33 +37,32 @@ public class GCCollectionMonitor
         
         if (shouldPrintTotalMemory && shouldLookForAliveness)
         {
-            Print($"Collections total memory before: {GC.GetTotalMemory(true)} byte");
+            GarbageCollection.Print($"Collections total memory before: {GC.GetTotalMemory(true)} byte");
         }
 
         if (shouldLookForAliveness)
         {
-            Print("Forcing garbage collection to look for aliveness");
+            GarbageCollection.Print("Forcing garbage collection to look for aliveness");
         }
         
         
         while (++currentCollection <= maxCollections && m_references.Count != 0)
         {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            GarbageCollection.CollectAndWaitForPendingFinalizers();
             foreach (var reference in m_references.ToArray())
             {
-                Print($"{nameof(GCCollectionMonitor)}: Checking collection #{currentCollection} for objects");
+                GarbageCollection.Print($"{nameof(GCCollectionMonitor)}: Checking collection #{currentCollection} for objects");
                 if (reference.Item2.TryGetTarget(out var target))
                 {
                     if (currentCollection == maxCollections)
                     {
-                        Print($@"🧟 {target.GetType().Name} is a zombie!");
+                        GarbageCollection.Print($@"🧟 {target.GetType().Name} is a zombie!");
                         m_references.Remove(reference);
                     }
                 }
                 else
                 {
-                    Print($@"✅{reference.Item1} released after {currentCollection} collections");
+                    GarbageCollection.Print($@"✅{reference.Item1} released after {currentCollection} collections");
                     m_references.Remove(reference);
                 }
             }
@@ -73,15 +72,10 @@ public class GCCollectionMonitor
             {
                 if (shouldPrintTotalMemory)
                 {
-                    Print($"Collections total memory after: {GC.GetTotalMemory(true)} byte");
+                    GarbageCollection.Print($"Collections total memory after: {GC.GetTotalMemory(true)} byte");
                 }    
             }
         }
 #endif
-    }
-
-    internal void Print(string text)
-    {
-        Console.WriteLine($@"{nameof(GCCollectionMonitor)}: {text}");
     }
 }

@@ -7,7 +7,8 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:tests="clr-namespace:MemoryLeakTests.Tests"
              x:Class="MemoryLeakTests.Tests.ListItemPage"
-             Padding="10">
+             Padding="10"
+             >
     <ContentPage.BindingContext>
         <tests:TestPageViewModel />
     </ContentPage.BindingContext>

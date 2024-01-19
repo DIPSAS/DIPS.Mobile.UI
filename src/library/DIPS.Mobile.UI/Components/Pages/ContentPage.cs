@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.MemoryManagement;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages
@@ -26,7 +27,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 #if DEBUG
             if (ShouldGarbageCollectAndLogWhenNavigatedTo || ShouldLogWhenGarbageCollected)
             {
-                Console.WriteLine($"Called finalizer an instance of {GetType().Name}");
+                GarbageCollection.Print($"Called finalizer an instance of {GetType().Name}");
             }   
 #endif
         }
@@ -57,10 +58,8 @@ namespace DIPS.Mobile.UI.Components.Pages
                             await Task.Delay(2000);
                             await MainThread.InvokeOnMainThreadAsync(() =>
                             {
-                                Console.WriteLine("GC Collect");
-                                GC.Collect();
-                                GC.WaitForPendingFinalizers();
-                                Console.WriteLine("Full collection total memory: " + GC.GetTotalMemory(true));
+                                GarbageCollection.CollectAndWaitForPendingFinalizers();
+                                GarbageCollection.Print($"Total memory after: {GC.GetTotalMemory(true)} byte");
                             });
                         }
                     }

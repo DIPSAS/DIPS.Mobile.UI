@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using DIPS.Mobile.UI.API.GarbageCollection;
+using DIPS.Mobile.UI.MemoryManagement;
 
 namespace MemoryLeakTests;
 

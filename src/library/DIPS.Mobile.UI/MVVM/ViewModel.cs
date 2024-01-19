@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DIPS.Mobile.UI.MemoryManagement;
 
 namespace DIPS.Mobile.UI.MVVM;
 
@@ -13,7 +14,7 @@ public abstract class ViewModel : INotifyPropertyChanged
 #if DEBUG
         if (ShouldLogWhenGarbageCollected)
         {
-            Console.WriteLine($"Called finalizer an instance of {GetType().Name}");
+            GarbageCollection.Print($"Called finalizer an instance of {GetType().Name}");
         }
 #endif
     }
