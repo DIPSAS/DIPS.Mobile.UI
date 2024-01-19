@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.MemoryManagement;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages
@@ -24,9 +25,9 @@ namespace DIPS.Mobile.UI.Components.Pages
         ~ContentPage()
         {
 #if DEBUG
-            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+            if (ShouldGarbageCollectAndLogWhenNavigatedTo || ShouldLogWhenGarbageCollected)
             {
-                Console.WriteLine($"Called finalizer an instance of {GetType()}. Title of page is {Title}");
+                GarbageCollection.Print($"Called finalizer an instance of {GetType().Name}");
             }   
 #endif
         }
@@ -57,10 +58,8 @@ namespace DIPS.Mobile.UI.Components.Pages
                             await Task.Delay(2000);
                             await MainThread.InvokeOnMainThreadAsync(() =>
                             {
-                                Console.WriteLine("Force GC");
-                                GC.Collect();
-                                GC.WaitForPendingFinalizers();
-                                Console.WriteLine("Full collection total memory: " + GC.GetTotalMemory(true));
+                                GarbageCollection.CollectAndWaitForPendingFinalizers();
+                                GarbageCollection.Print($"Total memory after: {GC.GetTotalMemory(true)} byte");
                             });
                         }
                     }
@@ -74,8 +73,13 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
         {
-            m_garbageCollectionCts?.Dispose();
-            m_garbageCollectionCts = null;
+#if DEBUG
+            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+            {
+                m_garbageCollectionCts?.Dispose();
+                m_garbageCollectionCts = null;
+            }
+#endif
             base.OnNavigatingFrom(args);
         }
 

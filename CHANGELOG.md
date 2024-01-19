@@ -1,3 +1,7 @@
+## [24.1.0]
+- [GarbageCollection] Added garbage collection API to use whever you want.
+- [MemoryLeaks] Added memory leaks project to use for testing in the future.
+
 ## [24.0.3]
 - [StateView] Fixed an issue where RefreshCommand would get executed several times when consumer enabling RefreshView for default implementations.
 
