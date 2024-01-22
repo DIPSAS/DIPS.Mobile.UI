@@ -1,3 +1,6 @@
+## [24.3.0]
+- Added `FooterView` to `SearchPage`.
+
 ## [24.2.0]
 - [ListItem] Added `MaxLines` and `LineBreakMode` to subtitle
 

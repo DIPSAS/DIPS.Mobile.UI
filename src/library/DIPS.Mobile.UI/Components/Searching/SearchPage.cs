@@ -18,6 +18,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         private readonly CollectionView m_resultCollectionView;
 
         private View? m_previousView;
+        private View? m_footerView;
 
         public SearchPage()
         {
@@ -82,6 +83,10 @@ namespace DIPS.Mobile.UI.Components.Searching
                     {
                         Height = GridLength.Star // Space for the dynamic content. Hint view, empty view and listview
                     }, 
+                    new()
+                    {
+                        Height = GridLength.Auto // Footer
+                    }
                 },
                 RowSpacing = 0
             };
@@ -255,6 +260,16 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
                 ReturnType.Done :
                 ReturnType.Search;
+        }
+
+        private void OnFooterViewChanged()
+        {
+            if (m_footerView is not null)
+                m_grid.Remove(m_footerView);
+
+            m_footerView = FooterView;
+            m_footerView.VerticalOptions = LayoutOptions.End;
+            m_grid.Add(FooterView, 0, 3);
         }
     }
 
