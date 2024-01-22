@@ -17,18 +17,17 @@
 
     </dui:ContentPage.ToolbarItems>
 
-    <dui:StateView StateViewModel="{Binding StateViewModel}">
-
-        <dui:CollectionView
-            ItemsSource="{Binding TestStrings}">
-
-            <dui:CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <dui:Label Text="{Binding .}" />
-                </DataTemplate>
-            </dui:CollectionView.ItemTemplate>
-        </dui:CollectionView>
-    </dui:StateView>
+    
+    
+    <dui:VerticalStackLayout BackgroundColor="Green"
+                             WidthRequest="100"
+                             HeightRequest="100"
+                             dui:Layout.UniformCornerRadius="100">
+        
+      
+        
+        
+    </dui:VerticalStackLayout>
 
 
 </dui:ContentPage>
