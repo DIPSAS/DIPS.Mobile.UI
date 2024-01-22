@@ -1,4 +1,5 @@
 ﻿using DIPS.Mobile.UI.API.Builder;
+using DIPS.Mobile.UI.API.Library;
 using Microsoft.Extensions.Logging;
 
 namespace MemoryLeakTests;
@@ -19,6 +20,7 @@ public static class MauiProgram
 
 #if DEBUG
         builder.Logging.AddDebug();
+        DUI.IsDebug = true;
 #endif
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>

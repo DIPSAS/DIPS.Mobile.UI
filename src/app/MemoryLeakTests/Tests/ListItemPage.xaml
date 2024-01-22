@@ -2,12 +2,13 @@
     version="1.0"
     encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:tests="clr-namespace:MemoryLeakTests.Tests"
              x:Class="MemoryLeakTests.Tests.ListItemPage"
              Padding="10"
+             ShouldLogLoadingTime="True"
              >
     <ContentPage.BindingContext>
         <tests:TestPageViewModel />
@@ -15,4 +16,4 @@
 
     <dui:ListItem Title="{Binding Title}"
                   Command="{Binding Command}" />
-</ContentPage>
+</dui:ContentPage>

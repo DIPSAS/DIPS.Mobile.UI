@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.API.Library;
+
 namespace DIPS.Mobile.UI.MemoryManagement;
 
 /// <summary>
@@ -12,6 +14,7 @@ public static class GarbageCollection
     /// <param name="message"></param>
     public static void Print(string message)
     {
+        if (!DUI.IsDebug) return;
         Console.WriteLine($@"{nameof(GarbageCollection)}: {message}");
     }
 
@@ -21,10 +24,9 @@ public static class GarbageCollection
     /// <remarks>This will only run in Debug as its recommended.</remarks>
     public static void CollectAndWaitForPendingFinalizers()
     {
-#if DEBUG
+        if (!DUI.IsDebug) return;
         Print("Force Collect");
         GC.Collect();
         GC.WaitForPendingFinalizers();
-#endif
     }
 }
