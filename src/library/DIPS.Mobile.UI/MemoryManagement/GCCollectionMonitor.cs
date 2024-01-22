@@ -1,4 +1,6 @@
-﻿namespace DIPS.Mobile.UI.MemoryManagement;
+﻿using DIPS.Mobile.UI.API.Library;
+
+namespace DIPS.Mobile.UI.MemoryManagement;
 
 /// <summary>
 /// Use this class to monitor an object at a point where it should be garbage collected.
@@ -14,6 +16,7 @@ public class GCCollectionMonitor
     /// <param name="target"></param>
     public void Observe(object target)
     {
+        if (!DUI.IsDebug) return;
         var targetType = target.GetType().Name;
         m_references.Add(new Tuple<string, WeakReference<object>>(targetType, new WeakReference<object>(target)));
     }
@@ -29,7 +32,7 @@ public class GCCollectionMonitor
     /// </remarks>
     public async void CheckAliveness(bool shouldPrintTotalMemory = true)
     {
-#if DEBUG
+        if (!DUI.IsDebug) return;
 
         const int maxCollections = 5;
         var currentCollection = 0;
@@ -76,6 +79,5 @@ public class GCCollectionMonitor
                 }    
             }
         }
-#endif
     }
 }
