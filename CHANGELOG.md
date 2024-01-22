@@ -1,3 +1,5 @@
+## [24.3.0]
+- Added profiling properties for pages. [See this link](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#profiling-page-loading).
 ## [24.2.0]
 - [ListItem] Added `MaxLines` and `LineBreakMode` to subtitle
 
