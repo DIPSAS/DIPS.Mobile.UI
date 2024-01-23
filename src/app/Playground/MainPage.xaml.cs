@@ -32,4 +32,28 @@ public partial class MainPage
         Shell.Current.Navigation.PushAsync(new EirikPage());
 
     }
+
+    private async void TapMe(object sender, EventArgs e)
+    {
+        var tabBar = new TabBar {Route = $"root1"};
+
+        tabBar.Items.Add(new Tab
+        {
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new ContentPage(){Content = new Label()
+                    {
+                        Text = "Hello"
+                    }})
+                }
+            }
+        });
+            
+        Shell.Current.Items.Clear();
+        Shell.Current.Items.Add(tabBar);
+
+        await Shell.Current.GoToAsync($"//root1", true);
+    }
 }

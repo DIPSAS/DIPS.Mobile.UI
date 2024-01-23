@@ -23,6 +23,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     case ShellNavigationSource.Pop:
                     case ShellNavigationSource.PopToRoot:
                     case ShellNavigationSource.Remove:
+                    case ShellNavigationSource.ShellItemChanged:
                         m_monitor.Observe(m_previousPage);
                         m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
                         await m_monitor.CheckAliveness();
@@ -34,6 +35,7 @@ namespace DIPS.Mobile.UI.Components.Shell
             {
                 m_previousPage = Current.CurrentPage;
             }
+            m_previousPage ??= CurrentPage;
         }
 
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
