@@ -21,7 +21,7 @@ public partial class ContentPage
         get => (bool)GetValue(ShouldHideFloatingNavigationMenuProperty);
         set => SetValue(ShouldHideFloatingNavigationMenuProperty, value);
     }
-    
+
     /// <summary>
     /// If the ContentPage has run its <see cref="OnAppearing"/>
     /// </summary>
@@ -33,16 +33,34 @@ public partial class ContentPage
     /// <remarks>This will only run when <see cref="DUI.IsDebug"/>.</remarks>
     public bool ShouldGarbageCollectAndLogWhenNavigatedTo { get; set; }
     
+
+    public static readonly BindableProperty ShouldLogWhenGarbageCollectedProperty = BindableProperty.Create(
+        nameof(ShouldLogWhenGarbageCollected),
+        typeof(bool),
+        typeof(ContentPage));
+
     /// <summary>
     /// Will log to Console when the finalizer has run. This happens when the object was garbage collected.
     /// </summary>
     /// <remarks>This will only run when <see cref="DUI.IsDebug"/>.</remarks>
-    public bool ShouldLogWhenGarbageCollected { get; set; }
+    public bool ShouldLogWhenGarbageCollected
+    {
+        get => (bool)GetValue(ShouldLogWhenGarbageCollectedProperty);
+        set => SetValue(ShouldLogWhenGarbageCollectedProperty, value);
+    }
+    
+    public static readonly BindableProperty ShouldLogLoadingTimeProperty = BindableProperty.Create(
+        nameof(ShouldLogLoadingTime),
+        typeof(bool),
+        typeof(ContentPage));
 
     /// <summary>
     /// Will log to the Console when the OnLoaded event occured. This can be useful to profile changes to the page that affects the time it takes for people to see the page.
     /// </summary>
     /// <remarks>This will only run when <see cref="DUI.IsDebug"/>.</remarks>
-    public bool ShouldLogLoadingTime { get; set; }
-
-}   
+    public bool ShouldLogLoadingTime
+    {
+        get => (bool)GetValue(ShouldLogLoadingTimeProperty);
+        set => SetValue(ShouldLogLoadingTimeProperty, value);
+    }
+}
