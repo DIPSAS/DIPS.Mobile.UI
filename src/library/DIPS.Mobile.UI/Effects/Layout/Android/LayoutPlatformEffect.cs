@@ -1,6 +1,7 @@
 using Android.Graphics.Drawables;
 using Google.Android.Material.Shape;
 using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Effects.Layout;
 
@@ -17,7 +18,13 @@ public partial class  LayoutPlatformEffect
       
         Control.ClipToOutline = true;
 
-        materialShapeDrawable.FillColor = ((Element as VisualElement)!).BackgroundColor.ToDefaultColorStateList();
+        if (Element is VisualElement visualElement)
+        {
+            materialShapeDrawable.FillColor = visualElement.BackgroundColor is not null ? 
+                visualElement.BackgroundColor.ToDefaultColorStateList() 
+                : Colors.Transparent.ToDefaultColorStateList();
+        }
+        
         materialShapeDrawable.StrokeWidth = 0;
         
         Control.Background = materialShapeDrawable;
