@@ -9,10 +9,9 @@
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0"
-                 ShouldLogLoadingTime="True"
-                 ShouldLogWhenGarbageCollected="True">
+                 >
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-   
+
 </dui:ContentPage>

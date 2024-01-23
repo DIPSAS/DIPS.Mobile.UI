@@ -6,12 +6,15 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.MainPage"
-                 Title="Welcome to Playground"
-                 ShouldGarbageCollectAndLogWhenNavigatedTo="True">
+                 Title="Welcome to Playground">
     <VerticalStackLayout>
-        <dui:NavigationListItem Title="Vetle" Tapped="GoToVetle"/>
-        <dui:NavigationListItem Title="Håvard" Tapped="GoToHåvard"/>
-        <dui:NavigationListItem Title="Sander" Tapped="GoToSander"/>
-        <dui:NavigationListItem Title="Eirik" Tapped="GoToEirik"/>
+        <dui:NavigationListItem Title="Vetle"
+                                Tapped="GoToVetle" />
+        <dui:NavigationListItem Title="Håvard"
+                                Tapped="GoToHåvard" />
+        <dui:NavigationListItem Title="Sander"
+                                Tapped="GoToSander" />
+        <dui:NavigationListItem Title="Eirik"
+                                Tapped="GoToEirik" />
     </VerticalStackLayout>
 </dui:ContentPage>
