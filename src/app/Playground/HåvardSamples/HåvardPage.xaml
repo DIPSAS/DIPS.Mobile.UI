@@ -8,21 +8,10 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
-                 Padding="0">
+                 Padding="0"
+                 >
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:Label
-        Grid.Row="1"
-        Rotation="-45"
-        MaxLines="1"
-        Style="{dui:Styles Label=Header800}"
-        InputTransparent="True"
-        VerticalOptions="Center"
-        HorizontalOptions="Center"
-        Opacity="0.1"
-        Scale="1.25"
-        BackgroundColor="Red"
-        Text="Ikke godkjent"
-        TextColor="{dui:Colors color_system_black}"/>
+
 </dui:ContentPage>

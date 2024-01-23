@@ -1,0 +1,21 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.MainPage"
+                 Title="Welcome to Playground">
+    <VerticalStackLayout>
+        <!-- <dui:NavigationListItem Title="Vetle" -->
+        <!--                         Tapped="GoToVetle" /> -->
+        <!-- <dui:NavigationListItem Title="Håvard" -->
+        <!--                         Tapped="GoToHåvard" /> -->
+        <!-- <dui:NavigationListItem Title="Sander" -->
+        <!--                         Tapped="GoToSander" /> -->
+        <!-- <dui:NavigationListItem Title="Eirik" -->
+        <!--                         Tapped="GoToEirik" /> -->
+        <dui:Button Text="Tap me" Clicked="TapMe"/>
+    </VerticalStackLayout>
+</dui:ContentPage>

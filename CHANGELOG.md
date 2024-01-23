@@ -1,3 +1,6 @@
+## [24.6.0]
+- [GarbageCollecting] Added `ShouldGarbageCollectPreviousPage` to Shell for a simple way of monitoring the previous page.
+
 ## [24.5.2]
 - Set default `MaxLines` and `LineBreakMode` for subtitle on `ListItem`.
 

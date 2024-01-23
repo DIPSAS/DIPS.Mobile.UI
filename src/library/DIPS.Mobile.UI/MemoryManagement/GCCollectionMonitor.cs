@@ -30,7 +30,7 @@ public class GCCollectionMonitor
     /// Will do a Console.WriteLine of the aliveness of the object.
     /// On iOS you can see it directly in the Console window, on Android its best observed in LogCat filtered by your application and "dotnet".
     /// </remarks>
-    public async void CheckAliveness(bool shouldPrintTotalMemory = true)
+    public async Task CheckAliveness(bool shouldPrintTotalMemory = true)
     {
         if (!DUI.IsDebug) return;
 
@@ -65,7 +65,7 @@ public class GCCollectionMonitor
                 }
                 else
                 {
-                    GarbageCollection.Print($@"✅{reference.Item1} released after {currentCollection} collections");
+                    GarbageCollection.Print($@"✅{reference.Item1} garbage collected after {currentCollection} collections");
                     m_references.Remove(reference);
                 }
             }
