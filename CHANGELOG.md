@@ -1,3 +1,6 @@
+## [24.5.2]
+- Set default `MaxLines` and `LineBreakMode` for subtitle on `ListItem`.
+
 ## [24.5.1]
 - [Android] Added null check to `CornerRadius` effect. 
 
