@@ -62,12 +62,12 @@ public partial class SubtitleOptions
     public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
         nameof(LineBreakMode),
         typeof(LineBreakMode),
-        typeof(SubtitleOptions));
+        typeof(SubtitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
     
     public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
         nameof(MaxLines),
         typeof(int),
-        typeof(SubtitleOptions));
+        typeof(SubtitleOptions), defaultValue: Label.MaxLinesProperty.DefaultValue);
     
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),
