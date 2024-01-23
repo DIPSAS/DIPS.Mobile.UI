@@ -21,7 +21,13 @@ internal class LabelStyleResources
         [LabelStyle.Header600] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SixHundred), 
         [LabelStyle.Header500] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.FiveHundred),
         
-        [LabelStyle.SectionHeader] = LabelTypeStyle.SectionHeader
+        [LabelStyle.SectionHeader] = LabelTypeStyle.SectionHeader,
+        
+        [LabelStyle.KeyOverValue] = LabelTypeStyle.KeyOverValue,
+        [LabelStyle.ValueBelowKey] = LabelTypeStyle.ValueBelowKey,
+        [LabelStyle.KeyInlineWithValue] = LabelTypeStyle.KeyInlineWithValue,
+        [LabelStyle.ValueInlineWithKey] = LabelTypeStyle.ValueInlineWithKey,
+        
     };
    
 }

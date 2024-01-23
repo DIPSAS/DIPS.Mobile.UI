@@ -1,3 +1,8 @@
+## [24.6.0]
+- Added label styles
+- Added styles for `ListItem`
+- Navigation, checkmark and radiobutton listitems no longer creates new options, but instead uses the default created options, so that setting style on these in XAML correctly functions.
+
 ## [24.5.2]
 - Set default `MaxLines` and `LineBreakMode` for subtitle on `ListItem`.
 

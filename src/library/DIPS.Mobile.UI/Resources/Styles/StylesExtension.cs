@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.ListItem;
 
 namespace DIPS.Mobile.UI.Resources.Styles
 {
@@ -22,7 +23,15 @@ namespace DIPS.Mobile.UI.Resources.Styles
         /// </summary>
         public LabelStyle Label { get; set; }
         
+        /// <summary>
+        /// The <see cref="InputFieldStyle"/> to look for.
+        /// </summary>
         public InputFieldStyle InputField { get; set; }
+        
+        /// <summary>
+        /// The <see cref="ListItemStyle"/> to look for.
+        /// </summary>
+        public ListItemStyle ListItem { get; set; }
 
         public Style ProvideValue(IServiceProvider serviceProvider)
         {
@@ -44,6 +53,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
             if (InputField != InputFieldStyle.None)
             {
                 return Styles.GetInputFieldStyle(InputField);
+            }
+
+            if (ListItem != ListItemStyle.None)
+            {
+                return Styles.GetListItemStyle(ListItem);
             }
 
             return new Style(typeof(View));

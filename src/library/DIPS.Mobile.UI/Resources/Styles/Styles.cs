@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.ListItem;
 
 namespace DIPS.Mobile.UI.Resources.Styles;
 
@@ -28,6 +29,13 @@ public static class Styles
     {
         return InputFieldStyleResources.Styles.TryGetValue(style, out var textAreaStyle)
             ? textAreaStyle
+            : new Style(typeof(View));
+    }
+    
+    public static Style GetListItemStyle(ListItemStyle style)
+    {
+        return ListItemStyleResources.Styles.TryGetValue(style, out var listItemStyle)
+            ? listItemStyle
             : new Style(typeof(View));
     }
 }
