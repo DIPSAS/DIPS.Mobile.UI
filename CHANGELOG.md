@@ -1,3 +1,6 @@
+## [24.5.1]
+- [Android] Added null check to `CornerRadius` effect. 
+
 ## [24.5.0]
 - Added 'Layout' effect with attached property `CornerRadius`.
 
