@@ -17,5 +17,9 @@ public enum LabelStyle
     Header700=12,
     Header600=13,
     Header500=14,
-    SectionHeader=15
+    SectionHeader=15,
+    KeyOverValue=16,
+    ValueBelowKey=17,
+    KeyInlineWithValue=18,
+    ValueInlineWithKey=19
 }

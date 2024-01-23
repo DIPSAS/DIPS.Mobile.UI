@@ -16,8 +16,8 @@ public partial class RadioButtonListItem : ListItem, ISelectable
         m_iconOptions = new IconOptions();
         IconOptions = m_iconOptions;
         //Forces the title to take full width
-        TitleOptions = new TitleOptions() {Width = GridLength.Star}; 
-        InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
+        TitleOptions.Width = GridLength.Star;
+        InLineContentOptions.Width = GridLength.Auto;
         
         Command = new Command(() =>
         {

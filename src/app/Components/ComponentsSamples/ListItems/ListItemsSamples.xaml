@@ -72,5 +72,10 @@
             <dui:MultiItemsPicker ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
             </dui:MultiItemsPicker>
         </dui:MultiItemsPickerListItem>
+        
+        <dui:NavigationListItem Title="Hei og hå!"
+                                Subtitle="Hei"
+                                Style="{dui:Styles ListItem=KeyWithUnderlyingValue}" />
+
     </dui:VerticalStackLayout>
 </dui:ContentPage>

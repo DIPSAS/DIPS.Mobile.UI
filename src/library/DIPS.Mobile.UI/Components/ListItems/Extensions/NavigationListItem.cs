@@ -23,11 +23,10 @@ public partial class NavigationListItem : ListItem
                 HorizontalOptions = LayoutOptions.End
             }, 1);
 
-        TitleOptions = new TitleOptions()
-        {
-            Width = GridLength.Star, LineBreakMode = LineBreakMode.TailTruncation, MaxLines = 1
-        };
-        InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
+        TitleOptions.Width = GridLength.Star;
+        TitleOptions.LineBreakMode = LineBreakMode.TailTruncation;
+        TitleOptions.MaxLines = 1;
+        InLineContentOptions.Width = GridLength.Auto;
     }
 
     protected override void OnHandlerChanged()

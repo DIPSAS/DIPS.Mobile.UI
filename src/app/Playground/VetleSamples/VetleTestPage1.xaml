@@ -17,14 +17,15 @@
 
     </dui:ContentPage.ToolbarItems>
 
+    <dui:VerticalStackLayout>
     
-    
-    <dui:VerticalStackLayout BackgroundColor="Green"
-                             WidthRequest="100"
-                             HeightRequest="100"
-                             dui:Layout.CornerRadius="10, 10, 10, 10">
+        <dui:ListItem Title="hei og hå"
+                      Subtitle="hei og hå!"
+                      Style="{dui:Styles ListItem=KeyWithUnderlyingValue}"
+                      InLineContent="hei"></dui:ListItem>
         
-      
+        
+        
         
         
     </dui:VerticalStackLayout>
