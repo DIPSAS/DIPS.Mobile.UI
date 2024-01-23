@@ -2,10 +2,11 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Playground"
+             xmlns:dui="http://dips.com/mobile.ui"
              x:Class="Playground.App">
     <Application.Resources>
-        <ResourceDictionary>
-           
-        </ResourceDictionary>
+        <Style TargetType="{x:Type dui:ContentPage}">
+            <Setter Property="ShouldGarbageCollectAndLogWhenNavigatedTo" Value="Fill" />
+        </Style>
     </Application.Resources>
 </Application>

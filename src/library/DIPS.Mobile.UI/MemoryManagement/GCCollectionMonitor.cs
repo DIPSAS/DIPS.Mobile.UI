@@ -65,7 +65,7 @@ public class GCCollectionMonitor
                 }
                 else
                 {
-                    GarbageCollection.Print($@"✅{reference.Item1} released after {currentCollection} collections");
+                    GarbageCollection.Print($@"✅{reference.Item1} garbage collected after {currentCollection} collections");
                     m_references.Remove(reference);
                 }
             }

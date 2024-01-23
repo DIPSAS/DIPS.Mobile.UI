@@ -2,6 +2,7 @@
 using Playground.HåvardSamples;
 using Playground.VetleSamples;
 using FloatingNavigationButtonService = DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.FloatingNavigationButtonService;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground;
 
@@ -11,7 +12,18 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        var shell = new Shell();
+        var tabBar = new TabBar();
+        var tab = new Tab();
+        
+        tab.Items.Add(new ShellContent()
+        {
+            ContentTemplate =
+                new DataTemplate(() => new MainPage())
+        });
+        tabBar.Items.Add(tab);
+        shell.Items.Add(tabBar);
+        MainPage = shell;
     }
     
     protected override void OnStart()

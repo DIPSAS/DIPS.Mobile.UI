@@ -18,9 +18,9 @@ namespace DIPS.Mobile.UI.Components.Pages
             if (DUI.IsDebug) //Always start the time, as checking for ShouldLogLoadingTime wont work in the constructor
             {
                 m_loadedTimer = new Stopwatch();
-                m_loadedTimer.Start();    
+                m_loadedTimer.Start();
             }
-            
+
             if (Application.Current == null)
             {
                 return;
@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             SetColors(Application.Current.RequestedTheme);
             Application.Current.RequestedThemeChanged +=
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
-            
+
             Loaded += OnLoaded;
         }
 
@@ -40,8 +40,9 @@ namespace DIPS.Mobile.UI.Components.Pages
                 m_loadedTimer.Stop();
                 if (ShouldLogLoadingTime)
                 {
-                    Console.WriteLine($@"⏰ Time taken to '{GetType().Namespace}': {m_loadedTimer.Elapsed:m\:ss\.fff}");    
-                }    
+                    Console.WriteLine(
+                        $@"⏰ Time taken to load '{GetType().Namespace}': {m_loadedTimer.Elapsed:m\:ss\.fff}");
+                }
             }
         }
 
@@ -54,7 +55,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             if (ShouldGarbageCollectAndLogWhenNavigatedTo || ShouldLogWhenGarbageCollected)
             {
-                GarbageCollection.Print($"Called finalizer an instance of {GetType().Name}");
+                GarbageCollection.Print($"✅{GetType().Name} was garbage collected.");
             }
         }
 
@@ -70,7 +71,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
-            
+
             if (DUI.IsDebug && ShouldGarbageCollectAndLogWhenNavigatedTo)
             {
                 m_garbageCollectionCts = new CancellationTokenSource();
@@ -103,6 +104,7 @@ namespace DIPS.Mobile.UI.Components.Pages
                 m_garbageCollectionCts?.Dispose();
                 m_garbageCollectionCts = null;
             }
+
             base.OnNavigatingFrom(args);
         }
 
