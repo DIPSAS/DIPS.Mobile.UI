@@ -2,14 +2,18 @@ namespace DIPS.Mobile.UI.Effects.Layout;
 
 public partial class Layout : RoutingEffect
 {
-    public static int GetUniformCornerRadius(BindableObject view)
+    public static CornerRadius GetCornerRadius(BindableObject view)
     {
-        return (int)view.GetValue(UniformCornerRadiusProperty);
+        return (CornerRadius)view.GetValue(CornerRadiusProperty);
     }
 
-    public static void SetUniformCornerRadius(BindableObject view, Microsoft.Maui.CornerRadius command)
+    /// <summary>
+    /// Sets the corner radius
+    /// </summary>
+    /// <remarks>Currently only supports uniform corner radius, it uses `TopLeft` for all corners</remarks>
+    public static void SetCornerRadius(BindableObject view, CornerRadius cornerRadius)
     {
-        view.SetValue(UniformCornerRadiusProperty, command);
+        view.SetValue(CornerRadiusProperty, cornerRadius);
     }
 
     private static void OnCornerRadiusPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)

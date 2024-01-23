@@ -12,7 +12,7 @@ public partial class  LayoutPlatformEffect
     {
         m_originalBackground = Control.Background;
         
-        var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, Layout.GetUniformCornerRadius(Element) * Control.Context.GetDisplayDensity()).Build();
+        var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, (float)(Layout.GetCornerRadius(Element).TopLeft * Control.Context.GetDisplayDensity())).Build();
         var materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
       
         Control.ClipToOutline = true;

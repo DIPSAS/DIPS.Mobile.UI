@@ -22,7 +22,7 @@
     <dui:VerticalStackLayout BackgroundColor="Green"
                              WidthRequest="100"
                              HeightRequest="100"
-                             dui:Layout.UniformCornerRadius="100">
+                             dui:Layout.CornerRadius="10, 10, 10, 10">
         
       
         

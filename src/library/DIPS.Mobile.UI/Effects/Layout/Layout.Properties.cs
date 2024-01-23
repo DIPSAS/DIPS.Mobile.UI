@@ -2,9 +2,9 @@ namespace DIPS.Mobile.UI.Effects.Layout;
 
 public partial class Layout
 {
-    public static readonly BindableProperty UniformCornerRadiusProperty = BindableProperty.CreateAttached("UniformCornerRadius",
-        typeof(int),
+    public static readonly BindableProperty CornerRadiusProperty = BindableProperty.CreateAttached("CornerRadius",
+        typeof(CornerRadius),
         typeof(Layout),
-        0,
+        new CornerRadius(0),
         propertyChanged: OnCornerRadiusPropertiesChanged);
 }

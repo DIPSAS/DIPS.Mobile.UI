@@ -12,7 +12,7 @@ public partial class LayoutPlatformEffect
         m_prevCornerRadius = Control.Layer.CornerRadius;
         
         Control.ClipsToBounds = true;
-        Control.Layer.CornerRadius = Layout.GetUniformCornerRadius(Element);
+        Control.Layer.CornerRadius = (nfloat)Layout.GetCornerRadius(Element).TopLeft;
     }
 
     protected override partial void OnDetached()
