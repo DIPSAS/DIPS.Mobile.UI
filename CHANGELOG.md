@@ -1,3 +1,6 @@
+## [24.5.0]
+- Added 'Layout' effect with attached property `CornerRadius`.
+
 ## [24.4.0]
 - Added `FooterView` to `SearchPage`.
 
