@@ -1,3 +1,6 @@
+## [24.6.2]
+- [Android] Fixed an issue where toolbar items with icon added later to the page would be black.
+
 ## [24.6.1]
 - Fixed an issue where the label inside `SaveView` would take up space when text empty.
 
