@@ -32,8 +32,6 @@ public partial class ContextMenuPlatformEffect
         }
 
         m_contextMenu.BindingContext = Element.BindingContext;
-
-        m_contextMenu.DidClickItem += ContextMenuOnDidClickItem;
         
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 
@@ -183,11 +181,6 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnDetached()
     {
-        if (m_contextMenu is not null)
-        {
-            m_contextMenu.DidClickItem -= ContextMenuOnDidClickItem;
-        }
-        
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
@@ -202,12 +195,5 @@ public partial class ContextMenuPlatformEffect
         }
         
         Platform.CurrentActivity!.UnregisterActivityLifecycleCallbacks(m_contextMenuBehaviour);
-    }
-    
-    private void ContextMenuOnDidClickItem(object? sender, EventArgs e)
-    {
-        if (sender is not ContextMenuItem contextMenuItem) return;
-        
-        ContextMenuEffect.ContextMenuItemClickedCallback?.Invoke(contextMenuItem);
     }
 }

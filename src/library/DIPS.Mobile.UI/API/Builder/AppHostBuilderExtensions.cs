@@ -38,7 +38,7 @@ public static partial class AppHostBuilderExtensions
     // ReSharper disable once IdentifierTypo
     // ReSharper disable once InconsistentNaming
     public static MauiAppBuilder UseDIPSUI(
-        this MauiAppBuilder builder)
+        this MauiAppBuilder builder, Action<IDIPSUIOptions>? configure = null)
     {
         //Initializers
         DUI.Init();
@@ -77,6 +77,10 @@ public static partial class AppHostBuilderExtensions
         });
 
         builder.UseSkiaSharp();
+
+        var options = new DIPSUIOptions();
+        configure?.Invoke(options);
+        
         return builder;
     }
 

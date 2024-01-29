@@ -1,8 +1,7 @@
-﻿using DIPS.Mobile.UI;
-using DIPS.Mobile.UI.API.Builder;
+﻿using DIPS.Mobile.UI.API.Builder;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using Microsoft.Extensions.Logging;
-using Microsoft.Maui.LifecycleEvents;
 
 namespace Playground;
 
@@ -13,7 +12,10 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI();
+            .UseDIPSUI(options =>
+            {
+                options.SetContextMenuItemClickedCallback(OnContextMenuItemClicked);
+            });
         
         builder.ConfigureFonts(fonts =>
         {
@@ -28,5 +30,10 @@ public static class MauiProgram
 #endif
 
         return builder.Build();
+    }
+
+    private static void OnContextMenuItemClicked(ContextMenuItem obj)
+    {
+        Console.WriteLine($"Clicked context menu item with title {obj.Title}!");
     }
 }

@@ -24,7 +24,7 @@ public class ContextMenuEffect : RoutingEffect
 
     internal static Action<ContextMenuItem>? ContextMenuItemClickedCallback { get; private set; }
 
-    public static void SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback)
+    internal static void SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback)
     {
         ContextMenuItemClickedCallback = callback;
     }
