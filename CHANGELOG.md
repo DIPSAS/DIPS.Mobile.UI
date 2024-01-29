@@ -1,3 +1,6 @@
+## [24.6.3]
+- [Android] Fixed an issue where application would crash if the `ShellToolbarAppearanceTracker` disposed itself before setting appearance
+
 ## [24.6.2]
 - [Android] Fixed an issue where toolbar items with icon added later to the page would be black.
 
