@@ -1,3 +1,6 @@
+## [24.6.1]
+- Fixed an issue where the label inside `SaveView` would take up space when text empty.
+
 ## [24.6.0]
 - [GarbageCollecting] Added `ShouldGarbageCollectPreviousPage` to Shell for a simple way of monitoring the previous page.
 

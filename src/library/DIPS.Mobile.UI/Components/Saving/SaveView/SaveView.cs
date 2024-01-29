@@ -58,11 +58,25 @@ public partial class SaveView : ContentView
     {
         base.OnHandlerChanged();
 
+        if (string.IsNullOrEmpty(SavingText))
+        {
+            m_stateLabel.IsVisible = false;
+            return;
+        }
+        
         m_stateLabel.Text = SavingText;
     }
 
     private void SetSavingCompletedText()
     {
+        if (string.IsNullOrEmpty(SavingCompletedText))
+        {
+            m_stateLabel.IsVisible = false;
+            return;
+        }
+
+        m_stateLabel.IsVisible = true;
+        
         m_stateLabel.Text = SavingCompletedText;
     }
 
