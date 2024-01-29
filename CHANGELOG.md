@@ -1,3 +1,7 @@
+## [24.7.0]
+- Added possibility to set options for DIPS UI in `MauiProgram.cs`
+- Added option for setting global callback for when a context menu item is clicked
+
 ## [24.6.2]
 - [Android] Fixed an issue where toolbar items with icon added later to the page would be black.
 
