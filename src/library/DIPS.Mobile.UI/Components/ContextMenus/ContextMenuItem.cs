@@ -10,5 +10,6 @@ public partial class ContextMenuItem : Element, IContextMenuItem
         contextMenu.SendClicked(this);
         Command?.Execute(CommandParameter);
         DidClick?.Invoke(this, EventArgs.Empty);
+        ContextMenuEffect.ContextMenuItemClickedCallback?.Invoke(this);
     }
 }

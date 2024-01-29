@@ -34,7 +34,6 @@ public partial class ContextMenuPlatformEffect
         }
     }
 
-    
     protected override partial void OnDetached()
     {
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
