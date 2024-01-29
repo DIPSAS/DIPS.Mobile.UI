@@ -1,3 +1,6 @@
+## [24.7.1]
+- [Android] Fixed an issue where application would crash if the `ShellToolbarAppearanceTracker` disposed itself before setting appearance
+
 ## [24.7.0]
 - Added possibility to set options for DIPS UI in `MauiProgram.cs`
 - Added option for setting global callback for when a context menu item is clicked

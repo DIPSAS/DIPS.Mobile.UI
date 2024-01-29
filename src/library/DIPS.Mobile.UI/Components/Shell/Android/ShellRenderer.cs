@@ -15,8 +15,8 @@ public class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibility.Shel
 
 internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 {
-    private Toolbar m_toolbar;
-    private ShellAppearance m_appearance;
+    private Toolbar? m_toolbar;
+    private ShellAppearance? m_appearance;
 
     public override void SetAppearance(Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
     {
@@ -24,6 +24,7 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 
         m_toolbar = toolbar;
         m_appearance = appearance;
+        
         toolbar.LayoutChange += ToolbarOnLayoutChange;  
         
         SetToolbarItemsTint();
@@ -31,11 +32,11 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 
     private void SetToolbarItemsTint()
     {
-        for (var i = 0; i < m_toolbar.Menu?.Size(); i++)
+        for (var i = 0; i < m_toolbar?.Menu?.Size(); i++)
         {
             var toolbarItem = m_toolbar.Menu.GetItem(i);
             
-            toolbarItem!.SetIconTintList(m_appearance.ForegroundColor.ToDefaultColorStateList());
+            toolbarItem!.SetIconTintList(m_appearance?.ForegroundColor.ToDefaultColorStateList());
         }
     }
 
@@ -52,6 +53,9 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
+        
+        if(m_toolbar is null)
+            return;
         
         m_toolbar.LayoutChange -= ToolbarOnLayoutChange;  
     }
