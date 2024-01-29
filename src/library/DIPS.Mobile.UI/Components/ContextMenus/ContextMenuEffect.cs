@@ -22,6 +22,12 @@ public class ContextMenuEffect : RoutingEffect
         null,
         propertyChanged:OnHasMenuChanged);
 
+    internal static Action<ContextMenuItem>? ContextMenuItemClickedCallback { get; private set; }
+
+    public static void SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback)
+    {
+        ContextMenuItemClickedCallback = callback;
+    }
 
     public static ContextMenuMode GetMode(BindableObject view)
     {

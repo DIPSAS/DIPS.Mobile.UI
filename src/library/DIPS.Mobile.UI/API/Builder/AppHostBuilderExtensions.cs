@@ -66,7 +66,7 @@ public static partial class AppHostBuilderExtensions
             
             AddPlatformHandlers(handlers);
         });
-
+        
         builder.ConfigureEffects(effects =>
         {
             effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));

@@ -21,6 +21,8 @@ public partial class ContextMenuPlatformEffect
             return;
         
         m_contextMenu.BindingContext = Element.BindingContext;
+        
+        m_contextMenu.DidClickItem += ContextMenuOnDidClickItem;
 
         m_mode = ContextMenuEffect.GetMode(Element);
 
@@ -34,9 +36,20 @@ public partial class ContextMenuPlatformEffect
         }
     }
 
-    
+    private void ContextMenuOnDidClickItem(object? sender, EventArgs e)
+    {
+        if (sender is not ContextMenuItem contextMenuItem) return;
+        
+        ContextMenuEffect.ContextMenuItemClickedCallback?.Invoke(contextMenuItem);
+    }
+
     protected override partial void OnDetached()
     {
+        if (m_contextMenu is not null)
+        {
+            m_contextMenu.DidClickItem -= ContextMenuOnDidClickItem;
+        }
+        
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             DisposePressed();
