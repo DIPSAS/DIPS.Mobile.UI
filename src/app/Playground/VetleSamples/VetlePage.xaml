@@ -15,6 +15,11 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
    
-    <dui:Button Text="Hello" Command="{Binding Navigate}" />
+    <VerticalStackLayout>
+        <dui:SaveView BackgroundColor="Red"
+                      SavingCompletedText="S"/>
+        
+        <dui:Label Text="Signer her!" />
+    </VerticalStackLayout>
         
 </dui:ContentPage>
