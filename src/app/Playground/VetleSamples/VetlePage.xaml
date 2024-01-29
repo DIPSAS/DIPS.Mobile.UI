@@ -14,6 +14,10 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
+    
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="hei" />
+    </dui:ContentPage.ToolbarItems>
    
     <VerticalStackLayout>
         <dui:SaveView BackgroundColor="Red"
