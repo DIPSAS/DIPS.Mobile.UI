@@ -1,3 +1,27 @@
+## [24.6.2]
+- [Android] Fixed an issue where toolbar items with icon added later to the page would be black.
+
+## [24.6.1]
+- Fixed an issue where the label inside `SaveView` would take up space when text empty.
+
+## [24.6.0]
+- [GarbageCollecting] Added `ShouldGarbageCollectPreviousPage` to Shell for a simple way of monitoring the previous page.
+
+## [24.5.2]
+- Set default `MaxLines` and `LineBreakMode` for subtitle on `ListItem`.
+
+## [24.5.1]
+- [Android] Added null check to `CornerRadius` effect. 
+
+## [24.5.0]
+- Added 'Layout' effect with attached property `CornerRadius`.
+
+## [24.4.0]
+- Added `FooterView` to `SearchPage`.
+
+## [24.3.0]
+- Added profiling properties for pages. [See this link](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#profiling-page-loading).
+
 ## [24.2.0]
 - [ListItem] Added `MaxLines` and `LineBreakMode` to subtitle
 

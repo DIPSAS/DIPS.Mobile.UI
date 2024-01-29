@@ -10,6 +10,8 @@ namespace DIPS.Mobile.UI.API.Library
         {
             PlatformInit();
         }
+        
+        public static bool IsDebug { get; set; }
 
         private static partial void PlatformInit();
         

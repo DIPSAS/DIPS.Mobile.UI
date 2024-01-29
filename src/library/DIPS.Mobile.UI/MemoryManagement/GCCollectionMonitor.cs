@@ -1,4 +1,6 @@
-﻿namespace DIPS.Mobile.UI.MemoryManagement;
+﻿using DIPS.Mobile.UI.API.Library;
+
+namespace DIPS.Mobile.UI.MemoryManagement;
 
 /// <summary>
 /// Use this class to monitor an object at a point where it should be garbage collected.
@@ -14,6 +16,7 @@ public class GCCollectionMonitor
     /// <param name="target"></param>
     public void Observe(object target)
     {
+        if (!DUI.IsDebug) return;
         var targetType = target.GetType().Name;
         m_references.Add(new Tuple<string, WeakReference<object>>(targetType, new WeakReference<object>(target)));
     }
@@ -27,9 +30,9 @@ public class GCCollectionMonitor
     /// Will do a Console.WriteLine of the aliveness of the object.
     /// On iOS you can see it directly in the Console window, on Android its best observed in LogCat filtered by your application and "dotnet".
     /// </remarks>
-    public async void CheckAliveness(bool shouldPrintTotalMemory = true)
+    public async Task CheckAliveness(bool shouldPrintTotalMemory = true)
     {
-#if DEBUG
+        if (!DUI.IsDebug) return;
 
         const int maxCollections = 5;
         var currentCollection = 0;
@@ -62,7 +65,7 @@ public class GCCollectionMonitor
                 }
                 else
                 {
-                    GarbageCollection.Print($@"✅{reference.Item1} released after {currentCollection} collections");
+                    GarbageCollection.Print($@"✅{reference.Item1} garbage collected after {currentCollection} collections");
                     m_references.Remove(reference);
                 }
             }
@@ -76,6 +79,5 @@ public class GCCollectionMonitor
                 }    
             }
         }
-#endif
     }
 }

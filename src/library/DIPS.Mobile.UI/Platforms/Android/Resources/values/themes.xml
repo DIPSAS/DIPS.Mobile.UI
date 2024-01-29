@@ -19,7 +19,7 @@
         <item name="colorSecondary">@color/color_secondary_90</item>
 
         <item name="colorSurface">@color/color_system_white</item>
-        
+
         <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">@color/color_primary_d_90</item>
         <!-- colorAccent is used as the default value for colorControlActivated

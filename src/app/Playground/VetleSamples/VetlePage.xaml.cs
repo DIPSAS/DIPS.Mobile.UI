@@ -18,10 +18,16 @@ public partial class VetlePage
     {
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        await Task.Delay(1000);
         
+        ToolbarItems.Add(new ToolbarItem()
+        {
+            IconImageSource = Icons.GetIcon(IconName.alert_fill)
+        });
     }
 
     public ICommand TestCommand { get; }

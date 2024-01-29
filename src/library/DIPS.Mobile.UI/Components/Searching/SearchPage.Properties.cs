@@ -22,6 +22,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(HintViewProperty, value);
         }
 
+        /// <summary>
+        /// The footer to show at the bottom at all times
+        /// </summary>
+        public View FooterView
+        {
+            get => (View)GetValue(FooterViewProperty);
+            set => SetValue(FooterViewProperty, value);
+        }
+
         [Obsolete("Setting Content property is the same as setting EmptyResultView")]
         public new View? Content { get; set; }
 
@@ -175,5 +184,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(ShouldAutoFocus),
             typeof(bool),
             typeof(SearchPage), defaultValue: true);
+        
+        public static readonly BindableProperty FooterViewProperty = BindableProperty.Create(
+            nameof(FooterView),
+            typeof(View),
+            typeof(SearchPage),
+            propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnFooterViewChanged());
     }
 }

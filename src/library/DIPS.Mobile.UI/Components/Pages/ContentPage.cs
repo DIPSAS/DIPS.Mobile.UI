@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.MemoryManagement;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -9,9 +11,16 @@ namespace DIPS.Mobile.UI.Components.Pages
         public static readonly ColorName BackgroundColorName = ColorName.color_neutral_10;
 
         private CancellationTokenSource? m_garbageCollectionCts;
+        private readonly Stopwatch m_loadedTimer;
 
         public ContentPage()
         {
+            if (DUI.IsDebug) //Always start the time, as checking for ShouldLogLoadingTime wont work in the constructor
+            {
+                m_loadedTimer = new Stopwatch();
+                m_loadedTimer.Start();
+            }
+
             if (Application.Current == null)
             {
                 return;
@@ -20,16 +29,34 @@ namespace DIPS.Mobile.UI.Components.Pages
             SetColors(Application.Current.RequestedTheme);
             Application.Current.RequestedThemeChanged +=
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
+
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object? sender, EventArgs e)
+        {
+            if (DUI.IsDebug)
+            {
+                m_loadedTimer.Stop();
+                if (ShouldLogLoadingTime)
+                {
+                    Console.WriteLine(
+                        $@"⏰ Time taken to load '{GetType().Namespace}': {m_loadedTimer.Elapsed:m\:ss\.fff}");
+                }
+            }
         }
 
         ~ContentPage()
         {
-#if DEBUG
+            if (!DUI.IsDebug)
+            {
+                return;
+            }
+
             if (ShouldGarbageCollectAndLogWhenNavigatedTo || ShouldLogWhenGarbageCollected)
             {
-                GarbageCollection.Print($"Called finalizer an instance of {GetType().Name}");
-            }   
-#endif
+                GarbageCollection.Print($"✅{GetType().Name} was garbage collected.");
+            }
         }
 
         protected override void OnAppearing()
@@ -44,8 +71,8 @@ namespace DIPS.Mobile.UI.Components.Pages
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
-#if DEBUG
-            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+
+            if (DUI.IsDebug && ShouldGarbageCollectAndLogWhenNavigatedTo)
             {
                 m_garbageCollectionCts = new CancellationTokenSource();
                 Task.Run(async () =>
@@ -68,18 +95,16 @@ namespace DIPS.Mobile.UI.Components.Pages
                     }
                 });
             }
-#endif
         }
 
         protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
         {
-#if DEBUG
-            if (ShouldGarbageCollectAndLogWhenNavigatedTo)
+            if (DUI.IsDebug && ShouldGarbageCollectAndLogWhenNavigatedTo)
             {
                 m_garbageCollectionCts?.Dispose();
                 m_garbageCollectionCts = null;
             }
-#endif
+
             base.OnNavigatingFrom(args);
         }
 
