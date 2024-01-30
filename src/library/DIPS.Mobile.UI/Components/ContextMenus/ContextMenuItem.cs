@@ -8,8 +8,8 @@ public partial class ContextMenuItem : Element, IContextMenuItem
     internal void SendClicked(ContextMenu contextMenu)
     {
         contextMenu.SendClicked(this);
+        ContextMenuEffect.ContextMenuItemClickedCallback?.Invoke(this);
         Command?.Execute(CommandParameter);
         DidClick?.Invoke(this, EventArgs.Empty);
-        ContextMenuEffect.ContextMenuItemClickedCallback?.Invoke(this);
     }
 }

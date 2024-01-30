@@ -1,3 +1,6 @@
+## [24.7.2]
+- Make event for context menu item clicked be triggered before the command is triggered
+
 ## [24.7.1]
 - [Android] Fixed an issue where application would crash if the `ShellToolbarAppearanceTracker` disposed itself before setting appearance
 
