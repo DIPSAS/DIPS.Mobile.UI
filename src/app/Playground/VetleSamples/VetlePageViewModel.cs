@@ -140,7 +140,7 @@ public class VetlePageViewModel : ViewModel
         var page = new VetleTestPage1();
         var vm = new VetleTestPage1ViewModel();
         page.BindingContext = vm;
-        Shell.Current.Navigation.PushAsync(page);
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
     }
 
    

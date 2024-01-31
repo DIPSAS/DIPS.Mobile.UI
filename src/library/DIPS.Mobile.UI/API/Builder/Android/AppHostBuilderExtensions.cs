@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Pages.Android;
 using DIPS.Mobile.UI.Components.Shell.Android;
 using DIPS.Mobile.UI.Components.Toolbars.Android;
 using Microsoft.Maui.LifecycleEvents;
@@ -13,6 +14,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler));
         handlers.AddHandler<DUIToolbar, DUIToolbarHandler>();
         handlers.AddHandler<Shell, ShellRenderer>();
+        handlers.AddHandler<ContentPage, ContentPageHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

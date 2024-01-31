@@ -31,6 +31,7 @@ namespace DIPS.Mobile.UI.Components.Pages
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
 
             Loaded += OnLoaded;
+            
         }
 
         private void OnLoaded(object? sender, EventArgs e)
