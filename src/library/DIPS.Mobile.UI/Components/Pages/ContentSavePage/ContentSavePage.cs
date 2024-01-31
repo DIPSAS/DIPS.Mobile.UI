@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Saving.SaveView;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages.ContentSavePage;
 
@@ -11,7 +12,7 @@ public partial class ContentSavePage : ContentPage
 
     public ContentSavePage()
     {
-        m_saveView = new SaveView { IsVisible = false, Opacity = 0 };
+        m_saveView = new SaveView { IsVisible = false, BackgroundColor = Colors.GetColor(BackgroundColorName)};
         m_saveView.SetBinding(SaveView.IsSavingProperty, new Binding(nameof(IsSaving), source: this));
         m_saveView.SetBinding(SaveView.IsSavingCompletedProperty, new Binding(nameof(IsSavingCompleted), source: this));
         m_saveView.SetBinding(SaveView.SavingTextProperty, new Binding(nameof(SavingText), source: this));
@@ -23,22 +24,16 @@ public partial class ContentSavePage : ContentPage
         Content = m_contentGrid;
     }
 
-    private async Task GoToSaveView()
+    private Task GoToSaveView()
     {
-        _ = OriginalContent.FadeTo(0, 150, Easing.CubicInOut);
-
         m_saveView.IsVisible = true;
-        
-        _ = m_saveView.FadeTo(1, easing: Easing.CubicInOut);
+        return Task.CompletedTask;
     }
     
-    private async Task GoBackToDefaultContent()
+    private Task GoBackToDefaultContent()
     {
-        _ = m_saveView.FadeTo(0, 150, Easing.CubicInOut);
-
         m_saveView.IsVisible = false;
-
-        _ = OriginalContent.FadeTo(1, easing: Easing.CubicInOut);
+        return Task.CompletedTask;
     }
 
     private static void IsSavingChanged(BindableObject bindableObject, object oldValue, object newValue)
@@ -62,6 +57,6 @@ public partial class ContentSavePage : ContentPage
         if (m_contentGrid.Contains(OriginalContent))
             m_contentGrid.Remove(OriginalContent);
         
-        m_contentGrid.Add(OriginalContent);
+        m_contentGrid.Insert(0, OriginalContent);
     }
 }
