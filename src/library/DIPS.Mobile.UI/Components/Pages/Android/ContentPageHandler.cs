@@ -8,11 +8,15 @@ namespace DIPS.Mobile.UI.Components.Pages.Android;
 
 public class ContentPageHandler : PageHandler
 {
+    /// <summary>
+    /// Magic taken from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
+    /// Sets the toolbar item icon's tint color
+    /// </summary>
     protected override void ConnectHandler(ContentViewGroup platformView)
     {
         base.ConnectHandler(platformView);
         
-        // If the ContentPage is a Modal page, the linearlayout will not be null
+        // If the ContentPage is a regular page, the linearlayout will be null
         var linearLayout = Platform.CurrentActivity?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
 
         var child1 = linearLayout?.GetChildAt(0);
