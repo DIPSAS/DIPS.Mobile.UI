@@ -1,5 +1,5 @@
 ## [24.7.4]
-- [Android] Fixed an issue where icons where black in modal pages.
+- [Android] Fixed an issue where icons were black in modal pages.
 
 ## [24.7.3]
 - Fixed an issue where several `SaveView`'s in `ContentSavePage` could potentially be created.
