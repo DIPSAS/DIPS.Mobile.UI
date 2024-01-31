@@ -11,7 +11,7 @@ public partial class ContentSavePage : ContentPage
 
     public ContentSavePage()
     {
-        m_saveView = new SaveView { IsVisible = false };
+        m_saveView = new SaveView { IsVisible = false, Opacity = 0 };
         m_saveView.SetBinding(SaveView.IsSavingProperty, new Binding(nameof(IsSaving), source: this));
         m_saveView.SetBinding(SaveView.IsSavingCompletedProperty, new Binding(nameof(IsSavingCompleted), source: this));
         m_saveView.SetBinding(SaveView.SavingTextProperty, new Binding(nameof(SavingText), source: this));
@@ -27,13 +27,8 @@ public partial class ContentSavePage : ContentPage
     {
         _ = OriginalContent.FadeTo(0, 150, Easing.CubicInOut);
 
-        m_saveView.Opacity = 0;
         m_saveView.IsVisible = true;
         
-        OriginalContent.IsVisible = false;
-        
-        Content = m_saveView;
-
         _ = m_saveView.FadeTo(1, easing: Easing.CubicInOut);
     }
     
@@ -41,10 +36,7 @@ public partial class ContentSavePage : ContentPage
     {
         _ = m_saveView.FadeTo(0, 150, Easing.CubicInOut);
 
-        OriginalContent.IsVisible = true;
         m_saveView.IsVisible = false;
-        
-        Content = OriginalContent;
 
         _ = OriginalContent.FadeTo(1, easing: Easing.CubicInOut);
     }
