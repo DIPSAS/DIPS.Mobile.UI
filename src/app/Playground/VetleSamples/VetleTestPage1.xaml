@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<dui:ContentSavePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
@@ -8,7 +8,10 @@
                  x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
                  x:Name="CodeBehind"
                  Title="Hei"
-                 ShouldHideFloatingNavigationMenuButton="True">
+                 ShouldHideFloatingNavigationMenuButton="True"
+                 IsSaving="{Binding IsSaving}"
+                 IsSavingCompleted="{Binding IsSavingCompleted}"
+                 SavingCompletedCommand="{Binding CompletedCommand}">
 
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
@@ -24,10 +27,13 @@
                              HeightRequest="100"
                              dui:Layout.CornerRadius="10, 10, 10, 10">
         
+        
+        <dui:Button Command="{Binding ErrorCommand}" Text="error" />
       
+        <dui:Button Command="{Binding SaveCommand}" Text="success" />
         
         
     </dui:VerticalStackLayout>
 
 
-</dui:ContentPage>
+</dui:ContentSavePage>

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.MVVM;
 
@@ -21,6 +22,32 @@ public class VetleTestPage1ViewModel : ViewModel
         StateViewModel.Default.HasRefreshView = true;
         StateViewModel.Error.HasRefreshView = true;
         StateViewModel.RefreshCommand = new Command(() => _ = Refresh());
+
+        SaveCommand = new Command(async () =>
+        {
+            IsSaving = true;
+
+            await Task.Delay(2000);
+
+            IsSavingCompleted = true;
+        });
+
+        ErrorCommand = new Command(async () =>
+        {
+            IsSaving = true;
+
+            await Task.Delay(2000);
+
+            IsSaving = false;
+        });
+
+        CompletedCommand = new Command(() =>
+        {
+            SystemMessageService.Display(config =>
+            {
+                config.Text = "Yeppers";
+            });
+        });
     }
 
   
@@ -85,4 +112,6 @@ public class VetleTestPage1ViewModel : ViewModel
     public StateViewModel StateViewModel { get; } = new StateViewModel(State.Loading);
 
     public ICommand SaveCommand { get; }
+    public ICommand ErrorCommand { get; }
+    public ICommand CompletedCommand { get; }
 }

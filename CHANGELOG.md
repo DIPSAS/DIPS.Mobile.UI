@@ -1,3 +1,6 @@
+## [24.7.3]
+- Fixed an issue where several `SaveView`'s in `ContentSavePage` could potentially be created.
+
 ## [24.7.2]
 - Make event for context menu item clicked be triggered before the command is triggered
 
