@@ -1,3 +1,6 @@
+## [24.7.5]
+- Fixed an issue wioerjiw
+
 ## [24.7.3]
 - Fixed an issue where several `SaveView`'s in `ContentSavePage` could potentially be created.
 
