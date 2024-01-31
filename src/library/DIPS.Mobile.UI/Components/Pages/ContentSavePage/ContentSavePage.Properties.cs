@@ -51,6 +51,18 @@ public partial class ContentSavePage
         set => SetValue(SavingCompletedCommandProperty, value);
     }
     
+    public View OriginalContent
+    {
+        get => (View)GetValue(OriginalContentProperty);
+        set => SetValue(OriginalContentProperty, value);
+    }
+    
+    public static readonly BindableProperty OriginalContentProperty = BindableProperty.Create(
+        nameof(OriginalContent),
+        typeof(View),
+        typeof(ContentSavePage),
+        propertyChanged: (bindable, _, _) =>  ((ContentSavePage)bindable).OnOriginalContentChanged());
+    
     public static readonly BindableProperty IsSavingProperty = BindableProperty.Create(
         nameof(IsSaving),
         typeof(bool),
