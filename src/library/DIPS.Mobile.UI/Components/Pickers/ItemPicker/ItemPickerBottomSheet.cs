@@ -41,6 +41,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
 
             Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
+            
+            SetBinding(TitleProperty,
+                new Binding()
+                {
+                    Source = m_itemPicker.BottomSheetPickerConfiguration,
+                    Path = nameof(BottomSheetPickerConfiguration.Title)
+                });
 
             SetBinding(HasSearchBarProperty,
                 new Binding()
