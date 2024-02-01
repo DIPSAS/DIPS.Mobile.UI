@@ -29,6 +29,18 @@ public class BottomSheetPickerConfiguration : BindableObject
         get => (bool)GetValue(IsBusyProperty);
         set => SetValue(IsBusyProperty, value);
     }
+    
+    
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+        nameof(Title),
+        typeof(string),
+        typeof(BottomSheetPickerConfiguration));
+    
+    public string Title 
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
 
     public ControlTemplate SelectableItemTemplate { get; set; }
 }

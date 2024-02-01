@@ -1,3 +1,6 @@
+## [24.7.5]
+- [Picker] Provide Title property for `Title` with `Mode=BottomSheet`.
+
 ## [24.7.4]
 - [Android] Fixed an issue where icons were black in modal pages.
 
