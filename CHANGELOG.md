@@ -1,3 +1,6 @@
+## [24.8.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [24.7.5]
 - [Picker] Provide `Title` property for `Mode=BottomSheet`.
 
