@@ -313,5 +313,11 @@ flashlight_off_fill=151,
 flashlight_on_fill=152,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/eye_fill.svg">View the icon in the browser</a></summary>
 eye_fill=153,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/signing_available_fill.svg">View the icon in the browser</a></summary>
+signing_available_fill=154,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_outgoing_fill.svg">View the icon in the browser</a></summary>
+plo_outgoing_fill=155,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_incoming_fill.svg">View the icon in the browser</a></summary>
+plo_incoming_fill=156,
     }
 }

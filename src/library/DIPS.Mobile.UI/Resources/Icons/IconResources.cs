@@ -161,6 +161,9 @@ this file is generated
 ["flashlight_off_fill"] = "flashlight_off_fill.png",
 ["flashlight_on_fill"] = "flashlight_on_fill.png",
 ["eye_fill"] = "eye_fill.png",
+["signing_available_fill"] = "signing_available_fill.png",
+["plo_outgoing_fill"] = "plo_outgoing_fill.png",
+["plo_incoming_fill"] = "plo_incoming_fill.png",
 
             };
         }
