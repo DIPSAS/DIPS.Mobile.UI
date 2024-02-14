@@ -6,6 +6,7 @@ using Android.Hardware;
 using Android.Views;
 using Java.Nio;
 using Camera = Android.Hardware.Camera;
+using Camera2 = Android.Hardware.Camera2;
 using Size = Android.Util.Size;
 
 namespace Playground.HåvardSamples.Scanning.Android;

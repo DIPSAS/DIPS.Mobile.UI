@@ -1,3 +1,5 @@
+using Android.Media;
+
 namespace Playground.HåvardSamples.Scanning;
 
 public partial class Scanner
