@@ -312,4 +312,7 @@
     <data name="NoItemsToChooseFrom" xml:space="preserve">
         <value>Ingen elementer å velge mellom</value>
     </data>
+    <data name="BarcodeScanning" xml:space="preserve">
+        <value>Strekkode skanning</value>
+    </data>
 </root>

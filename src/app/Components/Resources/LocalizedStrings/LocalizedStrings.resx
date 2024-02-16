@@ -320,4 +320,7 @@
     <data name="NoItemsToChooseFrom" xml:space="preserve">
         <value>No items to choose from</value>
     </data>
+    <data name="BarcodeScanning" xml:space="preserve">
+        <value>Barcode Scanning</value>
+    </data>
 </root>

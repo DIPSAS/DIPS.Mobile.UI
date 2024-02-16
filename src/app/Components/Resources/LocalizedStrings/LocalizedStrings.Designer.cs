@@ -638,5 +638,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("NoItemsToChooseFrom", resourceCulture);
             }
         }
+        
+        internal static string BarcodeScanning {
+            get {
+                return ResourceManager.GetString("BarcodeScanning", resourceCulture);
+            }
+        }
     }
 }

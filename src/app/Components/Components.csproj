@@ -147,10 +147,6 @@
         </MauiXaml>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ComponentsSamples\BarcodeScanning\" />
-    </ItemGroup>
-
 
 
 
