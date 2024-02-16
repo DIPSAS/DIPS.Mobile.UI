@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Camera.Scanning;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples.Scanning;

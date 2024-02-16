@@ -3,13 +3,10 @@ using AVFoundation;
 using CoreAnimation;
 using CoreFoundation;
 using CoreGraphics;
-using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Handlers;
-using ObjCRuntime;
-using SkiaSharp.Views.iOS;
 using UIKit;
 
-namespace Playground.HåvardSamples.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.Scanning;
 
 public partial class Scanner
 {
@@ -149,8 +146,13 @@ public partial class Scanner
         
         //Commit the configuration
         m_captureSession.CommitConfiguration();
-
+        
+        captureDevice.LockForConfiguration(out var error);
+        
+        captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
         SetBarCodeMinimumZoom(captureDevice);
+        
+        captureDevice.UnlockForConfiguration();
 
         await Task.Run(() =>
             {
@@ -185,10 +187,10 @@ public partial class Scanner
         return await m_result.Task;
     }
 
+    //Taken from: https://developer.apple.com/wwdc21/10047?time=117
+    //and: https://stackoverflow.com/a/76649983
     private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice)
     {
-        captureDevice.LockForConfiguration(out var error);
-        captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
         var videoDevice = captureDevice; // you'll replace this RHS expression with your video device
         var deviceFieldOfView = videoDevice.ActiveFormat.VideoFieldOfView;
         var previewFillPercentage = 0.8; // 0..1, target object will fill 80% of preview window
@@ -203,7 +205,6 @@ public partial class Scanner
             var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistance;
             videoDevice.VideoZoomFactor = (nfloat)zoomFactor;
         }
-        videoDevice.UnlockForConfiguration();
     }
 }
 

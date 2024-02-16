@@ -1,4 +1,4 @@
-namespace Playground.HåvardSamples.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.Scanning;
 
 public partial class Scanner
 {

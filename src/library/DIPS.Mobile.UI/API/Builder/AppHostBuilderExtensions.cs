@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.Scanning;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
@@ -65,6 +66,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Entry, EntryHandler>();
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
+            handlers.AddHandler<Preview, PreviewHandler>();
             
             AddPlatformHandlers(handlers);
         });

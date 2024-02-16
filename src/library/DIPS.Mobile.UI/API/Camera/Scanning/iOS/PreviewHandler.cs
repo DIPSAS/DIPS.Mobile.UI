@@ -1,6 +1,6 @@
 using Microsoft.Maui.Handlers;
 
-namespace Playground.HåvardSamples.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.Scanning;
 
 public partial class PreviewHandler : ContentViewHandler
 {

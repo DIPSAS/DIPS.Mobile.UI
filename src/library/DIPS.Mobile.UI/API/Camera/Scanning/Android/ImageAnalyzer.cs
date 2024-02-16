@@ -1,8 +1,6 @@
 using AndroidX.Camera.Core;
-using Xamarin.Google.MLKit.Vision.BarCode;
-using Xamarin.Google.MLKit.Vision.Common;
 
-namespace Playground.HåvardSamples.Scanning.Android;
+namespace DIPS.Mobile.UI.API.Camera.Scanning.Android;
 
 public class ImageAnalyzer : Java.Lang.Object, ImageAnalysis.IAnalyzer
 {

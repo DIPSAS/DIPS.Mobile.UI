@@ -1,6 +1,6 @@
 using Android.Hardware.Camera2;
 
-namespace Playground.HåvardSamples.Scanning.Android;
+namespace DIPS.Mobile.UI.API.Camera.Scanning.Android;
 
 public class CaptureSessionCallBack : CameraCaptureSession.CaptureCallback
 {

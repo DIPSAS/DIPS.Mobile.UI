@@ -1,22 +1,21 @@
+using System.Diagnostics;
+using Android.App;
 using Android.Content;
 using Android.Gms.Tasks;
-using Android.OS;
 using Android.Runtime;
 using AndroidX.Camera.Core;
-using AndroidX.Camera.Core.Impl;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
-using AndroidX.Fragment.App;
-using AndroidX.Window.Extensions.Core.Util.Function;
+using DIPS.Mobile.UI.API.Camera.Scanning.Android;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
-using Playground.HåvardSamples.Scanning.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Barcode.Common;
 using Xamarin.Google.MLKit.Vision.Common;
-using Object = Java.Lang.Object;
+using Fragment = AndroidX.Fragment.App.Fragment;
+using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
-namespace Playground.HåvardSamples.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.Scanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
@@ -26,7 +25,7 @@ public partial class Scanner : Fragment, IOnSuccessListener
     private TaskCompletionSource<string> m_tcs;
     private readonly Context m_context;
     private LifecycleCameraController m_cameraController;
-    private readonly FragmentManager m_fragmentManager;
+    private readonly FragmentManager? m_fragmentManager;
     private IBarcodeScanner m_barcodeScanner;
     private IImageProxy? m_imageProxy;
 
@@ -87,7 +86,7 @@ public partial class Scanner : Fragment, IOnSuccessListener
         m_fragmentManager.BeginTransaction().Remove(this).Commit();
     }
 
-    public void OnSuccess(Object result)
+    public void OnSuccess(Java.Lang.Object result)
     {
         if(result is JavaList list)
         {

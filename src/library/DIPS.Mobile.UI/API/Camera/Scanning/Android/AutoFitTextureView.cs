@@ -1,9 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Android.Content;
 using Android.Views;
 using Java.Lang;
-using JetBrains.Annotations;
 
-namespace Playground.HåvardSamples.Scanning.Android;
+namespace DIPS.Mobile.UI.API.Camera.Scanning.Android;
 
 public class AutoFitTextureView : TextureView
 {
