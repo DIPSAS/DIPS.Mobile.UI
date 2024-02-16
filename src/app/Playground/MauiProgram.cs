@@ -31,6 +31,9 @@ public static class MauiProgram
         DUI.IsDebug = true;
 #endif
 
+        builder.ConfigureMauiHandlers(collection =>
+            collection.AddHandler<Preview, PreviewHandler>());
+
         return builder.Build();
     }
 

@@ -2,6 +2,7 @@ using Android.Hardware.Camera2;
 
 namespace Playground.HåvardSamples.Scanning.Android;
 
+
 public class CaptureStateCallback : CameraCaptureSession.StateCallback
 {
     private readonly Action<CameraCaptureSession> m_onConfigured;

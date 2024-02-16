@@ -81,6 +81,7 @@ public partial class HåvardPage
         }
         catch (Exception exception)
         {
+            Application.Current.MainPage.DisplayAlert("Failed, check console!", exception.Message, "Ok");
             Console.WriteLine(exception);
         }
     }
