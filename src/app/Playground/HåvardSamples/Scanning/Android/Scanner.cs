@@ -20,7 +20,7 @@ namespace Playground.HåvardSamples.Scanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class Scanner : Fragment, IConsumer, IOnSuccessListener
+public partial class Scanner : Fragment, IOnSuccessListener
 {
     private PreviewView m_previewView;
     private TaskCompletionSource<string> m_tcs;
@@ -35,7 +35,6 @@ public partial class Scanner : Fragment, IConsumer, IOnSuccessListener
         m_context = DUI.GetCurrentMauiContext?.Context;
         m_fragmentManager = m_context.GetFragmentManager();
     }
-
 
     public partial async Task<string> Start(Preview preview)
     {
@@ -88,10 +87,6 @@ public partial class Scanner : Fragment, IConsumer, IOnSuccessListener
         m_fragmentManager.BeginTransaction().Remove(this).Commit();
     }
 
-    public void Accept(Object p0)
-    {
-    }
-
     public void OnSuccess(Object result)
     {
         if(result is JavaList list)
@@ -100,7 +95,9 @@ public partial class Scanner : Fragment, IConsumer, IOnSuccessListener
             {
                 if (obj is Barcode barcode)
                 {
-                    Console.WriteLine("Barcode displayvalue:" + barcode.DisplayValue);            
+                    Console.WriteLine("Barcode displayvalue:" + barcode.DisplayValue);
+                    Console.WriteLine("Barcode raw value:" + barcode.RawValue);
+                    Console.WriteLine("Barcode BoundingBox:" + barcode.BoundingBox);
                 }
             }
         }
