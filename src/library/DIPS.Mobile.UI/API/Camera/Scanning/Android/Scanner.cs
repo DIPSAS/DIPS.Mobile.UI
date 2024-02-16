@@ -98,6 +98,7 @@ public partial class Scanner : Fragment, IOnSuccessListener
                     Console.WriteLine("Barcode displayvalue:" + barcode.DisplayValue);
                     Console.WriteLine("Barcode raw value:" + barcode.RawValue);
                     Console.WriteLine("Barcode BoundingBox:" + barcode.BoundingBox);
+                    Console.WriteLine("Barcode format:" + barcode.Format);
                 }
             }
         }

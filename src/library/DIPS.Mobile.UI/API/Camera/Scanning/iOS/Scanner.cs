@@ -121,7 +121,9 @@ public partial class Scanner
                                                         AVMetadataObjectType.Interleaved2of5Code |
                                                         AVMetadataObjectType.UPCECode |
                                                         AVMetadataObjectType.DataMatrixCode |
-                                                        AVMetadataObjectType.QRCode;
+                                                        AVMetadataObjectType.QRCode | 
+                                                        AVMetadataObjectType.EAN8Code |
+                                                        AVMetadataObjectType.EAN13Code;
             var x = 0;
             var height = previewLayer.Frame.Height / 4;
             var y = (previewLayer.Frame.Height / 2) - (height / 2);

@@ -7,7 +7,6 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
-                 xmlns:scanning="clr-namespace:Playground.HåvardSamples.Scanning"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  Padding="0">
     <dui:ContentPage.BindingContext>
