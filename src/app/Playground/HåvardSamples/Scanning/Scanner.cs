@@ -1,4 +1,5 @@
 using Android.Media;
+using AndroidX.Lifecycle;
 
 namespace Playground.HåvardSamples.Scanning;
 
