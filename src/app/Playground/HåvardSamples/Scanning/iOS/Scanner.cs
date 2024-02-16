@@ -6,6 +6,7 @@ using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Handlers;
 using ObjCRuntime;
+using SkiaSharp.Views.iOS;
 using UIKit;
 
 namespace Playground.HåvardSamples.Scanning;
@@ -54,16 +55,13 @@ public partial class Scanner
 
         var previewLayer = new AVCaptureVideoPreviewLayer();
         //This makes sure we display the video feed
-        if (preview.Handler is LayoutHandler previewHandler)
+        if (preview.Handler is ContentViewHandler previewHandler)
         {
             previewLayer.Frame = previewHandler.PlatformView.Bounds;
             previewLayer.Session = m_captureSession;
             previewLayer.VideoGravity = AVLayerVideoGravity.ResizeAspectFill;
 
-            if (preview.PreviewView.Handler is ContentViewHandler previewViewHandler)
-            {
-                previewViewHandler.PlatformView.Layer.AddSublayer(previewLayer);
-            }
+            previewHandler.PlatformView.Layer.AddSublayer(previewLayer);
         }
 
         //Add camera input: https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device#2958868
@@ -134,12 +132,12 @@ public partial class Scanner
             var cgRect = new CGRect(x, y, width, height);
             captureMetadataOutput.RectOfInterest = previewLayer.MapToMetadataOutputCoordinates(cgRect);
 
-            if (preview.PreviewView.Handler is ContentViewHandler previewViewHandler)
+            if (preview.Handler is ContentViewHandler previewViewHandler)
             {
                 var uiView = previewViewHandler.PlatformView;
                 var layer = new CALayer();
                 layer.Frame = cgRect;
-                layer.BorderColor = UIColor.Blue.CGColor;
+                layer.BorderColor = UIColor.White.CGColor;
                 layer.BorderWidth = 2;
                 uiView.Layer.AddSublayer(layer);
             }
@@ -148,11 +146,11 @@ public partial class Scanner
         {
             throw new Exception("Unable to add output");
         }
-
-
+        
         //Commit the configuration
         m_captureSession.CommitConfiguration();
 
+        SetBarCodeMinimumZoom(captureDevice);
 
         await Task.Run(() =>
             {
@@ -180,12 +178,32 @@ public partial class Scanner
                     captureDevice.FocusPointOfInterest = new CGPoint(x, y);
                     captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
                 }
-
                 captureDevice.UnlockForConfiguration();
             })
         });
 
         return await m_result.Task;
+    }
+
+    private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice)
+    {
+        captureDevice.LockForConfiguration(out var error);
+        captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
+        var videoDevice = captureDevice; // you'll replace this RHS expression with your video device
+        var deviceFieldOfView = videoDevice.ActiveFormat.VideoFieldOfView;
+        var previewFillPercentage = 0.8; // 0..1, target object will fill 80% of preview window
+        var minimumTargetObjectSize = 8.0 * 10.0; // min width of target object in mm (here, it's 8cm)
+        var radians = deviceFieldOfView * Math.PI / 180;
+        var filledTargetObjectSize = minimumTargetObjectSize / previewFillPercentage;
+        var minimumSubjectDistance = filledTargetObjectSize / Math.Tan(radians / 2.0); // Field of View equation
+
+        var deviceMinimumFocusDistance = videoDevice.MinimumFocusDistance;
+    
+        if (minimumSubjectDistance < deviceMinimumFocusDistance) {
+            var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistance;
+            videoDevice.VideoZoomFactor = (nfloat)zoomFactor;
+        }
+        videoDevice.UnlockForConfiguration();
     }
 }
 

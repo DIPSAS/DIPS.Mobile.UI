@@ -95,6 +95,7 @@ public partial class Scanner : Fragment, IOnSuccessListener
             {
                 if (obj is Barcode barcode)
                 {
+                    m_tcs.SetResult(barcode.RawValue);
                     Console.WriteLine("Barcode displayvalue:" + barcode.DisplayValue);
                     Console.WriteLine("Barcode raw value:" + barcode.RawValue);
                     Console.WriteLine("Barcode BoundingBox:" + barcode.BoundingBox);

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;</TargetFrameworks>
+        <TargetFrameworks>net8.0-ios;</TargetFrameworks>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>Playground</RootNamespace>
@@ -84,6 +84,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
     </ItemGroup>
     
@@ -124,7 +125,6 @@
             <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="HåvardSamples\Scanning\iOS\PreviewHandler.cs" />
     </ItemGroup>
 
 </Project>
