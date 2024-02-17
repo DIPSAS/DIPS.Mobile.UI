@@ -1,3 +1,6 @@
+## [24.10.0]
+- Added Barcode Scanner. This is not stable yet, but ready to be tested. 
+
 ## [24.9.0] 
 - Pin dotnet SDK and MAUI version (8.0.100 | 8.0.3).
 
