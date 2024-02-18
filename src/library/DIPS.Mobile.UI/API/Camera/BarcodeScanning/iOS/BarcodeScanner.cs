@@ -29,6 +29,8 @@ public partial class BarcodeScanner
         return isAuthorized;
     }
 
+    internal partial async Task<bool> CanUseCamera() => await IsAuthorized();
+
 
     internal partial void PlatformStop()
     {
@@ -43,30 +45,22 @@ public partial class BarcodeScanner
 
     internal async partial Task PlatformStart()
     {
-        if (!await IsAuthorized()) return;
-        
         m_captureSession = new AVCaptureSession();
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
 
-        var previewLayer = new AVCaptureVideoPreviewLayer();
+        // var previewLayer = new AVCaptureVideoPreviewLayer();
         //This makes sure we display the video feed
-        if (m_preview?.Handler is ContentViewHandler previewHandler)
-        {
-            previewLayer.Frame = previewHandler.PlatformView.Bounds;
-            previewLayer.Session = m_captureSession;
-            previewLayer.VideoGravity = AVLayerVideoGravity.ResizeAspectFill;
-
-            previewHandler.PlatformView.Layer.AddSublayer(previewLayer);
-        }
+        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+        var previewLayer =
+            previewHandler.AddSessionToPreviewLayer(m_captureSession, AVLayerVideoGravity.ResizeAspectFill);
 
         //Add camera input: https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device#2958868
         var captureDeviceDiscoverySession = AVCaptureDeviceDiscoverySession.Create(
             new[]
             {
-                AVCaptureDeviceType.BuiltInTrueDepthCamera, AVCaptureDeviceType.BuiltInDualCamera,
-                AVCaptureDeviceType.BuiltInWideAngleCamera
-            }, AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+                AVCaptureDeviceType.BuiltInWideAngleCamera,
+            }, AVMediaTypes.Video, AVCaptureDevicePosition.Unspecified);
         AVCaptureDevice? captureDevice;
         if (captureDeviceDiscoverySession.Devices.Length > 0)
         {
@@ -94,9 +88,9 @@ public partial class BarcodeScanner
             throw new Exception("Unable to add back camera as input");
         }
 
-        //Set quality
-        //TODO: Research if this affects bar code scanning
-        m_captureSession.SessionPreset = AVCaptureSession.PresetPhoto;
+        //Set quality for best performance
+        //Source: https://developers.google.com/ml-kit/vision/barcode-scanning/ios#performance-tips
+        m_captureSession.SessionPreset = AVCaptureSession.Preset1280x720;
 
         //Add barcode camera output
         var captureMetadataOutput = new AVCaptureMetadataOutput();
@@ -111,7 +105,6 @@ public partial class BarcodeScanner
                 {
                     InvokeBarcodeFound(new Barcode(s.StringValue));
                 }
-                
             }), DispatchQueue.MainQueue);
             //Add bar code scanning metadata
             //https://barcode-labels.com/getting-started/barcodes/types/
@@ -120,7 +113,7 @@ public partial class BarcodeScanner
                                                         AVMetadataObjectType.Interleaved2of5Code |
                                                         AVMetadataObjectType.UPCECode |
                                                         AVMetadataObjectType.DataMatrixCode |
-                                                        AVMetadataObjectType.QRCode | 
+                                                        AVMetadataObjectType.QRCode |
                                                         AVMetadataObjectType.EAN8Code |
                                                         AVMetadataObjectType.EAN13Code;
             var x = 0;
@@ -144,22 +137,17 @@ public partial class BarcodeScanner
         {
             throw new Exception("Unable to add output");
         }
-        
+
         //Commit the configuration
         m_captureSession.CommitConfiguration();
         
-        captureDevice.LockForConfiguration(out var error);
+        SetBarCodeMinimumZoom(captureDevice,captureMetadataOutput.RectOfInterest);
         
-        captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
-        SetBarCodeMinimumZoom(captureDevice);
-        
-        captureDevice.UnlockForConfiguration();
-
         await Task.Run(() =>
             {
                 try
                 {
-                    m_captureSession.StartRunning();                    
+                    m_captureSession.StartRunning();
                 }
                 catch (Exception e)
                 {
@@ -181,28 +169,52 @@ public partial class BarcodeScanner
                     captureDevice.FocusPointOfInterest = new CGPoint(x, y);
                     captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
                 }
+
                 captureDevice.UnlockForConfiguration();
             })
         });
     }
 
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
-    //and: https://stackoverflow.com/a/76649983
-    private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice)
+    //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
+    private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice, CGRect rectOfInterest)
     {
-        var videoDevice = captureDevice; // you'll replace this RHS expression with your video device
-        var deviceFieldOfView = videoDevice.ActiveFormat.VideoFieldOfView;
-        var previewFillPercentage = 0.8; // 0..1, target object will fill 80% of preview window
-        var minimumTargetObjectSize = 8.0 * 10.0; // min width of target object in mm (here, it's 8cm)
-        var radians = deviceFieldOfView * Math.PI / 180;
-        var filledTargetObjectSize = minimumTargetObjectSize / previewFillPercentage;
-        var minimumSubjectDistance = filledTargetObjectSize / Math.Tan(radians / 2.0); // Field of View equation
+        /*
+                       Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
+                       When scanning a QR code of that size, the user may need to get closer than the camera's minimum focus distance to fill the rect of interest.
+                       To have the QR code both fill the rect and still be in focus, we may need to apply some zoom.
+                   */
+        var deviceMinimumFocusDistance = captureDevice.MinimumFocusDistance;
 
-        var deviceMinimumFocusDistance = videoDevice.MinimumFocusDistance;
-    
-        if (minimumSubjectDistance < deviceMinimumFocusDistance) {
-            var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistance;
-            videoDevice.VideoZoomFactor = (nfloat)zoomFactor;
+        var deviceFieldOfView = captureDevice.ActiveFormat.VideoFieldOfView;
+        
+        /*
+            Given the camera horizontal field of view, we can compute the distance (mm) to make a code
+            of minimumCodeSize (mm) fill the previewFillPercentage.
+         */
+        
+        var radians = (deviceFieldOfView / 2) * Math.PI / 180;
+        var filledCodeSize = 20 / rectOfInterest.Width;
+        var minimumSubjectDistanceForCode =  filledCodeSize / Math.Tan(radians);
+        if (minimumSubjectDistanceForCode < deviceMinimumFocusDistance)
+        {
+            var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistanceForCode;
+            try
+            {
+                captureDevice.LockForConfiguration(out var error);
+                if (error != null)
+                {
+                    throw new Exception(error.ToString());
+                }
+
+                captureDevice.VideoZoomFactor = (new nfloat(zoomFactor));
+                
+                captureDevice.UnlockForConfiguration();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }
@@ -216,7 +228,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
     {
         m_onSuccess = onSuccess;
     }
-    
+
     public override void DidOutputMetadataObjects(AVCaptureMetadataOutput captureOutput,
         AVMetadataObject[] metadataObjects,
         AVCaptureConnection connection)

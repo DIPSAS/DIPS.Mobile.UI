@@ -7,14 +7,16 @@ public partial class BarcodeScanner
     internal Preview? m_preview;
     private Action<Barcode>? m_didFindBarcode;
 
-    public Task Start(Preview preview, Action<Barcode> didFindBarcode)
+    public async Task Start(Preview preview, Action<Barcode> didFindBarcode)
     {
         m_preview = preview;
         m_didFindBarcode = didFindBarcode;
-        return PlatformStart();
+        if (!await CanUseCamera()) return;
+        await PlatformStart();
     }
 
     internal partial Task PlatformStart();
+    internal partial Task<bool> CanUseCamera();
 
     public void Stop()
     {

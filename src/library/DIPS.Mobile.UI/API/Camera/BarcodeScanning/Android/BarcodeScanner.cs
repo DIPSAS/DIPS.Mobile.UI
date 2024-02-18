@@ -29,6 +29,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
     private readonly FragmentManager? m_fragmentManager;
     private IBarcodeScanner m_barcodeScanner;
     private IImageProxy? m_imageProxy;
+    private string m_fragmentTag = nameof(BarcodeScanner);
 
     public BarcodeScanner()
     {
@@ -36,16 +37,26 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
         m_fragmentManager = m_context.GetFragmentManager();
     }
 
-    internal partial async Task PlatformStart()
+    internal partial async Task<bool> CanUseCamera()
     {
         var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
         if (status != PermissionStatus.Granted)
         {
             if (await Permissions.RequestAsync<Permissions.Camera>() != PermissionStatus.Granted)
             {
-                return;
+                return true;
             }
         }
+        return false;
+    }
+    internal partial Task PlatformStart()
+    {
+        if (m_fragmentManager?.FindFragmentByTag(m_fragmentTag) != null)
+        {
+            //Already started
+            return Task.CompletedTask;
+        }
+
 
         if (m_preview?.Handler is PreviewHandler previewHandler)
         {
@@ -57,7 +68,8 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
         m_previewView.Controller = m_cameraController;
         SetupBarCodeScanning();
 
-        m_fragmentManager.BeginTransaction().Add(this, nameof(BarcodeScanner)).Commit();
+        m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).CommitNow();
+        return Task.CompletedTask;
     }
 
     private void SetupBarCodeScanning()
@@ -81,12 +93,12 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
 
     internal partial void PlatformStop()
     {
-        m_fragmentManager?.BeginTransaction().Remove(this).Commit();
+        m_fragmentManager?.BeginTransaction().Remove(this).CommitNow();
     }
 
     public void OnSuccess(Java.Lang.Object result)
     {
-        if(result is JavaList list)
+        if (result is JavaList list)
         {
             foreach (var obj in list)
             {
@@ -100,6 +112,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
                 }
             }
         }
+
         m_imageProxy?.Close();
     }
 }
