@@ -11,11 +11,11 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 public partial class BarcodeScanner
 {
-    private readonly object m_isLockedForConfiguration = new object();
-    private AVCaptureSession m_captureSession;
+    private AVCaptureSession? m_captureSession;
+
 
     //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
-    public static async Task<bool> IsAuthorized()
+    internal partial async Task<bool> CanUseCamera()
     {
         bool isAuthorized;
         var status = AVCaptureDevice.GetAuthorizationStatus(AVAuthorizationMediaType.Video);
@@ -29,16 +29,15 @@ public partial class BarcodeScanner
         return isAuthorized;
     }
 
-    internal partial async Task<bool> CanUseCamera() => await IsAuthorized();
-
 
     internal partial void PlatformStop()
     {
-        if (m_captureSession.Running)
+        if (m_captureSession is {Running: true})
         {
             Task.Run(() =>
             {
                 m_captureSession.StopRunning();
+                m_captureSession = null;
             });
         }
     }
@@ -49,18 +48,14 @@ public partial class BarcodeScanner
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
 
-        // var previewLayer = new AVCaptureVideoPreviewLayer();
         //This makes sure we display the video feed
         if (m_preview?.Handler is not PreviewHandler previewHandler) return;
         var previewLayer =
             previewHandler.AddSessionToPreviewLayer(m_captureSession, AVLayerVideoGravity.ResizeAspectFill);
-
         //Add camera input: https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device#2958868
         var captureDeviceDiscoverySession = AVCaptureDeviceDiscoverySession.Create(
-            new[]
-            {
-                AVCaptureDeviceType.BuiltInWideAngleCamera,
-            }, AVMediaTypes.Video, AVCaptureDevicePosition.Unspecified);
+            new[] {AVCaptureDeviceType.BuiltInWideAngleCamera,}, AVMediaTypes.Video,
+            AVCaptureDevicePosition.Unspecified);
         AVCaptureDevice? captureDevice;
         if (captureDeviceDiscoverySession.Devices.Length > 0)
         {
@@ -69,7 +64,7 @@ public partial class BarcodeScanner
             if (captureDeviceDiscoverySession.Devices.Length > 1)
             {
                 Console.WriteLine(
-                    $@"Found {captureDeviceDiscoverySession.Devices.Length} devices to pick from. We have selected the best depth camera");
+                    $@"Found {captureDeviceDiscoverySession.Devices.Length} devices to pick from. We have selected the best bar code camera: {captureDevice.DeviceType}");
             }
         }
         else
@@ -140,9 +135,10 @@ public partial class BarcodeScanner
 
         //Commit the configuration
         m_captureSession.CommitConfiguration();
-        
-        SetBarCodeMinimumZoom(captureDevice,captureMetadataOutput.RectOfInterest);
-        
+
+        SetBarCodeMinimumZoom(captureDevice, captureMetadataOutput.RectOfInterest);
+        previewHandler.AddZoomSlider(captureDevice);
+
         await Task.Run(() =>
             {
                 try
@@ -161,15 +157,10 @@ public partial class BarcodeScanner
             Command = new Command(() =>
             {
                 captureDevice.LockForConfiguration(out var error);
-                if (error == null) return;
-                lock (m_isLockedForConfiguration)
-                {
-                    var x = captureMetadataOutput.RectOfInterest.X - captureMetadataOutput.RectOfInterest.Width;
-                    var y = captureMetadataOutput.RectOfInterest.Y - captureMetadataOutput.RectOfInterest.Height;
-                    captureDevice.FocusPointOfInterest = new CGPoint(x, y);
-                    captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
-                }
-
+                var x = captureMetadataOutput.RectOfInterest.X - captureMetadataOutput.RectOfInterest.Width;
+                var y = captureMetadataOutput.RectOfInterest.Y - captureMetadataOutput.RectOfInterest.Height;
+                captureDevice.FocusPointOfInterest = new CGPoint(x, y);
+                captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
                 captureDevice.UnlockForConfiguration();
             })
         });
@@ -180,22 +171,22 @@ public partial class BarcodeScanner
     private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice, CGRect rectOfInterest)
     {
         /*
-                       Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
-                       When scanning a QR code of that size, the user may need to get closer than the camera's minimum focus distance to fill the rect of interest.
-                       To have the QR code both fill the rect and still be in focus, we may need to apply some zoom.
-                   */
+            Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
+            When scanning a QR code of that size, the user may need to get closer than the camera's minimum focus distance to fill the rect of interest.
+            To have the QR code both fill the rect and still be in focus, we may need to apply some zoom.
+        */
         var deviceMinimumFocusDistance = captureDevice.MinimumFocusDistance;
 
         var deviceFieldOfView = captureDevice.ActiveFormat.VideoFieldOfView;
-        
+
         /*
             Given the camera horizontal field of view, we can compute the distance (mm) to make a code
             of minimumCodeSize (mm) fill the previewFillPercentage.
          */
-        
+
         var radians = (deviceFieldOfView / 2) * Math.PI / 180;
-        var filledCodeSize = 20 / rectOfInterest.Width;
-        var minimumSubjectDistanceForCode =  filledCodeSize / Math.Tan(radians);
+        var filledCodeSize = 20 / rectOfInterest.Width; 
+        var minimumSubjectDistanceForCode = filledCodeSize / Math.Tan(radians);
         if (minimumSubjectDistanceForCode < deviceMinimumFocusDistance)
         {
             var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistanceForCode;
@@ -208,7 +199,7 @@ public partial class BarcodeScanner
                 }
 
                 captureDevice.VideoZoomFactor = (new nfloat(zoomFactor));
-                
+
                 captureDevice.UnlockForConfiguration();
             }
             catch (Exception e)
