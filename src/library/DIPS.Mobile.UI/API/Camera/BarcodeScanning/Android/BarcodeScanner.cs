@@ -6,49 +6,48 @@ using Android.Runtime;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
-using DIPS.Mobile.UI.API.Camera.Scanning.Android;
+using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Vibration;
 using Microsoft.Maui.Platform;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Barcode.Common;
 using Xamarin.Google.MLKit.Vision.Common;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
+using Task = System.Threading.Tasks.Task;
 
-namespace DIPS.Mobile.UI.API.Camera.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class Scanner : Fragment, IOnSuccessListener
+public partial class BarcodeScanner : Fragment, IOnSuccessListener
 {
     private PreviewView m_previewView;
-    private TaskCompletionSource<string> m_tcs;
     private readonly Context m_context;
     private LifecycleCameraController m_cameraController;
     private readonly FragmentManager? m_fragmentManager;
     private IBarcodeScanner m_barcodeScanner;
     private IImageProxy? m_imageProxy;
 
-    public Scanner()
+    public BarcodeScanner()
     {
         m_context = DUI.GetCurrentMauiContext?.Context;
         m_fragmentManager = m_context.GetFragmentManager();
     }
 
-    public partial async Task<string> Start(Preview preview)
+    internal partial async Task PlatformStart()
     {
-        m_tcs = new TaskCompletionSource<string>();
-
         var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
         if (status != PermissionStatus.Granted)
         {
             if (await Permissions.RequestAsync<Permissions.Camera>() != PermissionStatus.Granted)
             {
-                return string.Empty;
+                return;
             }
         }
 
-        if (preview.Handler is PreviewHandler previewHandler)
+        if (m_preview?.Handler is PreviewHandler previewHandler)
         {
             m_previewView = previewHandler.PlatformView;
         }
@@ -58,17 +57,16 @@ public partial class Scanner : Fragment, IOnSuccessListener
         m_previewView.Controller = m_cameraController;
         SetupBarCodeScanning();
 
-        m_fragmentManager.BeginTransaction().Add(this, nameof(Scanner)).Commit();
-        return await m_tcs.Task;
+        m_fragmentManager.BeginTransaction().Add(this, nameof(BarcodeScanner)).Commit();
     }
 
     private void SetupBarCodeScanning()
     {
         // create BarcodeScanner object
         var options = new BarcodeScannerOptions.Builder()
-            .SetBarcodeFormats(Barcode.FormatAllFormats)
+            .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats)
             .Build();
-        m_barcodeScanner = BarcodeScanning.GetClient(options);
+        m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(options);
 
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
@@ -81,9 +79,9 @@ public partial class Scanner : Fragment, IOnSuccessListener
             .AddOnSuccessListener(ContextCompat.GetMainExecutor(m_context), this);
     }
 
-    public partial void Stop()
+    internal partial void PlatformStop()
     {
-        m_fragmentManager.BeginTransaction().Remove(this).Commit();
+        m_fragmentManager?.BeginTransaction().Remove(this).Commit();
     }
 
     public void OnSuccess(Java.Lang.Object result)
@@ -92,13 +90,13 @@ public partial class Scanner : Fragment, IOnSuccessListener
         {
             foreach (var obj in list)
             {
-                if (obj is Barcode barcode)
+                if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
-                    m_tcs.TrySetResult(barcode.RawValue);
-                    Console.WriteLine("Barcode displayvalue:" + barcode.DisplayValue);
-                    Console.WriteLine("Barcode raw value:" + barcode.RawValue);
-                    Console.WriteLine("Barcode BoundingBox:" + barcode.BoundingBox);
-                    Console.WriteLine("Barcode format:" + barcode.Format);
+                    InvokeBarcodeFound(new Barcode(mlBarcode.RawValue));
+                    Console.WriteLine("Barcode displayvalue:" + mlBarcode.DisplayValue);
+                    Console.WriteLine("Barcode raw value:" + mlBarcode.RawValue);
+                    Console.WriteLine("Barcode BoundingBox:" + mlBarcode.BoundingBox);
+                    Console.WriteLine("Barcode format:" + mlBarcode.Format);
                 }
             }
         }

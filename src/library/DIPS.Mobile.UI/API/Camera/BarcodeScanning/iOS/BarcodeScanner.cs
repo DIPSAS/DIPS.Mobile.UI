@@ -3,16 +3,16 @@ using AVFoundation;
 using CoreAnimation;
 using CoreFoundation;
 using CoreGraphics;
+using DIPS.Mobile.UI.API.Vibration;
 using Microsoft.Maui.Handlers;
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Camera.Scanning;
+namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
-public partial class Scanner
+public partial class BarcodeScanner
 {
     private readonly object m_isLockedForConfiguration = new object();
     private AVCaptureSession m_captureSession;
-    private TaskCompletionSource<string> m_result;
 
     //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
     public static async Task<bool> IsAuthorized()
@@ -30,7 +30,7 @@ public partial class Scanner
     }
 
 
-    public partial void Stop()
+    internal partial void PlatformStop()
     {
         if (m_captureSession.Running)
         {
@@ -41,18 +41,17 @@ public partial class Scanner
         }
     }
 
-    public async partial Task<string> Start(Preview preview)
+    internal async partial Task PlatformStart()
     {
-        if (!await IsAuthorized()) return string.Empty;
+        if (!await IsAuthorized()) return;
         
         m_captureSession = new AVCaptureSession();
-        m_result = new TaskCompletionSource<string>();
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
 
         var previewLayer = new AVCaptureVideoPreviewLayer();
         //This makes sure we display the video feed
-        if (preview.Handler is ContentViewHandler previewHandler)
+        if (m_preview?.Handler is ContentViewHandler previewHandler)
         {
             previewLayer.Frame = previewHandler.PlatformView.Bounds;
             previewLayer.Session = m_captureSession;
@@ -110,7 +109,7 @@ public partial class Scanner
             {
                 if (!string.IsNullOrEmpty(s.StringValue))
                 {
-                    m_result.TrySetResult(s.StringValue);
+                    InvokeBarcodeFound(new Barcode(s.StringValue));
                 }
                 
             }), DispatchQueue.MainQueue);
@@ -131,7 +130,7 @@ public partial class Scanner
             var cgRect = new CGRect(x, y, width, height);
             captureMetadataOutput.RectOfInterest = previewLayer.MapToMetadataOutputCoordinates(cgRect);
 
-            if (preview.Handler is ContentViewHandler previewViewHandler)
+            if (m_preview?.Handler is ContentViewHandler previewViewHandler)
             {
                 var uiView = previewViewHandler.PlatformView;
                 var layer = new CALayer();
@@ -169,7 +168,7 @@ public partial class Scanner
             }
         );
 
-        preview.GestureRecognizers.Add(new TapGestureRecognizer()
+        m_preview?.GestureRecognizers.Add(new TapGestureRecognizer()
         {
             Command = new Command(() =>
             {
@@ -185,8 +184,6 @@ public partial class Scanner
                 captureDevice.UnlockForConfiguration();
             })
         });
-
-        return await m_result.Task;
     }
 
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117

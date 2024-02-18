@@ -1,6 +1,6 @@
 using Android.Hardware.Camera2;
 
-namespace DIPS.Mobile.UI.API.Camera.Scanning.Android;
+namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 
 
 public class CaptureStateCallback : CameraCaptureSession.StateCallback

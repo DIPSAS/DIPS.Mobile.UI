@@ -1,6 +1,6 @@
 using AndroidX.Camera.Core;
 
-namespace DIPS.Mobile.UI.API.Camera.Scanning.Android;
+namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 
 public class ImageAnalyzer : Java.Lang.Object, ImageAnalysis.IAnalyzer
 {

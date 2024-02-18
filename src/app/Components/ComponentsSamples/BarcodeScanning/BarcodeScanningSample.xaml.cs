@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DIPS.Mobile.UI.API.Camera.Scanning;
+using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
 
 public partial class BarcodeScanningSample
 {
-    private readonly Scanner m_scanner;
+    private readonly BarcodeScanner m_barcodeScanner;
 
     public BarcodeScanningSample()
     {
         InitializeComponent();
-        m_scanner = new Scanner();
+        m_barcodeScanner = new BarcodeScanner();
     }
 
     private async void StartScanning(object? sender, EventArgs e)
@@ -26,9 +21,11 @@ public partial class BarcodeScanningSample
     {
         try
         {
-            var result = await m_scanner.Start(Preview);
-            m_scanner.Stop();
-            Application.Current.MainPage.DisplayAlert("Woah!", result, "Ok");
+            await m_barcodeScanner.Start(Preview, barcode =>
+            {
+                m_barcodeScanner.Stop();
+                Application.Current.MainPage.DisplayAlert("Woah!", barcode.RawValue, "Ok");
+            });
         }
         catch (Exception exception)
         {
@@ -39,12 +36,12 @@ public partial class BarcodeScanningSample
 
     private void StopScanning(object? sender, EventArgs e)
     {
-        m_scanner.Stop();
+        m_barcodeScanner.Stop();
     }
 
     protected override void OnDisappearing()
     {
-        m_scanner.Stop();
+        m_barcodeScanner.Stop();
         base.OnDisappearing();
     }
 
