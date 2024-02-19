@@ -79,7 +79,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats)
             .Build();
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(options);
-
+        
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
     }
