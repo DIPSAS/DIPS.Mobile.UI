@@ -18,8 +18,6 @@
                         Grid.Column="1" />
         </Grid>
         <dui:Preview Grid.Row="1"
-                     Height="400"
-                     Width="200"
                      x:Name="Preview" />
 
     </Grid>

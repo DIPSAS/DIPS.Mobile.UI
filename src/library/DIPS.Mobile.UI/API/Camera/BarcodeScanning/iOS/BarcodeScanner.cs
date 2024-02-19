@@ -98,19 +98,32 @@ public partial class BarcodeScanner
             {
                 if (!string.IsNullOrEmpty(s.StringValue))
                 {
-                    InvokeBarcodeFound(new Barcode(s.StringValue));
+                    InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
                 }
             }), DispatchQueue.MainQueue);
             //Add bar code scanning metadata
-            //https://barcode-labels.com/getting-started/barcodes/types/
-            captureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.Code39Code |
+            //Bar codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801359
+            //2D codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801360
+            captureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.CodabarCode |
+                                                        AVMetadataObjectType.Code39Code |
+                                                        AVMetadataObjectType.Code39Mod43Code |
+                                                        AVMetadataObjectType.Code93Code |
                                                         AVMetadataObjectType.Code128Code |
-                                                        AVMetadataObjectType.Interleaved2of5Code |
-                                                        AVMetadataObjectType.UPCECode |
-                                                        AVMetadataObjectType.DataMatrixCode |
-                                                        AVMetadataObjectType.QRCode |
                                                         AVMetadataObjectType.EAN8Code |
-                                                        AVMetadataObjectType.EAN13Code;
+                                                        AVMetadataObjectType.EAN13Code |
+                                                        AVMetadataObjectType.GS1DataBarCode |
+                                                        AVMetadataObjectType.GS1DataBarExpandedCode |
+                                                        AVMetadataObjectType.GS1DataBarLimitedCode |
+                                                        AVMetadataObjectType.Interleaved2of5Code |
+                                                        AVMetadataObjectType.ITF14Code |
+                                                        AVMetadataObjectType.UPCECode |
+                                                        AVMetadataObjectType.AztecCode |
+                                                        AVMetadataObjectType.DataMatrixCode |
+                                                        AVMetadataObjectType.MicroQRCode
+                                                        | AVMetadataObjectType.PDF417Code
+                                                        | AVMetadataObjectType.QRCode;
+                                                        
+                                                        
             var x = 0;
             var height = previewLayer.Frame.Height / 4;
             var y = (previewLayer.Frame.Height / 2) - (height / 2);

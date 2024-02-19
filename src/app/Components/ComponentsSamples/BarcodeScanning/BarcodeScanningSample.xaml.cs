@@ -5,6 +5,7 @@ namespace Components.ComponentsSamples.BarcodeScanning;
 public partial class BarcodeScanningSample
 {
     private readonly BarcodeScanner m_barcodeScanner;
+    private BarcodeScanningResultBottomSheet? m_barCodeResultBottomSheet;
 
     public BarcodeScanningSample()
     {
@@ -17,21 +18,36 @@ public partial class BarcodeScanningSample
         await Start();
     }
 
+    
     private async Task Start()
     {
         try
         {
-            await m_barcodeScanner.Start(Preview, barcode =>
-            {
-                m_barcodeScanner.Stop();
-                Application.Current.MainPage.DisplayAlert("Woah!", barcode.RawValue, "Ok");
-            });
+            await m_barcodeScanner.Start(Preview, DidFindBarcode);
         }
         catch (Exception exception)
         {
-            Application.Current.MainPage.DisplayAlert("Failed, check console!", exception.Message, "Ok");
+            await Application.Current?.MainPage?.DisplayAlert("Failed, check console!", exception.Message, "Ok")!;
             Console.WriteLine(exception);
         }
+    }
+
+    private void DidFindBarcode(Barcode barcode)
+    {
+        m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
+        m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
+        m_barcodeScanner.Stop();
+        m_barCodeResultBottomSheet.OpenWithBarCode(barcode);
+    }
+
+    private async void BottomSheetClosed(object? sender, EventArgs e)
+    {
+            _ = Start();
+            if (m_barCodeResultBottomSheet != null)
+            {
+                m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;    
+            }
+            m_barCodeResultBottomSheet = null;
     }
 
     private void StopScanning(object? sender, EventArgs e)
@@ -43,10 +59,5 @@ public partial class BarcodeScanningSample
     {
         m_barcodeScanner.Stop();
         base.OnDisappearing();
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
     }
 }

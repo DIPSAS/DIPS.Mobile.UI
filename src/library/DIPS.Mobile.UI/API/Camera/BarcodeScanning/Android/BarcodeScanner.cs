@@ -9,6 +9,7 @@ using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Vibration;
+using Java.Lang;
 using Microsoft.Maui.Platform;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Barcode.Common;
@@ -44,11 +45,13 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
         {
             if (await Permissions.RequestAsync<Permissions.Camera>() != PermissionStatus.Granted)
             {
-                return true;
+                return false;
             }
         }
-        return false;
+
+        return true;
     }
+
     internal partial Task PlatformStart()
     {
         if (m_fragmentManager?.FindFragmentByTag(m_fragmentTag) != null)
@@ -68,8 +71,27 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
         m_previewView.Controller = m_cameraController;
         SetupBarCodeScanning();
 
-        m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).CommitNow();
+
+        TryStart();
         return Task.CompletedTask;
+    }
+
+    private async void TryStart()
+    {
+        try
+        {
+            m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).Commit();
+        }
+        catch (IllegalStateException illegalStateException)
+        {
+            if (illegalStateException.Message != null &&
+                illegalStateException.Message.Contains(
+                    "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
+            {
+                await Task.Delay(400);
+                TryStart();
+            }
+        }
     }
 
     private void SetupBarCodeScanning()
@@ -79,7 +101,6 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats)
             .Build();
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(options);
-        
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
     }
@@ -104,7 +125,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             {
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
-                    InvokeBarcodeFound(new Barcode(mlBarcode.RawValue));
+                    InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
                     Console.WriteLine("Barcode displayvalue:" + mlBarcode.DisplayValue);
                     Console.WriteLine("Barcode raw value:" + mlBarcode.RawValue);
                     Console.WriteLine("Barcode BoundingBox:" + mlBarcode.BoundingBox);
