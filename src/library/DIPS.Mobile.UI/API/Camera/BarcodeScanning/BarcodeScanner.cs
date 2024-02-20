@@ -7,10 +7,11 @@ public partial class BarcodeScanner
     internal Preview? m_preview;
     private Action<Barcode>? m_didFindBarcode;
 
-    internal void Log(string message)
+    private void Log(string message)
     {
         Console.WriteLine($@"DIPS {nameof(BarcodeScanner)}: {message}");
     }
+    
     public async Task Start(Preview preview, Action<Barcode> didFindBarcode)
     {
         m_preview = preview;
@@ -18,6 +19,7 @@ public partial class BarcodeScanner
         if (await CanUseCamera())
         {
             Log("Permitted to use camera");
+            await m_preview.HasLoaded();
             await PlatformStart();
         }
         else

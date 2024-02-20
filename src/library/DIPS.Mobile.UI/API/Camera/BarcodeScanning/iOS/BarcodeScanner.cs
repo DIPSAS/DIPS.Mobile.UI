@@ -44,14 +44,15 @@ public partial class BarcodeScanner
 
     internal async partial Task PlatformStart()
     {
+        //This makes sure we display the video feed
+        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+
         m_captureSession = new AVCaptureSession();
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
 
-        //This makes sure we display the video feed
-        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
         var previewLayer =
-            previewHandler.AddSessionToPreviewLayer(m_captureSession, AVLayerVideoGravity.ResizeAspectFill);
+            await previewHandler.WaitForViewLayoutAndAddSessionToPreview(m_captureSession, AVLayerVideoGravity.ResizeAspectFill);
         //Add camera input: https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device#2958868
         var captureDeviceDiscoverySession = AVCaptureDeviceDiscoverySession.Create(
             new[] {AVCaptureDeviceType.BuiltInWideAngleCamera,}, AVMediaTypes.Video,
@@ -122,8 +123,8 @@ public partial class BarcodeScanner
                                                         AVMetadataObjectType.MicroQRCode
                                                         | AVMetadataObjectType.PDF417Code
                                                         | AVMetadataObjectType.QRCode;
-                                                        
-                                                        
+
+
             var x = 0;
             var height = previewLayer.Frame.Height / 4;
             var y = (previewLayer.Frame.Height / 2) - (height / 2);
@@ -198,7 +199,7 @@ public partial class BarcodeScanner
          */
 
         var radians = (deviceFieldOfView / 2) * Math.PI / 180;
-        var filledCodeSize = 20 / rectOfInterest.Width; 
+        var filledCodeSize = 20 / rectOfInterest.Width;
         var minimumSubjectDistanceForCode = filledCodeSize / Math.Tan(radians);
         if (minimumSubjectDistanceForCode < deviceMinimumFocusDistance)
         {

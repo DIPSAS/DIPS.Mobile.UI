@@ -12,9 +12,13 @@ namespace DIPS.Mobile.UI.API.Camera;
 public partial class PreviewHandler : ContentViewHandler
 {
 
-    internal AVCaptureVideoPreviewLayer AddSessionToPreviewLayer(AVCaptureSession session,
+    private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
+    
+    
+    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
     {
+        await m_hasArrangedSizeTcs.Task; //Have to wait for the view to have bounds, in case consumers wants to start a session when the view is not ready.
         var previewLayer = new AVCaptureVideoPreviewLayer();
         //This makes sure we display the video feed
         previewLayer.Frame = PlatformView.Bounds;
@@ -23,6 +27,12 @@ public partial class PreviewHandler : ContentViewHandler
 
         PlatformView.Layer.AddSublayer(previewLayer);
         return previewLayer;
+    }
+
+    public override void PlatformArrange(Rect rect)
+    {
+        base.PlatformArrange(rect);
+        m_hasArrangedSizeTcs.TrySetResult();
     }
 
     public void AddZoomSlider(AVCaptureDevice captureDevice)

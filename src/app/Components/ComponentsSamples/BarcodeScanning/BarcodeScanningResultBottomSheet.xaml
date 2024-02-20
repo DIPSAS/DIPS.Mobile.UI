@@ -6,14 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningResultBottomSheet"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:barcodeScanning="clr-namespace:DIPS.Mobile.UI.API.Camera.BarcodeScanning;assembly=DIPS.Mobile.UI"
-                 x:DataType="{x:Type barcodeScanning:Barcode}">
-    <dui:VerticalStackLayout>
-        <dui:ListItem Title="Value">
-            <dui:Label Text="{Binding RawValue}" />
-        </dui:ListItem>
-        <dui:ListItem Title="Format">
-            <dui:Label Text="{Binding Format}" />
-        </dui:ListItem>
-    </dui:VerticalStackLayout>
+                 x:DataType="{x:Type dui:Barcode}">
+    <dui:BarcodeMetadataView Barcode="{Binding .}" />
 </dui:BottomSheet>

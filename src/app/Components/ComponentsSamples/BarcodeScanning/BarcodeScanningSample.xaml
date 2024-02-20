@@ -3,22 +3,9 @@
     encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningSample">
-    <Grid RowDefinitions="Auto, *">
-        <Grid ColumnDefinitions="Auto, Auto"
-              HorizontalOptions="Center"
-              Grid.Row="0">
-            <dui:Button Clicked="StartScanning"
-                        Text="Start"
-                        Grid.Column="0" />
-            <dui:Button Clicked="StopScanning"
-                        Text="Stop"
-                        Grid.Column="1" />
-        </Grid>
-        <dui:Preview Grid.Row="1"
-                     x:Name="Preview" />
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningSample">
+    <dui:Preview x:Name="Preview" />
 
-    </Grid>
 </dui:ContentPage>

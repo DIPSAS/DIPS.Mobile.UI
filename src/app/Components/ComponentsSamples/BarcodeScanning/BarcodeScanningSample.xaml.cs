@@ -13,12 +13,6 @@ public partial class BarcodeScanningSample
         m_barcodeScanner = new BarcodeScanner();
     }
 
-    private async void StartScanning(object? sender, EventArgs e)
-    {
-        await Start();
-    }
-
-    
     private async Task Start()
     {
         try
@@ -42,17 +36,19 @@ public partial class BarcodeScanningSample
 
     private async void BottomSheetClosed(object? sender, EventArgs e)
     {
-            _ = Start();
-            if (m_barCodeResultBottomSheet != null)
-            {
-                m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;    
-            }
-            m_barCodeResultBottomSheet = null;
+        _ = Start();
+        if (m_barCodeResultBottomSheet != null)
+        {
+            m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;
+        }
+
+        m_barCodeResultBottomSheet = null;
     }
 
-    private void StopScanning(object? sender, EventArgs e)
+    protected override void OnAppearing()
     {
-        m_barcodeScanner.Stop();
+        _ = Start();
+        base.OnAppearing();
     }
 
     protected override void OnDisappearing()
