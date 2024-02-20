@@ -109,7 +109,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
         barcodeScannerBuilder
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
 
-        //Try set auto-zoom
+        //Try set auto-zoom, TODO: Fix this, CameraInfo is null, maybe the lifecycle we call setup barcode scanning is a bit too early?
         if (int.TryParse(m_cameraController.CameraInfo?.ZoomState.Value.GetPropertyValue("MaxZoomRatio"),
                 out var maxZoomRatio)) //Has to use reflection because ImmutableZoomStateInvoker class is nowhere to be found to get the max zoom ratio
         {
@@ -160,7 +160,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
             {
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
-                    //DrawBarcodeRectangle(mlBarcode); //TODO: Fix this
+                    //DrawBarcodeRectangle(mlBarcode); //TODO: Fix this, does not work. It draws wrong
                     InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
                 }
             }
