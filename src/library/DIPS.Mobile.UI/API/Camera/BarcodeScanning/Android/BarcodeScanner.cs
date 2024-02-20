@@ -1,28 +1,26 @@
-using System.Diagnostics;
-using Android.App;
 using Android.Content;
 using Android.Gms.Tasks;
+using Android.OS;
 using Android.Runtime;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Vibration;
 using Java.Lang;
 using Microsoft.Maui.Platform;
 using Xamarin.Google.MLKit.Vision.BarCode;
-using Xamarin.Google.MLKit.Vision.Barcode.Common;
 using Xamarin.Google.MLKit.Vision.Common;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 using Task = System.Threading.Tasks.Task;
+using TaskCompletionSource = System.Threading.Tasks.TaskCompletionSource;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class BarcodeScanner : Fragment, IOnSuccessListener
+public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggestionOptions.IZoomCallback
 {
     private PreviewView m_previewView;
     private readonly Context m_context;
@@ -31,6 +29,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
     private IBarcodeScanner m_barcodeScanner;
     private IImageProxy? m_imageProxy;
     private string m_fragmentTag = nameof(BarcodeScanner);
+    private TaskCompletionSource m_startedTcs;
 
     public BarcodeScanner()
     {
@@ -60,6 +59,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             return Task.CompletedTask;
         }
 
+        m_startedTcs = new TaskCompletionSource();
 
         if (m_preview?.Handler is PreviewHandler previewHandler)
         {
@@ -67,13 +67,20 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
         }
 
         m_cameraController = new LifecycleCameraController(m_context);
+        m_cameraController.SetEnabledUseCases(CameraController.ImageAnalysis);
         m_cameraController.BindToLifecycle(this);
         m_previewView.Controller = m_cameraController;
-        SetupBarCodeScanning();
-
-
         TryStart();
-        return Task.CompletedTask;
+
+        return m_startedTcs.Task;
+    }
+
+    public override void OnStart()
+    {
+        SetupBarCodeScanning();
+        base.OnStart();
+        m_startedTcs.TrySetResult();
+
     }
 
     private async void TryStart()
@@ -96,11 +103,22 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
 
     private void SetupBarCodeScanning()
     {
-        // create BarcodeScanner object
-        var options = new BarcodeScannerOptions.Builder()
-            .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats)
-            .Build();
-        m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(options);
+        //From docs: https://developers.google.com/ml-kit/vision/barcode-scanning/android#kotlin
+        var barcodeScannerBuilder = new BarcodeScannerOptions.Builder();
+        //Set formats
+        barcodeScannerBuilder
+            .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
+
+        //Try set auto-zoom
+        if (int.TryParse(m_cameraController.CameraInfo?.ZoomState.Value.GetPropertyValue("MaxZoomRatio"),
+                out var maxZoomRatio)) //Has to use reflection because ImmutableZoomStateInvoker class is nowhere to be found to get the max zoom ratio
+        {
+            barcodeScannerBuilder.SetZoomSuggestionOptions(new ZoomSuggestionOptions.Builder(this)
+                .SetMaxSupportedZoomRatio(maxZoomRatio).Build());
+        }
+
+
+        m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(barcodeScannerBuilder.Build());
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
     }
@@ -118,6 +136,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
     {
         try
         {
+            m_cameraController.Unbind();
             m_fragmentManager?.BeginTransaction().Remove(this).Commit();
         }
         catch (IllegalStateException illegalStateException)
@@ -127,9 +146,10 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
                     "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
             {
                 await Task.Delay(400);
-                TryStart();
+                TryStop();
             }
         }
+       
     }
 
     public void OnSuccess(Java.Lang.Object result)
@@ -140,11 +160,24 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             {
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
+                    //DrawBarcodeRectangle(mlBarcode); //TODO: Fix this
                     InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
                 }
             }
         }
 
         m_imageProxy?.Close();
+    }
+
+    private void DrawBarcodeRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
+    {
+        m_previewView.Overlay?.Clear();
+        m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
+    }
+
+    public bool SetZoom(float zoomRatio)
+    {
+        m_cameraController.SetZoomRatio(zoomRatio);
+        return true;
     }
 }
