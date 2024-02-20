@@ -31,9 +31,4 @@ public partial class BarcodeMetadataView : ContentView
         Browser.OpenAsync(
             "https://developers.google.com/android/reference/com/google/mlkit/vision/barcode/common/Barcode#FORMAT_ALL_FORMATS");
     }
-
-    protected override void OnBindingContextChanged()
-    {
-        base.OnBindingContextChanged();
-    }
 }
