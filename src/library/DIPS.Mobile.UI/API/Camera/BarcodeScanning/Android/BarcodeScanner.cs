@@ -48,7 +48,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -112,9 +112,24 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
             .AddOnSuccessListener(ContextCompat.GetMainExecutor(m_context), this);
     }
 
-    internal partial void PlatformStop()
+    internal partial void PlatformStop() => TryStop();
+
+    private async void TryStop()
     {
-        m_fragmentManager?.BeginTransaction().Remove(this).CommitNow();
+        try
+        {
+            m_fragmentManager?.BeginTransaction().Remove(this).Commit();
+        }
+        catch (IllegalStateException illegalStateException)
+        {
+            if (illegalStateException.Message != null &&
+                illegalStateException.Message.Contains(
+                    "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
+            {
+                await Task.Delay(400);
+                TryStart();
+            }
+        }
     }
 
     public void OnSuccess(Java.Lang.Object result)
