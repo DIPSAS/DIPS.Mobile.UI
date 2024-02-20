@@ -141,10 +141,6 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
                     InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
-                    Console.WriteLine("Barcode displayvalue:" + mlBarcode.DisplayValue);
-                    Console.WriteLine("Barcode raw value:" + mlBarcode.RawValue);
-                    Console.WriteLine("Barcode BoundingBox:" + mlBarcode.BoundingBox);
-                    Console.WriteLine("Barcode format:" + mlBarcode.Format);
                 }
             }
         }
