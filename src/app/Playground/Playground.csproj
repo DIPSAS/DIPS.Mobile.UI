@@ -49,10 +49,6 @@
     <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-        <Compile Update="Components\Loading\SkeletonView.xaml.cs">
-            <DependentUpon>SkeletonView.xaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -77,7 +73,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
     </ItemGroup>
     
@@ -118,6 +114,12 @@
             <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="DIPS.Mobile.UI">
+        <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\net8.0\DIPS.Mobile.UI.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
