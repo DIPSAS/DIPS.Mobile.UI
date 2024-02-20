@@ -48,7 +48,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener
                 return false;
             }
         }
-
+        
         return true;
     }
 
