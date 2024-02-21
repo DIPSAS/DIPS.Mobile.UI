@@ -53,7 +53,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
 
     internal partial Task PlatformStart()
     {
-        if (m_fragmentManager?.FindFragmentByTag(m_fragmentTag) != null)
+        if (IsFragmentStarted())
         {
             //Already started
             return Task.CompletedTask;
@@ -75,19 +75,29 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
         return m_startedTcs.Task;
     }
 
+    private bool IsFragmentStarted()
+    {
+        return m_fragmentManager?.FindFragmentByTag(m_fragmentTag) != null;
+    }
+
     public override void OnStart()
     {
         SetupBarCodeScanning();
-        base.OnStart();
         m_startedTcs.TrySetResult();
-
+        base.OnStart();
+    }
+    
+    public override void OnStop()
+    {
+        base.OnStop();
+        TryStop();
     }
 
     private async void TryStart()
     {
         try
         {
-            m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).Commit();
+            m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).CommitAllowingStateLoss();
         }
         catch (IllegalStateException illegalStateException)
         {
@@ -98,6 +108,8 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
                 await Task.Delay(400);
                 TryStart();
             }
+
+            throw;
         }
     }
 
@@ -134,10 +146,11 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
 
     private async void TryStop()
     {
+        if(!IsFragmentStarted()) return;
         try
         {
             m_cameraController.Unbind();
-            m_fragmentManager?.BeginTransaction().Remove(this).Commit();
+            m_fragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
         }
         catch (IllegalStateException illegalStateException)
         {

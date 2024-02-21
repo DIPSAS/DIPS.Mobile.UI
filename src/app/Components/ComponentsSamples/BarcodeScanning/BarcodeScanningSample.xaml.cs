@@ -56,4 +56,14 @@ public partial class BarcodeScanningSample
         m_barcodeScanner.Stop();
         base.OnDisappearing();
     }
+
+    public void OnSleep()
+    {
+        m_barcodeScanner.Stop();
+    }
+
+    public void OnResume()
+    {
+        _ = Start();
+    }
 }
