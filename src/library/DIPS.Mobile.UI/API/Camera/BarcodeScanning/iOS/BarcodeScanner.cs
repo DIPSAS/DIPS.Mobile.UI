@@ -64,7 +64,7 @@ public partial class BarcodeScanner
             captureDevice = captureDeviceDiscoverySession.Devices[0];
             if (captureDeviceDiscoverySession.Devices.Length > 1)
             {
-                Console.WriteLine(
+                Log(
                     $@"Found {captureDeviceDiscoverySession.Devices.Length} devices to pick from. We have selected the best bar code camera: {captureDevice.DeviceType}");
             }
         }
@@ -87,7 +87,7 @@ public partial class BarcodeScanner
         //Set quality for best performance
         //Source: https://developers.google.com/ml-kit/vision/barcode-scanning/ios#performance-tips
         m_captureSession.SessionPreset = AVCaptureSession.Preset1280x720;
-
+        
         //Add barcode camera output
         var captureMetadataOutput = new AVCaptureMetadataOutput();
         if (m_captureSession.CanAddOutput(captureMetadataOutput))
@@ -253,8 +253,6 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
                 var stringValue = readableObject.StringValue;
                 if (stringValue != null)
                 {
-                    Console.WriteLine($@"Barcode scanner found type: {readableObject.Type}");
-                    Console.WriteLine($@"Barcode scanner value: {stringValue}");
                     m_onSuccess.Invoke(readableObject);
                 }
             }
