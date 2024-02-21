@@ -1,4 +1,5 @@
-﻿using Components.ComponentsSamples.Pickers;
+﻿using Components.ComponentsSamples.BarcodeScanning;
+using Components.ComponentsSamples.Pickers;
 using Components.Resources.LocalizedStrings;
 using Components.Services;
 
@@ -32,9 +33,10 @@ public partial class App : Application
     protected override void OnStart()
     {
         _ = TryGetLatestVersion();
-
+        
         base.OnStart();
     }
+    
 
     private async Task<bool> TryGetLatestVersion()
     {
@@ -69,7 +71,22 @@ public partial class App : Application
 
     protected override void OnResume()
     {
+        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is BarcodeScanningSample);
+        if (potentialPage is BarcodeScanningSample barcodesample)
+        {
+            barcodesample.OnResume();
+        }
         _ = TryGetLatestVersion();
         base.OnResume();
+    }
+
+    protected override void OnSleep()
+    {
+        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is BarcodeScanningSample);
+        if (potentialPage is BarcodeScanningSample barcodesample)
+        {
+            barcodesample.OnSleep();
+        }
+        base.OnSleep();
     }
 }

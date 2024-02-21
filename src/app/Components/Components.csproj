@@ -35,21 +35,6 @@
         <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
 
-    <!-- Intellij Rider is unable to deploy to device for MAUI: https://youtrack.jetbrains.com/issue/RIDER-76794/Cannot-deploy-MAUI-project-to-physical-iOS-device-->
-    <!-- TO fix this, we've done the following taken from this blog: https://msicc.net/deploy-maui-apps-with-rider-on-your-ios-device-after-these-xcode-errors/ -->
-<!--    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">-->
-<!--        &lt;!&ndash;DEBUG ON DEVICE&ndash;&gt;-->
-
-
-<!--        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>-->
-<!--        -->
-<!--        &lt;!&ndash;DEBUG ON SIMULATOR&ndash;&gt;-->
-
-<!--&lt;!&ndash;-->
-<!--        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>-->
-<!--&ndash;&gt;-->
-<!--    </PropertyGroup>-->
-
     <ItemGroup>
 
         <MauiIcon Include="Resources\AppIcon\appicon.svg">
@@ -64,12 +49,13 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-        
+
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.86" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>

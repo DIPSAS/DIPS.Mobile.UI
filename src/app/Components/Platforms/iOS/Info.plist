@@ -39,5 +39,7 @@
 		<string>en</string>
 		<string>no</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>The app needs to use the camera to scan bar codes.</string>
 </dict>
 </plist>

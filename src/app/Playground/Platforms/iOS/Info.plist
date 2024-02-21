@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>CFBundleIdentifier</key>
-        <string>com.dipsas.mobile.ui.playground</string>
-        <key>MinimumOSVersion</key>
-        <string>14.1</string>
-        <key>LSRequiresIPhoneOS</key>
-        <true/>
-        <key>UIDeviceFamily</key>
-        <array>
-            <integer>1</integer>
-            <integer>2</integer>
-        </array>
-        <key>UIRequiredDeviceCapabilities</key>
-        <array>
-            <string>arm64</string>
-        </array>
-        <key>UISupportedInterfaceOrientations</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string>
-            <string>UIInterfaceOrientationLandscapeLeft</string>
-            <string>UIInterfaceOrientationLandscapeRight</string>
-        </array>
-        <key>UISupportedInterfaceOrientations~ipad</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string>
-            <string>UIInterfaceOrientationPortraitUpsideDown</string>
-            <string>UIInterfaceOrientationLandscapeLeft</string>
-            <string>UIInterfaceOrientationLandscapeRight</string>
-        </array>
-        <key>XSAppIconAssets</key>
-        <string>Assets.xcassets/appicon.appiconset</string>
-    </dict>
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>com.dipsas.mobile.ui.playground</string>
+	<key>MinimumOSVersion</key>
+	<string>14.1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+		<integer>2</integer>
+	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The app needs to use the camera to scan bar codes.</string>
+</dict>
 </plist>

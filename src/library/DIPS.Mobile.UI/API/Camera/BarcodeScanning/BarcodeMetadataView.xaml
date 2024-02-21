@@ -1,0 +1,32 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:barcodeScanning="clr-namespace:DIPS.Mobile.UI.API.Camera.BarcodeScanning"
+             xmlns:sizes="clr-namespace:DIPS.Mobile.UI.Resources.Sizes"
+             xmlns:lists="clr-namespace:DIPS.Mobile.UI.Components.Lists"
+             xmlns:listitems="clr-namespace:DIPS.Mobile.UI.Components.ListItems"
+             xmlns:listitemsExtensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions"
+             xmlns:labels="clr-namespace:DIPS.Mobile.UI.Components.Labels"
+             x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeMetadataView"
+             x:DataType="{x:Type barcodeScanning:Barcode}">
+    <lists:VerticalStackLayout Padding="{sizes:Sizes size_2}">
+        <listitems:ListItem Title="RawValue"
+                            HasBottomDivider="True">
+            <labels:Label Text="{Binding RawValue}" />
+        </listitems:ListItem>
+        <listitems:ListItem Title="Format"
+                            HasBottomDivider="True"
+                            IsVisible="{OnPlatform iOS=true, Android=false}">
+            <labels:Label Text="{Binding Format}" />
+        </listitems:ListItem>
+        <listitemsExtensions:NavigationListItem IsVisible="{OnPlatform Android=true, iOS=false}"
+                                                Title="Format"
+                                                HasBottomDivider="True"
+                                                Tapped="OnAndroidFormatTapped"
+                                                Subtitle="{Binding Format}">
+        </listitemsExtensions:NavigationListItem>
+    </lists:VerticalStackLayout>
+</ContentView>

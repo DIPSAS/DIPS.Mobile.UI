@@ -20,7 +20,6 @@ namespace DIPS.Mobile.UI.Extensions
                 return obj.ToString();
             }
 
-            var asd = obj.GetType().GetProperties();
             var displayMember = obj.GetType().GetProperty(propertyName);
 
             var value = displayMember?.GetValue(obj, null);

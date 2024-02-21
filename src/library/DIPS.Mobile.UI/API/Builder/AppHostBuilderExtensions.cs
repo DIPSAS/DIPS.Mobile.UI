@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
@@ -25,6 +26,7 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using LabelHandler = DIPS.Mobile.UI.Components.Labels.LabelHandler;
 using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
 using LayoutPlatformEffect = DIPS.Mobile.UI.Effects.Layout.LayoutPlatformEffect;
+using PreviewHandler = DIPS.Mobile.UI.API.Camera.PreviewHandler;
 using ScrollView = DIPS.Mobile.UI.Components.Lists.ScrollView;
 using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
@@ -65,6 +67,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Entry, EntryHandler>();
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
+            handlers.AddHandler<Preview, PreviewHandler>();
             
             AddPlatformHandlers(handlers);
         });

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+        <TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>Playground</RootNamespace>
@@ -39,9 +39,44 @@
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
     </ItemGroup>
 
+    <!-- Android -->
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+        <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>bin\Release\DIPS.Mobile.UI.xml</DocumentationFile>
+    </PropertyGroup>
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+        <Compile Remove="**\Android\**\*.cs" />
+        <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+        <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <!-- iOS -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
+        <Compile Remove="**\iOS\**\*.cs" />
+        <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.Equals('net8.0')) != true">
+        <Compile Remove="**\dotnet\**\*.cs" />
+        <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
+
+    
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+       
+    </ItemGroup>
+    
     <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
     </ItemGroup>
+    
 
     <ItemGroup>
         <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj"/>
@@ -79,6 +114,12 @@
             <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="DIPS.Mobile.UI">
+        <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\net8.0\DIPS.Mobile.UI.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
