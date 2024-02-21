@@ -1,3 +1,6 @@
+## [24.9.0] 
+- Pin dotnet SDK and MAUI version (8.0.100 | 8.0.3).
+
 ## [24.8.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
