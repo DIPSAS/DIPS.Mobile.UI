@@ -1,3 +1,6 @@
+## [24.10.1]
+- Fixed components app.
+
 ## [24.10.0]
 - Added Barcode Scanner. This is not stable yet, but ready to be tested. 
 
