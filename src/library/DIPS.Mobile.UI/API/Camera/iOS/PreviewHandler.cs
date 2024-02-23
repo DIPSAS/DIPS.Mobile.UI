@@ -2,6 +2,7 @@ using AVFoundation;
 using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Camera.iOS;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -154,6 +155,7 @@ public partial class PreviewHandler : ContentViewHandler
             Console.WriteLine(error);
         }
         
+        VibrationService.SelectionChanged();
         UISlider?.BecomeFirstResponder();//Make sure slider does not loose focus for people to slide it after they tap to focus
     }
 

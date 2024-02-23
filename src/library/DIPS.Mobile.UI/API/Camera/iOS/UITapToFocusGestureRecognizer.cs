@@ -12,10 +12,10 @@ internal class UITapToFocusGestureRecognizer : UITapGestureRecognizer
         m_onTouchesBegan = onTouchesBegan;
     }
 
-    public override void TouchesBegan(NSSet touches, UIEvent evt)
+    public override void TouchesEnded(NSSet touches, UIEvent evt)
     {
         m_onTouchesBegan?.Invoke(touches, evt);
-        base.TouchesBegan(touches, evt);
+        base.TouchesEnded(touches, evt);
     }
 
     internal void RemoveReferences()
