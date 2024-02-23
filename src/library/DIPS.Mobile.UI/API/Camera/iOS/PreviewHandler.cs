@@ -13,8 +13,11 @@ public partial class PreviewHandler : ContentViewHandler
 {
 
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
-    
-    
+    private Slider? m_slider;
+
+    internal UISlider? UISlider => m_slider?.Handler is SliderHandler sliderHandler ? sliderHandler.PlatformView : null;
+
+
     internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
     {
@@ -57,7 +60,7 @@ public partial class PreviewHandler : ContentViewHandler
                 captureDevice.VideoZoomFactor = (float)slider.Value;
                 captureDevice.UnlockForConfiguration();
             };
-
+            m_slider = slider;
             contentView.Content = slider;
         }
     }
