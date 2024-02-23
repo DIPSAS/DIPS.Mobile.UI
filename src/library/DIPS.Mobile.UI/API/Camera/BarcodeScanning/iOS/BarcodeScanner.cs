@@ -3,6 +3,7 @@ using CoreAnimation;
 using CoreFoundation;
 using CoreGraphics;
 using CoreMedia;
+using DIPS.Mobile.UI.API.Camera.iOS;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
 using UIKit;
@@ -21,7 +22,6 @@ public partial class BarcodeScanner
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private CGRect? m_rectOfInterest;
     private ContentView? m_previewUIView;
-    private UITapToFocusGestureRecognizer? m_tapToFocusGestureRecognizer;
     private float m_rectOfInterestFillPercentage;
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private AVCaptureDeviceInput? m_videoDeviceInput;
@@ -56,11 +56,10 @@ public partial class BarcodeScanner
         m_captureDevice = null;
         m_rectOfInterest = null;
 
-        if (m_tapToFocusGestureRecognizer != null)
-        {
-            m_tapToFocusGestureRecognizer.RemoveReferences();
-            m_previewUIView?.RemoveGestureRecognizer(m_tapToFocusGestureRecognizer);
-        }
+        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+        previewHandler.RemoveZoomSlider();
+        previewHandler.RemovePinchToZoom();
+        previewHandler.RemoveTouchToFocus();
 
         m_previewUIView = null;
     }
@@ -139,8 +138,6 @@ public partial class BarcodeScanner
 
             
             var x = 0;
-            // 1/4 of the 
-
             m_rectOfInterestFillPercentage = 0.5f;
             var height = previewLayer.Frame.Height * m_rectOfInterestFillPercentage;
             var y = (previewLayer.Frame.Height / 2) - (height / 2);
@@ -176,11 +173,10 @@ public partial class BarcodeScanner
         }
         
         previewHandler.AddZoomSlider(m_captureDevice);
-
+        previewHandler.AddPinchToZoom(m_captureDevice);
+        previewHandler.AddTapToFocus(m_captureDevice);
+        
         await StartSession();
-
-        m_tapToFocusGestureRecognizer = new UITapToFocusGestureRecognizer(TapToFocus);
-        m_previewUIView.AddGestureRecognizer(m_tapToFocusGestureRecognizer);
     }
 
     private async Task StartSession()
@@ -192,23 +188,7 @@ public partial class BarcodeScanner
         );
     }
 
-    private void TapToFocus(NSSet touches, UIEvent uiEvent)
-    {
-        if (m_previewUIView == null) return;
-        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
-        if (m_captureDevice == null) return;
-        
-        
-        if (touches.First() is not UITouch touchPoint) return;
-        previewHandler.SetFocusPoint(touchPoint.LocationInView(m_previewUIView).X, touchPoint.LocationInView(m_previewUIView).Y, m_captureDevice, out var error);
-        
-        if (error != null)
-        {
-            Log(error);
-        }
-        
-        previewHandler.UISlider?.BecomeFirstResponder();//Make sure slider does not loose focus for people to slide it after they tap to focus
-    }
+  
     
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
@@ -258,27 +238,6 @@ public partial class BarcodeScanner
     private double DegreesToRadians(float degrees)
     {
         return degrees * Math.PI / 180;
-    }
-}
-
-internal class UITapToFocusGestureRecognizer : UITapGestureRecognizer
-{
-    private Action<NSSet, UIEvent>? m_onTouchesBegan;
-
-    public UITapToFocusGestureRecognizer(Action<NSSet, UIEvent> onTouchesBegan)
-    {
-        m_onTouchesBegan = onTouchesBegan;
-    }
-
-    public override void TouchesBegan(NSSet touches, UIEvent evt)
-    {
-        m_onTouchesBegan?.Invoke(touches, evt);
-        base.TouchesBegan(touches, evt);
-    }
-
-    internal void RemoveReferences()
-    {
-        m_onTouchesBegan = null;
     }
 }
 
