@@ -169,7 +169,12 @@ public partial class BarcodeScanner
         m_captureSession.CommitConfiguration();
 
         SetBarCodeMinimumZoom(m_captureDevice, m_captureMetadataOutput.RectOfInterest);
-        SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2);
+        previewHandler.SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2, m_captureDevice, out var error);
+        if (error != null)
+        {
+            Log(error);
+        }
+        
         previewHandler.AddZoomSlider(m_captureDevice);
 
         await StartSession();
@@ -190,50 +195,21 @@ public partial class BarcodeScanner
     private void TapToFocus(NSSet touches, UIEvent uiEvent)
     {
         if (m_previewUIView == null) return;
+        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+        if (m_captureDevice == null) return;
+        
+        
         if (touches.First() is not UITouch touchPoint) return;
-        SetFocusPoint(touchPoint.LocationInView(m_previewUIView).X, touchPoint.LocationInView(m_previewUIView).Y);
-
-        if (m_preview?.Handler is PreviewHandler previewHandler) //Make sure slider does not loose focus for people to slide it after they tap to focus
+        previewHandler.SetFocusPoint(touchPoint.LocationInView(m_previewUIView).X, touchPoint.LocationInView(m_previewUIView).Y, m_captureDevice, out var error);
+        
+        if (error != null)
         {
-            previewHandler.UISlider?.BecomeFirstResponder();
+            Log(error);
         }
+        
+        previewHandler.UISlider?.BecomeFirstResponder();//Make sure slider does not loose focus for people to slide it after they tap to focus
     }
-
-    private void SetFocusPoint(double x, double y)
-    {
-        if (m_previewUIView == null) return;
-        var previewSize = m_previewUIView.Bounds.Size;
-        var focusPoint = new CGPoint(x: y / previewSize.Height,
-            y: 1.0 - x / previewSize.Width);
-
-        if (m_captureDevice != null)
-        {
-            if (m_captureDevice.LockForConfiguration(out var error))
-            {
-                if (m_captureDevice.FocusPointOfInterestSupported)
-                {
-                    m_captureDevice.FocusPointOfInterest = focusPoint;
-                    m_captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
-                }
-
-                if (m_captureDevice.ExposurePointOfInterestSupported)
-                {
-                    m_captureDevice.ExposurePointOfInterest = focusPoint;
-                    m_captureDevice.ExposureMode = AVCaptureExposureMode.AutoExpose;
-                }
-
-                m_captureDevice.UnlockForConfiguration();
-            }
-            else
-            {
-                if (error != null)
-                {
-                    Log(error.ToString());
-                }
-            }
-        }
-    }
-
+    
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
     private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice, CGRect rectOfInterest)
