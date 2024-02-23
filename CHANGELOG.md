@@ -1,3 +1,6 @@
+## [24.12.0]
+- [BarcodeScanner][iOS] Added haptic when people tap to focus
+
 ## [24.11.0]
 - [BarcodeScanner][iOS] Added pinch to zoom
 - [BarcodeScanner][iOS] Improved tap to focus
