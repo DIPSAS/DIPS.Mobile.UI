@@ -146,7 +146,8 @@ public partial class PreviewHandler : ContentViewHandler
     }
     
     private void TapToFocus(NSSet touches, UIEvent @event, AVCaptureDevice captureDevice)
-    { if (touches.First() is not UITouch touchPoint) return;
+    { 
+        if (touches.First() is not UITouch touchPoint) return;
         SetFocusPoint(touchPoint.LocationInView(PlatformView).X, touchPoint.LocationInView(PlatformView).Y, captureDevice, out var error);
         
         if (error != null)
