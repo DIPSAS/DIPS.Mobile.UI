@@ -80,4 +80,7 @@
     <data name="ErrorViewDescription" xml:space="preserve">
         <value>Beskrivelse når det oppstår en feil</value>
     </data>
+    <data name="ZoomLevel" xml:space="preserve">
+        <value>Zoomnivå</value>
+    </data>
 </root>

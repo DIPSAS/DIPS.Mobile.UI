@@ -182,5 +182,11 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("ErrorViewDescription", resourceCulture);
             }
         }
+        
+        internal static string ZoomLevel {
+            get {
+                return ResourceManager.GetString("ZoomLevel", resourceCulture);
+            }
+        }
     }
 }

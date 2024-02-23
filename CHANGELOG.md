@@ -1,3 +1,9 @@
+## [24.11.0]
+- [BarcodeScanner][iOS] Added pinch to zoom
+- [BarcodeScanner][iOS] Improved tap to focus
+- [BarcodeScanner][iOS] Improved recommended zoom factor for people
+- [BarcodeScanner][iOS] Accessability: Added better VoiceOver feedback for zoom slider
+
 ## [24.10.1]
 - Fixed components app.
 
