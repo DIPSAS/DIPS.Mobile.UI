@@ -165,7 +165,7 @@ public partial class BarcodeScanner
         //Commit the configuration
         m_captureSession.CommitConfiguration();
 
-        SetBarCodeMinimumZoom(m_captureDevice, m_captureMetadataOutput.RectOfInterest);
+        SetRecommendedZoomFactor(m_captureDevice);
         previewHandler.SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2, m_captureDevice, out var error);
         if (error != null)
         {
@@ -192,7 +192,7 @@ public partial class BarcodeScanner
     
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-    private void SetBarCodeMinimumZoom(AVCaptureDevice captureDevice, CGRect rectOfInterest)
+    private void SetRecommendedZoomFactor(AVCaptureDevice captureDevice)
     {
         /*
             Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
