@@ -2,6 +2,7 @@ using AVFoundation;
 using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Camera.iOS;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -64,13 +65,16 @@ public partial class PreviewHandler : ContentViewHandler
                 Value = (float)captureDevice.VideoZoomFactor,
                 Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, Sizes.GetSize(SizeName.size_2), bottomPadding)
             };
-
+            
             slider.ValueChanged += (_, _) =>
             {
                 captureDevice.LockForConfiguration(out var error);
                 captureDevice.VideoZoomFactor = (float)slider.Value;
                 captureDevice.UnlockForConfiguration();
             };
+            
+            SemanticProperties.SetHint(slider, DUILocalizedStrings.ZoomLevel);
+
             m_slider = slider;
             contentView.Content = slider;
         }
