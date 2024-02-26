@@ -2,9 +2,11 @@ using Android.Content;
 using Android.Gms.Tasks;
 using Android.OS;
 using Android.Runtime;
+using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
+using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Library;
 using Java.Lang;
@@ -13,14 +15,16 @@ using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
+using Object = Java.Lang.Object;
 using Task = System.Threading.Tasks.Task;
 using TaskCompletionSource = System.Threading.Tasks.TaskCompletionSource;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggestionOptions.IZoomCallback
+public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
 {
     private PreviewView m_previewView;
     private readonly Context m_context;
@@ -63,13 +67,15 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
 
         if (m_preview?.Handler is PreviewHandler previewHandler)
         {
-            m_previewView = previewHandler.PlatformView;
+            m_previewView = previewHandler.PreviewView;
         }
 
         m_cameraController = new LifecycleCameraController(m_context);
         m_cameraController.SetEnabledUseCases(CameraController.ImageAnalysis);
         m_cameraController.BindToLifecycle(this);
+        
         m_previewView.Controller = m_cameraController;
+        
         TryStart();
 
         return m_startedTcs.Task;
@@ -84,9 +90,16 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
     {
         SetupBarCodeScanning();
         m_startedTcs.TrySetResult();
+        
         base.OnStart();
     }
-    
+
+    public override void OnAttach(Context context)
+    {
+        base.OnAttach(context);
+    }
+
+
     public override void OnStop()
     {
         base.OnStop();
@@ -120,20 +133,20 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
         //Set formats
         barcodeScannerBuilder
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
-
-        //Try set auto-zoom, TODO: Fix this, CameraInfo is null, maybe the lifecycle we call setup barcode scanning is a bit too early?
-        if (int.TryParse(m_cameraController.CameraInfo?.ZoomState.Value.GetPropertyValue("MaxZoomRatio"),
-                out var maxZoomRatio)) //Has to use reflection because ImmutableZoomStateInvoker class is nowhere to be found to get the max zoom ratio
-        {
-            barcodeScannerBuilder.SetZoomSuggestionOptions(new ZoomSuggestionOptions.Builder(this)
-                .SetMaxSupportedZoomRatio(maxZoomRatio).Build());
-        }
-
-
+        
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(barcodeScannerBuilder.Build());
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
+
+        if (m_preview?.Handler is PreviewHandler previewHandler)
+        {
+            previewHandler.AddZoomSlider(m_cameraController);
+        }
+        
+        m_cameraController.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
     }
+
+ 
 
     private void AnalyzeImage(IImageProxy imageProxy)
     {
@@ -149,8 +162,12 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
         if(!IsFragmentStarted()) return;
         try
         {
-            m_cameraController.Unbind();
             m_fragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
+            m_cameraController.Unbind();
+            if (m_preview?.Handler is PreviewHandler previewHandler)
+            {
+                previewHandler.RemoveZoomSlider();
+            }
         }
         catch (IllegalStateException illegalStateException)
         {
@@ -188,9 +205,14 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, ZoomSuggesti
         m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
     }
 
-    public bool SetZoom(float zoomRatio)
+    public void OnChanged(Object? value)
     {
-        m_cameraController.SetZoomRatio(zoomRatio);
-        return true;
+        if (double.TryParse(value.GetPropertyValue("LinearZoom"), out var linearZoom))
+        {
+            if (m_preview?.Handler is PreviewHandler previewHandler)
+            {
+                previewHandler.UpdateZoomSlider(linearZoom, m_cameraController);
+            }  
+        }
     }
 }
