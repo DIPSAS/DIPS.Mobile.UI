@@ -2,6 +2,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Camera.View;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
 using Slider = Google.Android.Material.Slider.Slider;
 using View = Android.Views.View;
@@ -70,8 +71,8 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
         if (m_slider != null)
         {
             m_slider.ClearOnSliderTouchListeners();
-            m_slider = null;
             PlatformView.RemoveView(m_slider);
+            m_slider = null;
         }
     }
 

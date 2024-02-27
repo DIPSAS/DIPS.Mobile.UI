@@ -33,9 +33,9 @@ public partial class BarcodeScanner
 
     public void Stop()
     {
+        PlatformStop();
         m_preview = null;
         m_didFindBarcode = null;
-        PlatformStop();
     }
     
     internal partial void PlatformStop();
