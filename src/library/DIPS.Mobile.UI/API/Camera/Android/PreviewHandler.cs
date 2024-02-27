@@ -1,6 +1,8 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Camera.View;
+using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
@@ -45,12 +47,14 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
         var layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
             ViewGroup.LayoutParams.WrapContent);
         layoutParams.AddRule(LayoutRules.AlignParentBottom);
-        layoutParams.LeftMargin = 50;
-        layoutParams.RightMargin = 50;
-        layoutParams.BottomMargin = 150;
+        layoutParams.LeftMargin = 50.0.ToMauiPixel();
+        layoutParams.RightMargin = 50.0.ToMauiPixel();
+        layoutParams.BottomMargin = 250.0.ToMauiPixel();
         slider.LayoutParameters = layoutParams;
+        slider.LabelBehavior = 2; //Disables the label when dragging
         m_onZoomSliderListener = new OnZoomSliderTouchListener(cameraController);
         slider.SetOnTouchListener(m_onZoomSliderListener);
+        slider.ContentDescription = DUILocalizedStrings.ZoomLevel;
         PlatformView.AddView(slider);
         m_slider = slider;
     }
