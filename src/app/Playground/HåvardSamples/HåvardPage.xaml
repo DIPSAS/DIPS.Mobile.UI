@@ -12,21 +12,9 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid RowDefinitions="Auto, *">
-        <Grid ColumnDefinitions="Auto, Auto"
-              HorizontalOptions="Center"
-              Grid.Row="0">
-            <dui:Button Clicked="StartScanning"
-                        Text="Start scanning"
-                        Grid.Column="0" />
-            <dui:Button Clicked="StopScanning"
-                        Text="Stop scanning"
-                        Grid.Column="1" />
-        </Grid>
-        <dui:Preview Grid.Row="1"
-                     Height="400"
-                     Width="200"
-                     x:Name="Preview" />
-
-    </Grid>
+    <VerticalStackLayout>
+        <dui:Switch x:Name="Switch"
+                    Toggled="Switch_OnToggled"/>
+        <ContentView x:Name="ContentView"/>
+    </VerticalStackLayout>
 </dui:ContentPage>

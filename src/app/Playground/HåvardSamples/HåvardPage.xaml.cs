@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
+using DIPS.Mobile.UI.Resources.Icons;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Playground.HåvardSamples;
@@ -11,6 +13,7 @@ public partial class HåvardPage
     {
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
+        m_image = new Image() {Source = Icons.GetIcon(IconName.document_fill)};
     }
 
     public ICommand NavigateCommand => new Command<string>(async s =>
@@ -61,6 +64,7 @@ public partial class HåvardPage
         typeof(HåvardPage));
 
     private readonly BarcodeScanner m_barcodeScanner;
+    private readonly Image m_image;
 
     public bool HideText
     {
@@ -68,25 +72,15 @@ public partial class HåvardPage
         set => SetValue(HideTextProperty, value);
     }
 
-    private async void StartScanning(object sender, EventArgs e)
+    private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-        try
+        if (ContentView.Content is null)
         {
-            await m_barcodeScanner.Start(Preview, barcode =>
-            {
-                Application.Current.MainPage.DisplayAlert("Woah!", barcode.RawValue, "Ok");
-                m_barcodeScanner.Stop();
-            });
+            ContentView.Content = m_image;
         }
-        catch (Exception exception)
+        else
         {
-            Application.Current.MainPage.DisplayAlert("Failed, check console!", exception.Message, "Ok");
-            Console.WriteLine(exception);
+            ContentView.Content = null;
         }
-    }
-
-    private void StopScanning(object sender, EventArgs e)
-    {
-        m_barcodeScanner.Stop();
     }
 }

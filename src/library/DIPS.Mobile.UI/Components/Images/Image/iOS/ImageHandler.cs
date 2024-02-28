@@ -5,10 +5,9 @@ namespace DIPS.Mobile.UI.Components.Images.Image;
 
 public partial class ImageHandler
 {
+
     private static async partial void TrySetTintColor(ImageHandler handler, Image image)
     {
-        if (image.TintColor == null) return;
-        
         var tries = 0;
         // Wait for Image to be set
         while (handler.PlatformView.Image is null)
@@ -19,6 +18,8 @@ public partial class ImageHandler
             await Task.Delay(1);
             tries++;
         }
+        
+        if (image.TintColor == null) return;
         handler.PlatformView.Image = handler.PlatformView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         handler.PlatformView.TintColor = image.TintColor.ToPlatform();
     }
