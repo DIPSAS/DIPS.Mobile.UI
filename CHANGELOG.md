@@ -1,3 +1,6 @@
+## [24.13.0]
+- [BarcodeScanner][Android] Added slider for zooming.
+
 ## [24.12.0]
 - [BarcodeScanner][iOS] Added haptic when people tap to focus
 
