@@ -22,20 +22,46 @@ public partial class PreviewHandler : ContentViewHandler
 
     internal UISlider? UISlider => m_slider?.Handler is SliderHandler sliderHandler ? sliderHandler.PlatformView : null;
 
+    protected override void ConnectHandler(ContentView platformView)
+    {
+        PlatformView.BackgroundColor = UIColor.Black;
+        base.ConnectHandler(platformView);
+    }
 
     internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
     {
         await m_hasArrangedSizeTcs
             .Task; //Have to wait for the view to have bounds, in case consumers wants to start a session when the view is not ready.
-        var previewLayer = new AVCaptureVideoPreviewLayer();
+        if (TryGetAvCaptureVideoPreviewLayer(out var oldPreviewLayer))
+        {
+            oldPreviewLayer?.RemoveFromSuperLayer();
+        }
+
+        var previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer)};
         //This makes sure we display the video feed
         previewLayer.Frame = PlatformView.Bounds;
         previewLayer.Session = session;
         previewLayer.VideoGravity = videoGravity;
 
-        PlatformView.Layer.AddSublayer(previewLayer);
+        PlatformView.Layer?.AddSublayer(previewLayer);
         return previewLayer;
+    }
+
+    private bool TryGetAvCaptureVideoPreviewLayer(out AVCaptureVideoPreviewLayer? previewLayer)
+    {
+        previewLayer = null;
+        var potentialLayer =
+            PlatformView.Layer?.Sublayers?.FirstOrDefault(l => l.Name == nameof(AVCaptureVideoPreviewLayer));
+        if (potentialLayer is not AVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer)
+        {
+            return false;
+        }
+
+        {
+            previewLayer = avCaptureVideoPreviewLayer;
+            return true;
+        }
     }
 
     public override void PlatformArrange(Rect rect)
@@ -54,7 +80,7 @@ public partial class PreviewHandler : ContentViewHandler
             {
                 bottomPadding = bottomSafeArea.Value + bottomPadding;
             }
-            
+
             var slider = new Slider
             {
                 HorizontalOptions = LayoutOptions.Start,
@@ -64,23 +90,24 @@ public partial class PreviewHandler : ContentViewHandler
                 Maximum = (float)Math.Min((float)captureDevice.ActiveFormat.VideoMaxZoomFactor, 8.0),
                 Minimum = 1,
                 Value = (float)captureDevice.VideoZoomFactor,
-                Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, Sizes.GetSize(SizeName.size_2), bottomPadding)
+                Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, Sizes.GetSize(SizeName.size_2),
+                    bottomPadding)
             };
-            
+
             slider.ValueChanged += (_, _) =>
             {
                 captureDevice.LockForConfiguration(out var error);
                 captureDevice.VideoZoomFactor = (float)slider.Value;
                 captureDevice.UnlockForConfiguration();
             };
-            
+
             SemanticProperties.SetHint(slider, DUILocalizedStrings.ZoomLevel);
 
             m_slider = slider;
             contentView.Content = slider;
         }
     }
-    
+
     public void RemoveZoomSlider()
     {
         UISlider?.RemoveFromSuperview();
@@ -90,50 +117,59 @@ public partial class PreviewHandler : ContentViewHandler
     internal void SetFocusPoint(double x, double y, AVCaptureDevice captureDevice, out string? error)
     {
         var previewSize = PlatformView.Bounds.Size;
-        var focusPoint = new CGPoint(x: y / previewSize.Height,
-            y: 1.0 - x / previewSize.Width);
-
-        error = null;
-        if (captureDevice.LockForConfiguration(out var configurationLockError))
+        error = "Unable to find av capture layer on the preview";
+        if (TryGetAvCaptureVideoPreviewLayer(out var previewLayer))
         {
-            try
-            {
-                if (captureDevice.FocusPointOfInterestSupported)
-                {
-                    captureDevice.FocusPointOfInterest = focusPoint;
-                    captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
-                }
+            if (previewLayer == null) return;
+            var focusPoint = previewLayer.CaptureDevicePointOfInterestForPoint(new CGPoint(x, y));
 
-                if (captureDevice.ExposurePointOfInterestSupported)
+            // var focusPoint = new CGPoint(x: y / previewSize.Height,
+            //     y: 1.0 - x / previewSize.Width);
+
+            Console.WriteLine(focusPoint);
+            error = null;
+            if (captureDevice.LockForConfiguration(out var configurationLockError))
+            {
+                try
                 {
-                    captureDevice.ExposurePointOfInterest = focusPoint;
-                    captureDevice.ExposureMode = AVCaptureExposureMode.AutoExpose;
+                    if (captureDevice.FocusPointOfInterestSupported)
+                    {
+                        captureDevice.FocusPointOfInterest = focusPoint;
+                        captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
+                    }
+
+                    if (captureDevice.ExposurePointOfInterestSupported)
+                    {
+                        captureDevice.ExposurePointOfInterest = focusPoint;
+                        captureDevice.ExposureMode = AVCaptureExposureMode.AutoExpose;
+                    }
+                }
+                catch (Exception e)
+                {
+                    error = e.Message;
+                }
+                finally
+                {
+                    captureDevice.UnlockForConfiguration();
                 }
             }
-            catch (Exception e)
+            else
             {
-                error = e.Message;
-            }
-            finally
-            {
-                captureDevice.UnlockForConfiguration();
-            }
-        }
-        else
-        {
-            if (configurationLockError != null)
-            {
-                error = configurationLockError.ToString();
+                if (configurationLockError != null)
+                {
+                    error = configurationLockError.ToString();
+                }
             }
         }
     }
 
     public void AddTapToFocus(AVCaptureDevice captureDevice)
     {
-        m_tapToFocusTapGestureRecognizer = new UITapToFocusGestureRecognizer(((set, @event) => TapToFocus(set, @event, captureDevice)));
+        m_tapToFocusTapGestureRecognizer =
+            new UITapToFocusGestureRecognizer(((set, @event) => TapToFocus(set, @event, captureDevice)));
         PlatformView.AddGestureRecognizer(m_tapToFocusTapGestureRecognizer);
     }
-    
+
     public void RemoveTouchToFocus()
     {
         if (m_tapToFocusTapGestureRecognizer == null)
@@ -144,24 +180,26 @@ public partial class PreviewHandler : ContentViewHandler
         PlatformView.RemoveGestureRecognizer(m_tapToFocusTapGestureRecognizer);
         m_tapToFocusTapGestureRecognizer = null;
     }
-    
+
     private void TapToFocus(NSSet touches, UIEvent @event, AVCaptureDevice captureDevice)
     {
         if (touches.First() is not UITouch touchPoint) return;
-        SetFocusPoint(touchPoint.LocationInView(PlatformView).X, touchPoint.LocationInView(PlatformView).Y, captureDevice, out var error);
-        
+        SetFocusPoint(touchPoint.LocationInView(PlatformView).X, touchPoint.LocationInView(PlatformView).Y,
+            captureDevice, out var error);
+
         if (error != null)
         {
             Console.WriteLine(error);
         }
-        
-        VibrationService.SelectionChanged();
-        UISlider?.BecomeFirstResponder();//Make sure slider does not loose focus for people to slide it after they tap to focus
+
+        // VibrationService.SelectionChanged();
+        UISlider?.BecomeFirstResponder(); //Make sure slider does not loose focus for people to slide it after they tap to focus
     }
 
     public void AddPinchToZoom(AVCaptureDevice captureDevice)
     {
-        m_pinchToZoomGestureRecognizer = new UIPinchGestureRecognizer((recognizer => PinchToZoom(recognizer, captureDevice)));
+        m_pinchToZoomGestureRecognizer =
+            new UIPinchGestureRecognizer((recognizer => PinchToZoom(recognizer, captureDevice)));
         PlatformView.AddGestureRecognizer(m_pinchToZoomGestureRecognizer);
     }
 
@@ -175,11 +213,13 @@ public partial class PreviewHandler : ContentViewHandler
                 try
                 {
                     var pinchVelocityDividerFactor = 5.0f;
-                    var desiredZoomFactor = captureDevice.VideoZoomFactor + Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
+                    var desiredZoomFactor = captureDevice.VideoZoomFactor +
+                                            Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
                     // Check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
-                    var zoomFactor = (nfloat) Math.Max(1.0, Math.Min(desiredZoomFactor, captureDevice.ActiveFormat.VideoMaxZoomFactor));
+                    var zoomFactor = (nfloat)Math.Max(1.0,
+                        Math.Min(desiredZoomFactor, captureDevice.ActiveFormat.VideoMaxZoomFactor));
                     captureDevice.VideoZoomFactor = zoomFactor;
-                    
+
                     if (m_slider != null) //Synchronize ZoomSlider if its added 
                     {
                         m_slider.Value = zoomFactor;

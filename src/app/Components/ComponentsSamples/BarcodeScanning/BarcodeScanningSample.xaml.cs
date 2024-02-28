@@ -28,15 +28,22 @@ public partial class BarcodeScanningSample
 
     private void DidFindBarcode(Barcode barcode)
     {
+        if (m_barCodeResultBottomSheet != null)
+        {
+            if (m_barCodeResultBottomSheet.BindingContext is Barcode)
+            {
+                return;
+            }
+        }
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
-        m_barcodeScanner.Stop();
+        // m_barcodeScanner.Stop();
         m_barCodeResultBottomSheet.OpenWithBarCode(barcode);
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)
     {
-        _ = Start();
+        // _ = Start();
         if (m_barCodeResultBottomSheet != null)
         {
             m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;

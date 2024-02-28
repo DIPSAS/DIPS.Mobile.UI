@@ -98,7 +98,7 @@ public partial class BarcodeScanner
         //Set quality for best performance
         //Source: https://developers.google.com/ml-kit/vision/barcode-scanning/ios#performance-tips where this is mentioned
         //But we've followed sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-        m_captureSession.SessionPreset = AVCaptureSession.PresetHigh;
+        m_captureSession.SessionPreset = AVCaptureSession.Preset1920x1080;
 
         //Add barcode camera output
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
@@ -137,21 +137,31 @@ public partial class BarcodeScanner
                                                         | AVMetadataObjectType.QRCode;
 
             
-            var x = 0;
-            m_rectOfInterestFillPercentage = 0.5f;
-            var height = previewLayer.Frame.Height * m_rectOfInterestFillPercentage;
-            var y = (previewLayer.Frame.Height / 2) - (height / 2);
-            var width = previewLayer.Frame.Width;
-            var regionOfInterest = new CGRect(x, y, width, height);
-            m_rectOfInterest = m_captureMetadataOutput.RectOfInterest =
-                previewLayer.MapToMetadataOutputCoordinates(regionOfInterest);
+            // var x = 0;
+            // m_rectOfInterestFillPercentage = 0.5f;
+            // var height = previewLayer.Frame.Height * m_rectOfInterestFillPercentage;
+            // var y = (previewLayer.Frame.Height / 2) - (height / 2);
+            // var width = previewLayer.Frame.Width;
+            // var regionOfInterest = new CGRect(x, y, width, height);
+            // m_rectOfInterest = m_captureMetadataOutput.RectOfInterest =
+            //     previewLayer.MapToMetadataOutputCoordinates(regionOfInterest);
+            
+            var formatDimensions = ((CMVideoFormatDescription)m_captureDevice.ActiveFormat.FormatDescription).Dimensions;
+            var rectOfInterestWidth = (double)formatDimensions.Height / (double)formatDimensions.Width;
+            var rectOfInterestHeight = 1.0;
+            var xCoordinate = (1.0 - rectOfInterestWidth) / 2.0;
+            var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
+            var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: rectOfInterestWidth,
+                height: rectOfInterestHeight);
+            m_captureMetadataOutput.RectOfInterest = initialRectOfInterest;
 
+            var rectOfInterestToLayerCoordinates = previewLayer.MapToLayerCoordinates(initialRectOfInterest);
             var layer = new CAShapeLayer();
             layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
             layer.FillColor = UIColor.Black.CGColor;
             layer.Opacity = 0.6f;
             
-            layer.Frame = regionOfInterest;
+            layer.Frame = rectOfInterestToLayerCoordinates;
             layer.BorderColor = UIColor.White.CGColor;
             layer.BorderWidth = 2;
             m_previewUIView.Layer.AddSublayer(layer);
@@ -166,15 +176,16 @@ public partial class BarcodeScanner
         m_captureSession.CommitConfiguration();
 
         SetRecommendedZoomFactor(m_captureDevice);
-        previewHandler.SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2, m_captureDevice, out var error);
-        if (error != null)
-        {
-            Log(error);
-        }
-        
+        // previewHandler.SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2, m_captureDevice, out var error);
+        // if (error != null)
+        // {
+        //     Log(error);
+        // }
+        //
         previewHandler.AddZoomSlider(m_captureDevice);
-        previewHandler.AddPinchToZoom(m_captureDevice);
-        previewHandler.AddTapToFocus(m_captureDevice);
+        // previewHandler.AddPinchToZoom(m_captureDevice);
+        
+        // previewHandler.AddTapToFocus(m_captureDevice);
         
         await StartSession();
     }
@@ -208,7 +219,7 @@ public partial class BarcodeScanner
             of minimumCodeSize (mm) fill the previewFillPercentage.
          */
         
-        var minimumSubjectDistanceForCode = MinimumSubjectDistanceForCode(deviceFieldOfView, 20, m_rectOfInterestFillPercentage);
+        var minimumSubjectDistanceForCode = MinimumSubjectDistanceForCode(deviceFieldOfView, 50, m_rectOfInterestFillPercentage);
         if (minimumSubjectDistanceForCode < deviceMinimumFocusDistance)
         {
             var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistanceForCode;
