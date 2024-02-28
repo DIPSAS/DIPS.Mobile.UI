@@ -1,3 +1,6 @@
+## [24.13.1]
+- [Image][iOS] Made sure we do nessesary null-check when the image is ready to be tinted.
+
 ## [24.13.0]
 - [BarcodeScanner][Android] Added slider for zooming.
 
