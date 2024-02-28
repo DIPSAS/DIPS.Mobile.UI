@@ -1,3 +1,8 @@
+## [24.13.2]
+- [BarcodeScanner][iOS] Improved rect of interest
+- [BarcodeScanner][iOS] Improved recommended zoom factor
+- [BarcodeScanner][iOS] Made sure the components app does not stop and start between results, this makes it more stable on iOS.
+
 ## [24.13.1]
 - [Image][iOS] Made sure we do nessesary null-check when the image is ready to be tinted.
 
