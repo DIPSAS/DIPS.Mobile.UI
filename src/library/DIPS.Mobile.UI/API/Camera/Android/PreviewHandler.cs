@@ -62,7 +62,7 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
 
     internal void UpdateZoomSlider(double linearZoom, LifecycleCameraController cameraController)
     {
-        if (m_onZoomSliderListener is {IsZoomInteracting: true}) return; //To prevent awkward slider / zooming sync
+        if (m_onZoomSliderListener is {IsZoomAction: true}) return; //To prevent awkward slider / zooming sync
 
         if (m_slider != null)
         {
@@ -72,14 +72,17 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
 
     internal void RemoveZoomSlider()
     {
-        if (m_slider != null)
+        m_onZoomSliderListener = null;
+        
+        if (m_slider == null)
         {
-            m_slider.SetOnTouchListener(null);
-            m_slider.ClearOnSliderTouchListeners();
-            PlatformView.RemoveView(m_slider);
-            m_slider = null;
-            m_onZoomSliderListener = null;
+            return;
         }
+
+        m_slider.SetOnTouchListener(null);
+        m_slider.ClearOnSliderTouchListeners();
+        PlatformView.RemoveView(m_slider);
+        m_slider = null;
     }
 
     internal class OnZoomSliderTouchListener : Java.Lang.Object, View.IOnTouchListener
@@ -154,7 +157,7 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
             return false;
         }
 
-        public bool IsZoomInteracting =>
-            m_previousAction is MotionEventActions.Down or MotionEventActions.Move;1
+        public bool IsZoomAction =>
+            m_previousAction is MotionEventActions.Down or MotionEventActions.Move;
     }
 }
