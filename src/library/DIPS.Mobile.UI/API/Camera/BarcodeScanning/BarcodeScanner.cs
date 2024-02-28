@@ -42,7 +42,6 @@ public partial class BarcodeScanner
 
     internal void InvokeBarcodeFound(Barcode barcode)
     {
-        VibrationService.SelectionChanged();
         m_didFindBarcode?.Invoke(barcode);
     }
 

@@ -20,11 +20,10 @@ public partial class BarcodeScanner
     private AVCaptureDevice? m_captureDevice;
 
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
-    private CGRect? m_rectOfInterest;
     private ContentView? m_previewUIView;
-    private float m_rectOfInterestFillPercentage;
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private AVCaptureDeviceInput? m_videoDeviceInput;
+    private double m_rectOfInterestWidth;
 
     //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
     internal partial async Task<bool> CanUseCamera()
@@ -54,7 +53,6 @@ public partial class BarcodeScanner
         }
 
         m_captureDevice = null;
-        m_rectOfInterest = null;
 
         if (m_preview?.Handler is not PreviewHandler previewHandler) return;
         previewHandler.RemoveZoomSlider();
@@ -147,11 +145,11 @@ public partial class BarcodeScanner
             //     previewLayer.MapToMetadataOutputCoordinates(regionOfInterest);
             
             var formatDimensions = ((CMVideoFormatDescription)m_captureDevice.ActiveFormat.FormatDescription).Dimensions;
-            var rectOfInterestWidth = (double)formatDimensions.Height / (double)formatDimensions.Width;
+            m_rectOfInterestWidth = (double)formatDimensions.Height / (double)formatDimensions.Width;
             var rectOfInterestHeight = 1.0;
-            var xCoordinate = (1.0 - rectOfInterestWidth) / 2.0;
+            var xCoordinate = (1.0 - m_rectOfInterestWidth) / 2.0;
             var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
-            var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: rectOfInterestWidth,
+            var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: m_rectOfInterestWidth,
                 height: rectOfInterestHeight);
             m_captureMetadataOutput.RectOfInterest = initialRectOfInterest;
 
@@ -176,16 +174,10 @@ public partial class BarcodeScanner
         m_captureSession.CommitConfiguration();
 
         SetRecommendedZoomFactor(m_captureDevice);
-        // previewHandler.SetFocusPoint(m_preview.Width / 2, m_preview.Height / 2, m_captureDevice, out var error);
-        // if (error != null)
-        // {
-        //     Log(error);
-        // }
-        //
         previewHandler.AddZoomSlider(m_captureDevice);
-        // previewHandler.AddPinchToZoom(m_captureDevice);
+        previewHandler.AddPinchToZoom(m_captureDevice);
         
-        // previewHandler.AddTapToFocus(m_captureDevice);
+        previewHandler.AddTapToFocus(m_captureDevice);
         
         await StartSession();
     }
@@ -219,7 +211,7 @@ public partial class BarcodeScanner
             of minimumCodeSize (mm) fill the previewFillPercentage.
          */
         
-        var minimumSubjectDistanceForCode = MinimumSubjectDistanceForCode(deviceFieldOfView, 50, m_rectOfInterestFillPercentage);
+        var minimumSubjectDistanceForCode = MinimumSubjectDistanceForCode(deviceFieldOfView, 50, (float)m_rectOfInterestWidth);
         if (minimumSubjectDistanceForCode < deviceMinimumFocusDistance)
         {
             var zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistanceForCode;
