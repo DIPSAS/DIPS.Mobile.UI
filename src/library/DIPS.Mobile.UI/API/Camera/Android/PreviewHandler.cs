@@ -58,11 +58,11 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
         PlatformView.AddView(slider);
         m_slider = slider;
     }
-    
+
 
     internal void UpdateZoomSlider(double linearZoom, LifecycleCameraController cameraController)
     {
-        if (m_onZoomSliderListener is {IsDragging: true}) return; //To prevent awkward slider / zooming sync
+        if (m_onZoomSliderListener is {IsZoomInteracting: true}) return; //To prevent awkward slider / zooming sync
 
         if (m_slider != null)
         {
@@ -74,15 +74,18 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
     {
         if (m_slider != null)
         {
+            m_slider.SetOnTouchListener(null);
             m_slider.ClearOnSliderTouchListeners();
             PlatformView.RemoveView(m_slider);
             m_slider = null;
+            m_onZoomSliderListener = null;
         }
     }
 
-    internal class OnZoomSliderTouchListener : Java.Lang.Object, View.IOnTouchListener, View.IOnDragListener
+    internal class OnZoomSliderTouchListener : Java.Lang.Object, View.IOnTouchListener
     {
         private readonly CameraController m_cameraController;
+        private MotionEventActions m_previousAction;
 
         public OnZoomSliderTouchListener(CameraController cameraController)
         {
@@ -92,6 +95,9 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
 
         public bool OnTouch(View? v, MotionEvent? e)
         {
+            if (e == null) return false;
+            if (v is not Slider slider) return false;
+
             switch (e.Action)
             {
                 case MotionEventActions.ButtonPress:
@@ -111,12 +117,10 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
                 case MotionEventActions.Mask:
                     break;
                 case MotionEventActions.Move:
-                    IsDragging = true;
-                    if (v is Slider slider)
+                    if (m_previousAction is MotionEventActions.Down or MotionEventActions.Move)
                     {
-                        m_cameraController.SetLinearZoom(slider.Value);
+                        m_cameraController.SetLinearZoom(slider.Value);    
                     }
-
                     break;
                 case MotionEventActions.Outside:
                     break;
@@ -137,24 +141,20 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
                 case MotionEventActions.PointerIdShift:
                     break;
                 case MotionEventActions.Up:
-                    if (IsDragging)
+                    if (m_previousAction == MotionEventActions.Down)
                     {
-                        IsDragging = false;
+                        m_cameraController.SetLinearZoom(slider.Value);
                     }
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
+            m_previousAction = e.Action;
             return false;
         }
 
-        public bool IsDragging { get; set; }
-
-        public bool OnDrag(View? v, DragEvent? e)
-        {
-            return true;
-        }
+        public bool IsZoomInteracting =>
+            m_previousAction is MotionEventActions.Down or MotionEventActions.Move;1
     }
 }
