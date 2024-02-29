@@ -1,5 +1,7 @@
-## [24.14.0]
+## [25.0.0]
 - [BarcodeScanner] Made sure the bar code scanning result goes through an observation process to determine the barcode with the most number of scans to the consumer.
+- [BreakingChange][BarcodeScanner] BarcodeScanner.Start now requires a `DidFindBarcodeCallback(Barcode barcode, List<BarcodeObservation> barcodeObservations)` instead of `Action<Barcode>`.
+- [BreakingChange][BarcodeScanner] `BarcodeScanMetadataView` is now renamed to `BarcodeScanResultView` which accepts `BarCode` and `List<BarcodeObservation>`
 
 ## [24.13.2]
 - [BarcodeScanner][iOS] Improved rect of interest
