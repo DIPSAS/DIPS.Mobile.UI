@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningResultBottomSheet"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:DataType="{x:Type dui:Barcode}">
-    <dui:BarcodeMetadataView Barcode="{Binding .}" />
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 Title="{x:Static localizedStrings:LocalizedStrings.Barcode}">
+        <dui:BarcodeScanResultView x:Name="BarcodeScanResultView" />
 </dui:BottomSheet>

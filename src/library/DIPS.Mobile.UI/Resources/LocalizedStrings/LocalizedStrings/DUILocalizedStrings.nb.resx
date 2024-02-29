@@ -83,4 +83,13 @@
     <data name="ZoomLevel" xml:space="preserve">
         <value>Zoomnivå</value>
     </data>
+    <data name="DetectedBarcodes" xml:space="preserve">
+        <value>Oppdaget strekkoder</value>
+    </data>
+    <data name="DetectedBarcodes_Explanation" xml:space="preserve">
+        <value>Flere strekkoder ble oppdaget, den uthevede strekkoden er valgt</value>
+    </data>
+    <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
+        <value>Oppdaget {0} ganger</value>
+    </data>
 </root>

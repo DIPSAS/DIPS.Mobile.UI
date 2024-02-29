@@ -188,5 +188,23 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("ZoomLevel", resourceCulture);
             }
         }
+        
+        internal static string DetectedBarcodes {
+            get {
+                return ResourceManager.GetString("DetectedBarcodes", resourceCulture);
+            }
+        }
+        
+        internal static string DetectedBarcodes_Explanation {
+            get {
+                return ResourceManager.GetString("DetectedBarcodes_Explanation", resourceCulture);
+            }
+        }
+        
+        internal static string DetectedBarcodes_DetectedString {
+            get {
+                return ResourceManager.GetString("DetectedBarcodes_DetectedString", resourceCulture);
+            }
+        }
     }
 }

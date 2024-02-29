@@ -5,20 +5,20 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 public partial class BarcodeScanner
 {
     internal Preview? m_preview;
-    private Action<Barcode, Dictionary<Barcode, int>>? m_didFindBarcode;
     private Timer? m_barCodesFoundTimer;
     private const int BarcodeComparisonTime = 500;
-    private Dictionary<Barcode, int> m_potentialBarcodes = new();
+    private List<BarcodeObservation> m_barcodeObservations = new();
+    private DidFindBarcodeCallback? m_barCodeCallback;
 
     private void Log(string message)
     {
         Console.WriteLine($@"DIPS {nameof(BarcodeScanner)}: {message}");
     }
 
-    public async Task Start(Preview preview, Action<Barcode, Dictionary<Barcode, int>> didFindBarcode)
+    public async Task Start(Preview preview, DidFindBarcodeCallback didFindBarcodeCallback)
     {
         m_preview = preview;
-        m_didFindBarcode = didFindBarcode;
+        m_barCodeCallback = didFindBarcodeCallback;
         if (await CanUseCamera())
         {
             Log("Permitted to use camera");
@@ -38,7 +38,7 @@ public partial class BarcodeScanner
     {
         PlatformStop();
         m_preview = null;
-        m_didFindBarcode = null;
+        m_barCodeCallback = null;
         StopAndDisposeTimerAndResults();
     }
 
@@ -46,41 +46,47 @@ public partial class BarcodeScanner
 
     internal void InvokeBarcodeFound(Barcode barcode)
     {
-        var (previousBarCode, numberOfScans) = m_potentialBarcodes.FirstOrDefault(pair => Equals(pair.Key, barcode));
-        if (previousBarCode == null)
+        var barcodeObservation = m_barcodeObservations.FirstOrDefault(observation => Equals(observation.Barcode, barcode));
+        if (barcodeObservation == null)
         {
-            m_potentialBarcodes.Add(barcode, 1);
+            m_barcodeObservations.Add(new BarcodeObservation(barcode, 1));
         }
         else
         {
-            m_potentialBarcodes.Remove(barcode);
-            m_potentialBarcodes.Add(barcode, numberOfScans + 1);
+            var numberOfDetections = barcodeObservation.Detections+1;
+            m_barcodeObservations.Remove(barcodeObservation);
+            m_barcodeObservations.Add(new BarcodeObservation(barcode, numberOfDetections));
         }
 
         if (m_barCodesFoundTimer == null) //Start observing timer if its not already started
         {
             Log(
-                $"First bar code found, observing for {BarcodeComparisonTime}ms until returning the most scanned barcode.");
+                $"First bar code found, observing for {BarcodeComparisonTime}ms.");
             m_barCodesFoundTimer = new Timer(_ =>
             {
-                var allBarCodesOrderedByNumberOfScans =
-                    m_potentialBarcodes.OrderByDescending(keyValuePair => keyValuePair.Value).ToList();
-                var mostScannedBarcode =
-                    allBarCodesOrderedByNumberOfScans.FirstOrDefault()
-                        .Key; //Key the bar code with the highest number of scans
-                if (allBarCodesOrderedByNumberOfScans.Count > 1)
+                var allBarCodesOrderedByDetections =
+                    m_barcodeObservations.OrderByDescending(observation => observation.Detections).ToList();
+                var mostDetectedBarcodeObservation =
+                    allBarCodesOrderedByDetections.FirstOrDefault();
+                        
+                if (mostDetectedBarcodeObservation == null) return; //Makes no sense why this would happen, but have to guard.
+                
+                mostDetectedBarcodeObservation.HasMostDetections = true; //Mark the observation as the most detected barcode
+                
+                if (allBarCodesOrderedByDetections.Count > 1)
                 {
                     Log("-- Observations --:");
-                    foreach (var keyValuePair in allBarCodesOrderedByNumberOfScans)
+                    foreach (var observation in allBarCodesOrderedByDetections)
                     {
-                        Log($"{keyValuePair.Key}, number of scans: {keyValuePair.Value}");
+                        Log($"{observation.Barcode}, detected {observation.Detections} times");
                     }
                 }
+                
 
-                Log($"The most scanned bar code: {mostScannedBarcode}");
-                var barCodeResults = m_potentialBarcodes.ToDictionary();
+                Log($"The most scanned bar code: {mostDetectedBarcodeObservation}");
+                var barCodeResults = allBarCodesOrderedByDetections.ToList();
                 StopAndDisposeTimerAndResults();
-                MainThread.BeginInvokeOnMainThread(() => m_didFindBarcode?.Invoke(mostScannedBarcode, barCodeResults)); //Give the consumer the bar code, needs to invoked on main thread!
+                MainThread.BeginInvokeOnMainThread(() => m_barCodeCallback?.Invoke(mostDetectedBarcodeObservation.Barcode, barCodeResults)); //Give the consumer the bar code, needs to invoked on main thread!
             }, null, (long)BarcodeComparisonTime, BarcodeComparisonTime);
         }
     }
@@ -88,7 +94,7 @@ public partial class BarcodeScanner
     private void StopAndDisposeTimerAndResults()
     {
         m_barCodesFoundTimer?.Change(Timeout.Infinite, Timeout.Infinite); //Stop the timer
-        m_potentialBarcodes = new Dictionary<Barcode, int>(); //Reset potential bar codes for next time we scan
+        m_barcodeObservations = []; //Reset potential bar codes for next time we scan
         m_barCodesFoundTimer = null; //Clean up
     }
 }

@@ -1,0 +1,71 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:barcodeScanning="clr-namespace:DIPS.Mobile.UI.API.Camera.BarcodeScanning"
+             xmlns:sizes="clr-namespace:DIPS.Mobile.UI.Resources.Sizes"
+             xmlns:colors="clr-namespace:DIPS.Mobile.UI.Resources.Colors"
+             xmlns:lists="clr-namespace:DIPS.Mobile.UI.Components.Lists"
+             xmlns:listitems="clr-namespace:DIPS.Mobile.UI.Components.ListItems"
+             xmlns:listitemsExtensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions"
+             xmlns:labels="clr-namespace:DIPS.Mobile.UI.Components.Labels"
+             xmlns:styles="clr-namespace:DIPS.Mobile.UI.Resources.Styles"
+             xmlns:titleOptions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Title"
+             xmlns:valueConverters="clr-namespace:DIPS.Mobile.UI.Converters.ValueConverters"
+             xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers"
+             xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings"
+             x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeScanResultView"
+             x:DataType="{x:Type barcodeScanning:BarcodeScanResultView}">
+    <lists:VerticalStackLayout Padding="{sizes:Sizes size_2}">
+        <listitems:ListItem Title="RawValue"
+                            HasBottomDivider="True">
+
+            <labels:Label Text="{Binding Barcode.RawValue}" />
+        </listitems:ListItem>
+        <listitems:ListItem Title="Format"
+                            HasBottomDivider="True"
+                            IsVisible="{OnPlatform iOS=true, Android=false}">
+            <labels:Label Text="{Binding Barcode.Format}" />
+        </listitems:ListItem>
+        <listitemsExtensions:NavigationListItem IsVisible="{OnPlatform Android=true, iOS=false}"
+                                                Title="Format"
+                                                HasBottomDivider="True"
+                                                Tapped="OnAndroidFormatTapped"
+                                                Subtitle="{Binding Barcode.Format}">
+        </listitemsExtensions:NavigationListItem>
+        <lists:CollectionView ItemsSource="{Binding BarcodeObservations}"
+                              Header="."
+                              IsVisible="{Binding HasMultipleObservations}"
+                              Margin="{sizes:Thickness Top=size_5, Left=size_3}">
+            <lists:CollectionView.HeaderTemplate>
+                <DataTemplate>
+
+                    <lists:VerticalStackLayout>
+                        <labels:Label Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes}"
+                                      Style="{styles:Styles Label=SectionHeader}" />
+                        <labels:Label
+                            Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_Explanation}"
+                            Style="{styles:Styles Label=Body200}"
+                            TextColor="{colors:Colors color_neutral_60}" />
+                        <dividers:Divider />
+                    </lists:VerticalStackLayout>
+                </DataTemplate>
+            </lists:CollectionView.HeaderTemplate>
+            <lists:CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type barcodeScanning:BarcodeObservation}">
+                    <listitems:ListItem Title="{Binding Barcode.RawValue}"
+                                        Subtitle="{Binding Detections, StringFormat={x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_DetectedString}}"
+                                        HasBottomDivider="true"
+                                        Margin="0.1">
+                        <listitems:ListItem.TitleOptions>
+                            <titleOptions:TitleOptions
+                                FontAttributes="{Binding HasMostDetections, Converter={valueConverters:BoolToObjectConverter TrueObject={x:Static FontAttributes.Bold}, FalseObject={x:Static FontAttributes.None}}}" />
+                        </listitems:ListItem.TitleOptions>
+                    </listitems:ListItem>
+                </DataTemplate>
+            </lists:CollectionView.ItemTemplate>
+        </lists:CollectionView>
+    </lists:VerticalStackLayout>
+</ContentView>
