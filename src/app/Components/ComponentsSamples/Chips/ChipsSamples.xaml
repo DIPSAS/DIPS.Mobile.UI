@@ -59,8 +59,10 @@
                        ItemsSource="{Binding Footballers}"
                        ItemDisplayProperty="Name"
                        SelectedItems="{Binding SelectedItemsFootballers, Mode=TwoWay}">
+            
          
         </dui:ChipGroup>
+            <dui:Button Command="{Binding Test}" Text="test" />
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

@@ -21,6 +21,7 @@ public partial class ChipGroup
         nameof(SelectedItems),
         typeof(IEnumerable),
         typeof(ChipGroup),
+        defaultValue: new List<object>(),
         defaultBindingMode: BindingMode.TwoWay);
     
     public string? ItemDisplayProperty { get; set; }

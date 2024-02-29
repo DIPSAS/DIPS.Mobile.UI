@@ -136,8 +136,11 @@ public partial class ChipGroup : ContentView
         {
             m_selectedItems.Remove(chipGroupItem);
         }
+        
+        
 
-        SelectedItems = m_selectedItems.Select(item => item.Obj).ToList();
+        MainThread.BeginInvokeOnMainThread(() => SelectedItems = m_selectedItems.Select(item => item.Obj).ToList());
+        
     }
 }
 

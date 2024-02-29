@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Chips;
@@ -7,7 +8,7 @@ namespace Components.ComponentsSamples.Chips;
 public class ChipsSamplesViewModel : ViewModel
 {
     private List<string> m_selectedItems = ["Ja"];
-    private List<Footballer> m_selectedItemsFootballers1 = new List<Footballer>() { new Footballer(){Name = "Odegaard"},new Footballer(){Name = "Haaland"} };
+    private List<object> m_selectedItemsFootballers1 = new List<object>() { new Footballer(){Name = "Odegaard"},new Footballer(){Name = "Haaland"} };
 
     public ChipsSamplesViewModel()
     {
@@ -20,14 +21,20 @@ public class ChipsSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedItems, value);
     }
 
-    public List<Footballer> SelectedItemsFootballers
+    public List<object> SelectedItemsFootballers
     {
         get => m_selectedItemsFootballers1;
         set => RaiseWhenSet(ref m_selectedItemsFootballers1, value);
     }
 
     public List<Footballer> Footballers => new List<Footballer>() { new Footballer(){Name = "Odegaard"},new Footballer(){Name = "Haaland"}, new Footballer(){Name = "Messi"}};
+    public ICommand Test => new Command(Testeren);
 
+    private void Testeren()
+    {
+        
+    }
+    
     public class Footballer
     {
         public string Name { get; set; }
