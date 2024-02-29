@@ -133,16 +133,7 @@ public partial class BarcodeScanner
                                                         AVMetadataObjectType.MicroQRCode
                                                         | AVMetadataObjectType.PDF417Code
                                                         | AVMetadataObjectType.QRCode;
-
             
-            // var x = 0;
-            // m_rectOfInterestFillPercentage = 0.5f;
-            // var height = previewLayer.Frame.Height * m_rectOfInterestFillPercentage;
-            // var y = (previewLayer.Frame.Height / 2) - (height / 2);
-            // var width = previewLayer.Frame.Width;
-            // var regionOfInterest = new CGRect(x, y, width, height);
-            // m_rectOfInterest = m_captureMetadataOutput.RectOfInterest =
-            //     previewLayer.MapToMetadataOutputCoordinates(regionOfInterest);
             
             var formatDimensions = ((CMVideoFormatDescription)m_captureDevice.ActiveFormat.FormatDescription).Dimensions;
             m_rectOfInterestWidth = (double)formatDimensions.Height / (double)formatDimensions.Width;

@@ -1,8 +1,6 @@
 using Android.Content;
 using Android.Gms.Tasks;
-using Android.OS;
 using Android.Runtime;
-using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
@@ -18,7 +16,6 @@ using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 using Object = Java.Lang.Object;
 using Task = System.Threading.Tasks.Task;
 using TaskCompletionSource = System.Threading.Tasks.TaskCompletionSource;
-using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
