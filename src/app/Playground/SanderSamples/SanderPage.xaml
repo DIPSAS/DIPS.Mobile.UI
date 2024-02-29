@@ -9,5 +9,5 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ChipGroup ItemsSource="{Binding List}"/> 
+    <!--<dui:ChipGroup ItemsSource="{Binding List}"/> -->
 </dui:ContentPage>

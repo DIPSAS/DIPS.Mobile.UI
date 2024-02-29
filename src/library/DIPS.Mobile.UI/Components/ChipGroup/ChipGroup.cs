@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Chips;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Maui.Layouts;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
@@ -8,17 +9,55 @@ namespace DIPS.Mobile.UI.Components.ChipGroup;
 
 public partial class ChipGroup : ContentView
 {
-    private readonly List<ChipGroupItem> m_selectedItems = new();
-    private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Column};
-    // private IEnumerable<Chip>? m_chips;
-    // private int m_column;
-    // private double m_currentRowWidth;
-    // private int m_row;
+    private readonly List<ChipGroupItem> m_selectedItems = [];
+    private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start};
+    private readonly List<ChipGroupItem> m_chipItems = [];
+
 
     public ChipGroup()
     { 
         Content = m_flexLayout;
-        BackgroundColor = Colors.Red;
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (SelectedItems is not null)
+        {
+            SetChipsToggledBasedOnSelectedItems();
+        }
+    }
+
+    private void SetChipsToggledBasedOnSelectedItems()
+    {
+        var selectedItemList = SelectedItems?.Cast<object>().ToList();
+        
+        if(selectedItemList is null)
+            return;
+
+        if (SelectionMode == ChipGroupSelectionMode.Single)
+        {
+            var selectedItem = selectedItemList.FirstOrDefault();
+            if (selectedItem is not null)
+            {
+                SetChipToggledBasedOnSelectedItem(selectedItem);
+            }
+        }
+        else
+        {
+            selectedItemList.ForEach(SetChipToggledBasedOnSelectedItem);
+        }
+    }
+
+    private void SetChipToggledBasedOnSelectedItem(object selectedItem)
+    {
+        var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
+        if (chipItem is not null)
+        {
+            chipItem.Chip.IsToggled = true;
+            m_selectedItems.Add(chipItem);
+        }
     }
 
     private void OnItemsSourceChanged()
@@ -35,14 +74,18 @@ public partial class ChipGroup : ContentView
             return;
         }
 
-
         list.ForEach(obj =>
         {
             var chip = new Chip
             {
-                Title = obj.GetPropertyValue(ItemDisplayProperty) ?? string.Empty, IsToggleable = true
+                Title = obj.GetPropertyValue(ItemDisplayProperty) ?? string.Empty, 
+                IsToggleable = true, 
+                Margin = 2
             };
-            chip.Command = new Command(_ => ChipToggled(new ChipGroupItem(chip, obj!)));
+            var item = new ChipGroupItem(chip, obj!);
+            chip.Command = new Command(_ => ChipToggled(item));
+            
+            m_chipItems.Add(item);
             m_flexLayout.Add(chip);
         });
     }
@@ -94,7 +137,7 @@ public partial class ChipGroup : ContentView
             m_selectedItems.Remove(chipGroupItem);
         }
 
-        SelectedItems = m_selectedItems.Select(item => item.Obj);
+        SelectedItems = m_selectedItems.Select(item => item.Obj).ToList();
     }
 }
 

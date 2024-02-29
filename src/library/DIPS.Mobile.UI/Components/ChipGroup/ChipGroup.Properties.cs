@@ -24,9 +24,9 @@ public partial class ChipGroup
         defaultBindingMode: BindingMode.TwoWay);
     
     public string? ItemDisplayProperty { get; set; }
-    public IEnumerable? SelectedItems
+    public IEnumerable SelectedItems
     {
-        get => (IEnumerable?)GetValue(SelectedItemsProperty);
+        get => (IEnumerable)GetValue(SelectedItemsProperty);
         set => SetValue(SelectedItemsProperty, value);
     }
 

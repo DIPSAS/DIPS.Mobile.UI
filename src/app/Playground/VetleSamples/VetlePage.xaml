@@ -19,13 +19,6 @@
         <ToolbarItem Text="hei" />
     </dui:ContentPage.ToolbarItems>
    
-    <VerticalStackLayout>
-        <dui:SaveView BackgroundColor="Red"
-                      SavingCompletedText="S"/>
-        
-        <dui:Label Text="Signer her!" />
-        
-        <dui:Button Command="{Binding Navigate}" Text="He" />
-    </VerticalStackLayout>
+ 
         
 </dui:ContentPage>
