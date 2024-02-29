@@ -18,6 +18,8 @@ public class SanderPageViewModel : ViewModel
             TestText = IsToggled ? "This is a test" : string.Empty;
             IsToggled = !IsToggled;
         });
+
+        List = new List<string>() { "test1", "test2", "test3" };
     }
 
     private void Initialize()
@@ -39,4 +41,5 @@ public class SanderPageViewModel : ViewModel
     }
 
     public ICommand NavigateCommand { get; }
+    public List<string> List { get; }
 }

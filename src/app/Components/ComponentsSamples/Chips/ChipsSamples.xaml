@@ -30,6 +30,31 @@
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
                   IsToggleable="True"/>
+        
+        <dui:ChipGroup SelectionMode="Single" HeightRequest="200">
+            <dui:ChipGroup.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Dette er en kjempelang teks</x:String>
+                    <x:String>Mini</x:String>
+                    <x:String>Test3</x:String>
+                    <x:String>Test4</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+                    <x:String>Test5</x:String>
+
+                </x:Array>
+            </dui:ChipGroup.ItemsSource>
+        </dui:ChipGroup>
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

@@ -142,6 +142,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Components\ChipGroup\Android\" />
+        <Folder Include="Components\ChipGroup\dotnet\" />
+        <Folder Include="Components\ChipGroup\iOS\" />
         <Folder Include="Resources\Splash\" />
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>

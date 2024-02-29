@@ -9,22 +9,5 @@
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:VerticalStackLayout>
-
-        <dui:Button Text="Press"
-                    Command="{Binding TestCommand}"/>
-        
-        <dui:SkeletonView FadeTime="500"
-                          IsLoading="{Binding IsToggled}"
-                          SkeletonColor="#AAEAE7E9">
-            <dui:SkeletonView.Shapes>
-                <dui:SkeletonShape Width="200"
-                                   Height="{dui:Sizes size_4}"
-                                   VerticalAlignment="Center"
-                                   CornerRadius="{dui:Sizes size_1}" />
-            </dui:SkeletonView.Shapes>
-            
-            <dui:Label Text="{Binding TestText}"/>
-        </dui:SkeletonView>
-    </dui:VerticalStackLayout>
+    <dui:ChipGroup ItemsSource="{Binding List}"/> 
 </dui:ContentPage>
