@@ -83,7 +83,7 @@ public partial class BarcodeScanner
                 }
                 
 
-                Log($"The most scanned bar code: {mostDetectedBarcodeObservation}");
+                Log($"The most detected bar code: {mostDetectedBarcodeObservation}");
                 var barCodeResults = allBarCodesOrderedByDetections.ToList();
                 StopAndDisposeTimerAndResults();
                 MainThread.BeginInvokeOnMainThread(() => m_barCodeCallback?.Invoke(mostDetectedBarcodeObservation.Barcode, barCodeResults)); //Give the consumer the bar code, needs to invoked on main thread!
