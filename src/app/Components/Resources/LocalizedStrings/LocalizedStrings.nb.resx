@@ -315,4 +315,7 @@
     <data name="BarcodeScanning" xml:space="preserve">
         <value>Strekkode skanning</value>
     </data>
+    <data name="Barcode" xml:space="preserve">
+        <value>Strekkode</value>
+    </data>
 </root>
