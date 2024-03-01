@@ -94,7 +94,7 @@
         <value>Detected barcodes</value>
     </data>
     <data name="DetectedBarcodes_Explanation" xml:space="preserve">
-        <value>Multiple barcodes was detected, the highlighted barcode is selected</value>
+        <value>Multiple barcodes was detected</value>
     </data>
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
         <value>Detected {0} times</value>

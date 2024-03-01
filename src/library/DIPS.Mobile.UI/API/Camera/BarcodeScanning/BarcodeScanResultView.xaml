@@ -14,6 +14,7 @@
              xmlns:styles="clr-namespace:DIPS.Mobile.UI.Resources.Styles"
              xmlns:titleOptions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Options.Title"
              xmlns:valueConverters="clr-namespace:DIPS.Mobile.UI.Converters.ValueConverters"
+             xmlns:selection="clr-namespace:DIPS.Mobile.UI.Components.Selection"
              xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers"
              xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings"
              x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeScanResultView"
@@ -43,12 +44,8 @@
                 <DataTemplate>
 
                     <lists:VerticalStackLayout>
-                        <labels:Label Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes}"
+                        <labels:Label Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_Explanation}"
                                       Style="{styles:Styles Label=SectionHeader}" />
-                        <labels:Label
-                            Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_Explanation}"
-                            Style="{styles:Styles Label=Body200}"
-                            TextColor="{colors:Colors color_neutral_60}" />
                         <dividers:Divider />
                     </lists:VerticalStackLayout>
                 </DataTemplate>
@@ -59,10 +56,7 @@
                                         Subtitle="{Binding Detections, StringFormat={x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_DetectedString}}"
                                         HasBottomDivider="true"
                                         Margin="0.1">
-                        <listitems:ListItem.TitleOptions>
-                            <titleOptions:TitleOptions
-                                FontAttributes="{Binding HasMostDetections, Converter={valueConverters:BoolToObjectConverter TrueObject={x:Static FontAttributes.Bold}, FalseObject={x:Static FontAttributes.None}}}" />
-                        </listitems:ListItem.TitleOptions>
+                        <selection:Checkmark IsSelected="{Binding HasMostDetections}" />
                     </listitems:ListItem>
                 </DataTemplate>
             </lists:CollectionView.ItemTemplate>
