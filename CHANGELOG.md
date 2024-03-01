@@ -1,3 +1,6 @@
+## [25.1.0]
+- Added new component: `ChipGroup`.
+
 ## [24.13.2]
 - [BarcodeScanner][iOS] Improved rect of interest
 - [BarcodeScanner][iOS] Improved recommended zoom factor

@@ -1,9 +1,8 @@
+using System.Collections;
 using DIPS.Mobile.UI.Components.Chips;
-using Microsoft.Extensions.Logging.Abstractions;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Microsoft.Maui.Layouts;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.ChipGroup;
 
@@ -78,6 +77,7 @@ public partial class ChipGroup : ContentView
         {
             var chip = new Chip
             {
+                Style = Styles.GetChipStyle(ChipStyle.EmptyInput),
                 Title = obj.GetPropertyValue(ItemDisplayProperty) ?? string.Empty, 
                 IsToggleable = true, 
                 Margin = 2
@@ -137,10 +137,15 @@ public partial class ChipGroup : ContentView
             m_selectedItems.Remove(chipGroupItem);
         }
         
+        var listType = typeof(List<>).MakeGenericType(chipGroupItem.Obj.GetType());
+        var myList = (IList)Activator.CreateInstance(listType)!;
+        foreach (var item in m_selectedItems)
+        {
+            myList.Add(item.Obj);
+        }
         
-
-        MainThread.BeginInvokeOnMainThread(() => SelectedItems = m_selectedItems.Select(item => item.Obj).ToList());
-        
+        SelectedItems = myList;
+        OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(SelectedItems));
     }
 }
 

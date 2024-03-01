@@ -16,13 +16,14 @@ public partial class ChipGroup
         typeof(ChipGroupSelectionMode),
         typeof(ChipGroup));
 
-
     public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(
         nameof(SelectedItems),
         typeof(IEnumerable),
         typeof(ChipGroup),
         defaultValue: new List<object>(),
         defaultBindingMode: BindingMode.TwoWay);
+    
+    public event EventHandler<ChipGroupEventArgs>? OnSelectedItemsChanged;
     
     public string? ItemDisplayProperty { get; set; }
     public IEnumerable SelectedItems
@@ -48,4 +49,14 @@ public enum ChipGroupSelectionMode
 {
     Single,
     Multi
+}
+
+public class ChipGroupEventArgs : EventArgs
+{
+    public ChipGroupEventArgs(IEnumerable selectedItems)
+    {
+        SelectedItems = selectedItems;
+    }
+    
+    public IEnumerable SelectedItems { get; }
 }

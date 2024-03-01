@@ -58,7 +58,8 @@
         <dui:ChipGroup SelectionMode="Multi"
                        ItemsSource="{Binding Footballers}"
                        ItemDisplayProperty="Name"
-                       SelectedItems="{Binding SelectedItemsFootballers, Mode=TwoWay}">
+                       SelectedItems="{Binding SelectedItemsFootballers, Mode=TwoWay}"
+                       OnSelectedItemsChanged="ChipGroup_OnOnSelectedItemsChanged">
             
          
         </dui:ChipGroup>
