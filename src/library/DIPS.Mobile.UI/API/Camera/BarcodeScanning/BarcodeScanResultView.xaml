@@ -41,6 +41,7 @@
                                                 Subtitle="{Binding BarcodeScanResult.Barcode.Format}">
         </listitemsExtensions:NavigationListItem>
         <lists:CollectionView Grid.Row="2"
+                              VerticalScrollBarVisibility="Never"
                               ItemsSource="{Binding BarcodeScanResult.Observations}"
                               Header="."
                               IsVisible="{Binding BarcodeScanResult.HasMultipleObservations}"
