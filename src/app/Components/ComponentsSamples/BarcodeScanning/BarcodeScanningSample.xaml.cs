@@ -26,24 +26,23 @@ public partial class BarcodeScanningSample
         }
     }
 
-    private void DidFindBarcode(Barcode barcode)
+    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
     {
-        if (m_barCodeResultBottomSheet != null)
-        {
-            if (m_barCodeResultBottomSheet.BindingContext is Barcode)
+        if (m_barCodeResultBottomSheet is
             {
-                return;
-            }
+                HasBarCode: true
+            })
+        {
+            return;
         }
+
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
-        // m_barcodeScanner.Stop();
-        m_barCodeResultBottomSheet.OpenWithBarCode(barcode);
+        m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)
     {
-        // _ = Start();
         if (m_barCodeResultBottomSheet != null)
         {
             m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
@@ -14,9 +9,12 @@ public partial class BarcodeScanningResultBottomSheet
         InitializeComponent();
     }
 
-    public void OpenWithBarCode(Barcode barcode)
+    public async void OpenWithBarCode(BarcodeScanResult barcodeScanResult)
     {
-        BindingContext = barcode;      
-        _ = this.Open();
+        HasBarCode = true;
+        BarcodeScanResultView.BarcodeScanResult = barcodeScanResult;
+        await this.Open();
     }
+
+    public bool HasBarCode { get; private set; }
 }

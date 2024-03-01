@@ -1,6 +1,11 @@
 ## [25.1.0]
 - Added new component: `ChipGroup`.
 
+## [25.0.0]
+- [BarcodeScanner] Made sure the bar code scanning result goes through an observation process to determine the barcode with the most number of scans to the consumer.
+- [BreakingChange][BarcodeScanner] BarcodeScanner.Start now requires a `DidFindBarcodeCallback(BarcodeScanResult)` instead of `Action<Barcode>`.
+- [BreakingChange][BarcodeScanner] `BarcodeScanMetadataView` is now renamed to `BarcodeScanResultView` which accepts `BarcodeScanResult`.
+
 ## [24.13.2]
 - [BarcodeScanner][iOS] Improved rect of interest
 - [BarcodeScanner][iOS] Improved recommended zoom factor

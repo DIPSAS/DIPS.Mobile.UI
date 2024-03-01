@@ -644,5 +644,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BarcodeScanning", resourceCulture);
             }
         }
+        
+        internal static string Barcode {
+            get {
+                return ResourceManager.GetString("Barcode", resourceCulture);
+            }
+        }
     }
 }

@@ -90,4 +90,13 @@
     <data name="ZoomLevel" xml:space="preserve">
         <value>Zoom level</value>
     </data>
+    <data name="DetectedBarcodes" xml:space="preserve">
+        <value>Detected barcodes</value>
+    </data>
+    <data name="DetectedBarcodes_Explanation" xml:space="preserve">
+        <value>Multiple barcodes was detected</value>
+    </data>
+    <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
+        <value>Detected {0} times</value>
+    </data>
 </root>

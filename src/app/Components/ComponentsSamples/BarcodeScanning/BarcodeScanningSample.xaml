@@ -7,5 +7,4 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningSample">
     <dui:Preview x:Name="Preview" />
-
 </dui:ContentPage>
