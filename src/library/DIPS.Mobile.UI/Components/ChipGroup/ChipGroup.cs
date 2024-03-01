@@ -12,7 +12,6 @@ public partial class ChipGroup : ContentView
     private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start};
     private readonly List<ChipGroupItem> m_chipItems = [];
 
-
     public ChipGroup()
     { 
         Content = m_flexLayout;
@@ -89,30 +88,6 @@ public partial class ChipGroup : ContentView
             m_flexLayout.Add(chip);
         });
     }
-
-    // private void ChipOnSizeChanged(object? sender, EventArgs e)
-    // {
-    //     if (sender is not Chip chip)
-    //     {
-    //         return;
-    //     }
-    //
-    //     m_currentRowWidth += chip.DesiredSize.Width;
-    //     m_firstHorizontalStackLayout.Remove(chip);
-    //     
-    //     if (m_firstHorizontalStackLayout.Count is 0)
-    //         m_flexLayout.Remove(m_firstHorizontalStackLayout);
-    //
-    //     if (m_currentRowWidth > Width)
-    //     {
-    //         m_flexLayout.Add(m_currentHorizontalStackLayout = []);
-    //         m_currentRowWidth = 0;
-    //     }
-    //
-    //     m_currentHorizontalStackLayout.Add(chip);
-    //     chip.SizeChanged -= ChipOnSizeChanged;
-    // }
-
 
     private void ChipToggled(ChipGroupItem chipGroupItem)
     {
