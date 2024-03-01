@@ -5,6 +5,7 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:preview="clr-namespace:DIPS.Mobile.UI.API.Camera.Preview;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningSample">
-    <dui:Preview x:Name="Preview" />
+    <preview:CameraPreview x:Name="CameraPreview" />
 </dui:ContentPage>

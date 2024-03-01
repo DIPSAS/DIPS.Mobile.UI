@@ -6,6 +6,7 @@ using AndroidX.Camera.View;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using Java.Lang;
 using Microsoft.Maui.Platform;
@@ -62,7 +63,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
 
         m_startedTcs = new TaskCompletionSource();
 
-        if (m_preview?.Handler is PreviewHandler previewHandler)
+        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
         {
             m_previewView = previewHandler.PreviewView;
         }
@@ -135,7 +136,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
             ImageAnalyzer.Create(AnalyzeImage));
 
-        if (m_preview?.Handler is PreviewHandler previewHandler)
+        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
         {
             previewHandler.AddZoomSlider(m_cameraController);
         }
@@ -161,7 +162,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         {
             m_fragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
             m_cameraController.Unbind();
-            if (m_preview?.Handler is PreviewHandler previewHandler)
+            if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
             {
                 previewHandler.RemoveZoomSlider();
             }
@@ -206,7 +207,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
     {
         if (double.TryParse(value.GetPropertyValue("LinearZoom"), out var linearZoom))
         {
-            if (m_preview?.Handler is PreviewHandler previewHandler)
+            if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
             {
                 previewHandler.UpdateZoomSlider(linearZoom, m_cameraController);
             }  
