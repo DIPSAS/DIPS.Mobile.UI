@@ -18,9 +18,10 @@
              xmlns:dividers="clr-namespace:DIPS.Mobile.UI.Components.Dividers"
              xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings"
              x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeScanResultView"
-             x:DataType="{x:Type barcodeScanning:BarcodeScanResultView}">
+             x:Name="This">
     <Grid Padding="{sizes:Sizes size_2}"
-          RowDefinitions="Auto, Auto, *">
+          RowDefinitions="Auto, Auto, *"
+          BindingContext="{Binding Source={x:Reference This}}">
         <listitems:ListItem Grid.Row="0"
                             Title="RawValue"
                             HasBottomDivider="True">

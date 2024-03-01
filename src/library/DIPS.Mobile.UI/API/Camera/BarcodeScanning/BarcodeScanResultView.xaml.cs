@@ -11,7 +11,6 @@ public partial class BarcodeScanResultView : ContentView
     public BarcodeScanResultView()
     {
         InitializeComponent();
-        BindingContext = this;
     }
 
     public static readonly BindableProperty BarcodeScanResultProperty = BindableProperty.Create(
