@@ -19,24 +19,29 @@
              xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings"
              x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeScanResultView"
              x:DataType="{x:Type barcodeScanning:BarcodeScanResultView}">
-    <lists:VerticalStackLayout Padding="{sizes:Sizes size_2}">
-        <listitems:ListItem Title="RawValue"
+    <Grid Padding="{sizes:Sizes size_2}"
+          RowDefinitions="Auto, Auto, *">
+        <listitems:ListItem Grid.Row="0"
+                            Title="RawValue"
                             HasBottomDivider="True">
 
             <labels:Label Text="{Binding BarcodeScanResult.Barcode.RawValue}" />
         </listitems:ListItem>
-        <listitems:ListItem Title="Format"
+        <listitems:ListItem Grid.Row="1"
+                            Title="Format"
                             HasBottomDivider="True"
                             IsVisible="{OnPlatform iOS=true, Android=false}">
             <labels:Label Text="{Binding BarcodeScanResult.Barcode.Format}" />
         </listitems:ListItem>
-        <listitemsExtensions:NavigationListItem IsVisible="{OnPlatform Android=true, iOS=false}"
+        <listitemsExtensions:NavigationListItem Grid.Row="1"
+                                                IsVisible="{OnPlatform Android=true, iOS=false}"
                                                 Title="Format"
                                                 HasBottomDivider="True"
                                                 Tapped="OnAndroidFormatTapped"
                                                 Subtitle="{Binding BarcodeScanResult.Barcode.Format}">
         </listitemsExtensions:NavigationListItem>
-        <lists:CollectionView ItemsSource="{Binding BarcodeScanResult.Observations}"
+        <lists:CollectionView Grid.Row="2"
+                              ItemsSource="{Binding BarcodeScanResult.Observations}"
                               Header="."
                               IsVisible="{Binding BarcodeScanResult.HasMultipleObservations}"
                               Margin="{sizes:Thickness Top=size_5, Left=size_3}">
@@ -44,8 +49,9 @@
                 <DataTemplate>
 
                     <lists:VerticalStackLayout>
-                        <labels:Label Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_Explanation}"
-                                      Style="{styles:Styles Label=SectionHeader}" />
+                        <labels:Label
+                            Text="{x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_Explanation}"
+                            Style="{styles:Styles Label=SectionHeader}" />
                         <dividers:Divider />
                     </lists:VerticalStackLayout>
                 </DataTemplate>
@@ -61,5 +67,5 @@
                 </DataTemplate>
             </lists:CollectionView.ItemTemplate>
         </lists:CollectionView>
-    </lists:VerticalStackLayout>
+    </Grid>
 </ContentView>

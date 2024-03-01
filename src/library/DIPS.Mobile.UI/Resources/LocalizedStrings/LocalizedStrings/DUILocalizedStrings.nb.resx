@@ -87,7 +87,7 @@
         <value>Oppdaget strekkoder</value>
     </data>
     <data name="DetectedBarcodes_Explanation" xml:space="preserve">
-        <value>Flere strekkoder ble oppdaget.</value>
+        <value>Flere strekkoder ble oppdaget</value>
     </data>
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
         <value>Oppdaget {0} ganger</value>
