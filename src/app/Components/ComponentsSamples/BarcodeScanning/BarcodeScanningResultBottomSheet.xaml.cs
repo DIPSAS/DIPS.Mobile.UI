@@ -11,9 +11,9 @@ public partial class BarcodeScanningResultBottomSheet
 
     public async void OpenWithBarCode(BarcodeScanResult barcodeScanResult)
     {
-        await this.Open();
-        BarcodeScanResultView.BarcodeScanResult = barcodeScanResult;
         HasBarCode = true;
+        BarcodeScanResultView.BarcodeScanResult = barcodeScanResult;
+        await this.Open();
     }
 
     public bool HasBarCode { get; private set; }

@@ -83,9 +83,8 @@ public partial class BarcodeScanner
                         Log($"{observation.Barcode}, detected {observation.Detections} times");
                     }
                 }
-
-
-                Log($"The most detected bar code: {mostDetectedBarcodeObservation}");
+                
+                Log($"The most detected bar code: {mostDetectedBarcodeObservation.Barcode}");
                 var barCodeResults = allBarCodesOrderedByDetections.ToList();
                 StopAndDisposeTimerAndResults();
                 MainThread.BeginInvokeOnMainThread(() =>
