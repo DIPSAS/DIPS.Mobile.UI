@@ -63,7 +63,7 @@
                                         Subtitle="{Binding Detections, StringFormat={x:Static localizedStrings:DUILocalizedStrings.DetectedBarcodes_DetectedString}}"
                                         HasBottomDivider="true"
                                         Margin="0.1">
-                        <selection:Checkmark IsSelected="{Binding HasMostDetections}" />
+                        <selection:Checkmark IsSelected="True" IsVisible="{Binding HasMostDetections}" />
                     </listitems:ListItem>
                 </DataTemplate>
             </lists:CollectionView.ItemTemplate>
