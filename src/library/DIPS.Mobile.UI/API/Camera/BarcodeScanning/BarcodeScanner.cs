@@ -6,7 +6,6 @@ public partial class BarcodeScanner
 {
     internal Preview? m_preview;
     private Timer? m_barCodesFoundTimer;
-    private const int BarcodeComparisonTime = 500;
     private List<BarcodeObservation> m_barcodeObservations = new();
     private DidFindBarcodeCallback? m_barCodeCallback;
 
@@ -46,14 +45,15 @@ public partial class BarcodeScanner
 
     internal void InvokeBarcodeFound(Barcode barcode)
     {
-        var barcodeObservation = m_barcodeObservations.FirstOrDefault(observation => Equals(observation.Barcode, barcode));
+        var barcodeObservation =
+            m_barcodeObservations.FirstOrDefault(observation => Equals(observation.Barcode, barcode));
         if (barcodeObservation == null)
         {
             m_barcodeObservations.Add(new BarcodeObservation(barcode, 1));
         }
         else
         {
-            var numberOfDetections = barcodeObservation.Detections+1;
+            var numberOfDetections = barcodeObservation.Detections + 1;
             m_barcodeObservations.Remove(barcodeObservation);
             m_barcodeObservations.Add(new BarcodeObservation(barcode, numberOfDetections));
         }
@@ -61,18 +61,20 @@ public partial class BarcodeScanner
         if (m_barCodesFoundTimer == null) //Start observing timer if its not already started
         {
             Log(
-                $"First bar code found, observing for {BarcodeComparisonTime}ms.");
+                $"First bar code found, observing for {BarcodeDetectionTime}ms.");
             m_barCodesFoundTimer = new Timer(_ =>
             {
                 var allBarCodesOrderedByDetections =
                     m_barcodeObservations.OrderByDescending(observation => observation.Detections).ToList();
                 var mostDetectedBarcodeObservation =
                     allBarCodesOrderedByDetections.FirstOrDefault();
-                        
-                if (mostDetectedBarcodeObservation == null) return; //Makes no sense why this would happen, but have to guard.
-                
-                mostDetectedBarcodeObservation.HasMostDetections = true; //Mark the observation as the most detected barcode
-                
+
+                if (mostDetectedBarcodeObservation == null)
+                    return; //Makes no sense why this would happen, but have to guard.
+
+                mostDetectedBarcodeObservation.HasMostDetections =
+                    true; //Mark the observation as the most detected barcode
+
                 if (allBarCodesOrderedByDetections.Count > 1)
                 {
                     Log("-- Observations --:");
@@ -81,13 +83,15 @@ public partial class BarcodeScanner
                         Log($"{observation.Barcode}, detected {observation.Detections} times");
                     }
                 }
-                
+
 
                 Log($"The most detected bar code: {mostDetectedBarcodeObservation}");
                 var barCodeResults = allBarCodesOrderedByDetections.ToList();
                 StopAndDisposeTimerAndResults();
-                MainThread.BeginInvokeOnMainThread(() => m_barCodeCallback?.Invoke(mostDetectedBarcodeObservation.Barcode, barCodeResults)); //Give the consumer the bar code, needs to invoked on main thread!
-            }, null, (long)BarcodeComparisonTime, BarcodeComparisonTime);
+                MainThread.BeginInvokeOnMainThread(() =>
+                    m_barCodeCallback?.Invoke(new BarcodeScanResult(mostDetectedBarcodeObservation.Barcode,
+                        barCodeResults))); //Give the consumer the bar code, needs to invoked on main thread!
+            }, null, (long)BarcodeDetectionTime, BarcodeDetectionTime);
         }
     }
 

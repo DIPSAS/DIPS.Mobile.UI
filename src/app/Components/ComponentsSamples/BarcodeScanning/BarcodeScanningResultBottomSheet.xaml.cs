@@ -9,11 +9,10 @@ public partial class BarcodeScanningResultBottomSheet
         InitializeComponent();
     }
 
-    public async void OpenWithBarCode(Barcode barcode, List<BarcodeObservation> barcodeObservations)
+    public async void OpenWithBarCode(BarcodeScanResult barcodeScanResult)
     {
         await this.Open();
-        BarcodeScanResultView.Barcode = barcode;
-        BarcodeScanResultView.BarcodeObservations = barcodeObservations;
+        BarcodeScanResultView.BarcodeScanResult = barcodeScanResult;
         HasBarCode = true;
     }
 

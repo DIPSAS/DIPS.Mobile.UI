@@ -22,22 +22,22 @@
         <listitems:ListItem Title="RawValue"
                             HasBottomDivider="True">
 
-            <labels:Label Text="{Binding Barcode.RawValue}" />
+            <labels:Label Text="{Binding BarcodeScanResult.Barcode.RawValue}" />
         </listitems:ListItem>
         <listitems:ListItem Title="Format"
                             HasBottomDivider="True"
                             IsVisible="{OnPlatform iOS=true, Android=false}">
-            <labels:Label Text="{Binding Barcode.Format}" />
+            <labels:Label Text="{Binding BarcodeScanResult.Barcode.Format}" />
         </listitems:ListItem>
         <listitemsExtensions:NavigationListItem IsVisible="{OnPlatform Android=true, iOS=false}"
                                                 Title="Format"
                                                 HasBottomDivider="True"
                                                 Tapped="OnAndroidFormatTapped"
-                                                Subtitle="{Binding Barcode.Format}">
+                                                Subtitle="{Binding BarcodeScanResult.Barcode.Format}">
         </listitemsExtensions:NavigationListItem>
-        <lists:CollectionView ItemsSource="{Binding BarcodeObservations}"
+        <lists:CollectionView ItemsSource="{Binding BarcodeScanResult.Observations}"
                               Header="."
-                              IsVisible="{Binding HasMultipleObservations}"
+                              IsVisible="{Binding BarcodeScanResult.HasMultipleObservations}"
                               Margin="{sizes:Thickness Top=size_5, Left=size_3}">
             <lists:CollectionView.HeaderTemplate>
                 <DataTemplate>

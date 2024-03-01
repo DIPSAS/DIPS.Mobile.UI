@@ -26,7 +26,7 @@ public partial class BarcodeScanningSample
         }
     }
 
-    private void DidFindBarcode(Barcode barcode, List<BarcodeObservation> barcodeObservations)
+    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
     {
         if (m_barCodeResultBottomSheet is
             {
@@ -38,7 +38,7 @@ public partial class BarcodeScanningSample
 
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
-        m_barCodeResultBottomSheet.OpenWithBarCode(barcode, barcodeObservations);
+        m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)

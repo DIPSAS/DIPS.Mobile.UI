@@ -14,43 +14,15 @@ public partial class BarcodeScanResultView : ContentView
         BindingContext = this;
     }
 
-    public static readonly BindableProperty BarcodeProperty = BindableProperty.Create(
-        nameof(Barcode),
-        typeof(Barcode),
+    public static readonly BindableProperty BarcodeScanResultProperty = BindableProperty.Create(
+        nameof(BarcodeScanResult),
+        typeof(BarcodeScanResult),
         typeof(BarcodeScanResultView));
 
-    public Barcode Barcode
+    public BarcodeScanResult BarcodeScanResult
     {
-        get => (Barcode)GetValue(BarcodeProperty);
-        set => SetValue(BarcodeProperty, value);
-    }
-
-    public static readonly BindableProperty BarcodeObservationsProperty = BindableProperty.Create(
-        nameof(BarcodeObservations),
-        typeof(List<BarcodeObservation>),
-        typeof(BarcodeScanResultView), defaultValue:new List<BarcodeObservation>(), propertyChanged: ((bindable, _, _) => ((BarcodeScanResultView)bindable).OnBarcodeObservationsChanged()));
-
-    private bool m_hasMultipleObservations;
-
-    private void OnBarcodeObservationsChanged()
-    {
-        HasMultipleObservations = BarcodeObservations.Count > 1;
-    }
-
-    public bool HasMultipleObservations
-    {
-        get => m_hasMultipleObservations;
-        set
-        {
-            m_hasMultipleObservations = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public List<BarcodeObservation> BarcodeObservations
-    {
-        get => (List<BarcodeObservation>)GetValue(BarcodeObservationsProperty);
-        set => SetValue(BarcodeObservationsProperty, value);
+        get => (BarcodeScanResult)GetValue(BarcodeScanResultProperty);
+        set => SetValue(BarcodeScanResultProperty, value);
     }
 
     private void OnAndroidFormatTapped(object? sender, EventArgs e)
