@@ -3,7 +3,7 @@ using CoreAnimation;
 using CoreFoundation;
 using CoreGraphics;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.iOS;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
 using UIKit;
@@ -54,7 +54,7 @@ public partial class BarcodeScanner
 
         m_captureDevice = null;
 
-        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
         previewHandler.RemoveZoomSlider();
         previewHandler.RemovePinchToZoom();
         previewHandler.RemoveTouchToFocus();
@@ -65,7 +65,7 @@ public partial class BarcodeScanner
     internal async partial Task PlatformStart()
     {
         //This makes sure we display the video feed
-        if (m_preview?.Handler is not PreviewHandler previewHandler) return;
+        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
 
         m_previewUIView = previewHandler.PlatformView;
 

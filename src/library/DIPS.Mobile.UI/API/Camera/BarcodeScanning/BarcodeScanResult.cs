@@ -1,7 +1,9 @@
+using DIPS.Mobile.UI.API.Camera.Preview;
+
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 /// <summary>
-/// The result from a barcode scan. The most detected barcode is returned from the barcode scanner detected the first barcode in the <see cref="Preview"/> until <see cref="BarcodeScanner."/>
+/// The result from a barcode scan. The most detected barcode is returned from the barcode scanner detected the first barcode in the <see cref="CameraPreview"/> until <see cref="BarcodeScanner."/>
 /// </summary>
 public class BarcodeScanResult(Barcode barcode, List<BarcodeObservation> observations)
 {

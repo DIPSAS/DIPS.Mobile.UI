@@ -1,10 +1,10 @@
-namespace DIPS.Mobile.UI.API.Camera;
+namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-public class Preview : ContentView
+public class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
 
-    public Preview()
+    public CameraPreview()
     {
         Loaded += OnLoaded;
     }

@@ -1,7 +1,7 @@
 using Foundation;
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Camera.iOS;
+namespace DIPS.Mobile.UI.API.Camera.Preview.iOS;
 
 internal class UITapToFocusGestureRecognizer : UITapGestureRecognizer
 {
