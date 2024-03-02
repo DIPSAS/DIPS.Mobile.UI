@@ -1,3 +1,9 @@
+## [26.1.0]
+- [EmptyView] is now public
+- [EmptyView] Added EmptyViewModel as a property
+- [ErrorView] is now public
+- [ErrorView] Added ErrorViewModel as a property
+
 ## [26.0.0]
 - [BreakingChange][Camera] Renamed `Preview` to `CameraPreview`
 
