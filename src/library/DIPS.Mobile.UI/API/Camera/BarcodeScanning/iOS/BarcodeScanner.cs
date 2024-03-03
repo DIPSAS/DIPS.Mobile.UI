@@ -96,9 +96,7 @@ public partial class BarcodeScanner
         }
 
         //Set quality for best performance
-        //Source: https://developers.google.com/ml-kit/vision/barcode-scanning/ios#performance-tips where this is mentioned
-        //But we've followed sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-        m_captureSession.SessionPreset = AVCaptureSession.Preset1920x1080;
+        m_captureSession.SessionPreset = AVCaptureSession.PresetHigh;
 
         //Add barcode camera output
         m_captureMetadataOutput = new AVCaptureMetadataOutput();

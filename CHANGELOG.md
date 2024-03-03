@@ -4,6 +4,7 @@
 - [ErrorView] is now public
 - [ErrorView] Added ErrorViewModel as a property
 - [BarcodeScanner][iOS] Made sure capture output runs on its own dispatcher.
+- [BarcodeScanner][iOS] Set preset to PresetHigh for better image quality while scanning.
 
 ## [26.0.0]
 - [BreakingChange][Camera] Renamed `Preview` to `CameraPreview`
