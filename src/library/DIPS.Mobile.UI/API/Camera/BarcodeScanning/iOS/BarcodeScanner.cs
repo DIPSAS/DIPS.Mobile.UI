@@ -267,7 +267,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
                 var stringValue = readableObject.StringValue;
                 if (stringValue != null)
                 {
-                    m_onSuccess.Invoke(readableObject);
+                    MainThread.BeginInvokeOnMainThread(() =>m_onSuccess.Invoke(readableObject));
                 }
             }
         }
