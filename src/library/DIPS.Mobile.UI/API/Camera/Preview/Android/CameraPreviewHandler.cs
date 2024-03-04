@@ -4,21 +4,20 @@ using AndroidX.Camera.View;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
 using Slider = Google.Android.Material.Slider.Slider;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.API.Camera;
+namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 //Preview: https://developer.android.com/media/camera/camera2/camera-preview
-public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
+public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeLayout>
 {
     private Slider? m_slider;
     private ScaleGestureDetector? m_scaleGestureDetector;
     private OnZoomSliderTouchListener? m_onZoomSliderListener;
 
-    public PreviewHandler() : base(ViewMapper, ViewCommandMapper)
+    public CameraPreviewHandler() : base(ViewMapper, ViewCommandMapper)
     {
     }
 
@@ -43,7 +42,7 @@ public partial class PreviewHandler : ViewHandler<Preview, RelativeLayout>
     //Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
     internal void AddZoomSlider(CameraController cameraController)
     {
-        var slider = new Slider(Context);
+        var slider = new Google.Android.Material.Slider.Slider(Context);
         var layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
             ViewGroup.LayoutParams.WrapContent);
         layoutParams.AddRule(LayoutRules.AlignParentBottom);

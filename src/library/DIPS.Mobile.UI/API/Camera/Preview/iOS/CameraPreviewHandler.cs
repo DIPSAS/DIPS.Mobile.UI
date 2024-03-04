@@ -1,19 +1,16 @@
 using AVFoundation;
-using CoreAnimation;
 using CoreGraphics;
-using DIPS.Mobile.UI.API.Camera.iOS;
-using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 
-namespace DIPS.Mobile.UI.API.Camera;
+namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-public partial class PreviewHandler : ContentViewHandler
+public partial class CameraPreviewHandler : ContentViewHandler
 {
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
     private Slider? m_slider;

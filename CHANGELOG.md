@@ -1,5 +1,16 @@
-## [25.1.0]
+## [26.2.0]
 - Added new component: `ChipGroup`.
+
+## [26.1.0]
+- [EmptyView] is now public
+- [EmptyView] Added EmptyViewModel as a property
+- [ErrorView] is now public
+- [ErrorView] Added ErrorViewModel as a property
+- [BarcodeScanner][iOS] Made sure capture output runs on its own dispatcher.
+- [BarcodeScanner][iOS] Set preset to PresetHigh for better image quality while scanning.
+
+## [26.0.0]
+- [BreakingChange][Camera] Renamed `Preview` to `CameraPreview`
 
 ## [25.0.0]
 - [BarcodeScanner] Made sure the bar code scanning result goes through an observation process to determine the barcode with the most number of scans to the consumer.

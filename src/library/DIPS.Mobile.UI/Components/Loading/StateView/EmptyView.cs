@@ -8,7 +8,7 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-internal class EmptyView : ScrollView
+public class EmptyView : ScrollView
 {
     public EmptyView()
     {
@@ -50,4 +50,15 @@ internal class EmptyView : ScrollView
         Content = verticalStackLayout;
     }
 
+    public static readonly BindableProperty EmptyViewModelProperty = BindableProperty.Create(
+        nameof(EmptyViewModel),
+        typeof(EmptyViewModel),
+        typeof(EmptyView), propertyChanged:(bindable, _, _) =>
+            ((EmptyView)bindable).BindingContext = ((EmptyView)bindable).EmptyViewModel);
+
+    public EmptyViewModel EmptyViewModel
+    {
+        get => (EmptyViewModel)GetValue(EmptyViewModelProperty);
+        set => SetValue(EmptyViewModelProperty, value);
+    }
 }
