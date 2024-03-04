@@ -71,16 +71,4 @@ public partial class HåvardPage
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
     }
-
-    private void Switch_OnToggled(object sender, ToggledEventArgs e)
-    {
-        if (ContentView.Content is null)
-        {
-            ContentView.Content = m_image;
-        }
-        else
-        {
-            ContentView.Content = null;
-        }
-    }
 }

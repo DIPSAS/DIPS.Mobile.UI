@@ -6,11 +6,11 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Loading.StateView;
 
-internal class ErrorView : ScrollView
+public class ErrorView : ScrollView
 {
     public ErrorView()
     {
-        var verticalStackLayout = new VerticalStackLayout { Spacing = 0, VerticalOptions = LayoutOptions.Center };
+        var verticalStackLayout = new VerticalStackLayout {Spacing = 0, VerticalOptions = LayoutOptions.Center};
 
         var icon = new Images.Image.Image
         {
@@ -19,8 +19,9 @@ internal class ErrorView : ScrollView
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
         };
         icon.SetBinding(Image.SourceProperty, new Binding(nameof(ErrorViewModel.Icon)));
-        icon.SetBinding(IsVisibleProperty, new Binding(nameof(ErrorViewModel.Icon), converter: new IsEmptyConverter{ Inverted = true }));
-        
+        icon.SetBinding(IsVisibleProperty,
+            new Binding(nameof(ErrorViewModel.Icon), converter: new IsEmptyConverter {Inverted = true}));
+
         var titleLabel = new Labels.Label
         {
             VerticalOptions = LayoutOptions.Center,
@@ -47,5 +48,18 @@ internal class ErrorView : ScrollView
         verticalStackLayout.Add(descriptionLabel);
 
         Content = verticalStackLayout;
+    }
+
+    public static readonly BindableProperty ErrorViewModelProperty = BindableProperty.Create(
+        nameof(ErrorViewModel),
+        typeof(ErrorViewModel),
+        typeof(ErrorView),
+        propertyChanged: (bindable, _, _) =>
+            ((ErrorView)bindable).BindingContext = ((ErrorView)bindable).ErrorViewModel);
+
+    public ErrorViewModel ErrorViewModel
+    {
+        get => (ErrorViewModel)GetValue(ErrorViewModelProperty);
+        set => SetValue(ErrorViewModelProperty, value);
     }
 }

@@ -25,6 +25,8 @@ public partial class BarcodeScanner
     private AVCaptureDeviceInput? m_videoDeviceInput;
     private double m_rectOfInterestWidth;
 
+    private DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
+
     //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
     internal partial async Task<bool> CanUseCamera()
     {
@@ -94,12 +96,11 @@ public partial class BarcodeScanner
         }
 
         //Set quality for best performance
-        //Source: https://developers.google.com/ml-kit/vision/barcode-scanning/ios#performance-tips where this is mentioned
-        //But we've followed sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-        m_captureSession.SessionPreset = AVCaptureSession.Preset1920x1080;
+        m_captureSession.SessionPreset = AVCaptureSession.PresetHigh;
 
         //Add barcode camera output
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
+        
         if (m_captureSession.CanAddOutput(m_captureMetadataOutput))
         {
             m_captureSession.AddOutput(
@@ -111,7 +112,7 @@ public partial class BarcodeScanner
                 {
                     InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
                 }
-            }), DispatchQueue.MainQueue);
+            }), m_metadataObjectsQueue);
             //Add bar code scanning metadata
             //Bar codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801359
             //2D codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801360
@@ -264,7 +265,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
                 var stringValue = readableObject.StringValue;
                 if (stringValue != null)
                 {
-                    m_onSuccess.Invoke(readableObject);
+                    MainThread.BeginInvokeOnMainThread(() =>m_onSuccess.Invoke(readableObject));
                 }
             }
         }

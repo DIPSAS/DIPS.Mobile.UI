@@ -12,9 +12,17 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <dui:Switch x:Name="Switch"
-                    Toggled="Switch_OnToggled"/>
-        <ContentView x:Name="ContentView"/>
-    </VerticalStackLayout>
+    <dui:VerticalStackLayout>
+        <dui:EmptyView>
+            <dui:EmptyView.EmptyViewModel>
+                <dui:EmptyViewModel Title="Ukjent strekkode"
+                                    Description="Strekkoden må inneholde fødselsnummer eller nettadresser"
+                                    Icon="{dui:Icons failure_fill}">
+                </dui:EmptyViewModel>
+            </dui:EmptyView.EmptyViewModel>
+        </dui:EmptyView>
+        <dui:Button Margin="{dui:Thickness Top=size_3}"
+                    Text="Se strekkode"
+                    Style="{dui:Styles Button=SecondarySmall}" />
+    </dui:VerticalStackLayout>
 </dui:ContentPage>
