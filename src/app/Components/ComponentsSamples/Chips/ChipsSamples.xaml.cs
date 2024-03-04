@@ -22,5 +22,6 @@ public partial class ChipsSamples
 
     private void ChipGroup_OnOnSelectedItemsChanged(object? sender, ChipGroupEventArgs e)
     {
+        
     }
 }

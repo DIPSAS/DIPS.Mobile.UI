@@ -1,4 +1,3 @@
-using System.Collections;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
@@ -9,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.ChipGroup;
 public partial class ChipGroup : ContentView
 {
     private readonly List<ChipGroupItem> m_selectedItems = [];
-    private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start};
+    private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start };
     private readonly List<ChipGroupItem> m_chipItems = [];
 
     public ChipGroup()
@@ -112,15 +111,9 @@ public partial class ChipGroup : ContentView
             m_selectedItems.Remove(chipGroupItem);
         }
         
-        var listType = typeof(List<>).MakeGenericType(chipGroupItem.Obj.GetType());
-        var myList = (IList)Activator.CreateInstance(listType)!;
-        foreach (var item in m_selectedItems)
-        {
-            myList.Add(item.Obj);
-        }
-        
-        SelectedItems = myList;
-        OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(SelectedItems));
+        var selectedItems = m_selectedItems.Select(groupItem => groupItem.Obj).ToList();
+        OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(selectedItems));
+        SelectedItems = selectedItems;
     }
 }
 

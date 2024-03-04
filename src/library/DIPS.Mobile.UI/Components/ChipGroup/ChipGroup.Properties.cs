@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.ChipGroup;
 
@@ -26,9 +27,9 @@ public partial class ChipGroup
     public event EventHandler<ChipGroupEventArgs>? OnSelectedItemsChanged;
     
     public string? ItemDisplayProperty { get; set; }
-    public IEnumerable SelectedItems
+    public IEnumerable? SelectedItems
     {
-        get => (IEnumerable)GetValue(SelectedItemsProperty);
+        get => (IEnumerable?)GetValue(SelectedItemsProperty);
         set => SetValue(SelectedItemsProperty, value);
     }
 
