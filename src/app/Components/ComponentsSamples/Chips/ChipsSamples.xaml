@@ -5,9 +5,16 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:chips="clr-namespace:Components.ComponentsSamples.Chips"
                  x:Class="Components.ComponentsSamples.Chips.ChipsSamples"
+                 x:DataType="{x:Type chips:ChipsSamplesViewModel}"
                  BackgroundColor="{dui:Colors color_system_white}"
                  Padding="{dui:Sizes size_2}">
+    
+    <dui:ContentPage.BindingContext>
+        <chips:ChipsSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:VerticalStackLayout>
         <dui:Label Text="Chip"
                    Margin="5" />
@@ -30,6 +37,33 @@
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
                   IsToggleable="True"/>
+        
+        <dui:Label Text="Single selection chip-group"
+                   Style="{dui:Styles Label=SectionHeader}" />
+        
+        <dui:ChipGroup SelectionMode="Single"
+                       SelectedItems="{Binding SelectedItems, Mode=TwoWay}">
+            <dui:ChipGroup.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Ja</x:String>
+                    <x:String>Nei</x:String>
+                    <x:String>Vet ikke</x:String>
+                </x:Array>
+            </dui:ChipGroup.ItemsSource>
+        </dui:ChipGroup>
+        
+        <dui:Label Text="Multi selection chip-group"
+                   Style="{dui:Styles Label=SectionHeader}" />
+        
+        <dui:ChipGroup SelectionMode="Multi"
+                       ItemsSource="{Binding Footballers}"
+                       ItemDisplayProperty="Name"
+                       SelectedItems="{Binding SelectedItemsFootballers, Mode=TwoWay}"
+                       OnSelectedItemsChanged="ChipGroup_OnOnSelectedItemsChanged">
+            
+         
+        </dui:ChipGroup>
+            <dui:Button Command="{Binding Test}" Text="test" />
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

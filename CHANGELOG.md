@@ -1,3 +1,6 @@
+## [26.2.0]
+- Added new component: `ChipGroup`.
+
 ## [26.1.0]
 - [EmptyView] is now public
 - [EmptyView] Added EmptyViewModel as a property

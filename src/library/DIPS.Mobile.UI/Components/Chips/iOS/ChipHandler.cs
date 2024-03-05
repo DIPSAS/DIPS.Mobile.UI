@@ -24,6 +24,7 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         if (VirtualView.IsToggleable)
         {
             VirtualView.IsToggled = !VirtualView.IsToggled;
+            OnChipTapped();
             return;
         }
         
