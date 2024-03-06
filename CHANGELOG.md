@@ -1,3 +1,6 @@
+## [26.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [26.2.0]
 - Added new component: `ChipGroup`.
 
