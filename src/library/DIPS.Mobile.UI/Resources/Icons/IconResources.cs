@@ -164,6 +164,7 @@ this file is generated
 ["signing_available_fill"] = "signing_available_fill.png",
 ["plo_outgoing_fill"] = "plo_outgoing_fill.png",
 ["plo_incoming_fill"] = "plo_incoming_fill.png",
+["help_outline"] = "help_outline.png",
 
             };
         }

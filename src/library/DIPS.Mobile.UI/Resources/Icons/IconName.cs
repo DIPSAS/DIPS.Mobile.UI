@@ -319,5 +319,7 @@ signing_available_fill=154,
 plo_outgoing_fill=155,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_incoming_fill.svg">View the icon in the browser</a></summary>
 plo_incoming_fill=156,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/help_outline.svg">View the icon in the browser</a></summary>
+help_outline=157,
     }
 }
