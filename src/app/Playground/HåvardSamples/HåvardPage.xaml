@@ -8,9 +8,20 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
+                 ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:Button Text="Amazing button" x:Name="AmazingButton" Clicked="ShowTip"/>
+    <Grid RowDefinitions="Auto, *">
+        <dui:Entry x:Name="TipText"
+                   Grid.Row="0"
+                   Text="If the barcode is small, it is better to zoom instead of moving the phone too close to the barcode."
+                   VerticalOptions="Start" />
+        <dui:Button Text="Amazing button"
+                    Grid.Row="1"
+                    VerticalOptions="Start"
+                    x:Name="AmazingButton"
+                    Clicked="ShowTip" />
+    </Grid>
 </dui:ContentPage>

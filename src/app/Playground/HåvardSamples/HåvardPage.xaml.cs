@@ -75,6 +75,6 @@ public partial class HåvardPage
 
     private void ShowTip(object sender, EventArgs e)
     {
-        TipService.Show("This is my tip.", AmazingButton);
+        TipService.Show(TipText.Text, AmazingButton);
     }
 }
