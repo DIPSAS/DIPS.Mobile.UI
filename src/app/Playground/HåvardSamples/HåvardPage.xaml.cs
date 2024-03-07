@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Resources.Icons;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
@@ -70,5 +71,10 @@ public partial class HåvardPage
     {
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
+    }
+
+    private void ShowTip(object sender, EventArgs e)
+    {
+        TipService.Show("This is my tip.", AmazingButton);
     }
 }
