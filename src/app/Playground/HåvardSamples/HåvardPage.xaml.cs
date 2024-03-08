@@ -26,7 +26,7 @@ public partial class HåvardPage
     {
         base.OnAppearing();
         await Task.Delay(3000);
-        TipService.Show("A one liner tip", Label);
+        TipService.Show("My awesome tip", Label);
     }
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(

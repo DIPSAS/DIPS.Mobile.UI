@@ -1,3 +1,6 @@
+## [26.5.0]
+- [Tip] Added a new `TipService` to attach a tip to a view and show it.
+
 ## [26.4.0]
 - Changed default localization to norwegian.
 

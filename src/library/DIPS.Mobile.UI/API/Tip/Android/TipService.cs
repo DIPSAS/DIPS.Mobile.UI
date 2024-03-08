@@ -20,7 +20,7 @@ public static partial class TipService
         
         var snackBar = Snackbar.Make(viewHandler.PlatformView, message, durationInMilliseconds);
         snackBar.SetAnchorView(viewHandler.PlatformView);
-
+        
         var actionColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
         snackBar.SetBackgroundTintList(
             ColorStateList.ValueOf(Resources.Colors.Colors.GetColor(ColorName.color_system_white).ToPlatform()));
