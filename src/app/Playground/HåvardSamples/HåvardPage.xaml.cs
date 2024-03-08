@@ -22,42 +22,12 @@ public partial class HåvardPage
         App.Current.MainPage.Navigation.PushAsync(new HåvardPage());
     });
 
-    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    protected override async void OnAppearing()
     {
+        base.OnAppearing();
+        await Task.Delay(3000);
+        TipService.Show("A one liner tip", Label);
     }
-
-    private void BindableObject_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-    }
-
-    private void BindableObject_OnPropertyChanging(object sender, PropertyChangingEventArgs e)
-    {
-    }
-
-    private void VisualElement_OnMeasureInvalidated(object sender, EventArgs e)
-    {
-    }
-
-    private void Element_OnHandlerChanged(object sender, EventArgs e)
-    {
-    }
-
-    private void VisualElement_OnSizeChanged(object sender, EventArgs e)
-    {
-    }
-
-    private void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
-    {
-        if (sender is not View view) return;
-        if (view.HeightRequest == -1)
-        {
-            view.HeightRequest = 60;
-            return;
-        }
-
-        view.HeightRequest = -1;
-    }
-
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(
         nameof(HideText),
@@ -73,8 +43,8 @@ public partial class HåvardPage
         set => SetValue(HideTextProperty, value);
     }
 
-    private void ShowTip(object sender, EventArgs e)
-    {
-        TipService.Show(TipText.Text, AmazingButton);
-    }
+    // private void ShowTip(object sender, EventArgs e)
+    // {
+    //     TipService.Show("Testing tip", Label);
+    // }
 }

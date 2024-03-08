@@ -14,14 +14,6 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
     <Grid RowDefinitions="Auto, *">
-        <dui:Entry x:Name="TipText"
-                   Grid.Row="0"
-                   Text="If the barcode is small, it is better to zoom instead of moving the phone too close to the barcode."
-                   VerticalOptions="Start" />
-        <dui:Button Text="Amazing button"
-                    Grid.Row="1"
-                    VerticalOptions="Start"
-                    x:Name="AmazingButton"
-                    Clicked="ShowTip" />
+        <Label x:Name="Label" Text="Testiiing"/>
     </Grid>
 </dui:ContentPage>

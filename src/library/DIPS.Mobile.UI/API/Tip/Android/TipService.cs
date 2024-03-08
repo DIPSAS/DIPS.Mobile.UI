@@ -8,11 +8,17 @@ namespace DIPS.Mobile.UI.API.Tip;
 
 public static partial class TipService
 {
-    public static partial void Show(string message, View anchoredView)
+    public static async partial void Show(string message, View anchoredView, int durationInMilliseconds)
     {
         if (anchoredView.Handler is not ViewHandler viewHandler) return;
         if (viewHandler.PlatformView == null) return;
-        var snackBar = Snackbar.Make(viewHandler.PlatformView, message, BaseTransientBottomBar.LengthLong);
+
+        if (durationInMilliseconds <= 0)
+        {
+            durationInMilliseconds = BaseTransientBottomBar.LengthIndefinite;
+        }
+        
+        var snackBar = Snackbar.Make(viewHandler.PlatformView, message, durationInMilliseconds);
         snackBar.SetAnchorView(viewHandler.PlatformView);
 
         var actionColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
