@@ -19,84 +19,84 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="Today" xml:space="preserve">
-        <value>Today</value>
+        <value>I dag</value>
     </data>
     <data name="Yesterday" xml:space="preserve">
-        <value>Yesterday</value>
+        <value>I går</value>
     </data>
     <data name="Tomorrow" xml:space="preserve">
-        <value>Tomorrow</value>
+        <value>I morgen</value>
     </data>
     <data name="Cancel" xml:space="preserve">
-        <value>Cancel</value>
+        <value>Avbryt</value>
     </data>
     <data name="Done" xml:space="preserve">
-        <value>Done</value>
+        <value>Ferdig</value>
     </data>
     <data name="Button" xml:space="preserve">
-        <value>Button</value>
+        <value>Knapp</value>
     </data>
     <data name="SystemMessage" xml:space="preserve">
-        <value>System message</value>
+        <value>System melding</value>
     </data>
     <data name="YouHaveNotSetSomeText" xml:space="preserve">
-        <value>You have not set some text</value>
+        <value>Du har ikke skrevet noe tekst</value>
     </data>
     <data name="Close" xml:space="preserve">
-        <value>Close</value>
+        <value>Lukk</value>
     </data>
     <data name="Details" xml:space="preserve">
-        <value>Details</value>
+        <value>Detaljer</value>
     </data>
     <data name="More" xml:space="preserve">
-        <value>More</value>
+        <value>Mer</value>
     </data>
     <data name="Sort" xml:space="preserve">
-        <value>Sort</value>
+        <value>Sortering</value>
     </data>
     <data name="Choose" xml:space="preserve">
-        <value>Choose</value>
+        <value>Velg</value>
     </data>
     <data name="Accessability.FloatingNavigationButton.Description" xml:space="preserve">
-        <value>Navigation menu, button</value>
+        <value>Navigasjonsmeny, knapp</value>
     </data>
     <data name="Choice" xml:space="preserve">
-        <value>Choice</value>
+        <value>Valg</value>
     </data>
     <data name="Save" xml:space="preserve">
-        <value>Save</value>
+        <value>Lagre</value>
     </data>
     <data name="InputSampleText" xml:space="preserve">
-        <value>Input sample text</value>
+        <value>Sett inn eksempeltekst</value>
     </data>
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
-        <value>Tap to input text</value>
+        <value>Trykk for å skrive inn tekst</value>
     </data>
     <data name="Saving" xml:space="preserve">
-        <value>Saving</value>
+        <value>Lagrer</value>
     </data>
     <data name="EmptyViewTitle" xml:space="preserve">
-        <value>Title when data is empty</value>
+        <value>Tittel når data er tom</value>
     </data>
     <data name="EmptyViewDescription" xml:space="preserve">
-        <value>Description when data is empty</value>
+        <value>Beskrivelse når data er tom</value>
     </data>
     <data name="ErrorViewTitle" xml:space="preserve">
-        <value>Title when error</value>
+        <value>Tittel når det oppstår feil</value>
     </data>
     <data name="ErrorViewDescription" xml:space="preserve">
-        <value>Description when error</value>
+        <value>Beskrivelse når det oppstår en feil</value>
     </data>
     <data name="ZoomLevel" xml:space="preserve">
-        <value>Zoom level</value>
+        <value>Zoomnivå</value>
     </data>
     <data name="DetectedBarcodes" xml:space="preserve">
-        <value>Detected barcodes</value>
+        <value>Oppdaget strekkoder</value>
     </data>
     <data name="DetectedBarcodes_Explanation" xml:space="preserve">
-        <value>Multiple barcodes was detected</value>
+        <value>Flere strekkoder ble oppdaget</value>
     </data>
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
-        <value>Detected {0} times</value>
+        <value>Oppdaget {0} ganger</value>
     </data>
 </root>
