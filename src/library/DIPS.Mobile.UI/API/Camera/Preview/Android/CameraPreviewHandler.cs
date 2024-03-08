@@ -66,8 +66,9 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
     }
 
 
-    internal void UpdateZoomSlider(double linearZoom, LifecycleCameraController cameraController)
+    internal void OnZoomChanged(double linearZoom, LifecycleCameraController cameraController)
     {
+        VirtualView.HasZoomed = true;
         if (m_onZoomSliderListener is {IsZoomAction: true}) return; //To prevent awkward slider / zooming sync
 
         if (m_slider != null)

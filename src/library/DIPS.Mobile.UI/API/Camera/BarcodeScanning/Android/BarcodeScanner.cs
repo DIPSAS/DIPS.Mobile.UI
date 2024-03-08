@@ -209,7 +209,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         {
             if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
             {
-                previewHandler.UpdateZoomSlider(linearZoom, m_cameraController);
+                previewHandler.OnZoomChanged(linearZoom, m_cameraController);
             }  
         }
     }
