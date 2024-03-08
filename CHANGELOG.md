@@ -1,5 +1,7 @@
 ## [26.5.0]
 - [Tip] Added a new `TipService` to attach a tip to a view and show it.
+- [BarcodeScanner] Added the possibility of adding a tip to the zoom slider.
+
 
 ## [26.4.0]
 - Changed default localization to norwegian.
