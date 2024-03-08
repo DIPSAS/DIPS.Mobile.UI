@@ -13,7 +13,9 @@
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid RowDefinitions="Auto, *">
-        <Label x:Name="Label" Text="Testiiing"/>
-    </Grid>
+        <dui:Image Source="{dui:Icons arrow_up_thick_line_fill}"
+                   Margin="0,0,0,25"
+                   VerticalOptions="Start"
+                   HorizontalOptions="End"
+                   dui:Touch.Command="{dui:TipCommand Message='This means that an value is going up.'}" />
 </dui:ContentPage>

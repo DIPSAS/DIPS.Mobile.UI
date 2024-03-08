@@ -25,8 +25,6 @@ public partial class HåvardPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await Task.Delay(3000);
-        TipService.Show("My awesome tip", Label);
     }
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(

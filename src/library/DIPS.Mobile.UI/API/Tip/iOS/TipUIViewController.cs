@@ -23,17 +23,17 @@ internal class TipUIViewController : UIViewController
         m_anchorView = anchorView;
     }
 
-    
+
     public override void ViewWillAppear(bool animated)
     {
         base.ViewWillAppear(animated);
         if (PopoverPresentationController == null) return;
-        
+
         //Set padding depending on arrow direction
         if (m_grid == null) return;
         var padding = new Thickness(Sizes.GetSize(SizeName.size_3));
-        var arrowSize = Sizes.GetSize(SizeName.size_3);
-        
+        var arrowSize = Sizes.GetSize(SizeName.size_4);
+
         switch (PopoverPresentationController.ArrowDirection)
         {
             case UIPopoverArrowDirection.Up:
@@ -41,7 +41,7 @@ internal class TipUIViewController : UIViewController
                 padding.Bottom = 0;
                 break;
             case UIPopoverArrowDirection.Down:
-                padding.Bottom = arrowSize;
+                padding.Bottom = padding.Top = arrowSize;
                 break;
             case UIPopoverArrowDirection.Left: //Can be tested by rotating the phone
                 padding.Left += arrowSize;
@@ -81,23 +81,23 @@ internal class TipUIViewController : UIViewController
             HeightRequest = Sizes.GetSize(SizeName.size_4)
         };
         var wrappingContentView = new ContentView() {Content = closeImage, Padding = 3};
-        
-        Touch.SetCommand(wrappingContentView,  new Command(() =>
+
+        Touch.SetCommand(wrappingContentView, new Command(() =>
         {
             _ = Close();
         }));
-        
+
         m_label = new Label() {Text = m_message};
         m_grid.Add(m_label, 0);
         m_grid.Add(wrappingContentView, 1);
 
-        
+
         if (DUI.GetCurrentMauiContext != null)
         {
             View = m_grid.ToPlatform(DUI.GetCurrentMauiContext);
         }
+
         base.ViewDidLoad();
-         
     }
 
     internal Task? Close()
