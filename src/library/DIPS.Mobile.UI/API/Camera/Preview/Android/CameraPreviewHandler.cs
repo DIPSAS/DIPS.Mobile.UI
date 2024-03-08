@@ -1,6 +1,7 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Camera.View;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
@@ -56,6 +57,12 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
         slider.ContentDescription = DUILocalizedStrings.ZoomLevel;
         PlatformView.AddView(slider);
         m_slider = slider;
+    }
+
+    public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
+    {
+        if (m_slider is null) return;
+        TipService.Show(message, m_slider, durationInMilliseconds);
     }
 
 

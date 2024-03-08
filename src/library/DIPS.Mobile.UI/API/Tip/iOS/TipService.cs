@@ -7,24 +7,50 @@ public static partial class TipService
 {
     public static async partial void Show(string message, View anchoredView, int durationInMilliseconds)
     {
-        if (anchoredView.Handler is not ViewHandler viewHandler) return;
-        if (viewHandler.PlatformView is null) return;
-        if (anchoredView.Window?.Handler is not WindowHandler windowHandler) return;
-        if (windowHandler.PlatformView.RootViewController is not { } rootViewController) return;
+        if (TryGetPlatformViewAndRootViewController(anchoredView, out var viewTuple))
+        {
+            await Show(message, durationInMilliseconds, viewTuple.Item1,
+                viewTuple.Item2);
+        }
+    }
 
-        var tipUiViewController = new TipUIViewController(message, viewHandler.PlatformView);
-        tipUiViewController.SetupPopover();
+    public static bool TryGetPlatformViewAndRootViewController(VisualElement anchoredView,
+        out Tuple<UIView, UIViewController> tuple)
+    {
+        tuple = new Tuple<UIView, UIViewController>(new UIView(), new UIViewController());
+        if (anchoredView.Handler is not ViewHandler viewHandler) return false;
+        if (viewHandler.PlatformView is null) return false;
+        if (anchoredView.Window?.Handler is not WindowHandler windowHandler) return false;
+        if (windowHandler.PlatformView.RootViewController is not { } rootViewController) return false;
+
+        var uiView = viewHandler.PlatformView;
+        if ((anchoredView is Slider))
+        {
+            uiView = uiView.Subviews.FirstOrDefault()?.Subviews.LastOrDefault() ?? viewHandler.PlatformView;
+        }
+
+        tuple = new Tuple<UIView, UIViewController>(uiView, rootViewController);
+        return true;
+    }
+
+    public static async Task Show(string message, int durationInMilliseconds, UIView uiView,
+        UIViewController rootViewController,
+        UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
+    {
+        var tipUiViewController = new TipUIViewController(message, uiView);
+        tipUiViewController.SetupPopover(permittedArrowDirection);
 
         await rootViewController.PresentViewControllerAsync(
             tipUiViewController,
             true);
-        
+
         if (durationInMilliseconds > 0)
         {
             _ = new Timer(_ =>
-            {
-                MainThread.InvokeOnMainThreadAsync(() => tipUiViewController.Close());
-            }, null, TimeSpan.FromMilliseconds(durationInMilliseconds), TimeSpan.FromMilliseconds(durationInMilliseconds));
+                {
+                    MainThread.InvokeOnMainThreadAsync(() => tipUiViewController.Close());
+                }, null, TimeSpan.FromMilliseconds(durationInMilliseconds),
+                TimeSpan.FromMilliseconds(durationInMilliseconds));
         }
     }
 }

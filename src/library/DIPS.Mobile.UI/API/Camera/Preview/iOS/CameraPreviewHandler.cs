@@ -1,6 +1,7 @@
 using AVFoundation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -102,6 +103,17 @@ public partial class CameraPreviewHandler : ContentViewHandler
 
             m_slider = slider;
             contentView.Content = slider;
+        }
+    }
+
+    public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
+    {
+        if (m_slider is null) return;
+
+        if (TipService.TryGetPlatformViewAndRootViewController(m_slider, out var viewTuple))
+        {
+            _ = TipService.Show(message, durationInMilliseconds, viewTuple.Item1, viewTuple.Item2,
+                UIPopoverArrowDirection.Up | UIPopoverArrowDirection.Down);
         }
     }
 

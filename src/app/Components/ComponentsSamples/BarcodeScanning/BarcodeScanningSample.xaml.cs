@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
@@ -13,6 +15,7 @@ public partial class BarcodeScanningSample
         m_barcodeScanner = new BarcodeScanner();
     }
 
+    
     private async Task Start()
     {
         try
@@ -51,7 +54,7 @@ public partial class BarcodeScanningSample
         m_barCodeResultBottomSheet = null;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         _ = Start();
         base.OnAppearing();
@@ -71,5 +74,10 @@ public partial class BarcodeScanningSample
     public void OnResume()
     {
         _ = Start();
+    }
+
+    private void ShowTip(object? sender, EventArgs e)
+    {
+        CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen isteden for å ha mobilen for nært strekkoden.");
     }
 }

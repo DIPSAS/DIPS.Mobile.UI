@@ -12,14 +12,18 @@ public static partial class TipService
     {
         if (anchoredView.Handler is not ViewHandler viewHandler) return;
         if (viewHandler.PlatformView == null) return;
+        Show(message,viewHandler.PlatformView, durationInMilliseconds);
+    }
 
+    public static void Show(string message, Android.Views.View anchorView, int durationInMilliseconds)
+    {
         if (durationInMilliseconds <= 0)
         {
             durationInMilliseconds = BaseTransientBottomBar.LengthIndefinite;
         }
         
-        var snackBar = Snackbar.Make(viewHandler.PlatformView, message, durationInMilliseconds);
-        snackBar.SetAnchorView(viewHandler.PlatformView);
+        var snackBar = Snackbar.Make(anchorView, message, durationInMilliseconds);
+        snackBar.SetAnchorView(anchorView);
         
         var actionColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
         snackBar.SetBackgroundTintList(
@@ -33,6 +37,7 @@ public static partial class TipService
         {
             snackBar.Dismiss();
         });
+       
         snackBar.Show();
     }
 }

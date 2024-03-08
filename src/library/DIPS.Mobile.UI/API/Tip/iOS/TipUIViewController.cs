@@ -33,6 +33,7 @@ internal class TipUIViewController : UIViewController
         if (m_grid == null) return;
         var padding = new Thickness(Sizes.GetSize(SizeName.size_3));
         var arrowSize = Sizes.GetSize(SizeName.size_3);
+        
         switch (PopoverPresentationController.ArrowDirection)
         {
             case UIPopoverArrowDirection.Up:
@@ -61,15 +62,6 @@ internal class TipUIViewController : UIViewController
 
         //Set the size of the popover to fit the grid
         PreferredContentSize = View.SizeThatFits(m_maxSize);
-        
-        //Add blur to background
-        // var blurEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Light);
-        // var blurEffectView = new UIVisualEffectView(blurEffect);
-        // blurEffectView.Frame = View.Bounds;
-        // blurEffectView.Alpha = 0.8f;
-        // blurEffectView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-        //
-        // View.AddSubview(blurEffectView);
     }
 
     public override void ViewDidLoad()
@@ -113,7 +105,7 @@ internal class TipUIViewController : UIViewController
         return PopoverPresentationController?.PresentingViewController.DismissViewControllerAsync(true);
     }
 
-    public void SetupPopover()
+    public void SetupPopover(UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
     {
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
 
@@ -122,6 +114,7 @@ internal class TipUIViewController : UIViewController
             return;
         }
 
+        PopoverPresentationController.PermittedArrowDirections = permittedArrowDirection;
         PopoverPresentationController.SourceRect = m_anchorView.Bounds;
         PopoverPresentationController.SourceView = m_anchorView;
         PopoverPresentationController.Delegate =
