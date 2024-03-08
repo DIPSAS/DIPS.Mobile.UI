@@ -97,6 +97,7 @@ public partial class CameraPreviewHandler : ContentViewHandler
                 captureDevice.LockForConfiguration(out var error);
                 captureDevice.VideoZoomFactor = (float)slider.Value;
                 captureDevice.UnlockForConfiguration();
+                SetHasZoomed();
             };
 
             SemanticProperties.SetHint(slider, DUILocalizedStrings.ZoomLevel);
@@ -233,6 +234,7 @@ public partial class CameraPreviewHandler : ContentViewHandler
                     {
                         m_slider.Value = zoomFactor;
                     }
+                    SetHasZoomed();
                 }
                 catch (Exception e)
                 {
@@ -250,6 +252,14 @@ public partial class CameraPreviewHandler : ContentViewHandler
                     Console.WriteLine(configurationLockError.ToString());
                 }
             }
+        }
+    }
+
+    private void SetHasZoomed()
+    {
+        if (VirtualView is CameraPreview cameraPreview)
+        {
+            cameraPreview.HasZoomed = true;
         }
     }
 
