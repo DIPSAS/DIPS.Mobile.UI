@@ -11,85 +11,88 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="Accessability.FloatingNavigationButton.Description" xml:space="preserve">
+        <value>Navigation menu, button</value>
+    </data>
     <data name="Today" xml:space="preserve">
-        <value>I dag</value>
+        <value>Today</value>
     </data>
     <data name="Yesterday" xml:space="preserve">
-        <value>I går</value>
+        <value>Yesterday</value>
     </data>
     <data name="Tomorrow" xml:space="preserve">
-        <value>I morgen</value>
+        <value>Tomorrow</value>
     </data>
     <data name="Cancel" xml:space="preserve">
-        <value>Avbryt</value>
+        <value>Cancel</value>
     </data>
     <data name="Done" xml:space="preserve">
-        <value>Ferdig</value>
+        <value>Done</value>
     </data>
     <data name="Button" xml:space="preserve">
-        <value>Knapp</value>
+        <value>Button</value>
     </data>
     <data name="SystemMessage" xml:space="preserve">
-        <value>System melding</value>
+        <value>System message</value>
     </data>
     <data name="YouHaveNotSetSomeText" xml:space="preserve">
-        <value>Du har ikke skrevet noe tekst</value>
+        <value>You have not set some text</value>
     </data>
     <data name="Close" xml:space="preserve">
-        <value>Lukk</value>
+        <value>Close</value>
     </data>
     <data name="Details" xml:space="preserve">
-        <value>Detaljer</value>
+        <value>Details</value>
     </data>
     <data name="More" xml:space="preserve">
-        <value>Mer</value>
+        <value>More</value>
     </data>
     <data name="Sort" xml:space="preserve">
-        <value>Sortering</value>
+        <value>Sort</value>
     </data>
     <data name="Choose" xml:space="preserve">
-        <value>Velg</value>
+        <value>Choose</value>
     </data>
     <data name="Accessability.FloatingNavigationButton.Description" xml:space="preserve">
-        <value>Navigasjonsmeny, knapp</value>
+        <value>Navigation menu, button</value>
     </data>
     <data name="Choice" xml:space="preserve">
-        <value>Valg</value>
+        <value>Choice</value>
     </data>
     <data name="Save" xml:space="preserve">
-        <value>Lagre</value>
+        <value>Save</value>
     </data>
     <data name="InputSampleText" xml:space="preserve">
-        <value>Sett inn eksempeltekst</value>
+        <value>Input sample text</value>
     </data>
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
-        <value>Trykk for å skrive inn tekst</value>
+        <value>Tap to input text</value>
     </data>
     <data name="Saving" xml:space="preserve">
-        <value>Lagrer</value>
+        <value>Saving</value>
     </data>
     <data name="EmptyViewTitle" xml:space="preserve">
-        <value>Tittel når data er tom</value>
+        <value>Title when data is empty</value>
     </data>
     <data name="EmptyViewDescription" xml:space="preserve">
-        <value>Beskrivelse når data er tom</value>
+        <value>Description when data is empty</value>
     </data>
     <data name="ErrorViewTitle" xml:space="preserve">
-        <value>Tittel når det oppstår feil</value>
+        <value>Title when error</value>
     </data>
     <data name="ErrorViewDescription" xml:space="preserve">
-        <value>Beskrivelse når det oppstår en feil</value>
+        <value>Description when error</value>
     </data>
     <data name="ZoomLevel" xml:space="preserve">
-        <value>Zoomnivå</value>
+        <value>Zoom level</value>
     </data>
     <data name="DetectedBarcodes" xml:space="preserve">
-        <value>Oppdaget strekkoder</value>
+        <value>Detected barcodes</value>
     </data>
     <data name="DetectedBarcodes_Explanation" xml:space="preserve">
-        <value>Flere strekkoder ble oppdaget</value>
+        <value>Multiple barcodes was detected</value>
     </data>
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
-        <value>Oppdaget {0} ganger</value>
+        <value>Detected {0} times</value>
     </data>
 </root>

@@ -27,16 +27,16 @@
         <value>Bottom sheet</value>
     </data>
     <data name="Components" xml:space="preserve">
-        <value>Components</value>
+        <value>Komponenter</value>
     </data>
     <data name="Colors" xml:space="preserve">
-        <value>Colors</value>
+        <value>Farger</value>
     </data>
     <data name="Resources" xml:space="preserve">
-        <value>Resources</value>
+        <value>Ressurser</value>
     </data>
     <data name="Sizes" xml:space="preserve">
-        <value>Sizes</value>
+        <value>Størrelser</value>
     </data>
     <data name="ContextMenu" xml:space="preserve">
         <value>Context menu</value>
@@ -48,13 +48,10 @@
         <value>Checkbox</value>
     </data>
     <data name="SearchBar" xml:space="preserve">
-        <value>SearchBar</value>
-    </data>
-    <data name="SearchPage" xml:space="preserve">
-        <value>SearchPage</value>
+        <value>Søkefelt</value>
     </data>
     <data name="Searching" xml:space="preserve">
-        <value>Searching</value>
+        <value>Søking</value>
     </data>
     <data name="ListItems" xml:space="preserve">
         <value>List items</value>
@@ -63,267 +60,270 @@
         <value>Chip</value>
     </data>
     <data name="Icons" xml:space="preserve">
-        <value>Icons</value>
+        <value>Ikoner</value>
     </data>
     <data name="New_version" xml:space="preserve">
-        <value>New version</value>
+        <value>Ny versjon</value>
     </data>
     <data name="New_version_message" xml:space="preserve">
-        <value>There is a new version available.</value>
+        <value>Det er en ny versjon tilgjengelig.</value>
     </data>
     <data name="Download" xml:space="preserve">
-        <value>Download</value>
+        <value>Last ned</value>
     </data>
     <data name="Cancel" xml:space="preserve">
-        <value>Cancel</value>
+        <value>Avbryt</value>
     </data>
     <data name="Birthday" xml:space="preserve">
-        <value>Birthday</value>
+        <value>Bursdag</value>
     </data>
     <data name="SelectPerson" xml:space="preserve">
-        <value>Select person</value>
+        <value>Velg person</value>
     </data>
     <data name="Context_Menu_SingleAction" xml:space="preserve">
-        <value>Single action with icon</value>
+        <value>En handling med et ikon</value>
     </data>
     <data name="Context_Menu_TwoActions" xml:space="preserve">
-        <value>Two actions</value>
+        <value>To handlinger</value>
     </data>
     <data name="Context_Menu_Choices_Multiple" xml:space="preserve">
-        <value>Multiple choices</value>
+        <value>Flervalg</value>
     </data>
     <data name="Context_Menu_Choices_Single" xml:space="preserve">
-        <value>Single choices</value>
+        <value>Valgbare handlinger, kun et valg</value>
     </data>
     <data name="Context_Menu_GroupedActions" xml:space="preserve">
-        <value>Grouped actions</value>
+        <value>Grupperte handlinger</value>
     </data>
     <data name="Context_Menu_Grouped_Choices_Single" xml:space="preserve">
-        <value>Grouped single choices</value>
+        <value>Grupperte enkeltvalg</value>
     </data>
     <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
-        <value>Long press menu with an action</value>
+        <value>Long press menu med en handling</value>
     </data>
     <data name="Action_Format" xml:space="preserve">
-        <value>Action {0}</value>
+        <value>Handling {0}</value>
     </data>
     <data name="Group_Format" xml:space="preserve">
-        <value>Group {0}</value>
+        <value>Gruppe {0}</value>
     </data>
     <data name="SearchPage_PlaceholderText" xml:space="preserve">
-        <value>Search for people</value>
+        <value>Søk etter folk</value>
     </data>
     <data name="SearchPage_HintText" xml:space="preserve">
-        <value>Use the search bar to search for people.</value>
+        <value>Bruk søkefeltet for å søke etter folk.</value>
+    </data>
+    <data name="SearchPage" xml:space="preserve">
+        <value>Søkeside</value>
     </data>
     <data name="SearchPage_NoResultText" xml:space="preserve">
-        <value>No people match your search, try again.</value>
+        <value>Du fant ingen folk med søket ditt, vennligst prøv på nytt.</value>
     </data>
     <data name="Option_Format" xml:space="preserve">
-        <value>Option {0}</value>
+        <value>Valg {0}</value>
     </data>
     <data name="BottomSheet_Open" xml:space="preserve">
-        <value>Open bottom sheet</value>
+        <value>Åpne bottom sheet</value>
     </data>
     <data name="Count" xml:space="preserve">
-        <value>Count</value>
+        <value>Antall</value>
     </data>
     <data name="Color" xml:space="preserve">
-        <value>Color</value>
+        <value>Farge</value>
     </data>
     <data name="PickColor" xml:space="preserve">
-        <value>Pick color</value>
+        <value>Velg farge</value>
     </data>
     <data name="AddButton" xml:space="preserve">
-        <value>Add button</value>
+        <value>Legg til knapp</value>
     </data>
     <data name="SkeletonLoading" xml:space="preserve">
-        <value>Skeleton loading</value>
+        <value>Skeleton lasting</value>
     </data>
     <data name="Loading" xml:space="preserve">
-        <value>Loading</value>
+        <value>Lasting</value>
     </data>
     <data name="Navigation" xml:space="preserve">
-        <value>Navigation</value>
+        <value>Navigasjon</value>
     </data>
     <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
-        <value>Open bottom sheet with toolbar</value>
+        <value>Åpne bottom sheet med toolbar</value>
     </data>
     <data name="SizesAsVisualBoxes" xml:space="preserve">
-        <value>Sizes as boxes</value>
+        <value>Størrelser som bokser</value>
     </data>
     <data name="SizesAsFontSize" xml:space="preserve">
-        <value>Sizes as font size</value>
+        <value>Størrelser som font størrelse</value>
     </data>
     <data name="Alerting" xml:space="preserve">
-        <value>Alerting</value>
+        <value>Varsling</value>
     </data>
     <data name="SystemMessage" xml:space="preserve">
-        <value>System Message</value>
+        <value>System Meldinger</value>
     </data>
     <data name="ShowSystemMessage" xml:space="preserve">
-        <value>Show System Message</value>
+        <value>Vis System Melding</value>
     </data>
     <data name="RemoveSystemMessage" xml:space="preserve">
-        <value>Remove System Message</value>
+        <value>Fjern System Melding</value>
     </data>
     <data name="RemoveSystemMessageAnimate" xml:space="preserve">
-        <value>Remove System Message Animate</value>
+        <value>Fjern System Melding Animert</value>
     </data>
     <data name="RemoveAll" xml:space="preserve">
-        <value>Remove All</value>
+        <value>Fjern alle</value>
     </data>
     <data name="ChooseInput" xml:space="preserve">
-        <value>Choose Input</value>
+        <value>Velg input</value>
     </data>
     <data name="PickIcon" xml:space="preserve">
-        <value>Pick icon</value>
+        <value>Velg ikon</value>
     </data>
     <data name="Icon" xml:space="preserve">
-        <value>Icon</value>
+        <value>Ikon</value>
     </data>
     <data name="Background" xml:space="preserve">
-        <value>Background</value>
+        <value>Bakgrunn</value>
     </data>
     <data name="Text" xml:space="preserve">
-        <value>Text</value>
+        <value>Tekst</value>
     </data>
     <data name="Duration" xml:space="preserve">
-        <value>Duration</value>
+        <value>Varighet</value>
     </data>
     <data name="TextColor" xml:space="preserve">
-        <value>Text color</value>
+        <value>Tekst farge</value>
     </data>
     <data name="TextInput" xml:space="preserve">
-        <value>Text input</value>
+        <value>Tekst input</value>
     </data>
     <data name="BackgroundColor" xml:space="preserve">
-        <value>Background color</value>
+        <value>Bakgrunnsfarge</value>
     </data>
     <data name="IconColor" xml:space="preserve">
-        <value>Icon color</value>
+        <value>Ikon farge</value>
     </data>
     <data name="Choose" xml:space="preserve">
-        <value>Choose</value>
+        <value>Velg</value>
     </data>
     <data name="DisplayDialog" xml:space="preserve">
-        <value>Display dialog</value>
+        <value>Vis dialog</value>
     </data>
     <data name="DisplayTemporaryDialog" xml:space="preserve">
-        <value>Display temproary dialog</value>
+        <value>Vis midlertidig dialog</value>
     </data>
     <data name="DisplayErrorDialog" xml:space="preserve">
-        <value>Display error dialog</value>
+        <value>Vis error dialog</value>
     </data>
     <data name="DisplayDestructiveDialog" xml:space="preserve">
-        <value>Display destructive dialog</value>
+        <value>Vis destruktiv dialog</value>
     </data>
     <data name="Dialog_FakeTitle" xml:space="preserve">
-        <value>Test title</value>
-    </data>
-    <data name="Dialog_FakeDescription" xml:space="preserve">
-        <value>A very long test description...</value>
+        <value>Test tittel</value>
     </data>
     <data name="OK" xml:space="preserve">
         <value>OK</value>
     </data>
     <data name="Dialog_TemporaryDescription" xml:space="preserve">
-        <value>This will disappear in 5 seconds</value>
+        <value>Denne vil vare i 5 sekunder</value>
     </data>
     <data name="Dialog_DestructiveDescription" xml:space="preserve">
-        <value>This is a destructive dialog</value>
+        <value>Dette er en destruktiv dialog</value>
     </data>
     <data name="Destroy" xml:space="preserve">
-        <value>Destroy</value>
+        <value>Ødelegg</value>
     </data>
     <data name="Dialog" xml:space="preserve">
         <value>Dialog</value>
     </data>
+    <data name="Dialog_FakeDescription" xml:space="preserve">
+        <value>En veldig lang beskrivelse</value>
+    </data>
     <data name="DisplayTwoDialogs" xml:space="preserve">
-        <value>Display two dialogs</value>
+        <value>Vis to dialoger</value>
     </data>
     <data name="IsRunning" xml:space="preserve">
-        <value>Is running</value>
+        <value>Laster</value>
     </data>
     <data name="IsRunningHintText" xml:space="preserve">
-        <value>Toggle if the indicator should load</value>
+        <value>Veksle på  om indikatoren skal laste</value>
     </data>
     <data name="Size" xml:space="preserve">
-        <value>Size</value>
+        <value>Størrelse</value>
     </data>
     <data name="ActivityIndicator" xml:space="preserve">
-        <value>Activity indicator</value>
+        <value>Aktivitetsindikator</value>
     </data>
     <data name="Remove" xml:space="preserve">
-        <value>Remove</value>
+        <value>Fjern</value>
     </data>
     <data name="Save" xml:space="preserve">
-        <value>Save</value>
+        <value>Lagre</value>
     </data>
     <data name="Saving" xml:space="preserve">
-        <value>Saving</value>
+        <value>Lagring</value>
     </data>
     <data name="Error" xml:space="preserve">
-        <value>Error</value>
+        <value>Feil</value>
     </data>
     <data name="To" xml:space="preserve">
-        <value>To</value>
+        <value>Til</value>
     </data>
     <data name="Animations" xml:space="preserve">
-        <value>Animations</value>
+        <value>Animasjoner</value>
     </data>
     <data name="Sorting" xml:space="preserve">
-        <value>Sorting</value>
+        <value>Sortering</value>
     </data>
     <data name="Buttons" xml:space="preserve">
-        <value>Buttons</value>
+        <value>Knapper</value>
     </data>
     <data name="Context_Menu_LongPressWithDestructiveAction" xml:space="preserve">
-        <value>Long press menu with a destructive action</value>
+        <value>Long press menu med en destruktiv handling</value>
     </data>
     <data name="Context_Menu_Divider" xml:space="preserve">
         <value>Context menu divider</value>
     </data>
     <data name="SelectAllTextOnFocus" xml:space="preserve">
-        <value>Select all text on focus</value>
+        <value>Merk tekst når fokusert</value>
     </data>
     <data name="InputText" xml:space="preserve">
-        <value>Input text...</value>
+        <value>Skriv inn tekst...</value>
     </data>
     <data name="Unfocus" xml:space="preserve">
-        <value>Unfocus</value>
+        <value>Ufokuser</value>
     </data>
     <data name="TextFields" xml:space="preserve">
-        <value>Text fields</value>
+        <value>Tekstfelter</value>
     </data>
     <data name="AreYouSure?" xml:space="preserve">
-        <value>Are you sure?</value>
+        <value>Er du sikker?</value>
     </data>
     <data name="ThisWillCloseBottomSheet" xml:space="preserve">
-        <value>This will close the bottomsheet</value>
+        <value>Dette vil lukke bottomsheeten</value>
     </data>
     <data name="Yes" xml:space="preserve">
-        <value>Yes</value>
+        <value>Ja</value>
     </data>
     <data name="BottomSheet_OpenNotClosableInteracting" xml:space="preserve">
-        <value>Open bottom sheet that is closable only by tapping button</value>
+        <value>Åpne bottom sheet som bare kan lukkes ved hjelp av en knapp</value>
     </data>
     <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
-        <value>Single item and single group</value>
+        <value>Én handling og én gruppe</value>
     </data>
     <data name="DefaultStateViews" xml:space="preserve">
-        <value>Default state views</value>
+        <value>Standard tilstand views</value>
     </data>
     <data name="CustomStateViews" xml:space="preserve">
-        <value>Custom state views</value>
+        <value>Tilpasset state views</value>
     </data>
     <data name="NoItemsToChooseFrom" xml:space="preserve">
-        <value>No items to choose from</value>
+        <value>Ingen elementer å velge mellom</value>
     </data>
     <data name="BarcodeScanning" xml:space="preserve">
-        <value>Barcode Scanning</value>
+        <value>Strekkode skanning</value>
     </data>
     <data name="Barcode" xml:space="preserve">
-        <value>Barcode</value>
+        <value>Strekkode</value>
     </data>
 </root>

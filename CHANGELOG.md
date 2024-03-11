@@ -1,3 +1,6 @@
+## [26.4.0]
+- Changed default localization to norwegian.
+
 ## [26.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

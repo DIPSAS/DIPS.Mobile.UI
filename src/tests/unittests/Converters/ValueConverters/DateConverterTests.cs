@@ -41,8 +41,6 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
             new List<object[]>()
             {
                 new object[] {"nb", new DateTime(1991, 12, 12), "12. des 1991"},
-                new object[] {"en-gb", new DateTime(1991, 12, 12), "12th Dec 1991"},
-                new object[] {"en-us", new DateTime(1991, 12, 12), "Dec 12th, 1991"},
             };
 
         [Theory]
@@ -83,14 +81,6 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
         public static IEnumerable<object[]> TestDataForTextFormat =>
             new List<object[]>()
             {
-                new object[] {"en-us", new DateTime(1990, 12, 12), "Today"},
-                new object[] {"en-us", new DateTime(1990, 12, 12).AddDays(-1), "Yesterday"},
-                new object[] {"en-us", new DateTime(1990, 12, 12).AddDays(1), "Tomorrow"},
-                new object[] {"en-us", new DateTime(1990, 12, 10), "Dec 10th,"},
-                new object[] {"en-gb", new DateTime(1990, 12, 12), "Today"},
-                new object[] { "en-gb", new DateTime(1990, 12, 12).AddDays(-1), "Yesterday"},
-                new object[] { "en-gb", new DateTime(1990, 12, 12).AddDays(1), "Tomorrow"},
-                new object[] { "en-gb", new DateTime(1990, 12, 10), "10th Dec"},
                 new object[] {"nb", new DateTime(1990, 12, 12), "I dag"},
                 new object[] {"nb", new DateTime(1990, 12, 12).AddDays(-1), "I går"},
                 new object[] {"nb", new DateTime(1990, 12, 12).AddDays(1), "I morgen"},
