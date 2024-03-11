@@ -21,12 +21,6 @@ public class TipCommand : IMarkupExtension
         var actionToRun = () => { };
         switch (valueProvider.TargetObject)
         {
-            case ToolbarItem toolbarItem:
-                actionToRun = () =>
-                {
-                    TipService.Show(Message, toolbarItem, Duration);
-                };
-                break;
             case View view:
                 actionToRun = () =>
                 {

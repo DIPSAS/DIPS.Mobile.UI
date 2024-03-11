@@ -8,21 +8,21 @@ namespace DIPS.Mobile.UI.Components.Shell.Android;
 
 public class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibility.ShellRenderer
 {
-    protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker() {
-        return new CustomToolbarAppearanceTracker(this);
-    }
+    protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker() => ToolbarApperanceTrancer = new CustomToolbarAppearanceTracker(this);
+
+    internal CustomToolbarAppearanceTracker ToolbarApperanceTrancer { get; set; }
 }
 
 internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 {
-    private Toolbar? m_toolbar;
     private ShellAppearance? m_appearance;
 
+    public Toolbar Toolbar { get; set; }
     public override void SetAppearance(Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
     {
         base.SetAppearance(toolbar, toolbarTracker, appearance);
 
-        m_toolbar = toolbar;
+        Toolbar = toolbar;
         m_appearance = appearance;
         
         toolbar.LayoutChange += ToolbarOnLayoutChange;  
@@ -31,10 +31,10 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
     }
 
     private void SetToolbarItemsTint()
-    {
-        for (var i = 0; i < m_toolbar?.Menu?.Size(); i++)
+    {       
+        for (var i = 0; i < Toolbar?.Menu?.Size(); i++)
         {
-            var toolbarItem = m_toolbar.Menu.GetItem(i);
+            var toolbarItem = Toolbar.Menu.GetItem(i);
             
             toolbarItem!.SetIconTintList(m_appearance?.ForegroundColor.ToDefaultColorStateList());
         }
@@ -54,9 +54,9 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
     {
         base.Dispose(disposing);
         
-        if(m_toolbar is null)
+        if(Toolbar is null)
             return;
         
-        m_toolbar.LayoutChange -= ToolbarOnLayoutChange;  
+        Toolbar.LayoutChange -= ToolbarOnLayoutChange;  
     }
 }

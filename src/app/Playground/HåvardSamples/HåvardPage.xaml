@@ -12,6 +12,7 @@
                  Padding="0">
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Command="{dui:TipCommand 'This means that an value is going up.'}"
+                     Text="Test"
                      IconImageSource="{dui:Icons alert_fill}"
                      AutomationId="Test"/>
         <ToolbarItem IconImageSource="{dui:Icons arrow_back_line}"/>

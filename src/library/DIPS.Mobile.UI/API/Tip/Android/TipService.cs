@@ -1,4 +1,7 @@
+using Android.App;
 using Android.Content.Res;
+using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Shell.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Google.Android.Material.Snackbar;
 using Microsoft.Maui.Handlers;
@@ -14,8 +17,6 @@ public static partial class TipService
         if (viewHandler.PlatformView == null) return;
         Show(message, viewHandler.PlatformView, durationInMilliseconds);
     }
-
-    public static partial void Show(string message, ToolbarItem anchoredToolbarItem, int durationInMilliseconds = 4000){}
 
 public static void Show(string message, Android.Views.View anchorView, int durationInMilliseconds)
     {
