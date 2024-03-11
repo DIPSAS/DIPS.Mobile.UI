@@ -12,10 +12,12 @@ public static partial class TipService
     {
         if (anchoredView.Handler is not ViewHandler viewHandler) return;
         if (viewHandler.PlatformView == null) return;
-        Show(message,viewHandler.PlatformView, durationInMilliseconds);
+        Show(message, viewHandler.PlatformView, durationInMilliseconds);
     }
 
-    public static void Show(string message, Android.Views.View anchorView, int durationInMilliseconds)
+    public static partial void Show(string message, ToolbarItem anchoredToolbarItem, int durationInMilliseconds = 4000){}
+
+public static void Show(string message, Android.Views.View anchorView, int durationInMilliseconds)
     {
         if (durationInMilliseconds <= 0)
         {

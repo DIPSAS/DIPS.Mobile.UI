@@ -12,8 +12,9 @@
                  Padding="0">
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Command="{dui:TipCommand 'This means that an value is going up.'}"
-                     IconImageSource="{dui:Icons alert_fill}">
-        </ToolbarItem>
+                     IconImageSource="{dui:Icons alert_fill}"
+                     AutomationId="Test"/>
+        <ToolbarItem IconImageSource="{dui:Icons arrow_back_line}"/>
     </dui:ContentPage.ToolbarItems>
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />

@@ -1,3 +1,9 @@
+#if __IOS__
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
+#endif
+
+using System.Windows.Input;
 using Microsoft.Maui.Handlers;
 
 namespace DIPS.Mobile.UI.API.Tip;
@@ -5,34 +11,30 @@ namespace DIPS.Mobile.UI.API.Tip;
 [ContentProperty(nameof(Message))]
 public class TipCommand : IMarkupExtension
 {
+    private Element m_anchoredElement;
     public string Message { get; set; } = string.Empty;
     public int Duration { get; set; } = 4000;
 
     public object ProvideValue(IServiceProvider serviceProvider)
     {
         var valueProvider = serviceProvider.GetService<IProvideValueTarget>() ?? throw new ArgumentException();
+        var actionToRun = () => { };
         switch (valueProvider.TargetObject)
         {
+            case ToolbarItem toolbarItem:
+                actionToRun = () =>
+                {
+                    TipService.Show(Message, toolbarItem, Duration);
+                };
+                break;
             case View view:
-                return new Command(() =>
+                actionToRun = () =>
                 {
                     TipService.Show(Message, view, Duration);
-                });
-            case ToolbarItem toolbarItem:
-                return new Command(() =>
-                {
-#if __IOS__
-                    if (toolbarItem.Parent is not ContentPage cp) return;
-                    if (cp.Handler is not PageHandler pageHandler) return;
-                    if (pageHandler.ViewController is null) return;
-                    if (pageHandler.ViewController.NavigationController is {ToolbarItems: not null} &&
-                        pageHandler.ViewController.NavigationController.ToolbarItems.Any())
-                    {
-                    }asdasd
-#endif
-                });
+                };
+                break;
         }
 
-        return new Command(() => { });
+        return new Command(actionToRun);
     }
 }

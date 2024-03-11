@@ -13,16 +13,14 @@ internal class TipUIViewController : UIViewController
 {
     private CGSize m_maxSize = new(300, 300);
     private readonly string m_message;
-    private readonly UIView m_anchorView;
     private Label? m_label;
     private Grid? m_grid;
 
-    public TipUIViewController(string message, UIView anchorView)
+    public TipUIViewController(string message)
     {
         m_message = message;
-        m_anchorView = anchorView;
     }
-
+    
 
     public override void ViewWillAppear(bool animated)
     {
@@ -105,7 +103,7 @@ internal class TipUIViewController : UIViewController
         return PopoverPresentationController?.PresentingViewController.DismissViewControllerAsync(true);
     }
 
-    public void SetupPopover(UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
+    public void SetupPopover(UIView? anchorView = null, UIBarButtonItem? anchorUIBarButton = null, UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
     {
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
 
@@ -115,8 +113,22 @@ internal class TipUIViewController : UIViewController
         }
 
         PopoverPresentationController.PermittedArrowDirections = permittedArrowDirection;
-        PopoverPresentationController.SourceRect = m_anchorView.Bounds;
-        PopoverPresentationController.SourceView = m_anchorView;
+        if (anchorView != null)
+        {
+            PopoverPresentationController.SourceRect = anchorView.Bounds;
+            PopoverPresentationController.SourceView = anchorView;
+        }
+
+        if (anchorUIBarButton != null)
+        {
+            // PopoverPresentationController.SourceRect = anchorUIBarButton.Bounds;
+            if (OperatingSystem.IsIOSVersionAtLeast(16, 0))
+            {
+                PopoverPresentationController.SourceItem = anchorUIBarButton;
+                PopoverPresentationController.BarButtonItem = anchorUIBarButton;
+            }
+        }
+       
         PopoverPresentationController.Delegate =
             new TipUIPopoverPresentationControllerDelegate();
     }
