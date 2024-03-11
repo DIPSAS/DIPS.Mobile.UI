@@ -1,5 +1,6 @@
 ## [26.5.0]
 - [Tip] Added a new `TipService` to attach a tip to a view and show it.
+- [Tip] Added `TipCommand`to easily show a tip with your view.
 - [BarcodeScanner] Added the possibility of adding a tip to the zoom slider.
 
 
