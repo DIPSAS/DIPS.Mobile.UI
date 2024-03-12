@@ -270,8 +270,15 @@ public partial class SingleLineInputField : Grid
     
     public new void Focus()
     {
-        InputView!.IsVisible = true;
-        InputView?.Focus();
+        try
+        {
+            InputView!.IsVisible = true;
+            InputView?.Focus();
+        }
+        catch (Exception e)
+        {
+            
+        }
     }
     
     public new void Unfocus()

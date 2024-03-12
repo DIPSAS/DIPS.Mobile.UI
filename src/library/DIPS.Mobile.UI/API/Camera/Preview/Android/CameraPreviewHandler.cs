@@ -1,6 +1,7 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Camera.View;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Handlers;
@@ -58,9 +59,16 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
         m_slider = slider;
     }
 
-
-    internal void UpdateZoomSlider(double linearZoom, LifecycleCameraController cameraController)
+    public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
     {
+        if (m_slider is null) return;
+        TipService.Show(message, m_slider, durationInMilliseconds);
+    }
+
+
+    internal void OnZoomChanged(double linearZoom, LifecycleCameraController cameraController)
+    {
+        VirtualView.HasZoomed = true;
         if (m_onZoomSliderListener is {IsZoomAction: true}) return; //To prevent awkward slider / zooming sync
 
         if (m_slider != null)

@@ -8,21 +8,18 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
+                 ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Command="{dui:TipCommand 'This means that an value is going up.'}"
+                     Text="Test"
+                     IconImageSource="{dui:Icons alert_fill}"
+                     AutomationId="Test"/>
+        <ToolbarItem IconImageSource="{dui:Icons arrow_back_line}"/>
+    </dui:ContentPage.ToolbarItems>
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
-        <dui:EmptyView>
-            <dui:EmptyView.EmptyViewModel>
-                <dui:EmptyViewModel Title="Ukjent strekkode"
-                                    Description="Strekkoden må inneholde fødselsnummer eller nettadresser"
-                                    Icon="{dui:Icons failure_fill}">
-                </dui:EmptyViewModel>
-            </dui:EmptyView.EmptyViewModel>
-        </dui:EmptyView>
-        <dui:Button Margin="{dui:Thickness Top=size_3}"
-                    Text="Se strekkode"
-                    Style="{dui:Styles Button=SecondarySmall}" />
-    </dui:VerticalStackLayout>
+    <dui:Image Source="{dui:Icons arrow_up_thick_line_fill}"
+               dui:Touch.Command="{dui:TipCommand 'This means that an value is going up.'}" />
 </dui:ContentPage>

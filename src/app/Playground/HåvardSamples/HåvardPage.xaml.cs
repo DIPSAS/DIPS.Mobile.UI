@@ -1,9 +1,7 @@
-using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 using DIPS.Mobile.UI.Resources.Icons;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
-using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Playground.HåvardSamples;
 
@@ -21,42 +19,10 @@ public partial class HåvardPage
         App.Current.MainPage.Navigation.PushAsync(new HåvardPage());
     });
 
-    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    protected override async void OnAppearing()
     {
+        base.OnAppearing();
     }
-
-    private void BindableObject_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-    }
-
-    private void BindableObject_OnPropertyChanging(object sender, PropertyChangingEventArgs e)
-    {
-    }
-
-    private void VisualElement_OnMeasureInvalidated(object sender, EventArgs e)
-    {
-    }
-
-    private void Element_OnHandlerChanged(object sender, EventArgs e)
-    {
-    }
-
-    private void VisualElement_OnSizeChanged(object sender, EventArgs e)
-    {
-    }
-
-    private void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
-    {
-        if (sender is not View view) return;
-        if (view.HeightRequest == -1)
-        {
-            view.HeightRequest = 60;
-            return;
-        }
-
-        view.HeightRequest = -1;
-    }
-
 
     public static readonly BindableProperty HideTextProperty = BindableProperty.Create(
         nameof(HideText),
@@ -71,4 +37,9 @@ public partial class HåvardPage
         get => (bool)GetValue(HideTextProperty);
         set => SetValue(HideTextProperty, value);
     }
+
+    // private void ShowTip(object sender, EventArgs e)
+    // {
+    //     TipService.Show("Testing tip", Label);
+    // }
 }
