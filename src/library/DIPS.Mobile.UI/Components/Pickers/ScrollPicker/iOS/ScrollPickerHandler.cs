@@ -18,7 +18,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
 
     protected override UIButton CreatePlatformView()
     {
-        m_chip = new Chip { Style = Styles.GetChipStyle(ChipStyle.EmptyInput) };
+        m_chip = new Chip { Style = Styles.GetChipStyle(ChipStyle.Input) };
         m_chip.Command = new Command(() => OnTapped(m_chip));
 
         return (UIButton)m_chip.ToPlatform(DUI.GetCurrentMauiContext!);
@@ -28,7 +28,30 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
     {
         base.ConnectHandler(platformView);
 
-        m_chip.Title = VirtualView.PlaceholderText;
+        if (VirtualView.ViewModel is null)
+            throw new Exception("The viewmodel of ScrollPicker must be set!");
+
+        VirtualView.ViewModel.OnAnySelectedIndexesChanged += SetChipTitle;
+        SetChipTitle();
+    }
+
+    private void SetChipTitle()
+    {
+        var componentCount = VirtualView.ViewModel.GetComponentCount();
+        var texts = new string[componentCount];
+        for (var i = 0; i < VirtualView.ViewModel.GetComponentCount(); i++)
+        {
+            AddTextInRowFromComponent(i, texts);
+        }
+        
+        m_chip.Title = texts.Length == 1 ? texts[0] : string.Join(VirtualView.SeparatorText, texts);
+        m_scrollPickerViewController?.OnChipTitleChanged();
+    }
+
+    private void AddTextInRowFromComponent(int i, IList<string> texts)
+    {
+        var selectedIndexForComponent = VirtualView.ViewModel.SelectedIndexForComponent(i);
+        texts[i] = VirtualView.ViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
     }
 
     private void OnTapped(Chip chip)
@@ -41,16 +64,6 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         
         _ = rootViewController.PresentViewControllerAsync(m_scrollPickerViewController, true);
     }
-
-    private static partial void MapSelectedIndex(ScrollPickerHandler handler, ScrollPicker scrollPicker)
-    {
-        if(scrollPicker.SelectedIndex == -1)
-            return;
-        
-        handler.m_chip.Title = scrollPicker.ItemsSource.Cast<object>().ElementAt(scrollPicker.SelectedIndex).ToString()!;
-        handler.m_chip.Style = Styles.GetChipStyle(ChipStyle.Input);
-        handler.m_scrollPickerViewController?.OnChipTitleChanged();
-    }
     
     protected override void DisconnectHandler(UIButton platformView)
     {
@@ -58,35 +71,35 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         
         m_chip.Command = null;
         m_scrollPickerViewController = null;
+        VirtualView.ViewModel.OnAnySelectedIndexesChanged -= SetChipTitle;
     }
 
 }
 
-internal class ScrollPickerViewModel : UIPickerViewModel
+internal class DUIPickerViewModel : UIPickerViewModel
 {
 #nullable disable
-    public ScrollPicker ScrollPicker { get; set; }
+    public IScrollPickerViewModel ScrollPickerViewModel { get; set; }
 #nullable enable
     
     public override nint GetComponentCount(UIPickerView pickerView)
     {
-        return 1;
+        return ScrollPickerViewModel.GetComponentCount();
     }
 
     public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
     {
-        return ScrollPicker.ItemsSource.Cast<object>().Count();
+        return ScrollPickerViewModel.GetRowsInComponent((int)component);
     }
 
     public override string GetTitle(UIPickerView pickerView, IntPtr row, IntPtr component)
     {
-        return ScrollPicker.ItemsSource.Cast<object>().ElementAt((int)row).ToString()!;
+        return ScrollPickerViewModel.GetTextForRowInComponent((int)row, (int)component);
     }
 
     public override void Selected(UIPickerView pickerView, IntPtr row, IntPtr component)
     {
-        var index = (int)row;
-        ScrollPicker.SelectedIndex = index;
+        ScrollPickerViewModel.SelectedRowInComponent((int)row, (int)component);
     }
 }
 
@@ -103,12 +116,17 @@ internal class ScrollPickerViewController : UIViewController
         m_scrollPicker = scrollPicker;
         
         m_uiPicker = new UIPickerView();
-        var vm = new ScrollPickerViewModel { ScrollPicker = m_scrollPicker };
+        var vm = new DUIPickerViewModel { ScrollPickerViewModel = m_scrollPicker.ViewModel };
         m_uiPicker.Model = vm;
-        if (m_scrollPicker.SelectedIndex != -1)
+
+        for (var i = 0; i < m_scrollPicker.ViewModel.GetComponentCount(); i++)
         {
-            m_uiPicker.Select(m_scrollPicker.SelectedIndex, 0, false);
-            vm.Selected(m_uiPicker, m_scrollPicker.SelectedIndex, 0);
+            var initialSelectedIndexForComponent = m_scrollPicker.ViewModel.SelectedIndexForComponent(i);
+            if (initialSelectedIndexForComponent == -1)
+                continue;
+
+            m_uiPicker.Select(initialSelectedIndexForComponent, i, false);
+            vm.Selected(m_uiPicker, initialSelectedIndexForComponent, i);
         }
         
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
@@ -118,7 +136,7 @@ internal class ScrollPickerViewController : UIViewController
 
         m_uiButton = chip.ToPlatform(DUI.GetCurrentMauiContext!) as UIButton;
         
-        PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Any;
+        PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Up | UIPopoverArrowDirection.Down;
         PopoverPresentationController.SourceView = m_uiButton!;
         PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
         PopoverPresentationController.Delegate = new TipUIPopoverPresentationControllerDelegate();
@@ -145,13 +163,13 @@ internal class ScrollPickerViewController : UIViewController
     {
         base.ViewWillAppear(animated);
         
-        var padding = new Thickness(Sizes.GetSize(SizeName.size_6));
+        var padding = new Thickness(Sizes.GetSize(SizeName.size_6)* m_scrollPicker.ViewModel.GetComponentCount());
         if (View is null) 
             return;
 
         var width = CalculatePopoverWidth(m_uiPicker.Bounds);
-        var fittingSize = View.SystemLayoutSizeFittingSize(UIView.UILayoutFittingCompressedSize);
-        
+
+        var fittingSize = m_uiPicker.IntrinsicContentSize;
         PreferredContentSize = new CGSize(width + padding.HorizontalThickness, fittingSize.Height);
     }
     
@@ -164,26 +182,38 @@ internal class ScrollPickerViewController : UIViewController
 
     private float CalculatePopoverWidth(CGRect bounds)
     {
-        var textsFromItemsSource = m_scrollPicker.ItemsSource.Cast<object>().Select(obj => obj.ToString()).ToList();
-        var longestTextInItemsSource = textsFromItemsSource.OrderByDescending(s => s?.Length).First();
-
-        if (longestTextInItemsSource is null)
-            return 0;
+        var popoverWidth = 0f;
         
-        var nssString = new NSString(longestTextInItemsSource);
+        for (var component = 0; component < m_scrollPicker.ViewModel.GetComponentCount(); component++)
+        {
+            var rowsInComponent = m_scrollPicker.ViewModel.GetRowsInComponent(component);
+            var textsInComponent = new string[rowsInComponent];
+            for (var row = 0; row < rowsInComponent; row++)
+            {
+                textsInComponent[row] = m_scrollPicker.ViewModel.GetTextForRowInComponent(row, component);
+            }
+            
+            var longestTextInItemsSource = textsInComponent.OrderByDescending(s => s.Length).First();
 
-        var labelSize = nssString.GetBoundingRect(new CGSize(bounds.Width, nfloat.PositiveInfinity),
-            NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = UIFont.PreferredTitle2 },null);
+            var nssString = new NSString(longestTextInItemsSource);
 
-        return (float)labelSize.Width;
+            var boundingRect = nssString.GetBoundingRect(new CGSize(bounds.Width, nfloat.PositiveInfinity),
+                NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = UIFont.PreferredTitle1 },null);
+
+            popoverWidth += (float)boundingRect.Width;
+        }
+        
+        return popoverWidth;
     }
     
     public override void ViewWillDisappear(bool animated)
     {
         base.ViewWillDisappear(animated);
-
+        
         m_uiPicker = null!;
+        m_uiButton = null!;
         m_scrollPicker = null!;
+        
         if(PopoverPresentationController is not null)
             PopoverPresentationController.Delegate = null!;
     }

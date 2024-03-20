@@ -2,29 +2,20 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Platform;
-using Button = Microsoft.Maui.Controls.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DialogFragment = AndroidX.Fragment.App.DialogFragment;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-public class MaterialScrollPickerFragment : DialogFragment
+public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSave) : DialogFragment
 {
-    private readonly ScrollPicker m_scrollPicker;
-
-    public MaterialScrollPickerFragment(ScrollPicker scrollPicker)
-    {
-        m_scrollPicker = scrollPicker;
-    }
-    
     public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
         var linearLayout = new LinearLayout(Context)
@@ -42,42 +33,41 @@ public class MaterialScrollPickerFragment : DialogFragment
         var title = new Label
         {
             Style = Styles.GetLabelStyle(LabelStyle.SectionHeader),
-            Text = m_scrollPicker.Title
+            Text = scrollPicker.Title
         }.ToPlatform(DUI.GetCurrentMauiContext!);
-        
-        var numberPicker = new NumberPicker(Context)
+
+        var numberPickersLayout = new LinearLayout(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
+            LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent),
+            Orientation = Orientation.Horizontal
         };
-
-        var items = m_scrollPicker.ItemsSource.Cast<object>();
-
-        var enumerable = items.ToList();
-        if (enumerable.Count == 0)
-            return new View(Context);
-
-        numberPicker.SelectionDividerHeight = 0.5.ToMauiPixel();
-        numberPicker.MinValue = 0;
-        numberPicker.MaxValue = enumerable.Count - 1;
-        numberPicker.WrapSelectorWheel = false;
-        numberPicker.Value = m_scrollPicker.SelectedIndex;
         
-        var stringValues = enumerable.Select(item => item.ToString());
+        List<NumberPicker> numberPickers = [];
         
-        numberPicker.SetDisplayedValues(stringValues.ToArray()!);
-
+        for (var i = 0; i < scrollPicker.ViewModel.GetComponentCount(); i++)
+        {
+            var numberPicker = CreateNumberPicker(i);
+            numberPickers.Add(numberPicker);
+            numberPickersLayout.AddView(numberPicker); 
+        }
+        
         var cancelButton = CreateButton(DUILocalizedStrings.Cancel.ToUpper(), Dismiss);
         var okButton = CreateButton("OK", () =>
         {
             Dismiss();
-            m_scrollPicker.SelectedIndex = numberPicker.Value;
+
+            for (var i = 0; i < numberPickers.Count; i++)
+            {
+                scrollPicker.ViewModel.SelectedRowInComponent(numberPickers[i].Value, i);
+            }
+            
+            onSave.Invoke();
         });
         
         var buttonsLayout = new LinearLayout(Context)
         {
             LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent),
             Orientation = Orientation.Horizontal,
-            
         };
         buttonsLayout.SetHorizontalGravity(GravityFlags.End);
         buttonsLayout.AddView(cancelButton.ToPlatform(DUI.GetCurrentMauiContext!));
@@ -86,18 +76,47 @@ public class MaterialScrollPickerFragment : DialogFragment
         
         linearLayout.AddView(title);
         linearLayout.AddView(new Space(Context){LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel())});
-        linearLayout.AddView(numberPicker);
+        linearLayout.AddView(numberPickersLayout);
         linearLayout.AddView(new Space(Context){LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel())});
         linearLayout.AddView(buttonsLayout);
 
         return linearLayout;
     }
 
-    private Button CreateButton(string text, Action command)
+    private static Buttons.Button CreateButton(string text, Action command)
     {
         return new Buttons.Button
         {
             Text = text, Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall), TextColor = Colors.GetColor(ColorName.color_primary_90), FontFamily = "UI", Command = new Command(command), HorizontalOptions = LayoutOptions.End
         };
+    }
+
+    private NumberPicker CreateNumberPicker(int component)
+    {
+        var numberPicker = new NumberPicker(Context)
+        {
+            LayoutParameters = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WrapContent, 1f)
+        };
+
+        var rowsInComponent = scrollPicker.ViewModel.GetRowsInComponent(component);
+
+        var stringValues = new string[rowsInComponent];
+        for (var i = 0; i < rowsInComponent; i++)
+        {
+            stringValues[i] = scrollPicker.ViewModel.GetTextForRowInComponent(i, component);
+        }
+        
+        if (rowsInComponent == 0)
+            return null!;
+
+        numberPicker.SelectionDividerHeight = 0.5.ToMauiPixel();
+        numberPicker.MinValue = 0;
+        numberPicker.MaxValue = rowsInComponent - 1;
+        numberPicker.WrapSelectorWheel = false;
+        numberPicker.Value = scrollPicker.ViewModel.SelectedIndexForComponent(component);
+        
+        numberPicker.SetDisplayedValues(stringValues);
+
+        return numberPicker;
     }
 }

@@ -9,9 +9,4 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Only_Here_F
     {
         throw new NotImplementedException();
     }
-    
-    private static partial void MapSelectedIndex(ScrollPickerHandler handler, ScrollPicker scrollPicker)
-    {
-        
-    }
 }

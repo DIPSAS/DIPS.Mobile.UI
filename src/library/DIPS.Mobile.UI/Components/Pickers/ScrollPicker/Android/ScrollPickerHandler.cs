@@ -12,9 +12,9 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
 
     protected override Chip CreatePlatformView()
     {
-        m_chip = new DIPS.Mobile.UI.Components.Chips.Chip()
+        m_chip = new DIPS.Mobile.UI.Components.Chips.Chip
         {
-            Style = Styles.GetChipStyle(ChipStyle.EmptyInput)
+            Style = Styles.GetChipStyle(ChipStyle.Input)
         };
         
         return (Chip)m_chip.ToPlatform(MauiContext!);
@@ -24,27 +24,32 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     {
         base.ConnectHandler(platformView);
         
-        m_chip.Title = VirtualView.PlaceholderText;
         platformView.Click += PlatformViewOnClick;
+        
+        SetChipTitle();
     }
     
-    private static partial void MapSelectedIndex(ScrollPickerHandler handler, ScrollPicker scrollPicker)
+    private void SetChipTitle()
     {
-        if(scrollPicker.SelectedIndex == -1)
-            return;
+        var componentCount = VirtualView.ViewModel.GetComponentCount();
+        var texts = new string[componentCount];
+        for (var i = 0; i < VirtualView.ViewModel.GetComponentCount(); i++)
+        {
+            var selectedIndexForComponent = VirtualView.ViewModel.SelectedIndexForComponent(i);
+            texts[i] = VirtualView.ViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
+        }
         
-        handler.m_chip.Style = Styles.GetChipStyle(ChipStyle.Input);
-        handler.m_chip.Title = scrollPicker.ItemsSource.Cast<object>().ElementAt(scrollPicker.SelectedIndex).ToString()!;
+        m_chip.Title = texts.Length == 1 ? texts[0] : string.Join(VirtualView.SeparatorText, texts);
     }
 
     private void PlatformViewOnClick(object? sender, EventArgs e)
     {
-        var fragment = new MaterialScrollPickerFragment(VirtualView);
+        var fragment = new MaterialScrollPickerFragment(VirtualView, SetChipTitle);
         var activity = Platform.CurrentActivity;
         var fragmentManager = activity?.GetFragmentManager();
         fragment.Show(fragmentManager!, nameof(ScrollPicker));
     }
-    
+
     protected override void DisconnectHandler(Chip platformView)
     {
         base.DisconnectHandler(platformView);

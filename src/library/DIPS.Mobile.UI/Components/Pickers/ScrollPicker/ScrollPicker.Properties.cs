@@ -1,53 +1,43 @@
-using System.Collections;
-
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 public partial class ScrollPicker
 {
-  
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-        nameof(ItemsSource),
-        typeof(IEnumerable),
-        typeof(ScrollPicker));
-    
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
         typeof(ScrollPicker));
 
-    public static readonly BindableProperty PlaceholderTextProperty = BindableProperty.Create(
-        nameof(PlaceholderText),
-        typeof(string),
-        typeof(ScrollPicker));
-
-    public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(
-        nameof(SelectedIndex),
-        typeof(int),
+    public static readonly BindableProperty ViewModelProperty = BindableProperty.Create(
+        nameof(ViewModel),
+        typeof(IScrollPickerViewModel),
         typeof(ScrollPicker),
-        -1,
-        BindingMode.TwoWay);
+        defaultBindingMode: BindingMode.OneWay);
+    
+    public static readonly BindableProperty SeparatorTextProperty = BindableProperty.Create(
+        nameof(SeparatorText),
+        typeof(string),
+        typeof(ScrollPicker),
+        defaultValue: "/");
+    
+    /// <summary>
+    /// The ViewModel to configure the scroll picker
+    /// </summary>
+    public IScrollPickerViewModel ViewModel
+    {
+        get => (IScrollPickerViewModel)GetValue(ViewModelProperty);
+        set => SetValue(ViewModelProperty, value);
+    }
 
     /// <summary>
-    /// The index of the selected item in the picker based on <see cref="ItemsSource"/>
+    /// The text to separate the components in the scroll picker, default is '/'
     /// </summary>
-    public int SelectedIndex
+    /// <remarks>Only valid if there are 1> components in the scroll picker</remarks>
+    public string SeparatorText
     {
-        get => (int)GetValue(SelectedIndexProperty);
-        set => SetValue(SelectedIndexProperty, value);
+        get => (string)GetValue(SeparatorTextProperty);
+        set => SetValue(SeparatorTextProperty, value);
     }
     
-    public string PlaceholderText
-    {
-        get => (string)GetValue(PlaceholderTextProperty);
-        set => SetValue(PlaceholderTextProperty, value);
-    }
-
-    public IEnumerable ItemsSource
-    {
-        get => (IEnumerable)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
-
     /// <summary>
     /// Only for Android
     /// </summary>
