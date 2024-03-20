@@ -63,8 +63,23 @@ public class StandardScrollPickerComponent<TModel> : List<TModel>, IScrollPicker
 
 public interface IScrollPickerComponent
 {
+    /// <summary>
+    /// Sets the selected item
+    /// </summary>
     void SetSelectedItem(int index);
+    
+    /// <summary>
+    /// Gets the number of items in the component
+    /// </summary>
     int GetItemsCount();
+    
+    /// <summary>
+    /// Gets the index of the selected item
+    /// </summary>
     int GetSelectedItemIndex();
+    
+    /// <summary>
+    /// Gets the text for the specified item
+    /// </summary>
     string GetItemText(int index);
 }

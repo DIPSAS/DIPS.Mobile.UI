@@ -1,5 +1,5 @@
 ## [27.0.0]
-- Added ScrollPicker
+- Added `ScrollPicker`.
 
 ## [26.5.0]
 - [Tip] Added a new `TipService` to attach a tip to a view and show it.
