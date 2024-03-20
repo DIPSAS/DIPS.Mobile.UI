@@ -40,17 +40,17 @@ public partial class CollectionView
     /// <summary>
     /// Determines the positioning of the header, if the <see cref="CollectionView.Header"/> property is set.
     /// </summary>
-    public CollectionViewHeaderPositioning HeaderPositioning
+    public HeaderPositioning HeaderPositioning
     {
-        get => (CollectionViewHeaderPositioning)GetValue(HeaderPositioningProperty);
+        get => (HeaderPositioning)GetValue(HeaderPositioningProperty);
         set => SetValue(HeaderPositioningProperty, value);
     }
 
     public static readonly BindableProperty HeaderPositioningProperty = BindableProperty.Create(
         nameof(HeaderPositioning),
-        typeof(CollectionViewHeaderPositioning),
+        typeof(HeaderPositioning),
         typeof(CollectionView),
-        defaultValue: CollectionViewHeaderPositioning.Normal);
+        defaultValue: HeaderPositioning.Normal);
     
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),
@@ -75,7 +75,7 @@ public partial class CollectionView
     }
 }
 
-public enum CollectionViewHeaderPositioning
+public enum HeaderPositioning
 {
     /// <summary>
     ///     The header scrolls along with the <see cref="CollectionView"/>'s content.

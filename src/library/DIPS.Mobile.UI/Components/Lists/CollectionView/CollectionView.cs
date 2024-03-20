@@ -22,11 +22,11 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     
     private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
     {
-        if (HeaderPositioning is CollectionViewHeaderPositioning.Normal || Header is not VisualElement view) return;
+        if (HeaderPositioning is HeaderPositioning.Normal || Header is not VisualElement view) return;
 
         view.TranslationY = Math.Max(TranslationY, e.VerticalOffset + m_headerOffset);
 
-        if (HeaderPositioning is not CollectionViewHeaderPositioning.PartialSticky) return;
+        if (HeaderPositioning is not HeaderPositioning.PartialSticky) return;
         
         if (this.AnimationIsRunning("PopBackIn")) return;
         
