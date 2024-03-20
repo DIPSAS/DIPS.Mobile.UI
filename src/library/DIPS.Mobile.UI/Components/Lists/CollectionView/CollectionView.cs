@@ -14,6 +14,36 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         m_extraSpaceBorder ??= new Border() {BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
         Footer = m_extraSpaceBorder;
         SelectionMode = SelectionMode.None;
+
+        Scrolled += OnScrolled;
+    }
+
+    private double m_headerOffset;
+    
+    private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
+    {
+        if (HeaderPositioning is CollectionViewHeaderPositioning.Normal || Header is not VisualElement view) return;
+
+        view.TranslationY = Math.Max(TranslationY, e.VerticalOffset + m_headerOffset);
+
+        if (HeaderPositioning is not CollectionViewHeaderPositioning.PartialSticky) return;
+        
+        if (this.AnimationIsRunning("PopBackIn")) return;
+        
+        if (e.VerticalDelta > 0)
+        {
+            m_headerOffset = Math.Max(-view.Height, m_headerOffset - e.VerticalDelta);
+        }
+        if (e.VerticalDelta < 0 && m_headerOffset < 0)
+        {
+            PopBackIn(view);
+        }
+    }
+    
+    private void PopBackIn(VisualElement view)
+    {
+        var animation = new Animation(d => m_headerOffset = d, -view.Height, 0);
+        animation.Commit(this, "PopBackIn", 4, 250, Easing.Linear);
     }
 
     private void TrySetItemSpacing()

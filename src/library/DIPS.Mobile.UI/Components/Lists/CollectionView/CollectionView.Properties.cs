@@ -37,6 +37,21 @@ public partial class CollectionView
         set => SetValue(ShouldBounceProperty, value);
     }
     
+    /// <summary>
+    /// Determines the positioning of the header, if the <see cref="CollectionView.Header"/> property is set.
+    /// </summary>
+    public CollectionViewHeaderPositioning HeaderPositioning
+    {
+        get => (CollectionViewHeaderPositioning)GetValue(HeaderPositioningProperty);
+        set => SetValue(HeaderPositioningProperty, value);
+    }
+
+    public static readonly BindableProperty HeaderPositioningProperty = BindableProperty.Create(
+        nameof(HeaderPositioning),
+        typeof(CollectionViewHeaderPositioning),
+        typeof(CollectionView),
+        defaultValue: CollectionViewHeaderPositioning.Normal);
+    
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),
         typeof(bool),
@@ -58,4 +73,21 @@ public partial class CollectionView
             handler.ReloadData(handler);
         }
     }
+}
+
+public enum CollectionViewHeaderPositioning
+{
+    /// <summary>
+    ///     The header scrolls along with the <see cref="CollectionView"/>'s content.
+    /// </summary>
+    Normal,
+    /// <summary>
+    ///     The header sticks to the top of the <see cref="CollectionView"/> and is always visible
+    /// </summary>
+    Sticky,
+    /// <summary>
+    ///     The header scrolls along with the <see cref="CollectionView"/>'s content, but will reappear and stick while
+    ///     scrolling upwards.
+    /// </summary>
+    PartialSticky
 }

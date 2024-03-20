@@ -29,7 +29,7 @@ public partial class MainPage
 
     private void GoToEirik(object sender, EventArgs e)
     {
-        Shell.Current.Navigation.PushAsync(new EirikPage());
+        Shell.Current.Navigation.PushAsync(new ScrollTest());
 
     }
 
