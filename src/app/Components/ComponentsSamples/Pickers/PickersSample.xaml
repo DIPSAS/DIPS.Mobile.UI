@@ -17,5 +17,8 @@
         <extensions:NavigationListItem Title="Date / time pickers"
                                 Command="{helpers:NavigationCommand {x:Type pickers:DateTimePickersSamples}}"
                                 HasBottomDivider="True"/>
+        <extensions:NavigationListItem Title="Scroll pickers"
+                                       Command="{helpers:NavigationCommand {x:Type pickers:ScrollPickersSamples}}"
+                                       HasBottomDivider="True"/>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

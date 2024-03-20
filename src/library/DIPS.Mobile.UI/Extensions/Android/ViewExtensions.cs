@@ -109,7 +109,7 @@ public static class ViewExtensions
         rect.Bottom += additionalHitBoxSize.Bottom.ToMauiPixel();
         rect.Right += additionalHitBoxSize.Right.ToMauiPixel();
 
-        if (view.Parent.ToPlatform(mauiContext) is AView parentView)
+        if (view.Parent?.ToPlatform(mauiContext) is { } parentView)
         {
             parentView.TouchDelegate = new TouchDelegate(rect, aView);
         }

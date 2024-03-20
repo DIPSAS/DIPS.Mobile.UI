@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.TextFields.Editor;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
@@ -68,6 +69,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
             handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
+            handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             
             AddPlatformHandlers(handlers);
         });
