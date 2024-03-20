@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             x:Class="Playground.EirikSamples.ScrollTest">
+    <dui:ContentPage.Resources>
+        <x:Array x:Key="StringArray"
+                 Type="{x:Type system:String}">
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+            <system:String>Hello</system:String>
+        </x:Array>
+    </dui:ContentPage.Resources>
+        <dui:CollectionView Grid.Row="0"
+                            ItemsSource="{StaticResource StringArray}"
+                            HeaderPositioning="PartialSticky">
+            <dui:CollectionView.Header>
+                <dui:ListItem Title="This is a header"
+                              Subtitle="Check it out!"
+                              HasBottomDivider="True"
+                              Tapped="Header_OnTapped">
+                </dui:ListItem>
+            </dui:CollectionView.Header>
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="system:String">
+                    <dui:ListItem Title="{Binding}"
+                                  HasBottomDivider="True"/>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+</dui:ContentPage>
