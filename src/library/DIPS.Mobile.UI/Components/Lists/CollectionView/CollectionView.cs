@@ -24,7 +24,7 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     {
         if (HeaderPositioning is HeaderPositioning.Normal || Header is not VisualElement view) return;
 
-        view.TranslationY = Math.Max(TranslationY, e.VerticalOffset + m_headerOffset);
+        view.TranslationY = TranslationY + Math.Max(0, e.VerticalOffset + m_headerOffset);
 
         if (HeaderPositioning is not HeaderPositioning.PartialSticky) return;
         
