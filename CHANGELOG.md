@@ -1,3 +1,6 @@
+## [26.6.0]
+- [CollectionView] Added `HeaderPositioning` to specify how the CollectionView header should position itself while scrolling
+
 ## [26.5.0]
 - [Tip] Added a new `TipService` to attach a tip to a view and show it.
 - [Tip] Added `TipCommand`to easily show a tip with your view.
