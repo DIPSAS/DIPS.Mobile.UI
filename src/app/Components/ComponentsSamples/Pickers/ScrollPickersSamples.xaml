@@ -23,8 +23,7 @@
 
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
                       VerticalOptions="Start">
-            <dui:ScrollPicker Title="Title"
-                              Components="{Binding ItemComponents}" />
+            <dui:ScrollPicker Components="{Binding ItemComponents}" />
         </dui:ListItem>
 
         
