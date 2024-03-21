@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pages.Android;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.Shell.Android;
 using DIPS.Mobile.UI.Components.Toolbars.Android;
 using Microsoft.Maui.LifecycleEvents;

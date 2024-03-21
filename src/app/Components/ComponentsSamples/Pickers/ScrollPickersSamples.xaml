@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
+                 x:Class="Components.ComponentsSamples.Pickers.ScrollPickersSamples"
+                 Padding="20"
+                 Title="Scroll pickers">
+
+    <dui:ContentPage.BindingContext>
+        <pickers:ScrollPickerSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}"
+                             dui:Layout.CornerRadius="{dui:Sizes size_2}"
+                             VerticalOptions="Start">
+
+        <dui:Label Text="Single component in scroll picker"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Left=size_2}" />
+
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                      VerticalOptions="Start">
+            <dui:ScrollPicker Components="{Binding ItemComponents}" />
+        </dui:ListItem>
+
+        
+        <dui:Label Text="Two components in scroll picker"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Left=size_2, Top=size_2}" />
+        
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                      VerticalOptions="Start">
+            <dui:ScrollPicker Title="Title"
+                              SeparatorText=" > "
+                              Components="{Binding FootballersComponents}" />
+        </dui:ListItem>
+
+        
+        <dui:Label Text="Three components in scroll picker"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Left=size_2, Top=size_2}" />
+        
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
+                      VerticalOptions="Start">
+            <dui:ScrollPicker Title="Title"
+                              SeparatorText=" / "
+                              Components="{Binding DateComponents}" />
+        </dui:ListItem>
+
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>
