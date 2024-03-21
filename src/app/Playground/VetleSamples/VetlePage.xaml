@@ -18,8 +18,6 @@
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="hei" />
     </dui:ContentPage.ToolbarItems>
-    
-    <dui:ScrollPicker ItemsSource="{Binding TestStrings}" />
    
  
         
