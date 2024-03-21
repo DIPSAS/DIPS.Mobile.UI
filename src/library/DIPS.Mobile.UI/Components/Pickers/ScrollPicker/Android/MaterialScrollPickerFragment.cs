@@ -14,7 +14,7 @@ using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSave) : DialogFragment
+public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, IScrollPickerViewModel scrollPickerViewModel, Action onSave) : DialogFragment
 {
     public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
@@ -44,7 +44,7 @@ public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSa
         
         List<NumberPicker> numberPickers = [];
         
-        for (var i = 0; i < scrollPicker.ViewModel.GetComponentCount(); i++)
+        for (var i = 0; i < scrollPickerViewModel.GetComponentCount(); i++)
         {
             var numberPicker = CreateNumberPicker(i);
             numberPickers.Add(numberPicker);
@@ -58,7 +58,7 @@ public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSa
 
             for (var i = 0; i < numberPickers.Count; i++)
             {
-                scrollPicker.ViewModel.SelectedRowInComponent(numberPickers[i].Value, i);
+                scrollPickerViewModel.SelectedRowInComponent(numberPickers[i].Value, i);
             }
             
             onSave.Invoke();
@@ -98,12 +98,12 @@ public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSa
             LayoutParameters = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WrapContent, 1f)
         };
 
-        var rowsInComponent = scrollPicker.ViewModel.GetRowsInComponent(component);
+        var rowsInComponent = scrollPickerViewModel.GetRowsInComponent(component);
 
         var stringValues = new string[rowsInComponent];
         for (var i = 0; i < rowsInComponent; i++)
         {
-            stringValues[i] = scrollPicker.ViewModel.GetTextForRowInComponent(i, component);
+            stringValues[i] = scrollPickerViewModel.GetTextForRowInComponent(i, component);
         }
         
         if (rowsInComponent == 0)
@@ -113,7 +113,7 @@ public class MaterialScrollPickerFragment(ScrollPicker scrollPicker, Action onSa
         numberPicker.MinValue = 0;
         numberPicker.MaxValue = rowsInComponent - 1;
         numberPicker.WrapSelectorWheel = false;
-        numberPicker.Value = scrollPicker.ViewModel.SelectedIndexForComponent(component);
+        numberPicker.Value = scrollPickerViewModel.SelectedIndexForComponent(component);
         
         numberPicker.SetDisplayedValues(stringValues);
 

@@ -24,6 +24,11 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     {
         base.ConnectHandler(platformView);
         
+        if (VirtualView.Components is {Count:0})
+            throw new Exception("The components of ScrollPicker must be set!");
+
+        m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
+        
         platformView.Click += PlatformViewOnClick;
         
         SetChipTitle();
@@ -31,12 +36,12 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     
     private void SetChipTitle()
     {
-        var componentCount = VirtualView.ViewModel.GetComponentCount();
+        var componentCount = m_scrollPickerViewModel.GetComponentCount();
         var texts = new string[componentCount];
-        for (var i = 0; i < VirtualView.ViewModel.GetComponentCount(); i++)
+        for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
-            var selectedIndexForComponent = VirtualView.ViewModel.SelectedIndexForComponent(i);
-            texts[i] = VirtualView.ViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
+            var selectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
+            texts[i] = m_scrollPickerViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
         }
         
         m_chip.Title = texts.Length == 1 ? texts[0] : string.Join(VirtualView.SeparatorText, texts);
@@ -44,7 +49,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
 
     private void PlatformViewOnClick(object? sender, EventArgs e)
     {
-        var fragment = new MaterialScrollPickerFragment(VirtualView, SetChipTitle);
+        var fragment = new MaterialScrollPickerFragment(VirtualView, m_scrollPickerViewModel, SetChipTitle);
         var activity = Platform.CurrentActivity;
         var fragmentManager = activity?.GetFragmentManager();
         fragment.Show(fragmentManager!, nameof(ScrollPicker));

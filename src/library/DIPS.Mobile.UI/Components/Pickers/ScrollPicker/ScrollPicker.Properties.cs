@@ -7,9 +7,9 @@ public partial class ScrollPicker
         typeof(string),
         typeof(ScrollPicker));
 
-    public static readonly BindableProperty ViewModelProperty = BindableProperty.Create(
-        nameof(ViewModel),
-        typeof(IScrollPickerViewModel),
+    public static readonly BindableProperty ComponentsProperty = BindableProperty.Create(
+        nameof(Components),
+        typeof(List<IScrollPickerComponent>),
         typeof(ScrollPicker),
         defaultBindingMode: BindingMode.OneWay);
     
@@ -20,12 +20,12 @@ public partial class ScrollPicker
         defaultValue: "/");
     
     /// <summary>
-    /// The ViewModel to configure the scroll picker
+    /// The components (wheels) in the scroll picker
     /// </summary>
-    public IScrollPickerViewModel ViewModel
+    public List<IScrollPickerComponent> Components
     {
-        get => (IScrollPickerViewModel)GetValue(ViewModelProperty);
-        set => SetValue(ViewModelProperty, value);
+        get => (List<IScrollPickerComponent>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
 
     /// <summary>

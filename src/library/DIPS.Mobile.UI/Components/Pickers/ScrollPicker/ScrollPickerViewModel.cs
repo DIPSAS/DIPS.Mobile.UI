@@ -1,10 +1,10 @@
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-public sealed class ScrollPickerViewModel(params IScrollPickerComponent[] components) : IScrollPickerViewModel
+internal class ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent> components) : IScrollPickerViewModel
 {
     public int GetComponentCount()
     {
-        return components.Length;
+        return components.Count;
     }
 
     public int GetRowsInComponent(int component)
@@ -19,6 +19,9 @@ public sealed class ScrollPickerViewModel(params IScrollPickerComponent[] compon
 
     public void SelectedRowInComponent(int row, int component)
     {
+        if(SelectedIndexForComponent(component) == row)
+            return;
+        
         components[component].SetSelectedItem(row);
         OnAnySelectedIndexesChanged?.Invoke();
     }
@@ -33,14 +36,26 @@ public sealed class ScrollPickerViewModel(params IScrollPickerComponent[] compon
 
 public class StandardScrollPickerComponent<TModel> : List<TModel>, IScrollPickerComponent
 {
-    public StandardScrollPickerComponent(IReadOnlyList<TModel> items, TModel? selectedItem = default) : base(items)
+    private readonly Action<TModel>? m_onSelectedItemChanged;
+
+    public StandardScrollPickerComponent(IReadOnlyList<TModel> items, TModel? selectedItem = default, Action<TModel>? onSelectedItemChanged = null) : base(items)
     {
-        SelectedItem = selectedItem is null ? items[0] : selectedItem;
+        m_onSelectedItemChanged = onSelectedItemChanged;
+
+        if (selectedItem is null)
+        {
+            SelectedItem = items[0];
+            return;
+        }
+        
+        SelectedItem = selectedItem.Equals(default(TModel)) ? items[0] : selectedItem;
     }
     
     public void SetSelectedItem(int index)
     {
         SelectedItem = base[index];
+        
+        m_onSelectedItemChanged?.Invoke(SelectedItem);
     }
 
     public int GetItemsCount()
