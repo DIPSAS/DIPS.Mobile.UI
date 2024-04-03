@@ -1,5 +1,6 @@
 ## [28.0.0]
 - Added `VirtualListView`
+- Fixed an issue where `Sizes as font sizes` page were jittering
 
 ## [27.0.0]
 - Added `ScrollPicker`.
