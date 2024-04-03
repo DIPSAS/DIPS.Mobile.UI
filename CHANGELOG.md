@@ -1,3 +1,6 @@
+## [28.0.0]
+- Added `VirtualListView`
+
 ## [27.0.0]
 - Added `ScrollPicker`.
 
