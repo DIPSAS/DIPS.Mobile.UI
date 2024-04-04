@@ -8,6 +8,8 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.TextFields.Editor;
+using DIPS.Mobile.UI.Components.VirtualListView;
+using DIPS.Mobile.UI.Components.VirtualListView.Controls;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -70,6 +72,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
             handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
+            handlers.AddHandler<VirtualListView, VirtualListViewHandler>();
             
             AddPlatformHandlers(handlers);
         });

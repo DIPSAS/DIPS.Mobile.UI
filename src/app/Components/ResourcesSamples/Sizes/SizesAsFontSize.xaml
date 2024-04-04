@@ -5,14 +5,31 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
                  x:Class="Components.ResourcesSamples.Sizes.SizesAsFontSize">
-    <dui:CollectionView ItemSpacing="{dui:Sizes size_2}"
-                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Sizes}">
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:Label Text="{Binding Key}"
-                           FontSize="{Binding Value}" />
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
+
+    <Grid RowDefinitions="*">
+    
+        
+       
+            
+            <dui:VirtualListView 
+                ViewToUnfocusOnScrolled="{x:Reference SearchBar}"
+                Adapter="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Adapter}"
+                IsRefreshEnabled="False">
+
+                <dui:VirtualListView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type sizes:SizeResource}">
+                        <dui:Label Text="{Binding Key, Mode=OneTime}"
+                                   FontSize="{Binding Value, Mode=OneTime}"
+                                   Margin="{dui:Thickness Bottom=size_2}" />
+                    </DataTemplate>
+                </dui:VirtualListView.ItemTemplate>
+                
+            </dui:VirtualListView>
+        
+        <dui:SearchBar x:Name="SearchBar"
+                       VerticalOptions="Start"/>
+
+        </Grid>
 </dui:ContentPage>
