@@ -8,17 +8,28 @@
                  xmlns:sizes="clr-namespace:Components.ResourcesSamples.Sizes"
                  x:Class="Components.ResourcesSamples.Sizes.SizesAsFontSize">
 
-    <dui:VirtualListView
-        Adapter="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Adapter}"
-        IsRefreshEnabled="False">
-
-        <dui:VirtualListView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type sizes:SizeResource}">
-                <dui:Label Text="{Binding Key, Mode=OneTime}"
-                           FontSize="{Binding Value, Mode=OneTime}"
-                           Margin="{dui:Thickness Bottom=size_2}" />
-            </DataTemplate>
-        </dui:VirtualListView.ItemTemplate>
+    <Grid RowDefinitions="*">
+    
         
-    </dui:VirtualListView>
+       
+            
+            <dui:VirtualListView 
+                ViewToUnfocusOnScrolled="{x:Reference SearchBar}"
+                Adapter="{Binding Source={RelativeSource AncestorType={x:Type dui:ContentPage}}, Path=Adapter}"
+                IsRefreshEnabled="False">
+
+                <dui:VirtualListView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type sizes:SizeResource}">
+                        <dui:Label Text="{Binding Key, Mode=OneTime}"
+                                   FontSize="{Binding Value, Mode=OneTime}"
+                                   Margin="{dui:Thickness Bottom=size_2}" />
+                    </DataTemplate>
+                </dui:VirtualListView.ItemTemplate>
+                
+            </dui:VirtualListView>
+        
+        <dui:SearchBar x:Name="SearchBar"
+                       VerticalOptions="Start"/>
+
+        </Grid>
 </dui:ContentPage>

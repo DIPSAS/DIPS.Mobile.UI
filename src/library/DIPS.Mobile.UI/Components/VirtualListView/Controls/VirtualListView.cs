@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using System.Windows.Input;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.VirtualListView.Controls;
 
@@ -240,6 +241,13 @@ public partial class VirtualListView : View, IVirtualListView, IVirtualListViewS
         ViewToUnfocusOnScrolled.IsEnabled = false;
         ViewToUnfocusOnScrolled.IsEnabled = true;
 #endif
+        // A little hack, because for some reason Unfocus without converting to searchbar does not work
+        if (ViewToUnfocusOnScrolled is SearchBar searchBar)
+        {
+            searchBar.Unfocus();
+            return;
+        }
+        
         ViewToUnfocusOnScrolled?.Unfocus();
 	}
 
