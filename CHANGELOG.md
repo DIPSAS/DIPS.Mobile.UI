@@ -1,3 +1,6 @@
+## [27.2.0]
+- Handle `IScrollPickerComponent` being `null`.
+
 ## [27.1.0]
 - Added `VirtualListView`
 - Fixed an issue where `Sizes as font sizes` page were jittering
