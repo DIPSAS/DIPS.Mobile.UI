@@ -1,24 +1,27 @@
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-internal class ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent> components) : IScrollPickerViewModel
+internal class ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent>? components) : IScrollPickerViewModel
 {
     public int GetComponentCount()
     {
-        return components.Count;
+        return components?.Count ?? 0;
     }
 
     public int GetRowsInComponent(int component)
     {
-        return components[component].GetItemsCount();
+        return components is null ? 0 : components[component].GetItemsCount();
     }
 
     public string GetTextForRowInComponent(int row, int component)
     {
-        return components[component].GetItemText(row);
+        return components is null ? string.Empty : components[component].GetItemText(row);
     }
 
     public void SelectedRowInComponent(int row, int component)
     {
+        if(components is null)
+            return;
+        
         if(SelectedIndexForComponent(component) == row)
             return;
         
@@ -28,7 +31,7 @@ internal class ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent> compo
 
     public int SelectedIndexForComponent(int component)
     {
-        return components[component].GetSelectedItemIndex();
+        return components is null ? 0 : components[component].GetSelectedItemIndex();
     }
 
     public event Action? OnAnySelectedIndexesChanged;
