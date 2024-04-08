@@ -121,7 +121,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
-            m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
             m_bottomSheet.Handler?.DisconnectHandler();
@@ -131,6 +130,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                 inputView.Focused -= OnInputViewFocused;
             }
 
+            m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.OnPositioningChanged -= OnBottomSheetPositioningChanged;
         }
 
