@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-ios;net8.0-android</TargetFrameworks>
+        <TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
         <OutputType>Exe</OutputType>
         <RootNamespace>Components</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -52,9 +52,11 @@
 
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.86" />
+        <PackageReference Include="Microsoft.Maui.Controls" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
+        <PackageReference Include="Newtonsoft.Json"  />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,3 +1,6 @@
+## [27.3.0]
+- Added support for MAUI 8.0.14. 
+
 ## [27.2.1]
 - [Android] Ensure `TaskCompletionSource.Result` for `BottomSheetFragment` is set after fragment is removed from stack.
 

@@ -12,6 +12,14 @@ public partial class HåvardPage
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
         m_image = new Image() {Source = Icons.GetIcon(IconName.document_fill)};
+        
+        carouselView.ItemsSource = new object[]
+        {
+            new Item { Color = Colors.Red },
+            new Item { Color = Colors.Green },
+            new Item { Color = Colors.Yellow },
+            new Item { Color = Colors.Blue },
+        };
     }
 
     public ICommand NavigateCommand => new Command<string>(async s =>
@@ -42,4 +50,8 @@ public partial class HåvardPage
     // {
     //     TipService.Show("Testing tip", Label);
     // }
+}
+public class Item
+{
+    public Color Color { get; set; }
 }
