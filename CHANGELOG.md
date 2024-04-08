@@ -1,3 +1,6 @@
+## [27.2.1]
+- [Android] Ensure `TaskCompletionSource.Result` for `BottomSheetFragment` is set after fragment is removed from stack.
+
 ## [27.2.0]
 - Handle `IScrollPickerComponent` being `null`.
 
