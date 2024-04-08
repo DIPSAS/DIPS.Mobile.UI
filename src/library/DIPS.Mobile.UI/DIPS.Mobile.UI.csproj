@@ -26,7 +26,7 @@
         <Owners>DIPS AS</Owners>
         <NeutralLanguage>en</NeutralLanguage>
         <Product>DIPS.Mobile.UI (net8.0)</Product>
-        <Copyright>© DIPS AS 2023. All rights reserved.</Copyright>
+        <Copyright>© DIPS AS 2024. All rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</PackageProjectUrl>
         <RepositoryUrl>https://github.com/DIPSAS/DIPS.Mobile.UI</RepositoryUrl>
         <DefineConstants>$(DefineConstants);</DefineConstants>
