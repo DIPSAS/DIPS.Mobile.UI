@@ -10,16 +10,41 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
-    <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Command="{dui:TipCommand 'This means that an value is going up.'}"
-                     Text="Test"
-                     IconImageSource="{dui:Icons alert_fill}"
-                     AutomationId="Test"/>
-        <ToolbarItem IconImageSource="{dui:Icons arrow_back_line}"/>
-    </dui:ContentPage.ToolbarItems>
-    <dui:ContentPage.BindingContext>
-        <håvardSamples:HåvardPageViewModel />
-    </dui:ContentPage.BindingContext>
-    <dui:Image Source="{dui:Icons arrow_up_thick_line_fill}"
-               dui:Touch.Command="{dui:TipCommand 'This means that an value is going up.'}" />
+    <CarouselView Loop="False" x:Name="carouselView" BackgroundColor="Magenta">
+        <CarouselView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type håvardSamples:Item}">
+                <VerticalStackLayout
+                    Spacing="25"
+                    Padding="30,0"
+                    BackgroundColor="{Binding Color}"
+                    VerticalOptions="Fill">
+
+                    <Image
+                        Source="dotnet_bot.png"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        HeightRequest="200"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        Text="Hello, World!"
+                        SemanticProperties.HeadingLevel="Level1"
+                        FontSize="32"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        Text="Welcome to .NET Multi-platform App UI"
+                        SemanticProperties.HeadingLevel="Level2"
+                        SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                        FontSize="18"
+                        HorizontalOptions="Center" />
+
+                    <Button
+                        Text="Don't touch me"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </DataTemplate>
+        </CarouselView.ItemTemplate>
+        </CarouselView>
 </dui:ContentPage>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;</TargetFrameworks>
+        <TargetFrameworks>net8.0-android;</TargetFrameworks>
 
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
@@ -146,18 +146,16 @@
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
-        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
-        <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.3.1" />
-        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.3.1" />
-        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.6.2.1" />
-        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" Version="117.2.0.3" />
-
-
+        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"  />
+        <PackageReference Include="Xamarin.AndroidX.Camera.View"  />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2"  />
+        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx"  />
+        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning"  />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.3" />
+        <PackageReference Include="Microsoft.Maui.Controls" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
     </ItemGroup>
 
     <ItemGroup>
@@ -175,6 +173,6 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.86" />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />
     </ItemGroup>
 </Project>
