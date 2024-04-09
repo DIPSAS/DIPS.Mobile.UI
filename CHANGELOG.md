@@ -1,3 +1,6 @@
+## [27.4.0]
+- Added 'FormattedText' to Subtitle in `ListItem`.
+
 ## [27.3.0]
 - Added support for MAUI 8.0.14. 
 
