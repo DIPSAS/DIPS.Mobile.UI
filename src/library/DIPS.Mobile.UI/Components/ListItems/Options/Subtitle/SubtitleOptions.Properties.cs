@@ -59,6 +59,17 @@ public partial class SubtitleOptions
         set => SetValue(MaxLinesProperty, value);
     }
     
+    public FormattedString FormattedText
+    {
+        get => (FormattedString)GetValue(FormattedTextProperty);
+        set => SetValue(FormattedTextProperty, value);
+    }
+
+    public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
+        nameof(FormattedText),
+        typeof(FormattedString),
+        typeof(SubtitleOptions));
+    
     public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
         nameof(LineBreakMode),
         typeof(LineBreakMode),
