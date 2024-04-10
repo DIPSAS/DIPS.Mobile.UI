@@ -1,6 +1,10 @@
 ## [28.0.0]
 - [ScrollPicker][BreakingChange] Added `OnDataInvalidated`, so that consumer can update the selected item without actually tapping. Added a BaseScrollPickerComponent.
 
+## [27.5.0]
+- [ChipGroup] Added the ability to set the selected items to an empty list.
+- [ChipGroup] Fixed an issue where the consumer could not set selected items after the component has been initialized.
+
 ## [27.4.0]
 - Added 'FormattedText' to Subtitle in `ListItem`.
 
