@@ -70,6 +70,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
     {
         base.DisconnectHandler(platformView);
 
+        m_scrollPickerViewModel.Dispose();
         m_scrollPickerViewModel = null!;
         m_chip.Command = null;
         m_scrollPickerViewController = null;
