@@ -151,7 +151,7 @@ internal class ScrollPickerViewController : UIViewController
 
     public async void OnChipTitleChanged()
     {
-        if (PopoverPresentationController is null)
+        if (PopoverPresentationController is null || m_uiButton is null)
             return;
 
         await Task.Delay(1);

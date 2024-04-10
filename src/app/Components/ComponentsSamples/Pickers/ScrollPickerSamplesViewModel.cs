@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Windows.Input;
 using Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
@@ -44,6 +45,4 @@ public class ScrollPickerSamplesViewModel
     public List<IScrollPickerComponent> DateComponents { get; }
     public List<IScrollPickerComponent> FootballersComponents { get; }
     public List<IScrollPickerComponent> ItemComponents { get; set; }
-
-
 }

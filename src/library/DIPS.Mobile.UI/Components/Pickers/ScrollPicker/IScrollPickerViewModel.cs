@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-internal interface IScrollPickerViewModel
+internal interface IScrollPickerViewModel : IDisposable
 {
    /// <summary>
     /// The number of components (scroll pickers) in the scroll picker
