@@ -122,15 +122,7 @@ public partial class ChipGroup : ContentView
 
     private void OnSelectedItemsHasBeenChanged()
     {
-        try
-        {
         SetChipsToggledBasedOnSelectedItems();
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
     }
 }
 
