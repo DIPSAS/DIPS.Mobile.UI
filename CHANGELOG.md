@@ -1,5 +1,5 @@
 ## [28.0.0]
-- [ScrollPicker][BreakingChange] Added `OnDataInvalidated`, so that consumer can update the selected item without actually tapping. Added a BaseScrollPickerComponent.
+- [ScrollPicker][BreakingChange] Added `OnDataInvalidated`, to force the UI to update itself. Added a BaseScrollPickerComponent.
 
 ## [27.5.0]
 - [ChipGroup] Added the ability to set the selected items to an empty list.
