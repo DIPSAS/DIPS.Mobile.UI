@@ -36,7 +36,6 @@ public class ChipsSamplesViewModel : ViewModel
     public ICommand Test => new Command(Testeren);
     
     public ICommand FootballerChangedCommand { get; }
-    public ICommand SetSelectedItems => new Command(() => SelectedItems = new List<string> { "Vet ikke" });
 
     private void Testeren()
     {
