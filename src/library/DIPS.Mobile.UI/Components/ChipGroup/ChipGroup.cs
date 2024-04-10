@@ -119,11 +119,6 @@ public partial class ChipGroup : ContentView
             SelectedItems = selectedItems;
         }
     }
-
-    private void OnSelectedItemsHasBeenChanged()
-    {
-        SetChipsToggledBasedOnSelectedItems();
-    }
 }
 
 public class ChipGroupItem
