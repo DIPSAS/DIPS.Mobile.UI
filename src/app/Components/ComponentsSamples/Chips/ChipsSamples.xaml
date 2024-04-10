@@ -55,6 +55,8 @@
         <dui:Label Text="Multi selection chip-group"
                    Style="{dui:Styles Label=SectionHeader}" />
         
+        <dui:Button Text="Hehe" Command="{Binding SetSelectedItems}" />
+
         <dui:ChipGroup SelectionMode="Multi"
                        ItemsSource="{Binding Footballers}"
                        ItemDisplayProperty="Name"

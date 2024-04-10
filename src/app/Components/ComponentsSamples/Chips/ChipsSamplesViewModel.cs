@@ -7,7 +7,7 @@ namespace Components.ComponentsSamples.Chips;
 
 public class ChipsSamplesViewModel : ViewModel
 {
-    private List<string> m_selectedItems = ["Ja"];
+    private List<string>? m_selectedItems = ["Ja"];
     private List<object> m_selectedItemsFootballers1 = new() { new Footballer(){Name = "Odegaard"},new Footballer(){Name = "Haaland"} };
 
     public ChipsSamplesViewModel()
@@ -20,7 +20,7 @@ public class ChipsSamplesViewModel : ViewModel
         
     }
 
-    public List<string> SelectedItems
+    public List<string>? SelectedItems
     {
         get => m_selectedItems;
         set => RaiseWhenSet(ref m_selectedItems, value);
@@ -36,6 +36,7 @@ public class ChipsSamplesViewModel : ViewModel
     public ICommand Test => new Command(Testeren);
     
     public ICommand FootballerChangedCommand { get; }
+    public ICommand SetSelectedItems => new Command(() => SelectedItems = new List<string> { "Vet ikke" });
 
     private void Testeren()
     {

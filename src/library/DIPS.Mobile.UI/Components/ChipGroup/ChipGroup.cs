@@ -29,31 +29,32 @@ public partial class ChipGroup : ContentView
     private void SetChipsToggledBasedOnSelectedItems()
     {
         var selectedItemList = SelectedItems?.Cast<object>().ToList();
-        
-        if(selectedItemList is null)
+
+        if (selectedItemList is null || selectedItemList.Count is 0)
+        {
+            m_selectedItems.ForEach(item => item.Chip.IsToggled = false);
+            m_selectedItems.Clear();
             return;
+        }
 
         if (SelectionMode == ChipGroupSelectionMode.Single)
         {
             var selectedItem = selectedItemList.FirstOrDefault();
             if (selectedItem is not null)
             {
-                SetChipToggledBasedOnSelectedItem(selectedItem);
+                var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
+                chipItem!.Chip.IsToggled = true;
+                ChipToggled(chipItem!, false);
             }
         }
         else
         {
-            selectedItemList.ForEach(SetChipToggledBasedOnSelectedItem);
-        }
-    }
-
-    private void SetChipToggledBasedOnSelectedItem(object selectedItem)
-    {
-        var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
-        if (chipItem is not null)
-        {
-            chipItem.Chip.IsToggled = true;
-            m_selectedItems.Add(chipItem);
+            selectedItemList.ForEach(item =>
+            {
+                var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(item.GetPropertyValue(ItemDisplayProperty)));
+                chipItem!.Chip.IsToggled = true;
+                ChipToggled(chipItem!, false);
+            });
         }
     }
 
@@ -88,11 +89,11 @@ public partial class ChipGroup : ContentView
         });
     }
 
-    private void ChipToggled(ChipGroupItem chipGroupItem)
+    private void ChipToggled(ChipGroupItem chipGroupItem, bool didTap = true)
     {
         if (SelectionMode is ChipGroupSelectionMode.Single)
         {
-            if (m_selectedItems.FirstOrDefault(item => item.Chip.Equals(chipGroupItem.Chip)) != null)
+            if (m_selectedItems.FirstOrDefault(item => item.Chip.Title.Equals(chipGroupItem.Chip.Title)) != null)
             {
                 chipGroupItem.Chip.IsToggled = true;
                 return;
@@ -110,10 +111,26 @@ public partial class ChipGroup : ContentView
         {
             m_selectedItems.Remove(chipGroupItem);
         }
-        
-        var selectedItems = m_selectedItems.Select(groupItem => groupItem.Obj).ToList();
-        OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(selectedItems));
-        SelectedItems = selectedItems;
+
+        if (didTap)
+        {
+            var selectedItems = m_selectedItems.Select(groupItem => groupItem.Obj).ToList();
+            OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(selectedItems));
+            SelectedItems = selectedItems;
+        }
+    }
+
+    private void OnSelectedItemsHasBeenChanged()
+    {
+        try
+        {
+        SetChipsToggledBasedOnSelectedItems();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 }
 

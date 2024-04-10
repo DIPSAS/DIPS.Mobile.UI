@@ -1,3 +1,7 @@
+## [27.5.0]
+- [ChipGroup] Added the ability to set the selected items to an empty list.
+- [ChipGroup] Fixed an issue where the consumer could not set selected items after the component has been initialized.
+
 ## [27.4.0]
 - Added 'FormattedText' to Subtitle in `ListItem`.
 

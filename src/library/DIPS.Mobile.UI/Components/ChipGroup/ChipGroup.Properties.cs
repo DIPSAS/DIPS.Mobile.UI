@@ -22,7 +22,8 @@ public partial class ChipGroup
         typeof(IEnumerable),
         typeof(ChipGroup),
         defaultValue: new List<object>(),
-        defaultBindingMode: BindingMode.TwoWay);
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((ChipGroup)bindable).OnSelectedItemsHasBeenChanged());
     
     public event EventHandler<ChipGroupEventArgs>? OnSelectedItemsChanged;
     
