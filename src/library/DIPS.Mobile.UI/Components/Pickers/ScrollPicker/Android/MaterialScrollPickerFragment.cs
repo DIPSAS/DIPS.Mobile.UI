@@ -9,6 +9,7 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Shape;
+using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DialogFragment = AndroidX.Fragment.App.DialogFragment;

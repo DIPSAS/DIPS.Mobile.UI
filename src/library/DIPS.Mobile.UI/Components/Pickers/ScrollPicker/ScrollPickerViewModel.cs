@@ -1,48 +1,87 @@
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-internal class ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent>? components) : IScrollPickerViewModel
+internal class ScrollPickerViewModel : IScrollPickerViewModel
 {
+    private readonly IReadOnlyList<IScrollPickerComponent>? m_components;
+
+    public ScrollPickerViewModel(IReadOnlyList<IScrollPickerComponent>? components)
+    {
+        m_components = components;
+
+        if (m_components is null)
+            return;
+        
+        foreach (var scrollPickerComponent in m_components)
+        {
+            scrollPickerComponent.OnDataInvalidated += DataInvalidated;
+        }
+    }
+
+    private void DataInvalidated()
+    {
+        OnAnyComponentsDataInvalidated?.Invoke();
+    }
+
     public int GetComponentCount()
     {
-        return components?.Count ?? 0;
+        return m_components?.Count ?? 0;
     }
 
     public int GetRowsInComponent(int component)
     {
-        return components is null ? 0 : components[component].GetItemsCount();
+        return m_components is null ? 0 : m_components[component].GetItemsCount();
     }
 
     public string GetTextForRowInComponent(int row, int component)
     {
-        return components is null ? string.Empty : components[component].GetItemText(row);
+        return m_components is null ? string.Empty : m_components[component].GetItemText(row);
     }
 
     public void SelectedRowInComponent(int row, int component)
     {
-        if(components is null)
+        if(m_components is null)
             return;
         
         if(SelectedIndexForComponent(component) == row)
             return;
         
-        components[component].SetSelectedItem(row);
+        m_components[component].SetSelectedItem(row, IScrollPickerComponent.SetSelectedItemMode.Tapped);
         OnAnySelectedIndexesChanged?.Invoke();
     }
 
     public int SelectedIndexForComponent(int component)
     {
-        return components is null ? 0 : components[component].GetSelectedItemIndex();
+        return m_components is null ? 0 : m_components[component].GetSelectedItemIndex();
+    }
+
+    public void SendSelectedIndexesChanged()
+    {
+        OnAnySelectedIndexesChanged?.Invoke();
     }
 
     public event Action? OnAnySelectedIndexesChanged;
+    public event Action? OnAnyComponentsDataInvalidated;
+
+    public void Dispose()
+    {
+        if (m_components is null)
+            return;
+        
+        foreach (var scrollPickerComponent in m_components)
+        {
+            scrollPickerComponent.OnDataInvalidated -= DataInvalidated;
+        }
+    }
 }
 
-public class StandardScrollPickerComponent<TModel> : List<TModel>, IScrollPickerComponent
+public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent
 {
+    private readonly IList<TModel> m_items;
     private readonly Action<TModel>? m_onSelectedItemChanged;
 
-    public StandardScrollPickerComponent(IReadOnlyList<TModel> items, TModel? selectedItem = default, Action<TModel>? onSelectedItemChanged = null) : base(items)
+    public StandardScrollPickerComponent(IList<TModel> items, TModel? selectedItem = default, Action<TModel>? onSelectedItemChanged = null)
     {
+        m_items = items;
         m_onSelectedItemChanged = onSelectedItemChanged;
 
         if (selectedItem is null)
@@ -54,29 +93,43 @@ public class StandardScrollPickerComponent<TModel> : List<TModel>, IScrollPicker
         SelectedItem = selectedItem.Equals(default(TModel)) ? items[0] : selectedItem;
     }
     
-    public void SetSelectedItem(int index)
+    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
-        SelectedItem = base[index];
+        SelectedItem = m_items[index];
         
-        m_onSelectedItemChanged?.Invoke(SelectedItem);
+        if(setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
+            m_onSelectedItemChanged?.Invoke(SelectedItem);
     }
 
-    public int GetItemsCount()
+    public override  int GetItemsCount()
     {
-        return Count;
+        return m_items.Count;
     }
 
-    public int GetSelectedItemIndex()
+    public override int GetSelectedItemIndex()
     {
-        return SelectedItem is not null ? base.IndexOf(SelectedItem) : 0;
+        return SelectedItem is not null ? m_items.IndexOf(SelectedItem) : 0;
     }
 
-    public string GetItemText(int index)
+    public override string GetItemText(int index)
     {
-        return base[index]?.ToString() ?? string.Empty;
+        return m_items[index]?.ToString() ?? string.Empty;
     }
 
     public TModel SelectedItem { get; private set; }
+}
+
+public abstract class BaseScrollPickerComponent : IScrollPickerComponent
+{
+    public abstract void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic);
+    public abstract int GetItemsCount();
+    public abstract int GetSelectedItemIndex();
+    public abstract string GetItemText(int index);
+    public event Action? OnDataInvalidated;
+    public void InvalidateData()
+    {
+        OnDataInvalidated?.Invoke();
+    }
 }
 
 public interface IScrollPickerComponent
@@ -84,7 +137,7 @@ public interface IScrollPickerComponent
     /// <summary>
     /// Sets the selected item
     /// </summary>
-    void SetSelectedItem(int index);
+    void SetSelectedItem(int index, SetSelectedItemMode setSelectedItemMode = SetSelectedItemMode.Programmatic);
     
     /// <summary>
     /// Gets the number of items in the component
@@ -100,4 +153,26 @@ public interface IScrollPickerComponent
     /// Gets the text for the specified item
     /// </summary>
     string GetItemText(int index);
+    
+    /// <summary>
+    /// Invoked when the selected item is changed
+    /// </summary>
+    event Action? OnDataInvalidated;
+    
+    /// <summary>
+    /// Call this when you have changed the selected item
+    /// </summary>
+    void InvalidateData();
+    
+    public enum SetSelectedItemMode
+    {
+        /// <summary>
+        /// If the user has tapped/scrolled in the ScrollPicker to set the selected item
+        /// </summary>
+        Tapped,
+        /// <summary>
+        /// If the selected item is set programmatically
+        /// </summary>
+        Programmatic
+    }
 }

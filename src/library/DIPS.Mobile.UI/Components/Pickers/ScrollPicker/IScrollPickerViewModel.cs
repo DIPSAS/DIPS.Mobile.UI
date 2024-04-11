@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-internal interface IScrollPickerViewModel
+internal interface IScrollPickerViewModel : IDisposable
 {
    /// <summary>
     /// The number of components (scroll pickers) in the scroll picker
@@ -26,6 +26,9 @@ internal interface IScrollPickerViewModel
     /// The selected index in the specified component
     /// </summary>
     int SelectedIndexForComponent(int component);
+    
+    void SendSelectedIndexesChanged();
 
     event Action OnAnySelectedIndexesChanged;
+    event Action OnAnyComponentsDataInvalidated;
 }

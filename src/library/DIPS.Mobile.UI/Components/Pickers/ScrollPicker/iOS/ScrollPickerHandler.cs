@@ -33,6 +33,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
 
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged += SetChipTitle;
+        
         SetChipTitle();
     }
 
@@ -70,6 +71,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
     {
         base.DisconnectHandler(platformView);
 
+        m_scrollPickerViewModel.Dispose();
         m_scrollPickerViewModel = null!;
         m_chip.Command = null;
         m_scrollPickerViewController = null;
@@ -117,6 +119,8 @@ internal class ScrollPickerViewController : UIViewController
     {
         m_scrollPickerViewModel = scrollPickerViewModel;
         
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += OnAnyComponentsDataInvalidated;
+        
         m_uiPicker = new UIPickerView();
         var vm = new DUIPickerViewModel { ScrollPickerViewModel = m_scrollPickerViewModel };
         m_uiPicker.Model = vm;
@@ -149,9 +153,23 @@ internal class ScrollPickerViewController : UIViewController
         }
     }
 
+    private void OnAnyComponentsDataInvalidated()
+    {
+        for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
+        {
+            var initialSelectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
+            if (initialSelectedIndexForComponent == -1)
+                continue;
+
+            m_uiPicker.Select(initialSelectedIndexForComponent, i, true);
+        }
+        
+        m_scrollPickerViewModel.SendSelectedIndexesChanged();
+    }
+
     public async void OnChipTitleChanged()
     {
-        if (PopoverPresentationController is null)
+        if (PopoverPresentationController is null || m_uiButton is null)
             return;
 
         await Task.Delay(1);
@@ -211,6 +229,8 @@ internal class ScrollPickerViewController : UIViewController
     public override void ViewWillDisappear(bool animated)
     {
         base.ViewWillDisappear(animated);
+        
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= OnAnyComponentsDataInvalidated;
         
         m_uiPicker = null!;
         m_uiButton = null!;

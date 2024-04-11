@@ -2,27 +2,27 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class YearScrollPickerComponent : IScrollPickerComponent
+public class YearScrollPickerComponent : BaseScrollPickerComponent
 {
     private const int StartYear = 0;
     private const int EndYear = 9999;
 
-    public void SetSelectedItem(int index)
+    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index;
     }
 
-    public int GetItemsCount()
+    public override int GetItemsCount()
     {
         return EndYear - StartYear + 1;
     }
 
-    public int GetSelectedItemIndex()
+    public override int GetSelectedItemIndex()
     {
         return SelectedItem - StartYear;
     }
 
-    public string GetItemText(int index)
+    public override string GetItemText(int index)
     {
         return (StartYear + index).ToString();
     }

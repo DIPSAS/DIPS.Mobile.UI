@@ -1,3 +1,6 @@
+## [28.0.0]
+- [ScrollPicker][BreakingChange] Added `OnDataInvalidated`, to force the UI to update itself. Added a BaseScrollPickerComponent.
+
 ## [27.6.0]
 - Added support for MAUI 8.0.20
 

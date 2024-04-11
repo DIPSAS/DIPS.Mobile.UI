@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Windows.Input;
 using Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
@@ -25,12 +26,11 @@ public class ScrollPickerSamplesViewModel
         DateComponents = [yearsScrollPickerItemsSource, weekScrollPickerItemsSource, daysScrollPickerItemsSource];
     }
 
-    private static void OnSelectedItemChanged(int obj)
+    private async void OnSelectedItemChanged(int obj)
     {
-        SystemMessageService.Display(config =>
-        {
-            config.Text = obj.ToString();
-        });
+        await Task.Delay(2500);
+        DateComponents[1].SetSelectedItem(0, IScrollPickerComponent.SetSelectedItemMode.Programmatic);
+        DateComponents[1].InvalidateData();
     }
 
     private List<int> GetWeeksInYear(int year)
@@ -44,6 +44,4 @@ public class ScrollPickerSamplesViewModel
     public List<IScrollPickerComponent> DateComponents { get; }
     public List<IScrollPickerComponent> FootballersComponents { get; }
     public List<IScrollPickerComponent> ItemComponents { get; set; }
-
-
 }

@@ -2,24 +2,24 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class DayScrollPickerComponent : IScrollPickerComponent
+public class DayScrollPickerComponent : BaseScrollPickerComponent
 {
-    public void SetSelectedItem(int index)
+    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index + 1;
     }
 
-    public int GetItemsCount()
+    public override int GetItemsCount()
     {
         return 31;
     }
 
-    public int GetSelectedItemIndex()
+    public override int GetSelectedItemIndex()
     {
         return SelectedItem - 1;
     }
 
-    public string GetItemText(int index)
+    public override string GetItemText(int index)
     {
         return (index + 1).ToString();
     }
