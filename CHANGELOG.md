@@ -1,3 +1,6 @@
+## [28.1.0]
+- Revert MAUI 8.0.20
+
 ## [28.0.0]
 - [ScrollPicker][BreakingChange] Added `OnDataInvalidated`, to force the UI to update itself. Added a BaseScrollPickerComponent.
 
