@@ -26,6 +26,9 @@ internal interface IScrollPickerViewModel : IDisposable
     /// The selected index in the specified component
     /// </summary>
     int SelectedIndexForComponent(int component);
+    
+    void SendSelectedIndexesChanged();
 
     event Action OnAnySelectedIndexesChanged;
+    event Action OnAnyComponentsDataInvalidated;
 }

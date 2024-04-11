@@ -7,7 +7,7 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent
     private const int StartYear = 0;
     private const int EndYear = 9999;
 
-    public override void SetSelectedItem(int index)
+    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index;
     }
