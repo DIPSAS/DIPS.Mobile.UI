@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.Exceptions;
 using Microsoft.Maui.Handlers;
 
@@ -53,7 +54,7 @@ public partial class VirtualListViewHandler : ViewHandler<IVirtualListView, Only
     {
     }
     
-    public void InvalidateData()
+    public void InvalidateData(InvalidateTypeEventArgs invalidateTypeEventArgs)
     {
     }
     

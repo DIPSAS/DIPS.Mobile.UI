@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
@@ -16,9 +17,55 @@
     </dui:ContentPage.BindingContext>
     
     <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Text="hei" />
+        <ToolbarItem Text="hei2" />
     </dui:ContentPage.ToolbarItems>
    
+    <Grid RowDefinitions="Auto, *, Auto">
+        <dui:Button Command="{Binding CompletedCommand}"
+                    Text="invalidate" />
+        
+        <dui:Button Command="{Binding SortingDoneCommand}"
+                    Text="add"
+                    Margin="{dui:Thickness Top=size_10}"/>
+        
+        <dui:VirtualListView Adapter="{Binding Adapter}"
+                             Grid.Row="1"
+                             Margin="{dui:Thickness Top=size_20}"
+                             BackgroundColor="Transparent">
+            
+            <dui:VirtualListView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type vetleSamples:DummyClass}">
+                        
+                    <dui:ListItem Title="{Binding Title}"
+                                  BackgroundColor="Blue">
+                        
+                        
+                        <dui:ListItem.UnderlyingContent>
+                            <dui:VerticalStackLayout 
+                                Grid.Row="1"
+                                BindableLayout.ItemsSource="{Binding .}"
+                                BackgroundColor="Red"
+                                Margin="{dui:Thickness Top=size_2}">
+                            
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <dui:Label Text="{Binding .}" />
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                        
+                                <dui:Label Text="{Binding .}" />
+                            
+                            </dui:VerticalStackLayout>
+                        </dui:ListItem.UnderlyingContent>
+                        
+                    </dui:ListItem>
+                        
+                </DataTemplate>
+            </dui:VirtualListView.ItemTemplate>
+            
+        </dui:VirtualListView>
+        
+    </Grid>
  
         
 </dui:ContentPage>

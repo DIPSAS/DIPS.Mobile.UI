@@ -4,6 +4,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
+using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.VetleSamples;
@@ -22,6 +23,8 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
+
+    private DummyClass m_lastDummy;
 
     public VetlePageViewModel()
     {
@@ -42,13 +45,20 @@ public class VetlePageViewModel : ViewModel
             IsSavingCompleted = true;
         });
 
-        CompletedCommand = new Command(() => DialogService.ShowMessage("Test asd asdasd a sadasdas dsa", "test lang tesktsdtsdfsefseasdaawdkjawoidjiaowjdo iawjd9oia jwodijawo dijaw uoid jawuidjh awiudhawiud hiawuh " +
-            "asdasdasdasdsadasd diuawhdiuawhdiuawhdiuawhiduhawiudhwaiu dhiauw dhiawudh iawuhd iauwhd iawhdiuawhdiawuhdiaw diuwa hdiuhwaid uhawiduhawdfsefasefase fse fase fase fase fasefasefasefseaf saef sae fsaef seaf sea efsa fsae", "ok"));
+        m_lastDummy = new DummyClass(["1", "2", "3"]);
+        
 
         SetMaxLinesCommand = new Command<string>(s => MaxLines = int.Parse(s));
 
-        SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
+        SortingDoneCommand = new Command(() =>
+        {
+            m_lastDummy.Add("4");
 
+            //Adapter.SetData(m_lastDummy);
+        });
+
+        CompletedCommand = new Command(() => Adapter?.InvalidateItem(0, 0));
+        
         CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
 
         _ = DelayFunction();
@@ -64,6 +74,7 @@ public class VetlePageViewModel : ViewModel
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
 
+        Adapter = new TestAdapter(m_lastDummy);
     }
 
     private void Disable()
@@ -244,6 +255,7 @@ public class VetlePageViewModel : ViewModel
     }
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
+    public TestAdapter Adapter { get; }
 }
 
 public class SortOption
@@ -257,6 +269,15 @@ public class SortOption
     public string Text { get; }
     public string Identifier { get; }
 }
+
+public class DummyClass : ObservableCollection<string>
+{
+    public DummyClass(List<string> items) : base(items)
+    {
+    }
+    
+    public string Title { get; set; }
+} 
 
 class SortOptionComparer : IComparer<string>
 {

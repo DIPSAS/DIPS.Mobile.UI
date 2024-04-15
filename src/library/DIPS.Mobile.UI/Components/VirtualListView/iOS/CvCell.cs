@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Maui.Platform;
@@ -121,6 +122,7 @@ internal class CvCell : UICollectionViewCell
         if (!(NativeView?.TryGetTarget(out var _) ?? false))
         {
 			var nativeView = view.ToPlatform(this.Handler.MauiContext);
+            
             nativeView.Frame = this.ContentView.Frame;
             nativeView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth;
             

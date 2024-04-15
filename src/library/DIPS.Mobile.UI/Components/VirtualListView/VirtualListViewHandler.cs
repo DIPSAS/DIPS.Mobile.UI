@@ -73,14 +73,14 @@ public partial class VirtualListViewHandler
 			virtualListView.Adapter.OnDataInvalidated += handler.Adapter_OnDataInvalidated;
 
 		handler.currentAdapter = virtualListView.Adapter;
-		handler?.InvalidateData();
+		handler?.InvalidateData(new InvalidateTypeEventArgs());
 	}
 
 	IVirtualListViewAdapter currentAdapter = default;
 
-	void Adapter_OnDataInvalidated(object sender, EventArgs e)
+	void Adapter_OnDataInvalidated(object? sender, InvalidateTypeEventArgs invalidateTypeEventArgs)
 	{
-		InvalidateData();
+		InvalidateData(invalidateTypeEventArgs);
 	}
 
 	public bool IsItemSelected(int sectionIndex, int itemIndex)
@@ -128,11 +128,11 @@ public partial class VirtualListViewHandler
 
 	public static void MapIsHeaderVisible(VirtualListViewHandler handler, IVirtualListView virtualListView)
 	{
-		handler?.InvalidateData();
+		handler?.InvalidateData(new InvalidateTypeEventArgs());
 	}
 
 	public static void MapIsFooterVisible(VirtualListViewHandler handler, IVirtualListView virtualListView)
 	{
-		handler?.InvalidateData();
+		handler?.InvalidateData(new InvalidateTypeEventArgs());
 	}
 }

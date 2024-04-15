@@ -47,5 +47,13 @@ public partial class VetlePage
         ShouldHideFloatingNavigationMenuButton = e.Value;
     }
 
-    
+
+    private void VisualElement_OnSizeChanged(object? sender, EventArgs e)
+    {
+        
+    }
+
+    private void VisualElement_OnMeasureInvalidated(object? sender, EventArgs e)
+    {
+    }
 }

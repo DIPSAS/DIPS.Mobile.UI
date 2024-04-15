@@ -1,4 +1,5 @@
 using CoreGraphics;
+using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.Components.VirtualListView.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
@@ -109,20 +110,20 @@ public partial class VirtualListViewHandler : ViewHandler<IVirtualListView, UICo
 		=> dataSource?.GetCell(PlatformView, indexPath) as CvCell;
 
 	public static void MapHeader(VirtualListViewHandler handler, IVirtualListView virtualListView)
-		=> handler?.InvalidateData();
+		=> handler?.InvalidateData(new InvalidateTypeEventArgs());
 
 	public static void MapFooter(VirtualListViewHandler handler, IVirtualListView virtualListView)
-		=> handler?.InvalidateData();
+		=> handler?.InvalidateData(new InvalidateTypeEventArgs());
 
 	public static void MapViewSelector(VirtualListViewHandler handler, IVirtualListView virtualListView)
-		=> handler?.InvalidateData();
+		=> handler?.InvalidateData(new InvalidateTypeEventArgs());
 
 	public static void MapSelectionMode(VirtualListViewHandler handler, IVirtualListView virtualListView)
 	{
 	}
 
 	public static void MapInvalidateData(VirtualListViewHandler handler, IVirtualListView virtualListView, object? parameter)
-		=> handler?.InvalidateData();
+		=> handler?.InvalidateData(new InvalidateTypeEventArgs());
 
 	void PlatformScrollToItem(ItemPosition itemPosition, bool animated)
 	{
@@ -166,7 +167,7 @@ public partial class VirtualListViewHandler : ViewHandler<IVirtualListView, UICo
 			};
 		}
 
-		handler.InvalidateData();
+		handler.InvalidateData(new InvalidateTypeEventArgs());
 	}
 
 	public static void MapRefreshAccentColor(VirtualListViewHandler handler, IVirtualListView virtualListView)
@@ -216,17 +217,31 @@ public partial class VirtualListViewHandler : ViewHandler<IVirtualListView, UICo
 		}
 	}
 
-	public void InvalidateData()
+	public void InvalidateData(InvalidateTypeEventArgs invalidateTypeEventArgs)
 	{
-		this.PlatformView.InvokeOnMainThread(() => {
-			layout?.InvalidateLayout();
+		this.PlatformView.InvokeOnMainThread(() =>
+        {
+            switch (invalidateTypeEventArgs.InvalidateType)
+            {
+                case InvalidateType.Data:
+                    layout?.InvalidateLayout();
 
-			UpdateEmptyViewVisibility();
+                    UpdateEmptyViewVisibility();
 
-			PlatformView?.SetNeedsLayout();
-			PlatformView?.ReloadData();
-			PlatformView?.LayoutIfNeeded();
-		});
+                    PlatformView?.SetNeedsLayout();
+                    PlatformView?.ReloadData();
+                    PlatformView?.LayoutIfNeeded();
+                    break;
+                case InvalidateType.Item:
+                    PlatformView.ReloadSections(new NSIndexSet((UIntPtr)invalidateTypeEventArgs.SectionIndex));
+                    break;
+                case InvalidateType.Section:
+                    PlatformView.ReloadItems([NSIndexPath.FromItemSection(0, invalidateTypeEventArgs.SectionIndex)]);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        });
 		
 	}
 }

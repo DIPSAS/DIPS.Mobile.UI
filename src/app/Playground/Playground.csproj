@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
-
         <OutputType>Exe</OutputType>
         <RootNamespace>Playground</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -13,8 +12,8 @@
         <ApplicationTitle>Playground</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.dipsas.mobile.ui.playground</ApplicationId>
-        <ApplicationIdGuid>1E9B8686-759B-4BA7-891C-8A154E6BB94A</ApplicationIdGuid>
+        <ApplicationId>com.dipsas.mobile.components</ApplicationId>
+        <ApplicationIdGuid>13A74CA2-6A7D-4CF7-8646-8930B4282590</ApplicationIdGuid>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -22,60 +21,42 @@
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
-    
-    <ItemGroup>
-        <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
 
-        <!-- Images -->
-        <MauiImage Include="Resources\Images\*"/>
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208"/>
-
-        <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*"/>
-
-        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
-    </ItemGroup>
-
-    <!-- Android -->
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+        <CreatePackage>false</CreatePackage>
+        <CodesignProvision>Automatic</CodesignProvision>
+        <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
+        <CodesignProvision>Automatic:InHouse</CodesignProvision>
+        <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DocumentationFile>bin\Release\DIPS.Mobile.UI.xml</DocumentationFile>
-    </PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
-        <Compile Remove="**\Android\**\*.cs" />
-        <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-        <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
 
-    <!-- iOS -->
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
-        <Compile Remove="**\iOS\**\*.cs" />
-        <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-    </ItemGroup>
+    <ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Equals('net8.0')) != true">
-        <Compile Remove="**\dotnet\**\*.cs" />
-        <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-    </ItemGroup>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg">
+            <Color>#ff047f89</Color>
+        </MauiIcon>
 
-    
-    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-       
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
+
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*" />
+
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+
     </ItemGroup>
-    
     <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
+        <PackageReference Include="Newtonsoft.Json"  />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />
     </ItemGroup>
     
 
@@ -115,12 +96,6 @@
             <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="DIPS.Mobile.UI">
-        <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\net8.0\DIPS.Mobile.UI.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>
