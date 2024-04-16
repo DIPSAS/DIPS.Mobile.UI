@@ -2,12 +2,14 @@
 
 <!--
   Do not edit directly
-  Generated on Fri, 01 Sep 2023 08:54:32 GMT
+  Generated on Tue, 16 Apr 2024 08:59:54 GMT
 -->
 <resources>
   <color name="color_system_black">#ff000000</color>
   <color name="color_system_white">#ffffffff</color>
   <color name="color_primary_10">#fff3f7f8</color>
+  <color name="color_primary_20">#ffe1e9fa</color>
+  <color name="color_primary_60">#ff253abe</color>
   <color name="color_primary_70">#ff98b2ae</color>
   <color name="color_primary_80">#ff65868f</color>
   <color name="color_primary_90">#ff047f89</color>
@@ -16,6 +18,7 @@
   <color name="color_primary_d_90">#ff047f89</color>
   <color name="color_secondary_20">#fff0f5f7</color>
   <color name="color_secondary_30">#ffecf3f4</color>
+  <color name="color_secondary_60">#ff34c5c5</color>
   <color name="color_secondary_90">#ff97c8cd</color>
   <color name="color_secondary_d_20">#fff0f5f7</color>
   <color name="color_secondary_d_30">#ffecf3f4</color>
@@ -40,6 +43,7 @@
   <color name="color_success_light">#ffddf5d8</color>
   <color name="color_attention_light">#ffffed96</color>
   <color name="color_attention_dark">#ffecb62d</color>
+  <color name="color_attention_extralight">#fffff9db</color>
   <color name="color_obsolete_danger">#fff76d6d</color>
   <color name="color_obsolete_danger_light">#ffe19d9a</color>
   <color name="color_obsolete_success">#ff5cb85c</color>
@@ -47,5 +51,6 @@
   <color name="color_obsolete_accent_light">#ffd297e3</color>
   <color name="color_obsolete_accent">#ffab69bf</color>
   <color name="color_obsolete_aqua">#ff129ddb</color>
+  <color name="color_tertiary_70">#fff3583d</color>
   
 </resources>

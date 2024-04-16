@@ -2,6 +2,8 @@
   "color_system_black": "#ff000000",
   "color_system_white": "#ffffffff",
   "color_primary_10": "#fff3f7f8",
+  "color_primary_20": "#ffe1e9fa",
+  "color_primary_60": "#ff253abe",
   "color_primary_70": "#ff98b2ae",
   "color_primary_80": "#ff65868f",
   "color_primary_90": "#ff047f89",
@@ -10,6 +12,7 @@
   "color_primary_d_90": "#ff047f89",
   "color_secondary_20": "#fff0f5f7",
   "color_secondary_30": "#ffecf3f4",
+  "color_secondary_60": "#ff34c5c5",
   "color_secondary_90": "#ff97c8cd",
   "color_secondary_d_20": "#fff0f5f7",
   "color_secondary_d_30": "#ffecf3f4",
@@ -34,11 +37,13 @@
   "color_success_light": "#ffddf5d8",
   "color_attention_light": "#ffffed96",
   "color_attention_dark": "#ffecb62d",
+  "color_attention_extralight": "#fffff9db",
   "color_obsolete_danger": "#fff76d6d",
   "color_obsolete_danger_light": "#ffe19d9a",
   "color_obsolete_success": "#ff5cb85c",
   "color_obsolete_accent_air": "#fff4ddfa",
   "color_obsolete_accent_light": "#ffd297e3",
   "color_obsolete_accent": "#ffab69bf",
-  "color_obsolete_aqua": "#ff129ddb"
+  "color_obsolete_aqua": "#ff129ddb",
+  "color_tertiary_70": "#fff3583d"
 }

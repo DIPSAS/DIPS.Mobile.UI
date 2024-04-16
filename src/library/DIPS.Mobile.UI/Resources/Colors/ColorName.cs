@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
 namespace DIPS.Mobile.UI.Resources.Colors
@@ -50,5 +50,10 @@ color_obsolete_accent_air=38,
 color_obsolete_accent_light=39, 
 color_obsolete_accent=40, 
 color_obsolete_aqua=41,
+color_primary_20=42,
+color_primary_60=43,
+color_secondary_60=44,
+color_attention_extralight=45,
+color_tertiary_70=46,
     }
 }

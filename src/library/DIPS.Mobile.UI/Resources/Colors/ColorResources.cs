@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
         namespace DIPS.Mobile.UI.Resources.Colors;
@@ -51,6 +51,11 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
 ["color_obsolete_accent_light"] = Color.FromArgb("#ffd297e3"),
 ["color_obsolete_accent"] = Color.FromArgb("#ffab69bf"),
 ["color_obsolete_aqua"] = Color.FromArgb("#ff129ddb"),
+["color_primary_20"] = Color.FromArgb("#ffe1e9fa"),
+["color_primary_60"] = Color.FromArgb("#ff253abe"),
+["color_secondary_60"] = Color.FromArgb("#ff34c5c5"),
+["color_attention_extralight"] = Color.FromArgb("#fffff9db"),
+["color_tertiary_70"] = Color.FromArgb("#fff3583d"),
 
             };
         }

@@ -165,6 +165,11 @@ this file is generated
 ["plo_outgoing_fill"] = "plo_outgoing_fill.png",
 ["plo_incoming_fill"] = "plo_incoming_fill.png",
 ["help_outline"] = "help_outline.png",
+["isolation_radiation_fill"] = "isolation_radiation_fill.png",
+["contagious_air_fill"] = "contagious_air_fill.png",
+["contagious_droplet_fill"] = "contagious_droplet_fill.png",
+["isolation_immunodeficiency_fill"] = "isolation_immunodeficiency_fill.png",
+["isolation_chemotherapy_fill"] = "isolation_chemotherapy_fill.png",
 
             };
         }

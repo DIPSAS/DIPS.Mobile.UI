@@ -1,3 +1,6 @@
+## [28.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [28.1.0]
 - Revert MAUI 8.0.20
 
