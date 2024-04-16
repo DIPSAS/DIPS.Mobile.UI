@@ -321,5 +321,15 @@ plo_outgoing_fill=155,
 plo_incoming_fill=156,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/help_outline.svg">View the icon in the browser</a></summary>
 help_outline=157,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/isolation_radiation_fill.svg">View the icon in the browser</a></summary>
+isolation_radiation_fill=158,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/contagious_air_fill.svg">View the icon in the browser</a></summary>
+contagious_air_fill=159,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/contagious_droplet_fill.svg">View the icon in the browser</a></summary>
+contagious_droplet_fill=160,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/isolation_immunodeficiency_fill.svg">View the icon in the browser</a></summary>
+isolation_immunodeficiency_fill=161,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/isolation_chemotherapy_fill.svg">View the icon in the browser</a></summary>
+isolation_chemotherapy_fill=162,
     }
 }
