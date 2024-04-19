@@ -6,7 +6,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
-        
+        internal const double BottomBarHeight = 120;
+
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
