@@ -1,26 +1,62 @@
 <dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView">
-    <dui:VerticalStackLayout>
-        <dui:Label
-            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet"
-            Padding="{dui:Thickness size_4}" />
-        <dui:ListItem Title="This is a chip:"
-                      Margin="{dui:Thickness Top=size_2}">
-            <dui:Chip Title="A chip" />
-        </dui:ListItem>
-        <dui:ListItem Title="Date">
-            <dui:DatePicker />
-        </dui:ListItem>
-        <dui:ListItem Title="Time">
-            <dui:TimePicker />
-        </dui:ListItem>
-        <dui:ListItem Title="Date / time">
-            <dui:DateAndTimePicker />
-        </dui:ListItem>
-        <dui:Button Text="Open new bottom sheet"
-                    Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
-    </dui:VerticalStackLayout>
+    <ScrollView Padding="{dui:Thickness Bottom=size_10}">
+        <dui:VerticalStackLayout>
+            <dui:Label
+                Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet"
+                Padding="{dui:Thickness size_4}" />
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <Entry />
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            
+            <dui:ListItem Title="This is a chip:"
+                                      Margin="{dui:Thickness Top=size_2}">
+                        </dui:ListItem>
+                        
+                        <dui:ListItem Title="This is a chip:"
+                                                  Margin="{dui:Thickness Top=size_2}">
+                                    </dui:ListItem>
+                                    <dui:ListItem Title="This is a chip:"
+                                                              Margin="{dui:Thickness Top=size_2}">
+                                                </dui:ListItem>
+                                                <dui:ListItem Title="This is a chip:"
+                                                                          Margin="{dui:Thickness Top=size_2}">
+                                                            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            <dui:ListItem Title="This is a chip:"
+                          Margin="{dui:Thickness Top=size_2}">
+            </dui:ListItem>
+            
+            <BoxView HeightRequest="100" />
+        </dui:VerticalStackLayout>
+    </ScrollView>
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Test" HorizontalOptions="Fill" />
+    </dui:BottomSheet.BottombarButtons>
 </dui:BottomSheet>
