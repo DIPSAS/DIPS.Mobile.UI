@@ -49,20 +49,17 @@ public class BottomSheetViewController : UIViewController
 
         if(View is null)
             return;
-
-        NavigationItem.RightBarButtonItems = BottomSheet.ToolbarItems.Select(ToBarButtonItem).ToArray();
-        NavigationItem.Title = BottomSheet.Title;
-
+        
         m_container.SetPadding(NavigationController?.NavigationBar);
         m_container.ToPlatform(DUI.GetCurrentMauiContext!).Frame = View.Frame;
-        
         
         m_bottomBar = new BottomBarView(View, BottomSheet);
         View.AddSubview(m_container.ToPlatform(DUI.GetCurrentMauiContext!));
     }
 
-    private static UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)
+    private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)
     {
+        toolbarItem.BindingContext = BottomSheet.BindingContext;
         if (toolbarItem.IconImageSource is FileImageSource fileImageSource)
         {
             return new UIBarButtonItem(UIImage.FromBundle(fileImageSource), UIBarButtonItemStyle.Plain, delegate 
@@ -104,8 +101,16 @@ public class BottomSheetViewController : UIViewController
 
     public void SetPositioning()
     {
-        this.SetPositioning(BottomSheet, m_container);   
+        this.SetPositioning(BottomSheet, m_container);
     }
-    
-   
+
+    public void SetTitle()
+    {
+        NavigationItem.Title = BottomSheet.Title;
+    }
+
+    public void AddToolbarItems()
+    {
+        NavigationItem.RightBarButtonItems = BottomSheet.ToolbarItems.Select(ToBarButtonItem).ToArray();
+    }
 }

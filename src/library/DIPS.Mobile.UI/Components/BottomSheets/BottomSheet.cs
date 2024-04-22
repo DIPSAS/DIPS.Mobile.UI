@@ -78,6 +78,35 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         protected virtual void OnSearchTextChanged(string value)
         {
         }
+        
+        public Grid CreateBottomBar()
+        {
+            var grid = new Grid
+            {
+                ColumnSpacing = Sizes.GetSize(SizeName.size_2), 
+                RowDefinitions = [new RowDefinition(GridLength.Star)],
+                Padding = Sizes.GetSize(SizeName.size_3),
+                Background = new LinearGradientBrush
+                {
+                    EndPoint = new Point(0, 1),
+                    GradientStops =
+                    [
+                        new GradientStop { Color = BackgroundColor.WithAlpha(0), Offset = .0f },
+                        new GradientStop { Color = BackgroundColor, Offset = .25f }
+                    ]
+                }
+            };
+       
+            foreach (var button in BottombarButtons)
+            {
+                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                grid.Add(button, grid.ColumnDefinitions.Count - 1);
+            }
+        
+            grid.BindingContext = BindingContext;
+        
+            return grid;
+        }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {

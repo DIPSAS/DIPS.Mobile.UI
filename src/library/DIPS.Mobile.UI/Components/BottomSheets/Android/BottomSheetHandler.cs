@@ -94,7 +94,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            m_bottomBar = CreateBottomBar().ToPlatform(MauiContext!);
+            m_bottomBar = m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
             m_bottomBar.LayoutParameters =
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(BottomSheet.BottomBarHeight));
             
@@ -102,35 +102,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         }
         
         return m_linearLayout = rootLayout;
-    }
-    
-    private Grid CreateBottomBar()
-    {
-        var grid = new Grid
-        {
-            ColumnSpacing = Sizes.GetSize(SizeName.size_2), 
-            RowDefinitions = [new RowDefinition(GridLength.Star)],
-            Padding = Sizes.GetSize(SizeName.size_3),
-            Background = new LinearGradientBrush
-            {
-                EndPoint = new Point(0, 1),
-                GradientStops =
-                [
-                    new GradientStop { Color = m_bottomSheet.BackgroundColor.WithAlpha(0), Offset = .0f },
-                    new GradientStop { Color = m_bottomSheet.BackgroundColor, Offset = .25f }
-                ]
-            }
-        };
-       
-        foreach (var button in m_bottomSheet.BottombarButtons)
-        {
-            grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
-            grid.Add(button, grid.ColumnDefinitions.Count - 1);
-        }
-        
-        grid.BindingContext = m_bottomSheet.BindingContext;
-        
-        return grid;
     }
 
     private void ToggleToolbarVisibility(BottomSheet bottomSheet)

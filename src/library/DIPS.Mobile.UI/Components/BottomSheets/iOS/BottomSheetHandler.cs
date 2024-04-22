@@ -1,15 +1,4 @@
-using CoreAnimation;
-using CoreGraphics;
-using Microsoft.Maui.Controls.Platform;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Layouts;
-using Microsoft.Maui.Platform;
-using UIKit;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using ContentView = Microsoft.Maui.Platform.ContentView;
-using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -23,16 +12,12 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        //bottomSheet.WrappingContentPage.Title = bottomSheet.Title;
+        bottomSheet.ViewController.SetTitle();
     }
 
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        foreach (var item in bottomSheet.ToolbarItems)
-        {
-            item.BindingContext = bottomSheet.BindingContext;
-            //bottomSheet.WrappingContentPage.ToolbarItems.Add(item);
-        }
+        bottomSheet.ViewController.AddToolbarItems();
     }
 
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet)

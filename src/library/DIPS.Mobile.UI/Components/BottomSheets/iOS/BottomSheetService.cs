@@ -13,12 +13,6 @@ public static partial class BottomSheetService
     {
         try
         {
-            var mauiContext = DUI.GetCurrentMauiContext;
-            if (mauiContext == null) return;
-
-
-            
-           
             var bottomSheetViewController = new BottomSheetViewController(bottomSheet);
 
             BottomSheetNavigationViewController? navigationController = null;
@@ -36,17 +30,11 @@ public static partial class BottomSheetService
             
             viewControllerToPresent.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
-            //Add grabber
-            var presentationController = viewControllerToPresent.SheetPresentationController;
-            if (presentationController is null)
+            if (TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController))
+            {
                 return;
+            }
 
-            presentationController.PrefersGrabberVisible = true;
-            presentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
-            presentationController.Delegate = new BottomSheetControllerDelegate { BottomSheetViewController = bottomSheetViewController };
-            presentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
-
-           
             await currentViewController.PresentViewControllerAsync(viewControllerToPresent, true);
         }
         catch (Exception e)
@@ -56,15 +44,21 @@ public static partial class BottomSheetService
         }
     }
 
-    private static void CreateDetentsAndSetPositioning(UIViewController uiViewController)
+    private static bool TryAddGrabberAndSetSheetPresentationProperties(UIViewController viewControllerToPresent,
+        BottomSheetViewController bottomSheetViewController)
     {
-        var detents = new List<UISheetPresentationControllerDetent>
-        {
-            UISheetPresentationControllerDetent.CreateMediumDetent(),
-            UISheetPresentationControllerDetent.CreateLargeDetent(),
-        };
+        //Add grabber
+        var presentationController = viewControllerToPresent.SheetPresentationController;
+        if (presentationController is null)
+            return true;
+
+        presentationController.PrefersGrabberVisible = true;
+        presentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+        presentationController.Delegate = new BottomSheetControllerDelegate { BottomSheetViewController = bottomSheetViewController };
+        presentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
+        return false;
     }
-    
+
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
         if (bottomSheet?.ViewController == null) return;

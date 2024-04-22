@@ -1,5 +1,3 @@
-using DIPS.Mobile.UI.API.Library;
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -18,6 +16,7 @@ public class BottomSheetNavigationViewController : UINavigationController
         appearance.ConfigureWithOpaqueBackground();
         appearance.BackgroundColor = m_bottomSheet.BackgroundColor.ToPlatform();
         appearance.ShadowColor = UIColor.Clear;
+        
         NavigationBar.StandardAppearance = appearance;
         NavigationBar.ScrollEdgeAppearance = NavigationBar.StandardAppearance;
         NavigationBar.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
