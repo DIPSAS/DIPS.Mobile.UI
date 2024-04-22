@@ -37,6 +37,6 @@ internal class BottomSheetContainer : Grid
             : Sizes.GetSize(SizeName
                 .size_1); //There is no physical home button, but we need some air between the safe area and the content
 
-        Padding = new Thickness(0, navigationBar is not null ? navigationBar.Frame.Height : 0, 0, bottom);
+        Padding = new Thickness(0, navigationBar is not null ? navigationBar.Frame.Height : Sizes.GetSize(SizeName.size_4), 0, bottom);
     }
 }
