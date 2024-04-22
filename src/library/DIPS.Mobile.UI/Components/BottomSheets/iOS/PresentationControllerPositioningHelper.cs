@@ -2,7 +2,7 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
-internal static class UIViewControllerExtensions
+internal static class PresentationControllerPositioningHelper
 {
     public static void SetPositioning(this UIViewController viewController, BottomSheet bottomSheet, View? container = null)
     {

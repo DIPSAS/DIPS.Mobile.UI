@@ -2,165 +2,43 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
-                 x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView">
-      <Grid RowDefinitions="Auto, *">
+                 x:Class="Components.ComponentsSamples.BottomSheets.Sheets.SimpleBottomSheetView"
+                 BackgroundColor="{dui:Colors color_neutral_10}"
+                 Padding="0">
+    <Grid RowDefinitions="Auto, *">
 
-         <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
-        <Grid ColumnDefinitions="Auto, *"
-              Padding="{dui:Thickness Left=size_5, Right=size_2}">
-
-        <Grid RowDefinitions="Auto, Auto, Auto"
-              ColumnDefinitions="Auto, *"
-              Margin="{dui:Thickness Top=size_1}"
-              dui:Touch.Command="{Binding NavigateToPatientDetailsCommand}">
-            <dui:Label                        Text="Test"
-
-                                              Style="{dui:Styles Label=UI100}"
-                                              TextColor="{dui:Colors color_system_black}"
-                                              VerticalTextAlignment="Center" />
-
-            <Border Grid.Column="1" 
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    BackgroundColor="{dui:Colors color_neutral_10}"
-                    Padding="2"
-                    Margin="{dui:Margin Left=size_2}">
-
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="2" />
-                </Border.StrokeShape>
-                
-                <Border.IsVisible>
-                    <MultiBinding Converter="{dui:LogicalExpressionConverter LogicalGate=And}">
-                        <Binding Path="Team" Converter="{dui:IsEmptyConverter Inverted=True}" />
-                        <Binding Path="Team.Value" Converter="{dui:IsEmptyConverter Inverted=True}" />
-                    </MultiBinding>
-                </Border.IsVisible>
-
-                <dui:Label                        Text="Test"
-
-                                                  Style="{dui:Styles Label=Body100}"
-                                                  TextColor="{dui:Colors color_neutral_80}" />
-            </Border>
-            
-            <dui:Label Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       Text="Test"
-                       Style="{dui:Styles Label=UI300}"
-                       TextColor="{dui:Colors color_system_black}" />
-            
-            <dui:Label Grid.Row="2"
-                       Grid.ColumnSpan="2"
-                       Text="Test"
-                       Style="{dui:Styles Label=Body200}"
-                       TextColor="{dui:Colors color_neutral_60}" />
-        </Grid>
-            <dui:Button Grid.ColumnSpan="2"
-                        ImageSource="{dui:Icons close_line}"
-                        HorizontalOptions="End"
-                        VerticalOptions="Start"
-                        BackgroundColor="{dui:Colors color_neutral_10}"
-                        ImageTintColor="{dui:Colors color_neutral_80}"
-                        Style="{dui:Styles Button=GhostIconButtonSmall}" />
-        </Grid>
-        <dui:Divider />
-    </dui:VerticalStackLayout>
+        <sheets:Test />
 
         <ScrollView VerticalScrollBarVisibility="Never"
                     Grid.Row="1">
             <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_2, Right=size_2, Top=size_2}"
                                      Spacing="{dui:Sizes size_2}">
 
-                <FlexLayout 
-                            Wrap="Wrap"
-                            Direction="Row">
+                <!--<indicatorsSection:IndicatorsSection BindingContext="{Binding WardPatientViewModel}" />
 
-                            <Border Padding="10, 4, 10, 4"
-                                    Margin="0, 2, 4, 2"
-                                    Stroke="Transparent">
+                <remarksSection:RemarksSection
+                    BindingContext="{Binding WardPatientViewModel.WardRemarksViewModel}" />
 
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="{dui:Sizes size_3}"
-                                                    Stroke="Transparent" />
-                                </Border.StrokeShape>
+                <vaqmSection:VAQMSection
+                    BindingContext="{Binding WardPatientViewModel.VaqmsViewModel}" />
 
-                                <Grid ColumnDefinitions="*, Auto"
-                                      ColumnSpacing="{dui:Sizes size_1}">
-                                    <dui:Image Source="{dui:Icons arrow_down_thick_line_fill}"
-                                               VerticalOptions="Center"
-                                               HeightRequest="{dui:Sizes size_4}"
-                                               WidthRequest="{dui:Sizes size_4}" />
+                <unknownSection:UnknownSection BindingContext="{Binding WardPatientViewModel}" />-->
 
-                                    <dui:Label Grid.Column="1"
-                                               VerticalTextAlignment="Center"
-                                               Text="Test" />
-                                </Grid>
-
-                           
-
-                            </Border>
-
-
-                </FlexLayout>
-
-
-                    <Grid ColumnDefinitions="*, *">
-
-                        <dui:Label Text="Test"
-                                   Style="{dui:Styles Label=SectionHeader}"
-                                   VerticalTextAlignment="Center"/>
-
-                        <dui:Button FontFamily="UI"
-                                    x:Name="CreateButton"
-                                    Grid.Column="1"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Center"
-                                    Text="Test"
-                                    Style="{dui:Styles Button=SecondarySmall}" />
-
-                    </Grid>
-
-                <Grid RowDefinitions="Auto, *"
-                      RowSpacing="8"
-                      x:Name="Grid">
-
-                    <dui:Label Text="Test"
-                               Style="{dui:Styles Label=SectionHeader}" />
-
-                    <FlexLayout Grid.Row="1"
-                                Wrap="Wrap"
-                                Direction="Row"
-                                x:Name="FlexLayout"
-                                HorizontalOptions="Center"
-                                >
-         
-
-                                <Grid RowDefinitions="Auto, Auto"
-                                      HeightRequest="70"
-                                      Margin="{dui:Thickness Right=size_2}"
-                                      WidthRequest="{OnPlatform iOS=70, Android=60}"
-                                      dui:Touch.CommandParameter="{Binding Value}">
-
-                                  <Path />
-
-                                    <dui:Label Grid.Row="1"
-                                               HorizontalOptions="Center"
-                                               Style="{dui:Styles Label=Body200}"
-                                               Text="{Binding Value.Header}"
-                                               LineBreakMode="TailTruncation"
-                                               MaxLines="1" />
-                                </Grid>
-
-                    </FlexLayout>
-
-                </Grid>
-
-                <BoxView BackgroundColor="Transparent"
+                <BoxView BackgroundColor="Red"
+                         HeightRequest="100" />
+                <BoxView BackgroundColor="Red"
+                         HeightRequest="100" />
+                <BoxView BackgroundColor="Red"
+                         HeightRequest="100" />
+                <BoxView BackgroundColor="Red"
+                         HeightRequest="100" />
+                <BoxView BackgroundColor="Red"
                          HeightRequest="100" />
             </dui:VerticalStackLayout>
         </ScrollView>
     </Grid>
+    
     <dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Test" HorizontalOptions="Fill"  Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
+        <dui:Button Text="Hello" />
     </dui:BottomSheet.BottombarButtons>
 </dui:BottomSheet>

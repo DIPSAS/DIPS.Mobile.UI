@@ -1,7 +1,5 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets.iOS;
 using UIKit;
-using NavigationPage = Microsoft.Maui.Controls.NavigationPage;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.BottomSheets;
@@ -64,5 +62,6 @@ public static partial class BottomSheetService
         if (bottomSheet?.ViewController == null) return;
         
         await bottomSheet.ViewController.DismissViewControllerAsync(animated);
+        bottomSheet.ViewController.Dispose();
     }
 }

@@ -50,11 +50,14 @@ public class BottomSheetViewController : UIViewController
         if(View is null)
             return;
         
+        View.AddSubview(m_container.ToPlatform(DUI.GetCurrentMauiContext!));
         m_container.SetPadding(NavigationController?.NavigationBar);
-        m_container.ToPlatform(DUI.GetCurrentMauiContext!).Frame = View.Frame;
+        /*m_container.ToPlatform(DUI.GetCurrentMauiContext!).Frame = View.Frame;*/
+        m_container.SetConstraints(View);
         
         m_bottomBar = new BottomBarView(View, BottomSheet);
-        View.AddSubview(m_container.ToPlatform(DUI.GetCurrentMauiContext!));
+
+        View.BackgroundColor = BottomSheet.BackgroundColor.ToPlatform();
     }
 
     private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)
@@ -90,15 +93,6 @@ public class BottomSheetViewController : UIViewController
         };
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-
-        BottomSheet.SendClose();
-        BottomSheetService.RemoveFromStack(BottomSheet);
-        BottomSheet.Handler?.DisconnectHandler();
-    }
-
     public void SetPositioning()
     {
         this.SetPositioning(BottomSheet, m_container);
@@ -112,5 +106,14 @@ public class BottomSheetViewController : UIViewController
     public void AddToolbarItems()
     {
         NavigationItem.RightBarButtonItems = BottomSheet.ToolbarItems.Select(ToBarButtonItem).ToArray();
+    }
+    
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        BottomSheet.SendClose();
+        BottomSheetService.RemoveFromStack(BottomSheet);
+        BottomSheet.Handler?.DisconnectHandler();
     }
 }
