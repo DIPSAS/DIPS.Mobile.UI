@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
@@ -50,14 +51,8 @@ public class BottomSheetViewController : UIViewController
         if(View is null)
             return;
         
-        View.AddSubview(m_container.ToPlatform(DUI.GetCurrentMauiContext!));
-        m_container.SetPadding(NavigationController?.NavigationBar);
-        /*m_container.ToPlatform(DUI.GetCurrentMauiContext!).Frame = View.Frame;*/
-        m_container.SetConstraints(View);
-        
+        m_container.AddToView(View, NavigationController?.NavigationBar);
         m_bottomBar = new BottomBarView(View, BottomSheet);
-
-        View.BackgroundColor = BottomSheet.BackgroundColor.ToPlatform();
     }
 
     private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)

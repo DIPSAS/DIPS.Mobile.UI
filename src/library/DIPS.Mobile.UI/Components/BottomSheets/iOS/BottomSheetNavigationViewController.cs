@@ -15,6 +15,7 @@ public class BottomSheetNavigationViewController : UINavigationController
         var appearance = new UINavigationBarAppearance();
         appearance.ConfigureWithOpaqueBackground();
         appearance.BackgroundColor = m_bottomSheet.BackgroundColor.ToPlatform();
+        // Removes the separator line
         appearance.ShadowColor = UIColor.Clear;
         
         NavigationBar.StandardAppearance = appearance;

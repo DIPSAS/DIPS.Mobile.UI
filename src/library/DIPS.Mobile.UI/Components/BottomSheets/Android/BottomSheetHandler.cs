@@ -215,7 +215,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             menuItem.SetOnMenuItemClickListener(
                 new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
             SetMenuItemIcon(menuItem, toolbarItem);
-        }
+        } 
     }
 
     public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)

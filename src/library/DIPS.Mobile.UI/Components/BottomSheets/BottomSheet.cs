@@ -21,10 +21,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
             SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
-
-#if __IOS__
-            Padding = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0, 0);
-#endif
         }
 
         /// <summary>
