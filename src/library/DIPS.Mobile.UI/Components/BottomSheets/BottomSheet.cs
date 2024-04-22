@@ -6,7 +6,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     public partial class BottomSheet : ContentView
     {
-        internal const int BottomBarHeight = 120;
+        internal const double BottomBarHeight = 120;
+
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
@@ -77,6 +78,35 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         protected virtual void OnSearchTextChanged(string value)
         {
         }
+        
+        public Grid CreateBottomBar()
+        {
+            var grid = new Grid
+            {
+                ColumnSpacing = Sizes.GetSize(SizeName.size_2), 
+                RowDefinitions = [new RowDefinition(GridLength.Star)],
+                Padding = Sizes.GetSize(SizeName.size_3),
+                Background = new LinearGradientBrush
+                {
+                    EndPoint = new Point(0, 1),
+                    GradientStops =
+                    [
+                        new GradientStop { Color = BackgroundColor.WithAlpha(0), Offset = .0f },
+                        new GradientStop { Color = BackgroundColor, Offset = .25f }
+                    ]
+                }
+            };
+       
+            foreach (var button in BottombarButtons)
+            {
+                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                grid.Add(button, grid.ColumnDefinitions.Count - 1);
+            }
+        
+            grid.BindingContext = BindingContext;
+        
+            return grid;
+        }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
@@ -85,40 +115,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             {
                 SearchBar.TextChanged -= OnSearchTextChanged;
             }
-        }
-
-        internal Border CreateBottomBar()
-        {
-            var border = new Border
-            {
-                Padding = Sizes.GetSize(SizeName.size_3),
-                StrokeThickness = 0,
-                VerticalOptions = LayoutOptions.End,
-                HeightRequest = BottomBarHeight,
-                Background = new LinearGradientBrush()
-                {
-                    EndPoint = new Point(0, 1),
-                    GradientStops = new GradientStopCollection()
-                    {
-                        new() {Color = this.BackgroundColor.WithAlpha(0), Offset = 0.00f},
-                        new() {Color = this.BackgroundColor, Offset = 0.22f}
-                    }
-                }
-            };
-            var grid = new Grid
-            {
-                ColumnSpacing = Sizes.GetSize(SizeName.size_2), VerticalOptions = LayoutOptions.End,
-                RowDefinitions = new RowDefinitionCollection(){new(GridLength.Star)}
-            };
-            foreach (var button in BottombarButtons)
-            {
-                grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
-                grid.Add(button, grid.ColumnDefinitions.Count - 1);
-            }
-
-            border.Content = grid;
-            border.BindingContext = BindingContext;
-            return border;
         }
     }
 }

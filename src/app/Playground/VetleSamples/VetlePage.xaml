@@ -20,5 +20,8 @@
     </dui:ContentPage.ToolbarItems>
    
  
+    <dui:Button Text="Open"
+                Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
+    
         
 </dui:ContentPage>

@@ -199,16 +199,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
 
 #if __IOS__
-        public UIKit.UIViewController? UIViewController { get; internal set; }
-        public UIKit.UIViewController NavigationController { get; set; }
-        public ContentPage WrappingContentPage { get; set; }
-
-        public UIKit.UISheetPresentationController UISheetPresentationController { get; internal set; }
+        public iOS.BottomSheetViewController ViewController { get; set; }
+        public iOS.BottomSheetNavigationViewController? NavigationController { get; set; }
 #endif
 
 #if __ANDROID__
         public Google.Android.Material.BottomSheet.BottomSheetDialog BottomSheetDialog { get; set; }
-        public  Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
+        public Google.Android.Material.BottomSheet.BottomSheetBehavior BottomSheetBehavior { get; set; }
         public Android.BottomSheetFragment BottomSheetFragment { get; set; }
         public global::Android.Widget.RelativeLayout RootLayout { get; set; }
 #endif

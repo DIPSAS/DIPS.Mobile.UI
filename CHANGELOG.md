@@ -1,3 +1,6 @@
+## [28.3.0] 
+- [iOS] Fixed performance of BottomSheet
+
 ## [28.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

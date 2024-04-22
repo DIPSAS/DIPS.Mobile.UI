@@ -27,7 +27,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     private AView? m_searchBarView;
     private MaterialToolbar? m_toolbar;
     
-    internal ContentViewGroup? m_bottomBar;
+    internal AView? m_bottomBar;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -94,7 +94,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            m_bottomBar = (ContentViewGroup)m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
+            m_bottomBar = m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
             m_bottomBar.LayoutParameters =
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(BottomSheet.BottomBarHeight));
             
@@ -215,7 +215,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             menuItem.SetOnMenuItemClickListener(
                 new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
             SetMenuItemIcon(menuItem, toolbarItem);
-        }
+        } 
     }
 
     public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)

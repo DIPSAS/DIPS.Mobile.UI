@@ -30,4 +30,8 @@ public partial class BottomSheetWithToolbar
     {
         this.Positioning = Positioning.Large;
     }
+
+    private void VisualElement_OnSizeChanged(object sender, EventArgs e)
+    {
+    }
 }

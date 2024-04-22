@@ -1,9 +1,5 @@
-using DIPS.Mobile.UI.API.Library;
-using Microsoft.Maui.Platform;
+using DIPS.Mobile.UI.Components.BottomSheets.iOS;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using NavigationPage = Microsoft.Maui.Controls.NavigationPage;
-using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.BottomSheets;
@@ -15,56 +11,29 @@ public static partial class BottomSheetService
     {
         try
         {
-            var mauiContext = DUI.GetCurrentMauiContext;
-            if (mauiContext == null) return;
+            var bottomSheetViewController = new BottomSheetViewController(bottomSheet);
 
-
-            var page = new ContentPage();
-            NavigationPage? navigationPage = null;
+            BottomSheetNavigationViewController? navigationController = null;
             if (bottomSheet.ShouldHaveNavigationBar)
             {
-                navigationPage = new NavigationPage(page);
-                navigationPage.SetAppThemeColor(NavigationPage.BarBackgroundColorProperty,
-                    BottomSheet.BackgroundColorName);
-                navigationPage.SetAppThemeColor(NavigationPage.BarTextColorProperty, BottomSheet.ToolbarTextColorName);
+                navigationController = new BottomSheetNavigationViewController(bottomSheet, bottomSheetViewController);
+                bottomSheet.NavigationController = navigationController;
             }
-
-            var uiViewController = page.ToUIViewController(mauiContext);
-            UIViewController? navigationController;
-            if (navigationPage != null)
-            {
-                navigationController = navigationPage.ToUIViewController(mauiContext);
-                navigationController.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
-
-                if (uiViewController!.NavigationController == null) return;
-                var navController = uiViewController.NavigationController;
-
-                if (navController?.NavigationBar == null) return;
-                navController.NavigationBar.ShadowImage = new UIImage();
-                navController.NavigationBar.SetBackgroundImage(new UIImage(), default);
-                // Sets the color for all navigation buttons
-                navController.NavigationBar.TintColor =
-                    Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
-            }
-            else
-            {
-                navigationController = page.ToUIViewController(mauiContext);
-            }
-
-            var uiSheetPresentationController = navigationController.SheetPresentationController;
-            if (uiSheetPresentationController == null) return;
+            
+            UIViewController viewControllerToPresent = navigationController is not null ? navigationController : bottomSheetViewController;
 
             var currentViewController = Platform.GetCurrentUIViewController();
-            if (currentViewController == null) return;
+            if (currentViewController is null)
+                return;
+            
+            viewControllerToPresent.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
 
-            bottomSheet.UIViewController = uiViewController;
-            bottomSheet.NavigationController = navigationController;
-            bottomSheet.UISheetPresentationController = uiSheetPresentationController;
-            bottomSheet.WrappingContentPage = page;
-            page.Content = bottomSheet; //Triggers handler creation
-            if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
-            bottomSheetHandler.OnBeforeOpening();
-            await currentViewController.PresentViewControllerAsync(navigationController, true);
+            if (TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController))
+            {
+                return;
+            }
+
+            await currentViewController.PresentViewControllerAsync(viewControllerToPresent, true);
         }
         catch (Exception e)
         {
@@ -72,13 +41,27 @@ public static partial class BottomSheetService
             throw;
         }
     }
+
+    private static bool TryAddGrabberAndSetSheetPresentationProperties(UIViewController viewControllerToPresent,
+        BottomSheetViewController bottomSheetViewController)
+    {
+        //Add grabber
+        var presentationController = viewControllerToPresent.SheetPresentationController;
+        if (presentationController is null)
+            return true;
+
+        presentationController.PrefersGrabberVisible = true;
+        presentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
+        presentationController.Delegate = new BottomSheetControllerDelegate { BottomSheetViewController = bottomSheetViewController };
+        presentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
+        return false;
+    }
+
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)
     {
-        if (bottomSheet.UIViewController == null) return;
+        if (bottomSheet?.ViewController == null) return;
         
-        await bottomSheet.UIViewController.DismissViewControllerAsync(animated);
-        await Task.Delay(100);
-        if (bottomSheet.Handler is not BottomSheetHandler bottomSheetHandler) return;
-        bottomSheetHandler.Dispose();
+        await bottomSheet.ViewController.DismissViewControllerAsync(animated);
+        bottomSheet.ViewController.Dispose();
     }
 }
