@@ -28,6 +28,4 @@ public class ItemPickersSamplesViewModel : ViewModel
         get => m_selectedItem;
         set => RaiseWhenSet(ref m_selectedItem, value);
     }
-
-    public ICommand Test => new Command(async () => SelectedItem = People.Last());
 }
