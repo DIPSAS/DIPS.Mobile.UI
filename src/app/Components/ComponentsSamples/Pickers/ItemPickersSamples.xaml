@@ -22,7 +22,11 @@
                         HorizontalOptions="Start"
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
-                        ItemDisplayProperty="DisplayName" />
+                        ItemDisplayProperty="DisplayName"
+                        SelectedItem="{Binding SelectedItem}" />
+        
+        <dui:Button Text="Test"
+                    Command="{Binding Test}"></dui:Button>
         
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />

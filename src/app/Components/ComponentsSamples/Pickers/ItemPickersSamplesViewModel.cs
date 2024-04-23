@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using Components.SampleData;
 using DIPS.Mobile.UI.MVVM;
 
@@ -7,6 +8,7 @@ public class ItemPickersSamplesViewModel : ViewModel
 {
     private Person m_selectedPerson;
     private List<Person> m_selectedItems = [SampleDataStorage.People[1]];
+    private Person m_selectedItem;
     public IEnumerable<Person> People { get; } = SampleDataStorage.People;
 
     public Person SelectedPerson
@@ -20,4 +22,12 @@ public class ItemPickersSamplesViewModel : ViewModel
         get => m_selectedItems;
         set => RaiseWhenSet(ref m_selectedItems, value);
     }
+
+    public Person SelectedItem
+    {
+        get => m_selectedItem;
+        set => RaiseWhenSet(ref m_selectedItem, value);
+    }
+
+    public ICommand Test => new Command(async () => SelectedItem = People.Last());
 }

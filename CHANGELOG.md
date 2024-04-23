@@ -1,3 +1,6 @@
+## [28.3.1] 
+- [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
+
 ## [28.3.0] 
 - [iOS] Fixed performance of BottomSheet
 
