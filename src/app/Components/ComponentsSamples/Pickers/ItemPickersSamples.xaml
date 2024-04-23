@@ -22,8 +22,7 @@
                         HorizontalOptions="Start"
                         Mode="ContextMenu"
                         ItemsSource="{Binding People}"
-                        ItemDisplayProperty="DisplayName"
-                        SelectedItem="{Binding SelectedItem}" />
+                        ItemDisplayProperty="DisplayName" />
         <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                    Margin="5" />
         <dui:ItemPicker VerticalOptions="Start"

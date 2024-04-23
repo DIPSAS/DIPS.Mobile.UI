@@ -22,10 +22,4 @@ public class ItemPickersSamplesViewModel : ViewModel
         get => m_selectedItems;
         set => RaiseWhenSet(ref m_selectedItems, value);
     }
-
-    public Person SelectedItem
-    {
-        get => m_selectedItem;
-        set => RaiseWhenSet(ref m_selectedItem, value);
-    }
 }
