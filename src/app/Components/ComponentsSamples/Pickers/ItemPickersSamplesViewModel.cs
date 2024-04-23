@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using Components.SampleData;
 using DIPS.Mobile.UI.MVVM;
 
@@ -8,7 +7,6 @@ public class ItemPickersSamplesViewModel : ViewModel
 {
     private Person m_selectedPerson;
     private List<Person> m_selectedItems = [SampleDataStorage.People[1]];
-    private Person m_selectedItem;
     public IEnumerable<Person> People { get; } = SampleDataStorage.People;
 
     public Person SelectedPerson
