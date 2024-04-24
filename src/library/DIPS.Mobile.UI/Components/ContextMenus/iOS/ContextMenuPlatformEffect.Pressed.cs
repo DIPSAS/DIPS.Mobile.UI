@@ -1,6 +1,5 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
-using DIPS.Mobile.UI.Resources.Colors;
 using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -11,14 +10,13 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
-    
 #nullable disable
     private NSObject m_didEnterBackgroundNotification;
 #nullable restore
     
     private async Task SetupPressedMode(ContextMenu contextMenu)
     {
-        contextMenu.ItemsSourceUpdated += ItemsSourceUpdated;
+        contextMenu.ItemsSourceUpdated += RebuildMenu;
         
         if (Control is not UIButton uiButton)
         {
@@ -31,7 +29,7 @@ public partial class ContextMenuPlatformEffect
         
         if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
         {
-            UpdateMenuForNextTimeItOpens();
+            RebuildMenu();
         }
         
         //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
@@ -39,13 +37,8 @@ public partial class ContextMenuPlatformEffect
             UIApplication.DidEnterBackgroundNotification, delegate
             {
                 m_uiButton.Menu = null;
-                UpdateMenuForNextTimeItOpens();
+                RebuildMenu();
             });
-    }
-
-    private void ItemsSourceUpdated()
-    {
-        UpdateMenuForNextTimeItOpens();
     }
 
     private async Task<UIButton> CreateOverlayButton()
@@ -60,7 +53,7 @@ public partial class ContextMenuPlatformEffect
         return uiButton;
     }
 
-    private void UpdateMenuForNextTimeItOpens()
+    private void RebuildMenu()
     {
         if (m_contextMenu == null)
         {
@@ -69,10 +62,9 @@ public partial class ContextMenuPlatformEffect
 
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
-            m_contextMenu, UpdateMenuForNextTimeItOpens);
+            m_contextMenu, RebuildMenu);
         m_uiButton.Menu =  UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
     }
-
 
     private void DisposePressed()
     {
@@ -82,6 +74,6 @@ public partial class ContextMenuPlatformEffect
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
         m_didEnterBackgroundNotification.Dispose();
         
-        m_contextMenu.ItemsSourceUpdated -= ItemsSourceUpdated;
+        m_contextMenu.ItemsSourceUpdated -= RebuildMenu;
     }
 }

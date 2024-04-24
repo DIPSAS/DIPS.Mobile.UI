@@ -13,30 +13,29 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             {
                 return;
             }
-
-            if (SelectedItem == null) //Reset checked items
+            
+            if (contextMenuGroup.ItemsSource == null)
             {
-                if (contextMenuGroup.ItemsSource == null)
-                {
-                    return;
-                }
-                
-                foreach (var item in contextMenuGroup.ItemsSource)
-                {
-                    item.IsChecked = false;
-                }
-
-                m_contextMenu.SendItemsSourceUpdated();
                 return;
             }
-
-            var contextMenuItem = contextMenuGroup.ItemsSource?.FirstOrDefault(i =>
-                i.Title != null && i.Title.Equals(SelectedItem.GetPropertyValue(ItemDisplayProperty),
-                    StringComparison.InvariantCultureIgnoreCase));
-            if (contextMenuItem != null)
+            
+            foreach (var item in contextMenuGroup.ItemsSource)
             {
-                contextMenuItem.IsChecked = true;
+                item.IsChecked = false;
             }
+
+            if (SelectedItem is not null)
+            {
+                var contextMenuItem = contextMenuGroup.ItemsSource?.FirstOrDefault(i =>
+                    i.Title != null && i.Title.Equals(SelectedItem.GetPropertyValue(ItemDisplayProperty),
+                        StringComparison.InvariantCultureIgnoreCase));
+                if (contextMenuItem != null)
+                {
+                    contextMenuItem.IsChecked = true;
+                }
+            }
+            
+            m_contextMenu.SendItemsSourceUpdated();
         }
 
         private void AddContextMenuItems()

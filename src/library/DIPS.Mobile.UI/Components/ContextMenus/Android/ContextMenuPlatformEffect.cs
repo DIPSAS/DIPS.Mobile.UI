@@ -71,7 +71,7 @@ public partial class ContextMenuPlatformEffect
             
             m_popupMenu.Gravity = (m_contextMenu!.ContextMenuHorizontalOptions == ContextMenuHorizontalOptions.Right)
                 ? GravityFlags.Right
-                : GravityFlags.Left; ;
+                : GravityFlags.Left;
             
              m_popupMenu.SetForceShowIcon(m_menuItems.Keys.Any(contextMenuItem =>
              {
