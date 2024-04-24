@@ -18,7 +18,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
     {
         return new DUIDatePicker
         {
-            Mode = UIDatePickerMode.DateAndTime, PreferredDatePickerStyle = UIDatePickerStyle.Compact
+            Mode = UIDatePickerMode.DateAndTime, PreferredDatePickerStyle = UIDatePickerStyle.Compact, VirtualView = VirtualView
         };
     }
     

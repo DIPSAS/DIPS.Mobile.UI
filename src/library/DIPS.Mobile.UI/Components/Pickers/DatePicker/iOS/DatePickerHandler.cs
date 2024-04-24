@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
@@ -15,7 +16,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 
     protected override DUIDatePicker CreatePlatformView()
     {
-        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date};
+        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date, VirtualView = VirtualView};
     }
     
     protected override void ConnectHandler(DUIDatePicker platformView)
@@ -28,7 +29,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         platformView.EditingDidEnd += OnClose;
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
-
+    
    
 
     private void OnOpen(object? sender, EventArgs e)

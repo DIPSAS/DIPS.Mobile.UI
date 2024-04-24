@@ -1,3 +1,6 @@
+## [28.3.2] 
+- [DatePicker][iOS] We now avoid setting static width on date pickers (DatePicker, DateAndTimePicker, TimePicker), and rather set the width based on their actual width.
+
 ## [28.3.1] 
 - [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
 

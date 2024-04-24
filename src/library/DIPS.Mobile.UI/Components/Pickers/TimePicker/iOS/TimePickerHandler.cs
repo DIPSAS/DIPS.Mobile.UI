@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
 {
-    protected override DUIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact };
+    protected override DUIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact, VirtualView = VirtualView };
 
     private bool m_isOpen;
     
