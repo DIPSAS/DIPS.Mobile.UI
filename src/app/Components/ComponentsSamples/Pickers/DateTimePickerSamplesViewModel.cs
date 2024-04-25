@@ -22,7 +22,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
         MaximumDate = new DateTime(2023, 05, 16);
         MinimumDate = new DateTime(2023, 01, 01);
 
-        Test = new DateTime();
+        Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
         Test3 = new DateTime(2023, 10, 29);
     }
@@ -32,8 +32,6 @@ public class DateTimePickerSamplesViewModel : ViewModel
         get => m_selectedBirthday;
         set => RaiseWhenSet(ref m_selectedBirthday, value);
     }
-
-    public DateTime? NullableSelectedDateTime { get; set; } = null;
 
     public Func<int, object> CreateMyObjectsBasedOnPosition => i => $"Number {i}";
 

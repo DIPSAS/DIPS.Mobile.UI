@@ -48,9 +48,6 @@ public class DUIDatePicker : UIDatePicker
             };
         }
 
-        var firstSubView = Subviews.First();
-        firstSubView.Frame = new CGRect(0, 0, firstSubView.Frame.Width - 100, firstSubView.Frame.Height);
-
         if (DateTimePicker.IsNullable)
         {
             CreatePlaceholders();

@@ -1,5 +1,6 @@
 ## [28.4.0] 
 - Added new component: `NullableDateTimePicker`.
+- [iOS] DatePickers will now have exact same design as Chips. 
 
 ## [28.3.1] 
 - [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
