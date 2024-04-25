@@ -98,7 +98,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
 
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
+        handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.Value.ConvertDate(), true);
     }
 
     protected override void DisconnectHandler(DUIDatePicker platformView)

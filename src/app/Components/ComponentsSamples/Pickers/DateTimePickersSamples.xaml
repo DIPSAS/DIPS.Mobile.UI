@@ -13,8 +13,18 @@
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
+    
+    
+    <VerticalStackLayout>
+        
+<dui:DatePicker HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        SelectedDate="{Binding NullableSelectedDateTime}"/>
 
-    <dui:VerticalStackLayout>
+<dui:DateAndTimePicker />
+    </VerticalStackLayout>
+    
+    <!--<dui:VerticalStackLayout>
         <dui:Label Text="DatePicker"
                    Margin="5" />
         <dui:DatePicker VerticalOptions="End"
@@ -55,5 +65,5 @@
         <dui:Label Text="Horizontal inline date picker"
                    Margin="5" />
         <dui:HorizontalInlineDatePicker  />
-    </dui:VerticalStackLayout>
+    </dui:VerticalStackLayout>-->
 </dui:ContentPage>

@@ -24,17 +24,27 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         base.ConnectHandler(platformView);
         platformView.SetInLineLabelColors();
         
-        platformView.ValueChanged += OnDateSelected;
+        platformView.ValueChanged += ValueChanged;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
+        
+        platformView.Initialize();
     }
-    
-   
+
+    private void ValueChanged(object? sender, EventArgs e)
+    {
+       OnDateSelected();
+    }
 
     private void OnOpen(object? sender, EventArgs e)
     {
         m_isOpen = true;
+
+        if (VirtualView.SelectedDate is null)
+        {
+            OnDateSelected();
+        }
     }
 
     private void OnClose(object? sender, EventArgs e)
@@ -85,13 +95,9 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         handler.PlatformView.SetHorizontalAlignment(datePicker);
     }
 
-    private void OnDateSelected(object? sender, EventArgs e)
+    private void OnDateSelected()
     {
-        var timeZone = PlatformView.TimeZone;
-        if (timeZone == null)
-        {
-            timeZone = NSTimeZone.LocalTimeZone;
-        }
+        var timeZone = PlatformView.TimeZone ?? NSTimeZone.LocalTimeZone;
         if (DateTime.TryParse(
                 new NSDateFormatter() {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
                     PlatformView.Date),
@@ -110,7 +116,10 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
+        if(datePicker.SelectedDate is null)
+            return;
+        
+        handler.PlatformView.SetDate(datePicker.SelectedDate.Value.ConvertDate(), true);
     }
 
     protected override void DisconnectHandler(DUIDatePicker platformView)
@@ -118,7 +127,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         base.DisconnectHandler(platformView);
 
         platformView.DisposeLayer();
-        platformView.ValueChanged -= OnDateSelected;
+        platformView.ValueChanged -= ValueChanged;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;
 

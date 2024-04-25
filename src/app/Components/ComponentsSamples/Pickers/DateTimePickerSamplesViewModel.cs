@@ -33,6 +33,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedBirthday, value);
     }
 
+    public DateTime? NullableSelectedDateTime { get; set; } = null;
 
     public Func<int, object> CreateMyObjectsBasedOnPosition => i => $"Number {i}";
 

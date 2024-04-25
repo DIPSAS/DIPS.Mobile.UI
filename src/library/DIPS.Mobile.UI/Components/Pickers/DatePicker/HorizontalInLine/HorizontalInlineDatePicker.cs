@@ -20,7 +20,7 @@ public partial class HorizontalInlineDatePicker : ContentView
                 HeightRequest = GetHeightBasedOnScreenHeight(),
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
                 BindingContextFactory = CreateSelectableDateViewModel,
-                ItemTemplate = new DataTemplate(() => new DateView()),
+                ItemTemplate = new DataTemplate(() => new DateOrTimeView()),
                 Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday),
                 SelectedItemChangedCommand = new Command<int>(OnDateScrolledTo)
             };
@@ -53,7 +53,7 @@ public partial class HorizontalInlineDatePicker : ContentView
             };
             datePicker.SelectedDateCommand = new Command(() =>
             {
-                if (TryGetIndexFromDate(datePicker.SelectedDate, out var index))
+                if (TryGetIndexFromDate(datePicker.SelectedDate.Value, out var index))
                 {
                     ScrollToIndex(index, false);
                 }
@@ -138,14 +138,14 @@ public partial class HorizontalInlineDatePicker : ContentView
         var views = m_slidableContentLayout.GetCurrentViews();
         foreach (var currentView in views)
         {
-            if (currentView is DateView {BindingContext: SelectableDateViewModel currentSelectableDateViewModel})
+            if (currentView is DateOrTimeView {BindingContext: SelectableDateViewModel currentSelectableDateViewModel})
             {
                 currentSelectableDateViewModel.IsSelected = false;
             }
         }
         TryGetIndexFromDate(dateScrolledTo, out var index);
         var view = m_slidableContentLayout.GetView(index);
-        if (view is DateView {BindingContext: SelectableDateViewModel selectableDateViewModel})
+        if (view is DateOrTimeView {BindingContext: SelectableDateViewModel selectableDateViewModel})
         {
             selectableDateViewModel.IsSelected = true;
         }

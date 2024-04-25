@@ -34,18 +34,21 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
 
     private void OnDatePickerValueUpdated()
     {
-        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Year, 
-            DatePicker.SelectedDate.Month,
-            DatePicker.SelectedDate.Day, 
-            VirtualView.SelectedDateTime.Hour, 
-            VirtualView.SelectedDateTime.Minute, VirtualView.SelectedDateTime.Second);
+        if(DatePicker.SelectedDate is null)
+            return;
+        
+        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
+            DatePicker.SelectedDate.Value.Month,
+            DatePicker.SelectedDate.Value.Day, 
+            VirtualView.SelectedDateTime.Value.Hour, 
+            VirtualView.SelectedDateTime.Value.Minute, VirtualView.SelectedDateTime.Value.Second);
     }
 
     private void OnTimePickerValueUpdated()
     {
-        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Year,
-            VirtualView.SelectedDateTime.Month,
-            VirtualView.SelectedDateTime.Day, 
+        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Value.Year,
+            VirtualView.SelectedDateTime.Value.Month,
+            VirtualView.SelectedDateTime.Value.Day, 
             TimePicker.SelectedTime.Hours, 
             TimePicker.SelectedTime.Minutes, TimePicker.SelectedTime.Seconds);
     }
@@ -56,9 +59,9 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
 
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        var timeSpan = new TimeSpan(dateAndTimePicker.SelectedDateTime.Hour,
-            dateAndTimePicker.SelectedDateTime.Minute,
-            dateAndTimePicker.SelectedDateTime.Second);
+        var timeSpan = new TimeSpan(dateAndTimePicker.SelectedDateTime.Value.Hour,
+            dateAndTimePicker.SelectedDateTime.Value.Minute,
+            dateAndTimePicker.SelectedDateTime.Value.Second);
 
         handler.DatePicker.SelectedDate = dateAndTimePicker.SelectedDateTime;
         handler.TimePicker.SelectedTime = timeSpan;
