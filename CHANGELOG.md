@@ -1,4 +1,4 @@
-## [28.3.2] 
+## [28.4.0] 
 - Added new component: `NullableDateTimePicker`.
 
 ## [28.3.1] 
