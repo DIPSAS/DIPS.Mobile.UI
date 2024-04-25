@@ -16,7 +16,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 
     protected override DUIDatePicker CreatePlatformView()
     {
-        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date, VirtualView = VirtualView};
+        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = UIDatePickerMode.Date, DateTimePicker = VirtualView};
     }
     
     protected override void ConnectHandler(DUIDatePicker platformView)
@@ -24,15 +24,13 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         base.ConnectHandler(platformView);
         platformView.SetInLineLabelColors();
         
-        platformView.ValueChanged += ValueChanged;
+        platformView.ValueChanged += OnValueChanged;
         platformView.EditingDidBegin += OnOpen;
         platformView.EditingDidEnd += OnClose;
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
-        
-        platformView.Initialize();
     }
 
-    private void ValueChanged(object? sender, EventArgs e)
+    private void OnValueChanged(object? sender, EventArgs e)
     {
        OnDateSelected();
     }
@@ -41,10 +39,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
     {
         m_isOpen = true;
 
-        if (VirtualView.SelectedDate is null)
-        {
-            OnDateSelected();
-        }
+        OnDateSelected();
     }
 
     private void OnClose(object? sender, EventArgs e)
@@ -97,6 +92,13 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 
     private void OnDateSelected()
     {
+        if (VirtualView.IsNullable && VirtualView.SelectedDate == default)
+        {
+            VirtualView.SelectedDate = DateTime.Now;
+            VirtualView.SelectedDateCommand?.Execute(null);
+            return;
+        }
+        
         var timeZone = PlatformView.TimeZone ?? NSTimeZone.LocalTimeZone;
         if (DateTime.TryParse(
                 new NSDateFormatter() {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
@@ -105,7 +107,6 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         {
             VirtualView.SelectedDate = selectedDate;
         }
-
         VirtualView.SelectedDateCommand?.Execute(null);
     }
 
@@ -116,10 +117,8 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
 
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        if(datePicker.SelectedDate is null)
-            return;
-        
-        handler.PlatformView.SetDate(datePicker.SelectedDate.Value.ConvertDate(), true);
+        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
+        handler.PlatformView.UpdatePlaceholders();
     }
 
     protected override void DisconnectHandler(DUIDatePicker platformView)
@@ -127,7 +126,7 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, DUIDatePicker>
         base.DisconnectHandler(platformView);
 
         platformView.DisposeLayer();
-        platformView.ValueChanged -= ValueChanged;
+        platformView.ValueChanged -= OnValueChanged;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;
 

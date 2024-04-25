@@ -1,6 +1,9 @@
 using System.Globalization;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Chip = Google.Android.Material.Chip.Chip;
@@ -10,9 +13,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
 
 public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
 {
+    private Chips.Chip m_chip;
+    
     protected override Chip CreatePlatformView()
     {
-        return (Chip)new DIPS.Mobile.UI.Components.Chips.Chip().ToPlatform(MauiContext);
+        m_chip = new DIPS.Mobile.UI.Components.Chips.Chip();
+        return (Chip)m_chip.ToPlatform(MauiContext!);
     }
 
     protected override void ConnectHandler(Chip platformView)
@@ -30,9 +36,17 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
         DatePickerService.Open(VirtualView);
     }
 
-
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
+        if(datePicker is { IsDateTimeOrTimeSpanDefault: true, IsNullable: true })
+        {
+            handler.m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            handler.PlatformView.Text = DUILocalizedStrings.Date;
+            return;
+        }
+
+        handler.m_chip.Style = Styles.GetChipStyle(ChipStyle.Input);
+        
         var convertedDisplayValue =
             new DateConverter {Format = DateConverter.DateConverterFormat.Default}.Convert(datePicker.SelectedDate,
                 null, null,

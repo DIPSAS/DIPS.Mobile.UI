@@ -12,9 +12,9 @@ public partial class DateAndTimePicker
     /// <summary>
     /// The date people selected from the date picker.
     /// </summary>
-    public DateTime? SelectedDateTime
+    public DateTime SelectedDateTime
     {
-        get => (DateTime?)GetValue(SelectedDateTimeProperty);
+        get => (DateTime)GetValue(SelectedDateTimeProperty);
         set => SetValue(SelectedDateTimeProperty, value);
     }
 

@@ -15,5 +15,5 @@ public partial class TimePickerHandler
     };
 
     private partial void AppendPropertyMapper();
-    private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker datePicker);
+    private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker);
 }

@@ -99,4 +99,10 @@
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
         <value>Oppdaget {0} ganger</value>
     </data>
+    <data name="Date" xml:space="preserve">
+        <value>Dato</value>
+    </data>
+    <data name="Time" xml:space="preserve">
+        <value>Tid</value>
+    </data>
 </root>

@@ -8,15 +8,14 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             nameof(SelectedDate),
             typeof(DateTime),
             typeof(DatePicker),
-            defaultBindingMode:BindingMode.TwoWay,
-            defaultValueCreator: _ => null);
+            defaultBindingMode:BindingMode.TwoWay);
 
         /// <summary>
         /// The date people selected from the date picker.
         /// </summary>
-        public DateTime? SelectedDate
+        public DateTime SelectedDate
         {
-            get => (DateTime?)GetValue(SelectedDateProperty);
+            get => (DateTime)GetValue(SelectedDateProperty);
             set => SetValue(SelectedDateProperty, value);
         }
 

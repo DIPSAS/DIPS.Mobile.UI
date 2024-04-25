@@ -18,9 +18,19 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
         var format = (DateFormat.Is24HourFormat(Platform.AppContext)) ? TimeFormat.Clock24h : TimeFormat.Clock12h;
 
         var builder = new MaterialTimePicker.Builder()
-            .SetTimeFormat(format)
-            .SetHour(timePicker.SelectedTime.Hours)
-            .SetMinute(timePicker.SelectedTime.Minutes);
+            .SetTimeFormat(format);
+
+        if (timePicker.IsDateTimeOrTimeSpanDefault)
+        {
+            builder.SetHour(DateTime.Now.TimeOfDay.Hours)
+                .SetMinute(DateTime.Now.TimeOfDay.Minutes);
+        }
+        else
+        {
+            builder.SetHour(timePicker.SelectedTime.Hours)
+                .SetMinute(timePicker.SelectedTime.Minutes);
+        }
+            
         m_materialTimePicker = builder.Build();
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();

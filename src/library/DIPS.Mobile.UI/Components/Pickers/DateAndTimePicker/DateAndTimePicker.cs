@@ -8,16 +8,13 @@ public partial class DateAndTimePicker : View, IDateTimePicker
     {
         base.OnHandlerChanged();
         
-        if(SelectedDateTime is null)
-            return;
-        
         // SelectedDate should not be above maximum date
         if (MaximumDate != null && SelectedDateTime > MaximumDate)
         {
             SelectedDateTime = new DateTime(MaximumDate.Value.Year,
                 MaximumDate.Value.Month,
                 MaximumDate.Value.Day,
-                SelectedDateTime.Value.Hour, SelectedDateTime.Value.Minute, SelectedDateTime.Value.Second, SelectedDateTime.Value.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
         }
 
         // SelectedDate should not be below minimum date
@@ -26,7 +23,10 @@ public partial class DateAndTimePicker : View, IDateTimePicker
             SelectedDateTime = new DateTime(MinimumDate.Value.Year,
                 MinimumDate.Value.Month,
                 MinimumDate.Value.Day,
-                SelectedDateTime.Value.Hour, SelectedDateTime.Value.Minute, SelectedDateTime.Value.Second, SelectedDateTime.Value.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
         }
     }
+
+    public bool IsNullable { get; set; }
+    public bool IsDateTimeOrTimeSpanDefault => IsNullable && SelectedDateTime == default;
 }
