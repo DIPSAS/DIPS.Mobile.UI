@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 /// <summary>
 /// TODO: Rewrite this so its easy to use publicly if its needed.
 /// </summary>
-public class DateOrTimeView : DateViewBase
+public class DateView : DateViewBase
 {
     protected override void OnViewCreated()
     {
