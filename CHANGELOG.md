@@ -1,3 +1,6 @@
+## [28.3.2]
+- [Tip] Made sure tip can be opened inside bottom sheets on iOS.
+
 ## [28.3.1] 
 - [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
 
