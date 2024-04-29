@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using Microsoft.Maui.Handlers;
 using UIKit;
 
@@ -31,9 +31,15 @@ public static partial class TipService
         tuple = new Tuple<UIView, UIViewController>(new UIView(), new UIViewController());
         if (anchoredView.Handler is not ViewHandler viewHandler) return false;
         if (viewHandler.PlatformView is null) return false;
-        if (anchoredView.Window?.Handler is not WindowHandler windowHandler) return false;
-        if (windowHandler.PlatformView.RootViewController is not { } rootViewController) return false;
+        if (!TryGetRootViewControllerFromWindow(anchoredView, out var rootViewController))
+        {
+            if (!TryGetRootViewControllerFromBottomSheet(anchoredView, out rootViewController))
+            {
+                return false;
+            }
+        }
 
+        if (rootViewController == null) return false;   
         var uiView = viewHandler.PlatformView;
         if ((anchoredView is Slider))
         {
@@ -43,7 +49,24 @@ public static partial class TipService
         tuple = new Tuple<UIView, UIViewController>(uiView, rootViewController);
         return true;
     }
-    
+
+    private static bool TryGetRootViewControllerFromBottomSheet(VisualElement anchoredView, out UIViewController? rootViewController)
+    {
+
+        var bottomSheet = anchoredView.FindParentOfType<BottomSheet>();
+        rootViewController = bottomSheet?.ViewController;
+        return rootViewController != null;
+    }
+
+    private static bool TryGetRootViewControllerFromWindow(VisualElement anchoredView, out UIViewController? rootViewController)
+    {
+        rootViewController = null;
+        if (anchoredView.Window?.Handler is not WindowHandler windowHandler) return false;
+        if (windowHandler.PlatformView.RootViewController is null) return false;
+        rootViewController = windowHandler.PlatformView.RootViewController;
+        return true;
+    }
+
 
     private static async Task SetupAndShow(string message, int durationInMilliseconds,
         UIViewController rootViewController, Action<TipUIViewController> setup)
