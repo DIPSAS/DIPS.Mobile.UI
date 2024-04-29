@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.ComTypes;
+using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Pickers;
@@ -13,6 +14,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
     private DateTime m_test;
     private DateTime m_test2;
     private DateTime m_test3;
+    private DateTime? m_testern;
 
     public DateTimePickerSamplesViewModel()
     {
@@ -25,6 +27,16 @@ public class DateTimePickerSamplesViewModel : ViewModel
         Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
         Test3 = new DateTime(2023, 10, 29);
+
+        Testern = new DateTime(2020, 2, 2);
+    }
+
+    public ICommand SetNull => new Command(() => Testern = null);
+
+    public DateTime? Testern
+    {
+        get => m_testern;
+        set => RaiseWhenSet(ref m_testern, value);
     }
 
     public DateTime SelectedBirthday

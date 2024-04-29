@@ -8,20 +8,20 @@ using UIKit;
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
+public partial class TimePickerHandler : ViewHandler<TimePicker, UIView>
 {
-    protected override DUIDatePicker CreatePlatformView() => new() { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact, DateTimePicker = VirtualView };
+    protected override UIView CreatePlatformView() => new()/* { Mode = UIDatePickerMode.Time, PreferredDatePickerStyle = UIDatePickerStyle.Compact, DateTimePicker = VirtualView }*/;
 
     private bool m_isOpen;
     
-    protected override void ConnectHandler(DUIDatePicker platformView)
+    protected override void ConnectHandler(UIView platformView)
     {
         base.ConnectHandler(platformView);
         
-        platformView.SetInLineLabelColors();
+        /*platformView.SetInLineLabelColors();
         platformView.ValueChanged += OnValueChanged;
         platformView.EditingDidBegin += OnOpen;
-        platformView.EditingDidEnd += OnClose;
+        platformView.EditingDidEnd += OnClose;*/
 
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
@@ -64,7 +64,7 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
 
     private static void MapHorizontalOptions(TimePickerHandler handler, TimePicker timePicker)
     {
-        handler.PlatformView.SetHorizontalAlignment(timePicker);
+        /*handler.PlatformView.SetHorizontalAlignment(timePicker);*/
     }
     
     private void OnTimeSelected()
@@ -76,10 +76,10 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
             return;
         }
         
-        var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, PlatformView.Date);
+        /*var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, PlatformView.Date);
         var timeSpan = new TimeSpan((int)components.Hour, (int)components.Minute, 0);
         VirtualView.SelectedTime = timeSpan;
-        VirtualView.SelectedTimeCommand?.Execute(null);
+        VirtualView.SelectedTimeCommand?.Execute(null);*/
     }
 
     private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker)
@@ -89,11 +89,11 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
         components.Hour = timePicker.SelectedTime.Hours;
         components.Minute = timePicker.SelectedTime.Minutes;
         
-        handler.PlatformView.SetDate(calendar.DateFromComponents(components), true);
-        handler.PlatformView.UpdatePlaceholders();
+        /*handler.PlatformView.SetDate(calendar.DateFromComponents(components), true);
+        handler.PlatformView.UpdatePlaceholders();*/
     }
 
-    protected override void DisconnectHandler(DUIDatePicker platformView)
+    /*protected override void DisconnectHandler(DUIDatePicker platformView)
     {
         base.DisconnectHandler(platformView);
         
@@ -103,5 +103,5 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, DUIDatePicker>
         platformView.EditingDidEnd -= OnClose;
 
         DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
-    }
+    }*/
 }

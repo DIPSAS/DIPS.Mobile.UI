@@ -1,6 +1,7 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using DIPS.Mobile.UI.Components.Pickers.Platforms;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -13,7 +14,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
 
-public class DUIDatePicker : UIDatePicker
+internal class DUIDatePicker : UIDatePicker
 {
     private UIView? m_dateOrTimeView;
     private UIView? m_timeView;
@@ -24,7 +25,7 @@ public class DUIDatePicker : UIDatePicker
     private bool m_firstDraw = true;
 
 #nullable disable
-    public IDateTimePicker DateTimePicker { get; set; }
+    public InternalDatePicker DateTimePicker { get; set; }
 #nullable enable
 
     public override void Draw(CGRect rect)
@@ -48,29 +49,29 @@ public class DUIDatePicker : UIDatePicker
             };
         }
 
-        if (DateTimePicker.IsNullable)
+        /*if (DateTimePicker.IsNullable)
         {
             CreatePlaceholders();
-        }
+        }*/
 
-        if (DateTimePicker.IsDateTimeOrTimeSpanDefault)
+        /*if (DateTimePicker.IsDateTimeOrTimeSpanDefault)
         {
             AddPlaceholders();
-        }
+        }*/
 
         SetStyle(); 
     }
 
     public void UpdatePlaceholders()
     {
-        if (DateTimePicker.IsDateTimeOrTimeSpanDefault)
+        /*if (DateTimePicker.IsDateTimeOrTimeSpanDefault)
         {
             AddPlaceholders();
         }
         else
         {
             RemovePlaceholders();
-        }
+        }*/
     }
 
     private void FetchSubviews()

@@ -23,7 +23,12 @@
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid RowDefinitions="*, Auto">
+    <VerticalStackLayout Padding="0, 0, 0, 0">
+        <dui:Button Text="Hlelo" Command="{Binding SetNull}"></dui:Button>
+        <dui:DatePicker SelectedDate="{Binding Testern}" HorizontalOptions="End"
+                        BackgroundColor="Red" />
+    </VerticalStackLayout>
+    <!--<Grid RowDefinitions="*, Auto">
     <ScrollView Padding="{dui:Sizes size_3}">
         <dui:VerticalStackLayout>
             <dui:Label Text="DatePicker"
@@ -90,5 +95,5 @@
                    Style="{StaticResource LabelStyle}" />
         <dui:HorizontalInlineDatePicker Margin="{dui:Thickness Left=size_3_negative, Right=size_3_negative}" />
         </dui:VerticalStackLayout>
-    </Grid>
+    </Grid>-->
 </dui:ContentPage>

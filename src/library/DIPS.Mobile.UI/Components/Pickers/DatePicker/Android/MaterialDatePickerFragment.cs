@@ -53,10 +53,10 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             return;
         }
         
-        var date = m_datePicker.IgnoreLocalTime ? m_datePicker.SelectedDate : m_datePicker.SelectedDate.ToLocalTime();
+        var date = m_datePicker.IgnoreLocalTime ? m_datePicker.SelectedDate : m_datePicker.SelectedDate.Value.ToLocalTime();
 
         //Java uses the unix epoch, so we have find the total milliseconds from the date people have picked and the UnixEpoch start.
-        builder.SetSelection(date.ToLong());
+        builder.SetSelection(date.Value.ToLong());
     }
 
     public bool IsOpen()

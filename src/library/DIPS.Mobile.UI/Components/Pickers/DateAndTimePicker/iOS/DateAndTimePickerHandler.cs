@@ -10,27 +10,28 @@ using UIKit;
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, DUIDatePicker>
+public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, UIView>
 {
     private bool m_isOpen;
 
-    protected override DUIDatePicker CreatePlatformView()
+    protected override UIView CreatePlatformView()
     {
-        return new DUIDatePicker
+        return new UIView();
+        /*return new DUIDatePicker
         {
             Mode = UIDatePickerMode.DateAndTime, PreferredDatePickerStyle = UIDatePickerStyle.Compact, DateTimePicker = VirtualView
-        };
+        };*/
     }
     
-    protected override void ConnectHandler(DUIDatePicker platformView)
+    protected override void ConnectHandler(UIView platformView)
     {
         base.ConnectHandler(platformView);
 
-        platformView.ValueChanged += OnValueChanged;
+        /*platformView.ValueChanged += OnValueChanged;
         platformView.SetInLineLabelColors();
         
         platformView.EditingDidBegin += OnOpen;
-        platformView.EditingDidEnd += OnClose;
+        platformView.EditingDidEnd += OnClose;*/
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
     }
 
@@ -67,7 +68,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
         if(dateAndTimePicker.MaximumDate is null or null)
             return;
 
-        handler.PlatformView.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate();
+        /*handler.PlatformView.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate();*/
     }
 
     private static partial void MapMinimumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
@@ -75,7 +76,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
         if(dateAndTimePicker.MinimumDate is null or null)
             return;
         
-        handler.PlatformView.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate();
+        /*handler.PlatformView.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate();*/
     }
 
     private static void MapOverrideBackground(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
@@ -84,7 +85,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
 
     private static void MapHorizontalOptions(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        handler.PlatformView.SetHorizontalAlignment(dateAndTimePicker);
+        /*handler.PlatformView.SetHorizontalAlignment(dateAndTimePicker);*/
     }
 
     private void OnValueChanged(object? sender, EventArgs e)
@@ -101,22 +102,22 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
             return;
         }
         
-        VirtualView.SelectedDateTime = (DateTime)PlatformView.Date;
+        /*VirtualView.SelectedDateTime = (DateTime)PlatformView.Date;*/
         VirtualView.SelectedDateTimeCommand?.Execute(null);
     }
 
     private static partial void MapIgnoreLocalTime(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        handler.PlatformView.TimeZone = dateAndTimePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;
+        /*handler.PlatformView.TimeZone = dateAndTimePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;*/
     }
 
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
-        handler.PlatformView.UpdatePlaceholders();
+        /*handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
+        handler.PlatformView.UpdatePlaceholders();*/
     }
 
-    protected override void DisconnectHandler(DUIDatePicker platformView)
+    /*protected override void DisconnectHandler(DUIDatePicker platformView)
     {
         base.DisconnectHandler(platformView);
 
@@ -125,5 +126,5 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, D
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;
         DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
-    }
+    }*/
 }

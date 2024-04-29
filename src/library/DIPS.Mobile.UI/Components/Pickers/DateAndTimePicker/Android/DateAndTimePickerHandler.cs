@@ -47,9 +47,9 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
     {
         if (TimePicker.IsDateTimeOrTimeSpanDefault)
         {
-            VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Year, 
-                DatePicker.SelectedDate.Month,
-                DatePicker.SelectedDate.Day, 
+            VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
+                DatePicker.SelectedDate.Value.Month,
+                DatePicker.SelectedDate.Value.Day, 
                 DateTime.Now.TimeOfDay.Hours, 
                 DateTime.Now.TimeOfDay.Hours, 
                 DateTime.Now.TimeOfDay.Hours);
@@ -57,9 +57,9 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
             return;
         }
         
-        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Year, 
-            DatePicker.SelectedDate.Month,
-            DatePicker.SelectedDate.Day, 
+        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
+            DatePicker.SelectedDate.Value.Month,
+            DatePicker.SelectedDate.Value.Day, 
             VirtualView.SelectedDateTime.Hour, 
             VirtualView.SelectedDateTime.Minute, 
             VirtualView.SelectedDateTime.Second);

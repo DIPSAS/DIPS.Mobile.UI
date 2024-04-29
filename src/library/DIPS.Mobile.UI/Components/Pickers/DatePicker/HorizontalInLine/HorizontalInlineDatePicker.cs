@@ -53,7 +53,7 @@ public partial class HorizontalInlineDatePicker : ContentView
             };
             datePicker.SelectedDateCommand = new Command(() =>
             {
-                if (TryGetIndexFromDate(datePicker.SelectedDate, out var index))
+                if (TryGetIndexFromDate(datePicker.SelectedDate.Value, out var index))
                 {
                     ScrollToIndex(index, false);
                 }

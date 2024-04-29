@@ -4,10 +4,10 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline;
 
-internal class InlineDatePickerHandler : DatePickerHandler
+internal class InlineBaseDatePickerHandler : BaseDatePickerHandler
 {
-    protected override DUIDatePicker CreatePlatformView()
+    /*protected override DUIDatePicker CreatePlatformView()
     {
         return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Inline, Mode = UIDatePickerMode.Date};
-    }
+    }*/
 }
