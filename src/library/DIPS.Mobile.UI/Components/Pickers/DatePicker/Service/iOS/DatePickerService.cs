@@ -1,3 +1,4 @@
+using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
@@ -56,7 +57,7 @@ public partial class DatePickerService
             if(PopoverPresentationController is null)
                 return;
             
-            PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Down;
+            PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Down | UIPopoverArrowDirection.Up;
             if (nativeSourceView is not null)
             {
                 PopoverPresentationController.SourceView = nativeSourceView;
@@ -72,9 +73,7 @@ public partial class DatePickerService
         
         public override void ViewDidLoad()
         {
-            var inlineDatePicker = m_datePicker.ToPlatform(DUI.GetCurrentMauiContext!);
-            
-            View = inlineDatePicker;
+            View = m_datePicker.ToPlatform(DUI.GetCurrentMauiContext!);
             
             base.ViewDidLoad();
         }
@@ -84,6 +83,13 @@ public partial class DatePickerService
             base.ViewWillDisappear(animated);
             
             Dispose();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            
+            PreferredContentSize = View!.SizeThatFits(new CGSize(int.MaxValue, int.MaxValue));
         }
 
         protected override void Dispose(bool disposing)
