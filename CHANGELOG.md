@@ -1,3 +1,6 @@
+## [28.4.0] 
+- [iOS][InlineDatePicker] Changed the presentation of `InlinedatePicker` from BottomSheet to Popover.
+
 ## [28.3.1] 
 - [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
 

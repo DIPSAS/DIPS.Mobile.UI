@@ -7,7 +7,7 @@ public partial class DatePickerService
     private static MaterialDatePickerFragment? m_materialDatePicker;
     internal const string DatePickerTag = "DUIMaterialDatePicker";
 
-    public static partial void Open(DatePicker datePicker)
+    public static partial void Open(DatePicker datePicker, View? sourceView)
     {
         if (IsOpen())
         {

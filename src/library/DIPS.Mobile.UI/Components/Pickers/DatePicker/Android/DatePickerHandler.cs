@@ -27,9 +27,8 @@ public partial class DatePickerHandler : ViewHandler<DatePicker, Chip>
 
     private void OnClicked(object? sender, EventArgs e)
     {
-        DatePickerService.Open(VirtualView);
+        DatePickerService.Open(VirtualView, null);
     }
-
 
     public static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
