@@ -58,7 +58,7 @@ public partial class HorizontalInlineDatePicker : ContentView
                     ScrollToIndex(index, false);
                 }
             });
-            DatePickerService.Open(datePicker);
+            DatePickerService.Open(datePicker, this);
         }
         else
         {
