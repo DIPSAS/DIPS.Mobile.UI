@@ -1,16 +1,10 @@
-using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Components.Pickers.Platforms;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 {
-    public partial class DatePicker : View, IDateTimePicker
+    public partial class DatePicker : View, INullableDatePicker
     {
-        public DatePicker()
-        {
-            BackgroundColor = Colors.GetColor(ColorName.color_secondary_30);
-        }
-
         protected override void OnHandlerChanged()
         {
             base.OnHandlerChanged();
@@ -31,6 +25,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         }
 
         public bool IsNullable { get; set; }
-        public bool IsDateTimeOrTimeSpanDefault => IsNullable && SelectedDate == default;
+        public bool IsDateOrTimeNull => SelectedDate is null;
+
+        public void SetDateOrTimeNull()
+        {
+            SelectedDate = null;
+            SelectedDateCommand?.Execute(null);
+        }
     }
 }

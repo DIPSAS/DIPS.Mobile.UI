@@ -14,7 +14,9 @@ public class DateTimePickerSamplesViewModel : ViewModel
     private DateTime m_test;
     private DateTime m_test2;
     private DateTime m_test3;
-    private DateTime? m_testern;
+    private DateTime? m_dateTimeNullDefault;
+    private TimeSpan? m_timeSpanNullDefault;
+    private DateTime? m_dateAndTimeNullDefault;
 
     public DateTimePickerSamplesViewModel()
     {
@@ -27,16 +29,6 @@ public class DateTimePickerSamplesViewModel : ViewModel
         Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
         Test3 = new DateTime(2023, 10, 29);
-
-        Testern = new DateTime(2020, 2, 2);
-    }
-
-    public ICommand SetNull => new Command(() => Testern = null);
-
-    public DateTime? Testern
-    {
-        get => m_testern;
-        set => RaiseWhenSet(ref m_testern, value);
     }
 
     public DateTime SelectedBirthday
@@ -87,5 +79,37 @@ public class DateTimePickerSamplesViewModel : ViewModel
     {
         get => m_minimumDate;
         set => RaiseWhenSet(ref m_minimumDate, value);
+    }
+
+    public ICommand SelectedDateCommand => new Command(() =>
+    {
+        var test = DateTimeNullDefault;
+        var test2 = DateAndTimeNullDefault;
+        Console.WriteLine(test);
+        Console.WriteLine(test2);
+    });
+
+    public ICommand SelectedTimeCommand => new Command(() =>
+    {
+        var test = TimeSpanNullDefault;
+        Console.WriteLine(test);
+    });
+
+    public DateTime? DateTimeNullDefault
+    {
+        get => m_dateTimeNullDefault;
+        set => RaiseWhenSet(ref m_dateTimeNullDefault, value);
+    }
+
+    public DateTime? DateAndTimeNullDefault
+    {
+        get => m_dateAndTimeNullDefault;
+        set => RaiseWhenSet(ref m_dateAndTimeNullDefault, value);
+    }
+
+    public TimeSpan? TimeSpanNullDefault
+    {
+        get => m_timeSpanNullDefault;
+        set => RaiseWhenSet(ref m_timeSpanNullDefault, value);
     }
 }

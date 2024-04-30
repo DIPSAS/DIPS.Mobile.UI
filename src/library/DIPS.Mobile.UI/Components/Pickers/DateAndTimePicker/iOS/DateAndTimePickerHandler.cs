@@ -1,74 +1,18 @@
-using CoreGraphics;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
-using DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
-using DIPS.Mobile.UI.Platforms.iOS;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using Foundation;
-using Microsoft.Maui.Handlers;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, UIView>
+public partial class DateAndTimePickerHandler : BaseDatePickerHandler
 {
-    private bool m_isOpen;
-
-    protected override UIView CreatePlatformView()
-    {
-        return new UIView();
-        /*return new DUIDatePicker
-        {
-            Mode = UIDatePickerMode.DateAndTime, PreferredDatePickerStyle = UIDatePickerStyle.Compact, DateTimePicker = VirtualView
-        };*/
-    }
-    
-    protected override void ConnectHandler(UIView platformView)
-    {
-        base.ConnectHandler(platformView);
-
-        /*platformView.ValueChanged += OnValueChanged;
-        platformView.SetInLineLabelColors();
-        
-        platformView.EditingDidBegin += OnOpen;
-        platformView.EditingDidEnd += OnClose;*/
-        DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
-    }
-
-    private void OnOpen(object? sender, EventArgs e)
-    {
-        m_isOpen = true;
-        
-        OnDateSelected();
-    }
-    
-    private void OnClose(object? sender, EventArgs e)
-    {
-        m_isOpen = false;
-    }
-
-    private void TryClose()
-    {
-        if (!m_isOpen)
-            return;
-        
-        var currentPresentedUiViewController = Platform.GetCurrentUIViewController();
-        currentPresentedUiViewController?.DismissViewController(false, null);
-    }
-
-    private partial void AppendPropertyMapper()
-    {
-        DateAndTimePickerPropertyMapper.Add(nameof(DateAndTimePicker.HorizontalOptions), MapHorizontalOptions);
-        DateAndTimePickerPropertyMapper.Add(nameof(DateAndTimePicker.Background), MapOverrideBackground);
-        DateAndTimePickerPropertyMapper.Add(nameof(DateAndTimePicker.IgnoreLocalTime), MapIgnoreLocalTime);
-    }
-
     private static partial void MapMaximumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
         if(dateAndTimePicker.MaximumDate is null or null)
             return;
 
-        /*handler.PlatformView.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate();*/
+        handler.m_nativeDatePicker.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate();
     }
 
     private static partial void MapMinimumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
@@ -76,55 +20,31 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, U
         if(dateAndTimePicker.MinimumDate is null or null)
             return;
         
-        /*handler.PlatformView.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate();*/
-    }
-
-    private static void MapOverrideBackground(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
-    {
-    }
-
-    private static void MapHorizontalOptions(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
-    {
-        /*handler.PlatformView.SetHorizontalAlignment(dateAndTimePicker);*/
-    }
-
-    private void OnValueChanged(object? sender, EventArgs e)
-    {
-        OnDateSelected();
-    }
-    
-    private void OnDateSelected()
-    {
-        if (VirtualView.IsNullable && VirtualView.SelectedDateTime == default)
-        {
-            VirtualView.SelectedDateTime = DateTime.Now;
-            VirtualView.SelectedDateTimeCommand?.Execute(null);
-            return;
-        }
-        
-        /*VirtualView.SelectedDateTime = (DateTime)PlatformView.Date;*/
-        VirtualView.SelectedDateTimeCommand?.Execute(null);
+        handler.m_nativeDatePicker.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate();
     }
 
     private static partial void MapIgnoreLocalTime(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        /*handler.PlatformView.TimeZone = dateAndTimePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;*/
+        handler.m_nativeDatePicker.TimeZone = dateAndTimePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;
     }
 
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        /*handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
-        handler.PlatformView.UpdatePlaceholders();*/
+        handler.OnDateOrTimeChanged();
+        
+        if(!dateAndTimePicker.SelectedDateTime.HasValue)
+            return;
+        
+        handler.m_nativeDatePicker.SetDate(dateAndTimePicker.SelectedDateTime.Value.ConvertDate(), true);
     }
-
-    /*protected override void DisconnectHandler(DUIDatePicker platformView)
+    
+    protected override UIDatePickerMode GetMode() => UIDatePickerMode.DateAndTime;
+    protected override void OnDateSelected()
     {
-        base.DisconnectHandler(platformView);
-
-        platformView.DisposeLayer();
-        platformView.ValueChanged -= OnValueChanged;
-        platformView.EditingDidBegin -= OnOpen;
-        platformView.EditingDidEnd -= OnClose;
-        DUI.OnRemoveViewsLocatedOnTopOfPage -= TryClose;
-    }*/
+        if (VirtualView is not DateAndTimePicker dateAndTimePicker)
+            return;
+        
+        dateAndTimePicker.SelectedDateTime = (DateTime)m_nativeDatePicker.Date;
+        dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
+    }
 }

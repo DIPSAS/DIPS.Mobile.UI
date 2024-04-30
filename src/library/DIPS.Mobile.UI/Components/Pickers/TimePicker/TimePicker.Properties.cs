@@ -6,15 +6,15 @@ public partial class TimePicker
 {
     public static readonly BindableProperty SelectedTimeProperty = BindableProperty.Create(
         nameof(SelectedTime),
-        typeof(TimeSpan),
+        typeof(TimeSpan?),
         typeof(TimePicker), defaultBindingMode:BindingMode.TwoWay);
 
     /// <summary>
     /// The time people selected from the time picker.
     /// </summary>
-    public TimeSpan SelectedTime
+    public TimeSpan? SelectedTime
     {
-        get => (TimeSpan)GetValue(SelectedTimeProperty);
+        get => (TimeSpan?)GetValue(SelectedTimeProperty);
         set => SetValue(SelectedTimeProperty, value);
     }
 

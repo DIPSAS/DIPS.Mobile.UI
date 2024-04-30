@@ -1,5 +1,5 @@
 using Android.Text.Format;
-using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.TimePicker;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
@@ -20,15 +20,15 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
         var builder = new MaterialTimePicker.Builder()
             .SetTimeFormat(format);
 
-        if (timePicker.IsDateTimeOrTimeSpanDefault)
+        if (timePicker is { IsDateOrTimeNull: true, IsNullable: true })
         {
             builder.SetHour(DateTime.Now.TimeOfDay.Hours)
                 .SetMinute(DateTime.Now.TimeOfDay.Minutes);
         }
         else
         {
-            builder.SetHour(timePicker.SelectedTime.Hours)
-                .SetMinute(timePicker.SelectedTime.Minutes);
+            builder.SetHour(timePicker.SelectedTime.Value.Hours)
+                .SetMinute(timePicker.SelectedTime.Value.Minutes);
         }
             
         m_materialTimePicker = builder.Build();

@@ -23,14 +23,6 @@ internal class InternalDatePickerHandler : ViewHandler<InternalDatePicker, DUIDa
 
     protected override DUIDatePicker CreatePlatformView()
     {
-        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = VirtualView.Mode, DateTimePicker = VirtualView};
+        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Compact, Mode = VirtualView.Mode, InternalDatePicker = VirtualView};
     }
-
-    protected override void ConnectHandler(DUIDatePicker platformView)
-    {
-        base.ConnectHandler(platformView);
-        
-        
-    }
-
 }

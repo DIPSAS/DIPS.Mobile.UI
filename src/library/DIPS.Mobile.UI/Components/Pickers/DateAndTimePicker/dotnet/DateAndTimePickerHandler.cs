@@ -16,10 +16,6 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, O
     {
     }
 
-    private partial void AppendPropertyMapper()
-    {
-    }
-    
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
     }

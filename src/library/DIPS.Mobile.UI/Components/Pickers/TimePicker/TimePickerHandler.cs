@@ -6,14 +6,12 @@ public partial class TimePickerHandler
 {
     public TimePickerHandler() : base(TimePickerPropertyMapper)
     {
-        AppendPropertyMapper();
     }
     
-    public static readonly IPropertyMapper<TimePicker, TimePickerHandler> TimePickerPropertyMapper = new PropertyMapper<Pickers.TimePicker.TimePicker, TimePickerHandler>(ViewHandler.ViewMapper)
+    public static readonly IPropertyMapper<TimePicker, TimePickerHandler> TimePickerPropertyMapper = new PropertyMapper<TimePicker, TimePickerHandler>(ViewMapper)
     {
         [nameof(TimePicker.SelectedTime)] = MapSelectedTime
     };
 
-    private partial void AppendPropertyMapper();
     private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker);
 }

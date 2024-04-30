@@ -6,15 +6,15 @@ public partial class DateAndTimePicker
 {
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
-        typeof(DateTime),
+        typeof(DateTime?),
         typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay);
 
     /// <summary>
     /// The date people selected from the date picker.
     /// </summary>
-    public DateTime SelectedDateTime
+    public DateTime? SelectedDateTime
     {
-        get => (DateTime)GetValue(SelectedDateTimeProperty);
+        get => (DateTime?)GetValue(SelectedDateTimeProperty);
         set => SetValue(SelectedDateTimeProperty, value);
     }
 

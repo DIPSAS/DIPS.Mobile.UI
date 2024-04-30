@@ -6,11 +6,10 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
-                 xmlns:nullableDateTimePicker="clr-namespace:DIPS.Mobile.UI.Components.Pickers.NullableDateTimePicker;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Title="Date / time pickers"
                  BackgroundColor="{dui:Colors color_system_white}">
-    
+
     <dui:ContentPage.Resources>
         <Style TargetType="{x:Type dui:Label}"
                BasedOn="{dui:Styles Label=SectionHeader}"
@@ -19,81 +18,83 @@
                     Value="{dui:Thickness Left=size_2}" />
         </Style>
     </dui:ContentPage.Resources>
-    
+
     <dui:ContentPage.BindingContext>
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <VerticalStackLayout Padding="0, 0, 0, 0">
-        <dui:Button Text="Hlelo" Command="{Binding SetNull}"></dui:Button>
-        <dui:DatePicker SelectedDate="{Binding Testern}" HorizontalOptions="End"
-                        BackgroundColor="Red" />
-    </VerticalStackLayout>
-    <!--<Grid RowDefinitions="*, Auto">
-    <ScrollView Padding="{dui:Sizes size_3}">
-        <dui:VerticalStackLayout>
-            <dui:Label Text="DatePicker"
-                       Style="{StaticResource LabelStyle}"/>
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding SelectedBirthday}"
-                            HorizontalOptions="Start" />
-            <dui:Label Text="TimePicker"
-                       Style="{StaticResource LabelStyle}" />
-            <dui:TimePicker HorizontalOptions="Start"
-                            SelectedTime="{Binding SelectedShoppingTime}" />
-            <dui:Label Text="DateAndTimePicker"
-                       Style="{StaticResource LabelStyle}" />
-            <dui:DateAndTimePicker VerticalOptions="End"
-                                   SelectedDateTime="{Binding SelectedDeadline}"
-                                   HorizontalOptions="Start" />
+   
+    <Grid RowDefinitions="*, Auto">
+        <ScrollView Padding="{dui:Sizes size_3}">
+            <dui:VerticalStackLayout>
+                <dui:Label Text="DatePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                SelectedDate="{Binding SelectedBirthday}"
+                                HorizontalOptions="Start" />
+                <dui:Label Text="TimePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:TimePicker HorizontalOptions="Start"
+                                SelectedTime="{Binding SelectedShoppingTime}" />
+                <dui:Label Text="DateAndTimePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DateAndTimePicker VerticalOptions="End"
+                                       SelectedDateTime="{Binding SelectedDeadline}"
+                                       HorizontalOptions="Start" />
 
 
-            <dui:Label Text="DatePicker (With maximum date)"
-                       Style="{StaticResource LabelStyle}" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}" />
+                <dui:Label Text="DatePicker (With maximum date)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                SelectedDate="{Binding Test}"
+                                HorizontalOptions="Start"
+                                MaximumDate="{Binding MaximumDate}" />
 
-            <dui:Label Text="DatePicker (With minimum date)"
-                       Style="{StaticResource LabelStyle}" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test2}"
-                            HorizontalOptions="Start"
-                            MinimumDate="{Binding MinimumDate}" />
+                <dui:Label Text="DatePicker (With minimum date)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                SelectedDate="{Binding Test2}"
+                                HorizontalOptions="Start"
+                                MinimumDate="{Binding MinimumDate}" />
 
-            <dui:Label Text="DatePicker (With maximum and minimum date)"
-                       Style="{StaticResource LabelStyle}" />
-            <dui:DatePicker VerticalOptions="End"
-                            SelectedDate="{Binding Test3}"
-                            HorizontalOptions="Start"
-                            MaximumDate="{Binding MaximumDate}"
-                            MinimumDate="{Binding MinimumDate}" />
+                <dui:Label Text="DatePicker (With maximum and minimum date)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                SelectedDate="{Binding Test3}"
+                                HorizontalOptions="Start"
+                                MaximumDate="{Binding MaximumDate}"
+                                MinimumDate="{Binding MinimumDate}" />
 
-            <dui:Label Text="Nullable DatePicker"
-                       Style="{StaticResource LabelStyle}" />
-            <nullableDateTimePicker:NullableDateTimePicker Type="Date" 
-                                        HorizontalOptions="Start" />
+                <dui:Label Text="Nullable DatePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker IsNullable="True"
+                                HorizontalOptions="Start"
+                                SelectedDateCommand="{Binding SelectedDateCommand}"
+                                SelectedDate="{Binding DateTimeNullDefault}"/>
 
-            <dui:Label Text="Nullable DateAndTimePicker"
-                       Style="{StaticResource LabelStyle}" />
-            <nullableDateTimePicker:NullableDateTimePicker Type="DateAndTime"
-                                        HorizontalOptions="Start" />
+                <dui:Label Text="Nullable DateAndTimePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DateAndTimePicker IsNullable="True"
+                                       HorizontalOptions="Start"
+                                       SelectedDateTime="{Binding DateAndTimeNullDefault}"
+                                       SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
 
-            <dui:Label Text="Nullable TimePicker"
-                       Style="{StaticResource LabelStyle}" />
-            <nullableDateTimePicker:NullableDateTimePicker Type="Time"
-                                        HorizontalOptions="Start" />
+                <dui:Label Text="Nullable TimePicker"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:TimePicker IsNullable="True"
+                                HorizontalOptions="Start"
+                                SelectedTimeCommand="{Binding SelectedTimeCommand}"
+                                SelectedTime="{Binding TimeSpanNullDefault}" />
 
-            
-            <BoxView HeightRequest="100" />
-        </dui:VerticalStackLayout>
-    </ScrollView>
-        
+
+                <BoxView HeightRequest="100" />
+            </dui:VerticalStackLayout>
+        </ScrollView>
+
         <dui:VerticalStackLayout Grid.Row="1"
                                  Padding="{dui:Sizes size_3}">
-        <dui:Label Text="Horizontal inline date picker"
-                   Style="{StaticResource LabelStyle}" />
-        <dui:HorizontalInlineDatePicker Margin="{dui:Thickness Left=size_3_negative, Right=size_3_negative}" />
+            <dui:Label Text="Horizontal inline date picker"
+                       Style="{StaticResource LabelStyle}" />
+            <dui:HorizontalInlineDatePicker Margin="{dui:Thickness Left=size_3_negative, Right=size_3_negative}" />
         </dui:VerticalStackLayout>
-    </Grid>-->
+    </Grid>
 </dui:ContentPage>

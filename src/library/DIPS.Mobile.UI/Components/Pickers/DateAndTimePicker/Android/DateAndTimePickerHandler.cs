@@ -1,8 +1,8 @@
 using Android.Widget;
-using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
+using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
@@ -41,11 +41,16 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
             OnDatePickerValueUpdated();
             VirtualView.SelectedDateTimeCommand?.Execute(null);
         });
+        
+        if(DatePicker.Handler is DatePickerHandler datePickerHandler)
+        {
+            datePickerHandler.RemoveClearButton();
+        }
     }
 
     private void OnDatePickerValueUpdated()
     {
-        if (TimePicker.IsDateTimeOrTimeSpanDefault)
+        if (TimePicker is { IsNullable: true, IsDateOrTimeNull: true })
         {
             VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
                 DatePicker.SelectedDate.Value.Month,
@@ -60,42 +65,44 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
         VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
             DatePicker.SelectedDate.Value.Month,
             DatePicker.SelectedDate.Value.Day, 
-            VirtualView.SelectedDateTime.Hour, 
-            VirtualView.SelectedDateTime.Minute, 
-            VirtualView.SelectedDateTime.Second);
+            VirtualView.SelectedDateTime.Value.Hour, 
+            VirtualView.SelectedDateTime.Value.Minute, 
+            VirtualView.SelectedDateTime.Value.Second);
     }
 
     private void OnTimePickerValueUpdated()
     {
-        if (DatePicker.IsDateTimeOrTimeSpanDefault)
+        if (DatePicker is { IsNullable: true, IsDateOrTimeNull: true })
         {
             VirtualView.SelectedDateTime = new DateTime(DateTime.Now.Year, 
                 DateTime.Now.Month,
                 DateTime.Now.Day,
-                TimePicker.SelectedTime.Hours, 
-                TimePicker.SelectedTime.Minutes, 
-                TimePicker.SelectedTime.Seconds);
+                TimePicker.SelectedTime.Value.Hours, 
+                TimePicker.SelectedTime.Value.Minutes, 
+                TimePicker.SelectedTime.Value.Seconds);
             
             return;
         }
-        
-        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Year,
-            VirtualView.SelectedDateTime.Month,
-            VirtualView.SelectedDateTime.Day, 
-            TimePicker.SelectedTime.Hours, 
-            TimePicker.SelectedTime.Minutes, 
-            TimePicker.SelectedTime.Seconds);
+
+        if (TimePicker is { IsNullable: true, IsDateOrTimeNull: true })
+        {
+            VirtualView.SelectedDateTime = null;
+            return;
+        }
+
+        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Value.Year,
+            VirtualView.SelectedDateTime.Value.Month,
+            VirtualView.SelectedDateTime.Value.Day, 
+            TimePicker.SelectedTime.Value.Hours, 
+            TimePicker.SelectedTime.Value.Minutes, 
+            TimePicker.SelectedTime.Value.Seconds);
     }
     
-    private partial void AppendPropertyMapper()
-    {
-    }
-
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        var timeSpan = new TimeSpan(dateAndTimePicker.SelectedDateTime.Hour,
-            dateAndTimePicker.SelectedDateTime.Minute,
-            dateAndTimePicker.SelectedDateTime.Second);
+        TimeSpan? timeSpan = dateAndTimePicker.SelectedDateTime is null ? null : new TimeSpan(dateAndTimePicker.SelectedDateTime.Value.Hour,
+            dateAndTimePicker.SelectedDateTime.Value.Minute,
+            dateAndTimePicker.SelectedDateTime.Value.Second);
 
         handler.DatePicker.SelectedDate = dateAndTimePicker.SelectedDateTime;
         handler.TimePicker.SelectedTime = timeSpan;
