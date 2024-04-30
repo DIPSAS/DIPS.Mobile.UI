@@ -1,20 +1,19 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
-using DIPS.Mobile.UI.Platforms.iOS;
-using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton.ImageButton;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
-public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, LayoutView>
+public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, UIView>
 {
     private bool m_isOpen;
     
-    private ImageButton m_clearButton;
+    private ImageButton? m_clearButton;
     
     private InternalDatePicker m_internalDatePicker;
     internal DUIDatePicker m_nativeDatePicker;
@@ -23,7 +22,7 @@ public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, L
     {
     }
     
-    protected override LayoutView CreatePlatformView()
+    protected override UIView CreatePlatformView()
     {
         m_clearButton = new ImageButton 
         { 
@@ -37,21 +36,21 @@ public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, L
         };
 
         var view = VirtualView as View;
-        m_internalDatePicker = new InternalDatePicker { Mode = UIDatePickerMode.Date, DatePicker = VirtualView};
+        m_internalDatePicker = new InternalDatePicker { DatePicker = VirtualView };
         m_internalDatePicker.SetBinding(View.HorizontalOptionsProperty, new Binding(nameof(view.HorizontalOptions), source: this));
 
         m_nativeDatePicker = (m_internalDatePicker.ToPlatform(DUI.GetCurrentMauiContext!) as DUIDatePicker)!;
         m_nativeDatePicker.Mode = GetMode();
+        m_nativeDatePicker.PreferredDatePickerStyle = UIDatePickerStyle.Compact;
+        m_nativeDatePicker.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();;
         
         HorizontalStackLayout horizontalStackLayout = [m_internalDatePicker, m_clearButton];
         return (horizontalStackLayout.ToPlatform(DUI.GetCurrentMauiContext!) as LayoutView)!;
     }
-    
-    protected override void ConnectHandler(LayoutView platformView)
+
+    protected override void ConnectHandler(UIView platformView)
     {
         base.ConnectHandler(platformView);
-        
-        m_nativeDatePicker.SetInLineLabelColors();
         
         m_nativeDatePicker.ValueChanged += OnValueChanged;
         m_nativeDatePicker.EditingDidBegin += OnOpen;
@@ -68,9 +67,10 @@ public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, L
         SetClearButtonVisibility();
     }
 
-    protected void SetClearButtonVisibility()
+    private void SetClearButtonVisibility()
     {
-        m_clearButton.IsVisible = VirtualView is { IsDateOrTimeNull: false, IsNullable: true };
+        if(m_clearButton is not null)
+            m_clearButton.IsVisible = VirtualView is { IsDateOrTimeNull: false, IsNullable: true };
     }
 
     private void OnValueChanged(object? sender, EventArgs e)
@@ -115,7 +115,7 @@ public abstract class BaseDatePickerHandler : ViewHandler<INullableDatePicker, L
         currentPresentedUiViewController?.DismissViewController(false, null);
     }
 
-    protected override void DisconnectHandler(LayoutView platformView)
+    protected override void DisconnectHandler(UIView platformView)
     {
         base.DisconnectHandler(platformView);
 

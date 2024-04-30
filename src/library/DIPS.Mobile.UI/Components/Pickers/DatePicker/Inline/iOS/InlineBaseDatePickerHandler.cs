@@ -1,26 +1,21 @@
-using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 
-internal class InlineBaseDatePickerHandler : BaseDatePickerHandler
+internal class InlineBaseDatePickerHandler : DatePickerHandler
 {
-    /*protected override DUIDatePicker CreatePlatformView()
-    {
-        return new DUIDatePicker {PreferredDatePickerStyle = UIDatePickerStyle.Inline, Mode = UIDatePickerMode.Date};
-    }*/
-
-    public InlineBaseDatePickerHandler(IPropertyMapper mapper, CommandMapper? commandMapper = null) : base(mapper, commandMapper)
+    public InlineBaseDatePickerHandler() : base(PropertyMapper)
     {
     }
 
-    protected override UIDatePickerMode GetMode()
+    protected override UIView CreatePlatformView()
     {
-        throw new NotImplementedException();
-    }
+        m_nativeDatePicker = new DUIDatePicker
+        {
+            PreferredDatePickerStyle = UIDatePickerStyle.Inline, Mode = UIDatePickerMode.Date
+        };
 
-    protected override void OnDateSelected()
-    {
-        throw new NotImplementedException();
+        return m_nativeDatePicker;
     }
 }
