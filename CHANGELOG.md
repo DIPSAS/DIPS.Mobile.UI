@@ -1,3 +1,6 @@
+## [28.4.0] 
+- [iOS][InlineDatePicker] Changed the presentation of `InlinedatePicker` from BottomSheet to Popover.
+
 ## [28.3.2]
 - [Tip] Made sure tip can be opened inside bottom sheets on iOS.
 

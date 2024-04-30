@@ -15,6 +15,7 @@
     </dui:ContentPage.BindingContext>
 
     <dui:VerticalStackLayout>
+
         <dui:Label Text="DatePicker"
                    Margin="5" />
         <dui:DatePicker VerticalOptions="End"
@@ -54,6 +55,8 @@
                         MinimumDate="{Binding MinimumDate}" />
         <dui:Label Text="Horizontal inline date picker"
                    Margin="5" />
+        
         <dui:HorizontalInlineDatePicker  />
+
     </dui:VerticalStackLayout>
 </dui:ContentPage>
