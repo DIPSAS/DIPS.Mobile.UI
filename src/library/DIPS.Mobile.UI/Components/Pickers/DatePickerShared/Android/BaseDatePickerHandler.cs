@@ -4,46 +4,25 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using AView = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 
-public class BaseDatePickerHandler : ViewHandler<INullableDatePicker, AView>
+public class BaseDatePickerHandler : ViewHandler<IDatePicker, Google.Android.Material.Chip.Chip>
 {
-    private ImageButton m_clearButton;
-    protected Chip Chip;
-    private Google.Android.Material.Chip.Chip m_nativeChip;
-    private HorizontalStackLayout m_horizontalStackLayout;
-
     public BaseDatePickerHandler(IPropertyMapper mapper, CommandMapper? commandMapper = null) : base(mapper, commandMapper)
     {
     }
 
-    protected override AView CreatePlatformView()
+    protected override Google.Android.Material.Chip.Chip CreatePlatformView()
     {
-        m_clearButton = new ImageButton 
-        { 
-            Source = Icons.GetIcon(IconName.close_circle_line), 
-            IsVisible = true,
-            Command = new Command(() =>
-            {
-                VirtualView.SetDateOrTimeNull();
-                SetClearButtonVisibility();
-            })
-        };
-        
-        Chip = new Chip();
-        m_nativeChip = (Chip.ToPlatform(DUI.GetCurrentMauiContext!) as Google.Android.Material.Chip.Chip)!;
-        
-        m_horizontalStackLayout = [Chip, m_clearButton];
-        return m_horizontalStackLayout.ToPlatform(DUI.GetCurrentMauiContext!);
+        return (new Chip().ToPlatform(DUI.GetCurrentMauiContext!) as Google.Android.Material.Chip.Chip)!;
     }
     
-    protected override void ConnectHandler(AView platformView)
+    protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.ConnectHandler(platformView);
         
-        m_nativeChip.Click += OnClicked;
+        platformView.Click += OnClicked;
     }
 
     private void OnClicked(object? sender, EventArgs e)
@@ -59,20 +38,10 @@ public class BaseDatePickerHandler : ViewHandler<INullableDatePicker, AView>
         }
     }
 
-    protected void SetClearButtonVisibility()
-    {
-        m_clearButton.IsVisible = VirtualView is { IsDateOrTimeNull: false, IsNullable: true };
-    }
-
-    internal void RemoveClearButton()
-    {
-        m_horizontalStackLayout.Remove(m_clearButton);
-    }
-
-    protected override void DisconnectHandler(AView platformView)
+    protected override void DisconnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.DisconnectHandler(platformView);
         
-        m_nativeChip.Click -= OnClicked;
+        platformView.Click -= OnClicked;
     }
 }

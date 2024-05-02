@@ -20,17 +20,9 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
         var builder = new MaterialTimePicker.Builder()
             .SetTimeFormat(format);
 
-        if (timePicker is { IsDateOrTimeNull: true, IsNullable: true })
-        {
-            builder.SetHour(DateTime.Now.TimeOfDay.Hours)
-                .SetMinute(DateTime.Now.TimeOfDay.Minutes);
-        }
-        else
-        {
-            builder.SetHour(timePicker.SelectedTime.Value.Hours)
-                .SetMinute(timePicker.SelectedTime.Value.Minutes);
-        }
-            
+        builder.SetHour(timePicker.SelectedTime.Hours)
+                .SetMinute(timePicker.SelectedTime.Minutes);
+        
         m_materialTimePicker = builder.Build();
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();

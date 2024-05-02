@@ -1,5 +1,5 @@
 ## [28.5.0] 
-- DatePickers can now be nullable
+- Added new components: `NullableDatePicker`, `NullableTimePicker` and `NullableDateAndTimePicker`.
 - [iOS] DatePickers will now have exact same design as Chips. 
 
 ## [28.4.0] 

@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.iOS;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
@@ -9,13 +9,11 @@ internal class InlineBaseDatePickerHandler : DatePickerHandler
     {
     }
 
-    protected override UIView CreatePlatformView()
+    protected override DUIDatePicker CreatePlatformView()
     {
-        m_nativeDatePicker = new DUIDatePicker
+        return new DUIDatePicker
         {
             PreferredDatePickerStyle = UIDatePickerStyle.Inline, Mode = UIDatePickerMode.Date
-        };
-
-        return m_nativeDatePicker;
+        };;
     }
 }

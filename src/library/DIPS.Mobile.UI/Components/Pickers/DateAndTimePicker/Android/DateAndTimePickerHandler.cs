@@ -2,7 +2,6 @@ using Android.Widget;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
-using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
@@ -24,9 +23,6 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
         var space = new Space(Context);
         space.LayoutParameters = new ActionMenuView.LayoutParams(Sizes.GetSize(SizeName.size_3), 0);
 
-        DatePicker.IsNullable = VirtualView.IsNullable;
-        TimePicker.IsNullable = VirtualView.IsNullable;
-        
         platformView.AddView(DatePicker.ToPlatform(MauiContext!));
         platformView.AddView(space);
         platformView.AddView(TimePicker.ToPlatform(MauiContext!));
@@ -42,67 +38,35 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
             VirtualView.SelectedDateTimeCommand?.Execute(null);
         });
         
-        if(DatePicker.Handler is DatePickerHandler datePickerHandler)
-        {
-            datePickerHandler.RemoveClearButton();
-        }
+        DatePicker.SetBinding(VisualElement.IsEnabledProperty, new Binding(nameof(VirtualView.IsEnabled), source: VirtualView));
+        TimePicker.SetBinding(VisualElement.IsEnabledProperty, new Binding(nameof(VirtualView.IsEnabled), source: VirtualView));
     }
 
     private void OnDatePickerValueUpdated()
     {
-        if (TimePicker is { IsNullable: true, IsDateOrTimeNull: true })
-        {
-            VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
-                DatePicker.SelectedDate.Value.Month,
-                DatePicker.SelectedDate.Value.Day, 
-                DateTime.Now.TimeOfDay.Hours, 
-                DateTime.Now.TimeOfDay.Hours, 
-                DateTime.Now.TimeOfDay.Hours);
-            
-            return;
-        }
-        
-        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Value.Year, 
-            DatePicker.SelectedDate.Value.Month,
-            DatePicker.SelectedDate.Value.Day, 
-            VirtualView.SelectedDateTime.Value.Hour, 
-            VirtualView.SelectedDateTime.Value.Minute, 
-            VirtualView.SelectedDateTime.Value.Second);
+        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Year, 
+            DatePicker.SelectedDate.Month,
+            DatePicker.SelectedDate.Day, 
+            VirtualView.SelectedDateTime.Hour, 
+            VirtualView.SelectedDateTime.Minute, 
+            VirtualView.SelectedDateTime.Second);
     }
 
     private void OnTimePickerValueUpdated()
     {
-        if (DatePicker is { IsNullable: true, IsDateOrTimeNull: true })
-        {
-            VirtualView.SelectedDateTime = new DateTime(DateTime.Now.Year, 
-                DateTime.Now.Month,
-                DateTime.Now.Day,
-                TimePicker.SelectedTime.Value.Hours, 
-                TimePicker.SelectedTime.Value.Minutes, 
-                TimePicker.SelectedTime.Value.Seconds);
-            
-            return;
-        }
-
-        if (TimePicker is { IsNullable: true, IsDateOrTimeNull: true })
-        {
-            VirtualView.SelectedDateTime = null;
-            return;
-        }
-
-        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Value.Year,
-            VirtualView.SelectedDateTime.Value.Month,
-            VirtualView.SelectedDateTime.Value.Day, 
-            TimePicker.SelectedTime.Value.Hours, 
-            TimePicker.SelectedTime.Value.Minutes, 
-            TimePicker.SelectedTime.Value.Seconds);
+        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Year,
+            VirtualView.SelectedDateTime.Month,
+            VirtualView.SelectedDateTime.Day, 
+            TimePicker.SelectedTime.Hours, 
+            TimePicker.SelectedTime.Minutes, 
+            TimePicker.SelectedTime.Seconds);
     }
     
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        TimeSpan? timeSpan = dateAndTimePicker.SelectedDateTime is null ? null : new TimeSpan(dateAndTimePicker.SelectedDateTime.Value.Hour,
-            dateAndTimePicker.SelectedDateTime.Value.Minute,
-            dateAndTimePicker.SelectedDateTime.Value.Second);
+        var timeSpan = new TimeSpan(dateAndTimePicker.SelectedDateTime.Hour,
+            dateAndTimePicker.SelectedDateTime.Minute,
+            dateAndTimePicker.SelectedDateTime.Second);
 
         handler.DatePicker.SelectedDate = dateAndTimePicker.SelectedDateTime;
         handler.TimePicker.SelectedTime = timeSpan;
@@ -122,5 +86,4 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
     {
         handler.DatePicker.MinimumDate = dateAndTimePicker.MinimumDate;
     }
-    
 }

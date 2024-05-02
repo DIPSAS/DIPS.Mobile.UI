@@ -6,19 +6,39 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
 
 public partial class DatePickerHandler : BaseDatePickerHandler
 {
-    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
+    protected override DUIDatePicker CreatePlatformView()
     {
-        handler.OnDateOrTimeChanged();
-        
-        if (!datePicker.SelectedDate.HasValue)
+        return new DUIDatePicker
+        {
+            Mode = UIDatePickerMode.Date, 
+            PreferredDatePickerStyle = UIDatePickerStyle.Compact
+        };
+    }
+
+    protected override void OnValueChanged(object? sender, EventArgs e)
+    {
+        if (VirtualView is not DatePicker datePicker)
             return;
         
-        handler.m_nativeDatePicker.SetDate(datePicker.SelectedDate.Value.ConvertDate(), true);
+        var timeZone = PlatformView.TimeZone ?? NSTimeZone.LocalTimeZone;
+        if (DateTime.TryParse(
+                new NSDateFormatter {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
+                    PlatformView.Date),
+                out var selectedDate))
+        {
+            datePicker.SelectedDate = selectedDate;
+        }
+        datePicker.SelectedDateCommand?.Execute(null);
+    }
+
+    private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
+    {
+        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
     }
     
     private static partial void MapIgnoreLocalTime(DatePickerHandler handler, DatePicker datePicker)
     {
-        handler.m_nativeDatePicker.TimeZone = datePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;
+        handler.PlatformView.TimeZone = datePicker.IgnoreLocalTime ? new NSTimeZone("UTC") : NSTimeZone.LocalTimeZone;
     }
     
     private static partial void MapMaximumDate(DatePickerHandler handler, DatePicker datePicker)
@@ -26,7 +46,7 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (datePicker.MaximumDate is null or null)
             return;
 
-        handler.m_nativeDatePicker.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate();
+        handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate();
     }
 
     private static partial void MapMinimumDate(DatePickerHandler handler, DatePicker datePicker)
@@ -34,23 +54,6 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (datePicker.MinimumDate is null or null)
             return;
 
-        handler.m_nativeDatePicker.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate();
-    }
-
-    protected override UIDatePickerMode GetMode() => UIDatePickerMode.Date;
-    protected override void OnDateSelected()
-    {
-        if(VirtualView is not DatePicker datePicker)
-            return;
-        
-        var timeZone = m_nativeDatePicker.TimeZone ?? NSTimeZone.LocalTimeZone;
-        if (DateTime.TryParse(
-                new NSDateFormatter { DateFormat = "yyyy-MM-dd", TimeZone = timeZone }.StringFor(
-                    m_nativeDatePicker.Date),
-                out var selectedDate))
-        {
-            datePicker.SelectedDate = selectedDate;
-        }
-        datePicker.SelectedDateCommand?.Execute(null);
+        handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate();
     }
 }

@@ -1,27 +1,27 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+namespace DIPS.Mobile.UI.Components.Pickers.NullableDateAndTimePicker;
 
-public partial class DateAndTimePicker
+public partial class NullableDateAndTimePicker
 {
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
-        typeof(DateTime),
-        typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay);
+        typeof(DateTime?),
+        typeof(NullableDateAndTimePicker), defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// The date people selected from the date picker.
     /// </summary>
-    public DateTime SelectedDateTime
+    public DateTime? SelectedDateTime
     {
-        get => (DateTime)GetValue(SelectedDateTimeProperty);
+        get => (DateTime?)GetValue(SelectedDateTimeProperty);
         set => SetValue(SelectedDateTimeProperty, value);
     }
 
     public static readonly BindableProperty SelectedDateTimeCommandProperty = BindableProperty.Create(
         nameof(SelectedDateTimeCommand),
         typeof(ICommand),
-        typeof(DateAndTimePicker));
+        typeof(NullableDateAndTimePicker));
 
     /// <summary>
     /// The command to be executed when people selected a date from the date picker.
@@ -35,7 +35,7 @@ public partial class DateAndTimePicker
     public static readonly BindableProperty IgnoreLocalTimeProperty = BindableProperty.Create(
         nameof(IgnoreLocalTime),
         typeof(bool),
-        typeof(DateAndTimePicker));
+        typeof(NullableDateAndTimePicker));
 
     /// <summary>
     /// If this is false, the <see cref="DateAndTimePicker"/> will use local time zone.
@@ -46,11 +46,11 @@ public partial class DateAndTimePicker
         get => (bool)GetValue(IgnoreLocalTimeProperty);
         set => SetValue(IgnoreLocalTimeProperty, value);
     }
-    
+
     public static readonly BindableProperty MinimumDateProperty = BindableProperty.Create(
         nameof(MinimumDate),
         typeof(DateTime?),
-        typeof(DateAndTimePicker));
+        typeof(NullableDateAndTimePicker));
 
     /// <summary>
     /// Sets the minimum date that people can choose
@@ -60,11 +60,11 @@ public partial class DateAndTimePicker
         get => (DateTime?)GetValue(MinimumDateProperty);
         set => SetValue(MinimumDateProperty, value);
     }
-        
+
     public static readonly BindableProperty MaximumDateProperty = BindableProperty.Create(
         nameof(MaximumDate),
         typeof(DateTime?),
-        typeof(DateAndTimePicker));
+        typeof(NullableDateAndTimePicker));
 
     /// <summary>
     /// Sets the maximum date that people can choose
@@ -74,5 +74,4 @@ public partial class DateAndTimePicker
         get => (DateTime?)GetValue(MaximumDateProperty);
         set => SetValue(MaximumDateProperty, value);
     }
-    
 }

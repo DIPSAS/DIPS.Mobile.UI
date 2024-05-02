@@ -12,24 +12,13 @@ public partial class TimePickerHandler : BaseDatePickerHandler
 {
     private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker)
     {
-        if (timePicker is { IsDateOrTimeNull: true, IsNullable: true })
+        var convertedDisplayValue =
+            new TimeConverter { Format = TimeConverter.TimeConverterFormat.Default }.Convert(timePicker.SelectedTime,
+                null, null,
+                CultureInfo.CurrentCulture);
+        if (convertedDisplayValue is string displayItemAsString)
         {
-            handler.Chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
-            handler.Chip.Title = DUILocalizedStrings.Time;
+            handler.PlatformView.Text = displayItemAsString;
         }
-        else
-        {
-            handler.Chip.Style = Styles.GetChipStyle(ChipStyle.Input);
-            
-            var convertedDisplayValue =
-                new TimeConverter { Format = TimeConverter.TimeConverterFormat.Default }.Convert(timePicker.SelectedTime, null, null,
-                    CultureInfo.CurrentCulture);
-            if (convertedDisplayValue is string displayItemAsString)
-            {
-                handler.Chip.Title = displayItemAsString; 
-            }
-        }
-        
-        handler.SetClearButtonVisibility();
     }
 }

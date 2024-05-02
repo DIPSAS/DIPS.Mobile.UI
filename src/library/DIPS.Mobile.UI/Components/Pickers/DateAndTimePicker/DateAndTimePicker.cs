@@ -1,8 +1,9 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
+using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePicker : View, INullableDatePicker
+public partial class DateAndTimePicker : View, IDatePicker
 {
     protected override void OnHandlerChanged()
     {
@@ -14,7 +15,7 @@ public partial class DateAndTimePicker : View, INullableDatePicker
             SelectedDateTime = new DateTime(MaximumDate.Value.Year,
                 MaximumDate.Value.Month,
                 MaximumDate.Value.Day,
-                SelectedDateTime.Value.Hour, SelectedDateTime.Value.Minute, SelectedDateTime.Value.Second, SelectedDateTime.Value.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
         }
 
         // SelectedDate should not be below minimum date
@@ -23,16 +24,7 @@ public partial class DateAndTimePicker : View, INullableDatePicker
             SelectedDateTime = new DateTime(MinimumDate.Value.Year,
                 MinimumDate.Value.Month,
                 MinimumDate.Value.Day,
-                SelectedDateTime.Value.Hour, SelectedDateTime.Value.Minute, SelectedDateTime.Value.Second, SelectedDateTime.Value.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
         }
-    }
-
-    public bool IsNullable { get; set; }
-    public bool IsDateOrTimeNull => SelectedDateTime is null;
-
-    public void SetDateOrTimeNull()
-    {
-        SelectedDateTime = null;
-        SelectedDateTimeCommand?.Execute(null);
     }
 }

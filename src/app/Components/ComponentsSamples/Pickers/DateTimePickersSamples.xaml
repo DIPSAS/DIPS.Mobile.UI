@@ -23,7 +23,12 @@
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
    
+   
+    
     <Grid RowDefinitions="*, Auto">
+        <dui:Chip Title="Test" VerticalOptions="Start"
+                  HorizontalOptions="Start"
+                  Margin="{dui:Thickness Left=size_25}"/>
         <ScrollView Padding="{dui:Sizes size_3}">
             <dui:VerticalStackLayout>
                 <dui:Label Text="DatePicker"
@@ -66,24 +71,22 @@
 
                 <dui:Label Text="Nullable DatePicker"
                            Style="{StaticResource LabelStyle}" />
-                <dui:DatePicker IsNullable="True"
-                                HorizontalOptions="Start"
-                                SelectedDateCommand="{Binding SelectedDateCommand}"
-                                SelectedDate="{Binding DateTimeNullDefault}"/>
+                <dui:NullableDatePicker HorizontalOptions="End"
+                                        SelectedDate="{Binding DateTimeNullDefault}"
+                                        SelectedDateCommand="{Binding SelectedDateCommand}" />
 
                 <dui:Label Text="Nullable DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
-                <dui:DateAndTimePicker IsNullable="True"
-                                       HorizontalOptions="Start"
-                                       SelectedDateTime="{Binding DateAndTimeNullDefault}"
-                                       SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
+                <dui:NullableDateAndTimePicker HorizontalOptions="End"
+                                               SelectedDateTime="{Binding DateTimeNullNotDefault}"
+                                               SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
+                
 
                 <dui:Label Text="Nullable TimePicker"
                            Style="{StaticResource LabelStyle}" />
-                <dui:TimePicker IsNullable="True"
-                                HorizontalOptions="Start"
-                                SelectedTimeCommand="{Binding SelectedTimeCommand}"
-                                SelectedTime="{Binding TimeSpanNullDefault}" />
+               <dui:NullableTimePicker HorizontalOptions="End"
+                                       SelectedTimeCommand="{Binding TimeSpanNullDefault}"
+                                       SelectedTime="{Binding SelectedTimeCommand}" />
 
 
                 <BoxView HeightRequest="100" />

@@ -1,8 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 
-public interface INullableDatePicker : IView
+public interface IDatePicker : IView
 {
-    bool IsNullable { get; }
-    bool IsDateOrTimeNull { get; }
-    void SetDateOrTimeNull();
+   
 }

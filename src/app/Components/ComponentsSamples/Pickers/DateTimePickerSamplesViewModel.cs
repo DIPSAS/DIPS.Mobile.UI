@@ -17,6 +17,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
     private DateTime? m_dateTimeNullDefault;
     private TimeSpan? m_timeSpanNullDefault;
     private DateTime? m_dateAndTimeNullDefault;
+    private DateTime? m_dateTimeNullNotDefault = new DateTime(2024, 5, 7, 0, 0, 0);
 
     public DateTimePickerSamplesViewModel()
     {
@@ -99,6 +100,12 @@ public class DateTimePickerSamplesViewModel : ViewModel
     {
         get => m_dateTimeNullDefault;
         set => RaiseWhenSet(ref m_dateTimeNullDefault, value);
+    }
+
+    public DateTime? DateTimeNullNotDefault
+    {
+        get => m_dateTimeNullNotDefault;
+        set => RaiseWhenSet(ref m_dateTimeNullNotDefault, value);
     }
 
     public DateTime? DateAndTimeNullDefault

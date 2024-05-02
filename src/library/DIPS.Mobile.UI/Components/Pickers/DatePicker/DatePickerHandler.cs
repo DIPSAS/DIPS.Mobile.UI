@@ -9,16 +9,22 @@ public partial class DatePickerHandler
     public DatePickerHandler(IPropertyMapper mapper, CommandMapper? commandMapper = null) : base(mapper, commandMapper)
     {
     }
-    
+
+#if __IOS__
+    public static readonly IPropertyMapper<DatePicker, DatePickerHandler> PropertyMapper =
+        new PropertyMapper<DatePicker, DatePickerHandler>(BasePropertyMapper)
+        {
+            [nameof(DatePicker.SelectedDate)] = MapSelectedDate,
+            [nameof(DatePicker.IgnoreLocalTime)] = MapIgnoreLocalTime,
+            [nameof(DatePicker.MaximumDate)] = MapMaximumDate,
+            [nameof(DatePicker.MinimumDate)] = MapMinimumDate
+        };
+#else
     public static readonly IPropertyMapper<DatePicker, DatePickerHandler> PropertyMapper = new PropertyMapper<DatePicker, DatePickerHandler>(ViewMapper)
     {
         [nameof(DatePicker.SelectedDate)] = MapSelectedDate,
-#if __IOS__
-        [nameof(DatePicker.IgnoreLocalTime)] = MapIgnoreLocalTime,
-        [nameof(DatePicker.MaximumDate)] = MapMaximumDate,
-        [nameof(DatePicker.MinimumDate)] = MapMinimumDate
-#endif
     };
+#endif
 
 #if __IOS__
     private static partial void MapMinimumDate(DatePickerHandler handler, DatePicker datePicker);

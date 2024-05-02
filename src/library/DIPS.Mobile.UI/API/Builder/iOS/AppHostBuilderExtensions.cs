@@ -15,10 +15,9 @@ public static partial class AppHostBuilderExtensions
 {
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
-        handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
+        handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
         handlers.AddHandler<InlineDatePicker, InlineBaseDatePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
-        handlers.AddHandler<InternalDatePicker, InternalDatePickerHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

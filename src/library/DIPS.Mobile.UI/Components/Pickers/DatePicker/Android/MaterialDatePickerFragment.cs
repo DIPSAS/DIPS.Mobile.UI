@@ -44,16 +44,10 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
     private void SetDatePickerSelection(MaterialDatePicker.Builder builder)
     {
-        if (m_datePicker is { IsDateOrTimeNull: true, IsNullable: true })
-        {
-            builder.SetSelection(DateTime.Now.ToLong());
-            return;
-        }
-        
-        var date = m_datePicker.IgnoreLocalTime ? m_datePicker.SelectedDate : m_datePicker.SelectedDate.Value.ToLocalTime();
+        var date = m_datePicker.IgnoreLocalTime ? m_datePicker.SelectedDate : m_datePicker.SelectedDate.ToLocalTime();
 
         //Java uses the unix epoch, so we have find the total milliseconds from the date people have picked and the UnixEpoch start.
-        builder.SetSelection(date.Value.ToLong());
+        builder.SetSelection(date.ToLong());
     }
 
     public bool IsOpen()
