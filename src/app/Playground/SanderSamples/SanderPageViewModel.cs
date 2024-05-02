@@ -9,37 +9,44 @@ public class SanderPageViewModel : ViewModel
 {
     private bool m_isToggled = true;
     private string m_testText;
+    private SanderViewModel m_viewModel;
 
     public SanderPageViewModel()
     {
         Initialize();
         TestCommand = new Command(() =>
         {
-            TestText = IsToggled ? "This is a test" : string.Empty;
-            IsToggled = !IsToggled;
+            ViewModel = new ();
         });
-
-        List = new List<string>() { "test1", "test2", "test3" };
     }
 
     private void Initialize()
     {
+        ViewModel = new();
     }
 
     public ICommand TestCommand { get; }
-
-    public bool IsToggled
+    public SanderViewModel ViewModel
     {
-        get => m_isToggled;
-        set => RaiseWhenSet(ref m_isToggled, value);
+        get => m_viewModel;
+        set => RaiseWhenSet(ref m_viewModel, value);
     }
+}
 
-    public string TestText
+public class SanderViewModel : ViewModel
+{
+    private List<object> m_selectedItem;
+
+    public SanderViewModel()
     {
-        get => m_testText;
-        set => RaiseWhenSet(ref m_testText, value);
+        
     }
+    
+    public List<string> List => ["One", "Two", "Three"];
 
-    public ICommand NavigateCommand { get; }
-    public List<string> List { get; }
+    public List<object> SelectedItem
+    {
+        get => m_selectedItem;
+        set => RaiseWhenSet(ref m_selectedItem, value);
+    }
 }

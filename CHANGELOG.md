@@ -1,3 +1,6 @@
+## [28.4.1]
+- [ChipGroup] Clear old items when `ItemsSource` changes.
+
 ## [28.4.0] 
 - [iOS][InlineDatePicker] Changed the presentation of `InlinedatePicker` from BottomSheet to Popover.
 
