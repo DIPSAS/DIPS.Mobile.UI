@@ -23,12 +23,7 @@
         <pickers:DateTimePickerSamplesViewModel />
     </dui:ContentPage.BindingContext>
    
-   
-    
     <Grid RowDefinitions="*, Auto">
-        <dui:Chip Title="Test" VerticalOptions="Start"
-                  HorizontalOptions="Start"
-                  Margin="{dui:Thickness Left=size_25}"/>
         <ScrollView Padding="{dui:Sizes size_3}">
             <dui:VerticalStackLayout>
                 <dui:Label Text="DatePicker"
