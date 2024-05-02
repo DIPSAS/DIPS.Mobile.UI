@@ -94,7 +94,6 @@ public partial class ChipGroup : ContentView
     {
         m_chipItems.Clear();
         m_flexLayout.Children.Clear();
-        Content = m_flexLayout;
     }
 
     private void ChipToggled(ChipGroupItem chipGroupItem, bool didTap = true)
