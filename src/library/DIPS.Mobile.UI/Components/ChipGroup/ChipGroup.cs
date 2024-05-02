@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.ChipGroup;
 public partial class ChipGroup : ContentView
 {
     private readonly List<ChipGroupItem> m_selectedItems = [];
-    private FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start };
+    private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start };
     private readonly List<ChipGroupItem> m_chipItems = [];
 
     public ChipGroup()
@@ -93,7 +93,7 @@ public partial class ChipGroup : ContentView
     private void ClearItems()
     {
         m_chipItems.Clear();
-        m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start };
+        m_flexLayout.Children.Clear();
         Content = m_flexLayout;
     }
 
