@@ -2,6 +2,9 @@
 - Added new components: `NullableDatePicker`, `NullableTimePicker` and `NullableDateAndTimePicker`.
 - [iOS] DatePickers will now have exact same design as Chips. 
 
+## [28.4.1]
+- [ChipGroup] Clear old items when `ItemsSource` changes.
+
 ## [28.4.0] 
 - [iOS][InlineDatePicker] Changed the presentation of `InlinedatePicker` from BottomSheet to Popover.
 

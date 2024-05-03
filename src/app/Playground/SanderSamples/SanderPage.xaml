@@ -8,6 +8,11 @@
     <dui:ContentPage.BindingContext>
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
-
-    <!--<dui:ChipGroup ItemsSource="{Binding List}"/> -->
+    
+    <dui:VerticalStackLayout>
+    <sanderSamples:SanderContentView BindingContext="{Binding ViewModel}"/>
+    
+    <dui:Button Text="Tap me!"
+                Command="{Binding TestCommand}"/>
+    </dui:VerticalStackLayout>
 </dui:ContentPage>

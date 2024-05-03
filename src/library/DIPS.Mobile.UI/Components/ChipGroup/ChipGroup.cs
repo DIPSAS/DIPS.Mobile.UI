@@ -60,6 +60,7 @@ public partial class ChipGroup : ContentView
 
     private void OnItemsSourceChanged()
     {
+        ClearItems();
         var list = ItemsSource?.Cast<object?>().ToList();
         if (list is null)
         {
@@ -87,6 +88,12 @@ public partial class ChipGroup : ContentView
             m_chipItems.Add(item);
             m_flexLayout.Add(chip);
         });
+    }
+
+    private void ClearItems()
+    {
+        m_chipItems.Clear();
+        m_flexLayout.Children.Clear();
     }
 
     private void ChipToggled(ChipGroupItem chipGroupItem, bool didTap = true)
