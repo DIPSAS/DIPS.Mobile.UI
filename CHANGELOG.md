@@ -1,5 +1,5 @@
 ## [28.4.2]
-- [Chip] Add slightly more width when `IsToggleable=True` in order to not truncate title.
+- [iOS][Chip]Add slightly more width when `IsToggleable=True` in order to not truncate title.
 
 ## [28.4.1]
 - [ChipGroup] Clear old items when `ItemsSource` changes.
