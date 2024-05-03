@@ -77,6 +77,15 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         {
             return desiredSize;
         }
+
+        if (VirtualView.IsToggleable)
+        {
+            //A button with both title and image, which has the bug
+            const double TOLERANCE = 0.001;
+            var width = Math.Abs(VirtualView.WidthRequest - (-1d)) > TOLERANCE ? VirtualView.WidthRequest : uiButton.IntrinsicContentSize.Width;
+            var height = Math.Abs(VirtualView.HeightRequest - (-1d)) > TOLERANCE ? VirtualView.HeightRequest : uiButton.IntrinsicContentSize.Height;
+            return new Size(width + 4, height);    
+        }
         
         if (uiButton.ImageView.Image is null && !string.IsNullOrEmpty(uiButton.CurrentTitle)) //A chip with only a title
         {
