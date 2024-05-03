@@ -1,3 +1,6 @@
+## [28.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [28.4.1]
 - [ChipGroup] Clear old items when `ItemsSource` changes.
 
