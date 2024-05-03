@@ -13,9 +13,7 @@ public partial class NullableDatePicker : BaseNullableDatePicker
         m_datePicker = new DatePicker.DatePicker
         {
             SelectedDateCommand = new Command(OnDateChanged),
-            Opacity = 0.25,
-            SelectedDate = SelectedDate ?? DateTime.Now.Date,
-            IsEnabled = false
+            SelectedDate = SelectedDate ?? DateTime.Now.Date
         };
 
         m_datePicker.SetBinding(DatePicker.DatePicker.MinimumDateProperty, new Binding(nameof(MinimumDate), BindingMode.OneWay, source: this));

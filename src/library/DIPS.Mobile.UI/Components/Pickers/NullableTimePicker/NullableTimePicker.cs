@@ -4,8 +4,10 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableTimePicker;
 
 public partial class NullableTimePicker : BaseNullableDatePicker
 {
+#nullable disable
     private TimePicker.TimePicker m_timePicker;
-
+#nullable enable
+    
     protected override bool IsDateOrTimeNull()
     {
         return SelectedTime is null;
@@ -16,9 +18,7 @@ public partial class NullableTimePicker : BaseNullableDatePicker
         m_timePicker = new TimePicker.TimePicker
         {
             SelectedTimeCommand = new Command(OnTimeChanged),
-            Opacity = 0.25,
-            SelectedTime = SelectedTime ?? DateTime.Now.TimeOfDay,
-            IsEnabled = false
+            SelectedTime = SelectedTime ?? DateTime.Now.TimeOfDay
         };
 
         return m_timePicker;

@@ -13,9 +13,7 @@ public partial class NullableDateAndTimePicker : BaseNullableDatePicker
         m_dateAndTimePicker = new DateAndTimePicker.DateAndTimePicker
         {
             SelectedDateTimeCommand = new Command(OnDateChanged),
-            Opacity = 0.25,
-            SelectedDateTime = SelectedDateTime ?? DateTime.Now,
-            IsEnabled = false
+            SelectedDateTime = SelectedDateTime ?? DateTime.Now
         };
 
         m_dateAndTimePicker.SetBinding(DatePicker.DatePicker.MinimumDateProperty, new Binding(nameof(MinimumDate), BindingMode.OneWay, source: this));
