@@ -4,7 +4,7 @@ namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
 public class DayScrollPickerComponent : BaseScrollPickerComponent
 {
-    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index + 1;
     }
@@ -14,7 +14,7 @@ public class DayScrollPickerComponent : BaseScrollPickerComponent
         return 31;
     }
 
-    public override int GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex()
     {
         return SelectedItem - 1;
     }
@@ -24,5 +24,5 @@ public class DayScrollPickerComponent : BaseScrollPickerComponent
         return (index + 1).ToString();
     }
 
-    public int SelectedItem { get; private set; } = DateTime.Now.Day;
+    public int? SelectedItem { get; private set; } = DateTime.Now.Day;
 }

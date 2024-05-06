@@ -11,7 +11,7 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent
         m_monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
     }
     
-    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index;
     }
@@ -21,7 +21,7 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent
         return m_monthNames.Length - 1;
     }
 
-    public override int GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex()
     {
         return SelectedItem;
     }
@@ -31,5 +31,5 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent
         return m_monthNames[index];
     }
 
-    public int SelectedItem { get; private set; } = DateTime.Now.Month;
+    public int? SelectedItem { get; private set; } = DateTime.Now.Month;
 }

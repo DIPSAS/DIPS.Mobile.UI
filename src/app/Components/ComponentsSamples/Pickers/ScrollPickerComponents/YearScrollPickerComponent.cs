@@ -7,9 +7,9 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent
     private const int StartYear = 0;
     private const int EndYear = 9999;
 
-    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
-        SelectedItem = index;
+        SelectedItem = SelectedItem is null ? 0 :index;
     }
 
     public override int GetItemsCount()
@@ -17,7 +17,7 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent
         return EndYear - StartYear + 1;
     }
 
-    public override int GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex()
     {
         return SelectedItem - StartYear;
     }
@@ -27,5 +27,5 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent
         return (StartYear + index).ToString();
     }
 
-    public int SelectedItem { get; private set; } = DateTime.Now.Year;
+    public int? SelectedItem { get; private set; } = DateTime.Now.Year;
 }

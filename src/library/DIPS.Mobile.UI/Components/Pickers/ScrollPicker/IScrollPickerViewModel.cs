@@ -25,9 +25,17 @@ internal interface IScrollPickerViewModel : IDisposable
     /// <summary>
     /// The selected index in the specified component
     /// </summary>
-    int SelectedIndexForComponent(int component);
+    int? SelectedIndexForComponent(int component);
     
     void SendSelectedIndexesChanged();
+
+    void SetToNull();
+    
+    
+    /// <summary>
+    /// Whether the ScrollPickerViewModel is null
+    /// </summary>
+    bool IsComponentsSelectedIndicesNull { get; }
 
     event Action OnAnySelectedIndexesChanged;
     event Action OnAnyComponentsDataInvalidated;

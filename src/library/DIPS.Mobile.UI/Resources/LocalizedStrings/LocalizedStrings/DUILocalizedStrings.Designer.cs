@@ -206,5 +206,11 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("DetectedBarcodes_DetectedString", resourceCulture);
             }
         }
+        
+        internal static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
     }
 }

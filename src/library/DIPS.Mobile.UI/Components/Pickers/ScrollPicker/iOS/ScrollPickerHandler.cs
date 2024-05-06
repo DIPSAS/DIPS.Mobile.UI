@@ -2,12 +2,16 @@ using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Effects.Touch.iOS;
+using DIPS.Mobile.UI.Platforms.iOS;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
@@ -39,6 +43,13 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
 
     private void SetChipTitle()
     {
+        if (m_scrollPickerViewModel.IsComponentsSelectedIndicesNull)
+        {
+            m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            m_chip.Title = DUILocalizedStrings.Choose;
+            return;
+        }
+        
         var componentCount = m_scrollPickerViewModel.GetComponentCount();
         var texts = new string[componentCount];
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
@@ -46,6 +57,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
             AddTextInRowFromComponent(i, texts);
         }
         
+        m_chip.Style = Styles.GetChipStyle(ChipStyle.Input);
         m_chip.Title = texts.Length == 1 ? texts[0] : string.Join(VirtualView.SeparatorText, texts);
         m_scrollPickerViewController?.OnChipTitleChanged();
     }
@@ -53,7 +65,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
     private void AddTextInRowFromComponent(int i, IList<string> texts)
     {
         var selectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
-        texts[i] = m_scrollPickerViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
+        texts[i] = m_scrollPickerViewModel.GetTextForRowInComponent(selectedIndexForComponent ?? 0, i);
     }
 
     private void OnTapped(Chip chip)
@@ -62,9 +74,14 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
             return;
         
         m_scrollPickerViewController = new ScrollPickerViewController();
-        m_scrollPickerViewController.Setup(chip, m_scrollPickerViewModel);
+        m_scrollPickerViewController.Setup(chip, m_scrollPickerViewModel, OnClear);
         
         _ = rootViewController.PresentViewControllerAsync(m_scrollPickerViewController, true);
+    }
+
+    private void OnClear()
+    {
+        m_scrollPickerViewModel.SetToNull();
     }
     
     protected override void DisconnectHandler(UIButton platformView)
@@ -113,9 +130,10 @@ internal class ScrollPickerViewController : UIViewController
     private IScrollPickerViewModel m_scrollPickerViewModel;
     private UIPickerView m_uiPicker;
     private UIButton m_uiButton;
+    private UIButton m_clearButton;
 #nullable enable
 
-    public void Setup(Chip chip, IScrollPickerViewModel scrollPickerViewModel)
+    public void Setup(Chip chip, IScrollPickerViewModel scrollPickerViewModel, Action onClear)
     {
         m_scrollPickerViewModel = scrollPickerViewModel;
         
@@ -128,11 +146,9 @@ internal class ScrollPickerViewController : UIViewController
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
             var initialSelectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
-            if (initialSelectedIndexForComponent == -1)
-                continue;
 
-            m_uiPicker.Select(initialSelectedIndexForComponent, i, false);
-            vm.Selected(m_uiPicker, initialSelectedIndexForComponent, i);
+            m_uiPicker.Select(initialSelectedIndexForComponent ?? 0, i, false);
+            vm.Selected(m_uiPicker, initialSelectedIndexForComponent ?? 0, i);
         }
         
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
@@ -151,6 +167,15 @@ internal class ScrollPickerViewController : UIViewController
         {
             PopoverPresentationController.SourceItem = m_uiButton;
         }
+        
+        m_clearButton = new UIButtonWithExtraTappableArea();
+        m_clearButton.AddGestureRecognizer(new UITapGestureRecognizer(_ =>
+        {
+            DismissViewControllerAsync(true);
+            onClear.Invoke();
+        }));
+        m_clearButton.SetTitle(DUILocalizedStrings.Clear, UIControlState.Normal);
+        m_clearButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Normal);
     }
 
     private void OnAnyComponentsDataInvalidated()
@@ -158,10 +183,7 @@ internal class ScrollPickerViewController : UIViewController
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
             var initialSelectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
-            if (initialSelectedIndexForComponent == -1)
-                continue;
-
-            m_uiPicker.Select(initialSelectedIndexForComponent, i, true);
+            m_uiPicker.Select(initialSelectedIndexForComponent ?? 0, i, true);
         }
         
         m_scrollPickerViewModel.SendSelectedIndexesChanged();
@@ -183,22 +205,47 @@ internal class ScrollPickerViewController : UIViewController
     {
         base.ViewWillAppear(animated);
         
-        var padding = new Thickness(Sizes.GetSize(SizeName.size_6)* m_scrollPickerViewModel.GetComponentCount());
+        var padding = new Thickness(Sizes.GetSize(SizeName.size_6) * m_scrollPickerViewModel.GetComponentCount());
         if (View is null) 
             return;
 
         var width = CalculatePopoverWidth(m_uiPicker.Bounds);
 
         var fittingSize = m_uiPicker.IntrinsicContentSize;
-        PreferredContentSize = new CGSize(width + padding.HorizontalThickness, fittingSize.Height);
+        PreferredContentSize = new CGSize(width + padding.HorizontalThickness, fittingSize.Height + m_clearButton.IntrinsicContentSize.Height);
     }
     
     public override void ViewDidLoad()
     {
-        View = m_uiPicker;
+        View = new UIStackView { Axis = UILayoutConstraintAxis.Vertical, Spacing = Sizes.GetSize(SizeName.size_1) };
+        View.AddSubview(m_uiPicker);
+        View.AddSubview(m_clearButton);
 
         base.ViewDidLoad();
-    }   
+    }
+
+    public override void ViewDidLayoutSubviews()
+    {
+        base.ViewDidLayoutSubviews();
+        
+        if(m_uiPicker is null)
+            return;
+        
+        m_uiPicker.TranslatesAutoresizingMaskIntoConstraints = false;
+        
+        NSLayoutConstraint.ActivateConstraints([
+            m_uiPicker.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor),
+            m_uiPicker.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
+            m_uiPicker.TopAnchor.ConstraintEqualTo(View.TopAnchor),
+            m_uiPicker.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+        ]);
+        
+        m_clearButton.TranslatesAutoresizingMaskIntoConstraints = false;
+        NSLayoutConstraint.ActivateConstraints([
+            m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, -Sizes.GetSize(SizeName.size_3)),
+            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+        ]);
+    }
 
     private float CalculatePopoverWidth(CGRect bounds)
     {
