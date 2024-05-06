@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 internal interface IScrollPickerViewModel : IDisposable
 {
-   /// <summary>
+    /// <summary>
     /// The number of components (scroll pickers) in the scroll picker
     /// </summary>
     int GetComponentCount();
@@ -21,22 +21,41 @@ internal interface IScrollPickerViewModel : IDisposable
     /// Called when a row is selected in a component
     /// </summary>
     void SelectedRowInComponent(int row, int component);
-
+    
     /// <summary>
     /// The selected index in the specified component
     /// </summary>
-    int? SelectedIndexForComponent(int component);
-    
-    void SendSelectedIndexesChanged();
-
-    void SetToNull();
-    
+    int SelectedIndexForComponent(int component);
     
     /// <summary>
-    /// Whether the ScrollPickerViewModel is null
+    /// Sets the default selected index for all components
+    /// </summary>
+    void SetDefaultSelectedIndicesForAllComponents();
+
+#if __IOS__
+    /// <summary>
+    /// Method for iOS that forces the components to set a default value even though they do not have a value
+    /// </summary>
+    void SetDefaultSelectedIndicesWhenOpeningPopover();
+#endif
+    
+    void SendSelectedIndicesChanged();
+    
+    /// <summary>
+    /// Sets all components' selected item to null
+    /// </summary>
+    void SetToNull();
+    
+    /// <summary>
+    /// Checks if any of the components' implemented TModel is of a nullable type
+    /// </summary>
+    bool IsNullable { get; }
+    
+    /// <summary>
+    /// Whether the ScrollPickerViewModel is null, if only one component's selected item is null this will be true
     /// </summary>
     bool IsComponentsSelectedIndicesNull { get; }
-
+    
     event Action OnAnySelectedIndexesChanged;
     event Action OnAnyComponentsDataInvalidated;
 }

@@ -1,3 +1,6 @@
+## [29.0.0] 
+- [BreakingChange] Refactored `ScrollPicker` so that it can be nullable.
+
 ## [28.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

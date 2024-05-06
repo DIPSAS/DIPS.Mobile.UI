@@ -2,6 +2,7 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Camera.Video;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -11,6 +12,7 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Shape;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Platform;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DialogFragment = AndroidX.Fragment.App.DialogFragment;
 using View = Android.Views.View;
@@ -35,7 +37,7 @@ internal class MaterialScrollPickerFragment(
 
         var title = CreateTitle();
         var numberPickersLayout = CreateNumberPickersLayout(out var numberPickers);
-        var buttonsLayout = CreateButtonsLayout(numberPickers);
+        var buttonsLayout = CreateButtonsLayout(numberPickers, scrollPickerViewModel.IsNullable);
 
         if(title is not null)
             linearLayout.AddView(title);
@@ -75,8 +77,20 @@ internal class MaterialScrollPickerFragment(
         return grid;
     }
 
-    private LinearLayout CreateButtonsLayout(List<NumberPicker> numberPickers)
+    private LinearLayout CreateButtonsLayout(List<NumberPicker> numberPickers, bool isNullable)
     {
+        Button clearButton = null;
+        
+        if (isNullable)
+        {
+            clearButton = CreateButton(DUILocalizedStrings.Clear.ToUpper(), () =>
+            {
+                Dismiss();
+                scrollPickerViewModel.SetToNull();
+                onSave.Invoke();
+            });
+        }
+        
         var cancelButton = CreateButton(DUILocalizedStrings.Cancel.ToUpper(), Dismiss);
         var okButton = CreateButton("OK", () =>
         {
@@ -98,6 +112,12 @@ internal class MaterialScrollPickerFragment(
             Orientation = Orientation.Horizontal,
         };
         buttonsLayout.SetHorizontalGravity(GravityFlags.End);
+        
+        if (clearButton is not null)
+        {
+            buttonsLayout.AddView(clearButton.ToPlatform(DUI.GetCurrentMauiContext!));
+        }
+        
         buttonsLayout.AddView(cancelButton.ToPlatform(DUI.GetCurrentMauiContext!));
         buttonsLayout.AddView(new Space(Context)
         {
@@ -199,6 +219,8 @@ internal class MaterialScrollPickerFragment(
         materialShapeDrawable.StrokeWidth = 0;
 
         dialog.Window?.SetBackgroundDrawable(materialShapeDrawable);
+        
+        scrollPickerViewModel.SetDefaultSelectedIndicesForAllComponents();
 
         return dialog;
     }

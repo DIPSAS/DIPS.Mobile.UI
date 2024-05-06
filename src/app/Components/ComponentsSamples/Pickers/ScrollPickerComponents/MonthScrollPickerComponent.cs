@@ -2,7 +2,7 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class MonthScrollPickerComponent : BaseScrollPickerComponent
+public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
 {
     private readonly string[] m_monthNames;
 
@@ -10,7 +10,12 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent
     {
         m_monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
     }
-    
+
+    public override void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    {
+        SelectedItem = DateTime.Now.Month;
+    }
+
     public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
     {
         SelectedItem = index;

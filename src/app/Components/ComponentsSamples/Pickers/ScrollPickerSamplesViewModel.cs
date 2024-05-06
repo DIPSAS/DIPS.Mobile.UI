@@ -11,7 +11,7 @@ public class ScrollPickerSamplesViewModel
     public ScrollPickerSamplesViewModel()
     {
         var items = new List<string> { "Item 1", "Item 2", "Item 3" };
-        var itemsComponents = new StandardScrollPickerComponent<string>(items);
+        var itemsComponents = new StandardScrollPickerComponent<string>(items, isNullable: true, onSelectedItemChanged: OnSelectedItemChanged);
         ItemComponents = [itemsComponents];
         
         var englishFootballers = new List<string> { "Foden", "Kane", "Rashford" };
@@ -20,25 +20,32 @@ public class ScrollPickerSamplesViewModel
         var norwegianFootballersComponent = new StandardScrollPickerComponent<string>(norwegianFootballers);
         FootballersComponents = [englishFootballersComponent, norwegianFootballersComponent];
         
-        var yearsScrollPickerItemsSource = new YearScrollPickerComponent();
-        var weekScrollPickerItemsSource = new StandardScrollPickerComponent<int>(GetWeeksInYear(DateTime.Now.Year), 10, OnSelectedItemChanged);
-        var daysScrollPickerItemsSource = new DayScrollPickerComponent();
+        var yearsScrollPickerItemsSource = new YearScrollPickerComponent(true);
+        var weekScrollPickerItemsSource = new StandardScrollPickerComponent<int?>(GetWeeksInYear(DateTime.Now.Year), 10, OnSelectedItemChanged, isNullable: true);
+        var daysScrollPickerItemsSource = new DayScrollPickerComponent(true);
         DateComponents = [yearsScrollPickerItemsSource, weekScrollPickerItemsSource, daysScrollPickerItemsSource];
     }
 
-    private async void OnSelectedItemChanged(int obj)
+    private void OnSelectedItemChanged(string? obj)
     {
-        await Task.Delay(2500);
-        DateComponents[1].SetSelectedItem(0, IScrollPickerComponent.SetSelectedItemMode.Programmatic);
-        DateComponents[1].InvalidateData();
+        SystemMessageService.Display(config =>
+        {
+            config.Text = obj ?? "null";
+            config.Duration = 250;
+        });
     }
 
-    private List<int> GetWeeksInYear(int year)
+    private async void OnSelectedItemChanged(int? obj)
+    {
+       
+    }
+
+    private List<int?> GetWeeksInYear(int year)
     {
         var dfi = DateTimeFormatInfo.CurrentInfo;
         var date1 = new DateTime(year, 12, 31);
         var cal = dfi.Calendar;
-        return Enumerable.Range(1, cal.GetWeekOfYear(date1, dfi.CalendarWeekRule, dfi.FirstDayOfWeek)).ToList();
+        return Enumerable.Range(1, cal.GetWeekOfYear(date1, dfi.CalendarWeekRule, dfi.FirstDayOfWeek)).Cast<int?>().ToList();
     }
 
     public List<IScrollPickerComponent> DateComponents { get; }

@@ -49,17 +49,6 @@
                               SeparatorText=" / "
                               Components="{Binding DateComponents}" />
         </dui:ListItem>
-        
-        <dui:Label Text="Scroll picker without value"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Left=size_2, Top=size_2}" />
-        
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
-                      VerticalOptions="Start">
-            <dui:ScrollPicker Title="Title"
-                              SeparatorText=" / "
-                              Components="{Binding DateComponents}" />
-        </dui:ListItem>
 
     </dui:VerticalStackLayout>
 
