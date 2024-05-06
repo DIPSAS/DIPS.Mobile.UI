@@ -34,7 +34,7 @@ internal interface IScrollPickerViewModel : IDisposable
 
 #if __IOS__
     /// <summary>
-    /// Method for iOS that forces the components to set a default value even though they do not have a value
+    /// Method for iOS that forces the components to set a default value even though they do not have a default value
     /// </summary>
     void SetDefaultSelectedIndicesWhenOpeningPopover();
 #endif
