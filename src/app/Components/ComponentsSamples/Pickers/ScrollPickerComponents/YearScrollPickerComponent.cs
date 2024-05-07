@@ -26,9 +26,9 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent<int?>
         return EndYear - StartYear + 1;
     }
 
-    public override int? GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex(int? selectedItem)
     {
-        return SelectedItem - StartYear;
+        return selectedItem - StartYear;
     }
 
     public override string GetItemText(int index)

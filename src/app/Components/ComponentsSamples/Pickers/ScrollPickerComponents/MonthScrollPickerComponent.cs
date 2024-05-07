@@ -26,9 +26,9 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
         return m_monthNames.Length - 1;
     }
 
-    public override int? GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex(int selectedItem)
     {
-        return SelectedItem;
+        return selectedItem;
     }
 
     public override string GetItemText(int index)

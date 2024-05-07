@@ -144,9 +144,9 @@ public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent<T
         return m_items.Count;
     }
 
-    public override int? GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex(TModel? selectedItem)
     {
-        return SelectedItem is null ? null : m_items.IndexOf(SelectedItem);
+        return selectedItem is null ? null : m_items.IndexOf(selectedItem);
     }
 
     public override string GetItemText(int index)
@@ -180,10 +180,15 @@ public abstract class BaseScrollPickerComponent<TModel> : IScrollPickerComponent
         if(setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
             OnSelectedItemChanged?.Invoke(SelectedItem);
     }
+
+    public int? GetSelectedItemIndex()
+    {
+        return GetSelectedItemIndex(SelectedItem);
+    }
     
     protected abstract TModel? GetItemBasedOnIndex(int? index);
     public abstract int GetItemsCount();
-    public abstract int? GetSelectedItemIndex();
+    public abstract int? GetSelectedItemIndex(TModel? selectedItem);
     public abstract string GetItemText(int index);
     public event Action? OnDataInvalidated;
     public void InvalidateData()

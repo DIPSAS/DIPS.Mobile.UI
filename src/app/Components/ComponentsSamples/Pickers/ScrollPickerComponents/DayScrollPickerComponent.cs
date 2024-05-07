@@ -23,9 +23,9 @@ public class DayScrollPickerComponent : BaseScrollPickerComponent<int?>
         return 31;
     }
 
-    public override int? GetSelectedItemIndex()
+    public override int? GetSelectedItemIndex(int? selectedItem)
     {
-        return SelectedItem - 1;
+        return selectedItem - 1;
     }
 
     public override string GetItemText(int index)
