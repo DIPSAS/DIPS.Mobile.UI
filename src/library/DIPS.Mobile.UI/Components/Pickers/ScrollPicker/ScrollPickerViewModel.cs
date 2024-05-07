@@ -159,12 +159,12 @@ public abstract class BaseScrollPickerComponent<TModel> : IScrollPickerComponent
 {
     protected readonly Action<TModel?>? OnSelectedItemChanged;
     
-    public BaseScrollPickerComponent(Action<TModel?>? onSelectedItemChanged = null, bool isNullable = false)
+    protected BaseScrollPickerComponent(Action<TModel?>? onSelectedItemChanged = null, bool isNullable = false)
     {
         OnSelectedItemChanged = onSelectedItemChanged;
         IsNullable = isNullable;
     }
-    
+
     public TModel? SelectedItem { get; protected set; }
     public bool IsNullable { get; }
     protected abstract TModel? GetDefaultSelectedItem();

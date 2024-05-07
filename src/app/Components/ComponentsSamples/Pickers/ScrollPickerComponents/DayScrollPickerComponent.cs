@@ -4,7 +4,7 @@ namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
 public class DayScrollPickerComponent : BaseScrollPickerComponent<int?>
 {
-    public DayScrollPickerComponent(bool isNullable) : base(null, isNullable)
+    public DayScrollPickerComponent(bool isNullable) : base(isNullable: isNullable)
     {
     }
 
