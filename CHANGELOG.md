@@ -1,5 +1,8 @@
-## [28.4.2]
-- [iOS][Chip]Add slightly more width when `IsToggleable=True` in order to not truncate title.
+## [28.5.1]
+- [iOS][Chip] Add slightly more width when `IsToggleable=True` in order to not truncate title.
+
+## [28.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [28.4.1]
 - [ChipGroup] Clear old items when `ItemsSource` changes.
