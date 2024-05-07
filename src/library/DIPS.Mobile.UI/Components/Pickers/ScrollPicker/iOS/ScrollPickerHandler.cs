@@ -35,7 +35,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
             throw new Exception("The components of ScrollPicker must be set!");
 
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
-        m_scrollPickerViewModel.SetDefaultSelectedIndicesForAllComponents();
+        m_scrollPickerViewModel.SetDefaultSelectedIndicesIfNotNullableForAllComponents();
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged += SetChipTitle;
         
         SetChipTitle();
@@ -143,7 +143,7 @@ internal class ScrollPickerViewController : UIViewController
         m_uiPicker.Model = vm;
 
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += OnAnyComponentsDataInvalidated;
-        m_scrollPickerViewModel.SetDefaultSelectedIndicesWhenOpeningPopover();
+        m_scrollPickerViewModel.SetDefaultSelectedIndicesIfNullableForAllComponents();
         
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
@@ -172,7 +172,7 @@ internal class ScrollPickerViewController : UIViewController
             DismissViewControllerAsync(true);
             onClear.Invoke();
         }));
-        m_clearButton.SetTitle(DUILocalizedStrings.Clear, UIControlState.Normal);
+        m_clearButton.SetTitle(DUILocalizedStrings.Remove, UIControlState.Normal);
         m_clearButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Normal);
     }
 
@@ -265,8 +265,9 @@ internal class ScrollPickerViewController : UIViewController
 
         m_clearButton.TranslatesAutoresizingMaskIntoConstraints = false;
         NSLayoutConstraint.ActivateConstraints([
-            m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor, -Sizes.GetSize(SizeName.size_3)),
+            m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
             m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+            m_clearButton.LeadingAnchor.ConstraintEqualTo(View!.LeadingAnchor),
         ]);
     }
 

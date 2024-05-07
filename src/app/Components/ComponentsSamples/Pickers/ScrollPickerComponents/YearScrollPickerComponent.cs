@@ -7,13 +7,13 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent<int?>
     private const int StartYear = 0;
     private const int EndYear = 9999;
 
-    public YearScrollPickerComponent(bool isNullable) : base(isNullable)
+    public YearScrollPickerComponent(bool isNullable) : base(null, isNullable)
     {
     }
-    
-    public override void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+
+    protected override int? GetDefaultSelectedItem()
     {
-        SelectedItem = DateTime.Now.Year;
+        return SelectedItem = DateTime.Now.Year;
     }
 
     public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)

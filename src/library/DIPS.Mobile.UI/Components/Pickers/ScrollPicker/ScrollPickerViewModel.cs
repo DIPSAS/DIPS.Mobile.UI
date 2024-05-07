@@ -42,9 +42,6 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
         if(m_components is null)
             return;
         
-        if(SelectedIndexForComponent(component) == row)
-            return;
-        
         m_components[component].SetSelectedItem(row, IScrollPickerComponent.SetSelectedItemMode.Tapped);
         OnAnySelectedIndexesChanged?.Invoke();
     }
@@ -54,7 +51,7 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
         return m_components is null ? 0 : m_components[component].GetSelectedItemIndex() ?? 0;
     }
 
-    public void SetDefaultSelectedIndicesForAllComponents()
+    public void SetDefaultSelectedIndicesIfNotNullableForAllComponents()
     {
         if (m_components == null)
             return;
@@ -68,8 +65,7 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
         }
     }
 
-#if __IOS__
-    public void SetDefaultSelectedIndicesWhenOpeningPopover()
+    public void SetDefaultSelectedIndicesIfNullableForAllComponents()
     {
         if (m_components == null)
             return;
@@ -80,10 +76,9 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
             if (selectedIndex is not null)
                 continue;
 
-            component.SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode.Tapped);
+            component.SetDefaultSelectedItem();
         }
     }
-#endif
 
     public void SendSelectedIndicesChanged()
     {
@@ -125,22 +120,18 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
 public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent<TModel>
 {
     private readonly IList<TModel> m_items;
-    private readonly Action<TModel?>? m_onSelectedItemChanged;
+   
     private readonly TModel? m_defaultSelectedItem;
 
-    public StandardScrollPickerComponent(IList<TModel> items, TModel? selectedItem = default, Action<TModel?>? onSelectedItemChanged = null, bool isNullable = false) : base(isNullable)
+    public StandardScrollPickerComponent(IList<TModel> items, TModel? selectedItem = default, Action<TModel?>? onSelectedItemChanged = null, bool isNullable = false) : base(onSelectedItemChanged, isNullable)
     {
         m_items = items;
-        m_onSelectedItemChanged = onSelectedItemChanged;
         m_defaultSelectedItem = selectedItem;
     }
 
-    public override void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override TModel GetDefaultSelectedItem()
     {
-        SelectedItem = m_defaultSelectedItem ?? m_items[0];
-        
-        if (setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
-            m_onSelectedItemChanged?.Invoke(SelectedItem);            
+        return m_defaultSelectedItem ?? m_items[0];
     }
 
     public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
@@ -148,7 +139,7 @@ public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent<T
         SelectedItem = index is null ? default : m_items[index.Value];
         
         if(setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
-            m_onSelectedItemChanged?.Invoke(SelectedItem);
+            OnSelectedItemChanged?.Invoke(SelectedItem);
     }
 
     public override int GetItemsCount()
@@ -169,14 +160,21 @@ public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent<T
 
 public abstract class BaseScrollPickerComponent<TModel> : IScrollPickerComponent
 {
-    public BaseScrollPickerComponent(bool isNullable = false)
+    protected readonly Action<TModel?>? OnSelectedItemChanged;
+    
+    public BaseScrollPickerComponent(Action<TModel?>? onSelectedItemChanged = null, bool isNullable = false)
     {
+        OnSelectedItemChanged = onSelectedItemChanged;
         IsNullable = isNullable;
     }
     
     public TModel? SelectedItem { get; protected set; }
     public bool IsNullable { get; }
-    public abstract void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic);
+    protected abstract TModel? GetDefaultSelectedItem();
+    public void SetDefaultSelectedItem()
+    {
+        SelectedItem = GetDefaultSelectedItem();
+    }
     public abstract void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic);
     public abstract int GetItemsCount();
     public abstract int? GetSelectedItemIndex();
@@ -198,7 +196,7 @@ public interface IScrollPickerComponent
     /// <summary>
     /// Sets the default selected item
     /// </summary>
-    void SetDefaultSelectedItem(SetSelectedItemMode setSelectedItemMode = SetSelectedItemMode.Programmatic);
+    void SetDefaultSelectedItem();
     
     /// <summary>
     /// Sets the selected item

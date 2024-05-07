@@ -11,9 +11,9 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
         m_monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
     }
 
-    public override void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override int GetDefaultSelectedItem()
     {
-        SelectedItem = DateTime.Now.Month;
+        return DateTime.Now.Month;
     }
 
     public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)

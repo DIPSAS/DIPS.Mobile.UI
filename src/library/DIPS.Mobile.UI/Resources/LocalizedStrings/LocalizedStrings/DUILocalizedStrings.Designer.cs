@@ -207,9 +207,9 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
-        internal static string Clear {
+        internal static string Remove {
             get {
-                return ResourceManager.GetString("Clear", resourceCulture);
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
     }

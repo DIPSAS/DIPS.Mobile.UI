@@ -4,13 +4,13 @@ namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
 public class DayScrollPickerComponent : BaseScrollPickerComponent<int?>
 {
-    public DayScrollPickerComponent(bool isNullable) : base(isNullable)
+    public DayScrollPickerComponent(bool isNullable) : base(null, isNullable)
     {
     }
 
-    public override void SetDefaultSelectedItem(IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override int? GetDefaultSelectedItem()
     {
-        SelectedItem = DateTime.Now.Day;
+        return DateTime.Now.Day;
     }
 
     public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)

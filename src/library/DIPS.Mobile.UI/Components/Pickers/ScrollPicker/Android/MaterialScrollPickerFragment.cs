@@ -2,7 +2,6 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using AndroidX.Camera.Video;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -10,7 +9,6 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Shape;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Platform;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -24,6 +22,9 @@ internal class MaterialScrollPickerFragment(
     IScrollPickerViewModel scrollPickerViewModel,
     Action onSave) : DialogFragment
 {
+    private bool m_didSave;
+    private bool m_componentsNullBeforeOpen;
+
     public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
         var linearLayout = new LinearLayout(Context)
@@ -79,11 +80,11 @@ internal class MaterialScrollPickerFragment(
 
     private LinearLayout CreateButtonsLayout(List<NumberPicker> numberPickers, bool isNullable)
     {
-        Button clearButton = null;
+        Button? clearButton = null;
         
         if (isNullable)
         {
-            clearButton = CreateButton(DUILocalizedStrings.Clear.ToUpper(), () =>
+            clearButton = CreateButton(DUILocalizedStrings.Remove.ToUpper(), () =>
             {
                 Dismiss();
                 scrollPickerViewModel.SetToNull();
@@ -94,6 +95,7 @@ internal class MaterialScrollPickerFragment(
         var cancelButton = CreateButton(DUILocalizedStrings.Cancel.ToUpper(), Dismiss);
         var okButton = CreateButton("OK", () =>
         {
+            m_didSave = true;
             Dismiss();
 
             for (var i = 0; i < numberPickers.Count; i++)
@@ -164,9 +166,9 @@ internal class MaterialScrollPickerFragment(
         };
     }
 
-    private static Buttons.Button CreateButton(string text, Action command)
+    private static Button CreateButton(string text, Action command)
     {
-        return new Buttons.Button
+        return new Button
         {
             Text = text,
             Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
@@ -175,7 +177,7 @@ internal class MaterialScrollPickerFragment(
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             FontFamily = "UI",
             Command = new Command(command),
-            HorizontalOptions = LayoutOptions.End
+            HorizontalOptions = LayoutOptions.Start
         };
     }
 
@@ -211,6 +213,10 @@ internal class MaterialScrollPickerFragment(
     public override Dialog OnCreateDialog(Bundle? savedInstanceState)
     {
         var dialog = base.OnCreateDialog(savedInstanceState);
+        
+        scrollPickerViewModel.SetDefaultSelectedIndicesIfNullableForAllComponents();
+
+        m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedIndicesNull;
 
         var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, 12 * Context.GetDisplayDensity()).Build();
         var materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
@@ -219,9 +225,20 @@ internal class MaterialScrollPickerFragment(
         materialShapeDrawable.StrokeWidth = 0;
 
         dialog.Window?.SetBackgroundDrawable(materialShapeDrawable);
-        
-        scrollPickerViewModel.SetDefaultSelectedIndicesForAllComponents();
 
         return dialog;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+        if(m_didSave)
+            return;
+
+        if (m_componentsNullBeforeOpen)
+        {
+            scrollPickerViewModel.SetToNull();   
+        }
     }
 }

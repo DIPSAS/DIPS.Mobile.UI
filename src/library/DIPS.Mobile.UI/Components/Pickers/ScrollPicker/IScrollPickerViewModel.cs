@@ -28,16 +28,14 @@ internal interface IScrollPickerViewModel : IDisposable
     int SelectedIndexForComponent(int component);
     
     /// <summary>
-    /// Sets the default selected index for all components
+    /// Sets the default selected index for all components that are not nullable
     /// </summary>
-    void SetDefaultSelectedIndicesForAllComponents();
+    void SetDefaultSelectedIndicesIfNotNullableForAllComponents();
 
-#if __IOS__
     /// <summary>
-    /// Method for iOS that forces the components to set a default value even though they do not have a default value
+    /// Sets the default selected index for all components that are nullable
     /// </summary>
-    void SetDefaultSelectedIndicesWhenOpeningPopover();
-#endif
+    void SetDefaultSelectedIndicesIfNullableForAllComponents();
     
     void SendSelectedIndicesChanged();
     
