@@ -16,9 +16,9 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent<int?>
         return SelectedItem = DateTime.Now.Year;
     }
 
-    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override int? GetItemBasedOnIndex(int? index)
     {
-        SelectedItem = index;
+        return index;
     }
 
     public override int GetItemsCount()

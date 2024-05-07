@@ -16,9 +16,9 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
         return DateTime.Now.Month;
     }
 
-    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override int GetItemBasedOnIndex(int? index)
     {
-        SelectedItem = index;
+        return index!.Value;
     }
 
     public override int GetItemsCount()

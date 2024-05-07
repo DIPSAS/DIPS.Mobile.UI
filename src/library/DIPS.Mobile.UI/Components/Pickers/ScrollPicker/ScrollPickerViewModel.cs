@@ -134,12 +134,9 @@ public class StandardScrollPickerComponent<TModel> : BaseScrollPickerComponent<T
         return m_defaultSelectedItem ?? m_items[0];
     }
 
-    public override void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    protected override TModel? GetItemBasedOnIndex(int? index)
     {
-        SelectedItem = index is null ? default : m_items[index.Value];
-        
-        if(setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
-            OnSelectedItemChanged?.Invoke(SelectedItem);
+        return index is null ? default : m_items[index.Value];
     }
 
     public override int GetItemsCount()
@@ -175,7 +172,16 @@ public abstract class BaseScrollPickerComponent<TModel> : IScrollPickerComponent
     {
         SelectedItem = GetDefaultSelectedItem();
     }
-    public abstract void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic);
+
+    public void SetSelectedItem(int? index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
+    {
+        SelectedItem = GetItemBasedOnIndex(index);
+        
+        if(setSelectedItemMode == IScrollPickerComponent.SetSelectedItemMode.Tapped)
+            OnSelectedItemChanged?.Invoke(SelectedItem);
+    }
+    
+    protected abstract TModel? GetItemBasedOnIndex(int? index);
     public abstract int GetItemsCount();
     public abstract int? GetSelectedItemIndex();
     public abstract string GetItemText(int index);
