@@ -10,12 +10,8 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, Only_Here_For_U
         throw new NotImplementedException();
     }
     
-    private partial void AppendPropertyMapper()
-    {
-        
-    }
 
-    private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker datePicker)
+    private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker)
     {
         
     }

@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
+namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 
 public static class DateTimeToLongExtensions
 {

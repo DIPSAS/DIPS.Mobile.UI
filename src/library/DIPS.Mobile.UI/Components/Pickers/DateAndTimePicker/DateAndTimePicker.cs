@@ -1,18 +1,14 @@
-using DIPS.Mobile.UI.Components.Pickers.Platforms;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
+using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePicker : View, IDateTimePicker
+public partial class DateAndTimePicker : View, IDatePicker
 {
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         
-#if __IOS__
-        // DatePickers on iOS takes up invisible space
-        WidthRequest = 200;
-#endif
-            
         // SelectedDate should not be above maximum date
         if (MaximumDate != null && SelectedDateTime > MaximumDate)
         {

@@ -98,4 +98,10 @@
     <data name="Remove" xml:space="preserve">
         <value>Remove</value>
     </data>
+    <data name="Date" xml:space="preserve">
+        <value>Date</value>
+    </data>
+    <data name="Time" xml:space="preserve">
+        <value>Time</value>
+    </data>
 </root>

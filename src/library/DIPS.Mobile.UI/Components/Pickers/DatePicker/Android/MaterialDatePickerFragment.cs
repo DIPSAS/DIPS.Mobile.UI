@@ -1,9 +1,6 @@
-using Android.Content;
-using Android.OS;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
-using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.DatePicker;
-using Java.Util;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
 
@@ -67,7 +64,6 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             datePickerFragment.Dismiss();
         }
     }
-
 
     public void OnPositiveButtonClick(Object? p0)
     {

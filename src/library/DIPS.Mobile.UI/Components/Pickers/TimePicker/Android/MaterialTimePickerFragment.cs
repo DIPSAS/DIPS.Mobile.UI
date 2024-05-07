@@ -1,5 +1,5 @@
 using Android.Text.Format;
-using DIPS.Mobile.UI.Components.Pickers.Platforms.Android;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.TimePicker;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
@@ -21,6 +21,7 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
             .SetTimeFormat(format)
             .SetHour(timePicker.SelectedTime.Hours)
             .SetMinute(timePicker.SelectedTime.Minutes);
+        
         m_materialTimePicker = builder.Build();
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();

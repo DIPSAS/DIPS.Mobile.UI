@@ -1,22 +1,9 @@
-using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Components.Pickers.Platforms;
-using DIPS.Mobile.UI.Resources.Colors;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 {
-    public partial class DatePicker : View, IDateTimePicker
+    public partial class DatePicker : View, IDatePicker
     {
-        public DatePicker()
-        {
-            BackgroundColor = Colors.GetColor(ColorName.color_secondary_30);
-            
-#if __IOS__
-            // DatePickers on iOS takes up invisible space
-            WidthRequest = 100;
-#endif
-        }
-
         protected override void OnHandlerChanged()
         {
             base.OnHandlerChanged();
@@ -35,5 +22,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
                 SelectedDate = DateTime.SpecifyKind(MinimumDate.Value, kind);
             }
         }
+
     }
 }

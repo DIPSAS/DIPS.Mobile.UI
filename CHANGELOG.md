@@ -1,6 +1,10 @@
 ## [29.0.0] 
 - [BreakingChange][ScrollPicker] Refactored so that it can be nullable.
 
+## [28.6.0] 
+- Added new components: `NullableDatePicker`, `NullableTimePicker` and `NullableDateAndTimePicker`.
+- [iOS] DatePickers will now have exact same design as Chips. 
+
 ## [28.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
