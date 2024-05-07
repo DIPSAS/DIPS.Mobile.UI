@@ -1,3 +1,7 @@
+## [28.6.0] 
+- Added new components: `NullableDatePicker`, `NullableTimePicker` and `NullableDateAndTimePicker`.
+- [iOS] DatePickers will now have exact same design as Chips. 
+
 ## [28.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

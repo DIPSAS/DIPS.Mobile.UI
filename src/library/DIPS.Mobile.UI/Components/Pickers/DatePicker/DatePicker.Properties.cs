@@ -7,7 +7,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             nameof(SelectedDate),
             typeof(DateTime),
-            typeof(DatePicker), defaultBindingMode:BindingMode.TwoWay);
+            typeof(DatePicker),
+            defaultBindingMode:BindingMode.TwoWay,
+            defaultValue:null);
 
         /// <summary>
         /// The date people selected from the date picker.

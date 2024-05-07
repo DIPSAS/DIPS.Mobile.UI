@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.CheckBoxes;
 using DIPS.Mobile.UI.Components.Layout;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using Foundation;
 using Microsoft.Maui.LifecycleEvents;
 using UIKit;
@@ -14,8 +15,8 @@ public static partial class AppHostBuilderExtensions
 {
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
-        handlers.AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
-        handlers.AddHandler<InlineDatePicker, InlineDatePickerHandler>();
+        handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(DIPS.Mobile.UI.Components.Searching.iOS.InternalSearchBarHandler));
+        handlers.AddHandler<InlineDatePicker, InlineBaseDatePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
     }
 

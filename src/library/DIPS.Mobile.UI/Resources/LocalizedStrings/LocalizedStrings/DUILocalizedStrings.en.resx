@@ -95,4 +95,10 @@
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
         <value>Detected {0} times</value>
     </data>
+    <data name="Date" xml:space="preserve">
+        <value>Date</value>
+    </data>
+    <data name="Time" xml:space="preserve">
+        <value>Time</value>
+    </data>
 </root>
