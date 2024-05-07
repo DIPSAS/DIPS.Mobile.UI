@@ -2,18 +2,18 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class DayScrollPickerComponent : BaseScrollPickerComponent<int?>
+public class DayScrollPickerComponent : BaseScrollPickerComponent<int>
 {
     public DayScrollPickerComponent(bool isNullable) : base(isNullable: isNullable)
     {
     }
 
-    protected override int? GetDefaultSelectedItem()
+    protected override int GetDefaultSelectedItem()
     {
         return DateTime.Now.Day;
     }
 
-    protected override int? GetItemBasedOnIndex(int? index)
+    protected override int GetItem(int index)
     {
         return index + 1;
     }
@@ -23,7 +23,7 @@ public class DayScrollPickerComponent : BaseScrollPickerComponent<int?>
         return 31;
     }
 
-    public override int? GetSelectedItemIndex(int? selectedItem)
+    protected override int IndexOfSelectedItem(int selectedItem)
     {
         return selectedItem - 1;
     }

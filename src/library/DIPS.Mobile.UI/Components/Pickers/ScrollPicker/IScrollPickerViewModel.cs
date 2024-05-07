@@ -30,13 +30,8 @@ internal interface IScrollPickerViewModel : IDisposable
     /// <summary>
     /// Sets the default selected index for all components that are not nullable
     /// </summary>
-    void SetDefaultSelectedIndicesIfNotNullableForAllComponents();
+    void SetDefaultSelectedItemsForAllComponents();
 
-    /// <summary>
-    /// Sets the default selected index for all components that are nullable
-    /// </summary>
-    void SetDefaultSelectedIndicesIfNullableForAllComponents();
-    
     void SendSelectedIndicesChanged();
     
     /// <summary>
@@ -52,7 +47,7 @@ internal interface IScrollPickerViewModel : IDisposable
     /// <summary>
     /// Whether the ScrollPickerViewModel is null, if only one component's selected item is null this will be true
     /// </summary>
-    bool IsComponentsSelectedIndicesNull { get; }
+    bool IsComponentsSelectedItemNull { get; }
     
     event Action OnAnySelectedIndexesChanged;
     event Action OnAnyComponentsDataInvalidated;

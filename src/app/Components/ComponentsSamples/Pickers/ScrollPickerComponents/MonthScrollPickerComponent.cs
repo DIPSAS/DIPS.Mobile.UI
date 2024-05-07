@@ -16,9 +16,9 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
         return DateTime.Now.Month;
     }
 
-    protected override int GetItemBasedOnIndex(int? index)
+    protected override int GetItem(int index)
     {
-        return index!.Value;
+        return index;
     }
 
     public override int GetItemsCount()
@@ -26,7 +26,7 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
         return m_monthNames.Length - 1;
     }
 
-    public override int? GetSelectedItemIndex(int selectedItem)
+    protected override int IndexOfSelectedItem(int selectedItem)
     {
         return selectedItem;
     }

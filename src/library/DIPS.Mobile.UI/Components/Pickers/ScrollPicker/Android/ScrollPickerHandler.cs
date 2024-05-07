@@ -29,7 +29,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
             throw new Exception("The components of ScrollPicker must be set!");
 
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
-        m_scrollPickerViewModel.SetDefaultSelectedIndicesIfNotNullableForAllComponents();
+        m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += SetChipTitle;
         
         platformView.Click += PlatformViewOnClick;
@@ -39,7 +39,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     
     private void SetChipTitle()
     {
-        if (m_scrollPickerViewModel.IsComponentsSelectedIndicesNull)
+        if (m_scrollPickerViewModel.IsComponentsSelectedItemNull)
         {
             m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
             m_chip.Title = DUILocalizedStrings.Choose;

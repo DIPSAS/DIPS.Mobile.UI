@@ -214,9 +214,9 @@ internal class MaterialScrollPickerFragment(
     {
         var dialog = base.OnCreateDialog(savedInstanceState);
         
-        scrollPickerViewModel.SetDefaultSelectedIndicesIfNullableForAllComponents();
+        scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
 
-        m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedIndicesNull;
+        m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedItemNull;
 
         var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, 12 * Context.GetDisplayDensity()).Build();
         var materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
