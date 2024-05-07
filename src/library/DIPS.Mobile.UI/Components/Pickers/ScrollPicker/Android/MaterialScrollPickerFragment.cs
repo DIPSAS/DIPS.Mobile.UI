@@ -121,10 +121,6 @@ internal class MaterialScrollPickerFragment(
         }
         
         buttonsLayout.AddView(cancelButton.ToPlatform(DUI.GetCurrentMauiContext!));
-        buttonsLayout.AddView(new Space(Context)
-        {
-            LayoutParameters = new ViewGroup.LayoutParams(1.0.ToMauiPixel(), ViewGroup.LayoutParams.MatchParent)
-        });
         buttonsLayout.AddView(okButton.ToPlatform(DUI.GetCurrentMauiContext!));
         return buttonsLayout;
     }
