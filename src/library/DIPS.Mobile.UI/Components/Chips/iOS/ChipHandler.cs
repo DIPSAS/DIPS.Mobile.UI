@@ -73,27 +73,15 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
             return desiredSize;
         }
 
-        if (uiButton.ImageView.Image is not null && string.IsNullOrEmpty(uiButton.CurrentTitle)) //A chip with only a image
+        if (!VirtualView.IsToggleable)
         {
             return desiredSize;
         }
 
-        if (VirtualView.IsToggleable)
-        {
-            //A button with both title and image, which has the bug
-            const double TOLERANCE = 0.001;
-            var width = Math.Abs(VirtualView.WidthRequest - (-1d)) > TOLERANCE ? VirtualView.WidthRequest : uiButton.IntrinsicContentSize.Width;
-            var height = Math.Abs(VirtualView.HeightRequest - (-1d)) > TOLERANCE ? VirtualView.HeightRequest : uiButton.IntrinsicContentSize.Height;
-            return new Size(width + 4, height);    
-        }
-        
-        if (uiButton.ImageView.Image is null && !string.IsNullOrEmpty(uiButton.CurrentTitle)) //A chip with only a title
-        {
-            return desiredSize;
-        }
-
-        //A button with both title and image, which has the bug
-        return new Size(uiButton.IntrinsicContentSize.Width, uiButton.IntrinsicContentSize.Height);
+        const double TOLERANCE = 0.001;
+        var width = Math.Abs(VirtualView.WidthRequest - (-1d)) > TOLERANCE ? VirtualView.WidthRequest : uiButton.IntrinsicContentSize.Width;
+        var height = Math.Abs(VirtualView.HeightRequest - (-1d)) > TOLERANCE ? VirtualView.HeightRequest : uiButton.IntrinsicContentSize.Height;
+        return new Size(width + 8, height);
     }
     
     private static partial void MapTitle(ChipHandler handler, Chip chip)
