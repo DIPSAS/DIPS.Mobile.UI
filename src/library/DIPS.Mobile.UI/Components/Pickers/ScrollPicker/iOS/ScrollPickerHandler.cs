@@ -43,7 +43,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
 
     private void SetChipTitle()
     {
-        if (m_scrollPickerViewModel.IsComponentsSelectedItemNull)
+        if (m_scrollPickerViewModel.IsComponentsSelectedIndexMinusOne)
         {
             m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
             m_chip.Title = DUILocalizedStrings.Choose;
@@ -266,7 +266,7 @@ internal class ScrollPickerViewController : UIViewController
         m_clearButton.TranslatesAutoresizingMaskIntoConstraints = false;
         NSLayoutConstraint.ActivateConstraints([
             m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
-            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, -15),
+            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
             m_clearButton.LeadingAnchor.ConstraintEqualTo(View!.LeadingAnchor),
         ]);
     }

@@ -50,17 +50,6 @@
                               Components="{Binding DateComponents}" />
         </dui:ListItem>
         
-        <dui:Label Text="One components in nullable scroll picker"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Left=size_2, Top=size_2}" />
-        
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Choose}"
-                      VerticalOptions="Start">
-            <dui:ScrollPicker Title="Title"
-                              SeparatorText=" / "
-                              Components="{Binding NullableItemComponents}" />
-        </dui:ListItem>
-
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

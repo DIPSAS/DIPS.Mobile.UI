@@ -5,23 +5,23 @@ public interface IScrollPickerComponent
     /// <summary>
     /// The currently selected item
     /// </summary>
-    object? SelectedItem { get; }
+    /// <remarks>If you have set the <see cref="IsNullable"/> to true, a SelectedIndex of -1 means that it is null</remarks>
+    int SelectedIndex { get; }
     
     /// <summary>
-    /// Checks whether the generic implementation of TModel is nullable
+    /// Checks whether the scroll picker is nullable or not
     /// </summary>
     bool IsNullable { get; }
 
     /// <summary>
-    /// Sets the default selected item
+    /// Sets the default selected index
     /// </summary>
-    /// <param name="isOpening"></param>
-    void SetDefaultSelectedItem(bool isOpening);
+    void SetDefaultIndex(bool isOpening);
     
     /// <summary>
     /// Sets the selected item
     /// </summary>
-    void SetSelectedItem(int? index, SetSelectedItemMode setSelectedItemMode = SetSelectedItemMode.Programmatic);
+    void SetSelectedIndex(int index, SetSelectedItemMode setSelectedItemMode = SetSelectedItemMode.Programmatic);
     
     /// <summary>
     /// Gets the number of items in the component
@@ -29,14 +29,9 @@ public interface IScrollPickerComponent
     int GetItemsCount();
     
     /// <summary>
-    /// Gets the index of the selected item
-    /// </summary>
-    int GetSelectedItemIndex();
-    
-    /// <summary>
     /// Gets the text for the specified item
     /// </summary>
-    string GetItemText(int index);
+    string GetTextAtIndex(int index);
     
     /// <summary>
     /// Invoked when the selected item is changed

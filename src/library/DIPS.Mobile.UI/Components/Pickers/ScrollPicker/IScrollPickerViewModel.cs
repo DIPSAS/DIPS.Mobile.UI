@@ -47,7 +47,7 @@ internal interface IScrollPickerViewModel : IDisposable
     /// <summary>
     /// Whether the ScrollPickerViewModel is null, if only one component's selected item is null this will be true
     /// </summary>
-    bool IsComponentsSelectedItemNull { get; }
+    bool IsComponentsSelectedIndexMinusOne { get; }
     
     event Action OnAnySelectedIndexesChanged;
     event Action OnAnyComponentsDataInvalidated;

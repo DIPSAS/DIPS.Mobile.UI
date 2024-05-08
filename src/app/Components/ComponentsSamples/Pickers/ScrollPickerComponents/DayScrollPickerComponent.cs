@@ -3,29 +3,29 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class DayScrollPickerComponent : BaseScrollPickerComponent<int>
+public class DayScrollPickerComponent : BaseScrollPickerComponent
 {
-    protected override int GetDefaultSelectedItem()
-    {
-        return DateTime.Now.Day;
-    }
-
-    protected override int GetItem(int index)
-    {
-        return index + 1;
-    }
-
     public override int GetItemsCount()
     {
         return 31;
     }
 
-    protected override int IndexOfSelectedItem(int selectedItem)
+    protected override int GetDefaultIndex()
     {
-        return selectedItem - 1;
+        return DateTime.Now.Day - 1;
     }
 
-    public override string GetItemText(int index)
+    protected override bool ShouldBeNullable()
+    {
+        return true;
+    }
+
+    protected override bool ShouldDefaultValueOnlyBeSetOnOpen()
+    {
+        return false;
+    }
+
+    public override string GetTextAtIndex(int index)
     {
         return (index + 1).ToString();
     }

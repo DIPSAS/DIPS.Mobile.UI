@@ -39,7 +39,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     
     private void SetChipTitle()
     {
-        if (m_scrollPickerViewModel.IsComponentsSelectedItemNull)
+        if (m_scrollPickerViewModel.IsComponentsSelectedIndexMinusOne)
         {
             m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
             m_chip.Title = DUILocalizedStrings.Choose;

@@ -36,7 +36,7 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
 
     public string GetTextForRowInComponent(int row, int component)
     {
-        return m_components is null ? string.Empty : m_components[component].GetItemText(row);
+        return m_components is null ? string.Empty : m_components[component].GetTextAtIndex(row);
     }
 
     public void SelectedRowInComponent(int row, int component)
@@ -44,13 +44,13 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
         if(m_components is null)
             return;
         
-        m_components[component].SetSelectedItem(row, IScrollPickerComponent.SetSelectedItemMode.Tapped);
+        m_components[component].SetSelectedIndex(row, IScrollPickerComponent.SetSelectedItemMode.Tapped);
         OnAnySelectedIndexesChanged?.Invoke();
     }
 
     public int SelectedIndexForComponent(int component)
     {
-        return m_components is null ? 0 : m_components[component].GetSelectedItemIndex();
+        return m_components is null ? 0 : m_components[component].SelectedIndex;
     }
 
     public void SetDefaultSelectedItemsForAllComponents(bool isOpening = false)
@@ -60,10 +60,10 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
 
         foreach (var component in m_components)
         {
-            if (component.SelectedItem is not null)
+            if (component.SelectedIndex != -1)
                 continue;
             
-            component.SetDefaultSelectedItem(isOpening);
+            component.SetDefaultIndex(isOpening);
         }
     }
 
@@ -79,15 +79,14 @@ internal class ScrollPickerViewModel : IScrollPickerViewModel
         
         foreach (var scrollPickerComponent in m_components)
         {
-            scrollPickerComponent.SetSelectedItem(null, IScrollPickerComponent.SetSelectedItemMode.Tapped);
+            scrollPickerComponent.SetSelectedIndex(-1, IScrollPickerComponent.SetSelectedItemMode.Tapped);
         }
         
         OnAnySelectedIndexesChanged?.Invoke();
     }
 
-    public bool IsNullable => m_components?.Any(component => component.IsNullable) ?? false;
-
-    public bool IsComponentsSelectedItemNull => m_components?.Any(scrollPickerComponent => scrollPickerComponent.SelectedItem is null) ?? true;
+    public bool IsNullable => m_components?.All(component => component.IsNullable) ?? false;
+    public bool IsComponentsSelectedIndexMinusOne => m_components?.All(scrollPickerComponent => scrollPickerComponent.SelectedIndex == -1) ?? true;
 
     public event Action? OnAnySelectedIndexesChanged;
     public event Action? OnAnyComponentsDataInvalidated;

@@ -11,43 +11,20 @@ public class ScrollPickerSamplesViewModel
 {
     public ScrollPickerSamplesViewModel()
     {
-        var items = new List<string> { "Item 1", "Item 2", "Item 3" };
-        var itemsComponents = new StandardScrollPickerComponent<string>(items, onSelectedItemChanged: OnSelectedItemChanged);
+        var items = new List<string> { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" };
+        var itemsComponents = new StandardScrollPickerComponent<string>(items, onSelectedIndexChanged: OnSelectedItemChanged, isNullable: true, defaultValueOnlySetOnOpen: true);
         ItemComponents = [itemsComponents];
-
-        NullableItemComponents = [new StandardNullableScrollPickerComponent<string>(items, items[1])];
 
         var englishFootballers = new List<string> { "Foden", "Kane", "Rashford" };
         var norwegianFootballers = new List<string> { "Haaland", "Odegaard", "Sørloth" };
-        var englishFootballersComponent = new StandardScrollPickerComponent<string>(englishFootballers, englishFootballers[1]);
+        var englishFootballersComponent = new StandardScrollPickerComponent<string>(englishFootballers, 1);
         var norwegianFootballersComponent = new StandardScrollPickerComponent<string>(norwegianFootballers);
         FootballersComponents = [englishFootballersComponent, norwegianFootballersComponent];
 
         var yearsScrollPickerItemsSource = new YearScrollPickerComponent();
-        var weekScrollPickerItemsSource = new StandardScrollPickerComponent<int>(GetWeeksInYear(DateTime.Now.Year), 10, OnSelectedItemChanged);
+        var weekScrollPickerItemsSource = new StandardScrollPickerComponent<int>(GetWeeksInYear(DateTime.Now.Year), 10, OnSelectedItemChanged, true);
         var daysScrollPickerItemsSource = new DayScrollPickerComponent();
         DateComponents = [yearsScrollPickerItemsSource, weekScrollPickerItemsSource, daysScrollPickerItemsSource];
-    }
-
-    private void OnSelectedItemChanged(object? obj)
-    {
-        if (obj is null)
-        {
-            SystemMessageService.Display(config =>
-            {
-                config.Text = "null";
-                config.Duration = 250;
-            });
-        }
-        
-        if(obj is not string stringValue)
-            return;
-        
-        SystemMessageService.Display(config =>
-        {
-            config.Text = stringValue;
-            config.Duration = 250;
-        });
     }
 
     private async void OnSelectedItemChanged(int obj)

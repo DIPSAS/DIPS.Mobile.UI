@@ -3,32 +3,32 @@ using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
-public class YearScrollPickerComponent : BaseScrollPickerComponent<int>
+public class YearScrollPickerComponent : BaseScrollPickerComponent
 {
     private const int StartYear = 0;
     private const int EndYear = 9999;
-
-    protected override int GetDefaultSelectedItem()
-    {
-        return DateTime.Now.Year;
-    }
-
-    protected override int GetItem(int index)
-    {
-        return index;
-    }
 
     public override int GetItemsCount()
     {
         return EndYear - StartYear + 1;
     }
 
-    protected override int IndexOfSelectedItem(int selectedItem)
+    protected override int GetDefaultIndex()
     {
-        return selectedItem - StartYear;
+        return DateTime.Now.Year - 1;
     }
 
-    public override string GetItemText(int index)
+    protected override bool ShouldBeNullable()
+    {
+        return true;
+    }
+
+    protected override bool ShouldDefaultValueOnlyBeSetOnOpen()
+    {
+        return false;
+    }
+
+    public override string GetTextAtIndex(int index)
     {
         return (StartYear + index).ToString();
     }

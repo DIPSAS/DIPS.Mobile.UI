@@ -2,18 +2,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 public class StandardScrollPickerComponent<TModel>(
     IList<TModel> items,
-    TModel? defaultValue = default,
-    Action<object?>? onSelectedItemChanged = null)
-    : BaseScrollPickerComponent<TModel>(onSelectedItemChanged)
+    int defaultIndex = default,
+    Action<int>? onSelectedIndexChanged = null, bool isNullable = false, bool defaultValueOnlySetOnOpen = false)
+    : BaseScrollPickerComponent(onSelectedIndexChanged)
 {
-    protected override TModel GetDefaultSelectedItem()
+    public override string GetTextAtIndex(int index)
     {
-        return defaultValue ?? items[0];
-    }
-
-    protected override TModel GetItem(int index)
-    {
-        return items[index];
+        return items[index]?.ToString() ?? string.Empty;
     }
 
     public override int GetItemsCount()
@@ -21,13 +16,18 @@ public class StandardScrollPickerComponent<TModel>(
         return items.Count;
     }
 
-    protected override int IndexOfSelectedItem(TModel selectedItem)
+    protected override int GetDefaultIndex()
     {
-        return items.IndexOf(selectedItem);
+        return defaultIndex;
     }
 
-    public override string GetItemText(int index)
+    protected override bool ShouldBeNullable()
     {
-        return items[index]?.ToString() ?? string.Empty;
+        return isNullable;
+    }
+
+    protected override bool ShouldDefaultValueOnlyBeSetOnOpen()
+    {
+        return defaultValueOnlySetOnOpen;
     }
 }
