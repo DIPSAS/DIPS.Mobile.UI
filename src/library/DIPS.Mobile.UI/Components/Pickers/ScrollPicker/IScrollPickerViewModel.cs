@@ -30,7 +30,7 @@ internal interface IScrollPickerViewModel : IDisposable
     /// <summary>
     /// Sets the default selected index for all components that are not nullable
     /// </summary>
-    void SetDefaultSelectedItemsForAllComponents();
+    void SetDefaultSelectedItemsForAllComponents(bool isOpening = false);
 
     void SendSelectedIndicesChanged();
     

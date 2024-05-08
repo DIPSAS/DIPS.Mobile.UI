@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
@@ -6,7 +7,7 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent<int>
 {
     private readonly string[] m_monthNames;
 
-    public MonthScrollPickerComponent()
+    public MonthScrollPickerComponent() : base()
     {
         m_monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
     }

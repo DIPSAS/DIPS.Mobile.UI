@@ -143,7 +143,7 @@ internal class ScrollPickerViewController : UIViewController
         m_uiPicker.Model = vm;
 
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += OnAnyComponentsDataInvalidated;
-        m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
+        m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents(true);
         
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
@@ -266,7 +266,7 @@ internal class ScrollPickerViewController : UIViewController
         m_clearButton.TranslatesAutoresizingMaskIntoConstraints = false;
         NSLayoutConstraint.ActivateConstraints([
             m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
-            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, -15),
             m_clearButton.LeadingAnchor.ConstraintEqualTo(View!.LeadingAnchor),
         ]);
     }

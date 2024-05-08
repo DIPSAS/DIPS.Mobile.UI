@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
+
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
 public partial class ScrollPicker

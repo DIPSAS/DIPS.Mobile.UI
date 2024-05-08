@@ -1,13 +1,10 @@
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
 public class DayScrollPickerComponent : BaseScrollPickerComponent<int>
 {
-    public DayScrollPickerComponent(bool isNullable) : base(isNullable: isNullable)
-    {
-    }
-
     protected override int GetDefaultSelectedItem()
     {
         return DateTime.Now.Day;

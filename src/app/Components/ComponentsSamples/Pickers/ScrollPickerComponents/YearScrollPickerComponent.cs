@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
@@ -6,10 +7,6 @@ public class YearScrollPickerComponent : BaseScrollPickerComponent<int>
 {
     private const int StartYear = 0;
     private const int EndYear = 9999;
-
-    public YearScrollPickerComponent(bool isNullable) : base(null, isNullable)
-    {
-    }
 
     protected override int GetDefaultSelectedItem()
     {

@@ -210,7 +210,7 @@ internal class MaterialScrollPickerFragment(
     {
         var dialog = base.OnCreateDialog(savedInstanceState);
         
-        scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
+        scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents(true);
 
         m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedItemNull;
 
