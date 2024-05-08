@@ -1,6 +1,6 @@
 using Foundation;
 
-namespace DIPS.Mobile.UI.Components.Pickers.Platforms.iOS;
+namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
 public static class DateTimeToNSDateExtensions
 {

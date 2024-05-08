@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.ComTypes;
+using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.Pickers;
@@ -13,6 +14,10 @@ public class DateTimePickerSamplesViewModel : ViewModel
     private DateTime m_test;
     private DateTime m_test2;
     private DateTime m_test3;
+    private DateTime? m_dateTimeNullDefault;
+    private TimeSpan? m_timeSpanNullDefault;
+    private DateTime? m_dateAndTimeNullDefault;
+    private DateTime? m_dateTimeNullNotDefault = new DateTime(2024, 5, 7, 0, 0, 0);
 
     public DateTimePickerSamplesViewModel()
     {
@@ -32,7 +37,6 @@ public class DateTimePickerSamplesViewModel : ViewModel
         get => m_selectedBirthday;
         set => RaiseWhenSet(ref m_selectedBirthday, value);
     }
-
 
     public Func<int, object> CreateMyObjectsBasedOnPosition => i => $"Number {i}";
 
@@ -76,5 +80,43 @@ public class DateTimePickerSamplesViewModel : ViewModel
     {
         get => m_minimumDate;
         set => RaiseWhenSet(ref m_minimumDate, value);
+    }
+
+    public ICommand SelectedDateCommand => new Command(() =>
+    {
+        var test = DateTimeNullDefault;
+        var test2 = DateAndTimeNullDefault;
+        Console.WriteLine(test);
+        Console.WriteLine(test2);
+    });
+
+    public ICommand SelectedTimeCommand => new Command(() =>
+    {
+        var test = TimeSpanNullDefault;
+        Console.WriteLine(test);
+    });
+
+    public DateTime? DateTimeNullDefault
+    {
+        get => m_dateTimeNullDefault;
+        set => RaiseWhenSet(ref m_dateTimeNullDefault, value);
+    }
+
+    public DateTime? DateTimeNullNotDefault
+    {
+        get => m_dateTimeNullNotDefault;
+        set => RaiseWhenSet(ref m_dateTimeNullNotDefault, value);
+    }
+
+    public DateTime? DateAndTimeNullDefault
+    {
+        get => m_dateAndTimeNullDefault;
+        set => RaiseWhenSet(ref m_dateAndTimeNullDefault, value);
+    }
+
+    public TimeSpan? TimeSpanNullDefault
+    {
+        get => m_timeSpanNullDefault;
+        set => RaiseWhenSet(ref m_timeSpanNullDefault, value);
     }
 }

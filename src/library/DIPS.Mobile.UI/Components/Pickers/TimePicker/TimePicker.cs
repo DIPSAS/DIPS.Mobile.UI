@@ -1,18 +1,9 @@
-using DIPS.Mobile.UI.Components.Pickers.Platforms;
-using DIPS.Mobile.UI.Resources.Colors;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
+using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-public partial class TimePicker : View, IDateTimePicker
+public partial class TimePicker : View, IDatePicker
 {
-    public TimePicker()
-    {
-        BackgroundColor = Colors.GetColor(ColorName.color_secondary_30);
-        
-#if __IOS__
-        // DatePickers on iOS takes up invisible space
-        WidthRequest = 100;
-#endif
-    }
+   
 }

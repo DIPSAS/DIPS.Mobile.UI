@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.TextFields.Editor;
 using DIPS.Mobile.UI.Components.VirtualListView;
@@ -19,7 +20,6 @@ using CameraPreviewHandler = DIPS.Mobile.UI.API.Camera.Preview.CameraPreviewHand
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
-using DatePickerHandler = DIPS.Mobile.UI.Components.Pickers.DatePicker.DatePickerHandler;
 using Editor = DIPS.Mobile.UI.Components.TextFields.Editor.Editor;
 using Entry = DIPS.Mobile.UI.Components.TextFields.Entry.Entry;
 using EntryHandler = DIPS.Mobile.UI.Components.TextFields.Entry.EntryHandler;

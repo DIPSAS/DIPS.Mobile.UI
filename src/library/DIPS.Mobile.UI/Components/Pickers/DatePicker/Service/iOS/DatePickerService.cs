@@ -12,7 +12,7 @@ public partial class DatePickerService
 {
     internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
     
-    public static partial void Open(DatePicker datePicker, View? sourceView)
+    public static partial void Open(DatePicker datePicker, View? sourceView = null)
     {
         if (IsOpen())
         {
