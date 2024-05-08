@@ -95,6 +95,9 @@
     <data name="DetectedBarcodes_DetectedString" xml:space="preserve">
         <value>Detected {0} times</value>
     </data>
+    <data name="Remove" xml:space="preserve">
+        <value>Remove</value>
+    </data>
     <data name="Date" xml:space="preserve">
         <value>Date</value>
     </data>

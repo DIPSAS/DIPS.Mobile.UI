@@ -1,3 +1,6 @@
+## [29.0.0] 
+- [BreakingChange][ScrollPicker] Refactored so that it can be nullable.
+
 ## [28.6.1] 
 - [iOS][Chip] Add slightly more width when `IsToggleable=True` in order to not truncate title.
 

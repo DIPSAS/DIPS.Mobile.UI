@@ -49,7 +49,7 @@
                               SeparatorText=" / "
                               Components="{Binding DateComponents}" />
         </dui:ListItem>
-
+        
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

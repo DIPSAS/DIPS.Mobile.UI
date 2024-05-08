@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Microsoft.Maui.Handlers;
@@ -28,6 +29,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
             throw new Exception("The components of ScrollPicker must be set!");
 
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
+        m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += SetChipTitle;
         
         platformView.Click += PlatformViewOnClick;
@@ -37,6 +39,13 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
     
     private void SetChipTitle()
     {
+        if (m_scrollPickerViewModel.IsComponentsSelectedIndexMinusOne)
+        {
+            m_chip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            m_chip.Title = DUILocalizedStrings.Choose;
+            return;
+        }
+        
         var componentCount = m_scrollPickerViewModel.GetComponentCount();
         var texts = new string[componentCount];
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
@@ -45,6 +54,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
             texts[i] = m_scrollPickerViewModel.GetTextForRowInComponent(selectedIndexForComponent, i);
         }
         
+        m_chip.Style = Styles.GetChipStyle(ChipStyle.Input);
         m_chip.Title = texts.Length == 1 ? texts[0] : string.Join(VirtualView.SeparatorText, texts);
     }
 

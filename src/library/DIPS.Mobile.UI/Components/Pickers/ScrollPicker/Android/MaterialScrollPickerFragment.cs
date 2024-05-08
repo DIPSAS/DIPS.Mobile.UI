@@ -9,8 +9,8 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Shape;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Platform;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DialogFragment = AndroidX.Fragment.App.DialogFragment;
 using View = Android.Views.View;
@@ -22,6 +22,9 @@ internal class MaterialScrollPickerFragment(
     IScrollPickerViewModel scrollPickerViewModel,
     Action onSave) : DialogFragment
 {
+    private bool m_didSave;
+    private bool m_componentsNullBeforeOpen;
+
     public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
         var linearLayout = new LinearLayout(Context)
@@ -35,7 +38,7 @@ internal class MaterialScrollPickerFragment(
 
         var title = CreateTitle();
         var numberPickersLayout = CreateNumberPickersLayout(out var numberPickers);
-        var buttonsLayout = CreateButtonsLayout(numberPickers);
+        var buttonsLayout = CreateButtonsLayout(numberPickers, scrollPickerViewModel.IsNullable);
 
         if(title is not null)
             linearLayout.AddView(title);
@@ -75,11 +78,24 @@ internal class MaterialScrollPickerFragment(
         return grid;
     }
 
-    private LinearLayout CreateButtonsLayout(List<NumberPicker> numberPickers)
+    private LinearLayout CreateButtonsLayout(List<NumberPicker> numberPickers, bool isNullable)
     {
+        Button? clearButton = null;
+        
+        if (isNullable)
+        {
+            clearButton = CreateButton(DUILocalizedStrings.Remove.ToUpper(), () =>
+            {
+                Dismiss();
+                scrollPickerViewModel.SetToNull();
+                onSave.Invoke();
+            });
+        }
+        
         var cancelButton = CreateButton(DUILocalizedStrings.Cancel.ToUpper(), Dismiss);
         var okButton = CreateButton("OK", () =>
         {
+            m_didSave = true;
             Dismiss();
 
             for (var i = 0; i < numberPickers.Count; i++)
@@ -98,11 +114,13 @@ internal class MaterialScrollPickerFragment(
             Orientation = Orientation.Horizontal,
         };
         buttonsLayout.SetHorizontalGravity(GravityFlags.End);
-        buttonsLayout.AddView(cancelButton.ToPlatform(DUI.GetCurrentMauiContext!));
-        buttonsLayout.AddView(new Space(Context)
+        
+        if (clearButton is not null)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(1.0.ToMauiPixel(), ViewGroup.LayoutParams.MatchParent)
-        });
+            buttonsLayout.AddView(clearButton.ToPlatform(DUI.GetCurrentMauiContext!));
+        }
+        
+        buttonsLayout.AddView(cancelButton.ToPlatform(DUI.GetCurrentMauiContext!));
         buttonsLayout.AddView(okButton.ToPlatform(DUI.GetCurrentMauiContext!));
         return buttonsLayout;
     }
@@ -144,9 +162,9 @@ internal class MaterialScrollPickerFragment(
         };
     }
 
-    private static Buttons.Button CreateButton(string text, Action command)
+    private static Button CreateButton(string text, Action command)
     {
-        return new Buttons.Button
+        return new Button
         {
             Text = text,
             Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
@@ -155,7 +173,7 @@ internal class MaterialScrollPickerFragment(
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             FontFamily = "UI",
             Command = new Command(command),
-            HorizontalOptions = LayoutOptions.End
+            HorizontalOptions = LayoutOptions.Start
         };
     }
 
@@ -191,6 +209,10 @@ internal class MaterialScrollPickerFragment(
     public override Dialog OnCreateDialog(Bundle? savedInstanceState)
     {
         var dialog = base.OnCreateDialog(savedInstanceState);
+        
+        scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents(true);
+
+        m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedIndexMinusOne;
 
         var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, 12 * Context.GetDisplayDensity()).Build();
         var materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
@@ -201,5 +223,18 @@ internal class MaterialScrollPickerFragment(
         dialog.Window?.SetBackgroundDrawable(materialShapeDrawable);
 
         return dialog;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+        if(m_didSave)
+            return;
+
+        if (m_componentsNullBeforeOpen)
+        {
+            scrollPickerViewModel.SetToNull();   
+        }
     }
 }

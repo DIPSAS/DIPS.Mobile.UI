@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
@@ -10,26 +10,29 @@ public class MonthScrollPickerComponent : BaseScrollPickerComponent
     {
         m_monthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
     }
-    
-    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
-    {
-        SelectedItem = index;
-    }
 
     public override int GetItemsCount()
     {
         return m_monthNames.Length - 1;
     }
 
-    public override int GetSelectedItemIndex()
+    protected override int GetDefaultIndex()
     {
-        return SelectedItem;
+        return DateTime.Now.Month - 1;
     }
 
-    public override string GetItemText(int index)
+    protected override bool ShouldBeNullable()
+    {
+        return true;
+    }
+
+    protected override bool ShouldDefaultValueOnlyBeSetOnOpen()
+    {
+        return false;
+    }
+
+    public override string GetTextAtIndex(int index)
     {
         return m_monthNames[index];
     }
-
-    public int SelectedItem { get; private set; } = DateTime.Now.Month;
 }

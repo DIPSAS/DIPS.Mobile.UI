@@ -207,6 +207,12 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
         internal static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);

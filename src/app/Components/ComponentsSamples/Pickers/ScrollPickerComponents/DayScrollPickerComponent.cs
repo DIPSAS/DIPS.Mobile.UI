@@ -1,28 +1,31 @@
-using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
 
 public class DayScrollPickerComponent : BaseScrollPickerComponent
 {
-    public override void SetSelectedItem(int index, IScrollPickerComponent.SetSelectedItemMode setSelectedItemMode = IScrollPickerComponent.SetSelectedItemMode.Programmatic)
-    {
-        SelectedItem = index + 1;
-    }
-
     public override int GetItemsCount()
     {
         return 31;
     }
 
-    public override int GetSelectedItemIndex()
+    protected override int GetDefaultIndex()
     {
-        return SelectedItem - 1;
+        return DateTime.Now.Day - 1;
     }
 
-    public override string GetItemText(int index)
+    protected override bool ShouldBeNullable()
+    {
+        return true;
+    }
+
+    protected override bool ShouldDefaultValueOnlyBeSetOnOpen()
+    {
+        return false;
+    }
+
+    public override string GetTextAtIndex(int index)
     {
         return (index + 1).ToString();
     }
-
-    public int SelectedItem { get; private set; } = DateTime.Now.Day;
 }
