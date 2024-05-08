@@ -256,8 +256,8 @@ internal class ScrollPickerViewController : UIViewController
         NSLayoutConstraint.ActivateConstraints([
             m_uiPicker.LeadingAnchor.ConstraintEqualTo(View!.LeadingAnchor),
             m_uiPicker.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
-            m_uiPicker.TopAnchor.ConstraintEqualTo(View.TopAnchor),
-            m_uiPicker.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+            m_uiPicker.TopAnchor.ConstraintEqualTo(View.TopAnchor, PopoverPresentationController.ArrowDirection == UIPopoverArrowDirection.Down ? -20 : 0),
+            m_uiPicker.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, PopoverPresentationController.ArrowDirection == UIPopoverArrowDirection.Down ? -10 : 0),
         ]);
 
         if (m_clearButton is null)
@@ -266,7 +266,7 @@ internal class ScrollPickerViewController : UIViewController
         m_clearButton.TranslatesAutoresizingMaskIntoConstraints = false;
         NSLayoutConstraint.ActivateConstraints([
             m_clearButton.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
-            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+            m_clearButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor, PopoverPresentationController.ArrowDirection == UIPopoverArrowDirection.Down ? -10 : 0),
             m_clearButton.LeadingAnchor.ConstraintEqualTo(View!.LeadingAnchor),
         ]);
     }

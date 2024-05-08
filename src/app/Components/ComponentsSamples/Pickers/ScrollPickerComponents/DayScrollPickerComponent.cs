@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 
 namespace Components.ComponentsSamples.Pickers.ScrollPickerComponents;
