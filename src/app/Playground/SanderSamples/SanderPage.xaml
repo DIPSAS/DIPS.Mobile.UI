@@ -10,8 +10,11 @@
     </dui:ContentPage.BindingContext>
     
     <dui:VerticalStackLayout>
-    <sanderSamples:SanderContentView BindingContext="{Binding ViewModel}"/>
-    
+        <dui:ListItem HasBottomDivider="True"
+                      HasTopDivider="True"
+                      Title="Test">
+            <sanderSamples:SanderContentView BindingContext="{Binding ViewModel}"/>
+        </dui:ListItem>
     <dui:Button Text="Tap me!"
                 Command="{Binding TestCommand}"/>
     </dui:VerticalStackLayout>

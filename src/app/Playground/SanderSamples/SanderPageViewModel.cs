@@ -42,7 +42,7 @@ public class SanderViewModel : ViewModel
         
     }
     
-    public List<string> List => ["One", "Two", "Three"];
+    public List<string> List => ["Tid", "Runde"];
 
     public List<object> SelectedItem
     {
