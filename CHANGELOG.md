@@ -1,3 +1,6 @@
+## [29.0.2]
+- [NullableDatePickers] Fixed an issue where consumers could not set date or time.
+
 ## [29.0.1]
 - [ScrollPicker][iOS] Fixed an issue where you mass pressed on a scroll picker the application would crash
 - [ScrollPicker][iOS] If consumer sets selected index to -1, the scroll picker's popover will be closed.

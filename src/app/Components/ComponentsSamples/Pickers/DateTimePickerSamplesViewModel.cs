@@ -84,7 +84,8 @@ public class DateTimePickerSamplesViewModel : ViewModel
 
     public ICommand SelectedDateCommand => new Command(async () =>
     {
-        
+        await Task.Delay(1000);
+        DateTimeNullNotDefault = new DateTime(2022, 1, 1);
     });
 
     public ICommand SelectedTimeCommand => new Command(() =>
