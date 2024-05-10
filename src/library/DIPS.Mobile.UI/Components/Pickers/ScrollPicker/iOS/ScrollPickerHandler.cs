@@ -194,8 +194,13 @@ internal class ScrollPickerViewController : UIViewController
     {
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
-            var initialSelectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
-            m_uiPicker.Select(initialSelectedIndexForComponent, i, true);
+            var selectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
+            if (selectedIndexForComponent == -1)
+            {
+                _ = DismissViewControllerAsync(true);
+                break;
+            }
+            m_uiPicker.Select(selectedIndexForComponent, i, true);
         }
         
         m_scrollPickerViewModel.SendSelectedIndicesChanged();
@@ -203,10 +208,11 @@ internal class ScrollPickerViewController : UIViewController
 
     public async void OnChipTitleChanged()
     {
-        if (PopoverPresentationController is null || m_uiButton is null)
-            return;
-
         await Task.Delay(1);
+        
+        if(PopoverPresentationController is null || m_uiButton is null)
+            return;
+        
         PopoverPresentationController.SourceView = m_uiButton!;
         PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
         PopoverPresentationController.ContainerView.SetNeedsLayout();

@@ -9,6 +9,8 @@ namespace Components.ComponentsSamples.Pickers;
 
 public class ScrollPickerSamplesViewModel
 {
+    private int? m_lastSelectedIndex;
+
     public ScrollPickerSamplesViewModel()
     {
         
@@ -47,7 +49,6 @@ public class ScrollPickerSamplesViewModel
     
     private async void OnSelectedItemChanged(int obj)
     {
-       
     }
 
     private List<int> GetWeeksInYear(int year)
