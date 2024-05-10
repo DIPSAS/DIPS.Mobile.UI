@@ -1,6 +1,6 @@
 ## [29.0.1]
 - [ScrollPicker][iOS] Fixed an issue where you mass pressed on a scroll picker the application would crash
-- [ScrollPicker] If consumer sets selected index to -1, the scroll picker will be set to null
+- [ScrollPicker][iOS] If consumer sets selected index to -1, the scroll picker's popover will be closed.
 - [NullableDatePickers] If consumer sets the date or time to null, the switch will be set to false. 
 
 ## [29.0.0] 
