@@ -69,14 +69,13 @@
                 <dui:NullableDatePicker HorizontalOptions="End"
                                         SelectedDate="{Binding DateTimeNullDefault}"
                                         SelectedDateCommand="{Binding SelectedDateCommand}" />
-
+                
                 <dui:Label Text="Nullable DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:NullableDateAndTimePicker HorizontalOptions="End"
                                                SelectedDateTime="{Binding DateTimeNullNotDefault}"
                                                SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
                 
-
                 <dui:Label Text="Nullable TimePicker"
                            Style="{StaticResource LabelStyle}" />
                <dui:NullableTimePicker HorizontalOptions="End"

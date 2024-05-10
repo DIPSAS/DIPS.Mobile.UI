@@ -4,15 +4,13 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableDateAndTimePicker;
 
 public partial class NullableDateAndTimePicker : BaseNullableDatePicker
 {
-#nullable disable
-    private DateAndTimePicker.DateAndTimePicker m_dateAndTimePicker;
-#nullable enable
+    private DateAndTimePicker.DateAndTimePicker? m_dateAndTimePicker;
    
     protected override View CreateDateOrTimePicker()
     {
         m_dateAndTimePicker = new DateAndTimePicker.DateAndTimePicker
         {
-            SelectedDateTimeCommand = new Command(OnDateChanged),
+            SelectedDateTimeCommand = new Command(OnInternalDateChanged),
             SelectedDateTime = SelectedDateTime ?? DateTime.Now
         };
 
@@ -27,10 +25,9 @@ public partial class NullableDateAndTimePicker : BaseNullableDatePicker
         return SelectedDateTime is null;
     }
     
-    private void OnDateChanged()
+    private void OnInternalDateChanged()
     {
-        SelectedDateTime = m_dateAndTimePicker.SelectedDateTime;
-        SelectedDateTimeCommand?.Execute(null);
+        SelectedDateTime = m_dateAndTimePicker?.SelectedDateTime;
     }
     
     protected override void OnSwitchToggled(object? sender, ToggledEventArgs e)
@@ -39,12 +36,17 @@ public partial class NullableDateAndTimePicker : BaseNullableDatePicker
         
         if (e.Value)
         {
-            OnDateChanged();
+            OnInternalDateChanged();
         }
         else
         {
             SelectedDateTime = null;
-            SelectedDateTimeCommand?.Execute(null);
         }
+    }
+
+    private void OnSelectedDateTimeChanged()
+    {
+        DateEnabledSwitch.IsToggled = SelectedDateTime.HasValue;
+        SelectedDateTimeCommand?.Execute(null);
     }
 }

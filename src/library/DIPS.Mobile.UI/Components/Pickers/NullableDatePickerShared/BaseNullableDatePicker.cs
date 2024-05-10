@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableDatePickerShared;
 
 public abstract class BaseNullableDatePicker : HorizontalStackLayout
 {
-    private readonly Switch m_dateEnabledSwitch;
+    protected readonly Switch DateEnabledSwitch;
     
 #nullable disable
     private View m_dateOrTimePicker;
@@ -12,10 +12,10 @@ public abstract class BaseNullableDatePicker : HorizontalStackLayout
     {
         Spacing = Sizes.GetSize(SizeName.size_3);
 
-        m_dateEnabledSwitch = new Switch { VerticalOptions = LayoutOptions.Center };
-        m_dateEnabledSwitch.Toggled += OnSwitchToggled;
+        DateEnabledSwitch = new Switch { VerticalOptions = LayoutOptions.Center };
+        DateEnabledSwitch.Toggled += OnSwitchToggled;
         
-        Add(m_dateEnabledSwitch);
+        Add(DateEnabledSwitch);
     }
 
     protected override void OnHandlerChanged()
@@ -35,7 +35,7 @@ public abstract class BaseNullableDatePicker : HorizontalStackLayout
         
         if (!IsDateOrTimeNull())
         {
-            m_dateEnabledSwitch.IsToggled = true;
+            DateEnabledSwitch.IsToggled = true;
         }
     }
 
@@ -43,6 +43,9 @@ public abstract class BaseNullableDatePicker : HorizontalStackLayout
     protected abstract View CreateDateOrTimePicker();
     protected virtual void OnSwitchToggled(object? sender, ToggledEventArgs e)
     {
+        if (m_dateOrTimePicker is null)
+            return;
+        
         m_dateOrTimePicker.IsVisible = e.Value;
     }
 }

@@ -21,6 +21,7 @@ public interface IScrollPickerComponent
     /// <summary>
     /// Sets the selected item
     /// </summary>
+    /// <remarks>Setting to -1 nulls the scroll picker</remarks>
     void SetSelectedIndex(int index, SetSelectedItemMode setSelectedItemMode = SetSelectedItemMode.Programmatic);
     
     /// <summary>

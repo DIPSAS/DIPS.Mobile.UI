@@ -82,18 +82,20 @@ public class DateTimePickerSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_minimumDate, value);
     }
 
-    public ICommand SelectedDateCommand => new Command(() =>
+    public ICommand SelectedDateCommand => new Command(async () =>
     {
-        var test = DateTimeNullDefault;
-        var test2 = DateAndTimeNullDefault;
-        Console.WriteLine(test);
-        Console.WriteLine(test2);
+        
     });
 
     public ICommand SelectedTimeCommand => new Command(() =>
     {
         var test = TimeSpanNullDefault;
         Console.WriteLine(test);
+    });
+
+    public ICommand SetToNull => new Command(() =>
+    {
+        DateTimeNullDefault = null;
     });
 
     public DateTime? DateTimeNullDefault

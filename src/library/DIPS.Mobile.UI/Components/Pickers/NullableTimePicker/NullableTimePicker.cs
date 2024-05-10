@@ -4,9 +4,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableTimePicker;
 
 public partial class NullableTimePicker : BaseNullableDatePicker
 {
-#nullable disable
-    private TimePicker.TimePicker m_timePicker;
-#nullable enable
+    private TimePicker.TimePicker? m_timePicker;
     
     protected override bool IsDateOrTimeNull()
     {
@@ -17,17 +15,16 @@ public partial class NullableTimePicker : BaseNullableDatePicker
     {
         m_timePicker = new TimePicker.TimePicker
         {
-            SelectedTimeCommand = new Command(OnTimeChanged),
+            SelectedTimeCommand = new Command(OnInternalTimeChanged),
             SelectedTime = SelectedTime ?? DateTime.Now.TimeOfDay
         };
 
         return m_timePicker;
     }
 
-    private void OnTimeChanged()
+    private void OnInternalTimeChanged()
     {
-        SelectedTime = m_timePicker.SelectedTime;
-        SelectedTimeCommand?.Execute(null);
+        SelectedTime = m_timePicker?.SelectedTime;
     }
 
     protected override void OnSwitchToggled(object? sender, ToggledEventArgs e)
@@ -36,12 +33,17 @@ public partial class NullableTimePicker : BaseNullableDatePicker
         
         if (e.Value)
         {
-            OnTimeChanged();
+            OnInternalTimeChanged();
         }
         else
         {
             SelectedTime = null;
-            SelectedTimeCommand?.Execute(null);
         }
+    }
+
+    private void OnSelectedTimeChanged()
+    {
+        DateEnabledSwitch.IsToggled = SelectedTime.HasValue;
+        SelectedTimeCommand?.Execute(null);
     }
 }

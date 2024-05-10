@@ -7,7 +7,8 @@ public partial class NullableTimePicker
     public static readonly BindableProperty SelectedTimeProperty = BindableProperty.Create(
         nameof(SelectedTime),
         typeof(TimeSpan?),
-        typeof(NullableTimePicker), defaultBindingMode:BindingMode.TwoWay);
+        typeof(NullableTimePicker), defaultBindingMode:BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((NullableTimePicker)bindable).OnSelectedTimeChanged());
 
     /// <summary>
     /// The time people selected from the time picker.

@@ -7,7 +7,8 @@ public partial class NullableDateAndTimePicker
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
         typeof(DateTime?),
-        typeof(NullableDateAndTimePicker), defaultBindingMode: BindingMode.TwoWay);
+        typeof(NullableDateAndTimePicker), defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((NullableDateAndTimePicker)bindable).OnSelectedDateTimeChanged());
 
     /// <summary>
     /// The date people selected from the date picker.

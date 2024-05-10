@@ -37,6 +37,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
         m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged += SetChipTitle;
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += SetChipTitle;
         
         SetChipTitle();
     }
@@ -93,6 +94,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         m_chip.Command = null;
         m_scrollPickerViewController = null;
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged -= SetChipTitle;
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= SetChipTitle;
     }
 
 }
@@ -194,8 +196,13 @@ internal class ScrollPickerViewController : UIViewController
     {
         for (var i = 0; i < m_scrollPickerViewModel.GetComponentCount(); i++)
         {
-            var initialSelectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
-            m_uiPicker.Select(initialSelectedIndexForComponent, i, true);
+            var selectedIndexForComponent = m_scrollPickerViewModel.SelectedIndexForComponent(i);
+            if (selectedIndexForComponent == -1)
+            {
+                _ = DismissViewControllerAsync(true);
+                break;
+            }
+            m_uiPicker.Select(selectedIndexForComponent, i, true);
         }
         
         m_scrollPickerViewModel.SendSelectedIndicesChanged();
@@ -203,14 +210,22 @@ internal class ScrollPickerViewController : UIViewController
 
     public async void OnChipTitleChanged()
     {
-        if (PopoverPresentationController is null || m_uiButton is null)
+        await Task.Delay(1);
+        
+        if(PopoverPresentationController is null || m_uiButton is null)
             return;
 
-        await Task.Delay(1);
-        PopoverPresentationController.SourceView = m_uiButton!;
-        PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
-        PopoverPresentationController.ContainerView.SetNeedsLayout();
-        PopoverPresentationController.ContainerView.LayoutIfNeeded();
+        try
+        {
+            PopoverPresentationController.SourceView = m_uiButton!;
+            PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
+            PopoverPresentationController?.ContainerView.SetNeedsLayout();
+            PopoverPresentationController?.ContainerView.LayoutIfNeeded();
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     public override void ViewWillAppear(bool animated)
