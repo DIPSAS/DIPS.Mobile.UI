@@ -212,11 +212,18 @@ internal class ScrollPickerViewController : UIViewController
         
         if(PopoverPresentationController is null || m_uiButton is null)
             return;
-        
-        PopoverPresentationController.SourceView = m_uiButton!;
-        PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
-        PopoverPresentationController.ContainerView.SetNeedsLayout();
-        PopoverPresentationController.ContainerView.LayoutIfNeeded();
+
+        try
+        {
+            PopoverPresentationController.SourceView = m_uiButton!;
+            PopoverPresentationController.SourceRect = m_uiButton!.Bounds;
+            PopoverPresentationController?.ContainerView.SetNeedsLayout();
+            PopoverPresentationController?.ContainerView.LayoutIfNeeded();
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     public override void ViewWillAppear(bool animated)
