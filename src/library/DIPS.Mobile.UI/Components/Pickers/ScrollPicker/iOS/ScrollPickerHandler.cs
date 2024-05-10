@@ -37,6 +37,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         m_scrollPickerViewModel = new ScrollPickerViewModel(VirtualView.Components);
         m_scrollPickerViewModel.SetDefaultSelectedItemsForAllComponents();
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged += SetChipTitle;
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated += SetChipTitle;
         
         SetChipTitle();
     }
@@ -93,6 +94,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         m_chip.Command = null;
         m_scrollPickerViewController = null;
         m_scrollPickerViewModel.OnAnySelectedIndexesChanged -= SetChipTitle;
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= SetChipTitle;
     }
 
 }

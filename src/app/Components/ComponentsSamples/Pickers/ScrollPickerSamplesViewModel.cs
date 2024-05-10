@@ -49,6 +49,12 @@ public class ScrollPickerSamplesViewModel
     
     private async void OnSelectedItemChanged(int obj)
     {
+        if (obj == -1)
+        {
+            await Task.Delay(1000);
+            ItemComponents[0].SetSelectedIndex(2);
+            ItemComponents[0].InvalidateData();
+        }
     }
 
     private List<int> GetWeeksInYear(int year)
