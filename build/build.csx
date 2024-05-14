@@ -237,7 +237,7 @@ async Task<FileInfo> PackLibrary(string outputdir = null)
 {
     outputdir ??= OutputDir;
     var version = VersionUtil.GetLatestVersionFromChangelog(ChangeLogPath);
-    if (!await Git.CurrentBranchIsMain())
+    if (!await Git.CurrentBranchIsMain() && !await Git.CurrentBranchIsPatch())
     {
         var buildNumber = AzureDevops.GetEnvironmentVariable("Build.BuildNumber");
         version += $"-pre{buildNumber}";
