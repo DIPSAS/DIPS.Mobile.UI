@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using Foundation;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
@@ -20,14 +21,7 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (VirtualView is not DatePicker datePicker)
             return;
         
-        var timeZone = PlatformView.TimeZone ?? NSTimeZone.LocalTimeZone;
-        if (DateTime.TryParse(
-                new NSDateFormatter {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
-                    PlatformView.Date),
-                out var selectedDate))
-        {
-            datePicker.SelectedDate = selectedDate;
-        }
+        datePicker.SelectedDate = PlatformView.Date.ConvertDate(datePicker.IgnoreLocalTime);
         datePicker.SelectedDateCommand?.Execute(null);
     }
 

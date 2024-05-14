@@ -22,7 +22,7 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
         if(VirtualView is not DateAndTimePicker dateAndTimePicker)
             return;
         
-        dateAndTimePicker.SelectedDateTime = (DateTime)PlatformView.Date;
+        dateAndTimePicker.SelectedDateTime = PlatformView.Date.ConvertDate(dateAndTimePicker.IgnoreLocalTime);
         dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
     }
 

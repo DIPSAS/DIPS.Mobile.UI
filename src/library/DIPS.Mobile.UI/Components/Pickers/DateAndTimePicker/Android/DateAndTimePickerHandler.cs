@@ -42,25 +42,21 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
         TimePicker.SetBinding(VisualElement.IsEnabledProperty, new Binding(nameof(VirtualView.IsEnabled), source: VirtualView));
     }
 
-    private void OnDatePickerValueUpdated()
+    private void OnDatePickerValueUpdated() => SetSelectedDateTime();
+
+    private void SetSelectedDateTime()
     {
-        VirtualView.SelectedDateTime = new DateTime(DatePicker.SelectedDate.Year, 
+        var dateTime = new DateTime(DatePicker.SelectedDate.Year, 
             DatePicker.SelectedDate.Month,
             DatePicker.SelectedDate.Day, 
             VirtualView.SelectedDateTime.Hour, 
             VirtualView.SelectedDateTime.Minute, 
             VirtualView.SelectedDateTime.Second);
+        VirtualView.SelectedDateTime =
+            VirtualView.IgnoreLocalTime ? dateTime.ToUniversalTime() : dateTime.ToLocalTime();
     }
 
-    private void OnTimePickerValueUpdated()
-    {
-        VirtualView.SelectedDateTime = new DateTime(VirtualView.SelectedDateTime.Year,
-            VirtualView.SelectedDateTime.Month,
-            VirtualView.SelectedDateTime.Day, 
-            TimePicker.SelectedTime.Hours, 
-            TimePicker.SelectedTime.Minutes, 
-            TimePicker.SelectedTime.Seconds);
-    }
+    private void OnTimePickerValueUpdated() => SetSelectedDateTime();
     
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
@@ -68,7 +64,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
             dateAndTimePicker.SelectedDateTime.Minute,
             dateAndTimePicker.SelectedDateTime.Second);
 
-        handler.DatePicker.SelectedDate = dateAndTimePicker.SelectedDateTime;
+        handler.DatePicker.SelectedDate = dateAndTimePicker.IgnoreLocalTime ? dateAndTimePicker.SelectedDateTime.ToUniversalTime() : dateAndTimePicker.SelectedDateTime.ToLocalTime();
         handler.TimePicker.SelectedTime = timeSpan;
     }
     
