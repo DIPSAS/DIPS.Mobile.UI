@@ -1,3 +1,6 @@
+## [29.0.3]
+- [DatePicker][iOS] Made sure IgnoreLocalTime is respected.
+
 ## [29.0.2]
 - [NullableDatePickers] Fixed an issue where consumers could not set date or time.
 

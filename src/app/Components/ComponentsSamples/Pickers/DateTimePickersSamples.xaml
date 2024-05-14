@@ -38,6 +38,7 @@
                 <dui:Label Text="DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:DateAndTimePicker VerticalOptions="End"
+                                       IgnoreLocalTime="True"
                                        SelectedDateTime="{Binding SelectedDeadline}"
                                        HorizontalOptions="Start" />
 
