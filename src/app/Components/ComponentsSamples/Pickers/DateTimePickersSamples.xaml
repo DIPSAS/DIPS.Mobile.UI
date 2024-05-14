@@ -56,6 +56,7 @@
                 <dui:DatePicker VerticalOptions="End"
                                 SelectedDate="{Binding Test2}"
                                 HorizontalOptions="Start"
+                                IgnoreLocalTime="True"
                                 MinimumDate="{Binding MinimumDate}" />
 
                 <dui:Label Text="DatePicker (With maximum and minimum date)"

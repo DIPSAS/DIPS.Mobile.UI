@@ -6,17 +6,24 @@ public static class DateTimeToNSDateExtensions
 {
     public static NSDate ConvertDate(this DateTime date, bool ignoreLocalTime)
     {
-        if (date.Kind == DateTimeKind.Unspecified) 
+        var dateTime =  ignoreLocalTime ? date.ToUniversalTime() : date.ToLocalTime();
+        if (dateTime.Kind == DateTimeKind.Unspecified) 
         {
-            date = DateTime.SpecifyKind(date, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+            dateTime = DateTime.SpecifyKind(dateTime, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
         }
 
-        return (NSDate)date;
+        return (NSDate)dateTime;
     }
     
     public static DateTime ConvertDate(this NSDate date, bool ignoreLocalTime)
     {
-        return ignoreLocalTime ? ((DateTime)date).ToUniversalTime() : ((DateTime)date).ToLocalTime();
+        var dateTime =  ignoreLocalTime ? ((DateTime)date).ToUniversalTime() : ((DateTime)date).ToLocalTime();
+        if (dateTime.Kind == DateTimeKind.Unspecified) 
+        {
+            dateTime = DateTime.SpecifyKind(dateTime, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+        }
+
+        return dateTime;
     }
 
 }

@@ -25,7 +25,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
         SelectedDeadline = new DateTime(2023, 05, 10, 20, 10, 0);
         SelectedShoppingTime = new TimeSpan(16, 23, 0);
         MaximumDate = new DateTime(2023, 05, 16);
-        MinimumDate = new DateTime(2023, 01, 01);
+        MinimumDate = new DateTime(1900, 01, 01);
 
         Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
