@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using Foundation;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
@@ -20,20 +21,13 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (VirtualView is not DatePicker datePicker)
             return;
         
-        var timeZone = PlatformView.TimeZone ?? NSTimeZone.LocalTimeZone;
-        if (DateTime.TryParse(
-                new NSDateFormatter {DateFormat = "yyyy-MM-dd", TimeZone = timeZone}.StringFor(
-                    PlatformView.Date),
-                out var selectedDate))
-        {
-            datePicker.SelectedDate = selectedDate;
-        }
+        datePicker.SelectedDate = PlatformView.Date.ConvertDate(datePicker.IgnoreLocalTime);
         datePicker.SelectedDateCommand?.Execute(null);
     }
 
     private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(), true);
+        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(datePicker.IgnoreLocalTime), true);
     }
     
     private static partial void MapIgnoreLocalTime(DatePickerHandler handler, DatePicker datePicker)
@@ -46,7 +40,7 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (datePicker.MaximumDate is null or null)
             return;
 
-        handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate();
+        handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate(datePicker.IgnoreLocalTime);
     }
 
     private static partial void MapMinimumDate(DatePickerHandler handler, DatePicker datePicker)
@@ -54,6 +48,6 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (datePicker.MinimumDate is null or null)
             return;
 
-        handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate();
+        handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate(datePicker.IgnoreLocalTime);
     }
 }

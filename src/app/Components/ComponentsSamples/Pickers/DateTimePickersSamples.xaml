@@ -29,6 +29,7 @@
                 <dui:Label Text="DatePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:DatePicker VerticalOptions="End"
+                                IgnoreLocalTime="True"
                                 SelectedDate="{Binding SelectedBirthday}"
                                 HorizontalOptions="Start" />
                 <dui:Label Text="TimePicker"
@@ -38,6 +39,7 @@
                 <dui:Label Text="DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:DateAndTimePicker VerticalOptions="End"
+                                       IgnoreLocalTime="True"
                                        SelectedDateTime="{Binding SelectedDeadline}"
                                        HorizontalOptions="Start" />
 
@@ -54,6 +56,7 @@
                 <dui:DatePicker VerticalOptions="End"
                                 SelectedDate="{Binding Test2}"
                                 HorizontalOptions="Start"
+                                IgnoreLocalTime="True"
                                 MinimumDate="{Binding MinimumDate}" />
 
                 <dui:Label Text="DatePicker (With maximum and minimum date)"

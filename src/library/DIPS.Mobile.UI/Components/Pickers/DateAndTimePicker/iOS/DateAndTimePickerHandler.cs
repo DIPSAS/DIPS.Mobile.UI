@@ -22,7 +22,7 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
         if(VirtualView is not DateAndTimePicker dateAndTimePicker)
             return;
         
-        dateAndTimePicker.SelectedDateTime = (DateTime)PlatformView.Date;
+        dateAndTimePicker.SelectedDateTime = PlatformView.Date.ConvertDate(dateAndTimePicker.IgnoreLocalTime);
         dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
     }
 
@@ -31,7 +31,7 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
         if(dateAndTimePicker.MaximumDate is null or null)
             return;
 
-        handler.PlatformView.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate();
+        handler.PlatformView.MaximumDate = ((DateTime)dateAndTimePicker.MaximumDate).ConvertDate(dateAndTimePicker.IgnoreLocalTime);
     }
 
     private static partial void MapMinimumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
@@ -39,7 +39,7 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
         if(dateAndTimePicker.MinimumDate is null or null)
             return;
         
-        handler.PlatformView.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate();
+        handler.PlatformView.MinimumDate = ((DateTime)dateAndTimePicker.MinimumDate).ConvertDate(dateAndTimePicker.IgnoreLocalTime);
     }
 
     private static partial void MapIgnoreLocalTime(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
@@ -49,6 +49,6 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
 
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(), true);
+        handler.PlatformView.SetDate(dateAndTimePicker.SelectedDateTime.ConvertDate(dateAndTimePicker.IgnoreLocalTime), true);
     }
 }
