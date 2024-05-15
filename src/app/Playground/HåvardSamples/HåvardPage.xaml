@@ -11,9 +11,9 @@
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
     <VerticalStackLayout>
-        <dui:Chip x:Name="IsSavingChip" />
+        <dui:Switch x:Name="IsSavingChip" />
         <Entry x:Name="SavingText"
-               Text="Testing" />
+               Text="" />
         <dui:SaveView IsSaving="{Binding Source={x:Reference IsSavingChip}, Path=IsToggled}"
                       SavingText="{Binding Source={x:Reference SavingText}, Path=Text}" />
     </VerticalStackLayout>

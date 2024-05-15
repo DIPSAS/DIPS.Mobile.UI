@@ -103,6 +103,7 @@ public partial class SaveView : ContentView
             return;
         }
         
+        m_stateLabel.IsVisible = true;
         m_stateLabel.Text = SavingText;
     }
 }
