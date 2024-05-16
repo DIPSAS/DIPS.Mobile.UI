@@ -58,13 +58,7 @@ public partial class SaveView : ContentView
     {
         base.OnHandlerChanged();
 
-        if (string.IsNullOrEmpty(SavingText))
-        {
-            m_stateLabel.IsVisible = false;
-            return;
-        }
-        
-        m_stateLabel.Text = SavingText;
+        OnSavingTextChanged();
     }
 
     private void SetSavingCompletedText()
@@ -99,5 +93,17 @@ public partial class SaveView : ContentView
     private void OnCommandChanged()
     {
         Touch.SetIsEnabled(m_filledCheckBox, Command is not null);
+    }
+
+    private void OnSavingTextChanged()
+    {
+        if (string.IsNullOrEmpty(SavingText))
+        {
+            m_stateLabel.IsVisible = false;
+            return;
+        }
+        
+        m_stateLabel.IsVisible = true;
+        m_stateLabel.Text = SavingText;
     }
 }

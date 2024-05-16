@@ -10,48 +10,5 @@ public partial class HåvardPage
     public HåvardPage()
     {
         InitializeComponent();
-        m_barcodeScanner = new BarcodeScanner();
-        m_image = new Image() {Source = Icons.GetIcon(IconName.document_fill)};
-        
-        carouselView.ItemsSource = new object[]
-        {
-            new Item { Color = Colors.Red },
-            new Item { Color = Colors.Green },
-            new Item { Color = Colors.Yellow },
-            new Item { Color = Colors.Blue },
-        };
     }
-
-    public ICommand NavigateCommand => new Command<string>(async s =>
-    {
-        App.Current.MainPage.Navigation.PushAsync(new HåvardPage());
-    });
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-    }
-
-    public static readonly BindableProperty HideTextProperty = BindableProperty.Create(
-        nameof(HideText),
-        typeof(bool),
-        typeof(HåvardPage));
-
-    private readonly BarcodeScanner m_barcodeScanner;
-    private readonly Image m_image;
-
-    public bool HideText
-    {
-        get => (bool)GetValue(HideTextProperty);
-        set => SetValue(HideTextProperty, value);
-    }
-
-    // private void ShowTip(object sender, EventArgs e)
-    // {
-    //     TipService.Show("Testing tip", Label);
-    // }
-}
-public class Item
-{
-    public Color Color { get; set; }
 }

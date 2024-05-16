@@ -1,3 +1,6 @@
+## [28.5.1] 
+- [SaveView] Made sure saving text changed triggers that the label will be visible.
+
 ## [28.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
