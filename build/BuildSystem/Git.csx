@@ -34,7 +34,8 @@ public static class Git{
 
     public static async Task<bool> CurrentBranchIsPatch(string workingDirectory = null)
     {
-        return await GetCurrentBranch(workingDirectory).StartsWith("patch");
+        var branch = await GetCurrentBranch(workingDirectory);
+        return branch.StartsWith("patch");
     }
 
 
