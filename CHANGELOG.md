@@ -1,3 +1,6 @@
+## [29.0.4]
+- [SaveView] Made sure SaveView SavingText is bindable.
+
 ## [29.0.3]
 - [DatePicker][iOS] Made sure IgnoreLocalTime is respected.
 - [DateAndTimePicker][Android] Made sure IgnoreLocalTime is respected.

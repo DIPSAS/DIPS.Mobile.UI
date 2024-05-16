@@ -57,15 +57,21 @@ public partial class SaveView : ContentView
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+        SetSavingText();
+    }
 
+    private void SetSavingText()
+    {
         if (string.IsNullOrEmpty(SavingText))
         {
             m_stateLabel.IsVisible = false;
             return;
         }
-        
+        m_stateLabel.IsVisible = true;
         m_stateLabel.Text = SavingText;
     }
+    
+    
 
     private void SetSavingCompletedText()
     {

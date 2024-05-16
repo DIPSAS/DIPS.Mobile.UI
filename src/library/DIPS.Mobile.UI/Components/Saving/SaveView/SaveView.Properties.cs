@@ -76,7 +76,7 @@ public partial class SaveView
     public static readonly BindableProperty SavingTextProperty = BindableProperty.Create(
         nameof(SavingText),
         typeof(string),
-        typeof(SaveView));
+        typeof(SaveView), propertyChanged: (bindable,_,_) => ((SaveView)bindable).SetSavingText());
 
     public static readonly BindableProperty IsSavingCompletedProperty = BindableProperty.Create(
         nameof(IsSavingCompleted),
