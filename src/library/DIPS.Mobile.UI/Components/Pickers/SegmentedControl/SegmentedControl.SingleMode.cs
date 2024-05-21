@@ -26,25 +26,22 @@ public partial class SegmentedControl
             selectableItem.IsSelected = false;
         }
 
+        if (previousSelectedItem is not null && previousSelectedItem.Equals(selectableItemViewModel.Item) && DeSelectOnSameItemTapped)
+        {
+            SelectedItem = null;
+            SendDidDeSelect(previousSelectedItem);
+            return;
+        }
+        
         selectableItemViewModel.IsSelected = true;
         SelectedItem = selectableItemViewModel.Item;
 
-        if (selectableItemViewModel.IsSelected)
+        if (previousSelectedItem is not null)
         {
-            SendDidSelect(selectableItemViewModel.Item);
-            if (previousSelectedItem != null)
-            {
-                SendDidDeSelect(previousSelectedItem);
-            }
+            SendDidDeSelect(previousSelectedItem);
         }
-        else
-        {
-            SendDidDeSelect(selectableItemViewModel.Item);
-            if (previousSelectedItem != null)
-            {
-                SendDidSelect(previousSelectedItem);
-            }
-        }
+        
+        SendDidSelect(selectableItemViewModel.Item);
     }
 
     private void AddItemToSelectableItemsToPickFromSingleMode(

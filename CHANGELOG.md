@@ -1,3 +1,7 @@
+## [29.0.5]
+- [SegmentedControl] Added property `DeSelectOnSameItemTapped`.
+- [SegmentedControl] Fixed bug where `DidDeSelectItem` and `DidSelectItem` were fired when consumer tapped on the item that already was selected. 
+
 ## [29.0.4]
 - [SaveView] Made sure SaveView SavingText is bindable.
 
