@@ -1,4 +1,4 @@
-## [29.0.5]
+## [29.1.0]
 - [SegmentedControl] Added property `ShouldDeSelectOnSameItemTapped`.
 - [SegmentedControl] Fixed bug where `DidDeSelectItem` and `DidSelectItem` were fired when consumer tapped on the item that already was selected. 
 
