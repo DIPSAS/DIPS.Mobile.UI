@@ -26,7 +26,7 @@ public partial class SegmentedControl
             selectableItem.IsSelected = false;
         }
 
-        if (previousSelectedItem is not null && previousSelectedItem.Equals(selectableItemViewModel.Item) && DeSelectOnSameItemTapped)
+        if (previousSelectedItem is not null && previousSelectedItem.Equals(selectableItemViewModel.Item) && ShouldDeSelectOnSameItemTapped)
         {
             SelectedItem = null;
             SendDidDeSelect(previousSelectedItem);
