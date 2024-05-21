@@ -121,6 +121,21 @@ public partial class SegmentedControl
         get => (IEnumerable)GetValue(SelectedItemsProperty);
         set => SetValue(SelectedItemsProperty, value);
     }
+    
+    /// <summary>
+    /// Determines if the item should be de-selected when the same item is tapped again.
+    /// </summary>
+    /// <remarks>Only active when <see cref="SelectionMode"/> is <see cref="SelectionMode.Single"/></remarks>
+    public bool ShouldDeSelectOnSameItemTapped
+    {
+        get => (bool)GetValue(ShouldDeSelectOnSameItemTappedProperty);
+        set => SetValue(ShouldDeSelectOnSameItemTappedProperty, value);
+    }
+    
+    public static readonly BindableProperty ShouldDeSelectOnSameItemTappedProperty = BindableProperty.Create(
+        nameof(ShouldDeSelectOnSameItemTapped),
+        typeof(bool),
+        typeof(SegmentedControl));
 
     public static readonly BindableProperty DeSelectedItemCommandProperty = BindableProperty.Create(
         nameof(DeSelectedItemCommand),
