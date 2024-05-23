@@ -1,3 +1,6 @@
+## [29.1.1]
+- [NullableDatePicker] Fixed an issue where if dates were set as default, the pickers would still be null.
+
 ## [29.1.0]
 - [SegmentedControl] Added property `ShouldDeSelectOnSameItemTapped`.
 - [SegmentedControl] Fixed bug where `DidDeSelectItem` and `DidSelectItem` were fired when consumer tapped on the item that already was selected. 

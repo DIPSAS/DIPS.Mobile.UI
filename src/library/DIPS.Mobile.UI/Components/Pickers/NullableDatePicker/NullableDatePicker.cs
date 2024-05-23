@@ -49,8 +49,9 @@ public partial class NullableDatePicker : BaseNullableDatePicker
 
     private void OnSelectedDateChanged()
     {
-        if(m_datePicker is not null)
+        if (m_datePicker is not null)
             m_datePicker.SelectedDate = SelectedDate ?? m_datePicker.SelectedDate;
+        else return;
         
         DateEnabledSwitch.IsToggled = SelectedDate.HasValue;
         SelectedDateCommand?.Execute(null);

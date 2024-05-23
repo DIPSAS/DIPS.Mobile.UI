@@ -43,8 +43,9 @@ public partial class NullableTimePicker : BaseNullableDatePicker
 
     private void OnSelectedTimeChanged()
     {
-        if(m_timePicker is not null)
+        if (m_timePicker is not null)
             m_timePicker.SelectedTime = SelectedTime ?? m_timePicker.SelectedTime;
+        else return;
         
         DateEnabledSwitch.IsToggled = SelectedTime.HasValue;
         SelectedTimeCommand?.Execute(null);
