@@ -1,5 +1,6 @@
 ## [29.1.2]
-- Test
+- [VirtualListView][Android] When the list is rendered the first time, it won't invoke `OnScrolled` event.
+- [ListItem] Title, subtitle and InlineContent will now always be centered.
 
 ## [29.1.1]
 - [NullableDatePicker] Fixed an issue where if dates were set as default, the pickers would still be null.
