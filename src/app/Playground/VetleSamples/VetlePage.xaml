@@ -31,7 +31,6 @@
                 
                 <dui:ListItem Margin="{dui:Thickness Left=size_2, Right=size_2, Top=size_4, Bottom=size_4}" 
                               Icon="{dui:Icons test_tube_line}"
-                              Title="hello he her h ijsdafig ijgfios adjfgoidsjfois djosdifj"
                               Subtitle="Heloo sdf sdf a efwefwefewfew wefwe fwe fwef wefwefewfweefw ijgirjgirej rgijerigjerigjaoerjg roijgeroije">
                     <dui:ListItem.TitleOptions>
                         <dui:TitleOptions Width="*" LineBreakMode="TailTruncation" MaxLines="1">
