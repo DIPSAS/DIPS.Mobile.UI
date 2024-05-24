@@ -75,10 +75,16 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootGrid.Add(Border);
         
+        TitleLabel.SizeChanged += TitleLabelOnSizeChanged;
         TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
         TitleAndLabelGrid.Add(TitleLabel);
         
         this.Content = RootGrid;
+    }
+
+    private void TitleLabelOnSizeChanged(object? sender, EventArgs e)
+    {
+        UpdateTitleSubtitleLogic();
     }
 
     private void BindBorder()
@@ -109,8 +115,8 @@ public partial class ListItem : ContentView
         AddTouch();
     }
 
-    private bool TitleHasText => !string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(TitleLabel.FormattedText?.ToString());
-    private bool SubtitleHasText => !string.IsNullOrEmpty(Subtitle) && !string.IsNullOrEmpty(SubtitleLabel?.FormattedText?.ToString());
+    private bool TitleHasText => !string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(TitleLabel.FormattedText?.ToString());
+    private bool SubtitleHasText => !string.IsNullOrEmpty(Subtitle) || !string.IsNullOrEmpty(SubtitleLabel?.FormattedText?.ToString());
     
     private void AddTitle()
     {
@@ -156,7 +162,7 @@ public partial class ListItem : ContentView
             BindToOptions(DebuggingOptions);
     }
 
-    internal void UpdateTitleSubtitleLogic()
+    private void UpdateTitleSubtitleLogic()
     {
         switch (TitleHasText)
         {
@@ -370,5 +376,7 @@ public partial class ListItem : ContentView
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+
+        TitleLabel.SizeChanged -= TitleLabelOnSizeChanged;
     }
 }
