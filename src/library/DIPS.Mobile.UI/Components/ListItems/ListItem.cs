@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -13,7 +14,7 @@ public partial class ListItem : ContentView
 {
     private Grid RootGrid { get; } = new()
     {
-        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, 
+        BackgroundColor = Colors.Transparent, 
     };
     
     internal Grid ContainerGrid { get; } = new()
@@ -26,7 +27,7 @@ public partial class ListItem : ContentView
         },
         RowDefinitions = new RowDefinitionCollection()
         {
-            new(GridLength.Auto),
+            new(GridLength.Star),
         }
     };
 
@@ -123,10 +124,10 @@ public partial class ListItem : ContentView
 
         TitleAndLabelGrid.Insert(0, TitleLabel);
         
-        UpdateTitleSubtitleLogic();
-        
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
+        
+        UpdateTitleSubtitleLogic();
     }
 
     private void AddSubtitle()
@@ -145,10 +146,10 @@ public partial class ListItem : ContentView
 
         TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
-        UpdateTitleSubtitleLogic();
-        
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
+        
+        UpdateTitleSubtitleLogic();
     }
 
     private void UpdateTitleSubtitleLogic()

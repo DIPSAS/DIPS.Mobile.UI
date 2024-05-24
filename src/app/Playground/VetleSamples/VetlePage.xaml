@@ -18,9 +18,31 @@
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="hei" />
     </dui:ContentPage.ToolbarItems>
-   
- 
+
+    <Grid RowDefinitions="Auto, *">
+    <dui:SearchBar x:Name="SearchBar" />
     
+    <dui:VirtualListView Adapter="{Binding Adapter}"
+                         Grid.Row="1"
+                         ViewToUnfocusOnScrolled="{x:Reference SearchBar}"
+                         BackgroundColor="Transparent">
+        <dui:VirtualListView.ItemTemplate>
+            <DataTemplate>
+                <dui:ListItem Margin="{dui:Thickness Top=size_4, Bottom=size_4}" Title="{Binding .}"
+                              MinimumHeightRequest="200">
+                    
+                    
+                  
+          
+                    
+                   
+                    
+                </dui:ListItem>
+            </DataTemplate>
+        </dui:VirtualListView.ItemTemplate>
+    </dui:VirtualListView>
+ 
+    </Grid>
     
         
 </dui:ContentPage>

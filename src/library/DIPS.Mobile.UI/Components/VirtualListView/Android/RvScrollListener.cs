@@ -6,6 +6,8 @@ public partial class VirtualListViewHandler
 {
     class RvScrollListener : RecyclerView.OnScrollListener
     {
+        private bool m_firstScroll = true;
+        
         public RvScrollListener(Action<RecyclerView, int, int> scrollHandler)
         {
             ScrollHandler = scrollHandler;
@@ -17,6 +19,13 @@ public partial class VirtualListViewHandler
         {
             base.OnScrolled(recyclerView, dx, dy);
 
+            // This is a workaround for the first scroll event that is triggered when the view is created
+            if(m_firstScroll)
+            {
+                m_firstScroll = false;
+                return;
+            }
+            
             ScrollHandler?.Invoke(recyclerView, dx, dy);
         }
     }

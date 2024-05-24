@@ -26,7 +26,7 @@
     
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
@@ -115,12 +115,6 @@
             <DependentUpon>BottomSheetWithToolbar.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="DIPS.Mobile.UI">
-        <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\net8.0\DIPS.Mobile.UI.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

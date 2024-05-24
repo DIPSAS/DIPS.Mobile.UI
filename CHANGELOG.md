@@ -1,3 +1,6 @@
+## [29.1.2]
+- Test
+
 ## [29.1.1]
 - [NullableDatePicker] Fixed an issue where if dates were set as default, the pickers would still be null.
 

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
+using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.VetleSamples;
@@ -22,6 +23,7 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
+    private IVirtualListViewAdapter m_adapter;
 
     public VetlePageViewModel()
     {
@@ -64,6 +66,12 @@ public class VetlePageViewModel : ViewModel
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
 
+    }
+
+    public IVirtualListViewAdapter Adapter
+    {
+        get => m_adapter;
+        set => RaiseWhenSet(ref m_adapter, value);
     }
 
     private void Disable()
@@ -122,16 +130,8 @@ public class VetlePageViewModel : ViewModel
 
     private async Task DelayFunction()
     {
-        await Task.Delay(1000);
-        var sortOptions = new List<SortOption>()
-        {
-            new SortOption("Pasient med fødselsnummer, veldig lang sorteringsmulighet", "Number"),
-            new SortOption("Ord", "Words"),
-        };
-
-        
-        SortOptions = sortOptions;
-        DefaultSelectedItem = sortOptions[1];
+        await Task.Delay(2000);
+        Adapter = new VirtualListViewAdapter<string>(TestStrings);
     }
 
 
