@@ -39,8 +39,8 @@ public partial class ListItem : ContentView
         },
         RowDefinitions = new RowDefinitionCollection
         {
-            new(),
-            new()
+            new(GridLength.Star),
+            new(GridLength.Auto)
         },
         VerticalOptions = LayoutOptions.Center
     };

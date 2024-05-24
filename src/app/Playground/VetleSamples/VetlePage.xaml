@@ -22,51 +22,31 @@
     <Grid RowDefinitions="Auto, *">
     <dui:SearchBar x:Name="SearchBar" />
     
-    <dui:VirtualListView Adapter="{Binding Adapter}"
+    <!--<dui:NavigationListItem Title="Components"></dui:NavigationListItem>-->
+    
+    <dui:CollectionView ItemsSource="{Binding TestStrings}"
                          Grid.Row="1"
-                         ViewToUnfocusOnScrolled="{x:Reference SearchBar}"
                          BackgroundColor="Transparent">
-        <dui:VirtualListView.ItemTemplate>
+        <dui:CollectionView.ItemTemplate>
             <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
                 
                 <dui:ListItem Margin="{dui:Thickness Left=size_2, Right=size_2, Top=size_4, Bottom=size_4}" 
                               Icon="{dui:Icons test_tube_line}"
-                              Subtitle="Heloo sdf sdf a efwefwefewfew wefwe fwe fwef wefwefewfweefw ijgirjgirej rgijerigjerigjaoerjg roijgeroije">
-                    <dui:ListItem.TitleOptions>
-                        <dui:TitleOptions Width="*" LineBreakMode="TailTruncation" MaxLines="1">
-                            <dui:TitleOptions.FormattedText>
-                                <MultiBinding
-                                    Converter="{vetleSamples:TextHighlighterConverter FontFamily='Body', ShouldAddEllipsisAtStart=False}">
-                                    <Binding Path="Name" />
-                                    <Binding Path="SearchTerm" />
-                                </MultiBinding>
-                            </dui:TitleOptions.FormattedText>
-                        </dui:TitleOptions>
-                    </dui:ListItem.TitleOptions>
-                    
-                    <dui:ListItem.SubtitleOptions>
-                        <dui:SubtitleOptions MaxLines="1"
-                                             
-                                             LineBreakMode="TailTruncation" />
-                    </dui:ListItem.SubtitleOptions>
-                    
-                    <dui:Label MaxLines="1"
-                               LineBreakMode="TailTruncation">
-                        <dui:Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Hello asodjfposdjfiosdaj ofisajiof sadjoifjsoidfj"></Span>
-                            </FormattedString>
-                        </dui:Label.FormattedText>
-                    </dui:Label>
+                              Title="hei">
                     
                     <dui:ListItem.InLineContentOptions>
-                        <dui:InLineContentOptions Width="*" />
+                      <dui:InLineContentOptions Width="Auto"  />
+                        
                     </dui:ListItem.InLineContentOptions>
                     
-                </dui:ListItem>
+                    <dui:ListItem.TitleOptions>
+                        <dui:TitleOptions HorizontalTextAlignment="End"></dui:TitleOptions>
+                    </dui:ListItem.TitleOptions>
+                    
+                  </dui:ListItem>
             </DataTemplate>
-        </dui:VirtualListView.ItemTemplate>
-    </dui:VirtualListView>
+        </dui:CollectionView.ItemTemplate>
+    </dui:CollectionView>
  
     </Grid>
     
