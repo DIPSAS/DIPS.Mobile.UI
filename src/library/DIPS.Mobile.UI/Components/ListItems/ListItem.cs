@@ -124,10 +124,10 @@ public partial class ListItem : ContentView
 
         TitleAndLabelGrid.Insert(0, TitleLabel);
         
+        UpdateTitleSubtitleLogic();
+        
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
-        
-        UpdateTitleSubtitleLogic();
     }
 
     private void AddSubtitle()
@@ -146,10 +146,10 @@ public partial class ListItem : ContentView
 
         TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
+        UpdateTitleSubtitleLogic();
+        
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
-        
-        UpdateTitleSubtitleLogic();
     }
 
     private void UpdateTitleSubtitleLogic()
