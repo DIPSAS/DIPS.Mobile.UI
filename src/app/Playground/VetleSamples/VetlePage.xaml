@@ -27,15 +27,25 @@
                          ViewToUnfocusOnScrolled="{x:Reference SearchBar}"
                          BackgroundColor="Transparent">
         <dui:VirtualListView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem Margin="{dui:Thickness Top=size_4, Bottom=size_4}" Title="{Binding .}"
-                              MinimumHeightRequest="200">
+            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
+                
+                <dui:ListItem Margin="{dui:Thickness Left=size_2, Right=size_2, Top=size_4, Bottom=size_4}" 
+                              Icon="{dui:Icons test_tube_line}">
+                    <dui:ListItem.TitleOptions>
+                        <dui:TitleOptions Width="*">
+                            <dui:TitleOptions.FormattedText>
+                                <MultiBinding
+                                    Converter="{vetleSamples:TextHighlighterConverter FontFamily='Body', ShouldAddEllipsisAtStart=False}">
+                                    <Binding Path="Name" />
+                                    <Binding Path="SearchTerm" />
+                                </MultiBinding>
+                            </dui:TitleOptions.FormattedText>
+                        </dui:TitleOptions>
+                    </dui:ListItem.TitleOptions>
                     
-                    
-                  
-          
-                    
-                   
+                    <dui:ListItem.InLineContentOptions>
+                        <dui:InLineContentOptions Width="Auto" />
+                    </dui:ListItem.InLineContentOptions>
                     
                 </dui:ListItem>
             </DataTemplate>

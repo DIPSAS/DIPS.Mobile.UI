@@ -68,11 +68,7 @@ public class VetlePageViewModel : ViewModel
 
     }
 
-    public IVirtualListViewAdapter Adapter
-    {
-        get => m_adapter;
-        set => RaiseWhenSet(ref m_adapter, value);
-    }
+    public IVirtualListViewAdapter Adapter => new VirtualListViewAdapter<TestObject2>([new TestObject2("Lokalisasjon påkrevd - Kodeverk og egendefinert"), new TestObject2("Test2"), new TestObject2("Lokalisasjon - Fritekst")]);
 
     private void Disable()
     {
@@ -131,7 +127,7 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        Adapter = new VirtualListViewAdapter<string>(TestStrings);
+        
     }
 
 
@@ -161,8 +157,8 @@ public class VetlePageViewModel : ViewModel
 
     public ObservableCollection<string> TestStrings { get; set; } = new()
     {
-        "1234567",
-        "7654321",
+        "Lokalisasjon påkrevd - Kodeverk og egendefinert",
+        "Lokalisasjon - Fritekst",
         "526321",
         "271351",
         "912512",
@@ -172,6 +168,8 @@ public class VetlePageViewModel : ViewModel
         "ØDEGÅÅRD",
         "Testern",
     };
+    
+    public string? Summary { get; }
 
     public ICommand RemoveStringCommand => new Command(s =>
     {
@@ -322,4 +320,16 @@ public class TestObject
     public ICommand Command { get; }
 
     public bool IsChecked { get; } = true;
+}
+
+public class TestObject2
+{
+    public TestObject2(string name)
+    {
+        Name = name;
+    }
+    
+   public string Name { get; set; }
+
+   public string SearchTerm { get; } = "Test";
 }

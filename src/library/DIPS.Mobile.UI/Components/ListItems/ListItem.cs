@@ -75,6 +75,7 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootGrid.Add(Border);
         
+        TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
         TitleAndLabelGrid.Add(TitleLabel);
         
         this.Content = RootGrid;
@@ -108,6 +109,9 @@ public partial class ListItem : ContentView
         AddTouch();
     }
 
+    private bool TitleHasText => !string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(TitleLabel.FormattedText?.ToString());
+    private bool SubtitleHasText => !string.IsNullOrEmpty(Subtitle) && !string.IsNullOrEmpty(SubtitleLabel?.FormattedText?.ToString());
+    
     private void AddTitle()
     {
         if (TitleAndLabelGrid.Contains(TitleLabel))
@@ -121,10 +125,10 @@ public partial class ListItem : ContentView
         };
         
         BindToOptions(TitleOptions);
-
-        TitleAndLabelGrid.Insert(0, TitleLabel);
         
         UpdateTitleSubtitleLogic();
+
+        TitleAndLabelGrid.Insert(0, TitleLabel);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
@@ -144,25 +148,26 @@ public partial class ListItem : ContentView
         
         BindToOptions(SubtitleOptions);
 
-        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
-        
         UpdateTitleSubtitleLogic();
+        
+        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
     }
 
-    private void UpdateTitleSubtitleLogic()
+    internal void UpdateTitleSubtitleLogic()
     {
-        if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Subtitle))
+        switch (TitleHasText)
         {
-            TitleOptions.VerticalTextAlignment = TextAlignment.End;
-            TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
-        }
-        else if (!string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Subtitle))
-        {
-            TitleOptions.VerticalTextAlignment = TextAlignment.Center;
-            TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+            case true when SubtitleHasText:
+                TitleOptions.VerticalTextAlignment = TextAlignment.End;
+                TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
+                break;
+            case false when !SubtitleHasText:
+                TitleOptions.VerticalTextAlignment = TextAlignment.Center;
+                TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+                break;
         }
     }
     
