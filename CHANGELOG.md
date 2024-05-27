@@ -2,6 +2,7 @@
 - [ListItem] Now there is no need to set `Title` or `Subtitle` on `ListItem` in order to use the `FormattedText` in their options.
 - [ListItem][Android] Fixed an issue where a blank `Subtitle` would take up space.
 - [ListItem] Fixed a bug where a `ListItem` in a `CollectionView` sometimes don't give `Title` it's required space. 
+- [VirtualListView][Android] The `OnScrolled` event will never be invoked now unless user has scrolled.
 
 ## [29.1.2]
 - [VirtualListView][Android] When the list is rendered the first time, it won't invoke `OnScrolled` event.

@@ -6,7 +6,7 @@ public partial class VirtualListViewHandler
 {
     class RvScrollListener : RecyclerView.OnScrollListener
     {
-        private bool m_firstScroll = true;
+        private bool m_haveScrolled;
         
         public RvScrollListener(Action<RecyclerView, int, int> scrollHandler)
         {
@@ -19,14 +19,14 @@ public partial class VirtualListViewHandler
         {
             base.OnScrolled(recyclerView, dx, dy);
 
-            // This is a workaround for the first scroll event that is triggered when the view is created
-            if(m_firstScroll)
+            // This function gets called when GlobalHeader, ItemTemplate etc. is drawn, so we have to check here if the user has scrolled, if not, never invoke the ScrollHandler
+            if (dx != 0 || dy != 0)
             {
-                m_firstScroll = false;
-                return;
+                m_haveScrolled = true;
             }
             
-            ScrollHandler?.Invoke(recyclerView, dx, dy);
+            if(m_haveScrolled)
+                ScrollHandler?.Invoke(recyclerView, dx, dy);
         }
     }
 }

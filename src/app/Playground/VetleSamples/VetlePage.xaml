@@ -22,43 +22,31 @@
     <Grid RowDefinitions="Auto, *">
         <dui:SearchBar x:Name="SearchBar" />
 
-        <!--<dui:NavigationListItem Title="Components"></dui:NavigationListItem>-->
-
-      
-
-                    <dui:ListItem 
-                                  Title="asd"
-                                  >
-
-                        <dui:ListItem.SubtitleOptions>
-                            <dui:SubtitleOptions>
-                                <dui:SubtitleOptions.FormattedText>
-                                    
-                                <FormattedString>
-                                    <Span Text="Lol" />
-                                </FormattedString>
-                                </dui:SubtitleOptions.FormattedText>
-                            </dui:SubtitleOptions>
-                        </dui:ListItem.SubtitleOptions>
-                        
-                       
-                        
-                        <Switch />
-                        
-                        <!--<dui:ListItem.SubtitleOptions>
-                            <dui:SubtitleOptions LineBreakMode="TailTruncation"
-                                                 MaxLines="1">
-                                <dui:SubtitleOptions.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="asdasdsadsadsadasdasdsadsadsasdasdasdasdsadasdsadasdsadsa" />
-                                    </FormattedString>
-                                </dui:SubtitleOptions.FormattedText>
-                            </dui:SubtitleOptions>
-                        </dui:ListItem.SubtitleOptions>-->
-
-                     
-
-                    </dui:ListItem>
+        <dui:VirtualListView Adapter="{Binding Adapter}"
+                             Grid.Row="1"
+                             ViewToUnfocusOnScrolled="{x:Reference SearchBar}">
+            <dui:VirtualListView.GlobalHeader>
+                <Label Text="hehe"></Label>
+            </dui:VirtualListView.GlobalHeader>
+            
+            <dui:VirtualListView.ItemTemplate>
+                <DataTemplate>
+                    <dui:ListItem Title="Hei!" />
+                </DataTemplate>
+            </dui:VirtualListView.ItemTemplate>
+            
+            <dui:VirtualListView.EmptyView>
+                <dui:ActivityIndicator />
+            </dui:VirtualListView.EmptyView>
+            
+            <dui:VirtualListView.GlobalFooter>
+                <Grid>
+                <BoxView HeightRequest="1000"
+                         BackgroundColor="Red"/>
+                </Grid>
+            </dui:VirtualListView.GlobalFooter>
+            
+        </dui:VirtualListView>
 
     </Grid>
 
