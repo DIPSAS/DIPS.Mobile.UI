@@ -68,7 +68,7 @@ public class VetlePageViewModel : ViewModel
 
     }
 
-    public IVirtualListViewAdapter Adapter => new VirtualListViewAdapter<TestObject2>([new TestObject2("Lokalisasjon påkrevd - Kodeverk og egendefinert"), new TestObject2("Test2"), new TestObject2("Lokalisasjon - Fritekst")]);
+    public TestAdapter Adapter { get; } = new TestAdapter();
 
     private void Disable()
     {
@@ -127,7 +127,7 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        
+        Adapter.SetData([new TestObject2("Lokalisasjon påkrevd - Kodeverk og egendefinert"), new TestObject2("Test2"), new TestObject2("Lokalisasjon - Fritekst")]);
     }
 
 
@@ -332,4 +332,27 @@ public class TestObject2
    public string Name { get; set; }
 
    public string SearchTerm { get; } = "Test";
+}
+
+public class TestAdapter : VirtualListViewAdapterBase<object, TestObject2>, IVirtualListViewAdapter
+{
+    private List<TestObject2> m_testObjects;
+
+    public override TestObject2 GetItem(int sectionIndex, int itemIndex)
+    {
+        return m_testObjects?[itemIndex] ?? new TestObject2("l");
+    }
+
+    public override int GetNumberOfItemsInSection(int sectionIndex)
+    {
+        return m_testObjects?.Count ?? 0;
+    }
+
+    public void SetData(List<TestObject2> testObjects)
+    {
+        m_testObjects = testObjects;
+        
+        InvalidateData();
+    }
+    
 }

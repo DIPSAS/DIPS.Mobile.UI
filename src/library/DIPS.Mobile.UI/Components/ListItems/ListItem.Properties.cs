@@ -294,14 +294,12 @@ namespace DIPS.Mobile.UI.Components.ListItems
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             nameof(Title),
             typeof(string),
-            typeof(ListItem), 
-            propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddTitle());
+            typeof(ListItem));
     
         public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
             nameof(Subtitle),
             typeof(string),
-            typeof(ListItem), 
-            propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddSubtitle());
+            typeof(ListItem));
 
         public static readonly BindableProperty IconProperty = BindableProperty.Create(
             nameof(Icon),

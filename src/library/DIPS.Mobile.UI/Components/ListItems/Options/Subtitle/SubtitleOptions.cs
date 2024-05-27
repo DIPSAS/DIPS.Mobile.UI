@@ -11,6 +11,7 @@ public partial class SubtitleOptions : ListItemOptions
         if(listItem.SubtitleLabel is null)
             return;            
         
+        listItem.SubtitleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ListItem.Subtitle), source: listItem));
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(FontAttributes), source: this));
         listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, new Binding(nameof(HorizontalTextAlignment), source: this));
         listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
@@ -19,9 +20,21 @@ public partial class SubtitleOptions : ListItemOptions
         listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
         listItem.SubtitleLabel.SetBinding(Label.FormattedTextProperty, new Binding(nameof(FormattedText), source: this));
 
+        listItem.SubtitleLabel.IsVisible = !IsSubtitleEmptyOrNull(listItem);
+        
         if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
         {
             listItem.SubtitleLabel.MaxLines = MaxLines;
         }
+    }
+
+    private bool IsSubtitleEmptyOrNull(ListItem listItem)
+    {
+        if (FormattedText is not null)
+        {
+            return string.IsNullOrEmpty(FormattedText.ToString());
+        }
+
+        return string.IsNullOrEmpty(listItem.Subtitle);
     }
 }

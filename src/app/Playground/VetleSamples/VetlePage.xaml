@@ -14,41 +14,41 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    
+
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="hei" />
     </dui:ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, *">
-    <dui:SearchBar x:Name="SearchBar" />
-    
-    <!--<dui:NavigationListItem Title="Components"></dui:NavigationListItem>-->
-    
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                         Grid.Row="1"
-                         BackgroundColor="Transparent">
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
-                
-                <dui:ListItem Margin="{dui:Thickness Left=size_2, Right=size_2, Top=size_4, Bottom=size_4}" 
-                              Icon="{dui:Icons test_tube_line}"
-                              Title="hei">
-                    
-                    <dui:ListItem.InLineContentOptions>
-                      <dui:InLineContentOptions Width="Auto"  />
-                        
-                    </dui:ListItem.InLineContentOptions>
-                    
-                    <dui:ListItem.TitleOptions>
-                        <dui:TitleOptions HorizontalTextAlignment="End"></dui:TitleOptions>
-                    </dui:ListItem.TitleOptions>
-                    
-                  </dui:ListItem>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
- 
+        <dui:SearchBar x:Name="SearchBar" />
+
+        <dui:VirtualListView Adapter="{Binding Adapter}"
+                             Grid.Row="1"
+                             ViewToUnfocusOnScrolled="{x:Reference SearchBar}">
+            <dui:VirtualListView.GlobalHeader>
+                <Label Text="hehe"></Label>
+            </dui:VirtualListView.GlobalHeader>
+            
+            <dui:VirtualListView.ItemTemplate>
+                <DataTemplate>
+                    <dui:ListItem Title="Hei!" />
+                </DataTemplate>
+            </dui:VirtualListView.ItemTemplate>
+            
+            <dui:VirtualListView.EmptyView>
+                <dui:ActivityIndicator />
+            </dui:VirtualListView.EmptyView>
+            
+            <dui:VirtualListView.GlobalFooter>
+                <Grid>
+                <BoxView HeightRequest="1000"
+                         BackgroundColor="Red"/>
+                </Grid>
+            </dui:VirtualListView.GlobalFooter>
+            
+        </dui:VirtualListView>
+
     </Grid>
-    
-        
+
+
 </dui:ContentPage>

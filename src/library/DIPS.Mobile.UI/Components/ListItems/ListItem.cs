@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
@@ -48,7 +49,7 @@ public partial class ListItem : ContentView
     internal Border Border { get; } = new();
     internal Image? ImageIcon { get; private set; }
     internal Label TitleLabel { get; private set; } = new();
-    internal Label? SubtitleLabel { get; private set; }
+    internal Label SubtitleLabel { get; private set; } = new() { IsVisible = false };
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
@@ -75,16 +76,7 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootGrid.Add(Border);
         
-        TitleLabel.SizeChanged += TitleLabelOnSizeChanged;
-        TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
-        TitleAndLabelGrid.Add(TitleLabel);
-        
         this.Content = RootGrid;
-    }
-
-    private void TitleLabelOnSizeChanged(object? sender, EventArgs e)
-    {
-        UpdateTitleSubtitleLogic();
     }
 
     private void BindBorder()
@@ -112,29 +104,17 @@ public partial class ListItem : ContentView
         Border.StrokeThickness = 0;
 #endif
         
+        AddTitle();
+        AddSubtitle();
+        
         AddTouch();
     }
-
-    private bool TitleHasText => !string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(TitleLabel.FormattedText?.ToString());
-    private bool SubtitleHasText => !string.IsNullOrEmpty(Subtitle) || !string.IsNullOrEmpty(SubtitleLabel?.FormattedText?.ToString());
     
     private void AddTitle()
     {
-        if (TitleAndLabelGrid.Contains(TitleLabel))
-        {
-            TitleAndLabelGrid.Remove(TitleLabel);
-        }
-        
-        TitleLabel = new Label
-        {
-            Text = Title
-        };
-        
-        BindToOptions(TitleOptions);
-        
-        UpdateTitleSubtitleLogic();
-
         TitleAndLabelGrid.Insert(0, TitleLabel);
+
+        BindToOptions(TitleOptions);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
@@ -142,41 +122,14 @@ public partial class ListItem : ContentView
 
     private void AddSubtitle()
     {
-        if (TitleAndLabelGrid.Contains(SubtitleLabel))
-        {
-            TitleAndLabelGrid.Remove(SubtitleLabel);
-        }
-
-        SubtitleLabel = new Label
-        {
-            Text = Subtitle
-        };
+        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
         BindToOptions(SubtitleOptions);
-
-        UpdateTitleSubtitleLogic();
-        
-        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
     }
 
-    private void UpdateTitleSubtitleLogic()
-    {
-        switch (TitleHasText)
-        {
-            case true when SubtitleHasText:
-                TitleOptions.VerticalTextAlignment = TextAlignment.End;
-                TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
-                break;
-            case false when !SubtitleHasText:
-                TitleOptions.VerticalTextAlignment = TextAlignment.Center;
-                TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
-                break;
-        }
-    }
-    
     private void AddIcon()
     {
         if (ContainerGrid.Contains(ImageIcon))
@@ -376,7 +329,5 @@ public partial class ListItem : ContentView
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
-
-        TitleLabel.SizeChanged -= TitleLabelOnSizeChanged;
     }
 }
