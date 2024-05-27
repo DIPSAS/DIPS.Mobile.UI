@@ -14,41 +14,53 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    
+
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="hei" />
     </dui:ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, *">
-    <dui:SearchBar x:Name="SearchBar" />
-    
-    <!--<dui:NavigationListItem Title="Components"></dui:NavigationListItem>-->
-    
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                         Grid.Row="1"
-                         BackgroundColor="Transparent">
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
-                
-                <dui:ListItem Margin="{dui:Thickness Left=size_2, Right=size_2, Top=size_4, Bottom=size_4}" 
-                              Icon="{dui:Icons test_tube_line}"
-                              Title="hei">
-                    
-                    <dui:ListItem.InLineContentOptions>
-                      <dui:InLineContentOptions Width="Auto"  />
+        <dui:SearchBar x:Name="SearchBar" />
+
+        <!--<dui:NavigationListItem Title="Components"></dui:NavigationListItem>-->
+
+      
+
+                    <dui:ListItem 
+                                  Title="asd"
+                                  >
+
+                        <dui:ListItem.SubtitleOptions>
+                            <dui:SubtitleOptions>
+                                <dui:SubtitleOptions.FormattedText>
+                                    
+                                <FormattedString>
+                                    <Span Text="Lol" />
+                                </FormattedString>
+                                </dui:SubtitleOptions.FormattedText>
+                            </dui:SubtitleOptions>
+                        </dui:ListItem.SubtitleOptions>
                         
-                    </dui:ListItem.InLineContentOptions>
-                    
-                    <dui:ListItem.TitleOptions>
-                        <dui:TitleOptions HorizontalTextAlignment="End"></dui:TitleOptions>
-                    </dui:ListItem.TitleOptions>
-                    
-                  </dui:ListItem>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
- 
+                       
+                        
+                        <Switch />
+                        
+                        <!--<dui:ListItem.SubtitleOptions>
+                            <dui:SubtitleOptions LineBreakMode="TailTruncation"
+                                                 MaxLines="1">
+                                <dui:SubtitleOptions.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="asdasdsadsadsadasdasdsadsadsasdasdasdasdsadasdsadasdsadsa" />
+                                    </FormattedString>
+                                </dui:SubtitleOptions.FormattedText>
+                            </dui:SubtitleOptions>
+                        </dui:ListItem.SubtitleOptions>-->
+
+                     
+
+                    </dui:ListItem>
+
     </Grid>
-    
-        
+
+
 </dui:ContentPage>
