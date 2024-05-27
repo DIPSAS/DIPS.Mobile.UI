@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Controls.Shapes;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -13,7 +14,7 @@ public partial class ListItem : ContentView
 {
     private Grid RootGrid { get; } = new()
     {
-        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent, 
+        BackgroundColor = Colors.Transparent, 
     };
     
     internal Grid ContainerGrid { get; } = new()
@@ -26,7 +27,7 @@ public partial class ListItem : ContentView
         },
         RowDefinitions = new RowDefinitionCollection()
         {
-            new(GridLength.Auto),
+            new(GridLength.Star),
         }
     };
 
@@ -38,8 +39,8 @@ public partial class ListItem : ContentView
         },
         RowDefinitions = new RowDefinitionCollection
         {
-            new(),
-            new()
+            new(GridLength.Star),
+            new(GridLength.Auto)
         },
         VerticalOptions = LayoutOptions.Center
     };
@@ -74,9 +75,16 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootGrid.Add(Border);
         
+        TitleLabel.SizeChanged += TitleLabelOnSizeChanged;
+        TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
         TitleAndLabelGrid.Add(TitleLabel);
         
         this.Content = RootGrid;
+    }
+
+    private void TitleLabelOnSizeChanged(object? sender, EventArgs e)
+    {
+        UpdateTitleSubtitleLogic();
     }
 
     private void BindBorder()
@@ -107,6 +115,9 @@ public partial class ListItem : ContentView
         AddTouch();
     }
 
+    private bool TitleHasText => !string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(TitleLabel.FormattedText?.ToString());
+    private bool SubtitleHasText => !string.IsNullOrEmpty(Subtitle) || !string.IsNullOrEmpty(SubtitleLabel?.FormattedText?.ToString());
+    
     private void AddTitle()
     {
         if (TitleAndLabelGrid.Contains(TitleLabel))
@@ -120,10 +131,10 @@ public partial class ListItem : ContentView
         };
         
         BindToOptions(TitleOptions);
-
-        TitleAndLabelGrid.Insert(0, TitleLabel);
         
         UpdateTitleSubtitleLogic();
+
+        TitleAndLabelGrid.Insert(0, TitleLabel);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
@@ -143,9 +154,9 @@ public partial class ListItem : ContentView
         
         BindToOptions(SubtitleOptions);
 
-        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
-        
         UpdateTitleSubtitleLogic();
+        
+        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
         
         if(IsDebugMode)
             BindToOptions(DebuggingOptions);
@@ -153,15 +164,16 @@ public partial class ListItem : ContentView
 
     private void UpdateTitleSubtitleLogic()
     {
-        if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Subtitle))
+        switch (TitleHasText)
         {
-            TitleOptions.VerticalTextAlignment = TextAlignment.End;
-            TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
-        }
-        else if (!string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Subtitle))
-        {
-            TitleOptions.VerticalTextAlignment = TextAlignment.Center;
-            TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+            case true when SubtitleHasText:
+                TitleOptions.VerticalTextAlignment = TextAlignment.End;
+                TitleAndLabelGrid.SetRowSpan(TitleLabel, 1);
+                break;
+            case false when !SubtitleHasText:
+                TitleOptions.VerticalTextAlignment = TextAlignment.Center;
+                TitleAndLabelGrid.SetRowSpan(TitleLabel, 2);
+                break;
         }
     }
     
@@ -364,5 +376,7 @@ public partial class ListItem : ContentView
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+
+        TitleLabel.SizeChanged -= TitleLabelOnSizeChanged;
     }
 }

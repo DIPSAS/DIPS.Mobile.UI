@@ -226,7 +226,7 @@ public partial class VirtualListView : View, IVirtualListView, IVirtualListViewS
 	public event EventHandler<ScrolledEventArgs> OnScrolled;
 
 	public void Scrolled(double x, double y)
-	{
+	{        
 		var args = new ScrolledEventArgs(x, y);
 
 		if (ScrolledCommand != null && ScrolledCommand.CanExecute(args))

@@ -1,3 +1,9 @@
+## [29.1.2]
+- [VirtualListView][Android] When the list is rendered the first time, it won't invoke `OnScrolled` event.
+- [ListItem] `Title`, `Subtitle` and `InlineContent` will now always be centered no matter the height of the `ListItem` (If underlying content has not been set).
+- [ListItem] Setting `FormattedText` of `Title` in `TitleOptions` will now make the `TitleLabel` wrap correctly.
+- [ListItem] `Subtitle` will now adhere to `LineBreakMode`, instead of just cutting off.
+
 ## [29.1.1]
 - [NullableDatePicker] Fixed an issue where if dates were set as default, the pickers would still be null.
 
