@@ -331,5 +331,9 @@ contagious_droplet_fill=160,
 isolation_immunodeficiency_fill=161,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/isolation_chemotherapy_fill.svg">View the icon in the browser</a></summary>
 isolation_chemotherapy_fill=162,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/surgery_small_outline.svg">View the icon in the browser</a></summary>
+surgery_small_outline=163,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/x_ray.svg">View the icon in the browser</a></summary>
+x_ray=164,
     }
 }

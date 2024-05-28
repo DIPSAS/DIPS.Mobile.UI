@@ -170,6 +170,8 @@ this file is generated
 ["contagious_droplet_fill"] = "contagious_droplet_fill.png",
 ["isolation_immunodeficiency_fill"] = "isolation_immunodeficiency_fill.png",
 ["isolation_chemotherapy_fill"] = "isolation_chemotherapy_fill.png",
+["surgery_small_outline"] = "surgery_small_outline.png",
+["x_ray"] = "x_ray.png",
 
             };
         }
