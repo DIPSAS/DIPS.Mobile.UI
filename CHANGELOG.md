@@ -1,3 +1,6 @@
+## [29.2.0]
+- Added `ContextMenuToolbarItem`, to set context menu on a `ToolbarItem`.
+
 ## [29.1.3]
 - [ListItem] Now there is no need to set `Title` or `Subtitle` on `ListItem` in order to use the `FormattedText` in their options.
 - [ListItem][Android] Fixed an issue where a blank `Subtitle` would take up space.
