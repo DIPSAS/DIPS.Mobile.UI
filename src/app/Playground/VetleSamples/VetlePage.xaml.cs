@@ -1,5 +1,7 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.Pages;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.Internals;
 using Playground.HåvardSamples;
@@ -16,6 +18,7 @@ public partial class VetlePage
 
     private void Test123()
     {
+        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
     }
 
     protected override async void OnAppearing()
@@ -24,9 +27,21 @@ public partial class VetlePage
 
         await Task.Delay(1000);
         
-        ToolbarItems.Add(new ToolbarItem()
+        ToolbarItems.Add(new ContextMenuToolbarItem()
         {
-            IconImageSource = Icons.GetIcon(IconName.alert_fill)
+            IconImageSource = Icons.GetIcon(IconName.alert_fill),
+            ContextMenu = new ContextMenu()
+            {
+                Title = "Test",
+                ItemsSource = new List<IContextMenuItem>()
+                {
+                    new ContextMenuItem()
+                    {
+                        Title = "Test",
+                        Command = TestCommand
+                    }
+                }
+            }
         });
     }
 

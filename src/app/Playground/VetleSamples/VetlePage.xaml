@@ -17,8 +17,10 @@
 
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="hei" />
+        
+        
     </dui:ContentPage.ToolbarItems>
-
+    
     <Grid RowDefinitions="Auto, *">
         <dui:SearchBar x:Name="SearchBar" />
 
