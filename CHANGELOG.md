@@ -1,5 +1,8 @@
-## [29.2.0]
+## [29.3.0]
 - Added `ContextMenuToolbarItem`, to set context menu on a `ToolbarItem`.
+
+## [29.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [29.1.3]
 - [ListItem] Now there is no need to set `Title` or `Subtitle` on `ListItem` in order to use the `FormattedText` in their options.
