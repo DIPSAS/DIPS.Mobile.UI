@@ -16,9 +16,14 @@
     </dui:ContentPage.BindingContext>
 
     <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Text="hei" />
         
-        
+        <dui:ContextMenuToolbarItem Text="Context">
+            <dui:ContextMenuToolbarItem.ContextMenu>
+                <dui:ContextMenu Title="Hei" />
+            </dui:ContextMenuToolbarItem.ContextMenu>
+        </dui:ContextMenuToolbarItem>
+
+
     </dui:ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="Auto, *">

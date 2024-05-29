@@ -25,7 +25,7 @@ public partial class VetlePage
     {
         base.OnAppearing();
 
-        await Task.Delay(1000);
+        await Task.Delay(4000);
         
         ToolbarItems.Add(new ContextMenuToolbarItem()
         {
