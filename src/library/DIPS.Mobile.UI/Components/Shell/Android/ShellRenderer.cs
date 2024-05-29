@@ -89,7 +89,10 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
         {
             base.UpdateToolbarItems(toolbar, page);
 
-            await Task.Delay(1);
+            // Need to have a delay of 400ms here for some reason, otherwise the toolbar item changes will be overwritten.
+            // However, the time it takes to update the toolbar items will most likely be finished when animating to the page is done, so it's not a problem
+            await Task.Delay(400);
+            
             for (var i = 0; i < toolbar.Menu?.Size(); i++)
             {
                 var toolbarItem = page.ToolbarItems[i];
