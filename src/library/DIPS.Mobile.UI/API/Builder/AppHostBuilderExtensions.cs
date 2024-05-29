@@ -36,6 +36,7 @@ using ScrollView = DIPS.Mobile.UI.Components.Lists.ScrollView;
 using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
+using ShellRenderer = DIPS.Mobile.UI.Components.Shell.ShellRenderer;
 using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -75,7 +76,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<VirtualListView, VirtualListViewHandler>();
-            handlers.AddHandler<ContentPage, ContentPageHandler>();
+            handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             
             AddPlatformHandlers(handlers);
         });

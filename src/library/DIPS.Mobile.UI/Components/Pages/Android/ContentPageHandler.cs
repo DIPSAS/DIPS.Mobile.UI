@@ -1,22 +1,12 @@
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using Android.OS;
-using Android.Views;
 using Android.Widget;
-using AndroidX.Navigation.UI;
-using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using Google.Android.Material.AppBar;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Activity = Android.App.Activity;
-using Application = Android.App.Application;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Object = Java.Lang.Object;
 
-namespace DIPS.Mobile.UI.Components.Pages;
+namespace DIPS.Mobile.UI.Components.Pages.Android;
 
-public partial class ContentPageHandler : PageHandler
+public class ContentPageHandler : PageHandler
 {
     /// <summary>
     /// Magic taken from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039

@@ -1,7 +1,4 @@
-using Android.App;
 using Android.Content.Res;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Shell.Android;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Google.Android.Material.Snackbar;
 using Microsoft.Maui.Handlers;
