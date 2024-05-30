@@ -58,9 +58,9 @@ internal class CustomShellPageRendererTracker : ShellPageRendererTracker
         ViewController.NavigationItem.SetRightBarButtonItems(primaries == null ? [] : primaries.ToArray(), false);
     }
     
-    private static UIBarButtonItem ToContextMenuBarButtonItem(ContextMenuToolbarItem toolbarItem)
+    private UIBarButtonItem ToContextMenuBarButtonItem(ContextMenuToolbarItem toolbarItem)
     {
-        var dict = ContextMenuHelper.CreateMenuItems(toolbarItem.ContextMenu.ItemsSource!, toolbarItem.ContextMenu);
+        var dict = ContextMenuHelper.CreateMenuItems(toolbarItem.ContextMenu.ItemsSource!, toolbarItem.ContextMenu, UpdateToolbarItems);
         if (toolbarItem.IconImageSource is FileImageSource fileImageSource)
         {
             return new UIBarButtonItem(UIImage.FromBundle(fileImageSource), UIMenu.Create(toolbarItem.ContextMenu.Title, dict.Select(k => k.Value).ToArray()));

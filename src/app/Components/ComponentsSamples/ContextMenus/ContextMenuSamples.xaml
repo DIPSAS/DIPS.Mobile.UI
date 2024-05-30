@@ -12,7 +12,7 @@
         <dui:ContextMenuToolbarItem Text="Tap">
             <dui:ContextMenuToolbarItem.ContextMenu>
                 <dui:ContextMenu Title="Context menu">
-                    <dui:ContextMenuItem Title="Item 1" />
+                    <dui:ContextMenuItem Title="Item 1" IsCheckable="True" />
                     <dui:ContextMenuItem Title="Item 2" />
                 </dui:ContextMenu>
             </dui:ContextMenuToolbarItem.ContextMenu>
