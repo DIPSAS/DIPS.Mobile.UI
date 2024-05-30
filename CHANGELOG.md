@@ -1,3 +1,6 @@
+## [29.3.1]
+- [iOS][ContextMenuToolbarItem] Fixed an issue where `IsCheckable` did not work.
+
 ## [29.3.0]
 - Added `ContextMenuToolbarItem`, to set context menu on a `ToolbarItem`.
 
