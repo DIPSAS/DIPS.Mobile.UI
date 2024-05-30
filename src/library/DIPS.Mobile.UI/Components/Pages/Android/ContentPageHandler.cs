@@ -18,12 +18,12 @@ public class ContentPageHandler : PageHandler
         
         // If the ContentPage is a regular page, the linearlayout will be null
         var linearLayout = Platform.CurrentActivity?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
-
+        
         var child1 = linearLayout?.GetChildAt(0);
 
         if (child1 is not MaterialToolbar materialToolbar)
             return;
-
+        
         var stateListColor = Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName)
             .ToDefaultColorStateList();
                 

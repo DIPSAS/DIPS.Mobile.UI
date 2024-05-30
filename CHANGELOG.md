@@ -1,3 +1,6 @@
+## [29.3.0]
+- Added `ContextMenuToolbarItem`, to set context menu on a `ToolbarItem`.
+
 ## [29.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

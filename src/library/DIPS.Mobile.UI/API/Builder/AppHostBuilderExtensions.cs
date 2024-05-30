@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.Pages;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
@@ -19,6 +20,7 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using CameraPreviewHandler = DIPS.Mobile.UI.API.Camera.Preview.CameraPreviewHandler;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
+using ContentPage = Microsoft.Maui.Controls.ContentPage;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
 using Editor = DIPS.Mobile.UI.Components.TextFields.Editor.Editor;
 using Entry = DIPS.Mobile.UI.Components.TextFields.Entry.Entry;
@@ -34,6 +36,7 @@ using ScrollView = DIPS.Mobile.UI.Components.Lists.ScrollView;
 using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
+using ShellRenderer = DIPS.Mobile.UI.Components.Shell.ShellRenderer;
 using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -73,6 +76,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<VirtualListView, VirtualListViewHandler>();
+            handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             
             AddPlatformHandlers(handlers);
         });

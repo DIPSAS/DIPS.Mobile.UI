@@ -13,7 +13,7 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        var shell = new Shell();
+        var shell = new DIPS.Mobile.UI.Components.Shell.Shell();
         var tabBar = new TabBar();
         var tab = new Tab();
         
