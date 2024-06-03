@@ -118,14 +118,17 @@ public partial class MultiItemsPicker : ContentView
             if (!selectedItems.Any())
             {
                 SelectedItems = new List<object> {item};
+            }
+            else if (selectedItems.Contains(item))
+            {
                 return;
             }
-
-            if (selectedItems.Contains(item)) return;
-
-            var tempList = selectedItems.ToList();
-            tempList.Add(item);
-            SelectedItems = tempList;
+            else
+            {
+                var tempList = selectedItems.ToList();
+                tempList.Add(item);
+                SelectedItems = tempList;
+            }
         }
 
         SelectedItemsCommand?.Execute(SelectedItems);
