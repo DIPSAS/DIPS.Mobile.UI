@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
+using ObjCRuntime;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -53,6 +54,24 @@ public class BottomSheetViewController : UIViewController
         
         m_container.AddToView(View, NavigationController?.NavigationBar);
         m_bottomBar = new BottomBarView(View, BottomSheet);
+    }
+
+    public void SetBackButton()
+    {
+        if (BottomSheet.BackButtonBehavior is null)
+            return;
+
+        BottomSheet.BackButtonBehavior.BindingContext = BottomSheet.BindingContext;
+
+        NavigationItem.LeftBarButtonItem = new UIBarButtonItem(
+            BottomSheet.BackButtonBehavior.IconOverride is FileImageSource fileImageSource
+                ? UIImage.FromBundle(fileImageSource)
+                : null, UIBarButtonItemStyle.Plain, delegate
+            {
+                BottomSheet.BackButtonBehavior.Command?.Execute(BottomSheet.BackButtonBehavior.CommandParameter);
+            });
+            
+        NavigationItem.LeftBarButtonItem.Title = BottomSheet.BackButtonBehavior.TextOverride;
     }
 
     private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)

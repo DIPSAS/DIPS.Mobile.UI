@@ -151,6 +151,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             }
         }
 
+        public BackButtonBehavior? BackButtonBehavior
+        {
+            get => (BackButtonBehavior?)GetValue(BackButtonBehaviorProperty);
+            set => SetValue(BackButtonBehaviorProperty, value);
+        }
+        
+        public static readonly BindableProperty BackButtonBehaviorProperty = BindableProperty.Create(
+            nameof(BackButtonBehavior),
+            typeof(BackButtonBehavior),
+            typeof(BottomSheet));
+
         public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
             nameof(Positioning),
             typeof(Positioning),

@@ -1,3 +1,6 @@
+## [29.4.0]
+- [BottomSheet] Added property 'BackButtonBehavior', so that the back button can be set in a bottomsheet.
+
 ## [29.3.2]
 - [MultiItemsPicker] Fixed an issue where `MultiItemsPicker.DidSelectItem` was not triggered when first item was selected
 
