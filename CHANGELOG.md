@@ -1,3 +1,6 @@
+## [29.3.2]
+- [MultiItemsPicker] Fixed an issue where `MultiItemsPicker.DidSelectItem` was not triggered when first item was selected
+
 ## [29.3.1]
 - [iOS][ContextMenuToolbarItem] Fixed an issue where `IsCheckable` did not work.
 
