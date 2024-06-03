@@ -1,18 +1,26 @@
 using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.Graphics.Drawable;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using AndroidResource = Android.Resource;
 using Application = Android.App.Application;
 using Grid = Microsoft.Maui.Controls.Grid;
 using AView = Android.Views.View;
+using Color = Microsoft.Maui.Graphics.Color;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Object = Java.Lang.Object;
+using RelativeLayout = Android.Widget.RelativeLayout;
+using ADrawableCompat = AndroidX.Core.Graphics.Drawable.DrawableCompat;
+using Paint = Android.Graphics.Paint;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -186,6 +194,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         handler.ToggleSearchBar();
     }
 
+    private static partial void MapBackButtonBehavior(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        handler.SetBackButton(bottomSheet);
+    }
+
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         handler.ToggleToolbarVisibility(bottomSheet);
@@ -239,6 +252,21 @@ public partial class BottomSheetHandler : ContentViewHandler
     private static async partial  void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         
+    }
+    
+    private async void SetBackButton(BottomSheet bottomSheet)
+    {
+        // Delay to make sure the toolbar is created
+        await Task.Delay(1); 
+        
+        if(bottomSheet.BackButtonBehavior is null || m_toolbar is null)
+            return;
+
+        DUI.TryGetDrawableFromFileImageSource(bottomSheet.BackButtonBehavior.IconOverride, out var icon);
+        
+        var text = new TextOrIconDrawable(Context, Colors.GetColor(BottomSheet.ToolbarActionButtonsName), icon, bottomSheet.BackButtonBehavior.TextOverride);
+        
+        m_toolbar!.NavigationIcon = text;
     }
 
     /// <summary>
@@ -331,6 +359,67 @@ public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListe
         if (m_handler.m_linearLayout.Parent is FrameLayout frameLayout)
         {
             m_handler.SetBottomBarTranslation(frameLayout);
+        }
+    }
+}
+
+class TextOrIconDrawable : DrawerArrowDrawable
+{
+    public Drawable? IconBitmap { get; set; }
+    public string Text { get; set; }
+    public Color TintColor { get; set; }
+    public ImageSource IconBitmapSource { get; set; }
+    float _defaultSize;
+
+    Color _pressedBackgroundColor => TintColor.AddLuminosity(-.12f);//<item name="highlight_alpha_material_light" format="float" type="dimen">0.12</item>
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (disposing && IconBitmap != null)
+        {
+            IconBitmap.Dispose();
+        }
+    }
+
+    public TextOrIconDrawable(Context context, Color defaultColor, Drawable? icon, string text) : base(context)
+    {
+        TintColor = defaultColor;
+        if (context.TryResolveAttribute(AndroidResource.Attribute.TextSize, out float? value) &&
+            value != null)
+        {
+            _defaultSize = value.Value;
+        }
+        else
+        {
+            _defaultSize = 50;
+        }
+
+        IconBitmap = icon;
+        Text = text;
+    }
+
+    public override void Draw(Canvas canvas)
+    {
+        bool pressed = false;
+        if (IconBitmap != null)
+        {
+            ADrawableCompat.SetTint(IconBitmap, TintColor.ToPlatform());
+            ADrawableCompat.SetTintMode(IconBitmap, PorterDuff.Mode.SrcAtop);
+
+            IconBitmap.SetBounds(Bounds.Left, Bounds.Top, Bounds.Right, Bounds.Bottom);
+            IconBitmap.Draw(canvas);
+        }
+        else if (!string.IsNullOrEmpty(Text))
+        {
+            var paint = new Paint() { AntiAlias = true };
+            paint.TextSize = _defaultSize;
+#pragma warning disable CA1416 // https://github.com/xamarin/xamarin-android/issues/6962
+            paint.Color = pressed ? _pressedBackgroundColor.ToPlatform() : TintColor.ToPlatform();
+#pragma warning restore CA1416
+            paint.SetStyle(Paint.Style.Fill);
+            var y = (Bounds.Height() + paint.TextSize) / 2;
+            canvas.DrawText(Text, 0, y, paint);
         }
     }
 }

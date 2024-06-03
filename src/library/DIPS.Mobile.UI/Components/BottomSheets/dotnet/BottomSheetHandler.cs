@@ -5,6 +5,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheetHandler : ContentViewHandler
 {
+    private static partial void MapBackButtonBehavior(BottomSheetHandler handler, BottomSheet bottomSheet) =>
+        Only_Here_For_UnitTests.Throw();
+    
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet) =>
         Only_Here_For_UnitTests.Throw();
 

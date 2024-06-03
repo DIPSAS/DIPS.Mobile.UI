@@ -13,6 +13,13 @@
         <sheets:BottomSheetWithToolbarViewModel/>
     </dui:BottomSheet.BindingContext>
     
+    <dui:BottomSheet.BackButtonBehavior>
+        <BackButtonBehavior TextOverride="Test"
+                            IconOverride="{dui:Icons arrow_back_line}"
+                            Command="{Binding CloseBottomSheetCommand}"
+                            />
+    </dui:BottomSheet.BackButtonBehavior>
+    
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem Text="Bell"
                      IconImageSource="{dui:Icons bell_fill}" />
