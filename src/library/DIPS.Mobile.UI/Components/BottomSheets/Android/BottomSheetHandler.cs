@@ -262,11 +262,28 @@ public partial class BottomSheetHandler : ContentViewHandler
         if(bottomSheet.BackButtonBehavior is null || m_toolbar is null)
             return;
 
+        bottomSheet.BackButtonBehavior.BindingContext = bottomSheet.BindingContext;
         DUI.TryGetDrawableFromFileImageSource(bottomSheet.BackButtonBehavior.IconOverride, out var icon);
         
         var text = new TextOrIconDrawable(Context, Colors.GetColor(BottomSheet.ToolbarActionButtonsName), icon, bottomSheet.BackButtonBehavior.TextOverride);
         
         m_toolbar!.NavigationIcon = text;
+        m_toolbar.SetNavigationOnClickListener(new OnClickListener(() => bottomSheet.BackButtonBehavior.Command?.Execute(bottomSheet.BackButtonBehavior.CommandParameter)));
+        
+    }
+    class OnClickListener : Object, AView.IOnClickListener
+    {
+        private readonly Action m_action;
+
+        public OnClickListener(Action action)
+        {
+            m_action = action;
+        }
+
+        public void OnClick(AView? v)
+        {
+            m_action.Invoke();
+        }
     }
 
     /// <summary>

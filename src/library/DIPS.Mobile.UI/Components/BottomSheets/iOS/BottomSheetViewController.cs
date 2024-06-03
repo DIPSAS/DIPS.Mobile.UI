@@ -61,6 +61,8 @@ public class BottomSheetViewController : UIViewController
         if (BottomSheet.BackButtonBehavior is null)
             return;
 
+        BottomSheet.BackButtonBehavior.BindingContext = BottomSheet.BindingContext;
+
         NavigationItem.LeftBarButtonItem = new UIBarButtonItem(
             BottomSheet.BackButtonBehavior.IconOverride is FileImageSource fileImageSource
                 ? UIImage.FromBundle(fileImageSource)

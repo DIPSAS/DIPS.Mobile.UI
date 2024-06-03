@@ -15,7 +15,6 @@
     
     <dui:BottomSheet.BackButtonBehavior>
         <BackButtonBehavior TextOverride="Test"
-                            IconOverride="{dui:Icons arrow_back_line}"
                             Command="{Binding CloseBottomSheetCommand}"
                             />
     </dui:BottomSheet.BackButtonBehavior>
