@@ -172,6 +172,8 @@ this file is generated
 ["isolation_chemotherapy_fill"] = "isolation_chemotherapy_fill.png",
 ["surgery_small_outline"] = "surgery_small_outline.png",
 ["x_ray"] = "x_ray.png",
+["bed_line"] = "bed_line.png",
+["calendar_event_line"] = "calendar_event_line.png",
 
             };
         }

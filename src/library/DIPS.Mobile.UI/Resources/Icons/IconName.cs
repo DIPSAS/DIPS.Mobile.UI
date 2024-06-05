@@ -335,5 +335,9 @@ isolation_chemotherapy_fill=162,
 surgery_small_outline=163,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/x_ray.svg">View the icon in the browser</a></summary>
 x_ray=164,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bed_line.svg">View the icon in the browser</a></summary>
+bed_line=165,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/calendar_event_line.svg">View the icon in the browser</a></summary>
+calendar_event_line=166,
     }
 }

@@ -1,3 +1,6 @@
+## [29.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [29.4.0]
 - [BottomSheet] Added property 'BackButtonBehavior', so that the back button can be set in a bottomsheet.
 
