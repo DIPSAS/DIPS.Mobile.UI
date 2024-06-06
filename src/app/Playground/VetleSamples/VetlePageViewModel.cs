@@ -242,6 +242,7 @@ public class VetlePageViewModel : ViewModel
     }
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
+    public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
 }
 
 public class SortOption
