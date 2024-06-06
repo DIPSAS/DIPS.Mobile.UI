@@ -25,37 +25,16 @@
 
 
     </dui:ContentPage.ToolbarItems>
+   
+    <VerticalStackLayout Spacing="10">
+        
+        <dui:DateAndTimePicker SelectedDateTime="{Binding Date}" IgnoreLocalTime="True" />
+        
+        <dui:DatePicker SelectedDate="{Binding Date}"/>
+        
+    </VerticalStackLayout>
     
-    <Grid RowDefinitions="Auto, *">
-        <dui:SearchBar x:Name="SearchBar" />
-
-        <dui:VirtualListView Adapter="{Binding Adapter}"
-                             Grid.Row="1"
-                             ViewToUnfocusOnScrolled="{x:Reference SearchBar}">
-            <dui:VirtualListView.GlobalHeader>
-                <Label Text="hehe"></Label>
-            </dui:VirtualListView.GlobalHeader>
-            
-            <dui:VirtualListView.ItemTemplate>
-                <DataTemplate>
-                    <dui:ListItem Title="Hei!" />
-                </DataTemplate>
-            </dui:VirtualListView.ItemTemplate>
-            
-            <dui:VirtualListView.EmptyView>
-                <dui:ActivityIndicator />
-            </dui:VirtualListView.EmptyView>
-            
-            <dui:VirtualListView.GlobalFooter>
-                <Grid>
-                <BoxView HeightRequest="1000"
-                         BackgroundColor="Red"/>
-                </Grid>
-            </dui:VirtualListView.GlobalFooter>
-            
-        </dui:VirtualListView>
-
-    </Grid>
-
-
+    
+   
+    
 </dui:ContentPage>

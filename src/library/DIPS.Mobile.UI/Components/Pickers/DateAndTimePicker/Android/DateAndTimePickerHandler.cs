@@ -8,6 +8,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, LinearLayout>
 {
+    private DateTime m_dateSetFromPickers;
     private Pickers.DatePicker.DatePicker DatePicker { get; } = new();
     private Pickers.TimePicker.TimePicker TimePicker { get; } = new();
     
@@ -49,22 +50,31 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
         var dateTime = new DateTime(DatePicker.SelectedDate.Year, 
             DatePicker.SelectedDate.Month,
             DatePicker.SelectedDate.Day, 
-            VirtualView.SelectedDateTime.Hour, 
-            VirtualView.SelectedDateTime.Minute, 
-            VirtualView.SelectedDateTime.Second);
-        VirtualView.SelectedDateTime =
-            VirtualView.IgnoreLocalTime ? dateTime.ToUniversalTime() : dateTime.ToLocalTime();
+            TimePicker.SelectedTime.Hours, 
+            TimePicker.SelectedTime.Minutes, 
+            TimePicker.SelectedTime.Seconds, 
+            VirtualView.SelectedDateTime.Kind);
+        
+        m_dateSetFromPickers = ConvertDate(dateTime, VirtualView.IgnoreLocalTime);
+
+        VirtualView.SelectedDateTime = m_dateSetFromPickers;
     }
 
     private void OnTimePickerValueUpdated() => SetSelectedDateTime();
     
     private static partial void MapSelectedDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
-        var timeSpan = new TimeSpan(dateAndTimePicker.SelectedDateTime.Hour,
-            dateAndTimePicker.SelectedDateTime.Minute,
-            dateAndTimePicker.SelectedDateTime.Second);
+        // If the date is already set from the pickers, we don't want to show the converted date to the consumer.
+        if(handler.m_dateSetFromPickers == dateAndTimePicker.SelectedDateTime)
+            return;
 
-        handler.DatePicker.SelectedDate = dateAndTimePicker.IgnoreLocalTime ? dateAndTimePicker.SelectedDateTime.ToUniversalTime() : dateAndTimePicker.SelectedDateTime.ToLocalTime();
+        var dateTime = ConvertDate(dateAndTimePicker.SelectedDateTime, dateAndTimePicker.IgnoreLocalTime);
+        
+        var timeSpan = new TimeSpan(dateTime.Hour,
+                    dateTime.Minute,
+                    dateTime.Second);
+        
+        handler.DatePicker.SelectedDate = dateTime;
         handler.TimePicker.SelectedTime = timeSpan;
     }
     
@@ -81,5 +91,16 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
     private static partial void MapMinimumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
         handler.DatePicker.MinimumDate = dateAndTimePicker.MinimumDate;
+    }
+    
+    public static DateTime ConvertDate(DateTime date, bool ignoreLocalTime)
+    {
+        if (date.Kind == DateTimeKind.Unspecified) 
+        {
+            date = DateTime.SpecifyKind(date, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+        }
+        var dateTime = ignoreLocalTime ? date.ToUniversalTime() : date.ToLocalTime();
+
+        return dateTime;
     }
 }
