@@ -1,6 +1,11 @@
 ## [29.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
+## [29.4.1]
+- [DateAndTimePicker][Android] Fixed an issue where Time would only add +2 hours no matter what you did.
+- [DateAndTimePicker][Android] Fixed an issue where the component would show the converted date to consumer, and not the actual DateTime set from consumer.
+- [DateAndTimePicker][Android] Fixed an issue where IgnoreLocalTime did not work correctly.
+
 ## [29.4.0]
 - [BottomSheet] Added property 'BackButtonBehavior', so that the back button can be set in a bottomsheet.
 
