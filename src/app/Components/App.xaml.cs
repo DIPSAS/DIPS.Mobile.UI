@@ -13,7 +13,10 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        var shell = new DIPS.Mobile.UI.Components.Shell.Shell();
+        var shell = new DIPS.Mobile.UI.Components.Shell.Shell()
+        {
+            ShouldGarbageCollectPreviousPage = true
+        };
         var tabBar = new TabBar();
         var tab = new Tab();
         

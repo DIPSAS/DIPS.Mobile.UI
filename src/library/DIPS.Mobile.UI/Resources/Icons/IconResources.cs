@@ -6,7 +6,7 @@ this file is generated
         namespace DIPS.Mobile.UI.Resources.Icons;
         internal static class IconResources
         {
-            public static Dictionary<string, ImageSource> Icons { get; } = new()
+            public static Dictionary<string, string> Icons { get; } = new()
             {
                 ["none"] = "placeholdericon_fill.png",
                 ["arrows_outward_line"] = "arrows_outward_line.png",
