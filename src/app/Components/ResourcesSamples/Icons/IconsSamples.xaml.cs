@@ -7,8 +7,8 @@ namespace Components.ResourcesSamples.Icons
 {
     public partial class IconsSamples
     {
-        private Dictionary<string, ImageSource> m_icons;
-        private Dictionary<string, ImageSource> m_allIcons;
+        private Dictionary<string, string> m_icons;
+        private Dictionary<string, string> m_allIcons;
 
         public ICommand OpenIconCommand => new Command<string>(iconName =>
         {
@@ -29,7 +29,7 @@ namespace Components.ResourcesSamples.Icons
             m_allIcons = Icons;
         }
 
-        public Dictionary<string, ImageSource> Icons
+        public Dictionary<string, string> Icons
         {
             get => m_icons;
             private set

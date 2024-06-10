@@ -1,3 +1,6 @@
+## [30.0.0] 
+- [Icons] Changed icons from ImageSource to string to prevent memory leaks when using icons.
+
 ## [29.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
