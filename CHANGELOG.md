@@ -1,4 +1,4 @@
-## [29.5.1] 
+## [30.0.0] 
 - [Icons] Changed icons from ImageSource to string to prevent memory leaks when using icons.
 
 ## [29.5.0] 
