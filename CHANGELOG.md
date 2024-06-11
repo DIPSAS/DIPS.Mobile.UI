@@ -1,3 +1,6 @@
+## [30.2.0]
+- [AlertView] Added alert view. A new component to use in line when you need to alert people using your app.
+
 ## [30.1.0] 
 - [BottomSheet] Added property `IsBackButtonVisible`.
 
