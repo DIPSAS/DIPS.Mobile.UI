@@ -7,16 +7,25 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:alerts="clr-namespace:Components.ComponentsSamples.Alerting.Alerts"
                  x:Class="Components.ComponentsSamples.Alerting.Alerts.AlertSamples"
                  Title="{x:Static localizedStrings:LocalizedStrings.Alert}"
                  Padding="{dui:Sizes size_5}">
+    <dui:ContentPage.BindingContext>
+        <alerts:AlertSamplesViewModel />
+    </dui:ContentPage.BindingContext>
     <dui:VerticalStackLayout>
+        
         <dui:VerticalStackLayout>
             <dui:Label Text="Information"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:AlertView Title="Informing title"
                            Description="This is a description that will provide you with information."
-                           Style="{dui:Styles Alert=Information}" />
+                           Style="{dui:Styles Alert=Information}"
+                           LeftButtonText="{Binding ButtonText}"
+                           LeftButtonCommand="{Binding Command}"
+                           LeftButtonCommandParameter="Here's the info!"
+                           />
         </dui:VerticalStackLayout>
         <dui:VerticalStackLayout>
             <dui:Label Text="Error"
