@@ -146,11 +146,11 @@
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
-        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"  />
-        <PackageReference Include="Xamarin.AndroidX.Camera.View"  />
-        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2"  />
-        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx"  />
-        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning"  />
+        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.View" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" />
+        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" />
+        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" />
     </ItemGroup>
 
     <ItemGroup>
@@ -173,6 +173,6 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui" />
     </ItemGroup>
 </Project>

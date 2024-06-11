@@ -1,0 +1,53 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:alerts="clr-namespace:Components.ComponentsSamples.Alerting.Alerts"
+                 x:Class="Components.ComponentsSamples.Alerting.Alerts.AlertSamples"
+                 Title="{x:Static localizedStrings:LocalizedStrings.Alert}"
+                 Padding="{dui:Sizes size_5}">
+    <dui:ContentPage.BindingContext>
+        <alerts:AlertSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    <dui:VerticalStackLayout>
+        
+        <dui:VerticalStackLayout>
+            <dui:Label Text="Information"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="Informing title"
+                           Description="This is a description that will provide you with information."
+                           Style="{dui:Styles Alert=Information}"
+                           LeftButtonText="{Binding ButtonText}"
+                           LeftButtonCommand="{Binding Command}"
+                           LeftButtonCommandParameter="Here's the info!"
+                           />
+        </dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="Error"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="Something went wrong"
+                           Description="Something terribly wrong happened."
+                           Style="{dui:Styles Alert=Error}" />
+        </dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="Warning"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="We warn you"
+                           Description="Dont do it...okay do it. No, dont!"
+                           Style="{dui:Styles Alert=Warning}" />
+        </dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="Success"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="Yey"
+                           Description="Good job! You did it!"
+                           Style="{dui:Styles Alert=Success}" />
+        </dui:VerticalStackLayout>
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>

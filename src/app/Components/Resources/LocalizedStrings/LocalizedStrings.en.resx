@@ -321,4 +321,7 @@
     <data name="Barcode" xml:space="preserve">
         <value>Barcode</value>
     </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Alert</value>
+    </data>
 </root>

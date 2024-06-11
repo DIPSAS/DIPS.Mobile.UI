@@ -99,12 +99,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string SearchPage {
-            get {
-                return ResourceManager.GetString("SearchPage", resourceCulture);
-            }
-        }
-        
         internal static string Searching {
             get {
                 return ResourceManager.GetString("Searching", resourceCulture);
@@ -228,6 +222,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string SearchPage_HintText {
             get {
                 return ResourceManager.GetString("SearchPage_HintText", resourceCulture);
+            }
+        }
+        
+        internal static string SearchPage {
+            get {
+                return ResourceManager.GetString("SearchPage", resourceCulture);
             }
         }
         
@@ -441,12 +441,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string Dialog_FakeDescription {
-            get {
-                return ResourceManager.GetString("Dialog_FakeDescription", resourceCulture);
-            }
-        }
-        
         internal static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
@@ -474,6 +468,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Dialog {
             get {
                 return ResourceManager.GetString("Dialog", resourceCulture);
+            }
+        }
+        
+        internal static string Dialog_FakeDescription {
+            get {
+                return ResourceManager.GetString("Dialog_FakeDescription", resourceCulture);
             }
         }
         
@@ -648,6 +648,12 @@ namespace Components.Resources.LocalizedStrings {
         internal static string Barcode {
             get {
                 return ResourceManager.GetString("Barcode", resourceCulture);
+            }
+        }
+        
+        internal static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
             }
         }
     }
