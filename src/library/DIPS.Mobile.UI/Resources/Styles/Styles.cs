@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
@@ -27,6 +28,13 @@ public static class Styles
     public static Style GetInputFieldStyle(InputFieldStyle style)
     {
         return InputFieldStyleResources.Styles.TryGetValue(style, out var textAreaStyle)
+            ? textAreaStyle
+            : new Style(typeof(View));
+    }
+    
+    public static Style GetAlertStyle(AlertStyle style)
+    {
+        return AlertStyleResources.Styles.TryGetValue(style, out var textAreaStyle)
             ? textAreaStyle
             : new Style(typeof(View));
     }

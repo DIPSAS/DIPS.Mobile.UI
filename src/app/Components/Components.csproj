@@ -108,6 +108,10 @@
         <Compile Update="Resources\LocalizedStrings\LocalizedStrings.nb.Designer.cs">
             <DependentUpon>LocalizedStrings.nb.resx</DependentUpon>
         </Compile>
+        <Compile Update="ComponentsSamples\Alerting\Alerts\AlertSamples.xaml.cs">
+          <DependentUpon>DialogSamples.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -131,6 +135,9 @@
         </MauiXaml>
         <MauiXaml Update="ComponentsSamples\Loading\Skeleton\SkeletonLoadingSamplesPage.xaml">
             <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="ComponentsSamples\Alerting\Alerts\AlertSamples.xaml">
+          <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 

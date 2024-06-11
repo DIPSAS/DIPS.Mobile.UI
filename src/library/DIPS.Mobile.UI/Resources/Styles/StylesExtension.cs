@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
@@ -23,6 +24,7 @@ namespace DIPS.Mobile.UI.Resources.Styles
         public LabelStyle Label { get; set; }
         
         public InputFieldStyle InputField { get; set; }
+        public AlertStyle Alert { get; set; }
 
         public Style ProvideValue(IServiceProvider serviceProvider)
         {
@@ -44,6 +46,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
             if (InputField != InputFieldStyle.None)
             {
                 return Styles.GetInputFieldStyle(InputField);
+            }
+
+            if (Alert != AlertStyle.None)
+            {
+                return Styles.GetAlertStyle(Alert);
             }
 
             return new Style(typeof(View));
