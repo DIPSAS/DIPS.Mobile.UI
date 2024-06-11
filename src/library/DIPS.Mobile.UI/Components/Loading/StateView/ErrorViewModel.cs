@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -33,6 +34,7 @@ public class ErrorViewModel : ViewModel, IRefreshableViewModel
     /// Sets the icon
     /// </summary>
     /// <remarks>Optional</remarks>
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource? Icon
     {
         get => m_icon;

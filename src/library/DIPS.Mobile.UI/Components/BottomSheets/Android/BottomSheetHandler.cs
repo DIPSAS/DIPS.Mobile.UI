@@ -21,6 +21,7 @@ using Object = Java.Lang.Object;
 using RelativeLayout = Android.Widget.RelativeLayout;
 using ADrawableCompat = AndroidX.Core.Graphics.Drawable.DrawableCompat;
 using Paint = Android.Graphics.Paint;
+using System.ComponentModel;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -385,6 +386,7 @@ class TextOrIconDrawable : DrawerArrowDrawable
     public Drawable? IconBitmap { get; set; }
     public string Text { get; set; }
     public Color TintColor { get; set; }
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource IconBitmapSource { get; set; }
     float _defaultSize;
 

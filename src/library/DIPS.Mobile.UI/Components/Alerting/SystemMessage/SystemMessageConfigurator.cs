@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -10,5 +11,6 @@ internal class SystemMessageConfigurator : ISystemMessageConfigurator
     public Color IconColor { get; set; } = Colors.GetColor(ColorName.color_system_white);
     public float Duration { get; set; } = 2500;
     public string Text { get; set; } = DUILocalizedStrings.YouHaveNotSetSomeText;
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource? Icon { get; set; }
 }
