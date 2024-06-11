@@ -33,8 +33,8 @@ public partial class AlertView : Border
 
         var image = new Image()
         {
-            HeightRequest = Sizes.GetSize(SizeName.size_6),
-            WidthRequest = Sizes.GetSize(SizeName.size_6),
+            HeightRequest = Sizes.GetSize(SizeName.size_5),
+            WidthRequest = Sizes.GetSize(SizeName.size_5),
             TintColor = Colors.GetColor(ColorName.color_neutral_90),
             VerticalOptions = LayoutOptions.End
         };

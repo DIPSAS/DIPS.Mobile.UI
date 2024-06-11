@@ -56,7 +56,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconProperty,
-                Value = Icons.Icons.GetIcon(IconName.checkbox_checked_fill)
+                Value = Icons.Icons.GetIcon(IconName.check_circle_fill)
             },
             new Setter
             {
