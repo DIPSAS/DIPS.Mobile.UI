@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus;
@@ -139,6 +140,7 @@ public partial class ContextMenuItem
     /// <summary>
     /// The icon to be used as a image with the context menu item
     /// </summary>
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource? Icon
     {
         get => (ImageSource)GetValue(IconProperty);

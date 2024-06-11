@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
@@ -32,6 +33,7 @@ public class EmptyViewModel : ViewModel, IRefreshableViewModel
     /// Sets the icon
     /// </summary>
     /// <remarks>Optional</remarks>
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource? Icon
     {
         get => m_icon;

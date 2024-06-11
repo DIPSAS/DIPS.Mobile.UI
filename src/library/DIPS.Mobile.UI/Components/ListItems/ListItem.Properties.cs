@@ -44,6 +44,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
         /// <summary>
         /// Sets the Icon of the <see cref="ListItem"/>, which will be displayed to the left of <see cref="Title"/>
         /// </summary>
+        [TypeConverter(nameof(ImageSourceConverter))]
         public ImageSource Icon
         {
             get => (ImageSource)GetValue(IconProperty);

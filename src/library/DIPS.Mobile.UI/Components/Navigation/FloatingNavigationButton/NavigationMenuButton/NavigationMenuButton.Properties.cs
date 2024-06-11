@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows.Input;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -8,6 +9,7 @@ internal partial class NavigationMenuButton
     /// <summary>
     /// Sets the icon
     /// </summary>
+    [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource Icon
     {
         get => (ImageSource)GetValue(IconProperty);
