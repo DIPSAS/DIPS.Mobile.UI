@@ -1,3 +1,6 @@
+## [30.1.0] 
+- [BottomSheet] Added property `IsBackButtonVisible`.
+
 ## [30.0.1] 
 - Made sure all public image sources has a image source converter so the component do not freeze up on Android when passing strings.
 

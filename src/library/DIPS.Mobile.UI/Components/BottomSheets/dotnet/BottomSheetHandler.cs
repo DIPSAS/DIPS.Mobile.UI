@@ -10,6 +10,9 @@ public partial class BottomSheetHandler : ContentViewHandler
     
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet) =>
         Only_Here_For_UnitTests.Throw();
+    
+    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet) =>
+        Only_Here_For_UnitTests.Throw();
 
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet) =>
         Only_Here_For_UnitTests.Throw();
