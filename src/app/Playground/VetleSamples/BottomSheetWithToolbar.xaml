@@ -7,104 +7,25 @@
                  x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
                  x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
                  Padding="0"
-                 BackgroundColor="{dui:Colors color_neutral_10}">
+                 BackgroundColor="{dui:Colors color_neutral_10}"
+                 IsBackButtonVisible="{Binding Lul}">
 
-
-    <Grid RowDefinitions="Auto, *">
+    <dui:BottomSheet.BindingContext>
+        <vetleSamples:BottomSheetWithToolbarViewModel />
+    </dui:BottomSheet.BindingContext>
     
-        <!--<dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
-        <Grid ColumnDefinitions="Auto, *"
-              Padding="{dui:Thickness Left=size_5, Right=size_2}">
-
-        <Grid RowDefinitions="Auto, Auto, Auto"
-              ColumnDefinitions="Auto, *"
-              Margin="{dui:Thickness Top=size_1}">
-            <dui:Label Text="test"
-                       Style="{dui:Styles Label=UI100}"
-                       TextColor="{dui:Colors color_system_black}"
-                       VerticalTextAlignment="Center" />
-
-            <Border Grid.Column="1" 
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    BackgroundColor="{dui:Colors color_neutral_10}"
-                    Padding="2"
-                    Margin="{dui:Margin Left=size_2}">
-
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="2" />
-                </Border.StrokeShape>
-
-                <dui:Label Text="test"
-                           Style="{dui:Styles Label=Body100}"
-                           TextColor="{dui:Colors color_neutral_80}" />
-            </Border>
+    
+    <dui:BottomSheet.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="{Binding Lul}"
+                            Command="{Binding IsVisible}"
+                            IconOverride="{dui:Icons arrow_back_line}">
             
-            <dui:Label Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       Text="test"
-                       Style="{dui:Styles Label=UI300}"
-                       TextColor="{dui:Colors color_system_black}" />
-            
-            <dui:Label Grid.Row="2"
-                       Grid.ColumnSpan="2"
-                       Text="test"
-                       Style="{dui:Styles Label=Body200}"
-                       TextColor="{dui:Colors color_neutral_60}" />
-        </Grid>
-            <dui:Button Grid.ColumnSpan="2"
-                        ImageSource="{dui:Icons close_line}"
-                        HorizontalOptions="End"
-                        VerticalOptions="Start"
-                        BackgroundColor="{dui:Colors color_neutral_10}"
-                        ImageTintColor="{dui:Colors color_neutral_80}"
-                        Style="{dui:Styles Button=GhostIconButtonSmall}" />
-        </Grid>
-        <dui:Divider />
-    </dui:VerticalStackLayout>-->
-        
-    <!--<ScrollView Grid.Row="1"
-                SizeChanged="VisualElement_OnSizeChanged"
-                CompressedLayout.IsHeadless="True"
-                BackgroundColor="Red"
-              >-->
+        </BackButtonBehavior>
+    </dui:BottomSheet.BackButtonBehavior>
+    
+    <Button  Text="yes"
+             Command="{Binding IsVisible}"></Button>
 
-        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
-              CompressedLayout.IsHeadless="True">
-            <dui:Label
-                Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet"
-                Padding="{dui:Thickness size_4}" />
-            <dui:MultiLineInputField Grid.Row="1" />
-            <dui:MultiLineInputField Grid.Row="2" />
-            <dui:MultiLineInputField Grid.Row="3" />
-
-            <dui:ListItem Title="This is a chip:"
-                          Grid.Row="4"
-                          Margin="{dui:Thickness Top=size_2}">
-                <dui:Chip Title="A chip" Tapped="Chip_OnTapped" />
-            </dui:ListItem>
-            <dui:ListItem Title="Date"
-                          Grid.Row="5">
-                <dui:DatePicker />
-            </dui:ListItem>
-            <dui:ListItem Title="Time"
-                          Grid.Row="6">
-                <dui:TimePicker />
-            </dui:ListItem>
-            <dui:ListItem Title="Date / time"
-                          Grid.Row="7">
-                <dui:DateAndTimePicker />
-            </dui:ListItem>
-        </Grid>
-
-    <!--</ScrollView>-->
-
-    </Grid>
-        
-    <!--<dui:BottomSheet.BottombarButtons>
-        <dui:Button Text="Hei" HorizontalOptions="Fill"
-                    Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
-
-    </dui:BottomSheet.BottombarButtons>-->
+    
 
 </dui:BottomSheet>

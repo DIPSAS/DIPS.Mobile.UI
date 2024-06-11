@@ -20,6 +20,12 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.ViewController.SetBackButton();
     }
 
+    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        bottomSheet.ViewController.SetBackButtonVisibility();
+    }
+
+
     public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         bottomSheet.ViewController.AddToolbarItems();

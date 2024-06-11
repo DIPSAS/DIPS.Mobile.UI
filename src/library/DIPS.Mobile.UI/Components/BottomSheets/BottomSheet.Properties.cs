@@ -157,6 +157,17 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             set => SetValue(BackButtonBehaviorProperty, value);
         }
         
+        public bool IsBackButtonVisible
+        {
+            get => (bool)GetValue(IsBackButtonVisibleProperty);
+            set => SetValue(IsBackButtonVisibleProperty, value);
+        }
+        
+        public static readonly BindableProperty IsBackButtonVisibleProperty = BindableProperty.Create(
+            nameof(IsBackButtonVisible),
+            typeof(bool),
+            typeof(BottomSheet));
+        
         public static readonly BindableProperty BackButtonBehaviorProperty = BindableProperty.Create(
             nameof(BackButtonBehavior),
             typeof(BackButtonBehavior),

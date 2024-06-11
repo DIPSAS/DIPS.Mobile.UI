@@ -44,7 +44,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         internal SearchBar SearchBar { get; private set; }
 
-        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is {Count: > 0};
+        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is {Count: > 0} || BackButtonBehavior is not null;
 
         internal void SendClose()
         {

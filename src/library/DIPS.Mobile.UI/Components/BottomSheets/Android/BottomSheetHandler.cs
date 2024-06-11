@@ -37,6 +37,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     private MaterialToolbar? m_toolbar;
     
     internal AView? m_bottomBar;
+    private TextOrIconDrawable? m_navigationIconDrawable;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -255,6 +256,19 @@ public partial class BottomSheetHandler : ContentViewHandler
         
     }
     
+    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        handler.SetBackButtonVisibility(bottomSheet);
+    }
+
+    private void SetBackButtonVisibility(BottomSheet bottomSheet)
+    {
+        if (m_toolbar is not null)
+        {
+            m_toolbar.NavigationIcon = bottomSheet.IsBackButtonVisible ? m_navigationIconDrawable : null;
+        }
+    }
+
     private async void SetBackButton(BottomSheet bottomSheet)
     {
         // Delay to make sure the toolbar is created
@@ -266,9 +280,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BackButtonBehavior.BindingContext = bottomSheet.BindingContext;
         DUI.TryGetDrawableFromFileImageSource(bottomSheet.BackButtonBehavior.IconOverride, out var icon);
         
-        var text = new TextOrIconDrawable(Context, Colors.GetColor(BottomSheet.ToolbarActionButtonsName), icon, bottomSheet.BackButtonBehavior.TextOverride);
+        m_navigationIconDrawable = new TextOrIconDrawable(Context, Colors.GetColor(BottomSheet.ToolbarActionButtonsName), icon, bottomSheet.BackButtonBehavior.TextOverride);
         
-        m_toolbar!.NavigationIcon = text;
+        if(bottomSheet.IsBackButtonVisible)
+            m_toolbar!.NavigationIcon = m_navigationIconDrawable;
+        
         m_toolbar.SetNavigationOnClickListener(new OnClickListener(() => bottomSheet.BackButtonBehavior.Command?.Execute(bottomSheet.BackButtonBehavior.CommandParameter)));
         
     }

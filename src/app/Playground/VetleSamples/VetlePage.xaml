@@ -9,7 +9,8 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This">
+                 x:Name="This"
+                 HideSoftInputOnTapped="True">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -26,13 +27,8 @@
 
     </dui:ContentPage.ToolbarItems>
    
-    <VerticalStackLayout Spacing="10">
-        
-        <dui:DateAndTimePicker SelectedDateTime="{Binding Date}" IgnoreLocalTime="True" />
-        
-        <dui:DatePicker SelectedDate="{Binding Date}"/>
-        
-    </VerticalStackLayout>
+    <Button Text="hello"
+            Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
     
     
    

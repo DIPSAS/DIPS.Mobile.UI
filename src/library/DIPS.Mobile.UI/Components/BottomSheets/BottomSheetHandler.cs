@@ -17,8 +17,11 @@ public partial class BottomSheetHandler
             [nameof(BottomSheet.HasSearchBar)] = MapHasSearchBar,
             [nameof(BottomSheet.Positioning)] = MapPositioning,
             [nameof(BottomSheet.BottombarButtons)] = MapBottomBar,
-            [nameof(BottomSheet.BackButtonBehavior)] = MapBackButtonBehavior
+            [nameof(BottomSheet.BackButtonBehavior)] = MapBackButtonBehavior,
+            [nameof(BottomSheet.IsBackButtonVisible)] = MapIsBackButtonVisible
         };
+
+    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet);
 
     private static partial void MapBackButtonBehavior(BottomSheetHandler handler, BottomSheet bottomSheet);
 

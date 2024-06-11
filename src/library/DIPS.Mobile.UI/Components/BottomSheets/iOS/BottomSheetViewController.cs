@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using ObjCRuntime;
@@ -70,8 +71,6 @@ public class BottomSheetViewController : UIViewController
             {
                 BottomSheet.BackButtonBehavior.Command?.Execute(BottomSheet.BackButtonBehavior.CommandParameter);
             });
-            
-        NavigationItem.LeftBarButtonItem.Title = BottomSheet.BackButtonBehavior.TextOverride;
     }
 
     private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)
@@ -129,5 +128,13 @@ public class BottomSheetViewController : UIViewController
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
         BottomSheet.Handler?.DisconnectHandler();
+    }
+
+    public void SetBackButtonVisibility()
+    {
+        if (NavigationItem.LeftBarButtonItem is not null)
+        {
+            NavigationItem.LeftBarButtonItem.Hidden = !BottomSheet.IsBackButtonVisible;
+        }
     }
 }
