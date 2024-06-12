@@ -16,6 +16,11 @@ public class AlertTypeStyle
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_information_light)
+            },
+            new Setter()
+            {
+                Property = AlertView.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
             }
         }
     };
@@ -32,6 +37,11 @@ public class AlertTypeStyle
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_error_light)
+            },
+            new Setter()
+            {
+                Property = AlertView.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_error_dark)
             }
         }
     };
@@ -45,6 +55,11 @@ public class AlertTypeStyle
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_attention_extralight)
+            },
+            new Setter()
+            {
+                Property = AlertView.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
             }
         }
     };
@@ -55,13 +70,17 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty,
-                Value = Icons.Icons.GetIcon(IconName.check_circle_fill)
+                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.check_circle_line)
             },
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_success_light)
+            },
+            new Setter()
+            {
+                Property = AlertView.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_success_dark)
             }
         }
     };
