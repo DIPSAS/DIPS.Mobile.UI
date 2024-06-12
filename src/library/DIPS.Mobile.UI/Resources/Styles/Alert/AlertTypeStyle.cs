@@ -37,8 +37,7 @@ public class AlertTypeStyle
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_error_light)
-            }
-            ,
+            },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
@@ -56,8 +55,7 @@ public class AlertTypeStyle
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_attention_extralight)
-            }
-            ,
+            },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
@@ -72,15 +70,13 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty,
-                Value = Icons.Icons.GetIcon(IconName.check_circle_fill)
+                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.check_circle_fill)
             },
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_success_light)
-            }
-            ,
+            },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
