@@ -1,3 +1,6 @@
+## [30.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [30.4.1] 
 - [AlertView] Corrected design.
 
