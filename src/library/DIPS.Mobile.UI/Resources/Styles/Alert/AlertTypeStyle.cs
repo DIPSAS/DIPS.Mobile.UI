@@ -26,7 +26,7 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.alert_fill)
+                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.information_line)
             },
             new Setter
             {
@@ -40,7 +40,7 @@ public class AlertTypeStyle
     {
         Setters =
         {
-            new Setter {Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.alert_fill)},
+            new Setter {Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.alert_line)},
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
