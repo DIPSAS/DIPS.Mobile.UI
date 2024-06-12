@@ -1,3 +1,6 @@
+## [30.6.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [30.5.1]
  - [AlertView] Corrected icon for Error style.
  

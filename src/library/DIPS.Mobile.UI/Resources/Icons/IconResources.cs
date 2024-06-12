@@ -15,7 +15,6 @@ this file is generated
 ["information_line"] = "information_line.png",
 ["checkin_line"] = "checkin_line.png",
 ["close_circle_line"] = "close_circle_line.png",
-["folder_off_line"] = "folder_off_line.png",
 ["close_fill"] = "close_fill.png",
 ["microphone_fill"] = "microphone_fill.png",
 ["checkbox_checked_fill"] = "checkbox_checked_fill.png",
@@ -176,6 +175,8 @@ this file is generated
 ["calendar_event_line"] = "calendar_event_line.png",
 ["alert_line"] = "alert_line.png",
 ["check_circle_line"] = "check_circle_line.png",
+["lab_package_off_line"] = "lab_package_off_line.png",
+["lab_package_line"] = "lab_package_line.png",
 
             };
         }

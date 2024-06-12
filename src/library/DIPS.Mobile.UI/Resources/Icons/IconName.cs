@@ -21,8 +21,6 @@ information_line=3,
 checkin_line=4, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/close_circle_line.svg">View the icon in the browser</a></summary>
 close_circle_line=5, 
-///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/folder_off_line.svg">View the icon in the browser</a></summary>
-folder_off_line=6, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/close_fill.svg">View the icon in the browser</a></summary>
 close_fill=7, 
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/microphone_fill.svg">View the icon in the browser</a></summary>
@@ -343,5 +341,9 @@ calendar_event_line=166,
 alert_line=167,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/check_circle_line.svg">View the icon in the browser</a></summary>
 check_circle_line=168,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lab_package_off_line.svg">View the icon in the browser</a></summary>
+lab_package_off_line=169,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lab_package_line.svg">View the icon in the browser</a></summary>
+lab_package_line=170,
     }
 }
