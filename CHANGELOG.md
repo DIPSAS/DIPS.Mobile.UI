@@ -1,3 +1,6 @@
+## [30.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [30.2.0]
 - [AlertView] Added alert view. A new component to use in line when you need to alert people using your app.
 
