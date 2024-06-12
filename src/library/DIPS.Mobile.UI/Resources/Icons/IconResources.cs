@@ -175,6 +175,7 @@ this file is generated
 ["bed_line"] = "bed_line.png",
 ["calendar_event_line"] = "calendar_event_line.png",
 ["alert_line"] = "alert_line.png",
+["check_circle_line"] = "check_circle_line.png",
 
             };
         }

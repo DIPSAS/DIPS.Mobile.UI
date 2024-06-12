@@ -341,5 +341,7 @@ bed_line=165,
 calendar_event_line=166,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/alert_line.svg">View the icon in the browser</a></summary>
 alert_line=167,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/check_circle_line.svg">View the icon in the browser</a></summary>
+check_circle_line=168,
     }
 }

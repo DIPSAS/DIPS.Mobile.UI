@@ -1,3 +1,6 @@
+## [30.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [30.3.1] 
 - [AlertView] Updated icons for Error and Warning style.
 
