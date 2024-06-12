@@ -339,5 +339,7 @@ x_ray=164,
 bed_line=165,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/calendar_event_line.svg">View the icon in the browser</a></summary>
 calendar_event_line=166,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/alert_line.svg">View the icon in the browser</a></summary>
+alert_line=167,
     }
 }

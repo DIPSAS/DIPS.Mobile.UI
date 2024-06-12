@@ -174,6 +174,7 @@ this file is generated
 ["x_ray"] = "x_ray.png",
 ["bed_line"] = "bed_line.png",
 ["calendar_event_line"] = "calendar_event_line.png",
+["alert_line"] = "alert_line.png",
 
             };
         }
