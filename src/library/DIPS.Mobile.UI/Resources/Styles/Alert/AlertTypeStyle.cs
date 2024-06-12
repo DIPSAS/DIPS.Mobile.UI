@@ -31,7 +31,7 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.information_line)
+                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.important_line)
             },
             new Setter
             {
