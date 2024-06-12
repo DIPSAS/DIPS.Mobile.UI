@@ -41,9 +41,9 @@ public partial class AlertView : Border
         {
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
-            TintColor = Colors.GetColor(ColorName.color_neutral_90),
             VerticalOptions = LayoutOptions.End
         };
+        image.SetBinding(Image.TintColorProperty, new Binding(nameof(IconColor), source:this));
         image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, new Binding(nameof(Icon), source: this));
 
         grid.Add(image, 0, 0);
