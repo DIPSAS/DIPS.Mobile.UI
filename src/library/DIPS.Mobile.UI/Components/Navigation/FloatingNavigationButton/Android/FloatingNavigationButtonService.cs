@@ -12,8 +12,6 @@ public partial class FloatingNavigationButtonService
 {
     private static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
-        var fragment = new FloatingNavigationButtonMenuFragment(fab);
-
         // Small delay so that FragmentManager is initialized
         await Task.Delay(10);
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
@@ -24,7 +22,7 @@ public partial class FloatingNavigationButtonService
         }
 
         if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null) return;
-        
+        var fragment = new FloatingNavigationButtonMenuFragment(fab);   
         try
         {
             fragmentManager!.BeginTransaction()
