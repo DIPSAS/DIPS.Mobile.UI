@@ -24,10 +24,6 @@ public partial class FloatingNavigationButtonService
         }
 
         if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null) return;
-        // var printWriter = new PrintWriter(new MemoryStream());
-        // fragmentManager.Dump(nameof(FloatingNavigationButtonService), null,printWriter , new []{""});
-        // printWriter.Close();
-        
         
         try
         {
