@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 
@@ -18,9 +19,22 @@ public static partial class FloatingNavigationButtonService
         config.Invoke(configurator);
 
         var fab = new FloatingNavigationButton(configurator);
-        AttachToRootWindow(fab);
+        try
+        {
+            AttachToRootWindow(fab);
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+            throw;
+        }
 
         FloatingNavigationButton = fab;
+    }
+    
+    private static void Log(string message)
+    {
+        Console.WriteLine($@"{(nameof(FloatingNavigationButtonService))} : {message}");
     }
 
     private static partial void AttachToRootWindow(FloatingNavigationButton fab);

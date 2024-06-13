@@ -1,3 +1,8 @@
+## [31.0.0] 
+- [Icons] Now return as ImageSource.
+- [Icons] Removed AsImageSource method as its not needed anymore.
+- [FloatingNavigationButton] Added try-catch to prevent app crash and it now logs to the Console for debugging.
+
 ## [30.7.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
