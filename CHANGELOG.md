@@ -1,3 +1,6 @@
+## [31.0.2]
+- [FloatingNavigationMenu][Android] Prevent fragment from creating its self
+
 ## [31.0.1]
 - Library is now built on latest macOS 14.
 - Added exception handling for components app.
