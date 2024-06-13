@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Android;
 using DIPS.Mobile.UI.Extensions.Android;
 using Java.Lang;
 using Microsoft.Maui.Platform;
+using Exception = System.Exception;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
@@ -15,15 +16,19 @@ public partial class FloatingNavigationButtonService
         // Small delay so that FragmentManager is initialized
         await Task.Delay(10);
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
+        if (fragmentManager == null)
+        {
+            Log($"{nameof(fragmentManager)} was null, this is not good.");
+        }
         try
         {
-
             fragmentManager!.BeginTransaction()
                 .Add(global::Android.Resource.Id.Content, fragment, FloatingNavigationButtonIdentifier.ToString())
                 .Commit();
         }
-        catch (IllegalStateException ignored) //https://stackoverflow.com/a/27854077, to reproduce this : Debug (start) the app but keep the phone locked (blackscreen).
+        catch (Exception e) //https://stackoverflow.com/a/27854077, to reproduce this : Debug (start) the app but keep the phone locked (blackscreen).
         {
+            Log(e.Message);
             fragmentManager!.BeginTransaction()
                 .Add(global::Android.Resource.Id.Content, fragment, FloatingNavigationButtonIdentifier.ToString())
                 .CommitAllowingStateLoss();
