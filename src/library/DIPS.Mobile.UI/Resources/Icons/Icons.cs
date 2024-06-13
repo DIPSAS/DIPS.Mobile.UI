@@ -7,7 +7,7 @@ public static partial class Icons
     /// </summary>
     /// <param name="iconName">The name of the color to get</param>
     /// <returns><see cref="string"/></returns>
-    public static string GetIcon(IconName iconName)
+    public static ImageSource GetIcon(IconName iconName)
     {
         if (!IconResources.Icons.TryGetValue(iconName.ToString(), out var value))
         {
@@ -24,7 +24,7 @@ public static partial class Icons
     /// <returns></returns>
     public static ImageSource GetIconAsImageSource(IconName iconName)
     {
-        return ImageSource.FromFile(GetIcon(iconName));
+        return GetIcon(iconName);
     }
 
     public static string GetIconName(IconName iconName) => iconName.ToString();
