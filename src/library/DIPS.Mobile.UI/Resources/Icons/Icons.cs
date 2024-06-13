@@ -6,7 +6,7 @@ public static partial class Icons
     /// Get the icon value from a <see cref="IconName"/>
     /// </summary>
     /// <param name="iconName">The name of the color to get</param>
-    /// <returns><see cref="string"/></returns>
+    /// <returns><see cref="ImageSource"/></returns>
     public static ImageSource GetIcon(IconName iconName)
     {
         if (!IconResources.Icons.TryGetValue(iconName.ToString(), out var value))
