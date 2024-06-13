@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Android;
 using DIPS.Mobile.UI.Extensions.Android;
+using Java.IO;
 using Java.Lang;
 using Microsoft.Maui.Platform;
 using Exception = System.Exception;
@@ -11,15 +12,17 @@ public partial class FloatingNavigationButtonService
 {
     private static async partial void AttachToRootWindow(FloatingNavigationButton fab)
     {
-        var fragment = new FloatingNavigationButtonMenuFragment(fab);
-
         // Small delay so that FragmentManager is initialized
         await Task.Delay(10);
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
         if (fragmentManager == null)
         {
             Log($"{nameof(fragmentManager)} was null, this is not good.");
+            return;
         }
+
+        if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null) return;
+        var fragment = new FloatingNavigationButtonMenuFragment(fab);   
         try
         {
             fragmentManager!.BeginTransaction()

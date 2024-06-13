@@ -34,7 +34,22 @@
         <CodesignProvision>Automatic:InHouse</CodesignProvision>
         <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
-
+    
+    <PropertyGroup  Condition=" '$(Configuration)' == 'Release' AND $(TargetFramework.Contains('-android')) ">
+        <!-- https://devblogs.microsoft.com/dotnet/performance-improvements-in-dotnet-maui/#r8-java-code-shrinker -->
+        <!-- https://github.com/xamarin/xamarin-android/blob/main/Documentation/guides/D8andR8.md -->
+        <AndroidLinkTool>r8</AndroidLinkTool>
+        <AndroidDexTool>d8</AndroidDexTool>
+        <!-- https://devblogs.microsoft.com/dotnet/performance-improvements-in-dotnet-maui/#aot-everything -->
+        <RunAOTCompilation>true</RunAOTCompilation>
+        <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+        <!-- https://devblogs.microsoft.com/dotnet/performance-improvements-in-dotnet-maui/#trimming-resource-designer-cs -->
+        <AndroidLinkResources>true</AndroidLinkResources>
+        <!-- This is also set in the build script, so make sure to update that if you change this-->
+        <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
+    </PropertyGroup>
+    
     <ItemGroup>
 
         <MauiIcon Include="Resources\AppIcon\appicon.svg">
