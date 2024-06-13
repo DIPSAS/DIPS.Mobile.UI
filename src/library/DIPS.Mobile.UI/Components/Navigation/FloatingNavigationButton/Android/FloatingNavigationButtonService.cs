@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Android;
 using DIPS.Mobile.UI.Extensions.Android;
+using Java.IO;
 using Java.Lang;
 using Microsoft.Maui.Platform;
 using Exception = System.Exception;
@@ -19,7 +20,15 @@ public partial class FloatingNavigationButtonService
         if (fragmentManager == null)
         {
             Log($"{nameof(fragmentManager)} was null, this is not good.");
+            return;
         }
+
+        if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null) return;
+        // var printWriter = new PrintWriter(new MemoryStream());
+        // fragmentManager.Dump(nameof(FloatingNavigationButtonService), null,printWriter , new []{""});
+        // printWriter.Close();
+        
+        
         try
         {
             fragmentManager!.BeginTransaction()
