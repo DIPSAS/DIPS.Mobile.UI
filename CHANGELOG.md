@@ -1,3 +1,6 @@
+## [30.6.1] 
+- Tried to fix potential crash for Fab on Android.
+
 ## [30.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

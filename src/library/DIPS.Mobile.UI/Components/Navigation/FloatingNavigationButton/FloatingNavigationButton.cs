@@ -16,8 +16,8 @@ internal class FloatingNavigationButton : Grid
 {
     private Color OpenedColor = Colors.GetColor(ColorName.color_obsolete_accent);
     private Color ClosedColor = Color.FromArgb("#BF8DCE");
-    private ImageSource OpenedIcon = Icons.GetIcon(IconName.close_line);
-    private ImageSource ClosedIcon = Icons.GetIcon(IconName.menu_line);
+    private ImageSource OpenedIcon = Icons.GetIconAsImageSource(IconName.close_line);
+    private ImageSource ClosedIcon = Icons.GetIconAsImageSource(IconName.menu_line);
     private readonly FloatingNavigationButtonConfigurator m_floatingNavigationButtonConfigurator;
     private readonly Grid m_contentGrid = new();
 
