@@ -16,27 +16,34 @@ public partial class FloatingNavigationButtonSamples
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
-        FloatingNavigationButtonService.AddFloatingNavigationButton(config =>
-        {
-            config.AddNavigationButton(Button1Identifier, "Button 1", IconName.arrow_right_s_line, new Command(() =>
-            {
-                if (!FloatingNavigationButtonService.ContainsNavigationMenuButton(Button2Identifier))
-                {
-                    FloatingNavigationButtonService.AddNavigationMenuButton(Button2Identifier, "Button 2", index: 1);
-                }
-                else
-                {
-                    FloatingNavigationButtonService.RemoveNavigationMenuButton(Button2Identifier);
-                }
-            }));
-            config.AddNavigationButton(Button2Identifier, "Button 2", IconName.ascending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Button 3",  IconName.ascending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Button 4", IconName.descending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Button 5", IconName.descending_fill, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "Close", IconName.descending_fill, new Command(FloatingNavigationButtonService.Close), isLast: true);
 
-        });
+        try
+        {
+            FloatingNavigationButtonService.AddFloatingNavigationButton(config =>
+            {
+                config.AddNavigationButton(Button1Identifier, "Button 1", IconName.arrow_right_s_line, new Command(() =>
+                {
+                    if (!FloatingNavigationButtonService.ContainsNavigationMenuButton(Button2Identifier))
+                    {
+                        FloatingNavigationButtonService.AddNavigationMenuButton(Button2Identifier, "Button 2", index: 1);
+                    }
+                    else
+                    {
+                        FloatingNavigationButtonService.RemoveNavigationMenuButton(Button2Identifier);
+                    }
+                }));
+                config.AddNavigationButton(Button2Identifier, "Button 2", IconName.ascending_fill, new Command(() => { }));
+                config.AddNavigationButton(string.Empty, "Button 3",  IconName.ascending_fill, new Command(() => { }));
+                config.AddNavigationButton(string.Empty, "Button 4", IconName.descending_fill, new Command(() => { }));
+                config.AddNavigationButton(string.Empty, "Button 5", IconName.descending_fill, new Command(() => { }));
+                config.AddNavigationButton(string.Empty, "Close", IconName.descending_fill, new Command(FloatingNavigationButtonService.Close), isLast: true);
+
+            });
+        }
+        catch (Exception e)
+        {
+            Shell.Current.DisplayAlert("AddFloatingNavigationButton failed", e.Message, "Ok");
+        }
     }
 
     protected override void OnDisappearing()
