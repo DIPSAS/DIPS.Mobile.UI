@@ -1,3 +1,6 @@
+## [31.0.3]
+- Added internal logging framework for DUI. The logs can be observerd in LogCat, Console and XCode logs.
+
 ## [31.0.2]
 - [FloatingNavigationMenu][Android] Prevent fragment from creating its self
 

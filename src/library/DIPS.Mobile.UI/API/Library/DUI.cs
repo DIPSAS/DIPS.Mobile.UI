@@ -12,11 +12,15 @@ namespace DIPS.Mobile.UI.API.Library
         }
         
         public static bool IsDebug { get; set; }
+        /// <summary>
+        /// Determines if the library should log traces from components / apis to the console.
+        /// </summary>
+        public static bool ShouldLogDebug { get; set; }
 
         private static partial void PlatformInit();
         
         public static IMauiContext? GetCurrentMauiContext => Application.Current?.MainPage?.Window.Handler.MauiContext;
-
+        
         public static void RemoveViewsLocatedOnTopOfPage()
         {
             if (BottomSheetService.IsOpen())

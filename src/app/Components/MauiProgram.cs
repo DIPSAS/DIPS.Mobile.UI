@@ -37,6 +37,7 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
         DUI.IsDebug = true;
+        DUI.ShouldLogDebug = true;
 #endif
         return builder.Build();
     }

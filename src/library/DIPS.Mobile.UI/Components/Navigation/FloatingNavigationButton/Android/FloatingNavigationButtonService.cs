@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton.Android;
 using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using Java.IO;
 using Java.Lang;
 using Microsoft.Maui.Platform;
@@ -17,11 +18,15 @@ public partial class FloatingNavigationButtonService
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
         if (fragmentManager == null)
         {
-            Log($"{nameof(fragmentManager)} was null, this is not good.");
+            DUILogService.LogError(nameof(FloatingNavigationButtonService), $"{nameof(fragmentManager)} was null, this is not good.");
             return;
         }
 
-        if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null) return;
+        if (fragmentManager.FindFragmentByTag(FloatingNavigationButtonIdentifier.ToString()) != null)
+        {
+            DUILogService.LogDebug(nameof(FloatingNavigationButtonService), $"Fragment is already added to FragmentManager.");
+            return;
+        }
         var fragment = new FloatingNavigationButtonMenuFragment(fab);   
         try
         {
@@ -31,7 +36,7 @@ public partial class FloatingNavigationButtonService
         }
         catch (Exception e) //https://stackoverflow.com/a/27854077, to reproduce this : Debug (start) the app but keep the phone locked (blackscreen).
         {
-            Log(e.Message);
+            DUILogService.LogError(nameof(FloatingNavigationButtonService), e.Message);
             fragmentManager!.BeginTransaction()
                 .Add(global::Android.Resource.Id.Content, fragment, FloatingNavigationButtonIdentifier.ToString())
                 .CommitAllowingStateLoss();
