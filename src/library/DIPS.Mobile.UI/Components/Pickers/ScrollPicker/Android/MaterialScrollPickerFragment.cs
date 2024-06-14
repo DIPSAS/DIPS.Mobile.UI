@@ -4,6 +4,7 @@ using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -100,7 +101,9 @@ internal class MaterialScrollPickerFragment(
 
             for (var i = 0; i < numberPickers.Count; i++)
             {
-                scrollPickerViewModel.SelectedRowInComponent(numberPickers[i].Value, i);
+                var row = numberPickers[i].Value;
+                DUILogService.LogDebug<ScrollPicker>($"SelectedRowInComponent, row:{row}, component: {i}");
+                scrollPickerViewModel.SelectedRowInComponent(row, i);
             }
 
             onSave.Invoke();

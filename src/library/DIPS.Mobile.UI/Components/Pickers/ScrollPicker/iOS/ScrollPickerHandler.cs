@@ -2,6 +2,7 @@ using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Platforms.iOS;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -122,6 +123,7 @@ internal class DUIPickerViewModel : UIPickerViewModel
 
     public override void Selected(UIPickerView pickerView, IntPtr row, IntPtr component)
     {
+        DUILogService.LogDebug<ScrollPickerHandler>($"Select: row:{row}, component:{component}");
         ScrollPickerViewModel.SelectedRowInComponent((int)row, (int)component);
     }
 }
