@@ -12,8 +12,8 @@
         <dui:ContextMenuToolbarItem Text="Tap">
             <dui:ContextMenuToolbarItem.ContextMenu>
                 <dui:ContextMenu Title="Context menu">
-                    <dui:ContextMenuItem Title="Item 1" IsCheckable="True" />
-                    <dui:ContextMenuItem Title="Item 2" />
+                    <dui:ContextMenuItem Title="Item 1" IsCheckable="True" Command="{Binding ItemClickedCommand}"/>
+                    <dui:ContextMenuItem Title="Item 2" Command="{Binding ItemClickedCommand}"/>
                 </dui:ContextMenu>
             </dui:ContextMenuToolbarItem.ContextMenu>
         </dui:ContextMenuToolbarItem>

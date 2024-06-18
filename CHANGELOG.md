@@ -1,3 +1,6 @@
+## [31.0.4]
+- [ContextMenuToolbarItem] Bindings for Context Menu Items now works.
+
 ## [31.0.3]
 - Added internal logging framework for DUI. The logs can be observerd in LogCat, Console and XCode logs.
 

@@ -14,4 +14,10 @@ public class ContextMenuToolbarItem : ToolbarItem
         get => (ContextMenu)GetValue(ContextMenuProperty);
         set => SetValue(ContextMenuProperty, value);
     }
+
+    protected override void OnBindingContextChanged()
+    {
+        ContextMenu.BindingContext = BindingContext;
+        base.OnBindingContextChanged();
+    }
 }
