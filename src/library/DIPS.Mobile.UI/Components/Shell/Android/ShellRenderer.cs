@@ -49,6 +49,8 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
         for (var i = 0; i < Toolbar.Menu?.Size(); i++)
         {
             var page = Microsoft.Maui.Controls.Shell.Current.CurrentPage;
+            if (page is null)
+                return;
             
             if (page.ToolbarItems.Count == 0) return;
             var toolbarItem = page.ToolbarItems[i];

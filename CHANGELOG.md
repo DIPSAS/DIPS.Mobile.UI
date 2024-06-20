@@ -1,3 +1,6 @@
+## [31.0.6]
+- [ShellRenderer][Android] Null check on `CurrentPage`.
+
 ## [31.0.5]
 - [ContextMenuToolbarItem][Android] Made sure menu listeners are re-added when a modal page has been popped.
 - [ContextMenuToolbarItem][Android] Made sure it does not memoery leak.
