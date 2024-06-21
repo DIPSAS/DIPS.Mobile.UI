@@ -52,7 +52,7 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
             if (page is null)
                 return;
             
-            if (page.ToolbarItems.Count == 0 || i == page.ToolbarItems.Count) return;
+            if (page.ToolbarItems.Count == 0 || i >= page.ToolbarItems.Count) return;
             var toolbarItem = page.ToolbarItems[i];
             
             var menuItem = Toolbar.Menu?.GetItem(i);
