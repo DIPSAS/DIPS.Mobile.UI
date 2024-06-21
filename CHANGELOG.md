@@ -1,3 +1,6 @@
+## [32.0.0]
+- Upgrade MAUI to 8.0.60.
+
 ## [31.0.7]
 - [ShellRenderer][Android] Check if index is out of range before trying to get `ToolbarItem`.
 
