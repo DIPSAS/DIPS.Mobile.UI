@@ -1,3 +1,6 @@
+## [31.0.7]
+- [ShellRenderer][Android] Null check on `ToolbarItem` in `ShellRenderer`.
+
 ## [31.0.6]
 - [ShellRenderer][Android] Null check on `CurrentPage`.
 

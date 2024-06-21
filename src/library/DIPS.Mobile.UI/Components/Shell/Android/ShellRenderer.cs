@@ -61,6 +61,8 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
                 menuItem!.SetIconTintList(m_appearance?.ForegroundColor.ToDefaultColorStateList());    
             }
 
+            if (toolbarItem is null) return;
+
             if(toolbarItem is not ContextMenuToolbarItem contextMenuToolbarItem)
                 continue;
             menuItem?.SetOnMenuItemClickListener(new ToolbarMenuItemClickListener(contextMenuToolbarItem.ContextMenu, Toolbar));
