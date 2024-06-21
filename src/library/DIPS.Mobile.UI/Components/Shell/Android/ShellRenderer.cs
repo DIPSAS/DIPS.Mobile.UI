@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Android.App;
 using Android.OS;
+using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
 using AndroidX.DrawerLayout.Widget;
@@ -22,12 +23,6 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
 {
     protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker() => ToolbarApperanceTrancer = new CustomToolbarAppearanceTracker(this);
 
-    protected override IShellToolbarTracker CreateTrackerForToolbar(Toolbar toolbar)
-    {
-        return new CustomToolbarAppearanceTracker.CustomShellToolbarTracker(this, toolbar,
-            ((IShellContext)this).CurrentDrawerLayout);
-    }
-
     internal CustomToolbarAppearanceTracker ToolbarApperanceTrancer { get; set; }
 }
 
@@ -43,31 +38,39 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
         Toolbar = toolbar;
         m_appearance = appearance;
         
+        toolbar.LayoutChange -= ToolbarOnLayoutChange;
         toolbar.LayoutChange += ToolbarOnLayoutChange;  
-        
-        SetToolbarItemsTint();
     }
     
 
-    private void SetToolbarItemsTint()
-    {       
-        for (var i = 0; i < Toolbar?.Menu?.Size(); i++)
+
+    private void ToolbarOnLayoutChange(object? sender, View.LayoutChangeEventArgs layoutChangeEventArgs)
+    {
+        for (var i = 0; i < Toolbar.Menu?.Size(); i++)
         {
-            var toolbarItem = Toolbar.Menu.GetItem(i);
+            var page = Microsoft.Maui.Controls.Shell.Current.CurrentPage;
+            if (page is null)
+                return;
             
-            toolbarItem!.SetIconTintList(m_appearance?.ForegroundColor.ToDefaultColorStateList());
+            if (page.ToolbarItems.Count == 0 || i >= page.ToolbarItems.Count) return;
+            var toolbarItem = page.ToolbarItems[i];
+            
+            var menuItem = Toolbar.Menu?.GetItem(i);
+            if (menuItem?.IconTintList == null) //Fixes toolbar item icon and text color bug.
+            {
+                menuItem!.SetIconTintList(m_appearance?.ForegroundColor.ToDefaultColorStateList());    
+            }
+
+            if (toolbarItem is null) return;
+
+            if(toolbarItem is not ContextMenuToolbarItem contextMenuToolbarItem)
+                continue;
+            menuItem?.SetOnMenuItemClickListener(new ToolbarMenuItemClickListener(contextMenuToolbarItem.ContextMenu, Toolbar));
         }
+
     }
 
-    private void ToolbarOnLayoutChange(object? sender,View.LayoutChangeEventArgs layoutChangeEventArgs )
-    {
-        SetToolbarItemsTint();
-    }
-
-    public CustomToolbarAppearanceTracker(IShellContext shellContext) : base(shellContext)
-    {
-        
-    }
+    public CustomToolbarAppearanceTracker(IShellContext shellContext) : base(shellContext) { }
     
     protected override void Dispose(bool disposing)
     {
@@ -76,53 +79,14 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
         if(Toolbar is null)
             return;
         
-        Toolbar.LayoutChange -= ToolbarOnLayoutChange;  
-    }
-
-    internal class CustomShellToolbarTracker : ShellToolbarTracker
-    {
-        private bool m_isChangingPage;
-
-        public CustomShellToolbarTracker(IShellContext shellContext, Toolbar toolbar, DrawerLayout drawerLayout) : base(shellContext, toolbar, drawerLayout)
+        Toolbar.LayoutChange -= ToolbarOnLayoutChange;
+        for (var i = 0; i < Toolbar.Menu?.Size(); i++)
         {
-        }
-
-        protected override void OnPageChanged(Page oldPage, Page newPage)
-        {
-            m_isChangingPage = true;
-            
-            base.OnPageChanged(oldPage, newPage);
-        }
-
-        protected async override void UpdateToolbarItems(Toolbar toolbar, Page page)
-        {
-            base.UpdateToolbarItems(toolbar, page);
-            
-            // Need to have a delay of 400ms here for some reason, otherwise the toolbar item changes will be overwritten.
-            // However, the time it takes to update the toolbar items will most likely be finished when animating to the page is done, so it's not a problem
-            await Task.Delay(400);
-
-            try
-            {
-                for (var i = 0; i < toolbar.Menu?.Size(); i++)
-                {
-                    var toolbarItem = page.ToolbarItems[i];
-                
-                    if(toolbarItem is not ContextMenuToolbarItem contextMenuToolbarItem)
-                        continue;
-                
-                    var menuItem = toolbar.Menu?.GetItem(i);
-                    menuItem?.SetShowAsAction(ShowAsAction.Always);
-                    menuItem?.SetOnMenuItemClickListener(new ToolbarMenuItemClickListener(contextMenuToolbarItem.ContextMenu, toolbar));
-                }
-            }
-            catch
-            {
-                // Exceptions can happen if toolbar is disposed after the delay
-            }
+            var menuItem = Toolbar.Menu?.GetItem(i);
+            menuItem?.SetOnMenuItemClickListener(null);
         }
     }
-    
+
     private class ToolbarMenuItemClickListener : Object, IMenuItemOnMenuItemClickListener, Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener, PopupMenu.IOnMenuItemClickListener
     {
         private readonly ContextMenu m_contextMenu;
