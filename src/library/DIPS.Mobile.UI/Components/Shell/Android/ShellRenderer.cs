@@ -44,7 +44,7 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
     
 
 
-    private void ToolbarOnLayoutChange(object? sender,View.LayoutChangeEventArgs layoutChangeEventArgs )
+    private void ToolbarOnLayoutChange(object? sender, View.LayoutChangeEventArgs layoutChangeEventArgs)
     {
         for (var i = 0; i < Toolbar.Menu?.Size(); i++)
         {
@@ -52,7 +52,7 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
             if (page is null)
                 return;
             
-            if (page.ToolbarItems.Count == 0) return;
+            if (page.ToolbarItems.Count == 0 || i == page.ToolbarItems.Count) return;
             var toolbarItem = page.ToolbarItems[i];
             
             var menuItem = Toolbar.Menu?.GetItem(i);
