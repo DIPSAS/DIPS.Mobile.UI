@@ -1,3 +1,6 @@
+## [31.0.7]
+- [ShellRenderer][Android] Check if index is out of range before trying to get `ToolbarItem`.
+
 ## [31.0.6]
 - [ShellRenderer][Android] Null check on `CurrentPage`.
 
