@@ -127,7 +127,7 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        Adapter.SetData([new TestObject2("Lokalisasjon påkrevd - Kodeverk og egendefinert"), new TestObject2("Test2"), new TestObject2("Lokalisasjon - Fritekst")]);
+        Disabled = true;
     }
 
 

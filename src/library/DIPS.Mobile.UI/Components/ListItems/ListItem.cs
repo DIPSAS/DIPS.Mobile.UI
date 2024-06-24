@@ -45,8 +45,8 @@ public partial class ListItem : ContentView
         },
         VerticalOptions = LayoutOptions.Center
     };
-    
-    internal Border Border { get; } = new();
+
+    internal Border Border { get; } = new() { StrokeThickness = 0 };
     internal Image? ImageIcon { get; private set; }
     internal Label TitleLabel { get; private set; } = new();
     internal Label SubtitleLabel { get; private set; } = new() { IsVisible = false };
@@ -98,11 +98,6 @@ public partial class ListItem : ContentView
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-
-#if __ANDROID__
-        // To remove margin around border, will be fixed: https://github.com/dotnet/maui/pull/14402
-        Border.StrokeThickness = 0;
-#endif
         
         AddTitle();
         AddSubtitle();

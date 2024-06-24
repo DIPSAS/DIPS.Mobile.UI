@@ -1,3 +1,7 @@
+## [32.0.1]
+- [Android] Removed workaround for setting border px to 0 in ListItem
+- [iOS] Removed workaround in ContentControl where CollectionView did not use available space
+
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
 - [MAUI-Upgrade][Android] Fixed an issue where icons were not placed at center in buttons

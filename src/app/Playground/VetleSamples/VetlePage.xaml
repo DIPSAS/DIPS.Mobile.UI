@@ -27,20 +27,43 @@
 
     </dui:ContentPage.ToolbarItems>
    
-    <VerticalStackLayout>
-        <dui:Button 
-                ImageSource="{dui:Icons alert_line}"
-                Padding="0"
-                HeightRequest="{dui:Sizes size_14}"
-                WidthRequest="{dui:Sizes size_14}"
-                CornerRadius="{dui:Sizes size_0}"/>
-        
-        <dui:Button ImageSource="{dui:Icons arrow_back_line}"
-                    Style="{dui:Styles Button=PrimaryIconButtonLarge}"/>
-        
-    </VerticalStackLayout>
+    <!--<ContentView>
+    <dui:CollectionView ItemsSource="{Binding TestStrings}">
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="{Binding .}" />
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+    </dui:CollectionView>
+    </ContentView>-->
     
-    
+    <dui:ContentControl SelectorItem="{Binding Disabled}">
+        <dui:ContentControl.TemplateSelector>
+            <dui:BooleanDataTemplateSelector>
+                <dui:BooleanDataTemplateSelector.TrueTemplate>
+                    <DataTemplate>
+                        <dui:CollectionView ItemsSource="{Binding TestStrings}">
+                            <dui:CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding .}" />
+                                </DataTemplate>
+                            </dui:CollectionView.ItemTemplate>
+                        </dui:CollectionView>
+                    </DataTemplate>
+                </dui:BooleanDataTemplateSelector.TrueTemplate>
+                
+                <dui:BooleanDataTemplateSelector.FalseTemplate>
+                    <DataTemplate>
+                        <dui:ActivityIndicator IsRunning="True"/>
+                    </DataTemplate>
+                </dui:BooleanDataTemplateSelector.FalseTemplate>
+                
+            </dui:BooleanDataTemplateSelector>
+        </dui:ContentControl.TemplateSelector>
+        
+    </dui:ContentControl>
+
+
    
     
 </dui:ContentPage>
