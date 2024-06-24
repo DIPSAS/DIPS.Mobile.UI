@@ -33,7 +33,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         platformView.CornerRadius = (int)platformView.Context.ToPixels(VirtualView.CornerRadius);
         platformView.Foreground = ripple;
 
-        platformView.IconSize = (int)platformView.Context.ToPixels(VirtualView.Height / 2);
+        /*platformView.IconSize = (int)platformView.Context.ToPixels(VirtualView.Height / 2);*/
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
 

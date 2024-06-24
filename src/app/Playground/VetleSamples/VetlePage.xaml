@@ -27,8 +27,18 @@
 
     </dui:ContentPage.ToolbarItems>
    
-    <Button Text="hello"
-            Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
+    <VerticalStackLayout>
+        <dui:Button 
+                ImageSource="{dui:Icons alert_line}"
+                Padding="0"
+                HeightRequest="{dui:Sizes size_14}"
+                WidthRequest="{dui:Sizes size_14}"
+                CornerRadius="{dui:Sizes size_0}"/>
+        
+        <dui:Button ImageSource="{dui:Icons arrow_back_line}"
+                    Style="{dui:Styles Button=PrimaryIconButtonLarge}"/>
+        
+    </VerticalStackLayout>
     
     
    
