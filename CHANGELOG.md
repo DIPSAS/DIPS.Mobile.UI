@@ -1,3 +1,6 @@
+## [32.0.1]
+- [iOS] Removed workaround for setting correct width on button/chip when they have an image.
+
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
 - [MAUI-Upgrade][Android] Fixed an issue where icons were not placed at center in buttons

@@ -63,27 +63,6 @@ public partial class ChipHandler : ViewHandler<Chip, UIButton>
         platformView.UpdatePadding(new Thickness(12, 6, 12, 6));
     }
     
-    //TODO: .NET 8 vNext, workaround developed by looking at : https://github.com/dotnet/maui/pull/18521
-    //TODO. .NET 8 vNext, Remove when its confirmed that this is released: https://github.com/dotnet/maui/issues/18504
-    public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
-    {
-        var desiredSize = base.GetDesiredSize(widthConstraint, heightConstraint);
-        if (PlatformView is not UIButton uiButton)
-        {
-            return desiredSize;
-        }
-
-        if (!VirtualView.IsToggleable)
-        {
-            return desiredSize;
-        }
-
-        const double TOLERANCE = 0.001;
-        var width = Math.Abs(VirtualView.WidthRequest - (-1d)) > TOLERANCE ? VirtualView.WidthRequest : uiButton.IntrinsicContentSize.Width;
-        var height = Math.Abs(VirtualView.HeightRequest - (-1d)) > TOLERANCE ? VirtualView.HeightRequest : uiButton.IntrinsicContentSize.Height;
-        return new Size(width + 8, height);
-    }
-    
     private static partial void MapTitle(ChipHandler handler, Chip chip)
     {
         handler.PlatformView.TranslatesAutoresizingMaskIntoConstraints = false;
