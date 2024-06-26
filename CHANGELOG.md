@@ -1,3 +1,6 @@
+## [33.0.0]
+- Removed `VirtualListView`.
+
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
 - [MAUI-Upgrade][Android] Fixed an issue where icons were not placed at center in buttons
