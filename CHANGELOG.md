@@ -1,3 +1,6 @@
+## [33.0.0]
+- Removed `VirtualListView`.
+
 ## [32.0.1]
 - [Android] Removed old code for a workaround where we created our own toolbar for modals 
 

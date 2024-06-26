@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace Components.ResourcesSamples.Sizes;
@@ -10,15 +9,11 @@ public partial class SizesAsFontSize
         InitializeComponent();
     }
     
-    public IVirtualListViewAdapter Adapter { get; } = new VirtualListViewAdapter<SizeResource>(SizeResources.Sizes.Where(pair => pair.Value > 0)
-        .Select(pair => new SizeResource(pair.Key, pair.Value)).ToList());
-
-    private void VirtualListView_OnOnScrolled(object? sender, ScrolledEventArgs e)
-    {
-    }
+    public List<SizeResource> Items { get; } = SizeResources.Sizes.Where(pair => pair.Value > 0)
+        .Select(pair => new SizeResource(pair.Key, pair.Value)).ToList();
 }
 
-internal class SizeResource
+public class SizeResource
 {
     public SizeResource(string key, int value)
     {
