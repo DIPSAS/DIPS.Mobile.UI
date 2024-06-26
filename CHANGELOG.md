@@ -1,3 +1,6 @@
+## [33.0.1]
+- [iOS] Removed workaround for setting correct width on button/chip when they have an image.
+
 ## [33.0.0]
 - Removed `VirtualListView`.
 
