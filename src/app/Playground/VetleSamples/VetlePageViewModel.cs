@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
-using DIPS.Mobile.UI.Components.VirtualListView.Adapters;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.VetleSamples;
@@ -23,7 +21,6 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
-    private IVirtualListViewAdapter m_adapter;
 
     public VetlePageViewModel()
     {
@@ -67,8 +64,6 @@ public class VetlePageViewModel : ViewModel
         TestObjects.Add(new TestObject(CheckCommand));
 
     }
-
-    public TestAdapter Adapter { get; } = new TestAdapter();
 
     private void Disable()
     {
@@ -138,10 +133,6 @@ public class VetlePageViewModel : ViewModel
         page.BindingContext = vm;
         Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
     }
-
-   
-
-   
 
     public List<SortOption> SortOptions
     {
@@ -335,25 +326,4 @@ public class TestObject2
    public string SearchTerm { get; } = "Test";
 }
 
-public class TestAdapter : VirtualListViewAdapterBase<object, TestObject2>, IVirtualListViewAdapter
-{
-    private List<TestObject2> m_testObjects;
 
-    public override TestObject2 GetItem(int sectionIndex, int itemIndex)
-    {
-        return m_testObjects?[itemIndex] ?? new TestObject2("l");
-    }
-
-    public override int GetNumberOfItemsInSection(int sectionIndex)
-    {
-        return m_testObjects?.Count ?? 0;
-    }
-
-    public void SetData(List<TestObject2> testObjects)
-    {
-        m_testObjects = testObjects;
-        
-        InvalidateData();
-    }
-    
-}
