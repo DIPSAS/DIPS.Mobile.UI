@@ -1,5 +1,11 @@
-## [32.0.1]
+## [33.0.1]
 - [iOS] Removed workaround for setting correct width on button/chip when they have an image.
+
+## [33.0.0]
+- Removed `VirtualListView`.
+
+## [32.0.1]
+- [Android] Removed old code for a workaround where we created our own toolbar for modals 
 
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
