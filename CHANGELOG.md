@@ -1,3 +1,6 @@
+## [32.0.1]
+- [Android] Removed old code for a workaround where we created our own toolbar for modals 
+
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
 - [MAUI-Upgrade][Android] Fixed an issue where icons were not placed at center in buttons
