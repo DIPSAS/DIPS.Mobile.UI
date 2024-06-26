@@ -122,6 +122,7 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
+        Disabled = true;
     }
 
 

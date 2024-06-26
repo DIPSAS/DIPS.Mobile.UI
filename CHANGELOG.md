@@ -1,3 +1,7 @@
+## [33.0.2]
+- [Android] Removed workaround for setting border px to 0 in ListItem
+- [iOS] Removed workaround in ContentControl where CollectionView did not use available space
+
 ## [33.0.1]
 - [iOS] Removed workaround for setting correct width on button/chip when they have an image.
 
