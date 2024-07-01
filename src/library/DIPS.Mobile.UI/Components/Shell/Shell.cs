@@ -15,7 +15,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
         {
-            if (DUI.IsDebug && ShouldGarbageCollectPreviousPage && m_previousPage != null)
+            if (GarbageCollection.TryAutoResolveMemoryLeaksEnabled && m_previousPage != null)
             {
                 switch (e.Source)
                 {
@@ -23,9 +23,22 @@ namespace DIPS.Mobile.UI.Components.Shell
                     case ShellNavigationSource.PopToRoot:
                     case ShellNavigationSource.Remove:
                     case ShellNavigationSource.ShellItemChanged:
-                        Monitor.ObserveContent(m_previousPage);
-                        m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
-                        await Monitor.CheckAliveness();
+                        if (DUI.IsDebug)
+                        {
+                            Monitor.ObservePage(m_previousPage);
+                            Console.WriteLine($"OBSERVE PAGE: {m_previousPage.GetType().Name}");
+
+                            m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
+                            await Monitor.CheckAliveness();
+                        }
+                        else
+                        {
+                            var previousPage = m_previousPage;
+                            m_previousPage = null;
+                            Console.WriteLine($"TRY RESOLVE MEMORY LEAK IN PAGE: {previousPage.GetType().Name}");
+                            Monitor.TryResolveMemoryLeakInPage(previousPage);
+                        }
+                        
                         break;
                 }
             }
