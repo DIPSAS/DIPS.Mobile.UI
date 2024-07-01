@@ -130,6 +130,56 @@ public class GCCollectionMonitor
         }
     }
 
+    /// <summary>
+    ///     Attempts to resolve any potential memory leaks in the provided <see cref="Page"/>. You should only call this
+    ///     method when the provided page is not meant to be used further.
+    /// </summary>
+    /// <param name="page"></param>
+    public void TryResolveMemoryLeakInPage(Page page)
+    {
+        if (DUI.IsDebug || !GarbageCollection.TryAutoResolveMemoryLeaksEnabled)
+        {
+            return;
+        }
+        
+        if (page is not ContentPage {Content: IVisualTreeElement visualTreeElement})
+        {
+            return;
+        }
+
+        var children = visualTreeElement.GetVisualChildren();
+        if (children.Count == 0)
+        {
+            TryResolveMemoryLeak(page);
+            return;
+        }
+        
+        foreach (var child in visualTreeElement.GetVisualChildren())
+        {
+            if (child is not Element {Handler: not null} element)
+            {
+                continue;
+            }
+
+            foreach (var effect in element.Effects)
+            {
+                if (effect is null)
+                {
+                    continue;
+                }
+                    
+                TryResolveMemoryLeak(effect);
+            }
+                
+            TryResolveMemoryLeak(element);
+        }
+    }
+
+    private static void TryResolveMemoryLeak(object target)
+    {
+        TryResolveMemoryLeak(target, target.GetType().Name);
+    }
+
     private static void TryResolveMemoryLeak(object target, string childName)
     {
         if (target is RoutingEffect routingEffect)

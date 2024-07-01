@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
 
 namespace MemoryLeakTests;
@@ -34,13 +35,19 @@ public partial class App
         if (lastPage != null)
         {
             m_monitor.Observe(lastPage);
+            
+            m_monitor.TryResolveMemoryLeakInPage(lastPage);
         }
+        
         m_monitor.CheckAliveness();
     }
 
     private void NavPageOnPopped(object? sender, NavigationEventArgs e)
     {
         m_monitor.Observe(e.Page);
+        
+        m_monitor.TryResolveMemoryLeakInPage(e.Page);
+        
         m_monitor.CheckAliveness();
     }
 }
