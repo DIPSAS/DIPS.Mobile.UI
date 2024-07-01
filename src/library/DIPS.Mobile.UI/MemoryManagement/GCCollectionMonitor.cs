@@ -5,14 +5,15 @@ using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 namespace DIPS.Mobile.UI.MemoryManagement;
 
 /// <summary>
-/// Use this class to monitor an object at a point where it should be garbage collected.
+/// Use this class to monitor an object to check if it has a memory leak.
+/// This class can also be used to automatic resolve memory leaks.
 /// </summary>
 /// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public class GCCollectionMonitor
 {
     private readonly List<CollectionContentTarget> m_references = [];
 
-    private const int MsBetweenCollections = 10;
+    private const int MsBetweenCollections = 200;
     private const int MaxCollections = 10;
     
     public static GCCollectionMonitor Instance { get; } = new();
@@ -22,7 +23,7 @@ public class GCCollectionMonitor
         if(!DUI.IsDebug) 
             return null;
         
-        var collectionPageTarget = new CollectionContentTarget(content);
+        var collectionPageTarget = content.ToCollectionContentTarget();
         m_references.Add(collectionPageTarget);
         
         GarbageCollection.Print($@"Observing: {content.GetType().Name}");
@@ -34,7 +35,7 @@ public class GCCollectionMonitor
     /// Try to force garbage collecting, wait for finalizers and see if its still alive.
     /// </summary>
     /// <remarks>
-    /// Remember to add the object you want to aliveness for by calling <see cref="Observe"/>
+    /// Remember to add the object you want to aliveness for by calling <see cref="ObserveContent"/>
     /// Will only work while debugging.
     /// Will do a Console.WriteLine of the aliveness of the object.
     /// On iOS you can see it directly in the Console window, on Android its best observed in LogCat filtered by your application and "dotnet".
@@ -116,9 +117,9 @@ public class GCCollectionMonitor
         {
             GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! Let's check if its children are infected 🧟");
 
-            if (collectionContentTarget.FlatChildrenList.Count == 0)
+            if (!collectionContentTarget.FlatChildrenList.Any(child => child.Target.TryGetTarget(out var target)))
             {
-                GarbageCollection.Print($@"🧟 No children are infected, this probably means that something is not released in its handler 🧟");
+                GarbageCollection.Print($@"🧟 No children are infected! 🧟");
             }
 
             foreach (var child in collectionContentTarget.FlatChildrenList)
@@ -150,31 +151,7 @@ public class GCCollectionMonitor
         if(isRoot)
             GarbageCollection.Print($"🔫 Let's try to shoot the zombies in {content.GetType().Name} 🧟");
 
-        var visualTreeElement = content as IVisualTreeElement;
-
-        if (content is ContentPage contentPage)
-        {
-            visualTreeElement = contentPage.Content;
-        }
-        else if (content is BottomSheet bottomSheet)
-        {
-            visualTreeElement = bottomSheet.Content;
-        }
-        
-        if (visualTreeElement is null)
-        {
-            TryResolveMemoryLeak(content);
-            return;
-        }
-        
-        var children = visualTreeElement.GetVisualChildren();
-        if (children.Count == 0)
-        {
-            TryResolveMemoryLeak(content);
-            return;
-        }
-        
-        foreach (var child in children)
+        foreach (var child in ((content as IVisualTreeElement)!).GetVisualChildren())
         {
             TryResolveMemoryLeaksInContent(child, false);
         }
@@ -184,61 +161,69 @@ public class GCCollectionMonitor
 
     private static void TryResolveMemoryLeak(object target)
     {
-        switch (target)
+        try
         {
-            case VisualElement visualElement:
-                {
-                    visualElement.Effects.Clear();
-                    
-                    visualElement.BindingContext = null;
-                    visualElement.Parent = null;
-
-                    visualElement.ClearLogicalChildren();
-            
-                    if (visualElement.Handler is not null)
+            switch (target)
+            {
+                case VisualElement visualElement:
                     {
-                        if (visualElement.Handler is IDisposable disposableHandler)
-                            disposableHandler.Dispose();
-                        visualElement.Handler?.DisconnectHandler();
+                        visualElement.Effects.Clear();
+
+                        visualElement.BindingContext = null;
+                        visualElement.Parent = null;
+
+                        switch (visualElement)
+                        {
+                            case ContentView contentView:
+                                contentView.Content = null;
+                                break;
+                            case Border border:
+                                border.Content = null;
+                                break;
+                            case ContentPage contentPage:
+                                contentPage.Content = null;
+                                break;
+                            case ScrollView scrollView:
+                                scrollView.Content = null;
+                                break;
+                        }
+                        
+                        visualElement.ClearLogicalChildren();
+
+                        if (visualElement.Handler is not null)
+                        {
+                            if (visualElement.Handler is IDisposable disposableHandler)
+                                disposableHandler.Dispose();
+                            visualElement.Handler?.DisconnectHandler();
+                            visualElement.Handler = null;
+                        }
+
+                        visualElement.Resources = null;
+                        break;
                     }
-
-                    visualElement.Resources = null;
-                    break;
-                }
-            case Element element:
-                {
-                    element.Effects.Clear();
-                    
-                    element.BindingContext = null;
-                    element.Parent = null;
-
-                    element.ClearLogicalChildren();
-
-                    if (element.Handler is not null)
+                case Element element:
                     {
-                        if (element.Handler is IDisposable disposableElementHandler)
-                            disposableElementHandler.Dispose();
-                        element.Handler.DisconnectHandler();
-                    }
+                        element.Effects.Clear();
 
-                    break;
-                }
+                        element.BindingContext = null;
+                        element.Parent = null;
+
+                        element.ClearLogicalChildren();
+
+                        if (element.Handler is not null)
+                        {
+                            if (element.Handler is IDisposable disposableElementHandler)
+                                disposableElementHandler.Dispose();
+                            element.Handler?.DisconnectHandler();
+                        }
+
+                        break;
+                    }
+            }
         }
-
-        switch (target)
+        catch
         {
-            case ContentPage contentPage:
-                contentPage.Content = null;
-                break;
-            case ContentView contentView:
-                contentView.Content = null;
-                break;
-            case Border border:
-                border.Content = null;
-                break;
-            case ScrollView scrollView:
-                scrollView.Content = null;
-                break;
+            // Should never crash the app
         }
     }
 
@@ -249,35 +234,17 @@ public class GCCollectionMonitor
             Name = content.GetType().Name;
             Content = new WeakReference(content);
 
-            if (content is ContentPage contentPage)
-            {
-                AddChildrenReferences(contentPage.Content);
-            }
-
-            if (content is BottomSheet bottomSheet)
-            {
-                AddChildrenReferences(bottomSheet.Content);
-            }
+            AddChildrenReferences((content as IVisualTreeElement)!);
         }
 
-        private void AddChildrenReferences(object monitorTarget)
+        private void AddChildrenReferences(IVisualTreeElement visualTreeElement)
         {
-            AddToFlatList(monitorTarget);
-            
-            if (monitorTarget is not IVisualTreeElement visualTreeElement)
-                return;
-
-            var visualChildren = visualTreeElement.GetVisualChildren();
-            if (visualChildren.Count <= 0)
-                return;
-
-            foreach (var vte in visualChildren)
+            foreach (var vte in visualTreeElement.GetVisualChildren())
             {
-                if (Equals(vte, monitorTarget))
-                    continue;
-                    
                 AddChildrenReferences(vte);
             }
+            
+            AddToFlatList(visualTreeElement);
         }
 
         private void AddToFlatList(object monitorTarget)
@@ -351,7 +318,11 @@ public class GCCollectionMonitor
 
             if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
             {
-                GarbageCollection.Print("🧟 Looks like the automatic resolving of memory leak failed. Usually this means that something in the platform is not released. Maybe you did not release resources in Handlers or custom platform views? 🧟");
+                GarbageCollection.Print("❌ The automatic resolving of memory leaks failed to resolve all memory leaks! If it says that there are no children affected, you must look into the content's handler (DisconnectHandler) or native views (Their dispose methods). It could also be an issue with Shell itself. ❌");
+            }
+            else
+            {
+                GarbageCollection.Print("✅ Looks like the automatic resolving of memory leak succeeded! 🎉🎉🎉");
             }
         }
         else if(GarbageCollection.TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)

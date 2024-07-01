@@ -13,8 +13,7 @@
                      IsSaving="{Binding IsProgressing}"
                      SavingCompletedCommand="{Binding CompletedCommand}"
                      SavingCompletedText="Completed!"
-                     SavingText="Loading..."
-                     maui:LeakMonitorBehavior.Cascade="True">
+                     SavingText="Loading...">
 
     <dui:ContentSavePage.BindingContext>
         <saving:SavingSamplesViewModel />

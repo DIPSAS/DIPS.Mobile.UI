@@ -5,6 +5,8 @@ using DIPS.Mobile.UI.Components.Pages;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.Internals;
 using Playground.HåvardSamples;
+using UIKit;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
 
@@ -13,12 +15,18 @@ public partial class VetlePage
     public VetlePage()
     {
         InitializeComponent();
-        TestCommand = new Command(Test123);
+        TestCommand = new Command(SwitchRoot);
     }
 
     private void Test123()
     {
         _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+    }
+
+    private void SwitchRoot()
+    {
+       
+
     }
 
     protected override async void OnAppearing()
@@ -67,5 +75,22 @@ public partial class VetlePage
     private void Entry_OnCompleted(object sender, EventArgs e)
     {
         
+    }
+    
+    private void VisualElement_OnLoaded(object? sender, EventArgs e)
+    {
+#if __IOS__
+
+        if (sender is not Grid grid) return;
+            
+        var insets = UIApplication.SharedApplication.KeyWindow!.SafeAreaInsets;
+        grid.Padding = new Thickness(grid.Padding.Left, insets.Top, grid.Padding.Right, grid.Padding.Bottom + insets.Bottom);
+
+#endif
+    }
+
+    private void SetSemanticFocus(object? sender, EventArgs e)
+    {
+        /*SignInButton.SetSemanticFocus();*/
     }
 }
