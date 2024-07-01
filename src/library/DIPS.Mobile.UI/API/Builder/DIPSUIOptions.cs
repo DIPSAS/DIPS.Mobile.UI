@@ -12,7 +12,7 @@ internal class DIPSUIOptions : IDIPSUIOptions
         return this;
     }
 
-    public IDIPSUIOptions SetAutoResolveMemoryLeaksEnabled(bool enabled = true)
+    public IDIPSUIOptions EnableAutomaticMemoryLeakResolving()
     {
         GarbageCollection.TryAutoResolveMemoryLeaksEnabled = true;
 

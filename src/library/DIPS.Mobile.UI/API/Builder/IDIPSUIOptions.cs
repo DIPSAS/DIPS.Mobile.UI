@@ -13,9 +13,7 @@ public interface IDIPSUIOptions
     IDIPSUIOptions SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback);
 
     /// <summary>
-    ///     Sets whether DIPS.Mobile.UI should try and auto-resolve memory leaks that occur during page navigation.
+    ///     Sets whether DIPS.Mobile.UI should try and auto-resolve memory leaks that occur during page navigation and closing of bottomsheets.
     /// </summary>
-    /// <param name="enabled">DUI will automatically try and resolve memory leaks if true</param>
-    /// <returns></returns>
-    IDIPSUIOptions SetAutoResolveMemoryLeaksEnabled(bool enabled = true);
+    IDIPSUIOptions EnableAutomaticMemoryLeakResolving();
 }

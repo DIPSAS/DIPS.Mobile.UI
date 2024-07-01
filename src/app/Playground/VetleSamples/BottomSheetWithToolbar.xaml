@@ -7,9 +7,7 @@
                  x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
                  x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
                  Padding="0"
-                 BackgroundColor="{dui:Colors color_neutral_10}"
-                 IsBackButtonVisible="True"
-                 Title="Lol">
+                 BackgroundColor="{dui:Colors color_neutral_10}">
 
     <dui:BottomSheet.BindingContext>
         <vetleSamples:BottomSheetWithToolbarViewModel />
@@ -24,17 +22,10 @@
     <dui:BottomSheet.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons dash_long_fill}"></ToolbarItem>
     </dui:BottomSheet.ToolbarItems>
-    
-    <!--<dui:BottomSheet.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="{Binding Lul}"
-                            Command="{Binding IsVisible}"
-                            IconOverride="{dui:Icons arrow_back_line}">
-            
-        </BackButtonBehavior>
-    </dui:BottomSheet.BackButtonBehavior>
+
     
     <Button  Text="yes"
-             Command="{Binding IsVisible}"></Button>-->
+             Command="{Binding IsVisible}"></Button>
 
     
 

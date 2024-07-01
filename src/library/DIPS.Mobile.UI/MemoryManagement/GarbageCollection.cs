@@ -31,4 +31,10 @@ public static class GarbageCollection
         GC.Collect();
         GC.WaitForPendingFinalizers();
     }
+
+    public static GCCollectionMonitor.CollectionContentTarget ToCollectionContentTarget(this object target)
+    {
+        return new GCCollectionMonitor.CollectionContentTarget(target);
+    }
+    
 }

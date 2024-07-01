@@ -14,7 +14,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDIPSUI(options =>
             {
-                options.SetAutoResolveMemoryLeaksEnabled();
+                options.EnableAutomaticMemoryLeakResolving();
             });
         
         builder.ConfigureFonts(fonts =>

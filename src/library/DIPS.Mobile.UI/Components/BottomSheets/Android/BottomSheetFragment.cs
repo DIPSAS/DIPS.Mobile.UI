@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.MemoryManagement;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
@@ -122,8 +123,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         {
             base.OnDestroy();
             
-            Shell.Shell.Monitor.ObserveContent(m_bottomSheet);
-            _ = Shell.Shell.Monitor.CheckAliveness();
+            //_ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_bottomSheet);
             
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);

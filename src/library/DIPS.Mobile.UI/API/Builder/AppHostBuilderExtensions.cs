@@ -53,7 +53,7 @@ public static partial class AppHostBuilderExtensions
         builder.UseLeakDetection(collectionTarget =>
         {
             // This callback will run any time a leak is detected.
-            Console.WriteLine($"❗🧟❗{collectionTarget.Name} is a zombie!");
+            Console.WriteLine($@"❗🧟❗{collectionTarget.Name} is a zombie!");
         });
         
         

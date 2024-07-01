@@ -1,3 +1,7 @@
+## [34.0.0]
+- Refactored `GCCollectionMonitor`, so that it pinpoints what handlers/views that is leaking
+- Patched up all/most leaks in DUI.
+
 ## [33.0.2]
 - [Android] Removed workaround for setting border px to 0 in ListItem
 - [iOS] Removed workaround in ContentControl where CollectionView did not use available space
