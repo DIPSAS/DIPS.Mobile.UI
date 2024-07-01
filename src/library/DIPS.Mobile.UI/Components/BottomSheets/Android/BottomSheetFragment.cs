@@ -121,6 +121,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
+            
+            Shell.Shell.Monitor.ObserveContent(m_bottomSheet);
+            _ = Shell.Shell.Monitor.CheckAliveness();
+            
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
             m_bottomSheet.Handler?.DisconnectHandler();

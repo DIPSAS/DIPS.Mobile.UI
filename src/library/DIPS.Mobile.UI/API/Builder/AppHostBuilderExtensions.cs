@@ -10,6 +10,7 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Components.TextFields.Editor;
 using DIPS.Mobile.UI.Effects.Touch;
+using MemoryToolkit.Maui;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
@@ -48,6 +49,12 @@ public static partial class AppHostBuilderExtensions
         DUI.Init();
         
         builder.ConfigureLifecycleEvents(ConfigurePlatformLifecycleEvents);
+        
+        builder.UseLeakDetection(collectionTarget =>
+        {
+            // This callback will run any time a leak is detected.
+            Console.WriteLine($"❗🧟❗{collectionTarget.Name} is a zombie!");
+        });
         
         
         //Handlers

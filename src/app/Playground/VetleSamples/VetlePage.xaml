@@ -20,10 +20,14 @@
         <ToolbarItem IconImageSource="{dui:Icons alert_line}" />
     </dui:ContentPage.ToolbarItems>-->
     
-    <Label Text="Hello"
-           dui:Touch.Command="{Binding CancelCommand}" />
+    <!--<Label Text="Hello"
+           dui:Touch.Command="{Binding CancelCommand}" />-->
     
-    
+    <dui:NavigationListItem 
+                            HasTopDivider="True"
+                            HasBottomDivider="True"
+                            Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"
+                            VerticalOptions="Start" />
     
     
 </dui:ContentPage>

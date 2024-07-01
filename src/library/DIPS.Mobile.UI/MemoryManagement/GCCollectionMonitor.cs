@@ -1,5 +1,5 @@
 ﻿using DIPS.Mobile.UI.API.Library;
-using Microsoft.Maui.Handlers;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.MemoryManagement;
@@ -10,24 +10,14 @@ namespace DIPS.Mobile.UI.MemoryManagement;
 /// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public class GCCollectionMonitor
 {
-    private readonly List<CollectionPageTarget> m_references = [];
+    private readonly List<CollectionContentTarget> m_references = [];
 
-    /// <summary>
-    /// Add it for monitoring.
-    /// </summary>
-    /// <param name="target"></param>
-    public void Observe(object target)
+    public void ObserveContent(object content)
     {
-        if (!DUI.IsDebug) return;
-        var targetType = target.GetType().Name;
-       // m_references.Add(new Tuple<string, WeakReference<object>>(targetType, new WeakReference<object>(target)));
-    }
-
-    public void ObservePage(Page page)
-    {
-        if(!DUI.IsDebug) return;
+        if(!DUI.IsDebug) 
+            return;
         
-        var collectionPageTarget = new CollectionPageTarget(page);
+        var collectionPageTarget = new CollectionContentTarget(content);
         m_references.Add(collectionPageTarget);
     }
 
@@ -48,8 +38,8 @@ public class GCCollectionMonitor
         var currentCollection = 0;
         var shouldLookForAliveness = m_references.Count != 0;
         const int msBetweenCollections = 200;
-        
-        var totalMemoryBefore = GC.GetTotalMemory(true);
+
+        var totalMemoryBefore = GC.GetTotalMemory(false);
         if (shouldPrintTotalMemory && shouldLookForAliveness)
         {
             GarbageCollection.Print($"Collections total memory before: {totalMemoryBefore} byte ({(totalMemoryBefore / (float)1024 / 1024):F2} mb)");
@@ -72,6 +62,9 @@ public class GCCollectionMonitor
                     {
                         GarbageCollection.Print($@"🧟 {collectionPageTarget.Name} is a zombie!");
 
+                        if (tryResolveMemoryLeaks)
+                            TryResolveMemoryLeakInPage(collectionPageTarget.Page.Target!);
+
                         foreach (var child in collectionPageTarget.FlatChildrenList)
                         {
                             if (child.Target.TryGetTarget(out var target))
@@ -88,7 +81,6 @@ public class GCCollectionMonitor
                                 if (tryResolveMemoryLeaks)
                                 {
                                     print += " 🔫 Lets try to shoot this zombie";
-                                    TryResolveMemoryLeak(target, child.Name);
                                 }
                                 
                                 GarbageCollection.Print(print);
@@ -130,47 +122,114 @@ public class GCCollectionMonitor
         }
     }
 
-    private static void TryResolveMemoryLeak(object target, string childName)
+    private static void TryResolveMemoryLeakInPage(object vte)
     {
-        if (target is RoutingEffect routingEffect)
+        if (vte is IVisualTreeElement visualTreeElement)
         {
-            routingEffect.Element.Effects.Clear();
+            foreach (var childVte in visualTreeElement.GetVisualChildren())
+            {
+                TryResolveMemoryLeakInPage(childVte);
+            }
+        }
+        
+        TryResolveMemoryLeak(vte);
+    }
+    
+    private static void TryResolveMemoryLeak(object target)
+    {
+        switch (target)
+        {
+            case RoutingEffect routingEffect:
+                routingEffect.Element.Effects.Clear();
+                break;
+            case VisualElement visualElement:
+                {
+                    visualElement.BindingContext = null;
+                    visualElement.Parent = null;
+
+                    visualElement.ClearLogicalChildren();
+            
+                    if (visualElement.Handler is not null)
+                    {
+                        if (visualElement.Handler is IDisposable disposableHandler)
+                            disposableHandler.Dispose();
+                        visualElement.Handler?.DisconnectHandler();
+                    }
+
+                    visualElement.Resources = null;
+                    break;
+                }
+            case Element element:
+                {
+                    element.BindingContext = null;
+            
+                    element.Parent = null;
+
+                    element.ClearLogicalChildren();
+
+                    if (element.Handler is not null)
+                    {
+                        if (element.Handler is IDisposable disposableElementHandler)
+                            disposableElementHandler.Dispose();
+                        element.Handler.DisconnectHandler();
+                    }
+
+                    break;
+                }
+        }
+
+        switch (target)
+        {
+            case ContentPage contentPage:
+                contentPage.Content = null;
+                break;
+            case ContentView contentView:
+                contentView.Content = null;
+                break;
+            case Border border:
+                border.Content = null;
+                break;
+            case ScrollView scrollView:
+                scrollView.Content = null;
+                break;
         }
     }
 
-    public class CollectionPageTarget
+    public class CollectionContentTarget
     {
-        public CollectionPageTarget(Page page)
+        public CollectionContentTarget(object content)
         {
-            Name = page.GetType().Name;
-            Page = new WeakReference(page);
+            Name = content.GetType().Name;
+            Page = new WeakReference(content);
 
-            if (page is ContentPage contentPage)
+            if (content is ContentPage contentPage)
             {
                 AddChildrenReferences(contentPage.Content);
+            }
+
+            if (content is BottomSheet bottomSheet)
+            {
+                AddChildrenReferences(bottomSheet.Content);
             }
         }
 
         private void AddChildrenReferences(object monitorTarget)
         {
+            AddToFlatList(monitorTarget);
+            
             if (monitorTarget is not IVisualTreeElement visualTreeElement)
                 return;
 
             var visualChildren = visualTreeElement.GetVisualChildren();
-            if (visualChildren.Count > 0)
+            if (visualChildren.Count <= 0)
+                return;
+
+            foreach (var vte in visualChildren)
             {
-                foreach (var vte in visualChildren)
-                {
-                    if (Equals(vte, monitorTarget))
-                        continue;
-                        
-                    AddToFlatList(vte);
-                    AddChildrenReferences(vte);
-                }
-            }
-            else
-            {
-                AddToFlatList(monitorTarget);
+                if (Equals(vte, monitorTarget))
+                    continue;
+                    
+                AddChildrenReferences(vte);
             }
         }
 
@@ -192,7 +251,13 @@ public class GCCollectionMonitor
                     break;
             }
 
-            FlatChildrenList.Add(new CollectionTarget(monitorTarget.GetType().Name, new WeakReference(monitorTarget)));
+            try
+            {
+                FlatChildrenList.Add(new CollectionTarget(monitorTarget.GetType().Name, new WeakReference(monitorTarget)));
+            }
+            catch
+            {
+            }
         }
 
         private void AddEffectsToFlatList(IList<Effect> effects, object containedIn)

@@ -8,14 +8,24 @@
                  x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
                  Padding="0"
                  BackgroundColor="{dui:Colors color_neutral_10}"
-                 IsBackButtonVisible="{Binding Lul}">
+                 IsBackButtonVisible="True"
+                 Title="Lol">
 
     <dui:BottomSheet.BindingContext>
         <vetleSamples:BottomSheetWithToolbarViewModel />
     </dui:BottomSheet.BindingContext>
     
-    
     <dui:BottomSheet.BackButtonBehavior>
+        <BackButtonBehavior IconOverride="{dui:Icons alert_line}"
+                            IsVisible="True"
+                            TextOverride="re"></BackButtonBehavior>
+    </dui:BottomSheet.BackButtonBehavior>
+    
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons dash_long_fill}"></ToolbarItem>
+    </dui:BottomSheet.ToolbarItems>
+    
+    <!--<dui:BottomSheet.BackButtonBehavior>
         <BackButtonBehavior IsVisible="{Binding Lul}"
                             Command="{Binding IsVisible}"
                             IconOverride="{dui:Icons arrow_back_line}">
@@ -24,7 +34,7 @@
     </dui:BottomSheet.BackButtonBehavior>
     
     <Button  Text="yes"
-             Command="{Binding IsVisible}"></Button>
+             Command="{Binding IsVisible}"></Button>-->
 
     
 

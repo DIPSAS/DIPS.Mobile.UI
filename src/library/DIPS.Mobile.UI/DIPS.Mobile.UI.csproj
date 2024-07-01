@@ -154,6 +154,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AdamE.MemoryToolkit.Maui" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
     </ItemGroup>

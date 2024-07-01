@@ -23,7 +23,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     case ShellNavigationSource.PopToRoot:
                     case ShellNavigationSource.Remove:
                     case ShellNavigationSource.ShellItemChanged:
-                        Monitor.ObservePage(m_previousPage);
+                        Monitor.ObserveContent(m_previousPage);
                         m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
                         await Monitor.CheckAliveness();
                         break;

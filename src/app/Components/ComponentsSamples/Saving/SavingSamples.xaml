@@ -7,12 +7,14 @@
                      xmlns:dui="http://dips.com/mobile.ui"
                      xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                      xmlns:saving="clr-namespace:Components.ComponentsSamples.Saving"
+                     xmlns:maui="clr-namespace:MemoryToolkit.Maui;assembly=MemoryToolkit.Maui"
                      x:Class="Components.ComponentsSamples.Saving.SavingSamples"
                      IsSavingCompleted="{Binding IsChecked}"
                      IsSaving="{Binding IsProgressing}"
                      SavingCompletedCommand="{Binding CompletedCommand}"
                      SavingCompletedText="Completed!"
-                     SavingText="Loading...">
+                     SavingText="Loading..."
+                     maui:LeakMonitorBehavior.Cascade="True">
 
     <dui:ContentSavePage.BindingContext>
         <saving:SavingSamplesViewModel />

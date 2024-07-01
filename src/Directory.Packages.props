@@ -6,13 +6,13 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="AdamE.MemoryToolkit.Maui" Version="1.0.0" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.60" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.60" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     <PackageVersion Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.92" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
   <!-- Android -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
@@ -21,13 +21,12 @@
     <PackageVersion Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.6.2.1" />
     <PackageVersion Include="Xamarin.Google.MLKit.BarcodeScanning" Version="117.2.0.3" />
   </ItemGroup>
-  
   <!-- Unit tests -->
   <ItemGroup>
-    <PackageVersion Include="FluentAssertions" Version="6.9.0"/>
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
-    <PackageVersion Include="xunit" Version="2.4.1"/>
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3"/>
-    <PackageVersion Include="coverlet.collector" Version="3.1.0"/>
+    <PackageVersion Include="FluentAssertions" Version="6.9.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageVersion Include="xunit" Version="2.4.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3" />
+    <PackageVersion Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 </Project>

@@ -31,16 +31,11 @@ public partial class App
         if(m_currentPage is NavigationPage currentNavPage)
             currentNavPage.Popped += NavPageOnPopped;
 
-        if (lastPage != null)
-        {
-            m_monitor.Observe(lastPage);
-        }
-        m_monitor.CheckAliveness();
+        
     }
 
     private void NavPageOnPopped(object? sender, NavigationEventArgs e)
     {
-        m_monitor.Observe(e.Page);
-        m_monitor.CheckAliveness();
+        /*m_monitor.CheckAliveness();*/
     }
 }

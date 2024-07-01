@@ -52,6 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AdamE.MemoryToolkit.Maui" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
