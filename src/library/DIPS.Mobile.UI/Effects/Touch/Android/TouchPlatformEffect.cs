@@ -1,5 +1,6 @@
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
 using Action = System.Action;
@@ -19,11 +20,15 @@ public partial class TouchPlatformEffect
 
     private bool m_changedBackground;
     private Drawable? m_defaultBackground;
+    private Element test;
+
 
     protected override partial void OnAttached()
     {
         m_isEnabled = Touch.GetIsEnabled(Element);
 
+
+        test = Element;
         if (!m_isEnabled)
         {
             return;
@@ -50,7 +55,7 @@ public partial class TouchPlatformEffect
             new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
         
         var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
-
+        Control.SetOnClickListener(new asd(() => OnClick(null, null)));
         if (Control.Background is null)
         {
             m_changedBackground = true;
@@ -111,4 +116,12 @@ public partial class TouchPlatformEffect
         }
     }
     
+}
+
+public class asd(Action action) : Java.Lang.Object, View.IOnClickListener
+{
+    public void OnClick(View? v)
+    {
+        action.Invoke();
+    }
 }

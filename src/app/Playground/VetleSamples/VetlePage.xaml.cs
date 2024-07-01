@@ -27,6 +27,7 @@ public partial class VetlePage
 
         await Task.Delay(4000);
         
+        /*
         ToolbarItems.Add(new ContextMenuToolbarItem()
         {
             IconImageSource = Icons.GetIcon(IconName.alert_fill),
@@ -42,7 +43,7 @@ public partial class VetlePage
                     }
                 }
             }
-        });
+        });*/
     }
 
     public ICommand TestCommand { get; }

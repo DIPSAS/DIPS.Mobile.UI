@@ -6,12 +6,11 @@ namespace DIPS.Mobile.UI.Components.Shell
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
         private Page? m_previousPage;
-        private readonly GCCollectionMonitor m_monitor;
+        public static GCCollectionMonitor Monitor { get; } = new();
 
         public Shell()
         {
             Navigated += OnNavigated;
-            m_monitor = new GCCollectionMonitor();
         }
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
@@ -24,9 +23,9 @@ namespace DIPS.Mobile.UI.Components.Shell
                     case ShellNavigationSource.PopToRoot:
                     case ShellNavigationSource.Remove:
                     case ShellNavigationSource.ShellItemChanged:
-                        m_monitor.Observe(m_previousPage);
+                        Monitor.ObservePage(m_previousPage);
                         m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
-                        await m_monitor.CheckAliveness();
+                        await Monitor.CheckAliveness();
                         break;
                 }
             }

@@ -47,5 +47,8 @@ public partial class VetleTestPage1
     }
 
 
-   
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
+    }
 }

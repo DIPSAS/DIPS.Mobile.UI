@@ -48,7 +48,7 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
-        CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
+        CancelCommand = new Command(() =>         Shell.Current.Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1())));
 
         _ = DelayFunction();
 

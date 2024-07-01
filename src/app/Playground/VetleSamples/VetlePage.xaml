@@ -16,54 +16,14 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ContentPage.ToolbarItems>
-        
-        <dui:ContextMenuToolbarItem Text="Context">
-            <dui:ContextMenuToolbarItem.ContextMenu>
-                <dui:ContextMenu Title="Hei" />
-            </dui:ContextMenuToolbarItem.ContextMenu>
-        </dui:ContextMenuToolbarItem>
-
-
-    </dui:ContentPage.ToolbarItems>
-   
-    <!--<ContentView>
-    <dui:CollectionView ItemsSource="{Binding TestStrings}">
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Label Text="{Binding .}" />
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
-    </ContentView>-->
+    <!--<dui:ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons alert_line}" />
+    </dui:ContentPage.ToolbarItems>-->
     
-    <dui:ContentControl SelectorItem="{Binding Disabled}">
-        <dui:ContentControl.TemplateSelector>
-            <dui:BooleanDataTemplateSelector>
-                <dui:BooleanDataTemplateSelector.TrueTemplate>
-                    <DataTemplate>
-                        <dui:CollectionView ItemsSource="{Binding TestStrings}">
-                            <dui:CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Text="{Binding .}" />
-                                </DataTemplate>
-                            </dui:CollectionView.ItemTemplate>
-                        </dui:CollectionView>
-                    </DataTemplate>
-                </dui:BooleanDataTemplateSelector.TrueTemplate>
-                
-                <dui:BooleanDataTemplateSelector.FalseTemplate>
-                    <DataTemplate>
-                        <dui:ActivityIndicator IsRunning="True"/>
-                    </DataTemplate>
-                </dui:BooleanDataTemplateSelector.FalseTemplate>
-                
-            </dui:BooleanDataTemplateSelector>
-        </dui:ContentControl.TemplateSelector>
-        
-    </dui:ContentControl>
-
-
-   
+    <Label Text="Hello"
+           dui:Touch.Command="{Binding CancelCommand}" />
+    
+    
+    
     
 </dui:ContentPage>

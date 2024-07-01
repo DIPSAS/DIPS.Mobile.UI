@@ -28,7 +28,7 @@
                              dui:Layout.CornerRadius="10, 10, 10, 10">
         
         
-        <dui:Button Command="{Binding ErrorCommand}" Text="error" />
+        <dui:Button Clicked="Button_OnClicked" Text="error" />
       
         <dui:Button Command="{Binding SaveCommand}" Text="success" />
         
