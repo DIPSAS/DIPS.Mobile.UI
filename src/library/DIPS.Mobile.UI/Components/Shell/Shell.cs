@@ -4,7 +4,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private IReadOnlyCollection<Page>? m_previousNavigationStack;
+        private IReadOnlyCollection<Page?>? m_previousNavigationStack;
         private NavigationPage? m_currentModalNavigationPage;
 
         public Shell()
@@ -58,7 +58,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
                     if (m_previousNavigationStack is not null)
                     {
-                        _ = TryResolvePoppedPages(m_previousNavigationStack);
+                        _ = TryResolvePoppedPages(m_previousNavigationStack.ToList());
                         m_previousNavigationStack = null;
                     }
                     
