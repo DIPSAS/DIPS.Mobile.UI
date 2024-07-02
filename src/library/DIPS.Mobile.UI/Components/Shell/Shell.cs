@@ -4,7 +4,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private IReadOnlyCollection<Page>? m_previousNavigationStack;
+        private IReadOnlyCollection<Page?>? m_previousNavigationStack;
 
         public Shell()
         {
@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.PopToRoot:
-                    m_previousNavigationStack = Current.Navigation.NavigationStack.ToList();
+                    m_previousNavigationStack = Current.Navigation.NavigationStack.Reverse().ToList();
                     break;
             }
         }
@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     case ShellNavigationSource.ShellItemChanged:
                     case ShellNavigationSource.Pop:
                     case ShellNavigationSource.Remove:
-                        _ = TryResolvePoppedPages(m_previousNavigationStack);
+                        _ = TryResolvePoppedPages(m_previousNavigationStack.ToList());
                         m_previousNavigationStack = null;
                         break;
             }
@@ -45,23 +45,26 @@ namespace DIPS.Mobile.UI.Components.Shell
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
 
-        private async Task TryResolvePoppedPages(IEnumerable<Page> pages)
+        private async Task TryResolvePoppedPages(List<Page?> pages)
         {
-            foreach (var page in pages.Reverse())
+            while (pages.Count > 0)
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                if (page is null)
+                var page = new WeakReference(pages[0]);
+                if (page.Target is null)
                 {
+                    pages.RemoveAt(0);
                     continue;
                 }
 
-                if (page == Current.CurrentPage)
+                if (page.Target == Current.CurrentPage)
                 {
-                    break;
+                    pages.RemoveAt(0);
+                    continue;
                 }
                 
+                pages.RemoveAt(0);
                 await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
-                    page.ToCollectionContentTarget());
+                    page.Target.ToCollectionContentTarget());
             }
         }
     }
