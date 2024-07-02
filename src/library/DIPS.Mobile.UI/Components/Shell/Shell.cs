@@ -40,6 +40,11 @@ namespace DIPS.Mobile.UI.Components.Shell
                     m_currentModalNavigationPage = navigationPage;
                     m_currentModalNavigationPage.Popped += CurrentModalNavigationPage_OnPopped;
                 }
+                else if(Current.Navigation.ModalStack.Count == 1 && Current.Navigation.ModalStack[^1] is ContentPage contentPage)
+                {
+                    // Just pushed a regular modal page
+                    contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
+                }
             }
             
             switch (e.Source)
@@ -66,6 +71,15 @@ namespace DIPS.Mobile.UI.Components.Shell
             }
         }
 
+        private static void CurrentModalPage_OnPopped(object? sender, NavigatedFromEventArgs e)
+        {
+            if(sender is not ContentPage contentPage)
+                return;
+            
+            _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                contentPage.ToCollectionContentTarget());
+        }
+
         private void CurrentModalNavigationPage_OnPopped(object? sender, NavigationEventArgs e)
         {
             _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
@@ -88,8 +102,8 @@ namespace DIPS.Mobile.UI.Components.Shell
 
                 if (page.Target == Current.CurrentPage)
                 {
-                    pages.RemoveAt(0);
-                    continue;
+                    pages.Clear();
+                    break;
                 }
                 
                 pages.RemoveAt(0);
