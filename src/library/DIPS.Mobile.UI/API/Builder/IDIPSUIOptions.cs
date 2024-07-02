@@ -11,4 +11,9 @@ public interface IDIPSUIOptions
     /// <param name="callback">The method to invoke, receiving the <see cref="ContextMenuItem"/> that was tapped.</param>
     /// <returns></returns>
     IDIPSUIOptions SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback);
+
+    /// <summary>
+    ///     Sets whether DIPS.Mobile.UI should try and auto-resolve memory leaks that occur during page navigation and closing of bottomsheets.
+    /// </summary>
+    IDIPSUIOptions EnableAutomaticMemoryLeakResolving();
 }

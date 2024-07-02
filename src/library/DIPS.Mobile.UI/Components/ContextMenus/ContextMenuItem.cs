@@ -12,4 +12,9 @@ public partial class ContextMenuItem : Element, IContextMenuItem
         Command?.Execute(CommandParameter);
         DidClick?.Invoke(this, EventArgs.Empty);
     }
+
+    public void Dispose()
+    {
+        DidClick = null;
+    }
 }

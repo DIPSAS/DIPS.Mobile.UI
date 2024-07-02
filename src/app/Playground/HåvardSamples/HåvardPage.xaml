@@ -10,26 +10,19 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
+    
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPageViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:ContentPage.ToolbarItems>
         <dui:ContextMenuToolbarItem IconImageSource="{dui:Icons alert_fill}">
             <dui:ContextMenuToolbarItem.ContextMenu>
                 <dui:ContextMenu Title="Context menu">
                     <dui:ContextMenuItem Title="Item 1"
                                          IsCheckable="True"
-                                         DidClick="ContextMenuItem_OnDidClick" />
-                    <dui:ContextMenuItem Title="Item 2"
-                                         DidClick="ContextMenuItem_OnDidClick" />
-                </dui:ContextMenu>
-            </dui:ContextMenuToolbarItem.ContextMenu>
-        </dui:ContextMenuToolbarItem>
-        <dui:ContextMenuToolbarItem IconImageSource="{dui:Icons alert_fill}">
-            <dui:ContextMenuToolbarItem.ContextMenu>
-                <dui:ContextMenu Title="Context menu">
-                    <dui:ContextMenuItem Title="Item 1"
-                                         IsCheckable="True"
-                                         DidClick="ContextMenuItem_OnDidClick" />
-                    <dui:ContextMenuItem Title="Item 2"
-                                         DidClick="ContextMenuItem_OnDidClick" />
+                                         DidClick="Button_OnClicked"/>
+                                         
                 </dui:ContextMenu>
             </dui:ContextMenuToolbarItem.ContextMenu>
         </dui:ContextMenuToolbarItem>

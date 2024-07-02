@@ -8,6 +8,8 @@ namespace DIPS.Mobile.UI.MemoryManagement;
 /// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public static class GarbageCollection
 {
+    public static bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
+    
     /// <summary>
     /// Prints a message to the Console with a GarbageCollection prefix.
     /// </summary>
@@ -29,4 +31,10 @@ public static class GarbageCollection
         GC.Collect();
         GC.WaitForPendingFinalizers();
     }
+
+    public static GCCollectionMonitor.CollectionContentTarget ToCollectionContentTarget(this object target)
+    {
+        return new GCCollectionMonitor.CollectionContentTarget(target);
+    }
+    
 }

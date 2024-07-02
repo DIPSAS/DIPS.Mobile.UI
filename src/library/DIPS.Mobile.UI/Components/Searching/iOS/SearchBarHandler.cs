@@ -169,9 +169,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         PlatformView.CancelButtonClicked += OnCancelButtonClicked;
         PlatformView.SearchButtonClicked += OnSearchButtonClicked;
         PlatformView.TextChanged += OnSearchTextChanged;
-        if (ClearButton != null)
+
+        if (PlatformView.SearchTextField.ValueForKey(new NSString("_clearButton")) is UIButton clearButton)
         {
-            ClearButton.TouchUpInside += OnClearButtonClicked;
+            clearButton.TouchUpInside += OnClearButtonClicked;
         }
 
         InternalSearchBar.Focused += OnInternalSearchBarFocused;
@@ -182,11 +183,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         VirtualView.ClearTextCommand?.Execute(null);
     }
-
-    private UIButton? ClearButton =>
-        PlatformView.SearchTextField.ValueForKey(new NSString("_clearButton")) is UIButton clearButton
-            ? clearButton
-            : null;
 
     private void OnSearchTextChanged(object? sender, UISearchBarTextChangedEventArgs e)
     {
@@ -202,14 +198,15 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         VirtualView.SearchCommand?.Execute(null);
     }
 
-    private void UnSubscribeToEvents()
+    private void UnSubscribeToEvents(DuiSearchBar platformView)
     {
-        PlatformView.CancelButtonClicked -= OnCancelButtonClicked;
-        PlatformView.CancelButtonClicked -= OnSearchButtonClicked;
-        PlatformView.TextChanged -= OnSearchTextChanged;
-        if (ClearButton != null)
+        platformView.CancelButtonClicked -= OnCancelButtonClicked;
+        platformView.CancelButtonClicked -= OnSearchButtonClicked;
+        platformView.TextChanged -= OnSearchTextChanged;
+        
+        if (platformView.SearchTextField.ValueForKey(new NSString("_clearButton")) is UIButton clearButton)
         {
-            ClearButton.TouchUpInside += OnClearButtonClicked;
+            clearButton.TouchUpInside -= OnClearButtonClicked;
         }
 
         InternalSearchBar.Focused -= OnInternalSearchBarFocused;
@@ -226,7 +223,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         base.DisconnectHandler(platformView);
 
-        UnSubscribeToEvents();
+        UnSubscribeToEvents(platformView);
     }
 
     private static void MapCancelButtonTextColor(SearchBarHandler handler, SearchBar searchBar)

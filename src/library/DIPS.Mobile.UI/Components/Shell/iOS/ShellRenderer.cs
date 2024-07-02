@@ -1,4 +1,3 @@
-using System.Reflection;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using DIPS.Mobile.UI.Components.Pages;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
@@ -67,5 +66,27 @@ internal class CustomShellPageRendererTracker : ShellPageRendererTracker
         }
 
         return new UIBarButtonItem(toolbarItem.Text, UIMenu.Create(toolbarItem.ContextMenu.Title, dict.Select(k => k.Value).ToArray()));
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (ViewController.NavigationItem.RightBarButtonItems is not null)
+        {
+            foreach (var test in Page.ToolbarItems)
+            {
+                if (test is not ContextMenuToolbarItem { ContextMenu.ItemsSource: not null } contextMenuToolbarItem)
+                    continue;
+
+                foreach (var item in contextMenuToolbarItem.ContextMenu.ItemsSource)
+                {
+                    if (item is IDisposable contextMenuItem)
+                    {
+                        contextMenuItem.Dispose();
+                    }
+                }
+            }
+        }
+        
+        base.Dispose(disposing);
     }
 }

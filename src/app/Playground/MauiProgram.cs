@@ -15,6 +15,7 @@ public static class MauiProgram
             .UseDIPSUI(options =>
             {
                 options.SetContextMenuItemClickedCallback(OnContextMenuItemClicked);
+                options.EnableAutomaticMemoryLeakResolving();
             });
         
         builder.ConfigureFonts(fonts =>
@@ -33,6 +34,6 @@ public static class MauiProgram
 
     private static void OnContextMenuItemClicked(ContextMenuItem obj)
     {
-        Console.WriteLine($"Clicked context menu item with title {obj.Title}!");
+        Console.WriteLine($@"Clicked context menu item with title {obj.Title}!");
     }
 }

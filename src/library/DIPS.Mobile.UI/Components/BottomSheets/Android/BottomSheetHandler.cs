@@ -288,6 +288,14 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_toolbar.SetNavigationOnClickListener(new OnClickListener(() => bottomSheet.BackButtonBehavior.Command?.Execute(bottomSheet.BackButtonBehavior.CommandParameter)));
         
     }
+    
+    protected override void DisconnectHandler(ContentViewGroup platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        m_emptyNonFitToContentView?.RemoveFromParent();
+    }
+    
     class OnClickListener : Object, AView.IOnClickListener
     {
         private readonly Action m_action;

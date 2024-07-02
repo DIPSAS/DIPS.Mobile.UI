@@ -28,9 +28,9 @@
                              dui:Layout.CornerRadius="10, 10, 10, 10">
         
         
-        <dui:Button Command="{Binding ErrorCommand}" Text="error" />
+        <dui:Button Clicked="Button_OnClicked" Text="error" Command="{Binding Navigate}" />
       
-        <dui:Button Command="{Binding SaveCommand}" Text="success" />
+        <dui:Button Command="{Binding Test}" Text="success" />
         
         
     </dui:VerticalStackLayout>
