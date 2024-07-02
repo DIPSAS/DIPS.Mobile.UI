@@ -1,5 +1,6 @@
 ## [34.0.0]
 - Refactored `GCCollectionMonitor`, so that it pinpoints what handlers/views that is leaking
+- `GCCollectionMonitor` will now try to resolve memory leaks automatically.
 - Patched up all/most leaks in DUI.
 
 ## [33.0.2]
