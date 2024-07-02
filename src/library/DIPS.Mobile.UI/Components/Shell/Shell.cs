@@ -4,37 +4,65 @@ namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private Page? m_previousPage;
+        private IReadOnlyCollection<Page>? m_previousNavigationStack;
 
         public Shell()
         {
             Navigated += OnNavigated;
+            Navigating += OnNavigating;
+        }
+
+        private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
+        {
+            if (Current?.Navigation?.NavigationStack is null) return;
+            
+            switch (e.Source)
+            {
+                case ShellNavigationSource.Remove:
+                case ShellNavigationSource.Pop:
+                case ShellNavigationSource.ShellItemChanged:
+                case ShellNavigationSource.PopToRoot:
+                    m_previousNavigationStack = Current.Navigation.NavigationStack.ToList();
+                    break;
+            }
         }
 
         private void OnNavigated(object? sender, ShellNavigatedEventArgs e)
         {
-            if (m_previousPage != null)
-            {
+            if (m_previousNavigationStack is null) return;
                 switch (e.Source)
                 {
-                    case ShellNavigationSource.Pop:
                     case ShellNavigationSource.PopToRoot:
-                    case ShellNavigationSource.Remove:
                     case ShellNavigationSource.ShellItemChanged:
-                        _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_previousPage.ToCollectionContentTarget());
-                        m_previousPage = null;
+                    case ShellNavigationSource.Pop:
+                    case ShellNavigationSource.Remove:
+                        _ = TryResolvePoppedPages(m_previousNavigationStack);
+                        m_previousNavigationStack = null;
                         break;
-                }
             }
-
-            if (e.Source == ShellNavigationSource.Push)
-            {
-                m_previousPage = Current.CurrentPage;
-            }
-            m_previousPage ??= CurrentPage;
         }
         
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
+
+        private async Task TryResolvePoppedPages(IEnumerable<Page> pages)
+        {
+            foreach (var page in pages.Reverse())
+            {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                if (page is null)
+                {
+                    continue;
+                }
+
+                if (page == Current.CurrentPage)
+                {
+                    break;
+                }
+                
+                await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                    page.ToCollectionContentTarget());
+            }
+        }
     }
 }
