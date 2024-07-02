@@ -13,4 +13,9 @@ public class ContextMenuSeparatorItem : Element, IContextMenuItem
         get => (bool)GetValue(IsVisibleProperty);
         set => SetValue(IsVisibleProperty, value);
     }
+
+    public void Dispose()
+    {
+        
+    }
 }
