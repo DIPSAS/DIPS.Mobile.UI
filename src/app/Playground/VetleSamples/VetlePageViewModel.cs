@@ -129,12 +129,12 @@ public class VetlePageViewModel : ViewModel
 
     private void Navigatee()
     {
-        /*var page = new VetleTestPage1();
+        var page = new VetleTestPage1();
         var vm = new VetleTestPage1ViewModel();
         page.BindingContext = vm;
-        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));*/
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
         
-        var tabBar = new TabBar {Route = "app"};
+        /*var tabBar = new TabBar {Route = "app"};
         tabBar.Items.Add(new Tab
         {
             Title = "Test",
@@ -151,7 +151,7 @@ public class VetlePageViewModel : ViewModel
         Shell.Current.Items[0].BindingContext = null;
         Shell.Current.Items.Add(tabBar);
         
-        _ = Shell.Current.GoToAsync("//app");
+        _ = Shell.Current.GoToAsync("//app");*/
         
     }
 
