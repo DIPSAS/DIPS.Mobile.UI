@@ -19,6 +19,7 @@ namespace DIPS.Mobile.UI.Components.Shell
             
             switch (e.Source)
             {
+                case ShellNavigationSource.Push:
                 case ShellNavigationSource.Remove:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
