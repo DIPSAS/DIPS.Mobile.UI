@@ -27,7 +27,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                         .Reverse()
                         .ToList();
 
-                    if (currentNavigationStack is not null)
+                    if (currentNavigationStack is not null && m_previousNavigationStack is null)
                     {
                         Console.WriteLine("Setting previous navigation stack to current navigation stack");
                         m_previousNavigationStack = currentNavigationStack;
