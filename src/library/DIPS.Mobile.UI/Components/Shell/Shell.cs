@@ -53,18 +53,16 @@ namespace DIPS.Mobile.UI.Components.Shell
                     contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
                 }
             }
-
-            if (e.Source is ShellNavigationSource.ShellItemChanged)
-            {
-                // Sometimes NavigationStack is empty, but CurrentPage has value
-                if (m_previousNavigationStack is null && CurrentPage is not null)
-                {
-                    m_previousNavigationStack = new[] { new WeakReference(CurrentPage) };
-                }
-            }
             
             switch (e.Source)
             {
+                case ShellNavigationSource.ShellItemChanged when Current.Navigation?.NavigationStack?.FirstOrDefault() is null:
+                    // Loading initial shell item
+                    if (CurrentPage is not null)
+                    {
+                        m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
+                    }
+                    break;
                 case ShellNavigationSource.PopToRoot:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.Pop:
