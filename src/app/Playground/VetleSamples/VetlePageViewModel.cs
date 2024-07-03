@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.MVVM;
+using DIPS.Mobile.UI.Resources.Icons;
 
 namespace Playground.VetleSamples;
 
@@ -48,7 +49,7 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
-        CancelCommand = new Command(() => Shell.Current.DisplayAlert("Hei", "hei", "hei"));
+        CancelCommand = new Command(() =>         Shell.Current.Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1())));
 
         _ = DelayFunction();
 
@@ -132,6 +133,26 @@ public class VetlePageViewModel : ViewModel
         var vm = new VetleTestPage1ViewModel();
         page.BindingContext = vm;
         Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
+        
+        /*var tabBar = new TabBar {Route = "app"};
+        tabBar.Items.Add(new Tab
+        {
+            Title = "Test",
+            Icon = Icons.GetIcon(IconName.alert_fill),
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new VetleTestPage1())
+                }
+            }
+        });
+
+        Shell.Current.Items[0].BindingContext = null;
+        Shell.Current.Items.Add(tabBar);
+        
+        _ = Shell.Current.GoToAsync("//app");*/
+        
     }
 
     public List<SortOption> SortOptions

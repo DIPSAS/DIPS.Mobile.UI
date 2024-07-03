@@ -51,4 +51,11 @@ public class ChipButton : UIButton
     
     private CGPoint? GetTouchPoint(NSSet touches) =>
         (touches.AnyObject as UITouch)?.LocationInView(this);
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        OnTapped = null;
+    }
 }

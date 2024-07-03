@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.MemoryManagement;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
@@ -121,6 +122,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         public override void OnDestroy()
         {
             base.OnDestroy();
+            
+            _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_bottomSheet.ToCollectionContentTarget());
+            
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
             m_bottomSheet.Handler?.DisconnectHandler();

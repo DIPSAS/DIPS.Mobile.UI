@@ -1,44 +1,117 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
 
 namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private Page? m_previousPage;
-        private readonly GCCollectionMonitor m_monitor;
+        private IReadOnlyCollection<WeakReference>? m_previousNavigationStack;
+        private WeakReference? m_currentModalNavigationPage;
 
         public Shell()
         {
             Navigated += OnNavigated;
-            m_monitor = new GCCollectionMonitor();
         }
 
-        private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
+        private void OnNavigated(object? sender, ShellNavigatedEventArgs e)
         {
-            if (DUI.IsDebug && ShouldGarbageCollectPreviousPage && m_previousPage != null)
+            if (e.Source is ShellNavigationSource.Push)
             {
-                switch (e.Source)
+                if (m_currentModalNavigationPage is null 
+                    && Current.Navigation.ModalStack.Count > 0 
+                    && Current.Navigation.ModalStack[^1] is NavigationPage navigationPage)
                 {
-                    case ShellNavigationSource.Pop:
-                    case ShellNavigationSource.PopToRoot:
-                    case ShellNavigationSource.Remove:
-                    case ShellNavigationSource.ShellItemChanged:
-                        m_monitor.Observe(m_previousPage);
-                        m_previousPage = null; //not doing this will make it live forever. Moving this one line down will also make it live forever
-                        await m_monitor.CheckAliveness();
-                        break;
+                    // Just pushed a modal navigation page
+                    m_currentModalNavigationPage = new WeakReference(navigationPage);
+                    navigationPage.Popped += CurrentModalNavigationPage_OnPopped;
+                }
+                else if(Current.Navigation.ModalStack.Count == 1 && Current.Navigation.ModalStack[^1] is ContentPage contentPage)
+                {
+                    // Just pushed a regular modal page
+                    contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
                 }
             }
-
-            if (e.Source == ShellNavigationSource.Push)
+            
+            switch (e.Source)
             {
-                m_previousPage = Current.CurrentPage;
+                case ShellNavigationSource.PopToRoot:
+                case ShellNavigationSource.ShellItemChanged:
+                case ShellNavigationSource.Pop:
+                case ShellNavigationSource.Remove:
+                    if (m_currentModalNavigationPage?.Target is NavigationPage navigationPage && !Current.Navigation.ModalStack.Contains(navigationPage))
+                    {
+                        // Closed the modal navigation page
+                        navigationPage.Popped -= CurrentModalNavigationPage_OnPopped;
+                        _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(navigationPage.ToCollectionContentTarget());
+                        m_currentModalNavigationPage = null;
+                    }
+
+                    if (m_previousNavigationStack is not null)
+                    {
+                        _ = TryResolvePoppedPages(m_previousNavigationStack.ToList());
+                        m_previousNavigationStack = null;
+                    }
+                    
+                    break;
             }
-            m_previousPage ??= CurrentPage;
+
+            if (Current?.Navigation?.NavigationStack?.FirstOrDefault() is null && CurrentPage is not null)
+            {
+                m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
+                return;
+            }
+            
+            var currentNavigationStack = Current?.Navigation?.NavigationStack?
+                .Select(p => new WeakReference(p))
+                .Reverse()
+                .ToList();
+
+            if (currentNavigationStack is null)
+            {
+                return;
+            }
+
+            m_previousNavigationStack = currentNavigationStack;
+        }
+
+        private static void CurrentModalPage_OnPopped(object? sender, NavigatedFromEventArgs e)
+        {
+            if(sender is not ContentPage contentPage)
+                return;
+            
+            _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                contentPage.ToCollectionContentTarget());
+        }
+
+        private void CurrentModalNavigationPage_OnPopped(object? sender, NavigationEventArgs e)
+        {
+            _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                e.Page.ToCollectionContentTarget());
         }
 
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
+
+        private async Task TryResolvePoppedPages(List<WeakReference> pages)
+        {
+            while (pages.Count > 0)
+            {
+                var page = pages[0];
+                if (page.Target is null)
+                {
+                    pages.RemoveAt(0);
+                    continue;
+                }
+
+                if (page.Target == Current.CurrentPage)
+                {
+                    pages.Clear();
+                    break;
+                }
+                
+                pages.RemoveAt(0);
+                await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                    page.Target.ToCollectionContentTarget());
+            }
+        }
     }
 }

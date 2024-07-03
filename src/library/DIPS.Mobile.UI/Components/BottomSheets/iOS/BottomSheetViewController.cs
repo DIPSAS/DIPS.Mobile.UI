@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Platform;
 using ObjCRuntime;
 using UIKit;
@@ -127,7 +128,12 @@ public class BottomSheetViewController : UIViewController
 
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
+
+        BottomSheet.NavigationController = null;
+        
         BottomSheet.Handler?.DisconnectHandler();
+        
+        _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(BottomSheet.ToCollectionContentTarget());
     }
 
     public void SetBackButtonVisibility()

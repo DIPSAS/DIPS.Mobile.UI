@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.ContextMenus;
 
-public interface IContextMenuItem
+public interface IContextMenuItem : IDisposable
 {
     bool IsVisible { get; }
 }
