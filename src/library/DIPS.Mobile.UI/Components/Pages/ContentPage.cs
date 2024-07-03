@@ -152,12 +152,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
-
-            /*Task.Run(async () =>
-            {
-                await Task.Delay(2000);
-                Console.WriteLine("Hello from me");
-            });*/
         }
     }
 }
