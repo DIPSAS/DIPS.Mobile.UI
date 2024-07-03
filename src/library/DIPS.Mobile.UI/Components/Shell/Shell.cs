@@ -29,13 +29,6 @@ namespace DIPS.Mobile.UI.Components.Shell
                     if (currentNavigationStack is not null)
                     {
                         m_previousNavigationStack = currentNavigationStack;
-                        break;
-                    }
-                    
-                    // Sometimes NavigationStack is empty, but CurrentPage has value
-                    if (CurrentPage is not null)
-                    {
-                        m_previousNavigationStack = new[] { new WeakReference(CurrentPage) };
                     }
                     
                     break;
@@ -58,6 +51,15 @@ namespace DIPS.Mobile.UI.Components.Shell
                 {
                     // Just pushed a regular modal page
                     contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
+                }
+            }
+
+            if (e.Source is ShellNavigationSource.ShellItemChanged)
+            {
+                // Sometimes NavigationStack is empty, but CurrentPage has value
+                if (m_previousNavigationStack is null && CurrentPage is not null)
+                {
+                    m_previousNavigationStack = new[] { new WeakReference(CurrentPage) };
                 }
             }
             
