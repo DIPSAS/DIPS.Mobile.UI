@@ -185,6 +185,10 @@ public class GCCollectionMonitor
                             case ContentView contentView:
                                 contentView.Content = null;
                                 break;
+                            case CollectionView collectionView:
+                                collectionView.ItemsSource = null;
+                                collectionView.ItemTemplate = null;
+                                break;
                             case Border border:
                                 border.Content = null;
                                 break;
