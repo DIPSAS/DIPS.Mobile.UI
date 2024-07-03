@@ -15,6 +15,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
         {
+            Console.WriteLine($"Navigating... Source: {e.Source.ToString()}");
             switch (e.Source)
             {
                 case ShellNavigationSource.Remove:
@@ -38,6 +39,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private void OnNavigated(object? sender, ShellNavigatedEventArgs e)
         {
+            Console.WriteLine($"Navigated! Source: {e.Source.ToString()}");
             if (e.Source is ShellNavigationSource.Push)
             {
                 if (m_currentModalNavigationPage is null 
