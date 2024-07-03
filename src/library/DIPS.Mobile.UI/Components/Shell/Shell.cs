@@ -28,6 +28,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
                     if (currentNavigationStack is not null)
                     {
+                        Console.WriteLine("Setting previous navigation stack to current navigation stack");
                         m_previousNavigationStack = currentNavigationStack;
                     }
                     
@@ -58,8 +59,10 @@ namespace DIPS.Mobile.UI.Components.Shell
             {
                 case ShellNavigationSource.ShellItemChanged when Current.Navigation?.NavigationStack?.FirstOrDefault() is null:
                     // Loading initial shell item
+                    Console.WriteLine("Loading initial shell item");
                     if (CurrentPage is not null)
                     {
+                        Console.WriteLine("Setting previous navigation stack to CurrentPage");
                         m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
                     }
                     break;
@@ -77,6 +80,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
                     if (m_previousNavigationStack is not null)
                     {
+                        Console.WriteLine("Resolving navigation stack");
                         _ = TryResolvePoppedPages(m_previousNavigationStack.ToList());
                         m_previousNavigationStack = null;
                     }
