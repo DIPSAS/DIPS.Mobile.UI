@@ -15,8 +15,16 @@ public class GCCollectionMonitor
 
     private const int MsBetweenCollections = 200;
     private const int MaxCollections = 10;
+
+    private Action<object>? m_additionalResolver;
     
     public static GCCollectionMonitor Instance { get; } = new();
+    public bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
+
+    public void SetAdditionalResolver(Action<object> additionalResolver)
+    {
+        m_additionalResolver = additionalResolver;
+    }
 
     public CollectionContentTarget? ObserveContent(object content)
     {
@@ -159,7 +167,7 @@ public class GCCollectionMonitor
         TryResolveMemoryLeak(content);
     }
 
-    private static void TryResolveMemoryLeak(object target)
+    private void TryResolveMemoryLeak(object target)
     {
         try
         {
@@ -220,6 +228,9 @@ public class GCCollectionMonitor
                         break;
                     }
             }
+            
+            // Try run user-defined resolver method
+            m_additionalResolver?.Invoke(target);
         }
         catch
         {
@@ -309,7 +320,7 @@ public class GCCollectionMonitor
                 return;
             }
             
-            if(!GarbageCollection.TryAutoResolveMemoryLeaksEnabled)
+            if(!TryAutoResolveMemoryLeaksEnabled)
                 return;
             
             TryResolveMemoryLeaksInContent(target.Content.Target!);
@@ -325,7 +336,7 @@ public class GCCollectionMonitor
                 GarbageCollection.Print("✅ Looks like the automatic resolving of memory leak succeeded! 🎉🎉🎉");
             }
         }
-        else if(GarbageCollection.TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
+        else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }

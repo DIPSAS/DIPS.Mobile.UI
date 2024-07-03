@@ -12,9 +12,14 @@ internal class DIPSUIOptions : IDIPSUIOptions
         return this;
     }
 
-    public IDIPSUIOptions EnableAutomaticMemoryLeakResolving()
+    public IDIPSUIOptions EnableAutomaticMemoryLeakResolving(Action<object>? additionalResolver = null)
     {
-        GarbageCollection.TryAutoResolveMemoryLeaksEnabled = true;
+        GCCollectionMonitor.Instance.TryAutoResolveMemoryLeaksEnabled = true;
+
+        if (additionalResolver is not null)
+        {
+            GCCollectionMonitor.Instance.SetAdditionalResolver(additionalResolver);
+        }
 
         return this;
     }
