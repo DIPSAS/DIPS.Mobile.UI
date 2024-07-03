@@ -15,15 +15,26 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
         {
-            if (Current?.Navigation?.NavigationStack is null) return;
-            
             switch (e.Source)
             {
                 case ShellNavigationSource.Remove:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.PopToRoot:
-                    m_previousNavigationStack = Current.Navigation.NavigationStack.Reverse().ToList();
+                    var currentNavigationStack = Current?.Navigation?.NavigationStack.Reverse().ToList();
+
+                    if (currentNavigationStack is not null)
+                    {
+                        m_previousNavigationStack = currentNavigationStack;
+                        break;
+                    }
+                    
+                    // Sometimes NavigationStack is empty, but CurrentPage has value
+                    if (CurrentPage is not null)
+                    {
+                        m_previousNavigationStack = new[] { CurrentPage };
+                    }
+                    
                     break;
             }
         }
@@ -45,8 +56,6 @@ namespace DIPS.Mobile.UI.Components.Shell
                     // Just pushed a regular modal page
                     contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
                 }
-                
-                m_previousNavigationStack = Current.Navigation.NavigationStack.Reverse().ToList();
             }
             
             switch (e.Source)
