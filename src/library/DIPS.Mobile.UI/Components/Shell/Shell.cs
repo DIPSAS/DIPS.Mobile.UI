@@ -4,8 +4,8 @@ namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private IReadOnlyCollection<Page?>? m_previousNavigationStack;
-        private NavigationPage? m_currentModalNavigationPage;
+        private IReadOnlyCollection<WeakReference>? m_previousNavigationStack;
+        private WeakReference? m_currentModalNavigationPage;
 
         public Shell()
         {
@@ -15,15 +15,29 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
         {
-            if (Current?.Navigation?.NavigationStack is null) return;
-            
             switch (e.Source)
             {
                 case ShellNavigationSource.Remove:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.PopToRoot:
-                    m_previousNavigationStack = Current.Navigation.NavigationStack.Reverse().ToList();
+                    var currentNavigationStack = Current?.Navigation?.NavigationStack
+                        .Select(p => new WeakReference(p))
+                        .Reverse()
+                        .ToList();
+
+                    if (currentNavigationStack is not null)
+                    {
+                        m_previousNavigationStack = currentNavigationStack;
+                        break;
+                    }
+                    
+                    // Sometimes NavigationStack is empty, but CurrentPage has value
+                    if (CurrentPage is not null)
+                    {
+                        m_previousNavigationStack = new[] { new WeakReference(CurrentPage) };
+                    }
+                    
                     break;
             }
         }
@@ -37,8 +51,8 @@ namespace DIPS.Mobile.UI.Components.Shell
                     && Current.Navigation.ModalStack[^1] is NavigationPage navigationPage)
                 {
                     // Just pushed a modal navigation page
-                    m_currentModalNavigationPage = navigationPage;
-                    m_currentModalNavigationPage.Popped += CurrentModalNavigationPage_OnPopped;
+                    m_currentModalNavigationPage = new WeakReference(navigationPage);
+                    navigationPage.Popped += CurrentModalNavigationPage_OnPopped;
                 }
                 else if(Current.Navigation.ModalStack.Count == 1 && Current.Navigation.ModalStack[^1] is ContentPage contentPage)
                 {
@@ -53,10 +67,10 @@ namespace DIPS.Mobile.UI.Components.Shell
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.Remove:
-                    if (m_currentModalNavigationPage is not null && !Current.Navigation.ModalStack.Contains(m_currentModalNavigationPage))
+                    if (m_currentModalNavigationPage?.Target is NavigationPage navigationPage && !Current.Navigation.ModalStack.Contains(navigationPage))
                     {
                         // Closed the modal navigation page
-                        m_currentModalNavigationPage.Popped -= CurrentModalNavigationPage_OnPopped;
+                        navigationPage.Popped -= CurrentModalNavigationPage_OnPopped;
                         _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_currentModalNavigationPage.ToCollectionContentTarget());
                         m_currentModalNavigationPage = null;
                     }
@@ -89,11 +103,11 @@ namespace DIPS.Mobile.UI.Components.Shell
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
 
-        private async Task TryResolvePoppedPages(List<Page?> pages)
+        private async Task TryResolvePoppedPages(List<WeakReference> pages)
         {
             while (pages.Count > 0)
             {
-                var page = new WeakReference(pages[0]);
+                var page = pages[0];
                 if (page.Target is null)
                 {
                     pages.RemoveAt(0);
