@@ -19,7 +19,6 @@ namespace DIPS.Mobile.UI.Components.Shell
             
             switch (e.Source)
             {
-                case ShellNavigationSource.Push:
                 case ShellNavigationSource.Remove:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
@@ -46,6 +45,8 @@ namespace DIPS.Mobile.UI.Components.Shell
                     // Just pushed a regular modal page
                     contentPage.NavigatedFrom += CurrentModalPage_OnPopped;
                 }
+                
+                m_previousNavigationStack = Current.Navigation.NavigationStack.Reverse().ToList();
             }
             
             switch (e.Source)
