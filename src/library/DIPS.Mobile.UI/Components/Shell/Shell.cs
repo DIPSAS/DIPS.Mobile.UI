@@ -21,7 +21,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.PopToRoot:
-                    var currentNavigationStack = Current?.Navigation?.NavigationStack
+                    var currentNavigationStack = Current?.Navigation?.NavigationStack?
                         .Select(p => new WeakReference(p))
                         .Reverse()
                         .ToList();
