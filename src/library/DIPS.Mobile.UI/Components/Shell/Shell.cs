@@ -71,7 +71,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     {
                         // Closed the modal navigation page
                         navigationPage.Popped -= CurrentModalNavigationPage_OnPopped;
-                        _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_currentModalNavigationPage.ToCollectionContentTarget());
+                        _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(navigationPage.ToCollectionContentTarget());
                         m_currentModalNavigationPage = null;
                     }
 
