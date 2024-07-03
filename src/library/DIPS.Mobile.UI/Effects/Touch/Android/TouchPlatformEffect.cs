@@ -111,11 +111,3 @@ public partial class TouchPlatformEffect
     }
     
 }
-
-public class asd(Action action) : Java.Lang.Object, View.IOnClickListener
-{
-    public void OnClick(View? v)
-    {
-        action.Invoke();
-    }
-}
