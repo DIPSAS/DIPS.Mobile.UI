@@ -10,31 +10,6 @@ namespace DIPS.Mobile.UI.Components.Shell
         public Shell()
         {
             Navigated += OnNavigated;
-            Navigating += OnNavigating;
-        }
-
-        private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
-        {
-            Console.WriteLine($"Navigating... Source: {e.Source.ToString()}");
-            switch (e.Source)
-            {
-                case ShellNavigationSource.Remove:
-                case ShellNavigationSource.Pop:
-                case ShellNavigationSource.ShellItemChanged:
-                case ShellNavigationSource.PopToRoot:
-                    var currentNavigationStack = Current?.Navigation?.NavigationStack?
-                        .Select(p => new WeakReference(p))
-                        .Reverse()
-                        .ToList();
-
-                    if (currentNavigationStack is not null && m_previousNavigationStack is null)
-                    {
-                        Console.WriteLine("Setting previous navigation stack to current navigation stack");
-                        m_previousNavigationStack = currentNavigationStack;
-                    }
-                    
-                    break;
-            }
         }
 
         private void OnNavigated(object? sender, ShellNavigatedEventArgs e)
@@ -59,15 +34,6 @@ namespace DIPS.Mobile.UI.Components.Shell
             
             switch (e.Source)
             {
-                case ShellNavigationSource.ShellItemChanged when Current.Navigation?.NavigationStack?.FirstOrDefault() is null:
-                    // Loading initial shell item
-                    Console.WriteLine("Loading initial shell item");
-                    if (CurrentPage is not null && m_previousNavigationStack is null)
-                    {
-                        Console.WriteLine("Setting previous navigation stack to CurrentPage");
-                        m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
-                    }
-                    break;
                 case ShellNavigationSource.PopToRoot:
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.Pop:
@@ -88,6 +54,22 @@ namespace DIPS.Mobile.UI.Components.Shell
                     }
                     
                     break;
+            }
+            
+            var currentNavigationStack = Current?.Navigation?.NavigationStack?
+                .Select(p => new WeakReference(p))
+                .Reverse()
+                .ToList();
+
+            if (currentNavigationStack is not null)
+            {
+                Console.WriteLine("Setting previous navigation stack to current navigation stack");
+                m_previousNavigationStack = currentNavigationStack;
+            }
+            else if (CurrentPage is not null)
+            {
+                Console.WriteLine("Setting previous navigation stack to CurrentPage");
+                m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
             }
         }
 
