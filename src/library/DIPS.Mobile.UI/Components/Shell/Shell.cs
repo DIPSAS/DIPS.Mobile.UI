@@ -55,22 +55,26 @@ namespace DIPS.Mobile.UI.Components.Shell
                     
                     break;
             }
+
+            if (Current?.Navigation?.NavigationStack?.FirstOrDefault() is null && CurrentPage is not null)
+            {
+                Console.WriteLine("Setting previous navigation stack to CurrentPage");
+                m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
+                return;
+            }
             
             var currentNavigationStack = Current?.Navigation?.NavigationStack?
                 .Select(p => new WeakReference(p))
                 .Reverse()
                 .ToList();
 
-            if (currentNavigationStack is not null)
+            if (currentNavigationStack is null)
             {
-                Console.WriteLine("Setting previous navigation stack to current navigation stack");
-                m_previousNavigationStack = currentNavigationStack;
+                return;
             }
-            else if (CurrentPage is not null)
-            {
-                Console.WriteLine("Setting previous navigation stack to CurrentPage");
-                m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
-            }
+
+            Console.WriteLine("Setting previous navigation stack to current navigation stack");
+            m_previousNavigationStack = currentNavigationStack;
         }
 
         private static void CurrentModalPage_OnPopped(object? sender, NavigatedFromEventArgs e)
