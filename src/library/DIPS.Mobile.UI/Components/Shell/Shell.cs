@@ -62,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 case ShellNavigationSource.ShellItemChanged when Current.Navigation?.NavigationStack?.FirstOrDefault() is null:
                     // Loading initial shell item
                     Console.WriteLine("Loading initial shell item");
-                    if (CurrentPage is not null)
+                    if (CurrentPage is not null && m_previousNavigationStack is null)
                     {
                         Console.WriteLine("Setting previous navigation stack to CurrentPage");
                         m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
