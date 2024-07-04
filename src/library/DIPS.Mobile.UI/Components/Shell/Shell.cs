@@ -53,7 +53,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     
                     break;
             }
-            
+
             var currentNavigationStack = Current?.Navigation?.NavigationStack?
                 .Select(p => new WeakReference(p))
                 .Reverse()
@@ -61,6 +61,11 @@ namespace DIPS.Mobile.UI.Components.Shell
 
             if (currentNavigationStack is null)
             {
+                if (CurrentPage is not null)
+                {
+                    m_previousNavigationStack = [new WeakReference(CurrentPage)];
+                }
+                
                 return;
             }
 
