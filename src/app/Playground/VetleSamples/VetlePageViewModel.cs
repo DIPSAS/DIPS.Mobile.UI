@@ -49,7 +49,7 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
-        CancelCommand = new Command(() =>         Shell.Current.Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1())));
+        CancelCommand = new Command(() =>         Shell.Current.Navigation.PushAsync(new VetleTestPage1()));
 
         _ = DelayFunction();
 
@@ -129,30 +129,7 @@ public class VetlePageViewModel : ViewModel
 
     private void Navigatee()
     {
-        var page = new VetleTestPage1();
-        var vm = new VetleTestPage1ViewModel();
-        page.BindingContext = vm;
-        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
-        
-        /*var tabBar = new TabBar {Route = "app"};
-        tabBar.Items.Add(new Tab
-        {
-            Title = "Test",
-            Icon = Icons.GetIcon(IconName.alert_fill),
-            Items =
-            {
-                new ShellContent
-                {
-                    ContentTemplate = new DataTemplate(() => new VetleTestPage1())
-                }
-            }
-        });
-
-        Shell.Current.Items[0].BindingContext = null;
-        Shell.Current.Items.Add(tabBar);
-        
-        _ = Shell.Current.GoToAsync("//app");*/
-        
+        Shell.Current.Navigation.PushAsync(new VetleTestPage1());
     }
 
     public List<SortOption> SortOptions

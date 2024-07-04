@@ -54,11 +54,11 @@ namespace DIPS.Mobile.UI.Components.Shell
                     break;
             }
 
-            if (Current?.Navigation?.NavigationStack?.FirstOrDefault() is null && CurrentPage is not null)
+            /*if (Current?.Navigation?.NavigationStack?.FirstOrDefault() is null && CurrentPage is not null)
             {
                 m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
                 return;
-            }
+            }*/
             
             var currentNavigationStack = Current?.Navigation?.NavigationStack?
                 .Select(p => new WeakReference(p))

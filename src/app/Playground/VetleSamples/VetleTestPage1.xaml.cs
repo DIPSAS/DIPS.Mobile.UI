@@ -27,7 +27,7 @@ public partial class VetleTestPage1
 
     private void NavigationListItem_OnTapped(object sender, EventArgs e)
     {
-        new TestBottomSheetNotFitToContent().Open();
+        Shell.Current.GoToAsync("//VetlePage");
     }
 
     private void Test(object sender, EventArgs e)
@@ -49,6 +49,6 @@ public partial class VetleTestPage1
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new VetleTestPage2());
+        Navigation.PushAsync(new VetleTestPage2());
     }
 }

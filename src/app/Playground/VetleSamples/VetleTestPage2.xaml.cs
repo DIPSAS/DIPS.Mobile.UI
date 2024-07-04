@@ -15,6 +15,6 @@ public partial class VetleTestPage2
 
     private void NavigationListItem_OnTapped(object sender, EventArgs e)
     {
-        var test = Shell.Current.Navigation.ModalStack;
+        Shell.Current.Navigation.PopToRootAsync();
     }
 }

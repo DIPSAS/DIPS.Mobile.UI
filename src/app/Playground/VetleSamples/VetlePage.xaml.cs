@@ -20,7 +20,7 @@ public partial class VetlePage
 
     private void Test123()
     {
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        _ = Navigation.PushAsync(new VetleTestPage1());
     }
 
     private void SwitchRoot()

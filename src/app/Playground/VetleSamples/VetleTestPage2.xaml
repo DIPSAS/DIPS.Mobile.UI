@@ -13,7 +13,8 @@
     </dui:ContentPage.BindingContext>
     
     <dui:VerticalStackLayout>
-        <extensions:NavigationListItem Tapped="NavigationListItem_OnTapped"> </extensions:NavigationListItem>
+        <extensions:NavigationListItem Title="hei" 
+                                       Tapped="NavigationListItem_OnTapped"> </extensions:NavigationListItem>
         
         <Grid WidthRequest="100"
                 HeightRequest="120"
