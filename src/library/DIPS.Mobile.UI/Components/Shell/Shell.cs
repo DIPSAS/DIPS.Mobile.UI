@@ -63,10 +63,8 @@ namespace DIPS.Mobile.UI.Components.Shell
             {
                 if (CurrentPage is not null)
                 {
-                    m_previousNavigationStack = [new WeakReference(CurrentPage)];
+                    currentNavigationStack = [new WeakReference(CurrentPage)];
                 }
-                
-                return;
             }
 
             m_previousNavigationStack = currentNavigationStack;
