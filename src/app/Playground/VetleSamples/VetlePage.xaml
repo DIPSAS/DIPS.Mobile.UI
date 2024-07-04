@@ -17,7 +17,7 @@
     </dui:ContentPage.BindingContext>
 
     
-         <dui:Button Command="{Binding Navigate}"
-                            Text="hello"></dui:Button>
+     <dui:Button Clicked="Button_OnClicked"
+                        Text="hello"></dui:Button>
     
 </dui:ContentPage>

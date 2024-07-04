@@ -59,7 +59,9 @@ namespace DIPS.Mobile.UI.Components.Shell
                 .Reverse()
                 .ToList();
 
-            if (currentNavigationStack is null)
+            // If we are at the landing page, the navigation stack is 1 and its first item is null, and not the CurrentPage
+            // Thus, we add the CurrentPage to our navigation stack so that it can be gc'ed
+            if (currentNavigationStack?.Count == 1 && currentNavigationStack.FirstOrDefault()?.Target is null)
             {
                 if (CurrentPage is not null)
                 {

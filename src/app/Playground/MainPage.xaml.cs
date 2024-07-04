@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.Icons;
 using Playground.EirikSamples;
 using Playground.HåvardSamples;
 using Playground.SanderSamples;
@@ -14,7 +15,26 @@ public partial class MainPage
 
     private void GoToVetle(object sender, EventArgs e)
     {
-        Shell.Current.Navigation.PushAsync(new VetlePage());
+        /*Shell.Current.Navigation.PushAsync(new VetlePage());*/
+        var tabBar = new TabBar {Route = "app"};
+
+        tabBar.Items.Add(new Tab
+        {
+            Title = "Test",
+            Icon = Icons.GetIcon(IconName.alert_fill),
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new VetleTestPage1())
+                }
+            }
+        });
+
+        Shell.Current.Items.Clear();
+        Shell.Current.Items.Add(tabBar);
+
+        _ = Shell.Current.GoToAsync("//app");
     }
 
     private void GoToHåvard(object sender, EventArgs e)
