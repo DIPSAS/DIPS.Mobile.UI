@@ -340,11 +340,9 @@ public class GCCollectionMonitor
                 GarbageCollection.Print("✅ Looks like the automatic resolving of memory leak succeeded! 🎉🎉🎉");
             }
         }
-        else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null && !target.Content.IsAlive)
+        else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }
     }
-    
-    
 }
