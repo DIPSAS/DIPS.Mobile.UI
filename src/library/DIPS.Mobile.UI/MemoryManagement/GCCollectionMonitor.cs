@@ -342,6 +342,7 @@ public class GCCollectionMonitor
         }
         else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
+            await Task.Delay(MsBetweenCollections);
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }
     }
