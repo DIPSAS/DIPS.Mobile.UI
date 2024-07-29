@@ -1,3 +1,6 @@
+## [35.0.0]
+- Updated .NET MAUI from 8.0.60 to 8.0.70.
+
 ## [34.0.0]
 - Refactored `GCCollectionMonitor`, so that it pinpoints what handlers/views that is leaking
 - `GCCollectionMonitor` will now try to resolve memory leaks automatically.
