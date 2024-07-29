@@ -20,7 +20,25 @@ public partial class VetlePage
 
     private void Test123()
     {
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        var tabBar = new TabBar {Route = "app"};
+
+        tabBar.Items.Add(new Tab
+        {
+            Title = "Test",
+            Icon = Icons.GetIcon(IconName.alert_fill),
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new VetleTestPage1())
+                }
+            }
+        });
+
+        Shell.Current.Items.Clear();
+        Shell.Current.Items.Add(tabBar);
+
+        _ = Shell.Current.GoToAsync("//app");
     }
 
     private void SwitchRoot()
@@ -92,5 +110,10 @@ public partial class VetlePage
     private void SetSemanticFocus(object? sender, EventArgs e)
     {
         /*SignInButton.SetSemanticFocus();*/
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        Test123();
     }
 }

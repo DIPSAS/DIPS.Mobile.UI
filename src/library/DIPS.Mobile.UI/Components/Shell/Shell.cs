@@ -54,20 +54,19 @@ namespace DIPS.Mobile.UI.Components.Shell
                     break;
             }
 
-            if (Current?.Navigation?.NavigationStack?.FirstOrDefault() is null && CurrentPage is not null)
-            {
-                m_previousNavigationStack = new[] {new WeakReference(CurrentPage)};
-                return;
-            }
-            
             var currentNavigationStack = Current?.Navigation?.NavigationStack?
                 .Select(p => new WeakReference(p))
                 .Reverse()
                 .ToList();
 
-            if (currentNavigationStack is null)
+            // If we are at the landing page, the navigation stack is 1 and its first item is null, and not the CurrentPage
+            // Thus, we add the CurrentPage to our navigation stack so that it can be gc'ed
+            if (currentNavigationStack?.Count == 1 && currentNavigationStack.FirstOrDefault()?.Target is null)
             {
-                return;
+                if (CurrentPage is not null)
+                {
+                    currentNavigationStack = [new WeakReference(CurrentPage)];
+                }
             }
 
             m_previousNavigationStack = currentNavigationStack;
