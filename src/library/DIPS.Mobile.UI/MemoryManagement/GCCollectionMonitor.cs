@@ -342,9 +342,9 @@ public class GCCollectionMonitor
         }
         else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
+            // A small delay to let MAUI finish their own disposing before we try and resolve
+            await Task.Delay(MsBetweenCollections);
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }
     }
-    
-    
 }

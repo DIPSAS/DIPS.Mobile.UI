@@ -1,3 +1,6 @@
+## [34.0.1]
+- Fixed an issue where pages inbetween were not GC'ed when `PopToRoot` were used.
+
 ## [34.0.0]
 - Refactored `GCCollectionMonitor`, so that it pinpoints what handlers/views that is leaking
 - `GCCollectionMonitor` will now try to resolve memory leaks automatically.
