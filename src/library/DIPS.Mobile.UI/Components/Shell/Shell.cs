@@ -90,8 +90,9 @@ namespace DIPS.Mobile.UI.Components.Shell
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
 
-        private async Task TryResolvePoppedPages(List<WeakReference> pages)
+        private static async Task TryResolvePoppedPages(List<WeakReference> pages)
         {
+            var currentPage = Current.CurrentPage;
             while (pages.Count > 0)
             {
                 var page = pages[0];
@@ -101,7 +102,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     continue;
                 }
 
-                if (page.Target == Current.CurrentPage)
+                if (page.Target == currentPage)
                 {
                     pages.Clear();
                     break;
