@@ -1,3 +1,6 @@
+## [35.0.1]
+- Fixed an issue where the app could crash when navigating back and forth if the automatic memory resolving were activated.
+
 ## [35.0.0]
 - Updated .NET MAUI from 8.0.60 to 8.0.70.
 
