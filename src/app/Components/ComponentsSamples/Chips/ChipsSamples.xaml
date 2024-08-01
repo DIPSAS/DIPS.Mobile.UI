@@ -36,8 +36,7 @@
         <dui:Chip Title="A toggleable chip"
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
-                  IsToggleable="True"
-                  IsToggled="True" />
+                  IsToggleable="True" />
         
         <dui:Label Text="Single selection chip-group"
                    Style="{dui:Styles Label=SectionHeader}" />

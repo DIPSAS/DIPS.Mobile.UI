@@ -97,12 +97,12 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
         handler.PlatformView.SetTextColor(chip.TitleColor.ToPlatform());
     }
 
-    private static async partial void MapIsToggleable(ChipHandler handler, Chip chip)
+    private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
     {
         if (chip.IsCloseable || !chip.IsToggleable)
             return;
 
-        await Task.Delay(1);
+        /*await Task.Delay(1);*/
         
         handler.PlatformView.Checkable = handler.PlatformView.CheckedIconVisible = true;
         handler.PlatformView.Checked = chip.IsToggled;
