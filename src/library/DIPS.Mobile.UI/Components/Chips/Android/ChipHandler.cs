@@ -101,8 +101,6 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         if (chip.IsCloseable || !chip.IsToggleable)
             return;
-
-        /*await Task.Delay(1);*/
         
         handler.PlatformView.Checkable = handler.PlatformView.CheckedIconVisible = true;
         handler.PlatformView.Checked = chip.IsToggled;
