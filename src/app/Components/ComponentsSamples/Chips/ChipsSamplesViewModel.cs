@@ -32,7 +32,12 @@ public class ChipsSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedItemsFootballers1, value);
     }
 
-    public List<Footballer> Footballers => new() { new Footballer(){Name = "Odegaard"},new Footballer(){Name = "Haaland"}, new Footballer(){Name = "Messi"}};
+    public List<Footballer> Footballers { get; } =
+    [
+        new Footballer() { Name = "Odegaard" }, new Footballer() { Name = "Haaland" },
+        new Footballer() { Name = "Messi" }
+    ];
+    
     public ICommand Test => new Command(Testeren);
     
     public ICommand FootballerChangedCommand { get; }

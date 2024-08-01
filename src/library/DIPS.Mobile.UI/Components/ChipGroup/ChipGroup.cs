@@ -112,7 +112,8 @@ public partial class ChipGroup : ContentView
 
         if (chipGroupItem.Chip.IsToggled)
         {
-            m_selectedItems.Add(chipGroupItem);
+            if(m_selectedItems.FirstOrDefault(item => item.Chip.Title.Equals(chipGroupItem.Chip.Title)) is null)
+                m_selectedItems.Add(chipGroupItem);
         }
         else
         {
