@@ -1,10 +1,3 @@
-using Android.Content.Res;
-using Android.Runtime;
-using Android.Text;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Chips.Android;
-using Java.Interop;
-using Android.Graphics.Fonts;
 using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
@@ -13,7 +6,6 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Font = Microsoft.Maui.Graphics.Font;
 using TextAlignment = Android.Views.TextAlignment;
 
 
@@ -22,7 +14,7 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
 {
-    protected override Google.Android.Material.Chip.Chip CreatePlatformView() => new Google.Android.Material.Chip.Chip(Context);
+    protected override Google.Android.Material.Chip.Chip CreatePlatformView() => new(Context);
 
     protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
@@ -41,14 +33,6 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private void OnChipTapped(object? sender, EventArgs e)
     {
         OnChipTapped();
-    }
-
-    protected override void DisconnectHandler(Google.Android.Material.Chip.Chip platformView)
-    {
-        base.DisconnectHandler(platformView);
-        platformView.SetOnCloseIconClickListener(null);
-        platformView.SetOnCheckedChangeListener(null);
-        platformView.Click -= OnChipTapped;
     }
 
     private static partial void MapTitle(ChipHandler handler, Chip chip)
@@ -80,37 +64,14 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
 
     private static partial void MapColor(ChipHandler handler, Chip chip)
     {
-        if (handler.VirtualView.Color == null) return;
-        handler.PlatformView.ChipBackgroundColor = new ColorStateList(CreateColorStates(handler.VirtualView.Color, out var colors), colors);
-    }
-
-    private static int[][] CreateColorStates(Color color, out int[] colors)
-    {
-        var states = new[]
-        {
-            new[] {global::Android.Resource.Attribute.StateEnabled}, // enabled
-            new[] {-global::Android.Resource.Attribute.StateEnabled}, // disabled
-            new[] {-global::Android.Resource.Attribute.StateChecked}, // unchecked
-            new[] {global::Android.Resource.Attribute.StateChecked}, // checked
-            new[] {global::Android.Resource.Attribute.StateChecked} // pressed
-        };
-
-        colors = new int[]
-        {
-            color.ToPlatform(),
-            color.ToPlatform(),
-            color.ToPlatform(),
-            color.ToPlatform(),
-            color.ToPlatform()
-        };
-        return states;
+        if (chip.Color == null) return;
+        handler.PlatformView.ChipBackgroundColor = chip.Color.ToDefaultColorStateList();
     }
 
     private static partial void MapCloseButtonColor(ChipHandler handler, Chip chip)
     {
-        if (handler.VirtualView.CloseButtonColor == null) return;
-        handler.PlatformView.CloseIcon?.SetTint(handler.VirtualView.CloseButtonColor.ToPlatform());
-
+        if (chip.CloseButtonColor == null) return;
+        handler.PlatformView.CloseIcon?.SetTint(chip.CloseButtonColor.ToPlatform());
     }
 
     private static partial void MapCornerRadius(ChipHandler handler, Chip chip)
@@ -122,8 +83,7 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         if (chip.BorderColor == null) return;
 
-        handler.PlatformView.ChipStrokeColor =
-            new ColorStateList(CreateColorStates(chip.BorderColor, out var colors), colors);
+        handler.PlatformView.ChipStrokeColor = chip.BorderColor.ToDefaultColorStateList();
     }
 
     private static partial void MapBorderWidth(ChipHandler handler, Chip chip)
@@ -135,21 +95,24 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     {
         if (chip.TitleColor is null) return;
         handler.PlatformView.SetTextColor(chip.TitleColor.ToPlatform());
-        if (!handler.VirtualView.IsToggleable) return; //Do not change close icon color
-        handler.PlatformView.CheckedIconTint = new ColorStateList(CreateColorStates(handler.VirtualView.TitleColor, out var colors), colors);
     }
 
     private static partial void MapIsToggleable(ChipHandler handler, Chip chip)
     {
-        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable)
+        if (chip.IsCloseable || !chip.IsToggleable)
             return;
         
         handler.PlatformView.Checkable = handler.PlatformView.CheckedIconVisible = true;
+        handler.PlatformView.Checked = chip.IsToggled;
+        
         DUI.TryGetResourceId(Icons.GetIconName(handler.ToggledIconName), out var id, defType:"drawable");
         if (id is not 0)
         {
+#pragma warning disable CA1422
             var drawable = Platform.AppContext.Resources?.GetDrawable(id);
+#pragma warning restore CA1422
             handler.PlatformView.CheckedIcon = drawable;
+            handler.PlatformView.CheckedIconTint = chip.TitleColor?.ToDefaultColorStateList();
         }
         handler.PlatformView.SetOnCheckedChangeListener(new OnToggledChangedListener(handler));
     }
@@ -157,9 +120,18 @@ public partial class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chi
     private static partial void MapIsToggled(ChipHandler handler, Chip chip)
     {
         //Make sure not to mess with close button + check if chip actually is toggleable
-        if (handler.VirtualView.IsCloseable || !handler.VirtualView.IsToggleable)
+        if (chip.IsCloseable || !chip.IsToggleable)
             return;
-
-        handler.PlatformView.Checked = handler.VirtualView.IsToggled;
+        
+        handler.PlatformView.Checked = chip.IsToggled;
+    }
+    
+    protected override void DisconnectHandler(Google.Android.Material.Chip.Chip platformView)
+    {
+        base.DisconnectHandler(platformView);
+        
+        platformView.SetOnCloseIconClickListener(null);
+        platformView.SetOnCheckedChangeListener(null);
+        platformView.Click -= OnChipTapped;
     }
 }

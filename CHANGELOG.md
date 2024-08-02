@@ -1,3 +1,8 @@
+## [35.0.2]
+- [Android][Chip] Fixed an issue where checkmark were sometimes not visible or the checkmark icon were tinted as black
+- [Android][ChipGroup] Fixed an issue where you could not de-toggle toggled chips when multi-selected `ChipGroup` were used.
+- [Android][Chip] Some refactor and code cleanup in its handler.
+
 ## [35.0.1]
 - Fixed an issue where the app could crash when navigating back and forth if the automatic memory resolving were activated.
 
