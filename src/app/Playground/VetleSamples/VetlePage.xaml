@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:iOs="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
@@ -16,8 +17,10 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    
-     <dui:Button Clicked="Button_OnClicked"
-                        Text="hello"></dui:Button>
+    <VerticalStackLayout>
+        <dui:DatePicker />
+        <dui:TimePicker />
+        <dui:DateAndTimePicker />
+    </VerticalStackLayout>
     
 </dui:ContentPage>

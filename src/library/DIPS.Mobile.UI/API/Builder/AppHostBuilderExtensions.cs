@@ -53,9 +53,9 @@ public static partial class AppHostBuilderExtensions
         builder.ConfigureMauiHandlers(handlers =>
         {
             handlers.AddHandler(typeof(Chip), typeof(ChipHandler));
-            handlers.AddHandler(typeof(Components.Pickers.DatePicker.DatePicker), typeof(DatePickerHandler));
-            handlers.AddHandler(typeof(DateAndTimePicker), typeof(DateAndTimePickerHandler));
-            handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));
+            /*handlers.AddHandler(typeof(Components.Pickers.DatePicker.DatePicker), typeof(DatePickerHandler));*/
+            /*handlers.AddHandler(typeof(DateAndTimePicker), typeof(DateAndTimePickerHandler));*/
+            /*handlers.AddHandler(typeof(Components.Pickers.TimePicker.TimePicker), typeof(TimePickerHandler));*/
             handlers.AddHandler(typeof(NativeIcon), typeof(NativeIconHandler));
             handlers.AddHandler(typeof(SearchBar), typeof(SearchBarHandler));
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();

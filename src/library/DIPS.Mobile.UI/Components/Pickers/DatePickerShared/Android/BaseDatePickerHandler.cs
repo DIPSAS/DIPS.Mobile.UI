@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 
@@ -30,10 +31,10 @@ public class BaseDatePickerHandler : ViewHandler<IDatePicker, Google.Android.Mat
         switch (VirtualView)
         {
             case DatePicker.DatePicker datePicker:
-                DatePickerService.Open(datePicker);
+                TimePickerService.Open(datePicker);
                 break;
             case TimePicker.TimePicker timePicker:
-                TimePickerService.OpenTimePicker(timePicker);
+                TimePicker.Android.TimePickerService.Open(timePicker);
                 break;
         }
     }

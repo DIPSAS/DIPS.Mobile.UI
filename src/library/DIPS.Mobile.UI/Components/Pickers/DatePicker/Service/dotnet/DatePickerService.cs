@@ -2,7 +2,7 @@ using DIPS.Mobile.UI.Exceptions;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 
-public partial class DatePickerService
+public partial class TimePickerService
 {
     public static partial void Open(DatePicker datePicker, View? sourceView) => throw new Only_Here_For_UnitTests();
 

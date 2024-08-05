@@ -9,7 +9,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(DateTime),
             typeof(DatePicker),
             defaultBindingMode:BindingMode.TwoWay,
-            defaultValue:null);
+            defaultValue:null,
+            propertyChanged: (bindable, _, _) => ((DatePicker)bindable).OnSelectedDateChanged());
 
         /// <summary>
         /// The date people selected from the date picker.
@@ -77,5 +78,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             get => (DateTime?)GetValue(MaximumDateProperty);
             set => SetValue(MaximumDateProperty, value);
         }
+        
+        /// <summary>
+        /// The view that the time picker's popover should pass through (Most likely only a DatePicker)
+        /// <remarks>For iOS</remarks>
+        /// </summary>
+        internal View? PassThroughView { get; set; }
     }
 }

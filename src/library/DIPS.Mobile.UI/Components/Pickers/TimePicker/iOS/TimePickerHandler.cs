@@ -7,9 +7,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 public partial class TimePickerHandler : BaseDatePickerHandler
 {
-    protected override DUIDatePicker CreatePlatformView()
+    protected override UIDatePicker CreatePlatformView()
     {
-        return new DUIDatePicker
+        return new UIDatePicker
         {
             Mode = UIDatePickerMode.Time,
             PreferredDatePickerStyle = UIDatePickerStyle.Compact

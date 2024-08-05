@@ -1,14 +1,14 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
-using DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
+namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-public partial class DatePickerService
+public partial class TimePickerService
 {
     internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
     
-    public static async partial void Open(DatePicker datePicker, View? sourceView = null)
+    public static async partial void Open(TimePicker timePicker, View? sourceView = null)
     {
         if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
         {
@@ -20,30 +20,26 @@ public partial class DatePickerService
             Close();
         }
         
-        var inlineDatePicker = new InlineDatePicker
+        var inlineDatePicker = new InlineTimePicker
         {
-            MaximumDate = datePicker.MaximumDate,
-            MinimumDate = datePicker.MinimumDate,
-            SelectedDate = datePicker.SelectedDate,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime
+            SelectedTime = timePicker.SelectedTime
         };
 
-        inlineDatePicker.SelectedDateCommand = new Command(() =>
+        inlineDatePicker.SelectedTimeCommand = new Command(() =>
         {
-            Close();
-            datePicker.SelectedDate = inlineDatePicker.SelectedDate;
-            datePicker.SelectedDateCommand?.Execute(null);
+            timePicker.SelectedTime = inlineDatePicker.SelectedTime;
+            timePicker.SelectedTimeCommand?.Execute(null);
         });
        
         PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, sourceView, Dispose, datePicker.PassThroughView);
+        PresentedViewController.Setup(inlineDatePicker, sourceView, OnDisposed, timePicker.PassThroughView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
-        
+
         _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
     }
 
-    private static void Dispose()
+    private static void OnDisposed()
     {
         PresentedViewController = null;
     }

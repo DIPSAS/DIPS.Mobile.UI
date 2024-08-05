@@ -7,7 +7,8 @@ public partial class TimePicker
     public static readonly BindableProperty SelectedTimeProperty = BindableProperty.Create(
         nameof(SelectedTime),
         typeof(TimeSpan),
-        typeof(TimePicker), defaultBindingMode:BindingMode.TwoWay);
+        typeof(TimePicker), defaultBindingMode:BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((TimePicker)bindable).OnTimeChanged());
 
     /// <summary>
     /// The time people selected from the time picker.
@@ -31,4 +32,10 @@ public partial class TimePicker
         get => (ICommand)GetValue(SelectedTimeCommandProperty);
         set => SetValue(SelectedTimeCommandProperty, value);
     }
+    
+    /// <summary>
+    /// The view that the time picker's popover should pass through (Most likely only a DatePicker)
+    /// <remarks>For iOS</remarks>
+    /// </summary>
+    internal View? PassThroughView { get; set; }
 }

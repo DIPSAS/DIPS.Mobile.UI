@@ -7,9 +7,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker;
 
 public partial class DatePickerHandler : BaseDatePickerHandler
 {
-    protected override DUIDatePicker CreatePlatformView()
+    protected override UIDatePicker CreatePlatformView()
     {
-        return new DUIDatePicker
+        return new UIDatePicker
         {
             Mode = UIDatePickerMode.Date, 
             PreferredDatePickerStyle = UIDatePickerStyle.Compact

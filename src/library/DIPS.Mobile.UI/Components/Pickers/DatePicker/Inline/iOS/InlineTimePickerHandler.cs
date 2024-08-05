@@ -1,19 +1,16 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
+using DIPS.Mobile.UI.Components.Pickers.TimePicker;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 
-internal class InlineDatePickerHandler : DatePickerHandler
+internal class InlineTimePickerHandler : TimePickerHandler
 {
-    public InlineDatePickerHandler() : base(PropertyMapper)
-    {
-    }
-
     protected override UIDatePicker CreatePlatformView()
     {
         return new UIDatePicker
         {
-            PreferredDatePickerStyle = UIDatePickerStyle.Inline, Mode = UIDatePickerMode.Date
+            PreferredDatePickerStyle = UIDatePickerStyle.Wheels, Mode = UIDatePickerMode.Time
         };
     }
 }

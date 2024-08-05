@@ -1,3 +1,5 @@
+using UIKit;
+
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 
 /// <summary>
@@ -5,5 +7,4 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 /// </summary>
 internal class InlineDatePicker : DatePicker
 {
-    
 }

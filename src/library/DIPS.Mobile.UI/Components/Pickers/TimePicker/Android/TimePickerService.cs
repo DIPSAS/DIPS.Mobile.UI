@@ -1,11 +1,13 @@
-namespace DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
+using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 
-public class TimePickerService
+namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
+
+public partial class TimePickerService
 {
     private static MaterialTimePickerFragment? m_materialDateTimePicker;
     internal const string TimePickerTag = "DUIMaterialTimePicker";
 
-    public static void OpenTimePicker(TimePicker timePicker)
+    public static void Open(TimePicker timePicker, View? sourceView = null)
     {
         if (IsOpen())
             Close();

@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.DatePicker;
 using Microsoft.Maui.Platform;
 using Object = Java.Lang.Object;
+using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 
@@ -39,7 +40,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
-        m_materialDatePicker.Show(fragmentManager!, DatePickerService.DatePickerTag);
+        m_materialDatePicker.Show(fragmentManager!, TimePickerService.DatePickerTag);
     }
 
     private void SetDatePickerSelection(MaterialDatePicker.Builder builder)
@@ -52,13 +53,13 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
     public bool IsOpen()
     {
-        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.DatePickerTag);
         return fragment is MaterialDatePicker;
     }
 
     public void Close()
     {
-        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(DatePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.DatePickerTag);
         if (fragment is MaterialDatePicker datePickerFragment)
         {
             datePickerFragment.Dismiss();

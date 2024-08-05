@@ -66,6 +66,8 @@ public class VetlePageViewModel : ViewModel
 
     }
 
+    public TimeSpan Time { get; } = TimeSpan.Zero;
+    
     private void Disable()
     {
         Disabled = !Disabled;
