@@ -1,3 +1,7 @@
+## [35.0.3]
+- [MemoryLeak] Fixed an error where if you removed a page from the stack while in a modal context, all pages in the navigation stack would try to be resolved for memory leaks.
+- Refactor `TryResolvePoppedPages` function.
+
 ## [35.0.2]
 - [Android][Chip] Fixed an issue where checkmark were sometimes not visible or the checkmark icon were tinted as black
 - [Android][ChipGroup] Fixed an issue where you could not de-toggle toggled chips when multi-selected `ChipGroup` were used.

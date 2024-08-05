@@ -9,15 +9,14 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This"
-                 HideSoftInputOnTapped="True">
+                 x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
     
-     <dui:Button Clicked="Button_OnClicked"
+     <dui:Button Command="{Binding Navigate}"
                         Text="hello"></dui:Button>
     
 </dui:ContentPage>

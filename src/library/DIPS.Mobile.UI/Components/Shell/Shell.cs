@@ -92,23 +92,15 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         private static async Task TryResolvePoppedPages(List<WeakReference> pages)
         {
-            var currentPage = Current.CurrentPage;
-            while (pages.Count > 0)
+            foreach (var page in pages)
             {
-                var page = pages[0];
-                if (page.Target is null)
-                {
-                    pages.RemoveAt(0);
+                if(page.Target is null)
                     continue;
-                }
 
-                if (page.Target == currentPage)
-                {
-                    pages.Clear();
-                    break;
-                }
+                // Don't try to resolve memory leaks if the page is still in the NavigationStack
+                if (Current.Navigation.NavigationStack.Any(p => p == page.Target))
+                    continue;
                 
-                pages.RemoveAt(0);
                 await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
                     page.Target.ToCollectionContentTarget());
             }

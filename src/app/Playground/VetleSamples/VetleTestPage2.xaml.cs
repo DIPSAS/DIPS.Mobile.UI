@@ -18,4 +18,9 @@ public partial class VetleTestPage2
     {
         
     }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushModalAsync(new VetleTestPage3());
+    }
 }
