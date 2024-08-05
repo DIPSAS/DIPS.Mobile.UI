@@ -264,17 +264,27 @@ public class GCCollectionMonitor
 
         private void AddToFlatList(object monitorTarget)
         {
+            string? name;
             switch (monitorTarget)
             {
                 case VisualElement {Handler: not null} visualElement:
                     // TODO: Add behaviours also? 
-                    FlatChildrenList.Add(new CollectionTarget( visualElement.ToString(), visualElement.Handler));
+                    name = visualElement.ToString();
+                    if (!string.IsNullOrEmpty(visualElement.AutomationId))
+                    {
+                        name += $" (automationId: {visualElement.AutomationId}";
+                    }
+                    FlatChildrenList.Add(new CollectionTarget(name, visualElement.Handler));
                     AddEffectsToFlatList(visualElement.Effects);
                     break;
                 case Element { Handler: not null } element:
                     // TODO: Add behaviours also?
-                    
-                    FlatChildrenList.Add(new CollectionTarget(element.ToString(), element.Handler));
+                    name = element.ToString();
+                    if (!string.IsNullOrEmpty(element.AutomationId))
+                    {
+                        name += $" (automationId: {element.AutomationId}";
+                    }
+                    FlatChildrenList.Add(new CollectionTarget(name, element.Handler));
                     AddEffectsToFlatList(element.Effects);
                     break;
             }
