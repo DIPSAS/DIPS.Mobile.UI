@@ -266,16 +266,15 @@ public class GCCollectionMonitor
         {
             switch (monitorTarget)
             {
-                case VisualElement { Handler: not null } visualElement:
+                case VisualElement {Handler: not null} visualElement:
                     // TODO: Add behaviours also? 
-
-                    FlatChildrenList.Add(new CollectionTarget(visualElement.Handler.GetType().Name, visualElement.Handler));
+                    FlatChildrenList.Add(new CollectionTarget( visualElement.ToString(), visualElement.Handler));
                     AddEffectsToFlatList(visualElement.Effects);
                     break;
                 case Element { Handler: not null } element:
                     // TODO: Add behaviours also?
                     
-                    FlatChildrenList.Add(new CollectionTarget(element.Handler.GetType().Name, element.Handler));
+                    FlatChildrenList.Add(new CollectionTarget(element.ToString(), element.Handler));
                     AddEffectsToFlatList(element.Effects);
                     break;
             }
