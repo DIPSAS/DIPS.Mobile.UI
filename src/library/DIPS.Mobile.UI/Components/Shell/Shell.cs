@@ -96,7 +96,7 @@ namespace DIPS.Mobile.UI.Components.Shell
             while (pages.Count > 0)
             {
                 var page = pages[0];
-                if (page.Target is null)
+                if (page.Target is null || Current.Navigation.NavigationStack.Any(p => p == page.Target))
                 {
                     pages.RemoveAt(0);
                     continue;

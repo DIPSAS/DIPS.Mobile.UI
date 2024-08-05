@@ -13,6 +13,10 @@
                  IsSavingCompleted="{Binding IsSavingCompleted}"
                  SavingCompletedCommand="{Binding CompletedCommand}">
 
+    <dui:ContentPage.BindingContext>
+        <vetleSamples:VetleTestPage1ViewModel />
+    </dui:ContentPage.BindingContext>
+    
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
         <ToolbarItem Text="Test" />
@@ -22,26 +26,8 @@
 
     
     
-    <dui:VerticalStackLayout BackgroundColor="Green"
-                             WidthRequest="100"
-                             HeightRequest="100"
-                             dui:Layout.CornerRadius="10, 10, 10, 10">
-        
-        
-        <dui:Button Clicked="Button_OnClicked" Text="error" Command="{Binding Navigate}" />
-      
-        <dui:Button Command="{Binding Test}" Text="success" />
-        
-        <dui:NavigationListItem Title="GoToAsync" 
-                                       Tapped="NavigationListItem_OnTapped"> </dui:NavigationListItem>
-        
-        <Grid WidthRequest="100"
-              HeightRequest="120"
-              BackgroundColor="Black"
-              dui:Touch.Command="{Binding Test}"
-              dui:Touch.LongPressCommand="{Binding Test}" />
-        
-    </dui:VerticalStackLayout>
+    <dui:Button Text="Hello"
+                Command="{Binding Navigate}"/>
 
 
 </dui:ContentSavePage>
