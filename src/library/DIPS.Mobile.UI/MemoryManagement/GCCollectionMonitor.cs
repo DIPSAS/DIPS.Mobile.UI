@@ -198,6 +198,7 @@ public class GCCollectionMonitor
                                 collectionView.HeaderTemplate = null;
                                 collectionView.Footer = null;
                                 collectionView.Header = null;
+                                collectionView.EmptyView = null;
                                 break;
                             case Border border:
                                 border.Content = null;
