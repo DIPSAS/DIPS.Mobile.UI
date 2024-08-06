@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Internal;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -9,6 +10,7 @@ public partial class LoadableListItem : ListItem
 {
     private readonly Grid m_busyContent = new()
     {
+        AutomationId = "BusyContentGrid".ToDUIAutomationId<LoadableListItem>(),
         ColumnSpacing = Sizes.GetSize(SizeName.size_2),
         ColumnDefinitions = new ColumnDefinitionCollection
         {
@@ -23,6 +25,7 @@ public partial class LoadableListItem : ListItem
 
     private readonly Grid m_errorContent = new()
     {
+        AutomationId = "ErrorContentGrid".ToDUIAutomationId<LoadableListItem>(),
         ColumnSpacing = Sizes.GetSize(SizeName.size_2),
         ColumnDefinitions = new ColumnDefinitionCollection
         {
@@ -38,6 +41,7 @@ public partial class LoadableListItem : ListItem
 
     private Grid ContentGrid { get; } = new()
     {
+        AutomationId = "ContentGrid".ToDUIAutomationId<LoadableListItem>(),
         ColumnDefinitions = new ColumnDefinitionCollection
         {
             new(GridLength.Star),
@@ -94,6 +98,7 @@ public partial class LoadableListItem : ListItem
     {
         var errorText = new Labels.Label
         {
+            AutomationId = "ErrorTextLabel".ToDUIAutomationId<LoadableListItem>(),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.End
         };
@@ -103,6 +108,7 @@ public partial class LoadableListItem : ListItem
 
         var errorImage = new Image
         {
+            AutomationId = "ErrorImage".ToDUIAutomationId<LoadableListItem>(),
             TintColor = Colors.GetColor(ColorName.color_error_dark), 
             Source = Icons.GetIcon(IconName.failure_fill)
         };
@@ -113,6 +119,7 @@ public partial class LoadableListItem : ListItem
     {
         var busyText = new Labels.Label
         {
+            AutomationId = "BusyTextLabel".ToDUIAutomationId<LoadableListItem>(),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.End,
             TextColor = Colors.GetColor(ColorName.color_neutral_90)
@@ -120,7 +127,7 @@ public partial class LoadableListItem : ListItem
         busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
         m_busyContent.Add(busyText);
         
-        var busyActivityIndicator = new ActivityIndicator { IsRunning = true };
+        var busyActivityIndicator = new ActivityIndicator { AutomationId = "BusyActivityIndicator".ToDUIAutomationId<LoadableListItem>(),IsRunning = true };
         m_busyContent.Add(busyActivityIndicator, 1);
     }
 

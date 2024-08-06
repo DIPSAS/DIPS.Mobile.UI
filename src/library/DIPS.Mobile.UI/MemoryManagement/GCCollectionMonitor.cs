@@ -163,6 +163,12 @@ public class GCCollectionMonitor
         {
             TryResolveMemoryLeaksInContent(child, false);
         }
+
+        if (content is CollectionView collectionView)
+        {
+            TryResolveMemoryLeaksInContent(collectionView.Footer);
+            TryResolveMemoryLeaksInContent(collectionView.Header);
+        }
         
         TryResolveMemoryLeak(content);
     }
@@ -277,45 +283,41 @@ public class GCCollectionMonitor
         private void AddToFlatList(object monitorTarget)
         {
             string? name;
-            switch (monitorTarget)
-            {
-                case VisualElement {Handler: not null} visualElement:
-                    // TODO: Add behaviours also? 
-                    name = visualElement.ToString();
-                    if (!string.IsNullOrEmpty(visualElement.AutomationId))
-                    {
-                        name += $" (automationId: {visualElement.AutomationId}";
-                    }
-                    FlatChildrenList.Add(new CollectionTarget(name, visualElement.Handler));
-                    AddEffectsToFlatList(visualElement.Effects);
-                    break;
-                case Element { Handler: not null } element:
-                    // TODO: Add behaviours also?
-                    name = element.ToString();
-                    if (!string.IsNullOrEmpty(element.AutomationId))
-                    {
-                        name += $" (automationId: {element.AutomationId}";
-                    }
-                    FlatChildrenList.Add(new CollectionTarget(name, element.Handler));
-                    AddEffectsToFlatList(element.Effects);
-                    break;
-            }
 
-            try
+            if (monitorTarget is Element element)
             {
-                FlatChildrenList.Add(new CollectionTarget(monitorTarget.GetType().Name, new WeakReference(monitorTarget)));
+                name = element.ToString();
+                if (!string.IsNullOrEmpty(element.AutomationId))
+                {
+                    name += $" (automationId: {element.AutomationId})";
+                }
+                FlatChildrenList.Add(new CollectionTarget(name,
+                    new WeakReference(monitorTarget)));
+                if (element.Handler != null)
+                {
+                    FlatChildrenList.Add(new CollectionTarget(name+ "(handler)", element.Handler));    
+                }
+                AddEffectsToFlatList(name, element.Effects);
             }
-            catch
+            else
             {
-                // We dont give a fak
+                try
+                {
+                    FlatChildrenList.Add(new CollectionTarget(monitorTarget.GetType().Name,
+                        new WeakReference(monitorTarget)));
+                }
+                catch
+                {
+                    // We dont give a fak
+                }
             }
         }
 
-        private void AddEffectsToFlatList(IList<Effect> effects)
+        private void AddEffectsToFlatList(string name, IList<Effect> effects)
         {
             foreach (var effect in effects)
             {
-                FlatChildrenList.Add(new CollectionTarget(effect.GetType().Name, effect));
+                FlatChildrenList.Add(new CollectionTarget($"{effect.GetType().Name} ({name})", effect));
             }
         }
 

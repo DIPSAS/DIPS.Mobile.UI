@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Internal;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -15,11 +16,13 @@ public partial class ListItem : ContentView
 {
     private Grid RootGrid { get; } = new()
     {
-        BackgroundColor = Colors.Transparent, 
+        AutomationId = "RootGrid".ToDUIAutomationId<ListItem>(),
+        BackgroundColor = Colors.Transparent
     };
     
     internal Grid ContainerGrid { get; } = new()
     {
+        AutomationId = "ContainerGrid".ToDUIAutomationId<ListItem>(),
         ColumnDefinitions = new ColumnDefinitionCollection
         {
             new(GridLength.Auto),
@@ -34,6 +37,7 @@ public partial class ListItem : ContentView
 
     internal Grid TitleAndLabelGrid { get; } = new()
     {
+        AutomationId = "TitleAndLabelGrid".ToDUIAutomationId<ListItem>(),
         ColumnDefinitions = new ColumnDefinitionCollection
         {
             new(),
@@ -46,10 +50,10 @@ public partial class ListItem : ContentView
         VerticalOptions = LayoutOptions.Center
     };
 
-    internal Border Border { get; } = new() { StrokeThickness = 0 };
+    internal Border OuterBorder { get; } = new() { StrokeThickness = 0, AutomationId = "OuterBorder".ToDUIAutomationId<ListItem>()};
     internal Image? ImageIcon { get; private set; }
-    internal Label TitleLabel { get; private set; } = new();
-    internal Label SubtitleLabel { get; private set; } = new() { IsVisible = false };
+    internal Label TitleLabel { get; private set; } = new(){AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>()};
+    internal Label SubtitleLabel { get; private set; } = new() { IsVisible = false, AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
@@ -61,8 +65,9 @@ public partial class ListItem : ContentView
     {
         ((ContentView)this).BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         
-        Border.StrokeShape = new RoundRectangle 
+        OuterBorder.StrokeShape = new RoundRectangle 
         { 
+            AutomationId = "OuterBorder.StrokeShape".ToDUIAutomationId<ListItem>(),
             CornerRadius = CornerRadius, 
             StrokeThickness = 0 
         };
@@ -71,18 +76,18 @@ public partial class ListItem : ContentView
         
         BindBorder();
 
-        Border.Content = ContainerGrid;
+        OuterBorder.Content = ContainerGrid;
 
         ContainerGrid.Add(TitleAndLabelGrid, 1);
-        RootGrid.Add(Border);
+        RootGrid.Add(OuterBorder);
         
         this.Content = RootGrid;
     }
 
     private void BindBorder()
     {
-        Border.SetBinding(Border.BackgroundColorProperty, new Binding {Source = this, Path = nameof(BackgroundColor)});
-        Border.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
+        OuterBorder.SetBinding(Border.BackgroundColorProperty, new Binding {Source = this, Path = nameof(BackgroundColor)});
+        OuterBorder.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
     }
 
     protected override void OnPropertyChanged(string propertyName = null)
@@ -189,7 +194,7 @@ public partial class ListItem : ContentView
 
     private void SetCornerRadius()
     {
-        Border.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius, StrokeThickness = 0};
+        OuterBorder.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius, StrokeThickness = 0};
     }
     
     private void AddDivider(bool top)
@@ -219,8 +224,8 @@ public partial class ListItem : ContentView
 
     private void AddTouch()
     {
-        Touch.SetAccessibilityContentDescription(Border, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(Border, new Command(() =>
+        Touch.SetAccessibilityContentDescription(OuterBorder, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(OuterBorder, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
@@ -228,13 +233,13 @@ public partial class ListItem : ContentView
         SetTouchIsEnabled();
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(Border, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
+    private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
 
     private void BindToOptions(ListItemOptions? options) => options?.Bind(this);
 
     private void AddContextMenu()
     {
-        ContextMenuEffect.SetMenu(Border, ContextMenu);
+        ContextMenuEffect.SetMenu(OuterBorder, ContextMenu);
         BindToOptions(ContextMenuOptions);
     }
     

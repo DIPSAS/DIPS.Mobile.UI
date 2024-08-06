@@ -48,7 +48,6 @@
             </dui:ListItem.BindingContext>
             <dui:DateAndTimePicker SelectedDateTime="{Binding SelectedDeadline}" />
         </dui:ListItem>
-
         <dui:LoadableListItem Title="Loadable ListItem"
                               Subtitle="click when error"
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
