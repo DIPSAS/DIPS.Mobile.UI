@@ -298,6 +298,11 @@ public class GCCollectionMonitor
                     FlatChildrenList.Add(new CollectionTarget(name+ "(handler)", element.Handler));    
                 }
                 AddEffectsToFlatList(name, element.Effects);
+                
+                if (element.BindingContext != null)
+                {
+                    FlatChildrenList.Add(new CollectionTarget($"{element.BindingContext.GetType().Name} (BindingContext of : {name})",element.BindingContext));    
+                }
             }
             else
             {
