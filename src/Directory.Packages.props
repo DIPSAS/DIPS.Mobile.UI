@@ -6,6 +6,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="LightInject" Version="6.6.4" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.70" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.70" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />

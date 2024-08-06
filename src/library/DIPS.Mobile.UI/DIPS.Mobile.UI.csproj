@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net8.0-ios;net8.0-android;</TargetFrameworks>
+        <TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
 
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
@@ -57,34 +57,33 @@
         <DefineConstants Condition=" '$(_IOS)' == 'true' ">$(DefineConstants);__IOS__;__MOBILE__;</DefineConstants>
     </PropertyGroup>
 
-    <!-- Android -->
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <DocumentationFile>bin\Release\DIPS.Mobile.UI.xml</DocumentationFile>
     </PropertyGroup>
+
+    <!-- Remove Android -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-        <Compile Update="Components\Loading\SkeletonView.xaml.cs">
-            <DependentUpon>SkeletonView.xaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
-        </Compile>
     </ItemGroup>
 
-    <!-- iOS -->
+    <!--Remove iOS -->
     <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Equals('net8.0')) != true">
+    <!-- dotnet -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) == true">
+        <Compile Remove="**\dotnet\**\*.cs" />
+        <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
+
+    <!-- dotnet -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) == true">
         <Compile Remove="**\dotnet\**\*.cs" />
         <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>

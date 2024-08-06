@@ -188,6 +188,10 @@ public class GCCollectionMonitor
                             case CollectionView collectionView:
                                 collectionView.ItemsSource = null;
                                 collectionView.ItemTemplate = null;
+                                collectionView.FooterTemplate = null;
+                                collectionView.HeaderTemplate = null;
+                                collectionView.Footer = null;
+                                collectionView.Header = null;
                                 break;
                             case Border border:
                                 border.Content = null;
@@ -247,6 +251,14 @@ public class GCCollectionMonitor
         public CollectionContentTarget(object content)
         {
             Name = content.GetType().Name;
+            if (content is Element element)
+            {
+                if (!string.IsNullOrEmpty(element.AutomationId))
+                {
+                    Name += $" (automationId: {element.AutomationId})";    
+                }
+            }
+            
             Content = new WeakReference(content);
 
             AddChildrenReferences((content as IVisualTreeElement)!);
