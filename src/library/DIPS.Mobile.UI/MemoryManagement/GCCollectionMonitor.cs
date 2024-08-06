@@ -163,12 +163,6 @@ public class GCCollectionMonitor
         {
             TryResolveMemoryLeaksInContent(child, false);
         }
-
-        if (content is CollectionView collectionView)
-        {
-            TryResolveMemoryLeaksInContent(collectionView.Footer, false);
-            TryResolveMemoryLeaksInContent(collectionView.Header, false);
-        }
         
         TryResolveMemoryLeak(content);
     }

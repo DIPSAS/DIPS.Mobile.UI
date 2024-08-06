@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Effects.Touch;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -12,14 +13,19 @@ public class CollectionViewTests : UITest
         Touch.SetCommand(grid, new Command(() => {}));
         Touch.SetIsEnabled(grid, true);
         var collectionView = new CollectionView(){AutomationId = "MyCollectionView"};
+        collectionView.EmptyView = new EmptyView(){Content = new Label(){Text = "test"}};
         var footerGrid = new Grid();
         footerGrid.Add(new Label(){Text = "Testiiing"});
-        collectionView.Footer = footerGrid;
+        collectionView.FooterTemplate = new DataTemplate(() => footerGrid);
         collectionView.ItemsSource = new List<string>() {"Item 1", "Item 2", "Item 3", "Item 4"};
-        
         grid.Add(collectionView);
         
         contentPage.Content = grid;
+    }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        
     }
 
     public override string Name => "Nested CollectionView";
@@ -43,5 +49,13 @@ public abstract class UITest
 
 public class UITestContentPage : ContentPage
 {
-    
+    public UITestContentPage()
+    {
+        // DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
+    }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        
+    }
 }
