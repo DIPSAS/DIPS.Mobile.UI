@@ -1,3 +1,6 @@
+## [35.0.4]
+- [MemoryLeak] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
+
 ## [35.0.3]
 - [MemoryLeak] Fixed an error where if you removed a page from the stack while in a modal context, all pages in the navigation stack would try to be resolved for memory leaks.
 - Refactor `TryResolvePoppedPages` function.

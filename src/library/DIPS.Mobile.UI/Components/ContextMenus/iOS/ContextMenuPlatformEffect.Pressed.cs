@@ -63,14 +63,16 @@ public partial class ContextMenuPlatformEffect
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
             m_contextMenu, RebuildMenu);
-        m_uiButton.Menu =  UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
+        m_uiButton.Menu = UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
     }
 
     private void DisposePressed()
     {
-        if(m_uiButtonToRemove != null)
-            Control.WillRemoveSubview(m_uiButtonToRemove);
-        
+        m_uiButton?.Menu?.Dispose();
+        if(m_uiButton?.Menu is not null)
+            m_uiButton.Menu = null;
+        m_uiButtonToRemove?.RemoveFromSuperview();
+
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
         m_didEnterBackgroundNotification.Dispose();
         

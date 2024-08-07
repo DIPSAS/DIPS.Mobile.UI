@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+             x:Class="Playground.VetleSamples.ViewCellTest"
+             x:DataType="{x:Type vetleSamples:TestObject2}"
+             x:Name="This">
+    
+        <Grid WidthRequest="40"
+                    HeightRequest="40"
+                    BackgroundColor="Red"
+                    Margin="{dui:Thickness Left=size_2_negative, Top=size_2_negative}"
+                    VerticalOptions="Center"
+                    dui:ContextMenuEffect.Mode="Pressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu IsEnabled="{Binding Source={x:Reference This}, Path=TestBool}">
+                    <dui:ContextMenuItem Title="Test" />
+                </dui:ContextMenu>
+                <!--<vetleSamples:ContextMenuTest TestBool="{Binding Source={x:Reference This}, Path=TestBool}" />-->
+            </dui:ContextMenuEffect.Menu>
+        </Grid>
+    
+</ContentView>

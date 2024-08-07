@@ -22,6 +22,7 @@ public class VetlePageViewModel : ViewModel
     private bool m_disabled;
     private bool m_isSaving;
     private bool m_isSavingCompleted;
+    private SortOption m_selectedOrganizationalUnit;
 
     public VetlePageViewModel()
     {
@@ -123,7 +124,7 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        Disabled = true;
+        SelectedOrganizationalUnit = SelectableOrganizations[0];
     }
 
 
@@ -157,6 +158,9 @@ public class VetlePageViewModel : ViewModel
         "ØDEGÅÅRD",
         "Testern",
     };
+
+    public List<TestObject2> TestObject2s { get; } =
+        [new TestObject2("Lol"), new TestObject2("Lol2"), new TestObject2("Lol3"), new TestObject2("Lol4")];
     
     public string? Summary { get; }
 
@@ -232,6 +236,13 @@ public class VetlePageViewModel : ViewModel
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
     public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
+    public List<SortOption> SelectableOrganizations { get; } = [new SortOption("Lol", "Lol")];
+
+    public SortOption SelectedOrganizationalUnit
+    {
+        get => m_selectedOrganizationalUnit;
+        set => RaiseWhenSet(ref m_selectedOrganizationalUnit, value);
+    }
 }
 
 public class SortOption
@@ -317,11 +328,14 @@ public class TestObject2
     public TestObject2(string name)
     {
         Name = name;
+        TestCommand = new Command(() => { });
     }
     
    public string Name { get; set; }
 
    public string SearchTerm { get; } = "Test";
+   
+   public ICommand TestCommand { get; }
 }
 
 
