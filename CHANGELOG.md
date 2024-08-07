@@ -1,3 +1,6 @@
+## [35.0.5]
+- [MemoryLeak][iOS] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
+
 ## [35.0.4]
 - [MemoryLeak] Improved the output when pages/binding context is resolved or has leaks.
 - [MemoryLeak] Added observing of a pages BindingContext.

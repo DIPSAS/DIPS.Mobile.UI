@@ -10,6 +10,15 @@ public partial class VetlePage
     {
         InitializeComponent();
         TestCommand = new Command(SwitchRoot);
+
+        
+    }
+
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+        
+        TestBool = BindingContext is VetlePageViewModel;
     }
 
     private void Test123()
@@ -33,6 +42,17 @@ public partial class VetlePage
         Shell.Current.Items.Add(tabBar);
 
         _ = Shell.Current.GoToAsync("//app");
+    }
+
+    public static readonly BindableProperty TestBoolProperty = BindableProperty.Create(
+        nameof(TestBool),
+        typeof(bool),
+        typeof(VetlePage));
+
+    public bool TestBool
+    {
+        get => (bool)GetValue(TestBoolProperty);
+        set => SetValue(TestBoolProperty, value);
     }
 
     private void SwitchRoot()
