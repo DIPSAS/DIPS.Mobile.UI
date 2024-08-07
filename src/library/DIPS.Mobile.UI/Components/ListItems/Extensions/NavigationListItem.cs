@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
+using DIPS.Mobile.UI.Internal;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
@@ -18,6 +19,7 @@ public partial class NavigationListItem : ListItem
         m_contentGrid.Add(
             new Image
             {
+                AutomationId = "ArrowImage".ToDUIAutomationId<NavigationListItem>(),
                 Source = Icons.GetIcon(IconName.arrow_right_s_line),
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.End
