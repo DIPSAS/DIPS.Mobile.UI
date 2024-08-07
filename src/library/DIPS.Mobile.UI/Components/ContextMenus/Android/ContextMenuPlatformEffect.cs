@@ -54,7 +54,6 @@ public partial class ContextMenuPlatformEffect
         {
             m_contextMenu = contextMenu;
             m_control = view;
-            // Platform.CurrentActivity!.RegisterActivityLifecycleCallbacks(this);
         }
         
         public void OpenContextMenu(object? sender, EventArgs e)
