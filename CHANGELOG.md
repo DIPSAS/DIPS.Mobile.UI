@@ -1,3 +1,6 @@
+## [35.0.6]
+- Revert .csproj changes
+
 ## [35.0.5]
 - [MemoryLeak][iOS] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
 
