@@ -131,17 +131,25 @@ namespace DIPS.Mobile.UI.Components.Shell
         
         private static async Task TryResolvePoppedPagesBindingContext(List<WeakReference> pageBindingContexes)
         {
-            foreach (var bindingContext in pageBindingContexes)
+            var currentPageBindingContext = Current.CurrentPage.BindingContext;
+            while (pageBindingContexes.Count > 0)
             {
-                if(bindingContext.Target is null)
+                var bindingContex = pageBindingContexes[0];
+                if (bindingContex.Target is null)
+                {
+                    pageBindingContexes.RemoveAt(0);
                     continue;
+                }
 
-                // Don't try to resolve memory leaks if the page is still in the NavigationStack
-                if (Current.Navigation.NavigationStack.Any(p => p.BindingContext == bindingContext.Target))
-                    continue;
+                if (bindingContex.Target == currentPageBindingContext)
+                {
+                    pageBindingContexes.Clear();
+                    break;
+                }
                 
+                pageBindingContexes.RemoveAt(0);
                 await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
-                    bindingContext.Target.ToCollectionContentTarget());
+                    bindingContex.Target.ToCollectionContentTarget());
             }
         }
     }
