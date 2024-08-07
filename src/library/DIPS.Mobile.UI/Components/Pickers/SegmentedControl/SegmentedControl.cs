@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -24,6 +25,7 @@ public partial class SegmentedControl : ContentView
     {
         m_collectionView = new CollectionView()
         {
+            AutomationId = "CollectionView".ToDUIAutomationId<SegmentedControl>(),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal) {ItemSpacing = 0},

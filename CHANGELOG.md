@@ -1,5 +1,9 @@
-## [35.0.4]
+## [35.0.5]
 - [MemoryLeak][iOS] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
+
+## [35.0.4]
+- [MemoryLeak] Improved the output when pages/binding context is resolved or has leaks.
+- [MemoryLeak] Added observing of a pages BindingContext.
 
 ## [35.0.3]
 - [MemoryLeak] Fixed an error where if you removed a page from the stack while in a modal context, all pages in the navigation stack would try to be resolved for memory leaks.

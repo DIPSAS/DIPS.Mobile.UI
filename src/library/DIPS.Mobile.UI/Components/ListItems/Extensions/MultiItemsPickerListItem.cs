@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Internal;
+
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
 [ContentProperty(nameof(Pickers.MultiItemsPicker.MultiItemsPicker))]
@@ -9,6 +11,7 @@ public partial class MultiItemsPickerListItem : ListItem
     {
         m_inlineContentGrid = new Grid()
         {
+            AutomationId = "InlineContentGrid".ToDUIAutomationId<MultiItemsPickerListItem>(),
             RowDefinitions = new RowDefinitionCollection(new RowDefinition(GridLength.Auto)),
             ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(GridLength.Star),
                 new ColumnDefinition(GridLength.Auto))

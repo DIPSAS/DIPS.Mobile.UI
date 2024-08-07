@@ -6,6 +6,6 @@ public partial class ContextMenuOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
-        ContextMenuEffect.SetMode(listItem.Border, Mode);
+        ContextMenuEffect.SetMode(listItem.OuterBorder, Mode);
     }
 }

@@ -5,6 +5,7 @@ using UIKit;
 
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -26,7 +27,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             Unloaded += OnUnLoaded;
             
             //Searchbar
-            SearchBar = new SearchBar { HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
+            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(), HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
             SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
                 Shell.Shell.ToolbarBackgroundColorName);
             
@@ -61,7 +62,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
 
             //Result listview
-            m_resultCollectionView = new CollectionView();
+            m_resultCollectionView = new CollectionView(){AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>()};
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
             m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty,
                 new Binding() {Path = nameof(ResultItemTemplate), Source = this});
@@ -69,6 +70,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             //The grid to glue it all together
             m_grid = new Grid()
             {
+                AutomationId = "Grid".ToDUIAutomationId<SearchPage>(),
                 RowDefinitions = new RowDefinitionCollection()
                 {
                     new()

@@ -1,4 +1,5 @@
 using System.Timers;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -26,6 +27,7 @@ internal class SystemMessage : ContentView, IDisposable
         
         var label = new Label
         {
+            AutomationId = "Label".ToDUIAutomationId<SystemMessage>(),
             Text = configurator.Text, 
             HorizontalTextAlignment = TextAlignment.Start, 
             VerticalTextAlignment = TextAlignment.Center,
@@ -35,6 +37,7 @@ internal class SystemMessage : ContentView, IDisposable
 
         m_contentGrid = new Grid
         {
+            AutomationId = "ContentGrid".ToDUIAutomationId<SystemMessage>(),
             ColumnSpacing = Sizes.GetSize(SizeName.size_1),
             Padding = Sizes.GetSize(SizeName.size_3),
             HorizontalOptions = LayoutOptions.Center,
@@ -51,6 +54,7 @@ internal class SystemMessage : ContentView, IDisposable
         // correctly when animating its scale
         var border = new Border
         {
+            AutomationId = "FakeBorder".ToDUIAutomationId<SystemMessage>(),
             BackgroundColor = configurator.BackgroundColor,
             Margin = Sizes.GetSize(SizeName.size_3_negative),
             StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.size_3) }
@@ -63,6 +67,7 @@ internal class SystemMessage : ContentView, IDisposable
         {
             m_contentGrid.Add(new Image
             {
+                AutomationId = "IconImage".ToDUIAutomationId<SystemMessage>(),
                 Source = configurator.Icon,
                 VerticalOptions = LayoutOptions.Center,
                 TintColor = configurator.IconColor

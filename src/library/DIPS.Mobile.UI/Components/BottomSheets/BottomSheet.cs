@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DIPS.Mobile.UI.Internal;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
@@ -19,7 +20,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             ToolbarItems = new ObservableCollection<ToolbarItem>();
             BottombarButtons = new ObservableCollection<Button>();
 
-            SearchBar = new SearchBar {HasCancelButton = false, BackgroundColor = Colors.Transparent};
+            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;
         }
 
@@ -83,6 +84,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             var grid = new Grid
             {
+                AutomationId = "BottomBarGrid".ToDUIAutomationId<BottomSheet>(),
                 ColumnSpacing = Sizes.GetSize(SizeName.size_2), 
                 RowDefinitions = [new RowDefinition(GridLength.Star)],
                 Padding = Sizes.GetSize(SizeName.size_3),
@@ -99,8 +101,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
        
             foreach (var button in BottombarButtons)
             {
+                var index = grid.ColumnDefinitions.Count - 1;
                 grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
-                grid.Add(button, grid.ColumnDefinitions.Count - 1);
+                grid.Add(button, index);
+                button.AutomationId = $"BottomBarButton{index}".ToDUIAutomationId<BottomSheet>();
             }
         
             grid.BindingContext = BindingContext;

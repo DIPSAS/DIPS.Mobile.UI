@@ -5,6 +5,7 @@ namespace DIPS.Mobile.UI.Components.Shell
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
         private IReadOnlyCollection<WeakReference>? m_previousNavigationStack;
+        private IReadOnlyCollection<WeakReference>? m_previousNavigationBindingContextStacks;
         private WeakReference? m_currentModalNavigationPage;
 
         public Shell()
@@ -50,14 +51,31 @@ namespace DIPS.Mobile.UI.Components.Shell
                         _ = TryResolvePoppedPages(m_previousNavigationStack.ToList());
                         m_previousNavigationStack = null;
                     }
+
+                    if (m_previousNavigationBindingContextStacks is not null)
+                    {
+                        _ = TryResolvePoppedPagesBindingContext(m_previousNavigationBindingContextStacks.ToList());
+                        m_previousNavigationBindingContextStacks = null;
+                    }
                     
                     break;
             }
 
-            var currentNavigationStack = Current?.Navigation?.NavigationStack?
-                .Select(p => new WeakReference(p))
-                .Reverse()
-                .ToList();
+            var currentNavigationStack = new List<WeakReference>();
+            var currentNavigationBindingContextStack = new List<WeakReference>();
+            var allPagesInNavigationStack = Current?.Navigation?.NavigationStack?.Select(p => p)
+                .Reverse();
+            if(allPagesInNavigationStack == null) return;
+            
+            foreach (var page in allPagesInNavigationStack)
+            {
+                currentNavigationStack.Add(new WeakReference(page));
+                if (page?.BindingContext != null)
+                {
+                    currentNavigationBindingContextStack.Add(new WeakReference(page.BindingContext));    
+                }
+            }
+                
 
             // If we are at the landing page, the navigation stack is 1 and its first item is null, and not the CurrentPage
             // Thus, we add the CurrentPage to our navigation stack so that it can be gc'ed
@@ -66,10 +84,15 @@ namespace DIPS.Mobile.UI.Components.Shell
                 if (CurrentPage is not null)
                 {
                     currentNavigationStack = [new WeakReference(CurrentPage)];
+                    if (CurrentPage.BindingContext != null)
+                    {
+                        currentNavigationBindingContextStack = [new WeakReference(CurrentPage.BindingContext)];
+                    }
                 }
             }
 
             m_previousNavigationStack = currentNavigationStack;
+            m_previousNavigationBindingContextStacks = currentNavigationBindingContextStack;
         }
 
         private static void CurrentModalPage_OnPopped(object? sender, NavigatedFromEventArgs e)
@@ -103,6 +126,22 @@ namespace DIPS.Mobile.UI.Components.Shell
                 
                 await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
                     page.Target.ToCollectionContentTarget());
+            }
+        }
+        
+        private static async Task TryResolvePoppedPagesBindingContext(List<WeakReference> pageBindingContexes)
+        {
+            foreach (var bindingContext in pageBindingContexes)
+            {
+                if(bindingContext.Target is null)
+                    continue;
+
+                // Don't try to resolve memory leaks if the page is still in the NavigationStack
+                if (Current.Navigation.NavigationStack.Any(p => p.BindingContext == bindingContext.Target))
+                    continue;
+                
+                await GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(
+                    bindingContext.Target.ToCollectionContentTarget());
             }
         }
     }

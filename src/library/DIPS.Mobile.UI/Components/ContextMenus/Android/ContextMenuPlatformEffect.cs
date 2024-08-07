@@ -1,10 +1,6 @@
-using Android.App;
-using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
-using DIPS.Mobile.UI.Effects.Touch;
-using Application = Android.App.Application;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
@@ -46,20 +42,18 @@ public partial class ContextMenuPlatformEffect
         }
     }
 
-    public class ContextMenuHandler : Object, PopupMenu.IOnMenuItemClickListener, Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener
+    public class ContextMenuHandler : Object, PopupMenu.IOnMenuItemClickListener
     {
         private readonly ContextMenu m_contextMenu;
         private readonly View m_control;
         
         private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu m_popupMenu;
-        private bool m_isShowing;
 
         public ContextMenuHandler(ContextMenu contextMenu, View view)
         {
             m_contextMenu = contextMenu;
             m_control = view;
-            Platform.CurrentActivity!.RegisterActivityLifecycleCallbacks(this);
         }
         
         public void OpenContextMenu(object? sender, EventArgs e)
@@ -87,12 +81,10 @@ public partial class ContextMenuPlatformEffect
             
             m_popupMenu.Show();
             
-            m_isShowing = true;
         }
 
         private void SetListeners()
         {
-            m_popupMenu.SetOnDismissListener(this);
             m_popupMenu.SetOnMenuItemClickListener(this);
         }
         
@@ -139,43 +131,6 @@ public partial class ContextMenuPlatformEffect
 
             return false;
         }
-
-        public void OnActivityCreated(Activity activity, Bundle? savedInstanceState)
-        {
-        }
-
-        public void OnActivityDestroyed(Activity activity)
-        {
-        }
-
-        public void OnActivityPaused(Activity activity)
-        {
-            if (m_isShowing)
-            {
-                m_popupMenu.Dismiss();    
-            }
-        }
-
-        public void OnActivityResumed(Activity activity)
-        {
-        }
-
-        public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
-        {
-        }
-
-        public void OnActivityStarted(Activity activity)
-        {
-        }
-
-        public void OnActivityStopped(Activity activity)
-        {
-        }
-
-        public void OnDismiss(PopupMenu? menu)
-        {
-            m_isShowing = false;
-        }
     }
 
     protected override partial void OnDetached()
@@ -192,7 +147,5 @@ public partial class ContextMenuPlatformEffect
             if (!Control.HasOnLongClickListeners)
                 Control.Clickable = false;
         }
-        
-        Platform.CurrentActivity!.UnregisterActivityLifecycleCallbacks(m_contextMenuBehaviour);
     }
 }

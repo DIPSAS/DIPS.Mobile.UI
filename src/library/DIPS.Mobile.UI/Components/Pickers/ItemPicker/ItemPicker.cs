@@ -2,6 +2,7 @@ using System.Collections.Specialized;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
@@ -10,7 +11,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     public partial class ItemPicker : ContentView
     {
         private readonly ContextMenu m_contextMenu = new();
-        private readonly Chip m_chip = new();
+        private readonly Chip m_chip = new(){AutomationId = "ItemPickerChip".ToDUIAutomationId<ItemPicker>()};
 
         public ItemPicker()
         {

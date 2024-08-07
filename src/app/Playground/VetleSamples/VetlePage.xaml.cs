@@ -1,11 +1,5 @@
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
-using DIPS.Mobile.UI.Components.Pages;
 using DIPS.Mobile.UI.Resources.Icons;
-using Microsoft.Maui.Controls.Internals;
-using Playground.HåvardSamples;
-using UIKit;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -121,7 +115,7 @@ public partial class VetlePage
 
         if (sender is not Grid grid) return;
             
-        var insets = UIApplication.SharedApplication.KeyWindow!.SafeAreaInsets;
+        var insets = UIKit.UIApplication.SharedApplication.KeyWindow!.SafeAreaInsets;
         grid.Padding = new Thickness(grid.Padding.Left, insets.Top, grid.Padding.Right, grid.Padding.Bottom + insets.Bottom);
 
 #endif

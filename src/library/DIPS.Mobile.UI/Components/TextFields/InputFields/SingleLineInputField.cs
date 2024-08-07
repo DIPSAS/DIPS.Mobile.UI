@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
@@ -32,16 +33,18 @@ public partial class SingleLineInputField : Grid
         AnchorX = 0
     };
 
-    protected Grid ContentBorderGrid { get; } = new();
+    protected Grid ContentBorderGrid { get; } = new(){AutomationId = "ContentBorderGrid".ToDUIAutomationId<SingleLineInputField>()};
     
     protected Grid InnerGrid { get; } = new()
     { 
+        AutomationId = "InnerGrid".ToDUIAutomationId<SingleLineInputField>(),
         Margin = new Thickness(16, 8, 8, 8),
         RowDefinitions = new RowDefinitionCollection { new(GridLength.Star), new(GridLength.Auto), new(GridLength.Auto) }
     };
 
     private readonly Border m_contentBorder = new()
     {
+        AutomationId = "ContentBorder".ToDUIAutomationId<SingleLineInputField>(),
         BackgroundColor = Colors.GetColor(ColorName.color_system_white)
     };
 
@@ -105,6 +108,7 @@ public partial class SingleLineInputField : Grid
     {
         InputView = new Entry.Entry
         {
+            AutomationId = "InputView".ToDUIAutomationId<SingleLineInputField>(),
             IsSpellCheckEnabled = false, 
             HasBorder = false, 
             ShouldUseDefaultPadding = false,
