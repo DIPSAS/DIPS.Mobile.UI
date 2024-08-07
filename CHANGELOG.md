@@ -1,10 +1,6 @@
 ## [35.0.3]
-<<<<<<< HEAD
 - [MemoryLeak] Fixed an error where if you removed a page from the stack while in a modal context, all pages in the navigation stack would try to be resolved for memory leaks.
 - Refactor `TryResolvePoppedPages` function.
-=======
-- Added better logging when a child is bleeding.
->>>>>>> 09915b3a (bumpd)
 
 ## [35.0.2]
 - [Android][Chip] Fixed an issue where checkmark were sometimes not visible or the checkmark icon were tinted as black
