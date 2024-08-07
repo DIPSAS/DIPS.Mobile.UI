@@ -11,7 +11,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI()
+            .UseDIPSUI(options => 
+                options.EnableAutomaticMemoryLeakResolving())
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -21,6 +22,7 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
         DUI.IsDebug = true;
+        DUI.ShouldLogDebug = true;
 #endif
         //Handlers
         builder.ConfigureMauiHandlers(handlers =>

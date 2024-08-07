@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Pickers;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -28,6 +29,7 @@ public partial class SortControl : Grid
         
         m_sortImage = new Image
         {
+            AutomationId = "SortImage".ToDUIAutomationId<SortControl>(),
             TintColor = Colors.GetColor(ColorName.color_primary_90),
             VerticalOptions = LayoutOptions.Center,
             WidthRequest = Sizes.GetSize(SizeName.size_5),
@@ -36,6 +38,7 @@ public partial class SortControl : Grid
         
         m_selectedItemText = new Label
         {
+            AutomationId = "SelectedItemText".ToDUIAutomationId<SortControl>(),
             Style = Styles.GetLabelStyle(LabelStyle.UI200),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             VerticalTextAlignment = TextAlignment.Center,

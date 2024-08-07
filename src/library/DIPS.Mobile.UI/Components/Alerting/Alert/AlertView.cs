@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Buttons;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -22,6 +23,7 @@ public partial class AlertView : Border
         StrokeShape = new RoundRectangle() {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2))};
         Content = grid = new Grid()
         {
+            AutomationId = "AlertGrid".ToDUIAutomationId<AlertView>(),
             ColumnDefinitions =
             [
                 new ColumnDefinition(GridLength.Auto),
@@ -39,6 +41,7 @@ public partial class AlertView : Border
 
         var image = new Image()
         {
+            AutomationId = "Image".ToDUIAutomationId<AlertView>(),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.End
@@ -50,6 +53,7 @@ public partial class AlertView : Border
 
         var titleLabel = new Label()
         {
+            AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.UI200), TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
         titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(Title), source: this));
@@ -58,6 +62,7 @@ public partial class AlertView : Border
 
         var descriptionLabel = new Label()
         {
+            AutomationId = "DescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
             TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
@@ -66,7 +71,7 @@ public partial class AlertView : Border
 
         grid.Add(descriptionLabel, 1, 1);
         
-        m_horizontalStackLayout = new HorizontalStackLayout() {HorizontalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
+        m_horizontalStackLayout = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
         grid.Add(m_horizontalStackLayout,1,2);
     }
 
@@ -86,26 +91,27 @@ public partial class AlertView : Border
                 m_horizontalStackLayout.Clear();
             }
             
-            m_horizontalStackLayout.Add(CreateButton(nameof(LeftButtonText), nameof(LeftButtonCommand),nameof(LeftButtonCommandParameter)));
+            m_horizontalStackLayout.Add(CreateButton(nameof(LeftButtonText), nameof(LeftButtonCommand),nameof(LeftButtonCommandParameter), "LeftButton".ToDUIAutomationId<AlertView>()));
         }
 
         if (RightButtonCommand != null)
         {
-            m_horizontalStackLayout.Add(CreateButton(nameof(RightButtonText), nameof(RightButtonCommand),nameof(RightButtonCommandParameter)));
+            m_horizontalStackLayout.Add(CreateButton(nameof(RightButtonText), nameof(RightButtonCommand),nameof(RightButtonCommandParameter), "RightButton".ToDUIAutomationId<AlertView>()));
         }
     }
 
-    private Button CreateButton(string leftButtonTextName, string leftButtonCommandName, string leftButtonCommandParameterName)
+    private Button CreateButton(string buttonTextName, string buttonCommandName, string buttonCommandParameterName, string automationId)
     {
         var button = new Button
         {
+            AutomationId = automationId,
             HorizontalOptions = LayoutOptions.Start,
             Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
         };
             
-        button.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(path:leftButtonTextName, source:this));
-        button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(path:leftButtonCommandName, source:this));
-        button.SetBinding(Microsoft.Maui.Controls.Button.CommandParameterProperty, new Binding(path:leftButtonCommandParameterName, source:this));
+        button.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(path:buttonTextName, source:this));
+        button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(path:buttonCommandName, source:this));
+        button.SetBinding(Microsoft.Maui.Controls.Button.CommandParameterProperty, new Binding(path:buttonCommandParameterName, source:this));
         return button;
     }
 }

@@ -123,22 +123,30 @@ public class GCCollectionMonitor
         }
         else
         {
-            GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! Let's check if its children are infected 🧟");
-
-            if (!collectionContentTarget.FlatChildrenList.Any(child => child.Target.TryGetTarget(out var target)))
+            if (collectionContentTarget.Content.Target is Page)
             {
-                GarbageCollection.Print($@"🧟 No children are infected! 🧟");
-            }
+                GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! Let's check if its children are infected 🧟");
 
-            foreach (var child in collectionContentTarget.FlatChildrenList)
-            {
-                if (child.Target.TryGetTarget(out var target))
+                if (!collectionContentTarget.FlatVisualChildrenList.Any(child => child.Target.TryGetTarget(out var target)))
                 {
-                    var print = $@"🧟 {child.Name} is a zombie!";
+                    GarbageCollection.Print($@"🧟 No children are infected! 🧟");
+                }
 
-                    GarbageCollection.Print(print);
+                foreach (var child in collectionContentTarget.FlatVisualChildrenList)
+                {
+                    if (child.Target.TryGetTarget(out var target))
+                    {
+                        var print = $@"🧟 {child.Name} is a zombie!";
+
+                        GarbageCollection.Print(print);
+                    }
                 }
             }
+            else
+            {
+                GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! 🧟");
+            }
+            
         }
 
         if (shouldPrintTotalMemory)
@@ -159,10 +167,14 @@ public class GCCollectionMonitor
         if(isRoot)
             GarbageCollection.Print($"🔫 Let's try to shoot the zombies in {content.GetType().Name} 🧟");
 
-        foreach (var child in ((content as IVisualTreeElement)!).GetVisualChildren())
+        if (content is IVisualTreeElement visualTreeElement)
         {
-            TryResolveMemoryLeaksInContent(child, false);
+            foreach (var child in visualTreeElement.GetVisualChildren())
+            {
+                TryResolveMemoryLeaksInContent(child, false);
+            }    
         }
+        
         
         TryResolveMemoryLeak(content);
     }
@@ -188,6 +200,11 @@ public class GCCollectionMonitor
                             case CollectionView collectionView:
                                 collectionView.ItemsSource = null;
                                 collectionView.ItemTemplate = null;
+                                collectionView.FooterTemplate = null;
+                                collectionView.HeaderTemplate = null;
+                                collectionView.Footer = null;
+                                collectionView.Header = null;
+                                collectionView.EmptyView = null;
                                 break;
                             case Border border:
                                 border.Content = null;
@@ -247,9 +264,20 @@ public class GCCollectionMonitor
         public CollectionContentTarget(object content)
         {
             Name = content.GetType().Name;
+            if (content is Element element)
+            {
+                if (!string.IsNullOrEmpty(element.AutomationId))
+                {
+                    Name += $" (automationId: {element.AutomationId})";    
+                }
+                
+                if (content is IVisualTreeElement treeElement)
+                {
+                    AddChildrenReferences(treeElement);    
+                }
+            }
+            
             Content = new WeakReference(content);
-
-            AddChildrenReferences((content as IVisualTreeElement)!);
         }
 
         private void AddChildrenReferences(IVisualTreeElement visualTreeElement)
@@ -262,44 +290,54 @@ public class GCCollectionMonitor
             AddToFlatList(visualTreeElement);
         }
 
-        private void AddToFlatList(object monitorTarget)
+        private void AddToFlatList(IVisualTreeElement visualTreeElement)
         {
-            switch (monitorTarget)
-            {
-                case VisualElement { Handler: not null } visualElement:
-                    // TODO: Add behaviours also? 
+            string? name;
 
-                    FlatChildrenList.Add(new CollectionTarget(visualElement.Handler.GetType().Name, visualElement.Handler));
-                    AddEffectsToFlatList(visualElement.Effects);
-                    break;
-                case Element { Handler: not null } element:
-                    // TODO: Add behaviours also?
-                    
-                    FlatChildrenList.Add(new CollectionTarget(element.Handler.GetType().Name, element.Handler));
-                    AddEffectsToFlatList(element.Effects);
-                    break;
-            }
-
-            try
+            if (visualTreeElement is Element element)
             {
-                FlatChildrenList.Add(new CollectionTarget(monitorTarget.GetType().Name, new WeakReference(monitorTarget)));
+                name = element.ToString();
+                if (!string.IsNullOrEmpty(element.AutomationId))
+                {
+                    name += $" (automationId: {element.AutomationId})";
+                }
+                FlatVisualChildrenList.Add(new CollectionTarget(name,
+                    new WeakReference(visualTreeElement)));
+                if (element.Handler != null)
+                {
+                    FlatVisualChildrenList.Add(new CollectionTarget(name+ "(handler)", element.Handler));    
+                }
+                AddEffectsToFlatList(name, element.Effects);
+                
+                if (element.BindingContext != null)
+                {
+                    FlatVisualChildrenList.Add(new CollectionTarget($"{element.BindingContext.GetType().Name} (BindingContext of : {name})",element.BindingContext));    
+                }
             }
-            catch
+            else
             {
-                // We dont give a fak
+                try
+                {
+                    FlatVisualChildrenList.Add(new CollectionTarget(visualTreeElement.GetType().Name,
+                        new WeakReference(visualTreeElement)));
+                }
+                catch
+                {
+                    // We dont give a fak
+                }
             }
         }
 
-        private void AddEffectsToFlatList(IList<Effect> effects)
+        private void AddEffectsToFlatList(string name, IList<Effect> effects)
         {
             foreach (var effect in effects)
             {
-                FlatChildrenList.Add(new CollectionTarget(effect.GetType().Name, effect));
+                FlatVisualChildrenList.Add(new CollectionTarget($"{effect.GetType().Name} ({name})", effect));
             }
         }
 
         public string Name { get; }
-        public List<CollectionTarget> FlatChildrenList { get; } = [];
+        public List<CollectionTarget> FlatVisualChildrenList { get; } = [];
         public WeakReference Content { get; }
     }
 
@@ -333,7 +371,7 @@ public class GCCollectionMonitor
 
             if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
             {
-                GarbageCollection.Print("❌ The automatic resolving of memory leaks failed to resolve all memory leaks! If it says that there are no children affected, you must look into the content's handler (DisconnectHandler) or native views (Their dispose methods). It could also be an issue with Shell itself. ❌");
+                GarbageCollection.Print("❌ The automatic resolving of memory leaks failed to resolve memory leaks for the object. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving leaks. ");
             }
             else
             {

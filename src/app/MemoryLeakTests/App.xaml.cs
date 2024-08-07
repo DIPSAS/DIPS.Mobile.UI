@@ -1,42 +1,36 @@
 ﻿using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
+using LightInject;
+using MemoryLeakTests.Tests;
 
 namespace MemoryLeakTests;
 
 public partial class App
 {
-    private Page? m_currentPage;
-    private readonly GCCollectionMonitor m_monitor;
-
     public App()
     {
-        m_monitor = new GCCollectionMonitor();
-
         InitializeComponent();
-        PropertyChanged += HandleMainPageChanged;
 
-        MainPage = new NavigationPage(new MainPage());
-    }
-
-    private void HandleMainPageChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName != nameof(MainPage))
-            return;
-
-        Page? lastPage = m_currentPage;
-        if (lastPage is NavigationPage lastNavPage)
-            lastNavPage.Popped -= NavPageOnPopped;
+        var container = new ServiceContainer(options => options.EnablePropertyInjection = false);
+        container.Register<MainPage>();
+        TestRegistrator.Register(container);
         
-        m_currentPage = MainPage;
-        if(m_currentPage is NavigationPage currentNavPage)
-            currentNavPage.Popped += NavPageOnPopped;
-
+        var shell = new DIPS.Mobile.UI.Components.Shell.Shell()
+        {
+            ShouldGarbageCollectPreviousPage = true
+        };
+        var tabBar = new TabBar();
+        var tab = new Tab();
         
-    }
+        tab.Items.Add(new ShellContent()
+        {
+            ContentTemplate =
+                new DataTemplate(() => container.GetInstance<MainPage>())
 
-    private void NavPageOnPopped(object? sender, NavigationEventArgs e)
-    {
-        /*m_monitor.CheckAliveness();*/
+        });
+        tabBar.Items.Add(tab);
+        shell.Items.Add(tabBar);
+        MainPage = shell;
     }
 }
