@@ -6,31 +6,5 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.HåvardSamples.HåvardPage3">
-    <Grid>
-        <Grid RowDefinitions="*">
-            <RefreshView>
-                <ScrollView>
-                    <VerticalStackLayout>
-                        <dui:ListItem Title="Dette er et langt navn jeg ikke har peiling på">
-                            <dui:ListItem.TitleOptions>
-                                <dui:TitleOptions Width="Auto"
-                                                  MaxWidth="300" />
-                            </dui:ListItem.TitleOptions>
-                            <dui:ListItem.InLineContentOptions>
-                                <dui:InLineContentOptions Width="*"
-                                                          VerticalOptions="Start"
-                                                          HorizontalOptions="Fill"
-                                                          SpanOverUnderlyingContent="True" />
-                            </dui:ListItem.InLineContentOptions>
-                            <Grid HorizontalOptions="Start">
-                                <dui:Label Text="Jeg tester på denne siden"
-                                           HorizontalOptions="End"
-                                           BackgroundColor="Red" />
-                            </Grid>
-                        </dui:ListItem>
-                    </VerticalStackLayout>
-                </ScrollView>
-            </RefreshView>
-        </Grid>
-    </Grid>
+   <dui:Button Text="Test" Clicked="Button_OnClicked"/>
 </dui:ContentPage>

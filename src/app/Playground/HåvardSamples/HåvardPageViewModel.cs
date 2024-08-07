@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.MemoryManagement;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Playground.HåvardSamples;
@@ -11,6 +12,8 @@ public class HåvardPageViewModel : ViewModel
     private object m_selectedItem2;
     private List<Something> m_items;
     private List<Something> m_items2;
+    private HåvardPage3ViewModel m_listener;
+    private HåvardPage3ViewModel m_target;
 
     public ICommand Command { get; }
 
@@ -94,6 +97,21 @@ public class HåvardPageViewModel : ViewModel
     {
         get => m_items2;
         set => RaiseWhenSet(ref m_items2, value);
+    }
+
+    public void SetListener(HåvardPage3ViewModel håvardPage3ViewModel)
+    {
+        m_listener = håvardPage3ViewModel;
+    }
+
+    public void DoSomething()
+    {
+        m_listener?.DoSomethingBack();
+    }
+    
+    public void RemoveListener()
+    {
+        m_listener = null;
     }
 }
 
