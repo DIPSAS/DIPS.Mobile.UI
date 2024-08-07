@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Animations;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
@@ -19,6 +20,7 @@ internal partial class NavigationMenuButton : Grid
         
         Button = new Button()
         {
+            AutomationId = "Button".ToDUIAutomationId<NavigationMenuButton>(),
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
             WidthRequest = Sizes.GetSize(SizeName.size_15),
@@ -39,6 +41,7 @@ internal partial class NavigationMenuButton : Grid
 
         BadgeLabel = new Label
         {
+            AutomationId = "BadgeLabel".ToDUIAutomationId<NavigationMenuButton>(),
             TextColor = Colors.GetColor(ColorName.color_system_white),
             LineBreakMode = LineBreakMode.NoWrap,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
@@ -50,6 +53,7 @@ internal partial class NavigationMenuButton : Grid
 
         Badge = new Border
         {
+            AutomationId = "Badge".ToDUIAutomationId<NavigationMenuButton>(),
             Content = BadgeLabel,
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Start,

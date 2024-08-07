@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.API.Animations;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.CheckBoxes;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Animations;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
@@ -19,7 +20,7 @@ internal class FloatingNavigationButton : Grid
     private ImageSource OpenedIcon = Icons.GetIcon(IconName.close_line);
     private ImageSource ClosedIcon = Icons.GetIcon(IconName.menu_line);
     private readonly FloatingNavigationButtonConfigurator m_floatingNavigationButtonConfigurator;
-    private readonly Grid m_contentGrid = new();
+    private readonly Grid m_contentGrid = new(){AutomationId = "ContentGrid".ToDUIAutomationId<FloatingNavigationButton>()};
 
     private const int MenuButtonsSpacing = 75;
 
@@ -103,6 +104,7 @@ internal class FloatingNavigationButton : Grid
     {
         m_mainButton = new NavigationMenuButton.NavigationMenuButton
         {
+            AutomationId = "MainButton".ToDUIAutomationId<FloatingNavigationButton>(),
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.End,
             Icon = ClosedIcon,
