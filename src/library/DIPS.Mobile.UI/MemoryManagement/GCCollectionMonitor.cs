@@ -347,13 +347,12 @@ public class GCCollectionMonitor
         public WeakReference<object> Target { get; } = new(target);
     }
 
-    public async Task CheckIfContentAliveOrAndTryResolveLeaks(CollectionContentTarget? target)
+    public async Task CheckIfObjectIsAliveAndTryResolveLeaks(CollectionContentTarget? target)
     {
         if (DUI.IsDebug)
         {
             if (target is null)
             {
-                GarbageCollection.Print("Target is null, cannot check if the target is alive, aborting...");
                 return;
             }
             
@@ -367,7 +366,7 @@ public class GCCollectionMonitor
             
             TryResolveMemoryLeaksInContent(target.Content.Target!);
             
-            GarbageCollection.Print("🙏 Let's check if the content is garbage collected after trying to shoot all zombies 🙏");
+            GarbageCollection.Print("🙏 Let's check if the object is garbage collected 🙏");
 
             if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
             {

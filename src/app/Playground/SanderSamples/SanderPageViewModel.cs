@@ -5,32 +5,38 @@ using Playground.HåvardSamples;
 
 namespace Playground.SanderSamples;
 
-public class SanderPageViewModel : ViewModel
+public class SanderPageViewModel
 {
-    private bool m_isToggled = true;
-    private string m_testText;
-    private SanderViewModel m_viewModel;
+    // private bool m_isToggled = true;
+    // private string m_testText;
+    // private SanderViewModel m_viewModel;
 
     public SanderPageViewModel()
     {
-        Initialize();
-        TestCommand = new Command(() =>
-        {
-            ViewModel = new ();
-        });
+         // DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
+        // Initialize();
+        // TestCommand = new Command(() =>
+        // {
+        //     ViewModel = new ();
+        // });
+    }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        
     }
 
     private void Initialize()
     {
-        ViewModel = new();
+        // ViewModel = new();
     }
 
-    public ICommand TestCommand { get; }
-    public SanderViewModel ViewModel
-    {
-        get => m_viewModel;
-        set => RaiseWhenSet(ref m_viewModel, value);
-    }
+    // public ICommand TestCommand { get; }
+    // public SanderViewModel ViewModel
+    // {
+    //     get => m_viewModel;
+    //     set => RaiseWhenSet(ref m_viewModel, value);
+    // }
 }
 
 public class SanderViewModel : ViewModel

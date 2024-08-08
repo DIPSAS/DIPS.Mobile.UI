@@ -9,10 +9,20 @@
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  ShouldHideFloatingNavigationMenuButton="True"
-                 Padding="0">    
+                 Padding="0">
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    
-   <dui:NavigationListItem BackgroundColor="Red" Title="Do navigate" Tapped="ListItem_OnTapped"/>
+
+    <VerticalStackLayout>
+        <dui:NavigationListItem BackgroundColor="Red"
+                                Title="Modal Navigation"
+                                Tapped="ModalNavigation" />
+        <dui:NavigationListItem BackgroundColor="Blue"
+                                Title="Modal"
+                                Tapped="Modal" />
+        <dui:NavigationListItem BackgroundColor="Blue"
+                                Title="SwapRoot"
+                                Tapped="SwapRoot" />
+    </VerticalStackLayout>
 </dui:ContentPage>

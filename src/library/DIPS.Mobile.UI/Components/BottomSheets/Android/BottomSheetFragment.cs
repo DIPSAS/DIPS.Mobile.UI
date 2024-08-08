@@ -123,7 +123,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         {
             base.OnDestroy();
             
-            _ = GCCollectionMonitor.Instance.CheckIfContentAliveOrAndTryResolveLeaks(m_bottomSheet.ToCollectionContentTarget());
+            TryMemoryCleanUp();            
             
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
@@ -136,6 +136,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
 
             m_dismissTaskCompletionSource.SetResult(true);
             m_bottomSheet.OnPositioningChanged -= OnBottomSheetPositioningChanged;
+        }
+        
+        private async void TryMemoryCleanUp()
+        {
+            await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(m_bottomSheet.BindingContext?.ToCollectionContentTarget());
+            await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(m_bottomSheet.ToCollectionContentTarget());
         }
 
         public Task Close(bool animated)
