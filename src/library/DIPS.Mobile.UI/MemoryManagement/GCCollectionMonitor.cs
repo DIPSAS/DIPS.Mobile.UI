@@ -1,5 +1,6 @@
 ﻿using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using Microsoft.Maui.Platform;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.MemoryManagement;
@@ -12,28 +13,25 @@ namespace DIPS.Mobile.UI.MemoryManagement;
 public class GCCollectionMonitor
 {
     private readonly List<CollectionContentTarget> m_references = [];
-
+    private readonly VisualTreeMemoryResolver m_visualTreeMemoryResolver = new();
     private const int MsBetweenCollections = 200;
     private const int MaxCollections = 10;
-
-    private Action<object>? m_additionalResolver;
-    
     public static GCCollectionMonitor Instance { get; } = new();
     public bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
 
     public void SetAdditionalResolver(Action<object> additionalResolver)
     {
-        m_additionalResolver = additionalResolver;
+        m_visualTreeMemoryResolver.SetAdditionalResolver(additionalResolver);
     }
 
     public CollectionContentTarget? ObserveContent(object content)
     {
-        if(!DUI.IsDebug) 
+        if (!DUI.IsDebug)
             return null;
-        
+
         var collectionPageTarget = content.ToCollectionContentTarget();
         m_references.Add(collectionPageTarget);
-        
+
         GarbageCollection.Print($@"Observing: {content.GetType().Name}");
 
         return collectionPageTarget;
@@ -51,27 +49,28 @@ public class GCCollectionMonitor
     /// <returns>true if at least one monitored object are still alive</returns>
     public async Task<bool> CheckIfMonitoredObjectsAreStillAlive(bool shouldPrintTotalMemory = true)
     {
-        if (!DUI.IsDebug) 
+        if (!DUI.IsDebug)
             return false;
 
         var shouldLookForAliveness = m_references.Count != 0;
-        
+
         var anyAlive = false;
-        
+
         var totalMemoryBefore = GC.GetTotalMemory(false);
         if (shouldPrintTotalMemory && shouldLookForAliveness)
         {
-            GarbageCollection.Print($"📈 Collections total memory before: {totalMemoryBefore} byte ({(totalMemoryBefore / (float)1024 / 1024):F2} mb)");
+            GarbageCollection.Print(
+                $"📈 Collections total memory before: {totalMemoryBefore} byte ({(totalMemoryBefore / (float)1024 / 1024):F2} mb)");
         }
 
         if (shouldLookForAliveness)
         {
             GarbageCollection.Print("Forcing garbage collection to look if monitored objects are still alive");
         }
-        
+
         foreach (var collectionPageTarget in m_references.ToArray())
         {
-            if(await CheckIfCollectionTargetIsAlive(collectionPageTarget, m_references))
+            if (await CheckIfCollectionTargetIsAlive(collectionPageTarget, m_references))
             {
                 anyAlive = true;
             }
@@ -79,11 +78,12 @@ public class GCCollectionMonitor
 
         if (!shouldPrintTotalMemory)
             return anyAlive;
-        
+
         await Task.Delay(500);
 
         var totalMemory = GC.GetTotalMemory(true);
-        GarbageCollection.Print($"📈 Collections total memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
+        GarbageCollection.Print(
+            $"📈 Collections total memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
 
         return anyAlive;
     }
@@ -91,21 +91,20 @@ public class GCCollectionMonitor
     public async Task<bool> CheckIfCollectionTargetIsAlive(CollectionContentTarget collectionContentTarget,
         List<CollectionContentTarget>? references = null, bool shouldPrintTotalMemory = false)
     {
+        GarbageCollection.Print($"Checking if {collectionContentTarget.Name} has memory leaks.");
         var totalMemoryBefore = 0L;
         if (shouldPrintTotalMemory)
         {
             totalMemoryBefore = GC.GetTotalMemory(false);
-            GarbageCollection.Print($"📈 Collections total memory before: {totalMemoryBefore} byte ({(totalMemoryBefore / (float)1024 / 1024):F2} mb)");
+            GarbageCollection.Print(
+                $"📈 GC Memory before: {totalMemoryBefore} byte ({(totalMemoryBefore / (float)1024 / 1024):F2} mb)");
         }
 
         var currentCollection = 0;
+        GarbageCollection.Print($"Checking {MaxCollections - 1} GC collections.");
         for (; currentCollection < MaxCollections; currentCollection++)
         {
             GarbageCollection.CollectAndWaitForPendingFinalizers();
-            
-            GarbageCollection.Print(
-                $"{nameof(GCCollectionMonitor)}: Checking collection #{currentCollection} for {collectionContentTarget.Name}");
-
             if (collectionContentTarget.Content.IsAlive)
             {
                 await Task.Delay(MsBetweenCollections);
@@ -115,236 +114,56 @@ public class GCCollectionMonitor
             break;
         }
 
-        if (!collectionContentTarget.Content.IsAlive)
+        var allVisualChildrenThatLives =
+            collectionContentTarget.FlatVisualChildrenList.FindAll(c => c.Target.TryGetTarget(out var target));
+        var allBindingContextsThatLives =
+            collectionContentTarget.FlatBindingContextList.FindAll(c => c.Target.TryGetTarget(out var target));
+        var totalNumberOfLeaks = allVisualChildrenThatLives.Count + allBindingContextsThatLives.Count;
+
+        if (totalNumberOfLeaks > 0)
         {
-            GarbageCollection.Print(
-                $@"✅{collectionContentTarget.Name} garbage collected after {currentCollection} collections");
-            references?.Remove(collectionContentTarget);
+            GarbageCollection.Print($"Number of leaks: {totalNumberOfLeaks}");
         }
-        else
+
+
+        if (allVisualChildrenThatLives.Count > 0)
         {
-            if (collectionContentTarget.Content.Target is Page)
-            {
-                GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! Let's check if its children are infected 🧟");
-
-                if (!collectionContentTarget.FlatVisualChildrenList.Any(child => child.Target.TryGetTarget(out var target)))
-                {
-                    GarbageCollection.Print($@"🧟 No children are infected! 🧟");
-                }
-
-                foreach (var child in collectionContentTarget.FlatVisualChildrenList)
-                {
-                    if (child.Target.TryGetTarget(out var target))
-                    {
-                        var print = $@"🧟 {child.Name} is a zombie!";
-
-                        GarbageCollection.Print(print);
-                    }
-                }
-            }
-            else
-            {
-                GarbageCollection.Print($@"🧟 {collectionContentTarget.Name} is a zombie! 🧟");
-            }
-            
+            GarbageCollection.Print($"---- Visual children zombies of {collectionContentTarget.Name}: ----");
         }
+
+        foreach (var child in allVisualChildrenThatLives)
+        {
+            if (child.Target.TryGetTarget(out var target))
+            {
+                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+            }
+        }
+
+        if (allBindingContextsThatLives.Count > 0)
+        {
+            GarbageCollection.Print($"---- Binding Context zombies of {collectionContentTarget.Name}: ----");
+        }
+
+        foreach (var child in allBindingContextsThatLives)
+        {
+            if (child.Target.TryGetTarget(out var target))
+            {
+                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+            }
+        }
+
 
         if (shouldPrintTotalMemory)
         {
             var totalMemory = GC.GetTotalMemory(false);
-            GarbageCollection.Print($"📈 Collections total memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
+            GarbageCollection.Print(
+                $"📈 GC Memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
         }
 
-        return collectionContentTarget.Content.IsAlive;
-    }
-
-    /// <summary>
-    ///     Attempts to resolve any potential memory leaks in the provided <see cref="object"/>. You should only call this
-    ///     method when the provided content is not meant to be used further.
-    /// </summary>
-    public void TryResolveMemoryLeaksInContent(object content, bool isRoot = true)
-    {
-        if(isRoot)
-            GarbageCollection.Print($"🔫 Let's try to shoot the zombies in {content.GetType().Name} 🧟");
-
-        if (content is IVisualTreeElement visualTreeElement)
-        {
-            foreach (var child in visualTreeElement.GetVisualChildren())
-            {
-                TryResolveMemoryLeaksInContent(child, false);
-            }    
-        }
+        var hasMemoryLeaks = collectionContentTarget.Content.IsAlive || allBindingContextsThatLives.Count > 0 ||
+                             allVisualChildrenThatLives.Count > 0;
         
-        
-        TryResolveMemoryLeak(content);
-    }
-
-    private void TryResolveMemoryLeak(object target)
-    {
-        try
-        {
-            switch (target)
-            {
-                case VisualElement visualElement:
-                    {
-                        visualElement.Effects.Clear();
-
-                        visualElement.BindingContext = null;
-                        visualElement.Parent = null;
-
-                        switch (visualElement)
-                        {
-                            case ContentView contentView:
-                                contentView.Content = null;
-                                break;
-                            case CollectionView collectionView:
-                                collectionView.ItemsSource = null;
-                                collectionView.ItemTemplate = null;
-                                collectionView.FooterTemplate = null;
-                                collectionView.HeaderTemplate = null;
-                                collectionView.Footer = null;
-                                collectionView.Header = null;
-                                collectionView.EmptyView = null;
-                                break;
-                            case Border border:
-                                border.Content = null;
-                                break;
-                            case ContentPage contentPage:
-                                contentPage.Content = null;
-                                break;
-                            case ScrollView scrollView:
-                                scrollView.Content = null;
-                                break;
-                        }
-                        
-                        visualElement.ClearLogicalChildren();
-
-                        if (visualElement.Handler is not null)
-                        {
-                            if (visualElement.Handler is IDisposable disposableHandler)
-                                disposableHandler.Dispose();
-                            visualElement.Handler?.DisconnectHandler();
-                            visualElement.Handler = null;
-                        }
-
-                        visualElement.Resources = null;
-                        break;
-                    }
-                case Element element:
-                    {
-                        element.Effects.Clear();
-
-                        element.BindingContext = null;
-                        element.Parent = null;
-
-                        element.ClearLogicalChildren();
-
-                        if (element.Handler is not null)
-                        {
-                            if (element.Handler is IDisposable disposableElementHandler)
-                                disposableElementHandler.Dispose();
-                            element.Handler?.DisconnectHandler();
-                        }
-
-                        break;
-                    }
-            }
-            
-            // Try run user-defined resolver method
-            m_additionalResolver?.Invoke(target);
-        }
-        catch
-        {
-            // Should never crash the app
-        }
-    }
-
-    public class CollectionContentTarget
-    {
-        public CollectionContentTarget(object content)
-        {
-            Name = content.GetType().Name;
-            if (content is Element element)
-            {
-                if (!string.IsNullOrEmpty(element.AutomationId))
-                {
-                    Name += $" (automationId: {element.AutomationId})";    
-                }
-                
-                if (content is IVisualTreeElement treeElement)
-                {
-                    AddChildrenReferences(treeElement);    
-                }
-            }
-            
-            Content = new WeakReference(content);
-        }
-
-        private void AddChildrenReferences(IVisualTreeElement visualTreeElement)
-        {
-            foreach (var vte in visualTreeElement.GetVisualChildren())
-            {
-                AddChildrenReferences(vte);
-            }
-            
-            AddToFlatList(visualTreeElement);
-        }
-
-        private void AddToFlatList(IVisualTreeElement visualTreeElement)
-        {
-            string? name;
-
-            if (visualTreeElement is Element element)
-            {
-                name = element.ToString();
-                if (!string.IsNullOrEmpty(element.AutomationId))
-                {
-                    name += $" (automationId: {element.AutomationId})";
-                }
-                FlatVisualChildrenList.Add(new CollectionTarget(name,
-                    new WeakReference(visualTreeElement)));
-                if (element.Handler != null)
-                {
-                    FlatVisualChildrenList.Add(new CollectionTarget(name+ "(handler)", element.Handler));    
-                }
-                AddEffectsToFlatList(name, element.Effects);
-                
-                if (element.BindingContext != null)
-                {
-                    FlatVisualChildrenList.Add(new CollectionTarget($"{element.BindingContext.GetType().Name} (BindingContext of : {name})",element.BindingContext));    
-                }
-            }
-            else
-            {
-                try
-                {
-                    FlatVisualChildrenList.Add(new CollectionTarget(visualTreeElement.GetType().Name,
-                        new WeakReference(visualTreeElement)));
-                }
-                catch
-                {
-                    // We dont give a fak
-                }
-            }
-        }
-
-        private void AddEffectsToFlatList(string name, IList<Effect> effects)
-        {
-            foreach (var effect in effects)
-            {
-                FlatVisualChildrenList.Add(new CollectionTarget($"{effect.GetType().Name} ({name})", effect));
-            }
-        }
-
-        public string Name { get; }
-        public List<CollectionTarget> FlatVisualChildrenList { get; } = [];
-        public WeakReference Content { get; }
-    }
-
-    public class CollectionTarget(string name, object target)
-    {
-        public string Name { get; } = name;
-        public WeakReference<object> Target { get; } = new(target);
+        return hasMemoryLeaks;
     }
 
     public async Task CheckIfObjectIsAliveAndTryResolveLeaks(CollectionContentTarget? target)
@@ -355,33 +174,59 @@ public class GCCollectionMonitor
             {
                 return;
             }
-            
+
             if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true)))
             {
+                GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
                 return;
             }
-            
-            if(!TryAutoResolveMemoryLeaksEnabled)
+
+            if (!TryAutoResolveMemoryLeaksEnabled)
                 return;
-            
-            TryResolveMemoryLeaksInContent(target.Content.Target!);
-            
-            GarbageCollection.Print("🙏 Let's check if the object is garbage collected 🙏");
+
+            if (target.Content.Target != null)
+            {
+                TryResolveMemoryLeaksInContent(target.Content.Target);
+            }
+
+            GarbageCollection.Print(
+                "🙏 Finished trying to auto resolve memory leaks, let's check for memory leaks again. 🙏");
 
             if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
             {
-                GarbageCollection.Print("❌ The automatic resolving of memory leaks failed to resolve memory leaks for the object. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving leaks. ");
+                GarbageCollection.Print(
+                    $"❌ There is memory leaks after checking {target?.Name}. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving the leaks. ");
             }
             else
             {
-                GarbageCollection.Print("✅ Looks like the automatic resolving of memory leak succeeded! 🎉🎉🎉");
+                GarbageCollection.Print($"✅ No more memory leaks! 🎉🎉🎉");
             }
         }
-        else if(TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
+        else if (TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
             // A small delay to let MAUI finish their own disposing before we try and resolve
             await Task.Delay(MsBetweenCollections);
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }
+    }
+
+    /// <summary>
+    ///     Attempts to resolve any potential memory leaks in the provided <see cref="object"/>. You should only call this
+    ///     method when the provided content is not meant to be used further.
+    /// </summary>
+    public void TryResolveMemoryLeaksInContent(object content, bool isRoot = true)
+    {
+        if (isRoot)
+            GarbageCollection.Print($"Trying to auto resolve memory leaks 🧟");
+
+        if (content is IVisualTreeElement visualTreeElement)
+        {
+            foreach (var child in visualTreeElement.GetVisualChildren())
+            {
+                TryResolveMemoryLeaksInContent(child, false);
+            }
+        }
+
+        m_visualTreeMemoryResolver.TryResolveMemoryLeak(content);
     }
 }
