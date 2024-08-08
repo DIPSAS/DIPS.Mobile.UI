@@ -2,8 +2,6 @@ using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Controls.Platform;
 
 namespace DIPS.Mobile.UI.MemoryManagement;
-
-
 /// <summary>
 /// An effect that will cause a view to have memory leaks. 
 /// </summary>

@@ -160,8 +160,10 @@ public class GCCollectionMonitor
                 $"📈 GC Memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
         }
 
-        return collectionContentTarget.Content.IsAlive || allBindingContextsThatLives.Count > 0 ||
-               allVisualChildrenThatLives.Count > 0;
+        var hasMemoryLeaks = collectionContentTarget.Content.IsAlive || allBindingContextsThatLives.Count > 0 ||
+                             allVisualChildrenThatLives.Count > 0;
+        
+        return hasMemoryLeaks;
     }
 
     public async Task CheckIfObjectIsAliveAndTryResolveLeaks(CollectionContentTarget? target)
@@ -175,6 +177,7 @@ public class GCCollectionMonitor
 
             if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true)))
             {
+                GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
                 return;
             }
 
