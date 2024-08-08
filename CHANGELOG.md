@@ -1,3 +1,7 @@
+## [35.0.6]
+- [MemoryLeak] Improved GC helping when changing root and when modals are present, both modals with navigation and not.
+- [MemoryLeak] Made sure BottomSheet binding context will try to GC in debug.
+
 ## [35.0.5]
 - [MemoryLeak][iOS] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
 
