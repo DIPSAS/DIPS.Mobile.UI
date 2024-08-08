@@ -21,7 +21,7 @@ public class HåvardPageViewModel : ViewModel
     
     public HåvardPageViewModel()
     {
-        DeviceDisplay.MainDisplayInfoChanged += (_, _) => {};
+        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
         Items = new List<Something>()
         {
             new("Based on your input, get a random alpha numeric string. The random string generator creates a series of numbers and letters that have no pattern. These can be helpful for creating security codes.", new SomeOtherThing(true)),
@@ -58,6 +58,11 @@ public class HåvardPageViewModel : ViewModel
             var oldItems = Items.Take(new Range(0,1));
             Items = oldItems.ToList();
         });
+    }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        
     }
 
 

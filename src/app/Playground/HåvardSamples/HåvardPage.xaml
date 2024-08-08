@@ -17,10 +17,18 @@
     <VerticalStackLayout>
         <dui:NavigationListItem BackgroundColor="Red"
                                 Title="Modal Navigation"
-                                Tapped="ModalNavigation" />
+                                Tapped="ModalNavigation">
+            <dui:NavigationListItem.Effects>
+                <dui:MemoryLeakEffect />
+            </dui:NavigationListItem.Effects>
+        </dui:NavigationListItem>
         <dui:NavigationListItem BackgroundColor="Blue"
                                 Title="Modal"
-                                Tapped="Modal" />
+                                Tapped="Modal">
+            <dui:NavigationListItem.Effects>
+                <dui:MemoryLeakEffect />
+            </dui:NavigationListItem.Effects>
+        </dui:NavigationListItem>
         <dui:NavigationListItem BackgroundColor="Blue"
                                 Title="SwapRoot"
                                 Tapped="SwapRoot" />
