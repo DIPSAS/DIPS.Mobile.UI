@@ -8,7 +8,15 @@ namespace DIPS.Mobile.UI.Components.Shell
     {
         private IReadOnlyCollection<WeakReference>? m_previousNavigationStack;
         private IReadOnlyCollection<WeakReference>? m_previousNavigationBindingContextStacks;
+        
+        /// <summary>
+        /// The root page of the application.
+        /// </summary>
+        public static WeakReference? RootPage { get; set; }
 
+        public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
+        public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
+        
         public Shell()
         {
             Navigated += OnNavigated;
@@ -35,13 +43,24 @@ namespace DIPS.Mobile.UI.Components.Shell
                     }
                     
                     break;
+                case ShellNavigationSource.Unknown:
+                    break;
+                case ShellNavigationSource.Push:
+                    break;
+                case ShellNavigationSource.Insert:
+                    break;
+                case ShellNavigationSource.ShellSectionChanged:
+                    break;
+                case ShellNavigationSource.ShellContentChanged:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             var currentNavigationStack = new List<WeakReference>();
             var currentNavigationBindingContextStack = new List<WeakReference>();
-            var allPagesInNavigationStack = Current?.Navigation?.NavigationStack?.Select(p => p)
-                .Reverse();
-            var allModalPagesInNavigationStack = Current?.Navigation?.ModalStack.Select(p => p).Reverse();
+            var allPagesInNavigationStack = Current?.Navigation?.NavigationStack?.Select(p => p);
+            var allModalPagesInNavigationStack = Current?.Navigation?.ModalStack.Select(p => p);
             
             var allPagesAcrossStacks = new List<Page>();
 
@@ -94,7 +113,10 @@ namespace DIPS.Mobile.UI.Components.Shell
                 }
             }
 
-            if (currentNavigationStack[^1].Target == null)
+            currentNavigationStack.Reverse(); //To get the latest first
+            currentNavigationBindingContextStack.Reverse(); //To get the latest first
+            
+            if (currentNavigationStack[^1].Target == null) //Update the root page as it gets nullified by MAUI using Shell for each navigation...
             {
                 if (RootPage != null)
                 {
@@ -106,15 +128,10 @@ namespace DIPS.Mobile.UI.Components.Shell
                     }    
                 }
             }
-                
+            
             m_previousNavigationStack = currentNavigationStack;
             m_previousNavigationBindingContextStacks = currentNavigationBindingContextStack;
         }
-
-        public WeakReference? RootPage { get; set; }
-
-        public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
-        public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
 
         private async Task TryResolvePoppedPages(List<WeakReference> pages,
             ShellNavigationSource shellNavigatedEventArgs)
@@ -135,13 +152,27 @@ namespace DIPS.Mobile.UI.Components.Shell
                 DUILogService.LogDebug<Shell>(e.ToString());
             }
         }
-
-        private bool ShouldAutoResolve(object? theObject, ShellNavigationSource shellNavigatedEventArgs, Func<Page, bool> predicate)
+        
+        
+        private async Task TryResolvePoppedPagesBindingContext(List<WeakReference> pagesBindingContext,
+            ShellNavigationSource shellNavigatedEventArgs)
         {
-            if (theObject is null)
+            foreach (var page in pagesBindingContext)
+            {
+                if (ShouldAutoResolve(page.Target, shellNavigatedEventArgs, p => p?.BindingContext == page.Target))
+                {
+                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
+                        page.Target?.ToCollectionContentTarget());    
+                }
+            }
+        }
+
+        private bool ShouldAutoResolve(object? theObject, ShellNavigationSource shellNavigatedEventArgs, Func<Page?, bool> predicate)
+        {
+            if (theObject is null) //The object has already been garbage collected
                 return false;
 
-            if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged && RootPage is {Target: Page rootPage}) //Is on root or swapping root
+            if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged && RootPage is {Target: Page rootPage}) //Check if we should gabarge collect when swappi
             {
                 if (predicate.Invoke(rootPage))
                 {
@@ -171,19 +202,6 @@ namespace DIPS.Mobile.UI.Components.Shell
             }
 
             return true;
-        }
-
-        private async Task TryResolvePoppedPagesBindingContext(List<WeakReference> pageBindingContexes,
-            ShellNavigationSource shellNavigatedEventArgs)
-        {
-            foreach (var page in pageBindingContexes)
-            {
-                if (ShouldAutoResolve(page.Target, shellNavigatedEventArgs, p => p.BindingContext == page.Target))
-                {
-                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
-                        page.Target?.ToCollectionContentTarget());    
-                }
-            }
         }
     }
 }

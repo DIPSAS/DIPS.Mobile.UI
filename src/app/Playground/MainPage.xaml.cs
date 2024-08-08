@@ -11,13 +11,6 @@ public partial class MainPage
     public MainPage()
     {
         InitializeComponent();
-        //DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
-        
-    }
-
-    private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
-    {
-        
     }
 
     private void GoToVetle(object sender, EventArgs e)
@@ -51,10 +44,7 @@ public partial class MainPage
             {
                 new ShellContent
                 {
-                    ContentTemplate = new DataTemplate(() => new ContentPage(){Content = new Label()
-                    {
-                        Text = "Hello"
-                    }})
+                    ContentTemplate = new DataTemplate(() => new SecondRootPage())
                 }
             }
         });
