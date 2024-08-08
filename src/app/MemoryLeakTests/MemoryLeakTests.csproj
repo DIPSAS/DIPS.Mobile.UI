@@ -87,19 +87,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Tests\ListItemPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Tests\ListItemPage.xaml.cs">
-        <DependentUpon>ListItemPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="DIPS.Mobile.UI">
         <HintPath>..\..\library\DIPS.Mobile.UI\bin\Debug\net8.0\DIPS.Mobile.UI.dll</HintPath>
       </Reference>

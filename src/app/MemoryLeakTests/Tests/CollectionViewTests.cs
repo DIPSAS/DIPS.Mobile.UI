@@ -23,39 +23,5 @@ public class CollectionViewTests : UITest
         contentPage.Content = grid;
     }
 
-    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
-    {
-        
-    }
-
     public override string Name => "Nested CollectionView";
-}
-
-public abstract class UITest
-{
-    public abstract void BeforeTest(ContentPage contentPage);
-
-    public abstract string Name { get; }
-
-    public ContentPage CreatePage()
-    {
-        var uiTestContentPage = new UITestContentPage();
-        uiTestContentPage.AutomationId = Name;
-        uiTestContentPage.Title = Name;
-        BeforeTest(uiTestContentPage);
-        return uiTestContentPage;
-    }
-}
-
-public class UITestContentPage : ContentPage
-{
-    public UITestContentPage()
-    {
-        // DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
-    }
-
-    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
-    {
-        
-    }
 }
