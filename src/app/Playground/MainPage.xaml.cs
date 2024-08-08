@@ -10,7 +10,13 @@ public partial class MainPage
 {
     public MainPage()
     {
+        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
         InitializeComponent();
+    }
+
+    private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        
     }
 
     private void GoToVetle(object sender, EventArgs e)
