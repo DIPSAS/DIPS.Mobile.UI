@@ -1,5 +1,8 @@
-## [35.0.8]
+## [35.0.9]
 - [MemoryLeak] Always wait for 9 GC collections before checking if there is any memory leaks.
+
+## [35.0.8]
+- [BottomSheet] Fixed an issue where app would crash if attempting to create a bottom bar in bottom sheet.
 
 ## [35.0.7]
 - [MemoryLeak] Improved GC helping and better output for developers to solve memory leaks.

@@ -101,8 +101,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
        
             foreach (var button in BottombarButtons)
             {
-                var index = grid.ColumnDefinitions.Count - 1;
                 grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+                var index = grid.ColumnDefinitions.Count - 1;
                 grid.Add(button, index);
                 button.AutomationId = $"BottomBarButton{index}".ToDUIAutomationId<BottomSheet>();
             }
