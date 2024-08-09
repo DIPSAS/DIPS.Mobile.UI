@@ -1,4 +1,3 @@
-using System.Net;
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
 
@@ -116,6 +115,15 @@ namespace DIPS.Mobile.UI.Components.Shell
         private async Task TryResolvePoppedPages(List<WeakReference> pages,
             ShellNavigationSource shellNavigatedEventArgs)
         {
+
+            if (shellNavigatedEventArgs is ShellNavigationSource.ShellItemChanged)
+            {
+                // We need a delay here, because it takes some time for Shell to animate to the new root page.
+                // Because we Disconnect the handler in the CollectionContentTarget, we need to wait for the animation to finish.
+                // We set a delay of 2 seconds to be sure that the animation is done, even though we could use a lower delay.
+                await Task.Delay(2000);
+            }
+            
             try
             {
                 foreach (var page in pages)
@@ -124,7 +132,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                         continue;
 
                     if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged &&
-                        RootPage is {Target: Page rootPage}) //Check if we should gabarge collect when swappi
+                        RootPage is {Target: Page rootPage}) //Check if we should garbage collect when swapping
                     {
                         if (page.Target == rootPage)
                         {
