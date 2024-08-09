@@ -1,5 +1,4 @@
 ## [35.0.11]
-- [MemoryLeak] Reverted trying to contain the memory leak in `CollectionContentTarget`.
 - [MemoryLeak] Will now try to resolve memory leaks before checking if there are any.
 - [MemoryLeak] Fixed duplicate checking of memory leaks in `BindingContext` of BottomSheets.
 
