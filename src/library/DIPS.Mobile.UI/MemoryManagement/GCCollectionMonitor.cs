@@ -89,7 +89,7 @@ public class GCCollectionMonitor
     }
 
     public async Task<bool> CheckIfCollectionTargetIsAlive(CollectionContentTarget collectionContentTarget,
-        List<CollectionContentTarget>? references = null, bool shouldPrintTotalMemory = false, bool shouldPrintAllLeaks = true)
+        List<CollectionContentTarget>? references = null, bool shouldPrintTotalMemory = false)
     {
         GarbageCollection.Print($"Checking if {collectionContentTarget.Name} has memory leaks...");
         var totalMemoryBefore = 0L;
@@ -119,35 +119,29 @@ public class GCCollectionMonitor
             GarbageCollection.Print($"Number of leaks: {totalNumberOfLeaks}");
         }
 
-        if (allVisualChildrenThatLives.Count > 0 && shouldPrintAllLeaks)
+        if (allVisualChildrenThatLives.Count > 0)
         {
             GarbageCollection.Print($"---- Visual children zombies of {collectionContentTarget.Name}: ----");
         }
 
-        if (shouldPrintAllLeaks)
+        foreach (var child in allVisualChildrenThatLives)
         {
-            foreach (var child in allVisualChildrenThatLives)
+            if (child.Target.TryGetTarget(out var target))
             {
-                if (child.Target.TryGetTarget(out var target))
-                {
-                    GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
-                }
+                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
             }
         }
 
-        if (allBindingContextsThatLives.Count > 0 && shouldPrintAllLeaks)
+        if (allBindingContextsThatLives.Count > 0)
         {
             GarbageCollection.Print($"---- Binding Context zombies of {collectionContentTarget.Name}: ----");
         }
 
-        if (shouldPrintAllLeaks)
+        foreach (var child in allBindingContextsThatLives)
         {
-            foreach (var child in allBindingContextsThatLives)
+            if (child.Target.TryGetTarget(out var target))
             {
-                if (child.Target.TryGetTarget(out var target))
-                {
-                    GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
-                }
+                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
             }
         }
 
@@ -195,7 +189,7 @@ public class GCCollectionMonitor
             }
             else
             {
-                if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true, shouldPrintAllLeaks: false)))
+                if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true)))
                 {
                     GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
                 }    
