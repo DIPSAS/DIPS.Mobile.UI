@@ -89,9 +89,9 @@ public class GCCollectionMonitor
     }
 
     public async Task<bool> CheckIfCollectionTargetIsAlive(CollectionContentTarget collectionContentTarget,
-        List<CollectionContentTarget>? references = null, bool shouldPrintTotalMemory = false)
+        List<CollectionContentTarget>? references = null, bool shouldPrintTotalMemory = false, bool shouldPrintAllLeaks = true)
     {
-        GarbageCollection.Print($"Checking if {collectionContentTarget.Name} has memory leaks.");
+        GarbageCollection.Print($"Checking if {collectionContentTarget.Name} has memory leaks...");
         var totalMemoryBefore = 0L;
         if (shouldPrintTotalMemory)
         {
@@ -119,32 +119,37 @@ public class GCCollectionMonitor
             GarbageCollection.Print($"Number of leaks: {totalNumberOfLeaks}");
         }
 
-        if (allVisualChildrenThatLives.Count > 0)
+        if (allVisualChildrenThatLives.Count > 0 && shouldPrintAllLeaks)
         {
             GarbageCollection.Print($"---- Visual children zombies of {collectionContentTarget.Name}: ----");
         }
 
-        foreach (var child in allVisualChildrenThatLives)
+        if (shouldPrintAllLeaks)
         {
-            if (child.Target.TryGetTarget(out var target))
+            foreach (var child in allVisualChildrenThatLives)
             {
-                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+                if (child.Target.TryGetTarget(out var target))
+                {
+                    GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+                }
             }
         }
 
-        if (allBindingContextsThatLives.Count > 0)
+        if (allBindingContextsThatLives.Count > 0 && shouldPrintAllLeaks)
         {
             GarbageCollection.Print($"---- Binding Context zombies of {collectionContentTarget.Name}: ----");
         }
 
-        foreach (var child in allBindingContextsThatLives)
+        if (shouldPrintAllLeaks)
         {
-            if (child.Target.TryGetTarget(out var target))
+            foreach (var child in allBindingContextsThatLives)
             {
-                GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+                if (child.Target.TryGetTarget(out var target))
+                {
+                    GarbageCollection.Print($@"- 🧟 {child.Name} is a zombie!");
+                }
             }
         }
-
 
         if (shouldPrintTotalMemory)
         {
@@ -161,6 +166,9 @@ public class GCCollectionMonitor
 
     public async Task CheckIfObjectIsAliveAndTryResolveLeaks(CollectionContentTarget? target)
     {
+        // A small delay to let MAUI finish their own disposing before we try and resolve
+        await Task.Delay(MsBetweenCollections);
+        
         if (DUI.IsDebug)
         {
             if (target is null)
@@ -168,37 +176,33 @@ public class GCCollectionMonitor
                 return;
             }
 
-            if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true)))
+            if (TryAutoResolveMemoryLeaksEnabled)
             {
-                GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
-                return;
-            }
+                if (target.Content.Target != null)
+                {
+                    TryResolveMemoryLeaksInContent(target.Content.Target);
+                }
 
-            if (!TryAutoResolveMemoryLeaksEnabled)
-                return;
-
-            if (target.Content.Target != null)
-            {
-                TryResolveMemoryLeaksInContent(target.Content.Target);
-            }
-
-            GarbageCollection.Print(
-                "🙏 Finished trying to auto resolve memory leaks, let's check for memory leaks again. 🙏");
-
-            if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
-            {
-                GarbageCollection.Print(
-                    $"❌ There is memory leaks after checking {target?.Name}. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving the leaks. ");
+                if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
+                {
+                    GarbageCollection.Print(
+                        $"❌ There is memory leaks after checking {target?.Name}. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving the leaks. ");
+                }
+                else
+                {
+                    GarbageCollection.Print("✅ No memory leaks! 🎉🎉🎉");
+                }
             }
             else
             {
-                GarbageCollection.Print($"✅ No more memory leaks! 🎉🎉🎉");
+                if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true, shouldPrintAllLeaks: false)))
+                {
+                    GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
+                }    
             }
         }
         else if (TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
         {
-            // A small delay to let MAUI finish their own disposing before we try and resolve
-            await Task.Delay(MsBetweenCollections);
             TryResolveMemoryLeaksInContent(target.Content.Target);
         }
     }
@@ -210,7 +214,7 @@ public class GCCollectionMonitor
     public void TryResolveMemoryLeaksInContent(object content, bool isRoot = true)
     {
         if (isRoot)
-            GarbageCollection.Print($"Trying to auto resolve memory leaks 🧟");
+            GarbageCollection.Print("Auto resolving memory leaks...");
 
         if (content is IVisualTreeElement visualTreeElement)
         {
