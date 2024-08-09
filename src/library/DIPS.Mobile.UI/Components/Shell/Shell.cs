@@ -122,10 +122,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 // We need a delay here, because it takes some time for Shell to animate to the new root page.
                 // Because we Disconnect the handler in the CollectionContentTarget, we need to wait for the animation to finish.
                 // We set a delay of 2 seconds to be sure that the animation is done, even though we could use a lower delay.
-                if (DUI.IsDebug)
-                {
-                    DUILogService.LogDebug<Shell>("Changed root page, will wait for 2 seconds before trying to resolve/monitor memory leaks");
-                }
+                DUILogService.LogDebug<Shell>("Changed root page, will wait for 2 seconds before trying to resolve/monitor memory leaks");
                 await Task.Delay(2000);
             }
             
