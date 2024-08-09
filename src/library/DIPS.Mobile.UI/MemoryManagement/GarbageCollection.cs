@@ -29,6 +29,9 @@ public static class GarbageCollection
         GC.WaitForPendingFinalizers();
     }
 
+    /// <summary>
+    /// Converts the object to an object that can be used in <see cref="GCCollectionMonitor"/> for memory management related things.
+    /// </summary>
     public static CollectionContentTarget ToCollectionContentTarget(this object target)
     {
         return new CollectionContentTarget(target);

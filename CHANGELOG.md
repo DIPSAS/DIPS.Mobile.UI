@@ -1,3 +1,6 @@
+## [35.0.10]
+- [MemoryLeak] Fixed crash of app when changing root page.
+
 ## [35.0.9]
 - [MemoryLeak] Always wait for 9 GC collections before checking if there is any memory leaks.
 

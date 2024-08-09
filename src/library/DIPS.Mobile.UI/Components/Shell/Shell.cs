@@ -1,4 +1,4 @@
-using System.Net;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
 
@@ -116,6 +116,16 @@ namespace DIPS.Mobile.UI.Components.Shell
         private async Task TryResolvePoppedPages(List<WeakReference> pages,
             ShellNavigationSource shellNavigatedEventArgs)
         {
+
+            if (shellNavigatedEventArgs is ShellNavigationSource.ShellItemChanged)
+            {
+                // We need a delay here, because it takes some time for Shell to animate to the new root page.
+                // Because we Disconnect the handler in the CollectionContentTarget, we need to wait for the animation to finish.
+                // We set a delay of 5 seconds to be sure that the animation is done, even though we could use a lower delay.
+                DUILogService.LogDebug<Shell>("Changed root page, will wait for 5 seconds before trying to resolve/monitor memory leaks");
+                await Task.Delay(5000);
+            }
+            
             try
             {
                 foreach (var page in pages)
@@ -124,7 +134,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                         continue;
 
                     if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged &&
-                        RootPage is {Target: Page rootPage}) //Check if we should gabarge collect when swappi
+                        RootPage is {Target: Page rootPage}) //Check if we should garbage collect when swapping
                     {
                         if (page.Target == rootPage)
                         {
