@@ -124,7 +124,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 // We set a delay of 2 seconds to be sure that the animation is done, even though we could use a lower delay.
                 if (DUI.IsDebug)
                 {
-                    DUILogService.LogDebug<Shell>("Changed root page, will wait for 2 seconds before trying to resolve memory leaks");
+                    DUILogService.LogDebug<Shell>("Changed root page, will wait for 2 seconds before trying to resolve/monitor memory leaks");
                 }
                 await Task.Delay(2000);
             }
