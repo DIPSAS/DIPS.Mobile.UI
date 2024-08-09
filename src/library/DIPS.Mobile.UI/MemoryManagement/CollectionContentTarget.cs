@@ -37,8 +37,6 @@ public class CollectionContentTarget
 
         if (visualTreeElement is Element element)
         {
-            element.Parent = null;
-            element.Handler?.DisconnectHandler();
             name = element.ToString();
             if (!string.IsNullOrEmpty(element.AutomationId))
             {
