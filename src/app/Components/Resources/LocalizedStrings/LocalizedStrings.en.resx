@@ -324,4 +324,7 @@
     <data name="Alert" xml:space="preserve">
         <value>Alert</value>
     </data>
+    <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
+        <value>Open bottom sheet that has bottom bar button</value>
+    </data>
 </root>
