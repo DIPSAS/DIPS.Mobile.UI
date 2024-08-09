@@ -1,3 +1,6 @@
+## [35.0.8]
+- [MemoryLeak] Always wait for 9 GC collections before checking if there is any memory leaks.
+
 ## [35.0.7]
 - [MemoryLeak] Improved GC helping and better output for developers to solve memory leaks.
 

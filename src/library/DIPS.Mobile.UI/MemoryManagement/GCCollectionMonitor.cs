@@ -105,13 +105,7 @@ public class GCCollectionMonitor
         for (; currentCollection < MaxCollections; currentCollection++)
         {
             GarbageCollection.CollectAndWaitForPendingFinalizers();
-            if (collectionContentTarget.Content.IsAlive)
-            {
-                await Task.Delay(MsBetweenCollections);
-                continue;
-            }
-
-            break;
+            await Task.Delay(MsBetweenCollections);
         }
 
         var allVisualChildrenThatLives =
@@ -124,7 +118,6 @@ public class GCCollectionMonitor
         {
             GarbageCollection.Print($"Number of leaks: {totalNumberOfLeaks}");
         }
-
 
         if (allVisualChildrenThatLives.Count > 0)
         {
