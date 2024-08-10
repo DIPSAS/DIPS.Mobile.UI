@@ -25,11 +25,14 @@ internal class VisualTreeMemoryResolver
                             case CollectionView collectionView:
                                 collectionView.ItemsSource = null;
                                 collectionView.ItemTemplate = null;
-                                collectionView.FooterTemplate = null;
-                                collectionView.HeaderTemplate = null;
-                                collectionView.Footer = null;
-                                collectionView.Header = null;
-                                collectionView.EmptyView = null;
+                                if (!collectionView.IsGrouped)
+                                {
+                                    collectionView.FooterTemplate = null;
+                                    collectionView.HeaderTemplate = null;
+                                    collectionView.Footer = null;
+                                    collectionView.Header = null;
+                                    collectionView.EmptyView = null;
+                                }
                                 break;
                             case Border border:
                                 border.Content = null;
