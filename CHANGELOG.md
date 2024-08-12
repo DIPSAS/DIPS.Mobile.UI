@@ -1,3 +1,6 @@
+## [35.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [35.0.11]
 - [MemoryLeak] Will now try to resolve memory leaks before checking if there are any.
 - [MemoryLeak] Fixed duplicate checking of memory leaks in `BindingContext` of BottomSheets.
