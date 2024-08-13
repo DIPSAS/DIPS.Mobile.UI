@@ -243,6 +243,34 @@ public class VetlePageViewModel : ViewModel
         get => m_selectedOrganizationalUnit;
         set => RaiseWhenSet(ref m_selectedOrganizationalUnit, value);
     }
+
+    public List<GroupedTestObject> GroupedItemsSource { get; } = new()
+    {
+        new GroupedTestObject("Header1", new List<TestObject2>
+        {
+            new("Test1"),
+            new("Test2"),
+            new("Test3"),
+            new("Test4"),
+        }),
+        new GroupedTestObject("Header2", new List<TestObject2>
+        {
+            new("Test5"),
+            new("Test6"),
+            new("Test7"),
+            new("Test8"),
+        }),
+    };
+}
+
+public class GroupedTestObject : List<TestObject2>
+{
+    public GroupedTestObject(string header, IEnumerable<TestObject2> items) : base(items)
+    {
+        Header = header;
+    }
+    
+    public string Header { get; }
 }
 
 public class SortOption

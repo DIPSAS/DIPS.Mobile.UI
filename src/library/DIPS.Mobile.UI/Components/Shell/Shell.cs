@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
 
@@ -6,12 +5,14 @@ namespace DIPS.Mobile.UI.Components.Shell
 {
     public partial class Shell : Microsoft.Maui.Controls.Shell
     {
-        private IReadOnlyCollection<WeakReference>? m_previousNavigationStack;
+        private IReadOnlyCollection<PageReference>? m_previousNavigationStack;
+        
+        private List<ModalPageReference> m_previousModalPages = [];
 
         /// <summary>
         /// The root page of the application.
         /// </summary>
-        public static WeakReference? RootPage { get; set; }
+        public static PageReference? RootPage { get; set; }
 
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
         public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
@@ -29,10 +30,15 @@ namespace DIPS.Mobile.UI.Components.Shell
                 case ShellNavigationSource.ShellItemChanged:
                 case ShellNavigationSource.Pop:
                 case ShellNavigationSource.Remove:
-                    if (m_previousNavigationStack is not null)
+                    
+                    if (m_previousModalPages.Count > 0)
+                    {
+                        await TryResolvePoppedModalPages(m_previousModalPages);
+                    }
+                        
+                    if(m_previousNavigationStack is not null)
                     {
                         await TryResolvePoppedPages(m_previousNavigationStack.ToList(), e.Source);
-                        m_previousNavigationStack = null;
                     }
 
                     break;
@@ -50,50 +56,22 @@ namespace DIPS.Mobile.UI.Components.Shell
                     throw new ArgumentOutOfRangeException();
             }
 
-            var currentNavigationStack = new List<WeakReference>();
+            m_previousModalPages = Current?.Navigation?.ModalStack.Select(p => new ModalPageReference(p)).ToList() ?? [];
+            
             var allPagesInNavigationStack = Current?.Navigation?.NavigationStack?.Select(p => p);
-            var allModalPagesInNavigationStack = Current?.Navigation?.ModalStack.Select(p => p);
 
-            var allPagesAcrossStacks = new List<Page>();
+            if (allPagesInNavigationStack == null) 
+                return;
 
-            if (allPagesInNavigationStack != null)
-            {
-                allPagesAcrossStacks.AddRange(allPagesInNavigationStack);
-            }
-
-            if (allModalPagesInNavigationStack != null)
-            {
-                foreach (var modalPage in allModalPagesInNavigationStack)
-                {
-                    if (modalPage is NavigationPage navigationPage)
-                    {
-                        allPagesAcrossStacks.Add(navigationPage);
-                        foreach (var page in navigationPage.Navigation.NavigationStack)
-                        {
-                            allPagesAcrossStacks.Add(page);
-                        }
-                    }
-
-                    if (!allPagesAcrossStacks.Contains(modalPage))
-                    {
-                        allPagesAcrossStacks.Add(modalPage);
-                    }
-                }
-            }
-
-            if (allPagesInNavigationStack == null) return;
-
-            foreach (var page in allPagesAcrossStacks)
-            {
-                currentNavigationStack.Add(new WeakReference(page));
-            }
-
+            var currentNavigationStack = allPagesInNavigationStack
+                .Select(page => new PageReference(page))
+                .ToList();
 
             if (e.Source == ShellNavigationSource.ShellItemChanged) //Landed on root page, or is swapping root page
             {
                 if (CurrentPage is not null)
                 {
-                    RootPage = new WeakReference(CurrentPage);
+                    RootPage = new PageReference(CurrentPage);
                     currentNavigationStack = [RootPage];
                 }
             }
@@ -113,7 +91,50 @@ namespace DIPS.Mobile.UI.Components.Shell
             m_previousNavigationStack = currentNavigationStack;
         }
 
-        private async Task TryResolvePoppedPages(List<WeakReference> pages,
+        private static async Task TryResolvePoppedModalPages(List<ModalPageReference> modalPages)
+        {
+            var modalPagesInStack = Current?.Navigation?.ModalStack.Select(p => p).ToList() ?? [];
+            
+            try
+            {
+                foreach (var page in modalPages)
+                {
+                    // The object has already been garbage collected
+                    if (page.Target is null)
+                    {
+                        DUILogService.LogDebug<Shell>($"{page.Name} was already garbage collected");
+                        continue;
+                    }
+
+                    // The modal page was not popped
+                    if (modalPagesInStack.Contains(page.Target))
+                        continue;
+                    
+                    // We first try resolve the root page, and check if it is GC'ed
+                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
+                        page.Target.ToCollectionContentTarget());
+                    
+                    // If the modal is a NavigationPage, we also check the pages inside the NavigationPage, AFTER we have checked the root page
+                    foreach (var pageInsideModal in page.PagesInsideModal)
+                    {
+                        if (pageInsideModal.Target is null)
+                        {
+                            DUILogService.LogDebug<Shell>($"Page: {pageInsideModal.Name} inside modal was already garbage collected");
+                            continue;
+                        }
+                        
+                        await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
+                            pageInsideModal.Target?.ToCollectionContentTarget());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                DUILogService.LogDebug<Shell>(e.ToString());
+            }
+        }
+        
+        private async static Task TryResolvePoppedPages(List<PageReference> pages,
             ShellNavigationSource shellNavigatedEventArgs)
         {
 
@@ -131,7 +152,10 @@ namespace DIPS.Mobile.UI.Components.Shell
                 foreach (var page in pages)
                 {
                     if (page.Target is null) //The object has already been garbage collected
+                    {
+                        DUILogService.LogDebug<Shell>($"{page.Name} was already garbage collected");
                         continue;
+                    }
 
                     if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged &&
                         RootPage is {Target: Page rootPage}) //Check if we should garbage collect when swapping
@@ -147,25 +171,6 @@ namespace DIPS.Mobile.UI.Components.Shell
                             p == page.Target)) //The page is in the navigation stack
                     {
                         continue;
-                    }
-
-                    if (Current.Navigation.ModalStack.Any(p =>
-                            p == page.Target)) //The page is in the modal navigation stack
-                    {
-                        continue;
-                    }
-
-                    var potentialNavigationPageInModalStack =
-                        Current.Navigation.ModalStack.FirstOrDefault(p => p is NavigationPage);
-                    if (potentialNavigationPageInModalStack is NavigationPage
-                        modalNavigationPage) //The modal stack includes a NavigationPage
-                    {
-                        if (modalNavigationPage.Navigation.NavigationStack.Any(p =>
-                                p == page
-                                    .Target)) //We have to check the NavigationPage stack to see if page is still visible there
-                        {
-                            continue;
-                        }
                     }
 
                     await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
