@@ -24,6 +24,8 @@ public class ModalRootPage : ContentPage
 
                 Shell.Current.Navigation.PopModalAsync();
             })
+            
+
         });
 
         Content = new NavigationListItem { Title = "Navigate", Command = new Command(() =>
@@ -32,5 +34,6 @@ public class ModalRootPage : ContentPage
             }), 
             VerticalOptions = LayoutOptions.Start
         };
+        
     }
 }

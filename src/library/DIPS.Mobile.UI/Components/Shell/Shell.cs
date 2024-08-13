@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.Components.Shell
 {
@@ -33,7 +34,8 @@ namespace DIPS.Mobile.UI.Components.Shell
                     
                     if (m_previousModalPages.Count > 0)
                     {
-                        await TryResolvePoppedModalPages(m_previousModalPages);
+                        await TryResolvePoppedModalPages(m_previousModalPages.ToList());
+                        m_previousModalPages = [];
                     }
                         
                     if(m_previousNavigationStack is not null)
@@ -55,11 +57,17 @@ namespace DIPS.Mobile.UI.Components.Shell
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            m_previousModalPages = Current?.Navigation?.ModalStack.Select(p => new ModalPageReference(p)).ToList() ?? [];
+            
+            foreach (var page in Current?.Navigation?.ModalStack ?? [])
+            {
+                var existingPage = m_previousModalPages.FirstOrDefault(p => p.Target == page);
+                if (existingPage is null)
+                {
+                    m_previousModalPages.Add(new ModalPageReference(page));
+                }
+            }
             
             var allPagesInNavigationStack = Current?.Navigation?.NavigationStack?.Select(p => p);
-
             if (allPagesInNavigationStack == null) 
                 return;
 
@@ -99,10 +107,12 @@ namespace DIPS.Mobile.UI.Components.Shell
             {
                 foreach (var page in modalPages)
                 {
+                    page.Dispose();
+                    
                     // The object has already been garbage collected
                     if (page.Target is null)
                     {
-                        DUILogService.LogDebug<Shell>($"{page.Name} was already garbage collected");
+                        DUILogService.LogDebug<Shell>($"{page.Name} already garbage collected");
                         continue;
                     }
 
@@ -153,7 +163,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                 {
                     if (page.Target is null) //The object has already been garbage collected
                     {
-                        DUILogService.LogDebug<Shell>($"{page.Name} was already garbage collected");
+                        DUILogService.LogDebug<Shell>($"{page.Name} already garbage collected");
                         continue;
                     }
 
