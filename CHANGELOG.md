@@ -1,5 +1,6 @@
 ## [35.1.1] 
 - [MemoryLeak] Will now correctly log GC of modal pages.
+- [MemoryLeak] Added better logging.
 
 ## [35.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
