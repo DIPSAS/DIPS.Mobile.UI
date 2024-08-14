@@ -129,7 +129,7 @@ namespace DIPS.Mobile.UI.Components.Shell
                     {
                         if (pageInsideModal.Target is null)
                         {
-                            DUILogService.LogDebug<Shell>($"Page: {pageInsideModal.Name} inside modal was already garbage collected");
+                            DUILogService.LogDebug<Shell>($"{pageInsideModal.Name} inside modal was already garbage collected");
                             continue;
                         }
                         
