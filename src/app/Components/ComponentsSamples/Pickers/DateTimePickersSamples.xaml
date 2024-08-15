@@ -30,6 +30,9 @@
                            Style="{StaticResource LabelStyle}" />
                 <dui:DatePicker VerticalOptions="End"
                                 IgnoreLocalTime="True"
+                                DisplayTodayButton="True"
+                                DateConverterFormat="Text"
+                                ShouldCloseOnDateSelected="False"
                                 SelectedDate="{Binding SelectedBirthday}"
                                 HorizontalOptions="Start" />
                 <dui:Label Text="TimePicker"

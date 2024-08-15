@@ -1,20 +1,14 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
-using DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 
 public partial class DatePickerService
 {
-    internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
+    internal static WeakReference<InlineDatePickerPopoverViewController>? PresentedViewControllerReference { get; set; }
     
-    public static async partial void Open(DatePicker datePicker, View? sourceView = null)
+    public static partial void Open(DatePicker datePicker, View? sourceView = null)
     {
-        if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
-        {
-            await viewController.DismissViewControllerAsync(false);
-        }
-        
         if (IsOpen())
         {
             Close();
@@ -25,30 +19,35 @@ public partial class DatePickerService
             MaximumDate = datePicker.MaximumDate,
             MinimumDate = datePicker.MinimumDate,
             SelectedDate = datePicker.SelectedDate,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime
+            IgnoreLocalTime = datePicker.IgnoreLocalTime,
+            DisplayTodayButton = datePicker.DisplayTodayButton,
         };
 
         inlineDatePicker.SelectedDateCommand = new Command(() =>
         {
-            Close();
+            if(datePicker.ShouldCloseOnDateSelected)
+                Close();
             datePicker.SelectedDate = inlineDatePicker.SelectedDate;
             datePicker.SelectedDateCommand?.Execute(null);
         });
-       
-        PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, sourceView, Dispose, datePicker.PassThroughView);
+
+        var presentatedViewController = new InlineDatePickerPopoverViewController();
+        PresentedViewControllerReference =
+            new WeakReference<InlineDatePickerPopoverViewController>(presentatedViewController);
+        presentatedViewController.Setup(inlineDatePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
         
-        _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
+        _ = currentViewController?.PresentViewControllerAsync(presentatedViewController, true);
     }
 
-    private static void Dispose()
+    internal static partial bool IsOpen() => PresentedViewControllerReference is not null;
+
+    public static partial void Close()
     {
-        PresentedViewController = null;
+        if (PresentedViewControllerReference is not null && PresentedViewControllerReference.TryGetTarget(out var target))
+        {
+            _ = target.DismissViewControllerAsync(true);
+        }
     }
-
-    internal static partial bool IsOpen() => PresentedViewController is not null;
-
-    public static partial void Close() => _ = PresentedViewController?.DismissViewControllerAsync(true);
 }

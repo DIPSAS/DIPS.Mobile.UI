@@ -42,7 +42,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         private void OnSelectedDateChanged()
         {
             var convertedDisplayValue =
-                new DateConverter {Format = DateConverter.DateConverterFormat.Default}.Convert(SelectedDate,
+                new DateConverter { Format = DateConverterFormat, IgnoreLocalTime = IgnoreLocalTime }.Convert(SelectedDate,
                     null, null,
                     CultureInfo.CurrentCulture);
             if (convertedDisplayValue is string displayItemAsString)

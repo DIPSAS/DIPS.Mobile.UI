@@ -21,13 +21,13 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         if (VirtualView is not DatePicker datePicker)
             return;
         
-        datePicker.SelectedDate = PlatformView.Date.ConvertDate(datePicker.IgnoreLocalTime);
+        datePicker.SelectedDate = PlatformView.Date.ConvertDate(datePicker.IgnoreLocalTime, datePicker.SelectedDate.Kind);
         datePicker.SelectedDateCommand?.Execute(null);
     }
 
     private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertDate(datePicker.IgnoreLocalTime), true);
+        handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertAndCastToNsDate(datePicker.IgnoreLocalTime), true);
     }
     
     private static partial void MapIgnoreLocalTime(DatePickerHandler handler, DatePicker datePicker)
@@ -37,17 +37,17 @@ public partial class DatePickerHandler : BaseDatePickerHandler
     
     private static partial void MapMaximumDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        if (datePicker.MaximumDate is null or null)
+        if (datePicker.MaximumDate is null)
             return;
 
-        handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertDate(datePicker.IgnoreLocalTime);
+        handler.PlatformView.MaximumDate = ((DateTime)datePicker.MaximumDate).ConvertAndCastToNsDate(datePicker.IgnoreLocalTime);
     }
 
     private static partial void MapMinimumDate(DatePickerHandler handler, DatePicker datePicker)
     {
-        if (datePicker.MinimumDate is null or null)
+        if (datePicker.MinimumDate is null)
             return;
 
-        handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertDate(datePicker.IgnoreLocalTime);
+        handler.PlatformView.MinimumDate = ((DateTime)datePicker.MinimumDate).ConvertAndCastToNsDate(datePicker.IgnoreLocalTime);
     }
 }

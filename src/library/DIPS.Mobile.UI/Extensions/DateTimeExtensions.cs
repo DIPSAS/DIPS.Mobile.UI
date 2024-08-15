@@ -58,5 +58,17 @@ namespace DIPS.Mobile.UI.Extensions
                     return "th";
             }
         }
+        
+        public static DateTime ConvertDate(this DateTime dateTime, bool ignoreLocalTime)
+        {
+            if (dateTime.Kind == DateTimeKind.Unspecified)
+            {
+                return dateTime;
+            }
+            var convertedDateTime = ignoreLocalTime ? dateTime.ToUniversalTime() : dateTime.ToLocalTime();
+
+            return convertedDateTime;
+        }
     }
+    
 }

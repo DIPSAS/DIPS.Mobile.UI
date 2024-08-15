@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 {
@@ -78,11 +79,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             get => (DateTime?)GetValue(MaximumDateProperty);
             set => SetValue(MaximumDateProperty, value);
         }
+
+        public static readonly BindableProperty DisplayTodayButtonProperty = BindableProperty.Create(
+            nameof(DisplayTodayButton),
+            typeof(bool),
+            typeof(DatePicker));
+
+        public bool DisplayTodayButton
+        {
+            get => (bool)GetValue(DisplayTodayButtonProperty);
+            set => SetValue(DisplayTodayButtonProperty, value);
+        }
         
-        /// <summary>
-        /// The view that the time picker's popover should pass through (Most likely only a DatePicker)
-        /// <remarks>For iOS</remarks>
-        /// </summary>
-        internal View? PassThroughView { get; set; }
+        public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
+
+        public bool ShouldCloseOnDateSelected { get; set; } = true;
     }
 }

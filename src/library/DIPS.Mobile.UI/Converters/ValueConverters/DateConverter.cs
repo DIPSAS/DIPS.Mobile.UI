@@ -34,6 +34,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             ///     If the date is today, tomorrow or yesterday it will show a localized string instead of day + month
             /// </remarks>
             Text,
+            
+            /// <summary>
+            /// Will display the date as <see cref="Text"/> if the date is today, tomorrow or yesterday, otherwise, display as <see cref="Short"/>
+            /// </summary>
+            ShortOrText
         }
 
         private const string Space = " ";
@@ -48,6 +53,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         ///     Ignores the conversion to the local timezone
         /// </summary>
         public bool IgnoreLocalTime { get; set; }
+
+        /// <summary>
+        ///     If the date is already converted, you can set this to false to avoid double conversion
+        /// </summary>
+        public bool ShouldConvertDateBeforeParsingToValue { get; set; } = true;
 
         /// <inheritdoc />
         [ExcludeFromCodeCoverage]
@@ -65,9 +75,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 throw new XamlParseException("The input has to be of type DateTime").WithXmlLineInfo(m_serviceProvider);
             return Format switch
             {
-                DateConverterFormat.Short => ConvertToDefaultDateTime(dateTimeInput, culture, IgnoreLocalTime),
+                DateConverterFormat.Short => ConvertToDefaultDateTime(dateTimeInput, culture, IgnoreLocalTime, ShouldConvertDateBeforeParsingToValue),
                 DateConverterFormat.Text =>
-                    ConvertDateTimeAsText(dateTimeInput, culture, IgnoreLocalTime),
+                    ConvertDateTimeAsText(dateTimeInput, culture, IgnoreLocalTime, ShouldConvertDateBeforeParsingToValue),
+                DateConverterFormat.ShortOrText => ConvertDateTimeAsShortAndText(dateTimeInput, culture, IgnoreLocalTime, ShouldConvertDateBeforeParsingToValue),
                 _ => string.Empty
             };
         }
@@ -78,16 +89,52 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         {
             throw new NotImplementedException();
         }
-
-        private static string ConvertToDefaultDateTime(DateTime dateTime, CultureInfo culture, bool ignoreLocalTime)
+        
+        private static string ConvertDateTimeAsShortAndText(DateTime dateTime, CultureInfo culture, bool ignoreLocalTime, bool shouldConvertDateBeforeParsingToValue)
         {
-            if (!ignoreLocalTime)
+            if (shouldConvertDateBeforeParsingToValue)
             {
-                dateTime = dateTime.ToLocalTime();
+                if (!ignoreLocalTime)
+                {
+                    dateTime = dateTime.ToLocalTime();
+                }
+                else if (dateTime.Kind == DateTimeKind.Local)
+                {
+                    dateTime = dateTime.ToUniversalTime();
+                }
             }
-            else if (dateTime.Kind == DateTimeKind.Local)
+            
+            if (dateTime.IsToday())
             {
-                dateTime = dateTime.ToUniversalTime();
+                return DUILocalizedStrings.Today;
+            }
+            
+            if (dateTime.IsYesterday())
+            {
+                return DUILocalizedStrings.Yesterday;
+            }
+
+            if (dateTime.IsTomorrow())
+            {
+                return DUILocalizedStrings.Tomorrow;
+            }
+            
+            var shortDate = ConvertToDefaultDateTime(dateTime, culture, ignoreLocalTime, shouldConvertDateBeforeParsingToValue);
+            return shortDate;
+        }
+
+        private static string ConvertToDefaultDateTime(DateTime dateTime, CultureInfo culture, bool ignoreLocalTime, bool shouldConvertDateBeforeParsingToValue = true)
+        {
+            if (shouldConvertDateBeforeParsingToValue)
+            {
+                if (!ignoreLocalTime)
+                {
+                    dateTime = dateTime.ToLocalTime();
+                }
+                else if (dateTime.Kind == DateTimeKind.Local)
+                {
+                    dateTime = dateTime.ToUniversalTime();
+                }
             }
 
             var day = GetDayBasedOnCulture(dateTime, culture);
@@ -124,15 +171,19 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
             return day;
         }
 
-        private static string ConvertDateTimeAsText(DateTime dateTime, CultureInfo culture, bool ignoreLocalTime)
+        private static string ConvertDateTimeAsText(DateTime dateTime, CultureInfo culture, bool ignoreLocalTime,
+            bool shouldConvertDateBeforeParsingToValue)
         {
-            if (!ignoreLocalTime)
+            if (shouldConvertDateBeforeParsingToValue)
             {
-                dateTime = dateTime.ToLocalTime();
-            }
-            else if (dateTime.Kind == DateTimeKind.Local)
-            {
-                dateTime = dateTime.ToUniversalTime();
+                if (!ignoreLocalTime)
+                {
+                    dateTime = dateTime.ToLocalTime();
+                }
+                else if (dateTime.Kind == DateTimeKind.Local)
+                {
+                    dateTime = dateTime.ToUniversalTime();
+                }
             }
             
             if (dateTime.IsToday())

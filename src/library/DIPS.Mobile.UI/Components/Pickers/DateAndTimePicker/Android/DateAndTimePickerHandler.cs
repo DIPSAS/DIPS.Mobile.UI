@@ -95,7 +95,7 @@ public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, L
     
     public static DateTime ConvertDate(DateTime date, bool ignoreLocalTime)
     {
-        if (date.Kind == DateTimeKind.Unspecified) 
+        if (date.Kind == DateTimeKind.Unspecified)
         {
             date = DateTime.SpecifyKind(date, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
         }

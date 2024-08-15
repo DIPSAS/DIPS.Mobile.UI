@@ -32,16 +32,11 @@ public partial class TimePickerService
         });
        
         PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, sourceView, OnDisposed, timePicker.PassThroughView);
+        PresentedViewController.Setup(inlineDatePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
 
         _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
-    }
-
-    private static void OnDisposed()
-    {
-        PresentedViewController = null;
     }
 
     internal static partial bool IsOpen() => PresentedViewController is not null;
