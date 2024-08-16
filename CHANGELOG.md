@@ -1,3 +1,6 @@
+## [35.2.0] 
+- [MemoryLeak] Added a bindable attached property so that consumers can ignore memory leak resolving on certain views/pages.
+
 ## [35.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
