@@ -39,7 +39,7 @@
 
     
     <vetleSamples:ViewCellTest TestBool="{Binding Source={x:Reference This}, Path=TestBool}"
-                               dui:GCCollectionMonitor.IgnoreMemoryLeakResolve="True" />
+                               dui:IgnoreMemoryLeakResolvingAttachedProperty.IgnoreMemoryLeakResolve="True" />
         
 
 </dui:ContentPage>

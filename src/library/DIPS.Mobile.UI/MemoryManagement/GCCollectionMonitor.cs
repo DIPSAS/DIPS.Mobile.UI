@@ -12,26 +12,6 @@ namespace DIPS.Mobile.UI.MemoryManagement;
 /// <remarks>See https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/ for more information on Garbage Collection.</remarks>
 public class GCCollectionMonitor
 {
-    
-    public static readonly BindableProperty IgnoreMemoryLeakResolveProperty = BindableProperty.CreateAttached("Mode",
-        typeof(bool),
-        typeof(GCCollectionMonitor),
-        false);
-    
-    public static bool GetIgnoreMemoryLeakResolve(BindableObject view)
-    {
-        return (bool)view.GetValue(IgnoreMemoryLeakResolveProperty);
-    }
-
-    /// <summary>
-    /// The <see cref="BindableObject"/> to ignore memory leak resolve on.
-    /// <remarks> Will also ignore memory leak resolving on its children.</remarks>
-    /// </summary>
-    public static void SetIgnoreMemoryLeakResolve(BindableObject view, bool ignoreMemoryLeakResolve)
-    {
-        view.SetValue(IgnoreMemoryLeakResolveProperty, ignoreMemoryLeakResolve);
-    }
-    
     private readonly List<CollectionContentTarget> m_references = [];
     private readonly VisualTreeMemoryResolver m_visualTreeMemoryResolver = new();
     private const int MsBetweenCollections = 200;
@@ -229,7 +209,7 @@ public class GCCollectionMonitor
     {
         if(content is BindableObject bindableObject)
         {
-            if (GetIgnoreMemoryLeakResolve(bindableObject))
+            if (IgnoreMemoryLeakResolvingAttachedProperty.GetIgnoreMemoryLeakResolve(bindableObject))
                 return;
         }
         
