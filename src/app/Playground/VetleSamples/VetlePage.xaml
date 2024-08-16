@@ -9,8 +9,7 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This"
-                 dui:MemoryLeaks.IgnoreAutomaticMemoryLeakResolving="True">
+                 x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -40,7 +39,7 @@
 
     
     <vetleSamples:ViewCellTest TestBool="{Binding Source={x:Reference This}, Path=TestBool}"
-                                />
+                               dui:MemoryLeaks.SkipAutomaticMemoryLeakResolving="True" />
         
 
 </dui:ContentPage>

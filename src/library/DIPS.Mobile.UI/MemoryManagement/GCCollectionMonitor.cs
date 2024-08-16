@@ -209,8 +209,11 @@ public class GCCollectionMonitor
     {
         if(content is BindableObject bindableObject)
         {
-            if (MemoryLeaks.GetIgnoreAutomaticMemoryLeakResolving(bindableObject))
+            if (MemoryLeaks.GetSkipAutomaticMemoryLeakResolving(bindableObject))
+            {
+                GarbageCollection.Print($"⏭️Skipping automatic memory leak resolving for {content.GetType().Name}");
                 return;
+            }
         }
         
         if (isRoot)
