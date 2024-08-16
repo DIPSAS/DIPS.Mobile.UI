@@ -31,8 +31,8 @@
                 <dui:DatePicker VerticalOptions="End"
                                 IgnoreLocalTime="True"
                                 DisplayTodayButton="True"
-                                DateConverterFormat="Text"
-                                ShouldCloseOnDateSelected="False"
+                                DateConverterFormat="ShortOrText"
+                                ShouldCloseOnDateSelected="True"
                                 SelectedDate="{Binding SelectedBirthday}"
                                 HorizontalOptions="Start" />
                 <dui:Label Text="TimePicker"

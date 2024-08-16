@@ -122,7 +122,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             await Task.Delay(1);
             if (m_uiDatePickerReference.TryGetTarget(out var uiDatePicker))
             {
-                View = ConstructView(uiDatePicker);
+                View = uiDatePicker.Mode is UIDatePickerMode.Time ? uiDatePicker : ConstructView(uiDatePicker);
 
                 /*PreferredContentSize = View.SizeThatFits(new CGSize(int.MaxValue, int.MaxValue));*/
                 PreferredContentSize = new CGSize(320, 400);
@@ -138,7 +138,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
 
             if (target is TimePicker.TimePicker)
             {
-                PreferredContentSize = new CGSize(200, PreferredContentSize.Height);
+                PreferredContentSize = new CGSize(200, 150);
             }
             
         }
