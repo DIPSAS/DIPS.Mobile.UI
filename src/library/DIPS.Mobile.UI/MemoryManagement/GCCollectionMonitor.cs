@@ -211,7 +211,7 @@ public class GCCollectionMonitor
         {
             if (MemoryLeaks.GetSkipAutomaticMemoryLeakResolving(bindableObject))
             {
-                GarbageCollection.Print($"⏭️Skipping automatic memory leak resolving for {content.GetType().Name}");
+                GarbageCollection.Print($"⏭️ Skipping automatic memory leak resolving for {content.GetType().Name}");
                 return;
             }
         }
