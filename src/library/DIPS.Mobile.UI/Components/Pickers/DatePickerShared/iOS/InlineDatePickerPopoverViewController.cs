@@ -22,7 +22,10 @@ internal class InlineDatePickerPopoverViewController : UIViewController
         private WeakReference<IDatePicker> m_datePickerReference;
         private WeakReference<UIDatePicker> m_uiDatePickerReference;
 #nullable enable
-        
+
+        private bool m_hasAddedAdditionalButtons = false;
+        private WeakReference<Grid>? m_gridReference;
+
         public void Setup(IDatePicker inlineDatePicker, View? sourceView)
         {
             m_datePickerReference = new WeakReference<IDatePicker>(inlineDatePicker);
@@ -34,7 +37,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             if(PopoverPresentationController is null)
                 return;
 
-            if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape || DeviceInfo.Idiom != DeviceIdiom.Phone)
+            if (DeviceInfo.Idiom != DeviceIdiom.Phone)
             {
                 PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Any;
             }
@@ -48,7 +51,8 @@ internal class InlineDatePickerPopoverViewController : UIViewController
                 PopoverPresentationController.SourceView = nativeSourceView;
                 PopoverPresentationController.SourceRect = nativeSourceView.Bounds;
             }
-            
+
+            PopoverPresentationController.CanOverlapSourceViewRect = true;
             PopoverPresentationController.Delegate = new InlineDatePickerPopoverDelegate();
             
             if (OperatingSystem.IsIOSVersionAtLeast(16, 0) && nativeSourceView is not null)
@@ -56,39 +60,32 @@ internal class InlineDatePickerPopoverViewController : UIViewController
                 PopoverPresentationController.SourceItem = nativeSourceView;
             }
         }
+        
+        private Grid? Grid => m_gridReference is not null ? m_gridReference.TryGetTarget(out var target) ? target : null : null;
+        private UIDatePicker? DatePicker => m_uiDatePickerReference.TryGetTarget(out var target) ? target : null;
+        private IDatePicker? InlineDatePicker => m_datePickerReference.TryGetTarget(out var target) ? target : null;
 
-        private UIView ConstructView(UIDatePicker uiDatePicker)
+        private UIView ConstructView()
         {
-            var grid = new Grid
+            m_gridReference = new WeakReference<Grid>(new Grid
             {
-                RowDefinitions = [new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Auto)],
+                RowDefinitions = [new RowDefinition(GridLength.Star), new RowDefinition(1), new RowDefinition(40)],
                 ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-                RowSpacing = Sizes.GetSize(SizeName.size_1)
-            };
+                RowSpacing = Sizes.GetSize(SizeName.size_1),
+                Padding = Sizes.GetSize(SizeName.size_1)
+            });
 
-            grid.WidthRequest = 320;
-            grid.HeightRequest = 400;
-            
-            if (!m_datePickerReference.TryGetTarget(out var target))
-                return uiDatePicker;
+            Grid?.Add(InlineDatePicker);
+            Grid?.SetColumnSpan(InlineDatePicker, 2);
 
-            if (target is not VisualElement visualElement)
-                return uiDatePicker;
-            
-            /*visualElement.WidthRequest = 320;*/
-            visualElement.HeightRequest = 366;
-            
-            grid.Add(visualElement);
-            grid.SetColumnSpan(visualElement, 2);
-
-            if (target is not DatePicker.DatePicker datePicker)
-                return grid.ToPlatform(DUI.GetCurrentMauiContext!);
+            if (InlineDatePicker is not DatePicker.DatePicker datePicker)
+                return Grid!.ToPlatform(DUI.GetCurrentMauiContext!);
 
             var divider = new Divider();
-            grid.Add(divider, 0, 1);
-            grid.SetColumnSpan(divider, 2);
+            Grid?.Add(divider, 0, 1);
+            Grid?.SetColumnSpan((IView)divider, 2);
             
-            grid.Add(new Button
+            Grid?.Add(new Button
             {
                 Text = DUILocalizedStrings.Today,
                 Command = new Command(() =>
@@ -101,7 +98,9 @@ internal class InlineDatePickerPopoverViewController : UIViewController
                 HorizontalOptions = LayoutOptions.End
             }, 1, 2);
 
-            return grid.ToPlatform(DUI.GetCurrentMauiContext!);
+            m_hasAddedAdditionalButtons = true;
+
+            return Grid!.ToPlatform(DUI.GetCurrentMauiContext!);
         }
         
         public override void ViewWillDisappear(bool animated)
@@ -116,38 +115,25 @@ internal class InlineDatePickerPopoverViewController : UIViewController
         public override async void ViewIsAppearing(bool animated)
         {
             base.ViewIsAppearing(animated);
+
+            // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is
+            // animating its opening animation, so we wait a bit until the popover is larger to prevent this
+            await Task.Delay(10);
             
-            // For some reason, iOS complains that the UICalendarView's height is smaller than it can render its content in
-            // Therefore, we delay the construction of the view by one frame
-            await Task.Delay(1);
-            if (m_uiDatePickerReference.TryGetTarget(out var uiDatePicker))
-            {
-                View = uiDatePicker.Mode is UIDatePickerMode.Time ? uiDatePicker : ConstructView(uiDatePicker);
-
-                /*PreferredContentSize = View.SizeThatFits(new CGSize(int.MaxValue, int.MaxValue));*/
-                PreferredContentSize = new CGSize(320, 400);
-                /*if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down)
-                {
-                    PreferredContentSize = new CGSize(PreferredContentSize.Width, PreferredContentSize.Height + 40);
-                }*/
-
-            }
-
-            if (!m_datePickerReference.TryGetTarget(out var target))
+            if(DeviceInfo.Idiom != DeviceIdiom.Phone)
                 return;
 
-            if (target is TimePicker.TimePicker)
-            {
-                PreferredContentSize = new CGSize(200, 150);
-            }
-            
-        }
+            View = DatePicker?.Mode is UIDatePickerMode.Time ? DatePicker : ConstructView();
 
-        public override async void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
+            PreferredContentSize = InlineDatePicker is TimePicker.TimePicker ? new CGSize(200, 150) : new CGSize(320, 400);
             
-            
+            // If the popover is pointing down or right, we need to increase the bottom padding of the grid to fit the additional buttons
+            // (For some odd reason)
+            if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down && m_hasAddedAdditionalButtons && Grid is not null)
+            {
+                Grid.Padding = new Thickness(Grid.Padding.Left, Grid.Padding.Top,
+                    Grid.Padding.Right, Grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));
+            }
         }
     }
     
