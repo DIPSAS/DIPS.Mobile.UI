@@ -209,7 +209,7 @@ public class GCCollectionMonitor
     {
         if(content is BindableObject bindableObject)
         {
-            if (IgnoreMemoryLeakResolvingAttachedProperty.GetIgnoreMemoryLeakResolve(bindableObject))
+            if (MemoryLeaks.GetIgnoreAutomaticMemoryLeakResolving(bindableObject))
                 return;
         }
         

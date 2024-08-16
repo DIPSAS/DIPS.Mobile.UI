@@ -1,23 +1,23 @@
 namespace DIPS.Mobile.UI.MemoryManagement;
 
-public class IgnoreMemoryLeakResolvingAttachedProperty
+public class MemoryLeaks
 {
-    public static readonly BindableProperty IgnoreMemoryLeakResolveProperty = BindableProperty.CreateAttached("Mode",
+    public static readonly BindableProperty IgnoreAutomaticMemoryLeakResolvingProperty = BindableProperty.CreateAttached("Mode",
         typeof(bool),
-        typeof(IgnoreMemoryLeakResolvingAttachedProperty),
+        typeof(MemoryLeaks),
         false);
     
-    public static bool GetIgnoreMemoryLeakResolve(BindableObject view)
+    public static bool GetIgnoreAutomaticMemoryLeakResolving(BindableObject view)
     {
-        return (bool)view.GetValue(IgnoreMemoryLeakResolveProperty);
+        return (bool)view.GetValue(IgnoreAutomaticMemoryLeakResolvingProperty);
     }
 
     /// <summary>
     /// The <see cref="BindableObject"/> to ignore memory leak resolve on.
     /// <remarks> Will also ignore memory leak resolving on its children.</remarks>
     /// </summary>
-    public static void SetIgnoreMemoryLeakResolve(BindableObject view, bool ignoreMemoryLeakResolve)
+    public static void SetIgnoreAutomaticMemoryLeakResolving(BindableObject view, bool ignoreMemoryLeakResolve)
     {
-        view.SetValue(IgnoreMemoryLeakResolveProperty, ignoreMemoryLeakResolve);
+        view.SetValue(IgnoreAutomaticMemoryLeakResolvingProperty, ignoreMemoryLeakResolve);
     }
 }
