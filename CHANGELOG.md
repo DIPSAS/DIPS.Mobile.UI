@@ -1,3 +1,6 @@
+## [35.2.1] 
+- [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
+
 ## [35.2.0] 
 - [MemoryLeak] Added a bindable attached property so that consumers can ignore memory leak resolving on certain views/pages.
 

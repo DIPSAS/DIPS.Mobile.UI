@@ -15,31 +15,11 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ContentPage.Resources>
-
-        <DataTemplate x:Key="Test1"
-                      x:DataType="{x:Type vetleSamples:TestObject2}">
-            
-            <vetleSamples:ViewCellTest TestCommand="{Binding Source={x:Reference This}, Path=TestCommand}" />
-
-        </DataTemplate>
-
-        <DataTemplate x:Key="Test2"
-                      x:DataType="{x:Type vetleSamples:TestObject2}">
-
-            <vetleSamples:ViewCellTest TestCommand="{Binding Source={x:Reference This}, Path=TestCommand}" />
-            
-        </DataTemplate>
-
-        <vetleSamples:TemplateSelector Test1="{StaticResource Test1}"
-                                       Test2="{StaticResource Test2}"
-                                       x:Key="TemplateSelector" />
-
-    </dui:ContentPage.Resources>
-
-    
-    <vetleSamples:ViewCellTest TestBool="{Binding Source={x:Reference This}, Path=TestBool}"
-                               dui:MemoryLeaks.SkipAutomaticMemoryLeakResolving="True" />
+    <VerticalStackLayout>
         
+        <Grid ColumnDefinitions="*, 1.25*">
+            <dui:DateAndTimePicker Grid.Column="1" />
+        </Grid>
+    </VerticalStackLayout>
 
 </dui:ContentPage>
