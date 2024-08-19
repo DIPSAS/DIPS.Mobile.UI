@@ -17,8 +17,18 @@
 
     <VerticalStackLayout>
         
-        <Grid ColumnDefinitions="*, 1.25*">
-            <dui:DateAndTimePicker Grid.Column="1" />
+        <Grid>
+            <dui:ListItem>
+                <dui:ListItem.UnderlyingContent>
+                    
+                    <VerticalStackLayout Margin="{dui:Thickness Top=size_1}">
+                        <dui:Label Text="test"></dui:Label>
+                    <dui:ListItem Title="Date">
+                        <dui:NullableDateAndTimePicker SelectedDateTime="{Binding Date, Mode=TwoWay}" />
+                    </dui:ListItem>
+                    </VerticalStackLayout>
+                </dui:ListItem.UnderlyingContent>
+            </dui:ListItem>
         </Grid>
     </VerticalStackLayout>
 
