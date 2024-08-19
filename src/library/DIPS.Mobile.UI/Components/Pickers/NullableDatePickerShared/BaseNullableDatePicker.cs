@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Pickers.NullableDatePickerShared;
 
-public abstract class BaseNullableDatePicker : HorizontalStackLayout
+public abstract class BaseNullableDatePicker : Grid
 {
     protected readonly Switch DateEnabledSwitch;
     
@@ -10,12 +10,15 @@ public abstract class BaseNullableDatePicker : HorizontalStackLayout
 
     protected BaseNullableDatePicker()
     {
-        Spacing = Sizes.GetSize(SizeName.size_3);
+        ColumnSpacing = Sizes.GetSize(SizeName.size_3);
+        
+        AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+        AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
 
         DateEnabledSwitch = new Switch { VerticalOptions = LayoutOptions.Center };
         DateEnabledSwitch.Toggled += OnSwitchToggled;
         
-        Add(DateEnabledSwitch);
+        this.Add(DateEnabledSwitch, 1);
     }
 
     protected override void OnHandlerChanged()
@@ -29,7 +32,7 @@ public abstract class BaseNullableDatePicker : HorizontalStackLayout
         m_dateOrTimePicker.SetBinding(HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), BindingMode.OneWay, source: this));
 #endif
         
-        Insert(0, m_dateOrTimePicker);
+        Add(m_dateOrTimePicker);
         var size = m_dateOrTimePicker.Measure(int.MaxValue, int.MaxValue);
         MinimumHeightRequest = size.Request.Height;
         

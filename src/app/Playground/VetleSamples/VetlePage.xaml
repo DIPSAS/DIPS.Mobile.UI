@@ -15,31 +15,21 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ContentPage.Resources>
-
-        <DataTemplate x:Key="Test1"
-                      x:DataType="{x:Type vetleSamples:TestObject2}">
-            
-            <vetleSamples:ViewCellTest TestCommand="{Binding Source={x:Reference This}, Path=TestCommand}" />
-
-        </DataTemplate>
-
-        <DataTemplate x:Key="Test2"
-                      x:DataType="{x:Type vetleSamples:TestObject2}">
-
-            <vetleSamples:ViewCellTest TestCommand="{Binding Source={x:Reference This}, Path=TestCommand}" />
-            
-        </DataTemplate>
-
-        <vetleSamples:TemplateSelector Test1="{StaticResource Test1}"
-                                       Test2="{StaticResource Test2}"
-                                       x:Key="TemplateSelector" />
-
-    </dui:ContentPage.Resources>
-
-    
-    <vetleSamples:ViewCellTest TestBool="{Binding Source={x:Reference This}, Path=TestBool}"
-                               dui:MemoryLeaks.SkipAutomaticMemoryLeakResolving="True" />
+    <VerticalStackLayout>
         
+        <Grid>
+            <dui:ListItem>
+                <dui:ListItem.UnderlyingContent>
+                    
+                    <VerticalStackLayout Margin="{dui:Thickness Top=size_1}">
+                        <dui:Label Text="test"></dui:Label>
+                    <dui:ListItem Title="Date">
+                        <dui:NullableDateAndTimePicker SelectedDateTime="{Binding Date, Mode=TwoWay}" />
+                    </dui:ListItem>
+                    </VerticalStackLayout>
+                </dui:ListItem.UnderlyingContent>
+            </dui:ListItem>
+        </Grid>
+    </VerticalStackLayout>
 
 </dui:ContentPage>
