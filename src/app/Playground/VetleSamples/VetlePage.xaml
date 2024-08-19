@@ -18,6 +18,10 @@
     </dui:ContentPage.BindingContext>
 
     <VerticalStackLayout>
+        
+        <Grid ColumnDefinitions="*, 1.25*">
+            <dui:DateAndTimePicker />
+        </Grid>
         <dui:DatePicker />
         <dui:TimePicker />
         <dui:DateAndTimePicker />
