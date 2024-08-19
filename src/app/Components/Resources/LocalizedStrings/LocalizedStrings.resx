@@ -329,4 +329,7 @@
     <data name="Alert" xml:space="preserve">
         <value>Alert</value>
     </data>
+    <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
+        <value>Åpne bottom sheet som har knapper i bunn</value>
+    </data>
 </root>

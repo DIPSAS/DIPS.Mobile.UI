@@ -25,14 +25,16 @@ public static class GarbageCollection
     public static void CollectAndWaitForPendingFinalizers()
     {
         if (!DUI.IsDebug) return;
-        Print("Force Collect");
         GC.Collect();
         GC.WaitForPendingFinalizers();
     }
 
-    public static GCCollectionMonitor.CollectionContentTarget ToCollectionContentTarget(this object target)
+    /// <summary>
+    /// Converts the object to an object that can be used in <see cref="GCCollectionMonitor"/> for memory management related things.
+    /// </summary>
+    public static CollectionContentTarget ToCollectionContentTarget(this object target)
     {
-        return new GCCollectionMonitor.CollectionContentTarget(target);
+        return new CollectionContentTarget(target);
     }
     
 }

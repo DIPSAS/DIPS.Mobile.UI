@@ -52,6 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="LightInject" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -83,19 +84,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\library\DIPS.Mobile.UI\DIPS.Mobile.UI.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <MauiXaml Update="Tests\ListItemPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Tests\ListItemPage.xaml.cs">
-        <DependentUpon>ListItemPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
     </ItemGroup>
 
     <ItemGroup>

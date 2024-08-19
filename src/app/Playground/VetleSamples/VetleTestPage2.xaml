@@ -12,14 +12,6 @@
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
     
-    <dui:VerticalStackLayout>
-        <extensions:NavigationListItem Title="hei" 
-                                       Tapped="NavigationListItem_OnTapped"> </extensions:NavigationListItem>
-        
-        <Grid WidthRequest="100"
-                HeightRequest="120"
-                BackgroundColor="Black"
-                dui:Touch.Command="{Binding Test}"
-                dui:Touch.LongPressCommand="{Binding Test}" />
-    </dui:VerticalStackLayout>
+    <dui:Button Clicked="Button_OnClicked" />
+    
 </dui:ContentPage>

@@ -656,5 +656,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Alert", resourceCulture);
             }
         }
+        
+        internal static string BottomSheet_OpenWithBottomBar {
+            get {
+                return ResourceManager.GetString("BottomSheet_OpenWithBottomBar", resourceCulture);
+            }
+        }
     }
 }

@@ -10,24 +10,27 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
-    
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
-    
-    <dui:ContentPage.ToolbarItems>
-        <dui:ContextMenuToolbarItem IconImageSource="{dui:Icons alert_fill}">
-            <dui:ContextMenuToolbarItem.ContextMenu>
-                <dui:ContextMenu Title="Context menu">
-                    <dui:ContextMenuItem Title="Item 1"
-                                         IsCheckable="True"
-                                         DidClick="Button_OnClicked"/>
-                                         
-                </dui:ContextMenu>
-            </dui:ContextMenuToolbarItem.ContextMenu>
-        </dui:ContextMenuToolbarItem>
-            
-    </dui:ContentPage.ToolbarItems>
-    <!-- <dui:Button Text="Open modal" -->
-    <!--             Clicked="Button_OnClicked" /> -->
+
+    <VerticalStackLayout>
+        <dui:NavigationListItem BackgroundColor="Red"
+                                Title="Modal Navigation"
+                                Tapped="ModalNavigation">
+            <dui:NavigationListItem.Effects>
+                <dui:MemoryLeakEffect />
+            </dui:NavigationListItem.Effects>
+        </dui:NavigationListItem>
+        <dui:NavigationListItem BackgroundColor="Blue"
+                                Title="Modal"
+                                Tapped="Modal">
+            <dui:NavigationListItem.Effects>
+                <dui:MemoryLeakEffect />
+            </dui:NavigationListItem.Effects>
+        </dui:NavigationListItem>
+        <dui:NavigationListItem BackgroundColor="Blue"
+                                Title="SwapRoot"
+                                Tapped="SwapRoot" />
+    </VerticalStackLayout>
 </dui:ContentPage>

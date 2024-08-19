@@ -1,32 +1,39 @@
 using Android.Widget;
+using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using ActionMenuView = AndroidX.AppCompat.Widget.ActionMenuView;
+using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, LinearLayout>
+public partial class DateAndTimePickerHandler : ViewHandler<DateAndTimePicker, View>
 {
     private DateTime m_dateSetFromPickers;
+
+    private Grid m_grid;
+    
     private Pickers.DatePicker.DatePicker DatePicker { get; } = new();
     private Pickers.TimePicker.TimePicker TimePicker { get; } = new();
     
-    protected override LinearLayout CreatePlatformView()
+    protected override View CreatePlatformView()
     {
-        return new LinearLayout(Context) { Orientation = Orientation.Horizontal };
+        m_grid = new Grid
+        {
+            ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)],
+            ColumnSpacing = Sizes.GetSize(SizeName.size_1)
+        };
+
+        return m_grid.ToPlatform(DUI.GetCurrentMauiContext!);
     }
 
-    protected override void ConnectHandler(LinearLayout platformView)
+    protected override void ConnectHandler(View platformView)
     {
         base.ConnectHandler(platformView);
 
-        var space = new Space(Context);
-        space.LayoutParameters = new ActionMenuView.LayoutParams(Sizes.GetSize(SizeName.size_3), 0);
-
-        platformView.AddView(DatePicker.ToPlatform(MauiContext!));
-        platformView.AddView(space);
-        platformView.AddView(TimePicker.ToPlatform(MauiContext!));
+        m_grid.Add(DatePicker);
+        m_grid.Add(TimePicker, 1, 0);
 
         TimePicker.SelectedTimeCommand = new Command(() =>
         {

@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -19,7 +20,7 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
         
         m_labelButton = new Button()
         {
-            
+            AutomationId = "LabelButton".ToDUIAutomationId<ExtendedNavigationMenuButton>(),
             Style = DIPS.Mobile.UI.Resources.Styles.Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
             BackgroundColor = Colors.GetColor(ColorName.color_system_white), 

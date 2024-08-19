@@ -8,6 +8,7 @@ using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Components.Pickers;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -51,6 +52,7 @@ internal class SortControlBottomSheet : BottomSheet
     {
         var radioButtonListItem = new RadioButtonListItem
         {
+            AutomationId = "RadioButtonListItem".ToDUIAutomationId<SortControlBottomSheet>(),
             VerticalOptions = LayoutOptions.Center,
             Command = new Command<SelectableItemViewModel>( selectableItemViewModel  =>
             {
@@ -65,6 +67,7 @@ internal class SortControlBottomSheet : BottomSheet
 
         var inLineImage = new Image
         {
+            AutomationId = "InLineImage".ToDUIAutomationId<SortControlBottomSheet>(),
             Source = m_sortControl.CurrentSortOrder == SortOrder.Ascending
                 ? Icons.GetIcon(IconName.ascending_fill)
                 : Icons.GetIcon(IconName.descending_fill),
@@ -73,6 +76,7 @@ internal class SortControlBottomSheet : BottomSheet
 
         var imageBorder = new Border
         {
+            AutomationId = "ImageBorder".ToDUIAutomationId<SortControlBottomSheet>(),
             StrokeShape = new Ellipse(), 
             BackgroundColor = Colors.GetColor(ColorName.color_secondary_20),
             Content = inLineImage,
@@ -81,6 +85,7 @@ internal class SortControlBottomSheet : BottomSheet
 
         var contentView = new ContentView
         {
+            AutomationId = "ContentView".ToDUIAutomationId<SortControlBottomSheet>(),
             WidthRequest = Sizes.GetSize(SizeName.size_8), 
             HeightRequest = Sizes.GetSize(SizeName.size_8),
             Content = imageBorder

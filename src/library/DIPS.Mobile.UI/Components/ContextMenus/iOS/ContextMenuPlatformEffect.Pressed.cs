@@ -10,10 +10,6 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
-#nullable disable
-    private NSObject m_didEnterBackgroundNotification;
-#nullable restore
-    
     private async Task SetupPressedMode(ContextMenu contextMenu)
     {
         contextMenu.ItemsSourceUpdated += RebuildMenu;
@@ -31,14 +27,6 @@ public partial class ContextMenuPlatformEffect
         {
             RebuildMenu();
         }
-        
-        //Recreate the menu to close it, and to make it possible to re-open it in one tap after it went to the background
-        m_didEnterBackgroundNotification = NSNotificationCenter.DefaultCenter.AddObserver(
-            UIApplication.DidEnterBackgroundNotification, delegate
-            {
-                m_uiButton.Menu = null;
-                RebuildMenu();
-            });
     }
 
     private async Task<UIButton> CreateOverlayButton()
@@ -63,16 +51,15 @@ public partial class ContextMenuPlatformEffect
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
             m_contextMenu, RebuildMenu);
-        m_uiButton.Menu =  UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
+        m_uiButton.Menu = UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
     }
 
     private void DisposePressed()
     {
-        if(m_uiButtonToRemove != null)
-            Control.WillRemoveSubview(m_uiButtonToRemove);
-        
-        NSNotificationCenter.DefaultCenter.RemoveObserver(m_didEnterBackgroundNotification);
-        m_didEnterBackgroundNotification.Dispose();
+        m_uiButton?.Menu?.Dispose();
+        if(m_uiButton?.Menu is not null)
+            m_uiButton.Menu = null;
+        m_uiButtonToRemove?.RemoveFromSuperview();
         
         m_contextMenu.ItemsSourceUpdated -= RebuildMenu;
     }

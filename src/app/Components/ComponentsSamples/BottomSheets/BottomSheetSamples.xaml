@@ -19,11 +19,15 @@
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithToolbar}}"
                                 VerticalOptions="Start"
                                 HasBottomDivider="True"/>
+        
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenWithBottomBar}"
+                                Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithBottomBar}}"
+                                VerticalOptions="Start"
+                                HasBottomDivider="True"/>
 
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet}"
                                 Subtitle="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenNotClosableInteracting}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetNotClosableByInteracting}}"
-                                VerticalOptions="Start"
-                                HasBottomDivider="True"/>
+                                VerticalOptions="Start" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

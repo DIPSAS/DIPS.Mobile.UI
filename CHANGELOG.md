@@ -1,3 +1,43 @@
+## [35.2.1] 
+- [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
+
+## [35.2.0] 
+- [MemoryLeak] Added a bindable attached property so that consumers can ignore memory leak resolving on certain views/pages.
+
+## [35.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [35.0.11]
+- [MemoryLeak] Will now try to resolve memory leaks before checking if there are any.
+- [MemoryLeak] Fixed duplicate checking of memory leaks in `BindingContext` of BottomSheets.
+
+## [35.0.10]
+- [MemoryLeak] Fixed crash of app when changing root page.
+
+## [35.0.9]
+- [MemoryLeak] Always wait for 9 GC collections before checking if there is any memory leaks.
+
+## [35.0.8]
+- [BottomSheet] Fixed an issue where app would crash if attempting to create a bottom bar in bottom sheet.
+
+## [35.0.7]
+- [MemoryLeak] Improved GC helping and better output for developers to solve memory leaks.
+
+## [35.0.6]
+- [MemoryLeak] Improved GC helping when changing root and when modals are present, both modals with navigation and not.
+- [MemoryLeak] Made sure BottomSheet binding context will try to GC in debug.
+
+## [35.0.5]
+- [MemoryLeak][iOS] Fixed an issue where a leak could appear in context menu with `Pressed` mode.
+
+## [35.0.4]
+- [MemoryLeak] Improved the output when pages/binding context is resolved or has leaks.
+- [MemoryLeak] Added observing of a pages BindingContext.
+
+## [35.0.3]
+- [MemoryLeak] Fixed an error where if you removed a page from the stack while in a modal context, all pages in the navigation stack would try to be resolved for memory leaks.
+- Refactor `TryResolvePoppedPages` function.
+
 ## [35.0.2]
 - [Android][Chip] Fixed an issue where checkmark were sometimes not visible or the checkmark icon were tinted as black
 - [Android][ChipGroup] Fixed an issue where you could not de-toggle toggled chips when multi-selected `ChipGroup` were used.
