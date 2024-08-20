@@ -32,6 +32,7 @@ public partial class MultiLineInputField : SingleLineInputField
         Text = string.Empty,
         Style = Styles.GetLabelStyle(LabelStyle.Body100),
         IsVisible = true,
+        MaxLines = 1,
         VerticalTextAlignment = TextAlignment.Center,
         HorizontalTextAlignment = TextAlignment.Start,
         HorizontalOptions = LayoutOptions.Start,
@@ -372,6 +373,7 @@ public partial class MultiLineInputField : SingleLineInputField
         else
         {
             m_textLengthLabel.Text = string.Empty;
+            m_doneButton.IsEnabled = true;
         }
     }
 }

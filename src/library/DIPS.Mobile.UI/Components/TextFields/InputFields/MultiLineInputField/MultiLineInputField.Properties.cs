@@ -24,6 +24,9 @@ public partial class MultiLineInputField
         set => SetValue(MaxLinesProperty, value);
     }
 
+    /// <summary>
+    /// Sets the max number of characters that is allowed before the send button disables. 
+    /// </summary>
     public int MaxTextLength
     {
         get => (int)GetValue(MaxTextLengthProperty);
