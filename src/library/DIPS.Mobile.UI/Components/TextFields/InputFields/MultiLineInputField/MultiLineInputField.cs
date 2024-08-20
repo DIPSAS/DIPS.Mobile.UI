@@ -100,6 +100,8 @@ public partial class MultiLineInputField : SingleLineInputField
             Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
+        AutomationProperties.SetIsInAccessibleTree(m_doneButton, false);
+
         
         m_buttonsLayout = new Grid
         { 
