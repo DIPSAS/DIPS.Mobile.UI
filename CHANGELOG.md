@@ -1,3 +1,6 @@
+## [35.3.0] 
+- [Chip][Android] Made sure the text is centered horizontally.
+
 ## [35.2.1] 
 - [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
 

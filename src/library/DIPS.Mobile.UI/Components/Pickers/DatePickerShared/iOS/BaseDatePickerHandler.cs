@@ -33,7 +33,10 @@ public abstract class BaseDatePickerHandler : ViewHandler<IDatePicker, UIDatePic
         platformView.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
     }
 
-    protected abstract void OnValueChanged(object? sender, EventArgs e);
+    protected virtual void OnValueChanged(object? sender, EventArgs e)
+    {
+        VirtualView.SetSelectedDateTime(PlatformView.Date.ConvertDate(VirtualView.IgnoreLocalTime, VirtualView.GetKind()));
+    }
 
     private void OnOpen(object? sender, EventArgs e)
     {

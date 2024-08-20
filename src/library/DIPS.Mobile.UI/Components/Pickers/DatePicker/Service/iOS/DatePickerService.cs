@@ -19,21 +19,8 @@ public partial class DatePickerService
         {
             Close();
         }
-        
-        var nullableDatePicker = datePicker as NullableDatePicker.NullableDatePicker;
-        
-        var dateOnOpen = datePicker.SelectedDate;
-        if (nullableDatePicker is not null)
-        {
-            dateOnOpen = nullableDatePicker.SelectedDate ?? DateTime.Now;
 
-            // If the date is null, set it to the current date and execute the SelectedDateCommand
-            if (nullableDatePicker.SelectedDate is null)
-            {
-                nullableDatePicker.SelectedDate = dateOnOpen;
-                datePicker.SelectedDateCommand?.Execute(null);
-            }
-        }
+        var dateOnOpen = datePicker.SetSelectedDateOnPopoverOpen();
         
         var inlineDatePicker = new InlineDatePicker
         {
@@ -44,26 +31,10 @@ public partial class DatePickerService
             DisplayTodayButton = datePicker.DisplayTodayButton
         };
 
-        inlineDatePicker.SelectedDateCommand = new Command(() =>
-        {
-            if(datePicker.ShouldCloseOnDateSelected)
-                Close();
-
-            if (nullableDatePicker is not null)
-            {
-                nullableDatePicker.SelectedDate = inlineDatePicker.SelectedDate;
-            }
-            else
-            {
-                datePicker.SelectedDate = inlineDatePicker.SelectedDate;
-            }
-            datePicker.SelectedDateCommand?.Execute(null);
-        });
-
         var presentedViewController = new InlineDatePickerPopoverViewController();
         PresentedViewControllerReference =
             new WeakReference<InlineDatePickerPopoverViewController>(presentedViewController);
-        presentedViewController.Setup(inlineDatePicker, sourceView, nullableDatePicker);
+        presentedViewController.Setup(inlineDatePicker, datePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
         

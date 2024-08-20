@@ -27,4 +27,30 @@ public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePi
             SetTitle(SelectedDate.Value);
         }
     }
+
+    public override void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        base.SetSelectedDateTime(selectedDate);
+
+        SelectedDate = selectedDate;
+    }
+
+    public override bool IsNullable()
+    {
+        return true;
+    }
+    
+    public override DateTimeKind GetKind()
+    {
+        return SelectedDate?.Kind ?? DateTimeKind.Unspecified;
+    }
+
+#if __IOS__
+    internal override DateTime SetSelectedDateOnPopoverOpen()
+    {
+        SelectedDate ??= DateTime.Now;
+
+        return SelectedDate.Value;
+    }
+#endif
 }

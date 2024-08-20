@@ -67,7 +67,7 @@ public class VetlePageViewModel : ViewModel
 
     }
 
-    public TimeSpan Time { get; } = TimeSpan.Zero;
+    public TimeSpan? Time { get; set; } = TimeSpan.Zero;
     
     private void Disable()
     {
@@ -238,8 +238,8 @@ public class VetlePageViewModel : ViewModel
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
     public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
-    public DateTime? NullableDate { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
-    public DateTime? StartingNullDate { get; } = null;
+    public DateTime? NullableDate { get; set; } = new DateTime(2023, 2, 1, 0, 0, 0);
+    public DateTime? StartingNullDate { get; set; } = null;
     public List<SortOption> SelectableOrganizations { get; } = [new SortOption("Lol", "Lol")];
 
     public SortOption SelectedOrganizationalUnit

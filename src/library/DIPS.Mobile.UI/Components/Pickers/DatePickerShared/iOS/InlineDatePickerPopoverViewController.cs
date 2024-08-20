@@ -1,40 +1,30 @@
-using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Pickers.NullableDatePickerShared;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
-using Intents;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
 using CGSize = CoreGraphics.CGSize;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
-using VisualElement = Microsoft.Maui.Controls.VisualElement;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
 internal class InlineDatePickerPopoverViewController : UIViewController
 {
 #nullable disable
-    private WeakReference<IDatePicker> m_datePickerReference;
-    private WeakReference<UIDatePicker> m_uiDatePickerReference;
+    private IDatePicker m_inlineDatePicker;
+    private IDatePicker m_datePicker;
 #nullable enable
 
     private bool m_hasAddedAdditionalButtons;
     private Grid? m_grid;
-    private INullableDatePicker? m_nullableDatePicker;
 
-    public void Setup(IDatePicker inlineDatePicker, View? sourceView, INullableDatePicker? nullableDatePicker)
+    public void Setup(IDatePicker inlineDatePicker, IDatePicker datePicker, View? sourceView)
     {
-        m_datePickerReference = new WeakReference<IDatePicker>(inlineDatePicker);
-        m_uiDatePickerReference =
-            new WeakReference<UIDatePicker>(inlineDatePicker.ToPlatform(DUI.GetCurrentMauiContext!) as UIDatePicker ??
-                                            new UIDatePicker());
-        m_nullableDatePicker = nullableDatePicker;
+        m_inlineDatePicker = inlineDatePicker;
+        m_datePicker = datePicker;
 
         var nativeSourceView = sourceView?.ToPlatform(DUI.GetCurrentMauiContext!);
 
@@ -65,10 +55,14 @@ internal class InlineDatePickerPopoverViewController : UIViewController
         {
             PopoverPresentationController.SourceItem = nativeSourceView;
         }
+
+        inlineDatePicker.SelectedDateTimeChanged += OnDateChanged;
     }
 
-    private UIDatePicker? DatePicker => m_uiDatePickerReference.TryGetTarget(out var target) ? target : null;
-    private IDatePicker? InlineDatePicker => m_datePickerReference.TryGetTarget(out var target) ? target : null;
+    private void OnDateChanged(DateTime? dateTime)
+    {
+        m_datePicker?.SetSelectedDateTime(dateTime);
+    }
 
     private UIView ConstructView()
     {
@@ -80,23 +74,20 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             Padding = Sizes.GetSize(SizeName.size_1)
         };
 
-        m_grid?.Add(InlineDatePicker);
-        m_grid?.SetColumnSpan(InlineDatePicker, 2);
+        m_grid.Add(m_inlineDatePicker);
+        m_grid.SetColumnSpan(m_inlineDatePicker, 2);
 
         var divider = new Divider();
-        m_grid?.Add(divider, 0, 1);
-        m_grid?.SetColumnSpan((IView)divider, 2);
+        m_grid.Add(divider, 0, 1);
+        m_grid.SetColumnSpan(divider, 2);
 
-        var displayTodayButton = InlineDatePicker is DatePicker.DatePicker { DisplayTodayButton: true }
-            or DateAndTimePicker.DateAndTimePicker { DisplayTodayButton: true };
-
-        if (displayTodayButton)
+        if (m_datePicker!.DisplayTodayButton)
         {
-            m_grid?.Add(
+            m_grid.Add(
                 new Button
                 {
                     Text = DUILocalizedStrings.Today,
-                    Command = new Command(SetDateToCurrent),
+                    Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
                     Style = Styles.GetLabelStyle(LabelStyle.UI300),
                     TextColor = Colors.GetColor(ColorName.color_primary_90),
                     HorizontalOptions = LayoutOptions.End
@@ -105,9 +96,9 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             m_hasAddedAdditionalButtons = true;
         }
 
-        if (m_nullableDatePicker is not null)
+        if (m_datePicker!.IsNullable())
         {
-            m_grid?.Add(
+            m_grid.Add(
                 new Button
                 {
                     Text = DUILocalizedStrings.Clear,
@@ -120,36 +111,22 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             m_hasAddedAdditionalButtons = true;
         }
 
-        return m_grid!.ToPlatform(DUI.GetCurrentMauiContext!);
+        return m_grid.ToPlatform(DUI.GetCurrentMauiContext!);
     }
 
-    public override void ViewWillDisappear(bool animated)
-    {
-        base.ViewWillDisappear(animated);
-
-        // We can't make this a weak reference since the view is sometimes being GC'ed while the popover is visible causing the buttons to not work
-        m_grid = null;
-
-        // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is
-        // animating its close animation, so we null out the view to prevent this
-        View = new UIView();
-    }
-
-    public override async void ViewIsAppearing(bool animated)
+    public override void ViewIsAppearing(bool animated)
     {
         base.ViewIsAppearing(animated);
 
-        // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is
-        // animating its opening animation, so we wait a bit until the popover is larger to prevent this
-        await Task.Delay(50);
+        View = ConstructView();
 
-        if (DeviceInfo.Idiom != DeviceIdiom.Phone)
-            return;
+        PreferredContentSize = m_datePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
 
-        View = DatePicker?.Mode is UIDatePickerMode.Time ? DatePicker : ConstructView();
-
-        PreferredContentSize = InlineDatePicker is TimePicker.TimePicker ? new CGSize(200, 150) : new CGSize(320, 400);
-
+        if (m_datePicker.Mode is DatePickerMode.Time && m_hasAddedAdditionalButtons)
+        {
+            PreferredContentSize = new CGSize(200, 225);
+        }
+        
         // If the popover is pointing down or right, we need to increase the bottom padding of the grid to fit the additional buttons
         // (For some odd reason)
         if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down &&
@@ -160,40 +137,27 @@ internal class InlineDatePickerPopoverViewController : UIViewController
         }
     }
 
-    private void SetDateToCurrent()
-    {
-        switch (InlineDatePicker)
-        {
-            case DatePicker.DatePicker datePicker:
-                datePicker.SelectedDate = DateTime.Now;
-                datePicker.SelectedDateCommand?.Execute(null);
-                break;
-            case DateAndTimePicker.DateAndTimePicker dateAndTimePicker:
-                dateAndTimePicker.SelectedDateTime = DateTime.Now;
-                dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
-                break;
-        }
-    }
-
     private void SetDateToNull()
     {
-        switch (m_nullableDatePicker)
-        {
-            case NullableDatePicker.NullableDatePicker nullableDatePicker:
-                nullableDatePicker.SelectedDate = null;
-                nullableDatePicker.SelectedDateCommand?.Execute(null);
-                break;
-            case NullableDateAndTimePicker.NullableDateAndTimePicker nullableDateAndTimePicker:
-                nullableDateAndTimePicker.SelectedDateTime = null;
-                nullableDateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
-                break;
-            case NullableTimePicker.NullableTimePicker nullableTimePicker:
-                nullableTimePicker.SelectedTime = null;
-                nullableTimePicker.SelectedTimeCommand?.Execute(null);
-                break;
-        }
-
+        m_inlineDatePicker?.SetSelectedDateTime(null);
         DismissViewControllerAsync(true);
+    }
+    
+    public override void ViewWillDisappear(bool animated)
+    {
+        base.ViewWillDisappear(animated);
+
+        // We can't make this a weak reference since the view is sometimes being GC'ed while the popover is visible causing the buttons to not work
+        m_grid = null;
+
+        m_inlineDatePicker.SelectedDateTimeChanged -= OnDateChanged;
+        m_inlineDatePicker = null;
+        m_datePicker = null;
+        
+        
+        // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is
+        // animating its close animation, so we null out the view to prevent this
+        View = new UIView();
     }
 }
 

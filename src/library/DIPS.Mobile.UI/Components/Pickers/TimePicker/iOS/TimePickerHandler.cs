@@ -18,13 +18,11 @@ public partial class TimePickerHandler : BaseDatePickerHandler
 
     protected override void OnValueChanged(object? sender, EventArgs e)
     {
-        if(VirtualView is not TimePicker timePicker)
+        if(VirtualView is not TimePicker)
             return;
         
         var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, PlatformView.Date);
-        var timeSpan = new TimeSpan((int)components.Hour, (int)components.Minute, 0);
-        timePicker.SelectedTime = timeSpan;
-        timePicker.SelectedTimeCommand?.Execute(null);
+        VirtualView.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, (int)components.Hour, (int)components.Minute, 0));
     }
 
     private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker)

@@ -20,34 +20,15 @@ public partial class TimePickerService
             Close();
         }
 
-        var timeOnOpen = timePicker.SelectedTime;
-        
-        var nullableTimePicker = timePicker as NullableTimePicker.NullableTimePicker;
-        if (nullableTimePicker is not null)
-        {
-            timeOnOpen = nullableTimePicker.SelectedTime ?? new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-
-            // If the date is null, set it to the current date and execute the SelectedDateCommand
-            if (nullableTimePicker.SelectedTime is null)
-            {
-                nullableTimePicker.SelectedTime = timeOnOpen;
-                timePicker.SelectedTimeCommand?.Execute(null);
-            }
-        }
+        var timeOnOpen = timePicker.SetSelectedTimeOnPopoverOpen();
         
         var inlineDatePicker = new InlineTimePicker
         {
             SelectedTime = timeOnOpen
         };
 
-        inlineDatePicker.SelectedTimeCommand = new Command(() =>
-        {
-            timePicker.SelectedTime = inlineDatePicker.SelectedTime;
-            timePicker.SelectedTimeCommand?.Execute(null);
-        });
-       
         PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, sourceView, null);
+        PresentedViewController.Setup(inlineDatePicker, timePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
 

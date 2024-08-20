@@ -16,15 +16,6 @@ public partial class DatePickerHandler : BaseDatePickerHandler
         };
     }
 
-    protected override void OnValueChanged(object? sender, EventArgs e)
-    {
-        if (VirtualView is not DatePicker datePicker)
-            return;
-        
-        datePicker.SelectedDate = PlatformView.Date.ConvertDate(datePicker.IgnoreLocalTime, datePicker.SelectedDate.Kind);
-        datePicker.SelectedDateCommand?.Execute(null);
-    }
-
     private static partial void MapSelectedDate(DatePickerHandler handler, DatePicker datePicker)
     {
         handler.PlatformView.SetDate(datePicker.SelectedDate.ConvertAndCastToNsDate(datePicker.IgnoreLocalTime), true);

@@ -21,7 +21,7 @@ public partial class NullableDateAndTimePicker
             DatePicker.Style = Styles.GetChipStyle(ChipStyle.Input);
             TimePicker.Style = Styles.GetChipStyle(ChipStyle.Input);
             
-            InternalSelectedDateTimeChanged(SelectedDateTime.Value);
+            SetTitle(SelectedDateTime.Value);
         }
     }
 }

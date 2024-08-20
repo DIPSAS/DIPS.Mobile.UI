@@ -16,7 +16,7 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="Start">
         
         <dui:NullableDatePicker SelectedDate="{Binding NullableDate}"
                                 DisplayTodayButton="True"
@@ -26,7 +26,7 @@
                                        DisplayTodayButton="True"
                                        SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
         
-        <dui:NullableTimePicker />
+        <dui:NullableTimePicker SelectedTime="{Binding Time}" />
     </VerticalStackLayout>
     
 </dui:ContentPage>

@@ -27,4 +27,25 @@ public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePi
             SetTitle(SelectedTime.Value);
         }
     }
+
+    public override bool IsNullable()
+    {
+        return true;
+    }
+    
+    public override void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        base.SetSelectedDateTime(selectedDate);
+
+        SelectedTime = selectedDate?.TimeOfDay;
+    }
+
+#if __IOS__
+    public override TimeSpan SetSelectedTimeOnPopoverOpen()
+    {
+        SelectedTime ??= DateTime.Now.TimeOfDay;
+
+        return SelectedTime.Value;
+    }
+#endif
 }

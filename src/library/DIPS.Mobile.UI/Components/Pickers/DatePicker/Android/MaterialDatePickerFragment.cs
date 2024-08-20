@@ -1,3 +1,4 @@
+using Android.Content;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.DatePicker;
@@ -37,7 +38,10 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         }
         
         m_materialDatePicker = builder.SetCalendarConstraints(calendarConstraints.Build()).Build();
+        
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
+        
+        
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
         m_materialDatePicker.Show(fragmentManager!, TimePickerService.TimePickerTag);
@@ -73,9 +77,8 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             //Java uses the unix epoch, so we have to create a csharp date time based on the UnixEpoch start with the milliseconds picked by people using the date picker.
             var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
 
-            
-            m_datePicker.SelectedDate = m_datePicker.IgnoreLocalTime ? dateFromJava.ToUniversalTime() : dateFromJava.ToLocalTime();
-            m_datePicker.SelectedDateCommand?.Execute(null);
+            var dateTime = m_datePicker.IgnoreLocalTime ? dateFromJava.ToUniversalTime() : dateFromJava.ToLocalTime();
+            m_datePicker.SetSelectedDateTime(dateTime);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Globalization;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
@@ -44,7 +45,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             SetTitle(SelectedDate);
         }
 
-        protected void SetTitle(DateTime selectedDate)
+        internal void SetTitle(DateTime selectedDate)
         {
             var convertedDisplayValue =
                 new DateConverter { Format = DateConverterFormat, IgnoreLocalTime = IgnoreLocalTime }.Convert(selectedDate,
@@ -55,19 +56,36 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
                 Title = displayItemAsString;
             }
         }
-        
-        internal virtual void SetSelectedDate(DateTime? selectedDate)
+
+        public event Action<DateTime?>? SelectedDateTimeChanged;
+        public DatePickerMode Mode => DatePickerMode.Date;
+
+        public virtual void SetSelectedDateTime(DateTime? selectedDate)
         {
             if (selectedDate.HasValue)
             {
                 SelectedDate = selectedDate.Value;
-                SelectedDateCommand?.Execute(null);
             }
+            
+            SelectedDateCommand?.Execute(null);
+            SelectedDateTimeChanged?.Invoke(selectedDate);
         }
 
-        internal virtual void SetSelectedDateOnPopoverOpen()
+        public virtual bool IsNullable()
         {
-            
+            return false;
         }
+
+        public virtual DateTimeKind GetKind()
+        {
+            return SelectedDate.Kind;
+        }
+
+#if __IOS__
+        internal virtual DateTime SetSelectedDateOnPopoverOpen()
+        {
+            return SelectedDate;
+        }
+#endif
     }
 }

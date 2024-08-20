@@ -12,16 +12,8 @@ public partial class DateAndTimePicker
         DatePicker = new DatePicker.DatePicker();
         TimePicker = new TimePicker.TimePicker();
 
-        DatePicker.SelectedDateCommand = new Command(() =>
-        {
-            SetSelectedDateTime();
-            SelectedDateTimeCommand?.Execute(null);
-        });
-        TimePicker.SelectedTimeCommand = new Command(() =>
-        {
-            SetSelectedDateTime();
-            SelectedDateTimeCommand?.Execute(null);
-        });
+        DatePicker.SelectedDateCommand = new Command(SetSelectedDateTime);
+        TimePicker.SelectedTimeCommand = new Command(SetSelectedDateTime);
 
         Spacing = Sizes.GetSize(SizeName.size_1);
         
@@ -39,9 +31,11 @@ public partial class DateAndTimePicker
             TimePicker.SelectedTime.Seconds, 
             SelectedDateTime.Kind);
         
-        m_dateSetFromPickers = dateTime.ConvertDate(IgnoreLocalTime);
+        var dateSetFromPickers = dateTime.ConvertDate(IgnoreLocalTime);
 
-        SelectedDateTime = m_dateSetFromPickers;
+        SetSelectedDateTime(dateSetFromPickers);
+
+        m_dateSetFromPickers = dateSetFromPickers;
     }
 
     protected override void OnHandlerChanged()
@@ -73,6 +67,11 @@ public partial class DateAndTimePicker
         if(m_dateSetFromPickers == selectedDateTime)
             return;
 
+        SetTitle(selectedDateTime);
+    }
+
+    protected void SetTitle(DateTime selectedDateTime)
+    {
         var dateTime = selectedDateTime.ConvertDate(IgnoreLocalTime);
         
         var timeSpan = new TimeSpan(dateTime.Hour,
@@ -80,7 +79,10 @@ public partial class DateAndTimePicker
             dateTime.Second);
         
         DatePicker.SelectedDate = dateTime;
+        DatePicker.SetTitle(dateTime);
+        
         TimePicker.SelectedTime = timeSpan;
+        TimePicker.SetTitle(timeSpan);
     }
 
 }

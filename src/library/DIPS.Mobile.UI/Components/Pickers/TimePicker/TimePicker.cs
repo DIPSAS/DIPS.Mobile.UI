@@ -1,5 +1,6 @@
 using System.Globalization;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
@@ -29,7 +30,7 @@ public partial class TimePicker : Chip, IDatePicker
         SetTitle(SelectedTime);
     }
 
-    protected void SetTitle(TimeSpan timeSpan)
+    internal void SetTitle(TimeSpan timeSpan)
     {
         var convertedDisplayValue =
             new TimeConverter { Format = TimeConverter.TimeConverterFormat.Default }.Convert(timeSpan,
@@ -40,4 +41,38 @@ public partial class TimePicker : Chip, IDatePicker
             Title = displayItemAsString;
         }
     }
+
+    public event Action<DateTime?>? SelectedDateTimeChanged;
+    public DatePickerMode Mode => DatePickerMode.Time;
+    public virtual void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        if (selectedDate.HasValue)
+        {
+            SelectedTime = selectedDate.Value.TimeOfDay;
+            OnTimeChanged();
+        }
+        
+        SelectedTimeCommand?.Execute(selectedDate);
+        SelectedDateTimeChanged?.Invoke(selectedDate);
+    }
+
+    public bool DisplayTodayButton => false;
+    
+    public virtual bool IsNullable()
+    {
+        return false;
+    }
+
+    public bool IgnoreLocalTime => true;
+    public DateTimeKind GetKind()
+    {
+        return DateTimeKind.Unspecified;
+    }
+
+#if  __IOS__
+    public virtual TimeSpan SetSelectedTimeOnPopoverOpen()
+    {
+        return SelectedTime;
+    }
+#endif
 }

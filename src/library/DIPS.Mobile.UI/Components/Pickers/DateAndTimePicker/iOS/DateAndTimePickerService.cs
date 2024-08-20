@@ -19,43 +19,18 @@ public class DateAndTimePickerService
             Close();
         }
 
-        var nullableDateAndTimePicker = dateAndTimePicker as NullableDateAndTimePicker.NullableDateAndTimePicker;
-        var dateOnOpen = dateAndTimePicker.SelectedDateTime;
-        if (nullableDateAndTimePicker is not null)
-        {
-            dateOnOpen = nullableDateAndTimePicker.SelectedDateTime ?? DateTime.Now;
-
-            if (nullableDateAndTimePicker.SelectedDateTime is null)
-            {
-                nullableDateAndTimePicker.SelectedDateTime = dateOnOpen;
-                dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
-            }
-        }
+        var dateTimeOnOpen = dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
         
         var inlineDateAndTimePicker = new InlineDateAndTimePicker
         {
             MaximumDate = dateAndTimePicker.MaximumDate,
             MinimumDate = dateAndTimePicker.MinimumDate,
-            SelectedDateTime = dateOnOpen,
-            IgnoreLocalTime = dateAndTimePicker.IgnoreLocalTime,
-            DisplayTodayButton = dateAndTimePicker.DisplayTodayButton
+            SelectedDateTime = dateTimeOnOpen,
+            IgnoreLocalTime = dateAndTimePicker.IgnoreLocalTime
         };
 
-        inlineDateAndTimePicker.SelectedDateTimeCommand = new Command(() =>
-        {
-            if (nullableDateAndTimePicker is not null)
-            {
-                nullableDateAndTimePicker.SelectedDateTime = inlineDateAndTimePicker.SelectedDateTime;
-            }
-            else
-            {
-                dateAndTimePicker.SelectedDateTime = inlineDateAndTimePicker.SelectedDateTime;
-            }
-            dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
-        });
-       
         PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDateAndTimePicker, sourceView, nullableDateAndTimePicker);
+        PresentedViewController.Setup(inlineDateAndTimePicker, dateAndTimePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
         

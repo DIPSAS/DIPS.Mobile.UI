@@ -47,7 +47,6 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
 
     public void OnClick(View? v)
     {
-        m_timePicker.SelectedTime = new TimeSpan(m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0);
-        m_timePicker.SelectedTimeCommand?.Execute(null);
+        m_timePicker.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0));
     }
 }

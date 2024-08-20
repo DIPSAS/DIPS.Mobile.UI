@@ -17,15 +17,6 @@ public partial class DateAndTimePickerHandler : BaseDatePickerHandler
         };
     }
 
-    protected override void OnValueChanged(object? sender, EventArgs e)
-    {
-        if(VirtualView is not DateAndTimePicker dateAndTimePicker)
-            return;
-        
-        dateAndTimePicker.SelectedDateTime = PlatformView.Date.ConvertDate(dateAndTimePicker.IgnoreLocalTime, dateAndTimePicker.SelectedDateTime.Kind);
-        dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
-    }
-
     private static partial void MapMaximumDate(DateAndTimePickerHandler handler, DateAndTimePicker dateAndTimePicker)
     {
         if(dateAndTimePicker.MaximumDate is null)

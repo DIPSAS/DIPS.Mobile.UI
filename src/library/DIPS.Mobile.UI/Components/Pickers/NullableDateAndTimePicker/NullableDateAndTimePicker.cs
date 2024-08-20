@@ -15,6 +15,32 @@ public partial class NullableDateAndTimePicker : DateAndTimePicker.DateAndTimePi
     {
         InternalOnSelectedDateTimeChanged();
     }
-    
+
+    public override void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        base.SetSelectedDateTime(selectedDate);
+
+        SelectedDateTime = selectedDate;
+    }
+
     private partial void InternalOnSelectedDateTimeChanged();
+
+    public override bool IsNullable()
+    {
+        return true;
+    }
+
+    public override DateTimeKind GetKind()
+    {
+        return SelectedDateTime?.Kind ?? DateTimeKind.Unspecified;
+    }
+
+#if __IOS__
+    public override DateTime SetSelectedDateTimeOnPopoverOpen()
+    {
+        SelectedDateTime ??= DateTime.Now;
+
+        return SelectedDateTime.Value;
+    }
+#endif
 }
