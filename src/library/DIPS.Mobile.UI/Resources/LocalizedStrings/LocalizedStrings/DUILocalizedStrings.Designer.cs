@@ -224,5 +224,23 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Time", resourceCulture);
             }
         }
+        
+        internal static string ChooseDate {
+            get {
+                return ResourceManager.GetString("ChooseDate", resourceCulture);
+            }
+        }
+        
+        internal static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        internal static string ChooseTime {
+            get {
+                return ResourceManager.GetString("ChooseTime", resourceCulture);
+            }
+        }
     }
 }

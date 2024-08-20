@@ -18,12 +18,15 @@
 
     <VerticalStackLayout>
         
-        <Grid ColumnDefinitions="*, 1.25*">
-            <dui:DateAndTimePicker />
-        </Grid>
-        <dui:DatePicker />
-        <dui:TimePicker />
-        <dui:DateAndTimePicker />
+        <dui:NullableDatePicker SelectedDate="{Binding NullableDate}"
+                                DisplayTodayButton="True"
+                                SelectedDateCommand="{Binding SelectedDateCommand}" />
+        
+        <dui:NullableDateAndTimePicker SelectedDateTime="{Binding StartingNullDate}"
+                                       DisplayTodayButton="True"
+                                       SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
+        
+        <dui:NullableTimePicker />
     </VerticalStackLayout>
     
 </dui:ContentPage>

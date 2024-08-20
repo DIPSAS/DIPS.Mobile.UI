@@ -28,9 +28,9 @@ public static partial class DUI
             TimePickerService.Close();
         }
 
-        if (Components.Pickers.TimePicker.Android.TimePickerService.IsOpen())
+        if (TimePickerService.IsOpen())
         {
-            Components.Pickers.TimePicker.Android.TimePickerService.Close();
+            TimePickerService.Close();
         }
     }
     

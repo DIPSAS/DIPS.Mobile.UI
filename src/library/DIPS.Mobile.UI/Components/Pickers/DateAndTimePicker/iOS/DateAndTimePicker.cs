@@ -8,8 +8,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 public partial class DateAndTimePicker
 {
-    private readonly Chip m_dateChip;
-    private readonly Chip m_timeChip;
+    protected readonly Chip m_dateChip;
+    protected readonly Chip m_timeChip;
 
     public DateAndTimePicker()
     {
@@ -19,7 +19,7 @@ public partial class DateAndTimePicker
         m_dateChip.Tapped += DateChipOnTapped;
         m_timeChip.Tapped += DateChipOnTapped;
         
-        Spacing = Sizes.GetSize(SizeName.size_3);
+        Spacing = Sizes.GetSize(SizeName.size_1);
         
         Add(m_dateChip);
         Add(m_timeChip);
@@ -30,10 +30,10 @@ public partial class DateAndTimePicker
         DateAndTimePickerService.Open(this, this);
     }
 
-    private partial void InternalSelectedDateTimeChanged()
+    protected partial void InternalSelectedDateTimeChanged(DateTime selectedDateTime)
     {
         var shouldConvert = string.IsNullOrEmpty(m_dateChip.Title);
-        var date = SelectedDateTime;
+        var date = selectedDateTime;
         if (shouldConvert)
         {
             date = date.ConvertDate(IgnoreLocalTime);

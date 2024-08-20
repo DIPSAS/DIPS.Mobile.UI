@@ -238,6 +238,8 @@ public class VetlePageViewModel : ViewModel
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
     public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
+    public DateTime? NullableDate { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
+    public DateTime? StartingNullDate { get; } = null;
     public List<SortOption> SelectableOrganizations { get; } = [new SortOption("Lol", "Lol")];
 
     public SortOption SelectedOrganizationalUnit
@@ -245,6 +247,11 @@ public class VetlePageViewModel : ViewModel
         get => m_selectedOrganizationalUnit;
         set => RaiseWhenSet(ref m_selectedOrganizationalUnit, value);
     }
+
+    public ICommand SelectedDateCommand => new Command<DateTime?>(date =>
+    {
+        
+    });
 }
 
 public class SortOption

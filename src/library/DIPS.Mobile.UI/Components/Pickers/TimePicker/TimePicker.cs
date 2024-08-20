@@ -26,8 +26,13 @@ public partial class TimePicker : Chip, IDatePicker
 
     private void OnTimeChanged()
     {
+        SetTitle(SelectedTime);
+    }
+
+    protected void SetTitle(TimeSpan timeSpan)
+    {
         var convertedDisplayValue =
-            new TimeConverter { Format = TimeConverter.TimeConverterFormat.Default }.Convert(SelectedTime,
+            new TimeConverter { Format = TimeConverter.TimeConverterFormat.Default }.Convert(timeSpan,
                 null, null,
                 CultureInfo.CurrentCulture);
         if (convertedDisplayValue is string displayItemAsString)

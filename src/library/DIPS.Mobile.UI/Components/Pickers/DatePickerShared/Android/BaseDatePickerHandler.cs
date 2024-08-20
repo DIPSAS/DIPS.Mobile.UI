@@ -31,10 +31,10 @@ public class BaseDatePickerHandler : ViewHandler<IDatePicker, Google.Android.Mat
         switch (VirtualView)
         {
             case DatePicker.DatePicker datePicker:
-                TimePickerService.Open(datePicker);
+                DatePickerService.Open(datePicker);
                 break;
             case TimePicker.TimePicker timePicker:
-                TimePicker.Android.TimePickerService.Open(timePicker);
+                TimePickerService.Open(timePicker);
                 break;
         }
     }

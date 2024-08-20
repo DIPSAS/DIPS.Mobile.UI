@@ -23,7 +23,7 @@ public partial class DateAndTimePicker
             SelectedDateTimeCommand?.Execute(null);
         });
 
-        Spacing = Sizes.GetSize(SizeName.size_3);
+        Spacing = Sizes.GetSize(SizeName.size_1);
         
         Add(m_datePicker);
         Add(m_timePicker);
@@ -39,7 +39,7 @@ public partial class DateAndTimePicker
             m_timePicker.SelectedTime.Seconds, 
             SelectedDateTime.Kind);
         
-        m_dateSetFromPickers = ConvertDate(dateTime, IgnoreLocalTime);
+        m_dateSetFromPickers = dateTime.ConvertDate(IgnoreLocalTime);
 
         SelectedDateTime = m_dateSetFromPickers;
     }
@@ -67,13 +67,13 @@ public partial class DateAndTimePicker
         }
     }
 
-    private partial void InternalSelectedDateTimeChanged()
+    protected partial void InternalSelectedDateTimeChanged(DateTime selectedDateTime)
     {
         // If the date is already set from the pickers, we don't want to show the converted date to the consumer.
-        if(m_dateSetFromPickers == SelectedDateTime)
+        if(m_dateSetFromPickers == selectedDateTime)
             return;
 
-        var dateTime = ConvertDate(SelectedDateTime, IgnoreLocalTime);
+        var dateTime = selectedDateTime.ConvertDate(IgnoreLocalTime);
         
         var timeSpan = new TimeSpan(dateTime.Hour,
             dateTime.Minute,
@@ -82,4 +82,5 @@ public partial class DateAndTimePicker
         m_datePicker.SelectedDate = dateTime;
         m_timePicker.SelectedTime = timeSpan;
     }
+
 }

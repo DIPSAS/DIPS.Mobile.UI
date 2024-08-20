@@ -7,29 +7,55 @@ public class DateAndTimePickerService
 {
     internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
     
-    public static void Open(DateAndTimePicker datePicker, View? sourceView = null)
+    public static async void Open(DateAndTimePicker dateAndTimePicker, View? sourceView = null)
     {
+        if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
+        {
+            await viewController.DismissViewControllerAsync(false);
+        }
+        
         if (IsOpen())
         {
             Close();
         }
+
+        var nullableDateAndTimePicker = dateAndTimePicker as NullableDateAndTimePicker.NullableDateAndTimePicker;
+        var dateOnOpen = dateAndTimePicker.SelectedDateTime;
+        if (nullableDateAndTimePicker is not null)
+        {
+            dateOnOpen = nullableDateAndTimePicker.SelectedDateTime ?? DateTime.Now;
+
+            if (nullableDateAndTimePicker.SelectedDateTime is null)
+            {
+                nullableDateAndTimePicker.SelectedDateTime = dateOnOpen;
+                dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
+            }
+        }
         
         var inlineDateAndTimePicker = new InlineDateAndTimePicker
         {
-            MaximumDate = datePicker.MaximumDate,
-            MinimumDate = datePicker.MinimumDate,
-            SelectedDateTime = datePicker.SelectedDateTime,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime
+            MaximumDate = dateAndTimePicker.MaximumDate,
+            MinimumDate = dateAndTimePicker.MinimumDate,
+            SelectedDateTime = dateOnOpen,
+            IgnoreLocalTime = dateAndTimePicker.IgnoreLocalTime,
+            DisplayTodayButton = dateAndTimePicker.DisplayTodayButton
         };
 
         inlineDateAndTimePicker.SelectedDateTimeCommand = new Command(() =>
         {
-            datePicker.SelectedDateTime = inlineDateAndTimePicker.SelectedDateTime;
-            datePicker.SelectedDateTimeCommand?.Execute(null);
+            if (nullableDateAndTimePicker is not null)
+            {
+                nullableDateAndTimePicker.SelectedDateTime = inlineDateAndTimePicker.SelectedDateTime;
+            }
+            else
+            {
+                dateAndTimePicker.SelectedDateTime = inlineDateAndTimePicker.SelectedDateTime;
+            }
+            dateAndTimePicker.SelectedDateTimeCommand?.Execute(null);
         });
        
         PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDateAndTimePicker, sourceView);
+        PresentedViewController.Setup(inlineDateAndTimePicker, sourceView, nullableDateAndTimePicker);
         
         var currentViewController = Platform.GetCurrentUIViewController();
         

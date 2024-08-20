@@ -8,10 +8,9 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
     
     private void OnSelectedDateTimeChanged()
     {    
-        InternalSelectedDateTimeChanged();
+        InternalSelectedDateTimeChanged(SelectedDateTime);
     }
 
-    private partial void InternalSelectedDateTimeChanged();
-    
+    protected partial void InternalSelectedDateTimeChanged(DateTime selectedDateTime);
     
 }

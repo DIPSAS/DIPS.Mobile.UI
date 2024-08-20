@@ -1,10 +1,8 @@
-using System.Windows.Input;
-
 namespace DIPS.Mobile.UI.Components.Pickers.NullableDatePicker;
 
 public partial class NullableDatePicker
 {
-    public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
+   public static new readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
         nameof(SelectedDate),
         typeof(DateTime?),
         typeof(NullableDatePicker), defaultBindingMode: BindingMode.TwoWay,

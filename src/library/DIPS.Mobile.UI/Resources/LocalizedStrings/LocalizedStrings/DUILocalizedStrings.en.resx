@@ -104,4 +104,13 @@
     <data name="Time" xml:space="preserve">
         <value>Time</value>
     </data>
+    <data name="ChooseDate" xml:space="preserve">
+        <value>Choose date</value>
+    </data>
+    <data name="Clear" xml:space="preserve">
+        <value>Clear</value>
+    </data>
+    <data name="ChooseTime" xml:space="preserve">
+        <value>Choose time</value>
+    </data>
 </root>

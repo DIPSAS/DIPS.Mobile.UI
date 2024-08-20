@@ -75,5 +75,6 @@ public partial class DateAndTimePicker
         get => (DateTime?)GetValue(MaximumDateProperty);
         set => SetValue(MaximumDateProperty, value);
     }
-    
+
+    public bool DisplayTodayButton { get; set; }
 }

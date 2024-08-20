@@ -40,7 +40,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
-        m_materialDatePicker.Show(fragmentManager!, TimePickerService.DatePickerTag);
+        m_materialDatePicker.Show(fragmentManager!, TimePickerService.TimePickerTag);
     }
 
     private void SetDatePickerSelection(MaterialDatePicker.Builder builder)
@@ -53,13 +53,13 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
     public bool IsOpen()
     {
-        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
         return fragment is MaterialDatePicker;
     }
 
     public void Close()
     {
-        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.DatePickerTag);
+        var fragment = Platform.CurrentActivity?.GetFragmentManager()?.FindFragmentByTag(TimePickerService.TimePickerTag);
         if (fragment is MaterialDatePicker datePickerFragment)
         {
             datePickerFragment.Dismiss();
