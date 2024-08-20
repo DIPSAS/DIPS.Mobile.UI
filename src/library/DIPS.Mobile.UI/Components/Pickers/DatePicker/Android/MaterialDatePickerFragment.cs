@@ -72,6 +72,8 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         {
             //Java uses the unix epoch, so we have to create a csharp date time based on the UnixEpoch start with the milliseconds picked by people using the date picker.
             var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
+
+            
             m_datePicker.SelectedDate = m_datePicker.IgnoreLocalTime ? dateFromJava.ToUniversalTime() : dateFromJava.ToLocalTime();
             m_datePicker.SelectedDateCommand?.Execute(null);
         }

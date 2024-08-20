@@ -10,16 +10,16 @@ public partial class NullableDateAndTimePicker
     {
         if (SelectedDateTime is null)
         {
-            m_dateChip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
-            m_timeChip.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            DatePicker.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            TimePicker.Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
 
-            m_dateChip.Title = DUILocalizedStrings.ChooseDate;
-            m_timeChip.Title = DUILocalizedStrings.ChooseTime;
+            DatePicker.Title = DUILocalizedStrings.ChooseDate;
+            TimePicker.Title = DUILocalizedStrings.ChooseTime;
         }
         else
         {
-            m_dateChip.Style = Styles.GetChipStyle(ChipStyle.Input);
-            m_timeChip.Style = Styles.GetChipStyle(ChipStyle.Input);
+            DatePicker.Style = Styles.GetChipStyle(ChipStyle.Input);
+            TimePicker.Style = Styles.GetChipStyle(ChipStyle.Input);
             
             InternalSelectedDateTimeChanged(SelectedDateTime.Value);
         }

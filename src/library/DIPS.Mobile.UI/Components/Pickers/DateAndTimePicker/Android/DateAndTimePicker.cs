@@ -4,20 +4,20 @@ public partial class DateAndTimePicker
 {
     private DateTime m_dateSetFromPickers;
     
-    private readonly DatePicker.DatePicker m_datePicker;
-    private readonly TimePicker.TimePicker m_timePicker;
+    protected readonly DatePicker.DatePicker DatePicker;
+    protected readonly TimePicker.TimePicker TimePicker;
     
     public DateAndTimePicker()
     {
-        m_datePicker = new DatePicker.DatePicker();
-        m_timePicker = new TimePicker.TimePicker();
+        DatePicker = new DatePicker.DatePicker();
+        TimePicker = new TimePicker.TimePicker();
 
-        m_datePicker.SelectedDateCommand = new Command(() =>
+        DatePicker.SelectedDateCommand = new Command(() =>
         {
             SetSelectedDateTime();
             SelectedDateTimeCommand?.Execute(null);
         });
-        m_timePicker.SelectedTimeCommand = new Command(() =>
+        TimePicker.SelectedTimeCommand = new Command(() =>
         {
             SetSelectedDateTime();
             SelectedDateTimeCommand?.Execute(null);
@@ -25,18 +25,18 @@ public partial class DateAndTimePicker
 
         Spacing = Sizes.GetSize(SizeName.size_1);
         
-        Add(m_datePicker);
-        Add(m_timePicker);
+        Add(DatePicker);
+        Add(TimePicker);
     }
 
     private void SetSelectedDateTime()
     {
-        var dateTime = new DateTime(m_datePicker.SelectedDate.Year, 
-            m_datePicker.SelectedDate.Month,
-            m_datePicker.SelectedDate.Day, 
-            m_timePicker.SelectedTime.Hours, 
-            m_timePicker.SelectedTime.Minutes, 
-            m_timePicker.SelectedTime.Seconds, 
+        var dateTime = new DateTime(DatePicker.SelectedDate.Year, 
+            DatePicker.SelectedDate.Month,
+            DatePicker.SelectedDate.Day, 
+            TimePicker.SelectedTime.Hours, 
+            TimePicker.SelectedTime.Minutes, 
+            TimePicker.SelectedTime.Seconds, 
             SelectedDateTime.Kind);
         
         m_dateSetFromPickers = dateTime.ConvertDate(IgnoreLocalTime);
@@ -79,8 +79,8 @@ public partial class DateAndTimePicker
             dateTime.Minute,
             dateTime.Second);
         
-        m_datePicker.SelectedDate = dateTime;
-        m_timePicker.SelectedTime = timeSpan;
+        DatePicker.SelectedDate = dateTime;
+        TimePicker.SelectedTime = timeSpan;
     }
 
 }

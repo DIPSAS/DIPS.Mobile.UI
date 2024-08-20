@@ -5,7 +5,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
 public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
 {
-    
     private void OnSelectedDateTimeChanged()
     {    
         InternalSelectedDateTimeChanged(SelectedDateTime);

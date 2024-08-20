@@ -55,5 +55,19 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
                 Title = displayItemAsString;
             }
         }
+        
+        internal virtual void SetSelectedDate(DateTime? selectedDate)
+        {
+            if (selectedDate.HasValue)
+            {
+                SelectedDate = selectedDate.Value;
+                SelectedDateCommand?.Execute(null);
+            }
+        }
+
+        internal virtual void SetSelectedDateOnPopoverOpen()
+        {
+            
+        }
     }
 }
