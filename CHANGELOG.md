@@ -1,3 +1,6 @@
+## [35.3.0]
+- [MultiLineInputField] Add `MaxTextLength` property.
+
 ## [35.2.1] 
 - [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
 

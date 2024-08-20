@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
 public partial class MultiLineInputField : SingleLineInputField
 {
-    private HorizontalStackLayout? m_buttonsLayout;
+    private Grid? m_buttonsLayout;
 
     private string? m_textWhenFirstFocused;
 
@@ -22,6 +22,19 @@ public partial class MultiLineInputField : SingleLineInputField
         IsVisible = false,
         Margin = new Thickness(0, 4, 8, 0),
         VerticalTextAlignment = TextAlignment.Start,
+        LineBreakMode = LineBreakMode.TailTruncation
+    };
+
+    private Button m_doneButton = new ();
+
+    private Label m_textLengthLabel = new Labels.Label
+    {
+        Text = string.Empty,
+        Style = Styles.GetLabelStyle(LabelStyle.Body100),
+        IsVisible = true,
+        VerticalTextAlignment = TextAlignment.Center,
+        HorizontalTextAlignment = TextAlignment.Start,
+        HorizontalOptions = LayoutOptions.Start,
         LineBreakMode = LineBreakMode.TailTruncation
     };
 
@@ -66,7 +79,7 @@ public partial class MultiLineInputField : SingleLineInputField
         m_label.SetBinding(Labels.Label.IsTruncatedProperty, new Binding(nameof(IsTruncated), source: this));
         m_label.SetBinding(Label.TextProperty, new Binding(nameof(Text), source: this));
         m_label.SetBinding(Label.MaxLinesProperty, new Binding(nameof(MaxLines), source: this));
-
+        
         InnerGrid.Add(m_label, 0, 1);
     }
 
@@ -79,21 +92,28 @@ public partial class MultiLineInputField : SingleLineInputField
             Command = new Command(OnCancelTapped)
         };
 
-        var doneButton = new Button
+        m_doneButton = new Button
         {
             Text = DUILocalizedStrings.Save, 
             Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
             Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
-
-        m_buttonsLayout = new HorizontalStackLayout 
+        
+        m_buttonsLayout = new Grid
         { 
-            HorizontalOptions = LayoutOptions.End,
-            Spacing = 10,
-            Margin = new Thickness(0, 8, 0, 0),
-            Children = { cancelButton, doneButton } 
+            ColumnDefinitions =
+            [
+                new ColumnDefinition { Width = GridLength.Star },
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto }
+            ],
+            ColumnSpacing = 10,
+            Margin = new Thickness(0, 8, 0, 0)
         };
+        m_buttonsLayout.Add(m_textLengthLabel, column: 0);
+        m_buttonsLayout.Add(cancelButton, column: 1);
+        m_buttonsLayout.Add(m_doneButton, column: 2);
     }
     
     protected override void OnInputViewFocused(object? sender, FocusEventArgs e)
@@ -132,6 +152,11 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private void ToggleButtonsVisibility(bool isEnabled)
     {
+        if (MaxTextLength > 0)
+        {
+            m_textLengthLabel = UpdateTextLengthLabel();
+        }
+        
         if (!InnerGrid.Contains(m_buttonsLayout))
         {
             InnerGrid.Add(m_buttonsLayout, 0, 2);
@@ -176,6 +201,41 @@ public partial class MultiLineInputField : SingleLineInputField
         base.OnTextChanged();
 
         UpdateLabelVisibility();
+        if (MaxTextLength > 0)
+        {
+            m_textLengthLabel = UpdateTextLengthLabel();
+        }
+    }
+
+    private Label UpdateTextLengthLabel()
+    {
+        if (Text.Length == 0)
+        {
+            m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, MaxTextLength.ToString());
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_doneButton.IsEnabled = true;
+        }
+        else if (MaxTextLength > Text.Length)
+        {
+            m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, (MaxTextLength - Text.Length).ToString());
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_doneButton.IsEnabled = true;
+            
+        }
+        else if (MaxTextLength == Text.Length)
+        {
+            m_textLengthLabel.Text = DUILocalizedStrings.MaxCharactersReached;
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_doneButton.IsEnabled = true;
+        }
+        else
+        {
+            m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersTooMany, (Text.Length - MaxTextLength).ToString());
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
+            m_doneButton.IsEnabled = false;
+        }
+
+        return m_textLengthLabel;
     }
 
     private void UpdateLabelVisibility()
@@ -301,5 +361,17 @@ public partial class MultiLineInputField : SingleLineInputField
     private void FadeInContent()
     {
         InnerGrid.FadeTo(1);
+    }
+
+    private void OnMaxTextLengthChanged()
+    {
+        if (MaxTextLength > 0)
+        {
+            m_textLengthLabel = UpdateTextLengthLabel();
+        }
+        else
+        {
+            m_textLengthLabel.Text = string.Empty;
+        }
     }
 }
