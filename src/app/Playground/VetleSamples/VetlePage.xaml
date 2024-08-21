@@ -6,7 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:iOs="clr-namespace:DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
@@ -27,6 +26,11 @@
                                        SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
         
         <dui:NullableTimePicker SelectedTime="{Binding Time}" />
+        
+        <dui:DatePicker DisplayTodayButton="True" />
+        
+        <dui:DatePicker />
+
     </VerticalStackLayout>
     
 </dui:ContentPage>

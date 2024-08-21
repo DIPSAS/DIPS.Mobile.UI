@@ -58,6 +58,12 @@ internal class InlineDatePickerPopoverViewController : UIViewController
 
         inlineDatePicker.SelectedDateTimeChanged += OnDateChanged;
     }
+    
+    public void SwitchToTimePicker()
+    {
+        m_grid?.Remove(m_inlineDatePicker);
+        m_grid?.Add(m_datePicker!.TimePicker, 0, 0);
+    }
 
     private void OnDateChanged(DateTime? dateTime)
     {

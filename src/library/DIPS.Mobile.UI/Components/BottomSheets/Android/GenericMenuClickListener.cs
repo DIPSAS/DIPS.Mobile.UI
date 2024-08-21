@@ -1,4 +1,5 @@
 using Android.Views;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
