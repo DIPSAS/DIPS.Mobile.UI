@@ -25,6 +25,9 @@ namespace DIPS.Mobile.UI.Components.Buttons
 
         private void OnIsEnabledChanged()
         {
+            //Had to add this due to a random app crash when button padding changes.
+            if (Handler?.PlatformView == null) return;
+            
             if (IsEnabled)
             {
                 if (m_buttonStyleBasedOn is not null)
