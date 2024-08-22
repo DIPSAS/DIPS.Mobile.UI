@@ -25,6 +25,8 @@ namespace DIPS.Mobile.UI.Components.Buttons
 
         private void OnIsEnabledChanged()
         {
+            if (Handler?.PlatformView == null) return;
+            
             if (IsEnabled)
             {
                 if (m_buttonStyleBasedOn is not null)

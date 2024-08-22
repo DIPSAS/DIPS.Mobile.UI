@@ -1,3 +1,6 @@
+## [35.3.1]
+- [Button] Made sure to guard changing style if platformview is null.
+
 ## [35.3.0]
 - [MultiLineInputField] Add `MaxTextLength` property.
 
