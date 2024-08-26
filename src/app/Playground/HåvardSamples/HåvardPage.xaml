@@ -10,27 +10,19 @@
                  x:Class="Playground.HåvardSamples.HåvardPage"
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
+    <dui:ContentPage.Resources>
+        <x:String x:Key="More">"More"</x:String>
+    </dui:ContentPage.Resources>
     <dui:ContentPage.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <VerticalStackLayout>
-        <dui:NavigationListItem BackgroundColor="Red"
-                                Title="Modal Navigation"
-                                Tapped="ModalNavigation">
-            <dui:NavigationListItem.Effects>
-                <dui:MemoryLeakEffect />
-            </dui:NavigationListItem.Effects>
-        </dui:NavigationListItem>
-        <dui:NavigationListItem BackgroundColor="Blue"
-                                Title="Modal"
-                                Tapped="Modal">
-            <dui:NavigationListItem.Effects>
-                <dui:MemoryLeakEffect />
-            </dui:NavigationListItem.Effects>
-        </dui:NavigationListItem>
-        <dui:NavigationListItem BackgroundColor="Blue"
-                                Title="SwapRoot"
-                                Tapped="SwapRoot" />
-    </VerticalStackLayout>
+    <Grid Padding="{dui:Thickness size_2}">
+        <dui:Label Text="{Binding LongText}" MaxLines="3"  TruncatedText="More" x:Name="truncatingLabel"/>
+        <dui:HorizontalStackLayout HorizontalOptions="Start"
+                                   VerticalOptions="Center"
+                                   Spacing="{dui:Sizes size_1}">
+            <dui:Button Text="Remove" Command="{Binding Command}"/>
+        </dui:HorizontalStackLayout>
+    </Grid>
 </dui:ContentPage>
