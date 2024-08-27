@@ -3,7 +3,7 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
-public partial class Chip : View
+public partial class Chip : ContentView
 {
     private static Style? m_buttonToggleStyle;
 

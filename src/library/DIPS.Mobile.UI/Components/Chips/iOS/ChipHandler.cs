@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Buttons;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Foundation;
@@ -7,16 +8,40 @@ using Microsoft.Maui.Platform;
 using UIKit;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using ContentView = Microsoft.Maui.Platform.ContentView;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Chips;
 
-public partial class ChipHandler : ViewHandler<Chip, UIButton>
+public partial class ChipHandler : ContentViewHandler
 {
-    protected override UIButton CreatePlatformView()
+    private Border m_border;
+    private Image m_leftSideImage;
+    private Label m_label;
+    private ImageButton m_rightSideImageButton;
+
+    protected override void ConnectHandler(ContentView platformView)
     {
-        return new ChipButton { OnTapped = OnTappedButtonChip };
+        base.ConnectHandler(platformView);
+
+        var container = new HorizontalStackLayout { Spacing = Sizes.GetSize(SizeName.size_1) };
+
+        Touch.SetCommand(container, new Command(OnTappedButtonChip));
+        
+        m_leftSideImage = new Image { IsVisible = false };
+        m_label = new Label();
+        m_rightSideImageButton = new ImageButton { IsVisible = false };
+        
+        container.Add(m_leftSideImage);
+        container.Add(m_label);
+        container.Add(m_rightSideImageButton);
+        
+        if (VirtualView is Microsoft.Maui.Controls.ContentView contentView)
+        {
+            contentView.Content = container;
+        }
     }
 
     private void OnTappedButtonChip(NSSet touches)
