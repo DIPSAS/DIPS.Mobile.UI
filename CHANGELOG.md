@@ -1,6 +1,21 @@
-## [35.1.1] 
+## [35.4.0] 
 - [MemoryLeak] Will now correctly log GC of modal pages.
 - [MemoryLeak] Added better logging.
+
+## [35.3.2]
+- [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.
+
+## [35.3.1]
+- [Button] Made sure to guard changing style if platformview is null.
+
+## [35.3.0]
+- [MultiLineInputField] Add `MaxTextLength` property.
+
+## [35.2.1] 
+- [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
+
+## [35.2.0] 
+- [MemoryLeak] Added a bindable attached property so that consumers can ignore memory leak resolving on certain views/pages.
 
 ## [35.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

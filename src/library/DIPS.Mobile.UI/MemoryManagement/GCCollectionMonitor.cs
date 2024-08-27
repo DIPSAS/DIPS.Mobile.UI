@@ -213,9 +213,18 @@ public class GCCollectionMonitor
     /// </summary>
     public void TryResolveMemoryLeaksInContent(object content, bool isRoot = true)
     {
+        if(content is BindableObject bindableObject)
+        {
+            if (MemoryLeaks.GetSkipAutomaticMemoryLeakResolving(bindableObject))
+            {
+                GarbageCollection.Print($"⏭️ Skipping automatic memory leak resolving for {content.GetType().Name}");
+                return;
+            }
+        }
+        
         if (isRoot)
             GarbageCollection.Print("Auto resolving memory leaks...");
-
+        
         if (content is IVisualTreeElement visualTreeElement)
         {
             foreach (var child in visualTreeElement.GetVisualChildren())

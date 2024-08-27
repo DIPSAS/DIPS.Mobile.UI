@@ -20,6 +20,7 @@
             
             <dui:MultiLineInputField HeaderText="{Binding Source={x:Reference MultiLineEntry}, Path=Text}"
                                      x:Name="MultiLineTextArea"
+                                     MaxTextLength="{Binding Source={x:Reference MaxTextLengthStepper}, Path=Value}"
                                      HelpText="{Binding Source={x:Reference HelpTextSwitch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject='HelpText', FalseObject=''}}"
                                      IsError="{Binding IsError}"
                                      ErrorText="Error"
@@ -38,10 +39,25 @@
 
                     <Stepper Minimum="1"
                              Value="5"
-                             x:Name="Stepper"
-                             ValueChanged="Stepper_OnValueChanged" />
+                             x:Name="MaxLinesStepper"
+                             ValueChanged="MaxLinesStepper_OnValueChanged" />
 
-                    <dui:Label Text="{Binding Source={x:Reference Stepper}, Path=Value}"
+                    <dui:Label Text="{Binding Source={x:Reference MaxLinesStepper}, Path=Value}"
+                               VerticalTextAlignment="Center"
+                               Style="{dui:Styles Label=UI300}" />
+
+                </dui:HorizontalStackLayout>
+            </dui:ListItem>
+            
+            <dui:ListItem Title="MaxTextLength">
+                <dui:HorizontalStackLayout Spacing="8">
+
+                    <Stepper Minimum="0"
+                             Value="0"
+                             x:Name="MaxTextLengthStepper"
+                             ValueChanged="MaxTextLengthStepper_OnValueChanged" />
+
+                    <dui:Label Text="{Binding Source={x:Reference MaxTextLengthStepper}, Path=Value}"
                                VerticalTextAlignment="Center"
                                Style="{dui:Styles Label=UI300}" />
 

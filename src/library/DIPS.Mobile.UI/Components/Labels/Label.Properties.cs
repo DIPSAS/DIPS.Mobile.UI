@@ -48,4 +48,21 @@ public partial class Label
         typeof(bool),
         typeof(Label),
         defaultBindingMode: BindingMode.OneWayToSource);
+
+    public new static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(Text),
+        typeof(string),
+        typeof(Label), propertyChanged: ((bindable, _, _) =>
+        {
+            ((Label)bindable).OnTextChanged();
+        }));
+
+    /// <summary>
+    /// <inheritdoc cref="Microsoft.Maui.Controls.Label.Text"/>
+    /// </summary>
+    public new string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
 }

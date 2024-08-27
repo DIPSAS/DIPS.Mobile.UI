@@ -10,6 +10,13 @@ public partial class HåvardPage
     {
         InitializeComponent();
         m_håvardPageViewModel = BindingContext as HåvardPageViewModel;
+        // m_håvardPageViewModel.PropertyChanged += (sender, args) =>
+        // {
+        //     if (args.PropertyName == "LongText")
+        //     {
+        //         truncatingLabel.ForceUpdateText(m_håvardPageViewModel.LongText);
+        //     }
+        // };
     }
     
     private void ContextMenuItem_OnDidClick(object sender, EventArgs e)

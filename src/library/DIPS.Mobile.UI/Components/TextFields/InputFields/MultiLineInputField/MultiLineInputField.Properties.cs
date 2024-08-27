@@ -25,6 +25,15 @@ public partial class MultiLineInputField
     }
 
     /// <summary>
+    /// Sets the max number of characters that is allowed before the send button disables. 
+    /// </summary>
+    public int MaxTextLength
+    {
+        get => (int)GetValue(MaxTextLengthProperty);
+        set => SetValue(MaxTextLengthProperty, value);
+    }
+
+    /// <summary>
     ///  Executed when people tap the save button.
     /// </summary>
     /// <remarks>The text gets sent as a string to the <see cref="Command"/> as a CommandParameter</remarks>
@@ -127,6 +136,13 @@ public partial class MultiLineInputField
         typeof(int),
         typeof(MultiLineInputField),
         defaultValue:int.MaxValue);
+
+    public static readonly BindableProperty MaxTextLengthProperty = BindableProperty.Create(
+        nameof(MaxTextLength),
+        typeof(int),
+        typeof(MultiLineInputField),
+        propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnMaxTextLengthChanged(),
+        defaultValue: 0);
     
     public static readonly BindableProperty IsTruncatedProperty = BindableProperty.Create(
         nameof(IsTruncated),
