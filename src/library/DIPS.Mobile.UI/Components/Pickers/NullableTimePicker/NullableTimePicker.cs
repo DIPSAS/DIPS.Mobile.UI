@@ -7,6 +7,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableTimePicker;
 
 public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePicker
 {
+    public NullableTimePicker()
+    {
+        CloseCommand = new Command(OnCloseTapped);
+    }
+
+    private void OnCloseTapped()
+    {
+        SelectedTime = null;
+    }
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
@@ -18,11 +28,13 @@ public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePi
     {
         if (SelectedTime is null)
         {
+            IsCloseable = false;
             Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
             Title = DUILocalizedStrings.ChooseTime;
         }
         else
         {
+            IsCloseable = true;
             Style = Styles.GetChipStyle(ChipStyle.Input);
             SetTitle(SelectedTime.Value);
         }

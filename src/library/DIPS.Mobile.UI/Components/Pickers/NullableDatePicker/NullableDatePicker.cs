@@ -7,6 +7,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.NullableDatePicker;
 
 public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePicker
 {
+    public NullableDatePicker()
+    {
+        CloseCommand = new Command(OnCloseTapped);
+    }
+
+    private void OnCloseTapped()
+    {
+        SelectedDate = null;
+    }
+
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
@@ -18,11 +28,13 @@ public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePi
     {
         if (SelectedDate is null)
         {
+            IsCloseable = false;
             Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
             Title = DUILocalizedStrings.ChooseDate;
         }
         else
         {
+            IsCloseable = true;
             Style = Styles.GetChipStyle(ChipStyle.Input);
             SetTitle(SelectedDate.Value);
         }

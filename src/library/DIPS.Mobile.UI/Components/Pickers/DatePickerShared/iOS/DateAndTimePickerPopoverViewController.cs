@@ -20,7 +20,6 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
     
 #nullable enable
 
-    private bool m_hasAddedAdditionalButtons;
     private Grid? m_grid;
 
     public void Setup(DateAndTimePicker.DateAndTimePicker dateAndTimePicker, View? chipTapped, bool tappedDatePicker)
@@ -80,9 +79,13 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
                 return;
         }
 
-        /*SetPopoverSourceView(chipTapped);*/
         SetDatePicker(tappedDatePicker);
         UpdateView();
+        
+        if (PopoverPresentationController is not null && OperatingSystem.IsIOSVersionAtLeast(16))
+        {
+            PopoverPresentationController.SourceItem = chipTapped.ToPlatform(DUI.GetCurrentMauiContext!);
+        }
     }
 
     private void SetDatePicker(bool tappedDatePicker)
@@ -123,6 +126,11 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
 
     private UIView ConstructView()
     {
+        if (!m_dateAndTimePicker.DisplayTodayButton)
+        {
+            return m_inlineDatePicker.ToPlatform(DUI.GetCurrentMauiContext!);
+        }
+        
         m_grid = new Grid
         {
             RowDefinitions = [new RowDefinition(GridLength.Star), new RowDefinition(1), new RowDefinition(40)],
@@ -134,39 +142,22 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
         m_grid.Add(m_inlineDatePicker);
         m_grid.SetColumnSpan(m_inlineDatePicker, 2);
 
+        if (m_inlineDatePicker.Mode is DatePickerMode.Time)
+            return m_inlineDatePicker.ToPlatform(DUI.GetCurrentMauiContext!);
+        
         var divider = new Divider();
         m_grid.Add(divider, 0, 1);
         m_grid.SetColumnSpan(divider, 2);
-
-        if (m_dateAndTimePicker!.DisplayTodayButton)
-        {
-            m_grid.Add(
-                new Button
-                {
-                    Text = DUILocalizedStrings.Today,
-                    Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
-                    Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                    TextColor = Colors.GetColor(ColorName.color_primary_90),
-                    HorizontalOptions = LayoutOptions.End
-                }, 1, 2);
-
-            m_hasAddedAdditionalButtons = true;
-        }
-
-        if (m_dateAndTimePicker!.IsNullable())
-        {
-            m_grid.Add(
-                new Button
-                {
-                    Text = DUILocalizedStrings.Clear,
-                    Command = new Command(SetDateToNull),
-                    Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                    TextColor = Colors.GetColor(ColorName.color_primary_90),
-                    HorizontalOptions = LayoutOptions.Start
-                }, 0, 2);
-
-            m_hasAddedAdditionalButtons = true;
-        }
+        
+        m_grid.Add(
+            new Button
+            {
+                Text = DUILocalizedStrings.Today,
+                Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
+                Style = Styles.GetLabelStyle(LabelStyle.UI300),
+                TextColor = Colors.GetColor(ColorName.color_primary_90),
+                HorizontalOptions = LayoutOptions.End
+            }, 1, 2);
 
         return m_grid.ToPlatform(DUI.GetCurrentMauiContext!);
     }
@@ -182,29 +173,21 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
     {
         View = ConstructView();
 
-        PreferredContentSize = m_inlineDatePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
-
-        if (m_dateAndTimePicker.Mode is DatePickerMode.Time && m_hasAddedAdditionalButtons)
+        UIView.Animate(.1f, 0, UIViewAnimationOptions.CurveEaseIn, () =>
         {
-            PreferredContentSize = new CGSize(200, 225);
-        }
-        
+            PreferredContentSize = m_inlineDatePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
+        }, () => {});
+
         // If the popover is pointing down or right, we need to increase the bottom padding of the grid to fit the additional buttons
         // (For some odd reason)
         if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down &&
-            m_hasAddedAdditionalButtons && m_grid is not null)
+            m_dateAndTimePicker.DisplayTodayButton && m_grid is not null)
         {
             m_grid.Padding = new Thickness(m_grid.Padding.Left, m_grid.Padding.Top,
                 m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));
         }
     }
 
-    private void SetDateToNull()
-    {
-        m_inlineDatePicker?.SetSelectedDateTime(null);
-        DismissViewControllerAsync(true);
-    }
-    
     public override void ViewWillDisappear(bool animated)
     {
         base.ViewWillDisappear(animated);
@@ -215,7 +198,6 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
         m_inlineDatePicker.SelectedDateTimeChanged -= OnDateChanged;
         m_inlineDatePicker = null;
         m_dateAndTimePicker = null;
-        
         
         // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is
         // animating its close animation, so we null out the view to prevent this
