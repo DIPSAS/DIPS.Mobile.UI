@@ -1,3 +1,7 @@
+## [35.4.0] 
+- [MemoryLeak] Will now correctly log GC of modal pages.
+- [MemoryLeak] Added better logging.
+
 ## [35.3.2]
 - [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.
 

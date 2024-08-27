@@ -15,7 +15,15 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
+<<<<<<< HEAD
+    <dui:VerticalStackLayout>
+        
+        <dui:NavigationListItem BackgroundColor="Blue"
+                                Title="SwapRoot"
+                                Tapped="SwapRoot" />
+=======
     <VerticalStackLayout>
+>>>>>>> main
         
         <Grid>
             <dui:ListItem>
@@ -31,5 +39,9 @@
             </dui:ListItem>
         </Grid>
     </VerticalStackLayout>
+
+        
+    </dui:VerticalStackLayout>
+
 
 </dui:ContentPage>
