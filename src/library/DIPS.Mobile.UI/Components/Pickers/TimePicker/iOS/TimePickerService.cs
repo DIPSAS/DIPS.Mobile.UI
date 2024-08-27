@@ -6,11 +6,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 public partial class TimePickerService
 {
-    internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
+    internal static DateOrTimePickerPopoverViewController? PresentedViewController { get; set; }
     
     public static async partial void Open(TimePicker timePicker, View? sourceView = null)
     {
-        if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
+        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController viewController)
         {
             await viewController.DismissViewControllerAsync(false);
         }
@@ -27,7 +27,7 @@ public partial class TimePickerService
             SelectedTime = timeOnOpen
         };
 
-        PresentedViewController = new InlineDatePickerPopoverViewController();
+        PresentedViewController = new DateOrTimePickerPopoverViewController();
         PresentedViewController.Setup(inlineDatePicker, timePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();

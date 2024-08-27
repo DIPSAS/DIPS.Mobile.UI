@@ -1,36 +1,35 @@
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker.iOS;
 
 public class DateAndTimePickerService
 {
-    internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
+    internal static DateAndTimePickerPopoverViewController? PresentedViewController { get; set; }
     
-    public static async void Open(DateAndTimePicker dateAndTimePicker, View? sourceView = null)
+    public static async void Open(DateAndTimePicker dateAndTimePicker, View chipTapped, bool datePickerTapped)
     {
-        if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
+        if (Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController viewController)
         {
-            await viewController.DismissViewControllerAsync(false);
-        }
-        
-        if (IsOpen())
-        {
-            Close();
+            if (viewController.IsBeingDismissed)
+            {
+                await viewController.DismissViewControllerAsync(false);
+            }
+            else
+            {
+                viewController.OnTappedChip(datePickerTapped, chipTapped);
+                return;
+            }
         }
 
-        var dateTimeOnOpen = dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
-        
-        var inlineDateAndTimePicker = new InlineDateAndTimePicker
-        {
-            MaximumDate = dateAndTimePicker.MaximumDate,
-            MinimumDate = dateAndTimePicker.MinimumDate,
-            SelectedDateTime = dateTimeOnOpen,
-            IgnoreLocalTime = dateAndTimePicker.IgnoreLocalTime
-        };
+        PresentedViewController = new DateAndTimePickerPopoverViewController();
+        PresentedViewController.Setup(dateAndTimePicker, chipTapped, datePickerTapped);
 
-        PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDateAndTimePicker, dateAndTimePicker, sourceView);
+        if (PresentedViewController.PopoverPresentationController is not null)
+        {
+            PresentedViewController.PopoverPresentationController.PassthroughViews = [dateAndTimePicker.DateChip.ToPlatform(DUI.GetCurrentMauiContext!), dateAndTimePicker.TimeChip.ToPlatform(DUI.GetCurrentMauiContext!)];
+        }
         
         var currentViewController = Platform.GetCurrentUIViewController();
         

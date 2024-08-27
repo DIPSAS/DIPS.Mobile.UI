@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
@@ -11,24 +12,23 @@ using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
-internal class InlineDatePickerPopoverViewController : UIViewController
+internal class DateAndTimePickerPopoverViewController : UIViewController
 {
 #nullable disable
     private IDatePicker m_inlineDatePicker;
-    private IDatePicker m_datePicker;
+    private DateAndTimePicker.DateAndTimePicker m_dateAndTimePicker;
+    
 #nullable enable
 
     private bool m_hasAddedAdditionalButtons;
     private Grid? m_grid;
 
-    public void Setup(IDatePicker inlineDatePicker, IDatePicker datePicker, View? sourceView)
+    public void Setup(DateAndTimePicker.DateAndTimePicker dateAndTimePicker, View? chipTapped, bool tappedDatePicker)
     {
-        m_inlineDatePicker = inlineDatePicker;
-        m_datePicker = datePicker;
-
-        var nativeSourceView = sourceView?.ToPlatform(DUI.GetCurrentMauiContext!);
+        m_dateAndTimePicker = dateAndTimePicker;
 
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
+        
         if (PopoverPresentationController is null)
             return;
 
@@ -42,32 +42,83 @@ internal class InlineDatePickerPopoverViewController : UIViewController
                 UIPopoverArrowDirection.Down | UIPopoverArrowDirection.Up;
         }
 
-        if (nativeSourceView is not null)
-        {
-            PopoverPresentationController.SourceView = nativeSourceView;
-            PopoverPresentationController.SourceRect = nativeSourceView.Bounds;
-        }
-
         PopoverPresentationController.CanOverlapSourceViewRect = true;
         PopoverPresentationController.Delegate = new InlineDatePickerPopoverDelegate();
 
-        if (OperatingSystem.IsIOSVersionAtLeast(16, 0) && nativeSourceView is not null)
+        SetPopoverSourceView(chipTapped);
+        
+        m_dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
+        
+        SetDatePicker(tappedDatePicker);
+    }
+
+    private void SetPopoverSourceView(View? view)
+    {
+        var nativeSourceView = view?.ToPlatform(DUI.GetCurrentMauiContext!);
+        
+        if(nativeSourceView is null || PopoverPresentationController is null)
+            return;
+        
+        PopoverPresentationController.SourceView = nativeSourceView;
+        PopoverPresentationController.SourceRect = nativeSourceView.Bounds;
+        
+        if (OperatingSystem.IsIOSVersionAtLeast(16))
         {
             PopoverPresentationController.SourceItem = nativeSourceView;
         }
-
-        inlineDatePicker.SelectedDateTimeChanged += OnDateChanged;
     }
     
-    public void SwitchToTimePicker()
+    public void OnTappedChip(bool tappedDatePicker, View chipTapped)
     {
-        m_grid?.Remove(m_inlineDatePicker);
-        m_grid?.Add(m_datePicker!.TimePicker, 0, 0);
+        switch (m_inlineDatePicker.Mode)
+        {
+            case DatePickerMode.Date when tappedDatePicker:
+                DismissViewControllerAsync(true);
+                return;
+            case DatePickerMode.Time when !tappedDatePicker:
+                DismissViewControllerAsync(true);
+                return;
+        }
+
+        /*SetPopoverSourceView(chipTapped);*/
+        SetDatePicker(tappedDatePicker);
+        UpdateView();
+    }
+
+    private void SetDatePicker(bool tappedDatePicker)
+    {
+        if (tappedDatePicker)
+        {
+            DatePickerEnabled();
+        }
+        else
+        {
+            TimePickerEnabled();
+        }
+        
+        m_inlineDatePicker!.SelectedDateTimeChanged -= OnDateChanged;
+        m_inlineDatePicker.SelectedDateTimeChanged += OnDateChanged;
+    }
+
+    private void DatePickerEnabled()
+    {
+        m_inlineDatePicker = new InlineDatePicker
+        {
+            MaximumDate = m_dateAndTimePicker.MaximumDate,
+            MinimumDate = m_dateAndTimePicker.MinimumDate,
+            SelectedDate = m_dateAndTimePicker.SelectedDateTime,
+            IgnoreLocalTime = m_dateAndTimePicker.IgnoreLocalTime
+        };
+    }
+
+    private void TimePickerEnabled()
+    {
+        m_inlineDatePicker = new InlineTimePicker { SelectedTime = m_dateAndTimePicker.SelectedDateTime.TimeOfDay };
     }
 
     private void OnDateChanged(DateTime? dateTime)
     {
-        m_datePicker?.SetSelectedDateTime(dateTime);
+        m_dateAndTimePicker?.SetSelectedDateTime(dateTime);
     }
 
     private UIView ConstructView()
@@ -87,7 +138,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
         m_grid.Add(divider, 0, 1);
         m_grid.SetColumnSpan(divider, 2);
 
-        if (m_datePicker!.DisplayTodayButton)
+        if (m_dateAndTimePicker!.DisplayTodayButton)
         {
             m_grid.Add(
                 new Button
@@ -102,7 +153,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
             m_hasAddedAdditionalButtons = true;
         }
 
-        if (m_datePicker!.IsNullable())
+        if (m_dateAndTimePicker!.IsNullable())
         {
             m_grid.Add(
                 new Button
@@ -124,11 +175,16 @@ internal class InlineDatePickerPopoverViewController : UIViewController
     {
         base.ViewIsAppearing(animated);
 
+        UpdateView();
+    }
+
+    private void UpdateView()
+    {
         View = ConstructView();
 
-        PreferredContentSize = m_datePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
+        PreferredContentSize = m_inlineDatePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
 
-        if (m_datePicker.Mode is DatePickerMode.Time && m_hasAddedAdditionalButtons)
+        if (m_dateAndTimePicker.Mode is DatePickerMode.Time && m_hasAddedAdditionalButtons)
         {
             PreferredContentSize = new CGSize(200, 225);
         }
@@ -158,7 +214,7 @@ internal class InlineDatePickerPopoverViewController : UIViewController
 
         m_inlineDatePicker.SelectedDateTimeChanged -= OnDateChanged;
         m_inlineDatePicker = null;
-        m_datePicker = null;
+        m_dateAndTimePicker = null;
         
         
         // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is

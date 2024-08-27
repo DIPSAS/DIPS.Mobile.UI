@@ -6,11 +6,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 
 public partial class DatePickerService
 {
-    internal static WeakReference<InlineDatePickerPopoverViewController>? PresentedViewControllerReference { get; set; }
+    internal static WeakReference<DateOrTimePickerPopoverViewController>? PresentedViewControllerReference { get; set; }
     
     public static async partial void Open(DatePicker datePicker, View? sourceView = null)
     {
-        if (Platform.GetCurrentUIViewController() is InlineDatePickerPopoverViewController viewController)
+        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController viewController)
         {
             await viewController.DismissViewControllerAsync(false);
         }
@@ -31,9 +31,9 @@ public partial class DatePickerService
             DisplayTodayButton = datePicker.DisplayTodayButton
         };
 
-        var presentedViewController = new InlineDatePickerPopoverViewController();
+        var presentedViewController = new DateOrTimePickerPopoverViewController();
         PresentedViewControllerReference =
-            new WeakReference<InlineDatePickerPopoverViewController>(presentedViewController);
+            new WeakReference<DateOrTimePickerPopoverViewController>(presentedViewController);
         presentedViewController.Setup(inlineDatePicker, datePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
