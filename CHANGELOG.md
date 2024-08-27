@@ -1,3 +1,6 @@
+## [35.3.2]
+- [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.
+
 ## [35.3.1]
 - [Button] Made sure to guard changing style if platformview is null.
 
