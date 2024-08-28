@@ -28,11 +28,6 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
         SelectedDateTimeChanged?.Invoke(selectedDate);
     }
 
-    public virtual bool IsNullable()
-    {
-        return false;
-    }
-
     public virtual DateTimeKind GetKind()
     {
         return SelectedDateTime.Kind;        

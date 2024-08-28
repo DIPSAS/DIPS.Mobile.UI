@@ -6,37 +6,50 @@ namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker.iOS;
 
 public class DateAndTimePickerService
 {
-    internal static DateAndTimePickerPopoverViewController? PresentedViewController { get; set; }
-    
     public static async void Open(DateAndTimePicker dateAndTimePicker, View chipTapped, bool datePickerTapped)
     {
-        if (Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController viewController)
+        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController dateOrTimePickerPopoverViewController)
         {
-            if (viewController.IsBeingDismissed)
+            await dateOrTimePickerPopoverViewController.DismissViewControllerAsync(true);
+            return;
+        }
+        
+        if (Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController dateAndTimePickerPopoverViewController)
+        {
+            if (dateAndTimePickerPopoverViewController.IsBeingDismissed)
             {
-                await viewController.DismissViewControllerAsync(false);
+                await dateAndTimePickerPopoverViewController.DismissViewControllerAsync(true);
             }
             else
             {
-                viewController.OnTappedChip(datePickerTapped, chipTapped);
+                dateAndTimePickerPopoverViewController.OnTappedChip(datePickerTapped, chipTapped);
                 return;
             }
         }
 
-        PresentedViewController = new DateAndTimePickerPopoverViewController();
-        PresentedViewController.Setup(dateAndTimePicker, chipTapped, datePickerTapped);
+        var presentedViewController = new DateAndTimePickerPopoverViewController();
+        presentedViewController.Setup(dateAndTimePicker, chipTapped, datePickerTapped);
 
-        if (PresentedViewController.PopoverPresentationController is not null)
+        if (presentedViewController.PopoverPresentationController is not null)
         {
-            PresentedViewController.PopoverPresentationController.PassthroughViews = [dateAndTimePicker.DateChip.ToPlatform(DUI.GetCurrentMauiContext!), dateAndTimePicker.TimeChip.ToPlatform(DUI.GetCurrentMauiContext!)];
+            presentedViewController.PopoverPresentationController.PassthroughViews = [dateAndTimePicker.DateChip.ToPlatform(DUI.GetCurrentMauiContext!), dateAndTimePicker.TimeChip.ToPlatform(DUI.GetCurrentMauiContext!)];
         }
         
         var currentViewController = Platform.GetCurrentUIViewController();
         
-        _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
+        _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
     }
 
-    internal static bool IsOpen() => PresentedViewController is not null;
+    internal static bool IsOpen()
+    {
+        return Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController;
+    }
 
-    public static void Close() => _ = PresentedViewController?.DismissViewControllerAsync(true);
+    public static void Close()
+    {
+        if (Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController viewController)
+        {
+            _ = viewController.DismissViewControllerAsync(true);
+        }
+    }
 }

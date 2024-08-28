@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -11,7 +12,7 @@ using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
-internal class DateOrTimePickerPopoverViewController : UIViewController
+internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePickerPopoverViewController
 {
 #nullable disable
     private IDatePicker m_inlineDatePicker;
@@ -19,6 +20,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController
 #nullable enable
 
     private Grid? m_grid;
+    private Color? m_previousTitleColor;
 
     public void Setup(IDatePicker inlineDatePicker, IDatePicker datePicker, View? sourceView)
     {
@@ -50,7 +52,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController
         PopoverPresentationController.CanOverlapSourceViewRect = true;
         PopoverPresentationController.Delegate = new InlineDatePickerPopoverDelegate();
 
-        if (OperatingSystem.IsIOSVersionAtLeast(16, 0) && nativeSourceView is not null)
+        if (OperatingSystem.IsIOSVersionAtLeast(16) && nativeSourceView is not null)
         {
             PopoverPresentationController.SourceItem = nativeSourceView;
         }
@@ -60,6 +62,11 @@ internal class DateOrTimePickerPopoverViewController : UIViewController
 
     private void OnDateChanged(DateTime? dateTime)
     {
+        if (m_datePicker is DatePicker.DatePicker { ShouldCloseOnDateSelected: true})
+        {
+            _ = DismissViewControllerAsync(true);
+        }
+        
         m_datePicker?.SetSelectedDateTime(dateTime);
     }
 
@@ -102,6 +109,12 @@ internal class DateOrTimePickerPopoverViewController : UIViewController
     {
         base.ViewIsAppearing(animated);
 
+        if (m_datePicker is Chip chip)
+        {
+            m_previousTitleColor = chip.TitleColor;
+            chip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+        }
+        
         View = ConstructView();
 
         PreferredContentSize = m_datePicker.Mode is DatePickerMode.Time ? new CGSize(200, 150) : new CGSize(320, 400);
@@ -125,6 +138,12 @@ internal class DateOrTimePickerPopoverViewController : UIViewController
 
         m_inlineDatePicker.SelectedDateTimeChanged -= OnDateChanged;
         m_inlineDatePicker = null;
+        
+        if (m_datePicker is Chip chip)
+        {
+            chip.TitleColor = m_previousTitleColor;
+        }
+        
         m_datePicker = null;
         
         // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is

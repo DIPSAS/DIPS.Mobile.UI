@@ -6,7 +6,6 @@ public interface IDatePicker : IView
     DatePickerMode Mode { get; }
     void SetSelectedDateTime(DateTime? selectedDate);
     bool DisplayTodayButton { get; }
-    bool IsNullable();
     bool IgnoreLocalTime { get; }
     DateTimeKind GetKind();
 }

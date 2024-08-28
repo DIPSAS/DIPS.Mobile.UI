@@ -47,11 +47,6 @@ public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePi
         SelectedDate = selectedDate;
     }
 
-    public override bool IsNullable()
-    {
-        return true;
-    }
-    
     public override DateTimeKind GetKind()
     {
         return SelectedDate?.Kind ?? DateTimeKind.Unspecified;

@@ -25,11 +25,6 @@ public partial class NullableDateAndTimePicker : DateAndTimePicker.DateAndTimePi
 
     private partial void InternalOnSelectedDateTimeChanged();
 
-    public override bool IsNullable()
-    {
-        return true;
-    }
-
     public override DateTimeKind GetKind()
     {
         return SelectedDateTime?.Kind ?? DateTimeKind.Unspecified;

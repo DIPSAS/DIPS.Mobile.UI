@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
@@ -69,11 +70,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             
             SelectedDateCommand?.Execute(null);
             SelectedDateTimeChanged?.Invoke(selectedDate);
-        }
-
-        public virtual bool IsNullable()
-        {
-            return false;
         }
 
         public virtual DateTimeKind GetKind()

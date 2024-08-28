@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -12,7 +13,7 @@ using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
-internal class DateAndTimePickerPopoverViewController : UIViewController
+internal class DateAndTimePickerPopoverViewController : UIViewController, IDatePickerPopoverViewController
 {
 #nullable disable
     private IDatePicker m_inlineDatePicker;
@@ -21,6 +22,9 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
 #nullable enable
 
     private Grid? m_grid;
+    private Color? m_previousTitleColor;
+    private bool m_lastTappedChipIsDatePicker;
+    private DateTime m_startingDateTime;
 
     public void Setup(DateAndTimePicker.DateAndTimePicker dateAndTimePicker, View? chipTapped, bool tappedDatePicker)
     {
@@ -46,9 +50,11 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
 
         SetPopoverSourceView(chipTapped);
         
-        m_dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
+        m_startingDateTime = m_dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
         
         SetDatePicker(tappedDatePicker);
+        
+        m_lastTappedChipIsDatePicker = tappedDatePicker;
     }
 
     private void SetPopoverSourceView(View? view)
@@ -69,6 +75,8 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
     
     public void OnTappedChip(bool tappedDatePicker, View chipTapped)
     {
+        m_lastTappedChipIsDatePicker = tappedDatePicker;
+        
         switch (m_inlineDatePicker.Mode)
         {
             case DatePickerMode.Date when tappedDatePicker:
@@ -81,21 +89,32 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
 
         SetDatePicker(tappedDatePicker);
         UpdateView();
-        
-        if (PopoverPresentationController is not null && OperatingSystem.IsIOSVersionAtLeast(16))
-        {
-            PopoverPresentationController.SourceItem = chipTapped.ToPlatform(DUI.GetCurrentMauiContext!);
-        }
     }
 
     private void SetDatePicker(bool tappedDatePicker)
     {
         if (tappedDatePicker)
         {
+            if (m_previousTitleColor is not null)
+            {
+                m_dateAndTimePicker.TimeChip.TitleColor = m_previousTitleColor;
+            }
+            
+            m_previousTitleColor = m_dateAndTimePicker.DateChip.TitleColor;
+            m_dateAndTimePicker.DateChip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+        
             DatePickerEnabled();
         }
         else
         {
+            if (m_previousTitleColor is not null)
+            {
+                m_dateAndTimePicker.DateChip.TitleColor = m_previousTitleColor;
+            }
+            
+            m_previousTitleColor = m_dateAndTimePicker.TimeChip.TitleColor;
+            m_dateAndTimePicker.TimeChip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+            
             TimePickerEnabled();
         }
         
@@ -109,7 +128,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
         {
             MaximumDate = m_dateAndTimePicker.MaximumDate,
             MinimumDate = m_dateAndTimePicker.MinimumDate,
-            SelectedDate = m_dateAndTimePicker.SelectedDateTime,
+            SelectedDate = m_startingDateTime,
             IgnoreLocalTime = m_dateAndTimePicker.IgnoreLocalTime
         };
     }
@@ -197,6 +216,16 @@ internal class DateAndTimePickerPopoverViewController : UIViewController
 
         m_inlineDatePicker.SelectedDateTimeChanged -= OnDateChanged;
         m_inlineDatePicker = null;
+
+        if (m_lastTappedChipIsDatePicker)
+        {
+            m_dateAndTimePicker.DateChip.TitleColor = m_previousTitleColor;
+        }
+        else
+        {
+            m_dateAndTimePicker.TimeChip.TitleColor = m_previousTitleColor;
+        }
+        
         m_dateAndTimePicker = null;
         
         // iOS complains that the UICalendarView's height is smaller than it can render its content in when the popover is

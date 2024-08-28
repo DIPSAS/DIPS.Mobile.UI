@@ -1,23 +1,18 @@
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
+using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 public partial class TimePickerService
 {
-    internal static DateOrTimePickerPopoverViewController? PresentedViewController { get; set; }
     
     public static async partial void Open(TimePicker timePicker, View? sourceView = null)
     {
-        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController viewController)
+        if (Platform.GetCurrentUIViewController() is IDatePickerPopoverViewController and UIViewController uiViewController)
         {
-            await viewController.DismissViewControllerAsync(false);
-        }
-        
-        if (IsOpen())
-        {
-            Close();
+            await uiViewController.DismissViewControllerAsync(true);
+            return;
         }
 
         var timeOnOpen = timePicker.SetSelectedTimeOnPopoverOpen();
@@ -27,15 +22,24 @@ public partial class TimePickerService
             SelectedTime = timeOnOpen
         };
 
-        PresentedViewController = new DateOrTimePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, timePicker, sourceView);
+        var presentedViewController = new DateOrTimePickerPopoverViewController();
+        presentedViewController.Setup(inlineDatePicker, timePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
 
-        _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
+        _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
     }
 
-    internal static partial bool IsOpen() => PresentedViewController is not null;
+    internal static partial bool IsOpen()
+    {
+        return Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController;
+    }
 
-    public static partial void Close() => _ = PresentedViewController?.DismissViewControllerAsync(true);
+    public static partial void Close()
+    {
+        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController viewController)
+        {
+            _ = viewController.DismissViewControllerAsync(true);
+        }
+    }
 }

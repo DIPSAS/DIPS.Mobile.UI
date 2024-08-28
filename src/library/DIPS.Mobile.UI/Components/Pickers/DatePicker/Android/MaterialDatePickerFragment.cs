@@ -58,8 +58,8 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
         
-        // If the date picker is nullable or the today button should be displayed, we need to add an observer to the lifecycle to add custom buttons.
-        if(m_datePicker.IsNullable() || m_datePicker.DisplayTodayButton)
+        // If the today button should be displayed, we need to add an observer to the lifecycle to add the custom button.
+        if(m_datePicker.DisplayTodayButton)
             m_materialDatePicker.Lifecycle.AddObserver(this);
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
@@ -112,26 +112,18 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
         var wrapperView = new LinearLayout(Application.Context);
 
-        if (m_datePicker.IsNullable())
+        m_extraButton = CreateButton(DUILocalizedStrings.Today, () =>
         {
-            m_extraButton = CreateButton(DUILocalizedStrings.Clear, () =>
-            {
-                m_datePicker.SetSelectedDateTime(null);
-            });
-        }
-        else if (m_datePicker.DisplayTodayButton)
-        {
-            m_extraButton = CreateButton(DUILocalizedStrings.Today, () =>
-            {
-                m_datePicker.SetSelectedDateTime(DateTime.Now);
-            });
-        }
+            m_datePicker.SetSelectedDateTime(DateTime.Now);
 
-        if (m_extraButton is not null)
-        {
-            wrapperView.AddView(m_extraButton);
-            SetLayoutParameterToView(m_extraButton, GravityFlags.Start);
-        }
+            if (m_datePicker.ShouldCloseOnDateSelected)
+            {
+                Close();
+            }
+        });
+
+        wrapperView.AddView(m_extraButton);
+        SetLayoutParameterToView(m_extraButton, GravityFlags.Start);
         
         SetLayoutParameterToView(wrapperView, GravityFlags.Start, 1);
         

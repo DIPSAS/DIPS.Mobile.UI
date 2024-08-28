@@ -50,7 +50,7 @@ public partial class DateAndTimePicker
     private void SetDateChipTitle(DateTime date)
     {
         var convertedDisplayValue =
-            new DateConverter { Format = DateConverter.DateConverterFormat.Default, ShouldConvertDateBeforeParsingToValue = false }.Convert(date,
+            new DateConverter { Format = DateConverterFormat, ShouldConvertDateBeforeParsingToValue = false }.Convert(date,
                 null, null,
                 CultureInfo.CurrentCulture);
         if (convertedDisplayValue is string displayItemAsString)

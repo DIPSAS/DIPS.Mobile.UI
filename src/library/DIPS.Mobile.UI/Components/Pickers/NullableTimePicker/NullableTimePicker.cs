@@ -40,11 +40,6 @@ public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePi
         }
     }
 
-    public override bool IsNullable()
-    {
-        return true;
-    }
-    
     public override void SetSelectedDateTime(DateTime? selectedDate)
     {
         base.SetSelectedDateTime(selectedDate);

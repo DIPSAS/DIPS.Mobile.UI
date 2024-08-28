@@ -9,7 +9,7 @@ public partial class DateAndTimePicker
     
     public DateAndTimePicker()
     {
-        DatePicker = new DatePicker.DatePicker();
+        DatePicker = new DatePicker.DatePicker { DateConverterFormat = DateConverterFormat };
         TimePicker = new TimePicker.TimePicker();
 
         DatePicker.SelectedDateCommand = new Command(SetSelectedDateTime);

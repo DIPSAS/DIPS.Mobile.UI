@@ -1,14 +1,21 @@
+using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip : ContentView
 {
+    internal static IconName CloseIconName => IconName.close_line;
+    internal static IconName ToggledIconName => IconName.check_line;
+    
     private static Style? m_buttonToggleStyle;
 
     public Chip()
     {
+#if __IOS__
+        ConstructView();
+#endif
+        
         Style = m_buttonToggleStyle = InputStyle.Current;
     }
 

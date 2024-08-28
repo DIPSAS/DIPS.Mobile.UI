@@ -58,12 +58,8 @@ public partial class TimePicker : Chip, IDatePicker
 
     public bool DisplayTodayButton => false;
     
-    public virtual bool IsNullable()
-    {
-        return false;
-    }
-
     public bool IgnoreLocalTime => true;
+    
     public DateTimeKind GetKind()
     {
         return DateTimeKind.Unspecified;

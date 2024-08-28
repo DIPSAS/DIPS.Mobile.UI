@@ -18,16 +18,31 @@
     <VerticalStackLayout VerticalOptions="Start"
                          HorizontalOptions="Start">
         
-        <dui:NullableDatePicker SelectedDate="{Binding NullableDate}"
-                                HorizontalOptions="Start"
-                                DisplayTodayButton="True"
-                                SelectedDateCommand="{Binding SelectedDateCommand}" />
+        <dui:ItemPicker VerticalOptions="Start"
+                        HorizontalOptions="Start"
+        
+                        >
+            
+        </dui:ItemPicker>
+
         
         <dui:NullableDateAndTimePicker SelectedDateTime="{Binding StartingNullDate}"
                                        DisplayTodayButton="True"
+                                       HorizontalOptions="Start"
+                                       DateConverterFormat="ShortOrText"
                                        SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
         
-        <dui:NullableTimePicker SelectedTime="{Binding Time}" />
+        <dui:NullableTimePicker SelectedTime="{Binding Time}"
+                                HorizontalOptions="Start"/>
+        
+        <dui:Chip Title="Helo" HorizontalOptions="Start" />
+        
+        <dui:NullableDatePicker SelectedDate="{Binding NullableDate}"
+                                HorizontalOptions="Start"
+                                DisplayTodayButton="True"
+                                ShouldCloseOnDateSelected="True"
+                                DateConverterFormat="ShortOrText"
+                                SelectedDateCommand="{Binding SelectedDateCommand}" />
         
         <!--<dui:DatePicker DisplayTodayButton="True" />-->
         

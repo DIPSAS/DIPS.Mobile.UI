@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
@@ -77,4 +78,6 @@ public partial class DateAndTimePicker
     }
 
     public bool DisplayTodayButton { get; set; }
+    
+    public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
 }
