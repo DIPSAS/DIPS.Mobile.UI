@@ -242,5 +242,23 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("ChooseTime", resourceCulture);
             }
         }
+        
+        internal static string MaxCharactersReached {
+            get {
+                return ResourceManager.GetString("MaxCharactersReached", resourceCulture);
+            }
+        }
+        
+        internal static string NumberOfCharactersLeft {
+            get {
+                return ResourceManager.GetString("NumberOfCharactersLeft", resourceCulture);
+            }
+        }
+        
+        internal static string NumberOfCharactersTooMany {
+            get {
+                return ResourceManager.GetString("NumberOfCharactersTooMany", resourceCulture);
+            }
+        }
     }
 }

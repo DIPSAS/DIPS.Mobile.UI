@@ -73,6 +73,12 @@ public class GCCollectionMonitor
             if (await CheckIfCollectionTargetIsAlive(collectionPageTarget, m_references))
             {
                 anyAlive = true;
+                
+                Console.WriteLine("🧟 " + collectionPageTarget.Name + " is a zombie!");
+            }
+            else
+            {
+                Console.WriteLine("✅ " + collectionPageTarget.Name + " is not a zombie!");
             }
         }
 
@@ -184,7 +190,7 @@ public class GCCollectionMonitor
                 }
                 else
                 {
-                    GarbageCollection.Print("✅ No memory leaks! 🎉🎉🎉");
+                    GarbageCollection.Print($"✅ No memory leaks in {target.Name}! 🎉🎉🎉");
                 }
             }
             else

@@ -22,7 +22,7 @@ internal static partial class DUILogService
     /// <param name="message">The message to log as an error.</param>
     internal static void LogError(string context, string message)
     {
-        InternalLogError(LogTag, $"{context} : {message}");
+        Console.WriteLine($@"ERROR: {context} - {message}");
     }
 
     /// <summary>
@@ -45,10 +45,7 @@ internal static partial class DUILogService
     {
         if (DUI.IsDebug && DUI.ShouldLogDebug)
         {
-            InternalLogDebug(LogTag, $"{context} : {message}");
+            Console.WriteLine($@"DEBUG: {context} - {message}");
         }   
     }
-    
-    private static partial void InternalLogDebug(string tag, string message);
-    private static partial void InternalLogError(string tag, string message);
 }

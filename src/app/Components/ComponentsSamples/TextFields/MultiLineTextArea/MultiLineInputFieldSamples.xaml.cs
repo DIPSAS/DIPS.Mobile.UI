@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.TextFields.MultiLineTextArea;
@@ -20,7 +21,7 @@ public partial class MultiLineInputFieldSamples
     {
         if (e.Value)
         {
-            MultiLineTextArea.MaxLines = (int)Stepper.Value;
+            MultiLineTextArea.MaxLines = (int)MaxLinesStepper.Value;
         }
         else
         {
@@ -28,11 +29,16 @@ public partial class MultiLineInputFieldSamples
         }
     }
 
-    private void Stepper_OnValueChanged(object? sender, ValueChangedEventArgs e)
+    private void MaxLinesStepper_OnValueChanged(object? sender, ValueChangedEventArgs e)
     {
         if (TruncateSwitch.IsToggled)
         {
             MultiLineTextArea.MaxLines = (int)e.NewValue;
         }
+    }
+
+    private void MaxTextLengthStepper_OnValueChanged(object? sender, ValueChangedEventArgs e)
+    {
+        MultiLineTextArea.MaxTextLength = (int)e.NewValue;
     }
 }

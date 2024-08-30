@@ -81,7 +81,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void RemoveTextUntilNotTruncated()
     {
-        var modifiedOriginalText = m_originalText;
+        var modifiedOriginalText = GetTextFromLabel();
         while (true)
         {
             modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);

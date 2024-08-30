@@ -14,6 +14,7 @@ public class HåvardPageViewModel : ViewModel
     private List<Something> m_items2;
     private HåvardPage3ViewModel m_listener;
     private HåvardPage3ViewModel m_target;
+    private string m_longText;
 
     public ICommand Command { get; }
 
@@ -55,9 +56,16 @@ public class HåvardPageViewModel : ViewModel
 
         Command = new Command(() =>
         {
-            var oldItems = Items.Take(new Range(0,1));
-            Items = oldItems.ToList();
+//One line
+            var str = LongText[(LongText.Split()[0].Length + 1)..];
+
+//Multiple lines
+            var firstWord = str.Split()[0];
+            var charsToSkip = firstWord.Length + 1;
+            LongText = LongText[charsToSkip..];
         });
+        LongText =
+            "With this utility you generate a 16 character output based on your input of numbers and upper and lower case letters.  Random strings can be unique. Used in computing, a random string generator can also be called a random character string generator. This is an important tool if you want to generate a unique set of strings. The utility generates a sequence that lacks a pattern and is random.";
     }
 
     private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
@@ -103,6 +111,12 @@ public class HåvardPageViewModel : ViewModel
     {
         get => m_items2;
         set => RaiseWhenSet(ref m_items2, value);
+    }
+
+    public string LongText
+    {
+        get => m_longText;
+        set => RaiseWhenSet(ref m_longText, value);
     }
 
     public void SetListener(HåvardPage3ViewModel håvardPage3ViewModel)
