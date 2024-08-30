@@ -1,5 +1,11 @@
 ## [35.3.0] 
 - [Chip][Android] Made sure the text is centered horizontally.
+- [Chip] Changed its styling so that it corresponds better to the design.
+- [DatePickers][iOS] Moved away from using native compact chip, to using `Chip`, and then show inline date pickers in a popover instead.
+- [DatePicker/DateAndTimePicker] Consumers can now add a "Today" button.
+- [DatePicker/DateAndTimePicker] Consumers can now set the desired format of the date text.
+- [DatePicker] Consumers can now toggle if the date picker should close when selecting a date.
+- [NullableDatePickers] Now you can clear the date by tapping a button on the `Chip`.
 
 ## [35.2.1] 
 - [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
