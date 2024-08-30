@@ -49,11 +49,6 @@ public partial class DateAndTimePickerService
         }
     }
 
-    private static void OnDateSelected(DateTime datePickerSelectedDate, DateAndTimePicker dateAndTimePicker)
-    {
-        
-    }
-
     internal static partial bool IsOpen()
     {
         if (m_materialDatePicker is not null && m_materialDatePicker.IsOpen())

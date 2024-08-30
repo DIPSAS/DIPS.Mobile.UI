@@ -23,9 +23,9 @@ public static partial class DUI
     
     private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage()
     {
-        if (TimePickerService.IsOpen())
+        if (DatePickerService.IsOpen())
         {
-            TimePickerService.Close();
+            DatePickerService.Close();
         }
 
         if (TimePickerService.IsOpen())

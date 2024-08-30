@@ -73,7 +73,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
     {
         var rootView = m_materialDatePicker.View;
 
-        AddTodayOrClearButton(rootView);
+        AddTodayButton(rootView);
     }
 
     [Export, Lifecycle.Event.OnDestroy]
@@ -85,15 +85,15 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
     }
     
     /// <summary>
-    /// Found the views that are needed to add the clear button by using material design github:
+    /// Found the views that are needed to add the today button by using material design github:
     /// https://github.com/material-components/material-components-android/blob/31f80151a99cebb7ad37a4965d479b461eadbfcb/lib/java/com/google/android/material/datepicker/res/layout/mtrl_picker_actions.xml#L19
     /// <br />
     /// <br />
     /// The root view here is a LinearLayout with gravity set to the end. To place custom buttons to the left side
     /// we first have to make sure the LinearLayout fill out the whole width, and then also set the ok/cancel buttons to the end.
-    /// Then we can add our cancel button and set it to the start.
+    /// Then we can add our today button and set it to the start.
     /// </summary>  
-    private void AddTodayOrClearButton(View? rootView)
+    private void AddTodayButton(View? rootView)
     {
         DUI.TryGetResourceId("date_picker_actions", out var id, "id");
         var linearLayoutThatContainsButtons = rootView?.FindViewById<LinearLayout>(id);
