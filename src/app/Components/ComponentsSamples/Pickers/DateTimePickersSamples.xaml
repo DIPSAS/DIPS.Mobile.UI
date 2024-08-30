@@ -30,11 +30,46 @@
                            Style="{StaticResource LabelStyle}" />
                 <dui:DatePicker VerticalOptions="End"
                                 IgnoreLocalTime="True"
-                                ShouldDisplayTodayButton="True"
-                                DateConverterFormat="ShortOrText"
-                                ShouldCloseOnDateSelected="False"
-                                SelectedDate="{Binding SelectedBirthday}"
+                                DateConverterFormat="Default"
                                 HorizontalOptions="Start" />
+                
+                <dui:Label Text="DatePicker (With custom icon)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                CustomIcon="{dui:Icons calendar_event_line}"
+                                IgnoreLocalTime="True"
+                                DateConverterFormat="Default"
+                                HorizontalOptions="Start" />
+                
+                <dui:Label Text="DatePicker (With custom icon and today button)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                CustomIcon="{dui:Icons calendar_event_line}"
+                                IgnoreLocalTime="True"
+                                ShouldDisplayTodayButton="True"
+                                DateConverterFormat="Default"
+                                HorizontalOptions="Start" />
+                
+                <dui:Label Text="DatePicker (With custom icon, today button and close DatePicker on selection)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                CustomIcon="{dui:Icons calendar_event_line}"
+                                IgnoreLocalTime="True"
+                                ShouldDisplayTodayButton="True"
+                                ShouldCloseOnDateSelected="True"
+                                DateConverterFormat="Default"
+                                HorizontalOptions="Start" />
+                
+                <dui:Label Text="DatePicker (With custom Icon, today button, close DatePicker on selection and display yesterday, today and tomorrow as text)"
+                           Style="{StaticResource LabelStyle}" />
+                <dui:DatePicker VerticalOptions="End"
+                                CustomIcon="{dui:Icons calendar_event_line}"
+                                IgnoreLocalTime="True"
+                                ShouldDisplayTodayButton="True"
+                                ShouldCloseOnDateSelected="True"
+                                DateConverterFormat="ShortOrText"
+                                HorizontalOptions="Start" />
+                
                 <dui:Label Text="TimePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:TimePicker HorizontalOptions="Start"
@@ -81,7 +116,6 @@
                 <dui:Label Text="Nullable DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
                 <dui:NullableDateAndTimePicker HorizontalOptions="Start"
-                                               
                                                SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
                 
                 <dui:Label Text="Nullable TimePicker"

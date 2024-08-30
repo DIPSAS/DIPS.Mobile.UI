@@ -8,11 +8,12 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
-    private Image m_image;
-    private Border m_border;
-    private Label m_titleLabel;
+    private Image m_toggleableIcon;
+    private Image m_customIcon;
     private ImageButton m_closeButton;
-    
+    private Label m_titleLabel;
+    private Border m_border;
+
     internal void ConstructView()
     {
         var container = new Grid
@@ -27,21 +28,33 @@ public partial class Chip
             ],
             RowDefinitions = [new RowDefinition(GridLength.Star)]
         };
-        
+
+        m_customIcon = CreateCustomIcon();
         m_border = CreateBorder();
-        m_image = CreateImage();
+        m_toggleableIcon = CreateIsToggleableIcon();
         m_titleLabel = CreateTitleLabel();
         m_closeButton = CreateCloseButton();
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
 
-        container.Add(m_image);
+        container.Add(m_customIcon);
+        container.Add(m_toggleableIcon);
         container.Add(m_titleLabel, 1);
         container.Add(m_closeButton, 2);
 
         m_border.Content = container;
         
         Content = m_border;
+    }
+
+    private Image CreateCustomIcon()
+    {
+        var image = CreateIsToggleableIcon();
+        image.SetBinding(Image.SourceProperty, new Binding(nameof(CustomIcon), source: this));
+        image.SetBinding(Images.Image.Image.TintColorProperty, new Binding(nameof(CustomIconTintColor), source: this));
+        image.SetBinding(IsVisibleProperty, new Binding(nameof(CustomIcon), source: this));
+        
+        return image;
     }
 
     private Border CreateBorder()
@@ -62,13 +75,14 @@ public partial class Chip
 
     private ImageButton CreateCloseButton()
     {
-        var imageButton = new ImageButton 
+        var imageButton = new Images.ImageButton.ImageButton
         { 
             Command = new Command(() => OnTappedButtonChip(true)), 
             Source = Icons.GetIcon(CloseIconName),
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
-            VerticalOptions = LayoutOptions.Center
+            VerticalOptions = LayoutOptions.Center,
+            AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_1)
         };
 
         imageButton.SetBinding(IsVisibleProperty, new Binding(nameof(IsCloseable), source: this));
@@ -77,7 +91,7 @@ public partial class Chip
         return imageButton;
     }
 
-    private Image CreateImage()
+    private Image CreateIsToggleableIcon()
     {
         var image = new Images.Image.Image 
         { 
@@ -132,6 +146,16 @@ public partial class Chip
         if (propertyName.Equals(nameof(CornerRadius)))
         {
             SetCornerRadius();
+        }
+
+        if (propertyName.Equals(nameof(IsToggleable)))
+        {
+            m_customIcon.IsVisible = !IsToggleable;
+        }
+
+        if (propertyName.Equals(nameof(CustomIcon)))
+        {
+            m_customIcon.IsVisible = CustomIcon is not null;
         }
     }
 

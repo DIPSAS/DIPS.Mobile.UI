@@ -31,7 +31,18 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         [nameof(Chip.IsToggled)] = MapIsToggled,
         [nameof(Chip.TitleColor)] = MapTitleColor,
         [nameof(Chip.IsToggleable)] = MapIsToggleable,
+        [nameof(Chip.CustomIcon)] = MapCustomIcon
     };
+
+    private static void MapCustomIcon(ChipHandler handler, Chip chip)
+    {
+        if(chip.IsToggleable || chip.CustomIcon is not FileImageSource fileImageSource)
+            return;
+
+        var id = DUI.GetResourceId(fileImageSource.File.Replace(".png", string.Empty), "drawable");
+        var icon = Platform.AppContext.GetDrawable((int)id);
+        handler.PlatformView.ChipIcon = icon;
+    }
 
     internal void OnChipTapped()
     {

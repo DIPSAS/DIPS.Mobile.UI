@@ -20,9 +20,9 @@
         
         
         <dui:NullableDatePicker SelectedDateCommand="{Binding SelectedDateCommand}"
-                                />
+                                CustomIcon="{dui:Icons internalmessage_fill}" />
         <dui:NullableTimePicker SelectedTimeCommand="{Binding SelectedTimeCommand}" />
-        <dui:NullableDateAndTimePicker SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
+        <dui:NullableDateAndTimePicker SelectedDateTimeCommand="{Binding SelectedDateCommand}"/>
         <!--<dui:NullableDateAndTimePicker SelectedDateTime="{Binding StartingNullDate}"
                                        DisplayTodayButton="True"
                                        
