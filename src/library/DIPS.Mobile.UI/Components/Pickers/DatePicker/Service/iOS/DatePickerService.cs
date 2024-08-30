@@ -14,7 +14,8 @@ public partial class DatePickerService
             return;
         }
 
-        var dateOnOpen = datePicker.SetSelectedDateOnPopoverOpen();
+        var dateOnOpen = datePicker.GetDateOnOpen();
+        datePicker.SetSelectedDateTime(dateOnOpen);
         
         var inlineDatePicker = new InlineDatePicker
         {
@@ -22,7 +23,7 @@ public partial class DatePickerService
             MinimumDate = datePicker.MinimumDate,
             SelectedDate = dateOnOpen,
             IgnoreLocalTime = datePicker.IgnoreLocalTime,
-            DisplayTodayButton = datePicker.DisplayTodayButton
+            ShouldDisplayTodayButton = datePicker.ShouldDisplayTodayButton
         };
 
         var presentedViewController = new DateOrTimePickerPopoverViewController();

@@ -17,10 +17,12 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
         m_timePicker = timePicker;
         var format = (DateFormat.Is24HourFormat(Platform.AppContext)) ? TimeFormat.Clock24h : TimeFormat.Clock12h;
 
+        var time = timePicker.GetTimeOnOpen();
+        
         var builder = new MaterialTimePicker.Builder()
             .SetTimeFormat(format)
-            .SetHour(timePicker.SelectedTime.Hours)
-            .SetMinute(timePicker.SelectedTime.Minutes);
+            .SetHour(time.Hours)
+            .SetMinute(time.Minutes);
         
         m_materialTimePicker = builder.Build();
 

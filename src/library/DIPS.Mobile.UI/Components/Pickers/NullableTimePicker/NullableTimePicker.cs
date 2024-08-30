@@ -47,12 +47,8 @@ public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePi
         SelectedTime = selectedDate?.TimeOfDay;
     }
 
-#if __IOS__
-    public override TimeSpan SetSelectedTimeOnPopoverOpen()
+    public override TimeSpan GetTimeOnOpen()
     {
-        SelectedTime ??= DateTime.Now.TimeOfDay;
-
-        return SelectedTime.Value;
+        return SelectedTime ?? DateTime.Now.TimeOfDay;
     }
-#endif
 }

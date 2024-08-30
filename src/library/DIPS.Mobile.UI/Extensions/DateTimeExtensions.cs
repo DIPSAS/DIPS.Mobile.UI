@@ -69,6 +69,14 @@ namespace DIPS.Mobile.UI.Extensions
 
             return convertedDateTime;
         }
+
+        public static DateTime ConvertDate(this DateTime dateTime, DateTimeKind kind)
+        {
+            if (kind is DateTimeKind.Unspecified)
+                return dateTime;
+            
+            return kind is DateTimeKind.Local ? dateTime.ToLocalTime() : dateTime.ToUniversalTime();
+        }
     }
     
 }

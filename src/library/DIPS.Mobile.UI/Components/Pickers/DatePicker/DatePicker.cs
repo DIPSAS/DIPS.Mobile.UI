@@ -3,7 +3,6 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePicker;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
@@ -24,21 +23,25 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         {
             base.OnHandlerChanged();
             
+            SelectedDate = ValidateDateTime(SelectedDate);            
             OnSelectedDateChanged();
-            
+        }
+
+        protected DateTime ValidateDateTime(DateTime dateTime)
+        {
             // SelectedDate should not be above maximum date
-            if (MaximumDate != null && SelectedDate > MaximumDate)
+            if (dateTime > MaximumDate)
             {
-                var kind = SelectedDate.Kind;
-                SelectedDate = DateTime.SpecifyKind(MaximumDate.Value, kind);
+                return new DateTime(MaximumDate.Value.Year, MaximumDate.Value.Month, MaximumDate.Value.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, SelectedDate.Kind);
             }
 
             // SelectedDate should not be below minimum date
-            if (MinimumDate != null && SelectedDate < MinimumDate)
+            if (dateTime < MinimumDate)
             {
-                var kind = SelectedDate.Kind;
-                SelectedDate = DateTime.SpecifyKind(MinimumDate.Value, kind);
+                return new DateTime(MinimumDate.Value.Year, MinimumDate.Value.Month, MinimumDate.Value.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, SelectedDate.Kind);
             }
+
+            return dateTime;
         }
 
         private void OnSelectedDateChanged()
@@ -65,23 +68,16 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         {
             if (selectedDate.HasValue)
             {
-                SelectedDate = selectedDate.Value;
+                SelectedDate = ValidateDateTime(selectedDate.Value);
             }
-            
-            SelectedDateCommand?.Execute(null);
+
+            SelectedDateCommand?.Execute(selectedDate);
             SelectedDateTimeChanged?.Invoke(selectedDate);
         }
 
-        public virtual DateTimeKind GetKind()
+        internal virtual DateTime GetDateOnOpen()
         {
-            return SelectedDate.Kind;
+            return ValidateDateTime(SelectedDate);
         }
-
-#if __IOS__
-        internal virtual DateTime SetSelectedDateOnPopoverOpen()
-        {
-            return SelectedDate;
-        }
-#endif
     }
 }

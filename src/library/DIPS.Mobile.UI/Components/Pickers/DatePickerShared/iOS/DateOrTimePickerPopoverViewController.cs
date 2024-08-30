@@ -62,7 +62,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
 
     private void OnDateChanged(DateTime? dateTime)
     {
-        if (m_datePicker is DatePicker.DatePicker { ShouldCloseOnDateSelected: true})
+        if (m_datePicker is DatePicker.DatePicker { ShouldCloseOnDateSelected: true })
         {
             _ = DismissViewControllerAsync(true);
         }
@@ -72,7 +72,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
 
     private UIView ConstructView()
     {
-        if (!m_datePicker.DisplayTodayButton)
+        if (!m_datePicker.ShouldDisplayTodayButton)
         {
             return m_inlineDatePicker.ToPlatform(DUI.GetCurrentMauiContext!);
         }
@@ -122,7 +122,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
         // If the popover is pointing down or right, we need to increase the bottom padding of the grid to fit the additional buttons
         // (For some odd reason)
         if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down &&
-            m_datePicker.DisplayTodayButton && m_grid is not null)
+            m_datePicker.ShouldDisplayTodayButton && m_grid is not null)
         {
             m_grid.Padding = new Thickness(m_grid.Padding.Left, m_grid.Padding.Top,
                 m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));

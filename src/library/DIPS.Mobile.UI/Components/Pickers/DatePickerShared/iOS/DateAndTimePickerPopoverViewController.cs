@@ -18,7 +18,6 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
 #nullable disable
     private IDatePicker m_inlineDatePicker;
     private DateAndTimePicker.DateAndTimePicker m_dateAndTimePicker;
-    
 #nullable enable
 
     private Grid? m_grid;
@@ -50,7 +49,8 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
 
         SetPopoverSourceView(chipTapped);
         
-        m_startingDateTime = m_dateAndTimePicker.SetSelectedDateTimeOnPopoverOpen();
+        m_startingDateTime = m_dateAndTimePicker.GetDateOnOpen();
+        m_dateAndTimePicker.SetSelectedDateTime(m_startingDateTime);
         
         SetDatePicker(tappedDatePicker);
         
@@ -135,17 +135,32 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
 
     private void TimePickerEnabled()
     {
-        m_inlineDatePicker = new InlineTimePicker { SelectedTime = m_dateAndTimePicker.SelectedDateTime.TimeOfDay };
+        m_inlineDatePicker = new InlineTimePicker
+        {
+            SelectedTime = m_startingDateTime.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).TimeOfDay
+        };
     }
 
     private void OnDateChanged(DateTime? dateTime)
     {
+        if (!dateTime.HasValue)
+        {
+            m_dateAndTimePicker?.SetSelectedDateTime(null);
+            return;
+        }
+        
+        if (m_inlineDatePicker is TimePicker.TimePicker)
+        {
+            dateTime = new DateTime(m_dateAndTimePicker.SelectedDateTime.Year, m_dateAndTimePicker.SelectedDateTime.Month, m_dateAndTimePicker.SelectedDateTime.Day,
+                dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second, m_dateAndTimePicker.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+        }
+        
         m_dateAndTimePicker?.SetSelectedDateTime(dateTime);
     }
 
     private UIView ConstructView()
     {
-        if (!m_dateAndTimePicker.DisplayTodayButton)
+        if (!m_dateAndTimePicker.ShouldDisplayTodayButton)
         {
             return m_inlineDatePicker.ToPlatform(DUI.GetCurrentMauiContext!);
         }
@@ -200,7 +215,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
         // If the popover is pointing down or right, we need to increase the bottom padding of the grid to fit the additional buttons
         // (For some odd reason)
         if (PopoverPresentationController?.ArrowDirection is UIPopoverArrowDirection.Down &&
-            m_dateAndTimePicker.DisplayTodayButton && m_grid is not null)
+            m_dateAndTimePicker.ShouldDisplayTodayButton && m_grid is not null)
         {
             m_grid.Padding = new Thickness(m_grid.Padding.Left, m_grid.Padding.Top,
                 m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));

@@ -43,7 +43,9 @@ public partial class TimePicker : Chip, IDatePicker
     }
 
     public event Action<DateTime?>? SelectedDateTimeChanged;
+    
     public DatePickerMode Mode => DatePickerMode.Time;
+    
     public virtual void SetSelectedDateTime(DateTime? selectedDate)
     {
         if (selectedDate.HasValue)
@@ -52,23 +54,17 @@ public partial class TimePicker : Chip, IDatePicker
             OnTimeChanged();
         }
         
-        SelectedTimeCommand?.Execute(selectedDate);
+        SelectedTimeCommand?.Execute(selectedDate?.TimeOfDay);
         SelectedDateTimeChanged?.Invoke(selectedDate);
     }
 
-    public bool DisplayTodayButton => false;
-    
+    public bool ShouldDisplayTodayButton => false;
+
     public bool IgnoreLocalTime => true;
     
-    public DateTimeKind GetKind()
-    {
-        return DateTimeKind.Unspecified;
-    }
-
-#if  __IOS__
-    public virtual TimeSpan SetSelectedTimeOnPopoverOpen()
+    public virtual TimeSpan GetTimeOnOpen()
     {
         return SelectedTime;
     }
-#endif
+
 }

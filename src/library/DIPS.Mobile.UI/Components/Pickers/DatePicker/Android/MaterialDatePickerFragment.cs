@@ -33,9 +33,11 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
     public MaterialDatePickerFragment(DatePicker datePicker)
     {
         m_datePicker = datePicker;
+
+        var dateTime = m_datePicker.GetDateOnOpen();
         
         var builder = MaterialDatePicker.Builder.DatePicker();
-        SetDatePickerSelection(builder);
+        SetDatePickerSelection(builder, dateTime);
 
         //Set min and max time
         var calendarConstraints = new CalendarConstraints.Builder();
@@ -59,7 +61,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         m_materialDatePicker.AddOnPositiveButtonClickListener(this);
         
         // If the today button should be displayed, we need to add an observer to the lifecycle to add the custom button.
-        if(m_datePicker.DisplayTodayButton)
+        if(m_datePicker.ShouldDisplayTodayButton)
             m_materialDatePicker.Lifecycle.AddObserver(this);
 
         var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
@@ -81,7 +83,6 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         
         m_materialDatePicker.Lifecycle.RemoveObserver(this);
     }
-
     
     /// <summary>
     /// Found the views that are needed to add the clear button by using material design github:
@@ -165,9 +166,9 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         view.LayoutParameters = layoutParameters;
     }
 
-    private void SetDatePickerSelection(MaterialDatePicker.Builder builder)
+    private void SetDatePickerSelection(MaterialDatePicker.Builder builder, DateTime dateTime)
     {
-        var date = m_datePicker.IgnoreLocalTime ? m_datePicker.SelectedDate : m_datePicker.SelectedDate.ToLocalTime();
+        var date = m_datePicker.IgnoreLocalTime ? dateTime : dateTime.ToLocalTime();
 
         //Java uses the unix epoch, so we have find the total milliseconds from the date people have picked and the UnixEpoch start.
         builder.SetSelection(date.ToLong());

@@ -5,9 +5,8 @@ public interface IDatePicker : IView
     event Action<DateTime?> SelectedDateTimeChanged;
     DatePickerMode Mode { get; }
     void SetSelectedDateTime(DateTime? selectedDate);
-    bool DisplayTodayButton { get; }
+    bool ShouldDisplayTodayButton { get; }
     bool IgnoreLocalTime { get; }
-    DateTimeKind GetKind();
 }
 
 public enum DatePickerMode

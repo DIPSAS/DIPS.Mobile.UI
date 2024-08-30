@@ -1,5 +1,3 @@
-using System.Windows.Input;
-
 namespace DIPS.Mobile.UI.Components.Pickers.NullableTimePicker;
 
 public partial class NullableTimePicker

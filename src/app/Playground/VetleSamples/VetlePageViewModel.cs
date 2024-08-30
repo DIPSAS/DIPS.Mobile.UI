@@ -23,6 +23,8 @@ public class VetlePageViewModel : ViewModel
     private bool m_isSaving;
     private bool m_isSavingCompleted;
     private SortOption m_selectedOrganizationalUnit;
+    private DateTime m_date = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Utc);
+    private DateTime m_localDate = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Local);
 
     public VetlePageViewModel()
     {
@@ -237,7 +239,19 @@ public class VetlePageViewModel : ViewModel
     }
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
-    public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
+
+    public DateTime Date
+    {
+        get => m_date;
+        set => m_date = value;
+    }
+
+    public DateTime LocalDate
+    {
+        get => m_localDate;
+        set => m_localDate = value;
+    }
+
     public DateTime? NullableDate { get; set; } = new DateTime(2023, 2, 1, 0, 0, 0);
     public DateTime? StartingNullDate { get; set; } = null;
     public List<SortOption> SelectableOrganizations { get; } = [new SortOption("Lol", "Lol")];
@@ -248,9 +262,14 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedOrganizationalUnit, value);
     }
 
-    public ICommand SelectedDateCommand => new Command<DateTime?>(date =>
+    public ICommand SelectedDateCommand => new Command(date =>
     {
         
+    });
+
+    public ICommand SelectedTimeCommand => new Command(time =>
+    {
+
     });
 }
 

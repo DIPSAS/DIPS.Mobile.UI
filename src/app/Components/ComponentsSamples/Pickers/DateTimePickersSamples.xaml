@@ -30,9 +30,9 @@
                            Style="{StaticResource LabelStyle}" />
                 <dui:DatePicker VerticalOptions="End"
                                 IgnoreLocalTime="True"
-                                DisplayTodayButton="True"
+                                ShouldDisplayTodayButton="True"
                                 DateConverterFormat="ShortOrText"
-                                ShouldCloseOnDateSelected="True"
+                                ShouldCloseOnDateSelected="False"
                                 SelectedDate="{Binding SelectedBirthday}"
                                 HorizontalOptions="Start" />
                 <dui:Label Text="TimePicker"
@@ -50,6 +50,7 @@
                 <dui:Label Text="DatePicker (With maximum date)"
                            Style="{StaticResource LabelStyle}" />
                 <dui:DatePicker VerticalOptions="End"
+                                IgnoreLocalTime="True"
                                 SelectedDate="{Binding Test}"
                                 HorizontalOptions="Start"
                                 MaximumDate="{Binding MaximumDate}" />
@@ -72,21 +73,21 @@
 
                 <dui:Label Text="Nullable DatePicker"
                            Style="{StaticResource LabelStyle}" />
-                <dui:NullableDatePicker HorizontalOptions="End"
-                                        SelectedDate="{Binding DateTimeNullDefault}"
+                <dui:NullableDatePicker HorizontalOptions="Start"
+                                        IgnoreLocalTime="True"
+                                        MaximumDate="{Binding MaximumDate}"
                                         SelectedDateCommand="{Binding SelectedDateCommand}" />
                 
                 <dui:Label Text="Nullable DateAndTimePicker"
                            Style="{StaticResource LabelStyle}" />
-                <dui:NullableDateAndTimePicker HorizontalOptions="End"
-                                               SelectedDateTime="{Binding DateTimeNullNotDefault}"
+                <dui:NullableDateAndTimePicker HorizontalOptions="Start"
+                                               
                                                SelectedDateTimeCommand="{Binding SelectedDateCommand}" />
                 
                 <dui:Label Text="Nullable TimePicker"
                            Style="{StaticResource LabelStyle}" />
-               <dui:NullableTimePicker HorizontalOptions="End"
-                                       SelectedTimeCommand="{Binding TimeSpanNullDefault}"
-                                       SelectedTime="{Binding SelectedTimeCommand}" />
+               <dui:NullableTimePicker HorizontalOptions="Start"
+                                       SelectedTimeCommand="{Binding TimeSpanNullDefault}" />
 
 
                 <BoxView HeightRequest="100" />

@@ -1,5 +1,4 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Platforms.iOS;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -35,7 +34,9 @@ public abstract class BaseDatePickerHandler : ViewHandler<IDatePicker, UIDatePic
 
     protected virtual void OnValueChanged(object? sender, EventArgs e)
     {
-        VirtualView.SetSelectedDateTime(PlatformView.Date.ConvertDate(VirtualView.IgnoreLocalTime, VirtualView.GetKind()));
+        var newDateTime = DateTime.SpecifyKind(PlatformView.Date.ToDateTime(),
+            VirtualView.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+        VirtualView.SetSelectedDateTime(newDateTime);
     }
 
     private void OnOpen(object? sender, EventArgs e)

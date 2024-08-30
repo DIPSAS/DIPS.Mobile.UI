@@ -80,19 +80,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             set => SetValue(MaximumDateProperty, value);
         }
 
-        public static readonly BindableProperty DisplayTodayButtonProperty = BindableProperty.Create(
-            nameof(DisplayTodayButton),
-            typeof(bool),
-            typeof(DatePicker));
-
-        public bool DisplayTodayButton
-        {
-            get => (bool)GetValue(DisplayTodayButtonProperty);
-            set => SetValue(DisplayTodayButtonProperty, value);
-        }
-        
         public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
-
+        public bool ShouldDisplayTodayButton { get; set; }
         public bool ShouldCloseOnDateSelected { get; set; } = true;
     }
 }

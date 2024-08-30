@@ -9,7 +9,13 @@ public partial class DateAndTimePicker
         nameof(SelectedDateTime),
         typeof(DateTime),
         typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay,
-        propertyChanged: (bindable, _, _) => ((DateAndTimePicker)bindable).OnSelectedDateTimeChanged());
+        propertyChanged: (bindable, _, date) =>
+        {
+            if(date is not DateTime time)
+                return;
+            
+            ((DateAndTimePicker)bindable).OnSelectedDateTimeChanged(time);
+        });
 
     /// <summary>
     /// The date people selected from the date picker.
@@ -77,7 +83,6 @@ public partial class DateAndTimePicker
         set => SetValue(MaximumDateProperty, value);
     }
 
-    public bool DisplayTodayButton { get; set; }
-    
     public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
+    public bool ShouldDisplayTodayButton { get; set; }
 }

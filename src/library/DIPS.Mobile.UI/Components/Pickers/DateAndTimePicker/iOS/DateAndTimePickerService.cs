@@ -2,11 +2,11 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using Microsoft.Maui.Platform;
 
-namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker.iOS;
+namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public class DateAndTimePickerService
+public partial class DateAndTimePickerService
 {
-    public static async void Open(DateAndTimePicker dateAndTimePicker, View chipTapped, bool datePickerTapped)
+    public static async partial void Open(DateAndTimePicker dateAndTimePicker, View chipTapped, bool datePickerTapped)
     {
         if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController dateOrTimePickerPopoverViewController)
         {
@@ -40,12 +40,12 @@ public class DateAndTimePickerService
         _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
     }
 
-    internal static bool IsOpen()
+    internal static partial bool IsOpen()
     {
         return Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController;
     }
 
-    public static void Close()
+    public static partial void Close()
     {
         if (Platform.GetCurrentUIViewController() is DateAndTimePickerPopoverViewController viewController)
         {

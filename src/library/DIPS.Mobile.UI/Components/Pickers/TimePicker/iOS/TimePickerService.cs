@@ -15,7 +15,8 @@ public partial class TimePickerService
             return;
         }
 
-        var timeOnOpen = timePicker.SetSelectedTimeOnPopoverOpen();
+        var timeOnOpen = timePicker.GetTimeOnOpen();
+        timePicker.SetSelectedDateTime(new DateTime(DateOnly.MaxValue, new TimeOnly(timeOnOpen.Hours, timeOnOpen.Minutes)));
         
         var inlineDatePicker = new InlineTimePicker
         {
