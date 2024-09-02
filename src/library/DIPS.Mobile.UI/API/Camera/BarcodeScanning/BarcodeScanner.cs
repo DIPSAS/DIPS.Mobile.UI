@@ -1,5 +1,8 @@
+using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -12,14 +15,14 @@ public partial class BarcodeScanner
 
     private void Log(string message)
     {
-        Console.WriteLine($@"DIPS {nameof(BarcodeScanner)}: {message}");
+        DUILogService.LogDebug<BarcodeScanner>(message);
     }
 
     public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback)
     {
         m_cameraPreview = cameraPreview;
         m_barCodeCallback = didFindBarcodeCallback;
-        if (await CanUseCamera())
+        if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
@@ -32,7 +35,6 @@ public partial class BarcodeScanner
     }
 
     internal partial Task PlatformStart();
-    internal partial Task<bool> CanUseCamera();
 
     public void Stop()
     {

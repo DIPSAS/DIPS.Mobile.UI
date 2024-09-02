@@ -27,13 +27,6 @@ public partial class BarcodeScanner
 
     private DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
 
-    //https://developer.apple.com/documentation/avfoundation/capture_setup/requesting_authorization_to_capture_and_save_media#2958841
-    internal partial async Task<bool> CanUseCamera()
-    {
-        return await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVAuthorizationMediaType.Video);
-    }
-
-
     internal partial void PlatformStop()
     {
         if (m_captureSession is {Running: true})

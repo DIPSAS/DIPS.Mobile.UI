@@ -8,6 +8,7 @@ using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
+using Components.ComponentsSamples.PhotoCapturing;
 using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
@@ -20,6 +21,7 @@ using Components.ResourcesSamples.Animations;
 using Components.ResourcesSamples.Colors;
 using Components.ResourcesSamples.Icons;
 using Components.ResourcesSamples.Sizes;
+using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components;
 
@@ -50,6 +52,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Labels", () => new LabelsSamples()),
             new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples()),
             new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningSample()),
+            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new PhotoCaptureSample()),
             new(SampleType.Components, "Tip", () => new TipSamples()),
             
             

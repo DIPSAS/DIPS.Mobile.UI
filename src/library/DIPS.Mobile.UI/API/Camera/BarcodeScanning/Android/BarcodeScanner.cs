@@ -39,20 +39,6 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         m_fragmentManager = m_context.GetFragmentManager();
     }
 
-    internal partial async Task<bool> CanUseCamera()
-    {
-        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-        if (status != PermissionStatus.Granted)
-        {
-            if (await Permissions.RequestAsync<Permissions.Camera>() != PermissionStatus.Granted)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     internal partial Task PlatformStart()
     {
         if (IsFragmentStarted())
