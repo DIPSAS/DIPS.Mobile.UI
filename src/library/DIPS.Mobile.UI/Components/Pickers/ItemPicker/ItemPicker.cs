@@ -19,25 +19,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             m_chip.SetBinding(MaximumHeightRequestProperty,
                 new Binding() {Path = nameof(MaximumHeightRequest), Source = this});
             MaximumWidthRequest = 200;
-            Loaded += OnLoaded;
-            Unloaded += OnUnLoaded;
-        }
-
-        private void OnUnLoaded(object? sender, EventArgs e)
-        {
-            Unloaded -= OnLoaded;
-            Dispose();
-        }
-
-        private void Dispose()
-        {
-            if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
-        }
-
-        private void OnLoaded(object? sender, EventArgs e)
-        {
-            Loaded -= OnLoaded;
+            
             LayoutContent();
         }
 
@@ -141,6 +123,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             return ItemsSource.Cast<object?>().FirstOrDefault(item =>
                 toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
+        }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+            {
+                if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                    notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+            }
         }
     }
 }
