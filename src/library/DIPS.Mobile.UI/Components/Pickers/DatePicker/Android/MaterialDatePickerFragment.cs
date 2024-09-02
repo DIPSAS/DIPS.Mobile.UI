@@ -197,6 +197,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             var dateFromJava = DateTime.UnixEpoch.AddMilliseconds(milliseconds);
 
             var dateTime = m_datePicker.IgnoreLocalTime ? dateFromJava.ToUniversalTime() : dateFromJava.ToLocalTime();
+            dateTime = dateTime.ConvertDate(m_datePicker.GetDateTimeKind());
             m_datePicker.SetSelectedDateTime(dateTime);
         }
     }

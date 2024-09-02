@@ -24,6 +24,8 @@
         <dui:DateAndTimePicker 
                                SelectedDateTime="{Binding LocalDate}"/>
 
+        <dui:DatePicker 
+            SelectedDate="{Binding Date}" />
 
     </VerticalStackLayout>
     
