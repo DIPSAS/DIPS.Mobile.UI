@@ -20,7 +20,12 @@ public partial class NullableDateAndTimePicker : DateAndTimePicker.DateAndTimePi
         
         OnSelectedDateTimeChanged();
     }
-    
+
+    public override DateTimeKind GetDateTimeKind()
+    {
+        return SelectedDateTime?.Kind ?? DateTimeKind.Unspecified;
+    }
+
     private void OnSelectedDateTimeChanged()
     {
         if (SelectedDateTime is null)

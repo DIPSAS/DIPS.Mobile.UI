@@ -41,7 +41,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
                 return new DateTime(MinimumDate.Value.Year, MinimumDate.Value.Month, MinimumDate.Value.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, SelectedDate.Kind);
             }
 
-            return dateTime;
+            return DateTime.SpecifyKind(dateTime, SelectedDate.Kind);
         }
 
         private void OnSelectedDateChanged()
@@ -76,6 +76,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 
             SelectedDateCommand?.Execute(selectedDate);
             SelectedDateTimeChanged?.Invoke(selectedDate);
+        }
+
+        public virtual DateTimeKind GetDateTimeKind()
+        {
+            return SelectedDate.Kind;
         }
 
         internal virtual DateTime GetDateOnOpen()

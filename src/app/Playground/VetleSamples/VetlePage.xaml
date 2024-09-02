@@ -18,9 +18,9 @@
 
     <VerticalStackLayout VerticalOptions="Center"
                          Padding="{dui:Thickness Top=size_10}">
-        <!--<dui:DatePicker CustomIcon="{dui:Icons alert_line}" />-->
+        <dui:NullableDateAndTimePicker IgnoreLocalTime="True"
+                                       SelectedDateTime="{Binding Date}"/>
 
-      <dui:ImageButton Source="{dui:Icons arrow_back_line}" />
 
     </VerticalStackLayout>
     

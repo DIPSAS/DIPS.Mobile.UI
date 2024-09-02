@@ -76,12 +76,17 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
         {
             if(selectedDate.Value.Ticks == SelectedDateTime.Ticks)
                 return;
-            
-            SelectedDateTime = ValidateDateTime(selectedDate.Value.ConvertDate(SelectedDateTime.Kind));
+
+            SelectedDateTime = ValidateDateTime(selectedDate.Value);
         }
 
         SelectedDateTimeCommand?.Execute(selectedDate);
         SelectedDateTimeChanged?.Invoke(selectedDate);
+    }
+
+    public virtual DateTimeKind GetDateTimeKind()
+    {
+        return SelectedDateTime.Kind;
     }
 
     protected override void OnHandlerChanged()
@@ -100,7 +105,7 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
             return new DateTime(MaximumDate.Value.Year,
                 MaximumDate.Value.Month,
                 MaximumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
         }
 
         // SelectedDate should not be below minimum date
@@ -109,7 +114,7 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
             return new DateTime(MinimumDate.Value.Year,
                 MinimumDate.Value.Month,
                 MinimumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, SelectedDateTime.Kind);
+                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
         }
 
         return selectedDate;

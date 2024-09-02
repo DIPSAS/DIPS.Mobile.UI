@@ -63,7 +63,11 @@ public partial class TimePicker : Chip, IDatePicker
     public bool ShouldDisplayTodayButton => false;
 
     public bool IgnoreLocalTime => true;
-    
+    public DateTimeKind GetDateTimeKind()
+    {
+        return DateTimeKind.Unspecified;
+    }
+
     public virtual TimeSpan GetTimeOnOpen()
     {
         return SelectedTime;

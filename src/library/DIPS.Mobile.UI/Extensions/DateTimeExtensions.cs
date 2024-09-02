@@ -73,7 +73,7 @@ namespace DIPS.Mobile.UI.Extensions
         public static DateTime ConvertDate(this DateTime dateTime, DateTimeKind kind)
         {
             if (kind is DateTimeKind.Unspecified)
-                return dateTime;
+                return DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified);
             
             return kind is DateTimeKind.Local ? dateTime.ToLocalTime() : dateTime.ToUniversalTime();
         }

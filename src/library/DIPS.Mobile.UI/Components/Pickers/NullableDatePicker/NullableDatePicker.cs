@@ -12,6 +12,11 @@ public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePi
         CloseCommand = new Command(OnCloseTapped);
     }
 
+    public override DateTimeKind GetDateTimeKind()
+    {
+        return SelectedDate?.Kind ?? DateTimeKind.Unspecified;
+    }
+
     private void OnCloseTapped()
     {
         SelectedDate = null;
