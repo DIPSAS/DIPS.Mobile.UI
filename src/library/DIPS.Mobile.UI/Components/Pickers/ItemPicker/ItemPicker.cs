@@ -19,7 +19,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             m_chip.SetBinding(MaximumHeightRequestProperty,
                 new Binding() {Path = nameof(MaximumHeightRequest), Source = this});
             MaximumWidthRequest = 200;
-            
+
             LayoutContent();
         }
 
