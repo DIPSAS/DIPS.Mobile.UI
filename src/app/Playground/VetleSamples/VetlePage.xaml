@@ -18,22 +18,9 @@
 
     <VerticalStackLayout VerticalOptions="Center"
                          Padding="{dui:Thickness Top=size_10}">
-        <dui:DateAndTimePicker IgnoreLocalTime="True"
-                               ShouldDisplayTodayButton="True"/>
-        <dui:DatePicker SelectedDateCommand="{Binding SelectedDateCommand}"
-                        ShouldDisplayTodayButton="True"
-                        IgnoreLocalTime="True"/>
-        
-        
-        <dui:NullableDatePicker SelectedDateCommand="{Binding SelectedDateCommand}"
-                                CustomIcon="{dui:Icons internalmessage_fill}" />
-        <dui:NullableTimePicker SelectedTimeCommand="{Binding SelectedTimeCommand}" />
-        <dui:NullableDateAndTimePicker SelectedDateTimeCommand="{Binding SelectedDateCommand}"/>
-        
-        <dui:DateAndTimePicker SelectedDateTime="{Binding LocalDate}" 
-                               IgnoreLocalTime="True" />
+        <!--<dui:DatePicker CustomIcon="{dui:Icons alert_line}" />-->
 
-      
+      <dui:ImageButton Source="{dui:Icons arrow_back_line}" />
 
     </VerticalStackLayout>
     
