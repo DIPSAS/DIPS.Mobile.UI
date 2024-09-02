@@ -7,7 +7,7 @@ using IDatePicker = DIPS.Mobile.UI.Components.Pickers.DatePickerShared.IDatePick
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
-public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
+public partial class DateAndTimePicker : Grid, IDatePicker
 {
     public DateAndTimePicker()
     {
@@ -17,10 +17,14 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
         DateChip.Tapped += DateChipOnTapped;
         TimeChip.Tapped += DateChipOnTapped;
         
-        Spacing = Sizes.GetSize(SizeName.size_1);
+        AddColumnDefinition(new ColumnDefinition(GridLength.Star));
+        AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
+        AddRowDefinition(new RowDefinition(GridLength.Auto));
+        
+        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
         
         Add(DateChip);
-        Add(TimeChip);
+        this.Add(TimeChip, 1);
     }
     
     public Chip DateChip { get; }

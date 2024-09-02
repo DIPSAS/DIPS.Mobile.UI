@@ -16,11 +16,9 @@
     </dui:ContentPage.BindingContext>
 
 
-    <HorizontalStackLayout >
-        <dui:Chip Title="Blomli-Edvardsen, Tobias, Testsykehuset Hf"
-                  
-                  VerticalOptions="Start"/>
+        <dui:ListItem Title="Due date">
+            <dui:NullableDateAndTimePicker />
+        </dui:ListItem>
 
-    </HorizontalStackLayout>
     
 </dui:ContentPage>
