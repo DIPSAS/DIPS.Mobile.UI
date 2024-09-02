@@ -49,7 +49,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
             PopoverPresentationController.SourceRect = nativeSourceView.Bounds;
         }
 
-        PopoverPresentationController.CanOverlapSourceViewRect = true;
+        /*PopoverPresentationController.CanOverlapSourceViewRect = true;*/
         PopoverPresentationController.Delegate = new InlineDatePickerPopoverDelegate();
 
         if (OperatingSystem.IsIOSVersionAtLeast(16) && nativeSourceView is not null)

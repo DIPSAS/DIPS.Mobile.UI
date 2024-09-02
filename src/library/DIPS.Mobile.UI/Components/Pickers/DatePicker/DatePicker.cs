@@ -68,6 +68,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
         {
             if (selectedDate.HasValue)
             {
+                if(selectedDate.Value.Ticks == SelectedDate.Ticks)
+                    return;
+                
                 SelectedDate = ValidateDateTime(selectedDate.Value);
             }
 

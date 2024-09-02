@@ -16,7 +16,13 @@
     </dui:ContentPage.BindingContext>
 
 
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="Center"
+                         Padding="{dui:Thickness Top=size_10}">
+        <dui:DateAndTimePicker IgnoreLocalTime="True"
+                               ShouldDisplayTodayButton="True"/>
+        <dui:DatePicker SelectedDateCommand="{Binding SelectedDateCommand}"
+                        ShouldDisplayTodayButton="True"
+                        IgnoreLocalTime="True"/>
         
         
         <dui:NullableDatePicker SelectedDateCommand="{Binding SelectedDateCommand}"

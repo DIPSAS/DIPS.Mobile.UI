@@ -34,7 +34,7 @@ public abstract class BaseDatePickerHandler : ViewHandler<IDatePicker, UIDatePic
 
     protected virtual void OnValueChanged(object? sender, EventArgs e)
     {
-        var newDateTime = DateTime.SpecifyKind(PlatformView.Date.ToDateTime(),
+        var newDateTime = DateTime.SpecifyKind((DateTime)PlatformView.Date,
             VirtualView.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
         VirtualView.SetSelectedDateTime(newDateTime);
     }

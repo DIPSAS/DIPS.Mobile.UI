@@ -44,7 +44,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
                 UIPopoverArrowDirection.Down | UIPopoverArrowDirection.Up;
         }
 
-        PopoverPresentationController.CanOverlapSourceViewRect = true;
+        /*PopoverPresentationController.CanOverlapSourceViewRect = true;*/
         PopoverPresentationController.Delegate = new InlineDatePickerPopoverDelegate();
 
         SetPopoverSourceView(chipTapped);

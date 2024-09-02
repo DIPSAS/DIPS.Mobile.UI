@@ -53,7 +53,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 
         public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
         public bool ShouldDisplayTodayButton { get; set; }
-        public bool ShouldCloseOnDateSelected { get; set; } = true;
+        public bool ShouldCloseOnDateSelected { get; set; }
         
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             nameof(SelectedDate),

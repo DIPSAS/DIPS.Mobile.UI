@@ -50,8 +50,10 @@ public partial class TimePicker : Chip, IDatePicker
     {
         if (selectedDate.HasValue)
         {
+            if(selectedDate.Value.TimeOfDay.Ticks == SelectedTime.Ticks)
+                return;
+            
             SelectedTime = selectedDate.Value.TimeOfDay;
-            OnTimeChanged();
         }
         
         SelectedTimeCommand?.Execute(selectedDate?.TimeOfDay);

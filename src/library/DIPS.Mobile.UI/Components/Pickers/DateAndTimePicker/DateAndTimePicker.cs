@@ -74,8 +74,10 @@ public partial class DateAndTimePicker : HorizontalStackLayout, IDatePicker
     {
         if (selectedDate.HasValue)
         {
+            if(selectedDate.Value.Ticks == SelectedDateTime.Ticks)
+                return;
+            
             SelectedDateTime = ValidateDateTime(selectedDate.Value.ConvertDate(SelectedDateTime.Kind));
-            OnSelectedDateTimeChanged(SelectedDateTime);
         }
 
         SelectedDateTimeCommand?.Execute(selectedDate);
