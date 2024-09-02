@@ -79,6 +79,7 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
     {
         handler.PlatformView.Text = chip.Title;
         handler.PlatformView.Ellipsize = TextUtils.TruncateAt.End;
+        handler.PlatformView.SetMaxLines(1);
     }
 
     private static void MapIsCloseable(ChipHandler handler, Chip chip)

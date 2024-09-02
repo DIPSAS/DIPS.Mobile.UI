@@ -114,7 +114,9 @@ public partial class Chip
             TextColor = Colors.GetColor(ColorName.color_system_black),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center
+            HorizontalOptions = LayoutOptions.Center,
+            MaxLines = 1,
+            LineBreakMode = LineBreakMode.TailTruncation
         };
         label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
         label.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleColor), source: this));

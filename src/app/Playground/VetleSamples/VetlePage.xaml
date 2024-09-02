@@ -16,17 +16,11 @@
     </dui:ContentPage.BindingContext>
 
 
-    <VerticalStackLayout VerticalOptions="Center"
-                         Padding="{dui:Thickness Top=size_10}">
-        <dui:NullableDateAndTimePicker 
-                                       SelectedDateTime="{Binding Date}"/>
-        
-        <dui:DateAndTimePicker 
-                               SelectedDateTime="{Binding LocalDate}"/>
+    <HorizontalStackLayout >
+        <dui:Chip Title="Blomli-Edvardsen, Tobias, Testsykehuset Hf"
+                  
+                  VerticalOptions="Start"/>
 
-        <dui:DatePicker 
-            SelectedDate="{Binding Date}" />
-
-    </VerticalStackLayout>
+    </HorizontalStackLayout>
     
 </dui:ContentPage>
