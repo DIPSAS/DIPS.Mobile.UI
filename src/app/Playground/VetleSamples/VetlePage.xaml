@@ -18,8 +18,11 @@
 
     <VerticalStackLayout VerticalOptions="Center"
                          Padding="{dui:Thickness Top=size_10}">
-        <dui:NullableDateAndTimePicker IgnoreLocalTime="True"
+        <dui:NullableDateAndTimePicker 
                                        SelectedDateTime="{Binding Date}"/>
+        
+        <dui:DateAndTimePicker 
+                               SelectedDateTime="{Binding LocalDate}"/>
 
 
     </VerticalStackLayout>

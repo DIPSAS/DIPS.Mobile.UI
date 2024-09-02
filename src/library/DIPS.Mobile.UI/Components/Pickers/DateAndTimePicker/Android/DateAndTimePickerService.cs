@@ -28,7 +28,8 @@ public partial class DateAndTimePickerService
             
             datePicker.SelectedDateCommand = new Command(() =>
             {
-                var selectedDateTime = new DateTime(datePicker.SelectedDate.Year, datePicker.SelectedDate.Month, datePicker.SelectedDate.Day, dateOnOpen.TimeOfDay.Hours, dateOnOpen.TimeOfDay.Minutes, 0);
+                var selectedDateTime = new DateTime(datePicker.SelectedDate.Year, datePicker.SelectedDate.Month, datePicker.SelectedDate.Day, dateOnOpen.TimeOfDay.Hours, dateOnOpen.TimeOfDay.Minutes, 0, dateAndTimePicker.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local)
+                    .ConvertDate(dateAndTimePicker.GetDateTimeKind());
                 dateAndTimePicker.SetSelectedDateTime(selectedDateTime);
             });
             
@@ -41,7 +42,9 @@ public partial class DateAndTimePickerService
             timePicker.SelectedTimeCommand = new Command(() =>
             {
                 var selectedTime = timePicker.SelectedTime;
-                var selectedDateTime = new DateTime(dateOnOpen.Year, dateOnOpen.Month, dateOnOpen.Day, selectedTime.Hours, selectedTime.Minutes, 0, dateAndTimePicker.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
+                var selectedDateTime = new DateTime(dateOnOpen.Year, dateOnOpen.Month, dateOnOpen.Day, selectedTime.Hours, selectedTime.Minutes, 0, dateAndTimePicker.IgnoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local)
+                    .ConvertDate(dateAndTimePicker.GetDateTimeKind());
+                
                 dateAndTimePicker.SetSelectedDateTime(selectedDateTime);
             });
             
