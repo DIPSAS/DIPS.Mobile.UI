@@ -1,3 +1,6 @@
+## [36.0.0] 
+- Upgraded MAUI to 8.0.82.
+
 ## [35.5.1] 
 - [ScrollPicker][iOS] Fixed crash when trying to display scroll pickers.
 - [MemoryLeak] Added navigation testing.
