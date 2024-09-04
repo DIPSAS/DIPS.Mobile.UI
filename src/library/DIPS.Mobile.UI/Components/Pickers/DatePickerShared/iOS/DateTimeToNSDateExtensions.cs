@@ -1,29 +1,28 @@
 using Foundation;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 
 public static class DateTimeToNSDateExtensions
 {
-    public static NSDate ConvertDate(this DateTime date, bool ignoreLocalTime)
+    public static NSDate ConvertAndCastToNsDate(this DateTime date, bool ignoreLocalTime)
     {
-        var dateTime =  ignoreLocalTime ? date.ToUniversalTime() : date.ToLocalTime();
-        if (dateTime.Kind == DateTimeKind.Unspecified) 
-        {
-            dateTime = DateTime.SpecifyKind(dateTime, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
-        }
-
+        if (date.Kind == DateTimeKind.Unspecified)
+            return date.ToNSDate();
+        
+        var dateTime = ignoreLocalTime ? date.ToUniversalTime() : date.ToLocalTime();
+        
         return (NSDate)dateTime;
     }
     
-    public static DateTime ConvertDate(this NSDate date, bool ignoreLocalTime)
+    public static DateTime ConvertDate(this NSDate date, bool ignoreLocalTime, DateTimeKind kind)
     {
-        var dateTime =  ignoreLocalTime ? ((DateTime)date).ToUniversalTime() : ((DateTime)date).ToLocalTime();
-        if (dateTime.Kind == DateTimeKind.Unspecified) 
-        {
-            dateTime = DateTime.SpecifyKind(dateTime, ignoreLocalTime ? DateTimeKind.Utc : DateTimeKind.Local);
-        }
+        var dateTime = (DateTime)date;
 
-        return dateTime;
+        if (kind is DateTimeKind.Unspecified)
+            return dateTime;
+        
+        return kind is DateTimeKind.Local ? dateTime.ToLocalTime() : dateTime.ToUniversalTime();
     }
 
 }

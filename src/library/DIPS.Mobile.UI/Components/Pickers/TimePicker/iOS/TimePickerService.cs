@@ -2,11 +2,12 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using UIKit;
 
-namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
+namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
-public partial class DatePickerService
+public partial class TimePickerService
 {
-    public static async partial void Open(DatePicker datePicker, View? sourceView = null)
+    
+    public static async partial void Open(TimePicker timePicker, View? sourceView = null)
     {
         if (Platform.GetCurrentUIViewController() is IDatePickerPopoverViewController and UIViewController uiViewController)
         {
@@ -14,23 +15,19 @@ public partial class DatePickerService
             return;
         }
 
-        var dateOnOpen = datePicker.GetDateOnOpen();
-        datePicker.SetSelectedDateTime(dateOnOpen);
+        var timeOnOpen = timePicker.GetTimeOnOpen();
+        timePicker.SetSelectedDateTime(new DateTime(DateOnly.MaxValue, new TimeOnly(timeOnOpen.Hours, timeOnOpen.Minutes)));
         
-        var inlineDatePicker = new InlineDatePicker
+        var inlineDatePicker = new InlineTimePicker
         {
-            MaximumDate = datePicker.MaximumDate,
-            MinimumDate = datePicker.MinimumDate,
-            SelectedDate = dateOnOpen,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime,
-            ShouldDisplayTodayButton = datePicker.ShouldDisplayTodayButton
+            SelectedTime = timeOnOpen
         };
 
         var presentedViewController = new DateOrTimePickerPopoverViewController();
-        presentedViewController.Setup(inlineDatePicker, datePicker, sourceView);
+        presentedViewController.Setup(inlineDatePicker, timePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
-        
+
         _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
     }
 

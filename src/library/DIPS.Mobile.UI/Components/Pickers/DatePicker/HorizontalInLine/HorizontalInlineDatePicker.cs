@@ -1,7 +1,9 @@
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Slidable;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 

@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 
@@ -7,7 +8,14 @@ public partial class DateAndTimePicker
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
         typeof(DateTime),
-        typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay);
+        typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay,
+        propertyChanged: (bindable, _, date) =>
+        {
+            if(date is not DateTime time)
+                return;
+            
+            ((DateAndTimePicker)bindable).OnSelectedDateTimeChanged(time);
+        });
 
     /// <summary>
     /// The date people selected from the date picker.
@@ -74,5 +82,7 @@ public partial class DateAndTimePicker
         get => (DateTime?)GetValue(MaximumDateProperty);
         set => SetValue(MaximumDateProperty, value);
     }
-    
+
+    public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
+    public bool ShouldDisplayTodayButton { get; set; }
 }

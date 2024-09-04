@@ -10,13 +10,14 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuPlatformEffect
 {
-    private async Task SetupPressedMode(ContextMenu contextMenu)
+    
+    private void SetupPressedMode(ContextMenu contextMenu)
     {
         contextMenu.ItemsSourceUpdated += RebuildMenu;
         
         if (Control is not UIButton uiButton)
         {
-            uiButton = await CreateOverlayButton();
+            uiButton = CreateOverlayButton();
         }
 
         m_uiButton = uiButton;
@@ -29,16 +30,29 @@ public partial class ContextMenuPlatformEffect
         }
     }
 
-    private async Task<UIButton> CreateOverlayButton()
+    private UIButton CreateOverlayButton()
     {
         var uiButton = new UIButton();
-        // Wait for layout change
-        await Task.Delay(300);
+        
         Control.AddSubview(uiButton);
-        uiButton.Frame = new CGRect(0,0, Control.Frame.Width, Control.Frame.Height); //X and Y is not relevant as it is added to the Control subview
         m_uiButtonToRemove = uiButton;
 
         return uiButton;
+    }
+
+    // We need to update the frame of the overlay button when the Control is resized (For example when an Item in ItemPicker is selected, thus the title is changed)
+    private async Task UpdateOverlayButtonFrame()
+    {
+        if (Control is not UIButton)
+        {
+            // Wait for layout change
+            await Task.Delay(300);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                //X and Y is not relevant as it is added to the Control subview
+                m_uiButton.Frame = new CGRect(0,0, Control.Frame.Width, Control.Frame.Height); 
+            });
+        }
     }
 
     private void RebuildMenu()
@@ -47,6 +61,8 @@ public partial class ContextMenuPlatformEffect
         {
             return;
         }
+        
+        _ = UpdateOverlayButtonFrame();
 
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,

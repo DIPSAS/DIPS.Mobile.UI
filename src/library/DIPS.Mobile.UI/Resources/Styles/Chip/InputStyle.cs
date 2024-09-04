@@ -25,8 +25,24 @@ public static class InputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_black)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90)
                 },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.BorderWidthProperty,
+#if __ANDROID__
+                    Value = 2.0,
+
+#elif __IOS__
+                    Value = 1.0,
+#endif
+                },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.BorderColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
+                        ColorName.color_secondary_30)
+                }
             },
         };
 }

@@ -23,6 +23,8 @@ public class VetlePageViewModel : ViewModel
     private bool m_isSaving;
     private bool m_isSavingCompleted;
     private SortOption m_selectedOrganizationalUnit;
+    private DateTime m_date = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Utc);
+    private DateTime m_localDate = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Local);
 
     public VetlePageViewModel()
     {
@@ -67,6 +69,8 @@ public class VetlePageViewModel : ViewModel
 
     }
 
+    public TimeSpan? Time { get; set; } = TimeSpan.Zero;
+    
     private void Disable()
     {
         Disabled = !Disabled;
@@ -235,7 +239,21 @@ public class VetlePageViewModel : ViewModel
     }
 
     public StateViewModel StateViewModel { get; set; } = new(State.Loading);
-    public DateTime Date { get; } = new DateTime(2023, 2, 1, 0, 0, 0);
+
+    public DateTime Date
+    {
+        get => m_date;
+        set => m_date = value;
+    }
+
+    public DateTime LocalDate
+    {
+        get => m_localDate;
+        set => m_localDate = value;
+    }
+
+    public DateTime? NullableDate { get; set; } = new DateTime(2023, 2, 1, 0, 0, 0);
+    public DateTime? StartingNullDate { get; set; } = null;
     public List<SortOption> SelectableOrganizations { get; } = [new SortOption("Lol", "Lol")];
 
     public SortOption SelectedOrganizationalUnit
@@ -244,33 +262,15 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedOrganizationalUnit, value);
     }
 
-    public List<GroupedTestObject> GroupedItemsSource { get; } = new()
+    public ICommand SelectedDateCommand => new Command(date =>
     {
-        new GroupedTestObject("Header1", new List<TestObject2>
-        {
-            new("Test1"),
-            new("Test2"),
-            new("Test3"),
-            new("Test4"),
-        }),
-        new GroupedTestObject("Header2", new List<TestObject2>
-        {
-            new("Test5"),
-            new("Test6"),
-            new("Test7"),
-            new("Test8"),
-        }),
-    };
-}
+        
+    });
 
-public class GroupedTestObject : List<TestObject2>
-{
-    public GroupedTestObject(string header, IEnumerable<TestObject2> items) : base(items)
+    public ICommand SelectedTimeCommand => new Command(time =>
     {
-        Header = header;
-    }
-    
-    public string Header { get; }
+
+    });
 }
 
 public class SortOption

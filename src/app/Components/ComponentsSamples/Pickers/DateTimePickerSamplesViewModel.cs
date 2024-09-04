@@ -18,6 +18,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
     private TimeSpan? m_timeSpanNullDefault;
     private DateTime? m_dateAndTimeNullDefault;
     private DateTime? m_dateTimeNullNotDefault = new DateTime(2024, 5, 7, 0, 0, 0);
+    private TimeSpan? m_timeSpanNotNullDefault = new TimeSpan(21, 30, 0);
 
     public DateTimePickerSamplesViewModel()
     {
@@ -27,6 +28,7 @@ public class DateTimePickerSamplesViewModel : ViewModel
         MaximumDate = new DateTime(2023, 05, 16);
         MinimumDate = new DateTime(1900, 01, 01);
 
+        
         Test = new DateTime(2023, 01, 28);
         Test2 = new DateTime(2024, 01, 29);
         Test3 = new DateTime(2023, 10, 29);
@@ -120,5 +122,11 @@ public class DateTimePickerSamplesViewModel : ViewModel
     {
         get => m_timeSpanNullDefault;
         set => RaiseWhenSet(ref m_timeSpanNullDefault, value);
+    }
+
+    public TimeSpan? TimeSpanNotNullDefault
+    {
+        get => m_timeSpanNotNullDefault;
+        set => RaiseWhenSet(ref m_timeSpanNotNullDefault, value);
     }
 }

@@ -1,16 +1,10 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
 {
     public partial class DatePicker
     {
-        public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
-            nameof(SelectedDate),
-            typeof(DateTime),
-            typeof(DatePicker),
-            defaultBindingMode:BindingMode.TwoWay,
-            defaultValue:null);
-
         /// <summary>
         /// The date people selected from the date picker.
         /// </summary>
@@ -20,11 +14,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             set => SetValue(SelectedDateProperty, value);
         }
 
-        public static readonly BindableProperty SelectedDateCommandProperty = BindableProperty.Create(
-            nameof(SelectedDateCommand),
-            typeof(ICommand),
-            typeof(DatePicker));
-    
         /// <summary>
         /// The command to be executed when people selected a date from the date picker.
         /// </summary>
@@ -33,12 +22,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             get => (ICommand)GetValue(SelectedDateCommandProperty);
             set => SetValue(SelectedDateCommandProperty, value);
         }
-        
-        public static readonly BindableProperty IgnoreLocalTimeProperty = BindableProperty.Create(
-            nameof(IgnoreLocalTime),
-            typeof(bool),
-            typeof(DatePicker));
-
         
         /// <summary>
         /// If this is false, the <see cref="DatePicker"/> will use local time zone.
@@ -49,11 +32,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             get => (bool)GetValue(IgnoreLocalTimeProperty);
             set => SetValue(IgnoreLocalTimeProperty, value);
         }
-
-        public static readonly BindableProperty MinimumDateProperty = BindableProperty.Create(
-            nameof(MinimumDate),
-            typeof(DateTime?),
-            typeof(DatePicker));
         
         /// <summary>
         /// Sets the minimum date that people can choose
@@ -64,11 +42,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             set => SetValue(MinimumDateProperty, value);
         }
         
-        public static readonly BindableProperty MaximumDateProperty = BindableProperty.Create(
-            nameof(MaximumDate),
-            typeof(DateTime?),
-            typeof(DatePicker));
-
         /// <summary>
         /// Sets the maximum date that people can choose
         /// </summary>
@@ -77,5 +50,37 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             get => (DateTime?)GetValue(MaximumDateProperty);
             set => SetValue(MaximumDateProperty, value);
         }
+
+        public DateConverter.DateConverterFormat DateConverterFormat { get; set; }
+        public bool ShouldDisplayTodayButton { get; set; }
+        public bool ShouldCloseOnDateSelected { get; set; }
+        
+        public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
+            nameof(SelectedDate),
+            typeof(DateTime),
+            typeof(DatePicker),
+            defaultBindingMode:BindingMode.TwoWay,
+            defaultValue:null,
+            propertyChanged: (bindable, _, _) => ((DatePicker)bindable).OnSelectedDateChanged());
+        
+        public static readonly BindableProperty SelectedDateCommandProperty = BindableProperty.Create(
+            nameof(SelectedDateCommand),
+            typeof(ICommand),
+            typeof(DatePicker));
+        
+        public static readonly BindableProperty IgnoreLocalTimeProperty = BindableProperty.Create(
+            nameof(IgnoreLocalTime),
+            typeof(bool),
+            typeof(DatePicker));
+        
+        public static readonly BindableProperty MinimumDateProperty = BindableProperty.Create(
+            nameof(MinimumDate),
+            typeof(DateTime?),
+            typeof(DatePicker));
+        
+        public static readonly BindableProperty MaximumDateProperty = BindableProperty.Create(
+            nameof(MaximumDate),
+            typeof(DateTime?),
+            typeof(DatePicker));
     }
 }

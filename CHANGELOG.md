@@ -1,3 +1,13 @@
+## [35.5.0] 
+- [Chip][Android] Made sure the text is centered horizontally.
+- [Chip] Changed its styling so that it corresponds better to the design.
+- [Chip][iOS] Changed the implementation from `UIButton` to usage of `Border` instead.
+- [DatePickers][iOS] Moved away from using native compact chip, to using `Chip`, and then show inline date pickers in a popover instead.
+- [DatePicker/DateAndTimePicker] Consumers can now add a "Today" button.
+- [DatePicker/DateAndTimePicker] Consumers can now set the desired format of the date text.
+- [DatePicker] Consumers can now toggle if the date picker should close when selecting a date.
+- [NullableDatePickers] Now you can clear the date by tapping a button on the `Chip`.
+
 ## [35.4.0] 
 - [MemoryLeak] Will now correctly log GC of modal pages.
 - [MemoryLeak] Added better logging.
