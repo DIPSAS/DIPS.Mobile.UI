@@ -1,3 +1,7 @@
+## [35.5.1] 
+- [ScrollPicker][iOS] Fixed crash when trying to display scroll pickers.
+- [MemoryLeak] Added navigation testing.
+
 ## [35.5.0] 
 - [Chip][Android] Made sure the text is centered horizontally.
 - [Chip] Changed its styling so that it corresponds better to the design.

@@ -15,20 +15,20 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 
-public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
+public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIView>
 {
     private Chip m_chip;
     private ScrollPickerViewController? m_scrollPickerViewController;
 
-    protected override UIButton CreatePlatformView()
+    protected override UIView CreatePlatformView()
     {
         m_chip = new Chip { Style = Styles.GetChipStyle(ChipStyle.Input) };
         m_chip.Command = new Command(() => OnTapped(m_chip));
 
-        return (UIButton)m_chip.ToPlatform(DUI.GetCurrentMauiContext!);
+        return m_chip.ToPlatform(DUI.GetCurrentMauiContext!);
     }
 
-    protected override void ConnectHandler(UIButton platformView)
+    protected override void ConnectHandler(UIView platformView)
     {
         base.ConnectHandler(platformView);
 
@@ -86,7 +86,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIButton>
         m_scrollPickerViewModel.SetToNull();
     }
     
-    protected override void DisconnectHandler(UIButton platformView)
+    protected override void DisconnectHandler(UIView platformView)
     {
         base.DisconnectHandler(platformView);
 
@@ -133,7 +133,7 @@ internal class ScrollPickerViewController : UIViewController
 #nullable disable
     private IScrollPickerViewModel m_scrollPickerViewModel;
     private UIPickerView m_uiPicker;
-    private UIButton m_uiButton;
+    private UIView m_uiButton;
     private UIButton m_clearButton;
 #nullable enable
 
@@ -141,7 +141,7 @@ internal class ScrollPickerViewController : UIViewController
     {
         m_scrollPickerViewModel = scrollPickerViewModel;
         m_uiPicker = new UIPickerView();
-        m_uiButton = chip.ToPlatform(DUI.GetCurrentMauiContext!) as UIButton;
+        m_uiButton = chip.ToPlatform(DUI.GetCurrentMauiContext!);
         
         var vm = new DUIPickerViewModel { ScrollPickerViewModel = m_scrollPickerViewModel };
         m_uiPicker.Model = vm;
