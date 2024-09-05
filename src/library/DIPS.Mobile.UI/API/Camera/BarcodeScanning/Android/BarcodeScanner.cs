@@ -25,7 +25,7 @@ public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObser
         return m_cameraPreview != null ? base.TryStart(m_cameraPreview, CameraUseCase.BarcodeScanning) : Task.CompletedTask;
     }
 
-    internal partial void PlatformStop() => base.TryStop();
+    internal partial Task PlatformStop() => base.TryStop();
     
 
     public override void OnStarted() => SetupBarCodeScanning();

@@ -1,5 +1,5 @@
 ﻿using Components.ComponentsSamples.BarcodeScanning;
-using Components.ComponentsSamples.PhotoCapturing;
+using Components.ComponentsSamples.ImageCapturing;
 using Components.ComponentsSamples.Pickers;
 using Components.Resources.LocalizedStrings;
 using Components.Services;
@@ -75,8 +75,8 @@ public partial class App : Application
 
     protected override void OnResume()
     {
-        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is PhotoCaptureSample);
-        if (potentialPage is PhotoCaptureSample barcodesample)
+        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is ImageCaptureSample);
+        if (potentialPage is ImageCaptureSample barcodesample)
         {
             barcodesample.OnResume();
         }
@@ -86,8 +86,8 @@ public partial class App : Application
 
     protected override void OnSleep()
     {
-        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is PhotoCaptureSample);
-        if (potentialPage is PhotoCaptureSample barcodesample)
+        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is ImageCaptureSample);
+        if (potentialPage is ImageCaptureSample barcodesample)
         {
             barcodesample.OnSleep();
         }

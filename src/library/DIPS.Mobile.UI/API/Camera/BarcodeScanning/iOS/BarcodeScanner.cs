@@ -27,7 +27,7 @@ public partial class BarcodeScanner
 
     private DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
 
-    internal partial void PlatformStop()
+    internal partial Task PlatformStop()
     {
         if (m_captureSession is {Running: true})
         {
@@ -49,12 +49,14 @@ public partial class BarcodeScanner
 
         m_captureDevice = null;
 
-        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
+        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return Task.CompletedTask;
         previewHandler.RemoveZoomSlider();
         previewHandler.RemovePinchToZoom();
         previewHandler.RemoveTouchToFocus();
 
         m_previewUIView = null;
+
+        return Task.CompletedTask;
     }
 
     internal async partial Task PlatformStart()

@@ -2,16 +2,18 @@ using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.Internal.Logging;
 
-namespace DIPS.Mobile.UI.API.Camera.PhotoCapturing;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
-public partial class PhotoCapture
+public partial class ImageCapture
 {
     
     private CameraPreview? m_cameraPreview;
+    private Action<CapturedImage>? m_onImageCaptured;
 
-    public async Task Start(CameraPreview cameraPreview)
+    public async Task Start(CameraPreview cameraPreview, Action<CapturedImage> onImageCaptured)
     {
         m_cameraPreview = cameraPreview;
+        m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
@@ -29,12 +31,18 @@ public partial class PhotoCapture
 
     private void Log(string message)
     {
-        DUILogService.LogDebug<PhotoCapture>(message);
+        DUILogService.LogDebug<ImageCapture>(message);
     }
 
     public void Stop()
     {
         PlatformStop();
         m_cameraPreview = null;
+        m_onImageCaptured = null;
+    }
+
+    internal void InvokeOnImageCaptured(CapturedImage capturedImage)
+    {
+        m_onImageCaptured?.Invoke(capturedImage);
     }
 }

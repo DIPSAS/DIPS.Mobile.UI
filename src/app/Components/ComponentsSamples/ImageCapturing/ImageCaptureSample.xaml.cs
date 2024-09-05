@@ -1,17 +1,16 @@
-using Components.ComponentsSamples.BarcodeScanning;
-using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
-using DIPS.Mobile.UI.API.Camera.PhotoCapturing;
 
-namespace Components.ComponentsSamples.PhotoCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
-public partial class PhotoCaptureSample
+namespace Components.ComponentsSamples.ImageCapturing;
+
+public partial class ImageCaptureSample
 {
-    private readonly PhotoCapture m_photoCapture;
+    private readonly ImageCapture m_imageCapture;
 
-    public PhotoCaptureSample()
+    public ImageCaptureSample()
     {
         InitializeComponent();
-        m_photoCapture = new PhotoCapture();
+        m_imageCapture = new ImageCapture();
     }
 
     
@@ -19,13 +18,18 @@ public partial class PhotoCaptureSample
     {
         try
         {
-            await m_photoCapture.Start(CameraPreview);
+            await m_imageCapture.Start(CameraPreview, OnImageCaptured);
         }
         catch (Exception exception)
         {
             await Application.Current?.MainPage?.DisplayAlert("Failed, check console!", exception.Message, "Ok")!;
             Console.WriteLine(exception);
         }
+    }
+
+    public void OnImageCaptured(CapturedImage capturedImage)
+    {
+        
     }
 
     protected override async void OnAppearing()
@@ -36,13 +40,13 @@ public partial class PhotoCaptureSample
 
     protected override void OnDisappearing()
     {
-        m_photoCapture.Stop();
+        m_imageCapture.Stop();
         base.OnDisappearing();
     }
 
     public void OnSleep()
     {
-        m_photoCapture.Stop();
+        m_imageCapture.Stop();
     }
 
     public void OnResume()

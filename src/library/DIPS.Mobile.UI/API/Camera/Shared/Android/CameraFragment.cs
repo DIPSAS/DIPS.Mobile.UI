@@ -13,7 +13,7 @@ public abstract class CameraFragment : Fragment
 {
     private const string FragmentTag = nameof(CameraFragment);
 
-    private PreviewView m_previewView;
+    internal PreviewView PreviewView { get; private set; }
     internal LifecycleCameraController? CameraController { get; private set; }
 
 
@@ -46,14 +46,14 @@ public abstract class CameraFragment : Fragment
         
         if (cameraPreview.Handler is CameraPreviewHandler previewHandler)
         {
-            m_previewView = previewHandler.PreviewView;
+            PreviewView = previewHandler.PreviewView;
         }
 
         CameraController = new LifecycleCameraController(Context);
         CameraController.SetEnabledUseCases((int)cameraUseCase);
         CameraController.BindToLifecycle(this);
 
-        m_previewView.Controller = CameraController;
+        PreviewView.Controller = CameraController;
         
         
         try
@@ -88,7 +88,7 @@ public abstract class CameraFragment : Fragment
     /// </summary>
     public abstract void OnStarted();
     
-    internal async void TryStop()
+    internal async Task TryStop()
     {
         if(!IsFragmentStarted()) return;
         try
@@ -107,7 +107,7 @@ public abstract class CameraFragment : Fragment
                     "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
             {
                 await Task.Delay(400);
-                TryStop();
+                await TryStop();
             }
         }
     }

@@ -44,7 +44,7 @@ public partial class BarcodeScanner
         StopAndDisposeTimerAndResults();
     }
 
-    internal partial void PlatformStop();
+    internal partial Task PlatformStop();
 
     internal void InvokeBarcodeFound(Barcode barcode)
     {
