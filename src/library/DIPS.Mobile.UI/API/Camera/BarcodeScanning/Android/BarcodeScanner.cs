@@ -1,87 +1,35 @@
-using Android.Content;
 using Android.Gms.Tasks;
 using Android.Runtime;
 using AndroidX.Camera.Core;
-using AndroidX.Camera.View;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Camera.Preview;
-using DIPS.Mobile.UI.API.Library;
-using Java.Lang;
-using Microsoft.Maui.Platform;
+using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
-using Fragment = AndroidX.Fragment.App.Fragment;
-using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 using Object = Java.Lang.Object;
 using Task = System.Threading.Tasks.Task;
-using TaskCompletionSource = System.Threading.Tasks.TaskCompletionSource;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
+public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObserver
 {
-    private PreviewView m_previewView;
-    private readonly Context m_context;
-    private LifecycleCameraController m_cameraController;
-    private readonly FragmentManager? m_fragmentManager;
     private IBarcodeScanner m_barcodeScanner;
     private IImageProxy? m_imageProxy;
-    private string m_fragmentTag = nameof(BarcodeScanner);
-    private TaskCompletionSource m_startedTcs;
-
-    public BarcodeScanner()
-    {
-        m_context = DUI.GetCurrentMauiContext?.Context;
-        m_fragmentManager = m_context.GetFragmentManager();
-    }
 
     internal partial Task PlatformStart()
     {
-        if (IsFragmentStarted())
-        {
-            //Already started
-            return Task.CompletedTask;
-        }
-
-        m_startedTcs = new TaskCompletionSource();
-
-        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-        {
-            m_previewView = previewHandler.PreviewView;
-        }
-
-        m_cameraController = new LifecycleCameraController(m_context);
-        m_cameraController.SetEnabledUseCases(CameraController.ImageAnalysis);
-        m_cameraController.BindToLifecycle(this);
-        
-        m_previewView.Controller = m_cameraController;
-        
-        TryStart();
-
-        return m_startedTcs.Task;
+        return m_cameraPreview != null ? base.TryStart(m_cameraPreview, CameraUseCase.BarcodeScanning) : Task.CompletedTask;
     }
 
-    private bool IsFragmentStarted()
-    {
-        return m_fragmentManager?.FindFragmentByTag(m_fragmentTag) != null;
-    }
+    internal partial void PlatformStop() => base.TryStop();
+    
 
-    public override void OnStart()
-    {
-        SetupBarCodeScanning();
-        m_startedTcs.TrySetResult();
-        
-        base.OnStart();
-    }
-
-    public override void OnAttach(Context context)
-    {
-        base.OnAttach(context);
-    }
+    public override void OnStarted() => SetupBarCodeScanning();
+    
 
 
     public override void OnStop()
@@ -90,25 +38,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         TryStop();
     }
 
-    private async void TryStart()
-    {
-        try
-        {
-            m_fragmentManager?.BeginTransaction().Add(this, m_fragmentTag).CommitAllowingStateLoss();
-        }
-        catch (IllegalStateException illegalStateException)
-        {
-            if (illegalStateException.Message != null &&
-                illegalStateException.Message.Contains(
-                    "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
-            {
-                await Task.Delay(400);
-                TryStart();
-            }
-
-            throw;
-        }
-    }
+ 
 
     private void SetupBarCodeScanning()
     {
@@ -119,15 +49,19 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
         
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(barcodeScannerBuilder.Build());
-        m_cameraController.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(m_context),
+        CameraController?.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(Context),
             ImageAnalyzer.Create(AnalyzeImage));
 
+        //TODO: MOVE TO BASE IF UX SHOULD BE THE SAME FOR ALL USE CASES?
         if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
         {
-            previewHandler.AddZoomSlider(m_cameraController);
+            if (CameraController != null)
+            {
+                previewHandler.AddZoomSlider(CameraController);    
+            }
         }
         
-        m_cameraController.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
+        CameraController?.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
     }
 
  
@@ -136,35 +70,9 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
     {
         m_imageProxy = imageProxy;
         m_barcodeScanner.Process(InputImage.FromMediaImage(imageProxy.Image, imageProxy.ImageInfo.RotationDegrees))
-            .AddOnSuccessListener(ContextCompat.GetMainExecutor(m_context), this);
+            .AddOnSuccessListener(ContextCompat.GetMainExecutor(Context), this);
     }
-
-    internal partial void PlatformStop() => TryStop();
-
-    private async void TryStop()
-    {
-        if(!IsFragmentStarted()) return;
-        try
-        {
-            m_fragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
-            m_cameraController.Unbind();
-            if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-            {
-                previewHandler.RemoveZoomSlider();
-            }
-        }
-        catch (IllegalStateException illegalStateException)
-        {
-            if (illegalStateException.Message != null &&
-                illegalStateException.Message.Contains(
-                    "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
-            {
-                await Task.Delay(400);
-                TryStop();
-            }
-        }
-       
-    }
+    
 
     public void OnSuccess(Java.Lang.Object result)
     {
@@ -183,11 +91,11 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         m_imageProxy?.Close();
     }
 
-    private void DrawBarcodeRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
-    {
-        m_previewView.Overlay?.Clear();
-        m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
-    }
+    // private void DrawBarcodeRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
+    // {
+    //     m_previewView.Overlay?.Clear();
+    //     m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
+    // }
 
     public void OnChanged(Object? value)
     {
@@ -195,7 +103,7 @@ public partial class BarcodeScanner : Fragment, IOnSuccessListener, IObserver
         {
             if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
             {
-                previewHandler.OnZoomChanged(linearZoom, m_cameraController);
+                previewHandler.OnZoomChanged(linearZoom);
             }  
         }
     }
