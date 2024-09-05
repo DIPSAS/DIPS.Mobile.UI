@@ -8,7 +8,9 @@ public partial class DateAndTimePicker
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
         typeof(DateTime),
-        typeof(DateAndTimePicker), defaultBindingMode:BindingMode.TwoWay,
+        typeof(DateAndTimePicker), 
+        DateTime.Now,
+        defaultBindingMode:BindingMode.TwoWay,
         propertyChanged: (bindable, _, date) =>
         {
             if(date is not DateTime time)

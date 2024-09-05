@@ -1,3 +1,6 @@
+## [36.0.1] 
+- Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
+
 ## [36.0.0] 
 - Upgraded MAUI to 8.0.82.
 
