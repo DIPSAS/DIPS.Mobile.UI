@@ -103,6 +103,11 @@ public abstract class CameraFragment : Fragment
 
     public override void OnStart()
     {
+        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
+        {
+            previewHandler.OnCameraStarted(CameraControl!);
+        }
+        
         OnStarted();
         m_startedTcs.TrySetResult();
         base.OnStart();

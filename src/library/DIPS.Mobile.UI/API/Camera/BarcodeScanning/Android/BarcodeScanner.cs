@@ -6,10 +6,12 @@ using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.Observable.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Object = Java.Lang.Object;
 using Task = System.Threading.Tasks.Task;
 
@@ -21,6 +23,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 {
     private IBarcodeScanner? m_barcodeScanner;
     private ImageAnalysis? m_imageAnalysisUseCase;
+    private CameraZoomSlider? m_slider;
 
     internal partial Task PlatformStart()
     {
@@ -33,19 +36,14 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     }
 
     internal partial Task PlatformStop() => base.TryStop();
-    
 
     public override void OnStarted() => SetupBarCodeScanning();
     
-
-
     public override void OnStop()
     {
         base.OnStop();
         _ = TryStop();
     }
-
- 
 
     private void SetupBarCodeScanning()
     {
@@ -56,20 +54,9 @@ public partial class BarcodeScanner : CameraFragment, IObserver
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
         
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(barcodeScannerBuilder.Build());
-
-        //TODO: MOVE TO BASE IF UX SHOULD BE THE SAME FOR ALL USE CASES?
-        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-        {
-            if (CameraControl != null)
-            {
-                previewHandler.AddZoom(CameraControl, withSlider:true);    
-            }
-        }
         
         CameraInfo?.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
     }
-
- 
 
     private void AnalyzeImage(IImageProxy imageProxy)
     {
@@ -103,12 +90,9 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 
     public void OnChanged(Object? value)
     {
-        if (double.TryParse(value.GetPropertyValue("LinearZoom"), out var linearZoom))
+        if (double.TryParse(value.GetPropertyValue("LinearZoom"), out var linearZoom) && m_slider is not null)
         {
-            if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-            {
-                previewHandler.OnZoomChanged(linearZoom);
-            }  
+            m_slider.ZoomLevel = linearZoom;
         }
     }
 }

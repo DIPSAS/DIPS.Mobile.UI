@@ -1,174 +1,86 @@
 using Android.Views;
-using Android.Widget;
 using AndroidX.Camera.Core;
-using AndroidX.Camera.View;
+using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
-using DIPS.Mobile.UI.Extensions.Android;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Handlers;
-using Color = Android.Graphics.Color;
-using Slider = Google.Android.Material.Slider.Slider;
+using Microsoft.Maui.Platform;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Colors = Microsoft.Maui.Graphics.Colors;
+using VerticalStackLayout = Microsoft.Maui.Controls.VerticalStackLayout;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 //Preview: https://developer.android.com/media/camera/camera2/camera-preview
-public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeLayout>
+public partial class CameraPreviewHandler : ViewHandler<CameraPreview, View>
 {
-    private Slider? m_slider;
+    private Android.Slider.CameraZoomSlider? m_slider;
     private ScaleGestureDetector? m_scaleGestureDetector;
-    private OnZoomSliderTouchListener? m_onZoomSliderListener;
+    private Grid m_grid;
+    private VerticalStackLayout m_customViewsContainer;
 
     public CameraPreviewHandler() : base(ViewMapper, ViewCommandMapper)
     {
     }
 
-    protected override RelativeLayout CreatePlatformView()
+    protected override View CreatePlatformView()
     {
-        var relativeLayout = new RelativeLayout(Context);
-        relativeLayout.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ViewGroup.LayoutParams.MatchParent);
+        var previewView = new Android.PreviewView.PreviewView();
 
-        var previewView = new PreviewView(Context);
-        previewView.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ViewGroup.LayoutParams.MatchParent);
-        previewView.SetBackgroundColor(Color.Transparent);
-        PreviewView = previewView;
+        PreviewView = (AndroidX.Camera.View.PreviewView)previewView.ToPlatform(DUI.GetCurrentMauiContext!);
 
-        relativeLayout.AddView(PreviewView);
-        return relativeLayout;
-    }
-
-    public PreviewView PreviewView { get; internal set; }
-
-    //Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
-    internal void AddZoom(ICameraControl cameraController, bool withSlider=false)
-    {
-        if (withSlider)
+        m_customViewsContainer = new VerticalStackLayout
         {
-            var slider = new Slider(Context);
-            var layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent);
-            layoutParams.AddRule(LayoutRules.AlignParentBottom);
-            layoutParams.LeftMargin = 50.0.ToMauiPixel();
-            layoutParams.RightMargin = 50.0.ToMauiPixel();
-            layoutParams.BottomMargin = 250.0.ToMauiPixel();
-            slider.LayoutParameters = layoutParams;
-            slider.LabelBehavior = 2; //Disables the label when dragging
-            m_onZoomSliderListener = new OnZoomSliderTouchListener(cameraController);
-            slider.SetOnTouchListener(m_onZoomSliderListener);
-            slider.ContentDescription = DUILocalizedStrings.ZoomLevel;
-            PlatformView.AddView(slider);
-            m_slider = slider;    
-        }
+            Padding = new Thickness(25, 10),
+            BackgroundColor = Colors.Transparent, 
+            VerticalOptions = LayoutOptions.End,
+        };
+        
+        m_grid =
+        [
+            previewView,
+            m_customViewsContainer
+        ];
+
+        return m_grid.ToPlatform(DUI.GetCurrentMauiContext!);
     }
+    
+    //Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
+    internal void OnCameraStarted(ICameraControl cameraControl)
+    {
+        m_slider = new CameraZoomSlider(cameraControl);
+        m_customViewsContainer.Insert(0, m_slider);
+        
+        m_slider.VerticalOptions = LayoutOptions.End;
+        m_slider.Margin = new Thickness(0, 0, 0, 25);
+    }
+
+    public AndroidX.Camera.View.PreviewView PreviewView { get; internal set; }
 
     public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
     {
-        if (m_slider is null) return;
+        if (m_slider is null) 
+            return;
+        
         TipService.Show(message, m_slider, durationInMilliseconds);
     }
 
-
-    internal void OnZoomChanged(double linearZoom)
+    public void AddView(Microsoft.Maui.Controls.View toolbarItems)
     {
-        VirtualView.HasZoomed = true;
-        if (m_onZoomSliderListener is {IsZoomAction: true}) return; //To prevent awkward slider / zooming sync
-
-        if (m_slider != null)
-        {
-            m_slider.Value = (float)linearZoom;
-        }
+        toolbarItems.VerticalOptions = LayoutOptions.Center;
+        
+        m_customViewsContainer.Add(toolbarItems);
     }
 
     internal void RemoveZoomSlider()
     {
-        m_onZoomSliderListener = null;
-        
-        if (m_slider == null)
-        {
+        if (m_slider is null)
             return;
-        }
 
-        m_slider.SetOnTouchListener(null);
-        m_slider.ClearOnSliderTouchListeners();
-        PlatformView.RemoveView(m_slider);
+        m_slider.Handler?.DisconnectHandler();
+        m_grid.Remove(m_slider);
         m_slider = null;
-    }
-
-    internal class OnZoomSliderTouchListener : Java.Lang.Object, View.IOnTouchListener
-    {
-        private readonly ICameraControl m_cameraControl;
-        private MotionEventActions m_previousAction;
-
-        public OnZoomSliderTouchListener(ICameraControl cameraControl)
-        {
-            m_cameraControl = cameraControl;
-        }
-
-
-        public bool OnTouch(View? v, MotionEvent? e)
-        {
-            if (e == null) return false;
-            if (v is not Slider slider) return false;
-
-            switch (e.Action)
-            {
-                case MotionEventActions.ButtonPress:
-                    break;
-                case MotionEventActions.ButtonRelease:
-                    break;
-                case MotionEventActions.Cancel:
-                    break;
-                case MotionEventActions.Down:
-                    break;
-                case MotionEventActions.HoverEnter:
-                    break;
-                case MotionEventActions.HoverExit:
-                    break;
-                case MotionEventActions.HoverMove:
-                    break;
-                case MotionEventActions.Mask:
-                    break;
-                case MotionEventActions.Move:
-                    if (m_previousAction is MotionEventActions.Down or MotionEventActions.Move)
-                    {
-                        m_cameraControl.SetLinearZoom(slider.Value);    
-                    }
-                    break;
-                case MotionEventActions.Outside:
-                    break;
-                case MotionEventActions.Pointer1Down:
-                    break;
-                case MotionEventActions.Pointer1Up:
-                    break;
-                case MotionEventActions.Pointer2Down:
-                    break;
-                case MotionEventActions.Pointer2Up:
-                    break;
-                case MotionEventActions.Pointer3Down:
-                    break;
-                case MotionEventActions.Pointer3Up:
-                    break;
-                case MotionEventActions.PointerIdMask:
-                    break;
-                case MotionEventActions.PointerIdShift:
-                    break;
-                case MotionEventActions.Up:
-                    if (m_previousAction == MotionEventActions.Down)
-                    {
-                        m_cameraControl.SetLinearZoom(slider.Value);
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            m_previousAction = e.Action;
-            return false;
-        }
-
-        public bool IsZoomAction =>
-            m_previousAction is MotionEventActions.Down or MotionEventActions.Move;
     }
 }

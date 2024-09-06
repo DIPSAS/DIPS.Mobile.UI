@@ -25,6 +25,6 @@ public partial class CameraPreview : ContentView
     public void ShowZoomSliderTip(string message, int durationInMilliseconds = 4000)
     {
         if (Handler is not CameraPreviewHandler cameraPreviewHandler) return;
-        cameraPreviewHandler.ShowZoomSliderTip(message, durationInMilliseconds);
+            cameraPreviewHandler.ShowZoomSliderTip(message, durationInMilliseconds);
     }
 }

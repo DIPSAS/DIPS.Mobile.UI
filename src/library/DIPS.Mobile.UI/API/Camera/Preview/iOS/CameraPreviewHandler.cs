@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.API.Camera.Preview;
 public partial class CameraPreviewHandler : ContentViewHandler
 {
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
-    private Slider? m_slider;
+    private Microsoft.Maui.Controls.Slider? m_slider;
     private UITapToFocusGestureRecognizer? m_tapToFocusTapGestureRecognizer;
     private UIPinchGestureRecognizer? m_pinchToZoomGestureRecognizer;
 
@@ -79,7 +79,7 @@ public partial class CameraPreviewHandler : ContentViewHandler
                 bottomPadding = bottomSafeArea.Value + bottomPadding;
             }
 
-            var slider = new Slider
+            var slider = new Microsoft.Maui.Controls.Slider
             {
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.End,

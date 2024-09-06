@@ -6,7 +6,9 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Video;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Size = Android.Util.Size;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
@@ -31,9 +33,19 @@ public partial class ImageCapture : CameraFragment
 
     public override async void OnStarted()
     {
+        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
+        {
+            previewHandler.AddView(new Button
+            {
+                Text = "Capture"
+            });
+        }
+
         await Task.Delay(800);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured));
+        
+        
     }
 
     private async void OnImageCaptured(IImageProxy image)
