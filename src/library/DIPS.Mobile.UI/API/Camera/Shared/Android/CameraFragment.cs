@@ -1,28 +1,37 @@
 using Android.Content;
+using Android.Hardware.Camera2;
+using AndroidX.Camera.Core;
+using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.View;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using Java.Lang;
+using Java.Util.Concurrent;
 using Microsoft.Maui.Platform;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace DIPS.Mobile.UI.API.Camera.Shared.Android;
 
+//Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 public abstract class CameraFragment : Fragment
 {
     private const string FragmentTag = nameof(CameraFragment);
 
-    internal PreviewView PreviewView { get; private set; }
-    internal LifecycleCameraController? CameraController { get; private set; }
+    internal ProcessCameraProvider? CameraProvider { get; private set; }
+    
+    public ICamera? Camera { get; private set; }
+    internal ICameraControl? CameraControl => Camera?.CameraControl;
+    internal ICameraInfo? CameraInfo => Camera?.CameraInfo;
 
-
-    private TaskCompletionSource m_startedTcs;
-    private CameraPreview m_cameraPreview;
+    private TaskCompletionSource? m_startedTcs;
+    
+    internal PreviewView? PreviewView { get; private set; }
+    private CameraPreview? m_cameraPreview;
     public new Context? Context { get; }
     public new FragmentManager? FragmentManager { get; }
 
-    public CameraFragment()
+    protected CameraFragment()
     {
         Context = DUI.GetCurrentMauiContext?.Context;
         FragmentManager = Context?.GetFragmentManager();
@@ -33,27 +42,43 @@ public abstract class CameraFragment : Fragment
         return FragmentManager?.FindFragmentByTag(FragmentTag) != null;
     }
     
-    internal async Task TryStart(CameraPreview cameraPreview, CameraUseCase cameraUseCase)
+    internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase)
     {
-        if (IsFragmentStarted())
-        {
-            //Already started
-            return;
-        }
+        
+        if (IsFragmentStarted()) return;
+        if (Context == null) return;
 
         m_startedTcs = new TaskCompletionSource();
-        m_cameraPreview = cameraPreview;
         
-        if (cameraPreview.Handler is CameraPreviewHandler previewHandler)
-        {
-            PreviewView = previewHandler.PreviewView;
-        }
+        m_cameraPreview = cameraPreview;
+        if (cameraPreview.Handler is not CameraPreviewHandler previewHandler) return;
+        PreviewView = previewHandler.PreviewView;
+        
+        CameraProvider = (ProcessCameraProvider?) await ProcessCameraProvider.GetInstance(Context).GetAsync();
+        if (CameraProvider == null) return;
+        
+        //Use back camera
+        var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
+        
+        //Create preview use case and attach it to our MAUI view. 
+        var previewUseCase = new AndroidX.Camera.Core.Preview.Builder().Build();
+        previewUseCase.SetSurfaceProvider(PreviewView.SurfaceProvider);
+        
+        //Bind the camera
+        Camera = CameraProvider.BindToLifecycle(this, cameraSelector, previewUseCase, useCase);
+        // Camera.CameraControl.Set
+        //Do configurations before starting the activity: https://developer.android.com/media/camera/camerax/configuration
+        
+        // CameraControl.SetLinearZoom()
+        // cameraProvider.Bind
+        // CameraController = new LifecycleCameraController(Context);
+        // var barcodeScanning = new ImageAnalysis.Builder().Build();
+        // var imageCapture = new ImageCapture.Builder().Build();
+        // CameraController.SetEnabledUseCases();
+        // CameraController.BindToLifecycle(this);
+        
 
-        CameraController = new LifecycleCameraController(Context);
-        CameraController.SetEnabledUseCases((int)cameraUseCase);
-        CameraController.BindToLifecycle(this);
-
-        PreviewView.Controller = CameraController;
+        // PreviewView.Controller = CameraController;
         
         
         try
@@ -67,7 +92,7 @@ public abstract class CameraFragment : Fragment
                     "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
             {
                 await Task.Delay(400);
-                await TryStart(cameraPreview, cameraUseCase);
+                await SetupCameraAndTryStartUseCase(cameraPreview, useCase);
             }
 
             throw;
@@ -94,7 +119,7 @@ public abstract class CameraFragment : Fragment
         try
         {
             FragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
-            CameraController?.Unbind();
+            CameraProvider?.Unbind();
             if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
             {
                 previewHandler.RemoveZoomSlider();
@@ -111,10 +136,4 @@ public abstract class CameraFragment : Fragment
             }
         }
     }
-}
-
-internal enum CameraUseCase
-{
-    BarcodeScanning = CameraController.ImageAnalysis,
-    ImageCapture = CameraController.ImageCapture,
 }

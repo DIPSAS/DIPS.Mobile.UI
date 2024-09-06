@@ -1,5 +1,6 @@
 using Android.Views;
 using Android.Widget;
+using AndroidX.Camera.Core;
 using AndroidX.Camera.View;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Extensions.Android;
@@ -41,22 +42,25 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
     public PreviewView PreviewView { get; internal set; }
 
     //Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
-    internal void AddZoomSlider(CameraController cameraController)
+    internal void AddZoom(ICameraControl cameraController, bool withSlider=false)
     {
-        var slider = new Google.Android.Material.Slider.Slider(Context);
-        var layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-            ViewGroup.LayoutParams.WrapContent);
-        layoutParams.AddRule(LayoutRules.AlignParentBottom);
-        layoutParams.LeftMargin = 50.0.ToMauiPixel();
-        layoutParams.RightMargin = 50.0.ToMauiPixel();
-        layoutParams.BottomMargin = 250.0.ToMauiPixel();
-        slider.LayoutParameters = layoutParams;
-        slider.LabelBehavior = 2; //Disables the label when dragging
-        m_onZoomSliderListener = new OnZoomSliderTouchListener(cameraController);
-        slider.SetOnTouchListener(m_onZoomSliderListener);
-        slider.ContentDescription = DUILocalizedStrings.ZoomLevel;
-        PlatformView.AddView(slider);
-        m_slider = slider;
+        if (withSlider)
+        {
+            var slider = new Slider(Context);
+            var layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent);
+            layoutParams.AddRule(LayoutRules.AlignParentBottom);
+            layoutParams.LeftMargin = 50.0.ToMauiPixel();
+            layoutParams.RightMargin = 50.0.ToMauiPixel();
+            layoutParams.BottomMargin = 250.0.ToMauiPixel();
+            slider.LayoutParameters = layoutParams;
+            slider.LabelBehavior = 2; //Disables the label when dragging
+            m_onZoomSliderListener = new OnZoomSliderTouchListener(cameraController);
+            slider.SetOnTouchListener(m_onZoomSliderListener);
+            slider.ContentDescription = DUILocalizedStrings.ZoomLevel;
+            PlatformView.AddView(slider);
+            m_slider = slider;    
+        }
     }
 
     public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
@@ -94,12 +98,12 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
 
     internal class OnZoomSliderTouchListener : Java.Lang.Object, View.IOnTouchListener
     {
-        private readonly CameraController m_cameraController;
+        private readonly ICameraControl m_cameraControl;
         private MotionEventActions m_previousAction;
 
-        public OnZoomSliderTouchListener(CameraController cameraController)
+        public OnZoomSliderTouchListener(ICameraControl cameraControl)
         {
-            m_cameraController = cameraController;
+            m_cameraControl = cameraControl;
         }
 
 
@@ -129,7 +133,7 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
                 case MotionEventActions.Move:
                     if (m_previousAction is MotionEventActions.Down or MotionEventActions.Move)
                     {
-                        m_cameraController.SetLinearZoom(slider.Value);    
+                        m_cameraControl.SetLinearZoom(slider.Value);    
                     }
                     break;
                 case MotionEventActions.Outside:
@@ -153,7 +157,7 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, RelativeL
                 case MotionEventActions.Up:
                     if (m_previousAction == MotionEventActions.Down)
                     {
-                        m_cameraController.SetLinearZoom(slider.Value);
+                        m_cameraControl.SetLinearZoom(slider.Value);
                     }
                     break;
                 default:

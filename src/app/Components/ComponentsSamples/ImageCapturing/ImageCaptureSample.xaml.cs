@@ -29,7 +29,7 @@ public partial class ImageCaptureSample
 
     public void OnImageCaptured(CapturedImage capturedImage)
     {
-        
+        new ImagePreviewBottomSheet(capturedImage).Open();
     }
 
     protected override async void OnAppearing()

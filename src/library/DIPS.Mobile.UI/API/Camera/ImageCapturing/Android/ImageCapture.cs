@@ -1,16 +1,27 @@
+using System.Diagnostics;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.ResolutionSelector;
+using AndroidX.Camera.Video;
+using AndroidX.Camera.View;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using Size = Android.Util.Size;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
 {
+    private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
+
     private partial Task PlatformStart()
     {
-        return m_cameraPreview != null ? base.TryStart(m_cameraPreview, CameraUseCase.ImageCapture) : Task.CompletedTask;
+        var resolutionSelector = new ResolutionSelector.Builder().SetResolutionStrategy(new ResolutionStrategy(new Size(1280, 720), ResolutionStrategy.FallbackRuleClosestLower)).Build();
+        m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
+            .SetResolutionSelector(resolutionSelector)
+            .Build();
+        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase) : Task.CompletedTask;
     }
 
     private partial Task PlatformStop()
@@ -20,20 +31,20 @@ public partial class ImageCapture : CameraFragment
 
     public override async void OnStarted()
     {
-        await Task.Delay(1500);
-        
-        CameraController?.TakePicture(ContextCompat.GetMainExecutor(Context),new ImageCaptureCallback(OnImageCaptured));
+        await Task.Delay(800);
+        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
+            new ImageCaptureCallback(OnImageCaptured));
     }
 
     private async void OnImageCaptured(IImageProxy image)
     {
+        //REMEMBER ROTATION.
         var bitmapImage = image.ToBitmap();
-        
-
-        PreviewView?.Overlay?.Add(new BitmapDrawable(Context?.Resources, bitmapImage));
-
         using var stream = new MemoryStream();
+        var stopWatch = Stopwatch.StartNew();
         await bitmapImage.CompressAsync(Bitmap.CompressFormat.Png!, 100, stream);
+        stopWatch.Stop();
+        Console.WriteLine($"Captured: {stopWatch.ElapsedMilliseconds}ms");
         InvokeOnImageCaptured(new CapturedImage(stream.ToArray()));
     }
 }

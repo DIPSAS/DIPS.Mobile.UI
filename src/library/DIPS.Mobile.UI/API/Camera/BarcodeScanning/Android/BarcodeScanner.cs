@@ -1,3 +1,4 @@
+using Android.Gms.Extensions;
 using Android.Gms.Tasks;
 using Android.Runtime;
 using AndroidX.Camera.Core;
@@ -6,6 +7,7 @@ using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using DIPS.Mobile.UI.Observable.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
 using Object = Java.Lang.Object;
@@ -15,14 +17,19 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 //and: https://developers.google.com/ml-kit/vision/barcode-scanning
-public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObserver
+public partial class BarcodeScanner : CameraFragment, IObserver
 {
-    private IBarcodeScanner m_barcodeScanner;
-    private IImageProxy? m_imageProxy;
+    private IBarcodeScanner? m_barcodeScanner;
+    private ImageAnalysis? m_imageAnalysisUseCase;
 
     internal partial Task PlatformStart()
     {
-        return m_cameraPreview != null ? base.TryStart(m_cameraPreview, CameraUseCase.BarcodeScanning) : Task.CompletedTask;
+        if (Context == null) return Task.CompletedTask;
+        m_imageAnalysisUseCase = new ImageAnalysis.Builder()
+            .Build();
+        m_imageAnalysisUseCase.SetAnalyzer(ContextCompat.GetMainExecutor(Context),
+            ImageAnalyzer.Create(AnalyzeImage));
+        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_imageAnalysisUseCase) : Task.CompletedTask;
     }
 
     internal partial Task PlatformStop() => base.TryStop();
@@ -35,7 +42,7 @@ public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObser
     public override void OnStop()
     {
         base.OnStop();
-        TryStop();
+        _ = TryStop();
     }
 
  
@@ -49,32 +56,29 @@ public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObser
             .SetBarcodeFormats(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode.FormatAllFormats);
         
         m_barcodeScanner = Xamarin.Google.MLKit.Vision.BarCode.BarcodeScanning.GetClient(barcodeScannerBuilder.Build());
-        CameraController?.SetImageAnalysisAnalyzer(ContextCompat.GetMainExecutor(Context),
-            ImageAnalyzer.Create(AnalyzeImage));
 
         //TODO: MOVE TO BASE IF UX SHOULD BE THE SAME FOR ALL USE CASES?
         if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
         {
-            if (CameraController != null)
+            if (CameraControl != null)
             {
-                previewHandler.AddZoomSlider(CameraController);    
+                previewHandler.AddZoom(CameraControl, withSlider:true);    
             }
         }
         
-        CameraController?.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
+        CameraInfo?.ZoomState.Observe(this, this); //Observe zoom changes using LiveData pattern
     }
 
  
 
     private void AnalyzeImage(IImageProxy imageProxy)
     {
-        m_imageProxy = imageProxy;
-        m_barcodeScanner.Process(InputImage.FromMediaImage(imageProxy.Image, imageProxy.ImageInfo.RotationDegrees))
-            .AddOnSuccessListener(ContextCompat.GetMainExecutor(Context), this);
+        if(Context == null) return;
+        //TODO: Simplify with await and make sure to run on main thread
+        m_barcodeScanner?.Process(InputImage.FromMediaImage(imageProxy.Image, imageProxy.ImageInfo.RotationDegrees)).AddOnSuccessListener(ContextCompat.GetMainExecutor(Context), new OnSuccessListener((o => OnSuccess(o, imageProxy))));
     }
-    
 
-    public void OnSuccess(Java.Lang.Object result)
+    private void OnSuccess(Object result, IImageProxy imageProxy)
     {
         if (result is JavaList list)
         {
@@ -87,8 +91,8 @@ public partial class BarcodeScanner : CameraFragment, IOnSuccessListener, IObser
                 }
             }
         }
-
-        m_imageProxy?.Close();
+        
+        imageProxy.Close();
     }
 
     // private void DrawBarcodeRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
