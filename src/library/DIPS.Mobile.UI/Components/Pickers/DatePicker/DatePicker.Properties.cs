@@ -60,7 +60,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(DateTime),
             typeof(DatePicker),
             defaultBindingMode:BindingMode.TwoWay,
-            defaultValue:null,
+            defaultValue:DateTime.Now,
             propertyChanged: (bindable, _, _) => ((DatePicker)bindable).OnSelectedDateChanged());
         
         public static readonly BindableProperty SelectedDateCommandProperty = BindableProperty.Create(
