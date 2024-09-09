@@ -1,15 +1,15 @@
 using System.Windows.Input;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery;
+namespace DIPS.Mobile.UI.API.Camera.Gallery;
 
-public partial class ImageGallery
+public partial class GalleryThumbnails
 {
     public static readonly BindableProperty ImagesProperty = BindableProperty.Create(
         nameof(Images),
         typeof(List<byte[]>),
-        typeof(ImageGallery),
+        typeof(GalleryThumbnails),
         defaultBindingMode: BindingMode.TwoWay,
-        propertyChanged: (bindable, _, _) => ((ImageGallery)bindable).OnImagesChanged());
+        propertyChanged: (bindable, _, _) => ((GalleryThumbnails)bindable).OnImagesChanged());
 
     public List<byte[]> Images
     {
@@ -26,5 +26,5 @@ public partial class ImageGallery
     public static readonly BindableProperty CameraButtonTappedCommandProperty = BindableProperty.Create(
         nameof(CameraButtonTappedCommand),
         typeof(ICommand),
-        typeof(ImageGallery));
+        typeof(GalleryThumbnails));
 }

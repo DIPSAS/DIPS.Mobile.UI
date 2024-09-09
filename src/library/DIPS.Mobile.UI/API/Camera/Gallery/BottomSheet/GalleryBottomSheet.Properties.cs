@@ -1,6 +1,6 @@
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery.BottomSheet;
+namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 
-internal partial class ImageGalleryBottomSheet
+internal partial class GalleryBottomSheet
 {
     private List<byte[]> m_images;
     private readonly int m_startingIndex;

@@ -8,7 +8,7 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery.ImageThumbnailView;
+namespace DIPS.Mobile.UI.API.Camera.Gallery.ImageThumbnailView;
 
 internal class ImageThumbnailView : Grid
 {

@@ -1,16 +1,16 @@
-using DIPS.Mobile.UI.API.Camera.ImageGallery.BottomSheet;
+using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery;
+namespace DIPS.Mobile.UI.API.Camera.Gallery;
 
-public partial class ImageGallery : Grid
+public partial class GalleryThumbnails : Grid
 {
     private readonly CollectionView m_collectionView;
 
-    public ImageGallery()
+    public GalleryThumbnails()
     {
         m_collectionView = new Components.Lists.CollectionView
         {
@@ -48,7 +48,7 @@ public partial class ImageGallery : Grid
 
     private void OnTappedImage(int imageIndex)
     {
-        new ImageGalleryBottomSheet(Images, imageIndex, OnRemoveImage).Open();
+        new GalleryBottomSheet(Images, imageIndex, OnRemoveImage).Open();
     }
     
     private void OnRemoveImage(int imageIndex)

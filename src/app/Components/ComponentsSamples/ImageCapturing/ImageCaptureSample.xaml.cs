@@ -1,5 +1,4 @@
-
-using Components.ComponentsSamples.ImageGallery;
+using Components.ComponentsSamples.ImageCapturing.ImageGallery;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 namespace Components.ComponentsSamples.ImageCapturing;
@@ -31,7 +30,7 @@ public partial class ImageCaptureSample
     public void OnImageCaptured(CapturedImage capturedImage)
     {
         ImageGallerySamplesViewModel.StoredImages.Add(capturedImage.AsByteArray);
-        new ImagePreviewBottomSheet(capturedImage).Open();
+        new ImageGallerySamples().Open();
     }
 
     protected override async void OnAppearing()
@@ -42,6 +41,7 @@ public partial class ImageCaptureSample
 
     protected override void OnDisappearing()
     {
+        ImageGallerySamplesViewModel.StoredImages.Clear();
         m_imageCapture.Stop();
         base.OnDisappearing();
     }

@@ -11,23 +11,25 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery.BottomSheet;
+namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 
-internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomSheet
+internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
 {
     private readonly Action<int> m_onRemoveImage;
-    private CarouselView? m_carouselView;
     private readonly Label m_numberOfImagesLabel;
     private readonly Button m_navigatePreviousImageButton;
     private readonly Button m_navigateNextImageButton;
+    private CarouselView? m_carouselView;
     private CancellationTokenSource m_cancellationTokenSource = new();
     private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
 
-    public ImageGalleryBottomSheet(List<byte[]> images, int startingIndex, Action<int> onRemoveImage)
+    public GalleryBottomSheet(List<byte[]> images, int startingIndex, Action<int> onRemoveImage)
     {
         Positioning = Positioning.Large;
         IsDraggable = false;
+
+        BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
         m_onRemoveImage = onRemoveImage;
         
@@ -48,7 +50,7 @@ internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomS
             Content = m_numberOfImagesLabel,
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = fadedBlackColor,
+            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             Stroke = Microsoft.Maui.Graphics.Colors.Transparent,
             Margin = new Thickness(0, Sizes.GetSize(SizeName.size_4)),
             StrokeShape = new RoundRectangle
@@ -59,32 +61,31 @@ internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomS
 
         var toolbarLayout = new Grid
         {
-            BackgroundColor = Colors.GetColor(ColorName.color_system_black),
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_6), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_6), Sizes.GetSize(SizeName.size_10))
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_10))
         };
 
-        var removeImageLabel = new Label
+        var removeImageLabel = new Button
         {
-            Text = "Remove image",
-            Style = Styles.GetLabelStyle(LabelStyle.UI300),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            ImageSource = Icons.GetIcon(IconName.delete_line),
+            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             HorizontalOptions = LayoutOptions.Start,
-            VerticalOptions = LayoutOptions.Center
+            VerticalOptions = LayoutOptions.Center,
+            Command = new Command(RemoveImage)
         };
         
-        Touch.SetCommand(removeImageLabel, new Command(RemoveImage));
-        
-        var doneLabel = new Label
+        var doneLabel = new Button
         {
-            Text = "Done",
-            Style = Styles.GetLabelStyle(LabelStyle.UI300),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            ImageSource = Icons.GetIcon(IconName.chevron_down_line),
+            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             HorizontalOptions = LayoutOptions.End,
-            VerticalOptions = LayoutOptions.Center
+            VerticalOptions = LayoutOptions.Center,
+            Command = new Command(() => Close())
         };
-
-        Touch.SetCommand(doneLabel, new Command(() => Close()));
         
         toolbarLayout.Add(removeImageLabel);
         toolbarLayout.Add(doneLabel, 1);
@@ -100,7 +101,7 @@ internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomS
             Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, 0, 0),
             Command = new Command(() =>
             {
-                if(m_carouselView.Position == 0)
+                if(m_carouselView is null || m_carouselView.Position == 0)
                     return;
 
                 m_carouselView.Position -= 1;
@@ -118,7 +119,7 @@ internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomS
             Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0),
             Command = new Command(() =>
             {
-                if(m_carouselView.Position == Images.Count - 1)
+                if(m_carouselView is null || m_carouselView.Position == Images.Count - 1)
                     return;
 
                 m_carouselView.Position += 1;
