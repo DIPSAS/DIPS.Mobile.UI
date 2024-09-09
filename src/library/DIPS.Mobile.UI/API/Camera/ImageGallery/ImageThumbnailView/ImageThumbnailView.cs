@@ -8,14 +8,14 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery.ImageGalleryThumbnails.ImageThumbnail;
+namespace DIPS.Mobile.UI.API.Camera.ImageGallery.ImageThumbnailView;
 
-public partial class ImageThumbnail : Grid
+internal class ImageThumbnailView : Grid
 {
     private readonly Action<int> m_onRemoveImage;
     private readonly Action<int> m_onTappedImage;
 
-    public ImageThumbnail(Action<int> onRemoveImage, Action<int> onTappedImage)
+    public ImageThumbnailView(Action<int> onRemoveImage, Action<int> onTappedImage)
     {
         m_onRemoveImage = onRemoveImage;
         m_onTappedImage = onTappedImage;
@@ -29,15 +29,13 @@ public partial class ImageThumbnail : Grid
         base.OnBindingContextChanged();
         
         if (BindingContext is not ImageThumbnailViewModel imageThumbnailViewModel)
-        {
             return;
-        }
 
         Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0);
         
         var image = new Image
         {
-            Aspect = Aspect.Center,
+            Aspect = Aspect.AspectFill,
             VerticalOptions = LayoutOptions.Center,
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15)

@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.ImageGallery;
@@ -8,13 +9,16 @@ public class ImageGallerySamplesViewModel : ViewModel
     private List<byte[]> m_images;
     private bool m_isDisplayingGallery;
     private int m_startingIndex;
-    public static List<byte[]> StoredImages { get; set; } = [];
+    public static List<byte[]> StoredImages { get; } = [];
 
     public ImageGallerySamplesViewModel()
     {
         Images = StoredImages;
-        OnTappedImageCommand = new Command<int>(OnTappedImage);
-        ViewingImagesDoneCommand = new Command(() => IsDisplayingGallery = false);
+        CameraButtonTappedCommand = new Command(() =>
+        {
+            DialogService.ShowMessage("Camera button tapped",
+                "It would be natural to open the camera when pressing this button", "OK");
+        });
     }
 
     private void OnTappedImage(int index)
@@ -41,7 +45,5 @@ public class ImageGallerySamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_startingIndex, value);
     }
 
-    public ICommand OnTappedImageCommand { get; }
-    
-    public ICommand ViewingImagesDoneCommand { get; }
+    public ICommand CameraButtonTappedCommand { get; }
 }

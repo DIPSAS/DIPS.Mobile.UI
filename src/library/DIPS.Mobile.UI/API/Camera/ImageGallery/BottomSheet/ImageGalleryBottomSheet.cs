@@ -11,19 +11,26 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageGallery;
+namespace DIPS.Mobile.UI.API.Camera.ImageGallery.BottomSheet;
 
-internal partial class ImageGalleryBottomSheet : BottomSheet
+internal partial class ImageGalleryBottomSheet : Components.BottomSheets.BottomSheet
 {
     private readonly Action<int> m_onRemoveImage;
-    private readonly CarouselView m_carouselView;
+    private CarouselView? m_carouselView;
     private readonly Label m_numberOfImagesLabel;
+    private readonly Button m_navigatePreviousImageButton;
+    private readonly Button m_navigateNextImageButton;
+    private CancellationTokenSource m_cancellationTokenSource = new();
+    private int? m_positionBeforeRemoval;
+    private readonly Grid m_grid;
 
     public ImageGalleryBottomSheet(List<byte[]> images, int startingIndex, Action<int> onRemoveImage)
     {
         Positioning = Positioning.Large;
+        IsDraggable = false;
         
         m_onRemoveImage = onRemoveImage;
+        
         var fadedBlackColor = Colors.GetColor(ColorName.color_system_black);
         fadedBlackColor = new Color(fadedBlackColor.Red, fadedBlackColor.Green, fadedBlackColor.Blue, 0.5f);
         
@@ -81,14 +88,8 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
         
         toolbarLayout.Add(removeImageLabel);
         toolbarLayout.Add(doneLabel, 1);
-
-        m_carouselView = new CarouselView { Loop = false };
         
-        
-        m_carouselView.ItemTemplate = new DataTemplate(CreateImageView);
-        m_carouselView.PositionChanged += CarouselViewOnPositionChanged;
-        
-        var navigatePreviousImageButton = new Button
+        m_navigatePreviousImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_left_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
@@ -99,12 +100,14 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
             Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, 0, 0),
             Command = new Command(() =>
             {
-                if(m_carouselView.Position > 0)
-                    m_carouselView.Position -= 1;
+                if(m_carouselView.Position == 0)
+                    return;
+
+                m_carouselView.Position -= 1;
             })
         };
 
-        var navigateNextImageButton = new Button
+        m_navigateNextImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_right_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
@@ -115,23 +118,24 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
             Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0),
             Command = new Command(() =>
             {
-                if(m_carouselView.Position < Images.Count - 1)
-                    m_carouselView.Position += 1;
+                if(m_carouselView.Position == Images.Count - 1)
+                    return;
+
+                m_carouselView.Position += 1;
             })
         };
 
-        var grid = new Grid();
-        
-        grid.AddRowDefinition(new RowDefinition(GridLength.Star));
-        grid.AddRowDefinition(new RowDefinition(GridLength.Auto));
-        
-        grid.Add(m_carouselView);
-        grid.Add(navigatePreviousImageButton);
-        grid.Add(navigateNextImageButton);
-        grid.Add(labelWrapper);
-        grid.Add(toolbarLayout, 0, 1);
+        m_grid = [];
 
-        Content = grid;
+        m_grid.AddRowDefinition(new RowDefinition(GridLength.Star));
+        m_grid.AddRowDefinition(new RowDefinition(GridLength.Auto));
+        
+        m_grid.Add(m_navigatePreviousImageButton);
+        m_grid.Add(m_navigateNextImageButton);
+        m_grid.Add(labelWrapper);
+        m_grid.Add(toolbarLayout, 0, 1);
+
+        Content = m_grid;
 
         Images = images;
         StartingIndex = startingIndex;
@@ -147,10 +151,16 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
         
         if(dialogResult == DialogAction.Closed)
             return;
+
+        m_carouselView!.PositionChanged -= CarouselViewOnPositionChanged;
+        
+        m_positionBeforeRemoval = m_carouselView.Position;
         
         var newImages = new List<byte[]>(Images);
         newImages.RemoveAt(m_carouselView.Position);
         Images = newImages;
+        
+        _ = OnCarouselViewPositionChanged(m_positionBeforeRemoval.Value);
         
         m_onRemoveImage.Invoke(m_carouselView.Position);
     }
@@ -160,11 +170,37 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
         base.OnHandlerChanged();
         
         OnImagesChanged();
+        _ = OnCarouselViewPositionChanged(m_carouselView!.Position);
     }
 
     private void CarouselViewOnPositionChanged(object? sender, PositionChangedEventArgs e)
     {
-        UpdateNumberOfImagesLabel(e.CurrentPosition);
+        m_cancellationTokenSource.Cancel();
+        m_cancellationTokenSource = new CancellationTokenSource();
+        _ = OnCarouselViewPositionChanged(e.CurrentPosition);
+    }
+
+    private async Task OnCarouselViewPositionChanged(int currentPosition)
+    {
+        try
+        {
+            // For some reason setting position programatically triggers this event three times
+            // and currentPosition is set to its last value 1/3 of the time
+            // So we only take the third time into account
+            await Task.Delay(50, m_cancellationTokenSource.Token);
+            
+            if(m_cancellationTokenSource.IsCancellationRequested)
+                return;
+            
+            m_navigatePreviousImageButton.IsVisible = currentPosition != 0;
+            m_navigateNextImageButton.IsVisible = currentPosition != Images.Count - 1;
+            
+            UpdateNumberOfImagesLabel(currentPosition);
+        }
+        catch
+        {
+            // We dont give a fak 
+        }
     }
 
     private void UpdateNumberOfImagesLabel(int position)
@@ -188,12 +224,37 @@ internal partial class ImageGalleryBottomSheet : BottomSheet
             return;
         }
         
-        UpdateNumberOfImagesLabel(m_carouselView.Position);
-        m_carouselView.ItemsSource = Images;
+        if(m_positionBeforeRemoval > Images.Count - 1)
+            m_positionBeforeRemoval = Images.Count - 1;
+
+        if (m_carouselView is not null)
+        {
+            m_carouselView.PositionChanged -= CarouselViewOnPositionChanged;
+            try
+            {
+                m_grid.Remove(m_carouselView);
+                m_carouselView.Handler?.DisconnectHandler();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+        
+        m_carouselView = new CarouselView
+        {
+            Loop = false,
+            ItemTemplate = new DataTemplate(CreateImageView),
+            Position = m_positionBeforeRemoval ?? m_startingIndex, 
+            ItemsSource = Images
+        };
+        m_carouselView.PositionChanged += CarouselViewOnPositionChanged;
+        m_grid.Insert(0, m_carouselView);
     }
 
     private void OnStartingIndexChanged()
     {
-        m_carouselView.Position = StartingIndex;
+        if(m_carouselView is not null)
+            m_carouselView.Position = StartingIndex;
     }
 }

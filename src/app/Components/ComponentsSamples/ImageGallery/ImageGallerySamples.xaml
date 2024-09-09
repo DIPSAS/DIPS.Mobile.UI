@@ -4,8 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:imageGallery="clr-namespace:Components.ComponentsSamples.ImageGallery"
-             xmlns:imageGallery1="clr-namespace:DIPS.Mobile.UI.API.Camera.ImageGallery;assembly=DIPS.Mobile.UI"
-             xmlns:imageGalleryThumbnails="clr-namespace:DIPS.Mobile.UI.API.Camera.ImageGallery.ImageGalleryThumbnails;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.ImageGallery.ImageGallerySamples">
 
     <dui:ContentPage.BindingContext>
@@ -13,7 +11,8 @@
     </dui:ContentPage.BindingContext>
     
     <Grid>
-        <imageGalleryThumbnails:ImageGallery Images="{Binding Images}" />
+        <dui:ImageGallery Images="{Binding Images}"
+                                             CameraButtonTappedCommand="{Binding CameraButtonTappedCommand}"/>
     </Grid>
     
 </dui:ContentPage>
