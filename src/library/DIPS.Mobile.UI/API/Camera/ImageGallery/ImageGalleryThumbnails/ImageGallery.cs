@@ -1,17 +1,19 @@
+using DIPS.Mobile.UI.Components.BottomSheets;
+
 namespace DIPS.Mobile.UI.API.Camera.ImageGallery.ImageGalleryThumbnails;
 
-public partial class ImageGalleryThumbnails : Grid
+public partial class ImageGallery : Grid
 {
     private readonly CollectionView m_collectionView;
+    
 
-    public ImageGalleryThumbnails()
+    public ImageGallery()
     {
         m_collectionView = new Components.Lists.CollectionView
         {
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal),
             ItemTemplate = new DataTemplate(() => new ImageThumbnail.ImageThumbnail(OnRemoveImage, OnTappedImage)),
-            HeightRequest = 100,
-            
+            HeightRequest = 100
         };
         
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
@@ -30,7 +32,7 @@ public partial class ImageGalleryThumbnails : Grid
 
     private void OnTappedImage(int imageIndex)
     {
-        OnTappedImageCommand.Execute(imageIndex);
+        new ImageGalleryBottomSheet(Images, imageIndex, OnRemoveImage).Open();
     }
     
     private void OnRemoveImage(int imageIndex)

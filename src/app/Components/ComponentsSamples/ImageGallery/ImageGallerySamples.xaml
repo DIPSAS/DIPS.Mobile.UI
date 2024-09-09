@@ -13,13 +13,7 @@
     </dui:ContentPage.BindingContext>
     
     <Grid>
-        <imageGallery1:ImageGallery Images="{Binding Images}"
-                                    IsVisible="{Binding IsDisplayingGallery}"
-                                    DoneCommand="{Binding ViewingImagesDoneCommand}" />
-        
-        <imageGalleryThumbnails:ImageGalleryThumbnails IsVisible="{Binding IsDisplayingGallery, Converter={dui:InvertedBoolConverter}}"
-                                                       Images="{Binding Images}"
-                                                       OnTappedImageCommand="{Binding OnTappedImageCommand}"/>
+        <imageGalleryThumbnails:ImageGallery Images="{Binding Images}" />
     </Grid>
     
 </dui:ContentPage>
