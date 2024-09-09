@@ -1,29 +1,37 @@
-using System.Diagnostics;
+using Android.Content.Res;
 using Android.Graphics;
-using Android.Graphics.Drawables;
+using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.ResolutionSelector;
-using AndroidX.Camera.Video;
 using AndroidX.Camera.View;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using DIPS.Mobile.UI.Internal.Logging;
+using Java.Lang;
+using Java.Util.Concurrent;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using Size = Android.Util.Size;
+using Matrix = Android.Graphics.Matrix;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
 {
     private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
-
+    
     private partial Task PlatformStart()
     {
-        var resolutionSelector = new ResolutionSelector.Builder().SetResolutionStrategy(new ResolutionStrategy(new Size(1280, 720), ResolutionStrategy.FallbackRuleClosestLower)).Build();
+        var resolutionSelector = new ResolutionSelector.Builder()
+            .SetResolutionStrategy(new ResolutionStrategy(new  Android.Util.Size(1280, 720),
+                ResolutionStrategy.FallbackRuleClosestLower)).Build();
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
-        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase) : Task.CompletedTask;
+
+// Add listener to receive updates.
+        return m_cameraPreview != null
+            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase)
+            : Task.CompletedTask;
     }
 
     private partial Task PlatformStop()
@@ -33,45 +41,93 @@ public partial class ImageCapture : CameraFragment
 
     public override async void OnStarted()
     {
-        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
+        //Update target rotation
+        if (m_cameraCaptureUseCase is null || PreviewView is null ||
+            m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
+        
+        previewHandler.AddView(new Button
         {
-            previewHandler.AddView(new Button
+            Text = "Capture",
+            Command = new Command(() =>
             {
-                Text = "Capture",
-                Command = new Command(() =>
-                {
-                    m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context!),
-                        new ImageCaptureCallback(OnImageCaptured));
-                })
-            });
+                if (Context == null) return;
+                m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
+                    new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+            })
+        });
+    }
+
+    private void InvokeOnImageCaptureFailed(ImageCaptureException obj)
+    {
+        if (obj.Message != null)
+        {
+            DUILogService.LogError<ImageCapture>(obj.Message);
         }
+    }
+
+    internal override void RotationChanged(SurfaceOrientation surfaceOrientation)
+    {
     }
 
     private async void OnImageCaptured(IImageProxy image)
     {
         //REMEMBER ROTATION.
+        
         var bitmapImage = image.ToBitmap();
-        using var stream = new MemoryStream();
-        var stopWatch = Stopwatch.StartNew();
-        await bitmapImage.CompressAsync(Bitmap.CompressFormat.Png!, 100, stream);
-        stopWatch.Stop();
-        Console.WriteLine($"Captured: {stopWatch.ElapsedMilliseconds}ms");
-        InvokeOnImageCaptured(new CapturedImage(stream.ToArray()));
+        var matrix = new Matrix();
+        //Rotate the bitmap depending on how the image was rotated when being captured.
+        if (PreviewView is {Display: not null})
+        {
+            //Taken from: //https://developer.android.com/media/camera/camerax/orientation-rotation
+            var rotationDegrees = image.ImageInfo.RotationDegrees;
+            matrix.PostRotate(rotationDegrees);
+        }
+
+        var rotatedBitmap =
+            Bitmap.CreateBitmap(bitmapImage, 0, 0, bitmapImage.Width, bitmapImage.Height, matrix, true);
+        
+        using var rotatedMemoryStream = new MemoryStream();
+        await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Png!, 100, rotatedMemoryStream);
+        var byteArray = rotatedMemoryStream.ToArray();
+        var capturedImage = new CapturedImage(byteArray, image.ImageInfo);
+        InvokeOnImageCaptured(capturedImage);
+        rotatedBitmap.Recycle();
+        bitmapImage.Recycle();
+    }
+
+    public void Execute(IRunnable? command)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void OnConfigurationChanged(Configuration newConfig)
+    {
+        base.OnConfigurationChanged(newConfig);
     }
 }
 
 internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
 {
-    private Action<IImageProxy>? m_invokeOnImageCaptured;
+    private Action<IImageProxy> m_invokeOnImageCaptured;
+    private readonly Action<ImageCaptureException> m_invokeOnImageCaptureFailed;
 
-    public ImageCaptureCallback(Action<IImageProxy> invokeOnImageCaptured)
+    public ImageCaptureCallback(Action<IImageProxy> invokeOnImageCaptured, Action<ImageCaptureException> invokeOnImageCaptureFailed)
     {
         m_invokeOnImageCaptured = invokeOnImageCaptured;
+        m_invokeOnImageCaptureFailed = invokeOnImageCaptureFailed;
+    }
+
+
+    public override void OnError(ImageCaptureException exception)
+    {
+        m_invokeOnImageCaptureFailed.Invoke(exception);
+        base.OnError(exception);
     }
     
-    public override async void OnCaptureSuccess(IImageProxy image)
+
+    public override void OnCaptureSuccess(IImageProxy image)
     {
-        m_invokeOnImageCaptured?.Invoke(image);
+        m_invokeOnImageCaptured.Invoke(image);
         base.OnCaptureSuccess(image);
         image?.Close();
     }

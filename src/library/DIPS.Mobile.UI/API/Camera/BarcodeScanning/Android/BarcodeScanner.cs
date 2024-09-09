@@ -1,6 +1,8 @@
 using Android.Gms.Extensions;
 using Android.Gms.Tasks;
+using Android.Hardware.Display;
 using Android.Runtime;
+using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
@@ -38,7 +40,11 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     internal partial Task PlatformStop() => base.TryStop();
 
     public override void OnStarted() => SetupBarCodeScanning();
-    
+    internal override void RotationChanged(SurfaceOrientation surfaceOrientation)
+    {
+        
+    }
+
     public override void OnStop()
     {
         base.OnStop();
