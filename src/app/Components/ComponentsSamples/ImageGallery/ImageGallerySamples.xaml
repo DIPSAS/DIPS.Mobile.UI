@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:imageGallery="clr-namespace:Components.ComponentsSamples.ImageGallery"
+             xmlns:imageGallery1="clr-namespace:DIPS.Mobile.UI.API.Camera.ImageGallery;assembly=DIPS.Mobile.UI"
+             xmlns:imageGalleryThumbnails="clr-namespace:DIPS.Mobile.UI.API.Camera.ImageGallery.ImageGalleryThumbnails;assembly=DIPS.Mobile.UI"
+             x:Class="Components.ComponentsSamples.ImageGallery.ImageGallerySamples">
+
+    <dui:ContentPage.BindingContext>
+        <imageGallery:ImageGallerySamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <Grid>
+        <imageGallery1:ImageGallery Images="{Binding Images}"
+                                    IsVisible="{Binding IsDisplayingGallery}"
+                                    DoneCommand="{Binding ViewingImagesDoneCommand}" />
+        
+        <imageGalleryThumbnails:ImageGalleryThumbnails IsVisible="{Binding IsDisplayingGallery, Converter={dui:InvertedBoolConverter}}"
+                                                       Images="{Binding Images}"
+                                                       OnTappedImageCommand="{Binding OnTappedImageCommand}"/>
+    </Grid>
+    
+</dui:ContentPage>

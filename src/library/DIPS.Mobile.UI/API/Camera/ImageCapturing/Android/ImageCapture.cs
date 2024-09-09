@@ -37,15 +37,14 @@ public partial class ImageCapture : CameraFragment
         {
             previewHandler.AddView(new Button
             {
-                Text = "Capture"
+                Text = "Capture",
+                Command = new Command(() =>
+                {
+                    m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context!),
+                        new ImageCaptureCallback(OnImageCaptured));
+                })
             });
         }
-
-        await Task.Delay(800);
-        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
-            new ImageCaptureCallback(OnImageCaptured));
-        
-        
     }
 
     private async void OnImageCaptured(IImageProxy image)

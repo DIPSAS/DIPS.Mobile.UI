@@ -113,4 +113,10 @@
     <data name="NumberOfCharactersTooMany" xml:space="preserve">
         <value>{0} tegn for mye </value>
     </data>
+    <data name="RemoveImageTitle" xml:space="preserve">
+        <value>Remove image</value>
+    </data>
+    <data name="RemoveImageDescription" xml:space="preserve">
+        <value>Do you want to remove the image?</value>
+    </data>
 </root>

@@ -1,4 +1,5 @@
 
+using Components.ComponentsSamples.ImageGallery;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 namespace Components.ComponentsSamples.ImageCapturing;
@@ -29,6 +30,7 @@ public partial class ImageCaptureSample
 
     public void OnImageCaptured(CapturedImage capturedImage)
     {
+        ImageGallerySamplesViewModel.StoredImages.Add(capturedImage.AsByteArray);
         new ImagePreviewBottomSheet(capturedImage).Open();
     }
 
