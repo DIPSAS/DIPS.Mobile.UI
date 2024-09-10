@@ -86,7 +86,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         
         var doneButton = new Button
         {
-            ImageSource = Icons.GetIcon(IconName.chevron_right_line),
+            ImageSource = Icons.GetIcon(IconName.check_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
