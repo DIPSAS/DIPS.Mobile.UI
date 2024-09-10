@@ -117,4 +117,10 @@
     <data name="NumberOfCharactersTooMany" xml:space="preserve">
         <value>{0} characters too many</value>
     </data>
+    <data name="RemoveImageTitle" xml:space="preserve">
+        <value>Fjern bilde</value>
+    </data>
+    <data name="RemoveImageDescription" xml:space="preserve">
+        <value>Vil du fjerne bildet?</value>
+    </data>
 </root>

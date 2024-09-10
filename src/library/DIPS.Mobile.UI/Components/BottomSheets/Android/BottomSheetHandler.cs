@@ -250,6 +250,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.SetCancelable(bottomSheet.IsInteractiveCloseable);
         bottomSheet.BottomSheetDialog.SetCanceledOnTouchOutside(bottomSheet.IsInteractiveCloseable);
     }
+    
+    private static partial void MapIsDraggable(BottomSheetHandler handler, BottomSheet bottomSheet)
+    {
+        bottomSheet.BottomSheetDialog.Behavior.Draggable = bottomSheet.IsDraggable;
+    }
 
     private static async partial  void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
     {

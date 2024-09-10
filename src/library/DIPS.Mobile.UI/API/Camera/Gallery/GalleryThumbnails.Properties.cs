@@ -1,0 +1,30 @@
+using System.Windows.Input;
+
+namespace DIPS.Mobile.UI.API.Camera.Gallery;
+
+public partial class GalleryThumbnails
+{
+    public static readonly BindableProperty ImagesProperty = BindableProperty.Create(
+        nameof(Images),
+        typeof(List<byte[]>),
+        typeof(GalleryThumbnails),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bindable, _, _) => ((GalleryThumbnails)bindable).OnImagesChanged());
+
+    public List<byte[]> Images
+    {
+        get => (List<byte[]>)GetValue(ImagesProperty);
+        set => SetValue(ImagesProperty, value);
+    }
+
+    public ICommand CameraButtonTappedCommand
+    {
+        get => (ICommand)GetValue(CameraButtonTappedCommandProperty);
+        set => SetValue(CameraButtonTappedCommandProperty, value);
+    }
+    
+    public static readonly BindableProperty CameraButtonTappedCommandProperty = BindableProperty.Create(
+        nameof(CameraButtonTappedCommand),
+        typeof(ICommand),
+        typeof(GalleryThumbnails));
+}

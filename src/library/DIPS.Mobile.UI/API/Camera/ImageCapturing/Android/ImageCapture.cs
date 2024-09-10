@@ -7,12 +7,21 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.View;
 using AndroidX.Camera.View.Transform;
 using AndroidX.Core.Content;
+using DIPS.Mobile.UI.API.Camera.Gallery;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal.Logging;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
 using Java.Lang;
 using Java.Util.Concurrent;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.Shapes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Color = Microsoft.Maui.Graphics.Color;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Matrix = Android.Graphics.Matrix;
 using RectF = Android.Graphics.RectF;
 
@@ -42,22 +51,34 @@ public partial class ImageCapture : CameraFragment
         return base.TryStop();
     }
 
-    public override async void OnStarted()
+    public override void OnStarted()
     {
         //Update target rotation
         if (m_cameraCaptureUseCase is null || PreviewView is null ||
             m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
-        
-        previewHandler.AddView(new Button
+
+        var shutterButton = new Border
         {
-            Text = "Capture",
-            Command = new Command(() =>
-            {
-                if (Context == null) return;
-                m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
-                    new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
-            })
-        });
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.DimGray,
+            StrokeShape = new Ellipse(),
+            Stroke = Colors.GetColor(ColorName.color_system_white),
+            StrokeThickness = Sizes.GetSize(SizeName.size_1),
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Center,
+            WidthRequest = 70,
+            HeightRequest = 70
+        };
+        
+        Touch.SetCommand(shutterButton, new Command(() =>
+        {
+            if (Context == null) 
+                return;
+            
+            m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
+                new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+        }));
+
+        previewHandler.AddView(shutterButton);
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)

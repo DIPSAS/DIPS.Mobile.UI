@@ -242,5 +242,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("NumberOfCharactersTooMany", resourceCulture);
             }
         }
+        
+        internal static string RemoveImageTitle {
+            get {
+                return ResourceManager.GetString("RemoveImageTitle", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveImageDescription {
+            get {
+                return ResourceManager.GetString("RemoveImageDescription", resourceCulture);
+            }
+        }
     }
 }

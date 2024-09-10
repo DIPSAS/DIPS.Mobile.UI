@@ -8,6 +8,5 @@
                  x:Class="Components.ComponentsSamples.ImageCapturing.ImageCaptureSample">
     <Grid>
         <dui:CameraPreview x:Name="CameraPreview" />
-        <dui:Image x:Name="TheCapturedImage" />
     </Grid>
 </dui:ContentPage>
