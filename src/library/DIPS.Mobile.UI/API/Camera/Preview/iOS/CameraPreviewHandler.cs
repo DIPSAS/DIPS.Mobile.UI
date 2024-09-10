@@ -37,6 +37,7 @@ public partial class CameraPreviewHandler : ContentViewHandler
         }
 
         var previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer)};
+
         //This makes sure we display the video feed
         previewLayer.Frame = PlatformView.Bounds;
         previewLayer.Session = session;

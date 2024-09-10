@@ -4,6 +4,7 @@ using CoreFoundation;
 using CoreGraphics;
 using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
 using UIKit;
@@ -11,97 +12,32 @@ using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
-public partial class BarcodeScanner
+public partial class BarcodeScanner : CameraSession
 {
-    //The session of the capture, there can only be one capture session running in an iOS app.
-    private AVCaptureSession? m_captureSession;
-
-    //The the lense to be used for scanning bar codes
-    private AVCaptureDevice? m_captureDevice;
-
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
-    private ContentView? m_previewUIView;
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
-    private AVCaptureDeviceInput? m_videoDeviceInput;
     private double m_rectOfInterestWidth;
 
     private DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
 
     internal partial Task PlatformStop()
     {
-        if (m_captureSession is {Running: true})
-        {
-            Task.Run(() =>
-            {
-                m_captureSession.StopRunning();
-                if (m_captureMetadataOutput != null)
-                {
-                    m_captureSession.RemoveOutput(m_captureMetadataOutput);    
-                }
-
-                if (m_videoDeviceInput != null)
-                {
-                    m_captureSession.RemoveInput(m_videoDeviceInput);
-                }
-                m_captureSession = null;
-            });
-        }
-
-        m_captureDevice = null;
-
-        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return Task.CompletedTask;
-        previewHandler.RemoveZoomSlider();
-        previewHandler.RemovePinchToZoom();
-        previewHandler.RemoveTouchToFocus();
-
-        m_previewUIView = null;
-
+        StopCameraSession();
         return Task.CompletedTask;
     }
 
-    internal async partial Task PlatformStart()
+    internal partial Task PlatformStart()
     {
-        //This makes sure we display the video feed
-        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
-
-        m_previewUIView = previewHandler.PlatformView;
-
-        m_captureSession = new AVCaptureSession();
-        
-        //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
-        m_captureSession.BeginConfiguration();
-
-        var previewLayer =
-            await previewHandler.WaitForViewLayoutAndAddSessionToPreview(m_captureSession,
-                AVLayerVideoGravity.ResizeAspectFill);
-        //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-        m_captureDevice = AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
-        if (m_captureDevice == null) return;
-        
-        m_videoDeviceInput = AVCaptureDeviceInput.FromDevice(m_captureDevice);
-        if (m_videoDeviceInput == null) throw new Exception($"video device input is null");
-        if (m_captureSession.CanAddInput(m_videoDeviceInput))
-        {
-            m_captureSession.AddInput(m_videoDeviceInput);
-        }
-        else
-        {
-            throw new Exception("Unable to use the back camera wide angle camera to detect bar codes");
-        }
-
-        //Set quality for best performance
-        m_captureSession.SessionPreset = AVCaptureSession.PresetHigh;
-
-        //Add barcode camera output
+        if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        
-        if (m_captureSession.CanAddOutput(m_captureMetadataOutput))
-        {
-            m_captureSession.AddOutput(
-                m_captureMetadataOutput); //this has to be set before setting metadata objects, or else it crashes
+        return ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_captureMetadataOutput);
+    }
 
-            m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
+    public override void ConfigureSession()
+    {
+        if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewUIView == null) return;
+        
+         m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
                 if (!string.IsNullOrEmpty(s.StringValue))
                 {
@@ -131,8 +67,8 @@ public partial class BarcodeScanner
                                                         | AVMetadataObjectType.QRCode;
             
             
-            var formatDimensions = ((CMVideoFormatDescription)m_captureDevice.ActiveFormat.FormatDescription).Dimensions;
-            m_rectOfInterestWidth = (double)formatDimensions.Height / (double)formatDimensions.Width;
+            var formatDimensions = ((CMVideoFormatDescription)CaptureDevice.ActiveFormat.FormatDescription).Dimensions;
+            m_rectOfInterestWidth = formatDimensions.Height / (double)formatDimensions.Width;
             var rectOfInterestHeight = 1.0;
             var xCoordinate = (1.0 - m_rectOfInterestWidth) / 2.0;
             var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
@@ -140,7 +76,7 @@ public partial class BarcodeScanner
                 height: rectOfInterestHeight);
             m_captureMetadataOutput.RectOfInterest = initialRectOfInterest;
 
-            var rectOfInterestToLayerCoordinates = previewLayer.MapToLayerCoordinates(initialRectOfInterest);
+            var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
             var layer = new CAShapeLayer();
             layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
             layer.FillColor = UIColor.Black.CGColor;
@@ -149,41 +85,18 @@ public partial class BarcodeScanner
             layer.Frame = rectOfInterestToLayerCoordinates;
             layer.BorderColor = UIColor.White.CGColor;
             layer.BorderWidth = 2;
-            m_previewUIView.Layer.AddSublayer(layer);
-
-        }
-        else
-        {
-            throw new Exception("Unable to add output");
-        }
-
-        //Commit the configuration
-        m_captureSession.CommitConfiguration();
-
-        SetRecommendedZoomFactor(m_captureDevice);
-        previewHandler.AddZoomSlider(m_captureDevice);
-        previewHandler.AddPinchToZoom(m_captureDevice);
-        
-        previewHandler.AddTapToFocus(m_captureDevice);
-        
-        await StartSession();
+            PreviewUIView.Layer.AddSublayer(layer);
+            
+            SetRecommendedZoomFactor();
+            
     }
-
-    private async Task StartSession()
-    {
-        await Task.Run(() =>
-            {
-                m_captureSession?.StartRunning();
-            }
-        );
-    }
-
-  
     
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-    private void SetRecommendedZoomFactor(AVCaptureDevice captureDevice)
+    private void SetRecommendedZoomFactor()
     {
+        if(CaptureDevice == null) return;
+        var captureDevice = CaptureDevice;
         /*
             Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
             When scanning a QR code of that size, the user may need to get closer than the camera's minimum focus distance to fill the rect of interest.
