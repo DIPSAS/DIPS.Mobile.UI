@@ -62,33 +62,63 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         var toolbarLayout = new Grid
         {
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_10))
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_10))
         };
-
-        var removeImageLabel = new Button
+        
+        var removeButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.delete_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            HorizontalOptions = LayoutOptions.Start,
             VerticalOptions = LayoutOptions.Center,
             Command = new Command(RemoveImage)
         };
-        
-        var doneLabel = new Button
+
+        var removeLabel = new Label
         {
-            ImageSource = Icons.GetIcon(IconName.chevron_down_line),
+            Text = DUILocalizedStrings.Remove,
+            Style = Styles.GetLabelStyle(LabelStyle.UI100),
+            TextColor = Colors.GetColor(ColorName.color_system_white),
+            HorizontalOptions = LayoutOptions.Center,
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0)
+        };
+        
+        var doneButton = new Button
+        {
+            ImageSource = Icons.GetIcon(IconName.chevron_right_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center,
             Command = new Command(() => Close())
         };
+
+        var doneLabel = new Label
+        {
+            Text = DUILocalizedStrings.Done,
+            Style = Styles.GetLabelStyle(LabelStyle.UI100),
+            TextColor = Colors.GetColor(ColorName.color_system_white),
+            HorizontalOptions = LayoutOptions.Center,
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0)
+        };
         
-        toolbarLayout.Add(removeImageLabel);
-        toolbarLayout.Add(doneLabel, 1);
+        var leftColumn = new VerticalStackLayout
+        {
+            HorizontalOptions = LayoutOptions.Start, 
+            VerticalOptions = LayoutOptions.Center,
+            Children = { removeButton, removeLabel }
+        };
+        
+        var rightColumn = new VerticalStackLayout
+        {
+            HorizontalOptions = LayoutOptions.End, 
+            VerticalOptions = LayoutOptions.Center,
+            Children = { doneButton, doneLabel }
+        };
+        
+        toolbarLayout.Add(leftColumn);
+        toolbarLayout.Add(rightColumn, 1);
         
         m_navigatePreviousImageButton = new Button
         {
