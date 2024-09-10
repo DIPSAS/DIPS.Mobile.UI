@@ -50,6 +50,7 @@ public partial class CameraPreviewHandler : ViewHandler<CameraPreview, View>
     //Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
     internal void OnCameraStarted(ICameraControl cameraControl)
     {
+        if (m_slider != null) return; //Already added
         m_slider = new CameraZoomSlider(cameraControl);
         m_customViewsContainer.Insert(0, m_slider);
         

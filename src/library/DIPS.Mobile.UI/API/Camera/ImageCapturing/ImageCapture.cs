@@ -1,10 +1,11 @@
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
-public partial class ImageCapture
+public partial class ImageCapture : ICameraUseCase
 {
     
     private CameraPreview? m_cameraPreview;
@@ -13,6 +14,7 @@ public partial class ImageCapture
     public async Task Start(CameraPreview cameraPreview, Action<CapturedImage> onImageCaptured)
     {
         m_cameraPreview = cameraPreview;
+        m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
         {
@@ -45,4 +47,5 @@ public partial class ImageCapture
     {
         m_onImageCaptured?.Invoke(capturedImage);
     }
+   
 }

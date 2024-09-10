@@ -42,6 +42,7 @@ public partial class BarcodeScanningSample
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
+        m_barcodeScanner.Stop();
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)
@@ -52,6 +53,7 @@ public partial class BarcodeScanningSample
         }
 
         m_barCodeResultBottomSheet = null;
+        _ = Start();
     }
 
     protected override async void OnAppearing()
@@ -59,23 +61,7 @@ public partial class BarcodeScanningSample
         _ = Start();
         base.OnAppearing();
     }
-
-    protected override void OnDisappearing()
-    {
-        m_barcodeScanner.Stop();
-        base.OnDisappearing();
-    }
-
-    public void OnSleep()
-    {
-        m_barcodeScanner.Stop();
-    }
-
-    public void OnResume()
-    {
-        _ = Start();
-    }
-
+    
     private void ShowTip(object? sender, EventArgs e)
     {
         CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen isteden for å ha mobilen for nært strekkoden.");

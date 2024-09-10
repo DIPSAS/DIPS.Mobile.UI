@@ -40,16 +40,16 @@ public partial class ImageCaptureSample
 
     protected override void OnDisappearing()
     {
-        m_imageCapture.Stop();
+        // m_imageCapture.Stop();
         base.OnDisappearing();
     }
 
     public void OnSleep()
     {
-        m_imageCapture.Stop();
+        // m_imageCapture.Stop();
     }
 
     public void OnResume()
     {
-        _ = Start();
+        // _ = Start();
     } }

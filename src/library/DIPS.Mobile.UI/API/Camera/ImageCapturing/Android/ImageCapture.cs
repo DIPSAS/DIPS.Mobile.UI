@@ -1,9 +1,11 @@
 using Android.Content.Res;
 using Android.Graphics;
+using Android.Util;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.View;
+using AndroidX.Camera.View.Transform;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
@@ -12,6 +14,7 @@ using Java.Lang;
 using Java.Util.Concurrent;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Matrix = Android.Graphics.Matrix;
+using RectF = Android.Graphics.RectF;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -69,17 +72,15 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private async void OnImageCaptured(IImageProxy image)
+    private async void OnImageCaptured(IImageProxy imageProxy)
     {
-        //REMEMBER ROTATION.
-        
-        var bitmapImage = image.ToBitmap();
+        var bitmapImage = imageProxy.ToBitmap();
         var matrix = new Matrix();
         //Rotate the bitmap depending on how the image was rotated when being captured.
         if (PreviewView is {Display: not null})
         {
             //Taken from: //https://developer.android.com/media/camera/camerax/orientation-rotation
-            var rotationDegrees = image.ImageInfo.RotationDegrees;
+            var rotationDegrees = imageProxy.ImageInfo.RotationDegrees;
             matrix.PostRotate(rotationDegrees);
         }
 
@@ -89,20 +90,10 @@ public partial class ImageCapture : CameraFragment
         using var rotatedMemoryStream = new MemoryStream();
         await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Png!, 100, rotatedMemoryStream);
         var byteArray = rotatedMemoryStream.ToArray();
-        var capturedImage = new CapturedImage(byteArray, image.ImageInfo);
+        var capturedImage = new CapturedImage(byteArray, imageProxy.ImageInfo);
         InvokeOnImageCaptured(capturedImage);
         rotatedBitmap.Recycle();
         bitmapImage.Recycle();
-    }
-
-    public void Execute(IRunnable? command)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void OnConfigurationChanged(Configuration newConfig)
-    {
-        base.OnConfigurationChanged(newConfig);
     }
 }
 

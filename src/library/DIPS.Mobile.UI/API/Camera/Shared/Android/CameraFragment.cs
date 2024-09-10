@@ -1,4 +1,5 @@
 using Android.Content;
+using Android.Content.Res;
 using Android.Hardware;
 using Android.Hardware.Camera2;
 using Android.Hardware.Display;
@@ -26,7 +27,21 @@ public abstract class CameraFragment : Fragment
     private const string FragmentTag = nameof(CameraFragment);
 
     internal ProcessCameraProvider? CameraProvider { get; private set; }
-    internal DisplayManager? DisplayManager { get; set; }
+
+    internal DisplayManager? DisplayManager
+    {
+        get
+        {
+            var service = Context?.GetSystemService(Context.DisplayService);
+            if (service is DisplayManager displayManager)
+            {
+                return displayManager;
+            }
+
+            return null;
+        }
+    }
+
     public ICamera? Camera { get; private set; }
     internal ICameraControl? CameraControl => Camera?.CameraControl;
     internal ICameraInfo? CameraInfo => Camera?.CameraInfo;
@@ -35,10 +50,11 @@ public abstract class CameraFragment : Fragment
 
     internal PreviewView? PreviewView { get; private set; }
     private CameraPreview? m_cameraPreview;
-    private UseCase[] m_useCase;
     private int m_displayId;
     private DeviceRotationListener? m_imageEventRotationListener;
     private SurfaceOrientation m_lastOrientation;
+    private UseCaseGroup m_useCaseGroup;
+    private DeviceDisplayListener? m_deviceDisplayListener;
 
     public new Context? Context { get; }
 
@@ -50,11 +66,6 @@ public abstract class CameraFragment : Fragment
         {
             Context = DUI.GetCurrentMauiContext.Context;
             FragmentManager = Context?.GetFragmentManager();
-            var service = Context?.GetSystemService(Context.DisplayService);
-            if (service is DisplayManager displayManager)
-            {
-                DisplayManager = displayManager;
-            }
         }
     }
 
@@ -74,6 +85,7 @@ public abstract class CameraFragment : Fragment
         m_cameraPreview = cameraPreview;
         if (cameraPreview.Handler is not CameraPreviewHandler previewHandler) return;
         PreviewView = previewHandler.PreviewView;
+        
 
         CameraProvider = (ProcessCameraProvider?)await ProcessCameraProvider.GetInstance(Context).GetAsync();
         if (CameraProvider == null) return;
@@ -82,12 +94,20 @@ public abstract class CameraFragment : Fragment
         var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
 
         //Create preview use case and attach it to our MAUI view. 
-        var previewUseCase = new AndroidX.Camera.Core.Preview.Builder().Build();
+        var previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
+            .Build();
         previewUseCase.SetSurfaceProvider(PreviewView.SurfaceProvider);
-
-        //Bind the camera
-        m_useCase = [previewUseCase, useCase];
-        Camera = CameraProvider.BindToLifecycle(this, cameraSelector, previewUseCase, useCase);
+        
+        if (PreviewView.ViewPort == null) return;
+        PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle croping when image is taken due to the camera viewport being larger than the preview view port.
+        m_useCaseGroup = new UseCaseGroup.Builder()
+            .AddUseCase(previewUseCase)
+            .AddUseCase(useCase)
+            .SetViewPort(PreviewView.ViewPort)
+            .Build();
+        
+        //Bind the camera to use cases.
+        Camera = CameraProvider.BindToLifecycle(this, cameraSelector, m_useCaseGroup);
         //Do configurations before starting the activity: https://developer.android.com/media/camera/camerax/configuration
 
 
@@ -96,8 +116,12 @@ public abstract class CameraFragment : Fragment
             m_displayId = PreviewView.Display.DisplayId;
         }
 
-        m_imageEventRotationListener = new DeviceRotationListener(UpdateRotation, Context);
-        m_imageEventRotationListener.Enable();
+        if (DisplayManager == null) return;
+        m_deviceDisplayListener = new DeviceDisplayListener(UpdateRotation, DisplayManager);
+        DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);
+
+        // m_imageEventRotationListener = new DeviceRotationListener(UpdateRotation, Context);
+        // m_imageEventRotationListener.Enable();
 
         try
         {
@@ -124,8 +148,9 @@ public abstract class CameraFragment : Fragment
     {
         if (surfaceOrientation == m_lastOrientation) return;
         var rotation = (int)surfaceOrientation;
+        DUILogService.LogDebug<CameraFragment>($"Changing rotation from {m_lastOrientation} to {surfaceOrientation}");
         m_lastOrientation = surfaceOrientation;
-        foreach (var useCase in m_useCase)
+        foreach (var useCase in m_useCaseGroup.UseCases)
         {
             switch (useCase)
             {
@@ -133,6 +158,7 @@ public abstract class CameraFragment : Fragment
                     preview.TargetRotation = rotation;
                     break;
                 case ImageCapture imageCapture:
+                    
                     imageCapture.TargetRotation = rotation;
                     break;
                 case VideoCapture videoCapture:
@@ -158,6 +184,16 @@ public abstract class CameraFragment : Fragment
         base.OnStart();
     }
 
+    public override void OnConfigurationChanged(Configuration newConfig)
+    {
+        if (PreviewView is {Display: not null})
+        {
+            UpdateRotation(PreviewView.Display.Rotation);
+        }
+        
+        base.OnConfigurationChanged(newConfig);
+    }
+
     /// <summary>
     /// The fragment has started, do your thing!
     /// </summary>
@@ -169,14 +205,6 @@ public abstract class CameraFragment : Fragment
         try
         {
             FragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
-            CameraProvider?.Unbind();
-            DisplayManager = null;
-            m_imageEventRotationListener?.Disable();
-            m_imageEventRotationListener = null;
-            if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-            {
-                previewHandler.RemoveZoomSlider();
-            }
         }
         catch (IllegalStateException illegalStateException)
         {
@@ -188,6 +216,22 @@ public abstract class CameraFragment : Fragment
                 await TryStop();
             }
         }
+    }
+
+    public override void OnDestroy()
+    {
+        CameraProvider?.Unbind();
+        CameraProvider?.Dispose();
+        CameraProvider = null;
+        m_imageEventRotationListener?.Disable();
+        m_imageEventRotationListener = null;
+        DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
+        m_deviceDisplayListener = null;
+        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
+        {
+            previewHandler.RemoveZoomSlider();
+        }
+        base.OnDestroy();
     }
 
 
@@ -202,6 +246,12 @@ internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationCha
 
     public override void OnOrientationChanged(int orientation)
     {
+        if (orientation == OrientationUnknown)
+        {
+            return;
+        }
+        
+        DUILogService.LogDebug<CameraFragment>($"Rotation degrees: {orientation}");
         switch (orientation)
         {
             case > 45 and <= 135:
@@ -217,6 +267,37 @@ internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationCha
                 m_orientationChanged?.Invoke(SurfaceOrientation.Rotation0);
                 break;
         }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        m_orientationChanged = null;
+        base.Dispose(disposing);
+    }
+}
+
+internal class DeviceDisplayListener(Action<SurfaceOrientation>? orientationChanged, DisplayManager displayManager)
+    : Java.Lang.Object, DisplayManager.IDisplayListener
+{
+    private Action<SurfaceOrientation>? m_orientationChanged = orientationChanged;
+
+    public void OnDisplayAdded(int displayId)
+    {
+        
+    }
+
+    public void OnDisplayChanged(int displayId)
+    {
+        var display = displayManager.GetDisplay(displayId);
+        if (display != null)
+        {
+            m_orientationChanged?.Invoke(display.Rotation);
+        }
+    }
+
+    public void OnDisplayRemoved(int displayId)
+    {
+        
     }
 
     protected override void Dispose(bool disposing)

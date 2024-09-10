@@ -44,13 +44,6 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     {
         
     }
-
-    public override void OnStop()
-    {
-        base.OnStop();
-        _ = TryStop();
-    }
-
     private void SetupBarCodeScanning()
     {
         //From docs: https://developers.google.com/ml-kit/vision/barcode-scanning/android#kotlin

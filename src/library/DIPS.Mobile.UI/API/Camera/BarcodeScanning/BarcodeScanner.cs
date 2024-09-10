@@ -1,12 +1,13 @@
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
-public partial class BarcodeScanner
+public partial class BarcodeScanner : ICameraUseCase
 {
     internal CameraPreview? m_cameraPreview;
     private Timer? m_barCodesFoundTimer;
@@ -21,6 +22,7 @@ public partial class BarcodeScanner
     public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback)
     {
         m_cameraPreview = cameraPreview;
+        m_cameraPreview.AddUseCase(this);
         m_barCodeCallback = didFindBarcodeCallback;
         if (await CameraPermissions.CanUseCamera())
         {
