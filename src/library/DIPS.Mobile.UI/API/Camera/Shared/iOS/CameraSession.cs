@@ -14,7 +14,7 @@ public abstract class CameraSession
     //The the lense to be used for scanning bar codes
     internal AVCaptureDevice? CaptureDevice { get; private set; }
     
-    internal PreviewView? PreviewUIView { get; private set; }
+    internal PreviewView? PreviewView { get; private set; }
     
     //The session of the capture, there can only be one capture session running in an iOS app.
     private AVCaptureSession? m_captureSession;
@@ -46,15 +46,12 @@ public abstract class CameraSession
         }
 
         CaptureDevice = null;
-        
-        // if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
-        // previewHandler.RemoveZoomSlider();
-        // previewHandler.RemovePinchToZoom();
-        // previewHandler.RemoveTouchToFocus();
 
-        m_cameraPreview?.Handler?.DisconnectHandler();
-
-        PreviewUIView = null;
+        if (m_cameraPreview?.Handler is CameraPreviewHandler cameraPreviewHandler)
+        {
+            cameraPreviewHandler.Dispose();
+        }
+        PreviewView = null;
     }
     
     /// <summary>
@@ -71,7 +68,7 @@ public abstract class CameraSession
         //This makes sure we display the video feed
         if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
 
-        PreviewUIView = previewHandler.PlatformView;
+        PreviewView = (PreviewView)previewHandler.PlatformView;
 
         m_captureSession = new AVCaptureSession();
 

@@ -35,7 +35,7 @@ public partial class BarcodeScanner : CameraSession
 
     public override void ConfigureSession()
     {
-        if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewUIView == null) return;
+        if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewView == null) return;
         
          m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
@@ -65,9 +65,11 @@ public partial class BarcodeScanner : CameraSession
                                                         AVMetadataObjectType.MicroQRCode
                                                         | AVMetadataObjectType.PDF417Code
                                                         | AVMetadataObjectType.QRCode;
-            
+
+
             
             var formatDimensions = ((CMVideoFormatDescription)CaptureDevice.ActiveFormat.FormatDescription).Dimensions;
+            PreviewView.AddRectOfInterest(formatDimensions);
             m_rectOfInterestWidth = formatDimensions.Height / (double)formatDimensions.Width;
             var rectOfInterestHeight = 1.0;
             var xCoordinate = (1.0 - m_rectOfInterestWidth) / 2.0;
@@ -85,7 +87,7 @@ public partial class BarcodeScanner : CameraSession
             layer.Frame = rectOfInterestToLayerCoordinates;
             layer.BorderColor = UIColor.White.CGColor;
             layer.BorderWidth = 2;
-            PreviewUIView.Layer.AddSublayer(layer);
+            PreviewView.Layer.AddSublayer(layer);
             
             SetRecommendedZoomFactor();
             
