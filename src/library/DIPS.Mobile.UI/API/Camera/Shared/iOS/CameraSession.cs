@@ -1,5 +1,6 @@
 using AVFoundation;
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using Foundation;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
@@ -13,7 +14,7 @@ public abstract class CameraSession
     //The the lense to be used for scanning bar codes
     internal AVCaptureDevice? CaptureDevice { get; private set; }
     
-    internal UIView? PreviewUIView { get; private set; }
+    internal PreviewView? PreviewUIView { get; private set; }
     
     //The session of the capture, there can only be one capture session running in an iOS app.
     private AVCaptureSession? m_captureSession;

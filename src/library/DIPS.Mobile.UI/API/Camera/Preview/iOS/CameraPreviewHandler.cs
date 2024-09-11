@@ -13,73 +13,17 @@ using ContentView = Microsoft.Maui.Platform.ContentView;
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 //Taken from: https://developer.apple.com/documentation/avfoundation/capture_setup/avcam_building_a_camera_app#4479514
-public partial class CameraPreviewHandler() : ContentViewHandler
+public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, PreviewView>(ViewMapper, ViewCommandMapper)
 {
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
-    private Microsoft.Maui.Controls.Slider? m_slider;
+    private Slider? m_slider;
     private UITapToFocusGestureRecognizer? m_tapToFocusTapGestureRecognizer;
     private UIPinchGestureRecognizer? m_pinchToZoomGestureRecognizer;
-    private NSObject m_orientationObserver;
     private AVCaptureVideoPreviewLayer? m_previewLayer;
 
     internal UISlider? UISlider => m_slider?.Handler is SliderHandler sliderHandler ? sliderHandler.PlatformView : null;
 
-    protected override ContentView CreatePlatformView()
-    {
-        var contentView = base.CreatePlatformView();
-        contentView.BackgroundColor = UIColor.DarkGray;
-        m_orientationObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIDevice.OrientationDidChangeNotification, OrientationChanged);
-        return contentView;
-    }
-
-    private void OrientationChanged(NSNotification obj)
-    {
-        if (obj.Name == UIDevice.OrientationDidChangeNotification)
-        {
-            if (m_previewLayer?.Connection == null) return;
-#pragma warning disable CA1422
-            m_previewLayer.Orientation = UIDevice.CurrentDevice.Orientation switch
-            {
-                UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight,
-                UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft,
-                UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            if (m_previewLayer.Connection.SupportsVideoOrientation)
-            {
-                m_previewLayer.Connection.VideoOrientation = m_previewLayer.Orientation;  
-                m_previewLayer.Frame = PlatformView.Layer.Frame;
-            }
-#pragma warning restore CA1422
-
-            CGAffineTransform? transform = null;
-            switch (UIDevice.CurrentDevice.Orientation)
-            {
-                case UIDeviceOrientation.Portrait:
-                    transform = CGAffineTransform.MakeRotation(0);
-                    break;
-                case UIDeviceOrientation.PortraitUpsideDown:
-                    transform = CGAffineTransform.MakeRotation((nfloat)Math.PI);
-                    break;
-                case UIDeviceOrientation.LandscapeLeft:
-                    transform = CGAffineTransform.MakeRotation((nfloat)(-Math.PI / 2));
-                    break;
-                case UIDeviceOrientation.LandscapeRight:
-                    transform = CGAffineTransform.MakeRotation((nfloat)(Math.PI / 2));
-                    break;
-            }
-
-            if (transform != null)
-            {
-                PlatformView.Transform = (CGAffineTransform)transform;    
-            }
-            
-        }
-    }
+    protected override PreviewView CreatePlatformView() => new();
 
     internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
@@ -94,7 +38,7 @@ public partial class CameraPreviewHandler() : ContentViewHandler
         m_previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer),};
 
         //This makes sure we display the video feed
-        m_previewLayer.Frame = PlatformView.Layer.Frame;
+        m_previewLayer.Frame = PlatformView.Layer.Bounds;
         m_previewLayer.Session = session;
         m_previewLayer.VideoGravity = videoGravity;
 
@@ -117,7 +61,7 @@ public partial class CameraPreviewHandler() : ContentViewHandler
             return true;
         }
     }
-
+    
     public override void PlatformArrange(Rect rect)
     {
         base.PlatformArrange(rect);
@@ -236,7 +180,7 @@ public partial class CameraPreviewHandler() : ContentViewHandler
         PlatformView.AddGestureRecognizer(m_tapToFocusTapGestureRecognizer);
     }
 
-    public void RemoveTouchToFocus(ContentView platformView)
+    public void RemoveTouchToFocus(UIView platformView)
     {
         if (m_tapToFocusTapGestureRecognizer == null)
         {
@@ -319,7 +263,7 @@ public partial class CameraPreviewHandler() : ContentViewHandler
         }
     }
 
-    internal void RemovePinchToZoom(ContentView platformView)
+    internal void RemovePinchToZoom(UIView platformView)
     {
         if (m_pinchToZoomGestureRecognizer == null) return;
         
@@ -327,13 +271,12 @@ public partial class CameraPreviewHandler() : ContentViewHandler
         m_pinchToZoomGestureRecognizer = null;
     }
 
-    protected override void DisconnectHandler(ContentView platformView)
+    protected override void DisconnectHandler(PreviewView platformView)
     {
         RemoveZoomSlider();
         RemovePinchToZoom(platformView);
         RemoveTouchToFocus(platformView);
         RemovePreviewLayer();
-        RemoveObservers();
         base.DisconnectHandler(platformView);
     }
 
@@ -341,10 +284,5 @@ public partial class CameraPreviewHandler() : ContentViewHandler
     {
         m_previewLayer?.RemoveFromSuperLayer();
         m_previewLayer = null;
-    }
-
-    private void RemoveObservers()
-    {
-        NSNotificationCenter.DefaultCenter.RemoveObserver(m_orientationObserver);
     }
 }
