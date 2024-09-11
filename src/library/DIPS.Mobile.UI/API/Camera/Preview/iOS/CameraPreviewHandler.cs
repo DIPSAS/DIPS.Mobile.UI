@@ -107,7 +107,7 @@ public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, Preview
         }
     }
 
-    public partial void ShowZoomSliderTip(string message, int durationInMilliseconds)
+    public void ShowZoomSliderTip(string message, int durationInMilliseconds)
     {
         if (m_slider is null) return;
 

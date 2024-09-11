@@ -34,13 +34,13 @@ public partial class ImageCapture : CameraFragment
     private partial Task PlatformStart()
     {
         var resolutionSelector = new ResolutionSelector.Builder()
-            .SetResolutionStrategy(new ResolutionStrategy(new  Android.Util.Size(1280, 720),
+            .SetResolutionStrategy(new ResolutionStrategy(new Android.Util.Size(1280, 720),
                 ResolutionStrategy.FallbackRuleClosestLower)).Build();
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
 
-// Add listener to receive updates.
+        // Add listener to receive updates.
         return m_cameraPreview != null
             ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase)
             : Task.CompletedTask;
@@ -54,8 +54,8 @@ public partial class ImageCapture : CameraFragment
     public override void OnStarted()
     {
         //Update target rotation
-        if (m_cameraCaptureUseCase is null || PreviewView is null ||
-            m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
+        if (m_cameraCaptureUseCase is null || PreviewView is null) 
+            return;
 
         var shutterButton = new Border
         {
@@ -78,7 +78,7 @@ public partial class ImageCapture : CameraFragment
                 new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
         }));
 
-        previewHandler.AddView(shutterButton);
+        m_cameraPreview?.AddView(shutterButton);
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)

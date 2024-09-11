@@ -15,6 +15,7 @@ using DIPS.Mobile.UI.Internal.Logging;
 using Java.Lang;
 using Java.Util.Concurrent;
 using Microsoft.Maui.Platform;
+using Exception = Java.Lang.Exception;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 using PreviewView = AndroidX.Camera.View.PreviewView;
@@ -83,9 +84,9 @@ public abstract class CameraFragment : Fragment
         m_startedTcs = new TaskCompletionSource();
 
         m_cameraPreview = cameraPreview;
-        if (cameraPreview.Handler is not CameraPreviewHandler previewHandler) return;
-        PreviewView = previewHandler.PreviewView;
-        
+        PreviewView = cameraPreview.PreviewView;
+
+        await WaitForPreviewViewToInitialize();
 
         CameraProvider = (ProcessCameraProvider?)await ProcessCameraProvider.GetInstance(Context).GetAsync();
         if (CameraProvider == null) return;
@@ -98,8 +99,9 @@ public abstract class CameraFragment : Fragment
             .Build();
         previewUseCase.SetSurfaceProvider(PreviewView.SurfaceProvider);
         
+
         if (PreviewView.ViewPort == null) return;
-        PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle croping when image is taken due to the camera viewport being larger than the preview view port.
+        PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle cropping when image is taken due to the camera viewport being larger than the preview view port.
         m_useCaseGroup = new UseCaseGroup.Builder()
             .AddUseCase(previewUseCase)
             .AddUseCase(useCase)
@@ -143,6 +145,21 @@ public abstract class CameraFragment : Fragment
         await m_startedTcs.Task;
     }
 
+    private async Task WaitForPreviewViewToInitialize()
+    {
+        var tries = 0;
+        
+        while(PreviewView?.PreviewStreamState.Value != PreviewView.StreamState.Streaming)
+        {
+            await Task.Delay(10);
+            tries++;
+
+            if (tries > 100)
+            {
+                /*throw new Exception("Could not initialize preview view");*/
+            }
+        }
+    }
 
     private void UpdateRotation(SurfaceOrientation surfaceOrientation)
     {
@@ -174,10 +191,7 @@ public abstract class CameraFragment : Fragment
 
     public override void OnStart()
     {
-        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-        {
-            previewHandler.OnCameraStarted(CameraControl!);
-        }
+        m_cameraPreview?.OnCameraStarted(CameraControl!);
 
         OnStarted();
         m_startedTcs?.TrySetResult();
@@ -227,10 +241,7 @@ public abstract class CameraFragment : Fragment
         m_imageEventRotationListener = null;
         DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
         m_deviceDisplayListener = null;
-        if (m_cameraPreview?.Handler is CameraPreviewHandler previewHandler)
-        {
-            previewHandler.RemoveZoomSlider();
-        }
+        
         base.OnDestroy();
     }
 
