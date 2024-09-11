@@ -81,7 +81,7 @@ internal class VisualTreeMemoryResolver
             // Try run user-defined resolver method
             m_additionalResolver?.Invoke(target);
         }
-        catch
+        catch(Exception e)
         {
             // Should never crash the app
         }

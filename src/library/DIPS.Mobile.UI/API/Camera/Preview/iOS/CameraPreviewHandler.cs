@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Tip;
@@ -11,19 +12,73 @@ using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-public partial class CameraPreviewHandler : ContentViewHandler
+//Taken from: https://developer.apple.com/documentation/avfoundation/capture_setup/avcam_building_a_camera_app#4479514
+public partial class CameraPreviewHandler() : ContentViewHandler
 {
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
     private Microsoft.Maui.Controls.Slider? m_slider;
     private UITapToFocusGestureRecognizer? m_tapToFocusTapGestureRecognizer;
     private UIPinchGestureRecognizer? m_pinchToZoomGestureRecognizer;
+    private NSObject m_orientationObserver;
+    private AVCaptureVideoPreviewLayer? m_previewLayer;
 
     internal UISlider? UISlider => m_slider?.Handler is SliderHandler sliderHandler ? sliderHandler.PlatformView : null;
 
-    protected override void ConnectHandler(ContentView platformView)
+    protected override ContentView CreatePlatformView()
     {
-        PlatformView.BackgroundColor = UIColor.Black;
-        base.ConnectHandler(platformView);
+        var contentView = base.CreatePlatformView();
+        contentView.BackgroundColor = UIColor.DarkGray;
+        m_orientationObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIDevice.OrientationDidChangeNotification, OrientationChanged);
+        return contentView;
+    }
+
+    private void OrientationChanged(NSNotification obj)
+    {
+        if (obj.Name == UIDevice.OrientationDidChangeNotification)
+        {
+            if (m_previewLayer?.Connection == null) return;
+#pragma warning disable CA1422
+            m_previewLayer.Orientation = UIDevice.CurrentDevice.Orientation switch
+            {
+                UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight,
+                UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft,
+                UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            if (m_previewLayer.Connection.SupportsVideoOrientation)
+            {
+                m_previewLayer.Connection.VideoOrientation = m_previewLayer.Orientation;  
+                m_previewLayer.Frame = PlatformView.Layer.Frame;
+            }
+#pragma warning restore CA1422
+
+            CGAffineTransform? transform = null;
+            switch (UIDevice.CurrentDevice.Orientation)
+            {
+                case UIDeviceOrientation.Portrait:
+                    transform = CGAffineTransform.MakeRotation(0);
+                    break;
+                case UIDeviceOrientation.PortraitUpsideDown:
+                    transform = CGAffineTransform.MakeRotation((nfloat)Math.PI);
+                    break;
+                case UIDeviceOrientation.LandscapeLeft:
+                    transform = CGAffineTransform.MakeRotation((nfloat)(-Math.PI / 2));
+                    break;
+                case UIDeviceOrientation.LandscapeRight:
+                    transform = CGAffineTransform.MakeRotation((nfloat)(Math.PI / 2));
+                    break;
+            }
+
+            if (transform != null)
+            {
+                PlatformView.Transform = (CGAffineTransform)transform;    
+            }
+            
+        }
     }
 
     internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
@@ -36,15 +91,15 @@ public partial class CameraPreviewHandler : ContentViewHandler
             oldPreviewLayer?.RemoveFromSuperLayer();
         }
 
-        var previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer)};
+        m_previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer),};
 
         //This makes sure we display the video feed
-        previewLayer.Frame = PlatformView.Bounds;
-        previewLayer.Session = session;
-        previewLayer.VideoGravity = videoGravity;
+        m_previewLayer.Frame = PlatformView.Layer.Frame;
+        m_previewLayer.Session = session;
+        m_previewLayer.VideoGravity = videoGravity;
 
-        PlatformView.Layer?.AddSublayer(previewLayer);
-        return previewLayer;
+        PlatformView.Layer?.AddSublayer(m_previewLayer);
+        return m_previewLayer;
     }
 
     private bool TryGetAvCaptureVideoPreviewLayer(out AVCaptureVideoPreviewLayer? previewLayer)
@@ -80,7 +135,7 @@ public partial class CameraPreviewHandler : ContentViewHandler
                 bottomPadding = bottomSafeArea.Value + bottomPadding;
             }
 
-            var slider = new Microsoft.Maui.Controls.Slider
+            var slider = new Slider
             {
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.End,
@@ -181,14 +236,14 @@ public partial class CameraPreviewHandler : ContentViewHandler
         PlatformView.AddGestureRecognizer(m_tapToFocusTapGestureRecognizer);
     }
 
-    public void RemoveTouchToFocus()
+    public void RemoveTouchToFocus(ContentView platformView)
     {
         if (m_tapToFocusTapGestureRecognizer == null)
         {
             return;
         }
 
-        PlatformView.RemoveGestureRecognizer(m_tapToFocusTapGestureRecognizer);
+        platformView?.RemoveGestureRecognizer(m_tapToFocusTapGestureRecognizer);
         m_tapToFocusTapGestureRecognizer = null;
     }
 
@@ -264,11 +319,32 @@ public partial class CameraPreviewHandler : ContentViewHandler
         }
     }
 
-    public void RemovePinchToZoom()
+    internal void RemovePinchToZoom(ContentView platformView)
     {
-        if (m_pinchToZoomGestureRecognizer != null)
-        {
-            PlatformView.RemoveGestureRecognizer(m_pinchToZoomGestureRecognizer);
-        }
+        if (m_pinchToZoomGestureRecognizer == null) return;
+        
+        platformView?.RemoveGestureRecognizer(m_pinchToZoomGestureRecognizer);
+        m_pinchToZoomGestureRecognizer = null;
+    }
+
+    protected override void DisconnectHandler(ContentView platformView)
+    {
+        RemoveZoomSlider();
+        RemovePinchToZoom(platformView);
+        RemoveTouchToFocus(platformView);
+        RemovePreviewLayer();
+        RemoveObservers();
+        base.DisconnectHandler(platformView);
+    }
+
+    private void RemovePreviewLayer()
+    {
+        m_previewLayer?.RemoveFromSuperLayer();
+        m_previewLayer = null;
+    }
+
+    private void RemoveObservers()
+    {
+        NSNotificationCenter.DefaultCenter.RemoveObserver(m_orientationObserver);
     }
 }

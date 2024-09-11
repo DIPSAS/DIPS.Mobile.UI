@@ -90,7 +90,11 @@ public partial class BarcodeScanner : CameraSession
             SetRecommendedZoomFactor();
             
     }
-    
+
+    public override AVCaptureDevice? SelectCaptureDevice() =>
+        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
+            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
     private void SetRecommendedZoomFactor()

@@ -1,6 +1,7 @@
 using AVFoundation;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using Foundation;
+using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.Shared.iOS;
@@ -12,7 +13,7 @@ public abstract class CameraSession
     //The the lense to be used for scanning bar codes
     internal AVCaptureDevice? CaptureDevice { get; private set; }
     
-    internal ContentView? PreviewUIView { get; private set; }
+    internal UIView? PreviewUIView { get; private set; }
     
     //The session of the capture, there can only be one capture session running in an iOS app.
     private AVCaptureSession? m_captureSession;
@@ -44,11 +45,13 @@ public abstract class CameraSession
         }
 
         CaptureDevice = null;
+        
+        // if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
+        // previewHandler.RemoveZoomSlider();
+        // previewHandler.RemovePinchToZoom();
+        // previewHandler.RemoveTouchToFocus();
 
-        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
-        previewHandler.RemoveZoomSlider();
-        previewHandler.RemovePinchToZoom();
-        previewHandler.RemoveTouchToFocus();
+        m_cameraPreview?.Handler?.DisconnectHandler();
 
         PreviewUIView = null;
     }
@@ -76,12 +79,13 @@ public abstract class CameraSession
 
         PreviewLayer =
             await previewHandler.WaitForViewLayoutAndAddSessionToPreview(m_captureSession,
-                AVLayerVideoGravity.Resize);
+                AVLayerVideoGravity.ResizeAspect);
         //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-        CaptureDevice = AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
-        if (CaptureDevice == null) return;
 
+        
+        CaptureDevice = SelectCaptureDevice();
+        if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
+        
         m_videoDeviceInput = AVCaptureDeviceInput.FromDevice(CaptureDevice);
         if (m_videoDeviceInput == null) throw new Exception($"video device input is null");
         if (m_captureSession.CanAddInput(m_videoDeviceInput))
@@ -137,4 +141,6 @@ public abstract class CameraSession
     }
     
     public abstract void ConfigureSession();
+
+    public abstract AVCaptureDevice? SelectCaptureDevice();
 }
