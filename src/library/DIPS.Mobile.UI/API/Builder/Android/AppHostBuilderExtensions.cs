@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.API.Camera.Preview.Android.PreviewView;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.LifecycleEvents;
@@ -12,10 +12,11 @@ public static partial class AppHostBuilderExtensions
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
         handlers
-            .AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar), typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
+            .AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar),
+                typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
             .AddHandler<ContentPage, ContentPageHandler>()
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
-            .AddHandler<PreviewView, PreviewViewHandler>();
+            .AddHandler<CameraPreview, CameraPreviewHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

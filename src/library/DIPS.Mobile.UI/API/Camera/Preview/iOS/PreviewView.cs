@@ -10,22 +10,143 @@ using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview.iOS;
 #pragma warning disable CA1422
-public class PreviewView : ContentView
+internal sealed class PreviewView : ContentView
 {
     private AVCaptureDevice? m_avCaptureDevice;
+    private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
+    private UITapToFocusGestureRecognizer m_tapToFocusTapGestureRecognizer;
+    private UIPinchGestureRecognizer m_pinchToZoomGestureRecognizer;
+    private AVCaptureVideoPreviewLayer? m_previewLayer;
 
     public PreviewView()
     {
         BackgroundColor = UIColor.Black;
-
     }
 
     public AVCaptureVideoPreviewLayer PreviewLayer { get; internal set; }
-
+    
     public override void LayoutSubviews()
     {
         UpdateOrientation();
         base.LayoutSubviews();
+        
+        m_hasArrangedSizeTcs.TrySetResult();
+    }
+    
+    public void AddTapToFocus(AVCaptureDevice captureDevice)
+    {
+        m_tapToFocusTapGestureRecognizer =
+            new UITapToFocusGestureRecognizer(((set, @event) => TapToFocus(set, @event, captureDevice)));
+        AddGestureRecognizer(m_tapToFocusTapGestureRecognizer);
+    }
+    
+    public void RemoveTouchToFocus()
+    {
+        if (m_tapToFocusTapGestureRecognizer == null)
+        {
+            return;
+        }
+
+        RemoveGestureRecognizer(m_tapToFocusTapGestureRecognizer);
+        m_tapToFocusTapGestureRecognizer = null;
+    }
+    
+    private void TapToFocus(NSSet touches, UIEvent @event, AVCaptureDevice captureDevice)
+    {
+        if (touches.First() is not UITouch touchPoint) 
+            return;
+        
+        SetFocusPoint(touchPoint.LocationInView(this).X, touchPoint.LocationInView(this).Y,
+            captureDevice, out var error);
+
+        if (error != null)
+        {
+            Console.WriteLine(error);
+        }
+
+        // VibrationService.SelectionChanged();
+        /*UISlider?.BecomeFirstResponder();*/ //Make sure slider does not loose focus for people to slide it after they tap to focus
+    }
+    
+    public void AddPinchToZoom(AVCaptureDevice captureDevice)
+    {
+        m_pinchToZoomGestureRecognizer =
+            new UIPinchGestureRecognizer((recognizer => PinchToZoom(recognizer, captureDevice)));
+        AddGestureRecognizer(m_pinchToZoomGestureRecognizer);
+    }
+    
+    //Taken from: https://stackoverflow.com/a/31214458
+    private void PinchToZoom(UIPinchGestureRecognizer pinchRecognizer, AVCaptureDevice captureDevice)
+    {
+        if (pinchRecognizer.State == UIGestureRecognizerState.Changed)
+        {
+            if (captureDevice.LockForConfiguration(out var configurationLockError))
+            {
+                try
+                {
+                    var pinchVelocityDividerFactor = 5.0f;
+                    var desiredZoomFactor = captureDevice.VideoZoomFactor +
+                                            Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
+                    // Check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
+                    var zoomFactor = (nfloat)Math.Max(1.0,
+                        Math.Min(desiredZoomFactor, captureDevice.ActiveFormat.VideoMaxZoomFactor));
+                    captureDevice.VideoZoomFactor = zoomFactor;
+
+                    /*if (m_slider != null) //Synchronize ZoomSlider if its added 
+                    {
+                        m_slider.Value = zoomFactor;
+                    }
+                    SetHasZoomed();*/
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    captureDevice.UnlockForConfiguration();
+                }
+            }
+            else
+            {
+                if (configurationLockError != null)
+                {
+                    Console.WriteLine(configurationLockError.ToString());
+                }
+            }
+        }
+    }
+    
+    private void SetHasZoomed()
+    {
+        /*if (VirtualView is CameraPreview cameraPreview)
+        {
+            cameraPreview.HasZoomed = true;
+        }*/
+    }
+    
+    internal void RemovePinchToZoom()
+    {
+        if (m_pinchToZoomGestureRecognizer == null) return;
+        
+        RemoveGestureRecognizer(m_pinchToZoomGestureRecognizer);
+        m_pinchToZoomGestureRecognizer = null;
+    }
+
+    private void RemovePreviewLayer()
+    {
+        m_previewLayer?.RemoveFromSuperLayer();
+        m_previewLayer = null;
+    }
+    
+    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureDevice? avCaptureDevice, AVCaptureSession session,
+        AVLayerVideoGravity videoGravity)
+    {
+        await m_hasArrangedSizeTcs
+            .Task; //Have to wait for the view to have bounds, in case consumers wants to start a session when the view is not ready.
+        
+        AddPreviewLayer(avCaptureDevice, session, videoGravity);
+        return PreviewLayer;
     }
 
     private void UpdateOrientation()
@@ -179,9 +300,17 @@ public class PreviewView : ContentView
         }
     }
 
-    public void Dispose()
+    public new void Dispose()
     {
         m_avCaptureDevice = null;
+        
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        
+        RemovePinchToZoom();
+        RemoveTouchToFocus();    
+    
+        /*RemoveZoomSlider();*/
+        RemovePreviewLayer();
     }
 }
 #pragma warning restore CA1422

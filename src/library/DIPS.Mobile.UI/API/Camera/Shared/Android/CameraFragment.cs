@@ -84,9 +84,7 @@ public abstract class CameraFragment : Fragment
         m_startedTcs = new TaskCompletionSource();
 
         m_cameraPreview = cameraPreview;
-        PreviewView = cameraPreview.PreviewView;
-
-        
+        PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
 
         CameraProvider = (ProcessCameraProvider?)await ProcessCameraProvider.GetInstance(Context).GetAsync();
         if (CameraProvider == null) return;
@@ -97,7 +95,8 @@ public abstract class CameraFragment : Fragment
         //Create preview use case and attach it to our MAUI view. 
         var previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
             .Build();
-        previewUseCase.SetSurfaceProvider(PreviewView.SurfaceProvider);
+        previewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
+        
         await WaitForPreviewViewToInitialize();
 
         if (PreviewView.ViewPort == null) return;
@@ -149,14 +148,14 @@ public abstract class CameraFragment : Fragment
     {
         var tries = 0;
         
-        while(PreviewView?.PreviewStreamState.Value != PreviewView.StreamState.Streaming)
+        while(PreviewView?.ViewPort is null)
         {
             await Task.Delay(10);
             tries++;
 
             if (tries > 100)
             {
-                /*throw new Exception("Could not initialize preview view");*/
+                throw new Exception("Could not initialize preview view");
             }
         }
     }

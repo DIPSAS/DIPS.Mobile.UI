@@ -16,4 +16,9 @@ public partial class ImageCapture
         return Task.CompletedTask;
     }
 
+    private partial void PlatformCapturePhoto()
+    {
+        
+    }
+
 }

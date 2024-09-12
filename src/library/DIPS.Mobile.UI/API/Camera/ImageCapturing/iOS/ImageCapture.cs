@@ -29,13 +29,8 @@ public partial class ImageCapture : CameraSession
         return Task.CompletedTask;
     }
 
-    public override async void ConfigureSession()
+    public override void ConfigureSession()
     {
-        var settings = CreateSettings();
-        if (settings == null) return;
-        await Task.Delay(1500);
-        
-        m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
     }
 
     public override AVCaptureDevice? SelectCaptureDevice() =>
@@ -52,7 +47,14 @@ public partial class ImageCapture : CameraSession
         }
     }
 
-    //Cant re-use settings for each capture, remarks from Apple doc: https://developer.apple.com/documentation/avfoundation/avcapturephotosettings#overview
+    private partial void PlatformCapturePhoto()
+    {
+        var settings = CreateSettings();
+        if(settings is not null)
+            m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
+    }
+
+    // Cant re-use settings for each capture, remarks from Apple doc: https://developer.apple.com/documentation/avfoundation/avcapturephotosettings#overview
 #pragma warning disable CA1422
     private AVCapturePhotoSettings? CreateSettings()
     {
@@ -62,7 +64,6 @@ public partial class ImageCapture : CameraSession
         NSObject? formatValue = null;
         if (m_capturePhotoOutput.AvailablePhotoCodecTypes.Contains(AVVideo.CodecJPEG))
         {
-
             formatValue = AVVideo.CodecJPEG;
         }
 

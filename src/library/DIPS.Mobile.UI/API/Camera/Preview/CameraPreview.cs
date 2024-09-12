@@ -1,26 +1,32 @@
-using DIPS.Mobile.UI.API.Camera.ImageCapturing;
-#if __ANDROID__
-using DIPS.Mobile.UI.API.Camera.Preview.Android.PreviewView;
-using DIPS.Mobile.UI.API.Library;
-#endif
 using DIPS.Mobile.UI.API.Camera.Shared;
-using Microsoft.Maui.Platform;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-public partial class CameraPreview : Grid
+public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private ICameraUseCase? m_cameraUseCase;
-    private readonly VerticalStackLayout m_customViewsContainer;
-    private readonly Grid m_grid;
+    private VerticalStackLayout m_customViewsContainer;
+    private Grid m_grid;
 
     public CameraPreview()
     {
-#if __ANDROID__
-        
+        Loaded += OnLoaded;
+
+#if __IOS__
+        Content = ConstructView();
+#endif
+    }
+
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        m_hasLoadedTcs.TrySetResult();
+    }
+    
+    public Grid ConstructView()
+    {
         m_customViewsContainer = new VerticalStackLayout
         {
             Padding = new Thickness(25, 10),
@@ -28,36 +34,19 @@ public partial class CameraPreview : Grid
             VerticalOptions = LayoutOptions.End
         };
 
-        var previewView = new PreviewView();
-        previewView.HandlerChanged += PreviewViewOnHandlerChanged;
-        PreviewView = (AndroidX.Camera.View.PreviewView?)previewView.ToPlatform(DUI.GetCurrentMauiContext!);
+        PreviewView = new PreviewView();
         
         m_grid =
         [
-            previewView,
+            PreviewView,
             m_customViewsContainer
         ];
-        Add(previewView);
-        
-#endif
-        
-        Loaded += OnLoaded;
-    }
 
-    private void OnLoaded(object? sender, EventArgs e)
-    {
-        m_hasLoadedTcs.TrySetResult();
+        return m_grid;
     }
-
-    private void PreviewViewOnHandlerChanged(object? sender, EventArgs e)
-    {
-        
-    }
-
-#if __ANDROID__
-    internal AndroidX.Camera.View.PreviewView? PreviewView { get; }
-#endif
     
+    internal PreviewView PreviewView { get; set; }
+
     public void AddView(View toolbarItems)
     {
         toolbarItems.VerticalOptions = LayoutOptions.Center;

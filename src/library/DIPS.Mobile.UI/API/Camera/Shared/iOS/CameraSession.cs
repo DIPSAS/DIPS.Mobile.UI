@@ -1,9 +1,12 @@
 using AVFoundation;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
+using DIPS.Mobile.UI.API.Library;
 using Foundation;
+using Microsoft.Maui.Platform;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using PreviewView = DIPS.Mobile.UI.API.Camera.Preview.iOS.PreviewView;
 
 namespace DIPS.Mobile.UI.API.Camera.Shared.iOS;
 
@@ -26,7 +29,6 @@ public abstract class CameraSession
     
     internal void StopCameraSession()
     {
-        
         if (m_captureSession is {Running: true})
         {
             Task.Run(() =>
@@ -47,10 +49,7 @@ public abstract class CameraSession
 
         CaptureDevice = null;
 
-        if (m_cameraPreview?.Handler is CameraPreviewHandler cameraPreviewHandler)
-        {
-            cameraPreviewHandler.Dispose();
-        }
+        PreviewView?.Dispose();
         PreviewView = null;
     }
     
@@ -65,10 +64,9 @@ public abstract class CameraSession
         AVCaptureOutput avCaptureOutput)
     {
         m_cameraPreview = cameraPreview;
+        
         //This makes sure we display the video feed
-        if (m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
-
-        PreviewView = (PreviewView)previewHandler.PlatformView;
+        PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
 
         m_captureSession = new AVCaptureSession();
 
@@ -79,8 +77,8 @@ public abstract class CameraSession
         if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
         
         PreviewLayer =
-            await previewHandler.WaitForViewLayoutAndAddSessionToPreview(CaptureDevice, m_captureSession,
-                AVLayerVideoGravity.ResizeAspect);
+            await PreviewView?.WaitForViewLayoutAndAddSessionToPreview(CaptureDevice, m_captureSession,
+                AVLayerVideoGravity.ResizeAspect)!;
         
         m_videoDeviceInput = AVCaptureDeviceInput.FromDevice(CaptureDevice);
         if (m_videoDeviceInput == null) throw new Exception($"video device input is null");
@@ -109,10 +107,9 @@ public abstract class CameraSession
             //Commit the configuration
             m_captureSession.CommitConfiguration();
             
-            previewHandler.AddZoomSlider(CaptureDevice);
-            previewHandler.AddPinchToZoom(CaptureDevice);
-
-            previewHandler.AddTapToFocus(CaptureDevice);
+            /*PreviewView.AddZoomSlider(CaptureDevice);*/
+            PreviewView.AddPinchToZoom(CaptureDevice);
+            PreviewView.AddTapToFocus(CaptureDevice);
 
             /*
             Setup the capture session.
