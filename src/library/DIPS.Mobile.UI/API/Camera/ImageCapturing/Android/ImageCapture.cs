@@ -1,30 +1,11 @@
-using Android.Content.Res;
-using Android.Graphics;
-using Android.Util;
+using Android.Media;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
 using AndroidX.Camera.Core.ResolutionSelector;
-using AndroidX.Camera.View;
-using AndroidX.Camera.View.Transform;
 using AndroidX.Core.Content;
-using DIPS.Mobile.UI.API.Camera.Gallery;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
-using DIPS.Mobile.UI.Components.BottomSheets;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal.Logging;
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Button;
-using Java.Lang;
-using Java.Util.Concurrent;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Controls.Shapes;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using Color = Microsoft.Maui.Graphics.Color;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Matrix = Android.Graphics.Matrix;
-using RectF = Android.Graphics.RectF;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -52,8 +33,32 @@ public partial class ImageCapture : CameraFragment
             return;
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+        TryPlayShutterSound();
+
     }
-    
+
+    private void TryPlayShutterSound()
+    {
+        var audio = (AudioManager?) Context?.GetSystemService(Android.Content.Context.AudioService);
+        if (audio == null)
+        {
+            return;
+        }
+
+        switch (audio.RingerMode)
+        {
+            case RingerMode.Normal:
+                new MediaActionSound().Play(MediaActionSoundType.ShutterClick);
+                break;
+            case RingerMode.Silent:
+            case RingerMode.Vibrate:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+    }
+
     private partial Task PlatformStop()
     {
         return base.TryStop();

@@ -8,7 +8,7 @@ public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private ICameraUseCase? m_cameraUseCase;
-    private VerticalStackLayout m_customViewsContainer;
+    private VerticalStackLayout? m_customViewsContainer;
     private Grid m_grid;
 
     public CameraPreview()
@@ -51,7 +51,7 @@ public partial class CameraPreview : ContentView
     {
         toolbarItems.VerticalOptions = LayoutOptions.Center;
         
-        m_customViewsContainer.Add(toolbarItems);
+        m_customViewsContainer?.Add(toolbarItems);
     }
     
     public Task HasLoaded()
