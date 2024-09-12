@@ -86,7 +86,7 @@ public abstract class CameraFragment : Fragment
         m_cameraPreview = cameraPreview;
         PreviewView = cameraPreview.PreviewView;
 
-        await WaitForPreviewViewToInitialize();
+        
 
         CameraProvider = (ProcessCameraProvider?)await ProcessCameraProvider.GetInstance(Context).GetAsync();
         if (CameraProvider == null) return;
@@ -98,7 +98,7 @@ public abstract class CameraFragment : Fragment
         var previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
             .Build();
         previewUseCase.SetSurfaceProvider(PreviewView.SurfaceProvider);
-        
+        await WaitForPreviewViewToInitialize();
 
         if (PreviewView.ViewPort == null) return;
         PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle cropping when image is taken due to the camera viewport being larger than the preview view port.

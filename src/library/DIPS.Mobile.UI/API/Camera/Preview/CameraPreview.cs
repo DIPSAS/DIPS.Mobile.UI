@@ -10,7 +10,7 @@ using ContentView = Microsoft.Maui.Controls.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-public partial class CameraPreview : ContentView
+public partial class CameraPreview : Grid
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private ICameraUseCase? m_cameraUseCase;
@@ -37,13 +37,21 @@ public partial class CameraPreview : ContentView
             previewView,
             m_customViewsContainer
         ];
+        Add(previewView);
+        
 #endif
-        Content = m_grid;
+        
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        m_hasLoadedTcs.TrySetResult();
     }
 
     private void PreviewViewOnHandlerChanged(object? sender, EventArgs e)
     {
-        m_hasLoadedTcs.TrySetResult();
+        
     }
 
 #if __ANDROID__

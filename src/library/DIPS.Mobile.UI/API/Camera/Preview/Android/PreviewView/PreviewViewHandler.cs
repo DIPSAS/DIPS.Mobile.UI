@@ -6,8 +6,6 @@ internal class PreviewViewHandler() : ViewHandler<PreviewView, AndroidX.Camera.V
 {
     protected override AndroidX.Camera.View.PreviewView CreatePlatformView()
     {
-        var test = new AndroidX.Camera.View.PreviewView(Context);
-        test.SetImplementationMode(AndroidX.Camera.View.PreviewView.ImplementationMode.Compatible);
-        return test;
+        return new AndroidX.Camera.View.PreviewView(Context);
     }
 }
