@@ -34,6 +34,7 @@ public partial class ImageCapture : CameraSession
         var settings = CreateSettings();
         if (settings == null) return;
         await Task.Delay(1500);
+        
         m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
     }
 

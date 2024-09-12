@@ -111,7 +111,7 @@ public partial class ImageCapture : CameraFragment
         using var rotatedMemoryStream = new MemoryStream();
         await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Png!, 100, rotatedMemoryStream);
         var byteArray = rotatedMemoryStream.ToArray();
-        var capturedImage = new CapturedImage(byteArray, imageProxy.ImageInfo);
+        var capturedImage = new CapturedImage(byteArray, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
         InvokeOnImageCaptured(capturedImage);
         rotatedBitmap.Recycle();
         bitmapImage.Recycle();

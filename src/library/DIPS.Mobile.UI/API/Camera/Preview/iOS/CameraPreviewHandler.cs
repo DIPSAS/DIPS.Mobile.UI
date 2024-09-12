@@ -1,5 +1,4 @@
 using AVFoundation;
-using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Tip;
@@ -7,13 +6,13 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using Microsoft.Maui.Handlers;
 using UIKit;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using PreviewView = DIPS.Mobile.UI.API.Camera.Preview.iOS.PreviewView;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 //Taken from: https://developer.apple.com/documentation/avfoundation/capture_setup/avcam_building_a_camera_app#4479514
-public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, PreviewView>(ViewMapper, ViewCommandMapper)
+public partial class CameraPreviewHandler() : ContentViewHandler
 {
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
     private Slider? m_slider;
@@ -25,41 +24,14 @@ public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, Preview
 
     protected override PreviewView CreatePlatformView() => new();
 
-    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
+    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureDevice? avCaptureDevice, AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
     {
         await m_hasArrangedSizeTcs
             .Task; //Have to wait for the view to have bounds, in case consumers wants to start a session when the view is not ready.
-        if (TryGetAvCaptureVideoPreviewLayer(out var oldPreviewLayer))
-        {
-            oldPreviewLayer?.RemoveFromSuperLayer();
-        }
-
-        m_previewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer),};
-
-        //This makes sure we display the video feed
-        m_previewLayer.Frame = PlatformView.Layer.Bounds;
-        m_previewLayer.Session = session;
-        m_previewLayer.VideoGravity = videoGravity;
-
-        PlatformView.Layer?.AddSublayer(m_previewLayer);
-        return m_previewLayer;
-    }
-
-    private bool TryGetAvCaptureVideoPreviewLayer(out AVCaptureVideoPreviewLayer? previewLayer)
-    {
-        previewLayer = null;
-        var potentialLayer =
-            PlatformView.Layer?.Sublayers?.FirstOrDefault(l => l.Name == nameof(AVCaptureVideoPreviewLayer));
-        if (potentialLayer is not AVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer)
-        {
-            return false;
-        }
-
-        {
-            previewLayer = avCaptureVideoPreviewLayer;
-            return true;
-        }
+        
+        ((PreviewView)PlatformView).AddPreviewLayer(avCaptureDevice, session, videoGravity);
+        return ((PreviewView)PlatformView).PreviewLayer;
     }
     
     public override void PlatformArrange(Rect rect)
@@ -124,55 +96,6 @@ public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, Preview
         m_slider = null;
     }
 
-    internal void SetFocusPoint(double x, double y, AVCaptureDevice captureDevice, out string? error)
-    {
-        var previewSize = PlatformView.Bounds.Size;
-        error = "Unable to find av capture layer on the preview";
-        if (TryGetAvCaptureVideoPreviewLayer(out var previewLayer))
-        {
-            if (previewLayer == null) return;
-            var focusPoint = previewLayer.CaptureDevicePointOfInterestForPoint(new CGPoint(x, y));
-
-            // var focusPoint = new CGPoint(x: y / previewSize.Height,
-            //     y: 1.0 - x / previewSize.Width);
-
-            Console.WriteLine(focusPoint);
-            error = null;
-            if (captureDevice.LockForConfiguration(out var configurationLockError))
-            {
-                try
-                {
-                    if (captureDevice.FocusPointOfInterestSupported)
-                    {
-                        captureDevice.FocusPointOfInterest = focusPoint;
-                        captureDevice.FocusMode = AVCaptureFocusMode.AutoFocus;
-                    }
-
-                    if (captureDevice.ExposurePointOfInterestSupported)
-                    {
-                        captureDevice.ExposurePointOfInterest = focusPoint;
-                        captureDevice.ExposureMode = AVCaptureExposureMode.AutoExpose;
-                    }
-                }
-                catch (Exception e)
-                {
-                    error = e.Message;
-                }
-                finally
-                {
-                    captureDevice.UnlockForConfiguration();
-                }
-            }
-            else
-            {
-                if (configurationLockError != null)
-                {
-                    error = configurationLockError.ToString();
-                }
-            }
-        }
-    }
-
     public void AddTapToFocus(AVCaptureDevice captureDevice)
     {
         m_tapToFocusTapGestureRecognizer =
@@ -194,7 +117,7 @@ public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, Preview
     private void TapToFocus(NSSet touches, UIEvent @event, AVCaptureDevice captureDevice)
     {
         if (touches.First() is not UITouch touchPoint) return;
-        SetFocusPoint(touchPoint.LocationInView(PlatformView).X, touchPoint.LocationInView(PlatformView).Y,
+        ((PreviewView)PlatformView).SetFocusPoint(touchPoint.LocationInView(PlatformView).X, touchPoint.LocationInView(PlatformView).Y,
             captureDevice, out var error);
 
         if (error != null)
@@ -271,18 +194,33 @@ public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, Preview
         m_pinchToZoomGestureRecognizer = null;
     }
 
-    protected override void DisconnectHandler(PreviewView platformView)
-    {
-        RemoveZoomSlider();
-        RemovePinchToZoom(platformView);
-        RemoveTouchToFocus(platformView);
-        RemovePreviewLayer();
-        base.DisconnectHandler(platformView);
-    }
-
     private void RemovePreviewLayer()
     {
         m_previewLayer?.RemoveFromSuperLayer();
         m_previewLayer = null;
+    }
+
+    protected override void DisconnectHandler(ContentView platformView)
+    {
+        Dispose(platformView);
+        base.DisconnectHandler(platformView);
+    }
+
+    public void Dispose(ContentView? platformView = null)
+    {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (platformView == null && PlatformView != null)
+        {
+            platformView = PlatformView;
+        }
+
+        if (platformView != null)
+        {
+            RemovePinchToZoom(platformView);
+            RemoveTouchToFocus(platformView);    
+        }
+        
+        RemoveZoomSlider();
+        RemovePreviewLayer();
     }
 }

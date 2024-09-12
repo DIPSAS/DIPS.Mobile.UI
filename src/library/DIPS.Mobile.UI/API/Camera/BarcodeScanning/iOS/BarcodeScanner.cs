@@ -35,7 +35,7 @@ public partial class BarcodeScanner : CameraSession
 
     public override void ConfigureSession()
     {
-        if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewUIView == null) return;
+        if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewView == null) return;
         
          m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
@@ -65,32 +65,16 @@ public partial class BarcodeScanner : CameraSession
                                                         AVMetadataObjectType.MicroQRCode
                                                         | AVMetadataObjectType.PDF417Code
                                                         | AVMetadataObjectType.QRCode;
-            
-            
-            var formatDimensions = ((CMVideoFormatDescription)CaptureDevice.ActiveFormat.FormatDescription).Dimensions;
-            m_rectOfInterestWidth = formatDimensions.Height / (double)formatDimensions.Width;
-            var rectOfInterestHeight = 1.0;
-            var xCoordinate = (1.0 - m_rectOfInterestWidth) / 2.0;
-            var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
-            var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: m_rectOfInterestWidth,
-                height: rectOfInterestHeight);
-            m_captureMetadataOutput.RectOfInterest = initialRectOfInterest;
 
-            var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
-            var layer = new CAShapeLayer();
-            layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
-            layer.FillColor = UIColor.Black.CGColor;
-            layer.Opacity = 0.6f;
+
             
-            layer.Frame = rectOfInterestToLayerCoordinates;
-            layer.BorderColor = UIColor.White.CGColor;
-            layer.BorderWidth = 2;
-            PreviewUIView.Layer.AddSublayer(layer);
             
+            PreviewView.TryAddOrUpdateRectOfInterest();
             SetRecommendedZoomFactor();
             
     }
 
+    //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
     public override AVCaptureDevice? SelectCaptureDevice() =>
         AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
             AVMediaTypes.Video, AVCaptureDevicePosition.Back);
