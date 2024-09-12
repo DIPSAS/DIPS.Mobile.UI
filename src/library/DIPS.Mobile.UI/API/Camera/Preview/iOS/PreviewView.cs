@@ -174,11 +174,11 @@ internal sealed class PreviewView : ContentView
         PreviewLayer.Orientation = orientation;
         if (PreviewLayer.Session?.Connections is not null) //Update all connections, failing to do so will only update preview connection, but we also need to update capture connection.
         {
-            foreach (var avCaptureConnection in PreviewLayer.Session?.Connections!)
+            foreach (var connection in PreviewLayer.Session?.Connections!)
             {
-                if (avCaptureConnection.SupportsVideoOrientation)
+                if (connection.SupportsVideoOrientation)
                 {
-                    avCaptureConnection.VideoOrientation = PreviewLayer.Orientation;
+                    connection.VideoOrientation = PreviewLayer.Orientation;
                 }
             }
         }
@@ -227,7 +227,6 @@ internal sealed class PreviewView : ContentView
         }
 
         PreviewLayer = new AVCaptureVideoPreviewLayer() {Name = nameof(AVCaptureVideoPreviewLayer),};
-
         //This makes sure we display the video feed
         PreviewLayer.Frame = this.Layer.Bounds;
         PreviewLayer.Session = session;

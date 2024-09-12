@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
+using UIKit;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -50,8 +51,28 @@ public partial class ImageCapture : CameraSession
     private partial void PlatformCapturePhoto()
     {
         var settings = CreateSettings();
-        if(settings is not null)
+        if (settings is not null)
+        {
+            var captureConnection =  m_capturePhotoOutput?.Connections.FirstOrDefault(c => c.Output.Equals(m_capturePhotoOutput));
+            if (captureConnection is not null)
+            {
+                var orientation = UIDevice.CurrentDevice.Orientation switch
+                {
+                    UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
+                    UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
+                    UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                    UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight, //No idea why we cant use left here, the camera will be upside down if we use left.
+                    UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft, //No idea why we cant use right here, the camera will be upside down if we use right.
+                    UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
+                    UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                
+                captureConnection.VideoOrientation = orientation;
+            }
             m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
+        }
+            
     }
 
     // Cant re-use settings for each capture, remarks from Apple doc: https://developer.apple.com/documentation/avfoundation/avcapturephotosettings#overview

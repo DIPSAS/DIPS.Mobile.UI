@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.ImageCapturing.ImageGallery;
@@ -16,8 +17,7 @@ public class ImageGallerySamplesViewModel : ViewModel
         Images = StoredImages;
         CameraButtonTappedCommand = new Command(() =>
         {
-            DialogService.ShowMessage("Camera button tapped",
-                "It would be natural to open the camera when pressing this button", "OK");
+            _ = BottomSheetService.CloseAll();
         });
     }
 

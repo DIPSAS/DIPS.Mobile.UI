@@ -17,13 +17,13 @@ public partial class ImageCapture : ICameraUseCase
     public async Task Start(CameraPreview cameraPreview, Action<CapturedImage> onImageCaptured)
     {
         m_cameraPreview = cameraPreview;
-        ConstructCrossPlatformViews();
         m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
+            ConstructCrossPlatformViews();
             await PlatformStart();
         }
         else

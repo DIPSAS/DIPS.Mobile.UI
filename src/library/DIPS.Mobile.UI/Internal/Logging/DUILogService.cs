@@ -32,7 +32,7 @@ internal static partial class DUILogService
     /// <remarks>Will only be visible if the application is run under debug and the consumer has enabled <see cref="DUI.ShouldLogDebug"/></remarks>
     internal static void LogDebug<T>(string message) where T : class
     {
-        LogDebug(nameof(T), message);
+        LogDebug(typeof(T).ToString(), message);
     }
 
     /// <summary>

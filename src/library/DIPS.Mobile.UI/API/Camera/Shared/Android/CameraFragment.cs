@@ -1,4 +1,5 @@
 using Android.Content;
+using Android.Content.PM;
 using Android.Content.Res;
 using Android.Hardware;
 using Android.Hardware.Camera2;
@@ -116,14 +117,7 @@ public abstract class CameraFragment : Fragment
         {
             m_displayId = PreviewView.Display.DisplayId;
         }
-
-        if (DisplayManager == null) return;
-        m_deviceDisplayListener = new DeviceDisplayListener(UpdateRotation, DisplayManager);
-        DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);
-
-        // m_imageEventRotationListener = new DeviceRotationListener(UpdateRotation, Context);
-        // m_imageEventRotationListener.Enable();
-
+        
         try
         {
             FragmentManager?.BeginTransaction().Add(this, FragmentTag).CommitAllowingStateLoss();
@@ -160,7 +154,7 @@ public abstract class CameraFragment : Fragment
         }
     }
 
-    private void UpdateRotation(SurfaceOrientation surfaceOrientation)
+    private void UpdateOrientation(SurfaceOrientation surfaceOrientation)
     {
         if (surfaceOrientation == m_lastOrientation) return;
         var rotation = (int)surfaceOrientation;
@@ -185,11 +179,23 @@ public abstract class CameraFragment : Fragment
                     break;
             }
         }
-        RotationChanged(surfaceOrientation);
+        OrientationChanged(surfaceOrientation);
     }
 
     public override void OnStart()
     {
+        if (DisplayManager == null) return;
+        if (Activity?.RequestedOrientation == ScreenOrientation.Portrait)
+        {
+            m_imageEventRotationListener = new DeviceRotationListener(UpdateOrientation, Context);
+            m_imageEventRotationListener.Enable();    
+        }
+        else
+        {
+            m_deviceDisplayListener = new DeviceDisplayListener(UpdateOrientation, DisplayManager);
+            DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
+        }
+        
         m_cameraPreview?.OnCameraStarted(CameraControl!);
 
         OnStarted();
@@ -201,7 +207,7 @@ public abstract class CameraFragment : Fragment
     {
         if (PreviewView is {Display: not null})
         {
-            UpdateRotation(PreviewView.Display.Rotation);
+            UpdateOrientation(PreviewView.Display.Rotation);
         }
         
         base.OnConfigurationChanged(newConfig);
@@ -245,74 +251,5 @@ public abstract class CameraFragment : Fragment
     }
 
 
-    internal abstract void RotationChanged(SurfaceOrientation surfaceOrientation);
-}
-
-//Based on : https://developer.android.com/media/camera/camerax/orientation-rotation#orientation-event-listener-setup
-internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationChanged, Context? context)
-    : OrientationEventListener(context)
-{
-    private Action<SurfaceOrientation>? m_orientationChanged = orientationChanged;
-
-    public override void OnOrientationChanged(int orientation)
-    {
-        if (orientation == OrientationUnknown)
-        {
-            return;
-        }
-        
-        DUILogService.LogDebug<CameraFragment>($"Rotation degrees: {orientation}");
-        switch (orientation)
-        {
-            case > 45 and <= 135:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation270);
-                break;
-            case > 135 and <= 225:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation180);
-                break;
-            case > 225 and <= 315:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation90);
-                break;
-            default:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation0);
-                break;
-        }
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        m_orientationChanged = null;
-        base.Dispose(disposing);
-    }
-}
-
-internal class DeviceDisplayListener(Action<SurfaceOrientation>? orientationChanged, DisplayManager displayManager)
-    : Java.Lang.Object, DisplayManager.IDisplayListener
-{
-    private Action<SurfaceOrientation>? m_orientationChanged = orientationChanged;
-
-    public void OnDisplayAdded(int displayId)
-    {
-        
-    }
-
-    public void OnDisplayChanged(int displayId)
-    {
-        var display = displayManager.GetDisplay(displayId);
-        if (display != null)
-        {
-            m_orientationChanged?.Invoke(display.Rotation);
-        }
-    }
-
-    public void OnDisplayRemoved(int displayId)
-    {
-        
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        m_orientationChanged = null;
-        base.Dispose(disposing);
-    }
+    internal abstract void OrientationChanged(SurfaceOrientation surfaceOrientation);
 }

@@ -33,30 +33,6 @@ public partial class ImageCapture : CameraFragment
             return;
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
-        TryPlayShutterSound();
-
-    }
-
-    private void TryPlayShutterSound()
-    {
-        var audio = (AudioManager?) Context?.GetSystemService(Android.Content.Context.AudioService);
-        if (audio == null)
-        {
-            return;
-        }
-
-        switch (audio.RingerMode)
-        {
-            case RingerMode.Normal:
-                new MediaActionSound().Play(MediaActionSoundType.ShutterClick);
-                break;
-            case RingerMode.Silent:
-            case RingerMode.Vibrate:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
     }
 
     private partial Task PlatformStop()
@@ -81,7 +57,7 @@ public partial class ImageCapture : CameraFragment
         }
     }
 
-    internal override void RotationChanged(SurfaceOrientation surfaceOrientation)
+    internal override void OrientationChanged(SurfaceOrientation surfaceOrientation)
     {
     }
 

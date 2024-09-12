@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Library;
 using Foundation;
 using Microsoft.Maui.Platform;
+using SystemConfiguration;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 using PreviewView = DIPS.Mobile.UI.API.Camera.Preview.iOS.PreviewView;
@@ -26,7 +27,7 @@ public abstract class CameraSession
     
     private AVCaptureOutput? m_avCaptureOutput;
     private AVCaptureDeviceInput? m_videoDeviceInput;
-    
+
     internal void StopCameraSession()
     {
         if (m_captureSession is {Running: true})
@@ -132,7 +133,7 @@ public abstract class CameraSession
             throw new Exception("Unable to add output");
         }
     }
-    
+
     public abstract void ConfigureSession();
 
     public abstract AVCaptureDevice? SelectCaptureDevice();

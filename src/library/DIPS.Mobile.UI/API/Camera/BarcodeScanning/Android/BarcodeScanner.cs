@@ -40,7 +40,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     internal partial Task PlatformStop() => base.TryStop();
 
     public override void OnStarted() => SetupBarCodeScanning();
-    internal override void RotationChanged(SurfaceOrientation surfaceOrientation)
+    internal override void OrientationChanged(SurfaceOrientation surfaceOrientation)
     {
         
     }
