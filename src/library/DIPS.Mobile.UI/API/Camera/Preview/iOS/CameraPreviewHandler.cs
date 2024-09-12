@@ -24,13 +24,13 @@ public partial class CameraPreviewHandler() : ContentViewHandler
 
     protected override PreviewView CreatePlatformView() => new();
 
-    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureSession session,
+    internal async Task<AVCaptureVideoPreviewLayer> WaitForViewLayoutAndAddSessionToPreview(AVCaptureDevice? avCaptureDevice, AVCaptureSession session,
         AVLayerVideoGravity videoGravity)
     {
         await m_hasArrangedSizeTcs
             .Task; //Have to wait for the view to have bounds, in case consumers wants to start a session when the view is not ready.
         
-        ((PreviewView)PlatformView).AddPreviewLayer(session, videoGravity);
+        ((PreviewView)PlatformView).AddPreviewLayer(avCaptureDevice, session, videoGravity);
         return ((PreviewView)PlatformView).PreviewLayer;
     }
     

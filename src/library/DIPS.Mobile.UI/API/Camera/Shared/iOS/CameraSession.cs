@@ -74,15 +74,13 @@ public abstract class CameraSession
 
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
-
-        PreviewLayer =
-            await previewHandler.WaitForViewLayoutAndAddSessionToPreview(m_captureSession,
-                AVLayerVideoGravity.ResizeAspect);
-        //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-
         
         CaptureDevice = SelectCaptureDevice();
         if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
+        
+        PreviewLayer =
+            await previewHandler.WaitForViewLayoutAndAddSessionToPreview(CaptureDevice, m_captureSession,
+                AVLayerVideoGravity.ResizeAspect);
         
         m_videoDeviceInput = AVCaptureDeviceInput.FromDevice(CaptureDevice);
         if (m_videoDeviceInput == null) throw new Exception($"video device input is null");

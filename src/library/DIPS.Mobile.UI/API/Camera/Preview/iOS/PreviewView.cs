@@ -1,6 +1,10 @@
 using AVFoundation;
+using CoreAnimation;
 using CoreGraphics;
 using CoreMedia;
+using DIPS.Mobile.UI.API.Library;
+using Foundation;
+using Microsoft.Maui.Controls.Shapes;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 
@@ -8,25 +12,26 @@ namespace DIPS.Mobile.UI.API.Camera.Preview.iOS;
 #pragma warning disable CA1422
 public class PreviewView : ContentView
 {
+    private AVCaptureDevice? m_avCaptureDevice;
+
     public PreviewView()
     {
-        BackgroundColor = UIColor.Black;    
+        BackgroundColor = UIColor.Black;
+
     }
 
     public AVCaptureVideoPreviewLayer PreviewLayer { get; internal set; }
 
     public override void LayoutSubviews()
     {
-        UpdateRotation();
+        UpdateOrientation();
         base.LayoutSubviews();
     }
 
-    private void UpdateRotation()
+    private void UpdateOrientation()
     {
         //Makes sure to rotate the camera and the preview layer from the bounds of this UIView which automatically resizes.
-        var potentialLayer = Layer.Sublayers?.FirstOrDefault(l => l is AVCaptureVideoPreviewLayer);
-        if (potentialLayer is not AVCaptureVideoPreviewLayer videoPreviewLayer) return;
-        if (videoPreviewLayer?.Connection == null) return;
+        if (PreviewLayer?.Connection == null) return;
 
         var orientation = UIDevice.CurrentDevice.Orientation switch
         {
@@ -40,34 +45,61 @@ public class PreviewView : ContentView
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        if (videoPreviewLayer.Orientation == orientation)
+        if (PreviewLayer.Orientation == orientation)
         {
             return;
         }
 
-        videoPreviewLayer.Orientation = orientation;
-        if (videoPreviewLayer.Session?.Connections != null) //Update all connections, failing to do so will only update preview connection, but we also need to update capture connection.
+        PreviewLayer.Orientation = orientation;
+        if (PreviewLayer.Session?.Connections is not null) //Update all connections, failing to do so will only update preview connection, but we also need to update capture connection.
         {
-            foreach (var avCaptureConnection in videoPreviewLayer.Session?.Connections)
+            foreach (var avCaptureConnection in PreviewLayer.Session?.Connections!)
             {
                 if (avCaptureConnection.SupportsVideoOrientation)
                 {
-                    avCaptureConnection.VideoOrientation = videoPreviewLayer.Orientation;    
+                    avCaptureConnection.VideoOrientation = PreviewLayer.Orientation;
                 }
-                
             }
         }
 
-        videoPreviewLayer.Frame = this.Bounds;
+        TryAddOrUpdateRectOfInterest();
+        PreviewLayer.Frame = this.Bounds;
     }
 
-    public void AddRectOfInterest(CMVideoDimensions formatDimensions)
+    public void TryAddOrUpdateRectOfInterest()
     {
+        if (m_avCaptureDevice == null) return;
         
+        var potentialCaptureMetadataConnection = PreviewLayer.Session?.Connections.FirstOrDefault(s => s.Output is AVCaptureMetadataOutput);
+        if (potentialCaptureMetadataConnection?.Output is not AVCaptureMetadataOutput avCaptureMetadataOutput) return;
+        
+        var formatDimensions = ((CMVideoFormatDescription)m_avCaptureDevice.ActiveFormat.FormatDescription).Dimensions;
+        var width = formatDimensions.Height / (double)formatDimensions.Width;
+        var rectOfInterestHeight = 1.0;
+        var xCoordinate = (1.0 - width) / 2.0;
+        var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
+        var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: width,
+            height: rectOfInterestHeight);
+        avCaptureMetadataOutput.RectOfInterest = initialRectOfInterest;
+        
+        var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
+        var layerName = nameof(AVCaptureMetadataOutput.RectOfInterest);
+        var layer = new CAShapeLayer(){Name = layerName};
+        layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
+        layer.FillColor = UIColor.Black.CGColor;
+        layer.Opacity = 0.6f;
+            
+        layer.Frame = rectOfInterestToLayerCoordinates;
+        layer.BorderColor = UIColor.White.CGColor;
+        layer.BorderWidth = 2;
+        var oldLayer = Layer.Sublayers?.FirstOrDefault(s => s.Name == layerName);
+        oldLayer?.RemoveFromSuperLayer();
+        Layer.AddSublayer(layer);
     }
 
-    public void AddPreviewLayer(AVCaptureSession? session, AVLayerVideoGravity videoGravity)
+    public void AddPreviewLayer(AVCaptureDevice? avCaptureDevice, AVCaptureSession? session, AVLayerVideoGravity videoGravity)
     {
+        m_avCaptureDevice = avCaptureDevice;
         if (TryGetAvCaptureVideoPreviewLayer(out var oldPreviewLayer))
         {
             oldPreviewLayer?.RemoveFromSuperLayer();
@@ -145,6 +177,11 @@ public class PreviewView : ContentView
                 }
             }
         }
+    }
+
+    public void Dispose()
+    {
+        m_avCaptureDevice = null;
     }
 }
 #pragma warning restore CA1422
