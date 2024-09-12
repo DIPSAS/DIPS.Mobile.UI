@@ -36,7 +36,7 @@ public class ImageSize(byte[] imageAsBytes, int width, int height)
     public int Height => height;
     public decimal SizeInBytes => imageAsBytes.Length;
     public decimal SizeInMegaBytes => (SizeInBytes / 1024) / 1024;
-    public decimal SizeInMegaBytesWithTwoDecimals => Math.Round(SizeInBytes, 2);
+    public decimal SizeInMegaBytesWithTwoDecimals => Math.Round(SizeInMegaBytes, 2);
 
     public override string ToString()
     {

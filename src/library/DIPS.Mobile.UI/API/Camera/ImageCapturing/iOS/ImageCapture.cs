@@ -17,7 +17,7 @@ public partial class ImageCapture : CameraSession
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetPhoto, m_capturePhotoOutput);
+            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput);
         }
         
         return Task.CompletedTask;

@@ -3,6 +3,7 @@ using Android.Graphics;
 using Android.Util;
 using Android.Views;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.Internal.Utils;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.View;
 using AndroidX.Camera.View.Transform;
@@ -34,8 +35,7 @@ public partial class ImageCapture : CameraFragment
     private partial Task PlatformStart()
     {
         var resolutionSelector = new ResolutionSelector.Builder()
-            .SetResolutionStrategy(new ResolutionStrategy(new  Android.Util.Size(1280, 720),
-                ResolutionStrategy.FallbackRuleClosestLower)).Build();
+            .Build();
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
@@ -95,26 +95,8 @@ public partial class ImageCapture : CameraFragment
 
     private async void OnImageCaptured(IImageProxy imageProxy)
     {
-        var bitmapImage = imageProxy.ToBitmap();
-        var matrix = new Matrix();
-        //Rotate the bitmap depending on how the image was rotated when being captured.
-        if (PreviewView is {Display: not null})
-        {
-            //Taken from: //https://developer.android.com/media/camera/camerax/orientation-rotation
-            var rotationDegrees = imageProxy.ImageInfo.RotationDegrees;
-            matrix.PostRotate(rotationDegrees);
-        }
-
-        var rotatedBitmap =
-            Bitmap.CreateBitmap(bitmapImage, 0, 0, bitmapImage.Width, bitmapImage.Height, matrix, true);
-        
-        using var rotatedMemoryStream = new MemoryStream();
-        await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Png!, 100, rotatedMemoryStream);
-        var byteArray = rotatedMemoryStream.ToArray();
-        var capturedImage = new CapturedImage(byteArray, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
+        var capturedImage = new CapturedImage(ImageUtil.JpegImageToJpegByteArray(imageProxy), imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
         InvokeOnImageCaptured(capturedImage);
-        rotatedBitmap.Recycle();
-        bitmapImage.Recycle();
     }
 }
 
