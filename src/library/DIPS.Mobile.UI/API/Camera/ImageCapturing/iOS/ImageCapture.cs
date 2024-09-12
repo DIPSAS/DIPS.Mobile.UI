@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
+using UIKit;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -43,7 +44,7 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null)
         {
-            InvokeOnImageCaptured(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));    
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));
         }
     }
 
@@ -52,6 +53,11 @@ public partial class ImageCapture : CameraSession
         var settings = CreateSettings();
         if(settings is not null)
             m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
+
+        if (PreviewLayer is { Connection: not null })
+        {
+            PreviewLayer.Connection.Enabled = false;
+        }
     }
 
     // Cant re-use settings for each capture, remarks from Apple doc: https://developer.apple.com/documentation/avfoundation/avcapturephotosettings#overview

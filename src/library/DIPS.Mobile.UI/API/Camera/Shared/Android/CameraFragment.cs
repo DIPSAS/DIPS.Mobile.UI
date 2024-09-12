@@ -53,9 +53,10 @@ public abstract class CameraFragment : Fragment
     private CameraPreview? m_cameraPreview;
     private int m_displayId;
     private DeviceRotationListener? m_imageEventRotationListener;
-    private SurfaceOrientation m_lastOrientation;
-    private UseCaseGroup m_useCaseGroup;
+    private SurfaceOrientation m_lastOrientation; 
+    protected UseCaseGroup UseCaseGroup;
     private DeviceDisplayListener? m_deviceDisplayListener;
+    protected AndroidX.Camera.Core.Preview m_previewUseCase;
 
     public new Context? Context { get; }
 
@@ -93,22 +94,22 @@ public abstract class CameraFragment : Fragment
         var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
 
         //Create preview use case and attach it to our MAUI view. 
-        var previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
+        m_previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
             .Build();
-        previewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
+        m_previewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
         
         await WaitForPreviewViewToInitialize();
 
         if (PreviewView.ViewPort == null) return;
         PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle cropping when image is taken due to the camera viewport being larger than the preview view port.
-        m_useCaseGroup = new UseCaseGroup.Builder()
-            .AddUseCase(previewUseCase)
+        UseCaseGroup = new UseCaseGroup.Builder()
+            .AddUseCase(m_previewUseCase)
             .AddUseCase(useCase)
             .SetViewPort(PreviewView.ViewPort)
             .Build();
         
         //Bind the camera to use cases.
-        Camera = CameraProvider.BindToLifecycle(this, cameraSelector, m_useCaseGroup);
+        Camera = CameraProvider.BindToLifecycle(this, cameraSelector, UseCaseGroup);
         //Do configurations before starting the activity: https://developer.android.com/media/camera/camerax/configuration
 
 
@@ -166,7 +167,7 @@ public abstract class CameraFragment : Fragment
         var rotation = (int)surfaceOrientation;
         DUILogService.LogDebug<CameraFragment>($"Changing rotation from {m_lastOrientation} to {surfaceOrientation}");
         m_lastOrientation = surfaceOrientation;
-        foreach (var useCase in m_useCaseGroup.UseCases)
+        foreach (var useCase in UseCaseGroup.UseCases)
         {
             switch (useCase)
             {

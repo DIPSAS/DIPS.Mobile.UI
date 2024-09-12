@@ -50,6 +50,8 @@ public partial class ImageCapture : CameraFragment
     {
         if (Context == null) 
             return;
+        
+        CameraProvider?.Unbind(m_previewUseCase);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
@@ -99,7 +101,7 @@ public partial class ImageCapture : CameraFragment
         await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Png!, 100, rotatedMemoryStream);
         var byteArray = rotatedMemoryStream.ToArray();
         var capturedImage = new CapturedImage(byteArray, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
-        InvokeOnImageCaptured(capturedImage);
+        SwitchToConfirmState(capturedImage);
         rotatedBitmap.Recycle();
         bitmapImage.Recycle();
     }

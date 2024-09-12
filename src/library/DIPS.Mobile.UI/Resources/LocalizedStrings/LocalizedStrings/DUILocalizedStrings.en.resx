@@ -119,4 +119,10 @@
     <data name="RemoveImageDescription" xml:space="preserve">
         <value>Do you want to remove the image?</value>
     </data>
+    <data name="TakeNewPhoto" xml:space="preserve">
+        <value>Take new photo</value>
+    </data>
+    <data name="UsePicture" xml:space="preserve">
+        <value>Use picture</value>
+    </data>
 </root>
