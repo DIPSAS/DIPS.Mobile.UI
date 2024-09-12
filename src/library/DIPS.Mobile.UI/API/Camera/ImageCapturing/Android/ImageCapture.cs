@@ -40,12 +40,20 @@ public partial class ImageCapture : CameraFragment
             .SetResolutionSelector(resolutionSelector)
             .Build();
 
-// Add listener to receive updates.
+        // Add listener to receive updates.
         return m_cameraPreview != null
             ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase)
             : Task.CompletedTask;
     }
 
+    private partial void PlatformCapturePhoto()
+    {
+        if (Context == null) 
+            return;
+        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
+            new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+    }
+    
     private partial Task PlatformStop()
     {
         return base.TryStop();
@@ -54,31 +62,10 @@ public partial class ImageCapture : CameraFragment
     public override void OnStarted()
     {
         //Update target rotation
-        if (m_cameraCaptureUseCase is null || PreviewView is null ||
-            m_cameraPreview?.Handler is not CameraPreviewHandler previewHandler) return;
+        if (m_cameraCaptureUseCase is null || PreviewView is null) 
+            return;
 
-        var shutterButton = new Border
-        {
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.DimGray,
-            StrokeShape = new Ellipse(),
-            Stroke = Colors.GetColor(ColorName.color_system_white),
-            StrokeThickness = Sizes.GetSize(SizeName.size_1),
-            VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.Center,
-            WidthRequest = 70,
-            HeightRequest = 70
-        };
-        
-        Touch.SetCommand(shutterButton, new Command(() =>
-        {
-            if (Context == null) 
-                return;
-            
-            m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
-                new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
-        }));
-
-        previewHandler.AddView(shutterButton);
+       
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)

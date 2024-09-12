@@ -64,6 +64,6 @@ public partial class BarcodeScanningSample
     
     private void ShowTip(object? sender, EventArgs e)
     {
-        CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen isteden for å ha mobilen for nært strekkoden.");
+        /*CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen isteden for å ha mobilen for nært strekkoden.");*/
     }
 }

@@ -1,8 +1,8 @@
 using Microsoft.Maui.Handlers;
 
-namespace DIPS.Mobile.UI.API.Camera.Preview.Android.PreviewView;
+namespace DIPS.Mobile.UI.API.Camera.Preview;
 
-internal class PreviewViewHandler() : ViewHandler<PreviewView, AndroidX.Camera.View.PreviewView>(ViewMapper)
+internal partial class PreviewViewHandler() : ViewHandler<PreviewView, AndroidX.Camera.View.PreviewView>(ViewMapper)
 {
     protected override AndroidX.Camera.View.PreviewView CreatePlatformView()
     {

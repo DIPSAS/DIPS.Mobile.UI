@@ -18,6 +18,7 @@ public partial class ImageCaptureSample
     {
         try
         {
+            var isUiThread = MainThread.IsMainThread;
             await m_imageCapture.Start(CameraPreview, OnImageCaptured);
         }
         catch (Exception exception)

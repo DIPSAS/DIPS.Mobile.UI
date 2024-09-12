@@ -68,9 +68,9 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Entry, EntryHandler>();
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
-            handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
+            handlers.AddHandler<PreviewView, PreviewViewHandler>();
             
             AddPlatformHandlers(handlers);
         });
