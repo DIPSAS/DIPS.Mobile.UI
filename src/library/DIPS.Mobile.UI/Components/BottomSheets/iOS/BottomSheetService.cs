@@ -26,12 +26,9 @@ public static partial class BottomSheetService
             if (currentViewController is null)
                 return;
             
-            viewControllerToPresent.ModalPresentationStyle = UIModalPresentationStyle.PageSheet;
+            viewControllerToPresent.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
 
-            if (TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController))
-            {
-                return;
-            }
+            TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController);
 
             await currentViewController.PresentViewControllerAsync(viewControllerToPresent, true);
         }

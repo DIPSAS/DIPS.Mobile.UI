@@ -12,7 +12,8 @@
         <imageGallery:ImageGallerySamplesViewModel />
     </dui:ContentPage.BindingContext>
 
+    <Grid VerticalOptions="Start">
     <gallery:GalleryThumbnails Images="{Binding Images}"
                                CameraButtonTappedCommand="{Binding Source={x:Reference This}, Path=CameraButtonTappedCommand}" />
-
+</Grid>
 </dui:BottomSheet>

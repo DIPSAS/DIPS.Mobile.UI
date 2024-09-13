@@ -45,6 +45,8 @@ public partial class ImageCapture : ICameraUseCase
 
     private async Task OnCapture()
     {
+        Touch.SetIsEnabled(m_shutterButton, false);
+        
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
         m_cameraPreview?.AddViewToRoot(blackBox, 1);
 
@@ -83,6 +85,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         PlatformStart();
         
+        Touch.SetIsEnabled(m_shutterButton, true);
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
         m_cameraPreview?.RemoveToolbarView(m_confirmStateGrid);
         m_cameraPreview?.AddToolbarView(m_shutterButton);

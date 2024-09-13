@@ -20,6 +20,8 @@ public class BottomSheetViewController : UIViewController
         bottomSheet.ViewController = this;
 
         m_container = new BottomSheetContainer(bottomSheet);
+        
+        
     }
     
     public BottomSheet BottomSheet { get; }

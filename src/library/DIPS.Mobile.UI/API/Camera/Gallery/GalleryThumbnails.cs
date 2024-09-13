@@ -12,11 +12,14 @@ public partial class GalleryThumbnails : Grid
 
     public GalleryThumbnails()
     {
+        HeightRequest = 100;
+        
+        VerticalOptions = LayoutOptions.Center;
+        
         m_collectionView = new Components.Lists.CollectionView
         {
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal),
             ItemTemplate = new DataTemplate(() => new ImageThumbnailView.ImageThumbnailView(OnRemoveImage, OnTappedImage)),
-            HeightRequest = 100
         };
         
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
