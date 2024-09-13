@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows.Input;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -5,6 +6,26 @@ namespace DIPS.Mobile.UI.Components.Chips;
 
 public partial class Chip
 {
+    /// <summary>
+    /// Set an icon that will be displayed on the left side of the chip.
+    /// <remarks>Will be hidden if <see cref="IsToggleable"/> is true</remarks>
+    /// </summary>
+    [TypeConverter(nameof(ImageSourceConverter))]
+    public ImageSource CustomIcon
+    {
+        get => (ImageSource?)GetValue(CustomImageProperty);
+        set => SetValue(CustomImageProperty, value);
+    }
+
+    /// <summary>
+    /// Sets the color of the <see cref="CustomIcon"/>.
+    /// </summary>
+    public Color CustomIconTintColor
+    {
+        get => (Color)GetValue(CustomIconTintColorProperty);
+        set => SetValue(CustomIconTintColorProperty, value);
+    }
+    
     /// <summary>
     /// The color of the chip.
     /// </summary>
@@ -44,14 +65,15 @@ public partial class Chip
     public static readonly BindableProperty CloseButtonColorProperty = BindableProperty.Create(
         nameof(CloseButtonColor),
         typeof(Color),
-        typeof(Chip));
+        typeof(Chip),
+        Colors.GetColor(ColorName.color_neutral_90));
 
     /// <summary>
     /// The color of the close button that people tap to close the chip.
     /// </summary>
     public Color? CloseButtonColor
     {
-        get => (Color)GetValue(CloseButtonColorProperty);
+        get => (Color?)GetValue(CloseButtonColorProperty);
         set => SetValue(CloseButtonColorProperty, value);
     }
 
@@ -109,7 +131,18 @@ public partial class Chip
         get => (bool)GetValue(IsCloseableProperty);
         set => SetValue(IsCloseableProperty, value);
     }
+    
+    public static readonly BindableProperty CustomIconTintColorProperty = BindableProperty.Create(
+        nameof(CustomIconTintColor),
+        typeof(Color),
+        typeof(Chip),
+        Colors.GetColor(ColorName.color_neutral_90));
 
+    public static readonly BindableProperty CustomImageProperty = BindableProperty.Create(
+        nameof(CustomIcon),
+        typeof(ImageSource),
+        typeof(Chip));
+    
     public static readonly BindableProperty CloseCommandProperty = BindableProperty.Create(
         nameof(CloseCommand),
         typeof(ICommand),

@@ -1,6 +1,8 @@
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Resources.Sizes;
 using MemoryLeakTests.Tests;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace MemoryLeakTests;
 

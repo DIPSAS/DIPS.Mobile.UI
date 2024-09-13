@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Chips;
 using Microsoft.Maui.LifecycleEvents;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using ContentPageHandler = DIPS.Mobile.UI.Components.Pages.Android.ContentPageHandler;
@@ -14,6 +15,7 @@ public static partial class AppHostBuilderExtensions
         handlers
             .AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar),
                 typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
+            .AddHandler(typeof(Chip), typeof(ChipHandler))
             .AddHandler<ContentPage, ContentPageHandler>()
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
             .AddHandler<CameraPreview, CameraPreviewHandler>();

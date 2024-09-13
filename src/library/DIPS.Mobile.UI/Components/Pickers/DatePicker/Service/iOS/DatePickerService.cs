@@ -1,117 +1,49 @@
-using CoreGraphics;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
-using Microsoft.Maui.Platform;
+using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.iOS;
 using UIKit;
-using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
 namespace DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 
 public partial class DatePickerService
 {
-    internal static InlineDatePickerPopoverViewController? PresentedViewController { get; set; }
-    
-    public static partial void Open(DatePicker datePicker, View? sourceView = null)
+    public static async partial void Open(DatePicker datePicker, View? sourceView = null)
     {
-        if (IsOpen())
+        if (Platform.GetCurrentUIViewController() is IDatePickerPopoverViewController and UIViewController uiViewController)
         {
-            Close();
+            await uiViewController.DismissViewControllerAsync(true);
+            return;
         }
+
+        var dateOnOpen = datePicker.GetDateOnOpen();
+        datePicker.SetSelectedDateTime(dateOnOpen);
         
         var inlineDatePicker = new InlineDatePicker
         {
             MaximumDate = datePicker.MaximumDate,
             MinimumDate = datePicker.MinimumDate,
-            SelectedDate = datePicker.SelectedDate,
-            IgnoreLocalTime = datePicker.IgnoreLocalTime
+            SelectedDate = dateOnOpen,
+            IgnoreLocalTime = datePicker.IgnoreLocalTime,
+            ShouldDisplayTodayButton = datePicker.ShouldDisplayTodayButton
         };
 
-        inlineDatePicker.SelectedDateCommand = new Command(() =>
-        {
-            Close();
-            datePicker.SelectedDate = inlineDatePicker.SelectedDate;
-            datePicker.SelectedDateCommand?.Execute(null);
-        });
-       
-        PresentedViewController = new InlineDatePickerPopoverViewController();
-        PresentedViewController.Setup(inlineDatePicker, sourceView);
+        var presentedViewController = new DateOrTimePickerPopoverViewController();
+        presentedViewController.Setup(inlineDatePicker, datePicker, sourceView);
         
         var currentViewController = Platform.GetCurrentUIViewController();
-        _ = currentViewController?.PresentViewControllerAsync(PresentedViewController, true);
-    }
-
-    internal class InlineDatePickerPopoverViewController : UIViewController
-    {
-#nullable disable
-        private DatePicker m_datePicker;
-#nullable enable
-
-        public void Setup(InlineDatePicker inlineDatePicker, View? sourceView)
-        {
-            m_datePicker = inlineDatePicker;
-            
-            var nativeSourceView = sourceView?.ToPlatform(DUI.GetCurrentMauiContext!);
-            
-            ModalPresentationStyle = UIModalPresentationStyle.Popover;
-            if(PopoverPresentationController is null)
-                return;
-            
-            PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Down | UIPopoverArrowDirection.Up;
-            if (nativeSourceView is not null)
-            {
-                PopoverPresentationController.SourceView = nativeSourceView;
-                PopoverPresentationController.SourceRect = nativeSourceView.Bounds;
-            }
-            PopoverPresentationController.Delegate = new TipUIPopoverPresentationControllerDelegate();
-            
-            if (OperatingSystem.IsIOSVersionAtLeast(16, 0) && nativeSourceView is not null)
-            {
-                PopoverPresentationController.SourceItem = nativeSourceView;
-            }
-        }
         
-        public override void ViewDidLoad()
-        {
-            View = m_datePicker.ToPlatform(DUI.GetCurrentMauiContext!);
-            
-            base.ViewDidLoad();
-        }
-        
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-            
-            Dispose();
-        }
-
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-            
-            PreferredContentSize = View!.SizeThatFits(new CGSize(int.MaxValue, int.MaxValue));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            
-            DatePickerService.PresentedViewController = null;
-            m_datePicker = null;
-        }
-
+        _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
     }
-    
-    internal class InlineDatePickerPopoverDelegate : UIPopoverPresentationControllerDelegate
+
+    internal static partial bool IsOpen()
     {
-        public override UIModalPresentationStyle GetAdaptivePresentationStyle(UIPresentationController controller,
-            UITraitCollection traitCollection)
-        {
-            return UIModalPresentationStyle.None;
-        }
+        return Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController;
     }
 
-    internal static partial bool IsOpen() => PresentedViewController is not null;
-
-    public static partial void Close() => _ = PresentedViewController?.DismissViewControllerAsync(true);
+    public static partial void Close()
+    {
+        if (Platform.GetCurrentUIViewController() is DateOrTimePickerPopoverViewController viewController)
+        {
+            _ = viewController.DismissViewControllerAsync(true);
+        }
+    }
 }

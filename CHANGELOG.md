@@ -1,5 +1,31 @@
+<<<<<<< HEAD
 ## [35.4.0]
 - [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.
+=======
+## [36.0.1] 
+- Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
+
+## [36.0.0] 
+- Upgraded MAUI to 8.0.82.
+
+## [35.5.1] 
+- [ScrollPicker][iOS] Fixed crash when trying to display scroll pickers.
+- [MemoryLeak] Added navigation testing.
+
+## [35.5.0] 
+- [Chip][Android] Made sure the text is centered horizontally.
+- [Chip] Changed its styling so that it corresponds better to the design.
+- [Chip][iOS] Changed the implementation from `UIButton` to usage of `Border` instead.
+- [DatePickers][iOS] Moved away from using native compact chip, to using `Chip`, and then show inline date pickers in a popover instead.
+- [DatePicker/DateAndTimePicker] Consumers can now add a "Today" button.
+- [DatePicker/DateAndTimePicker] Consumers can now set the desired format of the date text.
+- [DatePicker] Consumers can now toggle if the date picker should close when selecting a date.
+- [NullableDatePickers] Now you can clear the date by tapping a button on the `Chip`.
+
+## [35.4.0] 
+- [MemoryLeak] Will now correctly log GC of modal pages.
+- [MemoryLeak] Added better logging.
+>>>>>>> 5bbc5c67788f34d83e271ef3e5745fa632a1d812
 
 ## [35.3.2]
 - [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.

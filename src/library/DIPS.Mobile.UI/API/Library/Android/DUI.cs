@@ -5,6 +5,7 @@ using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
+using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 // ReSharper disable once InconsistentNaming
 namespace DIPS.Mobile.UI.API.Library;

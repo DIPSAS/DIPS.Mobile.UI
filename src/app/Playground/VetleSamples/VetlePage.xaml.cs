@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Resources.Icons;
+using Playground.HåvardSamples;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -129,5 +130,25 @@ public partial class VetlePage
     private void Button_OnClicked(object sender, EventArgs e)
     {
         Test123();
+    }
+
+    private void SwapRoot(object sender, EventArgs e)
+    {
+        SwapRoot(new DataTemplate(() => new MainPage()));
+    }
+    
+    public static void SwapRoot(DataTemplate dataTemplate)
+    {
+        var tabBar = new TabBar();
+        var tab = new Tab();
+
+        tab.Items.Add(new ShellContent()
+        {
+            ContentTemplate =
+                dataTemplate
+        });
+        tabBar.Items.Add(tab);
+        Microsoft.Maui.Controls.Shell.Current.Items.RemoveAt(0);
+        Microsoft.Maui.Controls.Shell.Current.Items.Add(tabBar);
     }
 }
