@@ -1,3 +1,6 @@
+## [35.4.0]
+- [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.
+
 ## [35.3.2]
 - [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.
 
