@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 
 namespace Components;
@@ -10,14 +11,5 @@ namespace Components;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
-    public MainActivity()
-    {
-        
-    }
-
-    public override void OnCreate(Bundle? savedInstanceState, PersistableBundle? persistentState)
-    {
-        // RequestedOrientation = ScreenOrientation.Portrait;
-        base.OnCreate(savedInstanceState, persistentState);
-    }
+    
 }

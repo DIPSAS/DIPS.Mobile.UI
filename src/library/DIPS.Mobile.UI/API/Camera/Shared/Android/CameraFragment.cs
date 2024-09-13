@@ -185,7 +185,7 @@ public abstract class CameraFragment : Fragment
     public override void OnStart()
     {
         if (DisplayManager == null) return;
-        if (Activity?.RequestedOrientation == ScreenOrientation.Portrait)
+        if (Activity?.RequestedOrientation != ScreenOrientation.Unspecified) //The orientation is locked by the consumer.
         {
             m_imageEventRotationListener = new DeviceRotationListener(UpdateOrientation, Context);
             m_imageEventRotationListener.Enable();    
