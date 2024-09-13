@@ -22,7 +22,6 @@ public partial class ImageCapture : ICameraUseCase
 
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCaptured, Action<ImageCaptureSettings>? configure = null)
     {
-        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
         var imageCaptureSettings = new ImageCaptureSettings();
         if (configure != null)
         {
@@ -43,11 +42,6 @@ public partial class ImageCapture : ICameraUseCase
         {
             Log("Not permitted to use camera");
         }
-    }
-
-    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
-    {
-        
     }
 
     private async Task OnCapture()
