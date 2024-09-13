@@ -44,7 +44,7 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null)
         {
-            InvokeOnImageCaptured(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));    
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));
         }
     }
 
@@ -53,26 +53,39 @@ public partial class ImageCapture : CameraSession
         var settings = CreateSettings();
         if (settings is not null)
         {
-            var captureConnection =  m_capturePhotoOutput?.Connections.FirstOrDefault(c => c.Output.Equals(m_capturePhotoOutput));
-            if (captureConnection is not null)
-            {
-                var orientation = UIDevice.CurrentDevice.Orientation switch
-                {
-                    UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
-                    UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
-                    UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                    UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight, //No idea why we cant use left here, the camera will be upside down if we use left.
-                    UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft, //No idea why we cant use right here, the camera will be upside down if we use right.
-                    UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
-                    UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                
-                captureConnection.VideoOrientation = orientation;
-            }
+            UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation);
             m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
+            DisablePreview();
         }
-            
+    }
+
+    private void DisablePreview()
+    {
+        if (PreviewLayer is { Connection: not null })
+        {
+            PreviewLayer.Connection.Enabled = false;
+        }
+    }
+
+    private void UpdateCaptureOrientation(UIDeviceOrientation orientation)
+    {
+        var captureConnection =  m_capturePhotoOutput?.Connections.FirstOrDefault(c => c.Output != null && c.Output.Equals(m_capturePhotoOutput));
+        if (captureConnection is not null)
+        {
+            var captureOrientation = orientation switch
+            {
+                UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight, //No idea why we cant use left here, the camera will be upside down if we use left.
+                UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft, //No idea why we cant use right here, the camera will be upside down if we use right.
+                UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
+                UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+                
+            captureConnection.VideoOrientation = captureOrientation;
+        }
     }
 
     // Cant re-use settings for each capture, remarks from Apple doc: https://developer.apple.com/documentation/avfoundation/avcapturephotosettings#overview

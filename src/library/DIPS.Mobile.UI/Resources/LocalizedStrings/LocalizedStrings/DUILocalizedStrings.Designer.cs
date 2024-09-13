@@ -254,5 +254,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("RemoveImageDescription", resourceCulture);
             }
         }
+        
+        internal static string TakeNewPhoto {
+            get {
+                return ResourceManager.GetString("TakeNewPhoto", resourceCulture);
+            }
+        }
+        
+        internal static string UsePicture {
+            get {
+                return ResourceManager.GetString("UsePicture", resourceCulture);
+            }
+        }
     }
 }

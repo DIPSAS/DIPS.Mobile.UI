@@ -13,6 +13,7 @@ public partial class CameraPreview : ContentView
 
     public CameraPreview()
     {
+        BackgroundColor = Colors.Black;
         Loaded += OnLoaded;
 
 #if __IOS__
@@ -29,7 +30,7 @@ public partial class CameraPreview : ContentView
     {
         m_customViewsContainer = new VerticalStackLayout
         {
-            Padding = new Thickness(25, 10),
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_6)),
             BackgroundColor = Colors.Transparent, 
             VerticalOptions = LayoutOptions.End
         };
@@ -47,11 +48,24 @@ public partial class CameraPreview : ContentView
     
     internal PreviewView PreviewView { get; set; }
 
-    public void AddView(View toolbarItems)
+    public void AddToolbarView(View toolbarItems)
     {
-        toolbarItems.VerticalOptions = LayoutOptions.Center;
-        
         m_customViewsContainer?.Add(toolbarItems);
+    }
+    
+    public void RemoveToolbarView(View toolbarItems)
+    {
+        m_customViewsContainer?.Remove(toolbarItems);
+    }
+    
+    public void AddViewToRoot(View view, int row)
+    {
+        m_grid.Insert(row, view);
+    }
+    
+    public void RemoveViewFromRoot(View view)
+    {
+        m_grid.Remove(view);
     }
     
     public Task HasLoaded()
@@ -73,5 +87,23 @@ public partial class CameraPreview : ContentView
         }
 
         base.OnHandlerChanging(args);
+    }
+
+    public void GoToConfirmingState()
+    {
+        PreviewView.IsVisible = false;
+#if __ANDROID__
+        PlatformGoToConfirmingState();
+#endif
+        
+    }
+
+    public void GoToStreamingState()
+    {
+        PreviewView.IsVisible = true;
+        
+#if __ANDROID__
+        PlatformGoToStreamingState();
+#endif
     }
 }

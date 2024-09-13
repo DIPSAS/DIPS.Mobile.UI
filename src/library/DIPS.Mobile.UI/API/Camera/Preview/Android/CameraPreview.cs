@@ -6,26 +6,44 @@ namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 public partial class CameraPreview
 {
-    private CameraZoomSlider? m_slider;
-    
+    internal CameraZoomSlider? Slider { get; private set; }
+
     internal void OnCameraStarted(ICameraControl cameraControl)
     {
-        if (m_slider != null) 
-            return; 
-        
+        if (Slider != null)
+            return;
+
         // Inspiration = https://proandroiddev.com/android-camerax-tap-to-focus-pinch-to-zoom-zoom-slider-eb88f3aa6fc6
-        m_slider = new CameraZoomSlider(cameraControl);
-        m_customViewsContainer.Insert(0, m_slider);
-        
-        m_slider.VerticalOptions = LayoutOptions.End;
-        m_slider.Margin = new Thickness(0, 0, 0, 25);
+        Slider = new CameraZoomSlider(cameraControl);
+
+        m_customViewsContainer?.Insert(0, Slider);
+
+        Slider.VerticalOptions = LayoutOptions.End;
+        Slider.Margin = new Thickness(0, 0, 0, 25);
+        Slider.SetBinding(IsVisibleProperty, new Binding(nameof(CameraPreview.IsVisible), source: this));
     }
-    
+
     public void ShowZoomSliderTip(string message, int durationInMilliseconds = 4000)
     {
-        if (m_slider is null) 
+        if (Slider is null)
             return;
-        
-        TipService.Show(message, m_slider, durationInMilliseconds);
+
+        TipService.Show(message, Slider, durationInMilliseconds);
+    }
+
+    internal  void PlatformGoToConfirmingState()
+    {
+        if (Slider != null)
+        {
+            Slider.IsVisible = false;
+        }
+    }
+
+    internal void PlatformGoToStreamingState()
+    {
+        if (Slider != null)
+        {
+            Slider.IsVisible = true;
+        }
     }
 }

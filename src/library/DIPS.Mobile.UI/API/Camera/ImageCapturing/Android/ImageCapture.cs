@@ -31,22 +31,21 @@ public partial class ImageCapture : CameraFragment
     {
         if (Context == null) 
             return;
+        
+        CameraProvider?.Unbind(m_previewUseCase);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
 
-    private partial Task PlatformStop()
+    private partial async Task PlatformStop()
     {
-        return base.TryStop();
+        await base.TryStop();
     }
 
     public override void OnStarted()
     {
-        //Update target rotation
         if (m_cameraCaptureUseCase is null || PreviewView is null) 
             return;
-
-       
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)
@@ -61,10 +60,10 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private async void OnImageCaptured(IImageProxy imageProxy)
+    private void OnImageCaptured(IImageProxy imageProxy)
     {
         var capturedImage = new CapturedImage(ImageUtil.JpegImageToJpegByteArray(imageProxy), imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
-        InvokeOnImageCaptured(capturedImage);
+        SwitchToConfirmState(capturedImage);
     }
 }
 
