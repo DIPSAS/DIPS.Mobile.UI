@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-## [35.4.0]
+## [36.1.0]
 - [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.
-=======
+
 ## [36.0.1] 
 - Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
 
@@ -25,7 +24,6 @@
 ## [35.4.0] 
 - [MemoryLeak] Will now correctly log GC of modal pages.
 - [MemoryLeak] Added better logging.
->>>>>>> 5bbc5c67788f34d83e271ef3e5745fa632a1d812
 
 ## [35.3.2]
 - [Label] Made sure people can change `Text` after it has been truncated and has added the `TruncationText` to the end.
