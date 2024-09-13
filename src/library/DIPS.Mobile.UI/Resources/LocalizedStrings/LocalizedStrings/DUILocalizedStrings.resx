@@ -129,4 +129,7 @@
     <data name="UsePicture" xml:space="preserve">
         <value>Bruk bilde</value>
     </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Ferdig</value>
+    </data>
 </root>

@@ -27,7 +27,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     private ImageAnalysis? m_imageAnalysisUseCase;
     private CameraZoomSlider? m_slider;
 
-    internal partial Task PlatformStart()
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings)
     {
         if (Context == null) return Task.CompletedTask;
         m_imageAnalysisUseCase = new ImageAnalysis.Builder()

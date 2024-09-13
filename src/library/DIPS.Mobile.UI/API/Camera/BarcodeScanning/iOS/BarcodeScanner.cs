@@ -26,7 +26,7 @@ public partial class BarcodeScanner : CameraSession
         return Task.CompletedTask;
     }
 
-    internal partial Task PlatformStart()
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings)
     {
         if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();

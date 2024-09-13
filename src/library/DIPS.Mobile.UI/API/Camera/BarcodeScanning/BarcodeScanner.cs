@@ -19,8 +19,14 @@ public partial class BarcodeScanner : ICameraUseCase
         DUILogService.LogDebug<BarcodeScanner>(message);
     }
 
-    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback)
+    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback, Action<BarcodeScanningSettings>? configure = null)
     {
+        var barcodeScanningSettings = new BarcodeScanningSettings();
+        if (configure != null)
+        {
+            configure.Invoke(barcodeScanningSettings);
+        }
+        
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_barCodeCallback = didFindBarcodeCallback;
@@ -28,7 +34,7 @@ public partial class BarcodeScanner : ICameraUseCase
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
-            await PlatformStart();
+            await PlatformStart(barcodeScanningSettings);
         }
         else
         {
@@ -36,7 +42,7 @@ public partial class BarcodeScanner : ICameraUseCase
         }
     }
 
-    internal partial Task PlatformStart();
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings);
 
     public void Stop()
     {

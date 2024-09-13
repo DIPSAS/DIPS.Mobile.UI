@@ -1,14 +1,16 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+
 namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 
 internal partial class GalleryBottomSheet
 {
-    private List<byte[]> m_images;
+    private List<CapturedImage> m_images;
     private readonly int m_startingIndex;
     
     /// <summary>
     /// The images to be displayed
     /// </summary>
-    private List<byte[]> Images
+    private List<CapturedImage> Images
     {
         get => m_images;
         set

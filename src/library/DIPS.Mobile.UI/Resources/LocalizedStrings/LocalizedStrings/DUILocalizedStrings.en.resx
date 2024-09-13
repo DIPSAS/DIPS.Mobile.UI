@@ -125,4 +125,7 @@
     <data name="UsePicture" xml:space="preserve">
         <value>Use picture</value>
     </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Finished</value>
+    </data>
 </root>

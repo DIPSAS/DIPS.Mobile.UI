@@ -4,13 +4,8 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal.Logging;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Button;
-using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
@@ -19,14 +14,21 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : ICameraUseCase
 {
     private CameraPreview? m_cameraPreview;
-    private Action<CapturedImage>? m_onImageCaptured;
-    private Border m_shutterButton;
-    private ConfirmStateGrid m_confirmStateGrid;
-    private Image m_confirmImage;
-    private ActivityIndicator m_activityIndicator;
+    private DidCaptureImage? m_onImageCaptured;
+    private Border? m_shutterButton;
+    private ConfirmStateGrid? m_confirmStateGrid;
+    private Image? m_confirmImage;
+    private ActivityIndicator? m_activityIndicator;
 
-    public async Task Start(CameraPreview cameraPreview, Action<CapturedImage> onImageCaptured)
+    public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCaptured, Action<ImageCaptureSettings>? configure = null)
     {
+        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
+        var imageCaptureSettings = new ImageCaptureSettings();
+        if (configure != null)
+        {
+            configure.Invoke(imageCaptureSettings);
+        }
+        
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
@@ -35,7 +37,7 @@ public partial class ImageCapture : ICameraUseCase
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
             ConstructCrossPlatformViews();
-            await PlatformStart();
+            await PlatformStart(imageCaptureSettings);
         }
         else
         {
@@ -43,17 +45,27 @@ public partial class ImageCapture : ICameraUseCase
         }
     }
 
+    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        
+    }
+
     private async Task OnCapture()
     {
-        Touch.SetIsEnabled(m_shutterButton, false);
-        
+        if (m_shutterButton != null)
+        {
+            Touch.SetIsEnabled(m_shutterButton, false);    
+        }
+
+#if __ANDROID__ //iOS already has a blinking effect when we capture photo
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
         m_cameraPreview?.AddViewToRoot(blackBox, 1);
-
+        
         await blackBox.FadeTo(1, 50);
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
+#endif
 
         m_activityIndicator = new ActivityIndicator
         {
@@ -62,7 +74,7 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.AddViewToRoot(m_activityIndicator, 1);
     }
     
-    private void SwitchToConfirmState(CapturedImage capturedImage)
+    private void SwitchToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
     {
         PlatformStop();
 
@@ -76,10 +88,10 @@ public partial class ImageCapture : ICameraUseCase
 
             m_confirmStateGrid = new ConfirmStateGrid(() =>
                 {
-                    SwitchToStreamingState();
+                    SwitchToStreamingState(imageCaptureSettings);
                     m_onImageCaptured?.Invoke(capturedImage);
                 },
-                SwitchToStreamingState);
+                () => SwitchToStreamingState(imageCaptureSettings));
 
             m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
             m_cameraPreview.AddToolbarView(m_confirmStateGrid);
@@ -89,13 +101,17 @@ public partial class ImageCapture : ICameraUseCase
         }
     }
 
-    private void SwitchToStreamingState()
+    private void SwitchToStreamingState(ImageCaptureSettings imageCaptureSettings)
     {
-        PlatformStart();
+        PlatformStart(imageCaptureSettings);
 
         m_cameraPreview?.GoToStreamingState();
+
+        if (m_shutterButton != null)
+        {
+            Touch.SetIsEnabled(m_shutterButton, true);    
+        }
         
-        Touch.SetIsEnabled(m_shutterButton, true);
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
         m_cameraPreview?.RemoveToolbarView(m_confirmStateGrid);
         m_cameraPreview?.AddToolbarView(m_shutterButton);
@@ -125,7 +141,7 @@ public partial class ImageCapture : ICameraUseCase
     }
 
     private partial void PlatformCapturePhoto();
-    private partial Task PlatformStart();
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings);
     private partial Task PlatformStop();
 
     private void Log(string message)

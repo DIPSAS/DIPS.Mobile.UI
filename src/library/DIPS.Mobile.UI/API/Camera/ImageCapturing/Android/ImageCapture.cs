@@ -12,9 +12,11 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : CameraFragment
 {
     private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
-    
-    private partial Task PlatformStart()
+    private ImageCaptureSettings? m_imageCaptureSettings;
+
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
     {
+        m_imageCaptureSettings = imageCaptureSettings;
         var resolutionSelector = new ResolutionSelector.Builder()
             .Build();
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
@@ -63,7 +65,8 @@ public partial class ImageCapture : CameraFragment
     private void OnImageCaptured(IImageProxy imageProxy)
     {
         var capturedImage = new CapturedImage(ImageUtil.JpegImageToJpegByteArray(imageProxy), imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
-        SwitchToConfirmState(capturedImage);
+        if (m_imageCaptureSettings == null) return;
+        SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
     }
 }
 

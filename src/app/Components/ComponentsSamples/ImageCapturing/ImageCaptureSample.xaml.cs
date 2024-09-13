@@ -1,16 +1,21 @@
-using Components.ComponentsSamples.ImageCapturing.ImageGallery;
+using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
 public partial class ImageCaptureSample
 {
-    private readonly ImageCapture m_imageCapture;
+    private readonly Camera m_camera;
+    private readonly List<CapturedImage> m_images;
+    private bool m_firstTimeStartingCamera;
 
     public ImageCaptureSample()
     {
         InitializeComponent();
-        m_imageCapture = new ImageCapture();
+        m_camera = new Camera();
+        GalleryThumbnails.CameraButtonTappedCommand = new Command(() => _ = Start());
+        m_images = [];
+        
     }
 
     
@@ -18,8 +23,7 @@ public partial class ImageCaptureSample
     {
         try
         {
-            var isUiThread = MainThread.IsMainThread;
-            await m_imageCapture.Start(CameraPreview, OnImageCaptured);
+            _ = m_camera.StartImageCapture(OnImageCaptured);    
         }
         catch (Exception exception)
         {
@@ -28,22 +32,26 @@ public partial class ImageCaptureSample
         }
     }
 
-    public void OnImageCaptured(CapturedImage capturedImage)
+    public async void OnImageCaptured(CapturedImage capturedImage)
     {
-        ImageGallerySamplesViewModel.StoredImages.Add(capturedImage.AsByteArray);
-        new ImageGallerySamples().Open();
+        await m_camera.Stop();
+        m_images.Add(capturedImage);
+        GalleryThumbnails.Images = m_images.ToList();
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
-        _ = Start();
+        if (!m_firstTimeStartingCamera)
+        {
+            _ = Start();
+            m_firstTimeStartingCamera = true;
+        }
+        
         base.OnAppearing();
     }
 
     protected override void OnDisappearing()
     {
-        ImageGallerySamplesViewModel.StoredImages.Clear();
-        // m_imageCapture.Stop();
         base.OnDisappearing();
     }
 

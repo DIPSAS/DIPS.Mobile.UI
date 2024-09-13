@@ -5,7 +5,6 @@ using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.ImageCapturing;
-using Components.ComponentsSamples.ImageCapturing.ImageGallery;
 using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
@@ -22,7 +21,6 @@ using Components.ResourcesSamples.Animations;
 using Components.ResourcesSamples.Colors;
 using Components.ResourcesSamples.Icons;
 using Components.ResourcesSamples.Sizes;
-using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components;
 

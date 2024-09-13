@@ -12,9 +12,11 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : CameraSession
 {
     private AVCapturePhotoOutput? m_capturePhotoOutput;
+    private ImageCaptureSettings? m_imageCaptureSettings;
 
-    private partial Task PlatformStart()
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
     {
+        m_imageCaptureSettings = imageCaptureSettings;
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
@@ -42,9 +44,9 @@ public partial class ImageCapture : CameraSession
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
-        if (photo.FileDataRepresentation != null)
+        if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo), m_imageCaptureSettings);
         }
     }
 
