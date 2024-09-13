@@ -29,6 +29,10 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         Positioning = Positioning.Large;
         IsDraggable = false;
 
+#if __IOS__
+        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
+#endif
+
         BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
         m_onRemoveImage = onRemoveImage;

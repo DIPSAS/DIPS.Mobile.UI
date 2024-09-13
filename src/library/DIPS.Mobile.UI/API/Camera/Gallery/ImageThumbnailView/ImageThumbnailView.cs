@@ -52,11 +52,18 @@ internal class ImageThumbnailView : Grid
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_60),
             BorderWidth = 1,
+#if __IOS__
+            Padding = 0,
+#endif
             BorderColor = Colors.GetColor(ColorName.color_system_white),
-            HeightRequest = Sizes.GetSize(SizeName.size_6),
-            WidthRequest = Sizes.GetSize(SizeName.size_6),
+            HeightRequest = Sizes.GetSize(SizeName.size_5),
+            WidthRequest = Sizes.GetSize(SizeName.size_5),
+            CornerRadius = 10,
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
+#if __IOS__
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0),
+#endif
             Command = new Command(async () =>
             {
                 var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(DUILocalizedStrings.RemoveImageTitle,
