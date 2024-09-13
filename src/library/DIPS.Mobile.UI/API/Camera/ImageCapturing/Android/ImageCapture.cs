@@ -37,6 +37,7 @@ public partial class ImageCapture : CameraFragment
         CameraProvider?.Unbind(m_previewUseCase);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+
     }
 
     private partial async Task PlatformStop()
