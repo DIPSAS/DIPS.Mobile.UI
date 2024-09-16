@@ -1,3 +1,4 @@
+
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -12,6 +13,10 @@ using Microsoft.Maui.Controls.Shapes;
 
 #if __IOS__
 using UIKit;
+#endif
+
+#if __ANDROID__
+using DIPS.Mobile.UI.API.Camera.Extensions.Android;
 #endif
 
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -30,6 +35,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
     private CancellationTokenSource m_cancellationTokenSource = new();
     private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
+    
 
     public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage)
     {
@@ -305,4 +311,27 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         if(m_carouselView is not null)
             m_carouselView.Position = StartingIndex;
     }
+
+#if __ANDROID__
+    private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
+    protected override void OnOpened()
+    {
+
+        if (Handler is BottomSheetHandler handler)
+        {
+            m_statusAndNavigationBarColors = handler.Context.SetStatusAndNavigationBarColor(BackgroundColor);
+        }
+
+        base.OnOpened();
+    }
+
+    protected override void OnClosed()
+    {
+        if (Handler is BottomSheetHandler handler && m_statusAndNavigationBarColors != null)
+        {
+            handler.Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);
+        }
+        base.OnClosed();
+    }
+#endif
 }

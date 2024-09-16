@@ -7,4 +7,9 @@ public partial class CameraPreview
     /// Determines if people has used the zoom functionality.
     /// </summary>
     public bool HasZoomed { get; internal set; }
+
+    /// <summary>
+    /// Determines if the view should act as if it is covering the entire screen
+    /// </summary>
+    public bool IsInFullscreen { get; set; } = true;
 }
