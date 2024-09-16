@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
@@ -72,27 +73,38 @@ public partial class ImageCapture : ICameraUseCase
     {
         PlatformStop();
 
-        if (m_cameraPreview != null)
+        if (m_cameraPreview == null)
         {
-
-            m_confirmImage = new Image
-            {
-                Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
-            };
-
-            m_confirmStateGrid = new ConfirmStateGrid(() =>
-                {
-                    SwitchToStreamingState(imageCaptureSettings);
-                    m_onImageCaptured?.Invoke(capturedImage);
-                },
-                () => SwitchToStreamingState(imageCaptureSettings));
-
-            m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-            m_cameraPreview.AddToolbarView(m_confirmStateGrid);
-            m_cameraPreview.RemoveToolbarView(m_shutterButton);
-            m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
-            m_cameraPreview.GoToConfirmingState();
+            return;
         }
+
+        m_confirmImage = new Image
+        {
+            Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
+        };
+
+        m_confirmStateGrid = new ConfirmStateGrid(() =>
+            {
+                m_onImageCaptured?.Invoke(capturedImage);
+                switch (imageCaptureSettings.PostCaptureAction)
+                {
+                    case PostCaptureAction.Close:
+                        Stop();
+                        break;
+                    case PostCaptureAction.Continue:
+                        SwitchToStreamingState(imageCaptureSettings);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            },
+            () => SwitchToStreamingState(imageCaptureSettings));
+
+        m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
+        m_cameraPreview.AddToolbarView(m_confirmStateGrid);
+        m_cameraPreview.RemoveToolbarView(m_shutterButton);
+        m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
+        m_cameraPreview.GoToConfirmingState();
     }
 
     private void SwitchToStreamingState(ImageCaptureSettings imageCaptureSettings)
@@ -143,6 +155,9 @@ public partial class ImageCapture : ICameraUseCase
         DUILogService.LogDebug<ImageCapture>(message);
     }
 
+    /// <summary>
+    /// Will stop the capture session.
+    /// </summary>
     public void Stop()
     {
         PlatformStop();
