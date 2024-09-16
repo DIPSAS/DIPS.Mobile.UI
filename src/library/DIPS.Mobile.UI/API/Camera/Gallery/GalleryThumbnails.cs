@@ -34,11 +34,17 @@ public partial class GalleryThumbnails : Grid
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_30),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),
-            Command = new Command(() => CameraButtonTappedCommand?.Execute(null))
+            Command = new Command(Execute)
         };
         
         Add(cameraButton);
         this.Add(m_collectionView, 1);
+    }
+
+    private void Execute()
+    {
+        CameraButtonTappedCommand?.Execute(null);
+        CameraButtonTapped?.Invoke(this, EventArgs.Empty);
     }
 
     protected override void OnHandlerChanged()

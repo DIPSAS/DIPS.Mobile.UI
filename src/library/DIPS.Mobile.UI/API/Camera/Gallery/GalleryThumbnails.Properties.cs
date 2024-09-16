@@ -29,4 +29,6 @@ public partial class GalleryThumbnails
         nameof(CameraButtonTappedCommand),
         typeof(ICommand),
         typeof(GalleryThumbnails));
+    
+    public event EventHandler? CameraButtonTapped;
 }
