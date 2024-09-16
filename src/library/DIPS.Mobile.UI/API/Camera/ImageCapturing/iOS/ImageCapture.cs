@@ -1,6 +1,7 @@
 using AVFoundation;
 using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
