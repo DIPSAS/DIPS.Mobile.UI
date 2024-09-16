@@ -92,13 +92,14 @@ public partial class ImageCapture : ICameraUseCase
                         Stop();
                         break;
                     case PostCaptureAction.Continue:
-                        SwitchToStreamingState(imageCaptureSettings);
+                        PlatformStart(imageCaptureSettings);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                ResetToCaptureImageState();
             },
-            () => SwitchToStreamingState(imageCaptureSettings));
+            ResetToCaptureImageState);
 
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
         m_cameraPreview.AddToolbarView(m_confirmStateGrid);
@@ -107,10 +108,8 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview.GoToConfirmingState();
     }
 
-    private void SwitchToStreamingState(ImageCaptureSettings imageCaptureSettings)
+    private void ResetToCaptureImageState()
     {
-        PlatformStart(imageCaptureSettings);
-
         m_cameraPreview?.GoToStreamingState();
 
         if (m_shutterButton != null)
