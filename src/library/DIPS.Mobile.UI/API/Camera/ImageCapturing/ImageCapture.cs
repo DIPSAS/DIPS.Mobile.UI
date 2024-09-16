@@ -99,7 +99,11 @@ public partial class ImageCapture : ICameraUseCase
                 }
                 ResetToCaptureImageState();
             },
-            ResetToCaptureImageState);
+            () =>
+            {
+                PlatformStart(imageCaptureSettings);
+                ResetToCaptureImageState();
+            });
 
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
         m_cameraPreview.AddToolbarView(m_confirmStateGrid);
