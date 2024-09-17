@@ -64,11 +64,6 @@ public partial class ImageCapture : CameraSession
         }
     }
 
-    private partial void OnChangedZoomRatio(float ratio)
-    {
-        
-    }
-
     private void DisablePreview()
     {
         if (PreviewLayer is {Connection: not null})

@@ -49,6 +49,7 @@ public partial class CameraPreview : ContentView
     }
 
     internal PreviewView PreviewView { get; set; }
+    internal CameraZoomView? CameraZoomView { get; set; }
 
     internal void AddCameraZoomView(CameraZoomView cameraZoomView)
     {

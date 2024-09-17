@@ -129,7 +129,7 @@ public abstract class CameraSession
                 }
             );
 
-            CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
+            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
                 (float)CaptureDevice.MaxAvailableVideoZoomFactor, OnChangedZoomRatio);
         }
         else
@@ -137,8 +137,6 @@ public abstract class CameraSession
             throw new Exception("Unable to add output");
         }
     }
-
-    internal CameraZoomView? CameraZoomView { get; set; }
 
     private void OnChangedZoomRatio(float zoomRatio)
     {

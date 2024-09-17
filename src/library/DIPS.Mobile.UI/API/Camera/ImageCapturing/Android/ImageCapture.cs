@@ -48,18 +48,6 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        if (m_cameraCaptureUseCase is null || PreviewView is null) 
-            return;
-
-        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
-        {
-            AddCameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio);
-        }
-    }
-
-    private partial void OnChangedZoomRatio(float ratio)
-    {
-        CameraControl?.SetZoomRatio(ratio);
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)

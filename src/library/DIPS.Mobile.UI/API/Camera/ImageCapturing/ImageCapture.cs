@@ -19,7 +19,7 @@ public partial class ImageCapture : ICameraUseCase
     private CameraPreview? m_cameraPreview;
     private DidCaptureImage? m_onImageCaptured;
     private Border? m_shutterButton;
-    private ConfirmStateGrid? m_confirmStateGrid;
+    private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
     private ActivityIndicator? m_activityIndicator;
 
@@ -85,7 +85,7 @@ public partial class ImageCapture : ICameraUseCase
             Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
         };
 
-        m_confirmStateGrid = new ConfirmStateGrid(() =>
+        m_confirmStateView = new ConfirmStateView(() =>
             {
                 m_onImageCaptured?.Invoke(capturedImage);
                 switch (imageCaptureSettings.PostCaptureAction)
@@ -107,9 +107,9 @@ public partial class ImageCapture : ICameraUseCase
                 ResetToCaptureImageState();
             });
 
-        m_cameraZoomView.IsVisible = false;
+        m_cameraPreview.CameraZoomView.IsVisible = false;
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-        m_cameraPreview.AddToolbarView(m_confirmStateGrid);
+        m_cameraPreview.AddToolbarView(m_confirmStateView);
         m_cameraPreview.RemoveToolbarView(m_shutterButton);
         m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
         m_cameraPreview.GoToConfirmingState();
@@ -127,6 +127,10 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
         m_cameraPreview?.RemoveToolbarView(m_confirmStateView);
         m_cameraPreview?.AddToolbarView(m_shutterButton);
+        if (m_cameraPreview is not null)
+        {
+            m_cameraPreview.CameraZoomView.IsVisible = true;
+        }
     }
 
     private void ConstructCrossPlatformViews()
@@ -151,14 +155,7 @@ public partial class ImageCapture : ICameraUseCase
 
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
-
-    private void AddCameraZoomView(float minRatio, float maxRatio)
-    {
-        m_cameraZoomView = new CameraZoomView(minRatio, maxRatio, OnChangedZoomRatio);
-        m_cameraPreview?.AddCameraZoomView(m_cameraZoomView);
-    }
-
-    private partial void OnChangedZoomRatio(float ratio);
+    
     private partial void PlatformCapturePhoto();
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings);
     private partial Task PlatformStop();

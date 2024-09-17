@@ -22,9 +22,4 @@ public partial class ImageCapture
         
     }
 
-    private partial void OnChangedZoomRatio(float ratio)
-    {
-        
-    }
-
 }

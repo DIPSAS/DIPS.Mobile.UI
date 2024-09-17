@@ -10,6 +10,8 @@ using AndroidX.Camera.Core;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
 using AndroidX.Camera.View;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Internal.Logging;
@@ -19,6 +21,7 @@ using Microsoft.Maui.Platform;
 using Exception = Java.Lang.Exception;
 using Fragment = AndroidX.Fragment.App.Fragment;
 using FragmentManager = AndroidX.Fragment.App.FragmentManager;
+using ImageCapture = AndroidX.Camera.Core.ImageCapture;
 using PreviewView = AndroidX.Camera.View.PreviewView;
 
 namespace DIPS.Mobile.UI.API.Camera.Shared.Android;
@@ -170,7 +173,6 @@ public abstract class CameraFragment : Fragment
                     preview.TargetRotation = rotation;
                     break;
                 case ImageCapture imageCapture:
-                    
                     imageCapture.TargetRotation = rotation;
                     break;
                 case VideoCapture videoCapture:
@@ -198,9 +200,23 @@ public abstract class CameraFragment : Fragment
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
         
+        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+        {
+            if (m_cameraPreview?.CameraZoomView != null)
+            {
+                m_cameraPreview.CameraZoomView = new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
+                m_cameraPreview?.AddCameraZoomView(m_cameraPreview.CameraZoomView);
+            }
+        }
+        
         OnStarted();
         m_startedTcs?.TrySetResult();
         base.OnStart();
+    }
+
+    private void OnChangedZoomRatio(float zoomRatio)
+    {
+        CameraControl?.SetZoomRatio(zoomRatio);
     }
 
     public override void OnConfigurationChanged(Configuration newConfig)
