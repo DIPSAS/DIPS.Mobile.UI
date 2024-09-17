@@ -1,6 +1,8 @@
 using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
+using Microsoft.Maui.Controls.Handlers.Items;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -75,6 +77,24 @@ public partial class GalleryThumbnails : Grid
         }).ToList();
         
         m_collectionView.ItemsSource = imagesAndCaptureButton;
+    }
+
+    /// <summary>
+    /// Add a image to the gallery, the <see cref="Images"/> binding will be updated.
+    /// </summary>
+    /// <param name="capturedImage"></param>
+    public void AddImage(CapturedImage capturedImage)
+    {
+        if (Images == null || Images.Count == 0)
+        {
+            Images = [capturedImage];
+        }
+        else
+        {
+            var newImages = Images.ToList();
+            newImages.Add(capturedImage);
+            Images = newImages;
+        }
     }
 }
 

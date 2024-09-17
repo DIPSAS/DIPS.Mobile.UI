@@ -30,7 +30,8 @@ public partial class ImageCapture : ICameraUseCase
         }
         
         m_cameraPreview = cameraPreview;
-        m_cameraPreview.AddUseCase(this);
+        m_cameraPreview?.GoToStreamingState();
+        m_cameraPreview?.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
         {
@@ -86,10 +87,12 @@ public partial class ImageCapture : ICameraUseCase
         m_confirmStateGrid = new ConfirmStateGrid(() =>
             {
                 m_onImageCaptured?.Invoke(capturedImage);
+                ResetToCaptureImageState();
                 switch (imageCaptureSettings.PostCaptureAction)
                 {
                     case PostCaptureAction.Close:
-                        Stop();
+                        ResetAllVisuals();
+                        PlatformStop();
                         break;
                     case PostCaptureAction.Continue:
                         PlatformStart(imageCaptureSettings);
@@ -97,19 +100,29 @@ public partial class ImageCapture : ICameraUseCase
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                ResetToCaptureImageState();
             },
             () =>
             {
-                PlatformStart(imageCaptureSettings);
                 ResetToCaptureImageState();
+                PlatformStart(imageCaptureSettings);
             });
 
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
         m_cameraPreview.AddToolbarView(m_confirmStateGrid);
-        m_cameraPreview.RemoveToolbarView(m_shutterButton);
-        m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
+        RemoveCaptureImageStateVisuals();
         m_cameraPreview.GoToConfirmingState();
+    }
+
+    private void RemoveCaptureImageStateVisuals()
+    {
+        m_cameraPreview?.RemoveToolbarView(m_shutterButton);
+        m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
+    }
+
+    private void ResetAllVisuals()
+    {
+        RemoveCaptureImageStateVisuals();
+        RemoveConfirmStateVisuals();
     }
 
     private void ResetToCaptureImageState()
@@ -121,9 +134,14 @@ public partial class ImageCapture : ICameraUseCase
             Touch.SetIsEnabled(m_shutterButton, true);    
         }
         
+        RemoveConfirmStateVisuals();
+        m_cameraPreview?.AddToolbarView(m_shutterButton);
+    }
+
+    private void RemoveConfirmStateVisuals()
+    {
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
         m_cameraPreview?.RemoveToolbarView(m_confirmStateGrid);
-        m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
 
     private void ConstructCrossPlatformViews()

@@ -48,23 +48,26 @@ public partial class CameraPreview : ContentView
     
     internal PreviewView PreviewView { get; set; }
 
-    public void AddToolbarView(View toolbarItems)
+    public void AddToolbarView(View? toolbarItems)
     {
         m_customViewsContainer?.Add(toolbarItems);
     }
     
-    public void RemoveToolbarView(View toolbarItems)
+    public void RemoveToolbarView(View? toolbarItems)
     {
+        if (toolbarItems == null) return;
         m_customViewsContainer?.Remove(toolbarItems);
     }
+    
     
     public void AddViewToRoot(View view, int row)
     {
         m_grid.Insert(row, view);
     }
     
-    public void RemoveViewFromRoot(View view)
+    public void RemoveViewFromRoot(View? view)
     {
+        if (view == null) return;
         m_grid.Remove(view);
     }
     
@@ -80,7 +83,7 @@ public partial class CameraPreview : ContentView
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        if(args.NewHandler == null) //I am not needed anymore
+        if(args.NewHandler == null) //I am removed from the view and will auto-stop
         {
             m_cameraUseCase?.Stop();
             m_cameraUseCase = null;
