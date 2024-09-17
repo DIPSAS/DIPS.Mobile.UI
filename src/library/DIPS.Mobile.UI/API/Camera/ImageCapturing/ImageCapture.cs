@@ -1,4 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.ConfirmState;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
@@ -21,9 +23,10 @@ public partial class ImageCapture : ICameraUseCase
     private CameraPreview? m_cameraPreview;
     private Action<CapturedImage>? m_onImageCaptured;
     private Border m_shutterButton;
-    private ConfirmStateGrid m_confirmStateGrid;
+    private ConfirmStateView m_confirmStateView;
     private Image m_confirmImage;
     private ActivityIndicator m_activityIndicator;
+    private CameraZoomView m_cameraZoomView;
 
     public async Task Start(CameraPreview cameraPreview, Action<CapturedImage> onImageCaptured)
     {
@@ -74,15 +77,16 @@ public partial class ImageCapture : ICameraUseCase
                 Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
             };
 
-            m_confirmStateGrid = new ConfirmStateGrid(() =>
+            m_confirmStateView = new ConfirmStateView(() =>
                 {
                     SwitchToStreamingState();
                     m_onImageCaptured?.Invoke(capturedImage);
                 },
                 SwitchToStreamingState);
 
+            m_cameraZoomView.IsVisible = false;
             m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-            m_cameraPreview.AddToolbarView(m_confirmStateGrid);
+            m_cameraPreview.AddToolbarView(m_confirmStateView);
             m_cameraPreview.RemoveToolbarView(m_shutterButton);
             m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
             m_cameraPreview.GoToConfirmingState();
@@ -96,8 +100,9 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.GoToStreamingState();
         
         Touch.SetIsEnabled(m_shutterButton, true);
+        m_cameraZoomView.IsVisible = true;
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
-        m_cameraPreview?.RemoveToolbarView(m_confirmStateGrid);
+        m_cameraPreview?.RemoveToolbarView(m_confirmStateView);
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
 
@@ -124,6 +129,13 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
 
+    private void AddCameraZoomView(float minRatio, float maxRatio)
+    {
+        m_cameraZoomView = new CameraZoomView(minRatio, maxRatio, OnChangedZoomRatio);
+        m_cameraPreview?.AddCameraZoomView(m_cameraZoomView);
+    }
+
+    private partial void OnChangedZoomRatio(float ratio);
     private partial void PlatformCapturePhoto();
     private partial Task PlatformStart();
     private partial Task PlatformStop();

@@ -197,8 +197,6 @@ public abstract class CameraFragment : Fragment
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
         
-        m_cameraPreview?.OnCameraStarted(CameraControl!);
-
         OnStarted();
         m_startedTcs?.TrySetResult();
         base.OnStart();
