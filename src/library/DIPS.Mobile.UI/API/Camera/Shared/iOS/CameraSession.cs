@@ -56,6 +56,11 @@ public abstract class CameraSession
 
         RemoveObservers();
         CaptureDevice = null;
+
+        if (PreviewView is null)
+            return;
+
+        PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
         PreviewView?.Dispose();
         PreviewView = null;
         m_cameraFailedDelegate = null;
@@ -84,6 +89,7 @@ public abstract class CameraSession
         
         //This makes sure we display the video feed
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
+        PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
 
         m_captureSession = new AVCaptureSession();
 
@@ -145,14 +151,20 @@ public abstract class CameraSession
                     m_captureSession?.StartRunning();
                 }
             );
-
+            
             m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
-                (float)CaptureDevice.MaxAvailableVideoZoomFactor, OnChangedZoomRatio);
+                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio), OnChangedZoomRatio);
+            
         }
         else
         {
             throw new Exception("Unable to add output");
         }
+    }
+
+    private void PreviewViewOnZoomChanged(float zoomRatio)
+    {
+        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(zoomRatio);
     }
 
     private void AddObservers()
@@ -173,9 +185,21 @@ public abstract class CameraSession
 
     private void OnChangedZoomRatio(float zoomRatio)
     {
-        if (CaptureDevice is not null)
+        if (CaptureDevice is null || !CaptureDevice.LockForConfiguration(out var configurationLockError))
+            return;
+
+        try
         {
-            CaptureDevice.VideoZoomFactor = zoomRatio;
+            CaptureDevice.RampToVideoZoom(zoomRatio, 5.0f);
+        }
+        catch (Exception e)
+        {
+            OnCameraFailed<CameraSession>(new CameraException("OnChangedZoomRatio", e), true);
+            Console.WriteLine(e);
+        }
+        finally
+        {
+            CaptureDevice.UnlockForConfiguration();
         }
     }
 
@@ -183,7 +207,7 @@ public abstract class CameraSession
 
     public abstract AVCaptureDevice? SelectCaptureDevice();
     
-    internal void OnCameraFailed<T>(CameraException exception) where T : class
+    internal void OnCameraFailed<T>(CameraException exception, bool onlyLog = false) where T : class
     {
         DUILogService.LogError<T>(exception.Message);
         m_cameraFailedDelegate?.Invoke(exception);

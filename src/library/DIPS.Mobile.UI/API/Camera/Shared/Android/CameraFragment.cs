@@ -201,21 +201,76 @@ public abstract class CameraFragment : Fragment
             m_deviceDisplayListener = new DeviceDisplayListener(UpdateOrientation, DisplayManager);
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
-        
-        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
-        {
-            if (m_cameraPreview?.CameraZoomView != null)
-            {
-                m_cameraPreview.CameraZoomView = new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
-                m_cameraPreview?.AddCameraZoomView(m_cameraPreview.CameraZoomView);
-            }
-        }
-        
+
+        AddTapToFocus();
+        AddPinchToZoom();
+        AddZoomView();
         OnStarted();
         m_startedTcs?.TrySetResult();
         base.OnStart();
     }
 
+    private void AddTapToFocus()
+    {
+        if(PreviewViewHandler is not null)
+            PreviewViewHandler.OnTapped += PreviewViewOnTapped;
+    }
+
+    /*
+     Taken from:
+    - https://stackoverflow.com/questions/63202209/camerax-how-to-add-pinch-to-zoom-and-tap-to-focus-onclicklistener-and-ontouchl
+    - https://developer.android.com/media/camera/camerax/configuration#focus-and-metering 
+    */
+    private void PreviewViewOnTapped(float x, float y)
+    {
+        var point = PreviewView?.MeteringPointFactory.CreatePoint(x, y);
+
+        if(point is null)
+            return;
+        
+        var action = new FocusMeteringAction.Builder(point, FocusMeteringAction.FlagAf | FocusMeteringAction.FlagAe)
+            .SetAutoCancelDuration(5, TimeUnit.Seconds!)
+            .Build();
+        CameraControl?.StartFocusAndMetering(action);
+    }
+
+    private void AddPinchToZoom()
+    {
+        if(PreviewViewHandler is not null)
+        {
+            PreviewViewHandler.OnScaled += OnScaled;
+        }
+    }
+
+    private void OnScaled(float scaleRatio)
+    {
+        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+            return;
+
+        var desiredZoomRatio = zoomState.ZoomRatio * scaleRatio;
+        if(desiredZoomRatio > zoomState.MaxZoomRatio)
+        {
+            desiredZoomRatio = zoomState.MaxZoomRatio;
+        }
+        else if (desiredZoomRatio < zoomState.MinZoomRatio)
+        {
+            desiredZoomRatio = zoomState.MinZoomRatio;
+        }
+            
+        CameraControl?.SetZoomRatio(desiredZoomRatio);
+        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
+    }
+
+    private void AddZoomView()
+    {
+        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState &&
+            m_cameraPreview is not null)
+        {
+            m_cameraPreview.CameraZoomView =
+                new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
+        }
+    }
+    
     private void OnChangedZoomRatio(float zoomRatio)
     {
         CameraControl?.SetZoomRatio(zoomRatio);
@@ -261,22 +316,30 @@ public abstract class CameraFragment : Fragment
         CameraProvider?.Dispose();
         CameraProvider = null;
         m_cameraFailedDelegate = null;
-        UnRegisterRotationEventes();
+        UnRegisterRotationEvents();
         
         base.OnDestroy();
     }
 
-    private void UnRegisterRotationEventes()
+    private void UnRegisterRotationEvents()
     {
+        if (PreviewViewHandler is not null)
+        {
+            PreviewViewHandler.OnScaled -= OnScaled;
+            PreviewViewHandler.OnTapped -= PreviewViewOnTapped;
+        }
+
         m_imageEventRotationListener?.Disable();
         m_imageEventRotationListener = null;
-        
-        if (m_deviceDisplayListener != null)
-        {
-            DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
-            m_deviceDisplayListener = null;
-        }
+
+        if (m_deviceDisplayListener == null)
+            return;
+
+        DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
+        m_deviceDisplayListener = null;
     }
+
+    private PreviewViewHandler? PreviewViewHandler => m_cameraPreview?.PreviewView.Handler is not PreviewViewHandler previewViewHandler ? null : previewViewHandler;
 
     internal abstract void OrientationChanged(SurfaceOrientation surfaceOrientation);
     
