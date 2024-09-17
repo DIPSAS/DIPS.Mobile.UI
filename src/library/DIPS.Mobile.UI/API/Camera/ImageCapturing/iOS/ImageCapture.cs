@@ -16,13 +16,13 @@ public partial class ImageCapture : CameraSession
     private AVCapturePhotoOutput? m_capturePhotoOutput;
     private ImageCaptureSettings? m_imageCaptureSettings;
 
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
         m_imageCaptureSettings = imageCaptureSettings;
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput);
+            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput, cameraFailedDelegate);
         }
 
         return Task.CompletedTask;
@@ -37,6 +37,9 @@ public partial class ImageCapture : CameraSession
     public override void ConfigureSession()
     {
     }
+
+    private partial void PlatformOnCameraFailed(CameraException cameraException) =>
+        OnCameraFailed<ImageCapture>(cameraException);
 
     public override AVCaptureDevice? SelectCaptureDevice() =>
         AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
@@ -59,7 +62,7 @@ public partial class ImageCapture : CameraSession
         if (settings is not null)
         {
             UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
-            m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
+            m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed));
             DisablePreview();
         }
     }
@@ -109,9 +112,10 @@ public partial class ImageCapture : CameraSession
 #pragma warning restore CA1422
 }
 
-public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured) : AVCapturePhotoCaptureDelegate
+public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed) : AVCapturePhotoCaptureDelegate
 {
     private Action<AVCapturePhoto>? m_onPhotoCaptured = onPhotoCaptured;
+    private Action<CameraException>? m_onPhotoCaptureFailed = onPhotoCaptureFailed;
 
     public override void DidCapturePhoto(AVCapturePhotoOutput captureOutput,
         AVCaptureResolvedPhotoSettings resolvedSettings)
@@ -122,16 +126,25 @@ public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured) : AVCa
         AVCaptureResolvedPhotoSettings resolvedSettings,
         NSError? error)
     {
+        if (error != null)
+        {
+            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage())));
+        }
     }
 
     public override void DidFinishProcessingPhoto(AVCapturePhotoOutput output, AVCapturePhoto photo, NSError? error)
     {
+        if (error != null)
+        {
+            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage())));
+        }
         m_onPhotoCaptured?.Invoke(photo);
     }
 
     protected override void Dispose(bool disposing)
     {
         m_onPhotoCaptured = null;
+        m_onPhotoCaptureFailed = null;
         base.Dispose(disposing);
     }
 }

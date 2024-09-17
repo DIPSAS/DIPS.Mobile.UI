@@ -61,6 +61,7 @@ public abstract class CameraFragment : Fragment
     protected UseCaseGroup UseCaseGroup;
     private DeviceDisplayListener? m_deviceDisplayListener;
     protected AndroidX.Camera.Core.Preview m_previewUseCase;
+    private CameraFailed? m_cameraFailedDelegate;
 
     public new Context? Context { get; }
 
@@ -81,12 +82,13 @@ public abstract class CameraFragment : Fragment
         return FragmentManager?.FindFragmentByTag(FragmentTag) != null;
     }
 
-    internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase)
+    internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase, CameraFailed cameraFailedDelegate)
     {
         if (IsFragmentStarted()) return;
         if (Context == null) return;
 
         m_startedTcs = new TaskCompletionSource();
+        m_cameraFailedDelegate = cameraFailedDelegate;
 
         m_cameraPreview = cameraPreview;
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
@@ -134,7 +136,7 @@ public abstract class CameraFragment : Fragment
                     "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
             {
                 await Task.Delay(400);
-                await SetupCameraAndTryStartUseCase(cameraPreview, useCase);
+                await SetupCameraAndTryStartUseCase(cameraPreview, useCase, cameraFailedDelegate);
             }
 
             throw;
@@ -258,6 +260,7 @@ public abstract class CameraFragment : Fragment
         CameraProvider?.UnbindAll();
         CameraProvider?.Dispose();
         CameraProvider = null;
+        m_cameraFailedDelegate = null;
         UnRegisterRotationEventes();
         
         base.OnDestroy();
@@ -275,6 +278,11 @@ public abstract class CameraFragment : Fragment
         }
     }
 
-
     internal abstract void OrientationChanged(SurfaceOrientation surfaceOrientation);
+    
+    internal void OnCameraFailed<T>(CameraException exception) where T : class
+    {
+        DUILogService.LogError<T>(exception.Message);
+        m_cameraFailedDelegate?.Invoke(exception);
+    }
 }

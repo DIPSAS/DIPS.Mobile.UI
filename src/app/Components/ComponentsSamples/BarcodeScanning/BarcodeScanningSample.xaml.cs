@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
@@ -20,13 +21,18 @@ public partial class BarcodeScanningSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode);
+            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed);
         }
         catch (Exception exception)
         {
             await Application.Current?.MainPage?.DisplayAlert("Failed, check console!", exception.Message, "Ok")!;
             Console.WriteLine(exception);
         }
+    }
+
+    private void CameraFailed(CameraException e)
+    {
+        App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
     private void DidFindBarcode(BarcodeScanResult barcodeScanResult)

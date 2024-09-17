@@ -1,8 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -13,13 +11,14 @@ public partial class BarcodeScanner : ICameraUseCase
     private Timer? m_barCodesFoundTimer;
     private List<BarcodeObservation> m_barcodeObservations = new();
     private DidFindBarcodeCallback? m_barCodeCallback;
+    private CameraFailed? m_cameraFailedDelegate;
 
     private void Log(string message)
     {
         DUILogService.LogDebug<BarcodeScanner>(message);
     }
 
-    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback, Action<BarcodeScanningSettings>? configure = null)
+    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback,CameraFailed cameraFailedDelegate, Action<BarcodeScanningSettings>? configure = null)
     {
         var barcodeScanningSettings = new BarcodeScanningSettings();
         if (configure != null)
@@ -30,11 +29,12 @@ public partial class BarcodeScanner : ICameraUseCase
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_barCodeCallback = didFindBarcodeCallback;
+        m_cameraFailedDelegate = cameraFailedDelegate;
         if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
-            await PlatformStart(barcodeScanningSettings);
+            await PlatformStart(barcodeScanningSettings, m_cameraFailedDelegate);
         }
         else
         {
@@ -42,7 +42,7 @@ public partial class BarcodeScanner : ICameraUseCase
         }
     }
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings);
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate);
 
     public void Stop()
     {
