@@ -1,19 +1,14 @@
-using Android.Gms.Extensions;
-using Android.Gms.Tasks;
-using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.Observable.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Object = Java.Lang.Object;
 using Task = System.Threading.Tasks.Task;
 
@@ -27,14 +22,14 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     private ImageAnalysis? m_imageAnalysisUseCase;
     private CameraZoomSlider? m_slider;
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings)
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings,CameraFailed cameraFailedDelegate)
     {
         if (Context == null) return Task.CompletedTask;
         m_imageAnalysisUseCase = new ImageAnalysis.Builder()
             .Build();
         m_imageAnalysisUseCase.SetAnalyzer(ContextCompat.GetMainExecutor(Context),
             ImageAnalyzer.Create(AnalyzeImage));
-        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_imageAnalysisUseCase) : Task.CompletedTask;
+        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_imageAnalysisUseCase, cameraFailedDelegate) : Task.CompletedTask;
     }
 
     internal partial Task PlatformStop() => base.TryStop();
@@ -60,8 +55,9 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     private void AnalyzeImage(IImageProxy imageProxy)
     {
         if(Context == null) return;
-        //TODO: Simplify with await and make sure to run on main thread
-        m_barcodeScanner?.Process(InputImage.FromMediaImage(imageProxy.Image, imageProxy.ImageInfo.RotationDegrees)).AddOnSuccessListener(ContextCompat.GetMainExecutor(Context), new OnSuccessListener((o => OnSuccess(o, imageProxy))));
+        m_barcodeScanner?.Process(InputImage.FromMediaImage(imageProxy.Image, imageProxy.ImageInfo.RotationDegrees))
+            .AddOnFailureListener(ContextCompat.GetMainExecutor(Context), new OnFailureListener(e => OnCameraFailed<BarcodeScanner>(new CameraException("DidTryAnalyzeImage", e))))
+            .AddOnSuccessListener(ContextCompat.GetMainExecutor(Context), new OnSuccessListener((o => OnSuccess(o, imageProxy))));
     }
 
     private void OnSuccess(Object result, IImageProxy imageProxy)

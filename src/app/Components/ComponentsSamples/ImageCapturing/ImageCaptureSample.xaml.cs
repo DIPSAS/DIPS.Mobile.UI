@@ -22,8 +22,13 @@ public partial class ImageCaptureSample
     private async Task StartImageCapture()
     {
         ToggleCamera(true);
-        await new ImageCapture().Start(CameraPreview, OnImageCaptured,
+        await new ImageCapture().Start(CameraPreview, OnImageCaptured, OnCameraFailed,
             settings => settings.PostCaptureAction = PostCaptureAction.Close);
+    }
+
+    private void OnCameraFailed(CameraException e)
+    {
+        App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
     protected override void OnAppearing()

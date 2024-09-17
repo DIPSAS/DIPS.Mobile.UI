@@ -26,11 +26,11 @@ public partial class BarcodeScanner : CameraSession
         return Task.CompletedTask;
     }
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings)
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
         if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        return ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_captureMetadataOutput);
+        return ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_captureMetadataOutput, cameraFailedDelegate);
     }
 
     public override void ConfigureSession()
@@ -147,7 +147,7 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
     {
         m_onSuccess = onSuccess;
     }
-
+    
     public override void DidOutputMetadataObjects(AVCaptureMetadataOutput captureOutput,
         AVMetadataObject[] metadataObjects,
         AVCaptureConnection connection)

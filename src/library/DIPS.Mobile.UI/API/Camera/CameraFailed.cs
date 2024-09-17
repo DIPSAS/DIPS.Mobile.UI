@@ -1,0 +1,9 @@
+namespace DIPS.Mobile.UI.API.Camera;
+
+public delegate void CameraFailed(CameraException e);
+
+public class CameraException(string context, Exception e)
+    : Exception($"Camera failed, context:{context}, message:{e.Message}", e)
+{
+    public string Context { get; } = context;
+}

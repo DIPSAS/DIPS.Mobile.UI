@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture
 {
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
         return Task.CompletedTask;
     }
@@ -21,5 +21,7 @@ public partial class ImageCapture
     {
         
     }
+    
+    private partial void PlatformOnCameraFailed(CameraException cameraException){}
 
 }

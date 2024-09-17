@@ -12,14 +12,14 @@ public class Camera
     private ImageCapture? m_imageCapture;
     private BarcodeScanner? m_barCodeScanner;
 
-    public async Task StartImageCapture(DidCaptureImage didCaptureImage)
+    public async Task StartImageCapture(DidCaptureImage didCaptureImageDelegate, CameraFailed cameraFailedDelegate)
     {
         try
         {
             var cameraPreview = await OpenAndSetCameraPreview();
             if (cameraPreview == null) return;
             m_imageCapture ??= new ImageCapture();
-            await m_imageCapture.Start(cameraPreview, didCaptureImage);
+            await m_imageCapture.Start(cameraPreview, didCaptureImageDelegate, cameraFailedDelegate);
         }
         catch (Exception e)
         {
@@ -28,14 +28,15 @@ public class Camera
         }
     }
 
-    public async Task StartBarcodeScanning(DidFindBarcodeCallback didFindBarcodeCallback)
+    public async Task StartBarcodeScanning(DidFindBarcodeCallback didFindBarcodeCallback,
+        CameraFailed cameraFailedDelegate)
     {
         try
         {
             var cameraPreview = await OpenAndSetCameraPreview();
             if (cameraPreview == null) return;
             m_barCodeScanner ??= new BarcodeScanner();
-            await m_barCodeScanner.Start(cameraPreview, didFindBarcodeCallback);
+            await m_barCodeScanner.Start(cameraPreview, didFindBarcodeCallback, cameraFailedDelegate);
         }
         catch (Exception e)
         {

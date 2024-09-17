@@ -1,8 +1,11 @@
 using AVFoundation;
+using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Platform;
 using SystemConfiguration;
@@ -28,6 +31,8 @@ public abstract class CameraSession
     
     private AVCaptureOutput? m_avCaptureOutput;
     private AVCaptureDeviceInput? m_videoDeviceInput;
+    private NSObject? m_runtimeErrorObserver;
+    private CameraFailed? m_cameraFailedDelegate;
 
     internal void StopCameraSession()
     {
@@ -49,6 +54,7 @@ public abstract class CameraSession
             });
         }
 
+        RemoveObservers();
         CaptureDevice = null;
 
         if (PreviewView is null)
@@ -57,8 +63,17 @@ public abstract class CameraSession
         PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
         PreviewView?.Dispose();
         PreviewView = null;
+        m_cameraFailedDelegate = null;
     }
-    
+
+    private void RemoveObservers()
+    {
+        if (m_runtimeErrorObserver != null)
+        {
+            NSNotificationCenter.DefaultCenter.RemoveObserver(m_runtimeErrorObserver);
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -67,8 +82,9 @@ public abstract class CameraSession
     /// <param name="avCaptureOutput">The output </param>
     /// <exception cref="Exception"></exception>
     internal async Task ConfigureAndStart(CameraPreview cameraPreview, NSString sessionPreset,
-        AVCaptureOutput avCaptureOutput)
+        AVCaptureOutput avCaptureOutput, CameraFailed cameraFailedDelegate)
     {
+        m_cameraFailedDelegate = cameraFailedDelegate;
         m_cameraPreview = cameraPreview;
         
         //This makes sure we display the video feed
@@ -76,6 +92,8 @@ public abstract class CameraSession
         PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
 
         m_captureSession = new AVCaptureSession();
+
+        AddObservers();
 
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         m_captureSession.BeginConfiguration();
@@ -149,6 +167,22 @@ public abstract class CameraSession
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(zoomRatio);
     }
 
+    private void AddObservers()
+    {
+        m_runtimeErrorObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.RuntimeErrorNotification, OnSessionRuntimeError, m_captureSession);
+    }
+
+    private void OnSessionRuntimeError(NSNotification notification)
+    {
+        if (notification.UserInfo == null)
+        {
+            return;
+        }
+
+        var error = (NSError)notification.UserInfo[AVCaptureSession.ErrorKey];
+        OnCameraFailed<CameraSession>(new CameraException("OnSessionRuntimeError", new Exception(error.ToExceptionMessage())));
+    }
+
     private void OnChangedZoomRatio(float zoomRatio)
     {
         if (CaptureDevice is null || !CaptureDevice.LockForConfiguration(out var configurationLockError))
@@ -160,7 +194,7 @@ public abstract class CameraSession
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            OnCameraFailed<CameraSession>(new CameraException("OnChangedZoomRatio", e), true);
         }
         finally
         {
@@ -171,4 +205,10 @@ public abstract class CameraSession
     public abstract void ConfigureSession();
 
     public abstract AVCaptureDevice? SelectCaptureDevice();
+    
+    internal void OnCameraFailed<T>(CameraException exception, bool onlyLog = false) where T : class
+    {
+        DUILogService.LogError<T>(exception.Message);
+        m_cameraFailedDelegate?.Invoke(exception);
+    }
 }

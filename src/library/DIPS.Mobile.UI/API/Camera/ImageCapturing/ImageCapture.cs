@@ -17,13 +17,15 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : ICameraUseCase
 {
     private CameraPreview? m_cameraPreview;
-    private DidCaptureImage? m_onImageCaptured;
+    private DidCaptureImage? m_onImageCapturedDelegate;
+    private CameraFailed m_cameraFailedDelegate;
     private Border? m_shutterButton;
     private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
     private ActivityIndicator? m_activityIndicator;
+    
 
-    public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCaptured, Action<ImageCaptureSettings>? configure = null)
+    public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
         var imageCaptureSettings = new ImageCaptureSettings();
         if (configure != null)
@@ -33,13 +35,14 @@ public partial class ImageCapture : ICameraUseCase
         
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
-        m_onImageCaptured = onImageCaptured;
+        m_onImageCapturedDelegate = onImageCapturedDelegate;
+        m_cameraFailedDelegate = cameraFailedDelegate;
         if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
             ConstructCrossPlatformViews();
-            await PlatformStart(imageCaptureSettings);
+            await PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
             m_cameraPreview.GoToStreamingState();
         }
         else
@@ -88,7 +91,7 @@ public partial class ImageCapture : ICameraUseCase
 
         m_confirmStateView = new ConfirmStateView(() =>
             {
-                m_onImageCaptured?.Invoke(capturedImage);
+                m_onImageCapturedDelegate?.Invoke(capturedImage);
                 
                 switch (imageCaptureSettings.PostCaptureAction)
                 {
@@ -98,7 +101,7 @@ public partial class ImageCapture : ICameraUseCase
                         break;
                     case PostCaptureAction.Continue:
                         ResetToCaptureImageState();
-                        PlatformStart(imageCaptureSettings);
+                        PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -107,7 +110,7 @@ public partial class ImageCapture : ICameraUseCase
             () =>
             {
                 ResetToCaptureImageState();
-                PlatformStart(imageCaptureSettings);
+                PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
             });
 
         
@@ -173,15 +176,23 @@ public partial class ImageCapture : ICameraUseCase
         
         Touch.SetCommand(m_shutterButton, new Command(() =>
         {
-            _ = OnCapture();
-            PlatformCapturePhoto();
+            try
+            {
+                _ = OnCapture();
+                PlatformCapturePhoto();
+            }
+            catch (Exception e)
+            {
+                PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
+            }
         }));
 
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
 
+    private partial void PlatformOnCameraFailed(CameraException cameraException);
     private partial void PlatformCapturePhoto();
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings);
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate);
     private partial Task PlatformStop();
 
     private void Log(string message)
@@ -196,12 +207,11 @@ public partial class ImageCapture : ICameraUseCase
     {
         PlatformStop();
         m_cameraPreview = null;
-        m_onImageCaptured = null;
+        m_onImageCapturedDelegate = null;
     }
 
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)
     {
-        m_onImageCaptured?.Invoke(capturedImage);
+        m_onImageCapturedDelegate?.Invoke(capturedImage);
     }
-
 }

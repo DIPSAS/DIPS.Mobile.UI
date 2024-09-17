@@ -15,7 +15,7 @@ public partial class ImageCapture : CameraFragment
     private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
     private ImageCaptureSettings? m_imageCaptureSettings;
 
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
         m_imageCaptureSettings = imageCaptureSettings;
         var resolutionSelector = new ResolutionSelector.Builder()
@@ -26,7 +26,7 @@ public partial class ImageCapture : CameraFragment
 
         // Add listener to receive updates.
         return m_cameraPreview != null
-            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase)
+            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, cameraFailedDelegate)
             : Task.CompletedTask;
     }
 
@@ -50,11 +50,11 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private void InvokeOnImageCaptureFailed(ImageCaptureException obj)
+    private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)
     {
-        if (obj.Message != null)
+        if (imageCaptureException.Message != null)
         {
-            DUILogService.LogError<ImageCapture>(obj.Message);
+            PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", imageCaptureException));
         }
     }
 
@@ -68,6 +68,9 @@ public partial class ImageCapture : CameraFragment
         if (m_imageCaptureSettings == null) return;
         SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
     }
+
+    private partial void PlatformOnCameraFailed(CameraException cameraException) =>
+        OnCameraFailed<ImageCapture>(cameraException);
 }
 
 internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
