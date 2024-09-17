@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
@@ -8,7 +9,8 @@ public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private ICameraUseCase? m_cameraUseCase;
-    private VerticalStackLayout? m_customViewsContainer;
+    private VerticalStackLayout m_customViewsContainer;
+    
     private Grid m_grid;
 
     public CameraPreview()
@@ -34,23 +36,44 @@ public partial class CameraPreview : ContentView
             BackgroundColor = Colors.Transparent, 
             VerticalOptions = LayoutOptions.End
         };
-
-        PreviewView = new PreviewView();
         
-        m_grid =
-        [
-            PreviewView,
-            m_customViewsContainer
-        ];
+        PreviewView = new PreviewView();
 
+        m_grid = new Grid
+        {
+            Children = { PreviewView, m_customViewsContainer },
+            ColumnDefinitions = [new ColumnDefinition(GridLength.Star)]
+        };
+        
         return m_grid;
     }
-    
-    internal PreviewView PreviewView { get; set; }
 
-    public void AddToolbarView(View? toolbarItems)
+    internal PreviewView PreviewView { get; set; }
+    internal CameraZoomView? CameraZoomView { get; set; }
+
+    internal void AddCameraZoomView(CameraZoomView cameraZoomView)
     {
-        m_customViewsContainer?.Add(toolbarItems);
+        if(m_grid.Contains(cameraZoomView))
+            return;
+        
+        cameraZoomView.VerticalOptions = LayoutOptions.End;
+        cameraZoomView.Padding = new Thickness(0, 0, 0, 120);
+        m_grid.Add(cameraZoomView);
+    }
+    
+    public void AddToolbarView(View? toolbarItems, bool addAsFirstRow = false)
+    {
+        if(m_customViewsContainer.Contains(toolbarItems))
+            return;
+        
+        if (addAsFirstRow)
+        {
+            m_customViewsContainer?.Insert(0, toolbarItems);
+        }
+        else
+        {
+            m_customViewsContainer?.Add(toolbarItems);
+        }
     }
     
     public void RemoveToolbarView(View? toolbarItems)
@@ -58,7 +81,6 @@ public partial class CameraPreview : ContentView
         if (toolbarItems == null) return;
         m_customViewsContainer?.Remove(toolbarItems);
     }
-    
     
     public void AddViewToRoot(View view, int row)
     {
@@ -95,18 +117,10 @@ public partial class CameraPreview : ContentView
     public void GoToConfirmingState()
     {
         PreviewView.IsVisible = false;
-#if __ANDROID__
-        PlatformGoToConfirmingState();
-#endif
-        
     }
 
     public void GoToStreamingState()
     {
         PreviewView.IsVisible = true;
-        
-#if __ANDROID__
-        PlatformGoToStreamingState();
-#endif
     }
 }

@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.ConfirmState;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
@@ -17,7 +19,7 @@ public partial class ImageCapture : ICameraUseCase
     private CameraPreview? m_cameraPreview;
     private DidCaptureImage? m_onImageCaptured;
     private Border? m_shutterButton;
-    private ConfirmStateGrid? m_confirmStateGrid;
+    private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
     private ActivityIndicator? m_activityIndicator;
 
@@ -30,8 +32,8 @@ public partial class ImageCapture : ICameraUseCase
         }
         
         m_cameraPreview = cameraPreview;
-        m_cameraPreview?.GoToStreamingState();
-        m_cameraPreview?.AddUseCase(this);
+        m_cameraPreview.GoToStreamingState();
+        m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
         {
@@ -84,10 +86,10 @@ public partial class ImageCapture : ICameraUseCase
             Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
         };
 
-        m_confirmStateGrid = new ConfirmStateGrid(() =>
+        m_confirmStateView = new ConfirmStateView(() =>
             {
                 m_onImageCaptured?.Invoke(capturedImage);
-                ResetToCaptureImageState();
+                
                 switch (imageCaptureSettings.PostCaptureAction)
                 {
                     case PostCaptureAction.Close:
@@ -95,6 +97,7 @@ public partial class ImageCapture : ICameraUseCase
                         PlatformStop();
                         break;
                     case PostCaptureAction.Continue:
+                        ResetToCaptureImageState();
                         PlatformStart(imageCaptureSettings);
                         break;
                     default:
@@ -107,14 +110,19 @@ public partial class ImageCapture : ICameraUseCase
                 PlatformStart(imageCaptureSettings);
             });
 
+        
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-        m_cameraPreview.AddToolbarView(m_confirmStateGrid);
+        m_cameraPreview.AddToolbarView(m_confirmStateView);
         RemoveCaptureImageStateVisuals();
         m_cameraPreview.GoToConfirmingState();
     }
 
     private void RemoveCaptureImageStateVisuals()
     {
+        if (m_cameraPreview?.CameraZoomView != null)
+        {
+            m_cameraPreview.CameraZoomView.IsVisible = false;
+        }
         m_cameraPreview?.RemoveToolbarView(m_shutterButton);
         m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
     }
@@ -135,13 +143,18 @@ public partial class ImageCapture : ICameraUseCase
         }
         
         RemoveConfirmStateVisuals();
+        if (m_cameraPreview?.CameraZoomView != null)
+        {
+            m_cameraPreview.CameraZoomView.IsVisible = true;
+        }
+        
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
 
     private void RemoveConfirmStateVisuals()
     {
         m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
-        m_cameraPreview?.RemoveToolbarView(m_confirmStateGrid);
+        m_cameraPreview?.RemoveToolbarView(m_confirmStateView);
     }
 
     private void ConstructCrossPlatformViews()

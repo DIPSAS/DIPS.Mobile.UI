@@ -48,8 +48,6 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        if (m_cameraCaptureUseCase is null || PreviewView is null) 
-            return;
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException obj)

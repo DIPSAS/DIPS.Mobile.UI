@@ -1,4 +1,5 @@
 using AVFoundation;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Library;
@@ -49,7 +50,6 @@ public abstract class CameraSession
         }
 
         CaptureDevice = null;
-
         PreviewView?.Dispose();
         PreviewView = null;
     }
@@ -127,10 +127,21 @@ public abstract class CameraSession
                     m_captureSession?.StartRunning();
                 }
             );
+
+            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
+                (float)CaptureDevice.MaxAvailableVideoZoomFactor, OnChangedZoomRatio);
         }
         else
         {
             throw new Exception("Unable to add output");
+        }
+    }
+
+    private void OnChangedZoomRatio(float zoomRatio)
+    {
+        if (CaptureDevice is not null)
+        {
+            CaptureDevice.VideoZoomFactor = zoomRatio;
         }
     }
 
