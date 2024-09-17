@@ -13,7 +13,7 @@ internal class ZoomButtons : HorizontalStackLayout
 
     private ZoomButton m_currentlyActiveButton;
 
-    public ZoomButtons(float minRatio, float maxRatio, bool hasWideLens, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPannedZoomButton)
+    public ZoomButtons(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPannedZoomButton)
     {
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPannedZoomButton = onPannedZoomButton;
@@ -24,10 +24,10 @@ internal class ZoomButtons : HorizontalStackLayout
         HorizontalOptions = LayoutOptions.Center;
         Padding = 2;
         
-        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_4));
+        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_5));
         
-        var firstButton = CreateCameraZoomButton(minRatio, !hasWideLens);
-        var secondButton = hasWideLens ? CreateCameraZoomButton((int)minRatio, true) : CreateCameraZoomButton(minRatio + 1);
+        var firstButton = CreateCameraZoomButton(minRatio, true);
+        var secondButton = CreateCameraZoomButton(minRatio + 1);
         var thirdButton = CreateCameraZoomButton(MathF.Min(secondButton.DefaultZoomRatio + 1, maxRatio));
 
         // If we have not yet hit the max ratio, lets add another button

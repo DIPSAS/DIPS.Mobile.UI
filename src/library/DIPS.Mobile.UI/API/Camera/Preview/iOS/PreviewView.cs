@@ -3,7 +3,6 @@ using CoreAnimation;
 using CoreGraphics;
 using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
-using DIPS.Mobile.UI.API.Library;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
 using UIKit;
@@ -19,12 +18,16 @@ internal sealed class PreviewView : ContentView
     private UIPinchGestureRecognizer m_pinchToZoomGestureRecognizer;
     private AVCaptureVideoPreviewLayer? m_previewLayer;
 
+    public static readonly int MaxZoomRatio = 8;
+    
     public PreviewView()
     {
         BackgroundColor = UIColor.Black;
     }
 
     public AVCaptureVideoPreviewLayer PreviewLayer { get; internal set; }
+
+    public event Action<float>? OnZoomChanged;
     
     public override void LayoutSubviews()
     {
@@ -88,11 +91,15 @@ internal sealed class PreviewView : ContentView
                     var pinchVelocityDividerFactor = 5.0f;
                     var desiredZoomFactor = captureDevice.VideoZoomFactor +
                                             Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
+                    
+                    var maxZoomFactor = Math.Min(captureDevice.ActiveFormat.VideoMaxZoomFactor, MaxZoomRatio);
                     // Check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
                     var zoomFactor = (nfloat)Math.Max(1.0,
-                        Math.Min(desiredZoomFactor, captureDevice.ActiveFormat.VideoMaxZoomFactor));
+                        Math.Min(desiredZoomFactor, maxZoomFactor));
                     captureDevice.VideoZoomFactor = zoomFactor;
 
+                    OnZoomChanged?.Invoke((float)zoomFactor);
+                    
                     /*if (m_slider != null) //Synchronize ZoomSlider if its added 
                     {
                         m_slider.Value = zoomFactor;

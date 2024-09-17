@@ -199,21 +199,29 @@ public abstract class CameraFragment : Fragment
             m_deviceDisplayListener = new DeviceDisplayListener(UpdateOrientation, DisplayManager);
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
-        
-        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
-        {
-            if (m_cameraPreview?.CameraZoomView != null)
-            {
-                m_cameraPreview.CameraZoomView = new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
-                m_cameraPreview?.AddCameraZoomView(m_cameraPreview.CameraZoomView);
-            }
-        }
-        
+
+        AddPinchToZoom();
+        AddZoomView();
         OnStarted();
         m_startedTcs?.TrySetResult();
         base.OnStart();
     }
 
+    private void AddPinchToZoom()
+    {
+        
+    }
+
+    private void AddZoomView()
+    {
+        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState &&
+            m_cameraPreview is not null)
+        {
+            m_cameraPreview.CameraZoomView =
+                new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
+        }
+    }
+    
     private void OnChangedZoomRatio(float zoomRatio)
     {
         CameraControl?.SetZoomRatio(zoomRatio);

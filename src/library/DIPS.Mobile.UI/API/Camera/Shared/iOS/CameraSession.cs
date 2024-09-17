@@ -51,6 +51,10 @@ public abstract class CameraSession
 
         CaptureDevice = null;
 
+        if (PreviewView is null)
+            return;
+
+        PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
         PreviewView?.Dispose();
         PreviewView = null;
     }
@@ -69,6 +73,7 @@ public abstract class CameraSession
         
         //This makes sure we display the video feed
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
+        PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
 
         m_captureSession = new AVCaptureSession();
 
@@ -128,9 +133,10 @@ public abstract class CameraSession
                     m_captureSession?.StartRunning();
                 }
             );
-
+            
             m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
-                (float)CaptureDevice.MaxAvailableVideoZoomFactor, OnChangedZoomRatio);
+                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio), OnChangedZoomRatio);
+            
         }
         else
         {
@@ -138,11 +144,27 @@ public abstract class CameraSession
         }
     }
 
+    private void PreviewViewOnZoomChanged(float zoomRatio)
+    {
+        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(zoomRatio);
+    }
+
     private void OnChangedZoomRatio(float zoomRatio)
     {
-        if (CaptureDevice is not null)
+        if (CaptureDevice is null || !CaptureDevice.LockForConfiguration(out var configurationLockError))
+            return;
+
+        try
         {
-            CaptureDevice.VideoZoomFactor = zoomRatio;
+            CaptureDevice.RampToVideoZoom(zoomRatio, 5.0f);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        finally
+        {
+            CaptureDevice.UnlockForConfiguration();
         }
     }
 

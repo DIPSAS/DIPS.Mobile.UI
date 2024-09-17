@@ -12,6 +12,7 @@ public partial class CameraPreview : ContentView
     private VerticalStackLayout m_customViewsContainer;
     
     private Grid m_grid;
+    private CameraZoomView? m_cameraZoomView;
 
     public CameraPreview()
     {
@@ -49,18 +50,20 @@ public partial class CameraPreview : ContentView
     }
 
     internal PreviewView PreviewView { get; set; }
-    internal CameraZoomView? CameraZoomView { get; set; }
 
-    internal void AddCameraZoomView(CameraZoomView cameraZoomView)
+    internal CameraZoomView? CameraZoomView
     {
-        if(m_grid.Contains(cameraZoomView))
-            return;
-        
-        cameraZoomView.VerticalOptions = LayoutOptions.End;
-        cameraZoomView.Padding = new Thickness(0, 0, 0, 120);
-        m_grid.Add(cameraZoomView);
+        get => m_cameraZoomView;
+        set
+        {
+            if(CameraZoomView is not null)
+                return;
+            
+            m_cameraZoomView = value;
+            m_grid.Add(value);
+        }
     }
-    
+
     public void AddToolbarView(View toolbarItems, bool addAsFirstRow = false)
     {
         if(m_customViewsContainer.Contains(toolbarItems))

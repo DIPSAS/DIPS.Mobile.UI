@@ -36,8 +36,8 @@ public partial class BarcodeScanner : CameraSession
     public override void ConfigureSession()
     {
         if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewView == null) return;
-        
-         m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
+
+        m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
                 if (!string.IsNullOrEmpty(s.StringValue))
                 {
@@ -112,6 +112,12 @@ public partial class BarcodeScanner : CameraSession
             captureDevice.VideoZoomFactor = (new nfloat(zoomFactor));
 
             captureDevice.UnlockForConfiguration();
+        }
+        
+        if (m_cameraPreview is { CameraZoomView: not null })
+        {
+            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, 50);
+            m_cameraPreview.CameraZoomView.SetZoomRatio((float)captureDevice.VideoZoomFactor);
         }
     }
 
