@@ -195,7 +195,6 @@ public abstract class CameraSession
         catch (Exception e)
         {
             OnCameraFailed<CameraSession>(new CameraException("OnChangedZoomRatio", e), true);
-            Console.WriteLine(e);
         }
         finally
         {
