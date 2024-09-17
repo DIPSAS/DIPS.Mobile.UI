@@ -14,6 +14,7 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Internal.Logging;
 using Java.Lang;
 using Java.Util.Concurrent;
@@ -229,7 +230,10 @@ public abstract class CameraFragment : Fragment
         var action = new FocusMeteringAction.Builder(point, FocusMeteringAction.FlagAf | FocusMeteringAction.FlagAe)
             .SetAutoCancelDuration(5, TimeUnit.Seconds!)
             .Build();
+        
         CameraControl?.StartFocusAndMetering(action);
+        
+        m_cameraPreview?.AddFocusIndicator(x, y);
     }
 
     private void AddPinchToZoom()

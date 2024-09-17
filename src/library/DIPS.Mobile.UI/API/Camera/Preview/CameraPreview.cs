@@ -13,6 +13,7 @@ public partial class CameraPreview : ContentView
     
     private Grid m_grid;
     private CameraZoomView? m_cameraZoomView;
+    private Border m_border;
 
     public CameraPreview()
     {
@@ -62,6 +63,32 @@ public partial class CameraPreview : ContentView
             m_cameraZoomView = value;
             m_grid.Add(value);
         }
+    }
+
+    internal void AddFocusIndicator(float posX, float posY)
+    {
+        m_border = new Border
+        {
+            WidthRequest = Sizes.GetSize(SizeName.size_10),
+            HeightRequest = Sizes.GetSize(SizeName.size_10),
+            BackgroundColor = Colors.Transparent,
+            StrokeThickness = 2,
+            Stroke = Colors.White,
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Start
+        };
+        
+        m_border.TranslationX = posX - m_border.WidthRequest / 2;
+        m_border.TranslationY = posY - m_border.HeightRequest / 2;
+        
+        m_grid.Remove(m_border);
+        m_grid.Add(m_border);
+
+        Task.Run(async () =>
+        {
+            await Task.Delay(2000);
+            m_grid.Remove(m_border);
+        });
     }
     
     public void AddToolbarView(View? toolbarItems, bool addAsFirstRow = false)
