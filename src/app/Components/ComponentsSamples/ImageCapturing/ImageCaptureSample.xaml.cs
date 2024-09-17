@@ -1,18 +1,47 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
 public partial class ImageCaptureSample
 {
+    private readonly List<CapturedImage> m_images; 
+
     public ImageCaptureSample()
     {
         InitializeComponent();
-        
+        m_images = [];
     }
 
-    private void Button_OnClicked(object? sender, EventArgs e)
+    private async void GalleryThumbnails_OnCameraButtonTapped(object? sender, EventArgs e)
     {
-        App.Current.MainPage.Navigation.PushModalAsync(new ImagCapturePage());
+        await StartImageCapture();
+    }
+
+    private async Task StartImageCapture()
+    {
+        ToggleCamera(true);
+        await new ImageCapture().Start(CameraPreview, OnImageCaptured,
+            settings => settings.PostCaptureAction = PostCaptureAction.Close);
+    }
+
+    protected override void OnAppearing()
+    { 
+        _ = StartImageCapture();
+        base.OnAppearing();
+    }
+
+    private void OnImageCaptured(CapturedImage capturedimage)
+    {
+        m_images.Add(capturedimage);
+        GalleryThumbnails.AddImage(capturedimage);
+        ToggleCamera(false);
+    }
+
+    private void ToggleCamera(bool shouldDisplay)
+    {
+        CameraPreview.IsVisible = shouldDisplay;
+        GalleryThumbnails.IsVisible = !CameraPreview.IsVisible ;
     }
 }

@@ -6,5 +6,10 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Components.ComponentsSamples.ImageCapturing.ImageCaptureSample">
-    <dui:Button Text="Press me" Clicked="Button_OnClicked"/>
+    <Grid>
+        <dui:GalleryThumbnails x:Name="GalleryThumbnails"
+                               CameraButtonTapped="GalleryThumbnails_OnCameraButtonTapped" />
+        <dui:CameraPreview x:Name="CameraPreview" />
+    </Grid>
+
 </dui:ContentPage>

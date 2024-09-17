@@ -63,8 +63,8 @@ public partial class CameraPreview : ContentView
             m_grid.Add(value);
         }
     }
-
-    public void AddToolbarView(View toolbarItems, bool addAsFirstRow = false)
+    
+    public void AddToolbarView(View? toolbarItems, bool addAsFirstRow = false)
     {
         if(m_customViewsContainer.Contains(toolbarItems))
             return;
@@ -79,8 +79,9 @@ public partial class CameraPreview : ContentView
         }
     }
     
-    public void RemoveToolbarView(View toolbarItems)
+    public void RemoveToolbarView(View? toolbarItems)
     {
+        if (toolbarItems == null) return;
         m_customViewsContainer?.Remove(toolbarItems);
     }
     
@@ -89,8 +90,9 @@ public partial class CameraPreview : ContentView
         m_grid.Insert(row, view);
     }
     
-    public void RemoveViewFromRoot(View view)
+    public void RemoveViewFromRoot(View? view)
     {
+        if (view == null) return;
         m_grid.Remove(view);
     }
     
@@ -106,11 +108,10 @@ public partial class CameraPreview : ContentView
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        if(args.NewHandler == null) //I am not needed anymore
+        if(args.NewHandler == null) //I am removed from the view and will auto-stop
         {
             m_cameraUseCase?.Stop();
             m_cameraUseCase = null;
-            /*m_customViewsContainer.SizeChanged -= OnCustomViewsContainerSizeChanged;*/
         }
 
         base.OnHandlerChanging(args);

@@ -32,6 +32,7 @@ public partial class ImageCapture : ICameraUseCase
         }
         
         m_cameraPreview = cameraPreview;
+        m_cameraPreview.GoToStreamingState();
         m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
@@ -88,31 +89,48 @@ public partial class ImageCapture : ICameraUseCase
         m_confirmStateView = new ConfirmStateView(() =>
             {
                 m_onImageCaptured?.Invoke(capturedImage);
+                
                 switch (imageCaptureSettings.PostCaptureAction)
                 {
                     case PostCaptureAction.Close:
-                        Stop();
+                        ResetAllVisuals();
+                        PlatformStop();
                         break;
                     case PostCaptureAction.Continue:
+                        ResetToCaptureImageState();
                         PlatformStart(imageCaptureSettings);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                ResetToCaptureImageState();
             },
             () =>
             {
-                PlatformStart(imageCaptureSettings);
                 ResetToCaptureImageState();
+                PlatformStart(imageCaptureSettings);
             });
 
-        m_cameraPreview.CameraZoomView.IsVisible = false;
+        
         m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
         m_cameraPreview.AddToolbarView(m_confirmStateView);
-        m_cameraPreview.RemoveToolbarView(m_shutterButton);
-        m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
+        RemoveCaptureImageStateVisuals();
         m_cameraPreview.GoToConfirmingState();
+    }
+
+    private void RemoveCaptureImageStateVisuals()
+    {
+        if (m_cameraPreview?.CameraZoomView != null)
+        {
+            m_cameraPreview.CameraZoomView.IsVisible = false;
+        }
+        m_cameraPreview?.RemoveToolbarView(m_shutterButton);
+        m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
+    }
+
+    private void ResetAllVisuals()
+    {
+        RemoveCaptureImageStateVisuals();
+        RemoveConfirmStateVisuals();
     }
 
     private void ResetToCaptureImageState()
@@ -124,13 +142,19 @@ public partial class ImageCapture : ICameraUseCase
             Touch.SetIsEnabled(m_shutterButton, true);    
         }
         
-        m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
-        m_cameraPreview?.RemoveToolbarView(m_confirmStateView);
-        m_cameraPreview?.AddToolbarView(m_shutterButton);
-        if (m_cameraPreview is not null)
+        RemoveConfirmStateVisuals();
+        if (m_cameraPreview?.CameraZoomView != null)
         {
             m_cameraPreview.CameraZoomView.IsVisible = true;
         }
+        
+        m_cameraPreview?.AddToolbarView(m_shutterButton);
+    }
+
+    private void RemoveConfirmStateVisuals()
+    {
+        m_cameraPreview?.RemoveViewFromRoot(m_confirmImage);
+        m_cameraPreview?.RemoveToolbarView(m_confirmStateView);
     }
 
     private void ConstructCrossPlatformViews()
@@ -155,7 +179,7 @@ public partial class ImageCapture : ICameraUseCase
 
         m_cameraPreview?.AddToolbarView(m_shutterButton);
     }
-    
+
     private partial void PlatformCapturePhoto();
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings);
     private partial Task PlatformStop();
