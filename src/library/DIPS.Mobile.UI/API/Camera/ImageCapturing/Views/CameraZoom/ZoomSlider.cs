@@ -122,7 +122,7 @@ internal class ZoomSlider : Grid
         this.Add(m_zoomRatioLevelBorder);
     }
 
-    private List<float> GenerateZoomRatios(float minRatio, float maxRatio)
+    private static List<float> GenerateZoomRatios(float minRatio, float maxRatio)
     {
         var zoomRatios = new List<float>();
         for (var ratio = minRatio; ratio <= maxRatio; ratio += 0.1f)
@@ -179,11 +179,13 @@ internal class ZoomSlider : Grid
                     
                     // Vibrate when near integers
                     var roundedZoomRatio = (int)MathF.Round((float)actualZoomRatio);
-                    if (Math.Abs(roundedZoomRatio - actualZoomRatio) < 0.025f &&
-                        roundedZoomRatio != m_currentSnappedZoomRatio)
+                    if (Math.Abs(roundedZoomRatio - actualZoomRatio) < 0.025f)
                     {
+                        if (roundedZoomRatio != m_currentSnappedZoomRatio)
+                        {
+                            VibrationService.Click();
+                        }
                         m_currentSnappedZoomRatio = roundedZoomRatio;
-                        VibrationService.Click();
                     }
                     else m_currentSnappedZoomRatio = -1;
                     
@@ -234,12 +236,13 @@ internal class ZoomSlider : Grid
         m_zoomRatiosLayout.TranslationX = CalculateTranslationXFromZoomRatio(zoomRatio);
         m_zoomRatioLevelLabel.Text = zoomRatio.ToString("F1");
 
-        await m_cancellationTokenSource.CancelAsync();
+        m_cancellationTokenSource.Cancel();
         m_cancellationTokenSource = new CancellationTokenSource();
 
         try
         {
             await Task.Delay(1000, m_cancellationTokenSource.Token);
+            m_cancellationTokenSource.Token.ThrowIfCancellationRequested();
             return false;
         }
         catch

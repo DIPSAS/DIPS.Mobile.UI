@@ -200,6 +200,7 @@ public abstract class CameraFragment : Fragment
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
 
+        AddTapToFocus();
         AddPinchToZoom();
         AddZoomView();
         OnStarted();
@@ -207,9 +208,55 @@ public abstract class CameraFragment : Fragment
         base.OnStart();
     }
 
+    private void AddTapToFocus()
+    {
+        if(PreviewViewHandler is not null)
+            PreviewViewHandler.OnTapped += PreviewViewOnTapped;
+    }
+
+    /*
+     Taken from:
+    - https://stackoverflow.com/questions/63202209/camerax-how-to-add-pinch-to-zoom-and-tap-to-focus-onclicklistener-and-ontouchl
+    - https://developer.android.com/media/camera/camerax/configuration#focus-and-metering 
+    */
+    private void PreviewViewOnTapped(float x, float y)
+    {
+        var point = PreviewView?.MeteringPointFactory.CreatePoint(x, y);
+
+        if(point is null)
+            return;
+        
+        var action = new FocusMeteringAction.Builder(point, FocusMeteringAction.FlagAf | FocusMeteringAction.FlagAe)
+            .SetAutoCancelDuration(5, TimeUnit.Seconds!)
+            .Build();
+        CameraControl?.StartFocusAndMetering(action);
+    }
+
     private void AddPinchToZoom()
     {
-        
+        if(PreviewViewHandler is not null)
+        {
+            PreviewViewHandler.OnScaled += OnScaled;
+        }
+    }
+
+    private void OnScaled(float scaleRatio)
+    {
+        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+            return;
+
+        var desiredZoomRatio = zoomState.ZoomRatio * scaleRatio;
+        if(desiredZoomRatio > zoomState.MaxZoomRatio)
+        {
+            desiredZoomRatio = zoomState.MaxZoomRatio;
+        }
+        else if (desiredZoomRatio < zoomState.MinZoomRatio)
+        {
+            desiredZoomRatio = zoomState.MinZoomRatio;
+        }
+            
+        CameraControl?.SetZoomRatio(desiredZoomRatio);
+        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
     }
 
     private void AddZoomView()
@@ -266,23 +313,30 @@ public abstract class CameraFragment : Fragment
         CameraProvider?.UnbindAll();
         CameraProvider?.Dispose();
         CameraProvider = null;
-        UnRegisterRotationEventes();
+        UnRegisterRotationEvents();
         
         base.OnDestroy();
     }
 
-    private void UnRegisterRotationEventes()
+    private void UnRegisterRotationEvents()
     {
+        if (PreviewViewHandler is not null)
+        {
+            PreviewViewHandler.OnScaled -= OnScaled;
+            PreviewViewHandler.OnTapped -= PreviewViewOnTapped;
+        }
+
         m_imageEventRotationListener?.Disable();
         m_imageEventRotationListener = null;
-        
-        if (m_deviceDisplayListener != null)
-        {
-            DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
-            m_deviceDisplayListener = null;
-        }
+
+        if (m_deviceDisplayListener == null)
+            return;
+
+        DisplayManager?.UnregisterDisplayListener(m_deviceDisplayListener);
+        m_deviceDisplayListener = null;
     }
 
+    private PreviewViewHandler? PreviewViewHandler => m_cameraPreview?.PreviewView.Handler is not PreviewViewHandler previewViewHandler ? null : previewViewHandler;
 
     internal abstract void OrientationChanged(SurfaceOrientation surfaceOrientation);
 }

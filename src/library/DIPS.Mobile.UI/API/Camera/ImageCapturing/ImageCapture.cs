@@ -32,7 +32,6 @@ public partial class ImageCapture : ICameraUseCase
         }
         
         m_cameraPreview = cameraPreview;
-        m_cameraPreview.GoToStreamingState();
         m_cameraPreview.AddUseCase(this);
         m_onImageCaptured = onImageCaptured;
         if (await CameraPermissions.CanUseCamera())
@@ -41,6 +40,7 @@ public partial class ImageCapture : ICameraUseCase
             await m_cameraPreview.HasLoaded();
             ConstructCrossPlatformViews();
             await PlatformStart(imageCaptureSettings);
+            m_cameraPreview.GoToStreamingState();
         }
         else
         {
