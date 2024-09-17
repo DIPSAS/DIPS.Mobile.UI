@@ -6,7 +6,10 @@ public static class TestRegistrator
 {
     public static void Register(ServiceContainer serviceContainer)
     {
-        serviceContainer.Register<CollectionViewTests>();
+        serviceContainer.Register<CollectionViewTests>()
+                        .Register<ModalTests>()
+                        .Register<NavigationTests>();
+        
         
     }
 }

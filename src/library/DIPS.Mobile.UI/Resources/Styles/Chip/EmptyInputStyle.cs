@@ -22,7 +22,7 @@ public static class EmptyInputStyle
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_system_black)
+                        ColorName.color_neutral_90)
                 },
                 new Setter
                 {

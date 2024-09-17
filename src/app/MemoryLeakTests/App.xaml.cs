@@ -12,9 +12,9 @@ public partial class App
     {
         InitializeComponent();
 
-        var container = new ServiceContainer(options => options.EnablePropertyInjection = false);
-        container.Register<MainPage>();
-        TestRegistrator.Register(container);
+        Container = new ServiceContainer(options => options.EnablePropertyInjection = false);
+        Container.Register<MainPage>();
+        TestRegistrator.Register(Container);
         
         var shell = new DIPS.Mobile.UI.Components.Shell.Shell()
         {
@@ -26,11 +26,13 @@ public partial class App
         tab.Items.Add(new ShellContent()
         {
             ContentTemplate =
-                new DataTemplate(() => container.GetInstance<MainPage>())
+                new DataTemplate(() => Container.GetInstance<MainPage>())
 
         });
         tabBar.Items.Add(tab);
         shell.Items.Add(tabBar);
         MainPage = shell;
     }
+
+    public static ServiceContainer Container { get; set; }
 }

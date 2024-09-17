@@ -1,53 +1,54 @@
 using DIPS.Mobile.UI.Components.Pickers.NullableDatePickerShared;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 
 namespace DIPS.Mobile.UI.Components.Pickers.NullableTimePicker;
 
-public partial class NullableTimePicker : BaseNullableDatePicker
+public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePicker
 {
-    private TimePicker.TimePicker? m_timePicker;
-    
-    protected override bool IsDateOrTimeNull()
+    public NullableTimePicker()
     {
-        return SelectedTime is null;
+        CloseCommand = new Command(OnCloseTapped);
     }
 
-    protected override View CreateDateOrTimePicker()
+    private void OnCloseTapped()
     {
-        m_timePicker = new TimePicker.TimePicker
-        {
-            SelectedTimeCommand = new Command(OnInternalTimeChanged),
-            SelectedTime = SelectedTime ?? DateTime.Now.TimeOfDay
-        };
-
-        return m_timePicker;
+        SelectedTime = null;
     }
 
-    private void OnInternalTimeChanged()
+    protected override void OnHandlerChanged()
     {
-        SelectedTime = m_timePicker?.SelectedTime;
-    }
-
-    protected override void OnSwitchToggled(object? sender, ToggledEventArgs e)
-    {
-        base.OnSwitchToggled(sender, e);
+        base.OnHandlerChanged();
         
-        if (e.Value)
-        {
-            OnInternalTimeChanged();
-        }
-        else
-        {
-            SelectedTime = null;
-        }
+        OnSelectedTimeChanged();
     }
 
     private void OnSelectedTimeChanged()
     {
-        if (m_timePicker is not null)
-            m_timePicker.SelectedTime = SelectedTime ?? m_timePicker.SelectedTime;
-        else return;
-        
-        DateEnabledSwitch.IsToggled = SelectedTime.HasValue;
-        SelectedTimeCommand?.Execute(null);
+        if (SelectedTime is null)
+        {
+            IsCloseable = false;
+            Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            Title = DUILocalizedStrings.ChooseTime;
+        }
+        else
+        {
+            IsCloseable = true;
+            Style = Styles.GetChipStyle(ChipStyle.Input);
+            SetTitle(SelectedTime.Value);
+        }
+    }
+
+    public override void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        base.SetSelectedDateTime(selectedDate);
+
+        SelectedTime = selectedDate?.TimeOfDay;
+    }
+
+    public override TimeSpan GetTimeOnOpen()
+    {
+        return SelectedTime ?? DateTime.Now.TimeOfDay;
     }
 }

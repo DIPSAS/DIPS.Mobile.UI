@@ -2,6 +2,8 @@
 using Android.Content.PM;
 using Android.Content.Res;
 using Android.OS;
+using AndroidX.Camera.Camera2;
+using AndroidX.Camera.Core;
 
 namespace Components;
 

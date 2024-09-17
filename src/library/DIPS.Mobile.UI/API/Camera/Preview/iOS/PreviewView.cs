@@ -2,6 +2,7 @@ using AVFoundation;
 using CoreAnimation;
 using CoreGraphics;
 using CoreMedia;
+using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
 using DIPS.Mobile.UI.API.Library;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
@@ -14,7 +15,7 @@ internal sealed class PreviewView : ContentView
 {
     private AVCaptureDevice? m_avCaptureDevice;
     private readonly TaskCompletionSource m_hasArrangedSizeTcs = new();
-    private UITapToFocusGestureRecognizer m_tapToFocusTapGestureRecognizer;
+    private UITapToFocusGestureRecognizer? m_tapToFocusTapGestureRecognizer;
     private UIPinchGestureRecognizer m_pinchToZoomGestureRecognizer;
     private AVCaptureVideoPreviewLayer? m_previewLayer;
 
@@ -154,31 +155,20 @@ internal sealed class PreviewView : ContentView
         //Makes sure to rotate the camera and the preview layer from the bounds of this UIView which automatically resizes.
         if (PreviewLayer?.Connection == null) return;
 
-        var orientation = UIDevice.CurrentDevice.Orientation switch
-        {
-            UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
-            UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
-            UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-            UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight, //No idea why we cant use left here, the camera will be upside down if we use left.
-            UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft, //No idea why we cant use right here, the camera will be upside down if we use right.
-            UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
-            UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        if (PreviewLayer.Orientation == orientation)
-        {
-            return;
-        }
-
-        PreviewLayer.Orientation = orientation;
+        var orientation = UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation();
+        
+        PreviewLayer.Orientation = orientation; //This will log warning: [<AVCaptureVideoPreviewLayer: 0x1d641b0> orientation] is deprecated. Please use AVCaptureConnection's -videoOrientation, but ony using videoOrientation will not work as rotation is incorrect.
+        
         if (PreviewLayer.Session?.Connections is not null) //Update all connections, failing to do so will only update preview connection, but we also need to update capture connection.
         {
             foreach (var connection in PreviewLayer.Session?.Connections!)
             {
                 if (connection.SupportsVideoOrientation)
                 {
-                    connection.VideoOrientation = PreviewLayer.Orientation;
+                    if (connection.VideoOrientation != orientation)
+                    {
+                        connection.VideoOrientation = PreviewLayer.Orientation;    
+                    }
                 }
             }
         }

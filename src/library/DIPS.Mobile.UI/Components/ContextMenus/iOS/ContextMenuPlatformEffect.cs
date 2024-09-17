@@ -26,7 +26,7 @@ public partial class ContextMenuPlatformEffect
 
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
-            _ = SetupPressedMode(m_contextMenu);
+            SetupPressedMode(m_contextMenu);
         }
         else
         {

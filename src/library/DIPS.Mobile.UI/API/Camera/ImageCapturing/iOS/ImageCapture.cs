@@ -1,5 +1,7 @@
 using AVFoundation;
 using CoreMedia;
+using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
@@ -12,15 +14,17 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : CameraSession
 {
     private AVCapturePhotoOutput? m_capturePhotoOutput;
+    private ImageCaptureSettings? m_imageCaptureSettings;
 
-    private partial Task PlatformStart()
+    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings)
     {
+        m_imageCaptureSettings = imageCaptureSettings;
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
             return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput);
         }
-        
+
         return Task.CompletedTask;
     }
 
@@ -36,15 +40,16 @@ public partial class ImageCapture : CameraSession
 
     public override AVCaptureDevice? SelectCaptureDevice() =>
         AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back) ?? 
+            AVMediaTypes.Video, AVCaptureDevicePosition.Back) ??
         AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInDualCamera,
             AVMediaTypes.Video, AVCaptureDevicePosition.Back);
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
-        if (photo.FileDataRepresentation != null)
+        if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo));
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo),
+                m_imageCaptureSettings);
         }
     }
 
@@ -53,7 +58,7 @@ public partial class ImageCapture : CameraSession
         var settings = CreateSettings();
         if (settings is not null)
         {
-            UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation);
+            UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
             m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured));
             DisablePreview();
         }
@@ -66,30 +71,20 @@ public partial class ImageCapture : CameraSession
 
     private void DisablePreview()
     {
-        if (PreviewLayer is { Connection: not null })
+        if (PreviewLayer is {Connection: not null})
         {
             PreviewLayer.Connection.Enabled = false;
         }
     }
 
-    private void UpdateCaptureOrientation(UIDeviceOrientation orientation)
+    private void UpdateCaptureOrientation(AVCaptureVideoOrientation orientation)
     {
-        var captureConnection =  m_capturePhotoOutput?.Connections.FirstOrDefault(c => c.Output != null && c.Output.Equals(m_capturePhotoOutput));
-        if (captureConnection is not null)
+        var captureConnection = 
+            m_capturePhotoOutput?.Connections.FirstOrDefault(c =>
+                c.Output != null && c.Output.Equals(m_capturePhotoOutput));
+        if (captureConnection != null)
         {
-            var captureOrientation = orientation switch
-            {
-                UIDeviceOrientation.Unknown => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.Portrait => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.PortraitUpsideDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                UIDeviceOrientation.LandscapeLeft => AVCaptureVideoOrientation.LandscapeRight, //No idea why we cant use left here, the camera will be upside down if we use left.
-                UIDeviceOrientation.LandscapeRight => AVCaptureVideoOrientation.LandscapeLeft, //No idea why we cant use right here, the camera will be upside down if we use right.
-                UIDeviceOrientation.FaceUp => AVCaptureVideoOrientation.Portrait,
-                UIDeviceOrientation.FaceDown => AVCaptureVideoOrientation.PortraitUpsideDown,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-                
-            captureConnection.VideoOrientation = captureOrientation;
+            captureConnection.VideoOrientation = orientation;
         }
     }
 
@@ -112,24 +107,24 @@ public partial class ImageCapture : CameraSession
         }
 
         if (formatValue == null) return null;
-        
+
         var settings = AVCapturePhotoSettings.FromFormat(new NSDictionary<NSString, NSObject>(formatKey, formatValue));
         return settings;
     }
 #pragma warning restore CA1422
-    
 }
 
 public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured) : AVCapturePhotoCaptureDelegate
 {
     private Action<AVCapturePhoto>? m_onPhotoCaptured = onPhotoCaptured;
 
-    public override void DidCapturePhoto(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings)
+    public override void DidCapturePhoto(AVCapturePhotoOutput captureOutput,
+        AVCaptureResolvedPhotoSettings resolvedSettings)
     {
-        
     }
 
-    public override void DidFinishCapture(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings,
+    public override void DidFinishCapture(AVCapturePhotoOutput captureOutput,
+        AVCaptureResolvedPhotoSettings resolvedSettings,
         NSError? error)
     {
     }

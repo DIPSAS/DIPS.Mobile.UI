@@ -108,6 +108,15 @@
     <data name="Time" xml:space="preserve">
         <value>Tid</value>
     </data>
+    <data name="ChooseDate" xml:space="preserve">
+        <value>Velg dato</value>
+    </data>
+    <data name="Clear" xml:space="preserve">
+        <value>Fjern</value>
+    </data>
+    <data name="ChooseTime" xml:space="preserve">
+        <value>Velg tid</value>
+    </data>
     <data name="MaxCharactersReached" xml:space="preserve">
         <value>Max characters</value>
     </data>
@@ -128,5 +137,8 @@
     </data>
     <data name="UsePicture" xml:space="preserve">
         <value>Bruk bilde</value>
+    </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Ferdig</value>
     </data>
 </root>

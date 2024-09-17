@@ -75,22 +75,12 @@ public partial class App : Application
 
     protected override void OnResume()
     {
-        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is ImageCaptureSample);
-        if (potentialPage is ImageCaptureSample barcodesample)
-        {
-            barcodesample.OnResume();
-        }
         _ = TryGetLatestVersion();
         base.OnResume();
     }
 
     protected override void OnSleep()
     {
-        var potentialPage =  Shell.Current.Navigation.NavigationStack.FirstOrDefault(p => p is ImageCaptureSample);
-        if (potentialPage is ImageCaptureSample barcodesample)
-        {
-            barcodesample.OnSleep();
-        }
         base.OnSleep();
     }
 }

@@ -1,59 +1,59 @@
 using DIPS.Mobile.UI.Components.Pickers.NullableDatePickerShared;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Chip;
 
 namespace DIPS.Mobile.UI.Components.Pickers.NullableDatePicker;
 
-public partial class NullableDatePicker : BaseNullableDatePicker
+public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePicker
 {
-    private DatePicker.DatePicker? m_datePicker;
-    
-    protected override View CreateDateOrTimePicker()
+    public NullableDatePicker()
     {
-        m_datePicker = new DatePicker.DatePicker
-        {
-            SelectedDateCommand = new Command(OnInternalDateChanged),
-            SelectedDate = SelectedDate ?? DateTime.Now.Date
-        };
-
-        m_datePicker.SetBinding(DatePicker.DatePicker.MinimumDateProperty, new Binding(nameof(MinimumDate), BindingMode.OneWay, source: this));
-        m_datePicker.SetBinding(DatePicker.DatePicker.MaximumDateProperty, new Binding(nameof(MaximumDate), BindingMode.OneWay, source: this));
-        m_datePicker.SetBinding(DatePicker.DatePicker.IgnoreLocalTimeProperty, new Binding(nameof(IgnoreLocalTime), BindingMode.OneWay, source: this));
-        m_datePicker.SetBinding(HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), BindingMode.OneWay, source: this));
-        return m_datePicker;
+        CloseCommand = new Command(OnCloseTapped);
     }
 
-    protected override bool IsDateOrTimeNull()
+    public override DateTimeKind GetDateTimeKind()
     {
-        return SelectedDate is null;
-    }
-    
-    private void OnInternalDateChanged()
-    {
-        SelectedDate = m_datePicker?.SelectedDate;
+        return SelectedDate?.Kind ?? DateTimeKind.Unspecified;
     }
 
-    protected override void OnSwitchToggled(object? sender, ToggledEventArgs e)
+    private void OnCloseTapped()
     {
-        base.OnSwitchToggled(sender, e);
+        SelectedDate = null;
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
         
-        if (e.Value)
-        {
-            OnInternalDateChanged();
-        }
-        else
-        {
-            SelectedDate = null;
-        }
-        
-        SelectedDateCommand?.Execute(null);
+        OnSelectedDateChanged();
     }
 
     private void OnSelectedDateChanged()
     {
-        if (m_datePicker is not null)
-            m_datePicker.SelectedDate = SelectedDate ?? m_datePicker.SelectedDate;
-        else return;
-        
-        DateEnabledSwitch.IsToggled = SelectedDate.HasValue;
-        SelectedDateCommand?.Execute(null);
+        if (SelectedDate is null)
+        {
+            IsCloseable = false;
+            Style = Styles.GetChipStyle(ChipStyle.EmptyInput);
+            Title = DUILocalizedStrings.ChooseDate;
+        }
+        else
+        {
+            IsCloseable = true;
+            Style = Styles.GetChipStyle(ChipStyle.Input);
+            SetTitle(SelectedDate.Value);
+        }
+    }
+
+    public override void SetSelectedDateTime(DateTime? selectedDate)
+    {
+        base.SetSelectedDateTime(selectedDate);
+
+        SelectedDate = selectedDate is null ? null : ValidateDateTime(selectedDate.Value);
+    }
+
+    internal override DateTime GetDateOnOpen()
+    {
+        return ValidateDateTime(SelectedDate ?? DateTime.Now);
     }
 }

@@ -64,11 +64,7 @@ public partial class TouchPlatformEffect
             Control.Foreground = ripple;
         }
         
-        if (string.IsNullOrEmpty(contentDescription))
-        {
-            Control.ContentDescription = DUILocalizedStrings.Button;
-        }
-        else
+        if (!string.IsNullOrEmpty(contentDescription))
         {
             Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
         }

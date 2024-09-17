@@ -33,13 +33,18 @@ public partial class GalleryThumbnails : Grid
             CornerRadius = Sizes.GetSize(SizeName.size_2),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_30),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
-            HeightRequest = Sizes.GetSize(SizeName.size_15)
+            HeightRequest = Sizes.GetSize(SizeName.size_15),
+            Command = new Command(Execute)
         };
-        
-        cameraButton.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(nameof(CameraButtonTappedCommand)));
         
         Add(cameraButton);
         this.Add(m_collectionView, 1);
+    }
+
+    private void Execute()
+    {
+        CameraButtonTappedCommand?.Execute(null);
+        CameraButtonTapped?.Invoke(this, EventArgs.Empty);
     }
 
     protected override void OnHandlerChanged()
@@ -65,7 +70,7 @@ public partial class GalleryThumbnails : Grid
     {
         var imagesAndCaptureButton = Images.Select((image, index) => new ImageThumbnailViewModel()
         {
-            Image = image,
+            Image = image.AsByteArray,
             Index = index
         }).ToList();
         

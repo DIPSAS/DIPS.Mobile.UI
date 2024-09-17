@@ -92,7 +92,8 @@ public abstract class CameraFragment : Fragment
         if (CameraProvider == null) return;
 
         //Use back camera
-        var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
+        var cameraSelector = CameraSelector.DefaultBackCamera;
+        // var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
 
         //Create preview use case and attach it to our MAUI view. 
         m_previewUseCase = new AndroidX.Camera.Core.Preview.Builder()

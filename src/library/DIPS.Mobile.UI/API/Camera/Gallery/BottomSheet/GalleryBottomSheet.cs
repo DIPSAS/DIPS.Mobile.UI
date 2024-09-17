@@ -1,3 +1,5 @@
+
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Converters.ValueConverters;
@@ -6,7 +8,17 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.Shapes;
+
+#if __IOS__
+using UIKit;
+#endif
+
+#if __ANDROID__
+using DIPS.Mobile.UI.API.Camera.Extensions.Android;
+#endif
+
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -23,15 +35,16 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
     private CancellationTokenSource m_cancellationTokenSource = new();
     private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
+    
 
-    public GalleryBottomSheet(List<byte[]> images, int startingIndex, Action<int> onRemoveImage)
+    public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage)
     {
         Positioning = Positioning.Large;
         IsDraggable = false;
 
-#if __IOS__
-        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
-#endif
+// #if __IOS__
+//         Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
+// #endif
 
         BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
@@ -46,7 +59,6 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             HorizontalOptions = LayoutOptions.Center,
             TextColor = Colors.GetColor(ColorName.color_system_white),
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
-            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_1))
         };
 
         var labelWrapper = new Border
@@ -56,17 +68,24 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             HorizontalOptions = LayoutOptions.Center,
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             Stroke = Microsoft.Maui.Graphics.Colors.Transparent,
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_4)),
+#if __ANDROID__
+            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_1)),
+#endif
+            
+#if __IOS__
+            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_6)),
+#endif
             StrokeShape = new RoundRectangle
             {
                 CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_4))
             }
+            
         };
 
         var toolbarLayout = new Grid
         {
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_10))
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_12))
         };
         
         var removeButton = new Button
@@ -191,7 +210,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         
         m_positionBeforeRemoval = m_carouselView.Position;
         
-        var newImages = new List<byte[]>(Images);
+        var newImages = new List<CapturedImage>(Images);
         newImages.RemoveAt(m_carouselView.Position);
         Images = newImages;
         
@@ -281,7 +300,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             Loop = false,
             ItemTemplate = new DataTemplate(CreateImageView),
             Position = m_positionBeforeRemoval ?? m_startingIndex, 
-            ItemsSource = Images
+            ItemsSource = Images.Select(i => i.AsByteArray)
         };
         m_carouselView.PositionChanged += CarouselViewOnPositionChanged;
         m_grid.Insert(0, m_carouselView);
@@ -292,4 +311,27 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         if(m_carouselView is not null)
             m_carouselView.Position = StartingIndex;
     }
+
+#if __ANDROID__
+    private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
+    protected override void OnOpened()
+    {
+
+        if (Handler is BottomSheetHandler handler)
+        {
+            m_statusAndNavigationBarColors = handler.Context.SetStatusAndNavigationBarColor(BackgroundColor);
+        }
+
+        base.OnOpened();
+    }
+
+    protected override void OnClosed()
+    {
+        if (Handler is BottomSheetHandler handler && m_statusAndNavigationBarColors != null)
+        {
+            handler.Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);
+        }
+        base.OnClosed();
+    }
+#endif
 }
