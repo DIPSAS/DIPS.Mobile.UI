@@ -10,12 +10,14 @@ using AndroidX.Camera.Core;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
 using AndroidX.Camera.View;
+using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Internal.Logging;
+using Google.Common.Util.Concurrent;
 using Java.Lang;
 using Java.Util.Concurrent;
 using Microsoft.Maui.Platform;
@@ -233,9 +235,37 @@ public abstract class CameraFragment : Fragment
             .SetAutoCancelDuration(5, TimeUnit.Seconds!)
             .Build();
         
-        CameraControl?.StartFocusAndMetering(action);
-        
-        m_cameraPreview?.AddFocusIndicator(x, y);
+        var result = CameraControl?.StartFocusAndMetering(action);
+        result?.AddListener(new Runnable(() =>
+        {
+            try
+            {
+                if(PreviewView is null)
+                    return;
+                
+                var getter = result.Get();
+                if (getter is not FocusMeteringResult { IsFocusSuccessful: true })
+                    return;
+
+                var percentX = x / PreviewView?.Width ?? 0;
+                var percentY = y / PreviewView?.Height ?? 0;
+                
+                var ratio = PreviewView?.Width / PreviewView?.Height;
+                if(ratio is null)
+                    return;
+                
+                /*var height = PreviewView.Width / ratio*/ 
+
+                var aspectRatioValue = PreviewView.ViewPort.AspectRatio.Numerator / PreviewView.ViewPort.AspectRatio.Denominator;
+
+                /*m_cameraPreview?.AddFocusIndicator(percentX, percentY);*/
+            }
+            catch
+            {
+                // Probably because the black bars were pressed
+            }
+            
+        }) , ContextCompat.GetMainExecutor(Context!));
     }
 
     private void AddPinchToZoom()
