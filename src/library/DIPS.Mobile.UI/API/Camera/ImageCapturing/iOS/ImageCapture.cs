@@ -51,7 +51,7 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo),
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo, new ImageTransformation((int?)photo.Properties.Orientation ?? 0, photo.Properties.Orientation.ToString() ?? "Unknown")),
                 m_imageCaptureSettings);
         }
     }

@@ -7,6 +7,7 @@ using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.Internal.Logging;
+using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -64,9 +65,40 @@ public partial class ImageCapture : CameraFragment
 
     private void OnImageCaptured(IImageProxy imageProxy)
     {
-        var capturedImage = new CapturedImage(ImageUtil.JpegImageToJpegByteArray(imageProxy), imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height);
+        var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
+        var (orientationConstant, orientationDisplayName) = GetOrientationMetadata(imageData);
+
+        var capturedImage = new CapturedImage(imageData, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height, new ImageTransformation(orientationConstant, orientationDisplayName));
         if (m_imageCaptureSettings == null) return;
         SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
+    }
+
+    private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(byte[] imageData)
+    {
+        using var stream = new MemoryStream(imageData);
+        var exif = new AndroidX.ExifInterface.Media.ExifInterface(stream);
+        var orientationConstant = exif.GetAttributeInt(AndroidX.ExifInterface.Media.ExifInterface.TagOrientation,
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal);
+        var orientationDisplayName = orientationConstant switch
+        {
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationNormal),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate90 => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationRotate90),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate180 => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationRotate180),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate270 => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationRotate270),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationTranspose => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationTranspose),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationTransverse => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationTransverse),
+            AndroidX.ExifInterface.Media.ExifInterface.OrientationUndefined => nameof(AndroidX.ExifInterface.Media
+                .ExifInterface.OrientationUndefined),
+            _ => throw new ArgumentOutOfRangeException(nameof(orientationConstant))
+        };
+
+        return (orientationConstant, orientationDisplayName);
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>
