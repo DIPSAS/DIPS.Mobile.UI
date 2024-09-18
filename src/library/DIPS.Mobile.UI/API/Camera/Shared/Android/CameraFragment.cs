@@ -247,18 +247,19 @@ public abstract class CameraFragment : Fragment
                 if (getter is not FocusMeteringResult { IsFocusSuccessful: true })
                     return;
 
-                var percentX = x / PreviewView?.Width ?? 0;
-                var percentY = y / PreviewView?.Height ?? 0;
                 
-                var ratio = PreviewView?.Width / PreviewView?.Height;
-                if(ratio is null)
-                    return;
+                var blackBoxHeight = GetBlackBoxHeight(PreviewView.Width, PreviewView.Height, PreviewView.ViewPort.AspectRatio.Numerator / (float)PreviewView.ViewPort.AspectRatio.Denominator);
                 
                 /*var height = PreviewView.Width / ratio*/ 
 
-                var aspectRatioValue = PreviewView.ViewPort.AspectRatio.Numerator / PreviewView.ViewPort.AspectRatio.Denominator;
+                var aspectRatioValue = (float)PreviewView.ViewPort.AspectRatio.Numerator / PreviewView.ViewPort.AspectRatio.Denominator;
+                
+                var (width, height) = CalculateDimensions(PreviewView.Width, PreviewView.Height, aspectRatioValue);
 
-                /*m_cameraPreview?.AddFocusIndicator(percentX, percentY);*/
+                var percentX = x / width;
+                var percentY = y / height;
+                
+                m_cameraPreview?.AddFocusIndicator((float)percentX, (float)percentY);
             }
             catch
             {
@@ -266,6 +267,31 @@ public abstract class CameraFragment : Fragment
             }
             
         }) , ContextCompat.GetMainExecutor(Context!));
+    }
+    
+    public double GetBlackBoxHeight(double containerWidth, double containerHeight, double aspectRatio)
+    {
+        return containerWidth / aspectRatio;
+    }
+    
+    public static (double width, double height) CalculateDimensions(double containerWidth, double containerHeight, double aspectRatio)
+    {
+        double width, height;
+
+        if (containerWidth / containerHeight > aspectRatio)
+        {
+            // Container is wider than the aspect ratio
+            height = containerHeight;
+            width = height * aspectRatio;
+        }
+        else
+        {
+            // Container is taller than the aspect ratio
+            width = containerWidth;
+            height = width / aspectRatio;
+        }
+
+        return (width, height);
     }
 
     private void AddPinchToZoom()
