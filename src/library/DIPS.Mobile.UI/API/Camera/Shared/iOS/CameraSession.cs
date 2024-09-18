@@ -206,9 +206,10 @@ public abstract class CameraSession
 
     public abstract AVCaptureDevice? SelectCaptureDevice();
     
-    internal void OnCameraFailed<T>(CameraException exception, bool onlyLog = false) where T : class
+    internal void OnCameraFailed<T>(CameraException exception, bool shouldOnlyLog = false) where T : class
     {
         DUILogService.LogError<T>(exception.Message);
+        if (shouldOnlyLog) return;
         m_cameraFailedDelegate?.Invoke(exception);
     }
 }

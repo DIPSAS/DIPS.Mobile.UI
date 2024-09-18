@@ -377,9 +377,10 @@ public abstract class CameraFragment : Fragment
 
     internal abstract void OrientationChanged(SurfaceOrientation surfaceOrientation);
     
-    internal void OnCameraFailed<T>(CameraException exception) where T : class
+    internal void OnCameraFailed<T>(CameraException exception, bool shouldOnlyLog=false) where T : class
     {
         DUILogService.LogError<T>(exception.Message);
+        if (shouldOnlyLog) return;
         m_cameraFailedDelegate?.Invoke(exception);
     }
 }
