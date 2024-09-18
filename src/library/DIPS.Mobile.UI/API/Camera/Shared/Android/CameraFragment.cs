@@ -297,8 +297,14 @@ public abstract class CameraFragment : Fragment
 
     private void AddZoomView()
     {
-        if (Camera?.CameraInfo.ZoomState.Value is AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState &&
-            m_cameraPreview is not null)
+        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+            return;
+
+        if (m_cameraPreview?.CameraZoomView is not null)
+        {
+            m_cameraPreview.CameraZoomView?.SetZoomRatio(zoomState.ZoomRatio);
+        }
+        else if(m_cameraPreview is not null)
         {
             m_cameraPreview.CameraZoomView =
                 new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);

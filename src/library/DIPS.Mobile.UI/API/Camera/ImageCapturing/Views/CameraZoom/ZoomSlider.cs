@@ -33,16 +33,11 @@ internal class ZoomSlider : Grid
         m_onPanningStateChanged = onPanningStateChanged;
         
         VerticalOptions = LayoutOptions.Center;
-
         RowSpacing = Sizes.GetSize(SizeName.size_3);
         
         AddRowDefinition(new RowDefinition(GridLength.Star));
         AddRowDefinition(new RowDefinition(GridLength.Star));
         
-        var panGestureRecognizer = new PanGestureRecognizer();
-        panGestureRecognizer.PanUpdated += PanGestureRecognizerOnPanUpdated;
-        GestureRecognizers.Add(panGestureRecognizer);
-
         m_zoomRatiosLayout = new HorizontalStackLayout
         {
             Spacing = Sizes.GetSize(SizeName.size_1),
@@ -155,7 +150,7 @@ internal class ZoomSlider : Grid
 
     private double CalculateTranslationXFromZoomRatio(float zoomRatio)
     {
-        return m_maxZoomRatiosLayoutTranslationX - (m_zoomRatiosLayout.Width * (zoomRatio - 1) / (m_maxRatio - 1));
+        return m_maxZoomRatiosLayoutTranslationX - (m_zoomRatiosLayout.Width * ((zoomRatio - 1) / (m_maxRatio - 1)));
     }
 
     private void PanGestureRecognizerOnPanUpdated(object? sender, PanUpdatedEventArgs e)
@@ -183,7 +178,7 @@ internal class ZoomSlider : Grid
                     {
                         if (roundedZoomRatio != m_currentSnappedZoomRatio)
                         {
-                            VibrationService.Click();
+                            VibrationService.SelectionChanged();
                         }
                         m_currentSnappedZoomRatio = roundedZoomRatio;
                     }

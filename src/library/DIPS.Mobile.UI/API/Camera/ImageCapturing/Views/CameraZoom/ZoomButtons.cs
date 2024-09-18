@@ -8,15 +8,19 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 internal class ZoomButtons : HorizontalStackLayout
 {
     private readonly Action<float> m_onChangedZoomRatio;
-    private readonly Action<PanUpdatedEventArgs> m_onPannedZoomButton;
+    private readonly Action<PanUpdatedEventArgs> m_onPanned;
     private readonly List<ZoomButton> m_zoomButtons;
 
     private ZoomButton m_currentlyActiveButton;
 
-    public ZoomButtons(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPannedZoomButton)
+    public ZoomButtons(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPanned)
     {
         m_onChangedZoomRatio = onChangedZoomRatio;
-        m_onPannedZoomButton = onPannedZoomButton;
+        m_onPanned = onPanned;
+        
+        var panGestureRecognizer = new PanGestureRecognizer();
+        panGestureRecognizer.PanUpdated += OnPanned;
+        GestureRecognizers.Add(panGestureRecognizer);
         
         BackgroundColor = Colors.Black.WithAlpha(0.2f);
         Spacing = Sizes.GetSize(SizeName.size_1);
@@ -53,10 +57,15 @@ internal class ZoomButtons : HorizontalStackLayout
         if(fourthButton is not null)
             m_zoomButtons.Add(fourthButton);
     }
+    
+    private void OnPanned(object? sender, PanUpdatedEventArgs e)
+    {
+        m_onPanned.Invoke(e);
+    }
 
     private ZoomButton CreateCameraZoomButton(float zoomRatio, bool defaultActive = false)
     {
-        var thirdButton = new ZoomButton(zoomRatio, OnTappedButton, m_onPannedZoomButton, defaultActive);
+        var thirdButton = new ZoomButton(zoomRatio, OnTappedButton, m_onPanned, defaultActive);
         return thirdButton;
     }
 
