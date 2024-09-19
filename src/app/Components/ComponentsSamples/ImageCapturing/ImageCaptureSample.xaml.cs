@@ -41,6 +41,7 @@ public partial class ImageCaptureSample
     private async void OnImageCaptured(CapturedImage capturedimage)
     {
         var raw = capturedimage.AsByte64String;
+        var raw2 = Convert.ToBase64String(await capturedimage.AsRotatedByteArray() ?? Array.Empty<byte>());
         m_images.Add(capturedimage);
         GalleryThumbnails.AddImage(capturedimage);
         ToggleCamera(false);

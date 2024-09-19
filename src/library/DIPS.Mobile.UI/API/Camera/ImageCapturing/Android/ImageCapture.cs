@@ -66,44 +66,29 @@ public partial class ImageCapture : CameraFragment
     private async void OnImageCaptured(IImageProxy imageProxy)
     {
         var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
+        var bitmap = imageProxy.ToBitmap();
         using var imageMemoryStream = new MemoryStream(imageData);
         var exif = new ExifInterface(imageMemoryStream);
         var (orientationConstant, orientationDisplayName) = GetOrientationMetadata(exif);
+        var imageTransformation = new ImageTransformation(orientationConstant, orientationDisplayName);
+        var thumbnail = await TryGetThumbnail(exif, imageTransformation);
         
-        var thumbnail = await TryGetThumbnail(exif, orientationConstant);
-        var capturedImage = new CapturedImage(imageData, thumbnail, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height, new ImageTransformation(orientationConstant, orientationDisplayName));
+        var capturedImage = new CapturedImage(imageData,bitmap,  thumbnail, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height,imageTransformation);
         if (m_imageCaptureSettings == null) return;
         SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
     }
 
-    private async Task<byte[]?> TryGetThumbnail(ExifInterface exif, int orientationConstant)
+    private async Task<byte[]?> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
     {
         if (!exif.HasThumbnail) return null;
 
         var bitmapImage = exif.ThumbnailBitmap;
         if (bitmapImage == null) return null;
-        var matrix = new Matrix();
-        var rotationDegrees = orientationConstant switch
-        {
-            ExifInterface.OrientationRotate90 => 90,
-            ExifInterface.OrientationRotate180 => 180,
-            ExifInterface.OrientationRotate270 => 270,
-            _ => 0
-        };
         
-        matrix.PostRotate(rotationDegrees);
-        
-        var rotatedBitmap =
-            Bitmap.CreateBitmap(bitmapImage, 0, 0, bitmapImage.Width, bitmapImage.Height, matrix, true);
-        
-        using var rotatedMemoryStream = new MemoryStream();
-        var stopwatch = new Stopwatch();
-        stopwatch.Start();
-        await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Jpeg!, 100, rotatedMemoryStream);
-        stopwatch.Stop();
-        rotatedBitmap.Dispose();
-        return rotatedMemoryStream.ToArray();
+        return await CapturedImage.RotateBitmapImageBasedOnOrientation(transformation, bitmapImage); ;
     }
+
+    
 
     private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(ExifInterface exif)
     {
