@@ -28,6 +28,7 @@ internal sealed class PreviewView : ContentView
     public AVCaptureVideoPreviewLayer PreviewLayer { get; internal set; }
 
     public event Action<float>? OnZoomChanged;
+    public event Action<float, float>? OnTapToFocus;
     
     public override void LayoutSubviews()
     {
@@ -60,7 +61,11 @@ internal sealed class PreviewView : ContentView
         if (touches.First() is not UITouch touchPoint) 
             return;
         
-        SetFocusPoint(touchPoint.LocationInView(this).X, touchPoint.LocationInView(this).Y,
+        var touchPointLocation = touchPoint.LocationInView(this);
+        
+        OnTapToFocus?.Invoke((float)touchPointLocation.X, (float)touchPointLocation.Y);
+        
+        SetFocusPoint(touchPointLocation.X, touchPointLocation.Y,
             captureDevice, out var error);
 
         if (error != null)

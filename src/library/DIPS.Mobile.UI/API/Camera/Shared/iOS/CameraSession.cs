@@ -135,6 +135,7 @@ public abstract class CameraSession
             /*PreviewView.AddZoomSlider(CaptureDevice);*/
             PreviewView.AddPinchToZoom(CaptureDevice);
             PreviewView.AddTapToFocus(CaptureDevice);
+            PreviewView.OnTapToFocus += PreviewViewOnOnTapToFocus;
 
             /*
             Setup the capture session.
@@ -160,6 +161,13 @@ public abstract class CameraSession
         {
             throw new Exception("Unable to add output");
         }
+    }
+
+    private void PreviewViewOnOnTapToFocus(float x, float y)
+    {
+        var percentX = x / (float)m_cameraPreview?.Width!;
+        var percentY = y / (float)m_cameraPreview?.Height!;
+        m_cameraPreview?.AddFocusIndicator(percentX, percentY);
     }
 
     private void PreviewViewOnZoomChanged(float zoomRatio)

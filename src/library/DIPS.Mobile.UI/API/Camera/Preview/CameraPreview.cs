@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
+using Microsoft.Maui.Controls.Shapes;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
 
@@ -67,27 +68,45 @@ public partial class CameraPreview : ContentView
 
     internal void AddFocusIndicator(float percentX, float percentY)
     {
+        m_grid.Remove(m_border);
+        
         m_border = new Border
         {
-            WidthRequest = Sizes.GetSize(SizeName.size_10),
-            HeightRequest = Sizes.GetSize(SizeName.size_10),
+            WidthRequest = Sizes.GetSize(SizeName.size_17),
+            HeightRequest = Sizes.GetSize(SizeName.size_17),
             BackgroundColor = Colors.Transparent,
             StrokeThickness = 2,
+            StrokeShape = new Ellipse(),
             Stroke = Colors.White,
             VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.Start
+            HorizontalOptions = LayoutOptions.Start,
+            Opacity = .75f,
+            Scale = .75f      
         };
 
+        var borderToRemove = m_border;
+
         m_border.TranslationX = percentX * PreviewView.Width - m_border.WidthRequest / 2;
-        m_border.TranslationY = percentY * PreviewView.Height - m_border.HeightRequest / 2;
+        m_border.TranslationY = percentY * PreviewView.Height;
+
+#if __IOS__
+        m_border.TranslationY -= m_border.HeightRequest / 2;
+#endif
+
+        m_border.ScaleTo(1, easing: Easing.SpringOut);
+        m_border.FadeTo(1);
         
-        /*m_grid.Remove(m_border);*/
         m_grid.Add(m_border);
 
         Task.Run(async () =>
         {
             await Task.Delay(2000);
-            /*m_grid.Remove(m_border);*/
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                _ = borderToRemove.ScaleTo(.75f);
+                await borderToRemove.FadeTo(0);
+                m_grid.Remove(borderToRemove);
+            });
         });
     }
     
