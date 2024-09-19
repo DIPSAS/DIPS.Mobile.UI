@@ -6,6 +6,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="BitMiracle.LibTiff.NET" Version="2.4.649" />
     <PackageVersion Include="LightInject" Version="6.6.4" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.82" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
