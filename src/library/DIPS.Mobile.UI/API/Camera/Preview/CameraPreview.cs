@@ -1,6 +1,9 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
+using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Tip;
 using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Platform;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
 
@@ -171,5 +174,14 @@ public partial class CameraPreview : ContentView
     public void GoToStreamingState()
     {
         PreviewView.IsVisible = true;
+    }
+
+    public void ShowZoomSliderTip(string tip)
+    {
+#if __IOS__
+        _ = TipService.Show(tip, 4000, CameraZoomView?.ToPlatform(DUI.GetCurrentMauiContext!)!, Platform.GetCurrentUIViewController()!);
+#else
+        TipService.Show(tip, CameraZoomView!, 4000);
+#endif
     }
 }

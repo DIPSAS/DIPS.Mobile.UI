@@ -36,6 +36,10 @@ public partial class ImageCapture : CameraSession
 
     public override void ConfigureSession()
     {
+        if (m_cameraPreview is { CameraZoomView: not null })
+        {
+            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, 120);
+        }
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>

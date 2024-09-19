@@ -127,6 +127,9 @@ public abstract class CameraSession
             m_captureSession.AddOutput(
                 m_avCaptureOutput); //this has to be set before setting metadata objects, or else it crashes
 
+            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
+                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio), OnChangedZoomRatio);
+            
             ConfigureSession();
 
             //Commit the configuration
@@ -152,10 +155,6 @@ public abstract class CameraSession
                     m_captureSession?.StartRunning();
                 }
             );
-            
-            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
-                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio), OnChangedZoomRatio);
-            
         }
         else
         {
