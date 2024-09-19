@@ -49,6 +49,7 @@ public partial class ImageCaptureSample
         {
             var tiff = Convert.ToBase64String(memoryStream.ToArray());
         }
+        
     }
 
     private void ToggleCamera(bool shouldDisplay)

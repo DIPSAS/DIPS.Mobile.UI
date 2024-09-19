@@ -5,7 +5,8 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public class CapturedImage
 {
     public byte[] AsByteArray { get; }
-    
+    public byte[]? ThumbnailAsByteArray { get; }
+
     public string AsByte64String => Convert.ToBase64String(AsByteArray);
 
     public ImageSize Size { get; }
@@ -13,9 +14,10 @@ public class CapturedImage
     public ImageTransformation Transformation { get; }
 
 #if __ANDROID__
-    public CapturedImage(byte[] asByteArray, AndroidX.Camera.Core.IImageInfo imageInfo, int width, int height, ImageTransformation imageTransformation)
+    public CapturedImage(byte[] asByteArray,byte[]? thumbnailAsByteArray, AndroidX.Camera.Core.IImageInfo imageInfo, int width, int height, ImageTransformation imageTransformation)
     {
         AsByteArray = asByteArray;
+        ThumbnailAsByteArray = thumbnailAsByteArray;
         ImageInfo = imageInfo;
         Size = new ImageSize(asByteArray, width, height);
         Transformation = imageTransformation;
@@ -23,9 +25,10 @@ public class CapturedImage
 
     public AndroidX.Camera.Core.IImageInfo ImageInfo { get; }
 #elif __IOS__
-    public CapturedImage(byte[] asByteArray, AVFoundation.AVCapturePhoto photo, ImageTransformation imageTransformation)
+    public CapturedImage(byte[] asByteArray, byte[]? thumbnailAsByteArray, AVFoundation.AVCapturePhoto photo, ImageTransformation imageTransformation)
     {
         AsByteArray = asByteArray;
+        ThumbnailAsByteArray = thumbnailAsByteArray;
         Photo = photo;
         Size = new ImageSize(asByteArray, photo.ResolvedSettings.PhotoDimensions.Width, photo.ResolvedSettings.PhotoDimensions.Height);
         Transformation = imageTransformation;
