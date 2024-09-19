@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.API.Camera.Extensions.Android;
+namespace DIPS.Mobile.UI.Extensions.Android;
 
 public class StatusAndNavigationBarColors(int statusBarColorInt, int navigationBarColorInt)
 {

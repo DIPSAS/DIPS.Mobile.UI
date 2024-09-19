@@ -2,7 +2,7 @@ using Android.App;
 using Android.Content;
 using Microsoft.Maui.Platform;
 
-namespace DIPS.Mobile.UI.API.Camera.Extensions.Android;
+namespace DIPS.Mobile.UI.Extensions.Android;
 
 public static class ActivityExtensions
 {

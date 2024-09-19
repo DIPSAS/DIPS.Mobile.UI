@@ -1,11 +1,12 @@
 using AVFoundation;
 using CoreGraphics;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using ImageIO;
@@ -24,7 +25,7 @@ public partial class ImageCapture : CameraSession
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput, cameraFailedDelegate);
+            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetPhoto, m_capturePhotoOutput, cameraFailedDelegate);
         }
 
         return Task.CompletedTask;

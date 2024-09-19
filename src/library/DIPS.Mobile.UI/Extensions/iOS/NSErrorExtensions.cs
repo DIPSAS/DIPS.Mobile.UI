@@ -1,6 +1,6 @@
 using Foundation;
 
-namespace DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+namespace DIPS.Mobile.UI.Extensions.iOS;
 
 // ReSharper disable once InconsistentNaming
 public static class NSErrorExtensions

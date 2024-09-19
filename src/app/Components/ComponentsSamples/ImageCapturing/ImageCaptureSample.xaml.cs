@@ -1,7 +1,10 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.TIFF;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
@@ -41,7 +44,17 @@ public partial class ImageCaptureSample
     private async void OnImageCaptured(CapturedImage capturedimage)
     {
         var raw = capturedimage.AsByte64String;
-        var raw2 = Convert.ToBase64String(await capturedimage.AsRotatedByteArray() ?? Array.Empty<byte>());
+        var rotatedByteArray = await capturedimage.AsRotatedByteArray();
+        if (rotatedByteArray != null)
+        {
+            var raw2 = Convert.ToBase64String(await capturedimage.AsRotatedByteArray() ?? []);
+            var rotatedByteArraySize = ImageSize.InMegaBytes(rotatedByteArray);
+            if (capturedimage.Size.SizeInMegaBytes < rotatedByteArraySize)
+            {
+                App.Current.MainPage.DisplayAlert("Size matters!", $"The size of the rotated image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Rotated image: {rotatedByteArraySize}", "Ok");
+            }
+        }
+        
         m_images.Add(capturedimage);
         GalleryThumbnails.AddImage(capturedimage);
         ToggleCamera(false);
@@ -50,7 +63,6 @@ public partial class ImageCaptureSample
         {
             var tiff = Convert.ToBase64String(memoryStream.ToArray());
         }
-        
     }
 
     private void ToggleCamera(bool shouldDisplay)

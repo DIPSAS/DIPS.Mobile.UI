@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 
 namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 

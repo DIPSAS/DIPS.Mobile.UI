@@ -6,6 +6,7 @@ using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;

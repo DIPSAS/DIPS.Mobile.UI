@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;

@@ -1,7 +1,7 @@
 using AVFoundation;
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+namespace DIPS.Mobile.UI.Extensions.iOS;
 
 public static class UIDeviceOrientationExtensions
 {

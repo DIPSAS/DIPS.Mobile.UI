@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using BitMiracle.LibTiff.Classic;
 
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using SkiaSharp;
 using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
@@ -32,7 +33,7 @@ public class TiffFactory
     {
         await Stop();
         Start();
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
             SKBitmap? bitMap = null;
             try
@@ -44,7 +45,8 @@ public class TiffFactory
                     throw new Exception("Failed to create the TIFF image.");
                 }
 
-                bitMap = SKBitmap.Decode(capturedImage.AsByteArray);
+                var rotatedByteArray = await capturedImage.AsRotatedByteArray();
+                bitMap = SKBitmap.Decode(rotatedByteArray);
                 // Set the TIFF fields
                 
                 m_tiff.SetField(TiffTag.BITSPERSAMPLE, 8);
