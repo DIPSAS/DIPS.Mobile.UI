@@ -12,7 +12,6 @@ internal class CameraZoomView : Grid
         m_onChangedZoomRatio = onChangedZoomRatio;
         
         VerticalOptions = LayoutOptions.End;
-        Margin = new Thickness(0, 0, 0, 120);
         
         m_zoomButtons = new ZoomButtons(minRatio, maxRatio, v =>
         {

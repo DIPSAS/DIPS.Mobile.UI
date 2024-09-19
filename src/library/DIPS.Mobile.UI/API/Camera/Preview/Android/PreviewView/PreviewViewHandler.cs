@@ -36,6 +36,7 @@ internal class TouchScaleListener : Object, View.IOnTouchListener, ScaleGestureD
     private readonly Action<float>? m_onScale;
     private readonly Action<float, float>? m_onTouch;
     private readonly ScaleGestureDetector m_scaleGestureDetector;
+    private bool m_ignoreTouchUp;
 
     public TouchScaleListener(Action<float>? onScale, Action<float, float>? onTouch)
     {
@@ -51,15 +52,21 @@ internal class TouchScaleListener : Object, View.IOnTouchListener, ScaleGestureD
             return true;
         
         m_scaleGestureDetector.OnTouchEvent(e);
-        
-        if(e.Action == MotionEventActions.Down)
-            m_onTouch?.Invoke(e.RawX, e.RawY);
+
+        if (e.Action == MotionEventActions.Up)
+        {
+            if(!m_ignoreTouchUp)
+                m_onTouch?.Invoke(e.RawX, e.RawY);
+
+            m_ignoreTouchUp = false;
+        }
         
         return true;
     }
 
     public bool OnScale(ScaleGestureDetector detector)
     {
+        m_ignoreTouchUp = true;
         m_onScale?.Invoke(detector.ScaleFactor);
         return true;
     }

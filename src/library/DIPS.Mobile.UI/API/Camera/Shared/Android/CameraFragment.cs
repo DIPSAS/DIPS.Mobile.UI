@@ -226,6 +226,10 @@ public abstract class CameraFragment : Fragment
     */
     private void PreviewViewOnTapped(float x, float y)
     {
+        var surfaceView = PreviewView?.GetChildAt(0);
+        if(surfaceView is null || PreviewView is null)
+            return;
+        
         var point = PreviewView?.MeteringPointFactory.CreatePoint(x, y);
 
         if(point is null)
@@ -235,39 +239,35 @@ public abstract class CameraFragment : Fragment
             .SetAutoCancelDuration(5, TimeUnit.Seconds!)
             .Build();
         
+        // Width and Height of SurfaceView is inverted for some reason
+        var blackBoxHeight = (PreviewView.Height - surfaceView.Width) / 2;
+        y -= blackBoxHeight;
+        
+        var percentX = x / PreviewView.Width;
+        var percentY = y / PreviewView.Height;
+        
+        m_cameraPreview?.AddFocusIndicator(percentX, percentY);
+        
         var result = CameraControl?.StartFocusAndMetering(action);
         result?.AddListener(new Runnable(() =>
         {
             try
             {
-                if(PreviewView is null)
-                    return;
-                
+                // TODO Handle focus result ??
                 var getter = result.Get();
-                if (getter is not FocusMeteringResult { IsFocusSuccessful: true })
-                    return;
-
-                var percentX = x / PreviewView?.Width ?? 0;
-                var percentY = y / PreviewView?.Height ?? 0;
-                
-                var ratio = PreviewView?.Width / PreviewView?.Height;
-                if(ratio is null)
-                    return;
-                
-                /*var height = PreviewView.Width / ratio*/ 
-
-                var aspectRatioValue = PreviewView.ViewPort.AspectRatio.Numerator / PreviewView.ViewPort.AspectRatio.Denominator;
-
-                /*m_cameraPreview?.AddFocusIndicator(percentX, percentY);*/
+                if(getter is FocusMeteringResult focusMeteringResult)
+                {
+                    
+                }
             }
             catch
             {
-                // Probably because the black bars were pressed
+                // Most likely because the black bars were pressed
             }
             
         }) , ContextCompat.GetMainExecutor(Context!));
     }
-
+    
     private void AddPinchToZoom()
     {
         if(PreviewViewHandler is not null)
