@@ -1,7 +1,6 @@
 using AVFoundation;
 using CoreGraphics;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;

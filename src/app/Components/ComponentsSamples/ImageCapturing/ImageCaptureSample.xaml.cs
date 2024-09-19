@@ -1,10 +1,7 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.TIFF;
-using DIPS.Mobile.UI.Components.BottomSheets;
-using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 

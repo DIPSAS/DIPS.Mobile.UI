@@ -1,4 +1,4 @@
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Converters.ValueConverters;

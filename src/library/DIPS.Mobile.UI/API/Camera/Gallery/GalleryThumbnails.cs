@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Microsoft.Maui.Controls.Handlers.Items;

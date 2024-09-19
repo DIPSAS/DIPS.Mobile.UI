@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using BitMiracle.LibTiff.Classic;
 
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Output;
 using SkiaSharp;
 using Enum = DIPS.Mobile.UI.Extensions.Enum;
 
