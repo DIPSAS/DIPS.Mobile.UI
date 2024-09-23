@@ -22,7 +22,7 @@ public partial class ImageCapture : CameraSession
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_capturePhotoOutput, cameraFailedDelegate);
+            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetPhoto, m_capturePhotoOutput, cameraFailedDelegate);
         }
 
         return Task.CompletedTask;
@@ -36,10 +36,7 @@ public partial class ImageCapture : CameraSession
 
     public override void ConfigureSession()
     {
-        if (m_cameraPreview is { CameraZoomView: not null })
-        {
-            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, 120);
-        }
+        m_cameraPreview?.SetToolbarHeights();
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>
@@ -111,6 +108,7 @@ public partial class ImageCapture : CameraSession
         if (formatValue == null) return null;
 
         var settings = AVCapturePhotoSettings.FromFormat(new NSDictionary<NSString, NSObject>(formatKey, formatValue));
+        settings.FlashMode = m_flashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
         return settings;
     }
 #pragma warning restore CA1422

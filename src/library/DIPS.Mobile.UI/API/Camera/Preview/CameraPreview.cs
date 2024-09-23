@@ -4,6 +4,9 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Platform;
+#if __IOS__
+using UIKit;
+#endif
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
 
@@ -13,12 +16,15 @@ public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private ICameraUseCase? m_cameraUseCase;
-    private VerticalStackLayout m_customViewsContainer;
     
     private Grid m_grid;
+    private Grid m_bottomToolbarContainer;
+    private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
     private Border m_border;
 
+    private const float ThreeFourRatio = .75f;
+    
     public CameraPreview()
     {
         BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_black);
@@ -26,6 +32,9 @@ public partial class CameraPreview : ContentView
 
 #if __IOS__
         Content = ConstructView();
+        
+        var safeAreaInsetsBottom = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
+        Padding = new Thickness(0, 0, 0, safeAreaInsetsBottom);
 #endif
     }
 
@@ -36,18 +45,23 @@ public partial class CameraPreview : ContentView
     
     public Grid ConstructView()
     {
-        m_customViewsContainer = new VerticalStackLayout
+        m_bottomToolbarContainer = new Grid
         {
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_6)),
-            BackgroundColor = Colors.Transparent, 
-            VerticalOptions = LayoutOptions.End
+            VerticalOptions = LayoutOptions.End, 
+            BackgroundColor = Colors.Black
         };
         
+        m_topToolbarContainer = new Grid
+        {
+            VerticalOptions = LayoutOptions.Start, 
+            BackgroundColor = Colors.Black
+        };
+
         PreviewView = new PreviewView();
 
         m_grid = new Grid
         {
-            Children = { PreviewView, m_customViewsContainer },
+            Children = { PreviewView, m_bottomToolbarContainer, m_topToolbarContainer },
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star)]
         };
         
@@ -69,6 +83,20 @@ public partial class CameraPreview : ContentView
         }
     }
 
+    /// <summary>
+    /// Here we set the height of the top and bottom toolbar relative to the <see cref="ThreeFourRatio"/>
+    /// </summary>
+    internal void SetToolbarHeights()
+    {
+        var actualPreviewHeight = (Width / ThreeFourRatio);
+        var letterBoxHeight = (Height - actualPreviewHeight) / 2;
+
+        m_topToolbarContainer.HeightRequest = letterBoxHeight;
+        m_bottomToolbarContainer.HeightRequest = letterBoxHeight;
+        
+        CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2) + m_bottomToolbarContainer.HeightRequest);
+    }
+    
     internal void AddFocusIndicator(float percentX, float percentY)
     {
         m_grid.Remove(m_border);
@@ -113,30 +141,28 @@ public partial class CameraPreview : ContentView
         });
     }
     
-    public void AddToolbarView(View? toolbarItems, bool addAsFirstRow = false)
+    public void AddBottomToolbarView(View? toolbarItems)
     {
-        if(m_customViewsContainer.Contains(toolbarItems))
+        if(m_bottomToolbarContainer.Contains(toolbarItems))
             return;
         
-        if (addAsFirstRow)
-        {
-            m_customViewsContainer?.Insert(0, toolbarItems);
-        }
-        else
-        {
-            m_customViewsContainer?.Add(toolbarItems);
-        }
+        m_bottomToolbarContainer.Add(toolbarItems);
     }
     
     public void RemoveToolbarView(View? toolbarItems)
     {
-        if (toolbarItems == null) return;
-        m_customViewsContainer?.Remove(toolbarItems);
+        if (toolbarItems is null) 
+            return;
+        
+        m_bottomToolbarContainer.Remove(toolbarItems);
     }
     
-    public void AddViewToRoot(View view, int row)
+    public void AddViewToRoot(View view, bool addAsFirst = false)
     {
-        m_grid.Insert(row, view);
+        if (addAsFirst)
+            m_grid.Insert(0, view);
+        else
+            m_grid.Add(view);
     }
     
     public void RemoveViewFromRoot(View? view)
@@ -157,7 +183,7 @@ public partial class CameraPreview : ContentView
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        if(args.NewHandler == null) //I am removed from the view and will auto-stop
+        if(args.NewHandler == null) // User has navigated from the page
         {
             m_cameraUseCase?.Stop();
             m_cameraUseCase = null;

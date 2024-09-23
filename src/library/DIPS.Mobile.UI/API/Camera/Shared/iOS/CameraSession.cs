@@ -122,20 +122,18 @@ public abstract class CameraSession
         //Add barcode camera output
         m_avCaptureOutput = avCaptureOutput;
 
+        AddCameraZoomView();
+        
         if (m_captureSession.CanAddOutput(m_avCaptureOutput))
         {
             m_captureSession.AddOutput(
                 m_avCaptureOutput); //this has to be set before setting metadata objects, or else it crashes
-
-            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
-                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio), OnChangedZoomRatio);
             
             ConfigureSession();
 
             //Commit the configuration
             m_captureSession.CommitConfiguration();
             
-            /*PreviewView.AddZoomSlider(CaptureDevice);*/
             PreviewView.AddPinchToZoom(CaptureDevice);
             PreviewView.AddTapToFocus(CaptureDevice);
             PreviewView.OnTapToFocus += PreviewViewOnOnTapToFocus;
@@ -162,10 +160,28 @@ public abstract class CameraSession
         }
     }
 
+    private void AddCameraZoomView()
+    {
+        if (m_cameraPreview is null || CaptureDevice is null)
+            return;
+
+        if (m_cameraPreview?.CameraZoomView is not null)
+        {
+            m_cameraPreview.CameraZoomView.IsVisible = true;
+            m_cameraPreview.CameraZoomView?.SetZoomRatio((float)CaptureDevice.VideoZoomFactor);
+        }
+        else if(m_cameraPreview is not null)
+        {
+            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
+                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio),
+                OnChangedZoomRatio);
+        }
+    }
+
     private void PreviewViewOnOnTapToFocus(float x, float y)
     {
-        var percentX = x / (float)m_cameraPreview?.Width!;
-        var percentY = y / (float)m_cameraPreview?.Height!;
+        var percentX = x / (float)m_cameraPreview?.PreviewView.Width!;
+        var percentY = y / (float)m_cameraPreview?.PreviewView.Height!;
         m_cameraPreview?.AddFocusIndicator(percentX, percentY);
     }
 

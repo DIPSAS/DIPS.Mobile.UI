@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.Content.Res;
 using Android.Hardware;
 using Android.Hardware.Camera2;
+using Android.Hardware.Camera2.Params;
 using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
@@ -204,7 +205,7 @@ public abstract class CameraFragment : Fragment
             m_deviceDisplayListener = new DeviceDisplayListener(UpdateOrientation, DisplayManager);
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
-
+        
         AddTapToFocus();
         AddPinchToZoom();
         AddZoomView();
@@ -302,6 +303,7 @@ public abstract class CameraFragment : Fragment
 
         if (m_cameraPreview?.CameraZoomView is not null)
         {
+            m_cameraPreview.CameraZoomView.IsVisible = true;
             m_cameraPreview.CameraZoomView?.SetZoomRatio(zoomState.ZoomRatio);
         }
         else if(m_cameraPreview is not null)

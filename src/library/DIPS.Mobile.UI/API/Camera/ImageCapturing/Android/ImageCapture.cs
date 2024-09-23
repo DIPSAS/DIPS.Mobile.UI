@@ -1,3 +1,4 @@
+using Android.Hardware.Camera2;
 using Android.Media;
 using Android.Views;
 using AndroidX.Camera.Core;
@@ -33,13 +34,16 @@ public partial class ImageCapture : CameraFragment
 
     private partial void PlatformCapturePhoto()
     {
-        if (Context == null) 
+        if (Context is null || m_cameraCaptureUseCase is null) 
             return;
-        
+
+        m_cameraCaptureUseCase.FlashMode = m_flashActive
+            ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
+            : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
+         
         CameraProvider?.Unbind(m_previewUseCase);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
-
     }
 
     private partial async Task PlatformStop()
@@ -49,6 +53,7 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
+        m_cameraPreview?.SetToolbarHeights();
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)

@@ -41,7 +41,7 @@ public partial class BarcodeScanner : ICameraUseCase
             Log("Not permitted to use camera");
         }
     }
-
+    
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate);
 
     public void Stop()
