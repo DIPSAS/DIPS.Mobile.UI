@@ -1,7 +1,4 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
-using DIPS.Mobile.UI.API.Camera.Permissions;
-using DIPS.Mobile.UI.API.Camera.Preview;
-using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 

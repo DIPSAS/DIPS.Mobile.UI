@@ -1,12 +1,14 @@
 using AVFoundation;
+using CoreGraphics;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
+using ImageIO;
 using UIKit;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
@@ -52,9 +54,29 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(), photo, new ImageTransformation((int?)photo.Properties.Orientation ?? 0, photo.Properties.Orientation.ToString() ?? "Unknown")),
+            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(),
+                    TryGetThumbnail(photo), 
+                    photo, 
+                    new ImageTransformation((int?)photo.Properties.Orientation ?? 0, 
+                        photo.Properties.Orientation.ToString() ?? "Unknown")),
                 m_imageCaptureSettings);
         }
+    }
+
+    private static byte[]? TryGetThumbnail(AVCapturePhoto photo)
+    {
+        if (photo.FileDataRepresentation == null)
+        {
+            return null;
+        }
+
+        var cgImageSource = CGImageSource.FromData(photo.FileDataRepresentation);
+        var thumbnailCgImage = cgImageSource?.CreateThumbnail(0, new CGImageThumbnailOptions()
+        {
+            CreateThumbnailWithTransform = true //Makes sure to rotate if needed 
+        });
+        return thumbnailCgImage == null ? null : new UIImage(thumbnailCgImage).AsJPEG()?.ToArray();
+
     }
 
     private partial void PlatformCapturePhoto()
@@ -109,6 +131,12 @@ public partial class ImageCapture : CameraSession
 
         var settings = AVCapturePhotoSettings.FromFormat(new NSDictionary<NSString, NSObject>(formatKey, formatValue));
         settings.FlashMode = m_flashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
+        settings.EmbeddedThumbnailPhotoFormat = new AVCapturePhotoSettingsThumbnailFormat()
+        {
+            Codec = AVVideo.CodecJPEG,
+            Width = Sizes.GetSize(SizeName.size_18),
+            Height = Sizes.GetSize(SizeName.size_18),
+        };
         return settings;
     }
 #pragma warning restore CA1422

@@ -72,7 +72,7 @@ public partial class GalleryThumbnails : Grid
     {
         var imagesAndCaptureButton = Images.Select((image, index) => new ImageThumbnailViewModel()
         {
-            Image = image.AsByteArray,
+            Image = image.ThumbnailAsByteArray ?? image.AsByteArray,
             Index = index
         }).ToList();
         

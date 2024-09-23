@@ -1,23 +1,20 @@
-
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.Shapes;
 
 #if __IOS__
 using UIKit;
 #endif
-
 #if __ANDROID__
-using DIPS.Mobile.UI.API.Camera.Extensions.Android;
+using DIPS.Mobile.UI.Extensions.Android;
 #endif
+
 
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;

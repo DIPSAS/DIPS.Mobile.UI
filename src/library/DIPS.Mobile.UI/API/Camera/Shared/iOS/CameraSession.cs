@@ -1,10 +1,10 @@
 using AVFoundation;
-using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Platform;

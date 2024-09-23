@@ -41,6 +41,17 @@ public partial class ImageCaptureSample
     private async void OnImageCaptured(CapturedImage capturedimage)
     {
         var raw = capturedimage.AsByte64String;
+        var rotatedByteArray = await capturedimage.AsRotatedByteArray();
+        if (rotatedByteArray != null)
+        {
+            var raw2 = Convert.ToBase64String(await capturedimage.AsRotatedByteArray() ?? []);
+            var rotatedByteArraySize = ImageSize.InMegaBytes(rotatedByteArray);
+            if (capturedimage.Size.SizeInMegaBytes < rotatedByteArraySize)
+            {
+                App.Current.MainPage.DisplayAlert("Size matters!", $"The size of the rotated image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Rotated image: {rotatedByteArraySize}", "Ok");
+            }
+        }
+        
         m_images.Add(capturedimage);
         GalleryThumbnails.AddImage(capturedimage);
         ToggleCamera(false);

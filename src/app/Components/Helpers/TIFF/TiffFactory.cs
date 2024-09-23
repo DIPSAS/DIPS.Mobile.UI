@@ -32,7 +32,7 @@ public class TiffFactory
     {
         await Stop();
         Start();
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
             SKBitmap? bitMap = null;
             try
@@ -44,44 +44,10 @@ public class TiffFactory
                     throw new Exception("Failed to create the TIFF image.");
                 }
 
-                bitMap = SKBitmap.Decode(capturedImage.AsByteArray);
-                var orientation = Orientation.TOPLEFT;
-                
-#if __IOS__ //iOS has a 1-1 mapping between the orientation from the photo metadata to the TIFF orientation tag. 
-                var iosOrientation= capturedImage.Photo.Properties.Orientation;
-                orientation = iosOrientation switch
-                {
-                    CoreImage.CIImageOrientation.TopLeft => Orientation.TOPLEFT,
-                    CoreImage.CIImageOrientation.TopRight => Orientation.TOPRIGHT,
-                    CoreImage.CIImageOrientation.BottomRight => Orientation.BOTRIGHT,
-                    CoreImage.CIImageOrientation.BottomLeft => Orientation.BOTLEFT,
-                    CoreImage.CIImageOrientation.LeftTop => Orientation.LEFTTOP,
-                    CoreImage.CIImageOrientation.RightTop => Orientation.RIGHTTOP,
-                    CoreImage.CIImageOrientation.RightBottom => Orientation.RIGHTBOT,
-                    CoreImage.CIImageOrientation.LeftBottom => Orientation.LEFTBOT,
-                    null => Orientation.TOPLEFT,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-#endif
-                
-#if __ANDROID__ //We have to grab the EXIF tag from the image and based on our findings from iOS we can set the correct orientation tag.
-                if (capturedImage.ImageInfo.RotationDegrees > 0)
-                {
-                    var memoryStream = new MemoryStream(capturedImage.AsByteArray);
-                    var exif = new AndroidX.ExifInterface.Media.ExifInterface(memoryStream);
-                    memoryStream.Dispose();
-                    var rotation = exif.GetAttributeInt(AndroidX.ExifInterface.Media.ExifInterface.TagOrientation, AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal);
-                    orientation = rotation switch
-                    {
-                        AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal => Orientation.TOPLEFT, //Landscape
-                        AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate90 => Orientation.RIGHTTOP, //Portrait
-                        AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate180 => Orientation.BOTRIGHT, //Landscape reverse
-                        AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate270 => Orientation.LEFTBOT, //Upside down
-                        _ => orientation
-                    };
-                }
-#endif
+                var rotatedByteArray = await capturedImage.AsRotatedByteArray();
+                bitMap = SKBitmap.Decode(rotatedByteArray);
                 // Set the TIFF fields
+                
                 m_tiff.SetField(TiffTag.BITSPERSAMPLE, 8);
                 m_tiff.SetField(TiffTag.SAMPLESPERPIXEL, 4);
                 m_tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);

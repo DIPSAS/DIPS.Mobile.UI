@@ -1,7 +1,7 @@
 using Android.App;
 using Android.Views;
-using DIPS.Mobile.UI.API.Camera.Extensions.Android;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using View = Android.Views.View;

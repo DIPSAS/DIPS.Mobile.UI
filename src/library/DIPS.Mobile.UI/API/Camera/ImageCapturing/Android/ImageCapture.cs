@@ -1,4 +1,6 @@
 using Android.Hardware.Camera2;
+using System.Diagnostics;
+using Android.Graphics;
 using Android.Media;
 using Android.Views;
 using AndroidX.Camera.Core;
@@ -7,9 +9,7 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
-using DIPS.Mobile.UI.Internal.Logging;
-using Enum = DIPS.Mobile.UI.Extensions.Enum;
-
+using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
@@ -68,42 +68,56 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private void OnImageCaptured(IImageProxy imageProxy)
+    private async void OnImageCaptured(IImageProxy imageProxy)
     {
         var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
-        var (orientationConstant, orientationDisplayName) = GetOrientationMetadata(imageData);
-
-        var capturedImage = new CapturedImage(imageData, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height, new ImageTransformation(orientationConstant, orientationDisplayName));
+        var bitmap = imageProxy.ToBitmap();
+        using var imageMemoryStream = new MemoryStream(imageData);
+        var exif = new ExifInterface(imageMemoryStream);
+        var (orientationConstant, orientationDisplayName) = GetOrientationMetadata(exif);
+        var imageTransformation = new ImageTransformation(orientationConstant, orientationDisplayName);
+        var thumbnail = await TryGetThumbnail(exif, imageTransformation);
+        
+        var capturedImage = new CapturedImage(imageData,bitmap,  thumbnail, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height,imageTransformation);
         if (m_imageCaptureSettings == null) return;
         SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
     }
 
-    private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(byte[] imageData)
+    private async Task<byte[]?> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
     {
-        using var stream = new MemoryStream(imageData);
-        var exif = new AndroidX.ExifInterface.Media.ExifInterface(stream);
+        if (!exif.HasThumbnail) return null;
+
+        var bitmapImage = exif.ThumbnailBitmap;
+        if (bitmapImage == null) return null;
+        
+        return await CapturedImage.RotateBitmapImageBasedOnOrientation(transformation, bitmapImage); ;
+    }
+
+    
+
+    private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(ExifInterface exif)
+    {
         var orientationConstant = exif.GetAttributeInt(AndroidX.ExifInterface.Media.ExifInterface.TagOrientation,
             AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal);
+        
         var orientationDisplayName = orientationConstant switch
         {
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationNormal),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate90 => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationRotate90),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate180 => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationRotate180),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationRotate270 => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationRotate270),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationTranspose => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationTranspose),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationTransverse => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationTransverse),
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationUndefined => nameof(AndroidX.ExifInterface.Media
-                .ExifInterface.OrientationUndefined),
+            ExifInterface.OrientationNormal => nameof(ExifInterface.OrientationNormal),
+            ExifInterface.OrientationRotate90 => nameof(ExifInterface.OrientationRotate90),
+            ExifInterface.OrientationRotate180 => nameof(ExifInterface.OrientationRotate180),
+            ExifInterface.OrientationRotate270 => nameof(ExifInterface.OrientationRotate270),
+            ExifInterface.OrientationTranspose => nameof(ExifInterface.OrientationTranspose),
+            ExifInterface.OrientationTransverse => nameof(ExifInterface.OrientationTransverse),
+            ExifInterface.OrientationUndefined => nameof(ExifInterface.OrientationUndefined),
             _ => throw new ArgumentOutOfRangeException(nameof(orientationConstant))
         };
 
         return (orientationConstant, orientationDisplayName);
+    }
+
+    private static long[] GetBitsPerSample(AndroidX.ExifInterface.Media.ExifInterface exif)
+    {
+        return exif.GetAttributeRange(ExifInterface.TagBitsPerSample);
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>

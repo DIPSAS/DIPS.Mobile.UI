@@ -2,7 +2,7 @@ using AVFoundation;
 using CoreAnimation;
 using CoreGraphics;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.Extensions.iOS;
+using DIPS.Mobile.UI.Extensions.iOS;
 using Foundation;
 using Microsoft.Maui.Controls.Shapes;
 using UIKit;
