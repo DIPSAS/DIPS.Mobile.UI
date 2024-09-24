@@ -55,20 +55,15 @@ public partial class ImageCapture : ICameraUseCase
     {
         VibrationService.SelectionChanged();
         
-        if (m_streamingStateView?.ShutterButton != null)
-        {
-            Touch.SetIsEnabled(m_streamingStateView.ShutterButton, false);    
-        }
+        m_streamingStateView?.SetShutterButtonEnabled(false);
 
-#if __ANDROID__ //iOS already has a blinking effect when we capture photo. TODO: Maybe remove blinking effect on iOS? Because the blinking effect appears after photo is processed
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
-        m_cameraPreview?.AddViewToRoot(blackBox, true);
+        m_cameraPreview?.AddViewToRoot(blackBox);
         
         await blackBox.FadeTo(1, 50);
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
-#endif
 
         m_activityIndicator = new ActivityIndicator
         {
@@ -77,10 +72,8 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.AddViewToRoot(m_activityIndicator);
     }
     
-    private void SwitchToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
+    private async void SwitchToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
     {
-        PlatformStop();
-
         if (m_cameraPreview == null)
         {
             return;
@@ -117,9 +110,13 @@ public partial class ImageCapture : ICameraUseCase
 
         
         m_cameraPreview.AddViewToRoot(m_confirmImage, true);
+        // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
+        await Task.Delay(10);
         m_cameraPreview.AddBottomToolbarView(m_confirmStateView);
         RemoveCaptureImageStateVisuals();
         m_cameraPreview.GoToConfirmingState();
+
+        _ = PlatformStop();
     }
 
     private void RemoveCaptureImageStateVisuals()
@@ -142,10 +139,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         m_cameraPreview?.GoToStreamingState();
 
-        if (m_streamingStateView?.ShutterButton != null)
-        {
-            Touch.SetIsEnabled(m_streamingStateView.ShutterButton, true);    
-        }
+        m_streamingStateView?.SetShutterButtonEnabled(true);
         
         RemoveConfirmStateVisuals();
         if (m_cameraPreview?.CameraZoomView != null)

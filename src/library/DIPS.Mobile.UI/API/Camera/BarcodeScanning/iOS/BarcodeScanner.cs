@@ -30,7 +30,7 @@ public partial class BarcodeScanner : CameraSession
     {
         if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        return ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetHigh, m_captureMetadataOutput, cameraFailedDelegate);
+        return ConfigureAndStart(m_cameraPreview, m_cameraPreview.TargetResolution, m_captureMetadataOutput, cameraFailedDelegate);
     }
 
     public override void ConfigureSession()

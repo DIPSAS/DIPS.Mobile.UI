@@ -9,25 +9,31 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This">
+                 x:Name="This"
+                 BackgroundColor="Black">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid>
-        <dui:ListItem>
-            <dui:ListItem.UnderlyingContent>
-                
-                <VerticalStackLayout Margin="{dui:Thickness Top=size_1}">
-                    <dui:Label Text="test"></dui:Label>
-                <dui:ListItem Title="Date">
-                    <dui:NullableDateAndTimePicker SelectedDateTime="{Binding Date, Mode=TwoWay}" />
-                </dui:ListItem>
-                </VerticalStackLayout>
-            </dui:ListItem.UnderlyingContent>
-        </dui:ListItem>
+    <Grid HeightRequest="70"
+          WidthRequest="70"
+          BackgroundColor="White"
+          dui:Layout.CornerRadius="35"
+          Padding="3">
+        
+        <Border BackgroundColor="Black">
+            <Border.StrokeShape><Ellipse></Ellipse></Border.StrokeShape>
+        </Border>
+        
+        <Border BackgroundColor="White"
+                Margin="2">
+            <Border.StrokeShape><Ellipse></Ellipse></Border.StrokeShape>
+            
+        </Border>
+        
     </Grid>
+        
 
     
 </dui:ContentPage>

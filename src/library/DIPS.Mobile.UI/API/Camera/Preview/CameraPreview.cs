@@ -21,7 +21,7 @@ public partial class CameraPreview : ContentView
     private Grid m_bottomToolbarContainer;
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
-    private Border m_border;
+    private Border m_indicator;
 
     private const float ThreeFourRatio = .75f;
     
@@ -99,9 +99,9 @@ public partial class CameraPreview : ContentView
     
     internal void AddFocusIndicator(float percentX, float percentY)
     {
-        m_grid.Remove(m_border);
+        m_grid.Remove(m_indicator);
         
-        m_border = new Border
+        m_indicator = new Border
         {
             WidthRequest = Sizes.GetSize(SizeName.size_17),
             HeightRequest = Sizes.GetSize(SizeName.size_17),
@@ -112,22 +112,23 @@ public partial class CameraPreview : ContentView
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
             Opacity = .75f,
-            Scale = .75f      
+            Scale = .75f,
+            InputTransparent = true
         };
 
-        var borderToRemove = m_border;
+        var borderToRemove = m_indicator;
 
-        m_border.TranslationX = percentX * PreviewView.Width - m_border.WidthRequest / 2;
-        m_border.TranslationY = percentY * PreviewView.Height;
+        m_indicator.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
+        m_indicator.TranslationY = percentY * PreviewView.Height;
 
 #if __IOS__
-        m_border.TranslationY -= m_border.HeightRequest / 2;
+        m_indicator.TranslationY -= m_indicator.HeightRequest / 2;
 #endif
 
-        m_border.ScaleTo(1, easing: Easing.SpringOut);
-        m_border.FadeTo(1);
+        m_indicator.ScaleTo(1, easing: Easing.SpringOut);
+        m_indicator.FadeTo(1);
         
-        m_grid.Add(m_border);
+        m_grid.Add(m_indicator);
 
         Task.Run(async () =>
         {
@@ -140,7 +141,23 @@ public partial class CameraPreview : ContentView
             });
         });
     }
+
+    public void AddTopToolbarView(View? toolbarItems)
+    {
+        if(m_topToolbarContainer.Contains(toolbarItems))
+            return;
+        
+        m_topToolbarContainer.Add(toolbarItems);
+    }
     
+    public void RemoveTopToolbarView(View? toolbarItems)
+    {
+        if (toolbarItems is null) 
+            return;
+        
+        m_topToolbarContainer.Remove(toolbarItems);
+    }
+
     public void AddBottomToolbarView(View? toolbarItems)
     {
         if(m_bottomToolbarContainer.Contains(toolbarItems))
@@ -195,6 +212,8 @@ public partial class CameraPreview : ContentView
     public void GoToConfirmingState()
     {
         PreviewView.IsVisible = false;
+
+        m_grid.Remove(m_indicator);
     }
 
     public void GoToStreamingState()

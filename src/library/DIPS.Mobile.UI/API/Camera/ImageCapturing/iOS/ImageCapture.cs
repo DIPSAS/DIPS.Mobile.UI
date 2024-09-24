@@ -24,7 +24,7 @@ public partial class ImageCapture : CameraSession
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, AVCaptureSession.PresetPhoto, m_capturePhotoOutput, cameraFailedDelegate);
+            return base.ConfigureAndStart(m_cameraPreview, m_cameraPreview.TargetResolution, m_capturePhotoOutput, cameraFailedDelegate);
         }
 
         return Task.CompletedTask;
@@ -137,6 +137,7 @@ public partial class ImageCapture : CameraSession
             Width = Sizes.GetSize(SizeName.size_18),
             Height = Sizes.GetSize(SizeName.size_18),
         };
+
         return settings;
     }
 #pragma warning restore CA1422

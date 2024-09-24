@@ -2,6 +2,8 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
 internal class CameraZoomView : Grid
 {
+    private CancellationTokenSource m_cancellationTokenSource = new();
+    
     private readonly Action<float> m_onChangedZoomRatio;
     private ZoomType m_zoomState;
     private readonly ZoomButtons m_zoomButtons;
@@ -25,13 +27,9 @@ internal class CameraZoomView : Grid
                 ZoomState = ZoomType.Slidable;
                 OnChangedZoomRatio(v);
             },
-            state =>
+            () =>
             {
-                ZoomState = state ? ZoomType.Slidable : ZoomType.Buttons;
-                if (!state)
-                {
-                    m_zoomButtons.SetZoomRatio((float)m_zoomSlider!.ZoomRatioLevel);
-                }
+                m_zoomButtons.SetZoomRatio((float)m_zoomSlider!.ZoomRatioLevel);
             });
         
         Add(m_zoomSlider);
@@ -43,15 +41,31 @@ internal class CameraZoomView : Grid
         switch (e.StatusType)
         {
             case GestureStatus.Started:
+                m_cancellationTokenSource.Cancel();
+                m_cancellationTokenSource = new CancellationTokenSource();
                 ZoomState = ZoomType.Slidable; 
                 break;
             case GestureStatus.Completed:
             case GestureStatus.Canceled:
-                ZoomState = ZoomType.Buttons;
+                _ = TryChangeToZoomButtons();
                 break;
         }
         
         m_zoomSlider.TranslateZoomSlider(e);
+    }
+    
+    private async Task TryChangeToZoomButtons()
+    {
+        try
+        {
+            await Task.Delay(ZoomSlider.DelayUntilFadeOut, m_cancellationTokenSource.Token);
+            m_cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            ZoomState = ZoomType.Buttons;
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private void OnChangedZoomRatio(float zoomRatio)
@@ -88,6 +102,9 @@ internal class CameraZoomView : Grid
         get => m_zoomState;
         set
         {
+            if (ZoomState == value)
+                return;
+            
             m_zoomState = value;
             if(m_zoomState == ZoomType.Slidable)
             {

@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
@@ -53,6 +54,7 @@ public abstract class CameraSession
                 m_captureSession = null;
             });
         }
+        
 
         RemoveObservers();
         CaptureDevice = null;
@@ -81,7 +83,7 @@ public abstract class CameraSession
     /// <param name="sessionPreset">The quality of the camera session</param>
     /// <param name="avCaptureOutput">The output </param>
     /// <exception cref="Exception"></exception>
-    internal async Task ConfigureAndStart(CameraPreview cameraPreview, NSString sessionPreset,
+    internal async Task ConfigureAndStart(CameraPreview cameraPreview, Size targetResolution,
         AVCaptureOutput avCaptureOutput, CameraFailed cameraFailedDelegate)
     {
         m_cameraFailedDelegate = cameraFailedDelegate;
@@ -99,6 +101,7 @@ public abstract class CameraSession
         m_captureSession.BeginConfiguration();
         
         CaptureDevice = SelectCaptureDevice();
+        
         if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
         
         PreviewLayer =
@@ -115,10 +118,22 @@ public abstract class CameraSession
         {
             throw new Exception("Unable to use the back camera wide angle camera to detect bar codes");
         }
-
-        //Set quality for best performance
-        m_captureSession.SessionPreset = sessionPreset;
-
+        
+        //Set quality based on the target height
+        try
+        {
+            if(!CaptureDevice.LockForConfiguration(out var configurationLockError))
+                return;
+            
+            CaptureDevice.ActiveFormat = GetCompatibleFormat((int)targetResolution.Width);
+            
+            CaptureDevice.UnlockForConfiguration();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        
         //Add barcode camera output
         m_avCaptureOutput = avCaptureOutput;
 
@@ -158,6 +173,38 @@ public abstract class CameraSession
         {
             throw new Exception("Unable to add output");
         }
+    }
+
+    private AVCaptureDeviceFormat GetCompatibleFormat(int targetHeight)
+    {
+        var selectedVideoFormat = CaptureDevice?.Formats[0];
+        foreach (var format in CaptureDevice?.Formats!)
+        {
+            if (format.FormatDescription is not CMVideoFormatDescription videoFormatDescription)
+                continue;
+
+            var isFourThreeRatio = Math.Abs(((float)videoFormatDescription.Dimensions.Height / videoFormatDescription.Dimensions.Width) - 0.75) < 0.01f;
+            if(!isFourThreeRatio)
+                continue;
+            
+            if (videoFormatDescription.Dimensions.Width <= targetHeight)
+            {
+                if (selectedVideoFormat?.FormatDescription is CMVideoFormatDescription selectedVideoFormatDescription)
+                {
+                    // Just take the first format of a resolution
+                    if(selectedVideoFormatDescription.Dimensions.Width == videoFormatDescription.Dimensions.Width && selectedVideoFormatDescription.Dimensions.Height == videoFormatDescription.Dimensions.Height)
+                        continue;
+                }
+                
+                selectedVideoFormat = format;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return selectedVideoFormat!;
     }
 
     private void AddCameraZoomView()

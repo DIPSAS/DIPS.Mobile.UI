@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             x:Class="Components.ComponentsSamples.ImageCapturing.SelectResolutionBottomSheet"
+             x:Name="This">
+    
+    <dui:VerticalStackLayout>
+        
+        <dui:Button Text="Lagre"
+                    Clicked="MenuItem_OnClicked" />
+    
+        <dui:Entry Placeholder="Velg oppløsning (f.eks: 4000)"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
+                   x:Name="Entry"
+                   HasBorder="True" />
+        
+    </dui:VerticalStackLayout>
+    
+</dui:BottomSheet>

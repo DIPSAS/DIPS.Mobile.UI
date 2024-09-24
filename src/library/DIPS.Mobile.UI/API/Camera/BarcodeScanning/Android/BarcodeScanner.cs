@@ -1,6 +1,7 @@
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
@@ -10,6 +11,7 @@ using DIPS.Mobile.UI.Observable.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
 using Object = Java.Lang.Object;
+using Size = Android.Util.Size;
 using Task = System.Threading.Tasks.Task;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -22,14 +24,20 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     private ImageAnalysis? m_imageAnalysisUseCase;
     private CameraZoomSlider? m_slider;
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings,CameraFailed cameraFailedDelegate)
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
         if (Context == null) return Task.CompletedTask;
+        
+        var resolutionSelector = new ResolutionSelector.Builder()
+            .SetResolutionStrategy(ResolutionStrategy.HighestAvailableStrategy)
+            .SetAspectRatioStrategy(AspectRatioStrategy.Ratio43FallbackAutoStrategy)
+            .Build();
+        
         m_imageAnalysisUseCase = new ImageAnalysis.Builder()
             .Build();
         m_imageAnalysisUseCase.SetAnalyzer(ContextCompat.GetMainExecutor(Context),
             ImageAnalyzer.Create(AnalyzeImage));
-        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_imageAnalysisUseCase, cameraFailedDelegate) : Task.CompletedTask;
+        return m_cameraPreview != null ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_imageAnalysisUseCase, resolutionSelector, cameraFailedDelegate) : Task.CompletedTask;
     }
 
     internal partial Task PlatformStop() => base.TryStop();

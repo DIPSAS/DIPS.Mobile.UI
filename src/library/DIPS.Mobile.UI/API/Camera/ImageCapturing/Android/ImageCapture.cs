@@ -10,6 +10,8 @@ using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;
+using Size = Android.Util.Size;
+
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
@@ -21,14 +23,17 @@ public partial class ImageCapture : CameraFragment
     {
         m_imageCaptureSettings = imageCaptureSettings;
         var resolutionSelector = new ResolutionSelector.Builder()
+            .SetResolutionStrategy(new ResolutionStrategy(new Size((int)m_cameraPreview.TargetResolution.Width, (int)m_cameraPreview.TargetResolution.Height), ResolutionStrategy.FallbackRuleClosestLowerThenHigher))
+            .SetAspectRatioStrategy(AspectRatioStrategy.Ratio43FallbackAutoStrategy)
             .Build();
+        
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
 
         // Add listener to receive updates.
         return m_cameraPreview != null
-            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, cameraFailedDelegate)
+            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate)
             : Task.CompletedTask;
     }
 
@@ -53,6 +58,7 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
+        Console.WriteLine(m_cameraCaptureUseCase.ResolutionInfo.Resolution);
         m_cameraPreview?.SetToolbarHeights();
     }
 
