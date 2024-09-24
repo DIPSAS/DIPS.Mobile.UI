@@ -26,10 +26,10 @@ public abstract class CameraSession
     internal PreviewView? PreviewView { get; private set; }
     
     //The session of the capture, there can only be one capture session running in an iOS app.
-    private AVCaptureSession? m_captureSession;
+    protected AVCaptureSession? CaptureSession;
 
-    //The rectangle that people see in the preview which we will focus on scanning bar codes in
     
+    //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private AVCaptureOutput? m_avCaptureOutput;
     private AVCaptureDeviceInput? m_videoDeviceInput;
     private NSObject? m_runtimeErrorObserver;
@@ -37,21 +37,21 @@ public abstract class CameraSession
 
     internal void StopCameraSession()
     {
-        if (m_captureSession is {Running: true})
+        if (CaptureSession is {Running: true})
         {
             Task.Run(() =>
             {
-                m_captureSession.StopRunning();
+                CaptureSession.StopRunning();
                 if (m_avCaptureOutput != null)
                 {
-                    m_captureSession.RemoveOutput(m_avCaptureOutput);    
+                    CaptureSession.RemoveOutput(m_avCaptureOutput);    
                 }
 
                 if (m_videoDeviceInput != null)
                 {
-                    m_captureSession.RemoveInput(m_videoDeviceInput);
+                    CaptureSession.RemoveInput(m_videoDeviceInput);
                 }
-                m_captureSession = null;
+                CaptureSession = null;
             });
         }
         
@@ -80,7 +80,6 @@ public abstract class CameraSession
     /// 
     /// </summary>
     /// <param name="cameraPreview">The virtual MAUI <see cref="CameraPreview"/></param>
-    /// <param name="sessionPreset">The quality of the camera session</param>
     /// <param name="avCaptureOutput">The output </param>
     /// <exception cref="Exception"></exception>
     internal async Task ConfigureAndStart(CameraPreview cameraPreview, Size targetResolution,
@@ -93,26 +92,26 @@ public abstract class CameraSession
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
         PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
 
-        m_captureSession = new AVCaptureSession();
+        CaptureSession = new AVCaptureSession();
 
         AddObservers();
 
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
-        m_captureSession.BeginConfiguration();
+        CaptureSession.BeginConfiguration();
         
         CaptureDevice = SelectCaptureDevice();
         
         if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
         
         PreviewLayer =
-            await PreviewView?.WaitForViewLayoutAndAddSessionToPreview(CaptureDevice, m_captureSession,
+            await PreviewView?.WaitForViewLayoutAndAddSessionToPreview(CaptureDevice, CaptureSession,
                 AVLayerVideoGravity.ResizeAspect)!;
         
         m_videoDeviceInput = AVCaptureDeviceInput.FromDevice(CaptureDevice);
         if (m_videoDeviceInput == null) throw new Exception($"video device input is null");
-        if (m_captureSession.CanAddInput(m_videoDeviceInput))
+        if (CaptureSession.CanAddInput(m_videoDeviceInput))
         {
-            m_captureSession.AddInput(m_videoDeviceInput);
+            CaptureSession.AddInput(m_videoDeviceInput);
         }
         else
         {
@@ -139,15 +138,15 @@ public abstract class CameraSession
 
         AddCameraZoomView();
         
-        if (m_captureSession.CanAddOutput(m_avCaptureOutput))
+        if (CaptureSession.CanAddOutput(m_avCaptureOutput))
         {
-            m_captureSession.AddOutput(
+            CaptureSession.AddOutput(
                 m_avCaptureOutput); //this has to be set before setting metadata objects, or else it crashes
             
             ConfigureSession();
 
             //Commit the configuration
-            m_captureSession.CommitConfiguration();
+            CaptureSession.CommitConfiguration();
             
             PreviewView.AddPinchToZoom(CaptureDevice);
             PreviewView.AddTapToFocus(CaptureDevice);
@@ -165,7 +164,7 @@ public abstract class CameraSession
             */
             await Task.Run(() =>
                 {
-                    m_captureSession?.StartRunning();
+                    CaptureSession?.StartRunning();
                 }
             );
         }
@@ -239,7 +238,7 @@ public abstract class CameraSession
 
     private void AddObservers()
     {
-        m_runtimeErrorObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.RuntimeErrorNotification, OnSessionRuntimeError, m_captureSession);
+        m_runtimeErrorObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.RuntimeErrorNotification, OnSessionRuntimeError, CaptureSession);
     }
 
     private void OnSessionRuntimeError(NSNotification notification)
@@ -250,7 +249,7 @@ public abstract class CameraSession
         }
 
         var error = (NSError)notification.UserInfo[AVCaptureSession.ErrorKey];
-        OnCameraFailed<CameraSession>(new CameraException("OnSessionRuntimeError", new Exception(error.ToExceptionMessage())));
+        OnCameraFailed<CameraSession>(new CameraException("OnSessionRuntimeError", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
     }
 
     private void OnChangedZoomRatio(float zoomRatio)

@@ -34,8 +34,6 @@ internal partial class ShutterButton : Grid, IDisposable
         
         Children.Add(shutterContentBlackOverlay);
         Children.Add(m_shutterContentWhiteOverlay);
-        
-        AddPlatformGestureRecognizer();
     }
 
     private partial void AddPlatformGestureRecognizer();

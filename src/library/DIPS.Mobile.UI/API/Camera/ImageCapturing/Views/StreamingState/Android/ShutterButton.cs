@@ -13,6 +13,7 @@ internal partial class ShutterButton
     private partial void AddPlatformGestureRecognizer()
     {
         var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
+        nativeView.Touch -= OnTappedShutterButton;
         nativeView.Touch += OnTappedShutterButton;
     }
 

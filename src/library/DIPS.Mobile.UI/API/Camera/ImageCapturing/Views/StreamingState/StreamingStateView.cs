@@ -8,9 +8,8 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
 internal class StreamingStateView : Grid
 {
     private readonly ShutterButton m_shutterButton;
-    
+
     private bool m_isFlashOn;
-    
 
     public StreamingStateView(Action onTappedShutterButton, Action onTappedFlashButton)
     {

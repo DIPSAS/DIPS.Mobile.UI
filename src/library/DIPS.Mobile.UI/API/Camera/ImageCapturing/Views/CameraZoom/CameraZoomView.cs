@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
+
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
 internal class CameraZoomView : Grid
@@ -19,31 +21,24 @@ internal class CameraZoomView : Grid
         
         m_zoomButtons = new ZoomButtons(minRatio, maxRatio, v =>
         {
-            ZoomState = ZoomType.Buttons;
-            OnChangedZoomRatio(v);
-        }, OnPannedZoomButton);
-        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, v =>
-            {
-                ZoomState = ZoomType.Slidable;
-                OnChangedZoomRatio(v);
-            },
-            () =>
-            {
-                m_zoomButtons.SetZoomRatio((float)m_zoomSlider!.ZoomRatioLevel);
-            });
+            m_onChangedZoomRatio(v);
+            m_zoomSlider?.SetZoomRatio(v);
+        }, OnPanned);
+        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, m_onChangedZoomRatio, OnPanned);
         
         Add(m_zoomSlider);
         Add(m_zoomButtons);
     }
 
-    private void OnPannedZoomButton(PanUpdatedEventArgs e)
+    private void OnPanned(PanUpdatedEventArgs e)
     {
         switch (e.StatusType)
         {
             case GestureStatus.Started:
                 m_cancellationTokenSource.Cancel();
                 m_cancellationTokenSource = new CancellationTokenSource();
-                ZoomState = ZoomType.Slidable; 
+                if(ZoomState is not ZoomType.Slidable)
+                    ZoomState = ZoomType.Slidable; 
                 break;
             case GestureStatus.Completed:
             case GestureStatus.Canceled:
@@ -61,20 +56,11 @@ internal class CameraZoomView : Grid
             await Task.Delay(ZoomSlider.DelayUntilFadeOut, m_cancellationTokenSource.Token);
             m_cancellationTokenSource.Token.ThrowIfCancellationRequested();
             ZoomState = ZoomType.Buttons;
+            m_zoomButtons.SetZoomRatio((float)m_zoomSlider.ZoomRatioLevel);
         }
         catch
         {
             // ignored
-        }
-    }
-
-    private void OnChangedZoomRatio(float zoomRatio)
-    {
-        m_onChangedZoomRatio(zoomRatio);
-
-        if (ZoomState is ZoomType.Buttons)
-        {
-            m_zoomSlider.SetZoomRatio(zoomRatio);
         }
     }
 

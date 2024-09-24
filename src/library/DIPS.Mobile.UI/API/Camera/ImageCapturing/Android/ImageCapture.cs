@@ -58,7 +58,7 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        Console.WriteLine(m_cameraCaptureUseCase.ResolutionInfo.Resolution);
+        m_streamingStateView?.SetShutterButtonEnabled(true);
         m_cameraPreview?.SetToolbarHeights();
     }
 

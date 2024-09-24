@@ -1,12 +1,7 @@
 using AVFoundation;
-using CoreGraphics;
-using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
-using DIPS.Mobile.UI.API.Camera.Permissions;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
-using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using ImageIO;
 using UIKit;
@@ -38,6 +33,7 @@ public partial class ImageCapture : CameraSession
 
     public override void ConfigureSession()
     {
+        m_streamingStateView?.SetShutterButtonEnabled(true);
         m_cameraPreview?.SetToolbarHeights();
     }
 
@@ -81,6 +77,9 @@ public partial class ImageCapture : CameraSession
 
     private partial void PlatformCapturePhoto()
     {
+        if(!CaptureSession?.Running ?? true)
+            return;
+        
         var settings = CreateSettings();
         if (settings is not null)
         {
@@ -159,7 +158,7 @@ public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action
     {
         if (error != null)
         {
-            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage())));
+            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishCapture", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
         }
     }
 
@@ -167,7 +166,7 @@ public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action
     {
         if (error != null)
         {
-            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage())));
+            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
         }
         m_onPhotoCaptured?.Invoke(photo);
     }

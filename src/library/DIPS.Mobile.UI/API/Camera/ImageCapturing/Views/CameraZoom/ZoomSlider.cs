@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Components.Slidable;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -17,7 +18,7 @@ internal class ZoomSlider : Grid
     private readonly float m_maxRatio;
     
     private readonly Action<float> m_onChangedZoomRatio;
-    private readonly Action m_onPanCompleteOrCancelled;
+    private readonly Action<PanUpdatedEventArgs> m_onPanned;
     
     private double m_startingX;
     private double m_minimumZoomRatiosLayoutTranslationX;
@@ -28,11 +29,11 @@ internal class ZoomSlider : Grid
 
     public const int DelayUntilFadeOut = 500;
 
-    public ZoomSlider(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action onPanCompleteOrCancelled)
+    public ZoomSlider(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPanned)
     {
         m_maxRatio = maxRatio;
         m_onChangedZoomRatio = onChangedZoomRatio;
-        m_onPanCompleteOrCancelled = onPanCompleteOrCancelled;
+        m_onPanned = onPanned;
         
         VerticalOptions = LayoutOptions.Center;
         RowSpacing = Sizes.GetSize(SizeName.size_3);
@@ -83,7 +84,7 @@ internal class ZoomSlider : Grid
         m_zoomRatiosLayout.FadeTo(opacity);
         m_zoomRatioLevelBorder.FadeTo(opacity);
 
-        if (opacity == 1)
+        if (opacity > 0)
         {
             var panGestureRecognizer = new PanGestureRecognizer();
             panGestureRecognizer.PanUpdated += OnPanned;
@@ -98,9 +99,6 @@ internal class ZoomSlider : Grid
     private void OnPanned(object? sender, PanUpdatedEventArgs e)
     {
         PanGestureRecognizerOnPanUpdated(e);
-        
-        m_cancellationTokenSource.Cancel();
-        m_cancellationTokenSource = new CancellationTokenSource();
     }
 
     private void CreateZoomDisplayButton()
@@ -176,7 +174,7 @@ internal class ZoomSlider : Grid
 
     private void PanGestureRecognizerOnPanUpdated(PanUpdatedEventArgs e)
     {
-        TranslateZoomSlider(e);
+        m_onPanned.Invoke(e);
     }
     
     public void TranslateZoomSlider(PanUpdatedEventArgs e)
@@ -184,9 +182,10 @@ internal class ZoomSlider : Grid
         switch (e.StatusType)
         {
             case GestureStatus.Started:
+                m_startingX = e.TotalX;
+                
                 m_cancellationTokenSource.Cancel();
                 m_cancellationTokenSource = new CancellationTokenSource();
-                m_startingX = e.TotalX;
                 break;
             case GestureStatus.Running:
                 {
@@ -223,18 +222,9 @@ internal class ZoomSlider : Grid
 
                     break;
                 }
-            case GestureStatus.Canceled:
-            case GestureStatus.Completed:
-                {
-                    m_onPanCompleteOrCancelled.Invoke();
-                    break;
-                }
-                
         }
     }
 
-    
-    
     public double ZoomRatioLevel
     {
         get => m_zoomRatioLevel;

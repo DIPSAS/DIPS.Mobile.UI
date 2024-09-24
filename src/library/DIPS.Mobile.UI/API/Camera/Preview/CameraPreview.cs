@@ -182,9 +182,8 @@ public partial class CameraPreview : ContentView
             m_grid.Add(view);
     }
     
-    public void RemoveViewFromRoot(View? view)
+    public void RemoveViewFromRoot(View view)
     {
-        if (view == null) return;
         m_grid.Remove(view);
     }
     

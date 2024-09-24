@@ -5,7 +5,6 @@ using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Vibration;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal.Logging;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -14,12 +13,18 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : ICameraUseCase
 {
+    private readonly ActivityIndicator m_activityIndicator = new()
+    {
+        VerticalOptions = LayoutOptions.Center,
+        HorizontalOptions = LayoutOptions.Center,
+        IsRunning = true
+    };
+    
     private CameraPreview? m_cameraPreview;
     private DidCaptureImage? m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
     private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
-    private ActivityIndicator? m_activityIndicator;
     private Grid m_bottomToolbar;
     private StreamingStateView? m_streamingStateView;
 
@@ -64,11 +69,6 @@ public partial class ImageCapture : ICameraUseCase
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
-
-        m_activityIndicator = new ActivityIndicator
-        {
-            VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, IsRunning = true
-        };
         m_cameraPreview?.AddViewToRoot(m_activityIndicator);
     }
     
