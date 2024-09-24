@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.TIFF;
+using DIPS.Mobile.UI.Components.BottomSheets;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
@@ -55,11 +56,29 @@ public partial class ImageCaptureSample
         m_images.Add(capturedimage);
         GalleryThumbnails.AddImage(capturedimage);
         ToggleCamera(false);
+        var preTiff = await capturedimage.AsRotatedByteArray();
+        var preTiffB64 = Convert.ToBase64String(preTiff);
+        
+        var rotated = await capturedimage.AsRotatedByteArray() ?? [];
+        await new BottomSheet()
+        {
+            Content = new Image() {Source = ImageSource.FromStream(() => new MemoryStream(rotated)), VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.Center}
+        }.Open();
+        
         var memoryStream = await new TiffFactory().ConvertToTiffAsync(capturedimage, CancellationToken.None);
         if (memoryStream != null)
         {
-            var tiff = Convert.ToBase64String(memoryStream.ToArray());
+            var tiffbytearray = memoryStream.ToArray();
+            var tiff = Convert.ToBase64String(tiffbytearray);
+            var sizeOfTiff = ImageSize.InMegaBytes(tiffbytearray);
+            if (capturedimage.Size.SizeInMegaBytes < sizeOfTiff)
+            {
+                App.Current.MainPage.DisplayAlert("Size matters!", $"The size of the tiff image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Tiff image: {sizeOfTiff}", "Ok");
+            }
+            Console.WriteLine("tiff: "+tiff);
         }
+
+        
     }
 
     private void ToggleCamera(bool shouldDisplay)

@@ -53,7 +53,7 @@ public class TiffFactory
                 m_tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
                 m_tiff.SetField(TiffTag.COMPRESSION, BitMiracle.LibTiff.Classic.Compression.JPEG);
                 m_tiff.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
-                m_tiff.SetField(TiffTag.ORIENTATION, capturedImage.Transformation.OrientationConstant);
+                m_tiff.SetField(TiffTag.ORIENTATION, Orientation.BOTLEFT);
 
                 var width = bitMap.Width;
                 var height = bitMap.Height;
