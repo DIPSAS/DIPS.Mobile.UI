@@ -109,6 +109,7 @@ public partial class ImageCaptureSample
     private void ToggleCamera(bool shouldDisplay)
     {
         CameraPreview.IsVisible = shouldDisplay;
-        GalleryThumbnails.IsVisible = !CameraPreview.IsVisible ;
+        GalleryThumbnails.IsVisible = !CameraPreview.IsVisible;
+        NavigationPage.SetHasNavigationBar(this, GalleryThumbnails.IsVisible);
     }
 }

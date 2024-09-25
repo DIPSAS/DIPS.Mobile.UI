@@ -294,8 +294,8 @@ public abstract class CameraFragment : Fragment
         {
             desiredZoomRatio = zoomState.MinZoomRatio;
         }
-            
-        CameraControl?.SetZoomRatio(desiredZoomRatio);
+        
+        OnChangedZoomRatio(desiredZoomRatio);
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
     }
 
@@ -318,6 +318,11 @@ public abstract class CameraFragment : Fragment
     
     private void OnChangedZoomRatio(float zoomRatio)
     {
+        if (m_cameraPreview != null)
+        {
+            m_cameraPreview.HasZoomed = true;
+        }
+
         CameraControl?.SetZoomRatio(zoomRatio);
     }
 

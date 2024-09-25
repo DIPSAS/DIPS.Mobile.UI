@@ -48,13 +48,13 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.End, 
-            BackgroundColor = Colors.Black
+            BackgroundColor = Colors.Black,
         };
         
         m_topToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.Start, 
-            BackgroundColor = Colors.Black
+            BackgroundColor = Colors.Black,
         };
 
         PreviewView = new PreviewView();
@@ -86,11 +86,13 @@ public partial class CameraPreview : ContentView
     /// <summary>
     /// Here we set the height of the top and bottom toolbar relative to the <see cref="ThreeFourRatio"/>
     /// </summary>
-    internal void SetToolbarHeights()
+    /// <param name="frameHeight"></param>
+    internal void SetToolbarHeights(float frameHeight)
     {
         var actualPreviewHeight = (Width / ThreeFourRatio);
-        var letterBoxHeight = (Height - actualPreviewHeight) / 2;
+        var letterBoxHeight = (frameHeight - actualPreviewHeight) / 2;
 
+        Console.WriteLine($"frameHeight: {frameHeight}, Height:{Height}, Width:{Width} letterBoxHeight: {letterBoxHeight} actualPreviewHeight {actualPreviewHeight}");
         m_topToolbarContainer.HeightRequest = letterBoxHeight;
         m_bottomToolbarContainer.HeightRequest = letterBoxHeight;
         

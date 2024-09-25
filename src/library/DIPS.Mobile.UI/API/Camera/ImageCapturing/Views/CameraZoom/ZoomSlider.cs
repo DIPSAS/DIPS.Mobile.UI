@@ -31,6 +31,8 @@ internal class ZoomSlider : Grid
 
     public ZoomSlider(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPanned)
     {
+        InputTransparent = true;
+        CascadeInputTransparent = false;
         m_maxRatio = maxRatio;
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;

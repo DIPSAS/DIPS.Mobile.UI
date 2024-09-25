@@ -22,5 +22,10 @@ public partial class CameraPreview
     /// </summary>
     public bool IsInFullscreen { get; set; } = true;
     
+    /// <summary>
+    /// Determines if people has used the zoom functionality.
+    /// </summary>
+    public bool HasZoomed { get; internal set; }
+    
     
 }

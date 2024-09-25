@@ -34,7 +34,10 @@ public partial class ImageCapture : CameraSession
     public override void ConfigureSession()
     {
         m_streamingStateView?.SetShutterButtonEnabled(true);
-        m_cameraPreview?.SetToolbarHeights();
+        if (PreviewView != null)
+        {
+            m_cameraPreview?.SetToolbarHeights((float)PreviewView.Frame.Height);
+        }
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>

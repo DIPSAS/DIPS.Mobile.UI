@@ -17,6 +17,7 @@ internal class ZoomButtons : HorizontalStackLayout
     {
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;
+
         
         var panGestureRecognizer = new PanGestureRecognizer();
         panGestureRecognizer.PanUpdated += OnPanned;

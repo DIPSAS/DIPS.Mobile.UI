@@ -233,6 +233,10 @@ public abstract class CameraSession
 
     private void PreviewViewOnZoomChanged(float zoomRatio)
     {
+        if (m_cameraPreview != null)
+        {
+            m_cameraPreview.HasZoomed = true;
+        }
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(zoomRatio);
     }
 
@@ -260,6 +264,10 @@ public abstract class CameraSession
         try
         {
             CaptureDevice.RampToVideoZoom(zoomRatio, 5.0f);
+            if (m_cameraPreview != null)
+            {
+                m_cameraPreview.HasZoomed = true;
+            }
         }
         catch (Exception e)
         {

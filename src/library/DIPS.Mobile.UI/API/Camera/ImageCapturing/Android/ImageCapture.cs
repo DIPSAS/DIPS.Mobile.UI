@@ -59,7 +59,8 @@ public partial class ImageCapture : CameraFragment
     public override void OnStarted()
     {
         m_streamingStateView?.SetShutterButtonEnabled(true);
-        m_cameraPreview?.SetToolbarHeights();
+        
+        m_cameraPreview?.SetToolbarHeights((float)m_cameraPreview.PreviewView.Height);
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)

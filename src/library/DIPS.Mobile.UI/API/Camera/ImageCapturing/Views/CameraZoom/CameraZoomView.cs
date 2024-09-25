@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
@@ -13,6 +14,8 @@ internal class CameraZoomView : Grid
 
     public CameraZoomView(float minRatio, float maxRatio, Action<float> onChangedZoomRatio)
     {
+        InputTransparent = true;
+        CascadeInputTransparent = false;
         m_onChangedZoomRatio = onChangedZoomRatio;
         
         VerticalOptions = LayoutOptions.End;
@@ -104,6 +107,11 @@ internal class CameraZoomView : Grid
             }
         }
     }
+    
+    /// <summary>
+    /// Determines if people has used the zoom functionality.
+    /// </summary>
+    public bool HasZoomed { get; set; }
 
     private enum ZoomType
     {

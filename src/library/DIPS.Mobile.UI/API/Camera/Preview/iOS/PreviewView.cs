@@ -104,12 +104,6 @@ internal sealed class PreviewView : ContentView
                     captureDevice.VideoZoomFactor = zoomFactor;
 
                     OnZoomChanged?.Invoke((float)zoomFactor);
-                    
-                    /*if (m_slider != null) //Synchronize ZoomSlider if its added 
-                    {
-                        m_slider.Value = zoomFactor;
-                    }
-                    SetHasZoomed();*/
                 }
                 catch (Exception e)
                 {
