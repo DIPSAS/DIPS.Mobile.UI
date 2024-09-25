@@ -74,7 +74,7 @@ public partial class ImageCaptureSample
             var rotatedByteArraySize = ImageSize.InMegaBytes(rotatedByteArray);
             if (capturedimage.Size.SizeInMegaBytes < rotatedByteArraySize)
             {
-                App.Current.MainPage.DisplayAlert("Size matters!", $"The size of the rotated image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Rotated image: {rotatedByteArraySize}", "Ok");
+                Console.WriteLine($"Size matters! The size of the rotated image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Rotated image: {rotatedByteArraySize}");
             }
         }
         
@@ -85,10 +85,10 @@ public partial class ImageCaptureSample
         var preTiffB64 = Convert.ToBase64String(preTiff);
         
         var rotated = await capturedimage.AsRotatedByteArray() ?? [];
-        await new BottomSheet()
-        {
-            Content = new Image() {Source = ImageSource.FromStream(() => new MemoryStream(rotated)), VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.Center}
-        }.Open();
+        // await new BottomSheet()
+        // {
+        //     Content = new Image() {Source = ImageSource.FromStream(() => new MemoryStream(rotated)), VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.Center}
+        // }.Open();
         
         var memoryStream = await new TiffFactory().ConvertToTiffAsync(capturedimage, CancellationToken.None);
         if (memoryStream != null)
@@ -98,11 +98,9 @@ public partial class ImageCaptureSample
             var sizeOfTiff = ImageSize.InMegaBytes(tiffbytearray);
             if (capturedimage.Size.SizeInMegaBytes < sizeOfTiff)
             {
-                App.Current.MainPage.DisplayAlert("Size matters!", $"The size of the tiff image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Tiff image: {sizeOfTiff}", "Ok");
+                Console.WriteLine($"Size matters! The size of the tiff image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Tiff image: {sizeOfTiff}");
             }
-            Console.WriteLine("tiff: "+tiff);
         }
-
         
     }
 

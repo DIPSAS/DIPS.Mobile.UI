@@ -192,9 +192,16 @@ public partial class ImageCapture : ICameraUseCase
     /// </summary>
     public void Stop()
     {
-        PlatformStop();
-        m_cameraPreview = null;
-        m_onImageCapturedDelegate = null;
+        try
+        {
+            PlatformStop();
+            m_cameraPreview = null;
+            m_onImageCapturedDelegate = null;
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
     }
 
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)

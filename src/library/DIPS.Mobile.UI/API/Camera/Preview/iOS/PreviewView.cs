@@ -1,3 +1,4 @@
+
 using AVFoundation;
 using CoreAnimation;
 using CoreGraphics;
@@ -32,7 +33,7 @@ internal sealed class PreviewView : ContentView
     
     public override void LayoutSubviews()
     {
-        UpdateOrientation();
+        TryUpdateOrientation();
         base.LayoutSubviews();
         
         m_hasArrangedSizeTcs.TrySetResult();
@@ -156,8 +157,20 @@ internal sealed class PreviewView : ContentView
         return PreviewLayer;
     }
 
-    private void UpdateOrientation()
+    private void TryUpdateOrientation()
     {
+
+        var potentiallol = NSBundle.MainBundle.InfoDictionary["UISupportedInterfaceOrientations"];
+        if (potentiallol is NSMutableArray orientationStrings)
+        {
+            if (orientationStrings.Count == 1)
+            {
+                if (orientationStrings.Contains((NSString)"UIInterfaceOrientationPortrait")) //Portrait only, no need to handle orientation supported : https://developer.apple.com/documentation/uikit/uiinterfaceorientation/uiinterfaceorientationportrait?language=objc
+                {
+                    return;
+                }
+            }
+        }
         //Makes sure to rotate the camera and the preview layer from the bounds of this UIView which automatically resizes.
         if (PreviewLayer?.Connection == null) return;
 

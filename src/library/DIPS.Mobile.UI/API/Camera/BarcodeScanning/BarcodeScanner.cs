@@ -46,10 +46,17 @@ public partial class BarcodeScanner : ICameraUseCase
 
     public void Stop()
     {
-        PlatformStop();
-        m_cameraPreview = null;
-        m_barCodeCallback = null;
-        StopAndDisposeTimerAndResults();
+        try
+        {
+            PlatformStop();
+            m_cameraPreview = null;
+            m_barCodeCallback = null;
+            StopAndDisposeTimerAndResults();
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
     }
 
     internal partial Task PlatformStop();

@@ -78,10 +78,9 @@ public partial class ImageCapture : CameraSession
 
     }
 
-    private partial void PlatformCapturePhoto()
+    private async partial void PlatformCapturePhoto()
     {
-        if(!CaptureSession?.Running ?? true)
-            return;
+        await this.HasStartedSession();
         
         var settings = CreateSettings();
         if (settings is not null)

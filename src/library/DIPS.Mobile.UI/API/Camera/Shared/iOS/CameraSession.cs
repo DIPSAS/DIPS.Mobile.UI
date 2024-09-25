@@ -34,6 +34,8 @@ public abstract class CameraSession
     private AVCaptureDeviceInput? m_videoDeviceInput;
     private NSObject? m_runtimeErrorObserver;
     private CameraFailed? m_cameraFailedDelegate;
+    private TaskCompletionSource<bool>? m_sessionStartedTask;
+    private NSObject? m_startedSessionObserver;
 
     internal void StopCameraSession()
     {
@@ -42,6 +44,7 @@ public abstract class CameraSession
             Task.Run(() =>
             {
                 CaptureSession.StopRunning();
+
                 if (m_avCaptureOutput != null)
                 {
                     CaptureSession.RemoveOutput(m_avCaptureOutput);    
@@ -51,6 +54,7 @@ public abstract class CameraSession
                 {
                     CaptureSession.RemoveInput(m_videoDeviceInput);
                 }
+                CaptureSession.Dispose();
                 CaptureSession = null;
             });
         }
@@ -59,13 +63,15 @@ public abstract class CameraSession
         RemoveObservers();
         CaptureDevice = null;
 
-        if (PreviewView is null)
-            return;
-
-        PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
-        PreviewView?.Dispose();
-        PreviewView = null;
+        m_sessionStartedTask?.TrySetCanceled();
+        m_sessionStartedTask = null;
         m_cameraFailedDelegate = null;
+        if (PreviewView is not null)
+        {
+            PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
+            PreviewView?.Dispose();
+            PreviewView = null;    
+        }
     }
 
     private void RemoveObservers()
@@ -73,6 +79,11 @@ public abstract class CameraSession
         if (m_runtimeErrorObserver != null)
         {
             NSNotificationCenter.DefaultCenter.RemoveObserver(m_runtimeErrorObserver);
+        }
+
+        if (m_startedSessionObserver != null)
+        {
+            NSNotificationCenter.DefaultCenter.RemoveObserver(m_startedSessionObserver);
         }
     }
 
@@ -87,7 +98,7 @@ public abstract class CameraSession
     {
         m_cameraFailedDelegate = cameraFailedDelegate;
         m_cameraPreview = cameraPreview;
-        
+        m_sessionStartedTask = new TaskCompletionSource<bool>();
         //This makes sure we display the video feed
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
         PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
@@ -243,7 +254,15 @@ public abstract class CameraSession
     private void AddObservers()
     {
         m_runtimeErrorObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.RuntimeErrorNotification, OnSessionRuntimeError, CaptureSession);
+        m_startedSessionObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.DidStartRunningNotification, OnStartedRunning, CaptureSession);
     }
+
+    private void OnStartedRunning(NSNotification obj)
+    {
+        m_sessionStartedTask?.TrySetResult(true);
+    }
+
+    internal Task<bool> HasStartedSession() => m_sessionStartedTask?.Task ?? Task.FromResult(false);
 
     private void OnSessionRuntimeError(NSNotification notification)
     {
