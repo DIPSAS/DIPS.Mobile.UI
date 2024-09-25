@@ -1,8 +1,9 @@
 
 
 
-using DIPS.Mobile.UI.Extensions.iOS;
+
 #if __IOS__
+using DIPS.Mobile.UI.Extensions.iOS;
 using Foundation;
 using CoreGraphics;
 using UIKit;
@@ -248,7 +249,16 @@ public UIImage RotateCGImageToPortrait(CGImage cgImage, UIImageOrientation photo
         // Draw the CGImage with the correct dimensions
         var x = 0;
         var y = 0;
-        x = (int) (width - cgImage.Width);
+        if (photoOrientation == UIImageOrientation.Right)
+        {
+            x = (int) (width - cgImage.Width); //Move X (which is Y when it needs rotation = 90 degrees) to the correct position    
+        }
+
+        if (photoOrientation == UIImageOrientation.Left)
+        {
+            y = (int) (height - cgImage.Height);
+        }
+        
         context.DrawImage(new CGRect(x, y, cgImage.Width, cgImage.Height), cgImage);
 
         // Get the rotated CGImage
