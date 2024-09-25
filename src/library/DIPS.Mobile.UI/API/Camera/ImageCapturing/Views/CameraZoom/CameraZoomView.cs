@@ -1,7 +1,11 @@
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
+
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
 internal class CameraZoomView : Grid
 {
+    private CancellationTokenSource m_cancellationTokenSource = new();
+    
     private readonly Action<float> m_onChangedZoomRatio;
     private ZoomType m_zoomState;
     private readonly ZoomButtons m_zoomButtons;
@@ -12,53 +16,51 @@ internal class CameraZoomView : Grid
         m_onChangedZoomRatio = onChangedZoomRatio;
         
         VerticalOptions = LayoutOptions.End;
+
+        Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4));
         
         m_zoomButtons = new ZoomButtons(minRatio, maxRatio, v =>
         {
-            ZoomState = ZoomType.Buttons;
-            OnChangedZoomRatio(v);
-        }, OnPannedZoomButton);
-        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, v =>
-            {
-                ZoomState = ZoomType.Slidable;
-                OnChangedZoomRatio(v);
-            },
-            state =>
-            {
-                ZoomState = state ? ZoomType.Slidable : ZoomType.Buttons;
-                if (!state)
-                {
-                    m_zoomButtons.SetZoomRatio((float)m_zoomSlider!.ZoomRatioLevel);
-                }
-            });
+            m_onChangedZoomRatio(v);
+            m_zoomSlider?.SetZoomRatio(v);
+        }, OnPanned);
+        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, m_onChangedZoomRatio, OnPanned);
         
         Add(m_zoomSlider);
         Add(m_zoomButtons);
     }
 
-    private void OnPannedZoomButton(PanUpdatedEventArgs e)
+    private void OnPanned(PanUpdatedEventArgs e)
     {
         switch (e.StatusType)
         {
             case GestureStatus.Started:
-                ZoomState = ZoomType.Slidable; 
+                m_cancellationTokenSource.Cancel();
+                m_cancellationTokenSource = new CancellationTokenSource();
+                if(ZoomState is not ZoomType.Slidable)
+                    ZoomState = ZoomType.Slidable; 
                 break;
             case GestureStatus.Completed:
             case GestureStatus.Canceled:
-                ZoomState = ZoomType.Buttons;
+                _ = TryChangeToZoomButtons();
                 break;
         }
         
         m_zoomSlider.TranslateZoomSlider(e);
     }
-
-    private void OnChangedZoomRatio(float zoomRatio)
+    
+    private async Task TryChangeToZoomButtons()
     {
-        m_onChangedZoomRatio(zoomRatio);
-
-        if (ZoomState is ZoomType.Buttons)
+        try
         {
-            m_zoomSlider.SetZoomRatio(zoomRatio);
+            await Task.Delay(ZoomSlider.DelayUntilFadeOut, m_cancellationTokenSource.Token);
+            m_cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            ZoomState = ZoomType.Buttons;
+            m_zoomButtons.SetZoomRatio((float)m_zoomSlider.ZoomRatioLevel);
+        }
+        catch
+        {
+            // ignored
         }
     }
 
@@ -86,6 +88,9 @@ internal class CameraZoomView : Grid
         get => m_zoomState;
         set
         {
+            if (ZoomState == value)
+                return;
+            
             m_zoomState = value;
             if(m_zoomState == ZoomType.Slidable)
             {

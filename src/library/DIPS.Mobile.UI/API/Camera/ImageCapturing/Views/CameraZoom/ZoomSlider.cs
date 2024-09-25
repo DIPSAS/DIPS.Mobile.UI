@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Components.Slidable;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -17,7 +18,7 @@ internal class ZoomSlider : Grid
     private readonly float m_maxRatio;
     
     private readonly Action<float> m_onChangedZoomRatio;
-    private readonly Action<bool> m_onPanningStateChanged;
+    private readonly Action<PanUpdatedEventArgs> m_onPanned;
     
     private double m_startingX;
     private double m_minimumZoomRatiosLayoutTranslationX;
@@ -26,11 +27,13 @@ internal class ZoomSlider : Grid
     
     private int m_currentSnappedZoomRatio;
 
-    public ZoomSlider(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<bool> onPanningStateChanged)
+    public const int DelayUntilFadeOut = 500;
+
+    public ZoomSlider(float minRatio, float maxRatio, Action<float> onChangedZoomRatio, Action<PanUpdatedEventArgs> onPanned)
     {
         m_maxRatio = maxRatio;
         m_onChangedZoomRatio = onChangedZoomRatio;
-        m_onPanningStateChanged = onPanningStateChanged;
+        m_onPanned = onPanned;
         
         VerticalOptions = LayoutOptions.Center;
         RowSpacing = Sizes.GetSize(SizeName.size_3);
@@ -80,6 +83,22 @@ internal class ZoomSlider : Grid
         m_pin.FadeTo(opacity);
         m_zoomRatiosLayout.FadeTo(opacity);
         m_zoomRatioLevelBorder.FadeTo(opacity);
+
+        if (opacity > 0)
+        {
+            var panGestureRecognizer = new PanGestureRecognizer();
+            panGestureRecognizer.PanUpdated += OnPanned;
+            GestureRecognizers.Add(panGestureRecognizer);
+        }
+        else
+        {
+            GestureRecognizers.Clear();
+        }
+    }
+
+    private void OnPanned(object? sender, PanUpdatedEventArgs e)
+    {
+        PanGestureRecognizerOnPanUpdated(e);
     }
 
     private void CreateZoomDisplayButton()
@@ -153,9 +172,9 @@ internal class ZoomSlider : Grid
         return m_maxZoomRatiosLayoutTranslationX - (m_zoomRatiosLayout.Width * ((zoomRatio - 1) / (m_maxRatio - 1)));
     }
 
-    private void PanGestureRecognizerOnPanUpdated(object? sender, PanUpdatedEventArgs e)
+    private void PanGestureRecognizerOnPanUpdated(PanUpdatedEventArgs e)
     {
-        TranslateZoomSlider(e);
+        m_onPanned.Invoke(e);
     }
     
     public void TranslateZoomSlider(PanUpdatedEventArgs e)
@@ -164,7 +183,9 @@ internal class ZoomSlider : Grid
         {
             case GestureStatus.Started:
                 m_startingX = e.TotalX;
-                m_onPanningStateChanged.Invoke(true);
+                
+                m_cancellationTokenSource.Cancel();
+                m_cancellationTokenSource = new CancellationTokenSource();
                 break;
             case GestureStatus.Running:
                 {
@@ -201,15 +222,9 @@ internal class ZoomSlider : Grid
 
                     break;
                 }
-            case GestureStatus.Completed:
-                m_onPanningStateChanged.Invoke(false);
-                break;
-            case GestureStatus.Canceled:
-                m_onPanningStateChanged.Invoke(false);
-                break;
         }
     }
-    
+
     public double ZoomRatioLevel
     {
         get => m_zoomRatioLevel;
@@ -236,7 +251,7 @@ internal class ZoomSlider : Grid
 
         try
         {
-            await Task.Delay(1000, m_cancellationTokenSource.Token);
+            await Task.Delay(DelayUntilFadeOut, m_cancellationTokenSource.Token);
             m_cancellationTokenSource.Token.ThrowIfCancellationRequested();
             return false;
         }

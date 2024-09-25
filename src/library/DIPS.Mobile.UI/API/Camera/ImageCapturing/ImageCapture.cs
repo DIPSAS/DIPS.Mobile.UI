@@ -1,28 +1,35 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.ConfirmState;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
-using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Internal.Logging;
-using Microsoft.Maui.Controls.Shapes;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : ICameraUseCase
 {
+    private readonly ActivityIndicator m_activityIndicator = new()
+    {
+        VerticalOptions = LayoutOptions.Center,
+        HorizontalOptions = LayoutOptions.Center,
+        IsRunning = true
+    };
+    
     private CameraPreview? m_cameraPreview;
     private DidCaptureImage? m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
-    private Border? m_shutterButton;
     private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
-    private ActivityIndicator? m_activityIndicator;
-    
+    private Grid m_bottomToolbar;
+    private StreamingStateView? m_streamingStateView;
 
+    private bool m_flashActive;
+    
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
         var imageCaptureSettings = new ImageCaptureSettings();
@@ -51,32 +58,22 @@ public partial class ImageCapture : ICameraUseCase
 
     private async Task OnCapture()
     {
-        if (m_shutterButton != null)
-        {
-            Touch.SetIsEnabled(m_shutterButton, false);    
-        }
+        VibrationService.SelectionChanged();
+        
+        m_streamingStateView?.SetShutterButtonEnabled(false);
 
-#if __ANDROID__ //iOS already has a blinking effect when we capture photo
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
-        m_cameraPreview?.AddViewToRoot(blackBox, 1);
+        m_cameraPreview?.AddViewToRoot(blackBox);
         
         await blackBox.FadeTo(1, 50);
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
-#endif
-
-        m_activityIndicator = new ActivityIndicator
-        {
-            VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, IsRunning = true
-        };
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator, 1);
+        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
     }
     
-    private void SwitchToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
+    private async void SwitchToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
     {
-        PlatformStop();
-
         if (m_cameraPreview == null)
         {
             return;
@@ -112,10 +109,14 @@ public partial class ImageCapture : ICameraUseCase
             });
 
         
-        m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-        m_cameraPreview.AddToolbarView(m_confirmStateView);
+        m_cameraPreview.AddViewToRoot(m_confirmImage, true);
+        // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
+        await Task.Delay(10);
+        m_cameraPreview.AddBottomToolbarView(m_confirmStateView);
         RemoveCaptureImageStateVisuals();
         m_cameraPreview.GoToConfirmingState();
+
+        _ = PlatformStop();
     }
 
     private void RemoveCaptureImageStateVisuals()
@@ -124,7 +125,7 @@ public partial class ImageCapture : ICameraUseCase
         {
             m_cameraPreview.CameraZoomView.IsVisible = false;
         }
-        m_cameraPreview?.RemoveToolbarView(m_shutterButton);
+        m_cameraPreview?.RemoveToolbarView(m_streamingStateView);
         m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
     }
 
@@ -138,10 +139,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         m_cameraPreview?.GoToStreamingState();
 
-        if (m_shutterButton != null)
-        {
-            Touch.SetIsEnabled(m_shutterButton, true);    
-        }
+        m_streamingStateView?.SetShutterButtonEnabled(true);
         
         RemoveConfirmStateVisuals();
         if (m_cameraPreview?.CameraZoomView != null)
@@ -149,7 +147,7 @@ public partial class ImageCapture : ICameraUseCase
             m_cameraPreview.CameraZoomView.IsVisible = true;
         }
         
-        m_cameraPreview?.AddToolbarView(m_shutterButton);
+        m_cameraPreview?.AddBottomToolbarView(m_streamingStateView);
     }
 
     private void RemoveConfirmStateVisuals()
@@ -160,19 +158,7 @@ public partial class ImageCapture : ICameraUseCase
 
     private void ConstructCrossPlatformViews()
     {
-        m_shutterButton = new Border
-        {
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.DimGray,
-            StrokeShape = new Ellipse(),
-            Stroke = Colors.GetColor(ColorName.color_system_white),
-            StrokeThickness = Sizes.GetSize(SizeName.size_1),
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            WidthRequest = 70,
-            HeightRequest = 70
-        };
-        
-        Touch.SetCommand(m_shutterButton, new Command(() =>
+        m_streamingStateView = new StreamingStateView(() =>
         {
             try
             {
@@ -183,9 +169,12 @@ public partial class ImageCapture : ICameraUseCase
             {
                 PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
             }
-        }));
-
-        m_cameraPreview?.AddToolbarView(m_shutterButton);
+        }, () =>
+        {
+            m_flashActive = !m_flashActive;
+        });
+        
+        m_cameraPreview?.AddBottomToolbarView(m_streamingStateView);
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException);

@@ -3,10 +3,12 @@ using Android.Content.PM;
 using Android.Content.Res;
 using Android.Hardware;
 using Android.Hardware.Camera2;
+using Android.Hardware.Camera2.Params;
 using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
 using AndroidX.Camera.View;
@@ -85,7 +87,8 @@ public abstract class CameraFragment : Fragment
         return FragmentManager?.FindFragmentByTag(FragmentTag) != null;
     }
 
-    internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase, CameraFailed cameraFailedDelegate)
+    internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase,
+        ResolutionSelector resolutionSelector, CameraFailed cameraFailedDelegate)
     {
         if (IsFragmentStarted()) return;
         if (Context == null) return;
@@ -105,6 +108,7 @@ public abstract class CameraFragment : Fragment
 
         //Create preview use case and attach it to our MAUI view. 
         m_previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
+            .SetResolutionSelector(resolutionSelector)
             .Build();
         m_previewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
         
@@ -139,7 +143,7 @@ public abstract class CameraFragment : Fragment
                     "FragmentManager is already executing transactions")) //This might happen if we use CommitNow(), and the fragmentmanager is executing other transactions, like closing a bottom sheet or navigating. We retry after a small amount of time if so
             {
                 await Task.Delay(400);
-                await SetupCameraAndTryStartUseCase(cameraPreview, useCase, cameraFailedDelegate);
+                await SetupCameraAndTryStartUseCase(cameraPreview, useCase, resolutionSelector, cameraFailedDelegate);
             }
 
             throw;
@@ -204,7 +208,7 @@ public abstract class CameraFragment : Fragment
             m_deviceDisplayListener = new DeviceDisplayListener(UpdateOrientation, DisplayManager);
             DisplayManager?.RegisterDisplayListener(m_deviceDisplayListener, null);    
         }
-
+        
         AddTapToFocus();
         AddPinchToZoom();
         AddZoomView();
@@ -302,6 +306,7 @@ public abstract class CameraFragment : Fragment
 
         if (m_cameraPreview?.CameraZoomView is not null)
         {
+            m_cameraPreview.CameraZoomView.IsVisible = true;
             m_cameraPreview.CameraZoomView?.SetZoomRatio(zoomState.ZoomRatio);
         }
         else if(m_cameraPreview is not null)

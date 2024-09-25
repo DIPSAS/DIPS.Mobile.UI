@@ -15,6 +15,10 @@ public class ConfirmStateView : Grid
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         
+        VerticalOptions = LayoutOptions.Center;
+
+        Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
+        
         var retakeButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.arrow_back_line),

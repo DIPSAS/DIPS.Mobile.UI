@@ -3,12 +3,19 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.TIFF;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
 public partial class ImageCaptureSample
 {
     private readonly List<CapturedImage> m_images; 
+    
+    public static Size CameraResolution = new(3060, 4080);
 
     public ImageCaptureSample()
     {
@@ -23,9 +30,27 @@ public partial class ImageCaptureSample
 
     private async Task StartImageCapture()
     {
+        CameraPreview.TargetResolution = CameraResolution;
         ToggleCamera(true);
         await new ImageCapture().Start(CameraPreview, OnImageCaptured, OnCameraFailed,
             settings => settings.PostCaptureAction = PostCaptureAction.Close);
+        
+        CameraPreview.AddTopToolbarView(new Grid
+        {
+            Children = { new Button
+            {
+                Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+                ImageSource = Icons.GetIcon(IconName.settings_fill),
+                ImageTintColor = Colors.White,
+                BackgroundColor = Colors.Transparent,
+                HorizontalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.Center,
+                Command = new Command(() =>
+                {
+                    new SelectResolutionBottomSheet().Open();
+                })
+            } }
+        });
     }
 
     private void OnCameraFailed(CameraException e)
