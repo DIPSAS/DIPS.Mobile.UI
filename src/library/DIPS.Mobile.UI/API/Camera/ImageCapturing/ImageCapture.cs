@@ -35,6 +35,7 @@ public partial class ImageCapture : ICameraUseCase
     
 #nullable disable
     private ImageCaptureSettings m_imageCaptureSettings;
+    private TopToolbarView m_topToolbarView;
 #nullable enable
     
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
@@ -90,7 +91,9 @@ public partial class ImageCapture : ICameraUseCase
         {
             return;
         }
-
+        
+        m_topToolbarView.SwitchToConfirmState(capturedImage);
+        
         m_confirmImage = new Image
         {
             Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
@@ -137,18 +140,22 @@ public partial class ImageCapture : ICameraUseCase
         {
             m_cameraPreview.CameraZoomView.IsVisible = false;
         }
+        
         m_cameraPreview?.RemoveToolbarView(m_streamingBottomToolbarView);
         m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
     }
 
     private void ResetAllVisuals()
     {
+        m_cameraPreview?.RemoveTopToolbarView(m_topToolbarView);
         RemoveCaptureImageStateVisuals();
         RemoveConfirmStateVisuals();
     }
 
     private void ResetToCaptureImageState()
     {
+        m_topToolbarView.SwitchToStreamingState();
+        
         m_cameraPreview?.GoToStreamingState();
 
         m_streamingBottomToolbarView?.SetShutterButtonEnabled(true);
@@ -186,9 +193,9 @@ public partial class ImageCapture : ICameraUseCase
             m_flashActive = !m_flashActive;
         });
 
-        var topToolbarView = new TopToolbarView(m_imageCaptureSettings!, OnSettingsChanged);
+        m_topToolbarView = new TopToolbarView(m_imageCaptureSettings!, OnSettingsChanged);
         
-        m_cameraPreview?.AddTopToolbarView(topToolbarView);
+        m_cameraPreview?.AddTopToolbarView(m_topToolbarView);
         m_cameraPreview?.AddBottomToolbarView(m_streamingBottomToolbarView);
     }
 

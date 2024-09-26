@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.BottomSheets;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
+using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -10,9 +11,12 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.TopToolbar;
 
 internal class TopToolbarView : Grid
 {
+    private readonly Button m_settingsButton;
+    private readonly Button m_infoButton;
+
     public TopToolbarView(ImageCaptureSettings imageCaptureSettings, Action onBottomSheetSavedWithChanges)
     {
-        var settingsButton = new Button
+        m_settingsButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = Icons.GetIcon(IconName.settings_fill),
@@ -26,6 +30,17 @@ internal class TopToolbarView : Grid
             })
         };
 
+        m_infoButton = new Button
+        {
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            ImageSource = Icons.GetIcon(IconName.information_fill),
+            ImageTintColor = Colors.White,
+            BackgroundColor = Colors.Transparent,
+            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
+            IsVisible = false
+        };
+        
         var doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
@@ -36,10 +51,28 @@ internal class TopToolbarView : Grid
             HorizontalOptions = LayoutOptions.End,
         };
         
-        Add(settingsButton);
+        Add(m_settingsButton);
+        Add(m_infoButton);
         
         if(imageCaptureSettings.DoneButtonCommand is not null)
             Add(doneButton);
+    }
+
+    public void SwitchToConfirmState(CapturedImage capturedImage)
+    {
+        m_settingsButton.IsVisible = false;
+        m_infoButton.IsVisible = true;
+        
+        m_infoButton.Command = new Command(() =>
+        {
+            new CapturedImageInfoBottomSheet(capturedImage).Open();
+        });
+    }
+
+    public void SwitchToStreamingState()
+    {
+        m_settingsButton.IsVisible = true;
+        m_infoButton.IsVisible = false;
     }
     
 }

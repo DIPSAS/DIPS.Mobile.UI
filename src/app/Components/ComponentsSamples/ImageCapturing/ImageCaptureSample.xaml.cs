@@ -37,7 +37,7 @@ public partial class ImageCaptureSample
             {
                 settings.PostCaptureAction = PostCaptureAction.Close;
                 settings.CanChangeMaxHeightOrWidth = true;
-                settings.DoneButtonCommand = new Command(() => App.Current.MainPage.Navigation.PopAsync());
+                settings.DoneButtonCommand = new Command(() => ToggleCamera(false));
             });
     }
 

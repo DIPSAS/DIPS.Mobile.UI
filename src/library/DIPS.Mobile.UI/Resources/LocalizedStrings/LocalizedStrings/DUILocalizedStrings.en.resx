@@ -161,4 +161,13 @@
     <data name="None" xml:space="preserve">
         <value>None</value>
     </data>
+    <data name="Size" xml:space="preserve">
+        <value>Size</value>
+    </data>
+    <data name="Resolution" xml:space="preserve">
+        <value>Resolution</value>
+    </data>
+    <data name="Orientation" xml:space="preserve">
+        <value>Orientation</value>
+    </data>
 </root>

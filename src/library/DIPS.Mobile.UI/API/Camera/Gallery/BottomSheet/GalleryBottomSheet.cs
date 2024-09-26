@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Converters.ValueConverters;
@@ -39,16 +40,16 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         Positioning = Positioning.Large;
         IsDraggable = false;
 
-// #if __IOS__
-//         Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
-// #endif
+#if __IOS__
+        var safeAreaInsetsTop = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
+        Padding = new Thickness(0, safeAreaInsetsTop, 0, 0);
+#endif
 
         BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
         m_onRemoveImage = onRemoveImage;
         
-        var fadedBlackColor = Colors.GetColor(ColorName.color_system_black);
-        fadedBlackColor = new Color(fadedBlackColor.Red, fadedBlackColor.Green, fadedBlackColor.Blue, 0.5f);
+        var fadedBlackColor = Colors.GetColor(ColorName.color_system_black).WithAlpha(.5f);
         
         m_numberOfImagesLabel = new Label
         {
@@ -57,29 +58,38 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             TextColor = Colors.GetColor(ColorName.color_system_white),
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
         };
-
-        var labelWrapper = new Border
+        var borderAroundNumberOfImages = new ContentView
         {
-            Content = m_numberOfImagesLabel,
-            VerticalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
+            Content = m_numberOfImagesLabel,
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            Stroke = Microsoft.Maui.Graphics.Colors.Transparent,
-#if __ANDROID__
-            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_1)),
-#endif
-            
-#if __IOS__
-            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_6)),
-#endif
-            StrokeShape = new RoundRectangle
-            {
-                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_4))
-            }
-            
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_2))
         };
 
-        var toolbarLayout = new Grid
+        UI.Effects.Layout.Layout.SetCornerRadius(borderAroundNumberOfImages, Sizes.GetSize(SizeName.size_4));
+
+        var infoIcon = new Button
+        {
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            ImageSource = Icons.GetIcon(IconName.information_fill),
+            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Start,
+            Command = new Command(() =>
+            {
+                new CapturedImageInfoBottomSheet(Images[m_carouselView?.Position ?? 0]).Open();
+            })
+        };
+        
+        var topToolbar = new Grid
+        {
+            VerticalOptions = LayoutOptions.Start,
+            Children = { borderAroundNumberOfImages, infoIcon }
+        };
+        
+        var bottomToolbar = new Grid
         {
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
             Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_12))
@@ -137,8 +147,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             Children = { doneButton, doneLabel }
         };
         
-        toolbarLayout.Add(leftColumn);
-        toolbarLayout.Add(rightColumn, 1);
+        bottomToolbar.Add(leftColumn);
+        bottomToolbar.Add(rightColumn, 1);
         
         m_navigatePreviousImageButton = new Button
         {
@@ -183,9 +193,9 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         
         m_grid.Add(m_navigatePreviousImageButton);
         m_grid.Add(m_navigateNextImageButton);
-        m_grid.Add(labelWrapper);
-        m_grid.Add(toolbarLayout, 0, 1);
-
+        m_grid.Add(topToolbar);
+        m_grid.Add(bottomToolbar, 0, 1);
+        
         Content = m_grid;
 
         Images = images;
