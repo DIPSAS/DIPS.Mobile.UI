@@ -1,17 +1,12 @@
 using AVFoundation;
 using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Preview;
-using DIPS.Mobile.UI.API.Camera.Preview.iOS;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Platform;
-using SystemConfiguration;
-using UIKit;
-using ContentView = Microsoft.Maui.Platform.ContentView;
 using PreviewView = DIPS.Mobile.UI.API.Camera.Preview.iOS.PreviewView;
 
 namespace DIPS.Mobile.UI.API.Camera.Shared.iOS;
@@ -34,14 +29,17 @@ public abstract class CameraSession
     private AVCaptureDeviceInput? m_videoDeviceInput;
     private NSObject? m_runtimeErrorObserver;
     private CameraFailed? m_cameraFailedDelegate;
-    private TaskCompletionSource<bool>? m_sessionStartedTask;
     private NSObject? m_startedSessionObserver;
+    private NSObject? m_sessionStoppedObserver;
+    
+    private TaskCompletionSource<bool>? m_sessionStartedTask;
+    private TaskCompletionSource<bool>? m_sessionStoppedTask;
 
-    internal void StopCameraSession()
+    internal async Task StopCameraSession()
     {
         if (CaptureSession is {Running: true})
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 CaptureSession.StopRunning();
 
@@ -65,6 +63,7 @@ public abstract class CameraSession
 
         m_sessionStartedTask?.TrySetCanceled();
         m_sessionStartedTask = null;
+
         m_cameraFailedDelegate = null;
         if (PreviewView is not null)
         {
@@ -72,6 +71,14 @@ public abstract class CameraSession
             PreviewView?.Dispose();
             PreviewView = null;    
         }
+
+        if (m_sessionStoppedTask?.Task is not null)
+        {
+            await m_sessionStoppedTask.Task;
+            m_sessionStoppedTask = null;
+        }
+
+        NSNotificationCenter.DefaultCenter.RemoveObserver(m_sessionStoppedObserver!);
     }
 
     private void RemoveObservers()
@@ -93,15 +100,16 @@ public abstract class CameraSession
     /// <param name="cameraPreview">The virtual MAUI <see cref="CameraPreview"/></param>
     /// <param name="avCaptureOutput">The output </param>
     /// <exception cref="Exception"></exception>
-    internal async Task ConfigureAndStart(CameraPreview cameraPreview, Size targetResolution,
+    internal async Task ConfigureAndStart(CameraPreview cameraPreview, int? maxHeightOrWidth,
         AVCaptureOutput avCaptureOutput, CameraFailed cameraFailedDelegate)
     {
         m_cameraFailedDelegate = cameraFailedDelegate;
         m_cameraPreview = cameraPreview;
         m_sessionStartedTask = new TaskCompletionSource<bool>();
+        m_sessionStoppedTask = new TaskCompletionSource<bool>();
         //This makes sure we display the video feed
         PreviewView = (PreviewView?)cameraPreview.PreviewView.ToPlatform(DUI.GetCurrentMauiContext!);
-        PreviewView.OnZoomChanged += PreviewViewOnZoomChanged;
+        PreviewView!.OnZoomChanged += PreviewViewOnZoomChanged;
 
         CaptureSession = new AVCaptureSession();
 
@@ -129,19 +137,26 @@ public abstract class CameraSession
             throw new Exception("Unable to use the back camera wide angle camera to detect bar codes");
         }
         
-        //Set quality based on the target height
-        try
+        // Set quality based on target resolution
+        if (maxHeightOrWidth is not null)
         {
-            if(!CaptureDevice.LockForConfiguration(out var configurationLockError))
-                return;
-            
-            CaptureDevice.ActiveFormat = GetCompatibleFormat((int)targetResolution.Width);
-            
-            CaptureDevice.UnlockForConfiguration();
+            try
+            {
+                if (!CaptureDevice.LockForConfiguration(out var configurationLockError))
+                    return;
+
+                CaptureDevice.ActiveFormat = GetCompatibleFormat(maxHeightOrWidth.Value);
+
+                CaptureDevice.UnlockForConfiguration();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine(e);
+            CaptureSession.SessionPreset = AVCaptureSession.PresetPhoto;
         }
         
         //Add barcode camera output
@@ -255,6 +270,12 @@ public abstract class CameraSession
     {
         m_runtimeErrorObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.RuntimeErrorNotification, OnSessionRuntimeError, CaptureSession);
         m_startedSessionObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.DidStartRunningNotification, OnStartedRunning, CaptureSession);
+        m_sessionStoppedObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVCaptureSession.DidStopRunningNotification, OnSessionStopped, CaptureSession);
+    }
+
+    private void OnSessionStopped(NSNotification obj)
+    {
+        m_sessionStoppedTask?.TrySetResult(true);
     }
 
     private void OnStartedRunning(NSNotification obj)

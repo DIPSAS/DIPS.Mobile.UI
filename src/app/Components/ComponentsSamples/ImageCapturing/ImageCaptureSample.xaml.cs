@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
+using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Camera.TIFF;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -30,27 +31,13 @@ public partial class ImageCaptureSample
 
     private async Task StartImageCapture()
     {
-        CameraPreview.TargetResolution = CameraResolution;
         ToggleCamera(true);
         await new ImageCapture().Start(CameraPreview, OnImageCaptured, OnCameraFailed,
-            settings => settings.PostCaptureAction = PostCaptureAction.Close);
-        
-        CameraPreview.AddTopToolbarView(new Grid
-        {
-            Children = { new Button
+            settings =>
             {
-                Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-                ImageSource = Icons.GetIcon(IconName.settings_fill),
-                ImageTintColor = Colors.White,
-                BackgroundColor = Colors.Transparent,
-                HorizontalOptions = LayoutOptions.End,
-                VerticalOptions = LayoutOptions.Center,
-                Command = new Command(() =>
-                {
-                    new SelectResolutionBottomSheet().Open();
-                })
-            } }
-        });
+                settings.PostCaptureAction = PostCaptureAction.Close;
+                settings.CanChangeMaxHeightOrWidth = true;
+            });
     }
 
     private void OnCameraFailed(CameraException e)

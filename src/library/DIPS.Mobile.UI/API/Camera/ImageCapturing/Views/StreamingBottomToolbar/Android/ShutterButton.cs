@@ -3,7 +3,7 @@ using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
 
 internal partial class ShutterButton
 {

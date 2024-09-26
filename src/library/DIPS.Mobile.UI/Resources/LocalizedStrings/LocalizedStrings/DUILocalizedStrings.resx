@@ -141,4 +141,28 @@
     <data name="Finished" xml:space="preserve">
         <value>Ferdig</value>
     </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Innstillinger</value>
+    </data>
+    <data name="MaxHeightOrWidth" xml:space="preserve">
+        <value>Maks høyde eller bredde</value>
+    </data>
+    <data name="InvalidInput" xml:space="preserve">
+        <value>Ugyldig input</value>
+    </data>
+    <data name="PleaseInputValidInteger" xml:space="preserve">
+        <value>Vennligst skriv inn et gyldig heltall</value>
+    </data>
+    <data name="CurrentCameraResolution" xml:space="preserve">
+        <value>Gjeldende kamera oppløsning</value>
+    </data>
+    <data name="SettingsChanged" xml:space="preserve">
+        <value>Innstillinger endret</value>
+    </data>
+    <data name="SettingsChangedDescription" xml:space="preserve">
+        <value>Innstillinger er endret, starter kameraet på nytt for å iverksette endringene</value>
+    </data>
+    <data name="None" xml:space="preserve">
+        <value>Ingen</value>
+    </data>
 </root>

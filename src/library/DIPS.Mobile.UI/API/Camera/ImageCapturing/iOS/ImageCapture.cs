@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 using DIPS.Mobile.UI.Extensions.iOS;
@@ -11,15 +12,13 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : CameraSession
 {
     private AVCapturePhotoOutput? m_capturePhotoOutput;
-    private ImageCaptureSettings? m_imageCaptureSettings;
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
-        m_imageCaptureSettings = imageCaptureSettings;
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         if (m_cameraPreview != null)
         {
-            return base.ConfigureAndStart(m_cameraPreview, m_cameraPreview.TargetResolution, m_capturePhotoOutput, cameraFailedDelegate);
+            return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
         }
 
         return Task.CompletedTask;
@@ -27,17 +26,23 @@ public partial class ImageCapture : CameraSession
 
     private partial Task PlatformStop()
     {
-        base.StopCameraSession();
-        return Task.CompletedTask;
+        return base.StopCameraSession();
     }
 
     public override void ConfigureSession()
     {
-        m_streamingStateView?.SetShutterButtonEnabled(true);
-        if (PreviewView != null)
+        CrossPlatformCameraStarted((float)PreviewView.Frame.Height, GetCurrentCameraResolution());
+    }
+
+    private Size GetCurrentCameraResolution()
+    {
+        if (CaptureDevice?.ActiveFormat.FormatDescription is CMVideoFormatDescription selectedVideoFormatDescription)
         {
-            m_cameraPreview?.SetToolbarHeights((float)PreviewView.Frame.Height);
+            return new Size(selectedVideoFormatDescription.Dimensions.Width,
+                selectedVideoFormatDescription.Dimensions.Height);
         }
+
+        return new Size(0, 0);
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>

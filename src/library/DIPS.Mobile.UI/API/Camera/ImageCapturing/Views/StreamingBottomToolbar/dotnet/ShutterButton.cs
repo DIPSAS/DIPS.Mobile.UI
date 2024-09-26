@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
 
 internal partial class ShutterButton
 {

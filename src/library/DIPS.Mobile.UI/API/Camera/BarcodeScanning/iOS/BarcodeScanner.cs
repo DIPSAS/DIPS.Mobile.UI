@@ -22,15 +22,14 @@ public partial class BarcodeScanner : CameraSession
 
     internal partial Task PlatformStop()
     {
-        StopCameraSession();
-        return Task.CompletedTask;
+        return StopCameraSession();
     }
 
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
         if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        return ConfigureAndStart(m_cameraPreview, m_cameraPreview.TargetResolution, m_captureMetadataOutput, cameraFailedDelegate);
+        return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);
     }
 
     public override void ConfigureSession()

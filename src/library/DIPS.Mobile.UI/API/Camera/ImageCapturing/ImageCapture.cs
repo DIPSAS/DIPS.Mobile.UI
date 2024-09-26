@@ -1,11 +1,14 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.ConfirmState;
-using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.TopToolbar;
 using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Internal.Logging;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
@@ -26,18 +29,19 @@ public partial class ImageCapture : ICameraUseCase
     private ConfirmStateView? m_confirmStateView;
     private Image? m_confirmImage;
     private Grid m_bottomToolbar;
-    private StreamingStateView? m_streamingStateView;
+    private StreamingBottomToolbarView? m_streamingBottomToolbarView;
 
     private bool m_flashActive;
     
+#nullable disable
+    private ImageCaptureSettings m_imageCaptureSettings;
+#nullable enable
+    
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
-        var imageCaptureSettings = new ImageCaptureSettings();
-        if (configure != null)
-        {
-            configure.Invoke(imageCaptureSettings);
-        }
-        
+        m_imageCaptureSettings = new ImageCaptureSettings();
+        configure?.Invoke(m_imageCaptureSettings);
+
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_onImageCapturedDelegate = onImageCapturedDelegate;
@@ -47,7 +51,7 @@ public partial class ImageCapture : ICameraUseCase
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
             ConstructCrossPlatformViews();
-            await PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
+            await PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
             m_cameraPreview.GoToStreamingState();
         }
         else
@@ -56,11 +60,19 @@ public partial class ImageCapture : ICameraUseCase
         }
     }
 
+    private void CrossPlatformCameraStarted(float previewViewHeight, Size cameraResolution)
+    {
+        m_streamingBottomToolbarView?.SetShutterButtonEnabled(true);
+        m_cameraPreview?.SetToolbarHeights(previewViewHeight);
+
+        m_imageCaptureSettings.CameraInfo.CurrentCameraResolution = cameraResolution;
+    }
+    
     private async Task OnCapture()
     {
         VibrationService.SelectionChanged();
         
-        m_streamingStateView?.SetShutterButtonEnabled(false);
+        m_streamingBottomToolbarView?.SetShutterButtonEnabled(false);
 
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
         m_cameraPreview?.AddViewToRoot(blackBox);
@@ -125,7 +137,7 @@ public partial class ImageCapture : ICameraUseCase
         {
             m_cameraPreview.CameraZoomView.IsVisible = false;
         }
-        m_cameraPreview?.RemoveToolbarView(m_streamingStateView);
+        m_cameraPreview?.RemoveToolbarView(m_streamingBottomToolbarView);
         m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
     }
 
@@ -139,7 +151,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         m_cameraPreview?.GoToStreamingState();
 
-        m_streamingStateView?.SetShutterButtonEnabled(true);
+        m_streamingBottomToolbarView?.SetShutterButtonEnabled(true);
         
         RemoveConfirmStateVisuals();
         if (m_cameraPreview?.CameraZoomView != null)
@@ -147,7 +159,7 @@ public partial class ImageCapture : ICameraUseCase
             m_cameraPreview.CameraZoomView.IsVisible = true;
         }
         
-        m_cameraPreview?.AddBottomToolbarView(m_streamingStateView);
+        m_cameraPreview?.AddBottomToolbarView(m_streamingBottomToolbarView);
     }
 
     private void RemoveConfirmStateVisuals()
@@ -158,7 +170,7 @@ public partial class ImageCapture : ICameraUseCase
 
     private void ConstructCrossPlatformViews()
     {
-        m_streamingStateView = new StreamingStateView(() =>
+        m_streamingBottomToolbarView = new StreamingBottomToolbarView(() =>
         {
             try
             {
@@ -173,8 +185,19 @@ public partial class ImageCapture : ICameraUseCase
         {
             m_flashActive = !m_flashActive;
         });
+
+        var topToolbarView = new TopToolbarView(m_imageCaptureSettings!, OnSettingsChanged);
         
-        m_cameraPreview?.AddBottomToolbarView(m_streamingStateView);
+        m_cameraPreview?.AddTopToolbarView(topToolbarView);
+        m_cameraPreview?.AddBottomToolbarView(m_streamingBottomToolbarView);
+    }
+
+    private async void OnSettingsChanged()
+    {
+        _ = DialogService.ShowMessage(DUILocalizedStrings.SettingsChanged, DUILocalizedStrings.SettingsChangedDescription,
+            "Ok");
+        await PlatformStop();
+        _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
     }
 
     private partial void PlatformOnCameraFailed(CameraException cameraException);

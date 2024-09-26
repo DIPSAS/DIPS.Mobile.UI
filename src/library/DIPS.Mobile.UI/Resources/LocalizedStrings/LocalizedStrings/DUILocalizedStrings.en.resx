@@ -137,4 +137,28 @@
     <data name="Finished" xml:space="preserve">
         <value>Finished</value>
     </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="MaxHeightOrWidth" xml:space="preserve">
+        <value>Max height or width</value>
+    </data>
+    <data name="InvalidInput" xml:space="preserve">
+        <value>Invalid input</value>
+    </data>
+    <data name="PleaseInputValidInteger" xml:space="preserve">
+        <value>Please input a valid integer</value>
+    </data>
+    <data name="CurrentCameraResolution" xml:space="preserve">
+        <value>Current camera resolution</value>
+    </data>
+    <data name="SettingsChanged" xml:space="preserve">
+        <value>Settings changed</value>
+    </data>
+    <data name="SettingsChangedDescription" xml:space="preserve">
+        <value>Settings have changed, the camera will reload to implement the new changes</value>
+    </data>
+    <data name="None" xml:space="preserve">
+        <value>None</value>
+    </data>
 </root>

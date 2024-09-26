@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls.Shapes;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
 
 internal partial class ShutterButton : Grid, IDisposable
 {

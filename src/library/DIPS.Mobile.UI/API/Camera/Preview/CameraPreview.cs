@@ -144,7 +144,7 @@ public partial class CameraPreview : ContentView
         });
     }
 
-    public void AddTopToolbarView(View? toolbarItems)
+    internal void AddTopToolbarView(View? toolbarItems)
     {
         if(m_topToolbarContainer.Contains(toolbarItems))
             return;
@@ -152,7 +152,7 @@ public partial class CameraPreview : ContentView
         m_topToolbarContainer.Add(toolbarItems);
     }
     
-    public void RemoveTopToolbarView(View? toolbarItems)
+    internal void RemoveTopToolbarView(View? toolbarItems)
     {
         if (toolbarItems is null) 
             return;
@@ -160,7 +160,7 @@ public partial class CameraPreview : ContentView
         m_topToolbarContainer.Remove(toolbarItems);
     }
 
-    public void AddBottomToolbarView(View? toolbarItems)
+    internal void AddBottomToolbarView(View? toolbarItems)
     {
         if(m_bottomToolbarContainer.Contains(toolbarItems))
             return;
@@ -168,7 +168,7 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer.Add(toolbarItems);
     }
     
-    public void RemoveToolbarView(View? toolbarItems)
+    internal void RemoveToolbarView(View? toolbarItems)
     {
         if (toolbarItems is null) 
             return;
@@ -176,7 +176,7 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer.Remove(toolbarItems);
     }
     
-    public void AddViewToRoot(View view, bool addAsFirst = false)
+    internal void AddViewToRoot(View view, bool addAsFirst = false)
     {
         if (addAsFirst)
             m_grid.Insert(0, view);

@@ -17,16 +17,26 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 public partial class ImageCapture : CameraFragment
 {
     private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
-    private ImageCaptureSettings? m_imageCaptureSettings;
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
-        m_imageCaptureSettings = imageCaptureSettings;
-        var resolutionSelector = new ResolutionSelector.Builder()
-            .SetResolutionStrategy(new ResolutionStrategy(new Size((int)m_cameraPreview.TargetResolution.Width, (int)m_cameraPreview.TargetResolution.Height), ResolutionStrategy.FallbackRuleClosestLowerThenHigher))
-            .SetAspectRatioStrategy(AspectRatioStrategy.Ratio43FallbackAutoStrategy)
-            .Build();
-        
+        var resolutionSelectorBuilder = new ResolutionSelector.Builder()
+            .SetAspectRatioStrategy(AspectRatioStrategy.Ratio43FallbackAutoStrategy);
+
+        if (imageCaptureSettings.MaxHeightOrWidth is not null)
+        {
+            resolutionSelectorBuilder.SetResolutionStrategy(new ResolutionStrategy(
+                new Size(imageCaptureSettings.MaxHeightOrWidth.Value, imageCaptureSettings.MaxHeightOrWidth.Value),
+                ResolutionStrategy.FallbackRuleClosestLowerThenHigher));
+        }
+        else
+        {
+            // If consumer has not set TargetResolution, we will use the highest available resolution.
+            resolutionSelectorBuilder.SetResolutionStrategy(ResolutionStrategy.HighestAvailableStrategy);
+        }
+            
+        var resolutionSelector = resolutionSelectorBuilder.Build();
+            
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
@@ -58,9 +68,7 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        m_streamingStateView?.SetShutterButtonEnabled(true);
-        
-        m_cameraPreview?.SetToolbarHeights((float)m_cameraPreview.PreviewView.Height);
+        CrossPlatformCameraStarted((float)m_cameraPreview?.PreviewView.Height!, new Microsoft.Maui.Graphics.Size(m_previewUseCase.ResolutionInfo.Resolution.Width, m_previewUseCase.ResolutionInfo.Resolution.Height));
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)

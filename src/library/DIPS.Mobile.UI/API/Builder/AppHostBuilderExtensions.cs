@@ -14,7 +14,6 @@ using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using CameraPreviewHandler = DIPS.Mobile.UI.API.Camera.Preview.CameraPreviewHandler;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;

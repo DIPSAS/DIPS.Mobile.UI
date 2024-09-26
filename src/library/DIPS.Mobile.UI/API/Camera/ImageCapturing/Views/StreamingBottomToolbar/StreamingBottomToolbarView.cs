@@ -3,15 +3,15 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
 
-internal class StreamingStateView : Grid
+internal class StreamingBottomToolbarView : Grid
 {
     private readonly ShutterButton m_shutterButton;
 
     private bool m_isFlashOn;
 
-    public StreamingStateView(Action onTappedShutterButton, Action onTappedFlashButton)
+    public StreamingBottomToolbarView(Action onTappedShutterButton, Action onTappedFlashButton)
     {
         Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
 

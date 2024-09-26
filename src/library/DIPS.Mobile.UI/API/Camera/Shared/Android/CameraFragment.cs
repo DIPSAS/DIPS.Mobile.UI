@@ -57,6 +57,7 @@ public abstract class CameraFragment : Fragment
     internal ICameraInfo? CameraInfo => Camera?.CameraInfo;
 
     private TaskCompletionSource? m_startedTcs;
+    private TaskCompletionSource? m_stoppedTcs;
 
     internal PreviewView? PreviewView { get; private set; }
     private CameraPreview? m_cameraPreview;
@@ -94,6 +95,7 @@ public abstract class CameraFragment : Fragment
         if (Context == null) return;
 
         m_startedTcs = new TaskCompletionSource();
+        m_stoppedTcs = new TaskCompletionSource();
         m_cameraFailedDelegate = cameraFailedDelegate;
 
         m_cameraPreview = cameraPreview;
@@ -124,9 +126,8 @@ public abstract class CameraFragment : Fragment
         
         //Bind the camera to use cases.
         Camera = CameraProvider.BindToLifecycle(this, cameraSelector, UseCaseGroup);
+        
         //Do configurations before starting the activity: https://developer.android.com/media/camera/camerax/configuration
-
-
         if (PreviewView.Display != null)
         {
             m_displayId = PreviewView.Display.DisplayId;
@@ -343,10 +344,16 @@ public abstract class CameraFragment : Fragment
 
     internal async Task TryStop()
     {
-        if (!IsFragmentStarted()) return;
+        if (!IsFragmentStarted()) 
+            return;
+        
         try
         {
             FragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
+            if (m_stoppedTcs?.Task != null)
+            {
+                await m_stoppedTcs.Task;
+            }
         }
         catch (IllegalStateException illegalStateException)
         {
@@ -369,6 +376,13 @@ public abstract class CameraFragment : Fragment
         UnRegisterRotationEvents();
         
         base.OnDestroy();
+    }
+    
+    public override void OnDetach()
+    {
+        base.OnDetach();
+        
+        m_stoppedTcs?.TrySetResult();
     }
 
     private void UnRegisterRotationEvents()

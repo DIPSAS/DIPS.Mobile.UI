@@ -4,7 +4,7 @@ using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
 
 internal partial class ShutterButton
 {
