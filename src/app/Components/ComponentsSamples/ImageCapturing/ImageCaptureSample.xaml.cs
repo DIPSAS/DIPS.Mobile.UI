@@ -37,6 +37,7 @@ public partial class ImageCaptureSample
             {
                 settings.PostCaptureAction = PostCaptureAction.Close;
                 settings.CanChangeMaxHeightOrWidth = true;
+                settings.DoneButtonCommand = new Command(() => App.Current.MainPage.Navigation.PopAsync());
             });
     }
 
@@ -95,6 +96,6 @@ public partial class ImageCaptureSample
     {
         CameraPreview.IsVisible = shouldDisplay;
         GalleryThumbnails.IsVisible = !CameraPreview.IsVisible;
-        NavigationPage.SetHasNavigationBar(this, GalleryThumbnails.IsVisible);
+        Shell.SetNavBarIsVisible(this, GalleryThumbnails.IsVisible);
     }
 }

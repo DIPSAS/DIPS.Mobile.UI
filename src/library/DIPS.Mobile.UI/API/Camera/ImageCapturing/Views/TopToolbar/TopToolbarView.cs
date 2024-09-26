@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.BottomSheets;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -11,8 +12,6 @@ internal class TopToolbarView : Grid
 {
     public TopToolbarView(ImageCaptureSettings imageCaptureSettings, Action onBottomSheetSavedWithChanges)
     {
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
-        
         var settingsButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
@@ -26,8 +25,21 @@ internal class TopToolbarView : Grid
                 new ImageCaptureSettingsBottomSheet(imageCaptureSettings, onBottomSheetSavedWithChanges).Open();
             })
         };
+
+        var doneButton = new Button
+        {
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
+            Text = DUILocalizedStrings.Done,
+            TextColor = Colors.White,
+            Command = imageCaptureSettings.DoneButtonCommand,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.End,
+        };
         
         Add(settingsButton);
+        
+        if(imageCaptureSettings.DoneButtonCommand is not null)
+            Add(doneButton);
     }
     
 }
