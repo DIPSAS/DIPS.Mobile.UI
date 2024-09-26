@@ -10,12 +10,18 @@ namespace DIPS.Mobile.UI.Components.Buttons;
 
 public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 {
-    
-    
     protected override UIButton CreatePlatformView()
     {
         var button = new UIButtonWithExtraTappableArea();
         return button;
+    }
+
+    protected override void ConnectHandler(UIButton platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        /*platformView.ContentMode = UIViewContentMode.ScaleAspectFill;
+        platformView.ImageView.ContentMode = UIViewContentMode.ScaleAspectFill;*/
     }
 
     private partial void AppendPropertyMapper()
@@ -38,7 +44,9 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
         await MapImageSourceAsync(handler, button);
         MapImageTintColor(handler, button);
-        }
+        /*handler.PlatformView.ImageView.ContentMode = UIViewContentMode.ScaleAspectFill;*/
+        handler.PlatformView.ImageView.AdjustsImageSizeForAccessibilityContentSizeCategory = true;
+    }
 
     private static partial void MapImageTintColor(ButtonHandler handler, Button button)
     {

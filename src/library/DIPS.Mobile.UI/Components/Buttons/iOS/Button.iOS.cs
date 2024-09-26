@@ -9,16 +9,14 @@ public partial class Button
     /// <summary>
     /// To make sure the icon is smaller when the button is smaller
     /// </summary>
-    protected override void OnSizeAllocated(double width, double height)
+    private void ResizeIcon(float height)
     {
-        base.OnSizeAllocated(width, height);
-        
         var largeButtonHeight = Sizes.GetSize(SizeName.size_12);
         
-        var percentOfHeight = (float)height / largeButtonHeight;
+        var percentOfHeight = height / largeButtonHeight;
         if (Handler?.PlatformView is UIButton uiButton)
         {
-            uiButton.ImageView.Transform = CGAffineTransform.MakeScale(percentOfHeight, percentOfHeight);
+            /*uiButton.ImageView.Transform = CGAffineTransform.MakeScale(percentOfHeight, percentOfHeight);*/
         }
     }
 }

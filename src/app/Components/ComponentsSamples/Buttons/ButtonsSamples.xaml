@@ -10,7 +10,6 @@
                  Padding="{dui:Sizes size_4}">
     <dui:ScrollView>
         <Grid RowDefinitions="Auto, 20, Auto, 20, Auto">
-
             <dui:VerticalStackLayout>
                 <dui:VerticalStackLayout>
                     <dui:Label Text="Buttons disabled"

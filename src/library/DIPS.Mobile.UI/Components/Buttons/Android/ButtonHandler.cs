@@ -4,6 +4,7 @@ using Google.Android.Material.Button;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using Colors = Microsoft.Maui.Graphics.Colors;
+using TextAlignment = Android.Views.TextAlignment;
 
 namespace DIPS.Mobile.UI.Components.Buttons;
 
@@ -30,10 +31,10 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         // MaterialButton sets text to all caps as default
         platformView.SetAllCaps(false);
         
-        platformView.CornerRadius = (int)platformView.Context.ToPixels(VirtualView.CornerRadius);
+        
         platformView.Foreground = ripple;
-
-        /*platformView.IconSize = (int)platformView.Context.ToPixels(VirtualView.Height / 2);*/
+        
+        platformView.SetMinHeight(0);
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
 
@@ -82,5 +83,10 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         await Task.Delay(1);
 
         handler.PlatformView.SetAdditionalHitBoxSize(button, button.AdditionalHitBoxSize, handler.MauiContext!);
+    }
+
+    public static void MapOverrideCornerRadius(ButtonHandler handler, Button button)
+    {
+        handler.PlatformView.CornerRadius = button.CornerRadius.ToMauiPixel();
     }
 }

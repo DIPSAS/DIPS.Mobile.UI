@@ -15,19 +15,31 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid>
-        <dui:ListItem>
-            <dui:ListItem.UnderlyingContent>
-                
-                <VerticalStackLayout Margin="{dui:Thickness Top=size_1}">
-                    <dui:Label Text="test"></dui:Label>
-                <dui:ListItem Title="Date">
-                    <dui:NullableDateAndTimePicker SelectedDateTime="{Binding Date, Mode=TwoWay}" />
-                </dui:ListItem>
-                </VerticalStackLayout>
-            </dui:ListItem.UnderlyingContent>
-        </dui:ListItem>
-    </Grid>
+    <VerticalStackLayout Spacing="10">
+        
+        <dui:Button Style="{dui:Styles Button=None}"
+                    FontFamily="Body"
+                    FontSize="16"
+                    Text="Test"
+                    Padding="28, 12" />
+        
+        
+        <dui:Button Text="Test" />
+
+        
+        <dui:Button Style="{dui:Styles Button=None}"
+                    FontFamily="Body"
+                    FontSize="16"
+                    Text="Test"
+                    
+                    Padding="0, 4"
+                    />
+
+        
+        <dui:Button Text="Test"
+                    Style="{dui:Styles Button=PrimarySmall}"/>
+        
+    </VerticalStackLayout>
 
     
 </dui:ContentPage>
