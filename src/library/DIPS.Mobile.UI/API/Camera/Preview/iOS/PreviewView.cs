@@ -1,11 +1,8 @@
-
 using AVFoundation;
-using CoreAnimation;
 using CoreGraphics;
 using CoreMedia;
 using DIPS.Mobile.UI.Extensions.iOS;
 using Foundation;
-using Microsoft.Maui.Controls.Shapes;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
 
@@ -94,7 +91,7 @@ internal sealed class PreviewView : ContentView
             {
                 try
                 {
-                    var pinchVelocityDividerFactor = 5.0f;
+                    var pinchVelocityDividerFactor = 10f;
                     var desiredZoomFactor = captureDevice.VideoZoomFactor +
                                             Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
                     
@@ -123,14 +120,6 @@ internal sealed class PreviewView : ContentView
                 }
             }
         }
-    }
-    
-    private void SetHasZoomed()
-    {
-        /*if (VirtualView is CameraPreview cameraPreview)
-        {
-            cameraPreview.HasZoomed = true;
-        }*/
     }
     
     internal void RemovePinchToZoom()
@@ -312,12 +301,8 @@ internal sealed class PreviewView : ContentView
     {
         m_avCaptureDevice = null;
         
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        
         RemovePinchToZoom();
         RemoveTouchToFocus();    
-    
-        /*RemoveZoomSlider();*/
         RemovePreviewLayer();
     }
 }

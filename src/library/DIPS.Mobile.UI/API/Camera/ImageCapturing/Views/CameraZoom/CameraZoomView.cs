@@ -1,4 +1,8 @@
+using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using Microsoft.Maui.Platform;
+using UIKit;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
@@ -31,6 +35,15 @@ internal class CameraZoomView : Grid
         Add(m_zoomButtons);
     }
 
+    public void ShowZoomTip(string tip)
+    {
+#if __IOS__
+        _ = TipService.Show(tip, 4000, m_zoomButtons.ToPlatform(DUI.GetCurrentMauiContext!), Platform.GetCurrentUIViewController()!, UIPopoverArrowDirection.Down);
+#else
+        TipService.Show(tip, m_zoomButtons, 4000);
+#endif
+    }
+    
     private void OnPanned(PanUpdatedEventArgs e)
     {
         switch (e.StatusType)

@@ -91,10 +91,12 @@ internal class ZoomSlider : Grid
             var panGestureRecognizer = new PanGestureRecognizer();
             panGestureRecognizer.PanUpdated += OnPanned;
             GestureRecognizers.Add(panGestureRecognizer);
+            InputTransparent = false;
         }
         else
         {
             GestureRecognizers.Clear();
+            InputTransparent = true;
         }
     }
 

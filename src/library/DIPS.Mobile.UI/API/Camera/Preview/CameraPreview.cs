@@ -1,10 +1,7 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
-using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
-using Microsoft.Maui.Platform;
 #if __IOS__
 using UIKit;
 #endif
@@ -93,7 +90,6 @@ public partial class CameraPreview : ContentView
         var actualPreviewHeight = (Width / ThreeFourRatio);
         var letterBoxHeight = (frameHeight - actualPreviewHeight) / 2;
 
-        Console.WriteLine($"frameHeight: {frameHeight}, Height:{Height}, Width:{Width} letterBoxHeight: {letterBoxHeight} actualPreviewHeight {actualPreviewHeight}");
         m_topToolbarContainer.HeightRequest = letterBoxHeight;
         m_bottomToolbarContainer.HeightRequest = letterBoxHeight;
         
@@ -242,23 +238,6 @@ public partial class CameraPreview : ContentView
 
     public void ShowZoomSliderTip(string tip)
     {
-#if __IOS__
-        _ = TipService.Show(tip, 4000, CameraZoomView?.ToPlatform(DUI.GetCurrentMauiContext!)!, Platform.GetCurrentUIViewController()!);
-#else
-        TipService.Show(tip, CameraZoomView!, 4000);
-#endif
-    }
-
-    protected override void OnPropertyChanged(string propertyName = null)
-    {
-        base.OnPropertyChanged(propertyName);
-
-        if (propertyName == nameof(IsVisibleProperty))
-        {
-            if (IsVisible)
-            {
-                
-            }
-        }
+        CameraZoomView?.ShowZoomTip(tip);
     }
 }
