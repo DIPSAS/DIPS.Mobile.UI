@@ -6,18 +6,16 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.ConfirmState;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.ConfirmState;
 
 public class ConfirmStateView : Grid
 {
-    public ConfirmStateView(Action usePhoto, Action retakePhoto)
+    public ConfirmStateView(Action? usePhoto, Action? retakePhoto)
     {
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         
         VerticalOptions = LayoutOptions.Center;
-
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
         
         var retakeButton = new Button
         {

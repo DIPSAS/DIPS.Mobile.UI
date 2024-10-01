@@ -3,18 +3,16 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 
-internal class StreamingBottomToolbarView : Grid
+internal class StreamingStateView : Grid
 {
     private readonly ShutterButton m_shutterButton;
 
     private bool m_isFlashOn;
 
-    public StreamingBottomToolbarView(Action onTappedShutterButton, Action onTappedFlashButton)
+    public StreamingStateView(Action? onTappedShutterButton, Action? onTappedFlashButton)
     {
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
-
         m_shutterButton = new ShutterButton(onTappedShutterButton);
 
         var blitzButton = new Button
@@ -29,7 +27,7 @@ internal class StreamingBottomToolbarView : Grid
         blitzButton.Command = new Command(() =>
         {
             m_isFlashOn = !m_isFlashOn;
-            onTappedFlashButton.Invoke();
+            onTappedFlashButton?.Invoke();
             blitzButton.ImageSource = m_isFlashOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
         });
         

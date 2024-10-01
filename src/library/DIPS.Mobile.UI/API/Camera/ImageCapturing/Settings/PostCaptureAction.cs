@@ -8,7 +8,7 @@ public enum PostCaptureAction
     /// <summary>
     /// The camera will automatically close.
     /// </summary>
-    /// <remarks> No need for you to call <see cref="ImageCapture.Stop" /></remarks>
+    /// <remarks> No need for you to call <see cref="ImageCapture.StopAndDispose" /></remarks>
     Close = 0,
     /// <summary>
     /// The camera will continue so people can capture more images.

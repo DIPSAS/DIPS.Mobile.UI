@@ -34,6 +34,11 @@ namespace DIPS.Mobile.UI.API.Camera.Shared.Android;
 //Based on : https://github.com/android/camera-samples/blob/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic/fragments/CameraFragment.kt
 public abstract class CameraFragment : Fragment
 {
+#nullable disable
+    internal CameraPreview m_cameraPreview;
+    protected AndroidX.Camera.Core.Preview PreviewUseCase;
+#nullable enable
+    
     private const string FragmentTag = nameof(CameraFragment);
 
     internal ProcessCameraProvider? CameraProvider { get; private set; }
@@ -60,13 +65,12 @@ public abstract class CameraFragment : Fragment
     private TaskCompletionSource? m_stoppedTcs;
 
     internal PreviewView? PreviewView { get; private set; }
-    private CameraPreview? m_cameraPreview;
     private int m_displayId;
     private DeviceRotationListener? m_imageEventRotationListener;
     private SurfaceOrientation m_lastOrientation; 
     protected UseCaseGroup UseCaseGroup;
     private DeviceDisplayListener? m_deviceDisplayListener;
-    protected AndroidX.Camera.Core.Preview m_previewUseCase;
+    
     private CameraFailed? m_cameraFailedDelegate;
 
     public new Context? Context { get; }
@@ -109,17 +113,17 @@ public abstract class CameraFragment : Fragment
         // var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
 
         //Create preview use case and attach it to our MAUI view. 
-        m_previewUseCase = new AndroidX.Camera.Core.Preview.Builder()
+        PreviewUseCase = new AndroidX.Camera.Core.Preview.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
-        m_previewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
+        PreviewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
         
         await WaitForPreviewViewToInitialize();
 
         if (PreviewView.ViewPort == null) return;
         PreviewView.SetScaleType(PreviewView.ScaleType.FitCenter); //FillCenter is better UX, but we need to handle cropping when image is taken due to the camera viewport being larger than the preview view port.
         UseCaseGroup = new UseCaseGroup.Builder()
-            .AddUseCase(m_previewUseCase)
+            .AddUseCase(PreviewUseCase)
             .AddUseCase(useCase)
             .SetViewPort(PreviewView.ViewPort)
             .Build();
@@ -245,13 +249,13 @@ public abstract class CameraFragment : Fragment
             .Build();
         
         // Width and Height of SurfaceView is inverted for some reason
-        var blackBoxHeight = (PreviewView.Height - surfaceView.Width) / 2;
-        y -= blackBoxHeight;
+        /*var blackBoxHeight = (PreviewView.Height - surfaceView.Width) / 2;
+        y -= blackBoxHeight;*/
         
         var percentX = x / PreviewView.Width;
         var percentY = y / PreviewView.Height;
         
-        m_cameraPreview?.AddFocusIndicator(percentX, percentY);
+        m_cameraPreview.AddFocusIndicator(percentX, percentY);
         
         var result = CameraControl?.StartFocusAndMetering(action);
         result?.AddListener(new Runnable(() =>

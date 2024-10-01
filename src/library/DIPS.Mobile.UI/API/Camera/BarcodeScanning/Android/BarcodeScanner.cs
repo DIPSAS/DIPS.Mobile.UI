@@ -5,13 +5,11 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning.Android;
-using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.Observable.Android;
 using Xamarin.Google.MLKit.Vision.BarCode;
 using Xamarin.Google.MLKit.Vision.Common;
 using Object = Java.Lang.Object;
-using Size = Android.Util.Size;
 using Task = System.Threading.Tasks.Task;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -22,7 +20,6 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 {
     private IBarcodeScanner? m_barcodeScanner;
     private ImageAnalysis? m_imageAnalysisUseCase;
-    private CameraZoomSlider? m_slider;
 
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
@@ -90,12 +87,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     //     m_previewView.Overlay?.Clear();
     //     m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
     // }
-
     public void OnChanged(Object? value)
     {
-        if (double.TryParse(value.GetPropertyValue("LinearZoom"), out var linearZoom) && m_slider is not null)
-        {
-            m_slider.ZoomLevel = linearZoom;
-        }
     }
 }

@@ -128,7 +128,8 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        SelectedOrganizationalUnit = SelectableOrganizations[0];
+        GroupedTest.Add(["lol", "hehe"]);
+        GroupedTest.Add(["ok", "hehe"]);
     }
 
 
@@ -271,6 +272,13 @@ public class VetlePageViewModel : ViewModel
     {
 
     });
+
+    public ObservableCollection<GroupedTest> GroupedTest { get; } = [];
+}
+
+public class GroupedTest : List<string>
+{
+    public string Header { get; } = "Header";
 }
 
 public class SortOption

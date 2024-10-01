@@ -44,7 +44,7 @@ public partial class BarcodeScanner : ICameraUseCase
     
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate);
 
-    public void Stop()
+    public void StopAndDispose()
     {
         try
         {

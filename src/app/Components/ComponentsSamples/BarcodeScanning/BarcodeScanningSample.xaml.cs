@@ -48,7 +48,7 @@ public partial class BarcodeScanningSample
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.Stop();
+        m_barcodeScanner.StopAndDispose();
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)

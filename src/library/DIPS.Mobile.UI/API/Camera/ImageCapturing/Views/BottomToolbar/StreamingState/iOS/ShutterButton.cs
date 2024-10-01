@@ -4,22 +4,23 @@ using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 
 internal partial class ShutterButton
 {
+    private UIView? m_nativeView;
+
     private partial void AddPlatformGestureRecognizer()
     {
-        var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
-        nativeView.AddGestureRecognizer(new TouchGestureRecognizer(this, m_shutterContentWhiteOverlay, m_onTappedShutterButton));
+        m_nativeView ??= this.ToPlatform(DUI.GetCurrentMauiContext!);
+        m_nativeView.AddGestureRecognizer(new TouchGestureRecognizer(this, m_shutterContentWhiteOverlay, m_onTappedShutterButton));
     }
 
     public partial void Dispose()
     {
-        var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
-        foreach (var gestureRecognizer in nativeView.GestureRecognizers ?? [])
+        foreach (var gestureRecognizer in m_nativeView?.GestureRecognizers ?? [])
         {
-            nativeView.RemoveGestureRecognizer(gestureRecognizer);
+            m_nativeView?.RemoveGestureRecognizer(gestureRecognizer);
         }        
     }
 }
@@ -27,7 +28,7 @@ internal partial class ShutterButton
 internal class TouchGestureRecognizer(
     Grid shutterButton,
     Border shutterContentWhiteOverlay,
-    Action onTappedShutterButton)
+    Action? onTappedShutterButton)
     : UIGestureRecognizer
 {
     private readonly UIView m_nativeShutterButton = shutterButton.ToPlatform(DUI.GetCurrentMauiContext!);
@@ -50,7 +51,7 @@ internal class TouchGestureRecognizer(
         if(m_isCancelled)
             return;
         
-        onTappedShutterButton.Invoke();
+        onTappedShutterButton?.Invoke();
         shutterContentWhiteOverlay.ScaleTo(1);
     }
     

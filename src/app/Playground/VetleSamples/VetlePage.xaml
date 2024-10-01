@@ -9,31 +9,29 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This"
-                 BackgroundColor="Black">
+                 x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid HeightRequest="70"
-          WidthRequest="70"
-          BackgroundColor="White"
-          dui:Layout.CornerRadius="35"
-          Padding="3">
-        
-        <Border BackgroundColor="Black">
-            <Border.StrokeShape><Ellipse></Ellipse></Border.StrokeShape>
-        </Border>
-        
-        <Border BackgroundColor="White"
-                Margin="2">
-            <Border.StrokeShape><Ellipse></Ellipse></Border.StrokeShape>
-            
-        </Border>
-        
-    </Grid>
-        
+    <CollectionView IsGrouped="True"
+                        ItemsSource="{Binding GroupedTest}">
 
-    
+        <CollectionView.GroupFooterTemplate>
+            
+            <DataTemplate>
+                <Label Text="Lol"></Label>
+            </DataTemplate>
+        </CollectionView.GroupFooterTemplate>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="HEHE"></Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
+
+
 </dui:ContentPage>
