@@ -1,5 +1,4 @@
-using Android.App;
-using Android.Views;
+using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Handlers;
@@ -20,19 +19,46 @@ public class CameraPreviewHandler() : ViewHandler<CameraPreview, View>(ViewMappe
 
     protected override void ConnectHandler(View platformView)
     {
-        if (VirtualView.IsInFullscreen)
-        {
-            m_statusAndNavigationBarColors = Context.SetStatusAndNavigationBarColor(VirtualView.BackgroundColor);    
-        }
-        
         base.ConnectHandler(platformView);
+        
+        if(!VirtualView.IsInFullscreen)
+            return;
+        
+        VirtualView.PropertyChanged += VirtualViewOnPropertyChanged;
+        
+        SetStatusBarColor();    
+    }
+
+    private void VirtualViewOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == VisualElement.IsVisibleProperty.PropertyName)
+        {
+           SetStatusBarColor();
+        }
+    }
+
+    private void SetStatusBarColor()
+    {
+        if (VirtualView.IsVisible)
+        {
+            m_statusAndNavigationBarColors = Context.SetStatusAndNavigationBarColor(VirtualView.BackgroundColor);
+        }
+        else
+        {
+            if (m_statusAndNavigationBarColors != null)
+            {
+                Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);
+            }
+        }
     }
 
     protected override void DisconnectHandler(View platformView)
     {
+        VirtualView.PropertyChanged -= VirtualViewOnPropertyChanged;
+        
         if (m_statusAndNavigationBarColors != null)
         {
-            Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);    
+            Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);
         }
         
         base.DisconnectHandler(platformView);

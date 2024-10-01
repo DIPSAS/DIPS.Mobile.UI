@@ -14,14 +14,17 @@ namespace Components.ComponentsSamples.ImageCapturing;
 
 public partial class ImageCaptureSample
 {
-    private readonly List<CapturedImage> m_images; 
-    
+    private readonly List<CapturedImage> m_images;
+    private readonly ImageCapture m_imageCapture;
+
     public static Size CameraResolution = new(3060, 4080);
 
     public ImageCaptureSample()
     {
         InitializeComponent();
         m_images = [];
+
+        m_imageCapture = new ImageCapture();
     }
 
     private async void GalleryThumbnails_OnCameraButtonTapped(object? sender, EventArgs e)
@@ -32,7 +35,7 @@ public partial class ImageCaptureSample
     private async Task StartImageCapture()
     {
         ToggleCamera(true);
-        await new ImageCapture().Start(CameraPreview, OnImageCaptured, OnCameraFailed,
+        await m_imageCapture.Start(CameraPreview, OnImageCaptured, OnCameraFailed,
             settings =>
             {
                 settings.PostCaptureAction = PostCaptureAction.Close;

@@ -248,4 +248,17 @@ public partial class CameraPreview : ContentView
         TipService.Show(tip, CameraZoomView!, 4000);
 #endif
     }
+
+    protected override void OnPropertyChanged(string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+
+        if (propertyName == nameof(IsVisibleProperty))
+        {
+            if (IsVisible)
+            {
+                
+            }
+        }
+    }
 }

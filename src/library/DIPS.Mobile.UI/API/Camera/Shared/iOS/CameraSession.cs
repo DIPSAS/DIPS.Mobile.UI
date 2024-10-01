@@ -40,7 +40,12 @@ public abstract class CameraSession
 
     internal async Task StopCameraSession()
     {
-        if (CaptureSession is {Running: true})
+        if (m_sessionStartedTask?.Task != null)
+        {
+            await m_sessionStartedTask.Task;
+        }
+
+        if (CaptureSession is { Running: true })
         {
             await Task.Run(() =>
             {
@@ -48,18 +53,19 @@ public abstract class CameraSession
 
                 if (m_avCaptureOutput != null)
                 {
-                    CaptureSession.RemoveOutput(m_avCaptureOutput);    
+                    CaptureSession.RemoveOutput(m_avCaptureOutput);
                 }
 
                 if (m_videoDeviceInput != null)
                 {
                     CaptureSession.RemoveInput(m_videoDeviceInput);
                 }
+
                 CaptureSession.Dispose();
                 CaptureSession = null;
             });
         }
-        
+
 
         RemoveObservers();
         CaptureDevice = null;
@@ -73,7 +79,7 @@ public abstract class CameraSession
         {
             PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
             PreviewView?.Dispose();
-            PreviewView = null;    
+            PreviewView = null;
         }
 
         if (m_sessionStoppedTask?.Task is not null)

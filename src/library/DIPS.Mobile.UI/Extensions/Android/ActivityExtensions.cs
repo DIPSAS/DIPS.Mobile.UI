@@ -12,7 +12,7 @@ public static class ActivityExtensions
     /// <param name="activity"></param>
     /// <param name="color"></param>
     /// <returns></returns>
-    /// <remarks>Remember to reset the colors using the return value from this metod along with <see cref="ResetStatusAndNavigationBarColor"/></remarks>
+    /// <remarks>Remember to reset the colors using the return value from this method along with <see cref="ResetStatusAndNavigationBarColor"/></remarks>
     public static StatusAndNavigationBarColors? SetStatusAndNavigationBarColor(this Activity activity, Color color)
     {
         var statusBarColor = 0;

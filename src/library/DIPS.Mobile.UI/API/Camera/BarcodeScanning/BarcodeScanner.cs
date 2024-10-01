@@ -7,7 +7,6 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 public partial class BarcodeScanner : ICameraUseCase
 {
-    internal CameraPreview? m_cameraPreview;
     private Timer? m_barCodesFoundTimer;
     private List<BarcodeObservation> m_barcodeObservations = new();
     private DidFindBarcodeCallback? m_barCodeCallback;
@@ -21,11 +20,8 @@ public partial class BarcodeScanner : ICameraUseCase
     public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback,CameraFailed cameraFailedDelegate, Action<BarcodeScanningSettings>? configure = null)
     {
         var barcodeScanningSettings = new BarcodeScanningSettings();
-        if (configure != null)
-        {
-            configure.Invoke(barcodeScanningSettings);
-        }
-        
+        configure?.Invoke(barcodeScanningSettings);
+
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_barCodeCallback = didFindBarcodeCallback;
@@ -49,7 +45,7 @@ public partial class BarcodeScanner : ICameraUseCase
         try
         {
             PlatformStop();
-            m_cameraPreview = null;
+            m_cameraPreview = null!;
             m_barCodeCallback = null;
             StopAndDisposeTimerAndResults();
         }

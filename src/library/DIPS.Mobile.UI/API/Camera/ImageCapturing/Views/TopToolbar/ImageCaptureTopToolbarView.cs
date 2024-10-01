@@ -33,10 +33,10 @@ internal class ImageCaptureTopToolbarView : Grid
         Add(doneButton);
     }
     
-    private static Button SettingsButton => new()
+    private Button SettingsButton => new()
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-        ImageSource = Icons.GetIcon(IconName.settings_fill),
+        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_fill) : Icons.GetIcon(IconName.information_fill),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,

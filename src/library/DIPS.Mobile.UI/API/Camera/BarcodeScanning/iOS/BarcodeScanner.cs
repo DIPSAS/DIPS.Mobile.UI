@@ -10,17 +10,30 @@ public partial class BarcodeScanner : CameraSession
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private double m_rectOfInterestWidth;
 
-    private DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
+    private readonly DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
+    
+#nullable disable
+    private CaptureDelegate m_captureDelegate;
+#nullable enable
 
     internal partial Task PlatformStop()
     {
+        m_captureDelegate.Dispose();
+        m_captureDelegate = null;
+        
         return StopCameraSession();
     }
 
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
-        if (m_cameraPreview == null) return Task.CompletedTask;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
+        m_captureDelegate = new CaptureDelegate(s =>
+        {
+            if (!string.IsNullOrEmpty(s.StringValue))
+            {
+                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
+            }
+        });
         return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);
     }
 
@@ -30,41 +43,31 @@ public partial class BarcodeScanner : CameraSession
 
         m_cameraPreview?.SetToolbarHeights((float)PreviewView!.Frame.Height);
         
-        m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
-            {
-                if (!string.IsNullOrEmpty(s.StringValue))
-                {
-                    InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
-                }
-            }), m_metadataObjectsQueue);
-            //Add bar code scanning metadata
-            //Bar codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801359
-            //2D codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801360
-            m_captureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.CodabarCode |
-                                                        AVMetadataObjectType.Code39Code |
-                                                        AVMetadataObjectType.Code39Mod43Code |
-                                                        AVMetadataObjectType.Code93Code |
-                                                        AVMetadataObjectType.Code128Code |
-                                                        AVMetadataObjectType.EAN8Code |
-                                                        AVMetadataObjectType.EAN13Code |
-                                                        AVMetadataObjectType.GS1DataBarCode |
-                                                        AVMetadataObjectType.GS1DataBarExpandedCode |
-                                                        AVMetadataObjectType.GS1DataBarLimitedCode |
-                                                        AVMetadataObjectType.Interleaved2of5Code |
-                                                        AVMetadataObjectType.ITF14Code |
-                                                        AVMetadataObjectType.UPCECode |
-                                                        AVMetadataObjectType.AztecCode |
-                                                        AVMetadataObjectType.DataMatrixCode |
-                                                        AVMetadataObjectType.MicroQRCode
-                                                        | AVMetadataObjectType.PDF417Code
-                                                        | AVMetadataObjectType.QRCode;
-
-
-            
-            // TODO: Set the rect of interest to the center of the screen
-            /*PreviewView.TryAddOrUpdateRectOfInterest();*/
-            SetRecommendedZoomFactor();
-            
+        m_captureMetadataOutput.SetDelegate(m_captureDelegate, m_metadataObjectsQueue);
+        //Add bar code scanning metadata
+        //Bar codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801359
+        //2D codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801360
+        m_captureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.CodabarCode |
+                                                      AVMetadataObjectType.Code39Code |
+                                                      AVMetadataObjectType.Code39Mod43Code |
+                                                      AVMetadataObjectType.Code93Code |
+                                                      AVMetadataObjectType.Code128Code |
+                                                      AVMetadataObjectType.EAN8Code |
+                                                      AVMetadataObjectType.EAN13Code |
+                                                      AVMetadataObjectType.GS1DataBarCode |
+                                                      AVMetadataObjectType.GS1DataBarExpandedCode |
+                                                      AVMetadataObjectType.GS1DataBarLimitedCode |
+                                                      AVMetadataObjectType.Interleaved2of5Code |
+                                                      AVMetadataObjectType.ITF14Code |
+                                                      AVMetadataObjectType.UPCECode |
+                                                      AVMetadataObjectType.AztecCode |
+                                                      AVMetadataObjectType.DataMatrixCode |
+                                                      AVMetadataObjectType.MicroQRCode
+                                                      | AVMetadataObjectType.PDF417Code
+                                                      | AVMetadataObjectType.QRCode;
+        
+        PreviewView.TryAddOrUpdateRectOfInterest();
+        SetRecommendedZoomFactor();
     }
 
     //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
@@ -132,8 +135,7 @@ public partial class BarcodeScanner : CameraSession
 
 public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
 {
-    private readonly Action<AVMetadataMachineReadableCodeObject> m_onSuccess;
-
+    private Action<AVMetadataMachineReadableCodeObject>? m_onSuccess;
 
     public CaptureDelegate(Action<AVMetadataMachineReadableCodeObject> onSuccess)
     {
@@ -159,9 +161,16 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
                 var stringValue = readableObject.StringValue;
                 if (stringValue != null)
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>m_onSuccess.Invoke(readableObject));
+                    MainThread.BeginInvokeOnMainThread(() => m_onSuccess?.Invoke(readableObject));
                 }
             }
         }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        m_onSuccess = null!;
     }
 }

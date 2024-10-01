@@ -212,7 +212,7 @@ internal sealed class PreviewView : ContentView
             height: rectOfInterestHeight);
         avCaptureMetadataOutput.RectOfInterest = initialRectOfInterest;
         
-        var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
+        /*var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
         var layerName = nameof(AVCaptureMetadataOutput.RectOfInterest);
         var layer = new CAShapeLayer(){Name = layerName};
         layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
@@ -224,7 +224,7 @@ internal sealed class PreviewView : ContentView
         layer.BorderWidth = 2;
         var oldLayer = Layer.Sublayers?.FirstOrDefault(s => s.Name == layerName);
         oldLayer?.RemoveFromSuperLayer();
-        Layer.AddSublayer(layer);
+        Layer.AddSublayer(layer);*/
     }
 
     public void AddPreviewLayer(AVCaptureDevice? avCaptureDevice, AVCaptureSession? session, AVLayerVideoGravity videoGravity)

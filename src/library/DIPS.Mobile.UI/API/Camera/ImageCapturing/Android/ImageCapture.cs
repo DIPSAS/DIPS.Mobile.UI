@@ -64,7 +64,8 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        m_cameraPreview?.SetToolbarHeights((float)m_cameraPreview?.PreviewView.Height!);
+        var resolution = m_cameraCaptureUseCase.ResolutionInfo?.Resolution ?? new Size(0, 0);
+        OnCameraStartedCrossPlatform((float)m_cameraPreview.PreviewView.Height, new Microsoft.Maui.Graphics.Size(resolution.Width, resolution.Height));
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)
