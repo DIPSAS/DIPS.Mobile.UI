@@ -163,7 +163,6 @@ public abstract class CameraSession
             CaptureSession.SessionPreset = AVCaptureSession.PresetPhoto;
         }
         
-        //Add barcode camera output
         m_avCaptureOutput = avCaptureOutput;
 
         AddCameraZoomView();
