@@ -22,6 +22,7 @@ public partial class GalleryThumbnails : Grid
         {
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal),
             ItemTemplate = new DataTemplate(() => new ImageThumbnailView.ImageThumbnailView(OnRemoveImage, OnTappedImage)),
+            HasAdditionalSpaceAtTheEnd = false
         };
         
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));

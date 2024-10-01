@@ -17,7 +17,7 @@ public class GCCollectionMonitor
     private const int MsBetweenCollections = 200;
     private const int MaxCollections = 10;
     public static GCCollectionMonitor Instance { get; } = new();
-    public bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
+    public static bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
 
     public void SetAdditionalResolver(Action<object> additionalResolver)
     {

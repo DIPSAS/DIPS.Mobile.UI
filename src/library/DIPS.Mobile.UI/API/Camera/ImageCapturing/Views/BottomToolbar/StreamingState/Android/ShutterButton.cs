@@ -3,7 +3,7 @@ using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using View = Android.Views.View;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 
 internal partial class ShutterButton
 {
@@ -31,7 +31,7 @@ internal partial class ShutterButton
                 break;
             case MotionEventActions.Up:
                 if (!m_isCancelled)
-                    m_onTappedShutterButton.Invoke();
+                    m_onTappedShutterButton?.Invoke();
                 m_shutterContentWhiteOverlay.ScaleTo(1);
                 break;
             case MotionEventActions.Move:

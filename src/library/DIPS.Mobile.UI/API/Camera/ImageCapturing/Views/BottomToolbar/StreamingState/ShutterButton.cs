@@ -1,13 +1,13 @@
 using Microsoft.Maui.Controls.Shapes;
 
-namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.StreamingBottomToolbar;
+namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 
 internal partial class ShutterButton : Grid, IDisposable
 {
-    private readonly Action m_onTappedShutterButton;
+    private readonly Action? m_onTappedShutterButton;
     private readonly Border m_shutterContentWhiteOverlay;
     
-    public ShutterButton(Action onTappedShutterButton)
+    public ShutterButton(Action? onTappedShutterButton)
     {
         m_onTappedShutterButton = onTappedShutterButton;
         
@@ -34,6 +34,8 @@ internal partial class ShutterButton : Grid, IDisposable
         
         Children.Add(shutterContentBlackOverlay);
         Children.Add(m_shutterContentWhiteOverlay);
+        
+        Enable();
     }
 
     private partial void AddPlatformGestureRecognizer();

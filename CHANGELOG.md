@@ -1,6 +1,7 @@
 ## [37.0.0]
 - [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.
 - [BarcodeScanner][BreakingChange] Requires you to provide a CameraFailed delegate when starting the barcode scanner.
+- [BottomSheet] Added new property 'IsDraggable', which prevents users from dragging the `BottomSheet`.
 
 ## [36.0.1] 
 - Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.

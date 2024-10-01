@@ -13,9 +13,12 @@ namespace DIPS.Mobile.UI.API.Camera.Shared.iOS;
 
 public abstract class CameraSession
 {
-    internal CameraPreview? m_cameraPreview;
+#nullable disable
+    internal CameraPreview m_cameraPreview;
+#nullable enable
+    
     internal AVCaptureVideoPreviewLayer? PreviewLayer { get; private set; }
-    //The the lense to be used for scanning bar codes
+    //The lens to be used for scanning bar codes
     internal AVCaptureDevice? CaptureDevice { get; private set; }
     
     internal PreviewView? PreviewView { get; private set; }
@@ -60,6 +63,7 @@ public abstract class CameraSession
 
         RemoveObservers();
         CaptureDevice = null;
+        m_avCaptureOutput = null;
 
         m_sessionStartedTask?.TrySetCanceled();
         m_sessionStartedTask = null;

@@ -1,7 +1,3 @@
-using Android.Hardware.Camera2;
-using System.Diagnostics;
-using Android.Graphics;
-using Android.Media;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -16,7 +12,9 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
 {
-    private AndroidX.Camera.Core.ImageCapture? m_cameraCaptureUseCase;
+#nullable disable
+    private AndroidX.Camera.Core.ImageCapture m_cameraCaptureUseCase;
+#nullable enable
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
@@ -42,21 +40,19 @@ public partial class ImageCapture : CameraFragment
             .Build();
 
         // Add listener to receive updates.
-        return m_cameraPreview != null
-            ? base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate)
-            : Task.CompletedTask;
+        return base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate);
     }
 
     private partial void PlatformCapturePhoto()
     {
-        if (Context is null || m_cameraCaptureUseCase is null) 
+        if (Context is null) 
             return;
 
         m_cameraCaptureUseCase.FlashMode = m_flashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
          
-        CameraProvider?.Unbind(m_previewUseCase);
+        CameraProvider?.Unbind(PreviewUseCase);
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
@@ -68,7 +64,7 @@ public partial class ImageCapture : CameraFragment
 
     public override void OnStarted()
     {
-        CrossPlatformCameraStarted((float)m_cameraPreview?.PreviewView.Height!, new Microsoft.Maui.Graphics.Size(m_previewUseCase.ResolutionInfo.Resolution.Width, m_previewUseCase.ResolutionInfo.Resolution.Height));
+        OnCameraStartedCrossPlatform((float)m_cameraPreview?.PreviewView.Height!, new Microsoft.Maui.Graphics.Size(PreviewUseCase.ResolutionInfo?.Resolution.Width ?? 0, PreviewUseCase.ResolutionInfo?.Resolution.Height ?? 0));
     }
 
     private void InvokeOnImageCaptureFailed(ImageCaptureException imageCaptureException)
@@ -94,8 +90,8 @@ public partial class ImageCapture : CameraFragment
         var thumbnail = await TryGetThumbnail(exif, imageTransformation);
         
         var capturedImage = new CapturedImage(imageData,bitmap,  thumbnail, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height,imageTransformation);
-        if (m_imageCaptureSettings == null) return;
-        SwitchToConfirmState(capturedImage, m_imageCaptureSettings);
+        
+        GoToConfirmState(capturedImage, m_imageCaptureSettings);
     }
 
     private async Task<byte[]?> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
@@ -108,12 +104,9 @@ public partial class ImageCapture : CameraFragment
         return await CapturedImage.RotateBitmapImageBasedOnOrientation(transformation, bitmapImage); ;
     }
 
-    
-
     private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(ExifInterface exif)
     {
-        var orientationConstant = exif.GetAttributeInt(AndroidX.ExifInterface.Media.ExifInterface.TagOrientation,
-            AndroidX.ExifInterface.Media.ExifInterface.OrientationNormal);
+        var orientationConstant = exif.GetAttributeInt(ExifInterface.TagOrientation, ExifInterface.OrientationNormal);
         
         var orientationDisplayName = orientationConstant switch
         {
@@ -130,7 +123,7 @@ public partial class ImageCapture : CameraFragment
         return (orientationConstant, orientationDisplayName);
     }
 
-    private static long[] GetBitsPerSample(AndroidX.ExifInterface.Media.ExifInterface exif)
+    private static long[] GetBitsPerSample(ExifInterface exif)
     {
         return exif.GetAttributeRange(ExifInterface.TagBitsPerSample);
     }
@@ -139,28 +132,22 @@ public partial class ImageCapture : CameraFragment
         OnCameraFailed<ImageCapture>(cameraException);
 }
 
-internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
+internal class ImageCaptureCallback(
+    Action<IImageProxy> invokeOnImageCaptured,
+    Action<ImageCaptureException> invokeOnImageCaptureFailed)
+    : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
 {
-    private Action<IImageProxy> m_invokeOnImageCaptured;
-    private readonly Action<ImageCaptureException> m_invokeOnImageCaptureFailed;
-
-    public ImageCaptureCallback(Action<IImageProxy> invokeOnImageCaptured, Action<ImageCaptureException> invokeOnImageCaptureFailed)
-    {
-        m_invokeOnImageCaptured = invokeOnImageCaptured;
-        m_invokeOnImageCaptureFailed = invokeOnImageCaptureFailed;
-    }
-
+    private Action<IImageProxy>? m_invokeOnImageCaptured = invokeOnImageCaptured;
 
     public override void OnError(ImageCaptureException exception)
     {
-        m_invokeOnImageCaptureFailed.Invoke(exception);
+        invokeOnImageCaptureFailed.Invoke(exception);
         base.OnError(exception);
     }
-    
 
     public override void OnCaptureSuccess(IImageProxy image)
     {
-        m_invokeOnImageCaptured.Invoke(image);
+        m_invokeOnImageCaptured?.Invoke(image);
         base.OnCaptureSuccess(image);
         image?.Close();
     }

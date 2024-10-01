@@ -11,27 +11,32 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraSession
 {
-    private AVCapturePhotoOutput? m_capturePhotoOutput;
+#nullable disable
+    private AVCapturePhotoOutput m_capturePhotoOutput;
+    private PhotoCaptureDelegate m_photoCaptureDelegate;
+#nullable enable
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
-        m_capturePhotoOutput = new AVCapturePhotoOutput();
-        if (m_cameraPreview != null)
-        {
-            return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
-        }
+        m_capturePhotoOutput = new AVCapturePhotoOutput() { };
 
-        return Task.CompletedTask;
+        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed);
+        
+        return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
     }
 
     private partial Task PlatformStop()
     {
+        m_capturePhotoOutput = null;
+        m_photoCaptureDelegate?.Dispose();
+        m_photoCaptureDelegate = null;
+        
         return base.StopCameraSession();
     }
 
     public override void ConfigureSession()
     {
-        CrossPlatformCameraStarted((float)PreviewView.Frame.Height, GetCurrentCameraResolution());
+        OnCameraStartedCrossPlatform((float)PreviewView!.Frame.Height, GetCurrentCameraResolution());
     }
 
     private Size GetCurrentCameraResolution()
@@ -58,7 +63,7 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            SwitchToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(),
+            GoToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(),
                     TryGetThumbnail(photo), 
                     photo, 
                     new ImageTransformation((int?)photo.Properties.Orientation ?? 0, 
@@ -79,8 +84,8 @@ public partial class ImageCapture : CameraSession
         {
             CreateThumbnailWithTransform = true //Makes sure to rotate if needed 
         });
+        
         return thumbnailCgImage == null ? null : new UIImage(thumbnailCgImage).AsJPEG()?.ToArray();
-
     }
 
     private async partial void PlatformCapturePhoto()
@@ -88,12 +93,14 @@ public partial class ImageCapture : CameraSession
         await this.HasStartedSession();
         
         var settings = CreateSettings();
-        if (settings is not null)
+        if (settings is null)
         {
-            UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
-            m_capturePhotoOutput?.CapturePhoto(settings, new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed));
-            DisablePreview();
+            return;
         }
+        
+        UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
+        m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
+        DisablePreview();
     }
 
     private void DisablePreview()
@@ -119,8 +126,6 @@ public partial class ImageCapture : CameraSession
 #pragma warning disable CA1422
     private AVCapturePhotoSettings? CreateSettings()
     {
-        if (m_capturePhotoOutput == null) return null;
-
         var formatKey = AVVideo.CodecKey;
         NSObject? formatValue = null;
         if (m_capturePhotoOutput.AvailablePhotoCodecTypes.Contains(AVVideo.CodecJPEG))
@@ -149,39 +154,44 @@ public partial class ImageCapture : CameraSession
 #pragma warning restore CA1422
 }
 
-public class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed) : AVCapturePhotoCaptureDelegate
+internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed) : AVCapturePhotoCaptureDelegate
 {
-    private Action<AVCapturePhoto>? m_onPhotoCaptured = onPhotoCaptured;
-    private Action<CameraException>? m_onPhotoCaptureFailed = onPhotoCaptureFailed;
+    private Action<CameraException> m_onPhotoCaptureFailed = onPhotoCaptureFailed;
+    private Action<AVCapturePhoto> m_onPhotoCaptured = onPhotoCaptured;
 
-    public override void DidCapturePhoto(AVCapturePhotoOutput captureOutput,
-        AVCaptureResolvedPhotoSettings resolvedSettings)
+    public override void WillBeginCapture(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings)
     {
+        Console.WriteLine("--- WillBeginCapture --- | " + captureOutput + "|" + resolvedSettings);
     }
 
     public override void DidFinishCapture(AVCapturePhotoOutput captureOutput,
         AVCaptureResolvedPhotoSettings resolvedSettings,
         NSError? error)
     {
+        Console.WriteLine("DidFinishCapture" + error?.LocalizedFailureReason);
+        
         if (error != null)
         {
-            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishCapture", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
+            m_onPhotoCaptureFailed.Invoke(new CameraException("iOS: DidFinishCapture", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
         }
     }
 
     public override void DidFinishProcessingPhoto(AVCapturePhotoOutput output, AVCapturePhoto photo, NSError? error)
     {
+        Console.WriteLine("DidFinishProcessingCapture" + error?.LocalizedFailureReason);
+        
         if (error != null)
         {
-            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
+            m_onPhotoCaptureFailed.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
         }
-        m_onPhotoCaptured?.Invoke(photo);
+        m_onPhotoCaptured.Invoke(photo);
     }
 
     protected override void Dispose(bool disposing)
     {
-        m_onPhotoCaptured = null;
-        m_onPhotoCaptureFailed = null;
         base.Dispose(disposing);
+
+        m_onPhotoCaptureFailed = null!;
+        m_onPhotoCaptured = null!;
     }
 }

@@ -54,7 +54,9 @@ public partial class ImageCaptureSample
 
     private async void OnImageCaptured(CapturedImage capturedimage)
     {
-        var raw = capturedimage.AsByte64String;
+        ToggleCamera(false);
+        
+        /*var raw = capturedimage.AsByte64String;
         var rotatedByteArray = await capturedimage.AsRotatedByteArray();
         if (rotatedByteArray != null)
         {
@@ -64,12 +66,12 @@ public partial class ImageCaptureSample
             {
                 Console.WriteLine($"Size matters! The size of the rotated image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Rotated image: {rotatedByteArraySize}");
             }
-        }
+        }*/
         
         m_images.Add(capturedimage);
         GalleryThumbnails.AddImage(capturedimage);
         ToggleCamera(false);
-        var preTiff = await capturedimage.AsRotatedByteArray();
+        /*var preTiff = await capturedimage.AsRotatedByteArray();
         var preTiffB64 = Convert.ToBase64String(preTiff);
         
         var rotated = await capturedimage.AsRotatedByteArray() ?? [];
@@ -88,7 +90,7 @@ public partial class ImageCaptureSample
             {
                 Console.WriteLine($"Size matters! The size of the tiff image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Tiff image: {sizeOfTiff}");
             }
-        }
+        }*/
         
     }
 

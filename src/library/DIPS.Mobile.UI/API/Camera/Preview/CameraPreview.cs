@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
+using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Platform;
 #if __IOS__
@@ -15,13 +16,13 @@ namespace DIPS.Mobile.UI.API.Camera.Preview;
 public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
-    private ICameraUseCase? m_cameraUseCase;
+    private WeakReference<ICameraUseCase?> m_cameraUseCase;
     
     private Grid m_grid;
     private Grid m_bottomToolbarContainer;
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
-    private Border m_indicator;
+    private Border? m_indicator;
 
     private const float ThreeFourRatio = .75f;
     
@@ -125,6 +126,8 @@ public partial class CameraPreview : ContentView
 
 #if __IOS__
         m_indicator.TranslationY -= m_indicator.HeightRequest / 2;
+#else
+        m_indicator.TranslationY -= m_indicator.HeightRequest / 1.5f;
 #endif
 
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
@@ -140,6 +143,7 @@ public partial class CameraPreview : ContentView
                 _ = borderToRemove.ScaleTo(.75f);
                 await borderToRemove.FadeTo(0);
                 m_grid.Remove(borderToRemove);
+                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(borderToRemove);
             });
         });
     }
@@ -158,6 +162,7 @@ public partial class CameraPreview : ContentView
             return;
         
         m_topToolbarContainer.Remove(toolbarItems);
+        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
     }
 
     internal void AddBottomToolbarView(View? toolbarItems)
@@ -168,25 +173,33 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer.Add(toolbarItems);
     }
     
-    internal void RemoveToolbarView(View? toolbarItems)
+    internal void RemoveBottomToolbarView(View? toolbarItems)
     {
         if (toolbarItems is null) 
             return;
         
         m_bottomToolbarContainer.Remove(toolbarItems);
+        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
     }
     
-    internal void AddViewToRoot(View view, bool addAsFirst = false)
+    internal void AddViewToRoot(View view, int index = -1)
     {
-        if (addAsFirst)
-            m_grid.Insert(0, view);
-        else
+        if (index == -1)
+        {
             m_grid.Add(view);
+        }
+        else
+        {
+            m_grid.Insert(index, view);
+        }
     }
     
-    public void RemoveViewFromRoot(View view)
+    public void RemoveViewFromRoot(View? view)
     {
-        m_grid.Remove(view);
+        if (m_grid.Remove(view))
+        {
+            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(view!);
+        }
     }
     
     public Task HasLoaded()
@@ -196,15 +209,19 @@ public partial class CameraPreview : ContentView
 
     internal void AddUseCase(ICameraUseCase cameraUseCase)
     {
-        m_cameraUseCase = cameraUseCase;
+        m_cameraUseCase = new WeakReference<ICameraUseCase?>(cameraUseCase);
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         if(args.NewHandler == null) // User has navigated from the page
         {
-            m_cameraUseCase?.Stop();
-            m_cameraUseCase = null;
+            if (m_cameraUseCase.TryGetTarget(out var target))
+            {
+                var collectionContentTarget = target.ToCollectionContentTarget();
+                _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
+                target.StopAndDispose();
+            }
         }
 
         base.OnHandlerChanging(args);
@@ -215,6 +232,7 @@ public partial class CameraPreview : ContentView
         PreviewView.IsVisible = false;
 
         m_grid.Remove(m_indicator);
+        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_indicator);
     }
 
     public void GoToStreamingState()

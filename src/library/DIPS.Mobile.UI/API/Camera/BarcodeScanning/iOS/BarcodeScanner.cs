@@ -115,7 +115,7 @@ public partial class BarcodeScanner : CameraSession
         
         if (m_cameraPreview is { CameraZoomView: not null })
         {
-            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, 50);
+            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
             m_cameraPreview.CameraZoomView.SetZoomRatio((float)captureDevice.VideoZoomFactor);
         }
     }
