@@ -39,7 +39,12 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 
     internal partial Task PlatformStop() => base.TryStop();
 
-    public override void OnStarted() => SetupBarCodeScanning();
+    public override void OnStarted()
+    {
+        m_cameraPreview?.SetToolbarHeights((float)m_cameraPreview?.PreviewView.Height!);
+        SetupBarCodeScanning();
+    }
+
     internal override void OrientationChanged(SurfaceOrientation surfaceOrientation)
     {
         
