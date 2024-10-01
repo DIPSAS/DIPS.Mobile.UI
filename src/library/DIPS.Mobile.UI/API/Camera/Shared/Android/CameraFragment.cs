@@ -87,6 +87,11 @@ public abstract class CameraFragment : Fragment
     {
         return FragmentManager?.FindFragmentByTag(FragmentTag) != null;
     }
+    
+    private Fragment? GetFragment()
+    {
+        return FragmentManager?.FindFragmentByTag(FragmentTag);
+    }
 
     internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase,
         ResolutionSelector resolutionSelector, CameraFailed cameraFailedDelegate)
@@ -346,13 +351,16 @@ public abstract class CameraFragment : Fragment
     {
         if (!IsFragmentStarted()) 
             return;
-        
+
         try
         {
-            FragmentManager?.BeginTransaction().Remove(this).CommitAllowingStateLoss();
-            if (m_stoppedTcs?.Task != null)
+            if (GetFragment() is { } fragment)
             {
-                await m_stoppedTcs.Task;
+                FragmentManager?.BeginTransaction().Remove(fragment).CommitAllowingStateLoss();
+                if (m_stoppedTcs?.Task != null)
+                {
+                    await m_stoppedTcs.Task;
+                }
             }
         }
         catch (IllegalStateException illegalStateException)
