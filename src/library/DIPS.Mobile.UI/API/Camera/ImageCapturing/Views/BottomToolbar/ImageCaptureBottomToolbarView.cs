@@ -23,11 +23,11 @@ internal class ImageCaptureBottomToolbarView : Grid
         }
     }
 
-    public void GoToStreamingState(Action onTappedShutterButton, Action onTappedFlashButton)
+    public void GoToStreamingState(Action onTappedShutterButton, Action onTappedFlashButton, bool shouldBlitzBeActive = false)
     {
         var childrenThatWillBeRemoved = Children.ToList();
         Clear();
-        Add(new StreamingStateView(onTappedShutterButton, onTappedFlashButton));
+        Add(new StreamingStateView(onTappedShutterButton, onTappedFlashButton, shouldBlitzBeActive));
         
         foreach (var view in childrenThatWillBeRemoved)
         {

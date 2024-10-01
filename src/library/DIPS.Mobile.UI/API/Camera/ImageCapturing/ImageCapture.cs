@@ -105,7 +105,7 @@ public partial class ImageCapture : ICameraUseCase
             {
                 PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
             }
-        }, () => m_flashActive = !m_flashActive);
+        }, () => m_flashActive = !m_flashActive, m_flashActive);
 
         m_bottomToolbarView.SetShutterButtonEnabled(true);
 

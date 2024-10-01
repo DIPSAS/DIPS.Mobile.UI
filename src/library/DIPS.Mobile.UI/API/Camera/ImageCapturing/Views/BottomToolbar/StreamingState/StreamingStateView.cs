@@ -9,16 +9,16 @@ internal class StreamingStateView : Grid
 {
     private readonly ShutterButton m_shutterButton;
 
-    private bool m_isFlashOn;
-
-    public StreamingStateView(Action? onTappedShutterButton, Action? onTappedFlashButton)
+    public StreamingStateView(Action? onTappedShutterButton, Action? onTappedFlashButton, bool shouldBlitzBeActive)
     {
+        var isBlitzOn = shouldBlitzBeActive;
+        
         m_shutterButton = new ShutterButton(onTappedShutterButton);
 
         var blitzButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            ImageSource = Icons.GetIcon(IconName.flash_off_fill),
+            ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center
@@ -26,9 +26,9 @@ internal class StreamingStateView : Grid
 
         blitzButton.Command = new Command(() =>
         {
-            m_isFlashOn = !m_isFlashOn;
+            isBlitzOn = !isBlitzOn;
             onTappedFlashButton?.Invoke();
-            blitzButton.ImageSource = m_isFlashOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
+            blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
         });
         
         Add(m_shutterButton);
