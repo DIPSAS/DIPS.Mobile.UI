@@ -223,13 +223,6 @@ public abstract class CameraSession
             
             if (videoFormatDescription.Dimensions.Width <= targetHeight)
             {
-                if (selectedVideoFormat?.FormatDescription is CMVideoFormatDescription selectedVideoFormatDescription)
-                {
-                    // Just take the first format of a resolution
-                    /*if(selectedVideoFormatDescription.Dimensions.Width == videoFormatDescription.Dimensions.Width && selectedVideoFormatDescription.Dimensions.Height == videoFormatDescription.Dimensions.Height)
-                        continue;*/
-                }
-                
                 selectedVideoFormat = format;
             }
             else
