@@ -1,9 +1,9 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
-using DIPS.Mobile.UI.Components.Alerting.Dialog;
+#if __IOS__
+using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Colors = Microsoft.Maui.Graphics.Colors;
+#endif
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
