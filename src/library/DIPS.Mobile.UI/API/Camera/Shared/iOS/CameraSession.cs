@@ -40,6 +40,11 @@ public abstract class CameraSession
 
     internal async Task StopCameraSession()
     {
+        if (m_sessionStartedTask?.Task is not null)
+        {
+            await m_sessionStartedTask?.Task;
+        }
+
         if (CaptureSession is {Running: true})
         {
             await Task.Run(() =>
@@ -201,6 +206,8 @@ public abstract class CameraSession
         {
             throw new Exception("Unable to add output");
         }
+
+        await m_sessionStartedTask.Task;
     }
 
     private AVCaptureDeviceFormat GetCompatibleFormat(int targetHeight)

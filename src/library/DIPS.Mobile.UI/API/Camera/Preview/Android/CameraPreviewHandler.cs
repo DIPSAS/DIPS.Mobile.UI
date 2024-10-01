@@ -9,9 +9,8 @@ using View = Android.Views.View;
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
 //Preview: https://developer.android.com/media/camera/camera2/camera-preview
-public partial class CameraPreviewHandler() : ViewHandler<CameraPreview, View>(ViewMapper)
+public class CameraPreviewHandler() : ViewHandler<CameraPreview, View>(ViewMapper)
 {
-    private ScaleGestureDetector? m_scaleGestureDetector;
     private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
 
     protected override View CreatePlatformView()

@@ -1,14 +1,6 @@
 using AVFoundation;
-using CoreAnimation;
 using CoreFoundation;
-using CoreGraphics;
-using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
-using Foundation;
-using Microsoft.Maui.Controls.Shapes;
-using UIKit;
-using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -36,6 +28,8 @@ public partial class BarcodeScanner : CameraSession
     {
         if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewView == null) return;
 
+        m_cameraPreview?.SetToolbarHeights((float)PreviewView!.Frame.Height);
+        
         m_captureMetadataOutput.SetDelegate(new CaptureDelegate(s =>
             {
                 if (!string.IsNullOrEmpty(s.StringValue))
@@ -67,8 +61,8 @@ public partial class BarcodeScanner : CameraSession
 
 
             
-            
-            PreviewView.TryAddOrUpdateRectOfInterest();
+            // TODO: Set the rect of interest to the center of the screen
+            /*PreviewView.TryAddOrUpdateRectOfInterest();*/
             SetRecommendedZoomFactor();
             
     }
@@ -115,7 +109,6 @@ public partial class BarcodeScanner : CameraSession
         
         if (m_cameraPreview is { CameraZoomView: not null })
         {
-            m_cameraPreview.CameraZoomView.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
             m_cameraPreview.CameraZoomView.SetZoomRatio((float)captureDevice.VideoZoomFactor);
         }
     }
