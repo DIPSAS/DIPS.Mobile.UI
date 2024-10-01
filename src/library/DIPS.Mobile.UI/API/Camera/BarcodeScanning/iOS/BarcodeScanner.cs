@@ -1,14 +1,6 @@
 using AVFoundation;
-using CoreAnimation;
 using CoreFoundation;
-using CoreGraphics;
-using CoreMedia;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
-using Foundation;
-using Microsoft.Maui.Controls.Shapes;
-using UIKit;
-using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -69,8 +61,8 @@ public partial class BarcodeScanner : CameraSession
 
 
             
-            
-            PreviewView.TryAddOrUpdateRectOfInterest();
+            // TODO: Set the rect of interest to the center of the screen
+            /*PreviewView.TryAddOrUpdateRectOfInterest();*/
             SetRecommendedZoomFactor();
             
     }
