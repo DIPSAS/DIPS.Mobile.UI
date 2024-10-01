@@ -150,7 +150,7 @@ public abstract class CameraSession
                     return;
 
                 CaptureDevice.ActiveFormat = GetCompatibleFormat(maxHeightOrWidth.Value);
-
+                
                 CaptureDevice.UnlockForConfiguration();
             }
             catch (Exception e)
@@ -221,8 +221,8 @@ public abstract class CameraSession
                 if (selectedVideoFormat?.FormatDescription is CMVideoFormatDescription selectedVideoFormatDescription)
                 {
                     // Just take the first format of a resolution
-                    if(selectedVideoFormatDescription.Dimensions.Width == videoFormatDescription.Dimensions.Width && selectedVideoFormatDescription.Dimensions.Height == videoFormatDescription.Dimensions.Height)
-                        continue;
+                    /*if(selectedVideoFormatDescription.Dimensions.Width == videoFormatDescription.Dimensions.Width && selectedVideoFormatDescription.Dimensions.Height == videoFormatDescription.Dimensions.Height)
+                        continue;*/
                 }
                 
                 selectedVideoFormat = format;

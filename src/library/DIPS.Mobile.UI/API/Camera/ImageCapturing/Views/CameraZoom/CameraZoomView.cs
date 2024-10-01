@@ -6,8 +6,7 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 internal class CameraZoomView : Grid
 {
     private CancellationTokenSource m_cancellationTokenSource = new();
-    
-    private readonly Action<float> m_onChangedZoomRatio;
+
     private ZoomType m_zoomState;
     private readonly ZoomButtons m_zoomButtons;
     private readonly ZoomSlider m_zoomSlider;
@@ -16,7 +15,6 @@ internal class CameraZoomView : Grid
     {
         InputTransparent = true;
         CascadeInputTransparent = false;
-        m_onChangedZoomRatio = onChangedZoomRatio;
         
         VerticalOptions = LayoutOptions.End;
 
@@ -24,10 +22,10 @@ internal class CameraZoomView : Grid
         
         m_zoomButtons = new ZoomButtons(minRatio, maxRatio, v =>
         {
-            m_onChangedZoomRatio(v);
+            onChangedZoomRatio(v);
             m_zoomSlider?.SetZoomRatio(v);
         }, OnPanned);
-        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, m_onChangedZoomRatio, OnPanned);
+        m_zoomSlider = new ZoomSlider(minRatio, maxRatio, onChangedZoomRatio, OnPanned);
         
         Add(m_zoomSlider);
         Add(m_zoomButtons);
@@ -108,11 +106,6 @@ internal class CameraZoomView : Grid
         }
     }
     
-    /// <summary>
-    /// Determines if people has used the zoom functionality.
-    /// </summary>
-    public bool HasZoomed { get; set; }
-
     private enum ZoomType
     {
         Buttons,
