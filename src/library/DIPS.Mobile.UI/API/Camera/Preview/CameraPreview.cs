@@ -192,6 +192,9 @@ public partial class CameraPreview : ContentView
     
     public void RemoveViewFromRoot(View? view)
     {
+        if(view is null)
+            return;
+        
         if (m_grid.Remove(view))
         {
             new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(view!);
@@ -227,8 +230,13 @@ public partial class CameraPreview : ContentView
     {
         PreviewView.IsVisible = false;
 
-        m_grid.Remove(m_indicator);
-        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_indicator);
+        if (m_indicator is not null)
+        {
+            if (m_grid.Remove(m_indicator))
+            {
+                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_indicator);
+            }
+        }
     }
 
     public void GoToStreamingState()

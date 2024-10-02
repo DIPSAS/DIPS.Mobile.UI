@@ -56,9 +56,12 @@ internal class ImageCaptureTopToolbarView : Grid
     public void GoToConfirmState(CapturedImage capturedImage)
     {
         m_infoButton = InfoButton;
-        
-        Remove(m_settingsButton);
-        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_settingsButton);
+
+        if (m_settingsButton is not null)
+        {
+            Remove(m_settingsButton);
+            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_settingsButton);
+        }
         Add(m_infoButton);
         
         m_infoButton.Command = new Command(() =>
@@ -70,9 +73,12 @@ internal class ImageCaptureTopToolbarView : Grid
     public void GoToStreamingState(Action onBottomSheetSavedWithChanges)
     {
         m_settingsButton = SettingsButton;
-        
-        Remove(m_infoButton);
-        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_infoButton);
+
+        if (m_infoButton is not null)
+        {
+            Remove(m_infoButton);
+            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_infoButton);
+        }
         Add(m_settingsButton);
 
         m_settingsButton.Command = new Command(() =>
