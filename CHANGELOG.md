@@ -1,3 +1,6 @@
+## [36.0.2] 
+- [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
+
 ## [36.0.1] 
 - Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
 
