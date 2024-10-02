@@ -1,6 +1,6 @@
 ## [37.0.1]
 - [ImageCapture] Changed text from "Take new photo" to "Retake photo".
-- [ImageCapture] Changed text from "Done" to "Close".
+- [ImageCapture] Changed text from "Done" to "Cancel".
 - [ImageCapture] Changed icon from "information_line" to "information_fill".
 - [ImageCapture] Changed text from "Remove" to "Delete".
 
