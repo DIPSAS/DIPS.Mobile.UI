@@ -173,4 +173,7 @@
     <data name="Delete" xml:space="preserve">
         <value>Delete</value>
     </data>
+    <data name="Back" xml:space="preserve">
+        <value>Back</value>
+    </data>
 </root>

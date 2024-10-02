@@ -177,4 +177,7 @@
     <data name="Delete" xml:space="preserve">
         <value>Slett</value>
     </data>
+    <data name="Back" xml:space="preserve">
+        <value>Tilbake</value>
+    </data>
 </root>

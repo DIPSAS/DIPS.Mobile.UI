@@ -23,7 +23,7 @@ internal class ImageCaptureTopToolbarView : Grid
         var doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-            Text = DUILocalizedStrings.Close,
+            Text = imageCaptureSettings.DoneButtonText,
             TextColor = Colors.White,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.End,

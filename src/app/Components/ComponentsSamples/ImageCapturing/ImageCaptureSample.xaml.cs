@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.API.Camera.TIFF;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -40,8 +41,35 @@ public partial class ImageCaptureSample
             {
                 settings.PostCaptureAction = PostCaptureAction.Close;
                 settings.CanChangeMaxHeightOrWidth = true;
-                settings.DoneButtonCommand = new Command(() => ToggleCamera(false));
+                settings.DoneButtonCommand = new Command(Close);
             });
+    }
+
+    private void Close()
+    {
+        if (m_images.Count == 0)
+        {
+            Application.Current?.MainPage?.Navigation.PopAsync();
+        }
+        else
+        {
+            if (CameraPreview.PreviewView.IsVisible)
+            {
+                m_imageCapture.Stop();
+                ToggleCamera(false);
+            }
+            else
+            {
+                Application.Current?.MainPage?.Navigation.PopAsync();
+            }
+        }
+    }
+    
+    protected override bool OnBackButtonPressed()
+    {
+        Close();
+
+        return false;
     }
 
     private void OnCameraFailed(CameraException e)
