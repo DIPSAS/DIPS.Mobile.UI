@@ -15,19 +15,23 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid>
-        <dui:ListItem>
-            <dui:ListItem.UnderlyingContent>
-                
-                <VerticalStackLayout Margin="{dui:Thickness Top=size_1}">
-                    <dui:Label Text="test"></dui:Label>
-                <dui:ListItem Title="Date">
-                    <dui:NullableDateAndTimePicker SelectedDateTime="{Binding Date, Mode=TwoWay}" />
-                </dui:ListItem>
-                </VerticalStackLayout>
-            </dui:ListItem.UnderlyingContent>
-        </dui:ListItem>
-    </Grid>
+    <CollectionView IsGrouped="True"
+                        ItemsSource="{Binding GroupedTest}">
 
-    
+        <CollectionView.GroupFooterTemplate>
+            
+            <DataTemplate>
+                <Label Text="Lol"></Label>
+            </DataTemplate>
+        </CollectionView.GroupFooterTemplate>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="HEHE"></Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
+
+
 </dui:ContentPage>

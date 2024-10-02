@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
@@ -20,13 +21,18 @@ public partial class BarcodeScanningSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode);
+            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed);
         }
         catch (Exception exception)
         {
             await Application.Current?.MainPage?.DisplayAlert("Failed, check console!", exception.Message, "Ok")!;
             Console.WriteLine(exception);
         }
+    }
+
+    private void CameraFailed(CameraException e)
+    {
+        App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
     private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
@@ -42,6 +48,7 @@ public partial class BarcodeScanningSample
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
+        m_barcodeScanner.StopAndDispose();
     }
 
     private async void BottomSheetClosed(object? sender, EventArgs e)
@@ -52,6 +59,7 @@ public partial class BarcodeScanningSample
         }
 
         m_barCodeResultBottomSheet = null;
+        _ = Start();
     }
 
     protected override async void OnAppearing()
@@ -59,25 +67,9 @@ public partial class BarcodeScanningSample
         _ = Start();
         base.OnAppearing();
     }
-
-    protected override void OnDisappearing()
-    {
-        m_barcodeScanner.Stop();
-        base.OnDisappearing();
-    }
-
-    public void OnSleep()
-    {
-        m_barcodeScanner.Stop();
-    }
-
-    public void OnResume()
-    {
-        _ = Start();
-    }
-
+    
     private void ShowTip(object? sender, EventArgs e)
     {
-        CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen isteden for å ha mobilen for nært strekkoden.");
+        CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen istedet for å ha mobilen for nært strekkoden. Du kan også dra i slideren for å justere zoomen.");  
     }
 }

@@ -11,5 +11,5 @@
                      Clicked="ShowTip">
         </ToolbarItem>
     </dui:ContentPage.ToolbarItems>
-    <dui:CameraPreview x:Name="CameraPreview" />
+    <dui:CameraPreview x:Name="CameraPreview" IsInFullscreen="False"/>
 </dui:ContentPage>

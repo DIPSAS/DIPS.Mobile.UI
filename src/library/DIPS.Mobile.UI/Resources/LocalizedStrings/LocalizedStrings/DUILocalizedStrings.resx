@@ -126,4 +126,52 @@
     <data name="NumberOfCharactersTooMany" xml:space="preserve">
         <value>{0} characters too many</value>
     </data>
+    <data name="RemoveImageTitle" xml:space="preserve">
+        <value>Fjern bilde</value>
+    </data>
+    <data name="RemoveImageDescription" xml:space="preserve">
+        <value>Vil du fjerne bildet?</value>
+    </data>
+    <data name="TakeNewPhoto" xml:space="preserve">
+        <value>Ta nytt bilde</value>
+    </data>
+    <data name="UsePicture" xml:space="preserve">
+        <value>Bruk bilde</value>
+    </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Ferdig</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Innstillinger</value>
+    </data>
+    <data name="MaxHeightOrWidth" xml:space="preserve">
+        <value>Maks høyde eller bredde</value>
+    </data>
+    <data name="InvalidInput" xml:space="preserve">
+        <value>Ugyldig input</value>
+    </data>
+    <data name="PleaseInputValidInteger" xml:space="preserve">
+        <value>Vennligst skriv inn et gyldig heltall</value>
+    </data>
+    <data name="CurrentCameraResolution" xml:space="preserve">
+        <value>Gjeldende kamera oppløsning</value>
+    </data>
+    <data name="SettingsChanged" xml:space="preserve">
+        <value>Innstillinger endret</value>
+    </data>
+    <data name="SettingsChangedDescription" xml:space="preserve">
+        <value>Innstillinger er endret, starter kameraet på nytt for å iverksette endringene</value>
+    </data>
+    <data name="None" xml:space="preserve">
+        <value>Ingen</value>
+    </data>
+    <data name="Size" xml:space="preserve">
+        <value>Størrelse</value>
+    </data>
+    <data name="Resolution" xml:space="preserve">
+        <value>Oppløsning</value>
+    </data>
+    <data name="Orientation" xml:space="preserve">
+        <value>Orientasjon</value>
+    </data>
 </root>

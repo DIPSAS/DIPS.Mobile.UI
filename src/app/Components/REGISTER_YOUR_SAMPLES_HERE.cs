@@ -4,6 +4,7 @@ using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
+using Components.ComponentsSamples.ImageCapturing;
 using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
@@ -50,8 +51,9 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Labels", () => new LabelsSamples()),
             new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples()),
             new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningSample()),
+            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCaptureSample()),
             new(SampleType.Components, "Tip", () => new TipSamples()),
-            
+
             
 
 

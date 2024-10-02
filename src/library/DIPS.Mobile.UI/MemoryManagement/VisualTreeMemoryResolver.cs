@@ -4,6 +4,22 @@ internal class VisualTreeMemoryResolver
 {
     private Action<object>? m_additionalResolver;
 
+    internal void TryResolveMemoryLeakCascading(object? target)
+    {
+        if(target is null)
+            return;
+        
+        if (target is IVisualTreeElement visualTreeElement)
+        {
+            foreach (var child in visualTreeElement.GetVisualChildren())
+            {
+                TryResolveMemoryLeakCascading(child);
+            }
+        }
+        
+        TryResolveMemoryLeak(target);
+    }
+    
     internal void TryResolveMemoryLeak(object target)
     {
         try
@@ -23,8 +39,6 @@ internal class VisualTreeMemoryResolver
                                 contentView.Content = null;
                                 break;
                             case CollectionView collectionView:
-                                collectionView.ItemsSource = null;
-                                collectionView.ItemTemplate = null;
                                 if (!collectionView.IsGrouped)
                                 {
                                     collectionView.FooterTemplate = null;
@@ -43,6 +57,13 @@ internal class VisualTreeMemoryResolver
                             case ScrollView scrollView:
                                 scrollView.Content = null;
                                 break;
+                        }
+
+                        // CollectionView, CarouselView etc..
+                        if (visualElement is ItemsView itemsView)
+                        {
+                            itemsView.ItemsSource = null;
+                            itemsView.ItemTemplate = null;
                         }
                         
                         visualElement.ClearLogicalChildren();
@@ -81,7 +102,7 @@ internal class VisualTreeMemoryResolver
             // Try run user-defined resolver method
             m_additionalResolver?.Invoke(target);
         }
-        catch
+        catch(Exception e)
         {
             // Should never crash the app
         }
