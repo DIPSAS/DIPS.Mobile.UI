@@ -273,9 +273,9 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
-        internal static string TakeNewPhoto {
+        internal static string ReTakePhoto {
             get {
-                return ResourceManager.GetString("TakeNewPhoto", resourceCulture);
+                return ResourceManager.GetString("ReTakePhoto", resourceCulture);
             }
         }
         
@@ -354,6 +354,18 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
         internal static string Orientation {
             get {
                 return ResourceManager.GetString("Orientation", resourceCulture);
+            }
+        }
+        
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
             }
         }
     }

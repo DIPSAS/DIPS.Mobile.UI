@@ -132,8 +132,8 @@
     <data name="RemoveImageDescription" xml:space="preserve">
         <value>Vil du fjerne bildet?</value>
     </data>
-    <data name="TakeNewPhoto" xml:space="preserve">
-        <value>Ta nytt bilde</value>
+    <data name="ReTakePhoto" xml:space="preserve">
+        <value>Ta bilde på nytt</value>
     </data>
     <data name="UsePicture" xml:space="preserve">
         <value>Bruk bilde</value>
@@ -173,5 +173,11 @@
     </data>
     <data name="Orientation" xml:space="preserve">
         <value>Orientasjon</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Slett</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Tilbake</value>
     </data>
 </root>

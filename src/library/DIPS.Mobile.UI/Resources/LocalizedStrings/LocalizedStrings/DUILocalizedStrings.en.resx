@@ -128,8 +128,8 @@
     <data name="RemoveImageDescription" xml:space="preserve">
         <value>Do you want to remove the image?</value>
     </data>
-    <data name="TakeNewPhoto" xml:space="preserve">
-        <value>Take new photo</value>
+    <data name="ReTakePhoto" xml:space="preserve">
+        <value>Retake photo</value>
     </data>
     <data name="UsePicture" xml:space="preserve">
         <value>Use picture</value>
@@ -169,5 +169,11 @@
     </data>
     <data name="Orientation" xml:space="preserve">
         <value>Orientation</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Back</value>
     </data>
 </root>

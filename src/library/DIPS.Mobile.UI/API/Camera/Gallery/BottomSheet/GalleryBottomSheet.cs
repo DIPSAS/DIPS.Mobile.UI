@@ -107,7 +107,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
 
         var removeLabel = new Label
         {
-            Text = DUILocalizedStrings.Remove,
+            Text = DUILocalizedStrings.Delete,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
             TextColor = Colors.GetColor(ColorName.color_system_white),
             HorizontalOptions = LayoutOptions.Center,

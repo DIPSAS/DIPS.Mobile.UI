@@ -208,6 +208,12 @@ public partial class ImageCapture : ICameraUseCase
         }
     }
 
+    public void Stop()
+    {
+        ResetAllVisuals();
+        PlatformStop();
+    }
+
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)
     {
         m_onImageCapturedDelegate?.Invoke(capturedImage);

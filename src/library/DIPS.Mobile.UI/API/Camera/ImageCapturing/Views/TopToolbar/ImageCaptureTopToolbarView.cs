@@ -23,7 +23,7 @@ internal class ImageCaptureTopToolbarView : Grid
         var doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-            Text = DUILocalizedStrings.Done,
+            Text = imageCaptureSettings.DoneButtonText,
             TextColor = Colors.White,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.End,
@@ -36,7 +36,7 @@ internal class ImageCaptureTopToolbarView : Grid
     private Button SettingsButton => new()
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_fill) : Icons.GetIcon(IconName.information_fill),
+        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_fill) : Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
@@ -46,7 +46,7 @@ internal class ImageCaptureTopToolbarView : Grid
     private static Button InfoButton => new()
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-        ImageSource = Icons.GetIcon(IconName.information_fill),
+        ImageSource = Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
