@@ -46,7 +46,7 @@ public class ConfirmStateView : Grid
         
         var retakeLabel = new Label
         {
-            Text = DUILocalizedStrings.TakeNewPhoto,
+            Text = DUILocalizedStrings.ReTakePhoto,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
             TextColor = Colors.GetColor(ColorName.color_system_white),
             HorizontalOptions = LayoutOptions.Center,
