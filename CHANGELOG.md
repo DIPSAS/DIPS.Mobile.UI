@@ -2,6 +2,7 @@
 - [ImageCapture] Changed text from "Take new photo" to "Retake photo".
 - [ImageCapture] Changed text from "Done" to "Close".
 - [ImageCapture] Changed icon from "information_line" to "information_fill".
+- [ImageCapture] Changed text from "Remove" to "Delete".
 
 ## [37.0.0]
 - [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.

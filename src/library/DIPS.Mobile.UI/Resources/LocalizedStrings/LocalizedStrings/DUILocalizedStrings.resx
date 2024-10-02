@@ -174,4 +174,7 @@
     <data name="Orientation" xml:space="preserve">
         <value>Orientasjon</value>
     </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Slett</value>
+    </data>
 </root>
