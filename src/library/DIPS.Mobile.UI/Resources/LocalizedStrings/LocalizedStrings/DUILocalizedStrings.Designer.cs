@@ -273,9 +273,9 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
-        internal static string TakeNewPhoto {
+        internal static string ReTakePhoto {
             get {
-                return ResourceManager.GetString("TakeNewPhoto", resourceCulture);
+                return ResourceManager.GetString("ReTakePhoto", resourceCulture);
             }
         }
         
