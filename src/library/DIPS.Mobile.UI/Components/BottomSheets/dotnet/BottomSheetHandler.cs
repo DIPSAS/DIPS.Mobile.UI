@@ -28,4 +28,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet) =>
         Only_Here_For_UnitTests.Throw();
+    
+    private static partial void MapIsDraggable(BottomSheetHandler handler, BottomSheet bottomSheet) =>
+        Only_Here_For_UnitTests.Throw();
 }

@@ -34,7 +34,9 @@ public partial class TouchPlatformEffect
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
+            
             Control.Click += OnClick;
+            Control.ScrollChange += ControlOnScrollChange;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
@@ -62,14 +64,15 @@ public partial class TouchPlatformEffect
             Control.Foreground = ripple;
         }
         
-        if (string.IsNullOrEmpty(contentDescription))
-        {
-            Control.ContentDescription = DUILocalizedStrings.Button;
-        }
-        else
+        if (!string.IsNullOrEmpty(contentDescription))
         {
             Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
         }
+    }
+
+    private void ControlOnScrollChange(object? sender, View.ScrollChangeEventArgs e)
+    {
+        
     }
 
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)

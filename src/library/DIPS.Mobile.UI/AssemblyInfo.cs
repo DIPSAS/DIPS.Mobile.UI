@@ -76,6 +76,7 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Sorting")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Resources.Styles")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera.Gallery")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera.Preview")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera.BarcodeScanning")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.ChipGroup")]
@@ -83,6 +84,9 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.VirtualListView.Controls")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Alerting.Alert")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.MemoryManagement")]
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera.Gallery")]
+
+
 
 
 
