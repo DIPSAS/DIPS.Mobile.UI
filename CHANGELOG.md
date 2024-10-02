@@ -1,3 +1,6 @@
+## [37.0.2] 
+- [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
+
 ## [37.0.1]
 - [ImageCapture] Changed text from "Take new photo" to "Retake photo".
 - [ImageCapture] Changed text from "Done" to "Cancel".
