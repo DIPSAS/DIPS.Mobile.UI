@@ -1,3 +1,6 @@
+## [36.0.3] 
+- [StateView] Fixed bug where content were not always displayed.
+
 ## [36.0.2] 
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
 
