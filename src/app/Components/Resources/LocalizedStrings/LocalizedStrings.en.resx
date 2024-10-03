@@ -327,4 +327,7 @@
     <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
         <value>Open bottom sheet that has bottom bar button</value>
     </data>
+    <data name="PhotoCapturing" xml:space="preserve">
+        <value>Photo capturing</value>
+    </data>
 </root>

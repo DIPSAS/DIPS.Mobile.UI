@@ -81,6 +81,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         // Small delay to wait for initialization of hitrect
         await Task.Delay(1);
 
-        handler.PlatformView.SetAdditionalHitBoxSize(button, button.AdditionalHitBoxSize, handler.MauiContext!);
+        if(button is not null && handler.PlatformView is not null)
+            handler.PlatformView.SetAdditionalHitBoxSize(button, button.AdditionalHitBoxSize, handler.MauiContext!);
     }
 }

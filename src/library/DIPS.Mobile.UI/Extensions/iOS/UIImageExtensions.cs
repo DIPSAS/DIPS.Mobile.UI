@@ -48,4 +48,25 @@ public static class UIImageExtensions
 
         return scaledImage;
     }
+    
+    public static int GetRotationDegreesToRotateUpwards(this UIImageOrientation orientation)
+    {
+        switch (orientation)
+        {
+            case UIImageOrientation.Up:
+            case UIImageOrientation.UpMirrored:
+                return 0; // The image is already upright (no rotation needed)
+            case UIImageOrientation.Down:
+            case UIImageOrientation.DownMirrored:
+                return 180; // The image is upside down, rotate 180 degrees to make it upright
+            case UIImageOrientation.Left:
+            case UIImageOrientation.LeftMirrored:
+                return 90; // The image is in landscape mode (90 degrees counter-clockwise), rotate 90 degrees clockwise
+            case UIImageOrientation.Right:
+            case UIImageOrientation.RightMirrored:
+                return -90; // The image is in landscape mode (90 degrees clockwise), rotate 90 degrees counter-clockwise
+            default:
+                return 0; // Default, no rotation
+        }
+    }
 }

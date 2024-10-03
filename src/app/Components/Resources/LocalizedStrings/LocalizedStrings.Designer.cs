@@ -662,5 +662,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BottomSheet_OpenWithBottomBar", resourceCulture);
             }
         }
+        
+        internal static string PhotoCapturing {
+            get {
+                return ResourceManager.GetString("PhotoCapturing", resourceCulture);
+            }
+        }
     }
 }

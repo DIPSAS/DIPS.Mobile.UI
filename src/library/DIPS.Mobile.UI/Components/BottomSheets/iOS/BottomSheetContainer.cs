@@ -13,7 +13,7 @@ internal class BottomSheetContainer : Grid
     {
         m_bottomsheet = bottomSheet;
         
-        BackgroundColor = Colors.GetColor(ColorName.color_system_white);
+        BackgroundColor = bottomSheet.BackgroundColor;
         
         AddRowDefinition(new RowDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Star));

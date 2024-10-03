@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
+        <TargetFrameworks>net8.0-ios;net8.0-android</TargetFrameworks>
         <OutputType>Exe</OutputType>
         <RootNamespace>Components</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -16,7 +16,6 @@
         <ApplicationIdGuid>13A74CA2-6A7D-4CF7-8646-8930B4282590</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
@@ -69,6 +68,7 @@
 
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="BitMiracle.LibTiff.NET" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
@@ -129,6 +129,10 @@
           <DependentUpon>DialogSamples.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="ComponentsSamples\PhotoCapturing\PhotoCaptureSample.xaml.cs">
+          <DependentUpon>BarcodeScanningSample.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -154,6 +158,9 @@
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="ComponentsSamples\Alerting\Alerts\AlertSamples.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="ComponentsSamples\PhotoCapturing\PhotoCaptureSample.xaml">
           <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
