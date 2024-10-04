@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -8,6 +9,7 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.Streaming
 internal class StreamingStateView : Grid
 {
     private readonly ShutterButton m_shutterButton;
+    private readonly Button m_blitzButton;
 
     public StreamingStateView(Action? onTappedShutterButton, Action? onTappedFlashButton, bool shouldBlitzBeActive)
     {
@@ -15,7 +17,7 @@ internal class StreamingStateView : Grid
         
         m_shutterButton = new ShutterButton(onTappedShutterButton);
 
-        var blitzButton = new Button
+        m_blitzButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
@@ -24,15 +26,22 @@ internal class StreamingStateView : Grid
             VerticalOptions = LayoutOptions.Center
         };
 
-        blitzButton.Command = new Command(() =>
+        m_blitzButton.Command = new Command(() =>
         {
             isBlitzOn = !isBlitzOn;
             onTappedFlashButton?.Invoke();
-            blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
+            m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
         });
         
         Add(m_shutterButton);
-        Add(blitzButton);
+        Add(m_blitzButton);
+        
+        DUI.OrientationChanged += DUIOnOrientationChanged;
+    }
+
+    private void DUIOnOrientationChanged(OrientationDegree orientationDegree)
+    {
+        m_blitzButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
     }
 
     public void SetShutterButtonEnabled(bool isEnabled)
@@ -44,6 +53,16 @@ internal class StreamingStateView : Grid
         else
         {
             m_shutterButton.Disable();
+        }
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            DUI.OrientationChanged -= DUIOnOrientationChanged;
         }
     }
 }

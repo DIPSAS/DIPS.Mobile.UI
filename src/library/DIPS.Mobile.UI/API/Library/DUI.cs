@@ -20,6 +20,20 @@ namespace DIPS.Mobile.UI.API.Library
         private static partial void PlatformInit();
         
         public static IMauiContext? GetCurrentMauiContext => Application.Current?.MainPage?.Window.Handler.MauiContext;
+
+        public static event Action<OrientationDegree>? OrientationChanged;
+
+        public static double OrientationDegreeToMauiRotation(this OrientationDegree orientationDegree)
+        {
+            return orientationDegree switch
+            {
+                OrientationDegree.Orientation0 => 0,
+                OrientationDegree.Orientation90 => 90,
+                OrientationDegree.Orientation180 => 180,
+                OrientationDegree.Orientation270 => -90,
+                _ => 0
+            };
+        }
         
         public static void RemoveViewsLocatedOnTopOfPage()
         {
@@ -48,5 +62,13 @@ namespace DIPS.Mobile.UI.API.Library
 
         private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage();
 
+    }
+
+    public enum OrientationDegree
+    {
+        Orientation0,
+        Orientation90,
+        Orientation180,
+        Orientation270
     }
 }
