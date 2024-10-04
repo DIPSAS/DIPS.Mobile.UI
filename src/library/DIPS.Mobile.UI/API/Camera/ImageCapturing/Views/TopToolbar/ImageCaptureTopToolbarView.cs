@@ -3,10 +3,8 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
-using Microsoft.Maui.Layouts;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
