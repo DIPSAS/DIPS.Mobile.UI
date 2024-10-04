@@ -11,10 +11,10 @@ public partial class Chip
     /// <remarks>Will be hidden if <see cref="IsToggleable"/> is true</remarks>
     /// </summary>
     [TypeConverter(nameof(ImageSourceConverter))]
-    public ImageSource CustomIcon
+    public ImageSource? CustomIcon
     {
-        get => (ImageSource?)GetValue(CustomImageProperty);
-        set => SetValue(CustomImageProperty, value);
+        get => (ImageSource)GetValue(CustomIconProperty);
+        set => SetValue(CustomIconProperty, value);
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public partial class Chip
         typeof(Chip),
         Colors.GetColor(ColorName.color_neutral_90));
 
-    public static readonly BindableProperty CustomImageProperty = BindableProperty.Create(
+    public static readonly BindableProperty CustomIconProperty = BindableProperty.Create(
         nameof(CustomIcon),
         typeof(ImageSource),
         typeof(Chip));

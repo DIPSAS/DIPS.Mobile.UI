@@ -5,20 +5,20 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 namespace DIPS.Mobile.UI.Components.Loading.StateView
 {
     [ContentProperty(nameof(DefaultView))]
-    public partial class StateView : ContentView
+    public partial class StateView : Grid
     {
         private View? m_currentViewVisible;
         private State? m_lastState;
 
         public StateView()
         {
-            Content = new Label
+            Add(new Label
             {
                 VerticalTextAlignment = TextAlignment.Center,
                 HorizontalTextAlignment = TextAlignment.Center,
                 Style = Styles.GetLabelStyle(LabelStyle.Header500),
                 Text = "You have not created a StateViewModel in your ViewModel or not bound to it"
-            };
+            });
         }
         
         private async void OnStateChanged(State state)
@@ -56,11 +56,13 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
                 refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new Binding(nameof(StateViewModel.IsRefreshing), source: StateViewModel));
                 refreshView.Content = view;
                 refreshView.Unloaded += RefreshViewOnUnloaded;
-                Content = refreshView;
+                Clear();
+                Add(refreshView);
             }
             else
             {
-                Content = view;
+                Clear();
+                Add(view);
             }
         }
 
