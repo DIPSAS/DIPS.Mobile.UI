@@ -9,6 +9,7 @@ internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationCha
     : OrientationEventListener(context)
 {
     private Action<SurfaceOrientation>? m_orientationChanged = orientationChanged;
+    private SurfaceOrientation m_currentRotation;
 
     public override void OnOrientationChanged(int orientation)
     {
@@ -17,20 +18,35 @@ internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationCha
             return;
         }
         
-        DUILogService.LogDebug<CameraFragment>($"Rotation degrees: {orientation}");
         switch (orientation)
         {
             case > 45 and <= 135:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation270);
+                if(m_currentRotation is not SurfaceOrientation.Rotation90)
+                {
+                    m_currentRotation = SurfaceOrientation.Rotation90;
+                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation90);
+                }
                 break;
             case > 135 and <= 225:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation180);
+                if (m_currentRotation is not SurfaceOrientation.Rotation180)
+                {
+                    m_currentRotation = SurfaceOrientation.Rotation180;
+                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation180);
+                }
                 break;
             case > 225 and <= 315:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation90);
+                if(m_currentRotation is not SurfaceOrientation.Rotation270)
+                {
+                    m_currentRotation = SurfaceOrientation.Rotation270;
+                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation270);
+                }
                 break;
             default:
-                m_orientationChanged?.Invoke(SurfaceOrientation.Rotation0);
+                if (m_currentRotation is not SurfaceOrientation.Rotation0)
+                {
+                    m_currentRotation = SurfaceOrientation.Rotation0;
+                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation0);
+                }
                 break;
         }
     }

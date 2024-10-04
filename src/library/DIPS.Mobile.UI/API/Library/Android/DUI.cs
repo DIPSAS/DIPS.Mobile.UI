@@ -1,10 +1,16 @@
 using System.Diagnostics;
 using Android.App;
+using Android.Content;
+using Android.Content.PM;
 using Android.Graphics.Drawables;
+using Android.Hardware.Display;
+using Android.Views;
 using AndroidX.Core.SplashScreen;
+using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 // ReSharper disable once InconsistentNaming
@@ -19,8 +25,29 @@ public static partial class DUI
     
     private static partial void PlatformInit()
     {
+        try
+        {
+            var deviceRotationListener = new DeviceRotationListener(OnOrientationUpdated, Platform.AppContext);
+            deviceRotationListener.Enable();
+        }
+        catch
+        {
+            // ignored
+        }
     }
-    
+
+    private static void OnOrientationUpdated(SurfaceOrientation surfaceOrientation)
+    {
+        OrientationChanged?.Invoke(surfaceOrientation switch
+        {
+            SurfaceOrientation.Rotation0 => OrientationDegree.Orientation0,
+            SurfaceOrientation.Rotation90 => OrientationDegree.Orientation90,
+            SurfaceOrientation.Rotation180 => OrientationDegree.Orientation180,
+            SurfaceOrientation.Rotation270 => OrientationDegree.Orientation270,
+            _ => OrientationDegree.Orientation0
+        });
+    }
+
     private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage()
     {
         if (DatePickerService.IsOpen())
