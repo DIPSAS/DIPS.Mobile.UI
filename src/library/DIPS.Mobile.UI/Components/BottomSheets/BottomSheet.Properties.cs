@@ -162,6 +162,22 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             get => (bool)GetValue(IsBackButtonVisibleProperty);
             set => SetValue(IsBackButtonVisibleProperty, value);
         }
+
+        /// <summary>
+        /// Whether the <see cref="BottomSheet"/> should be draggable
+        /// <remarks>Setting this to false will remove the handle</remarks>
+        /// </summary>
+        public bool IsDraggable
+        {
+            get => (bool)GetValue(IsDraggableProperty);
+            set => SetValue(IsDraggableProperty, value);
+        }
+        
+        public static readonly BindableProperty IsDraggableProperty = BindableProperty.Create(
+            nameof(IsDraggable),
+            typeof(bool),
+            typeof(BottomSheet),
+            true);
         
         public static readonly BindableProperty IsBackButtonVisibleProperty = BindableProperty.Create(
             nameof(IsBackButtonVisible),

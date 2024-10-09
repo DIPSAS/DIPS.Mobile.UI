@@ -122,4 +122,58 @@
     <data name="NumberOfCharactersTooMany" xml:space="preserve">
         <value>{0} tegn for mye </value>
     </data>
+    <data name="RemoveImageTitle" xml:space="preserve">
+        <value>Remove image</value>
+    </data>
+    <data name="RemoveImageDescription" xml:space="preserve">
+        <value>Do you want to remove the image?</value>
+    </data>
+    <data name="ReTakePhoto" xml:space="preserve">
+        <value>Retake photo</value>
+    </data>
+    <data name="UsePicture" xml:space="preserve">
+        <value>Use picture</value>
+    </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Finished</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="MaxHeightOrWidth" xml:space="preserve">
+        <value>Max height or width</value>
+    </data>
+    <data name="InvalidInput" xml:space="preserve">
+        <value>Invalid input</value>
+    </data>
+    <data name="PleaseInputValidInteger" xml:space="preserve">
+        <value>Please input a valid integer</value>
+    </data>
+    <data name="CurrentCameraResolution" xml:space="preserve">
+        <value>Current camera resolution</value>
+    </data>
+    <data name="SettingsChanged" xml:space="preserve">
+        <value>Settings changed</value>
+    </data>
+    <data name="SettingsChangedDescription" xml:space="preserve">
+        <value>Settings have changed, the camera will reload to implement the new changes</value>
+    </data>
+    <data name="None" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="Size" xml:space="preserve">
+        <value>Size</value>
+    </data>
+    <data name="Resolution" xml:space="preserve">
+        <value>Resolution</value>
+    </data>
+    <data name="Orientation" xml:space="preserve">
+        <value>Orientation</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Back</value>
+    </data>
 </root>

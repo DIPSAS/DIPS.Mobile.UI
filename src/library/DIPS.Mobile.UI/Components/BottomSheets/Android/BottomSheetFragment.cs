@@ -115,8 +115,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
             m_showTaskCompletionSource = new TaskCompletionSource<bool>();
             m_dismissTaskCompletionSource = new TaskCompletionSource<bool>();
             Show(fragmentManager, nameof(BottomSheetFragment));
-            m_bottomSheet.SendOpen();
+            
             return m_showTaskCompletionSource.Task;
+        }
+
+        public override void OnStart()
+        {
+            m_bottomSheet.SendOpen();
+            base.OnStart();
         }
 
         public override void OnDestroy()

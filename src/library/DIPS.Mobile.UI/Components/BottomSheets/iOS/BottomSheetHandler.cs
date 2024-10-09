@@ -10,6 +10,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.ViewController.ModalInPresentation = !bottomSheet.IsInteractiveCloseable;
     }
 
+    private static partial void MapIsDraggable(BottomSheetHandler arg1, BottomSheet arg2)
+    {
+        
+    }
+
     public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         bottomSheet.ViewController.SetTitle();

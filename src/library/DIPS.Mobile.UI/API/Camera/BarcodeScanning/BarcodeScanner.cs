@@ -1,48 +1,61 @@
+using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
-using DIPS.Mobile.UI.API.Vibration;
+using DIPS.Mobile.UI.API.Camera.Shared;
+using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
-public partial class BarcodeScanner
+public partial class BarcodeScanner : ICameraUseCase
 {
-    internal CameraPreview? m_cameraPreview;
     private Timer? m_barCodesFoundTimer;
     private List<BarcodeObservation> m_barcodeObservations = new();
     private DidFindBarcodeCallback? m_barCodeCallback;
+    private CameraFailed? m_cameraFailedDelegate;
 
     private void Log(string message)
     {
-        Console.WriteLine($@"DIPS {nameof(BarcodeScanner)}: {message}");
+        DUILogService.LogDebug<BarcodeScanner>(message);
     }
 
-    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback)
+    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback,CameraFailed cameraFailedDelegate, Action<BarcodeScanningSettings>? configure = null)
     {
+        var barcodeScanningSettings = new BarcodeScanningSettings();
+        configure?.Invoke(barcodeScanningSettings);
+
         m_cameraPreview = cameraPreview;
+        m_cameraPreview.AddUseCase(this);
         m_barCodeCallback = didFindBarcodeCallback;
-        if (await CanUseCamera())
+        m_cameraFailedDelegate = cameraFailedDelegate;
+        if (await CameraPermissions.CanUseCamera())
         {
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
-            await PlatformStart();
+            await PlatformStart(barcodeScanningSettings, m_cameraFailedDelegate);
         }
         else
         {
             Log("Not permitted to use camera");
         }
     }
+    
+    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate);
 
-    internal partial Task PlatformStart();
-    internal partial Task<bool> CanUseCamera();
-
-    public void Stop()
+    public void StopAndDispose()
     {
-        PlatformStop();
-        m_cameraPreview = null;
-        m_barCodeCallback = null;
-        StopAndDisposeTimerAndResults();
+        try
+        {
+            PlatformStop();
+            m_cameraPreview = null!;
+            m_barCodeCallback = null;
+            StopAndDisposeTimerAndResults();
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
     }
 
-    internal partial void PlatformStop();
+    internal partial Task PlatformStop();
 
     internal void InvokeBarcodeFound(Barcode barcode)
     {

@@ -18,8 +18,11 @@ public partial class BottomSheetHandler
             [nameof(BottomSheet.Positioning)] = MapPositioning,
             [nameof(BottomSheet.BottombarButtons)] = MapBottomBar,
             [nameof(BottomSheet.BackButtonBehavior)] = MapBackButtonBehavior,
-            [nameof(BottomSheet.IsBackButtonVisible)] = MapIsBackButtonVisible
+            [nameof(BottomSheet.IsBackButtonVisible)] = MapIsBackButtonVisible,
+            [nameof(BottomSheet.IsDraggable)] = MapIsDraggable
         };
+
+    private static partial void MapIsDraggable(BottomSheetHandler handler, BottomSheet bottomSheet);
 
     private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet);
 
