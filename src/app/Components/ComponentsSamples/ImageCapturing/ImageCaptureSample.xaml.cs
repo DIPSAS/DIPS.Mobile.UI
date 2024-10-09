@@ -18,8 +18,6 @@ public partial class ImageCaptureSample
     private readonly List<CapturedImage> m_images;
     private readonly ImageCapture m_imageCapture;
 
-    public static Size CameraResolution = new(3060, 4080);
-
     public ImageCaptureSample()
     {
         InitializeComponent();
@@ -53,15 +51,7 @@ public partial class ImageCaptureSample
         }
         else
         {
-            if (CameraPreview.PreviewView.IsVisible)
-            {
-                m_imageCapture.Stop();
-                ToggleCamera(false);
-            }
-            else
-            {
-                Application.Current?.MainPage?.Navigation.PopAsync();
-            }
+            ToggleCamera(false);
         }
     }
     
@@ -69,7 +59,7 @@ public partial class ImageCaptureSample
     {
         Close();
 
-        return false;
+        return true;
     }
 
     private void OnCameraFailed(CameraException e)
@@ -86,6 +76,8 @@ public partial class ImageCaptureSample
     private async void OnImageCaptured(CapturedImage capturedimage)
     {
         ToggleCamera(false);
+        
+        
         
         /*var raw = capturedimage.AsByte64String;
         var rotatedByteArray = await capturedimage.AsRotatedByteArray();
@@ -105,7 +97,7 @@ public partial class ImageCaptureSample
         /*var preTiff = await capturedimage.AsRotatedByteArray();
         var preTiffB64 = Convert.ToBase64String(preTiff);
         
-        var rotated = await capturedimage.AsRotatedByteArray() ?? [];
+        var rotated = await capturedimage.AsRotatedByteArray() ?? [];*/
         // await new BottomSheet()
         // {
         //     Content = new Image() {Source = ImageSource.FromStream(() => new MemoryStream(rotated)), VerticalOptions = LayoutOptions.Start, HorizontalOptions = LayoutOptions.Center}
@@ -121,14 +113,19 @@ public partial class ImageCaptureSample
             {
                 Console.WriteLine($"Size matters! The size of the tiff image is larger than the original image. Original image: {capturedimage.Size.SizeInMegaBytesWithTwoDecimals}, Tiff image: {sizeOfTiff}");
             }
-        }*/
-        
+        }
+      
     }
 
     private void ToggleCamera(bool shouldDisplay)
     {
         CameraPreview.IsVisible = shouldDisplay;
         GalleryThumbnails.IsVisible = !CameraPreview.IsVisible;
-        Shell.SetNavBarIsVisible(this, GalleryThumbnails.IsVisible);
+        NavigationPage.SetHasNavigationBar(this, GalleryThumbnails.IsVisible);
+    }
+
+    private void MenuItem_OnClicked(object? sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
     }
 }

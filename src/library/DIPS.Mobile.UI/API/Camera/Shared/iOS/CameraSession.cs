@@ -241,14 +241,13 @@ public abstract class CameraSession
 
         if (m_cameraPreview?.CameraZoomView is not null)
         {
-            m_cameraPreview.CameraZoomView.IsVisible = true;
             m_cameraPreview.CameraZoomView?.SetZoomRatio((float)CaptureDevice.VideoZoomFactor);
         }
         else if(m_cameraPreview is not null)
         {
             m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
                 (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio),
-                OnChangedZoomRatio);
+                OnChangedZoomRatio) { Opacity = 0 };
         }
     }
 

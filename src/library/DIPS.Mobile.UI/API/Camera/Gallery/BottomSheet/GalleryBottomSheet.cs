@@ -72,7 +72,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         var infoIcon = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            ImageSource = Icons.GetIcon(IconName.information_fill),
+            ImageSource = Icons.GetIcon(IconName.information_line),
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             VerticalOptions = LayoutOptions.Center,

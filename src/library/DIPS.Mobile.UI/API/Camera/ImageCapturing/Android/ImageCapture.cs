@@ -1,3 +1,4 @@
+using Android.Graphics;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -84,44 +85,42 @@ public partial class ImageCapture : CameraFragment
     {
         var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
         var bitmap = imageProxy.ToBitmap();
+        
         using var imageMemoryStream = new MemoryStream(imageData);
         var exif = new ExifInterface(imageMemoryStream);
-        var (orientationConstant, orientationDisplayName) = GetOrientationMetadata(exif);
-        var imageTransformation = new ImageTransformation(orientationConstant, orientationDisplayName);
+        var orientationDegree = exif.ToTrueOrientationDegree();
+        var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
         var thumbnail = await TryGetThumbnail(exif, imageTransformation);
+
+        var tuple = await CapturedImage.RotateBitmapImageBasedOnOrientation(imageTransformation, bitmap);
+
+        imageData = tuple.Item1;
+        bitmap = tuple.Item2;
         
-        var capturedImage = new CapturedImage(imageData,bitmap,  thumbnail, imageProxy.ImageInfo, imageProxy.Width, imageProxy.Height,imageTransformation);
+        var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
         
         GoToConfirmState(capturedImage, m_imageCaptureSettings);
     }
 
-    private async Task<byte[]?> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
+    private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
     {
-        if (!exif.HasThumbnail) return null;
+        if (!exif.HasThumbnail)
+            return (null!, null!);
 
         var bitmapImage = exif.ThumbnailBitmap;
-        if (bitmapImage == null) return null;
+        if (bitmapImage == null) 
+            return (null!, null!);
         
-        return await CapturedImage.RotateBitmapImageBasedOnOrientation(transformation, bitmapImage); ;
+        return (await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage));
     }
 
-    private static (int orientationConstant, string orientationDisplayName) GetOrientationMetadata(ExifInterface exif)
+    private static int GetOrientationMetadata(ExifInterface exif)
     {
+        exif.SetAttribute(ExifInterface.TagOrientation, string.Empty);
+
         var orientationConstant = exif.GetAttributeInt(ExifInterface.TagOrientation, ExifInterface.OrientationNormal);
         
-        var orientationDisplayName = orientationConstant switch
-        {
-            ExifInterface.OrientationNormal => nameof(ExifInterface.OrientationNormal),
-            ExifInterface.OrientationRotate90 => nameof(ExifInterface.OrientationRotate90),
-            ExifInterface.OrientationRotate180 => nameof(ExifInterface.OrientationRotate180),
-            ExifInterface.OrientationRotate270 => nameof(ExifInterface.OrientationRotate270),
-            ExifInterface.OrientationTranspose => nameof(ExifInterface.OrientationTranspose),
-            ExifInterface.OrientationTransverse => nameof(ExifInterface.OrientationTransverse),
-            ExifInterface.OrientationUndefined => nameof(ExifInterface.OrientationUndefined),
-            _ => throw new ArgumentOutOfRangeException(nameof(orientationConstant))
-        };
-
-        return (orientationConstant, orientationDisplayName);
+        return orientationConstant;
     }
 
     private static long[] GetBitsPerSample(ExifInterface exif)

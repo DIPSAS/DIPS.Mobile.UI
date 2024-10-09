@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.ConfirmState;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.EditState;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 using DIPS.Mobile.UI.MemoryManagement;
 
@@ -13,21 +14,34 @@ internal class ImageCaptureBottomToolbarView : Grid
 
     public void GoToConfirmState(Action onUsePhoto, Action onRetakePhoto)
     {
-        var childrenThatWillBeRemoved = Children.ToList();
-        Clear();
-        Add(new ConfirmStateView(onUsePhoto, onRetakePhoto));
-        
-        foreach (var view in childrenThatWillBeRemoved)
+        ResolveMemoryLeak(() =>
         {
-            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(view);
-        }
+            Add(new ConfirmStateView(onUsePhoto, onRetakePhoto));
+        });
     }
 
     public void GoToStreamingState(Action onTappedShutterButton, Action onTappedFlashButton, bool shouldBlitzBeActive = false)
     {
+        ResolveMemoryLeak(() =>
+        {
+            Add(new StreamingStateView(onTappedShutterButton, onTappedFlashButton, shouldBlitzBeActive));
+        });
+    }
+
+    public void GoToEditState(Action onDoneButtonTapped, Action onCancelButtonTapped, Action onRotateButtonTapped)
+    {
+        ResolveMemoryLeak(() =>
+        {
+            Add(new EditStateView(onDoneButtonTapped, onCancelButtonTapped, onRotateButtonTapped));
+        });
+    }
+    
+    private void ResolveMemoryLeak(Action beforeResolve)
+    {
         var childrenThatWillBeRemoved = Children.ToList();
         Clear();
-        Add(new StreamingStateView(onTappedShutterButton, onTappedFlashButton, shouldBlitzBeActive));
+        
+        beforeResolve.Invoke();
         
         foreach (var view in childrenThatWillBeRemoved)
         {

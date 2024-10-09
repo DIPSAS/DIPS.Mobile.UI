@@ -31,8 +31,7 @@ public partial class CameraPreview : ContentView
 #if __IOS__
         Content = ConstructView();
         
-        var safeAreaInsetsBottom = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
-        Padding = new Thickness(0, 0, 0, safeAreaInsetsBottom);
+        Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
 #endif
     }
 
@@ -242,6 +241,10 @@ public partial class CameraPreview : ContentView
     public void GoToStreamingState()
     {
         PreviewView.IsVisible = true;
+        if (CameraZoomView is not null)
+        {
+            CameraZoomView.Opacity = 1;
+        }
     }
 
     public void ShowZoomSliderTip(string tip)

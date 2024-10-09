@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreGraphics;
 using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
@@ -63,29 +64,31 @@ public partial class ImageCapture : CameraSession
     {
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            GoToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(),
-                    TryGetThumbnail(photo), 
+            var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
+            var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
+            
+            var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
+            
+            var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
+            
+            GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+                    rotatedThumbnail.Item1,
+                    rotatedImage.Item2,
+                    rotatedThumbnail.Item2,
                     photo, 
-                    new ImageTransformation((int?)photo.Properties.Orientation ?? 0, 
-                        photo.Properties.Orientation.ToString() ?? "Unknown")),
-                m_imageCaptureSettings);
+                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())), m_imageCaptureSettings);
         }
     }
 
-    private static byte[]? TryGetThumbnail(AVCapturePhoto photo)
+    private static (byte[], CGImage) GetThumbnail(byte[] image)
     {
-        if (photo.FileDataRepresentation == null)
-        {
-            return null;
-        }
-
-        var cgImageSource = CGImageSource.FromData(photo.FileDataRepresentation);
-        var thumbnailCgImage = cgImageSource?.CreateThumbnail(0, new CGImageThumbnailOptions()
+        var cgImageSource = CGImageSource.FromData(NSData.FromArray(image));
+        var thumbnailCgImage = cgImageSource?.CreateThumbnail(0, new CGImageThumbnailOptions
         {
             CreateThumbnailWithTransform = true //Makes sure to rotate if needed 
         });
-        
-        return thumbnailCgImage == null ? null : new UIImage(thumbnailCgImage).AsJPEG()?.ToArray();
+
+        return (new UIImage(thumbnailCgImage!).AsJPEG(.8f)?.ToArray(), thumbnailCgImage)!;
     }
 
     private async partial void PlatformCapturePhoto()
@@ -110,7 +113,7 @@ public partial class ImageCapture : CameraSession
             PreviewLayer.Connection.Enabled = false;
         }
     }
-
+    
     private void UpdateCaptureOrientation(AVCaptureVideoOrientation orientation)
     {
         var captureConnection = 

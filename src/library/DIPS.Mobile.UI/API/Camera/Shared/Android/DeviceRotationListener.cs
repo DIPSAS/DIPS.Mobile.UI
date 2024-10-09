@@ -21,31 +21,31 @@ internal class DeviceRotationListener(Action<SurfaceOrientation>? orientationCha
         switch (orientation)
         {
             case > 45 and <= 135:
-                if(m_currentRotation is not SurfaceOrientation.Rotation90)
+                if(m_currentRotation is not SurfaceOrientation.Rotation270)
                 {
-                    m_currentRotation = SurfaceOrientation.Rotation90;
-                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation90);
+                    m_currentRotation = SurfaceOrientation.Rotation270;
+                    m_orientationChanged?.Invoke(m_currentRotation);
                 }
                 break;
             case > 135 and <= 225:
                 if (m_currentRotation is not SurfaceOrientation.Rotation180)
                 {
                     m_currentRotation = SurfaceOrientation.Rotation180;
-                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation180);
+                    m_orientationChanged?.Invoke(m_currentRotation);
                 }
                 break;
             case > 225 and <= 315:
-                if(m_currentRotation is not SurfaceOrientation.Rotation270)
+                if(m_currentRotation is not SurfaceOrientation.Rotation90)
                 {
-                    m_currentRotation = SurfaceOrientation.Rotation270;
-                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation270);
+                    m_currentRotation = SurfaceOrientation.Rotation90;
+                    m_orientationChanged?.Invoke(m_currentRotation);
                 }
                 break;
             default:
                 if (m_currentRotation is not SurfaceOrientation.Rotation0)
                 {
                     m_currentRotation = SurfaceOrientation.Rotation0;
-                    m_orientationChanged?.Invoke(SurfaceOrientation.Rotation0);
+                    m_orientationChanged?.Invoke(m_currentRotation);
                 }
                 break;
         }
