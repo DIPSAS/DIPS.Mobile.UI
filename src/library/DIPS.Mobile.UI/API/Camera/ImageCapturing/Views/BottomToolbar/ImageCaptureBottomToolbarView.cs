@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.ConfirmState;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.EditState;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
@@ -12,27 +13,27 @@ internal class ImageCaptureBottomToolbarView : Grid
         Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
     }
 
-    public void GoToConfirmState(Action onUsePhoto, Action onRetakePhoto)
+    public void GoToConfirmState(IConfirmStateObserver confirmStateObserver)
     {
         ResolveMemoryLeak(() =>
         {
-            Add(new ConfirmStateView(onUsePhoto, onRetakePhoto));
+            Add(new ConfirmStateView(confirmStateObserver));
         });
     }
 
-    public void GoToStreamingState(Action onTappedShutterButton, Action onTappedFlashButton, bool shouldBlitzBeActive = false)
+    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
         ResolveMemoryLeak(() =>
         {
-            Add(new StreamingStateView(onTappedShutterButton, onTappedFlashButton, shouldBlitzBeActive));
+            Add(new StreamingStateView(streamingStateObserver));
         });
     }
 
-    public void GoToEditState(Action onDoneButtonTapped, Action onCancelButtonTapped, Action onRotateButtonTapped)
+    public void GoToEditState(IEditStateObserver editStateObserver)
     {
         ResolveMemoryLeak(() =>
         {
-            Add(new EditStateView(onDoneButtonTapped, onCancelButtonTapped, onRotateButtonTapped));
+            Add(new EditStateView(editStateObserver));
         });
     }
     

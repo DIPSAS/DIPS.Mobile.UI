@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -11,11 +12,11 @@ internal class StreamingStateView : Grid
     private readonly ShutterButton m_shutterButton;
     private readonly Button m_blitzButton;
 
-    public StreamingStateView(Action? onTappedShutterButton, Action? onTappedFlashButton, bool shouldBlitzBeActive)
+    public StreamingStateView(IStreamingStateObserver streamingStateObserver)
     {
-        var isBlitzOn = shouldBlitzBeActive;
+        var isBlitzOn = streamingStateObserver.FlashActive;
         
-        m_shutterButton = new ShutterButton(onTappedShutterButton);
+        m_shutterButton = new ShutterButton(streamingStateObserver.OnTappedShutterButton);
 
         m_blitzButton = new Button
         {
@@ -29,7 +30,7 @@ internal class StreamingStateView : Grid
         m_blitzButton.Command = new Command(() =>
         {
             isBlitzOn = !isBlitzOn;
-            onTappedFlashButton?.Invoke();
+            streamingStateObserver.OnTappedFlashButton();
             m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
         });
         

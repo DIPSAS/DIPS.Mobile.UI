@@ -22,10 +22,8 @@ public partial class ImageCapture : ICameraUseCase
         IsRunning = true
     };
     
-    private Image? m_confirmImage;
-    private bool m_flashActive;
     
-    private TaskCompletionSource? m_rotatingImageTcs;
+    
     
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
@@ -61,7 +59,7 @@ public partial class ImageCapture : ICameraUseCase
     private void ConstructCrossPlatformViews()
     {
         m_bottomToolbarView = [];
-        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnDoneButtonTapped);
+        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnCancelImageCaptureButtonTapped);
         
         m_cameraPreview?.AddTopToolbarView(m_topToolbarView);
         m_cameraPreview?.AddBottomToolbarView(m_bottomToolbarView);
@@ -91,134 +89,8 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
         m_cameraPreview?.AddViewToRoot(m_activityIndicator);
     }
-    
-    private void GoToStreamingState()
-    {
-        m_cameraPreview.GoToStreamingState();
-        m_topToolbarView.GoToStreamingState(OnSettingsChanged);
-        m_bottomToolbarView.GoToStreamingState(() =>
-        {
-            try
-            {
-                _ = OnBeforeCapture();
-                PlatformCapturePhoto();
-            }
-            catch (Exception e)
-            {
-                PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
-            }
-        }, () => m_flashActive = !m_flashActive, m_flashActive);
 
-        m_bottomToolbarView.SetShutterButtonEnabled(true);
-
-        m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
-
-        if (m_cameraPreview.CameraZoomView != null)
-        {
-            m_cameraPreview.CameraZoomView.Opacity = 1;
-        }
-    }
-    
-    private async void GoToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings, bool updateImageSource = true)
-    {
-        if (updateImageSource)
-        {
-            m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
-            m_confirmImage = new Image
-            {
-                Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray)),
-                InputTransparent = true
-            };
-            m_cameraPreview.AddViewToRoot(m_confirmImage, 3);
-        }
-        
-        // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
-        await Task.Delay(10);
-
-        if (m_cameraPreview.CameraZoomView is not null)
-        {
-            m_cameraPreview.CameraZoomView.Opacity = 0;
-        }
-
-        m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
-        m_cameraPreview.GoToConfirmingState();
-        m_topToolbarView.GoToConfirmState(capturedImage, () =>
-        {
-            GoToEditState(capturedImage);
-        });
-        m_bottomToolbarView.GoToConfirmState(() =>
-        {
-            m_onImageCapturedDelegate?.Invoke(capturedImage);
-                
-            switch (imageCaptureSettings.PostCaptureAction)
-            {
-                case PostCaptureAction.Close:
-                    ResetAllVisuals();
-                    PlatformStop();
-                    break;
-                case PostCaptureAction.Continue:
-                    GoToStreamingState();
-                    PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }, () =>
-        {
-            GoToStreamingState();
-            PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
-        });
-
-        _ = PlatformStop();
-    }
-
-    private void GoToEditState(CapturedImage capturedImage)
-    {
-        var rotatedImage = capturedImage;
-
-        var startingHeight = m_confirmImage!.Height;
-        var startingWidth = m_confirmImage.Width;
-        var startingOrientationDegree = capturedImage.Transformation.OrientationDegree;
-
-        m_rotatingImageTcs = null;
-        
-        m_bottomToolbarView.GoToEditState(() =>
-        {
-            if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
-                return;
-            
-            m_confirmImage!.Rotation = 0;
-            GoToConfirmState(rotatedImage, m_imageCaptureSettings);
-        }, () =>
-        {
-            m_confirmImage!.Rotation = 0;
-            GoToConfirmState(capturedImage, m_imageCaptureSettings);
-        }, async () =>
-        {
-            if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
-                return;
-
-            m_rotatingImageTcs = new TaskCompletionSource();
-            
-            await Task.WhenAll(CapturedImage.RotateImage(m_confirmImage, rotatedImage, startingWidth, startingHeight, startingOrientationDegree), Task.Run(async () =>
-                {
-                    // Run on background thread, cuz this is heavy shit
-                    rotatedImage = await rotatedImage.Rotate();
-                }));
-            
-            m_rotatingImageTcs.SetResult();
-        });
-    }
-
-    private async void OnSettingsChanged()
-    {
-        _ = DialogService.ShowMessage(DUILocalizedStrings.SettingsChanged, DUILocalizedStrings.SettingsChangedDescription,
-            "Ok");
-        await PlatformStop();
-        _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
-    }
-
-    private void OnDoneButtonTapped()
+    private void OnCancelImageCaptureButtonTapped()
     {
         m_imageCaptureSettings.DoneButtonCommand?.Execute(null);
         ResetAllVisuals();

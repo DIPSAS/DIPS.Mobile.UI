@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.BottomSheets;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
@@ -13,7 +14,6 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.TopToolbar;
 internal class ImageCaptureTopToolbarView : Grid
 {
     private readonly ImageCaptureSettings m_imageCaptureSettings;
-    private readonly Action m_onEditButtonTapped;
     private readonly Button m_doneButton;
     private readonly HorizontalStackLayout m_upperLeftColumn;
     private readonly VisualTreeMemoryResolver m_visualTreeMemoryResolver;
@@ -35,9 +35,9 @@ internal class ImageCaptureTopToolbarView : Grid
         m_doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-            Text = imageCaptureSettings.DoneButtonText,
+            Text = imageCaptureSettings.CancelButtonText,
             TextColor = Colors.White,
-            VerticalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
             Command = new Command(onDoneButtonTapped)
         };
@@ -96,7 +96,7 @@ internal class ImageCaptureTopToolbarView : Grid
         VerticalOptions = LayoutOptions.Center
     };
 
-    public void GoToConfirmState(CapturedImage capturedImage, Action onEditButtonTapped)
+    public void GoToConfirmState(CapturedImage capturedImage, IConfirmStateObserver confirmStateObserver)
     {
         m_isConfirmState = true;
         
@@ -115,10 +115,10 @@ internal class ImageCaptureTopToolbarView : Grid
             new CapturedImageInfoBottomSheet(capturedImage).Open();
         });
 
-        m_editButton.Command = new Command(onEditButtonTapped);
+        m_editButton.Command = new Command(confirmStateObserver.OnEditButtonTapped);
     }
 
-    public void GoToStreamingState(Action onBottomSheetSavedWithChanges)
+    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
         m_isConfirmState = false;
         m_settingsButton = SettingsButton;
@@ -130,7 +130,7 @@ internal class ImageCaptureTopToolbarView : Grid
 
         m_settingsButton.Command = new Command(() =>
         {
-            new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, onBottomSheetSavedWithChanges).Open();
+            new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, streamingStateObserver.OnSettingsChanged).Open();
         });
     }
 

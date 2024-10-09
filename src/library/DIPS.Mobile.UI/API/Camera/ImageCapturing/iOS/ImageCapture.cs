@@ -76,7 +76,7 @@ public partial class ImageCapture : CameraSession
                     rotatedImage.Item2,
                     rotatedThumbnail.Item2,
                     photo, 
-                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())), m_imageCaptureSettings);
+                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
         }
     }
 
@@ -144,7 +144,7 @@ public partial class ImageCapture : CameraSession
         if (formatValue == null) return null;
 
         var settings = AVCapturePhotoSettings.FromFormat(new NSDictionary<NSString, NSObject>(formatKey, formatValue));
-        settings.FlashMode = m_flashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
+        settings.FlashMode = FlashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
         settings.EmbeddedThumbnailPhotoFormat = new AVCapturePhotoSettingsThumbnailFormat()
         {
             Codec = AVVideo.CodecJPEG,
