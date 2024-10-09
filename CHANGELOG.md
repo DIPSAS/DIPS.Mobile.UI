@@ -1,3 +1,6 @@
+## [36.0.4] 
+- Will now localize text correctly.
+
 ## [36.0.3] 
 - [StateView] Fixed bug where content were not always displayed
 
