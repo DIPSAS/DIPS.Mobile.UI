@@ -19,7 +19,7 @@ public partial class ImageCapture : IEditStateObserver
         m_bottomToolbarView.GoToEditState(this);
     }
 
-    void IEditStateObserver.OnDoneButtonTapped()
+    void IEditStateObserver.OnSaveButtonTapped()
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
             return;

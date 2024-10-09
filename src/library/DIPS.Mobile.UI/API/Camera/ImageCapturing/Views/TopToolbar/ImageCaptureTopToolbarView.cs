@@ -89,7 +89,7 @@ internal class ImageCaptureTopToolbarView : Grid
     private static Button EditButton => new()
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-        ImageSource = Icons.GetIcon(IconName.filter_line),
+        ImageSource = Icons.GetIcon(IconName.filter_fill),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,

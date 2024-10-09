@@ -12,8 +12,7 @@ public class ButtonWithText : VerticalStackLayout
     {
         var button = new Button
         {
-            
-            ImageSource = Icons.GetIcon(IconName.arrow_back_line),
+            ImageSource = imageSource,
             ImageTintColor = Colors.GetColor(ColorName.color_system_white),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),

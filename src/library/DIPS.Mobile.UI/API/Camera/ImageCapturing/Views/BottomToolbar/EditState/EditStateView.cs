@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.EditState;
 
@@ -9,19 +11,24 @@ internal class EditStateView : Grid
     {
         VerticalOptions = LayoutOptions.Center;
         
-        Add(new ButtonWithText(DUILocalizedStrings.Cancel, Icons.GetIcon(IconName.close_line), editStateObserver.OnCancelButtonTapped)
+        Add(new Button
         {
-            HorizontalOptions = LayoutOptions.Start
-        });
-
-        Add(new ButtonWithText(DUILocalizedStrings.Rotate, Icons.GetIcon(IconName.arrow_back_line), () => _ = editStateObserver.OnRotateButtonTapped())
-        {
-            HorizontalOptions = LayoutOptions.Center
+            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Start,
+            Text = DUILocalizedStrings.Cancel,
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
+            Command = new Command(editStateObserver.OnCancelButtonTapped)
         });
         
-        Add(new ButtonWithText(DUILocalizedStrings.Done, Icons.GetIcon(IconName.check_line), editStateObserver.OnDoneButtonTapped)
+        Add(new Button
         {
-            HorizontalOptions = LayoutOptions.End
+            HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.Start,
+            Text = DUILocalizedStrings.Save,
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
+            Command = new Command(editStateObserver.OnSaveButtonTapped)
         });
+
+        
     }
 }
