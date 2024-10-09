@@ -54,9 +54,9 @@ public class CapturedImage
     }
 #endif
 
-    internal static async Task RotateImage(Image image, CapturedImage rotatedImage, double startingWidth, double startingHeight, OrientationDegree startingOrientationDegree)
+    internal static async Task RotateImage(bool clockwise, Image image, CapturedImage rotatedImage, double startingWidth, double startingHeight, OrientationDegree startingOrientationDegree)
     {
-        var rotation = image.Rotation + 90;
+        var rotation = clockwise ? image.Rotation + 90 : image.Rotation - 90;
 
         if (startingOrientationDegree is OrientationDegree.Orientation0 or OrientationDegree.Orientation180)
         {
@@ -82,9 +82,14 @@ public class CapturedImage
         }
 
         await image.RotateTo(rotation, 500, easing: Easing.CubicInOut);
-        if (rotation > 270)
+        switch (rotation)
         {
-            image.Rotation = 0;
+            case > 270:
+                image.Rotation = 0;
+                break;
+            case < 0:
+                image.Rotation += 360;
+                break;
         }
 
         return;
@@ -194,16 +199,20 @@ public class CapturedImage
         Transformation = imageTransformation;
     }
 
-    public Task<CapturedImage> Rotate()
+    public Task<CapturedImage> Rotate(bool clockwise)
     {
-        var newOrientationDegree = (OrientationDegree)((int)(Transformation.OrientationDegree) + 1);
-        if(newOrientationDegree > OrientationDegree.Orientation270)
-        {
-            newOrientationDegree = OrientationDegree.Orientation0;
-        }
+        var modifierValue = clockwise ? 1 : -1;
         
-        var rotatedCgImage = Rotate90Degrees();
-        var rotatedThumbnailCgImage = Rotate90Degrees();
+        var newOrientationDegree = (OrientationDegree)((int)(Transformation.OrientationDegree) + modifierValue);
+        newOrientationDegree = newOrientationDegree switch
+        {
+            > OrientationDegree.Orientation270 => OrientationDegree.Orientation0,
+            < OrientationDegree.Orientation0 => OrientationDegree.Orientation270,
+            _ => newOrientationDegree
+        };
+
+        var rotatedCgImage = Rotate90Degrees(clockwise);
+        var rotatedThumbnailCgImage = Rotate90Degrees(clockwise);
         
         var rotatedUiImage = new UIImage(rotatedCgImage);
         var rotatedThumbnailUiImage = new UIImage(rotatedThumbnailCgImage);
@@ -211,16 +220,18 @@ public class CapturedImage
         return Task.FromResult(new CapturedImage(rotatedUiImage.AsJPEG(0.8f)?.ToArray() ?? [], rotatedThumbnailUiImage.AsJPEG(.8f)?.ToArray(), rotatedCgImage, rotatedThumbnailCgImage, Photo, new ImageTransformation(newOrientationDegree, newOrientationDegree.ToString())));
     }
 
-    private CGImage Rotate90Degrees()
+    private CGImage Rotate90Degrees(bool clockwise)
     {
+        var modifierValue = clockwise ? -1 : 1;
+        
         nfloat width = m_cgImage.Width;
         nfloat height = m_cgImage.Height;
 
         // Set the correct transform based on the photo's orientation
-        CGAffineTransform transform;
-
-        transform = CGAffineTransform.MakeTranslation(0, height);
-        transform = CGAffineTransform.Rotate(transform, (nfloat)(-Math.PI / 2));
+        var transform = clockwise 
+            ? CGAffineTransform.MakeTranslation(0, height) 
+            : CGAffineTransform.MakeTranslation(width, 0);
+        transform = CGAffineTransform.Rotate(transform, (nfloat)((Math.PI * modifierValue) / 2));
         (width, height) = (height, width); // Swap width and height
         
         // Create a new CGContext for the rotated image
@@ -235,12 +246,9 @@ public class CapturedImage
         context.ConcatCTM(transform);
 
         // Draw the CGImage with the correct dimensions
-        var x = 0;
-        var y = 0;
-        x = (int) (width - m_cgImage.Width); //Move X (which is Y when it needs rotation = 90 degrees) to the correct position    
-            
+        var x = (int)(width - m_cgImage.Width); //Move X (which is Y when it needs rotation = 90 degrees) to the correct position    
 
-        context.DrawImage(new CGRect(x, y, m_cgImage.Width, m_cgImage.Height), m_cgImage);
+        context.DrawImage(new CGRect(x, 0, m_cgImage.Width, m_cgImage.Height), m_cgImage);
 
         // Get the rotated CGImage
         var rotatedCgImage = context.ToImage();

@@ -33,7 +33,7 @@ internal class ImageCaptureBottomToolbarView : Grid
     {
         ResolveMemoryLeak(() =>
         {
-            Add(new EditStateView(editStateObserver));
+            Add(new EditStateBottomView(editStateObserver));
         });
     }
     

@@ -4,5 +4,5 @@ internal interface IEditStateObserver
 {
     void OnSaveButtonTapped();
     void OnCancelButtonTapped();
-    Task OnRotateButtonTapped();
+    Task OnRotateButtonTapped(bool clockwise);
 }

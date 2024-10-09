@@ -10,9 +10,14 @@ public partial class ImageCapture : IEditStateObserver
     private CapturedImage m_rotatedImage;
 #nullable enable
     
+    private double m_startingImageWidth;
+    private double m_startingImageHeight;
+    
     private void GoToEditState(CapturedImage capturedImage)
     {
         m_rotatedImage = capturedImage;
+        m_startingImageWidth = m_confirmImage.Width;
+        m_startingImageHeight = m_confirmImage.Height;
 
         m_rotatingImageTcs = null;
         
@@ -34,17 +39,17 @@ public partial class ImageCapture : IEditStateObserver
         GoToConfirmState(m_currentlyCapturedImage!);
     }
 
-    async Task IEditStateObserver.OnRotateButtonTapped()
+    async Task IEditStateObserver.OnRotateButtonTapped(bool clockwise)
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
             return;
 
         m_rotatingImageTcs = new TaskCompletionSource();
             
-        await Task.WhenAll(CapturedImage.RotateImage(m_confirmImage, m_rotatedImage, m_confirmImage.Width, m_confirmImage.Height, m_currentlyCapturedImage.Transformation.OrientationDegree), Task.Run(async () =>
+        await Task.WhenAll(CapturedImage.RotateImage(clockwise, m_confirmImage, m_rotatedImage, m_startingImageWidth, m_startingImageHeight, m_currentlyCapturedImage.Transformation.OrientationDegree), Task.Run(async () =>
         {
             // Run on background thread, cuz this is heavy shit
-            m_rotatedImage = await m_rotatedImage!.Rotate();
+            m_rotatedImage = await m_rotatedImage!.Rotate(clockwise);
         }));
             
         m_rotatingImageTcs.SetResult();
