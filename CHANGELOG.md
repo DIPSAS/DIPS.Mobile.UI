@@ -1,5 +1,12 @@
+## [37.1.1] 
+- [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
+- Will now localize text correctly
+
 ## [37.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
+
+## [37.0.3] 
+- [StateView] Fixed bug where content were not always displayed.
 
 ## [37.0.2] 
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
