@@ -41,4 +41,5 @@ then
       sudo dotnet workload install ios --from-rollback-file sdk-versions.json
       echo "✅ iOS was installed."
       sudo dotnet workload list
+   fi
 fi
