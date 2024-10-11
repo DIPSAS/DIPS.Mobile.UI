@@ -18,9 +18,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
         {
             base.OnSizeAllocated(width, height);
 
-#if __IOS__
-           ResizeIcon((float)height); 
-#endif
             // If the CornerRadius has not been set by consumer, set it so it replicates a RoundRectangle
             if(CornerRadius == -1)
                 CornerRadius = (int)(Math.Min(Width, Height) / 2);

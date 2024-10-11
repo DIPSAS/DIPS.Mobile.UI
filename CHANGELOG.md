@@ -1,3 +1,6 @@
+## [37.1.2] 
+- Buttons will now calculate their own size instead of setting static height.
+
 ## [37.1.1] 
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
 - Will now localize text correctly
