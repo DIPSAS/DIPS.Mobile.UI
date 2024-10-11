@@ -29,11 +29,11 @@ internal class ImageCaptureBottomToolbarView : Grid
         });
     }
 
-    public void GoToEditState(IEditStateObserver editStateObserver)
+    public void GoToEditState(IImageEditStateObserver imageEditStateObserver)
     {
         ResolveMemoryLeak(() =>
         {
-            Add(new EditStateBottomView(editStateObserver));
+            Add(new EditStateBottomView(imageEditStateObserver));
         });
     }
     

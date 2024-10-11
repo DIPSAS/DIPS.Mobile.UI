@@ -98,6 +98,8 @@ internal class ImageCaptureTopToolbarView : Grid
 
     public void GoToConfirmState(CapturedImage capturedImage, IConfirmStateObserver confirmStateObserver)
     {
+        m_doneButton.IsVisible = true;
+        
         m_isConfirmState = true;
         
         m_infoButton = InfoButton;
@@ -132,6 +134,11 @@ internal class ImageCaptureTopToolbarView : Grid
         {
             new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, streamingStateObserver.OnSettingsChanged).Open();
         });
+    }
+
+    public void GoToEditState()
+    {
+        m_doneButton.IsVisible = false;
     }
 
     private void ResolveUpperLeftColumn()

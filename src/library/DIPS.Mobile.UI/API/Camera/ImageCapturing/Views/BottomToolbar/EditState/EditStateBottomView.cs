@@ -9,27 +9,14 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.EditState
 
 internal class EditStateBottomView : Grid
 {
-    public EditStateBottomView(IEditStateObserver editStateObserver)
+    public EditStateBottomView(IImageEditStateObserver imageEditStateObserver)
     {
-        Add(new Button
-        {
-            HorizontalOptions = LayoutOptions.Start,
-            VerticalOptions = LayoutOptions.End,
-            Text = DUILocalizedStrings.Cancel,
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
-            Command = new Command(editStateObserver.OnCancelButtonTapped)
-        });
-        
-        Add(new Button
-        {
-            HorizontalOptions = LayoutOptions.End,
-            VerticalOptions = LayoutOptions.End,
-            Text = DUILocalizedStrings.Save,
-            Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
-            Command = new Command(editStateObserver.OnSaveButtonTapped)
-        });
+        AddRowDefinition(new RowDefinition(GridLength.Auto));
+        AddRowDefinition(new RowDefinition(GridLength.Auto));
 
-        Add(new HorizontalStackLayout
+        RowSpacing = Sizes.GetSize(SizeName.size_4);
+        
+        this.Add(new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Start,
@@ -42,17 +29,36 @@ internal class EditStateBottomView : Grid
                     Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
                     ImageSource = Icons.GetIcon(IconName.clockwise_fill),
                     ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-                    Command = new Command(() => _ = editStateObserver.OnRotateButtonTapped(true))
+                    Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(true))
                 },
                 new Components.Buttons.Button
                 {
                     Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
                     ImageSource = Icons.GetIcon(IconName.counter_clockwise_fill),
                     ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-                    Command = new Command(() => _ = editStateObserver.OnRotateButtonTapped(false))
+                    Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(false))
                 }
             }
         });
+        
+        this.Add(new Components.Buttons.Button
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.End,
+            TextColor = Microsoft.Maui.Graphics.Colors.White,
+            Text = DUILocalizedStrings.Cancel,
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
+            Command = new Command(imageEditStateObserver.OnCancelButtonTapped)
+        }, 0, 1);
+        
+        this.Add(new Components.Buttons.Button
+        {
+            HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.End,
+            Text = DUILocalizedStrings.Save,
+            Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
+            Command = new Command(imageEditStateObserver.OnSaveButtonTapped)
+        }, 0, 1);
         
     }
 }

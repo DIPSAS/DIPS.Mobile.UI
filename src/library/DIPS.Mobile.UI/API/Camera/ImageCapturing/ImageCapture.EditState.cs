@@ -2,7 +2,7 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
-public partial class ImageCapture : IEditStateObserver
+public partial class ImageCapture : IImageEditStateObserver
 {
     private TaskCompletionSource? m_rotatingImageTcs;
     
@@ -21,10 +21,11 @@ public partial class ImageCapture : IEditStateObserver
 
         m_rotatingImageTcs = null;
         
+        m_topToolbarView.GoToEditState();
         m_bottomToolbarView.GoToEditState(this);
     }
 
-    void IEditStateObserver.OnSaveButtonTapped()
+    void IImageEditStateObserver.OnSaveButtonTapped()
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
             return;
@@ -33,13 +34,13 @@ public partial class ImageCapture : IEditStateObserver
         GoToConfirmState(m_rotatedImage!);
     }
 
-    void IEditStateObserver.OnCancelButtonTapped()
+    void IImageEditStateObserver.OnCancelButtonTapped()
     {
         m_confirmImage.Rotation = 0;
         GoToConfirmState(m_currentlyCapturedImage!);
     }
 
-    async Task IEditStateObserver.OnRotateButtonTapped(bool clockwise)
+    async Task IImageEditStateObserver.OnRotateButtonTapped(bool clockwise)
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
             return;

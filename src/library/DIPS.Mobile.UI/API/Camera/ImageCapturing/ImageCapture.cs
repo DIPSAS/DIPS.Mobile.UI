@@ -22,9 +22,6 @@ public partial class ImageCapture : ICameraUseCase
         IsRunning = true
     };
     
-    
-    
-    
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;

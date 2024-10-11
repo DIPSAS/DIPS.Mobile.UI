@@ -17,6 +17,7 @@ public partial class ImageCaptureSample
 {
     private readonly List<CapturedImage> m_images;
     private readonly ImageCapture m_imageCapture;
+    private bool m_firstTime = true;
 
     public ImageCaptureSample()
     {
@@ -68,8 +69,12 @@ public partial class ImageCaptureSample
     }
 
     protected override void OnAppearing()
-    { 
-        _ = StartImageCapture();
+    {
+        if (m_firstTime)
+        {
+            _ = StartImageCapture();
+            m_firstTime = false;
+        }
         base.OnAppearing();
     }
 

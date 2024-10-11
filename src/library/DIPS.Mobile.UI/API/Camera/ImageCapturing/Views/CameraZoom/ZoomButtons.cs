@@ -19,6 +19,8 @@ internal class ZoomButtons : HorizontalStackLayout
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;
 
+        // We do not support ultra-wide cameras yet, so we can safely assume that the minimum ratio is 1
+        minRatio = 1;
         
         var panGestureRecognizer = new PanGestureRecognizer();
         panGestureRecognizer.PanUpdated += OnPanned;

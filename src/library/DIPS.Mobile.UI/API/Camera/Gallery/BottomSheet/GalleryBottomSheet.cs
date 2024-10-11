@@ -1,4 +1,8 @@
+using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet.BottomToolbar;
+using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet.ObserverInterfaces;
+using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet.TopToolbar;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -6,8 +10,6 @@ using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
-using DIPS.Mobile.UI.Resources.Styles.Label;
-using Microsoft.Maui.Controls.Shapes;
 
 #if __IOS__
 using UIKit;
@@ -19,136 +21,59 @@ using DIPS.Mobile.UI.Extensions.Android;
 
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 
-internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
+internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet, IGalleryDefaultStateObserver, IImageEditStateObserver
 {
     private readonly Action<int> m_onRemoveImage;
-    private readonly Label m_numberOfImagesLabel;
+    private readonly Action m_updateImages;
     private readonly Button m_navigatePreviousImageButton;
     private readonly Button m_navigateNextImageButton;
     private CarouselView? m_carouselView;
     private CancellationTokenSource m_cancellationTokenSource = new();
     private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
-    
 
-    public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage)
+    private readonly GalleryBottomSheetTopToolbar m_topToolbar;
+    private readonly GalleryBottomSheetBottomToolbar m_bottomToolbar;
+    
+    private CapturedImage m_currentlyRotatedCaptureImageDisplayed;
+    private CapturedImage m_currentlyCapturedImageDisplayed;
+    private Image m_currentlyRotatedImageDisplayed;
+    private TaskCompletionSource? m_rotatingImageTcs;
+    
+    private double? m_startingImageWidth;
+    private double m_startingImageHeight;
+
+    public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action updateImages)
     {
         Positioning = Positioning.Large;
         IsDraggable = false;
 
 #if __IOS__
-        var safeAreaInsetsTop = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
-        Padding = new Thickness(0, safeAreaInsetsTop, 0, 0);
+        Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+#elif __ANDROID__
+        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
 #endif
-
+        
         BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
         m_onRemoveImage = onRemoveImage;
-        
+        m_updateImages = updateImages;
+
         var fadedBlackColor = Colors.GetColor(ColorName.color_system_black).WithAlpha(.5f);
         
-        m_numberOfImagesLabel = new Label
-        {
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            TextColor = Colors.GetColor(ColorName.color_system_white),
-            Style = Styles.GetLabelStyle(LabelStyle.UI100),
-        };
-        var borderAroundNumberOfImages = new ContentView
-        {
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            Content = m_numberOfImagesLabel,
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_2))
-        };
-
-        UI.Effects.Layout.Layout.SetCornerRadius(borderAroundNumberOfImages, Sizes.GetSize(SizeName.size_4));
-
-        var infoIcon = new Button
-        {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            ImageSource = Icons.GetIcon(IconName.information_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Start,
-            Command = new Command(() =>
-            {
-                new CapturedImageInfoBottomSheet(Images[m_carouselView?.Position ?? 0]).Open();
-            })
-        };
-        
-        var topToolbar = new Grid
+        m_topToolbar = new GalleryBottomSheetTopToolbar(() => new CapturedImageInfoBottomSheet(Images[m_carouselView?.Position ?? 0]).Open(), GoToEditState)
         {
             VerticalOptions = LayoutOptions.Start,
-            Children = { borderAroundNumberOfImages, infoIcon }
-        };
-        
-        var bottomToolbar = new Grid
-        {
-            ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_8), 0, Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_12))
-        };
-        
-        var removeButton = new Button
-        {
-            ImageSource = Icons.GetIcon(IconName.delete_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            VerticalOptions = LayoutOptions.Center,
-            Command = new Command(RemoveImage)
         };
 
-        var removeLabel = new Label
+        m_bottomToolbar = new GalleryBottomSheetBottomToolbar
         {
-            Text = DUILocalizedStrings.Delete,
-            Style = Styles.GetLabelStyle(LabelStyle.UI100),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
-            HorizontalOptions = LayoutOptions.Center,
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0)
+            VerticalOptions = LayoutOptions.End, 
         };
-        
-        var doneButton = new Button
-        {
-            ImageSource = Icons.GetIcon(IconName.check_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            VerticalOptions = LayoutOptions.Center,
-            Command = new Command(() => Close())
-        };
-
-        var doneLabel = new Label
-        {
-            Text = DUILocalizedStrings.Done,
-            Style = Styles.GetLabelStyle(LabelStyle.UI100),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
-            HorizontalOptions = LayoutOptions.Center,
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0)
-        };
-        
-        var leftColumn = new VerticalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.Start, 
-            VerticalOptions = LayoutOptions.Center,
-            Children = { removeButton, removeLabel }
-        };
-        
-        var rightColumn = new VerticalStackLayout
-        {
-            HorizontalOptions = LayoutOptions.End, 
-            VerticalOptions = LayoutOptions.Center,
-            Children = { doneButton, doneLabel }
-        };
-        
-        bottomToolbar.Add(leftColumn);
-        bottomToolbar.Add(rightColumn, 1);
+        m_bottomToolbar.GoToDefaultState(this);
         
         m_navigatePreviousImageButton = new Button
         {
@@ -186,23 +111,60 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             })
         };
 
-        m_grid = [];
+        m_grid =
+        [
+            m_topToolbar,
+            m_navigatePreviousImageButton,
+            m_navigateNextImageButton,
+            m_bottomToolbar
+        ];
 
-        m_grid.AddRowDefinition(new RowDefinition(GridLength.Star));
-        m_grid.AddRowDefinition(new RowDefinition(GridLength.Auto));
-        
-        m_grid.Add(m_navigatePreviousImageButton);
-        m_grid.Add(m_navigateNextImageButton);
-        m_grid.Add(topToolbar);
-        m_grid.Add(bottomToolbar, 0, 1);
-        
         Content = m_grid;
 
         Images = images;
         StartingIndex = startingIndex;
     }
 
-    private async void RemoveImage()
+    private void GoToEditState()
+    {
+        m_topToolbar.GoToEditState();
+        m_bottomToolbar.GoToEditState(this);
+        
+        m_currentlyRotatedCaptureImageDisplayed = Images[m_carouselView!.Position];
+        m_currentlyRotatedImageDisplayed = new Image
+        {
+            Source = ImageSource.FromStream(() => new MemoryStream(m_currentlyRotatedCaptureImageDisplayed.AsByteArray))
+        };
+
+        m_currentlyRotatedImageDisplayed.SizeChanged += delegate
+        {
+            if (m_startingImageWidth is not null)
+                return;
+            
+            m_startingImageWidth = m_currentlyRotatedImageDisplayed.Width;
+            m_startingImageHeight = m_currentlyRotatedImageDisplayed.Height;
+            
+            m_carouselView.Opacity = 0;
+            m_navigatePreviousImageButton.IsVisible = false;
+            m_navigateNextImageButton.IsVisible = false;
+        };
+        
+        m_rotatingImageTcs = null;
+        
+        m_grid.Insert(0, m_currentlyRotatedImageDisplayed);
+    }
+
+    private void GoToDefaultState()
+    {
+        m_topToolbar.GoToDefaultState();
+        m_bottomToolbar.GoToDefaultState(this);
+        
+        m_grid.Remove(m_currentlyRotatedImageDisplayed);
+        UpdateNavigationButtonsVisibility(m_carouselView.Position);
+        OnImagesChanged();
+    }
+
+    async void IGalleryDefaultStateObserver.RemoveImage()
     {
         if(Images.Count == 0)
             return;
@@ -233,7 +195,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         OnImagesChanged();
         _ = OnCarouselViewPositionChanged(m_carouselView!.Position);
     }
-
+    
     private void CarouselViewOnPositionChanged(object? sender, PositionChangedEventArgs e)
     {
         m_cancellationTokenSource.Cancel();
@@ -253,8 +215,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
             if(m_cancellationTokenSource.IsCancellationRequested)
                 return;
             
-            m_navigatePreviousImageButton.IsVisible = currentPosition != 0;
-            m_navigateNextImageButton.IsVisible = currentPosition != Images.Count - 1;
+            UpdateNavigationButtonsVisibility(currentPosition);
+            m_currentlyCapturedImageDisplayed = Images[currentPosition];
             
             UpdateNumberOfImagesLabel(currentPosition);
         }
@@ -264,10 +226,17 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         }
     }
 
+    private void UpdateNavigationButtonsVisibility(int currentPosition)
+    {
+        m_navigatePreviousImageButton.IsVisible = currentPosition != 0;
+        m_navigateNextImageButton.IsVisible = currentPosition != Images.Count - 1;
+    }
+
     private void UpdateNumberOfImagesLabel(int position)
     {
-        m_numberOfImagesLabel.IsVisible = Images.Count > 0;
-        m_numberOfImagesLabel.Text = $"{position + 1}/{Images.Count}";   
+        var text = Images.Count > 0 ? $"{position + 1}/{Images.Count}" : string.Empty;
+        
+        m_topToolbar.UpdateNumberOfImagesLabel(text);
     }
 
     private static Image CreateImageView()
@@ -341,4 +310,37 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet
         base.OnClosed();
     }
 #endif
+    void IImageEditStateObserver.OnSaveButtonTapped()
+    {
+        if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
+            return;
+        
+        m_startingImageWidth = null;
+        Images[m_carouselView!.Position] = m_currentlyRotatedCaptureImageDisplayed;
+        m_currentlyCapturedImageDisplayed = m_currentlyRotatedCaptureImageDisplayed;
+        GoToDefaultState();   
+        m_updateImages.Invoke();
+    }
+
+    void IImageEditStateObserver.OnCancelButtonTapped()
+    {
+        m_startingImageWidth = null;
+        GoToDefaultState();
+    }
+
+    async Task IImageEditStateObserver.OnRotateButtonTapped(bool clockwise)
+    {
+        if((!m_rotatingImageTcs?.Task.IsCompleted ?? false) || m_startingImageWidth is null)
+            return;
+
+        m_rotatingImageTcs = new TaskCompletionSource();
+            
+        await Task.WhenAll(CapturedImage.RotateImage(clockwise, m_currentlyRotatedImageDisplayed, m_currentlyRotatedCaptureImageDisplayed, m_startingImageWidth.Value, m_startingImageHeight, m_currentlyCapturedImageDisplayed.Transformation.OrientationDegree), Task.Run(async () =>
+        {
+            // Run on background thread, cuz this is heavy shit
+            m_currentlyRotatedCaptureImageDisplayed = await m_currentlyRotatedCaptureImageDisplayed.Rotate(clockwise);
+        }));
+            
+        m_rotatingImageTcs.SetResult();   
+    }
 }

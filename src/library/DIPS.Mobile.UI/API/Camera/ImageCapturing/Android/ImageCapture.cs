@@ -1,4 +1,5 @@
 using Android.Graphics;
+using Android.Hardware.Camera2;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -49,7 +50,7 @@ public partial class ImageCapture : CameraFragment
         if (Context is null) 
             return;
 
-        m_cameraCaptureUseCase.FlashMode = m_flashActive
+        m_cameraCaptureUseCase.FlashMode = FlashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
          
@@ -99,7 +100,7 @@ public partial class ImageCapture : CameraFragment
         
         var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
         
-        GoToConfirmState(capturedImage, m_imageCaptureSettings);
+        GoToConfirmState(capturedImage);
     }
 
     private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)

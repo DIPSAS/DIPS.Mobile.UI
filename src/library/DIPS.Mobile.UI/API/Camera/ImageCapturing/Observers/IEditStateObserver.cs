@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 
-internal interface IEditStateObserver
+internal interface IImageEditStateObserver
 {
     void OnSaveButtonTapped();
     void OnCancelButtonTapped();
