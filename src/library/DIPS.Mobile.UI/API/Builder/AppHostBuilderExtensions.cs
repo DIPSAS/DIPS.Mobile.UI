@@ -14,7 +14,6 @@ using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using CameraPreviewHandler = DIPS.Mobile.UI.API.Camera.Preview.CameraPreviewHandler;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CollectionViewHandler = DIPS.Mobile.UI.Components.Lists.CollectionViewHandler;
 using ContextMenuPlatformEffect = DIPS.Mobile.UI.Components.ContextMenus.ContextMenuPlatformEffect;
@@ -64,9 +63,9 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Entry, EntryHandler>();
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
-            handlers.AddHandler<CameraPreview, CameraPreviewHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
+            handlers.AddHandler<PreviewView, PreviewViewHandler>();
             
             AddPlatformHandlers(handlers);
         });

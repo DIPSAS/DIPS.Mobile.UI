@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
-    private readonly Border m_extraSpaceBorder;
+    private Border m_extraSpaceBorder;
 
     public CollectionView()
     {

@@ -1,3 +1,27 @@
+## [37.1.1] 
+- [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
+- Will now localize text correctly
+
+## [37.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [37.0.3] 
+- [StateView] Fixed bug where content were not always displayed.
+
+## [37.0.2] 
+- [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
+
+## [37.0.1]
+- [ImageCapture] Changed text from "Take new photo" to "Retake photo".
+- [ImageCapture] Changed text from "Done" to "Cancel".
+- [ImageCapture] Changed icon from "information_line" to "information_fill".
+- [ImageCapture] Changed text from "Remove" to "Delete".
+
+## [37.0.0]
+- [ImageCapture] Added a new `ImageCapture` API along side with `Camera` api that can be used for both image capture and bar code scanning.
+- [BarcodeScanner][BreakingChange] Requires you to provide a CameraFailed delegate when starting the barcode scanner.
+- [BottomSheet] Added new property 'IsDraggable', which prevents users from dragging the `BottomSheet`.
+
 ## [36.0.1] 
 - Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
 

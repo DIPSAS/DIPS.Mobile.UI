@@ -177,6 +177,8 @@ this file is generated
 ["check_circle_line"] = "check_circle_line.png",
 ["lab_package_off_line"] = "lab_package_off_line.png",
 ["lab_package_line"] = "lab_package_line.png",
+["counter_clockwise_fill"] = "counter_clockwise_fill.png",
+["clockwise_fill"] = "clockwise_fill.png",
 
             };
         }

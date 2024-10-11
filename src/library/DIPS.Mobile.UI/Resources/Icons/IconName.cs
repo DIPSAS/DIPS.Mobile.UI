@@ -345,5 +345,9 @@ check_circle_line=168,
 lab_package_off_line=169,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lab_package_line.svg">View the icon in the browser</a></summary>
 lab_package_line=170,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/counter_clockwise_fill.svg">View the icon in the browser</a></summary>
+counter_clockwise_fill=171,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clockwise_fill.svg">View the icon in the browser</a></summary>
+clockwise_fill=172,
     }
 }

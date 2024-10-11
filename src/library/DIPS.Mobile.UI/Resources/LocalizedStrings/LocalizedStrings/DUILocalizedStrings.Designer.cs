@@ -260,5 +260,113 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("NumberOfCharactersTooMany", resourceCulture);
             }
         }
+        
+        internal static string RemoveImageTitle {
+            get {
+                return ResourceManager.GetString("RemoveImageTitle", resourceCulture);
+            }
+        }
+        
+        internal static string RemoveImageDescription {
+            get {
+                return ResourceManager.GetString("RemoveImageDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ReTakePhoto {
+            get {
+                return ResourceManager.GetString("ReTakePhoto", resourceCulture);
+            }
+        }
+        
+        internal static string UsePicture {
+            get {
+                return ResourceManager.GetString("UsePicture", resourceCulture);
+            }
+        }
+        
+        internal static string Finished {
+            get {
+                return ResourceManager.GetString("Finished", resourceCulture);
+            }
+        }
+        
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        internal static string MaxHeightOrWidth {
+            get {
+                return ResourceManager.GetString("MaxHeightOrWidth", resourceCulture);
+            }
+        }
+        
+        internal static string InvalidInput {
+            get {
+                return ResourceManager.GetString("InvalidInput", resourceCulture);
+            }
+        }
+        
+        internal static string PleaseInputValidInteger {
+            get {
+                return ResourceManager.GetString("PleaseInputValidInteger", resourceCulture);
+            }
+        }
+        
+        internal static string CurrentCameraResolution {
+            get {
+                return ResourceManager.GetString("CurrentCameraResolution", resourceCulture);
+            }
+        }
+        
+        internal static string SettingsChanged {
+            get {
+                return ResourceManager.GetString("SettingsChanged", resourceCulture);
+            }
+        }
+        
+        internal static string SettingsChangedDescription {
+            get {
+                return ResourceManager.GetString("SettingsChangedDescription", resourceCulture);
+            }
+        }
+        
+        internal static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        internal static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        internal static string Resolution {
+            get {
+                return ResourceManager.GetString("Resolution", resourceCulture);
+            }
+        }
+        
+        internal static string Orientation {
+            get {
+                return ResourceManager.GetString("Orientation", resourceCulture);
+            }
+        }
+        
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
     }
 }

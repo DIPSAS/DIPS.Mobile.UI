@@ -332,4 +332,7 @@
     <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
         <value>Åpne bottom sheet som har knapper i bunn</value>
     </data>
+    <data name="PhotoCapturing" xml:space="preserve">
+        <value>Ta bilder</value>
+    </data>
 </root>
