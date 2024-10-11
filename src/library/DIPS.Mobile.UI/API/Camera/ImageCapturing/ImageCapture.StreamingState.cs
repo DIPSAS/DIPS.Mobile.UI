@@ -47,5 +47,7 @@ public partial class ImageCapture : IStreamingStateObserver
         _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
     }
 
-    public bool FlashActive { get; private set; }
+    private bool FlashActive { get; set; }
+
+    bool IStreamingStateObserver.FlashActive => FlashActive;
 }
