@@ -139,6 +139,7 @@ internal class ImageCaptureTopToolbarView : Grid
     public void GoToEditState()
     {
         m_doneButton.IsVisible = false;
+        ResolveUpperLeftColumn();
     }
 
     private void ResolveUpperLeftColumn()

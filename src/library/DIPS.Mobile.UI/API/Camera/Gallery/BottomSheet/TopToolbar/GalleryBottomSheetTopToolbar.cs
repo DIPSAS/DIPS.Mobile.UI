@@ -11,6 +11,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
     private readonly Label m_numberOfImagesLabel;
     private readonly ContentView m_borderAroundNumberOfImages;
     private readonly Button m_editButton;
+    private readonly Button m_infoButton;
 
     public GalleryBottomSheetTopToolbar(Action onInfoIconTapped, Action onEditButtonTapped)
     {
@@ -33,7 +34,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
 
         UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.size_4));
 
-        var infoButton = new Button
+        m_infoButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = Icons.GetIcon(IconName.information_line),
@@ -55,7 +56,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
         {
             HorizontalOptions = LayoutOptions.Start,
             VerticalOptions = LayoutOptions.Center,
-            Children = { infoButton, m_editButton },
+            Children = { m_infoButton, m_editButton },
             Spacing = Sizes.GetSize(SizeName.size_1)
         };
         
@@ -72,12 +73,14 @@ internal class GalleryBottomSheetTopToolbar : Grid
     public void GoToEditState()
     {
         m_borderAroundNumberOfImages.IsVisible = false;
-        m_editButton.IsEnabled = false;
+        m_editButton.IsVisible = false;
+        m_infoButton.IsVisible = false;
     }
 
     public void GoToDefaultState()
     {
         m_borderAroundNumberOfImages.IsVisible = true;
-        m_editButton.IsEnabled = true;
+        m_editButton.IsVisible = true;
+        m_infoButton.IsVisible = true;
     }
 }
