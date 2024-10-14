@@ -50,6 +50,8 @@ public partial class ImageCapture : CameraFragment
         if (Context is null) 
             return;
 
+        _ = OnBeforeCapture();
+        
         m_cameraCaptureUseCase.FlashMode = FlashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
@@ -152,6 +154,8 @@ internal class ImageCaptureCallback(
         base.OnCaptureSuccess(image);
         image?.Close();
     }
+    
+    
 
     protected override void Dispose(bool disposing)
     {

@@ -214,11 +214,16 @@ public partial class CameraPreview : ContentView
     {
         if(args.NewHandler == null) // User has navigated from the page
         {
+#if __ANDROID__
+            // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
+            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_grid);
+#endif
             if (m_cameraUseCase.TryGetTarget(out var target))
             {
                 var collectionContentTarget = target.ToCollectionContentTarget();
                 _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
                 target.StopAndDispose();
+
             }
         }
 

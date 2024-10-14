@@ -10,7 +10,7 @@ public partial class ImageCapture : IStreamingStateObserver
     {
         try
         {
-            _ = OnBeforeCapture();
+            m_bottomToolbarView?.SetShutterButtonEnabled(false);
             PlatformCapturePhoto();
         }
         catch (Exception e)

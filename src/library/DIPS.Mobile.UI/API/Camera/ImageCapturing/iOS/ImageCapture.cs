@@ -16,12 +16,11 @@ public partial class ImageCapture : CameraSession
     private AVCapturePhotoOutput m_capturePhotoOutput;
     private PhotoCaptureDelegate m_photoCaptureDelegate;
 #nullable enable
+    private bool m_isProcessingPhoto;
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
-        m_capturePhotoOutput = new AVCapturePhotoOutput() { };
-
-        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed);
+        m_capturePhotoOutput = new AVCapturePhotoOutput();
         
         return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
     }
@@ -62,6 +61,11 @@ public partial class ImageCapture : CameraSession
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
+        m_isProcessingPhoto = false;
+        
+        m_photoCaptureDelegate?.Dispose();
+        m_photoCaptureDelegate = null;
+        
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
             var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
@@ -93,6 +97,9 @@ public partial class ImageCapture : CameraSession
 
     private async partial void PlatformCapturePhoto()
     {
+        if(m_isProcessingPhoto) 
+            return;
+        
         await this.HasStartedSession();
         
         var settings = CreateSettings();
@@ -100,6 +107,12 @@ public partial class ImageCapture : CameraSession
         {
             return;
         }
+        
+        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
+        {
+            m_isProcessingPhoto = true;
+            _ = OnBeforeCapture();
+        });
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
         m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
@@ -157,14 +170,17 @@ public partial class ImageCapture : CameraSession
 #pragma warning restore CA1422
 }
 
-internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed) : AVCapturePhotoCaptureDelegate
+internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed, Action onBeforeCapture) : AVCapturePhotoCaptureDelegate
 {
     private Action<CameraException> m_onPhotoCaptureFailed = onPhotoCaptureFailed;
     private Action<AVCapturePhoto> m_onPhotoCaptured = onPhotoCaptured;
+    private Action m_onBeforeCapture = onBeforeCapture;
 
     public override void WillBeginCapture(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings)
     {
         Console.WriteLine("--- WillBeginCapture --- | " + captureOutput + "|" + resolvedSettings);
+        
+        m_onBeforeCapture.Invoke();
     }
 
     public override void DidFinishCapture(AVCapturePhotoOutput captureOutput,
@@ -196,5 +212,6 @@ internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Acti
 
         m_onPhotoCaptureFailed = null!;
         m_onPhotoCaptured = null!;
+        m_onBeforeCapture = null;
     }
 }

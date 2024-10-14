@@ -77,14 +77,14 @@ public partial class ImageCapture : ICameraUseCase
 
         VibrationService.SelectionChanged();
         
-        m_bottomToolbarView?.SetShutterButtonEnabled(false);
+        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
+        
         m_cameraPreview?.AddViewToRoot(blackBox);
         
         await blackBox.FadeTo(1, 50);
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
     }
 
     private void OnCancelImageCaptureButtonTapped()
