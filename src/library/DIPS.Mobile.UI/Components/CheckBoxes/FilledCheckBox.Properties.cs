@@ -5,6 +5,8 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes;
 
 public partial class FilledCheckBox
 {
+    public float IsNotCheckedOpacity { get; set; } = .25f;
+    
     /// <summary>
     ///     Sets the background color of the checkbox when it's unchecked
     /// </summary>

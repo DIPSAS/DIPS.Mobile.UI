@@ -14,24 +14,18 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
+    <Grid>
+        <dui:Button Command="{Binding CheckCommand}" />
 
-    <CollectionView IsGrouped="True"
-                        ItemsSource="{Binding GroupedTest}">
-
-        <CollectionView.GroupFooterTemplate>
-            
-            <DataTemplate>
-                <Label Text="Lol"></Label>
-            </DataTemplate>
-        </CollectionView.GroupFooterTemplate>
         
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Label Text="HEHE"></Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
+        <dui:SaveView IsSaving="{Binding IsSaving}"
+                      IsVisible="{Binding IsSaving}"
+                      IsSavingCompleted="{Binding IsSavingCompleted}" />
         
-    </CollectionView>
+        <!--<dui:FilledCheckBox IsProgressing="True"
+                            IsChecked="False"/>-->
+        
+    </Grid>
 
 
 </dui:ContentPage>
