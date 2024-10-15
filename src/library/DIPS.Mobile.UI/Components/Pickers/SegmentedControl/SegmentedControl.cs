@@ -29,7 +29,7 @@ public partial class SegmentedControl : ContentView
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal) {ItemSpacing = 0},
-            HeightRequest = Sizes.GetSize(SizeName.size_12),
+            /*HeightRequest = Sizes.GetSize(SizeName.size_10),*/
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
             VerticalScrollBarVisibility = ScrollBarVisibility.Never,
             ItemSpacing = 0,
@@ -42,13 +42,12 @@ public partial class SegmentedControl : ContentView
 
     private View CreateSegment()
     {
-        var border = new Border()
+        var border = new Border
         {
             VerticalOptions = LayoutOptions.Center,
-            HeightRequest = Sizes.GetSize(SizeName.size_10),
             StrokeThickness = 1,
             Stroke = SegmentBorderColor,
-            StrokeShape = new RoundRectangle()
+            StrokeShape = new RoundRectangle
             {
                 CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
                     Sizes.GetSize(SizeName.size_8), 0),
@@ -100,6 +99,12 @@ public partial class SegmentedControl : ContentView
         border.SizeChanged += ((sender, _) =>
         {
             if (sender is not View view) return;
+
+            if (m_collectionView.HeightRequest == -1)
+            {
+                m_collectionView.HeightRequest = view.Height;
+            }
+            
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
             var radius = (double)Sizes.GetSize(SizeName.size_8);
