@@ -15,30 +15,10 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <VerticalStackLayout Spacing="10">
+    <VerticalStackLayout BackgroundColor="{dui:Colors color_primary_90}">
         
-        <dui:Button Style="{dui:Styles Button=None}"
-                    FontFamily="Body"
-                    FontSize="16"
-                    Text="Test"
-                    Padding="28, 12" />
-        
-        
-        <dui:Button Text="Test" />
+        <dui:Switch OnColor="{dui:Colors color_secondary_60}"
+                    ThumbColor="{dui:Colors color_system_white}"/>
 
-        
-        <dui:Button Style="{dui:Styles Button=None}"
-                    FontFamily="Body"
-                    FontSize="16"
-                    Text="Test"
-                    
-                    Padding="0, 4"
-                    />
-
-        
-        <dui:Button Text="Test"
-                    Style="{dui:Styles Button=PrimarySmall}"/>
-        
     </VerticalStackLayout>
-
 </dui:ContentPage>

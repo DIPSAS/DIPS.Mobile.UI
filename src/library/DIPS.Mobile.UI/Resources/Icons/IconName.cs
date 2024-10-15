@@ -349,5 +349,7 @@ lab_package_line=170,
 counter_clockwise_fill=171,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clockwise_fill.svg">View the icon in the browser</a></summary>
 clockwise_fill=172,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/node_tree.svg">View the icon in the browser</a></summary>
+node_tree=173,
     }
 }
