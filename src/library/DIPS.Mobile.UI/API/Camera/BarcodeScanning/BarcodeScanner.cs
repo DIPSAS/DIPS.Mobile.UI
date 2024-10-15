@@ -31,6 +31,11 @@ public partial class BarcodeScanner : ICameraUseCase
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
             await PlatformStart(barcodeScanningSettings, m_cameraFailedDelegate);
+            
+            if (m_cameraPreview?.CameraZoomView is not null)
+            {
+                m_cameraPreview.CameraZoomView.Opacity = 1;
+            }
         }
         else
         {

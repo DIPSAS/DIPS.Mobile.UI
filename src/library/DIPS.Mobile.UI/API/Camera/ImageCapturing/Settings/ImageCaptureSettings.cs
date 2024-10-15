@@ -15,7 +15,7 @@ public class ImageCaptureSettings
     /// The text to be displayed on the done button
     /// </summary>
     /// <remarks>Default is <see cref="DUILocalizedStrings.Cancel"/></remarks>
-    public string DoneButtonText { get; set; } = DUILocalizedStrings.Cancel;
+    public string CancelButtonText { get; set; } = DUILocalizedStrings.Cancel;
     
     public PostCaptureAction PostCaptureAction { get; set; }
     public int? MaxHeightOrWidth { get; set; }

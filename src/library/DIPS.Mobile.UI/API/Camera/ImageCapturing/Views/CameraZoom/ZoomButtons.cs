@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -18,6 +19,8 @@ internal class ZoomButtons : HorizontalStackLayout
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;
 
+        // We do not support ultra-wide cameras yet, so we can safely assume that the minimum ratio is 1
+        minRatio = 1;
         
         var panGestureRecognizer = new PanGestureRecognizer();
         panGestureRecognizer.PanUpdated += OnPanned;
@@ -57,8 +60,21 @@ internal class ZoomButtons : HorizontalStackLayout
         
         if(fourthButton is not null)
             m_zoomButtons.Add(fourthButton);
+        
+        DUI.OrientationChanged += OrientationChanged;
     }
-    
+
+    private void OrientationChanged(OrientationDegree orientationDegree)
+    {
+        foreach (var child in Children)
+        {
+            if (child is View view)
+            {
+                view.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
+            }
+        }
+    }
+
     private void OnPanned(object? sender, PanUpdatedEventArgs e)
     {
         m_onPanned.Invoke(e);
@@ -106,6 +122,17 @@ internal class ZoomButtons : HorizontalStackLayout
         }
         
         buttonToBeActive.SetCustomZoomRatio(zoomRatio);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+            return;
+
+        DUI.OrientationChanged -= OrientationChanged;
+        this.SizeChanged -= OnSizeChanged;
     }
 }
 

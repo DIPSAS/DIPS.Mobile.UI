@@ -45,6 +45,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                         ViewGroup.LayoutParams.WrapContent),
             };
+            
+            rootLayout.SetBackgroundColor(m_bottomSheet.BackgroundColor.ToPlatform());
 
             var bottomSheetLayout = new LinearLayout(Context)
             {

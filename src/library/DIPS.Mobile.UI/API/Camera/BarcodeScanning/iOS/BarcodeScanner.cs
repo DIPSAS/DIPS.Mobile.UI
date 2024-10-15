@@ -42,7 +42,7 @@ public partial class BarcodeScanner : CameraSession
         if (m_captureMetadataOutput == null || CaptureDevice == null || PreviewLayer == null || PreviewView == null) return;
 
         m_cameraPreview?.SetToolbarHeights((float)PreviewView!.Frame.Height);
-        
+
         m_captureMetadataOutput.SetDelegate(m_captureDelegate, m_metadataObjectsQueue);
         //Add bar code scanning metadata
         //Bar codes: https://developer.apple.com/documentation/avfoundation/avmetadataobjecttype#3801359

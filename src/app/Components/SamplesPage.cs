@@ -38,7 +38,14 @@ namespace Components
             {
                 var contentPage = m_sample.PageCreator.Invoke();
                 contentPage.Title = m_sample.Name;
-                Shell.Current.Navigation.PushAsync(contentPage);
+                if (m_sample.IsModal)
+                {
+                    Shell.Current.Navigation.PushModalAsync(new NavigationPage(contentPage));                    
+                }
+                else
+                {
+                    Shell.Current.Navigation.PushAsync(contentPage);
+                }
             }
 
             protected override void OnBindingContextChanged()

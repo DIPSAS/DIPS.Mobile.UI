@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreGraphics;
 using CoreMedia;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
@@ -15,12 +16,11 @@ public partial class ImageCapture : CameraSession
     private AVCapturePhotoOutput m_capturePhotoOutput;
     private PhotoCaptureDelegate m_photoCaptureDelegate;
 #nullable enable
+    private bool m_isProcessingPhoto;
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
-        m_capturePhotoOutput = new AVCapturePhotoOutput() { };
-
-        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed);
+        m_capturePhotoOutput = new AVCapturePhotoOutput();
         
         return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
     }
@@ -61,35 +61,45 @@ public partial class ImageCapture : CameraSession
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
+        m_isProcessingPhoto = false;
+        
+        m_photoCaptureDelegate?.Dispose();
+        m_photoCaptureDelegate = null;
+        
         if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
         {
-            GoToConfirmState(new CapturedImage(photo.FileDataRepresentation.ToArray(),
-                    TryGetThumbnail(photo), 
+            var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
+            var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
+            
+            var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
+            
+            var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
+            
+            GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+                    rotatedThumbnail.Item1,
+                    rotatedImage.Item2,
+                    rotatedThumbnail.Item2,
                     photo, 
-                    new ImageTransformation((int?)photo.Properties.Orientation ?? 0, 
-                        photo.Properties.Orientation.ToString() ?? "Unknown")),
-                m_imageCaptureSettings);
+                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
         }
     }
 
-    private static byte[]? TryGetThumbnail(AVCapturePhoto photo)
+    private static (byte[], CGImage) GetThumbnail(byte[] image)
     {
-        if (photo.FileDataRepresentation == null)
-        {
-            return null;
-        }
-
-        var cgImageSource = CGImageSource.FromData(photo.FileDataRepresentation);
-        var thumbnailCgImage = cgImageSource?.CreateThumbnail(0, new CGImageThumbnailOptions()
+        var cgImageSource = CGImageSource.FromData(NSData.FromArray(image));
+        var thumbnailCgImage = cgImageSource?.CreateThumbnail(0, new CGImageThumbnailOptions
         {
             CreateThumbnailWithTransform = true //Makes sure to rotate if needed 
         });
-        
-        return thumbnailCgImage == null ? null : new UIImage(thumbnailCgImage).AsJPEG()?.ToArray();
+
+        return (new UIImage(thumbnailCgImage!).AsJPEG(.8f)?.ToArray(), thumbnailCgImage)!;
     }
 
     private async partial void PlatformCapturePhoto()
     {
+        if(m_isProcessingPhoto) 
+            return;
+        
         await this.HasStartedSession();
         
         var settings = CreateSettings();
@@ -97,6 +107,12 @@ public partial class ImageCapture : CameraSession
         {
             return;
         }
+        
+        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
+        {
+            m_isProcessingPhoto = true;
+            _ = OnBeforeCapture();
+        });
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
         m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
@@ -110,7 +126,7 @@ public partial class ImageCapture : CameraSession
             PreviewLayer.Connection.Enabled = false;
         }
     }
-
+    
     private void UpdateCaptureOrientation(AVCaptureVideoOrientation orientation)
     {
         var captureConnection = 
@@ -141,7 +157,7 @@ public partial class ImageCapture : CameraSession
         if (formatValue == null) return null;
 
         var settings = AVCapturePhotoSettings.FromFormat(new NSDictionary<NSString, NSObject>(formatKey, formatValue));
-        settings.FlashMode = m_flashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
+        settings.FlashMode = FlashActive ? AVCaptureFlashMode.On : AVCaptureFlashMode.Off;
         settings.EmbeddedThumbnailPhotoFormat = new AVCapturePhotoSettingsThumbnailFormat()
         {
             Codec = AVVideo.CodecJPEG,
@@ -154,14 +170,17 @@ public partial class ImageCapture : CameraSession
 #pragma warning restore CA1422
 }
 
-internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed) : AVCapturePhotoCaptureDelegate
+internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed, Action onBeforeCapture) : AVCapturePhotoCaptureDelegate
 {
     private Action<CameraException> m_onPhotoCaptureFailed = onPhotoCaptureFailed;
     private Action<AVCapturePhoto> m_onPhotoCaptured = onPhotoCaptured;
+    private Action m_onBeforeCapture = onBeforeCapture;
 
     public override void WillBeginCapture(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings)
     {
         Console.WriteLine("--- WillBeginCapture --- | " + captureOutput + "|" + resolvedSettings);
+        
+        m_onBeforeCapture.Invoke();
     }
 
     public override void DidFinishCapture(AVCapturePhotoOutput captureOutput,
@@ -193,5 +212,6 @@ internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Acti
 
         m_onPhotoCaptureFailed = null!;
         m_onPhotoCaptured = null!;
+        m_onBeforeCapture = null;
     }
 }

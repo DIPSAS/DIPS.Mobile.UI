@@ -1,3 +1,4 @@
+using Foundation;
 using UIKit;
 
 // ReSharper disable once CheckNamespace
@@ -18,6 +19,20 @@ public static partial class DUI
         await Task.Delay(10);
         var appDelegate = UIApplication.SharedApplication.Delegate as MauiUIApplicationDelegate;
         RootController = appDelegate.Window.RootViewController!.View!;
+
+        NSNotificationCenter.DefaultCenter.AddObserver(UIDevice.OrientationDidChangeNotification, OrientationDidChange);
+    }
+
+    private static void OrientationDidChange(NSNotification notification)
+    {
+        OrientationChanged?.Invoke(UIDevice.CurrentDevice.Orientation switch
+        {
+            UIDeviceOrientation.Portrait => OrientationDegree.Orientation0,
+            UIDeviceOrientation.LandscapeLeft => OrientationDegree.Orientation90,
+            UIDeviceOrientation.PortraitUpsideDown => OrientationDegree.Orientation180,
+            UIDeviceOrientation.LandscapeRight => OrientationDegree.Orientation270,
+            _ => OrientationDegree.Orientation0
+        });
     }
 
     public static bool TryGetUIImageFromImageSource(ImageSource? imageSource, out UIImage? uiImage)

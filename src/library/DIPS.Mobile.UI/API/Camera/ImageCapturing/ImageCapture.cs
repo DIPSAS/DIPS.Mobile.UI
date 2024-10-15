@@ -22,9 +22,6 @@ public partial class ImageCapture : ICameraUseCase
         IsRunning = true
     };
     
-    private Image? m_confirmImage;
-    private bool m_flashActive;
-    
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
@@ -59,7 +56,7 @@ public partial class ImageCapture : ICameraUseCase
     private void ConstructCrossPlatformViews()
     {
         m_bottomToolbarView = [];
-        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnDoneButtonTapped);
+        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnCancelImageCaptureButtonTapped);
         
         m_cameraPreview?.AddTopToolbarView(m_topToolbarView);
         m_cameraPreview?.AddBottomToolbarView(m_bottomToolbarView);
@@ -80,98 +77,17 @@ public partial class ImageCapture : ICameraUseCase
 
         VibrationService.SelectionChanged();
         
-        m_bottomToolbarView?.SetShutterButtonEnabled(false);
+        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
+        
         m_cameraPreview?.AddViewToRoot(blackBox);
         
         await blackBox.FadeTo(1, 50);
         await blackBox.FadeTo(0, 50);
         
         m_cameraPreview?.RemoveViewFromRoot(blackBox);
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
-    }
-    
-    private void GoToStreamingState()
-    {
-        m_cameraPreview.GoToStreamingState();
-        m_topToolbarView.GoToStreamingState(OnSettingsChanged);
-        m_bottomToolbarView.GoToStreamingState(() =>
-        {
-            try
-            {
-                _ = OnBeforeCapture();
-                PlatformCapturePhoto();
-            }
-            catch (Exception e)
-            {
-                PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
-            }
-        }, () => m_flashActive = !m_flashActive, m_flashActive);
-
-        m_bottomToolbarView.SetShutterButtonEnabled(true);
-
-        m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
-
-        if (m_cameraPreview?.CameraZoomView != null)
-        {
-            m_cameraPreview.CameraZoomView.IsVisible = true;
-        }
-    }
-    
-    private async void GoToConfirmState(CapturedImage capturedImage, ImageCaptureSettings imageCaptureSettings)
-    {
-        m_confirmImage = new Image
-        {
-            Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
-        };
-        
-        m_cameraPreview.AddViewToRoot(m_confirmImage, 1);
-        
-        // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
-        await Task.Delay(10);
-
-        if (m_cameraPreview.CameraZoomView is not null)
-        {
-            m_cameraPreview.CameraZoomView.IsVisible = false;
-        }
-
-        m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
-        m_cameraPreview.GoToConfirmingState();
-        m_topToolbarView.GoToConfirmState(capturedImage);
-        m_bottomToolbarView.GoToConfirmState(() =>
-        {
-            m_onImageCapturedDelegate?.Invoke(capturedImage);
-                
-            switch (imageCaptureSettings.PostCaptureAction)
-            {
-                case PostCaptureAction.Close:
-                    ResetAllVisuals();
-                    PlatformStop();
-                    break;
-                case PostCaptureAction.Continue:
-                    GoToStreamingState();
-                    PlatformStart(imageCaptureSettings, m_cameraFailedDelegate);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }, () =>
-        {
-            GoToStreamingState();
-            PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
-        });
-
-        _ = PlatformStop();
     }
 
-    private async void OnSettingsChanged()
-    {
-        _ = DialogService.ShowMessage(DUILocalizedStrings.SettingsChanged, DUILocalizedStrings.SettingsChangedDescription,
-            "Ok");
-        await PlatformStop();
-        _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
-    }
-
-    private void OnDoneButtonTapped()
+    private void OnCancelImageCaptureButtonTapped()
     {
         m_imageCaptureSettings.DoneButtonCommand?.Execute(null);
         ResetAllVisuals();
@@ -189,6 +105,10 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview.RemoveBottomToolbarView(m_bottomToolbarView);
         m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
         m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
+        if (m_cameraPreview.CameraZoomView != null)
+        {
+            m_cameraPreview.CameraZoomView.Opacity = 0;
+        }
     }
     
     /// <summary>

@@ -1,7 +1,15 @@
+using DIPS.Mobile.UI.API.Library;
+
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
-public class ImageTransformation(int orientationConstant, string orientationDisplayName)
+public class ImageTransformation
 {
-    public int OrientationConstant { get; } = orientationConstant;
-    public string OrientationDisplayName { get; } = orientationDisplayName;
+    public ImageTransformation(OrientationDegree orientationDegree, string orientationDisplayName)
+    {
+        OrientationDegree = orientationDegree;
+        OrientationDisplayName = orientationDisplayName;
+    }
+    
+    public OrientationDegree OrientationDegree { get; set; }
+    public string OrientationDisplayName { get; }
 }

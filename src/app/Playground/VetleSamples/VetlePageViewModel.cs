@@ -60,7 +60,12 @@ public class VetlePageViewModel : ViewModel
 
         CanExecuteCommand = new Command(() => { }, () => Disabled);
 
-        CheckCommand = new Command(() => IsChecked = !IsChecked);
+        CheckCommand = new Command(async () =>
+        {
+            IsSaving = true;
+            await Task.Delay(2000);
+            IsSavingCompleted = true;
+        });
         
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));

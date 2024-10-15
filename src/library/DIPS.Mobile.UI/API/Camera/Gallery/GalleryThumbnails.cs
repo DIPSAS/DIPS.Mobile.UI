@@ -59,7 +59,13 @@ public partial class GalleryThumbnails : Grid
 
     private void OnTappedImage(int imageIndex)
     {
-        new GalleryBottomSheet(Images, imageIndex, OnRemoveImage).Open();
+        new GalleryBottomSheet(Images, imageIndex, OnRemoveImage, UpdateImages).Open();
+    }
+
+    private void UpdateImages()
+    {
+        var copyOfImages = Images.ToList();
+        Images = copyOfImages;        
     }
     
     private void OnRemoveImage(int imageIndex)

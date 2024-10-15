@@ -44,8 +44,7 @@ public class TiffFactory
                     throw new Exception("Failed to create the TIFF image.");
                 }
 
-                var rotatedByteArray = await capturedImage.AsRotatedByteArray();
-                bitMap = SKBitmap.Decode(rotatedByteArray);
+                bitMap = SKBitmap.Decode(capturedImage.AsByteArray);
                 // Set the TIFF fields
                 
                 m_tiff.SetField(TiffTag.BITSPERSAMPLE, 8);
@@ -53,7 +52,6 @@ public class TiffFactory
                 m_tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
                 m_tiff.SetField(TiffTag.COMPRESSION, BitMiracle.LibTiff.Classic.Compression.JPEG);
                 m_tiff.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
-                m_tiff.SetField(TiffTag.ORIENTATION, Orientation.BOTLEFT);
 
                 var width = bitMap.Width;
                 var height = bitMap.Height;
@@ -79,6 +77,23 @@ public class TiffFactory
                     }
                     m_tiff.WriteScanline(rowData, row);
                 }
+                
+                /*Parallel.For(0, height, (row, state) =>
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        state.Stop();
+                        return;
+                    }
+
+                    var rowPointer = bitMap.GetAddress(0, row);
+                    var rowData = new byte[width * 4];
+                    Marshal.Copy(rowPointer, rowData, 0, rowData.Length);
+                    lock (m_tiff)
+                    {
+                        m_tiff.WriteScanline(rowData, row);
+                    }
+                });*/
 
                 m_tiff.SetField(TiffTag.SUBFILETYPE, FileType.PAGE);
                 m_tiff.WriteDirectory();
