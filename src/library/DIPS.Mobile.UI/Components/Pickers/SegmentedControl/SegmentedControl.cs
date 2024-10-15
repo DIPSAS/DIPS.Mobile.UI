@@ -29,7 +29,6 @@ public partial class SegmentedControl : ContentView
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
             ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal) {ItemSpacing = 0},
-            /*HeightRequest = Sizes.GetSize(SizeName.size_10),*/
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
             VerticalScrollBarVisibility = ScrollBarVisibility.Never,
             ItemSpacing = 0,
