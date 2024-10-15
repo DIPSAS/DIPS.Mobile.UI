@@ -1,3 +1,6 @@
+## [37.2.1] 
+- Buttons will now calculate their own size instead of setting static height.
+
 ## [37.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
