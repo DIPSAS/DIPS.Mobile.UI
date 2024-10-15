@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Layout;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
+using DIPS.Mobile.UI.Components.Selection.iOS;
 using Microsoft.Maui.LifecycleEvents;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -14,6 +15,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<InlineTimePicker, InlineTimePickerHandler>();
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
+        handlers.AddHandler<Switch, SwitchHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

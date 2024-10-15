@@ -15,23 +15,10 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <CollectionView IsGrouped="True"
-                        ItemsSource="{Binding GroupedTest}">
-
-        <CollectionView.GroupFooterTemplate>
-            
-            <DataTemplate>
-                <Label Text="Lol"></Label>
-            </DataTemplate>
-        </CollectionView.GroupFooterTemplate>
+    <VerticalStackLayout BackgroundColor="{dui:Colors color_primary_90}">
         
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Label Text="HEHE"></Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
+        <dui:Switch OnColor="{dui:Colors color_secondary_60}"
+                    ThumbColor="{dui:Colors color_system_white}"/>
 
-
+    </VerticalStackLayout>
 </dui:ContentPage>

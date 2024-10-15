@@ -1,3 +1,7 @@
+## [37.1.2] 
+- [SegmentedControl] Avoid setting static Height, instead use padding of content to calculate height so it scales better with font-size. Removing the static height also reduced its height so its similar to the design.
+- [Switch][iOS] Fixed an issue where the off color would blend into the background color of the view that is below the `Switch`.
+
 ## [37.1.1] 
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
 - Will now localize text correctly
