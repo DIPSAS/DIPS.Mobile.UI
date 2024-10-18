@@ -180,4 +180,7 @@
     <data name="Back" xml:space="preserve">
         <value>Tilbake</value>
     </data>
+    <data name="Rotate" xml:space="preserve">
+        <value>Roter</value>
+    </data>
 </root>

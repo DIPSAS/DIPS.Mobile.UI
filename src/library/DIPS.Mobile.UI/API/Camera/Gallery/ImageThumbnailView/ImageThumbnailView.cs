@@ -30,6 +30,8 @@ internal class ImageThumbnailView : Grid
         
         if (BindingContext is not ImageThumbnailViewModel imageThumbnailViewModel)
             return;
+        
+        Clear();
 
         Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0);
         

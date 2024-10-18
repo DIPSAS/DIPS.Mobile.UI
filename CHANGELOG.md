@@ -1,3 +1,9 @@
+## [37.3.0] 
+- [ImageCapture][Gallery] Can now rotate images after capturing the photo. Both in gallery and in the actual capturing component.
+- [ImageCapture] Controls will now rotate with the device.
+- [ImageCapture][Android] Fixed a bug where devices with ultra-wide lens would get a lot of decimals in zoom buttons.
+- [ImageCapture] Zoom-slider will now only be visible when the camera is ready.
+
 ## [37.2.2] 
 - [Button][iOS] Fixed an issue where buttons with `IconButtonSmall` style would have a glitchy icon. 
 

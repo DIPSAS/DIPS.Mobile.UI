@@ -16,7 +16,6 @@ public partial class FilledCheckBox : ContentView
     private readonly ActivityIndicator m_activityIndicator;
     private readonly SKLottieView m_animation;
     private readonly Image m_nonCheckedImage;
-    internal static double IsNotCheckedOpacity => 0.25;
 
     public FilledCheckBox()
     {
@@ -43,8 +42,6 @@ public partial class FilledCheckBox : ContentView
 
         Container.Content = InnerGrid;
 
-        _ = SetContainerContent();
-
         Content = Container;
     }
 
@@ -55,6 +52,7 @@ public partial class FilledCheckBox : ContentView
     {
         base.OnHandlerChanged();
 
+        _ = SetContainerContent();
         Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
     }
 

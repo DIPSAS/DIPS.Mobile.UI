@@ -18,7 +18,7 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
     private readonly Entry m_targetHeightOrWidthEntry;
     private readonly Action? m_onSavedWithChanges;
 
-    public ImageCaptureSettingsBottomSheet(ImageCaptureSettings imageCaptureSettings, Action? onSavedWithChanges)
+    public ImageCaptureSettingsBottomSheet(ImageCaptureSettings imageCaptureSettings, Action onSavedWithChanges)
     {
         m_imageCaptureSettings = imageCaptureSettings;
         m_onSavedWithChanges = onSavedWithChanges;

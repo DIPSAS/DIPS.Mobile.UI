@@ -8,6 +8,7 @@ using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.Internal;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
@@ -309,20 +310,24 @@ public abstract class CameraFragment : Fragment
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
     }
 
+    private ImmutableZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value as ImmutableZoomState; 
+    
     private void AddZoomView()
     {
-        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+        if (ZoomState is null)
             return;
 
         if (m_cameraPreview?.CameraZoomView is not null)
         {
-            m_cameraPreview.CameraZoomView.IsVisible = true;
-            m_cameraPreview.CameraZoomView?.SetZoomRatio(zoomState.ZoomRatio);
+            m_cameraPreview.CameraZoomView?.SetZoomRatio(ZoomState.ZoomRatio);
         }
         else if(m_cameraPreview is not null)
         {
             m_cameraPreview.CameraZoomView =
-                new CameraZoomView(zoomState.MinZoomRatio, zoomState.MaxZoomRatio, OnChangedZoomRatio);
+                new CameraZoomView(ZoomState.MinZoomRatio, ZoomState.MaxZoomRatio, OnChangedZoomRatio)
+                {
+                    Opacity = 0
+                };
         }
     }
     

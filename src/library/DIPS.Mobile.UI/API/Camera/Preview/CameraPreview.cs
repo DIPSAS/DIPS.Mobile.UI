@@ -31,8 +31,7 @@ public partial class CameraPreview : ContentView
 #if __IOS__
         Content = ConstructView();
         
-        var safeAreaInsetsBottom = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
-        Padding = new Thickness(0, 0, 0, safeAreaInsetsBottom);
+        Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
 #endif
     }
 
@@ -215,11 +214,16 @@ public partial class CameraPreview : ContentView
     {
         if(args.NewHandler == null) // User has navigated from the page
         {
+#if __ANDROID__
+            // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
+            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_grid);
+#endif
             if (m_cameraUseCase.TryGetTarget(out var target))
             {
                 var collectionContentTarget = target.ToCollectionContentTarget();
                 _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
                 target.StopAndDispose();
+
             }
         }
 
@@ -242,6 +246,10 @@ public partial class CameraPreview : ContentView
     public void GoToStreamingState()
     {
         PreviewView.IsVisible = true;
+        if (CameraZoomView is not null)
+        {
+            CameraZoomView.Opacity = 1;
+        }
     }
 
     public void ShowZoomSliderTip(string tip)
