@@ -251,7 +251,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -281,7 +281,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };

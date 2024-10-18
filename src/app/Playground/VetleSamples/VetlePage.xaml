@@ -15,10 +15,13 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <VerticalStackLayout BackgroundColor="{dui:Colors color_primary_90}">
+    <VerticalStackLayout >
         
-        <dui:Switch OnColor="{dui:Colors color_secondary_60}"
-                    ThumbColor="{dui:Colors color_system_white}"/>
+        <dui:Button ImageSource="{dui:Icons comment_line}"
+                    Style="{dui:Styles Button=PrimaryIconButtonSmall}"
+                    Padding="0"/>
+        
+        <dui:Button Text="Lol" />
 
     </VerticalStackLayout>
 </dui:ContentPage>

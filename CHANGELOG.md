@@ -1,3 +1,6 @@
+## [37.2.2] 
+- [Button][iOS] Fixed an issue where buttons with `IconButtonSmall` style would have a glitchy icon. 
+
 ## [37.2.1] 
 - Buttons will now calculate their own size instead of setting static height.
 
