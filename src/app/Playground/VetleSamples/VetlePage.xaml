@@ -17,15 +17,13 @@
     <Grid>
         <dui:Button Command="{Binding CheckCommand}" />
 
+    <VerticalStackLayout >
         
-        <dui:SaveView IsSaving="{Binding IsSaving}"
-                      IsVisible="{Binding IsSaving}"
-                      IsSavingCompleted="{Binding IsSavingCompleted}" />
+        <dui:Button ImageSource="{dui:Icons comment_line}"
+                    Style="{dui:Styles Button=PrimaryIconButtonSmall}"
+                    Padding="0"/>
         
-        <!--<dui:FilledCheckBox IsProgressing="True"
-                            IsChecked="False"/>-->
-        
-    </Grid>
+        <dui:Button Text="Lol" />
 
-
+    </VerticalStackLayout>
 </dui:ContentPage>

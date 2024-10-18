@@ -1,4 +1,3 @@
-using Microsoft.Maui.Handlers;
 using IImage = Microsoft.Maui.IImage;
 
 namespace DIPS.Mobile.UI.Components.Buttons;

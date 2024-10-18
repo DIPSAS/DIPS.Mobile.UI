@@ -179,6 +179,7 @@ this file is generated
 ["lab_package_line"] = "lab_package_line.png",
 ["counter_clockwise_fill"] = "counter_clockwise_fill.png",
 ["clockwise_fill"] = "clockwise_fill.png",
+["node_tree"] = "node_tree.png",
 
             };
         }

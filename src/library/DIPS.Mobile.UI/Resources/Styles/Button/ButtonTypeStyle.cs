@@ -126,16 +126,6 @@ public static class ButtonTypeStyle
         {
             new Setter
             {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_12)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_6)
-            },
-            new Setter
-            {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
             }
@@ -147,16 +137,6 @@ public static class ButtonTypeStyle
         BasedOn = Primary,
         Setters =
         {
-            new Setter
-            {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_8)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_4)
-            },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
@@ -172,16 +152,6 @@ public static class ButtonTypeStyle
         {
             new Setter
             {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_12)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_6)
-            },
-            new Setter
-            {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
             }
@@ -193,16 +163,6 @@ public static class ButtonTypeStyle
         BasedOn = Secondary,
         Setters =
         {
-            new Setter
-            {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_8)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_4)
-            },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
@@ -218,16 +178,6 @@ public static class ButtonTypeStyle
         {
             new Setter
             {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_12)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_6)
-            },
-            new Setter
-            {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
             }
@@ -239,16 +189,6 @@ public static class ButtonTypeStyle
         BasedOn = Ghost,
         Setters =
         {
-            new Setter
-            {
-                Property = VisualElement.HeightRequestProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_8)
-            },
-            new Setter
-            {
-                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_4)
-            },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
@@ -281,7 +221,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -311,7 +251,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -341,7 +281,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -371,7 +311,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -401,7 +341,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
@@ -431,7 +371,7 @@ public static class ButtonTypeStyle
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.size_1)
-                    : Sizes.Sizes.GetSize(SizeName.size_2)
+                    : 0
             }
         }
     };
