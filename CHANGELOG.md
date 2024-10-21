@@ -1,3 +1,6 @@
+## [37.3.1] 
+- [ImageCapture][iOS] Fixed close button on thumbnail
+
 ## [37.3.0] 
 - [ImageCapture][Gallery] Can now rotate images after capturing the photo. Both in gallery and in the actual capturing component.
 - [ImageCapture] Controls will now rotate with the device.

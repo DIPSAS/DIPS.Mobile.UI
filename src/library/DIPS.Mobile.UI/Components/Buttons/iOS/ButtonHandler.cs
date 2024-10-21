@@ -33,7 +33,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
         await MapImageSourceAsync(handler, button);
         MapImageTintColor(handler, button);
-        handler.PlatformView.ImageView.AdjustsImageSizeForAccessibilityContentSizeCategory = true;
+        /*handler.PlatformView.ImageView.AdjustsImageSizeForAccessibilityContentSizeCategory = true;*/
     }
 
     private static partial void MapImageTintColor(ButtonHandler handler, Button button)

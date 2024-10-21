@@ -14,6 +14,11 @@ namespace DIPS.Mobile.UI.Components.Buttons
             HorizontalOptions = LayoutOptions.Center;
         }
 
+        protected override void InvalidateMeasure()
+        {
+            base.InvalidateMeasure();
+        }
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
