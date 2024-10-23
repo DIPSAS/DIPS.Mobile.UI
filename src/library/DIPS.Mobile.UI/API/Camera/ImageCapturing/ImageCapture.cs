@@ -77,7 +77,7 @@ public partial class ImageCapture : ICameraUseCase
 
         VibrationService.SelectionChanged();
         
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator);
+        m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: true);
         
         m_cameraPreview?.AddViewToRoot(blackBox);
         

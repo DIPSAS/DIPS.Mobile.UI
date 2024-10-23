@@ -11,17 +11,13 @@ internal class EditStateBottomView : Grid
 {
     public EditStateBottomView(IImageEditStateObserver imageEditStateObserver)
     {
-        AddRowDefinition(new RowDefinition(GridLength.Auto));
-        AddRowDefinition(new RowDefinition(GridLength.Auto));
-
-        RowSpacing = Sizes.GetSize(SizeName.size_4);
+        Padding = new Thickness(0, Sizes.GetSize(SizeName.size_1), 0, Sizes.GetSize(SizeName.size_1));
         
         this.Add(new HorizontalStackLayout
         {
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Start,
             Spacing = Sizes.GetSize(SizeName.size_8),
-            Padding = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0, 0),
             Children =
             {
                 new Components.Buttons.Button
@@ -49,7 +45,7 @@ internal class EditStateBottomView : Grid
             Text = DUILocalizedStrings.Cancel,
             Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
             Command = new Command(imageEditStateObserver.OnCancelButtonTapped)
-        }, 0, 1);
+        });
         
         this.Add(new Components.Buttons.Button
         {
@@ -58,7 +54,7 @@ internal class EditStateBottomView : Grid
             Text = DUILocalizedStrings.Save,
             Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
             Command = new Command(imageEditStateObserver.OnSaveButtonTapped)
-        }, 0, 1);
+        });
         
     }
 }

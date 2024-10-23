@@ -21,7 +21,7 @@ public partial class ImageCapture : IConfirmStateObserver
             Source = ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray)),
             InputTransparent = true
         };
-        m_cameraPreview.AddViewToRoot(m_confirmImage, 3);
+        m_cameraPreview.AddViewToRoot(m_confirmImage, 3, true);
         
         // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
         await Task.Delay(10);

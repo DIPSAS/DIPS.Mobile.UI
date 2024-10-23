@@ -1,3 +1,6 @@
+## [37.3.2] 
+- [ImageCapture] Fixed toolbar height on smaller devices.
+
 ## [37.3.1] 
 - [ImageCapture][iOS] Fixed close button on thumbnail
 
