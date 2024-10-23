@@ -3,10 +3,12 @@ using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
 #if __IOS__
+using Microsoft.Maui.Handlers;
 using UIKit;
 #endif
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
@@ -20,8 +22,11 @@ public partial class CameraPreview : ContentView
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
     private Border? m_indicator;
+    private bool m_hasSetToolbarHeights;
 
-    private const float ThreeFourRatio = .75f;
+    internal const float ThreeFourRatio = .75f;
+    internal const float TopToolbarPercentHeightOfLetterBox = .25f;
+    internal const float BottomToolbarPercentHeightOfLetterBox = .75f;
     
     public CameraPreview()
     {
@@ -30,8 +35,12 @@ public partial class CameraPreview : ContentView
 
 #if __IOS__
         Content = ConstructView();
-        
-        Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+
+        if (UIApplication.SharedApplication.KeyWindow != null)
+        {
+            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
+                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+        }
 #endif
     }
 
@@ -45,13 +54,13 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.End, 
-            BackgroundColor = Colors.Black,
+            BackgroundColor = Colors.Transparent,
         };
         
         m_topToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.Start, 
-            BackgroundColor = Colors.Black,
+            BackgroundColor = Colors.Transparent,
         };
 
         PreviewView = new PreviewView();
@@ -86,13 +95,22 @@ public partial class CameraPreview : ContentView
     /// <param name="frameHeight"></param>
     internal void SetToolbarHeights(float frameHeight)
     {
-        var actualPreviewHeight = (Width / ThreeFourRatio);
-        var letterBoxHeight = (frameHeight - actualPreviewHeight) / 2;
-
-        m_topToolbarContainer.HeightRequest = letterBoxHeight;
-        m_bottomToolbarContainer.HeightRequest = letterBoxHeight;
+        if (m_hasSetToolbarHeights)
+        {
+            return;
+        }
         
+        var actualPreviewHeight = (Width / ThreeFourRatio);
+        var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
+
+        // Looks like the top toolbar is about 25% of the total letterbox height looking at android/ios' native camera app
+        m_topToolbarContainer.HeightRequest = totalLetterBoxHeight * TopToolbarPercentHeightOfLetterBox;
+        m_bottomToolbarContainer.HeightRequest = totalLetterBoxHeight * BottomToolbarPercentHeightOfLetterBox;
+
         CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2) + m_bottomToolbarContainer.HeightRequest);
+        PreviewView.TranslationY -= m_topToolbarContainer.HeightRequest;
+        
+        m_hasSetToolbarHeights = true;
     }
     
     internal void AddFocusIndicator(float percentX, float percentY)
@@ -177,8 +195,13 @@ public partial class CameraPreview : ContentView
         new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
     }
     
-    internal void AddViewToRoot(View view, int index = -1)
+    internal void AddViewToRoot(View view, int index = -1, bool usePreviewViewTranslation = false)
     {
+        if (usePreviewViewTranslation)
+        {
+            view.TranslationY = PreviewView.TranslationY;
+        }
+        
         if (index == -1)
         {
             m_grid.Add(view);
