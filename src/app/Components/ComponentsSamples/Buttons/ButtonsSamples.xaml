@@ -4,12 +4,10 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  x:Class="Components.ComponentsSamples.Buttons.ButtonsSamples"
                  x:Name="This"
                  Title="{x:Static localizedStrings:LocalizedStrings.Buttons}"
-                 Padding="{dui:Sizes size_4}"
-                 iOsSpecific:Page.PrefersStatusBarHidden="True">
+                 Padding="{dui:Sizes size_4}">
     <dui:ScrollView>
         <Grid RowDefinitions="Auto, 20, Auto, 20, Auto">
             <dui:VerticalStackLayout>

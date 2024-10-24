@@ -6,9 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
-                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-                 x:Class="Components.ComponentsSamples.ImageCapturing.ImageCaptureSample"
-                 iOsSpecific:Page.PrefersStatusBarHidden="True">
+                 x:Class="Components.ComponentsSamples.ImageCapturing.ImageCaptureSample">
     
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="{x:Static localizedStrings:DUILocalizedStrings.Close}"
