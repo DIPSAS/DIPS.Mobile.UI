@@ -1,5 +1,5 @@
 ## [37.3.3] 
-- [Button] Fixed an edge-case where some buttons did not get rounded corners.
+- [Button][iOS] Fixed an edge-case where some buttons did not get rounded corners.
 
 ## [37.3.2] 
 - [ImageCapture] Fixed toolbar height on smaller devices.
