@@ -1,13 +1,10 @@
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.Styles.Button;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Buttons
 {
     public partial class Button : Microsoft.Maui.Controls.Button
     {
         private Style? m_buttonStyleBasedOn;
-        private int m_tries;
 
         public Button()
         {
@@ -22,28 +19,15 @@ namespace DIPS.Mobile.UI.Components.Buttons
         /// <br /><br/>
         /// If the user increases the font-size to for example 200% (Which increases the button's Width/Height), the CornerRadius value should also increase to match a RoundRectangle
         /// </summary>
-        protected override async void OnSizeAllocated(double width, double height)
+        protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
 
-            if (CornerRadius == -1)
-            {
-                m_tries = 0;
-                
-                // The Width/Height can be 0 if the button is inside a Grid that has IsVisible changed, with a * Row/Column definition
-                // Most likely a bug in MAUI, because the Width/Height is set on a later frame
-                while (Width == 0 || Height == 0)
-                {
-                    // Safe guard to prevent infinite loop
-                    if(m_tries > 50) 
-                        return;
-                    
-                    await Task.Delay(1);
-                    m_tries++;
-                }
-                
+            if (CornerRadius != -1)
+                return;
+
+            if(!(Height == 0 || Width == 0))
                 CornerRadius = (int)(Math.Min(Width, Height) / 2);
-            }
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
