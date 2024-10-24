@@ -12,16 +12,22 @@ namespace DIPS.Mobile.UI.Components.Buttons
         {
             Style = ButtonTypeStyle.PrimaryLarge;
             HorizontalOptions = LayoutOptions.Center;
-            VerticalOptions = LayoutOptions.Center;
         }
 
-        protected override void OnSizeAllocated(double width, double height)
+        protected override async void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
 
             // If the CornerRadius has not been set by consumer, set it so it replicates a RoundRectangle
-            if(CornerRadius == -1)
+            if (CornerRadius == -1)
+            {
+                while (Width == 0 || Height == 0)
+                {
+                    await Task.Delay(1);
+                }
+                
                 CornerRadius = (int)(Math.Min(Width, Height) / 2);
+            }
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
