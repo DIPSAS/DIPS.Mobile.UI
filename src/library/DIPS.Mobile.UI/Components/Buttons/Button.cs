@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
     public partial class Button : Microsoft.Maui.Controls.Button
     {
         private Style? m_buttonStyleBasedOn;
+        private int m_tries;
 
         public Button()
         {
@@ -14,16 +15,31 @@ namespace DIPS.Mobile.UI.Components.Buttons
             HorizontalOptions = LayoutOptions.Center;
         }
 
+        /// <summary>
+        /// This method is overriden to try replicating the CornerRadius of a RoundRectangle if the button is not an icon button (Or if the consumer has not set the CornerRadius themselves)
+        /// <br /><br/>
+        /// We can't specify a CornerRadius in the Style for text buttons, because the CornerRadius is relative to the Width/Height of a text button
+        /// <br /><br/>
+        /// If the user increases the font-size to for example 200% (Which increases the button's Width/Height), the CornerRadius value should also increase to match a RoundRectangle
+        /// </summary>
         protected override async void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
 
-            // If the CornerRadius has not been set by consumer, set it so it replicates a RoundRectangle
             if (CornerRadius == -1)
             {
+                m_tries = 0;
+                
+                // The Width/Height can be 0 if the button is inside a Grid that has IsVisible changed, with a * Row/Column definition
+                // Most likely a bug in MAUI, because the Width/Height is set on a later frame
                 while (Width == 0 || Height == 0)
                 {
+                    // Safe guard to prevent infinite loop
+                    if(m_tries > 50) 
+                        return;
+                    
                     await Task.Delay(1);
+                    m_tries++;
                 }
                 
                 CornerRadius = (int)(Math.Min(Width, Height) / 2);
