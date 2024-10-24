@@ -14,9 +14,7 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid>
-        <dui:Button Command="{Binding CheckCommand}" />
-
+    
     <VerticalStackLayout >
         
         <dui:Button ImageSource="{dui:Icons comment_line}"

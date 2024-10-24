@@ -12,6 +12,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
         {
             Style = ButtonTypeStyle.PrimaryLarge;
             HorizontalOptions = LayoutOptions.Center;
+            VerticalOptions = LayoutOptions.Center;
         }
 
         protected override void OnSizeAllocated(double width, double height)
