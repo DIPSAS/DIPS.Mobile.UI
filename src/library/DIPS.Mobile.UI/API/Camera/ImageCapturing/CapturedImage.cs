@@ -4,7 +4,6 @@
 
 
 using DIPS.Mobile.UI.API.Library;
-using IImage = Microsoft.Maui.IImage;
 using Image = Microsoft.Maui.Controls.Image;
 #if __IOS__
 using ImageIO;
