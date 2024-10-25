@@ -1,3 +1,6 @@
+## [37.3.4] 
+- [ImageCapture][Android] Fixed an issue where the rotated image would have wrong translation in either X or Y direction, when in edit mode.
+
 ## [37.3.3] 
 - [Button][iOS] Fixed an edge-case where some buttons did not get rounded corners.
 

@@ -32,7 +32,7 @@ public partial class ImageCapture : IStreamingStateObserver
 
         m_bottomToolbarView.SetShutterButtonEnabled(true);
 
-        m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
+        m_cameraPreview.RemoveViewFromRoot(m_confirmImageWrapper);
 
         if (m_cameraPreview.CameraZoomView != null)
         {
