@@ -1,3 +1,6 @@
+## [37.3.5]
+- [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
+
 ## [37.3.4] 
 - [ImageCapture][Android] Fixed an issue where the rotated image would have wrong translation in either X or Y direction, when in edit mode.
 
