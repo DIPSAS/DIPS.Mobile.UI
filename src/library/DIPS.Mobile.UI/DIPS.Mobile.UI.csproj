@@ -173,7 +173,6 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Core" />
         <PackageReference Include="SkiaSharp.Extended.UI.Maui" />
     </ItemGroup>
 </Project>
