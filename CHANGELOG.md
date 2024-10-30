@@ -1,3 +1,7 @@
+## [37.3.6]
+- [ImageCapture][Android] Fixed an issue where the tap to focus indicator were not animated
+- [ImageCapture][iOS] Fixed an issue where the tap to focus indicator were not placed correctly
+
 ## [37.3.5]
 - [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
 

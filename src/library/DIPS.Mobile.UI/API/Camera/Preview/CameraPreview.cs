@@ -22,6 +22,7 @@ public partial class CameraPreview : ContentView
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
     private Border? m_indicator;
+    private Grid m_indicatorWrapper;
     private bool m_hasSetToolbarHeights;
 
     internal const float ThreeFourRatio = .75f;
@@ -115,7 +116,7 @@ public partial class CameraPreview : ContentView
     
     internal void AddFocusIndicator(float percentX, float percentY)
     {
-        m_grid.Remove(m_indicator);
+        m_grid.Remove(m_indicatorWrapper);
         
         m_indicator = new Border
         {
@@ -125,38 +126,50 @@ public partial class CameraPreview : ContentView
             StrokeThickness = 2,
             StrokeShape = new Ellipse(),
             Stroke = Colors.White,
-            VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Center,
             Opacity = .75f,
             Scale = .75f,
             InputTransparent = true
         };
 
-        var borderToRemove = m_indicator;
+        m_indicatorWrapper = new Grid
+        {
+            Children = { m_indicator },
+            InputTransparent = true,
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Start
+        };
+        
+        var viewToRemove = m_indicatorWrapper;
+        var borderToRemoveAnimate = m_indicator;
 
-        m_indicator.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
-        m_indicator.TranslationY = percentY * PreviewView.Height;
+        m_indicatorWrapper.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
+        m_indicatorWrapper.TranslationY = percentY * PreviewView.Height;
 
 #if __IOS__
-        m_indicator.TranslationY -= m_indicator.HeightRequest / 2;
+        m_indicatorWrapper.TranslationY -= (m_indicator.HeightRequest / 2) - PreviewView.TranslationY;
 #else
-        m_indicator.TranslationY -= m_indicator.HeightRequest / 1.5f;
+        m_indicatorWrapper.TranslationY -= m_indicator.HeightRequest / 1.25f;
 #endif
-
+        
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
         m_indicator.FadeTo(1);
         
-        m_grid.Add(m_indicator);
+        m_grid.Add(m_indicatorWrapper);
 
         Task.Run(async () =>
         {
             await Task.Delay(2000);
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                _ = borderToRemove.ScaleTo(.75f);
-                await borderToRemove.FadeTo(0);
-                m_grid.Remove(borderToRemove);
-                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(borderToRemove);
+                if (borderToRemoveAnimate is not null)
+                {
+                    _ = borderToRemoveAnimate.ScaleTo(.75f);
+                    await borderToRemoveAnimate.FadeTo(0);
+                }
+                m_grid.Remove(viewToRemove);
+                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(viewToRemove);
             });
         });
     }
