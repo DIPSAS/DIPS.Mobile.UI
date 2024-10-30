@@ -11,6 +11,7 @@
     <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.82" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Maui.Core" Version="8.0.82" />
     <PackageVersion Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.92" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

@@ -17,14 +17,7 @@
     
     <Grid RowDefinitions="*, Auto">
         
-        <Grid Grid.Row="1"
-              VerticalOptions="End"
-              x:Name="Button"
-              IsVisible="False">
-            <dui:Button Text="Donzo"
-                        
-                         />
-        </Grid>
+       <dui:ListItem Title="{Binding TestObject2}"/>
         
 
     </Grid>

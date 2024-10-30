@@ -20,7 +20,7 @@ public partial class SubtitleOptions : ListItemOptions
         listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
         listItem.SubtitleLabel.SetBinding(Label.FormattedTextProperty, new Binding(nameof(FormattedText), source: this));
 
-        listItem.SubtitleLabel.IsVisible = !IsSubtitleEmptyOrNull(listItem);
+        UpdateVisibility(listItem);
         
         if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
         {
@@ -36,5 +36,10 @@ public partial class SubtitleOptions : ListItemOptions
         }
 
         return string.IsNullOrEmpty(listItem.Subtitle);
+    }
+
+    public void UpdateVisibility(ListItem listItem)
+    {
+        listItem.SubtitleLabel.IsVisible = !IsSubtitleEmptyOrNull(listItem);
     }
 }

@@ -1,3 +1,6 @@
+## [37.3.6]
+- [ListItem] Fixed an issue where the visibility of `Subtitle` were not updated when the `Subtitle` were set at a later point.
+
 ## [37.3.5]
 - [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
 

@@ -25,6 +25,7 @@ public class VetlePageViewModel : ViewModel
     private SortOption m_selectedOrganizationalUnit;
     private DateTime m_date = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Utc);
     private DateTime m_localDate = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Local);
+    private TestObject2 m_testObject2;
 
     public VetlePageViewModel()
     {
@@ -135,6 +136,8 @@ public class VetlePageViewModel : ViewModel
         await Task.Delay(2000);
         GroupedTest.Add(["lol", "hehe"]);
         GroupedTest.Add(["ok", "hehe"]);
+
+        TestObject2 = new TestObject2("lol");
     }
 
 
@@ -173,6 +176,12 @@ public class VetlePageViewModel : ViewModel
         [new TestObject2("Lol"), new TestObject2("Lol2"), new TestObject2("Lol3"), new TestObject2("Lol4")];
     
     public string? Summary { get; }
+
+    public TestObject2 TestObject2
+    {
+        get => m_testObject2;
+        private set => RaiseWhenSet(ref m_testObject2, value);
+    }
 
     public ICommand RemoveStringCommand => new Command(s =>
     {
