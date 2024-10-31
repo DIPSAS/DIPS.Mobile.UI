@@ -1,5 +1,9 @@
-## [37.3.6]
+## [37.3.7]
 - [ListItem] Fixed an issue where the visibility of `Subtitle` were not updated when the `Subtitle` were set at a later point.
+
+## [37.3.6]
+- [ImageCapture][Android] Fixed an issue where the tap to focus indicator were not animated
+- [ImageCapture][iOS] Fixed an issue where the tap to focus indicator were not placed correctly
 
 ## [37.3.5]
 - [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
