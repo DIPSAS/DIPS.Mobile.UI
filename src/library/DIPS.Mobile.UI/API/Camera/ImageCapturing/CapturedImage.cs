@@ -32,7 +32,7 @@ public class CapturedImage
     public byte[] AsByteArray { get; }
 #if __ANDROID__
     public Bitmap ImageBitmap { get; }
-    public Bitmap ThumbnailBitmap { get; }
+    public Bitmap? ThumbnailBitmap { get; }
     public IImageProxy ImageProxy { get; }
 #elif __IOS__
     private CGImage m_cgImage;
@@ -109,7 +109,7 @@ public class CapturedImage
     }    
 
 #if __ANDROID__
-    public CapturedImage(byte[] asByteArray, Bitmap imageBitmap, byte[]? thumbnailAsByteArray, Bitmap thumbnailBitmap, IImageProxy imageProxy, ImageTransformation imageTransformation)
+    public CapturedImage(byte[] asByteArray, Bitmap imageBitmap, byte[]? thumbnailAsByteArray, Bitmap? thumbnailBitmap, IImageProxy imageProxy, ImageTransformation imageTransformation)
     {
         AsByteArray = asByteArray;
         ImageBitmap = imageBitmap;
@@ -136,11 +136,14 @@ public class CapturedImage
             newOrientationDegree = OrientationDegree.Orientation0;
         }
         
-        return new CapturedImage(rotatedImageBytes, rotatedImageBitmap, rotatedThumbnailBytes, rotatedThumbnailBitmap, ImageProxy, new ImageTransformation(newOrientationDegree, newOrientationDegree.ToString()));
+        return new CapturedImage(rotatedImageBytes ?? [], rotatedImageBitmap!, rotatedThumbnailBytes, rotatedThumbnailBitmap, ImageProxy, new ImageTransformation(newOrientationDegree, newOrientationDegree.ToString()));
     }
 
-    private static async Task<(Bitmap rotatedImageBitmap, byte[] rotatedImageBytes)> RotateBitmap(Bitmap bitmap, float degrees)
+    private static async Task<(Bitmap? rotatedImageBitmap, byte[]? rotatedImageBytes)> RotateBitmap(Bitmap? bitmap, float degrees)
     {
+        if (bitmap is null)
+            return (null!, null);
+        
         var matrix = new Matrix();
         matrix.PostRotate(degrees);
     
