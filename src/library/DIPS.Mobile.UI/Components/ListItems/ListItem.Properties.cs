@@ -300,7 +300,8 @@ namespace DIPS.Mobile.UI.Components.ListItems
         public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
             nameof(Subtitle),
             typeof(string),
-            typeof(ListItem));
+            typeof(ListItem),
+            propertyChanged: (bindable, _, _) =>  ((ListItem)bindable).SubtitleOptions.UpdateVisibility((bindable as ListItem)!));
 
         public static readonly BindableProperty IconProperty = BindableProperty.Create(
             nameof(Icon),
