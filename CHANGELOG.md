@@ -1,5 +1,5 @@
 ## [37.3.8]
-- [ImageCapture] Fixed an issue where on some devices you could not rotate images because 'Thumbnail' was null.
+- [ImageCapture][Android] Fixed an issue where on some devices you could not rotate images because 'Thumbnail' was null.
 
 ## [37.3.7]
 - [ListItem] Fixed an issue where the visibility of `Subtitle` were not updated when the `Subtitle` were set at a later point.
