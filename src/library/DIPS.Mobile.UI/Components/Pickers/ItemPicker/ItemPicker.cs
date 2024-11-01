@@ -48,8 +48,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             if (Mode == PickerMode.ContextMenu)
             {
-                ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
-                m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
+                // If not enabled, no need to set context menu effect
+                if (IsEnabled)
+                {
+                    ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
+                    m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
+                }
             }
             else if (Mode == PickerMode.BottomSheet)
             {
@@ -68,6 +72,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         public partial void Open()
         {
+            if (!IsEnabled)
+                return;
+            
             if (Mode == PickerMode.BottomSheet)
             {
                 OpenBottomSheet();

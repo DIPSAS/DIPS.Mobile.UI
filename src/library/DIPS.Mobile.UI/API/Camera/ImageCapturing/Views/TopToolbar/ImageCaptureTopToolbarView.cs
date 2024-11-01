@@ -37,7 +37,7 @@ internal class ImageCaptureTopToolbarView : Grid
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
             Text = imageCaptureSettings.CancelButtonText,
             TextColor = Colors.White,
-            VerticalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.End,
             Command = new Command(onDoneButtonTapped)
         };
@@ -45,7 +45,7 @@ internal class ImageCaptureTopToolbarView : Grid
         m_upperLeftColumn = new HorizontalStackLayout
         {
             Spacing = Sizes.GetSize(SizeName.size_1),
-            VerticalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start
         };
         

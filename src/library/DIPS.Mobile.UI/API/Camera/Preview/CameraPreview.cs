@@ -3,10 +3,12 @@ using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
 #if __IOS__
+using Microsoft.Maui.Handlers;
 using UIKit;
 #endif
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace DIPS.Mobile.UI.API.Camera.Preview;
 
@@ -20,8 +22,12 @@ public partial class CameraPreview : ContentView
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
     private Border? m_indicator;
+    private Grid m_indicatorWrapper;
+    private bool m_hasSetToolbarHeights;
 
-    private const float ThreeFourRatio = .75f;
+    internal const float ThreeFourRatio = .75f;
+    internal const float TopToolbarPercentHeightOfLetterBox = .25f;
+    internal const float BottomToolbarPercentHeightOfLetterBox = .75f;
     
     public CameraPreview()
     {
@@ -30,8 +36,12 @@ public partial class CameraPreview : ContentView
 
 #if __IOS__
         Content = ConstructView();
-        
-        Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+
+        if (UIApplication.SharedApplication.KeyWindow != null)
+        {
+            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
+                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+        }
 #endif
     }
 
@@ -45,13 +55,13 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.End, 
-            BackgroundColor = Colors.Black,
+            BackgroundColor = Colors.Transparent,
         };
         
         m_topToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.Start, 
-            BackgroundColor = Colors.Black,
+            BackgroundColor = Colors.Transparent,
         };
 
         PreviewView = new PreviewView();
@@ -86,18 +96,27 @@ public partial class CameraPreview : ContentView
     /// <param name="frameHeight"></param>
     internal void SetToolbarHeights(float frameHeight)
     {
-        var actualPreviewHeight = (Width / ThreeFourRatio);
-        var letterBoxHeight = (frameHeight - actualPreviewHeight) / 2;
-
-        m_topToolbarContainer.HeightRequest = letterBoxHeight;
-        m_bottomToolbarContainer.HeightRequest = letterBoxHeight;
+        if (m_hasSetToolbarHeights)
+        {
+            return;
+        }
         
+        var actualPreviewHeight = (Width / ThreeFourRatio);
+        var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
+
+        // Looks like the top toolbar is about 25% of the total letterbox height looking at android/ios' native camera app
+        m_topToolbarContainer.HeightRequest = totalLetterBoxHeight * TopToolbarPercentHeightOfLetterBox;
+        m_bottomToolbarContainer.HeightRequest = totalLetterBoxHeight * BottomToolbarPercentHeightOfLetterBox;
+
         CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2) + m_bottomToolbarContainer.HeightRequest);
+        PreviewView.TranslationY -= m_topToolbarContainer.HeightRequest;
+        
+        m_hasSetToolbarHeights = true;
     }
     
     internal void AddFocusIndicator(float percentX, float percentY)
     {
-        m_grid.Remove(m_indicator);
+        m_grid.Remove(m_indicatorWrapper);
         
         m_indicator = new Border
         {
@@ -107,38 +126,50 @@ public partial class CameraPreview : ContentView
             StrokeThickness = 2,
             StrokeShape = new Ellipse(),
             Stroke = Colors.White,
-            VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Center,
             Opacity = .75f,
             Scale = .75f,
             InputTransparent = true
         };
 
-        var borderToRemove = m_indicator;
+        m_indicatorWrapper = new Grid
+        {
+            Children = { m_indicator },
+            InputTransparent = true,
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Start
+        };
+        
+        var viewToRemove = m_indicatorWrapper;
+        var borderToRemoveAnimate = m_indicator;
 
-        m_indicator.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
-        m_indicator.TranslationY = percentY * PreviewView.Height;
+        m_indicatorWrapper.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
+        m_indicatorWrapper.TranslationY = percentY * PreviewView.Height;
 
 #if __IOS__
-        m_indicator.TranslationY -= m_indicator.HeightRequest / 2;
+        m_indicatorWrapper.TranslationY -= (m_indicator.HeightRequest / 2) - PreviewView.TranslationY;
 #else
-        m_indicator.TranslationY -= m_indicator.HeightRequest / 1.5f;
+        m_indicatorWrapper.TranslationY -= m_indicator.HeightRequest / 1.25f;
 #endif
-
+        
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
         m_indicator.FadeTo(1);
         
-        m_grid.Add(m_indicator);
+        m_grid.Add(m_indicatorWrapper);
 
         Task.Run(async () =>
         {
             await Task.Delay(2000);
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                _ = borderToRemove.ScaleTo(.75f);
-                await borderToRemove.FadeTo(0);
-                m_grid.Remove(borderToRemove);
-                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(borderToRemove);
+                if (borderToRemoveAnimate is not null)
+                {
+                    _ = borderToRemoveAnimate.ScaleTo(.75f);
+                    await borderToRemoveAnimate.FadeTo(0);
+                }
+                m_grid.Remove(viewToRemove);
+                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(viewToRemove);
             });
         });
     }
@@ -177,8 +208,13 @@ public partial class CameraPreview : ContentView
         new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
     }
     
-    internal void AddViewToRoot(View view, int index = -1)
+    internal void AddViewToRoot(View view, int index = -1, bool usePreviewViewTranslation = false)
     {
+        if (usePreviewViewTranslation)
+        {
+            view.TranslationY = PreviewView.TranslationY;
+        }
+        
         if (index == -1)
         {
             m_grid.Add(view);

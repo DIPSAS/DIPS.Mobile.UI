@@ -66,8 +66,10 @@ public partial class VetlePage
     {
         base.OnAppearing();
 
-        await Task.Delay(4000);
-        
+        await Task.Delay(1000);
+
+        /*Button.IsVisible = true;*/
+
         /*
         ToolbarItems.Add(new ContextMenuToolbarItem()
         {

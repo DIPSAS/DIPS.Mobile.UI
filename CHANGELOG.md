@@ -1,3 +1,28 @@
+## [37.3.8]
+- [ImageCapture][Android] Fixed an issue where on some devices you could not rotate images because 'Thumbnail' was null.
+
+## [37.3.7]
+- [ListItem] Fixed an issue where the visibility of `Subtitle` were not updated when the `Subtitle` were set at a later point.
+
+## [37.3.6]
+- [ImageCapture][Android] Fixed an issue where the tap to focus indicator were not animated
+- [ImageCapture][iOS] Fixed an issue where the tap to focus indicator were not placed correctly
+
+## [37.3.5]
+- [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
+
+## [37.3.4] 
+- [ImageCapture][Android] Fixed an issue where the rotated image would have wrong translation in either X or Y direction, when in edit mode.
+
+## [37.3.3] 
+- [Button][iOS] Fixed an edge-case where some buttons did not get rounded corners.
+
+## [37.3.2] 
+- [ImageCapture] Fixed toolbar height on smaller devices.
+
+## [37.3.1] 
+- [ImageCapture][iOS] Fixed close button on thumbnail
+
 ## [37.3.0] 
 - [ImageCapture][Gallery] Can now rotate images after capturing the photo. Both in gallery and in the actual capturing component.
 - [ImageCapture] Controls will now rotate with the device.

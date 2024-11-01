@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet.ObserverInterfaces;
 using DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet.TopToolbar;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -31,6 +32,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     private readonly Button m_navigatePreviousImageButton;
     private readonly Button m_navigateNextImageButton;
     private CarouselView? m_carouselView;
+    private readonly ContentView m_carouselViewWrapperView = new();
     private CancellationTokenSource m_cancellationTokenSource = new();
     private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
@@ -45,6 +47,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     
     private double? m_startingImageWidth;
     private double m_startingImageHeight;
+    private bool m_hasSetToolbarHeights;
 
     public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action updateImages)
     {
@@ -66,12 +69,12 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         
         m_topToolbar = new GalleryBottomSheetTopToolbar(() => new CapturedImageInfoBottomSheet(Images[m_carouselView?.Position ?? 0]).Open(), GoToEditState)
         {
-            VerticalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Start
         };
 
         m_bottomToolbar = new GalleryBottomSheetBottomToolbar
         {
-            VerticalOptions = LayoutOptions.End, 
+            VerticalOptions = LayoutOptions.End
         };
         m_bottomToolbar.GoToDefaultState(this);
         
@@ -135,6 +138,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         {
             Source = ImageSource.FromStream(() => new MemoryStream(m_currentlyRotatedCaptureImageDisplayed.AsByteArray))
         };
+
+        m_currentlyRotatedImageDisplayed.TranslationY -= m_topToolbar.HeightRequest;
 
         m_currentlyRotatedImageDisplayed.SizeChanged += delegate
         {
@@ -241,7 +246,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
 
     private static Image CreateImageView()
     {
-        var image = new Image();
+        var image = new Image { VerticalOptions = LayoutOptions.Center };
         image.SetBinding(Image.SourceProperty, new Binding(".", converter: new ByteArrayToImageSourceConverter()));
         return image;
     }
@@ -262,7 +267,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
             m_carouselView.PositionChanged -= CarouselViewOnPositionChanged;
             try
             {
-                m_grid.Remove(m_carouselView);
+                m_grid.Remove(m_carouselViewWrapperView);
                 m_carouselView.Handler?.DisconnectHandler();
             }
             catch
@@ -278,8 +283,30 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
             Position = m_positionBeforeRemoval ?? m_startingIndex, 
             ItemsSource = Images.Select(i => i.AsByteArray)
         };
+        m_carouselViewWrapperView.Content = m_carouselView;
+        
+        m_carouselView.SizeChanged += delegate
+        {
+            if (m_hasSetToolbarHeights)
+            {
+                return;
+            }
+            
+            var actualImageHeight = m_carouselView.Width / CameraPreview.ThreeFourRatio;
+            var letterBoxHeight = m_carouselView.Height - actualImageHeight;
+
+            m_topToolbar.HeightRequest = letterBoxHeight * CameraPreview.TopToolbarPercentHeightOfLetterBox;
+            m_bottomToolbar.HeightRequest = letterBoxHeight * CameraPreview.BottomToolbarPercentHeightOfLetterBox;
+            
+            m_carouselViewWrapperView.TranslationY -= m_topToolbar.HeightRequest;
+            m_navigatePreviousImageButton.TranslationY -= m_topToolbar.HeightRequest;
+            m_navigateNextImageButton.TranslationY -= m_topToolbar.HeightRequest;
+
+            m_hasSetToolbarHeights = true;
+        };
+        
         m_carouselView.PositionChanged += CarouselViewOnPositionChanged;
-        m_grid.Insert(0, m_carouselView);
+        m_grid.Insert(0, m_carouselViewWrapperView);
     }
 
     private void OnStartingIndexChanged()
@@ -292,7 +319,6 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
     protected override void OnOpened()
     {
-
         if (Handler is BottomSheetHandler handler)
         {
             m_statusAndNavigationBarColors = handler.Context.SetStatusAndNavigationBarColor(BackgroundColor);

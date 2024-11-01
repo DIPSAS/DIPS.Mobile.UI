@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
+using Microsoft.Maui.Controls.Shapes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -47,36 +48,38 @@ internal class ImageThumbnailView : Grid
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.size_2));
         
-        var closeButton = new Button
+        var closeButton = new Border
         {
-            ImageSource = Icons.GetIcon(IconName.close_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
+            StrokeShape = new Ellipse(),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_60),
-            BorderWidth = 1,
-#if __IOS__
-            Padding = 0,
-#endif
-            BorderColor = Colors.GetColor(ColorName.color_system_white),
+            StrokeThickness = 1,
+            Stroke = Colors.GetColor(ColorName.color_system_white),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
-            CornerRadius = 10,
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
 #if __IOS__
             Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0),
 #endif
-            Command = new Command(async () =>
+            Content = new Image
             {
-                var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(DUILocalizedStrings.RemoveImageTitle,
-                    DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
-                
-                if(dialogResult == DialogAction.Closed)
-                    return;
-                
-                m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);
-            })
+                TintColor = Colors.GetColor(ColorName.color_system_white),
+                Source = Icons.GetIcon(IconName.close_line)
+            },
+            Padding = Sizes.GetSize(SizeName.size_1)
         };
+
+        Touch.SetCommand(closeButton, new Command(async () =>
+        {
+            var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(
+                DUILocalizedStrings.RemoveImageTitle,
+                DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
+
+            if (dialogResult == DialogAction.Closed)
+                return;
+
+            m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);
+        }));
         
         Add(image);
         Add(closeButton);

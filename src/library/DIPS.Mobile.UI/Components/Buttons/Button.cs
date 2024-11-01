@@ -1,6 +1,4 @@
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.Styles.Button;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Buttons
 {
@@ -14,12 +12,21 @@ namespace DIPS.Mobile.UI.Components.Buttons
             HorizontalOptions = LayoutOptions.Center;
         }
 
+        /// <summary>
+        /// This method is overriden to try replicating the CornerRadius of a RoundRectangle if the button is not an icon button (Or if the consumer has not set the CornerRadius themselves)
+        /// <br /><br/>
+        /// We can't specify a CornerRadius in the Style for text buttons, because the CornerRadius is relative to the Width/Height of a text button
+        /// <br /><br/>
+        /// If the user increases the font-size to for example 200% (Which increases the button's Width/Height), the CornerRadius value should also increase to match a RoundRectangle
+        /// </summary>
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
 
-            // If the CornerRadius has not been set by consumer, set it so it replicates a RoundRectangle
-            if(CornerRadius == -1)
+            if (CornerRadius != -1)
+                return;
+
+            if(!(Height == 0 || Width == 0))
                 CornerRadius = (int)(Math.Min(Width, Height) / 2);
         }
 

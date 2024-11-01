@@ -14,16 +14,11 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    <Grid>
-        <dui:Button Command="{Binding CheckCommand}" />
-
-    <VerticalStackLayout >
+    
+    <Grid RowDefinitions="*, Auto">
         
-        <dui:Button ImageSource="{dui:Icons comment_line}"
-                    Style="{dui:Styles Button=PrimaryIconButtonSmall}"
-                    Padding="0"/>
+       <dui:ListItem Title="{Binding TestObject2}"/>
         
-        <dui:Button Text="Lol" />
 
-    </VerticalStackLayout>
+    </Grid>
 </dui:ContentPage>
