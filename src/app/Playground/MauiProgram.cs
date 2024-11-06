@@ -15,7 +15,7 @@ public static class MauiProgram
             .UseDIPSUI(options =>
             {
                 options.SetContextMenuItemClickedCallback(OnContextMenuItemClicked);
-                options.EnableAutomaticMemoryLeakResolving();
+                /*options.EnableAutomaticMemoryLeakResolving();*/
             });
         
         builder.ConfigureFonts(fonts =>

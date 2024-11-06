@@ -91,11 +91,11 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIView>
         base.DisconnectHandler(platformView);
 
         m_scrollPickerViewModel.Dispose();
+        m_scrollPickerViewModel.OnAnySelectedIndexesChanged -= SetChipTitle;
+        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= SetChipTitle;
         m_scrollPickerViewModel = null!;
         m_chip.Command = null;
         m_scrollPickerViewController = null;
-        m_scrollPickerViewModel.OnAnySelectedIndexesChanged -= SetChipTitle;
-        m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= SetChipTitle;
     }
 
 }
@@ -125,6 +125,13 @@ internal class DUIPickerViewModel : UIPickerViewModel
     {
         DUILogService.LogDebug<ScrollPickerHandler>($"Select: row:{row}, component:{component}");
         ScrollPickerViewModel.SelectedRowInComponent((int)row, (int)component);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        ScrollPickerViewModel = null!;
     }
 }
 
@@ -320,6 +327,10 @@ internal class ScrollPickerViewController : UIViewController
         
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= OnAnyComponentsDataInvalidated;
         
+        View?.ClearSubviews();
+        
+        m_uiPicker.Model.Dispose();
+        m_uiPicker.Dispose();
         m_uiPicker = null!;
         m_uiButton = null!;
         m_clearButton = null!;

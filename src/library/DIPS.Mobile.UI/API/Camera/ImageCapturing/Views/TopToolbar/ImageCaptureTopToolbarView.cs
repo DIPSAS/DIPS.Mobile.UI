@@ -16,7 +16,6 @@ internal class ImageCaptureTopToolbarView : Grid
     private readonly ImageCaptureSettings m_imageCaptureSettings;
     private readonly Button m_doneButton;
     private readonly HorizontalStackLayout m_upperLeftColumn;
-    private readonly VisualTreeMemoryResolver m_visualTreeMemoryResolver;
     
     private Button? m_settingsButton;
     private Button? m_infoButton;
@@ -30,8 +29,6 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         m_imageCaptureSettings = imageCaptureSettings;
 
-        m_visualTreeMemoryResolver = new VisualTreeMemoryResolver();
-        
         m_doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
@@ -152,7 +149,7 @@ internal class ImageCaptureTopToolbarView : Grid
                 continue;
             
             m_upperLeftColumn.Remove(viewToRemove);
-            m_visualTreeMemoryResolver.TryResolveMemoryLeakCascading(viewToRemove);
+            viewToRemove.DisconnectHandlers();
         }
     }
 

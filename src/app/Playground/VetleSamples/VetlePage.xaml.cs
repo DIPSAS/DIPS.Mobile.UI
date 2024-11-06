@@ -153,4 +153,9 @@ public partial class VetlePage
         Microsoft.Maui.Controls.Shell.Current.Items.RemoveAt(0);
         Microsoft.Maui.Controls.Shell.Current.Items.Add(tabBar);
     }
+
+    private void VisualElement_OnSizeChanged(object sender, EventArgs e)
+    {
+        
+    }
 }

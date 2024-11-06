@@ -70,7 +70,6 @@
     <ItemGroup>
         <PackageReference Include="BitMiracle.LibTiff.NET" />
         <PackageReference Include="Microsoft.Maui.Controls" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
         <PackageReference Include="Newtonsoft.Json"  />
         <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />

@@ -71,7 +71,7 @@ internal static class PresentationControllerPositioningHelper
                         navBarHeight = navigationController!.NavigationBar.Frame.Height;
                     }
 
-                    return (float)(r.Request.Height + bottomSheet.Padding.Bottom + bottomSheet.Padding.Top +
+                    return (float)(r.Height + bottomSheet.Padding.Bottom + bottomSheet.Padding.Top +
                                    navBarHeight);
                 });
         }

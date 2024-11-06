@@ -15,7 +15,7 @@ internal class ImageCaptureBottomToolbarView : Grid
 
     public void GoToConfirmState(IConfirmStateObserver confirmStateObserver)
     {
-        ResolveMemoryLeak(() =>
+        DisconnectHandlers(() =>
         {
             Add(new ConfirmStateView(confirmStateObserver));
         });
@@ -23,7 +23,7 @@ internal class ImageCaptureBottomToolbarView : Grid
 
     public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
-        ResolveMemoryLeak(() =>
+        DisconnectHandlers(() =>
         {
             Add(new StreamingStateView(streamingStateObserver));
         });
@@ -31,13 +31,13 @@ internal class ImageCaptureBottomToolbarView : Grid
 
     public void GoToEditState(IImageEditStateObserver imageEditStateObserver)
     {
-        ResolveMemoryLeak(() =>
+        DisconnectHandlers(() =>
         {
             Add(new EditStateBottomView(imageEditStateObserver));
         });
     }
     
-    private void ResolveMemoryLeak(Action beforeResolve)
+    private void DisconnectHandlers(Action beforeResolve)
     {
         var childrenThatWillBeRemoved = Children.ToList();
         Clear();
@@ -46,7 +46,7 @@ internal class ImageCaptureBottomToolbarView : Grid
         
         foreach (var view in childrenThatWillBeRemoved)
         {
-            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(view);
+            view.DisconnectHandlers();
         }
     }
 

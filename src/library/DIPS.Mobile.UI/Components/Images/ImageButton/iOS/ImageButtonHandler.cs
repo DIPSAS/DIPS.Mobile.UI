@@ -17,13 +17,14 @@ public partial class ImageButtonHandler
 
     private partial void AppendPropertyMapper()
     {
-        PropertyMapper.Add(nameof(ImageButton.Source), MapOverrideSource);
+        /*PropertyMapper.Add(nameof(ImageButton.Source), MapOverrideSource);*/
     }
 
     private async void MapOverrideSource(ImageButtonHandler handler, ImageButton imageButton)
     {
         await handler.SourceLoader.UpdateImageSourceAsync();
         TrySetTintColor(handler, imageButton);
+        
     }
 
     private static async partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
@@ -48,5 +49,4 @@ public partial class ImageButtonHandler
         if (handler.PlatformView is UIButtonWithExtraTappableArea uiButton)
             uiButton.AdditionalHitBoxSize = imageButton.AdditionalHitBoxSize;
     }
-
 }

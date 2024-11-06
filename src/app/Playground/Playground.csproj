@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
+        <TargetFrameworks>net9.0-ios;net9.0-android;</TargetFrameworks>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>Playground</RootNamespace>
@@ -41,14 +41,20 @@
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
+        <CreatePackage>false</CreatePackage>
+        <CodesignProvision>Automatic</CodesignProvision>
+        <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
+    
     <!-- Android -->
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <DocumentationFile>bin\Release\DIPS.Mobile.UI.xml</DocumentationFile>
     </PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
         <Compile Update="Resources\LocalizedStrings\LocalizedStrings\DUILocalizedStrings.Designer.cs">
@@ -59,12 +65,12 @@
     </ItemGroup>
 
     <!-- iOS -->
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-ios')) != true">
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Equals('net8.0')) != true">
+    <ItemGroup Condition="$(TargetFramework.Equals('net9.0')) != true">
         <Compile Remove="**\dotnet\**\*.cs" />
         <None Include="**\dotnet\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
@@ -76,7 +82,6 @@
     
     <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     </ItemGroup>
     

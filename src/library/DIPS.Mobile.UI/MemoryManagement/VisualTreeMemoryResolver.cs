@@ -4,6 +4,7 @@ internal class VisualTreeMemoryResolver
 {
     private Action<object>? m_additionalResolver;
 
+    [Obsolete("Use DisconnectHandlers() instead")]
     internal void TryResolveMemoryLeakCascading(object? target)
     {
         if(target is null)
@@ -20,6 +21,7 @@ internal class VisualTreeMemoryResolver
         TryResolveMemoryLeak(target);
     }
     
+    [Obsolete("Use DisconnectHandler() instead")]
     internal void TryResolveMemoryLeak(object target)
     {
         try

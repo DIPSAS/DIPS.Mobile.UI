@@ -15,10 +15,13 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <Grid RowDefinitions="*, Auto">
-        
-       <dui:ListItem Title="{Binding TestObject2}"/>
-        
+    <dui:HorizontalStackLayout
+          BackgroundColor="Red"
+          dui:Layout.CornerRadius="{dui:Sizes size_4}">
+        <dui:Label Text="ssssssss"></dui:Label>
+        <dui:Label Text="ssssssss"></dui:Label>
+        <dui:Label Text="ssssssss"></dui:Label>
 
-    </Grid>
+    </dui:HorizontalStackLayout>
+
 </dui:ContentPage>

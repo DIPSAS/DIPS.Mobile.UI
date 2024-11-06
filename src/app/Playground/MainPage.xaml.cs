@@ -60,4 +60,14 @@ public partial class MainPage
 
         await Shell.Current.GoToAsync($"//root1", true);
     }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            
+        }
+    }
 }
