@@ -18,10 +18,7 @@
     <dui:HorizontalStackLayout
           BackgroundColor="Red"
           dui:Layout.CornerRadius="{dui:Sizes size_4}">
-        <dui:Label Text="ssssssss"></dui:Label>
-        <dui:Label Text="ssssssss"></dui:Label>
-        <dui:Label Text="ssssssss"></dui:Label>
-
+        <dui:CarouselView></dui:CarouselView>
     </dui:HorizontalStackLayout>
 
 </dui:ContentPage>

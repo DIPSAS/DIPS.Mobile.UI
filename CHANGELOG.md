@@ -1,3 +1,6 @@
+## [38.0.0]
+- Upgraded to .NET 9.
+
 ## [37.3.8]
 - [ImageCapture][Android] Fixed an issue where on some devices you could not rotate images because 'Thumbnail' was null.
 

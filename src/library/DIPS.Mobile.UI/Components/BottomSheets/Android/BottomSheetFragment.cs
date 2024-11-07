@@ -131,11 +131,11 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
         {
             base.OnDestroy();
             
-            _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(m_bottomSheet.ToCollectionContentTarget());
             
             m_bottomSheet.SendClose();
             BottomSheetService.RemoveFromStack(m_bottomSheet);
-            m_bottomSheet.Handler?.DisconnectHandler();
+            m_bottomSheet.DisconnectHandlers();
+            _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(m_bottomSheet.ToCollectionContentTarget());
 
             foreach (var inputView in m_attachedInputViews)
             {

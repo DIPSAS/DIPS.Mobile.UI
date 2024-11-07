@@ -8,13 +8,13 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.Streaming
 internal partial class ShutterButton
 {
     private bool m_isCancelled;
-    private Rect m_motionRect;
+    private View? m_nativeView;
 
     private partial void AddPlatformGestureRecognizer()
     {
-        var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
-        nativeView.Touch -= OnTappedShutterButton;
-        nativeView.Touch += OnTappedShutterButton;
+        m_nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
+        m_nativeView.Touch -= OnTappedShutterButton;
+        m_nativeView.Touch += OnTappedShutterButton;
     }
 
     private void OnTappedShutterButton(object? sender, Android.Views.View.TouchEventArgs e)
@@ -26,7 +26,6 @@ internal partial class ShutterButton
         {
             case MotionEventActions.Down:
                 m_isCancelled = false;
-                m_motionRect = new Rect(view.Left, view.Top, view.Top, view.Bottom);
                 m_shutterContentWhiteOverlay.ScaleTo(.85f, 150);
                 break;
             case MotionEventActions.Up:
@@ -53,7 +52,9 @@ internal partial class ShutterButton
 
     public partial void Dispose()
     {
-        var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
-        nativeView.Touch -= OnTappedShutterButton;
+        if (m_nativeView is not null)
+        {
+            m_nativeView.Touch -= OnTappedShutterButton;
+        }
     }
 }

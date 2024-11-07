@@ -252,7 +252,7 @@ public partial class CameraPreview : ContentView
         {
 #if __ANDROID__
             // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
-            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_grid);
+            m_grid.DisconnectHandlers();
 #endif
             if (m_cameraUseCase.TryGetTarget(out var target))
             {

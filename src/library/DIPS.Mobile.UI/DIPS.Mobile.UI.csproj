@@ -146,11 +146,18 @@
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+       <!-- <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" />
+        
+        
+        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" />
+        -->
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
+        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" />
         <PackageReference Include="Xamarin.AndroidX.Camera.View" />
         <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" />
-        <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" />
-        <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" />
     </ItemGroup>
 
     <ItemGroup>

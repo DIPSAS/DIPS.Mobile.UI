@@ -34,8 +34,6 @@ public partial class NavigationListItem : ListItem
 
     protected override void OnHandlerChanged()
     {
-        base.OnHandlerChanged();
-
         if (InLineContent is null)
         {
             AddInLineContent();

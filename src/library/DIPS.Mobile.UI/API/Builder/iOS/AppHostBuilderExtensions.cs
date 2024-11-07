@@ -2,7 +2,9 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Layout;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.Selection.iOS;
+using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Maui.LifecycleEvents;
+using CarouselView = DIPS.Mobile.UI.Components.CarouselView.CarouselView;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -16,6 +18,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
         handlers.AddHandler<Switch, SwitchHandler>();
+        handlers.AddHandler<CarouselView, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)
