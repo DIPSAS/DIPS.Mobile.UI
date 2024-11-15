@@ -180,6 +180,12 @@ this file is generated
 ["counter_clockwise_fill"] = "counter_clockwise_fill.png",
 ["clockwise_fill"] = "clockwise_fill.png",
 ["node_tree"] = "node_tree.png",
+["calendar_line"] = "calendar_line.png",
+["patient_fill"] = "patient_fill.png",
+["calendar_fill"] = "calendar_fill.png",
+["tab_more_fill"] = "tab_more_fill.png",
+["task_fill"] = "task_fill.png",
+["tab_more_line"] = "tab_more_line.png",
 
             };
         }
