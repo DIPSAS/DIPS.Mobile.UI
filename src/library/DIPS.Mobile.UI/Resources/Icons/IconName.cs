@@ -351,5 +351,17 @@ counter_clockwise_fill=171,
 clockwise_fill=172,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/node_tree.svg">View the icon in the browser</a></summary>
 node_tree=173,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/calendar_line.svg">View the icon in the browser</a></summary>
+calendar_line=174,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/patient_fill.svg">View the icon in the browser</a></summary>
+patient_fill=175,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/calendar_fill.svg">View the icon in the browser</a></summary>
+calendar_fill=176,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/tab_more_fill.svg">View the icon in the browser</a></summary>
+tab_more_fill=177,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/task_fill.svg">View the icon in the browser</a></summary>
+task_fill=178,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/tab_more_line.svg">View the icon in the browser</a></summary>
+tab_more_line=179,
     }
 }

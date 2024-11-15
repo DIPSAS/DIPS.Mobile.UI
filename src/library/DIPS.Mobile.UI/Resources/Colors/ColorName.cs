@@ -55,5 +55,9 @@ color_primary_60=43,
 color_secondary_60=44,
 color_attention_extralight=45,
 color_tertiary_70=46,
+color_primary_30=47,
+color_primary_40=48,
+color_secondary_40=49,
+color_tertiary_50=50,
     }
 }

@@ -1,3 +1,6 @@
+## [37.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [37.3.8]
 - [ImageCapture][Android] Fixed an issue where on some devices you could not rotate images because 'Thumbnail' was null.
 

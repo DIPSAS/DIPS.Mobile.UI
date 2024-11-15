@@ -56,6 +56,10 @@ this file is generated
 ["color_secondary_60"] = Color.FromArgb("#ff34c5c5"),
 ["color_attention_extralight"] = Color.FromArgb("#fffff9db"),
 ["color_tertiary_70"] = Color.FromArgb("#fff3583d"),
+["color_primary_30"] = Color.FromArgb("#ffc0cff0"),
+["color_primary_40"] = Color.FromArgb("#ff8da9e4"),
+["color_secondary_40"] = Color.FromArgb("#ff9aeded"),
+["color_tertiary_50"] = Color.FromArgb("#fff9a698"),
 
             };
         }
