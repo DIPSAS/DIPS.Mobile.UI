@@ -309,7 +309,7 @@ public partial class ListItem : ContentView
     {
         base.OnHandlerChanging(args);
 
-        if (args.NewHandler is not null)
+        if (args.NewHandler is not null && TitleAndLabelGrid.Children.Count == 0)
         {
             AddTitle();
             AddSubtitle();
