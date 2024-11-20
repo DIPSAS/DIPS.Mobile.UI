@@ -5,7 +5,17 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes;
 
 public partial class FilledCheckBox
 {
-    public float IsNotCheckedOpacity { get; set; } = .25f;
+    public static readonly BindableProperty IsNotCheckedOpacityProperty = BindableProperty.Create(
+        nameof(IsNotCheckedOpacity),
+        typeof(float),
+        typeof(FilledCheckBox),
+        defaultValue: .25f);
+
+    public float IsNotCheckedOpacity
+    {
+        get => (float)GetValue(IsNotCheckedOpacityProperty);
+        set => SetValue(IsNotCheckedOpacityProperty, value);
+    }
     
     /// <summary>
     ///     Sets the background color of the checkbox when it's unchecked
