@@ -1,3 +1,6 @@
+## [37.4.1] 
+- [SaveView] You can now change the opacity of the non-checked animation
+
 ## [37.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

@@ -4,7 +4,15 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 
 public partial class SaveView
 {
-    public float IsNotCheckedOpacity { get; set; } = 0;
+
+    /// <summary>
+    /// The opacity of the <see cref="SaveView"/> when it is not checked
+    /// </summary>
+    public float IsNotCheckedOpacity
+    {
+        get => (float)GetValue(IsNotCheckedOpacityProperty);
+        set => SetValue(IsNotCheckedOpacityProperty, value);
+    }
     
     /// <summary>
     /// Determines whether the <see cref="SaveView"/> is currently saving or not
@@ -68,6 +76,11 @@ public partial class SaveView
         get => (object?)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
+    
+    public static readonly BindableProperty IsNotCheckedOpacityProperty = BindableProperty.Create(
+        nameof(IsNotCheckedOpacity),
+        typeof(float),
+        typeof(SaveView));
     
     public static readonly BindableProperty IsSavingProperty = BindableProperty.Create(
         nameof(IsSaving),
