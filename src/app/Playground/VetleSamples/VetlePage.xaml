@@ -17,8 +17,10 @@
     
     <Grid RowDefinitions="*, Auto">
         
-       <dui:ListItem Title="{Binding TestObject2}"/>
+       <dui:ListItem Title="{Binding TestObject2}" />
         
+       <dui:SaveView Grid.Row="1"/>
+       
 
     </Grid>
 </dui:ContentPage>
