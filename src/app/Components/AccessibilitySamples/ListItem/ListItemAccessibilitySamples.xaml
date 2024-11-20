@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.AccessibilitySamples.ListItem.ListItemAccessibilitySamples"
+                 x:Name="This">
+
+    <dui:VerticalStackLayout>
+
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+                      VerticalOptions="Start">
+
+            <dui:Label Text="Inline" />
+
+        </dui:ListItem>
+
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+                      VerticalOptions="Start">
+
+            <dui:Label Text="Inline"></dui:Label>
+
+            <dui:ListItem.UnderlyingContent>
+
+                <dui:Label Text="Underlying" />
+
+            </dui:ListItem.UnderlyingContent>
+
+        </dui:ListItem>
+
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+                                VerticalOptions="Start"
+                                Tapped="ListItem_OnTapped">
+
+            <dui:Label Text="Inline"></dui:Label>
+
+            <dui:ListItem.UnderlyingContent>
+
+                <dui:Label Text="Underlying" />
+
+            </dui:ListItem.UnderlyingContent>
+
+        </dui:NavigationListItem>
+
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>

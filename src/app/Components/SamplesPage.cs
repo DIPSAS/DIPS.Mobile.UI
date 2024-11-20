@@ -13,6 +13,7 @@ namespace Components
             {
                 SampleType.Components => LocalizedStrings.Components,
                 SampleType.Resources => LocalizedStrings.Resources,
+                SampleType.Accessibility => "Accessibility",
                 _ => "Unknown"
             };
             Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()

@@ -330,4 +330,7 @@
     <data name="PhotoCapturing" xml:space="preserve">
         <value>Photo capturing</value>
     </data>
+    <data name="ListItemAccessibilityTitle1" xml:space="preserve">
+        <value>This is a test</value>
+    </data>
 </root>

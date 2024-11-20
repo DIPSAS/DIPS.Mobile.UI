@@ -668,5 +668,11 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("PhotoCapturing", resourceCulture);
             }
         }
+        
+        internal static string ListItemAccessibilityTitle1 {
+            get {
+                return ResourceManager.GetString("ListItemAccessibilityTitle1", resourceCulture);
+            }
+        }
     }
 }

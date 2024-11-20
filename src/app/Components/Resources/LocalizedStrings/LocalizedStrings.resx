@@ -335,4 +335,7 @@
     <data name="PhotoCapturing" xml:space="preserve">
         <value>Ta bilder</value>
     </data>
+    <data name="ListItemAccessibilityTitle1" xml:space="preserve">
+        <value>Dette er en test</value>
+    </data>
 </root>

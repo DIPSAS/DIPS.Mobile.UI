@@ -1,3 +1,4 @@
+using Components.AccessibilitySamples.ListItem;
 using Components.ComponentsSamples.Alerting;
 using Components.ComponentsSamples.BarcodeScanning;
 using Components.ComponentsSamples.BottomSheets;
@@ -53,6 +54,8 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningSample()),
             new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCaptureSample(), true),
             new(SampleType.Components, "Tip", () => new TipSamples()),
+            new(SampleType.Accessibility, "ListItem", () => new ListItemAccessibilitySamples()),
+
 
             
 
