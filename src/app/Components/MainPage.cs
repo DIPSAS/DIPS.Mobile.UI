@@ -52,6 +52,7 @@ public class NavigateToSamplesItem : NavigationListItem
             {
                 SampleType.Components => LocalizedStrings.Components,
                 SampleType.Resources => LocalizedStrings.Resources,
+                SampleType.Accessibility => "Accessibility",
                 _ => "Unknown"
             };
         }
