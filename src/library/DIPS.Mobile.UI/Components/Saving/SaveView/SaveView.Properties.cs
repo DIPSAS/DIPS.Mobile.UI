@@ -4,6 +4,8 @@ namespace DIPS.Mobile.UI.Components.Saving.SaveView;
 
 public partial class SaveView
 {
+    public float IsNotCheckedOpacity { get; set; } = 0;
+    
     /// <summary>
     /// Determines whether the <see cref="SaveView"/> is currently saving or not
     /// </summary>

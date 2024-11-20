@@ -15,7 +15,7 @@ public partial class SaveView : ContentView
 
     public SaveView()
     {
-        m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center, IsNotCheckedOpacity = 0};
+        m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center, IsNotCheckedOpacity = IsNotCheckedOpacity};
 
         m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
             new Binding(nameof(IsSavingCompleted), source: this));
