@@ -40,17 +40,25 @@ public static partial class DialogService
         string? cancelButtonTitle = null,
         bool isDestructiveDialog = false)
     {
-        RemovePreviousDialog();
-
         var taskCompletionSource = new TaskCompletionSource<DialogAction>();
-        var alertDialog = new AlertDialog(title, 
-            message, 
-            actionButtonTitle,
-            cancelButtonTitle,
-            () => taskCompletionSource.TrySetResult(DialogAction.TappedAction),
-            () => taskCompletionSource.TrySetResult(DialogAction.Closed), 
-            isDestructiveDialog);
-        alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
+        
+        try
+        {
+            RemovePreviousDialog();
+
+            var alertDialog = new AlertDialog(title,
+                message,
+                actionButtonTitle,
+                cancelButtonTitle,
+                () => taskCompletionSource.TrySetResult(DialogAction.TappedAction),
+                () => taskCompletionSource.TrySetResult(DialogAction.Closed),
+                isDestructiveDialog);
+            alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
+        }
+        catch
+        {
+            taskCompletionSource.TrySetResult(DialogAction.Closed);
+        }
 
         return taskCompletionSource.Task;
     }
