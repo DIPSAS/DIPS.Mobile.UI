@@ -1,7 +1,10 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Alerting.Dialog.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using Java.Lang;
 using Microsoft.Maui.Platform;
+using Exception = System.Exception;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
@@ -41,7 +44,7 @@ public static partial class DialogService
         bool isDestructiveDialog = false)
     {
         var taskCompletionSource = new TaskCompletionSource<DialogAction>();
-        
+
         try
         {
             RemovePreviousDialog();
@@ -55,9 +58,15 @@ public static partial class DialogService
                 isDestructiveDialog);
             alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
         }
-        catch
+        catch (IllegalStateException)
         {
             taskCompletionSource.TrySetResult(DialogAction.Closed);
+        }
+        catch(Exception e)
+        {
+            DUILogService.LogError<AlertDialog>(e.Message);
+            taskCompletionSource.TrySetResult(DialogAction.Closed);
+            throw;
         }
 
         return taskCompletionSource.Task;
