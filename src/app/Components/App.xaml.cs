@@ -44,9 +44,9 @@ public partial class App : Application
 
     private async Task<bool> TryGetLatestVersion()
     {
-/*#if DEBUG
+#if DEBUG
         return true;
-#endif*/
+#endif
         
         var release = await m_appCenterService.GetLatestVersion();
         if (release != null)
