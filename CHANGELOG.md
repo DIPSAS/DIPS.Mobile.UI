@@ -1,3 +1,6 @@
+## [37.4.3] 
+- [Android] Fix crash when trying to remove dialog while app minimized.
+
 ## [37.4.2] 
 - [Android] Fix crash when trying to display dialog while app minimized.
 
