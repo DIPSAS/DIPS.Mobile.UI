@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;

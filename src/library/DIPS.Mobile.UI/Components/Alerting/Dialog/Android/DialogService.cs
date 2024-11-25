@@ -1,7 +1,10 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Alerting.Dialog.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using Java.Lang;
 using Microsoft.Maui.Platform;
+using Exception = System.Exception;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
@@ -40,17 +43,31 @@ public static partial class DialogService
         string? cancelButtonTitle = null,
         bool isDestructiveDialog = false)
     {
-        RemovePreviousDialog();
-
         var taskCompletionSource = new TaskCompletionSource<DialogAction>();
-        var alertDialog = new AlertDialog(title, 
-            message, 
-            actionButtonTitle,
-            cancelButtonTitle,
-            () => taskCompletionSource.TrySetResult(DialogAction.TappedAction),
-            () => taskCompletionSource.TrySetResult(DialogAction.Closed), 
-            isDestructiveDialog);
-        alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
+
+        try
+        {
+            RemovePreviousDialog();
+
+            var alertDialog = new AlertDialog(title,
+                message,
+                actionButtonTitle,
+                cancelButtonTitle,
+                () => taskCompletionSource.TrySetResult(DialogAction.TappedAction),
+                () => taskCompletionSource.TrySetResult(DialogAction.Closed),
+                isDestructiveDialog);
+            alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
+        }
+        catch (IllegalStateException)
+        {
+            taskCompletionSource.TrySetResult(DialogAction.Closed);
+        }
+        catch(Exception e)
+        {
+            DUILogService.LogError<AlertDialog>(e.Message);
+            taskCompletionSource.TrySetResult(DialogAction.Closed);
+            throw;
+        }
 
         return taskCompletionSource.Task;
     }
