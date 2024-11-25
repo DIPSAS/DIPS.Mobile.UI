@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 public static partial class DialogService
 {
     private const string DialogTag = "MessageAlertTag";
-    
+
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
     {
         return Show(title, message, actionTitle);
@@ -32,7 +32,20 @@ public static partial class DialogService
 
     public static partial Task Remove()
     {
-        RemovePreviousDialog();
+        try
+        {
+            RemovePreviousDialog();
+        }
+        catch (IllegalStateException)
+        {
+            // ignored
+        }
+        catch (Exception e)
+        {
+            DUILogService.LogError<AlertDialog>(e.Message);
+            throw;
+        }
+
         return Task.CompletedTask;
     }
 
@@ -62,7 +75,7 @@ public static partial class DialogService
         {
             taskCompletionSource.TrySetResult(DialogAction.Closed);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             DUILogService.LogError<AlertDialog>(e.Message);
             taskCompletionSource.TrySetResult(DialogAction.Closed);
@@ -77,7 +90,7 @@ public static partial class DialogService
         var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
         var previous = fragmentManager!.FindFragmentByTag(DialogTag);
         if (previous is AlertDialog alertDialog)
-        {   
+        {
             alertDialog.Dismiss();
         }
     }
