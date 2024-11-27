@@ -24,7 +24,7 @@ public partial class App : Application
         tab.Items.Add(new ShellContent()
         {
             ContentTemplate =
-                new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components}.OrderBy(s => s.ToString()),
+                new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components, SampleType.Accessibility}.OrderBy(s => s.ToString()),
                     REGISTER_YOUR_SAMPLES_HERE.RegisterSamples()))
         });
         tabBar.Items.Add(tab);

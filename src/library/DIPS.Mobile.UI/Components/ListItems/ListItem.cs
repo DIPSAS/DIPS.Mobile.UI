@@ -1,9 +1,9 @@
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems.Options;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -63,7 +63,7 @@ public partial class ListItem : ContentView
 
     public ListItem()
     {
-        ((ContentView)this).BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        ((ContentView)this).BackgroundColor = Colors.Transparent;
         
         OuterBorder.StrokeShape = new RoundRectangle 
         { 
@@ -82,6 +82,18 @@ public partial class ListItem : ContentView
         RootGrid.Add(OuterBorder);
         
         this.Content = RootGrid;
+        
+        AutomationProperties.SetExcludedWithChildren(ContainerGrid, true);
+        
+        ContainerGrid.ChildAdded += ChildModified;
+        TitleAndLabelGrid.ChildAdded += ChildModified;
+        TitleAndLabelGrid.ChildRemoved += ChildModified;
+        ContainerGrid.ChildRemoved += ChildModified;
+    }
+
+    private void ChildModified(object? sender, ElementEventArgs e)
+    {
+        TraverseTree();
     }
 
     private void BindBorder()
@@ -108,6 +120,40 @@ public partial class ListItem : ContentView
         AddSubtitle();
         
         AddTouch();
+    }
+
+    private void TraverseTree()
+    {
+        List<string> semanticDescriptions = [];
+        foreach (var visualTreeElement in ContainerGrid.GetVisualTreeDescendants())
+        {
+            if (visualTreeElement is not View view)
+                return;
+
+            var semanticDescription = SemanticProperties.GetDescription(view);
+            if (string.IsNullOrEmpty(semanticDescription))
+            {
+                if (view is Microsoft.Maui.Controls.Label label)
+                {
+                    semanticDescription = label.Text;
+                }
+            }
+
+            if(!string.IsNullOrEmpty(semanticDescription))
+                semanticDescriptions.Add(semanticDescription);
+        }
+        
+        UpdateSemanticDescription(semanticDescriptions);
+    }
+
+    private void UpdateSemanticDescription(List<string> strings)
+    {
+        if (IsTouchEnabled)
+        {
+            strings.Add(DUILocalizedStrings.Button);
+        }
+
+        SemanticProperties.SetDescription(OuterBorder, string.Join(", ", strings));
     }
     
     private void AddTitle()
@@ -233,8 +279,10 @@ public partial class ListItem : ContentView
         SetTouchIsEnabled();
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
+    private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsTouchEnabled);
 
+    private bool IsTouchEnabled => IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null);
+    
     private void BindToOptions(ListItemOptions? options) => options?.Bind(this);
 
     private void AddContextMenu()
@@ -329,5 +377,10 @@ public partial class ListItem : ContentView
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+        
+        ContainerGrid.ChildAdded -= ChildModified;
+        TitleAndLabelGrid.ChildAdded -= ChildModified;
+        TitleAndLabelGrid.ChildRemoved -= ChildModified;
+        ContainerGrid.ChildRemoved -= ChildModified;
     }
 }
