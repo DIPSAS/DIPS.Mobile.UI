@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -14,6 +15,8 @@ public partial class VetlePage
 
         
     }
+    
+    
 
     protected override void OnBindingContextChanged()
     {
@@ -67,6 +70,10 @@ public partial class VetlePage
         base.OnAppearing();
 
         await Task.Delay(1000);
+        
+        _ = DialogService.ShowMessage("Hei", "This will disappear in 5 seconds.", "OK");
+        await Task.Delay(5000);
+        DialogService.Remove();
 
         /*Button.IsVisible = true;*/
 
@@ -152,5 +159,11 @@ public partial class VetlePage
         tabBar.Items.Add(tab);
         Microsoft.Maui.Controls.Shell.Current.Items.RemoveAt(0);
         Microsoft.Maui.Controls.Shell.Current.Items.Add(tabBar);
+    }
+
+    private async void ListItem_OnTapped(object sender, EventArgs e)
+    {
+        await Task.Delay(2000);
+        DialogService.ShowMessage("Hllo", "Hello", "OK");
     }
 }

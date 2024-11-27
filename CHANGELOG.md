@@ -1,3 +1,12 @@
+## [37.4.3] 
+- [Android] Fix crash when trying to remove dialog while app minimized.
+
+## [37.4.2] 
+- [Android] Fix crash when trying to display dialog while app minimized.
+
+## [37.4.1] 
+- [SaveView] You can now change the opacity of the non-checked animation
+
 ## [37.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
