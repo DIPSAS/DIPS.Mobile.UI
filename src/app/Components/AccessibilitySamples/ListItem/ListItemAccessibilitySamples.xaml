@@ -4,40 +4,87 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:listItem="clr-namespace:Components.AccessibilitySamples.ListItem"
                  x:Class="Components.AccessibilitySamples.ListItem.ListItemAccessibilitySamples"
-                 x:Name="This">
+                 x:DataType="{x:Type listItem:ListItemAccessibilitySamples}"
+                 x:Name="This"
+                 Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}">
 
-    <dui:VerticalStackLayout>
-
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+    <dui:ContentPage.Resources>
+        <Style TargetType="{x:Type dui:Entry}">
+            <Setter Property="HasBorder"
+                    Value="True" />
+            <Setter Property="AutomationProperties.IsInAccessibleTree"
+                    Value="False" />
+            <Setter Property="FontFamily"
+                    Value="UI" />
+        </Style>
+        
+        <Style TargetType="{x:Type dui:ListItem}">
+            <Setter Property="CornerRadius"
+                    Value="{dui:Sizes size_2}" />
+        </Style>
+        
+    </dui:ContentPage.Resources>
+    
+    <dui:VerticalStackLayout Spacing="0">
+        
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.ChooseValues}"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Bottom=size_1, Left=size_1}" />
+        
+        <dui:Entry Text="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+                   x:Name="ListItemTitle"/>
+        
+        <dui:Entry Text="Inline"
+                   x:Name="ListItemInline"/>
+        
+        <dui:Entry Text="Underlying"
+                   x:Name="ListItemUnderlying"/>
+        
+        
+        <dui:Label Text="Testcase 1"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Bottom=size_1, Left=size_1, Top=size_10}" />
+        
+        <dui:ListItem Title="{Binding Source={x:Reference ListItemTitle}, Path=Text}"
                       VerticalOptions="Start">
 
-            <dui:Label Text="Inline" />
+            <dui:Label Text="{Binding Source={x:Reference ListItemInline}, Path=Text}" />
 
         </dui:ListItem>
-
-        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+        
+        
+        <dui:Label Text="Testcase 2"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Bottom=size_1, Left=size_1, Top=size_10}" />
+        
+        <dui:ListItem Title="{Binding Source={x:Reference ListItemTitle}, Path=Text}"
                       VerticalOptions="Start">
 
-            <dui:Label Text="Inline"></dui:Label>
+            <dui:Label Text="{Binding Source={x:Reference ListItemInline}, Path=Text}" />
 
             <dui:ListItem.UnderlyingContent>
 
-                <dui:Label Text="Underlying" />
+                <dui:Label Text="{Binding Source={x:Reference ListItemUnderlying}, Path=Text}" />
 
             </dui:ListItem.UnderlyingContent>
 
         </dui:ListItem>
 
-        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ListItemAccessibilityTitle1}"
+        <dui:Label Text="Testcase 3"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Bottom=size_1, Left=size_1, Top=size_10}" />
+        
+        <dui:NavigationListItem Title="{Binding Source={x:Reference ListItemTitle}, Path=Text}"
                                 VerticalOptions="Start"
                                 Tapped="ListItem_OnTapped">
 
-            <dui:Label Text="Inline"></dui:Label>
+            <dui:Label Text="{Binding Source={x:Reference ListItemInline}, Path=Text}" />
 
             <dui:ListItem.UnderlyingContent>
 
-                <dui:Label Text="Underlying" />
+                <dui:Label Text="{Binding Source={x:Reference ListItemUnderlying}, Path=Text}" />
 
             </dui:ListItem.UnderlyingContent>
 

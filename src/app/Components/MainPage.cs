@@ -1,6 +1,7 @@
 using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace Components;
@@ -52,7 +53,7 @@ public class NavigateToSamplesItem : NavigationListItem
             {
                 SampleType.Components => LocalizedStrings.Components,
                 SampleType.Resources => LocalizedStrings.Resources,
-                SampleType.Accessibility => "Accessibility",
+                SampleType.Accessibility => LocalizedStrings.Accessibility,
                 _ => "Unknown"
             };
         }

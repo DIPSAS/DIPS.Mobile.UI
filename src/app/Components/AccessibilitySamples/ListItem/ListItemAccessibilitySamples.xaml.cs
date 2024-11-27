@@ -14,8 +14,7 @@ public partial class ListItemAccessibilitySamples
     {
         InitializeComponent();
 
-
-        
+        BindingContext = this;
     }
 
     public ICommand Test { get; }
