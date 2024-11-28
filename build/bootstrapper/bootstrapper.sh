@@ -33,13 +33,11 @@ then
       echo "✅ .NET MAUI was found."
    else
       echo "Will install MAUI."
-      sudo dotnet workload install maui
-      echo "✅ .NET MAUI was installed."
       sudo dotnet workload install maui-android maui-ios
       echo "✅ .NET MAUI was installed."
       echo "Will make sure we install correct sdk from sdk-version.json."
       sudo dotnet workload install ios --from-rollback-file sdk-versions.json
-      echo "✅ iOS was installed."
+      echo "✅ iOS SDK was pinned."
       sudo dotnet workload list
    fi
 fi
