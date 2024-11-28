@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
@@ -15,10 +16,23 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <dui:HorizontalStackLayout
-          BackgroundColor="Red"
-          dui:Layout.CornerRadius="{dui:Sizes size_4}">
-        <dui:CarouselView></dui:CarouselView>
-    </dui:HorizontalStackLayout>
+    <CollectionView>
+        
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>First</x:String>
+                <x:String>Second</x:String>
+                <x:String>Third</x:String>
+            </x:Array>
+        </CollectionView.ItemsSource>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type system:String}">
+                <dui:Label SizeChanged="VisualElement_OnSizeChanged"
+                           Text="Hello"></dui:Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
 
 </dui:ContentPage>

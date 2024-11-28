@@ -156,6 +156,7 @@ public partial class VetlePage
 
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
-        
+        DisplayAlert("Size Changed", "The size of the element has changed", "OK");    
     }
+    
 }

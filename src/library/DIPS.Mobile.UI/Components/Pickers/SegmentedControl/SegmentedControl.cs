@@ -1,38 +1,36 @@
 using DIPS.Mobile.UI.API.Vibration;
-using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
+using CollectionView = Microsoft.Maui.Controls.CollectionView;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
-using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
 using Touch = DIPS.Mobile.UI.Effects.Touch.Touch;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 
 [ContentProperty(nameof(ItemsSource))]
 public partial class SegmentedControl : ContentView
 {
-    private readonly HorizontalStackLayout m_collectionView;
+    private readonly CollectionView m_collectionView;
     private List<SelectableItemViewModel> m_allSelectableItems = new();
 
 
     public SegmentedControl()
     {
-        m_collectionView = new HorizontalStackLayout()
+        m_collectionView = new Components.Lists.CollectionView()
         {
-            AutomationId = "VerticalStackLayout".ToDUIAutomationId<SegmentedControl>(),
+            AutomationId = "CollectionView".ToDUIAutomationId<SegmentedControl>(),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
-            Spacing = 0,
+            ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal) {ItemSpacing = 0},
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Never
         };
-        
-        
+        m_collectionView.ItemTemplate = new DataTemplate(CreateSegment);
 
         Content = m_collectionView;
     }
@@ -93,18 +91,14 @@ public partial class SegmentedControl : ContentView
         horizontalStackLayout.Add(checkedImage);
         horizontalStackLayout.Add(label);
         border.Content = horizontalStackLayout;
-        border.SizeChanged += (async (sender, _) =>
+        border.SizeChanged += ((sender, _) =>
         {
             if (sender is not View view) return;
 
-            /*if (m_collectionView.HeightRequest == -1)
+            if (m_collectionView.HeightRequest == -1)
             {
-                while (view.Height == -1)
-                {
-                    await Task.Delay(1);
-                }
                 m_collectionView.HeightRequest = view.Height;
-            }*/
+            }
             
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
@@ -178,7 +172,6 @@ public partial class SegmentedControl : ContentView
 
 
         m_allSelectableItems = listOfSelectableItems;
-        BindableLayout.SetItemsSource(m_collectionView, m_allSelectableItems);
-        BindableLayout.SetItemTemplate(m_collectionView, new DataTemplate(CreateSegment));
+        m_collectionView.ItemsSource = m_allSelectableItems;
     }
 }
