@@ -51,7 +51,7 @@ public static partial class DialogService
     
     public static partial bool IsShowing()
     {
-        return TryGetAlertDialog(out var _);
+        return TryGetAlertDialog(out _);
 
     }
 
