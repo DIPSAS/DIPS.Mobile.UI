@@ -44,6 +44,12 @@ public static partial class DialogService
     ///     Removes the currently showing alert.
     /// </summary>
     public static partial Task Remove();
+    
+    /// <summary>
+    /// Determines if any dialog is showing.
+    /// </summary>
+    /// <returns>true/false depending on if its showing.</returns>
+    public static partial bool IsShowing();
 }
 
 /// <summary>

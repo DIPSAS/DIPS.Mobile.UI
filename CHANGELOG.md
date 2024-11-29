@@ -1,3 +1,6 @@
+## [37.5.0] 
+- [DialogService] You can now determine if the dialog service is showing a dialog.
+
 ## [37.4.3] 
 - [Android] Fix crash when trying to remove dialog while app minimized.
 

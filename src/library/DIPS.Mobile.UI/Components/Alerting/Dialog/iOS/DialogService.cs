@@ -30,12 +30,30 @@ public static partial class DialogService
 
     public async static partial Task Remove()
     {
-        if (Window.RootViewController?.PresentedViewController is not null)
+        if (TryGetUiAlertViewController(out var viewController))
         {
-            await Window.RootViewController?.PresentedViewController?.DismissViewControllerAsync(false)!;
+            await viewController?.DismissViewControllerAsync(false)!;
             Window.Hidden = true;
             m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
         }
+    }
+
+    internal static bool TryGetUiAlertViewController(out UIViewController? viewController)
+    {
+        viewController = null;
+        if (Window.RootViewController?.PresentedViewController is null)
+        {
+            return false;
+        }
+
+        viewController = Window.RootViewController;
+        return true;
+
+    }
+    
+    public static partial bool IsShowing()
+    {
+        return TryGetUiAlertViewController(out _);
     }
 
     private async static Task<DialogAction> Show(
