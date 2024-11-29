@@ -37,6 +37,11 @@ public static partial class DialogService
             m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
         }
     }
+    
+    public static partial bool IsShowing()
+    {
+        return Window.RootViewController?.PresentedViewController is not null;
+    }
 
     private async static Task<DialogAction> Show(
         string title,

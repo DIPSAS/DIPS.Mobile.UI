@@ -48,6 +48,27 @@ public static partial class DialogService
 
         return Task.CompletedTask;
     }
+    
+    public static partial bool IsShowing()
+    {
+        return TryGetAlertDialog(out var _);
+
+    }
+
+    internal static bool TryGetAlertDialog(out AlertDialog? alertDialog)
+    {
+        var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
+        var previous = fragmentManager!.FindFragmentByTag(DialogTag);
+        alertDialog = null;
+        if (previous is not AlertDialog theDialog)
+        {
+            return false;
+        }
+
+        alertDialog = theDialog;
+        return true;
+
+    }
 
     private static Task<DialogAction> Show(
         string title,
@@ -87,11 +108,9 @@ public static partial class DialogService
 
     private static void RemovePreviousDialog()
     {
-        var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
-        var previous = fragmentManager!.FindFragmentByTag(DialogTag);
-        if (previous is AlertDialog alertDialog)
+        if (TryGetAlertDialog(out var alertDialog))
         {
-            alertDialog.Dismiss();
+            alertDialog?.Dismiss();
         }
     }
 }
