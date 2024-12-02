@@ -65,6 +65,8 @@ public partial class LoadableListItem : ListItem
     
     protected override void OnHandlerChanged()
     {
+        base.OnHandlerChanged();
+        
         m_cachedCommand = Command;
         m_cachedCommandParameter = CommandParameter;
 
