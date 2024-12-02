@@ -62,12 +62,16 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
     private void RemoveTextUntilNotTruncated()
     {
         var modifiedOriginalText = GetTextFromLabel();
-        while (true)
-        {
-            modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
 
-            if (!CheckIfTruncated(modifiedOriginalText + m_label.TruncatedText))
-                break;
+        if (!string.IsNullOrEmpty(modifiedOriginalText))
+        {
+            while (true)
+            {
+                modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
+
+                if (!CheckIfTruncated(modifiedOriginalText + m_label.TruncatedText))
+                    break;
+            }
         }
         
         m_label.FormattedText = new FormattedString { Spans =
