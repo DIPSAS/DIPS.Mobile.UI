@@ -1,3 +1,6 @@
+## [38.0.1]
+- Use xCode 16.1
+
 ## [38.0.0]
 - Upgraded to .NET 9.
 

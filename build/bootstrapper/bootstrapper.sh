@@ -7,12 +7,12 @@ if ! type sw_vers &> /dev/null; then
   echo "🪟 You are probably running on Windows"
 elif sw_vers -productname | grep -q 'macOS'; then
   echo "✅ You are running on  software."
-  if sudo xcode-select -p | grep -q '15.4'; then
-     echo "✅ You are running on Xcode 15.4"
+  if sudo xcode-select -p | grep -q '16.1'; then
+     echo "✅ You are running on Xcode 16.1"
   else
-     echo "Trying to select Xcode 15.4"
-     sudo xcode-select -s /Applications/Xcode_15.4.app
-     echo "✅ You are now running on Xcode 15.4"
+     echo "Trying to select Xcode 16.1"
+     sudo xcode-select -s /Applications/Xcode_16.1.app
+     echo "✅ You are now running on Xcode 16.1"
   fi
 else
   echo "🐧 Is this a penguin I see in the distance?"
