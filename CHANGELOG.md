@@ -1,3 +1,6 @@
+## [38.0.2]
+- [Label][Android] Error handle when trying to set ellipsis text.
+
 ## [38.0.1]
 - Use xCode 16.1
 
