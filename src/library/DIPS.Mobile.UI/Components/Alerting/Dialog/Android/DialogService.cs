@@ -108,9 +108,11 @@ public static partial class DialogService
 
     private static void RemovePreviousDialog()
     {
-        if (TryGetAlertDialog(out var alertDialog))
+        var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
+        var previous = fragmentManager!.FindFragmentByTag(DialogTag);
+        if (previous is AlertDialog alertDialog)
         {
-            alertDialog?.Dismiss();
+            alertDialog.Dismiss();
         }
     }
 }

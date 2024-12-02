@@ -130,9 +130,10 @@ internal class ZoomButtons : HorizontalStackLayout
 
         if (args.NewHandler is not null)
             return;
-
+        
         DUI.OrientationChanged -= OrientationChanged;
         this.SizeChanged -= OnSizeChanged;
+        
     }
 }
 

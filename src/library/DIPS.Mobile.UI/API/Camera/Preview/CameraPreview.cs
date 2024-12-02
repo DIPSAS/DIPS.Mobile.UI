@@ -169,7 +169,7 @@ public partial class CameraPreview : ContentView
                     await borderToRemoveAnimate.FadeTo(0);
                 }
                 m_grid.Remove(viewToRemove);
-                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(viewToRemove);
+                viewToRemove.DisconnectHandlers();
             });
         });
     }
@@ -188,7 +188,7 @@ public partial class CameraPreview : ContentView
             return;
         
         m_topToolbarContainer.Remove(toolbarItems);
-        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
+        toolbarItems.DisconnectHandlers();
     }
 
     internal void AddBottomToolbarView(View? toolbarItems)
@@ -205,7 +205,7 @@ public partial class CameraPreview : ContentView
             return;
         
         m_bottomToolbarContainer.Remove(toolbarItems);
-        new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(toolbarItems);
+        toolbarItems.DisconnectHandlers();
     }
     
     internal void AddViewToRoot(View view, int index = -1, bool usePreviewViewTranslation = false)
@@ -232,7 +232,7 @@ public partial class CameraPreview : ContentView
         
         if (m_grid.Remove(view))
         {
-            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(view!);
+            view.DisconnectHandlers();
         }
     }
     
@@ -252,10 +252,11 @@ public partial class CameraPreview : ContentView
         {
 #if __ANDROID__
             // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
-            new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_grid);
+            m_grid.DisconnectHandlers();
 #endif
             if (m_cameraUseCase.TryGetTarget(out var target))
             {
+                CameraZoomView?.DisconnectHandlers();
                 var collectionContentTarget = target.ToCollectionContentTarget();
                 _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
                 target.StopAndDispose();
@@ -274,7 +275,7 @@ public partial class CameraPreview : ContentView
         {
             if (m_grid.Remove(m_indicator))
             {
-                new VisualTreeMemoryResolver().TryResolveMemoryLeakCascading(m_indicator);
+                m_indicator.DisconnectHandlers();
             }
         }
     }

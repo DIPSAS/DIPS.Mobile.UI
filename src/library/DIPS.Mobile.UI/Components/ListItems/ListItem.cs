@@ -63,7 +63,7 @@ public partial class ListItem : ContentView
 
     public ListItem()
     {
-        ((ContentView)this).BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
+        ((ContentView)this).BackgroundColor = Colors.Transparent;
         
         OuterBorder.StrokeShape = new RoundRectangle 
         { 
@@ -90,26 +90,16 @@ public partial class ListItem : ContentView
         OuterBorder.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
     }
 
-    protected override void OnPropertyChanged(string propertyName = null)
+    protected override void OnPropertyChanged(string? propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
 
-        if (propertyName.Equals(nameof(IsEnabled)))
+        if (propertyName?.Equals(nameof(IsEnabled)) ?? false)
         {
             SetTouchIsEnabled();
         }
     }
 
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-        
-        AddTitle();
-        AddSubtitle();
-        
-        AddTouch();
-    }
-    
     private void AddTitle()
     {
         TitleAndLabelGrid.Insert(0, TitleLabel);
@@ -319,8 +309,14 @@ public partial class ListItem : ContentView
     {
         base.OnHandlerChanging(args);
 
-        if (args.NewHandler is not null)
+        if (args.NewHandler is not null && TitleAndLabelGrid.Children.Count == 0)
+        {
+            AddTitle();
+            AddSubtitle();
+        
+            AddTouch();
             return;
+        }
 
         ParentChanged -= OnParentChanged;
         

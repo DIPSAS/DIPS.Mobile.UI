@@ -28,7 +28,7 @@
                                                HeightRequest="{dui:Sizes SizeName=size_25}"
                                                WidthRequest="{dui:Sizes SizeName=size_25}"
                                                x:Name="SkLottieView"
-                                               Loaded="VisualElement_OnLoaded" />
+                                               BindingContextChanged="VisualElement_OnBindingContextChanged"/>
                         <dui:Label Grid.Row="1"
                                    VerticalTextAlignment="Center"
                                    HorizontalOptions="Center"

@@ -133,9 +133,8 @@ public class BottomSheetViewController : UIViewController
 
         BottomSheet.NavigationController = null;
         
-        BottomSheet.Handler?.DisconnectHandler();
-
         _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(BottomSheet.ToCollectionContentTarget());
+        BottomSheet.DisconnectHandlers();
     }
 
     public void SetBackButtonVisibility()

@@ -34,7 +34,7 @@ public abstract class BaseNullableDatePicker : Grid
         
         Add(m_dateOrTimePicker);
         var size = m_dateOrTimePicker.Measure(int.MaxValue, int.MaxValue);
-        MinimumHeightRequest = size.Request.Height;
+        MinimumHeightRequest = size.Height;
         
         if (!IsDateOrTimeNull())
         {

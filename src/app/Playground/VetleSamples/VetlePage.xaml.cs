@@ -161,9 +161,9 @@ public partial class VetlePage
         Microsoft.Maui.Controls.Shell.Current.Items.Add(tabBar);
     }
 
-    private async void ListItem_OnTapped(object sender, EventArgs e)
+    private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
-        await Task.Delay(2000);
-        DialogService.ShowMessage("Hllo", "Hello", "OK");
+        DisplayAlert("Size Changed", "The size of the element has changed", "OK");    
     }
+    
 }

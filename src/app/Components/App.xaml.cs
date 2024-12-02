@@ -1,12 +1,9 @@
-﻿using Components.ComponentsSamples.BarcodeScanning;
-using Components.ComponentsSamples.ImageCapturing;
-using Components.ComponentsSamples.Pickers;
-using Components.Resources.LocalizedStrings;
+﻿using Components.Resources.LocalizedStrings;
 using Components.Services;
 
 namespace Components;
 
-public partial class App : Application
+public partial class App
 {
     private readonly AppCenterService m_appCenterService;
 
@@ -14,14 +11,19 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        var shell = new DIPS.Mobile.UI.Components.Shell.Shell()
+        m_appCenterService = new AppCenterService();
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var shell = new DIPS.Mobile.UI.Components.Shell.Shell
         {
             ShouldGarbageCollectPreviousPage = true
         };
         var tabBar = new TabBar();
         var tab = new Tab();
         
-        tab.Items.Add(new ShellContent()
+        tab.Items.Add(new ShellContent
         {
             ContentTemplate =
                 new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components}.OrderBy(s => s.ToString()),
@@ -29,9 +31,8 @@ public partial class App : Application
         });
         tabBar.Items.Add(tab);
         shell.Items.Add(tabBar);
-        MainPage = shell;
 
-        m_appCenterService = new AppCenterService();
+        return new Window(shell);
     }
 
     protected override void OnStart()

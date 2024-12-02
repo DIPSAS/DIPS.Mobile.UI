@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
+        <TargetFrameworks>net9.0-android;net9.0-ios;</TargetFrameworks>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>MemoryLeakTests</RootNamespace>
@@ -20,8 +20,8 @@
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
         
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     </PropertyGroup>
@@ -47,15 +47,14 @@
     <ItemGroup>
         <PackageReference Include="LightInject" />
         <PackageReference Include="Microsoft.Maui.Controls" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     </ItemGroup>
 
     <!-- Android -->
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
     </PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-android')) != true">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
         <Compile Update="Components\Loading\SkeletonView.xaml.cs">
@@ -70,7 +69,7 @@
     </ItemGroup>
 
     <!-- iOS -->
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-ios')) != true">
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>

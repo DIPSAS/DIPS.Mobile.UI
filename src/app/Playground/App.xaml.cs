@@ -13,6 +13,11 @@ public partial class App : Application
     {
         InitializeComponent();
 
+        
+    }
+
+    protected override Window CreateWindow(IActivationState activationState)
+    {
         var shell = new Shell();
         var tabBar = new TabBar();
         var tab = new Tab();
@@ -24,10 +29,8 @@ public partial class App : Application
         });
         tabBar.Items.Add(tab);
         shell.Items.Add(tabBar);
-#if DEBUG
-        shell.ShouldGarbageCollectPreviousPage = true;
-#endif
-        MainPage = shell;
+
+        return new Window(shell);
     }
 
     protected override void OnStart()

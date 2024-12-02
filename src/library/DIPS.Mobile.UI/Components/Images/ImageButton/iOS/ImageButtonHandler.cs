@@ -17,9 +17,12 @@ public partial class ImageButtonHandler
 
     private partial void AppendPropertyMapper()
     {
-        PropertyMapper.Add(nameof(ImageButton.Source), MapOverrideSource);
+        
     }
 
+    /// <summary>
+    /// TODO: I think this can be removed, it causes memory leak
+    /// </summary>
     private async void MapOverrideSource(ImageButtonHandler handler, ImageButton imageButton)
     {
         await handler.SourceLoader.UpdateImageSourceAsync();
@@ -48,5 +51,4 @@ public partial class ImageButtonHandler
         if (handler.PlatformView is UIButtonWithExtraTappableArea uiButton)
             uiButton.AdditionalHitBoxSize = imageButton.AdditionalHitBoxSize;
     }
-
 }

@@ -71,7 +71,7 @@ public partial class AnimationsSamples
     });
 
 
-    private void VisualElement_OnLoaded(object? sender, EventArgs e)
+    private void VisualElement_OnBindingContextChanged(object? sender, EventArgs e)
     {
         if (sender is SKLottieView skLottieView)
         {

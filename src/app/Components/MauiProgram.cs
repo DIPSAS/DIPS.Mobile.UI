@@ -12,10 +12,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI(options =>
-            {
-                options.EnableAutomaticMemoryLeakResolving();
-            });
+            .UseDIPSUI();
         
         builder.ConfigureFonts(fonts =>
         {

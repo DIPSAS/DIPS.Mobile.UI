@@ -19,7 +19,7 @@ public static class dotnet
     //https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-8.0
     public static Task PackiOS(string projectPath, string outputDir, string applicationDisplayVersion)
     {
-        return Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationDisplayVersion} -o {outputDir}");
+        return Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net9.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationDisplayVersion} -o {outputDir}");
     }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-8.0
@@ -27,7 +27,7 @@ public static class dotnet
     {
         ResolveSigningInformation(out var androidSignKeyStoreFile, out var androidSignKeyAlias, out var androidSigningKeyPass);
 
-        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net8.0-android -c Release -p:AndroidPackageFormats=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
+        await Command.ExecuteAsync("dotnet", $"publish {projectPath} -f net9.0-android -c Release -p:AndroidPackageFormats=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore={androidSignKeyStoreFile} -p:AndroidSigningKeyAlias={androidSignKeyAlias} -p:AndroidSigningKeyPass={androidSigningKeyPass} -p:AndroidSigningStorePass={androidSigningKeyPass} -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir}");
 
 
         File.Delete(Path.Combine(outputDir, "com.dipsas.mobile.components.apk"));

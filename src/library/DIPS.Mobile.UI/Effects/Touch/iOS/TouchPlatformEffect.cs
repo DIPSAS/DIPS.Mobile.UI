@@ -54,6 +54,9 @@ public partial class TouchPlatformEffect
 
     protected override partial void OnDetached()
     {
+        if(Control is null)
+            return;
+        
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             if (Control.GestureRecognizers != null && m_tapGestureRecognizer is not null)
