@@ -17,14 +17,16 @@ public partial class ImageButtonHandler
 
     private partial void AppendPropertyMapper()
     {
-        /*PropertyMapper.Add(nameof(ImageButton.Source), MapOverrideSource);*/
+        
     }
 
+    /// <summary>
+    /// TODO: I think this can be removed, it causes memory leak
+    /// </summary>
     private async void MapOverrideSource(ImageButtonHandler handler, ImageButton imageButton)
     {
         await handler.SourceLoader.UpdateImageSourceAsync();
         TrySetTintColor(handler, imageButton);
-        
     }
 
     private static async partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
