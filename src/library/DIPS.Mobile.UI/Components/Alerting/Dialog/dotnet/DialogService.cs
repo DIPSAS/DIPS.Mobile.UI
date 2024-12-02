@@ -24,5 +24,10 @@ public static partial class DialogService
     {
         return Task.FromResult(DialogAction.TappedAction);
     }
+    
+    public static partial bool IsShowing()
+    {
+        return false;
+    }
 
 }
