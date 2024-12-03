@@ -58,7 +58,7 @@ public partial class AlertView : Border
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.UI200), TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
-        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this, mode: BindingMode.OneTime);
+        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
 
         grid.Add(titleLabel, 1);
 
@@ -69,7 +69,7 @@ public partial class AlertView : Border
             TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
         
-        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this, mode: BindingMode.OneTime);
+        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
 
         grid.Add(descriptionLabel, 1, 1);
         
