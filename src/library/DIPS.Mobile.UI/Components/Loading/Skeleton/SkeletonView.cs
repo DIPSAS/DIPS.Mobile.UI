@@ -121,10 +121,10 @@ public partial class SkeletonView : ContentView
             Margin = new Thickness(shape.Margin),
         };
         
-        box.SetBinding(BoxView.CornerRadiusProperty, new Binding(nameof(SkeletonShape.CornerRadius), source:shape));
-        box.SetBinding(BoxView.HeightRequestProperty, new Binding(nameof(SkeletonShape.Height), source:shape));
-        box.SetBinding(BoxView.WidthRequestProperty, new Binding(nameof(SkeletonShape.Width), source:shape));
-        box.SetBinding(BoxView.ColorProperty, new Binding(nameof(SkeletonColor), source:this));
+        box.SetBinding(BoxView.CornerRadiusProperty, static (SkeletonShape skeletonShape) => skeletonShape.CornerRadius, source: shape);
+        box.SetBinding(HeightRequestProperty, static (SkeletonShape skeletonShape) => skeletonShape.Height, source: shape);
+        box.SetBinding(WidthRequestProperty, static (SkeletonShape skeletonShape) => skeletonShape.Width, source: shape);
+        box.SetBinding(BoxView.ColorProperty, static (SkeletonView skeletonView) => skeletonView.SkeletonColor, source: this);
 
         Grid.SetRow(box, shape.Row);
         Grid.SetColumn(box, shape.Column);
@@ -137,16 +137,16 @@ public partial class SkeletonView : ContentView
     private void StartAnimation()
     {
         StopAnimation();
-        var animation = new Microsoft.Maui.Controls.Animation
+        var animation = new Animation
         {
             {
-                0.0, 0.5, new Microsoft.Maui.Controls.Animation(a =>
+                0.0, 0.5, new Animation(a =>
                 {
                     foreach (var box in m_skeletons) box.Scale = a;
                 }, 0.99, 1.01, Easing.BounceOut)
             },
             {
-                0.5, 1.0, new Microsoft.Maui.Controls.Animation(a =>
+                0.5, 1.0, new Animation(a =>
                 {
                     foreach (var box in m_skeletons) box.Scale = a;
                 }, 1.01, 0.99, Easing.BounceOut)

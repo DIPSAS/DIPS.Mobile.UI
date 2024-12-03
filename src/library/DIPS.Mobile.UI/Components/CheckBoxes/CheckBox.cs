@@ -17,28 +17,25 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
 
         public CheckBox()
         {
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_2)); //TODO: Use DesignSystem
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_2));
             //Touch
             Touch.SetCommand(this, new Command(SetSelectedState));
 
             //Image
             m_selectedNativeIcon = new NativeIcon() {VerticalOptions = LayoutOptions.Center};
-            m_selectedNativeIcon.HeightRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
-            m_selectedNativeIcon.WidthRequest = UI.Resources.Sizes.Sizes.GetSize(SizeName.size_6);
+            m_selectedNativeIcon.HeightRequest = Sizes.GetSize(SizeName.size_6);
+            m_selectedNativeIcon.WidthRequest = Sizes.GetSize(SizeName.size_6);
             m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty,
                 (DeviceInfo.Platform == DevicePlatform.Android)
                     ? ColorName.color_primary_90
                     : ColorName.color_system_black);
-            m_selectedNativeIcon.Margin = new Thickness(UI.Resources.Sizes.Sizes.GetSize(SizeName.size_1));
+            m_selectedNativeIcon.Margin = new Thickness(Sizes.GetSize(SizeName.size_1));
 
             //Title label
             var itemLabel = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
-            itemLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding() {Source = this, Path = nameof(Text)});
+            itemLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (CheckBox checkbox) => checkbox.Text, source: this);
             
-            ColumnDefinitions = new ColumnDefinitionCollection()
-            {
-                new() {Width = GridLength.Auto}, new() {Width = GridLength.Star}
-            };
+            ColumnDefinitions = [new ColumnDefinition { Width = GridLength.Auto }, new ColumnDefinition { Width = GridLength.Star }];
             Children.Add(m_selectedNativeIcon);
             Children.Add(itemLabel);
             Grid.SetColumn(itemLabel, 1);

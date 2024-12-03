@@ -56,23 +56,10 @@ public partial class MultiItemsPicker : ContentView
         {
             Command = OpenCommand, Style = DIPS.Mobile.UI.Resources.Styles.Chip.EmptyInputStyle.Current
         };
-        placeHolder.SetBinding(Chip.TitleProperty,
-            new Binding() {Path = nameof(Placeholder), Source = this});
-        placeHolder.SetBinding(IsEnabledProperty, new Binding() {Path = nameof(IsEnabledProperty), Source = this});
-        placeHolder.SetBinding(OpacityProperty,
-            new Binding()
-            {
-                Path = nameof(Placeholder),
-                Source = this,
-                Converter = new IsEmptyToObjectConverter() {TrueObject = 0, FalseObject = 1}
-            });
-        placeHolder.SetBinding(Chip.IsCloseableProperty,
-            new Binding()
-            {
-                Path = nameof(Placeholder),
-                Source = this,
-                Converter = new IsEmptyToObjectConverter() {TrueObject = true, FalseObject = false}
-            });
+        placeHolder.SetBinding(Chip.TitleProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.Placeholder, source: this);
+        placeHolder.SetBinding(IsEnabledProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.IsEnabled, source: this);
+        placeHolder.SetBinding(OpacityProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.Placeholder, source: this, converter: new IsEmptyToObjectConverter() {TrueObject = 0, FalseObject = 1});
+        placeHolder.SetBinding(Chip.IsCloseableProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.Placeholder, source: this, converter: new IsEmptyToObjectConverter() {TrueObject = true, FalseObject = false});
 
         return placeHolder;
     }
@@ -88,7 +75,7 @@ public partial class MultiItemsPicker : ContentView
     {
         if (!BottomSheetService.IsOpen())
         {
-            BottomSheetService.Open(new MultiItemsPickerBottomSheet(this));
+            _ = BottomSheetService.Open(new MultiItemsPickerBottomSheet(this));
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.EirikSamples;
 using Playground.HåvardSamples;
@@ -19,9 +20,13 @@ public partial class MainPage
         
     }
 
-    private void GoToVetle(object sender, EventArgs e)
+    private async void GoToVetle(object sender, EventArgs e)
     {
-        Shell.Current.Navigation.PushAsync(new VetlePage());
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+        await Shell.Current.Navigation.PushAsync(new VetlePage());
+        stopWatch.Stop();
+        Console.WriteLine(stopWatch.ElapsedMilliseconds);
     }
 
     private void GoToHåvard(object sender, EventArgs e)

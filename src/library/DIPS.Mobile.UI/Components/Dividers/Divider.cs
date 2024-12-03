@@ -10,7 +10,7 @@ public class Divider : ContentView
         this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_neutral_20);
 
         var line = new Line(){ AutomationId = "Line".ToDUIAutomationId<Divider>()};
-        line.SetBinding(BackgroundProperty, new Binding(nameof(BackgroundColor), source: this));
+        line.SetBinding(BackgroundProperty, static (Divider divider) => divider.BackgroundColor, source: this);
         Content = line;
     }
 

@@ -52,41 +52,30 @@ public partial class SegmentedControl : ContentView
         };
         
         Touch.SetCommand(border, new Command(() => OnItemTouched((SelectableItemViewModel)border.BindingContext)));
-        border.SetBinding(BackgroundProperty,
-            new Binding()
-            {
-                Path = nameof(SelectableItemViewModel.IsSelected),
-                Converter = new BoolToObjectConverter()
-                {
-                    TrueObject = SelectedColor,
-                    FalseObject = DeSelectedColor
-                }
-            });
+        border.SetBinding(BackgroundProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
+        {
+            TrueObject = SelectedColor,
+            FalseObject = DeSelectedColor
+        });
         var horizontalStackLayout = new HorizontalStackLayout()
         {
             VerticalOptions = LayoutOptions.Center,
             Spacing = Sizes.GetSize(SizeName.size_1)
         };
-        horizontalStackLayout.SetBinding(PaddingProperty,
-            new Binding()
-            {
-                Path = nameof(SelectableItemViewModel.IsSelected),
-                Converter = new BoolToObjectConverter()
-                {
-                    TrueObject = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),
-                    FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.size_2))
-                }
-            });
+        horizontalStackLayout.SetBinding(PaddingProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
+        {
+            TrueObject = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),
+            FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.size_2))
+        });
         var checkedImage = new Image()
         {
             Source = Icons.GetIcon(IconName.check_line),
             WidthRequest = Sizes.GetSize(SizeName.size_3),
             HeightRequest = Sizes.GetSize(SizeName.size_3),
         };
-        checkedImage.SetBinding(IsVisibleProperty, new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
+        checkedImage.SetBinding(IsVisibleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
         var label = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
-        label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
+        label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
 
         horizontalStackLayout.Add(checkedImage);
         horizontalStackLayout.Add(label);

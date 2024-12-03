@@ -1,3 +1,6 @@
+## [38.1.0]
+- Converted all C# bindings to Compiled Bindings.
+
 ## [38.0.2]
 - [Label][Android] Error handle when trying to set ellipsis text.
 

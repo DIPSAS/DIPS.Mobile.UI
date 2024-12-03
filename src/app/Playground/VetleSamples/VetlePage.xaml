@@ -16,23 +16,77 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <CollectionView>
+    <dui:CollectionView>
         
-        <CollectionView.ItemsSource>
+        <dui:CollectionView.ItemsSource>
             <x:Array Type="{x:Type x:String}">
-                <x:String>First</x:String>
-                <x:String>Second</x:String>
-                <x:String>Third</x:String>
-            </x:Array>
-        </CollectionView.ItemsSource>
-        
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type system:String}">
-                <dui:Label SizeChanged="VisualElement_OnSizeChanged"
-                           Text="Hello"></dui:Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
+                <x:String>Test</x:String>
 
+            </x:Array>
+        </dui:CollectionView.ItemsSource>
+        
+        <dui:CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="{x:Type system:String}">
+            <dui:ListItem Title="{Binding .}"
+                          Subtitle="{Binding .}"
+                          Icon="{dui:Icons arrow_back_line}">
+                
+                <dui:ListItem.InLineContentOptions>
+                    <dui:InLineContentOptions Width="*" />
+                </dui:ListItem.InLineContentOptions>
+                
+                <dui:ListItem.TitleOptions>
+                    <dui:TitleOptions LineBreakMode="TailTruncation" />
+                </dui:ListItem.TitleOptions>
+                
+                <dui:Label Text="{Binding .}" />
+                
+                <dui:ListItem.UnderlyingContent>
+                    <dui:Label Text="{Binding .}" />
+                </dui:ListItem.UnderlyingContent>
+                
+            </dui:ListItem>
+        </DataTemplate>
+    </dui:CollectionView.ItemTemplate>
+
+    </dui:CollectionView>
 </dui:ContentPage>

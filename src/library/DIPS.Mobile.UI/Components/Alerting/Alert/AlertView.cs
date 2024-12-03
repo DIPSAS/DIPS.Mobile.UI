@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Buttons;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -46,19 +47,20 @@ public partial class AlertView : Border
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.End
         };
-        image.SetBinding(Image.TintColorProperty, new Binding(nameof(IconColor), source:this));
-        image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, new Binding(nameof(Icon), source: this));
+        
+        image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this, mode: BindingMode.OneTime);
+        image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (AlertView alertView) => alertView.Icon, source: this, mode: BindingMode.OneTime);
 
-        grid.Add(image, 0, 0);
+        grid.Add(image, 0);
 
         var titleLabel = new Label()
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.UI200), TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
-        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(Title), source: this));
+        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this, mode: BindingMode.OneTime);
 
-        grid.Add(titleLabel, 1, 0);
+        grid.Add(titleLabel, 1);
 
         var descriptionLabel = new Label()
         {
@@ -66,8 +68,8 @@ public partial class AlertView : Border
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
             TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
-        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding(nameof(Description), source: this));
+        
+        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this, mode: BindingMode.OneTime);
 
         grid.Add(descriptionLabel, 1, 1);
         
@@ -91,27 +93,25 @@ public partial class AlertView : Border
                 m_horizontalStackLayout.Clear();
             }
             
-            m_horizontalStackLayout.Add(CreateButton(nameof(LeftButtonText), nameof(LeftButtonCommand),nameof(LeftButtonCommandParameter), "LeftButton".ToDUIAutomationId<AlertView>()));
+            m_horizontalStackLayout.Add(CreateButton(LeftButtonText, LeftButtonCommand, LeftButtonCommandParameter, "LeftButton".ToDUIAutomationId<AlertView>()));
         }
 
         if (RightButtonCommand != null)
         {
-            m_horizontalStackLayout.Add(CreateButton(nameof(RightButtonText), nameof(RightButtonCommand),nameof(RightButtonCommandParameter), "RightButton".ToDUIAutomationId<AlertView>()));
+            m_horizontalStackLayout.Add(CreateButton(RightButtonText, RightButtonCommand, RightButtonCommandParameter, "RightButton".ToDUIAutomationId<AlertView>()));
         }
     }
 
-    private Button CreateButton(string buttonTextName, string buttonCommandName, string buttonCommandParameterName, string automationId)
+    private static Button CreateButton(string buttonText, ICommand buttonCommand, object buttonCommandParameter, string automationId)
     {
-        var button = new Button
+        return new Button
         {
             AutomationId = automationId,
             HorizontalOptions = LayoutOptions.Start,
             Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
+            Command = buttonCommand,
+            CommandParameter = buttonCommandParameter,
+            Text = buttonText
         };
-            
-        button.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(path:buttonTextName, source:this));
-        button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(path:buttonCommandName, source:this));
-        button.SetBinding(Microsoft.Maui.Controls.Button.CommandParameterProperty, new Binding(path:buttonCommandParameterName, source:this));
-        return button;
     }
 }

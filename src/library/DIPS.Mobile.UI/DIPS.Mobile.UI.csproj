@@ -12,6 +12,9 @@
         <Nullable>enable</Nullable>
         <RepositoryType>github</RepositoryType>
         <LangVersion>default</LangVersion>
+
+        <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">

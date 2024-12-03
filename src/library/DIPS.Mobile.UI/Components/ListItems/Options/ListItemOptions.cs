@@ -4,7 +4,7 @@ public abstract class ListItemOptions : BindableObject
 {
     public void Bind(ListItem listItem)
     {
-        SetBinding(BindingContextProperty, new Binding(source: listItem, path:nameof(BindingContext)));
+        this.SetBinding(BindingContextProperty, static (ListItem listItem) => listItem.BindingContext, source: listItem);
         DoBind(listItem);
     }
     
