@@ -1,3 +1,6 @@
+## [38.0.3]
+- [iOS][Layout] Fix crash.
+
 ## [38.0.2]
 - [Label][Android] Error handle when trying to set ellipsis text.
 
