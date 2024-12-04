@@ -6,7 +6,10 @@ public partial class LabelHandler
 {
     protected override MauiLabel CreatePlatformView()
     {
-        return new MauiLabel(VirtualView as Label);
+        return new MauiLabel
+        {
+            Label = (VirtualView as Label)!
+        };
     }
 
     private static partial void MapOverrideMaxLinesAndLineBreakMode(LabelHandler handler, Label label)

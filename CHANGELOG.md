@@ -1,3 +1,6 @@
+## [38.0.4]
+- [iOS][Label] Fix crash when Label gets GC'ed while displayed.
+
 ## [38.0.3]
 - [iOS][Layout] Fix crash.
 
