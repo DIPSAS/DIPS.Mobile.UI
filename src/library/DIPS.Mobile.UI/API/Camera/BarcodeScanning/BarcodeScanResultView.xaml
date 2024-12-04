@@ -21,31 +21,31 @@
              x:Name="This">
     <Grid Padding="{sizes:Sizes size_2}"
           RowDefinitions="Auto, Auto, *"
-          BindingContext="{Binding Source={x:Reference This}}">
+          BindingContext="{Binding Source={x:Reference This}, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}">
         <listitems:ListItem Grid.Row="0"
                             Title="RawValue"
                             HasBottomDivider="True">
 
-            <labels:Label Text="{Binding BarcodeScanResult.Barcode.RawValue}" />
+            <labels:Label Text="{Binding BarcodeScanResult.Barcode.RawValue, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}" />
         </listitems:ListItem>
         <listitems:ListItem Grid.Row="1"
                             Title="Format"
                             HasBottomDivider="True"
                             IsVisible="{OnPlatform iOS=true, Android=false}">
-            <labels:Label Text="{Binding BarcodeScanResult.Barcode.Format}" />
+            <labels:Label Text="{Binding BarcodeScanResult.Barcode.Format, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}" />
         </listitems:ListItem>
         <listitemsExtensions:NavigationListItem Grid.Row="1"
                                                 IsVisible="{OnPlatform Android=true, iOS=false}"
                                                 Title="Format"
                                                 HasBottomDivider="True"
                                                 Tapped="OnAndroidFormatTapped"
-                                                Subtitle="{Binding BarcodeScanResult.Barcode.Format}">
+                                                Subtitle="{Binding BarcodeScanResult.Barcode.Format, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}">
         </listitemsExtensions:NavigationListItem>
         <lists:CollectionView Grid.Row="2"
                               VerticalScrollBarVisibility="Never"
-                              ItemsSource="{Binding BarcodeScanResult.Observations}"
+                              ItemsSource="{Binding BarcodeScanResult.Observations, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}"
                               Header="."
-                              IsVisible="{Binding BarcodeScanResult.HasMultipleObservations}"
+                              IsVisible="{Binding BarcodeScanResult.HasMultipleObservations, x:DataType={x:Type barcodeScanning:BarcodeScanResultView}}"
                               Margin="{sizes:Thickness Top=size_5, Left=size_3}">
             <lists:CollectionView.HeaderTemplate>
                 <DataTemplate>

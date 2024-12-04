@@ -52,8 +52,8 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             if (wrapRefreshViewAround)
             {
                 var refreshView = new RefreshView();
-                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.CommandProperty, new Binding(nameof(StateViewModel.RefreshCommand), source: StateViewModel));
-                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new Binding(nameof(StateViewModel.IsRefreshing), source: StateViewModel));
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.CommandProperty, static (StateViewModel stateViewModel) => stateViewModel.RefreshCommand, source: StateViewModel);
+                refreshView.SetBinding(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, static (StateViewModel stateViewModel) => stateViewModel.IsRefreshing, source: StateViewModel);
                 refreshView.Content = view;
                 refreshView.Unloaded += RefreshViewOnUnloaded;
                 Clear();

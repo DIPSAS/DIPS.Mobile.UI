@@ -43,7 +43,8 @@ internal class ImageThumbnailView : Grid
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15)
         };
-        image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, new Binding(nameof(ImageThumbnailViewModel.Image), source: BindingContext, converter: new ByteArrayToImageSourceConverter()));
+        if(imageThumbnailViewModel.Image is not null)
+            image.Source = ImageSource.FromStream(() => new MemoryStream(imageThumbnailViewModel.Image));
         Touch.SetCommand(image, new Command(() => m_onTappedImage.Invoke(imageThumbnailViewModel.Index)));
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.size_2));

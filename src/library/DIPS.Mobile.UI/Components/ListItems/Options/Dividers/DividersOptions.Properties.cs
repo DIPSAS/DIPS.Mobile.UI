@@ -6,13 +6,15 @@ public partial class DividersOptions
         nameof(TopDividerMargin),
         typeof(Thickness),
         typeof(DividersOptions),
-        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0));
+        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0),
+        defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty BottomDividerMarginProperty = BindableProperty.Create(
         nameof(BottomDividerMargin),
         typeof(Thickness),
         typeof(DividersOptions),
-        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0));
+        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0, 0, 0),
+        defaultBindingMode: BindingMode.OneTime);
 
     public Thickness BottomDividerMargin
     {

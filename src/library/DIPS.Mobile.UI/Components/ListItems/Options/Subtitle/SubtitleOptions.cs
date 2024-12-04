@@ -11,14 +11,14 @@ public partial class SubtitleOptions : ListItemOptions
         if(listItem.SubtitleLabel is null)
             return;            
         
-        listItem.SubtitleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ListItem.Subtitle), source: listItem));
-        listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(FontAttributes), source: this));
-        listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, new Binding(nameof(HorizontalTextAlignment), source: this));
-        listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
-        listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, new Binding(nameof(Style), source: this));
-        listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
-        listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
-        listItem.SubtitleLabel.SetBinding(Label.FormattedTextProperty, new Binding(nameof(FormattedText), source: this));
+        listItem.SubtitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Subtitle, source: listItem);
+        listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, static (SubtitleOptions options) => options.FontAttributes, source: this);
+        listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (SubtitleOptions options) => options.HorizontalTextAlignment, source: this);
+        listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (SubtitleOptions options) => options.VerticalTextAlignment, source: this);
+        listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, static (SubtitleOptions options) => options.Style, source: this);
+        listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, static (SubtitleOptions options) => options.TextColor, source: this);
+        listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, static (SubtitleOptions options) => options.LineBreakMode, source: this);
+        listItem.SubtitleLabel.SetBinding(Label.FormattedTextProperty, static (SubtitleOptions options) => options.FormattedText, source: this);
 
         UpdateVisibility(listItem);
         

@@ -50,9 +50,9 @@ public partial class Chip
     private Image CreateCustomIcon()
     {
         var image = CreateIsToggleableIcon();
-        image.SetBinding(Image.SourceProperty, new Binding(nameof(CustomIcon), source: this));
-        image.SetBinding(Images.Image.Image.TintColorProperty, new Binding(nameof(CustomIconTintColor), source: this));
-        image.SetBinding(IsVisibleProperty, new Binding(nameof(CustomIcon), source: this));
+        image.SetBinding(Image.SourceProperty, static (Chip chip) => chip.CustomIcon, source: this);
+        image.SetBinding(Images.Image.Image.TintColorProperty, static (Chip chip) => chip.CustomIconTintColor, source: this);
+        image.SetBinding(IsVisibleProperty, static (Chip chip) => chip.CustomIcon, source: this);
         
         return image;
     }
@@ -65,10 +65,10 @@ public partial class Chip
             BackgroundColor = Colors.GetColor(ColorName.color_secondary_30)
         }};
         
-        border.SetBinding(CornerRadiusProperty, new Binding(nameof(CornerRadius), source: this));
-        border.SetBinding(BackgroundColorProperty, new Binding(nameof(Color), source: this));
-        border.SetBinding(Border.StrokeProperty, new Binding(nameof(BorderColor), source: this));
-        border.SetBinding(Border.StrokeThicknessProperty, new Binding(nameof(BorderWidth), source: this));
+        border.SetBinding(CornerRadiusProperty, static (Chip chip) => chip.CornerRadius, source: this);
+        border.SetBinding(BackgroundColorProperty, static (Chip chip) => chip.Color, source: this);
+        border.SetBinding(Border.StrokeProperty, static (Chip chip) => chip.BorderColor, source: this);
+        border.SetBinding(Border.StrokeThicknessProperty, static (Chip chip) => chip.BorderWidth, source: this);
 
         return border;
     }
@@ -85,8 +85,8 @@ public partial class Chip
             AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_1)
         };
 
-        imageButton.SetBinding(IsVisibleProperty, new Binding(nameof(IsCloseable), source: this));
-        imageButton.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, new Binding(nameof(CloseButtonColor), source: this));
+        imageButton.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
+        imageButton.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
         
         return imageButton;
     }
@@ -101,9 +101,9 @@ public partial class Chip
             VerticalOptions = LayoutOptions.Center
         };
         
-        image.SetBinding(IsVisibleProperty, new Binding(nameof(IsToggled), source: this));
-        image.SetBinding(Images.Image.Image.TintColorProperty, new Binding(nameof(TitleColor), source: this));
-
+        image.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsToggleable, source: this);
+        image.SetBinding(Images.Image.Image.TintColorProperty, static (Chip chip) => chip.TitleColor, source: this);
+        
         return image;
     }
 
@@ -118,8 +118,8 @@ public partial class Chip
             MaxLines = 1,
             LineBreakMode = LineBreakMode.TailTruncation
         };
-        label.SetBinding(Label.TextProperty, new Binding(nameof(Title), source: this));
-        label.SetBinding(Label.TextColorProperty, new Binding(nameof(TitleColor), source: this));
+        label.SetBinding(Label.TextProperty, static (Chip chip) => chip.Title, source: this);
+        label.SetBinding(Label.TextColorProperty, static (Chip chip) => chip.TitleColor, source: this);
 
         return label;
     }

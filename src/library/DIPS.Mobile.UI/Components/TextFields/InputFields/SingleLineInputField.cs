@@ -73,7 +73,7 @@ public partial class SingleLineInputField : Grid
 
     private void SetupHeaderText()
     {
-        HeaderTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HeaderText), source: this));
+        HeaderTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.HeaderText, source: this);
         
         InnerGrid.Add(HeaderTextLabel);
         
@@ -82,8 +82,8 @@ public partial class SingleLineInputField : Grid
     
     private void SetupHelpText()
     {
-        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(HelpText), source: this));
-        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, new Binding(nameof(HelpTextColor), source: this));
+        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.HelpText, source: this);
+        HelpTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.HelpTextColor, source: this);
         
         this.Add(HelpTextLabel, 0, 1);
         
@@ -94,9 +94,9 @@ public partial class SingleLineInputField : Grid
     {
         ContentBorderGrid.Add(InnerGrid);
         m_contentBorder.Content = ContentBorderGrid;
-        m_contentBorder.SetBinding(MinimumHeightRequestProperty, new Binding(nameof(MinimumHeightRequest), source: this));
-        m_contentBorder.SetBinding(Border.StrokeThicknessProperty, new Binding(nameof(BorderThickness), source: this));
-        m_contentBorder.SetBinding(Border.StrokeProperty,  new Binding(nameof(BorderColor), source: this));
+        m_contentBorder.SetBinding(MinimumHeightRequestProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.MinimumHeightRequest, source: this);
+        m_contentBorder.SetBinding(Border.StrokeThicknessProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BorderThickness, source: this);
+        m_contentBorder.SetBinding(Border.StrokeProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BorderColor, source: this);
         
         Touch.SetCommand(m_contentBorder, new Command(Focus));
         
@@ -121,10 +121,10 @@ public partial class SingleLineInputField : Grid
         InputView.FontSize = 14;
         InputView.IsVisible = false;
         InputView.Margin = new Thickness(0, 4, 8, 0);
-        InputView.SetBinding(BackgroundColorProperty, new Binding(nameof(BackgroundColor), source: this));
-        InputView.SetBinding(InputView.TextColorProperty, new Binding(nameof(InputTextColor), source: this));
-        InputView.SetBinding(InputView.TextProperty, new Binding(nameof(Text), source: this));
-        InputView.SetBinding(InputView.IsFocusedProperty, new Binding(nameof(IsFocused), source: this));
+        InputView.SetBinding(BackgroundColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BackgroundColor, source: this);
+        InputView.SetBinding(InputView.TextColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.InputTextColor, source: this);
+        InputView.SetBinding(InputView.TextProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.Text, source: this);
+        InputView.SetBinding(InputView.IsFocusedProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.IsFocused, source: this);
         
         InputView.Focused += OnInputViewFocused;
         InputView.Unfocused += OnInputViewUnFocused;

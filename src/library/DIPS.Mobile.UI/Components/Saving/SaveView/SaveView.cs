@@ -17,12 +17,10 @@ public partial class SaveView : ContentView
     {
         m_filledCheckBox = new FilledCheckBox {VerticalOptions = LayoutOptions.Center};
         
-        m_filledCheckBox.SetBinding(FilledCheckBox.IsNotCheckedOpacityProperty, new Binding(nameof(IsNotCheckedOpacity), source: this));
-        m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty,
-            new Binding(nameof(IsSavingCompleted), source: this));
-        m_filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, new Binding(nameof(IsSaving), source: this));
-        m_filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty,
-            new Binding(nameof(SavingCompletedCommand), source: this));
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsNotCheckedOpacityProperty, static (SaveView saveView) => saveView.IsNotCheckedOpacity, source: this);
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsCheckedProperty, static (SaveView saveView) => saveView.IsSavingCompleted, source: this);
+        m_filledCheckBox.SetBinding(FilledCheckBox.IsProgressingProperty, static (SaveView saveView) => saveView.IsSaving, source: this);
+        m_filledCheckBox.SetBinding(FilledCheckBox.CompletedCommandProperty, static (SaveView saveView) => saveView.SavingCompletedCommand, source: this);
 
         m_stateLabel = new Label
         {

@@ -27,28 +27,20 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };
-        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, new Binding(nameof(Title), source: this));
-        m_labelButton.SetBinding(IsEnabledProperty,
-            new Binding(nameof(IsEnabled), source: this));
-        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty,
-            new Binding(nameof(Command), source: this));
+        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.TextProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.Title, source: this);
+        m_labelButton.SetBinding(IsEnabledProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.IsEnabled, source: this);
+        m_labelButton.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.Command, source: this);
 
 
         var floatingActionButton = new NavigationMenuButton.NavigationMenuButton();
         AutomationProperties.SetExcludedWithChildren(floatingActionButton, true);
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.IconProperty,
-            new Binding(nameof(Icon), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.CommandProperty,
-            new Binding(nameof(Command), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.ButtonBackgroundColorProperty,
-            new Binding(nameof(ButtonBackgroundColor), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeCountProperty,
-            new Binding(nameof(BadgeCount), source: this));
-        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeColorProperty,
-            new Binding(nameof(BadgeColor), source: this));
-        floatingActionButton.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
         
-
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.IconProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.Icon, source: this);
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.CommandProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.Command, source: this);
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.ButtonBackgroundColorProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.ButtonBackgroundColor, source: this);
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeCountProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.BadgeCount, source: this);
+        floatingActionButton.SetBinding(NavigationMenuButton.NavigationMenuButton.BadgeColorProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.BadgeColor, source: this);
+        floatingActionButton.SetBinding(IsEnabledProperty, static (ExtendedNavigationMenuButton extendedNavigationMenuButton) => extendedNavigationMenuButton.IsEnabled, source: this);
 
         Add(m_labelButton);
         Add(floatingActionButton);

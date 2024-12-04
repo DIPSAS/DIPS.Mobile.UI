@@ -9,7 +9,8 @@ public partial class ContextMenuOptions
         nameof(Mode),
         typeof(ContextMenuEffect.ContextMenuMode),
         typeof(ContextMenuOptions),
-        defaultValue: ContextMenuEffect.ContextMenuMode.LongPressed);
+        defaultValue: ContextMenuEffect.ContextMenuMode.LongPressed,
+        defaultBindingMode: BindingMode.OneTime);
 
     /// <summary>
     /// The mode of the Context Menu

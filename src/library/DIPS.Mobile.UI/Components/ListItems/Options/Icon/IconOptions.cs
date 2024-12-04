@@ -9,11 +9,11 @@ public partial class IconOptions : ListItemOptions
     {
         if(listItem.ImageIcon is null)
             return;
-
-        listItem.ImageIcon.SetBinding(View.MarginProperty, new Binding(nameof(Margin), source: this));
-        listItem.ImageIcon.SetBinding(Image.TintColorProperty, new Binding(nameof(Color), source: this));
-        listItem.ImageIcon.SetBinding(VisualElement.IsVisibleProperty, new Binding(nameof(IsVisible), source: this));
-        listItem.ImageIcon.SetBinding(View.VerticalOptionsProperty, new Binding(nameof(VerticalOptions), source: this));
+        
+        listItem.ImageIcon.SetBinding(View.MarginProperty, static (IconOptions options) => options.Margin, source: this);
+        listItem.ImageIcon.SetBinding(Image.TintColorProperty, static (IconOptions options) => options.Color, source: this);
+        listItem.ImageIcon.SetBinding(VisualElement.IsVisibleProperty, static (IconOptions options) => options.IsVisible, source: this);
+        listItem.ImageIcon.SetBinding(View.VerticalOptionsProperty, static (IconOptions options) => options.VerticalOptions, source: this);
     }
 
 }

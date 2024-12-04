@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Components.CheckBoxes;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -6,7 +5,6 @@ using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
@@ -77,9 +75,9 @@ public partial class MultiLineInputField : SingleLineInputField
     /// </summary>
     private void SetupLabel()
     {
-        m_label.SetBinding(Labels.Label.IsTruncatedProperty, new Binding(nameof(IsTruncated), source: this));
-        m_label.SetBinding(Label.TextProperty, new Binding(nameof(Text), source: this));
-        m_label.SetBinding(Label.MaxLinesProperty, new Binding(nameof(MaxLines), source: this));
+        m_label.SetBinding(Labels.Label.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        m_label.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.Text, source: this);
+        m_label.SetBinding(Label.MaxLinesProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.MaxLines, source: this);
         
         InnerGrid.Add(m_label, 0, 1);
     }
@@ -141,7 +139,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         base.OnInputViewUnFocused(sender, e);
         
-        m_label.SetBinding(Labels.Label.IsTruncatedProperty, new Binding(nameof(IsTruncated), source: this));
+        m_label.SetBinding(Labels.Label.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         
         UpdateLabelVisibility();
         
@@ -317,14 +315,14 @@ public partial class MultiLineInputField : SingleLineInputField
     private void OnError()
     {
         OnStopSaving(false);
-        HelpTextLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
+        HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.ErrorText, source: this);
         HelpTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
     }
 
     private void OnChangedToNoError()
     {
-        HelpTextLabel.SetBinding(Label.TextProperty, new Binding(nameof(HelpText), source: this));
-        HelpTextLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(HelpTextColor), source: this));
+        HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.HelpText, source: this);
+        HelpTextLabel.SetBinding(Label.TextColorProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.HelpTextColor, source: this);
         OnPropertyChanged(nameof(HelpText));
     }
 

@@ -69,11 +69,7 @@ public partial class VetlePage
     {
         base.OnAppearing();
 
-        await Task.Delay(1000);
         
-        _ = DialogService.ShowMessage("Hei", "This will disappear in 5 seconds.", "OK");
-        await Task.Delay(5000);
-        DialogService.Remove();
 
         /*Button.IsVisible = true;*/
 

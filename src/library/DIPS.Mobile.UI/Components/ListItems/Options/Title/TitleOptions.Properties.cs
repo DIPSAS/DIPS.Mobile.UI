@@ -82,7 +82,7 @@ public partial class TitleOptions
         get => (double)GetValue(MaxWidthProperty);
         set => SetValue(MaxWidthProperty, value);
     }
-    
+
     public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
         nameof(FormattedText),
         typeof(FormattedString),
@@ -96,19 +96,22 @@ public partial class TitleOptions
     public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
         nameof(LineBreakMode),
         typeof(LineBreakMode),
-        typeof(TitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
+        typeof(TitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty MarginProperty = BindableProperty.Create(
         nameof(Margin),
         typeof(Thickness),
         typeof(TitleOptions),
-        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0));
+        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),
         typeof(GridLength),
         typeof(TitleOptions),
-        defaultValue:GridLength.Auto);
+        defaultValue:GridLength.Auto,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
@@ -119,30 +122,35 @@ public partial class TitleOptions
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),
         typeof(FontAttributes),
-        typeof(TitleOptions));
+        typeof(TitleOptions),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalTextAlignment),
         typeof(TextAlignment),
         typeof(TitleOptions),
-        defaultValue:TextAlignment.Start);
+        defaultValue:TextAlignment.Start,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
         nameof(VerticalTextAlignment),
         typeof(TextAlignment),
         typeof(TitleOptions),
-        defaultValue:TextAlignment.End);
+        defaultValue:TextAlignment.End,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),
         typeof(TitleOptions),
-        defaultValue:Styles.GetLabelStyle(LabelStyle.Body300));
+        defaultValue:Styles.GetLabelStyle(LabelStyle.Body300),
+        defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty MaxWidthProperty = BindableProperty.Create(
         nameof(MaxWidth),
         typeof(double),
         typeof(TitleOptions),
-        double.PositiveInfinity);
+        double.PositiveInfinity,
+        defaultBindingMode: BindingMode.OneTime);
 
 }

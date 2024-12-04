@@ -35,23 +35,27 @@ public partial class InLineContentOptions
     public static readonly BindableProperty SpanOverUnderlyingContentProperty = BindableProperty.Create(
         nameof(SpanOverUnderlyingContent),
         typeof(bool),
-        typeof(InLineContentOptions));
+        typeof(InLineContentOptions),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),
         typeof(GridLength),
         typeof(InLineContentOptions),
-        defaultValue: GridLength.Star);
+        defaultValue: GridLength.Star,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty HorizontalOptionsProperty = BindableProperty.Create(
         nameof(HorizontalOptions),
         typeof(LayoutOptions),
         typeof(InLineContentOptions),
-        defaultValue: LayoutOptions.End);
+        defaultValue: LayoutOptions.End,
+        defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty VerticalOptionsProperty = BindableProperty.Create(
         nameof(VerticalOptions),
         typeof(LayoutOptions),
         typeof(InLineContentOptions),
-        defaultValue: LayoutOptions.Center);
+        defaultValue: LayoutOptions.Center,
+        defaultBindingMode: BindingMode.OneTime);
 }

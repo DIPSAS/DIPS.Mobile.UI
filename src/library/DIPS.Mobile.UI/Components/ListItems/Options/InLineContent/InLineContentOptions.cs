@@ -1,5 +1,3 @@
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
-
 namespace DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 
 public partial class InLineContentOptions : ListItemOptions
@@ -18,8 +16,8 @@ public partial class InLineContentOptions : ListItemOptions
             Grid.SetRowSpan(inLineContent, 2);
         }
         
-        inLineContent.SetBinding(View.HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), source: this));
-        inLineContent.SetBinding(View.VerticalOptionsProperty, new Binding(nameof(VerticalOptions), source: this));
+        inLineContent.SetBinding(View.HorizontalOptionsProperty, static (InLineContentOptions inLineContentOptions) => inLineContentOptions.HorizontalOptions, source: this);
+        inLineContent.SetBinding(View.VerticalOptionsProperty, static (InLineContentOptions inLineContentOptions) => inLineContentOptions.VerticalOptions, source: this);
     }
 
 }

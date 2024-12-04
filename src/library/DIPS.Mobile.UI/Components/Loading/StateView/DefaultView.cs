@@ -6,7 +6,7 @@ public class DefaultView : Label
 {
     public DefaultView()
     {
-        SetBinding(TextProperty, new Binding(nameof(DefaultViewModel.Title)));
+        this.SetBinding(TextProperty, static (DefaultViewModel defaultViewModel) => defaultViewModel.Title);
         
         VerticalOptions = LayoutOptions.Center;
         HorizontalOptions = LayoutOptions.Center;

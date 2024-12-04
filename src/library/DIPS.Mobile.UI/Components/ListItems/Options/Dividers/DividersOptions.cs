@@ -4,7 +4,16 @@ public partial class DividersOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
-        listItem.TopDivider?.SetBinding(View.MarginProperty, new Binding(nameof(TopDividerMargin), source: this));
-        listItem.BottomDivider?.SetBinding(View.MarginProperty, new Binding(nameof(BottomDividerMargin), source: this));
+        if (listItem.TopDivider is not null)
+        {
+            listItem.TopDivider.SetBinding(View.MarginProperty,
+                static (DividersOptions options) => options.TopDividerMargin, source: this);
+        }
+
+        if (listItem.BottomDivider is not null)
+        {
+            listItem.BottomDivider.SetBinding(View.MarginProperty,
+                static (DividersOptions options) => options.BottomDividerMargin, source: this);
+        }
     }
 }

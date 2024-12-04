@@ -44,16 +44,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 Shell.Shell.ToolbarTitleTextColorName);
 #endif
-            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty,
-                new Binding(nameof(SearchMode), source: this));
+            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty, static (SearchPage searchPage) => searchPage.SearchMode, source: this);
+            SearchBar.SetBinding(SearchBar.PlaceholderProperty, static (SearchPage searchPage) => searchPage.SearchPlaceholder, source: this);
+            SearchBar.SetBinding(SearchBar.ShouldDelayProperty, static (SearchPage searchPage) => searchPage.ShouldDelay, source: this);
+            SearchBar.SetBinding(SearchBar.DelayProperty, static (SearchPage searchPage) => searchPage.Delay, source: this);
             
-            
-            SearchBar.SetBinding(SearchBar.PlaceholderProperty,
-                new Binding(nameof(SearchPlaceholder), source: this));
-            SearchBar.SetBinding(SearchBar.ShouldDelayProperty,
-                new Binding(nameof(ShouldDelay), source: this));
-            SearchBar.SetBinding(SearchBar.DelayProperty,
-                new Binding(nameof(DelayProperty), source: this));
             SearchBar.TextChanged += SearchBarOnTextChanged;
 
             SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
@@ -64,8 +59,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             //Result listview
             m_resultCollectionView = new CollectionView(){AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>()};
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
-            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty,
-                new Binding() {Path = nameof(ResultItemTemplate), Source = this});
+            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
 
             //The grid to glue it all together
             m_grid = new Grid()

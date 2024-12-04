@@ -30,18 +30,21 @@ public partial class IconOptions
         nameof(Margin),
         typeof(Thickness),
         typeof(IconOptions),
-        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_2), 0));
+        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_2), 0),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty VerticalOptionsProperty = BindableProperty.Create(
         nameof(VerticalOptions),
         typeof(LayoutOptions),
         typeof(IconOptions),
-        defaultValue: LayoutOptions.Center);
+        defaultValue: LayoutOptions.Center,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty ColorProperty = BindableProperty.Create(
         nameof(Color),
         typeof(Color),
-        typeof(IconOptions));
+        typeof(IconOptions),
+        defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
         nameof(IsVisible),

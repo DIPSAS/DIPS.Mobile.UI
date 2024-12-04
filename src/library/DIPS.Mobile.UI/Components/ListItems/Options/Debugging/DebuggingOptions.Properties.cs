@@ -5,8 +5,9 @@ public partial class DebuggingOptions
     public static readonly BindableProperty ShouldColorEverythingProperty = BindableProperty.Create(
         nameof(ShouldColorEverything),
         typeof(bool),
-        typeof(Options.Debugging.DebuggingOptions),
-        defaultValue:true);
+        typeof(DebuggingOptions),
+        defaultValue:true,
+        defaultBindingMode: BindingMode.OneTime);
 
     public bool ShouldColorEverything
     {

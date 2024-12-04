@@ -70,7 +70,7 @@ public partial class AlertView
         typeof(AlertView));
 
     /// <summary>
-    /// The texdt of the left button.
+    /// The text of the left button.
     /// </summary>
     public string LeftButtonText
     {

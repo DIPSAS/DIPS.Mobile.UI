@@ -36,14 +36,14 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
         Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
         
-        SetBinding(HasSearchBarProperty, new Binding(){Source = m_multiItemsPicker.BottomSheetPickerConfiguration, Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)});
+        this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration bottomSheetPickerConfiguration) => bottomSheetPickerConfiguration.HasSearchBar, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
 
         var collectionView = new CollectionView()
         {
             ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
         };
         
-        collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+        collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (MultiItemsPickerBottomSheet multiItemsPickerBottomSheet) => multiItemsPickerBottomSheet.Items, source: this);
         
         Content = ItemPickerBottomSheet.CreateContentControlForActivityIndicator(collectionView, m_multiItemsPicker.BottomSheetPickerConfiguration);
     }
@@ -62,8 +62,8 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
     private IView CreateConsumerView(ControlTemplate selectableItemTemplate)
     {
         var contentView = new SelectableItemContentView(){ ControlTemplate = selectableItemTemplate};
-        contentView.SetBinding(SelectableItemContentView.ItemProperty, new Binding(){Path = nameof(SelectableItemViewModel.Item)});
-        contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, new Binding(){Path = nameof(SelectableItemViewModel.IsSelected)});
+        contentView.SetBinding(SelectableItemContentView.ItemProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.Item);
+        contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
         Touch.SetCommand(contentView, new Command(() => ItemWasTapped(contentView)));
         return contentView;
     }
@@ -84,10 +84,8 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
     private IView CreateDefaultView()
     {
         var checkmarkListItem = new CheckmarkListItem() {HasBottomDivider = true};
-        checkmarkListItem.SetBinding(ListItem.TitleProperty,
-            new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
-        checkmarkListItem.SetBinding(CheckmarkListItem.IsSelectedProperty,
-            new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
+        checkmarkListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
+        checkmarkListItem.SetBinding(CheckmarkListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
         checkmarkListItem.HasHaptics = m_multiItemsPicker.HasHaptics;
         
         checkmarkListItem.SelectedCommand = new Command(() => ItemWasTapped(checkmarkListItem));

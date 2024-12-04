@@ -52,8 +52,8 @@ public partial class ListItem : ContentView
 
     internal Border OuterBorder { get; } = new() { StrokeThickness = 0, AutomationId = "OuterBorder".ToDUIAutomationId<ListItem>()};
     internal Image? ImageIcon { get; private set; }
-    internal Label TitleLabel { get; private set; } = new(){AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>()};
-    internal Label SubtitleLabel { get; private set; } = new() { IsVisible = false, AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
+    internal Label TitleLabel { get; } = new(){AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>()};
+    internal Label SubtitleLabel { get; } = new() { IsVisible = false, AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
@@ -69,10 +69,10 @@ public partial class ListItem : ContentView
         { 
             AutomationId = "OuterBorder.StrokeShape".ToDUIAutomationId<ListItem>(),
             CornerRadius = CornerRadius, 
-            StrokeThickness = 0 
+            StrokeThickness = 0
         };
-        
-        ContainerGrid.SetBinding(Grid.MarginProperty, new Binding(nameof(Padding), source: this));
+
+        ContainerGrid.SetBinding(Grid.MarginProperty, static (ListItem listItem) => listItem.Padding, source: this);
         
         BindBorder();
 
@@ -86,8 +86,8 @@ public partial class ListItem : ContentView
 
     private void BindBorder()
     {
-        OuterBorder.SetBinding(Border.BackgroundColorProperty, new Binding {Source = this, Path = nameof(BackgroundColor)});
-        OuterBorder.SetBinding(Border.MarginProperty, new Binding {Source = this, Path = nameof(Margin)});
+        OuterBorder.SetBinding(Border.BackgroundColorProperty, static (ListItem listItem) => listItem.BackgroundColor, source: this);
+        OuterBorder.SetBinding(Border.MarginProperty, static (ListItem listItem) => listItem.Margin, source: this);
     }
 
     protected override void OnPropertyChanged(string? propertyName = null)
