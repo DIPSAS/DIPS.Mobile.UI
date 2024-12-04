@@ -14,6 +14,9 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     private bool m_firstDraw = true;
     
     public Label Label { get; set; }
+
+    public MauiLabel() {}
+    public MauiLabel(CGRect frame) : base(frame) {}
     
     public override void LayoutSubviews()
     {
