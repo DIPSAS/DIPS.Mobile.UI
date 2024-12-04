@@ -24,6 +24,7 @@ public partial class ContextMenuPlatformEffect
 
         m_contextMenu.BindingContext = Element.BindingContext;
 
+        m_delegate.Element = Element;
         m_interaction = new UIContextMenuInteraction(m_delegate);
         
         Control.AddInteraction(m_interaction);
@@ -34,20 +35,19 @@ public partial class ContextMenuPlatformEffect
         public override void WillEnd(UIContextMenuInteraction interaction, UIContextMenuConfiguration configuration,
             IUIContextMenuInteractionAnimating? animator)
         {
-            if (interaction.View is not MauiView view)
+            if (Element is null)
                 return; 
 
-            Touch.SetIsEnabled((VisualElement)view.View, true);
+            Touch.SetIsEnabled(Element, true);
         }
         
         public override UIContextMenuConfiguration? GetConfigurationForMenu(UIContextMenuInteraction interaction, CGPoint location)
         {
-            if (interaction.View is not MauiView view)
-                return null; 
+            if (Element is null) return null;
             
-            Touch.SetIsEnabled((VisualElement)view.View, false);
+            Touch.SetIsEnabled(Element, false);
 
-            var contextMenu = ContextMenuEffect.GetMenu(((VisualElement)view.View!));
+            var contextMenu = ContextMenuEffect.GetMenu((Element));
             
             var dict = ContextMenuHelper.CreateMenuItems(
                 contextMenu!.ItemsSource!,
@@ -55,6 +55,14 @@ public partial class ContextMenuPlatformEffect
             var menu = UIMenu.Create(contextMenu.Title, dict.Select(k => k.Value).ToArray());
 
             return UIContextMenuConfiguration.Create(null, null, actions => menu);
+        }
+
+        public Element? Element { get; set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            Element = null;
+            base.Dispose(disposing);
         }
     }
 

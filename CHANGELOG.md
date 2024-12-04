@@ -1,3 +1,6 @@
+## [38.0.4]
+- [iOS] Made sure long press effect works for dui:Button and other non-MauiView views.
+
 ## [38.0.3]
 - [iOS][Layout] Fix crash.
 

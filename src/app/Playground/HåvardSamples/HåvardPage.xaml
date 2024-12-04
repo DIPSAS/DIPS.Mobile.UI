@@ -17,12 +17,11 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid Padding="{dui:Thickness size_2}">
-        <dui:Label Text="{Binding LongText}" MaxLines="3"  TruncatedText="More" x:Name="truncatingLabel"/>
-        <dui:HorizontalStackLayout HorizontalOptions="Start"
-                                   VerticalOptions="Center"
-                                   Spacing="{dui:Sizes size_1}">
-            <dui:Button Text="Remove" Command="{Binding Command}"/>
-        </dui:HorizontalStackLayout>
-    </Grid>
+    <dui:Button Text="Remove" Command="{Binding Command}" dui:ContextMenuEffect.Mode="LongPressed">
+        <dui:ContextMenuEffect.Menu>
+            <dui:ContextMenu>
+                <dui:ContextMenuItem Title="Test"/>
+            </dui:ContextMenu>
+        </dui:ContextMenuEffect.Menu>
+    </dui:Button>
 </dui:ContentPage>
