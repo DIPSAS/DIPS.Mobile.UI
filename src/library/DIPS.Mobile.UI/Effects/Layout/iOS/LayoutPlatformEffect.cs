@@ -17,6 +17,9 @@ public partial class LayoutPlatformEffect
 
     protected override partial void OnDetached()
     {
+        if(Control is null)
+            return;
+        
         Control.ClipsToBounds = m_originalClipToBound;
         Control.Layer.CornerRadius = m_prevCornerRadius;
     }
