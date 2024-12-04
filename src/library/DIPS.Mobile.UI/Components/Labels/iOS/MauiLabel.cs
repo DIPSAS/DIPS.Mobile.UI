@@ -1,5 +1,6 @@
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Labels;
@@ -17,6 +18,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     public MauiLabel() {}
     public MauiLabel(CGRect frame) : base(frame) {}
+    public MauiLabel(NativeHandle nativeHandle) {}
     
     public override void LayoutSubviews()
     {
