@@ -8,6 +8,7 @@
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
                  xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
                  x:Class="Playground.HåvardSamples.HåvardPage"
+                 x:DataType="håvardSamples:HåvardPageViewModel"
                  ShouldHideFloatingNavigationMenuButton="True"
                  Padding="0">
     <dui:ContentPage.Resources>

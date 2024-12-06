@@ -7,7 +7,7 @@
                  x:Class="Playground.HåvardSamples.HåvardBottomSheet"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
-                 OnBackButtonPressedCommand="{Binding Source={RelativeSource Self}, Path=CloseItCommand}">
+                 OnBackButtonPressedCommand="{Binding Source={RelativeSource Self}, Path=CloseItCommand, x:DataType={x:Type håvardSamples:HåvardBottomSheet}}">
     <dui:BottomSheet.BindingContext>
         <håvardSamples:HåvardPageViewModel />
     </dui:BottomSheet.BindingContext>

@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Converter that takes different input input types and returns a boolean value to indicate if it is empty or not.
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class IsEmptyConverter : IValueConverter, IMarkupExtension
     {
         /// <summary>

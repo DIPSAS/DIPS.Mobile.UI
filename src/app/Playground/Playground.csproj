@@ -25,7 +25,9 @@
         
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
 
-        
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        <WarningsAsErrors>XC0022;XC0023</WarningsAsErrors>
+        <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
     </PropertyGroup>
     
     <ItemGroup>
