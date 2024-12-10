@@ -2,20 +2,12 @@ using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
-using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
 using DIPS.Mobile.UI.Components.Lists;
-using DIPS.Mobile.UI.Components.Selection;
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
-using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Label = DIPS.Mobile.UI.Components.Labels.Label;
-using RadioButton = DIPS.Mobile.UI.Components.Selection.RadioButton;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 {
@@ -42,31 +34,19 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
             
-            SetBinding(TitleProperty,
-                new Binding()
-                {
-                    Source = m_itemPicker.BottomSheetPickerConfiguration,
-                    Path = nameof(BottomSheetPickerConfiguration.Title)
-                });
-
-            SetBinding(HasSearchBarProperty,
-                new Binding()
-                {
-                    Source = m_itemPicker.BottomSheetPickerConfiguration,
-                    Path = nameof(BottomSheetPickerConfiguration.HasSearchBar)
-                });
-            
-            SetBinding(ShouldAutoFocusSearchBarProperty,
-                new Binding(nameof(ItemPicker.ShouldAutoFocusSearchBar), source: m_itemPicker));
+            this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: m_itemPicker.BottomSheetPickerConfiguration);
+            this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration configuration) => configuration.HasSearchBar, source: m_itemPicker.BottomSheetPickerConfiguration);
+            this.SetBinding(ShouldAutoFocusSearchBarProperty, static (ItemPicker itemPicker) => itemPicker.ShouldAutoFocusSearchBar, source: m_itemPicker);
 
             m_collectionView = new CollectionView()
             {
-                ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
+                ItemTemplate = new DataTemplate(LoadTemplate), 
+                Margin = Sizes.GetSize(SizeName.size_2)
             };
             
             m_collectionView.Scrolled += OnCollectionViewScrolled;
 
-            m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
+            m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (ItemPickerBottomSheet itemPickerBottomSheet) => itemPickerBottomSheet.Items, source: this);
 
             Content = CreateContentControlForActivityIndicator(m_collectionView,
                 m_itemPicker.BottomSheetPickerConfiguration);
@@ -83,8 +63,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private object LoadTemplate()
         {
-            if (m_itemPicker.BottomSheetPickerConfiguration is
-                {SelectableItemTemplate: not null} bottomSheetConfiguration)
+            if (m_itemPicker.BottomSheetPickerConfiguration is {SelectableItemTemplate: not null} bottomSheetConfiguration)
             {
                 return CreateConsumerView(bottomSheetConfiguration.SelectableItemTemplate);
             }
@@ -107,10 +86,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private IView CreateConsumerView(ControlTemplate selectableItemTemplate)
         {
             var contentView = new SelectableItemContentView() {ControlTemplate = selectableItemTemplate};
-            contentView.SetBinding(SelectableItemContentView.ItemProperty,
-                new Binding() {Path = nameof(SelectableItemViewModel.Item)});
-            contentView.SetBinding(SelectableItemContentView.IsSelectedProperty,
-                new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
+            contentView.SetBinding(SelectableItemContentView.ItemProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.Item);
+            contentView.SetBinding(SelectableItemContentView.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
             Touch.SetCommand(contentView, new Command(() => ItemWasPicked(contentView)));
             return contentView;
         }
@@ -118,10 +95,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private IView CreateDefaultView()
         {
             var radioButtonListItem = new RadioButtonListItem() {HasBottomDivider = true};
-            radioButtonListItem.SetBinding(ListItem.TitleProperty,
-                new Binding() {Path = nameof(SelectableItemViewModel.DisplayName)});
-            radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty,
-                new Binding() {Path = nameof(SelectableItemViewModel.IsSelected)});
+            radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
+            radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
             radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));
             return radioButtonListItem;
         }
@@ -208,8 +183,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                     FalseTemplate = new DataTemplate(() => collectionView)
                 }
             };
-            contentControl.SetBinding(ContentControl.SelectorItemProperty,
-                new Binding() {Path = nameof(BottomSheetPickerConfiguration.IsBusy), FallbackValue = false});
+            contentControl.SetBinding(ContentControl.SelectorItemProperty, static (BottomSheetPickerConfiguration configuration) => configuration.IsBusy, fallbackValue: false);
 
             return contentControl;
         }

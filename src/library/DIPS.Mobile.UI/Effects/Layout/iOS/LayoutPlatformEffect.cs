@@ -5,7 +5,6 @@ public partial class LayoutPlatformEffect
     private bool m_originalClipToBound;
     private nfloat m_prevCornerRadius;
     
-    
     protected override partial void OnAttached()
     {
         m_originalClipToBound = Control.ClipsToBounds;

@@ -10,15 +10,14 @@ public class DateTimeView : DateViewBase
     {
         //Time of day label
         var timeOfDayLabel = CreateLabel(new Label(), SizeName.size_3);
-        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
-            new Binding(nameof(SelectableDateViewModel.IsSelected),
-                converter: new BoolToObjectConverter()
-                {
-                    TrueObject = Colors.GetColor(ColorName.color_system_white),
-                    FalseObject = Colors.GetColor(ColorName.color_system_black),
-                }));
-        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.FormattedTime)));
+        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Colors.GetColor(ColorName.color_system_white),
+            FalseObject = Colors.GetColor(ColorName.color_system_black),
+        });
+        
+        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.FormattedTime);
+        timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.FormattedTime);
 
         if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
         {

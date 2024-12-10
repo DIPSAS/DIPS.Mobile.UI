@@ -4,21 +4,22 @@ public partial class TitleOptions : ListItemOptions
 {
     public override void DoBind(ListItem listItem)
     {
+        
         listItem.ContainerGrid.ColumnDefinitions[1].Width = Width;
         
         if(listItem.TitleLabel is null)
             return;
-
-        listItem.TitleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ListItem.Title), source: listItem));
-        listItem.TitleLabel.SetBinding(Label.FontAttributesProperty, new Binding(nameof(FontAttributes), source: this));
-        listItem.TitleLabel.SetBinding(VisualElement.StyleProperty, new Binding(nameof(Style), source: this));
-        listItem.TitleLabel.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
-        listItem.TitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, new Binding(nameof(HorizontalTextAlignment), source: this));
-        listItem.TitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, new Binding(nameof(VerticalTextAlignment), source: this));
-        listItem.TitleLabel.SetBinding(Label.LineBreakModeProperty, new Binding(nameof(LineBreakMode), source: this));
-        listItem.TitleLabel.SetBinding(View.MarginProperty, new Binding(nameof(Margin), source: this));
-        listItem.TitleLabel.SetBinding(Label.FormattedTextProperty, new Binding(nameof(FormattedText), source: this));
-        listItem.TitleLabel.SetBinding(VisualElement.MaximumWidthRequestProperty, new Binding(nameof(MaxWidth), source: this));
+        
+        listItem.TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: listItem);
+        listItem.TitleLabel.SetBinding(VisualElement.StyleProperty, static (TitleOptions options) => options.Style, source: this);
+        listItem.TitleLabel.SetBinding(Label.FontAttributesProperty, static (TitleOptions options) => options.FontAttributes, source: this);
+        listItem.TitleLabel.SetBinding(Label.TextColorProperty, static (TitleOptions options) => options.TextColor, source: this);
+        listItem.TitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (TitleOptions options) => options.HorizontalTextAlignment, source: this);
+        listItem.TitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (TitleOptions options) => options.VerticalTextAlignment, source: this);
+        listItem.TitleLabel.SetBinding(Label.LineBreakModeProperty, static (TitleOptions options) => options.LineBreakMode, source: this);
+        listItem.TitleLabel.SetBinding(View.MarginProperty, static (TitleOptions options) => options.Margin, source: this);
+        listItem.TitleLabel.SetBinding(Label.FormattedTextProperty, static (TitleOptions options) => options.FormattedText, source: this);
+        listItem.TitleLabel.SetBinding(VisualElement.MaximumWidthRequestProperty, static (TitleOptions options) => options.MaxWidth, source: this);
         
         if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
         {

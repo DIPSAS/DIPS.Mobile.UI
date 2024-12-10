@@ -102,8 +102,9 @@ public partial class LoadableListItem : ListItem
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.End
         };
-        errorText.SetBinding(Label.TextColorProperty, new Binding(nameof(ErrorTextColor), source: this));
-        errorText.SetBinding(Label.TextProperty, new Binding(nameof(ErrorText), source: this));
+        
+        errorText.SetBinding(Label.TextColorProperty, static (LoadableListItem loadableListItem) => loadableListItem.ErrorTextColor, source: this);
+        errorText.SetBinding(Label.TextProperty, static (LoadableListItem loadableListItem) => loadableListItem.ErrorText, source: this);
         m_errorContent.Add(errorText);
 
         var errorImage = new Image
@@ -124,7 +125,7 @@ public partial class LoadableListItem : ListItem
             HorizontalTextAlignment = TextAlignment.End,
             TextColor = Colors.GetColor(ColorName.color_neutral_90)
         };
-        busyText.SetBinding(Label.TextProperty, new Binding(nameof(BusyText), source: this));
+        busyText.SetBinding(Label.TextProperty, static (LoadableListItem loadableListItem) => loadableListItem.BusyText, source: this);
         m_busyContent.Add(busyText);
         
         var busyActivityIndicator = new ActivityIndicator { AutomationId = "BusyActivityIndicator".ToDUIAutomationId<LoadableListItem>(),IsRunning = true };

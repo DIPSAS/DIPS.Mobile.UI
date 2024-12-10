@@ -20,7 +20,7 @@ public partial class FilledCheckBox : ContentView
     public FilledCheckBox()
     {
         Container = new Border {Padding = Sizes.GetSize(SizeName.size_0)};
-        Container.SetBinding(BackgroundColorProperty, new Binding(nameof(UnCheckedBackgroundColor), source: this));
+        Container.SetBinding(BackgroundColorProperty, static (FilledCheckBox filledCheckBox) => filledCheckBox.UnCheckedBackgroundColor, source: this);
         WidthRequest = Sizes.GetSize(SizeName.size_25);
         HeightRequest = Sizes.GetSize(SizeName.size_25);
         CornerRadius = HeightRequest / 2;
@@ -33,12 +33,12 @@ public partial class FilledCheckBox : ContentView
             IsAnimationEnabled = true
         };
 
-        m_animation.SetBinding(HeightRequestProperty, new Binding(source: this, path: nameof(HeightRequest)));
-        m_animation.SetBinding(WidthRequestProperty, new Binding(source: this, path: nameof(WidthRequest)));
+        m_animation.SetBinding(HeightRequestProperty, static (FilledCheckBox filledCheckBox) => filledCheckBox.HeightRequest, source: this);
+        m_animation.SetBinding(WidthRequestProperty, static (FilledCheckBox filledCheckBox) => filledCheckBox.WidthRequest, source: this);
 
         m_activityIndicator = new ActivityIndicator {Opacity = 0};
 
-        InnerGrid = new Grid {m_activityIndicator, m_animation};
+        InnerGrid = [m_activityIndicator, m_animation];
 
         Container.Content = InnerGrid;
 

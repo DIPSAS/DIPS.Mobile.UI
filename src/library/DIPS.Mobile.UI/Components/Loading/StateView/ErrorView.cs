@@ -18,9 +18,8 @@ public class ErrorView : ScrollView
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
         };
-        icon.SetBinding(Image.SourceProperty, new Binding(nameof(ErrorViewModel.Icon)));
-        icon.SetBinding(IsVisibleProperty,
-            new Binding(nameof(ErrorViewModel.Icon), converter: new IsEmptyConverter {Inverted = true}));
+        icon.SetBinding(Image.SourceProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Icon);
+        icon.SetBinding(IsVisibleProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Icon, converter: new IsEmptyConverter {Inverted = true});
 
         var titleLabel = new Labels.Label
         {
@@ -32,7 +31,7 @@ public class ErrorView : ScrollView
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
 
-        titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.Title)));
+        titleLabel.SetBinding(Label.TextProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Title);
 
         var descriptionLabel = new Labels.Label
         {
@@ -41,7 +40,7 @@ public class ErrorView : ScrollView
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center
         };
-        descriptionLabel.SetBinding(Label.TextProperty, new Binding(nameof(ErrorViewModel.Description)));
+        descriptionLabel.SetBinding(Label.TextProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Description);
 
         verticalStackLayout.Add(icon);
         verticalStackLayout.Add(titleLabel);

@@ -42,5 +42,5 @@ public class BottomSheetPickerConfiguration : BindableObject
         set => SetValue(TitleProperty, value);
     }
 
-    public ControlTemplate SelectableItemTemplate { get; set; }
+    public ControlTemplate? SelectableItemTemplate { get; set; }
 }

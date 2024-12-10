@@ -1,3 +1,6 @@
+## [38.1.0]
+- Converted all C# bindings to Compiled Bindings.
+
 ## [38.0.4]
 - [iOS] Made sure long press effect works for dui:Button and other non-MauiView views.
 

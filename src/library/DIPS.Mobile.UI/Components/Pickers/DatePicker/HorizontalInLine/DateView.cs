@@ -13,16 +13,13 @@ public class DateView : DateViewBase
     {
         //Day shortname label
         var dayNameLabel = CreateLabel(new Label());
-        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty,
-            new Binding(nameof(SelectableDateViewModel.IsSelected),
-                converter: new BoolToObjectConverter()
-                {
-                    TrueObject = Colors.GetColor(ColorName.color_system_white),
-                    FalseObject = Colors.GetColor(ColorName.color_system_black),
-                }));
-        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty,
-            new Binding(nameof(SelectableDateViewModel.DayName)));
-
+        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Colors.GetColor(ColorName.color_system_white),
+            FalseObject = Colors.GetColor(ColorName.color_system_black),
+        });
+        dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.DayName);
+        
         if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
         {
             this.Add(dayNameLabel, 0, 2);

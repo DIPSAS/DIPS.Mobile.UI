@@ -53,6 +53,8 @@ public partial class VetlePage
         typeof(bool),
         typeof(VetlePage));
 
+    private string m_test1 = "Test123";
+
     public bool TestBool
     {
         get => (bool)GetValue(TestBoolProperty);
@@ -69,11 +71,7 @@ public partial class VetlePage
     {
         base.OnAppearing();
 
-        await Task.Delay(1000);
         
-        _ = DialogService.ShowMessage("Hei", "This will disappear in 5 seconds.", "OK");
-        await Task.Delay(5000);
-        DialogService.Remove();
 
         /*Button.IsVisible = true;*/
 
@@ -138,7 +136,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        Test123();
+        Test = "Clicked";
     }
 
     private void SwapRoot(object sender, EventArgs e)
@@ -165,5 +163,21 @@ public partial class VetlePage
     {
         DisplayAlert("Size Changed", "The size of the element has changed", "OK");    
     }
+
+    public string Test
+    {
+        get => m_test1;
+        set
+        {
+            if (value == m_test1)
+            {
+                return;
+            }
+
+            m_test1 = value;
+            OnPropertyChanged();
+        }
+    }
+
     
 }

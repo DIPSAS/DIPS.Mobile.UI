@@ -30,14 +30,12 @@ internal partial class NavigationMenuButton : Grid
         ((Button)Button).Padding = DeviceInfo.Platform == DevicePlatform.Android
             ? Sizes.GetSize(SizeName.size_1)
             : Sizes.GetSize(SizeName.size_3);
-        Button.SetBinding(Microsoft.Maui.Controls.Button.ImageSourceProperty,
-            new Binding(nameof(Icon), source: this));
-        Button.SetBinding(BackgroundColorProperty, new Binding(nameof(ButtonBackgroundColor), source: this));
-        Button.SetBinding(IsEnabledProperty, new Binding(nameof(IsEnabled), source: this));
-        Button.SetBinding(OpacityProperty,
-            new Binding(nameof(IsEnabled),
-                converter: new BoolToObjectConverter {TrueObject = (double)1, FalseObject = 0.5}, source: this));
-        Button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, new Binding(nameof(Command), source: this));
+        
+        Button.SetBinding(Microsoft.Maui.Controls.Button.ImageSourceProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.Icon, source: this);
+        Button.SetBinding(BackgroundColorProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.ButtonBackgroundColor, source: this);
+        Button.SetBinding(IsEnabledProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.IsEnabled, source: this);
+        Button.SetBinding(OpacityProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.IsEnabled, converter: new BoolToObjectConverter {TrueObject = (double)1, FalseObject = 0.5}, source: this);
+        Button.SetBinding(Microsoft.Maui.Controls.Button.CommandProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.Command, source: this);
 
         BadgeLabel = new Label
         {
@@ -49,7 +47,6 @@ internal partial class NavigationMenuButton : Grid
             HorizontalTextAlignment = TextAlignment.Center,
             VerticalTextAlignment = TextAlignment.Center,
         };
-
 
         Badge = new Border
         {
@@ -67,7 +64,7 @@ internal partial class NavigationMenuButton : Grid
 #if __ANDROID__
         Badge.Padding = new Thickness(1, 0, 1, 1);
 #endif
-        Badge.SetBinding(BackgroundColorProperty, new Binding(nameof(BadgeColor), source: this));
+        Badge.SetBinding(BackgroundColorProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.BadgeColor, source: this);
 
         Add(Button);
         Add(Badge);

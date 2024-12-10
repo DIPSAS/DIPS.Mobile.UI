@@ -29,7 +29,7 @@ public abstract class BaseNullableDatePicker : Grid
         m_dateOrTimePicker.IsVisible = false;
         m_dateOrTimePicker.VerticalOptions = LayoutOptions.Center;
 #if __IOS__
-        m_dateOrTimePicker.SetBinding(HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), BindingMode.OneWay, source: this));
+        m_dateOrTimePicker.SetBinding(HorizontalOptionsProperty, static (BaseNullableDatePicker baseNullableDatePicker) => baseNullableDatePicker.HorizontalOptions, source: this);
 #endif
         
         Add(m_dateOrTimePicker);

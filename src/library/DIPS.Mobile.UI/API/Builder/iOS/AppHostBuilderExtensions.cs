@@ -19,7 +19,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
         handlers.AddHandler<Switch, SwitchHandler>();
-        handlers.AddHandler<CarouselView, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
+        handlers.AddHandler<CarouselView2, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

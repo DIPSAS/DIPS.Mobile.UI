@@ -20,8 +20,8 @@ public class EmptyView : ScrollView
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
         };
-        icon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, new Binding(nameof(EmptyViewModel.Icon)));
-        icon.SetBinding(IsVisibleProperty, new Binding(nameof(EmptyViewModel.Icon), converter: new IsEmptyConverter{ Inverted = true }));
+        icon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon);
+        icon.SetBinding(IsVisibleProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon, converter: new IsEmptyConverter { Inverted = true });
         
         var titleLabel = new Label
         {
@@ -32,7 +32,7 @@ public class EmptyView : ScrollView
             TextColor = Colors.GetColor(ColorName.color_neutral_80),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
-        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Title)));
+        titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Title);
 
         var descriptionLabel = new Label
         {
@@ -41,7 +41,7 @@ public class EmptyView : ScrollView
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center
         };
-        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, new Binding(nameof(EmptyViewModel.Description)));
+        descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Description);
         
         verticalStackLayout.Add(icon);
         verticalStackLayout.Add(titleLabel);

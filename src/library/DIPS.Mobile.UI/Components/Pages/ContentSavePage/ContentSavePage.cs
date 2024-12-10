@@ -10,11 +10,11 @@ public partial class ContentSavePage : ContentPage
     public ContentSavePage()
     {
         m_saveView = new SaveView();
-        m_saveView.SetBinding(SaveView.IsSavingProperty, new Binding(nameof(IsSaving), source: this));
-        m_saveView.SetBinding(SaveView.IsSavingCompletedProperty, new Binding(nameof(IsSavingCompleted), source: this));
-        m_saveView.SetBinding(SaveView.SavingTextProperty, new Binding(nameof(SavingText), source: this));
-        m_saveView.SetBinding(SaveView.SavingCompletedTextProperty, new Binding(nameof(SavingCompletedText), source: this));
-        m_saveView.SetBinding(SaveView.SavingCompletedCommandProperty, new Binding(nameof(SavingCompletedCommand), source: this));
+        m_saveView.SetBinding(SaveView.IsSavingProperty, static (ContentSavePage contentSavePage) => contentSavePage.IsSaving, source: this);
+        m_saveView.SetBinding(SaveView.IsSavingCompletedProperty, static (ContentSavePage contentSavePage) => contentSavePage.IsSavingCompleted, source: this);
+        m_saveView.SetBinding(SaveView.SavingTextProperty, static (ContentSavePage contentSavePage) => contentSavePage.SavingText, source: this);
+        m_saveView.SetBinding(SaveView.SavingCompletedTextProperty, static (ContentSavePage contentSavePage) => contentSavePage.SavingCompletedText, source: this);
+        m_saveView.SetBinding(SaveView.SavingCompletedCommandProperty, static (ContentSavePage contentSavePage) => contentSavePage.SavingCompletedCommand, source: this);
     }
 
     private async Task CreateSaveView()

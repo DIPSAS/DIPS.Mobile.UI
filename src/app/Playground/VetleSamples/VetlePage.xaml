@@ -10,29 +10,15 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
-                 x:Name="This">
+                 x:Name="This"
+                 HideSoftInputOnTapped="True">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <CollectionView>
-        
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>First</x:String>
-                <x:String>Second</x:String>
-                <x:String>Third</x:String>
-            </x:Array>
-        </CollectionView.ItemsSource>
-        
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type system:String}">
-                <dui:Label SizeChanged="VisualElement_OnSizeChanged"
-                           Text="Hello"></dui:Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
-
+    <VerticalStackLayout>
+        <Entry Keyboard="Numeric" Text="helo"></Entry>
+    </VerticalStackLayout>
+    
 </dui:ContentPage>

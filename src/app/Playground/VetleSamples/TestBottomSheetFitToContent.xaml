@@ -7,6 +7,7 @@
              x:Class="Playground.VetleSamples.TestBottomSheetFitToContent"
              ShouldFitToContent="True"
              HasSearchBar="True"
+             x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
              SearchCommand="{Binding Navigate}">
     
     <dui:BottomSheet.BindingContext>

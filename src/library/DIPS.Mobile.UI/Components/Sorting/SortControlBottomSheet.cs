@@ -91,7 +91,7 @@ internal class SortControlBottomSheet : BottomSheet
             Content = imageBorder
         };
         
-        imageBorder.SetBinding(IsVisibleProperty, new Binding(nameof(SelectableItemViewModel.IsSelected)));
+        imageBorder.SetBinding(IsVisibleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
 
         radioButtonListItem.TitleOptions = new TitleOptions { Width = GridLength.Star };
         
@@ -105,10 +105,10 @@ internal class SortControlBottomSheet : BottomSheet
                 Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_0))
         };
         
-        radioButtonListItem.SetBinding(ListItem.CommandParameterProperty, new Binding(nameof(BindingContext), source: new RelativeBindingSource(RelativeBindingSourceMode.Self)));
-        radioButtonListItem.SetBinding(ListItem.TitleProperty, new Binding(nameof(SelectableItemViewModel.DisplayName)));
-        radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, new Binding(nameof(SelectableItemViewModel.IsSelected)));
-        radioButtonListItem.SetBinding(ListItem.HasBottomDividerProperty, new Binding(nameof(SelectableSortOptionViewModel.IsLastItem), converter: new InvertedBoolConverter()));
+        radioButtonListItem.SetBinding(ListItem.CommandParameterProperty, static (RadioButtonListItem radioButtonListItem) => radioButtonListItem.BindingContext, source: new RelativeBindingSource(RelativeBindingSourceMode.Self));
+        radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
+        radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
+        radioButtonListItem.SetBinding(ListItem.HasBottomDividerProperty, static (SelectableSortOptionViewModel selectableSortOptionViewModel) => selectableSortOptionViewModel.IsLastItem, converter: new InvertedBoolConverter());
         
         return radioButtonListItem;
     }

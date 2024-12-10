@@ -73,7 +73,8 @@ public partial class SubtitleOptions
     public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
         nameof(LineBreakMode),
         typeof(LineBreakMode),
-        typeof(SubtitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue);
+        typeof(SubtitleOptions), defaultValue: Label.LineBreakModeProperty.DefaultValue,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
         nameof(MaxLines),
@@ -83,25 +84,29 @@ public partial class SubtitleOptions
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),
         typeof(FontAttributes),
-        typeof(SubtitleOptions));
+        typeof(SubtitleOptions),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalTextAlignment),
         typeof(TextAlignment),
         typeof(SubtitleOptions),
-        defaultValue:TextAlignment.Start);
+        defaultValue:TextAlignment.Start,
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
         nameof(VerticalTextAlignment),
         typeof(TextAlignment),
         typeof(SubtitleOptions),
-        defaultValue:TextAlignment.Start);
+        defaultValue:TextAlignment.Start,
+        defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),
         typeof(SubtitleOptions),
-        defaultValue: Styles.GetLabelStyle(LabelStyle.Body200));
+        defaultValue: Styles.GetLabelStyle(LabelStyle.Body200),
+        defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
