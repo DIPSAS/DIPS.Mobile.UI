@@ -1,5 +1,6 @@
 namespace DIPS.Mobile.UI.Resources.Sizes
 {
+    [AcceptEmptyServiceProvider]
     [ContentProperty(nameof(UniformSize))]
     public class ThicknessExtension : IMarkupExtension<Thickness>
     {

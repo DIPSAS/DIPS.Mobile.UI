@@ -8,6 +8,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     ///     Converts an DateTime or TimeSpan object with a format and convert it to a readable time string in local
     ///     timezone
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class TimeConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider?m_serviceProvider;

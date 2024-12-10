@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 
 namespace DIPS.Mobile.UI.Resources.Styles
 {
+    [AcceptEmptyServiceProvider]
     public class StylesExtension : IMarkupExtension<Style>
     {
         /// <summary>

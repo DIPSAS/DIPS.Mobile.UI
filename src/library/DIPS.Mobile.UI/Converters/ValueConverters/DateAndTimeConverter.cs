@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
     /// <summary>
     ///     Converters a DateTime object with a format and convert it to a readable string in local time zone
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class DateAndTimeConverter : IMarkupExtension, IValueConverter
     {
         /// <summary>

@@ -11,7 +11,6 @@ namespace DIPS.Mobile.UI.API.Tip;
 [ContentProperty(nameof(Message))]
 public class TipCommand : IMarkupExtension
 {
-    private Element m_anchoredElement;
     public string Message { get; set; } = string.Empty;
     public int Duration { get; set; } = 4000;
 

@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
@@ -8,6 +7,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     ///     Converts an DateTime object to a format and convert it to a readable string in local timezone
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class DateConverter : IValueConverter, IMarkupExtension
     {
         /// <summary>

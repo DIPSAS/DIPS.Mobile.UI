@@ -96,7 +96,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 case PickerMode.BottomSheet:
                     if (BottomSheetService.IsOpen())
                     {
-                        BottomSheetService.CloseAll();
+                        _ = BottomSheetService.CloseAll();
                     }
 
                     break;

@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
     /// <summary>
     /// Multiplies the input value with a provide factor.
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class MultiplicationConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

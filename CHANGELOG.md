@@ -1,3 +1,6 @@
+## [38.2.0]
+- Annotated all classes that inherits from IMarkupExtension with either [AcceptEmptyProvider] or [RequireService[typeof(T)]]
+
 ## [38.1.0]
 - Converted all C# bindings to Compiled Bindings.
 

@@ -203,7 +203,7 @@ internal class FloatingNavigationButton : Grid
         return false;
     }
 
-    private async void Open()
+    private void Open()
     {
         IsClickable = true; //Wait until animation is finished before letting people
         m_isOpened = true;
@@ -212,7 +212,7 @@ internal class FloatingNavigationButton : Grid
         m_fadeInColorAnimation.Commit(this, "FadeIn", easing: Easing.CubicOut);
 
         m_mainButton.HideBadge();
-        m_mainButton.Button.BackgroundColorTo(OpenedColor, length: 1500);
+        _ = m_mainButton.Button.BackgroundColorTo(OpenedColor, length: 1500);
         m_mainButton.Icon = OpenedIcon;
 
         var numberOfNavigationButtons = m_floatingNavigationButtonConfigurator.NavigationMenuButtons.Count;

@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
@@ -8,6 +7,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// Converter that takes different input input types and returns a true/false object to indicate if it is empty or not.
     /// <see cref="IsEmptyConverter"/> for its input types
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class IsEmptyToObjectConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

@@ -1,12 +1,9 @@
-using DIPS.Mobile.UI.Components.BottomSheets;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 
 public partial class Editor : Microsoft.Maui.Controls.Editor
 {
-    private Positioning m_bottomSheetFromPosition;
-
     public Editor()
     {
         PlaceholderColor = Colors.GetColor(ColorName.color_neutral_60);

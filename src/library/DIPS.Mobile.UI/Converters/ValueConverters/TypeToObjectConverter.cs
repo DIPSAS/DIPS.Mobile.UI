@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
     /// <summary>
     /// Converter that can be used to check the type of the binding against a <see cref="Type"/>
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class TypeToObjectConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

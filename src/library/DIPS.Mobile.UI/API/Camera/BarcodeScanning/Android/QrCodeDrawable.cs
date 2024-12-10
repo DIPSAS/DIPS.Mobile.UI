@@ -11,7 +11,6 @@ public class QrCodeDrawable : Drawable
     private readonly global::Android.Graphics.Paint m_boundingRectPaint;
     private readonly global::Android.Graphics.Paint m_contentRectPaint;
     private readonly global::Android.Graphics.Paint m_contentTextPaint;
-    private readonly int m_contentPadding = 25;
 
     public QrCodeDrawable(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode barcode)
     {
