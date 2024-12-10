@@ -17,7 +17,7 @@ public partial class CameraPreview : ContentView
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private WeakReference<ICameraUseCase?> m_cameraUseCase;
     
-    private Grid m_grid;
+    private Grid? m_grid;
     private Grid m_bottomToolbarContainer;
     private Grid m_topToolbarContainer;
     private CameraZoomView? m_cameraZoomView;
@@ -86,7 +86,7 @@ public partial class CameraPreview : ContentView
                 return;
             
             m_cameraZoomView = value;
-            m_grid.Add(value);
+            m_grid?.Add(value);
         }
     }
 
@@ -116,7 +116,7 @@ public partial class CameraPreview : ContentView
     
     internal void AddFocusIndicator(float percentX, float percentY)
     {
-        m_grid.Remove(m_indicatorWrapper);
+        m_grid?.Remove(m_indicatorWrapper);
         
         m_indicator = new Border
         {
@@ -156,7 +156,7 @@ public partial class CameraPreview : ContentView
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
         m_indicator.FadeTo(1);
         
-        m_grid.Add(m_indicatorWrapper);
+        m_grid?.Add(m_indicatorWrapper);
 
         Task.Run(async () =>
         {
@@ -168,7 +168,7 @@ public partial class CameraPreview : ContentView
                     _ = borderToRemoveAnimate.ScaleTo(.75f);
                     await borderToRemoveAnimate.FadeTo(0);
                 }
-                m_grid.Remove(viewToRemove);
+                m_grid?.Remove(viewToRemove);
                 viewToRemove.DisconnectHandlers();
             });
         });
@@ -217,11 +217,11 @@ public partial class CameraPreview : ContentView
         
         if (index == -1)
         {
-            m_grid.Add(view);
+            m_grid?.Add(view);
         }
         else
         {
-            m_grid.Insert(index, view);
+            m_grid?.Insert(index, view);
         }
     }
     
@@ -230,7 +230,7 @@ public partial class CameraPreview : ContentView
         if(view is null)
             return;
         
-        if (m_grid.Remove(view))
+        if (m_grid != null && m_grid.Remove(view))
         {
             view.DisconnectHandlers();
         }
@@ -246,13 +246,13 @@ public partial class CameraPreview : ContentView
         m_cameraUseCase = new WeakReference<ICameraUseCase?>(cameraUseCase);
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args) 
     {
         if(args.NewHandler == null) // User has navigated from the page
         {
 #if __ANDROID__
             // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
-            m_grid.DisconnectHandlers();
+            m_grid?.DisconnectHandlers();
 #endif
             if (m_cameraUseCase.TryGetTarget(out var target))
             {
@@ -273,7 +273,7 @@ public partial class CameraPreview : ContentView
 
         if (m_indicator is not null)
         {
-            if (m_grid.Remove(m_indicator))
+            if (m_grid?.Remove(m_indicator))
             {
                 m_indicator.DisconnectHandlers();
             }
