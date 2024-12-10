@@ -1,6 +1,12 @@
 ## [38.1.0]
 - Converted all C# bindings to Compiled Bindings.
 
+## [38.0.4]
+- [iOS] Made sure long press effect works for dui:Button and other non-MauiView views.
+
+## [38.0.3]
+- [iOS][Layout] Fix crash.
+
 ## [38.0.2]
 - [Label][Android] Error handle when trying to set ellipsis text.
 
