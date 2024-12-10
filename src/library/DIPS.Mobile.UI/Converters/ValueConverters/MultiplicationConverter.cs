@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Multiplies the input value with a provide factor.
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class MultiplicationConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

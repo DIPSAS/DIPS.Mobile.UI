@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     ///     Converters a DateTime object with a format and convert it to a readable string in local time zone
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class DateAndTimeConverter : IMarkupExtension, IValueConverter
     {
         /// <summary>

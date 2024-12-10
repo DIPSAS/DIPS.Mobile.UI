@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Converters.MultiValueConverters
     /// <summary>
     /// A converter to run a logical gate on multiple boolean values <see cref="LogicalGate"/>.
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class LogicalExpressionConverter : IMarkupExtension, IMultiValueConverter
     {
         private IServiceProvider? m_serviceProvider;

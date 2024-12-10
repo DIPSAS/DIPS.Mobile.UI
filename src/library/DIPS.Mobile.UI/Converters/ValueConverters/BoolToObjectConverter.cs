@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Converters an boolean input value to it's respective <see cref="TrueObject"/> or <see cref="FalseObject"/> depending on the <see cref="Inverted"/> value
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class BoolToObjectConverter : IValueConverter, IMarkupExtension
     {
         private IServiceProvider? m_serviceProvider;

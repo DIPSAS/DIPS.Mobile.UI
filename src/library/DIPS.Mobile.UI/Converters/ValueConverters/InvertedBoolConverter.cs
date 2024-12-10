@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// A converter that accepts a boolean value as a value and inverts the boolean value as output.
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class InvertedBoolConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.MultiValueConverters
 {
     /// <summary>
     /// A converter that takes a item and a list as bindings and compare the index of the item with a <see cref="Position"/>
     /// </summary>
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class PositionInListConverter : IMarkupExtension, IMultiValueConverter
     {
         private IServiceProvider? m_serviceProvider;

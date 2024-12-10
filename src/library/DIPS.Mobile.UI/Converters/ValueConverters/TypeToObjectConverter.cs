@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Converter that can be used to check the type of the binding against a <see cref="Type"/>
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class TypeToObjectConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     ///     Attempts to convert an object into its respective bool value based on its own equality implementation
     /// </summary>
-    [AcceptEmptyServiceProvider]
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class ObjectToBoolConverter : IValueConverter, IMarkupExtension
     {
         private IServiceProvider? m_serviceProvider;
