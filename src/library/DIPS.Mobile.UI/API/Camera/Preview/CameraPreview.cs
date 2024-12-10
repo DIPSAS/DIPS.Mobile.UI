@@ -273,7 +273,7 @@ public partial class CameraPreview : ContentView
 
         if (m_indicator is not null)
         {
-            if (m_grid?.Remove(m_indicator))
+            if (m_grid != null && m_grid.Remove(m_indicator))
             {
                 m_indicator.DisconnectHandlers();
             }
