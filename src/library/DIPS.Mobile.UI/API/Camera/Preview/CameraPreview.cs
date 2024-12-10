@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
 #if __IOS__
@@ -248,20 +249,27 @@ public partial class CameraPreview : ContentView
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args) 
     {
-        if(args.NewHandler == null) // User has navigated from the page
+        try
         {
+            if(args.NewHandler == null) // User has navigated from the page
+            {
 #if __ANDROID__
             // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.
             m_grid?.DisconnectHandlers();
 #endif
-            if (m_cameraUseCase.TryGetTarget(out var target))
-            {
-                CameraZoomView?.DisconnectHandlers();
-                var collectionContentTarget = target.ToCollectionContentTarget();
-                _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
-                target.StopAndDispose();
+                if (m_cameraUseCase.TryGetTarget(out var target))
+                {
+                    CameraZoomView?.DisconnectHandlers();
+                    var collectionContentTarget = target.ToCollectionContentTarget();
+                    _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
+                    target.StopAndDispose();
 
+                }
             }
+        }
+        catch (Exception e)
+        {
+            DUILogService.LogError<CameraPreview>(e.Message);
         }
 
         base.OnHandlerChanging(args);
