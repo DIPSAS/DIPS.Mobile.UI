@@ -276,7 +276,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
         {
-            if (handler.InternalSearchBar.Handler.PlatformView is MauiSearchView mauiSearchView)
+            if (handler.InternalSearchBar.Handler?.PlatformView is MauiSearchView mauiSearchView)
             {
                 mauiSearchView.ImeOptions = (int)(searchBar.ReturnKeyType == ReturnType.Done
                     ? ImeAction.Done

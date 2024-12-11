@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Adds the provided value (a term) with a <see cref="Addend"/> to create a sum
     /// </summary>
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class AdditionConverter : IMarkupExtension, IValueConverter
     {
         private IServiceProvider? m_serviceProvider;

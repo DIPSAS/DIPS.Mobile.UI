@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
@@ -8,9 +7,10 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     ///     Converts an DateTime or TimeSpan object with a format and convert it to a readable time string in local
     ///     timezone
     /// </summary>
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class TimeConverter : IMarkupExtension, IValueConverter
     {
-        private IServiceProvider?m_serviceProvider;
+        private IServiceProvider? m_serviceProvider;
 
         /// <summary>
         ///     The converter format that is used to change the format of the time <see cref="TimeConverter" />

@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using DIPS.Mobile.UI.Extensions;
 
 namespace DIPS.Mobile.UI.Converters.ValueConverters
 {
     /// <summary>
     /// Converters an boolean input value to it's respective <see cref="TrueObject"/> or <see cref="FalseObject"/> depending on the <see cref="Inverted"/> value
     /// </summary>
+    [RequireService([typeof(IXmlLineInfoProvider)])]
     public class BoolToObjectConverter : IValueConverter, IMarkupExtension
     {
         private IServiceProvider? m_serviceProvider;

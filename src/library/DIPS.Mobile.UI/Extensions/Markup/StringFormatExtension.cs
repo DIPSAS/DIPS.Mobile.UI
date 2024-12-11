@@ -1,6 +1,7 @@
 namespace DIPS.Mobile.UI.Extensions.Markup;
 
 [ContentProperty(nameof(Format))]
+[AcceptEmptyServiceProvider]
 public class StringFormatExtension : IMarkupExtension
 {
     /// <summary>

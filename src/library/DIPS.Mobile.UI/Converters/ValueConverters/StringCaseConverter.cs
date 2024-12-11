@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
     /// <summary>
     /// Uses <see cref="StringCaseExtension"/> to converter a string to a <see cref="StringCase"/>
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class StringCaseConverter : IMarkupExtension, IValueConverter
     {
         /// <summary>

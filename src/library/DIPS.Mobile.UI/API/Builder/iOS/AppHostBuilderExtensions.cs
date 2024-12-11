@@ -13,7 +13,7 @@ public static partial class AppHostBuilderExtensions
 {
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
-        handlers.AddHandler(typeof(Components.Searching.iOS.InternalSearchBar), typeof(Components.Searching.iOS.InternalSearchBarHandler));
+        handlers.AddHandler<Components.Searching.iOS.InternalSearchBar, Components.Searching.iOS.InternalSearchBarHandler>();
         handlers.AddHandler<InlineDatePicker, InlineDatePickerHandler>();
         handlers.AddHandler<InlineTimePicker, InlineTimePickerHandler>();
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();

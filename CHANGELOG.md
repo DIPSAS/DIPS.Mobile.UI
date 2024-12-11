@@ -1,3 +1,7 @@
+## [38.2.0]
+- Annotated all classes that inherits from IMarkupExtension with either [AcceptEmptyProvider] or [RequireService[typeof(T)]]
+- Enabled Source compilation in Components app.
+
 ## [38.1.1]
 - [CameraPreview] Fixed potential crash when disconnecting camerapreview.
 

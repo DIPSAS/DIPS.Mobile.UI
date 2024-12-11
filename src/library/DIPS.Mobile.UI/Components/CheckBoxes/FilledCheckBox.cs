@@ -7,7 +7,6 @@ using SkiaSharp.Extended.UI.Controls;
 using SkiaSharp.Extended.UI.Controls.Themes;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.Components.CheckBoxes;
 
@@ -15,7 +14,6 @@ public partial class FilledCheckBox : ContentView
 {
     private readonly ActivityIndicator m_activityIndicator;
     private readonly SKLottieView m_animation;
-    private readonly Image m_nonCheckedImage;
 
     public FilledCheckBox()
     {

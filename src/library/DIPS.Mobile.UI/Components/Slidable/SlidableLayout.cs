@@ -94,8 +94,6 @@ namespace DIPS.Mobile.UI.Components.Slidable
 
         public abstract void Redraw();
 
-        private static int s_scrollToId = -42;
-
         /// <summary>
         /// Scrolls to the index
         /// </summary>

@@ -1,5 +1,6 @@
 namespace DIPS.Mobile.UI.Resources.Sizes
 {
+    [RequireService([typeof(IProvideValueTarget)])]
     [ContentProperty(nameof(SizeName))]
     public class SizesExtension : IMarkupExtension
     {

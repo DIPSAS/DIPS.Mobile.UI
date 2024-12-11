@@ -23,6 +23,8 @@
         <Nullable>enable</Nullable>
         
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">

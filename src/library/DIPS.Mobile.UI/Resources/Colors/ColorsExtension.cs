@@ -1,5 +1,6 @@
 namespace DIPS.Mobile.UI.Resources.Colors
 {
+    [AcceptEmptyServiceProvider]
     [ContentProperty(nameof(ColorName))]
     public class ColorsExtension : IMarkupExtension<Color>
     {

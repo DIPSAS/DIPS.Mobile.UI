@@ -8,6 +8,7 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters;
 /// 
 /// Converts the incoming value from <see cref="byte"/>[] and returns the object of a type <see cref="ImageSource"/> or vice versa.
 /// </summary>
+[AcceptEmptyServiceProvider]
 public class ByteArrayToImageSourceConverter : IMarkupExtension, IValueConverter
 {
     /// <summary>
