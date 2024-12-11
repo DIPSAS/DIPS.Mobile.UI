@@ -1,3 +1,6 @@
+## [38.1.1]
+- [CameraPreview] Fixed potential crash when disconnecting camerapreview.
+
 ## [38.1.0]
 - Converted all C# bindings to Compiled Bindings.
 
