@@ -28,7 +28,7 @@ public partial class ImageCapture : IStreamingStateObserver
     {
         m_cameraPreview.GoToStreamingState();
         m_topToolbarView.GoToStreamingState(this);
-        m_bottomToolbarView.GoToStreamingState(this);
+        m_bottomToolbarView.GoToStreamingState(this, CanUseMacroMode, IsUsingMacroMode);
 
         m_bottomToolbarView.SetShutterButtonEnabled(true);
 
@@ -45,6 +45,11 @@ public partial class ImageCapture : IStreamingStateObserver
         _ = DialogService.ShowMessage(DUILocalizedStrings.SettingsChanged, DUILocalizedStrings.SettingsChangedDescription, "Ok");
         await PlatformStop();
         _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
+    }
+
+    public void OnTappedMacroButton()
+    {
+        PlatformToggleMacro();
     }
 
     private bool FlashActive { get; set; }

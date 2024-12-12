@@ -1,3 +1,4 @@
+using System.Xml;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -11,12 +12,21 @@ internal class StreamingStateView : Grid
 {
     private readonly ShutterButton m_shutterButton;
     private readonly Button m_blitzButton;
+    private readonly Button m_macroButton;
 
-    public StreamingStateView(IStreamingStateObserver streamingStateObserver)
+    public StreamingStateView(IStreamingStateObserver streamingStateObserver, bool canUseMacroMode, bool isUsingMacroMode)
     {
         var isBlitzOn = streamingStateObserver.FlashActive;
-        
+
         m_shutterButton = new ShutterButton(streamingStateObserver.OnTappedShutterButton);
+        m_macroButton = new Button()
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            ImageSource = Icons.GetIcon(IconName.bacteria_line),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
+            Command = new Command(streamingStateObserver.OnTappedMacroButton)
+        };
+        m_macroButton.ImageTintColor = Colors.GetColor(isUsingMacroMode ? ColorName.color_system_white : ColorName.color_neutral_40);
 
         m_blitzButton = new Button
         {
@@ -34,6 +44,11 @@ internal class StreamingStateView : Grid
             m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
         });
         
+        if (canUseMacroMode)
+        {
+            Add(m_macroButton);
+        }
+        
         Add(m_shutterButton);
         Add(m_blitzButton);
         
@@ -43,6 +58,7 @@ internal class StreamingStateView : Grid
     private void DUIOnOrientationChanged(OrientationDegree orientationDegree)
     {
         m_blitzButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
+        m_macroButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
     }
 
     public void SetShutterButtonEnabled(bool isEnabled)

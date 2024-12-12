@@ -20,6 +20,11 @@ public class ImageCaptureSettings
     public PostCaptureAction PostCaptureAction { get; set; }
     public int? MaxHeightOrWidth { get; set; }
     public bool CanChangeMaxHeightOrWidth { get; set; }
+    /// <summary>
+    /// Determines if the image capturing experience should include a button for people to tap on to use macro mode.
+    /// </summary>
+    /// <remarks>This requires the device to have an Ultra Wide lens.</remarks>
+    public bool CanUseMacroMode { get; set; }
     internal CameraInfo CameraInfo { get; } = new();
 }
 

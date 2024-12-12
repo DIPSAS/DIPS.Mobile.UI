@@ -34,6 +34,7 @@ internal class CameraZoomView : Grid
         }, OnPanned);
         m_zoomSlider = new ZoomSlider(minRatio, maxRatio, onChangedZoomRatio, OnPanned);
         
+        
         Add(m_zoomSlider);
         Add(m_zoomButtons);
     }

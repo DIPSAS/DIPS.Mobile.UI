@@ -23,6 +23,9 @@ public partial class ImageCapture
         
     }
     
+    private void PlatformToggleMacro(){}
+    
+    
     private partial void PlatformOnCameraFailed(CameraException cameraException){}
 
 }

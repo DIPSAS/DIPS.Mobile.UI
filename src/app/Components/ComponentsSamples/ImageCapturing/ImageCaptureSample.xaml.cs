@@ -38,6 +38,7 @@ public partial class ImageCaptureSample
         await m_imageCapture.Start(CameraPreview, OnImageCaptured, OnCameraFailed,
             settings =>
             {
+                settings.CanUseMacroMode = true;
                 settings.PostCaptureAction = PostCaptureAction.Close;
                 settings.CanChangeMaxHeightOrWidth = true;
                 settings.DoneButtonCommand = new Command(Close);

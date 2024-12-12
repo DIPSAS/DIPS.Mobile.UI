@@ -61,6 +61,11 @@ public partial class ImageCapture : CameraFragment
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
 
+    private void PlatformToggleMacro()
+    {
+        //Not supported yet.
+    }
+
     private partial async Task PlatformStop()
     {
         await base.TryStop();

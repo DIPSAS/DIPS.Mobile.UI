@@ -53,11 +53,29 @@ public partial class ImageCapture : CameraSession
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>
         OnCameraFailed<ImageCapture>(cameraException);
 
-    public override AVCaptureDevice? SelectCaptureDevice() =>
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back) ??
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInDualCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+    public override AVCaptureDevice? SelectCaptureDevice()
+    {
+        CanUseMacroMode = false;
+        var deviceDiscovery = AVCaptureDeviceDiscoverySession.Create(
+            [AVCaptureDeviceType.BuiltInWideAngleCamera, AVCaptureDeviceType.BuiltInUltraWideCamera
+            ],
+            AVMediaTypes.Video,
+            AVCaptureDevicePosition.Back
+        );
+        var macroDevice = deviceDiscovery.Devices.FirstOrDefault(d => d.DeviceType == AVCaptureDeviceType.BuiltInUltraWideCamera);
+        
+        if (macroDevice != null && m_imageCaptureSettings.CanUseMacroMode) //If the device supports ultra wide camera and the consumer wants people to be able to use macro mode.
+        {
+            CanUseMacroMode = true;
+            if (IsUsingMacroMode)
+            {
+                return macroDevice;
+            }
+        }
+
+        var device = deviceDiscovery.Devices.FirstOrDefault();
+        return device;
+    }
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
@@ -82,6 +100,12 @@ public partial class ImageCapture : CameraSession
                     photo, 
                     new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
         }
+    }
+    
+    private async void PlatformToggleMacro()
+    {
+        IsUsingMacroMode = !IsUsingMacroMode;
+        await Restart();
     }
 
     private static (byte[], CGImage) GetThumbnail(byte[] image)

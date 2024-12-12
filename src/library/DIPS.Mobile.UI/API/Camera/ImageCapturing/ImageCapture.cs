@@ -22,6 +22,15 @@ public partial class ImageCapture : ICameraUseCase
         IsRunning = true
     };
     
+    /// <summary>
+    /// Determines if people can use macro mode when capturing photos.
+    /// </summary>
+    public bool CanUseMacroMode { get; set; }
+    /// <summary>
+    /// Determines if people are using macro mode when capturing photos.
+    /// </summary>
+    public bool IsUsingMacroMode { get; set; }
+    
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
@@ -29,11 +38,13 @@ public partial class ImageCapture : ICameraUseCase
     private ImageCaptureTopToolbarView m_topToolbarView;
     private ImageCaptureBottomToolbarView m_bottomToolbarView;
 #nullable enable
+    private Action<ImageCaptureSettings>? m_configure;
     
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
         m_imageCaptureSettings = new ImageCaptureSettings();
-        configure?.Invoke(m_imageCaptureSettings);
+        m_configure = configure;
+        m_configure?.Invoke(m_imageCaptureSettings);
 
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
@@ -51,6 +62,12 @@ public partial class ImageCapture : ICameraUseCase
         {
             Log("Not permitted to use camera");
         }
+    }
+
+    internal async Task Restart()
+    {
+        await Stop();
+        await Start(m_cameraPreview, m_onImageCapturedDelegate, m_cameraFailedDelegate, m_configure);
     }
     
     private void ConstructCrossPlatformViews()
@@ -128,10 +145,10 @@ public partial class ImageCapture : ICameraUseCase
         }
     }
 
-    public void Stop()
+    public Task Stop()
     {
         ResetAllVisuals();
-        PlatformStop();
+        return PlatformStop();
     }
 
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)
