@@ -1,3 +1,6 @@
+## [38.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [38.2.0]
 - Annotated all classes that inherits from IMarkupExtension with either [AcceptEmptyProvider] or [RequireService[typeof(T)]]
 - Enabled Source compilation in Components app.

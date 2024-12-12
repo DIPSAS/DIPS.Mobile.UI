@@ -186,6 +186,7 @@ this file is generated
 ["tab_more_fill"] = "tab_more_fill.png",
 ["task_fill"] = "task_fill.png",
 ["tab_more_line"] = "tab_more_line.png",
+["microscope_line"] = "microscope_line.png",
 
             };
         }
