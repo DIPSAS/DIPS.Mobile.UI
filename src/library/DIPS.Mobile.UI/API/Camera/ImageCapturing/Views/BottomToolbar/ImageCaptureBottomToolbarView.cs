@@ -21,11 +21,11 @@ internal class ImageCaptureBottomToolbarView : Grid
         });
     }
 
-    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver, bool canUseMacroMode, bool isUsingMacroMode)
+    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
         DisconnectHandlers(() =>
         {
-            Add(new StreamingStateView(streamingStateObserver, canUseMacroMode, isUsingMacroMode));
+            Add(new StreamingStateView(streamingStateObserver));
         });
     }
 

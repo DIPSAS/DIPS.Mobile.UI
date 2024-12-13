@@ -18,11 +18,5 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:Button Text="Remove" Command="{Binding Command}" dui:ContextMenuEffect.Mode="LongPressed">
-        <dui:ContextMenuEffect.Menu>
-            <dui:ContextMenu>
-                <dui:ContextMenuItem Title="Test"/>
-            </dui:ContextMenu>
-        </dui:ContextMenuEffect.Menu>
-    </dui:Button>
+    <dui:Button Text="Take picture" Clicked="Button_OnClicked"/>
 </dui:ContentPage>

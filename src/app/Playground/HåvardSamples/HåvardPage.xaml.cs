@@ -1,3 +1,9 @@
+#if __ANDROID__
+using Android.Content;
+using Android.Provider;
+#endif
+
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 namespace Playground.HåvardSamples;
@@ -82,6 +88,27 @@ public partial class HåvardPage
         tabBar.Items.Add(tab);
         Shell.Current.Items.RemoveAt(0);
         Shell.Current.Items.Add(tabBar);
+    }
+
+    private async void Button_OnClicked(object sender, EventArgs e)
+    {
+        var status = await Microsoft.Maui.ApplicationModel.Permissions.CheckStatusAsync<Microsoft.Maui.ApplicationModel.Permissions.Camera>();
+        if (status != PermissionStatus.Granted)
+        {
+            if (await Microsoft.Maui.ApplicationModel.Permissions.RequestAsync<Microsoft.Maui.ApplicationModel.Permissions.Camera>() != PermissionStatus.Granted)
+            {
+                return;
+            }
+        }
+        
+#if __ANDROID__
+        Intent cameraIntent = new Intent(MediaStore.ActionImageCapture);
+        cameraIntent.PutExtra(MediaStore.ExtraOutput, string.Empty);
+
+        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE); // OLD WAY
+        ((MainActivity)DUI.GetCurrentMauiContext.Context).StartActivityForResult(cameraIntent, 1337);
+        // startCamera.launch(cameraIntent); // VERY NEW WAY
+#endif
     }
 }
 

@@ -1,9 +1,13 @@
 using DIPS.Mobile.UI.API.Tip;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
 #if __IOS__
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using UIKit;
 #endif
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 
@@ -14,6 +18,7 @@ internal class CameraZoomView : Grid
     private ZoomType m_zoomState;
     private readonly ZoomButtons m_zoomButtons;
     private readonly ZoomSlider m_zoomSlider;
+    private readonly Button m_macroButton;
 
     public CameraZoomView(float minRatio, float maxRatio, Action<float> onChangedZoomRatio)
     {
@@ -21,7 +26,16 @@ internal class CameraZoomView : Grid
         CascadeInputTransparent = false;
         
         // We do not support ultra-wide cameras yet, so we can safely assume that the minimum ratio is 1
-        minRatio = 1;
+        
+        m_macroButton = new Button()
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            ImageSource = Icons.GetIcon(IconName.bacteria_line),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
+            Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0 ,0 ,0),
+            Opacity = 0
+        };
+        
         
         VerticalOptions = LayoutOptions.End;
 
@@ -34,9 +48,18 @@ internal class CameraZoomView : Grid
         }, OnPanned);
         m_zoomSlider = new ZoomSlider(minRatio, maxRatio, onChangedZoomRatio, OnPanned);
         
-        
+        Add(m_macroButton);
         Add(m_zoomSlider);
         Add(m_zoomButtons);
+    }
+
+    internal void AddMacroModeButton(bool isUsingMacroMode, Action onTappedMacroButton)
+    {
+        m_macroButton.FadeTo(1);
+        m_macroButton.Command = new Command(onTappedMacroButton);
+        m_macroButton.ImageTintColor =
+            Colors.GetColor(isUsingMacroMode ? ColorName.color_system_black : ColorName.color_system_white);
+        m_macroButton.BackgroundColor = Colors.GetColor(isUsingMacroMode ? ColorName.color_system_white : ColorName.none);
     }
 
     public void ShowZoomTip(string tip)
@@ -112,12 +135,14 @@ internal class CameraZoomView : Grid
             m_zoomState = value;
             if(m_zoomState == ZoomType.Slidable)
             {
+                m_macroButton.FadeTo(0);
                 m_zoomButtons.FadeTo(0);
                 m_zoomSlider.FadeTo(1);
             }
             else
             {
                 m_zoomButtons.FadeTo(1);
+                m_macroButton.FadeTo(1);
                 m_zoomSlider.FadeTo(0);
             }
         }

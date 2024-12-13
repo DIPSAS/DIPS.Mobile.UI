@@ -1,12 +1,16 @@
 using Android.Graphics;
 using Android.Hardware.Camera2;
 using Android.Views;
+using AndroidX.Camera.Camera2.Internal.Annotation;
+using AndroidX.Camera.Camera2.Internal.Compat;
+using AndroidX.Camera.Camera2.InterOp;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using Java.Lang;
 using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;
 using Size = Android.Util.Size;
 
@@ -36,13 +40,63 @@ public partial class ImageCapture : CameraFragment
         }
             
         var resolutionSelector = resolutionSelectorBuilder.Build();
-            
-        m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
-            .SetResolutionSelector(resolutionSelector)
-            .Build();
 
+        var imageCaptureBuilder = new AndroidX.Camera.Core.ImageCapture.Builder()
+            .SetResolutionSelector(resolutionSelector);
+
+        CameraSelector? cameraSelector = null; //Means we use default back camera.
+        if (imageCaptureSettings.CanUseMacroMode)
+        {
+         
+            cameraSelector = new CameraSelector.Builder().RequireLensFacing(CameraSelector.LensFacingBack)
+                .AddCameraFilter(new DUILensFacingCameraFilter(SelectCamera)).Build();
+        }
+        
+        AndroidX.Camera.Core.Preview.Builder? previewBuilder = null;
+        if (IsUsingMacroMode) //This doesn't really work, it seems like all we can do is select the correct lens, but not get the optimal quality. Consider going to activity for result instead.
+        {
+            previewBuilder = new AndroidX.Camera.Core.Preview.Builder();
+            imageCaptureBuilder.SetCaptureMode(AndroidX.Camera.Core.ImageCapture.CaptureModeMaximizeQuality);
+            // Enable Camera2Interop for advanced configuration
+            var camera2Interop = new Camera2Interop.Extender(previewBuilder);
+
+            camera2Interop.SetCaptureRequestOption(
+                CaptureRequest.ControlAfMode,
+                (int)ControlAFMode.Macro // Disable auto-focus for manual control
+            ); 
+
+            camera2Interop.SetCaptureRequestOption(
+                CaptureRequest.LensFocusDistance,
+                0.0f // Focus as close as possible
+            );   
+        }
+
+        m_cameraCaptureUseCase = imageCaptureBuilder.Build();
         // Add listener to receive updates.
-        return base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate);
+        return base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate, cameraSelector);
+    }
+
+    private List<ICameraInfo> SelectCamera(IList<ICameraInfo> cameraInfos)
+    {
+        foreach (var cameraInfo in cameraInfos)
+        {
+            var camera2CameraInfo = Camera2CameraInfo.From(cameraInfo);
+            var cameraId = camera2CameraInfo.CameraId;
+            var cameraManager = CameraManagerCompat.From(Context).Unwrap();
+            var cameraCharacteristics = cameraManager
+                .GetCameraCharacteristics(cameraId);
+            var availableFocalLenghts = (float[])cameraCharacteristics.Get(CameraCharacteristics.LensInfoAvailableFocalLengths);
+            if (availableFocalLenghts != null && availableFocalLenghts.Any(focalLength => focalLength < 2.0f))
+            {
+                CanUseMacroMode = true;
+                if (IsUsingMacroMode)
+                {
+                    return [cameraInfo];
+                }
+            }
+           
+        }
+        return cameraInfos.ToList();
     }
 
     private partial void PlatformCapturePhoto()
@@ -61,8 +115,10 @@ public partial class ImageCapture : CameraFragment
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
 
-    private void PlatformToggleMacro()
+    private async void PlatformToggleMacro()
     {
+        IsUsingMacroMode = !IsUsingMacroMode;
+        await Restart();
         //Not supported yet.
     }
 

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.CameraZoom;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Internal.Logging;
@@ -275,7 +276,7 @@ public partial class CameraPreview : ContentView
         base.OnHandlerChanging(args);
     }
 
-    public void GoToConfirmingState()
+    internal void GoToConfirmingState()
     {
         PreviewView.IsVisible = false;
 
@@ -288,11 +289,15 @@ public partial class CameraPreview : ContentView
         }
     }
 
-    public void GoToStreamingState()
+    internal void GoToStreamingState(IStreamingStateObserver streamingStateObserver, bool canUseMacroMode, bool isUsingMacroMode)
     {
         PreviewView.IsVisible = true;
         if (CameraZoomView is not null)
         {
+            if (canUseMacroMode)
+            {
+                CameraZoomView.AddMacroModeButton(isUsingMacroMode, streamingStateObserver.OnTappedMacroButton);
+            }
             CameraZoomView.Opacity = 1;
         }
     }

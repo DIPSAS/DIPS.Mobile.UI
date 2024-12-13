@@ -26,9 +26,9 @@ public partial class ImageCapture : IStreamingStateObserver
     
     private void GoToStreamingState()
     {
-        m_cameraPreview.GoToStreamingState();
+        m_cameraPreview.GoToStreamingState(this, CanUseMacroMode, IsUsingMacroMode);
         m_topToolbarView.GoToStreamingState(this);
-        m_bottomToolbarView.GoToStreamingState(this, CanUseMacroMode, IsUsingMacroMode);
+        m_bottomToolbarView.GoToStreamingState(this);
 
         m_bottomToolbarView.SetShutterButtonEnabled(true);
 

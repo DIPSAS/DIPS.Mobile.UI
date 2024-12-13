@@ -277,6 +277,9 @@ internal sealed class PreviewView : ContentView
                         captureDevice.ExposurePointOfInterest = focusPoint;
                         captureDevice.ExposureMode = AVCaptureExposureMode.AutoExpose;
                     }
+                    Console.WriteLine($"Device active format: {captureDevice.FocusMode}");
+                    Console.WriteLine($"Device active format: {captureDevice.ActiveFormat.MediaType}");
+                    Console.WriteLine($"Lens position: {captureDevice.LensPosition}");
                 }
                 catch (Exception e)
                 {

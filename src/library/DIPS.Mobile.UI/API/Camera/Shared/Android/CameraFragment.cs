@@ -8,6 +8,7 @@ using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
+using AndroidX.Camera.Core.Impl;
 using AndroidX.Camera.Core.Internal;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Lifecycle;
@@ -99,7 +100,7 @@ public abstract class CameraFragment : Fragment
     }
 
     internal async Task SetupCameraAndTryStartUseCase(CameraPreview cameraPreview, UseCase useCase,
-        ResolutionSelector resolutionSelector, CameraFailed cameraFailedDelegate)
+        ResolutionSelector resolutionSelector, CameraFailed cameraFailedDelegate, CameraSelector? cameraSelector = null, AndroidX.Camera.Core.Preview.Builder? previewBuilder = null)
     {
         if (IsFragmentStarted()) return;
         if (Context == null) return;
@@ -115,11 +116,11 @@ public abstract class CameraFragment : Fragment
         if (CameraProvider == null) return;
 
         //Use back camera
-        var cameraSelector = CameraSelector.DefaultBackCamera;
-        // var cameraSelector = new CameraSelector.Builder().RequireLensFacing((int)(LensFacing.Back)).Build();
+         cameraSelector ??= CameraSelector.DefaultBackCamera;
 
-        //Create preview use case and attach it to our MAUI view. 
-        PreviewUseCase = new AndroidX.Camera.Core.Preview.Builder()
+        //Create preview use case and attach it to our MAUI view.
+        previewBuilder ??= new AndroidX.Camera.Core.Preview.Builder();
+        PreviewUseCase = previewBuilder
             .SetResolutionSelector(resolutionSelector)
             .Build();
         PreviewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
@@ -429,5 +430,20 @@ public abstract class CameraFragment : Fragment
         DUILogService.LogError<T>(exception.Message);
         if (shouldOnlyLog) return;
         m_cameraFailedDelegate?.Invoke(exception);
+    }
+}
+
+internal class DUILensFacingCameraFilter : Java.Lang.Object,  ICameraFilter
+{
+    private readonly Func<IList<ICameraInfo>, List<ICameraInfo>> m_callBackFunc;
+
+    public DUILensFacingCameraFilter(Func<IList<ICameraInfo>, List<ICameraInfo>> callBackFunc)
+    {
+        m_callBackFunc = callBackFunc;
+    }
+
+    public IList<ICameraInfo> Filter(IList<ICameraInfo> cameraInfos)
+    {
+        return m_callBackFunc.Invoke(cameraInfos);
     }
 }
