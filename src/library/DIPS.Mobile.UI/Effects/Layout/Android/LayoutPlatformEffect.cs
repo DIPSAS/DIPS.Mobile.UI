@@ -32,6 +32,9 @@ public partial class  LayoutPlatformEffect
 
     protected override partial void OnDetached()
     {
+        if(Control is null)
+            return;
+        
         Control.Background = m_originalBackground;
     }
 }
