@@ -1,0 +1,16 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:syntaxHighlighting="clr-namespace:Components.ComponentsSamples.SyntaxHighlighting"
+                 x:Class="Components.ComponentsSamples.SyntaxHighlighting.SyntaxHighlightingSamples">
+<dui:ContentPage.BindingContext>
+    <syntaxHighlighting:SyntaxHighlightingSamplesViewModel/>
+</dui:ContentPage.BindingContext>    
+    <dui:NavigationListItem Title="Json"
+                            Command="{Binding NavigateToJsonSampleCommand, Mode=OneTime}"
+                            VerticalOptions="Start" />
+</dui:ContentPage>

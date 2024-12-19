@@ -143,6 +143,13 @@
         <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
     </ItemGroup>
 
+    <!-- SyntaxHighlighting Web packaging Highlight.js to use for JsonViewer component-->
+    <ItemGroup>
+        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Components\SyntaxHighlighting\syntax-highlighting\" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
+    </ItemGroup>
     <ItemGroup>
         <Folder Include="Components\Pickers\DatePicker\iOS\" />
         <Folder Include="Resources\Splash\" />
@@ -167,5 +174,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="SkiaSharp.Extended.UI.Maui" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Components\SyntaxHighlighting\syntax-highlighting\default.min.css" />
     </ItemGroup>
 </Project>

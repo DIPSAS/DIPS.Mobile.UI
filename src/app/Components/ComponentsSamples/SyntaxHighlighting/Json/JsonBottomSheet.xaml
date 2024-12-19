@@ -1,0 +1,18 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.ComponentsSamples.SyntaxHighlighting.Json.JsonBottomSheet"
+                 x:DataType="{x:Type x:String}" >
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Copy}"
+                     Clicked="CopyJson">
+        </ToolbarItem>
+    </dui:BottomSheet.ToolbarItems>
+        <dui:JsonViewer Json="{Binding .}"
+                         />
+</dui:BottomSheet>
