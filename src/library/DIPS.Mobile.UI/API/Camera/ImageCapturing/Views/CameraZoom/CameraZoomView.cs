@@ -30,7 +30,7 @@ internal class CameraZoomView : Grid
         m_macroButton = new Button()
         {
             HorizontalOptions = LayoutOptions.Start,
-            ImageSource = Icons.GetIcon(IconName.bacteria_line),
+            ImageSource = Icons.GetIcon(IconName.microscope_line),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
             Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0 ,0 ,0),
             Opacity = 0

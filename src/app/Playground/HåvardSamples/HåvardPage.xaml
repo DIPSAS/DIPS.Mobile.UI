@@ -18,5 +18,5 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:Button Text="Take picture" Clicked="Button_OnClicked"/>
+    <dui:Button Text="Take picture" Clicked="Button_OnClicked" />
 </dui:ContentPage>
