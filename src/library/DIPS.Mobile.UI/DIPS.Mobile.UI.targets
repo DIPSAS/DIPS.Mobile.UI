@@ -3,5 +3,6 @@
     <MauiImage Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
     <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" />
+    <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

@@ -110,7 +110,7 @@
 
     <!-- Icons -->
 
-    <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
+    <!-- When referencing the project from nuget package, we make sure to include all raw to the nuget package and inject csproj item groups with the use of .targets -->
     <ItemGroup>
         <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
     </ItemGroup>
