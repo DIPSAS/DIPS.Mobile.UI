@@ -35,6 +35,7 @@ namespace DIPS.Mobile.UI.Extensions.Markup
     /// To get the same functionality with a binding, <see cref="StringCaseConverter"/>
     /// </summary>
     [ContentProperty(nameof(Input))]
+    [AcceptEmptyServiceProvider]
     public class StringCaseExtension : IMarkupExtension
     {
         /// <summary>

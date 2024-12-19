@@ -1,3 +1,7 @@
+## [38.3.1] 
+- Fixed a bug where toggled icon were always visible if a `Chip` was set to be toggleable.
+- Fixed a crash that sometimes would happen when `Layout` effect were detached on navigating away.
+
 ## [38.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

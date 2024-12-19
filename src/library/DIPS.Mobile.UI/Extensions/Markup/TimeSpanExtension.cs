@@ -1,7 +1,7 @@
 namespace DIPS.Mobile.UI.Extensions.Markup;
 
 [ContentProperty(nameof(Ticks))]
-
+[AcceptEmptyServiceProvider]
 public class TimeSpanExtension : IMarkupExtension<TimeSpan>
 {
     public long Ticks { get; set; }

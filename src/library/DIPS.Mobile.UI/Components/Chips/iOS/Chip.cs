@@ -101,7 +101,7 @@ public partial class Chip
             VerticalOptions = LayoutOptions.Center
         };
         
-        image.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsToggleable, source: this);
+        image.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsToggled, source: this);
         image.SetBinding(Images.Image.Image.TintColorProperty, static (Chip chip) => chip.TitleColor, source: this);
         
         return image;
