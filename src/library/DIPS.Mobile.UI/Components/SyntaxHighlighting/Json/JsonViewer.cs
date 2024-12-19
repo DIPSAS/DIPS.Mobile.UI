@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Web;
 using DIPS.Mobile.UI.Internal.Logging;
-using UIKit;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.SyntaxHighlighting.Json;
