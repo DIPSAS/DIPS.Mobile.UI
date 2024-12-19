@@ -6,6 +6,7 @@ namespace DIPS.Mobile.UI.Extensions.Markup
     /// This markup extension lets you use <see cref="InvertedBoolConverter"/> when you are referring a static property from some class.
     /// </summary>
     [ContentProperty(nameof(Input))]
+    [AcceptEmptyServiceProvider]
     public class InvertedBoolExtension : IMarkupExtension
     {
         /// <summary>
