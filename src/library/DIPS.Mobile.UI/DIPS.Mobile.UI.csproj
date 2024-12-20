@@ -145,10 +145,12 @@
 
     <!-- SyntaxHighlighting Web packaging Highlight.js to use for JsonViewer component-->
     <ItemGroup>
-        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*.js" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*.css" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="Components\SyntaxHighlighting\syntax-highlighting\" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
+        <None Include="Components\SyntaxHighlighting\syntax-highlighting\*.js" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
+        <None Include="Components\SyntaxHighlighting\syntax-highlighting\*.css" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Components\Pickers\DatePicker\iOS\" />
