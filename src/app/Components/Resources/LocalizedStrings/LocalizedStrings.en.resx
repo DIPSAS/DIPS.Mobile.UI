@@ -336,4 +336,10 @@
     <data name="Copy" xml:space="preserve">
         <value>Copy</value>
     </data>
+    <data name="ViewCode" xml:space="preserve">
+        <value>View code</value>
+    </data>
+    <data name="CodeLanguage" xml:space="preserve">
+        <value>Code language</value>
+    </data>
 </root>

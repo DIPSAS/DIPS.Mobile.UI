@@ -183,4 +183,7 @@
     <data name="Rotate" xml:space="preserve">
         <value>Roter</value>
     </data>
+    <data name="ViewCode" xml:space="preserve">
+        <value />
+    </data>
 </root>

@@ -3,34 +3,33 @@ using System.Web;
 using DIPS.Mobile.UI.Internal.Logging;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.Components.SyntaxHighlighting.Json;
+namespace DIPS.Mobile.UI.Components.SyntaxHighlighting;
 
 /// <summary>
 /// This is a webview that uses https://highlightjs.org. The javascript and css is loaded in the app as a raw resource, so no need for internet connection.
 /// See Arena.Mobile/Resources/Raw/syntax-highlight for the source code.
 /// </summary>
-public partial class JsonViewer : ContentView
+public partial class CodeViewer : ContentView
 {
     private readonly WebView m_webView;
-    private readonly JsonSerializerOptions m_jsonOptions;
+    private readonly JsonSerializerOptions m_jsonPrettifyOptions;
 
-    public JsonViewer()
+    public CodeViewer()
     {
         m_webView = new WebView();
-        m_jsonOptions = new JsonSerializerOptions {WriteIndented = true};
+        m_jsonPrettifyOptions = new JsonSerializerOptions {WriteIndented = true};
         Content = m_webView;
     }
     
-    private async void OnJsonChanged()
+    private void OnCodeChanged()
     {
         try
         {
-            var prettyJson = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Json),m_jsonOptions);
             var cssPath = "default.min.css";
             var javascriptPath = "highlight.min.js";
 
-       
-        
+            Code = TryPrettify(Code);
+            
             var html = $@"
 <!DOCTYPE html>
 <html lang=""en"">
@@ -42,13 +41,6 @@ public partial class JsonViewer : ContentView
     <style>
         .code-container pre, .code-container code {{
             background-color: transparent;
-        }}
- /* Custom styling for JSON syntax */
-
-        /* Style for JSON keys */
-        .hljs-attr {{
-            color: {KeyColor.ToHex()};
-            font-weight: bold;
         }}
     </style>
     <!-- Local Highlight.js CSS -->
@@ -66,8 +58,8 @@ public partial class JsonViewer : ContentView
 </head>
 <body>
 <div class='code-container'>
-    <pre><code class=""json"">
-{HttpUtility.HtmlEncode(prettyJson)}
+    <pre><code class=""{Language}"">
+{HttpUtility.HtmlEncode(Code)}
     </code></pre>
 </div>
 </body>
@@ -78,7 +70,17 @@ public partial class JsonViewer : ContentView
         catch (Exception e)
         {
             Content = new Label() {Text = e.Message};
-            DUILogService.LogError<JsonViewer>(e.Message);
+            DUILogService.LogError<CodeViewer>(e.Message);
         }
+    }
+
+    private string TryPrettify(string code)
+    {
+        if (Language.Equals("json", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(code),m_jsonPrettifyOptions);
+        }
+
+        return code;
     }
 }

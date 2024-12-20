@@ -680,5 +680,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Copy", resourceCulture);
             }
         }
+        
+        internal static string ViewCode {
+            get {
+                return ResourceManager.GetString("ViewCode", resourceCulture);
+            }
+        }
+        
+        internal static string CodeLanguage {
+            get {
+                return ResourceManager.GetString("CodeLanguage", resourceCulture);
+            }
+        }
     }
 }

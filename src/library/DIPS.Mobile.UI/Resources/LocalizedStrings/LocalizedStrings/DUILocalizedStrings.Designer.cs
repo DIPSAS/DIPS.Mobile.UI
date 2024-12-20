@@ -374,5 +374,11 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Rotate", resourceCulture);
             }
         }
+        
+        internal static string ViewCode {
+            get {
+                return ResourceManager.GetString("ViewCode", resourceCulture);
+            }
+        }
     }
 }

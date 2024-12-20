@@ -4,13 +4,26 @@
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:syntaxHighlighting="clr-namespace:Components.ComponentsSamples.SyntaxHighlighting"
-                 x:Class="Components.ComponentsSamples.SyntaxHighlighting.SyntaxHighlightingSamples">
-<dui:ContentPage.BindingContext>
-    <syntaxHighlighting:SyntaxHighlightingSamplesViewModel/>
-</dui:ContentPage.BindingContext>    
-    <dui:NavigationListItem Title="Json"
-                            Command="{Binding NavigateToJsonSampleCommand, Mode=OneTime}"
-                            VerticalOptions="Start" />
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:json="clr-namespace:Components.ComponentsSamples.SyntaxHighlighting.Json"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.ComponentsSamples.SyntaxHighlighting.SyntaxHighlightingSamples"
+                 x:DataType="{x:Type json:SyntaxHighlightingSamplesViewModel}">
+    <dui:ContentPage.BindingContext>
+        <json:SyntaxHighlightingSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    <Grid RowDefinitions="Auto,Auto, *">
+        <dui:NavigationListItem Grid.Row="0"
+                                Command="{Binding OpenCodeCommand, Mode=OneTime}"
+                                Title="{x:Static localizedStrings:LocalizedStrings.ViewCode}"
+                                HasBottomDivider="True" />
+        <dui:ListItem Grid.Row="1"
+                      HasBottomDivider="True"
+                      Title="{x:Static localizedStrings:LocalizedStrings.CodeLanguage}">
+            <dui:Entry Text="{Binding Language}" HorizontalOptions="End" Margin="{dui:Thickness Left=size_4, Right=size_4}"/>
+        </dui:ListItem>
+        <dui:Editor Grid.Row="2"
+                    Text="{Binding Code}" />
+    </Grid>
 </dui:ContentPage>
