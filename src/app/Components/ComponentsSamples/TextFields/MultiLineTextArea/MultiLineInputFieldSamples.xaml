@@ -76,6 +76,10 @@
             <dui:ListItem Title="Error Save">
                 <Switch x:Name="ErrorSwitch" IsToggled="{Binding IsErrorSwitchEnabled}" />
             </dui:ListItem>
+            
+            <dui:ListItem Title="Show Buttons">
+                <dui:Switch IsToggled="{Binding ShowButtons, Source={Reference MultiLineTextArea}}"/>
+            </dui:ListItem>
 
             <dui:Button Text="{x:Static localizedStrings:DUILocalizedStrings.InputSampleText}"
                         Clicked="Button_OnClicked" />

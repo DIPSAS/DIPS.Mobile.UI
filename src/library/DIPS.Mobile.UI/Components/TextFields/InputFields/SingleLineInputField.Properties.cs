@@ -141,5 +141,4 @@ public partial class SingleLineInputField
         nameof(HelpTextColor),
         typeof(Color),
         typeof(SingleLineInputField));
-
 }

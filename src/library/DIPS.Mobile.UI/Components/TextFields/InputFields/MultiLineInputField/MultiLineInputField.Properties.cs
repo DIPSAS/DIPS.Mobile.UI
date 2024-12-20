@@ -109,6 +109,15 @@ public partial class MultiLineInputField
         set => SetValue(ErrorTextProperty, value);
     }
     
+    /// <summary>
+    /// Determines whether the 'Save' and 'Cancel' buttons should be visible.
+    /// /// </summary>
+    public bool ShowButtons
+    {
+        get => (bool)GetValue(ShowButtonsProperty);
+        set => SetValue(ShowButtonsProperty, value);
+    }
+    
     public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(
         nameof(ErrorText),
         typeof(string),
@@ -170,4 +179,11 @@ public partial class MultiLineInputField
         nameof(CancelCommandParameter),
         typeof(object),
         typeof(MultiLineInputField));
+    
+    public static readonly BindableProperty ShowButtonsProperty = BindableProperty.Create(
+        nameof(ShowButtons),
+        typeof(bool),
+        typeof(MultiLineInputField),
+        defaultValue: true,
+        propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnShowButtonsChanged());
 }
