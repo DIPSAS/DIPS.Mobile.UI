@@ -29,7 +29,11 @@ public partial class CodeViewer : ContentView
             var javascriptPath = "highlight.min.js";
 
             Code = TryPrettify(Code);
-            
+
+            if (!string.IsNullOrEmpty(Language))
+            {
+                Language = $"{Language.ToLowerInvariant()}";
+            }
             var html = $@"
 <!DOCTYPE html>
 <html lang=""en"">
