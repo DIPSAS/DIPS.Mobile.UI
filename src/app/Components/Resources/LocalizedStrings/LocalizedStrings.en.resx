@@ -330,4 +330,16 @@
     <data name="PhotoCapturing" xml:space="preserve">
         <value>Photo capturing</value>
     </data>
+    <data name="SyntaxHighlighting_Json_See" xml:space="preserve">
+        <value>See Json</value>
+    </data>
+    <data name="Copy" xml:space="preserve">
+        <value>Copy</value>
+    </data>
+    <data name="ViewCode" xml:space="preserve">
+        <value>View code</value>
+    </data>
+    <data name="CodeLanguage" xml:space="preserve">
+        <value>Code language</value>
+    </data>
 </root>

@@ -668,5 +668,29 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("PhotoCapturing", resourceCulture);
             }
         }
+        
+        internal static string SyntaxHighlighting_Json_See {
+            get {
+                return ResourceManager.GetString("SyntaxHighlighting_Json_See", resourceCulture);
+            }
+        }
+        
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        internal static string ViewCode {
+            get {
+                return ResourceManager.GetString("ViewCode", resourceCulture);
+            }
+        }
+        
+        internal static string CodeLanguage {
+            get {
+                return ResourceManager.GetString("CodeLanguage", resourceCulture);
+            }
+        }
     }
 }

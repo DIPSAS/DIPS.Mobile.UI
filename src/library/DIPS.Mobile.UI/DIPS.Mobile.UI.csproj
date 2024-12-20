@@ -110,7 +110,7 @@
 
     <!-- Icons -->
 
-    <!-- When referencing the project from nuget package, we make sure to include the svgs to the nuget package and inject csproj item groups with the use of .targets -->
+    <!-- When referencing the project from nuget package, we make sure to include all raw to the nuget package and inject csproj item groups with the use of .targets -->
     <ItemGroup>
         <None Include="DIPS.Mobile.UI.targets" Pack="True" PackagePath="buildTransitive\" />
     </ItemGroup>
@@ -143,6 +143,15 @@
         <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
     </ItemGroup>
 
+    <!-- SyntaxHighlighting Web packaging Highlight.js to use for JsonViewer component-->
+    <ItemGroup>
+        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*.js" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*.css" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Components\SyntaxHighlighting\syntax-highlighting\*.js" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
+        <None Include="Components\SyntaxHighlighting\syntax-highlighting\*.css" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
+    </ItemGroup>
     <ItemGroup>
         <Folder Include="Components\Pickers\DatePicker\iOS\" />
         <Folder Include="Resources\Splash\" />
@@ -157,6 +166,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" />
+        <!-- This makes sure people can debug the library https://github.com/dotnet/sourcelink?tab=readme-ov-file#githubcom-and-github-enterprise -->
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -167,5 +178,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="SkiaSharp.Extended.UI.Maui" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Components\SyntaxHighlighting\syntax-highlighting\default.min.css" />
     </ItemGroup>
 </Project>

@@ -335,4 +335,16 @@
     <data name="PhotoCapturing" xml:space="preserve">
         <value>Ta bilder</value>
     </data>
+    <data name="SyntaxHighlighting_Json_See" xml:space="preserve">
+        <value>Se Json</value>
+    </data>
+    <data name="Copy" xml:space="preserve">
+        <value>Kopier</value>
+    </data>
+    <data name="ViewCode" xml:space="preserve">
+        <value>Vis kode</value>
+    </data>
+    <data name="CodeLanguage" xml:space="preserve">
+        <value>Kodespråk</value>
+    </data>
 </root>

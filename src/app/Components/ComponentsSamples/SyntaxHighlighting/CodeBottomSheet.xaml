@@ -1,0 +1,19 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:syntaxHighlighting="clr-namespace:Components.ComponentsSamples.SyntaxHighlighting"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.ComponentsSamples.SyntaxHighlighting.CodeBottomSheet"
+                 x:DataType="{x:Type syntaxHighlighting:CodeBottomSheetViewModel}">
+    <dui:BottomSheet.ToolbarItems>
+        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Copy}"
+                     Command="{Binding CopyCodeCommand}">
+        </ToolbarItem>
+    </dui:BottomSheet.ToolbarItems>
+    <dui:CodeViewer Language="{Binding Language}"
+                    Code="{Binding Code}"/>
+</dui:BottomSheet>

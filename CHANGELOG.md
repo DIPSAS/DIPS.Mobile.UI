@@ -1,3 +1,6 @@
+## [38.4.0]
+- [JsonViewer] Added a new JsonViewer that can be used to view JSON with syntax highligthing. 
+
 ## [38.3.1] 
 - Fixed a bug where toggled icon were always visible if a `Chip` was set to be toggleable.
 - Fixed a crash that sometimes would happen when `Layout` effect were detached on navigating away.
