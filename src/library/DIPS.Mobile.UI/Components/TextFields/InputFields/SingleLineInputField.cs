@@ -77,6 +77,8 @@ public partial class SingleLineInputField : Grid
         
         InnerGrid.Add(HeaderTextLabel);
         
+        SetHeaderTextVisibility();
+        
         AutomationProperties.SetIsInAccessibleTree(HeaderTextLabel, false);
     }
     
@@ -296,10 +298,20 @@ public partial class SingleLineInputField : Grid
         
         HelpTextLabel.IsVisible = HelpText != string.Empty;
     }
-
     private void OnHeaderTextChanged()
     {
+        SetHeaderTextVisibility();
+
         UpdateSemanticHint();
+    }
+
+    private void SetHeaderTextVisibility()
+    {
+        var headerIsVisible = !string.IsNullOrEmpty(HeaderText);
+        HeaderTextLabel.IsVisible = headerIsVisible;
+
+        InnerGrid.RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
+        RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
     }
 
     private void UpdateSemanticHint()

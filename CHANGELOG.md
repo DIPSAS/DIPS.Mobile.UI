@@ -1,3 +1,7 @@
+## [37.4.4]
+- [SingleLineInputField] Fixed bug where header text would take up space even when it was empty
+- [MultiLineInputField] Added `ShowButtons` property that determines whether the Save and Cancel buttons should be shown
+
 ## [37.4.3] 
 - [Android] Fix crash when trying to remove dialog while app minimized.
 
