@@ -28,4 +28,8 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageVersion Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
+  <!-- Debugging -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+  </ItemGroup>
 </Project>
