@@ -18,6 +18,16 @@
     </dui:ContentPage.BindingContext>
     
     <VerticalStackLayout>
+        <dui:ItemPicker x:Name="ItemPicker"
+                        IsEnabled="False">
+            <dui:ItemPicker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Test 1</x:String>
+                    <x:String>Test 1</x:String>
+                    <x:String>Test 1</x:String>
+                </x:Array>
+            </dui:ItemPicker.ItemsSource>
+        </dui:ItemPicker>
         <dui:Button Text="diable"
                     Clicked="Button_OnClicked"></dui:Button>
     </VerticalStackLayout>

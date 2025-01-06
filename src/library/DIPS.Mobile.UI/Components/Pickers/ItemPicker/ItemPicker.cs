@@ -48,11 +48,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (Mode == PickerMode.ContextMenu)
             {
                 // If not enabled, no need to set context menu effect
-                if (IsEnabled)
-                {
-                    ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
-                    m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
-                }
+                ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
+                m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
+                
             }
             else if (Mode == PickerMode.BottomSheet)
             {
