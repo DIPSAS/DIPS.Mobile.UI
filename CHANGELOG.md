@@ -1,3 +1,6 @@
+## [38.4.2]
+- [Android] Fixed an issue where the status bar were not set to the correct color when pushing modals.
+
 ## [38.4.0]
 - [JsonViewer] Added a new JsonViewer that can be used to view JSON with syntax highligthing. 
 
