@@ -69,6 +69,5 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             
             SelectedItem = GetItemFromDisplayProperty(item.Title!);
         }
-
     }
 }
