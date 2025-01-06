@@ -10,14 +10,14 @@ using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace DIPS.Mobile.UI.API.Library;
 
-public class ModalFragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallbacks
+public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallbacks
 {
     public override void OnFragmentStarted(FragmentManager fm, Fragment f)
     {
         if (f is DialogFragment dialogFragment)
         {
-            SetStatusBarColor(dialogFragment);
-            SetIconColors(dialogFragment);
+            SetStatusBarColorOnModalAppearing(dialogFragment);
+            SetIconColorsOnModal(dialogFragment);
         }
         
         base.OnFragmentStarted(fm, f);
@@ -27,7 +27,7 @@ public class ModalFragmentLifeCycleCallback : FragmentManager.FragmentLifecycleC
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
     /// Sets the toolbar item icon's tint color
     /// </summary>
-    private void SetIconColors(DialogFragment dialogFragment)
+    private static void SetIconColorsOnModal(DialogFragment dialogFragment)
     {
         var linearLayout = dialogFragment.Dialog?.Window?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
         
@@ -45,7 +45,7 @@ public class ModalFragmentLifeCycleCallback : FragmentManager.FragmentLifecycleC
         }
     }
 
-    private void SetStatusBarColor(DialogFragment dialogFragment)
+    private static void SetStatusBarColorOnModalAppearing(DialogFragment dialogFragment)
     {
         var activity = Platform.CurrentActivity;
 

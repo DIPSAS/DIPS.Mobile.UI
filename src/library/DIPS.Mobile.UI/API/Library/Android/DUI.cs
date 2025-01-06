@@ -26,7 +26,7 @@ public static partial class DUI
         // To set the status bar color when a modal is shown
         // MAUI has a bug after rewriting modals to use DialogFragment
         // Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081
-        activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new ModalFragmentLifeCycleCallback(), false);
+        activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
     }
     
     private static partial void PlatformInit()
