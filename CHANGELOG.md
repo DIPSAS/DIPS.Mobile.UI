@@ -1,3 +1,6 @@
+## [38.4.3]
+- [Button] Button's that are disabled as default will now have the disabled style.
+
 ## [38.4.2]
 - [Android] Fixed an issue where the status bar were not set to the correct color when pushing modals.
 - [Android] Fixed an issue where the icon's color were not set to the correct color in modal context.
