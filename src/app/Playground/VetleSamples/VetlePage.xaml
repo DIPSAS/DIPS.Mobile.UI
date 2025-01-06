@@ -18,18 +18,6 @@
     </dui:ContentPage.BindingContext>
     
     <VerticalStackLayout>
-        <dui:Editor Keyboard="Numeric"
-                    />
-        <dui:ItemPicker Mode="ContextMenu"
-                        x:Name="ItemPicker">
-            <dui:ItemPicker.ItemsSource>
-                <x:Array Type="{x:Type x:String}" x:Key="Array">
-                    <x:String>Item 1</x:String>
-                    <x:String>Item 2</x:String>
-                    <x:String>Item 3</x:String>
-                </x:Array>
-            </dui:ItemPicker.ItemsSource>
-        </dui:ItemPicker>
         <dui:Button Text="diable"
                     Clicked="Button_OnClicked"></dui:Button>
     </VerticalStackLayout>

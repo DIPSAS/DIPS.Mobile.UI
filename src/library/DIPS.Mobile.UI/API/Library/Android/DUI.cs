@@ -11,6 +11,7 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
 using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Platform;
 using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 // ReSharper disable once InconsistentNaming
@@ -21,6 +22,11 @@ public static partial class DUI
     public static void Init(Android.App.Activity activity)
     {
         SplashScreen.InstallSplashScreen(activity);
+        
+        // To set the status bar color when a modal is shown
+        // MAUI has a bug after rewriting modals to use DialogFragment
+        // Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081
+        activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
     }
     
     private static partial void PlatformInit()

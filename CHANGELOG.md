@@ -1,3 +1,7 @@
+## [38.4.2]
+- [Android] Fixed an issue where the status bar were not set to the correct color when pushing modals.
+- [Android] Fixed an issue where the icon's color were not set to the correct color in modal context.
+
 ## [38.4.1]
 - [ContextMenu] ContextMenu will now respect the property `IsEnabled`, if setting context menu on non-buttons.
 
