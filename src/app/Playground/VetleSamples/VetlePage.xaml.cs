@@ -136,7 +136,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        Test = "Clicked";
+        ItemPicker.IsEnabled = false;
     }
 
     private void SwapRoot(object sender, EventArgs e)
@@ -178,6 +178,7 @@ public partial class VetlePage
             OnPropertyChanged();
         }
     }
+
 
     
 }

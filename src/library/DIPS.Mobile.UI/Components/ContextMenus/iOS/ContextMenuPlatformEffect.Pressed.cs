@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using Foundation;
@@ -36,8 +37,21 @@ public partial class ContextMenuPlatformEffect
         
         Control.AddSubview(uiButton);
         m_uiButtonToRemove = uiButton;
+        
+        Element.PropertyChanged += ElementOnPropertyChanged;
 
         return uiButton;
+    }
+
+    private void ElementOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if(Element is not VisualElement visualElement)
+            return;
+        
+        if (e.PropertyName == nameof(VisualElement.IsEnabled))
+        {
+            m_uiButton.Enabled = visualElement.IsEnabled;
+        }
     }
 
     // We need to update the frame of the overlay button when the Control is resized (For example when an Item in ItemPicker is selected, thus the title is changed)
@@ -78,5 +92,8 @@ public partial class ContextMenuPlatformEffect
         m_uiButtonToRemove?.RemoveFromSuperview();
         
         m_contextMenu.ItemsSourceUpdated -= RebuildMenu;
+        
+        if(Element is not null)
+            Element.PropertyChanged -= ElementOnPropertyChanged;
     }
 }
