@@ -1,3 +1,6 @@
+## [38.4.1]
+- [ContextMenu] ContextMenu will now respect the property `IsEnabled`, if setting context menu on non-buttons.
+
 ## [38.4.0]
 - [JsonViewer] Added a new JsonViewer that can be used to view JSON with syntax highligthing. 
 
