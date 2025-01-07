@@ -40,6 +40,15 @@ namespace DIPS.Mobile.UI.Components.Buttons
             }
         }
 
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+            
+            // If the button is not enabled as the default, we need to update the style to the disabled style
+            if(!IsEnabled && Handler is not null)
+                OnIsEnabledChanged();
+        }
+
         private void OnIsEnabledChanged()
         {
             //Had to add this due to a random app crash when button padding changes.
