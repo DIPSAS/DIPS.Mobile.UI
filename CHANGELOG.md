@@ -1,3 +1,6 @@
+## [38.5.3]
+- [ContentControl] Make sure to disconnect handlers of views.
+
 ## [38.5.2]
 - [Localization] Swapped language of three properties in DUILocalizedStrings.
 

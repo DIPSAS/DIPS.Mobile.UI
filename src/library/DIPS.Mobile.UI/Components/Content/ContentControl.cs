@@ -11,7 +11,8 @@
             {
                 return;
             }
-            
+
+            Content?.DisconnectHandlers();
             Content = TemplateSelector.SelectTemplate(SelectorItem ?? BindingContext, this).CreateContent() as View;;
         }
 
