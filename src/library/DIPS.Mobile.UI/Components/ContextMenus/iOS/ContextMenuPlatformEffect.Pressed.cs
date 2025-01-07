@@ -37,6 +37,11 @@ public partial class ContextMenuPlatformEffect
         
         Control.AddSubview(uiButton);
         m_uiButtonToRemove = uiButton;
+
+        if (Element is VisualElement visualElement)
+        {
+            uiButton.Enabled = visualElement.IsEnabled;
+        }
         
         Element.PropertyChanged += ElementOnPropertyChanged;
 
