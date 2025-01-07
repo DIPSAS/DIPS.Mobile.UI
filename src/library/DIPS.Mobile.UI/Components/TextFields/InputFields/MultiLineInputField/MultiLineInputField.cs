@@ -24,6 +24,7 @@ public partial class MultiLineInputField : SingleLineInputField
     };
 
     private Button m_doneButton = new ();
+    private Button m_cancelButton = new();
 
     private Label m_textLengthLabel = new Labels.Label
     {
@@ -84,7 +85,7 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private void CreateButtons()
     {
-        var cancelButton = new Button
+        m_cancelButton = new Button
         {
             Text = DUILocalizedStrings.Cancel, 
             Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
@@ -113,7 +114,7 @@ public partial class MultiLineInputField : SingleLineInputField
             Margin = new Thickness(0, 8, 0, 0)
         };
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
-        m_buttonsLayout.Add(cancelButton, column: 1);
+        m_buttonsLayout.Add(m_cancelButton, column: 1);
         m_buttonsLayout.Add(m_doneButton, column: 2);
     }
     
@@ -164,7 +165,7 @@ public partial class MultiLineInputField : SingleLineInputField
             return;
         }
         
-        m_buttonsLayout!.IsVisible = isEnabled;
+        m_buttonsLayout!.IsVisible = isEnabled && (ShowButtons || MaxTextLength > 0);
     }
 
     private void OnSaveTapped()
@@ -363,9 +364,15 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         InnerGrid.FadeTo(1);
     }
+    
+    private void OnShowButtonsChanged()
+    {
+        m_cancelButton.IsVisible = m_doneButton.IsVisible = ShowButtons;
+    }
 
     private void OnMaxTextLengthChanged()
     {
+        m_textLengthLabel.IsVisible = MaxTextLength > 0;
         if (MaxTextLength > 0)
         {
             m_textLengthLabel = UpdateTextLengthLabel();

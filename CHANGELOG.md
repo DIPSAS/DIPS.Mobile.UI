@@ -1,5 +1,12 @@
-## [38.4.3]
+## [38.5.1]
 - [Button] Button's that are disabled as default will now have the disabled style.
+
+## [38.5.0]
+- [SingleLineInputField] Fixed bug where header text would take up space even when it was empty
+- [MultiLineInputField] Added `ShowButtons` property that determines whether the Save and Cancel buttons should be shown
+
+## [38.4.3]
+- [iOS][ContextMenu] ContextMenu will now respect the property `IsEnabled` when the effect is attached to Element.
 
 ## [38.4.2]
 - [Android] Fixed an issue where the status bar were not set to the correct color when pushing modals.
