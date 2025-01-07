@@ -124,7 +124,7 @@
         <value>{0} tegn igjen</value>
     </data>
     <data name="NumberOfCharactersTooMany" xml:space="preserve">
-        <value>{0} tegn for mange</value>
+        <value>{0} tegn for mye</value>
     </data>
     <data name="RemoveImageTitle" xml:space="preserve">
         <value>Fjern bilde</value>
