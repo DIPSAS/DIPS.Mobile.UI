@@ -1,3 +1,6 @@
+## [38.5.2]
+- [Localization] Swapped language of three properties in DUILocalizedStrings.
+
 ## [38.5.1]
 - [Button] Button's that are disabled as default will now have the disabled style.
 
