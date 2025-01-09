@@ -1,3 +1,6 @@
+## [38.5.4]
+- [MultiLineInputField] Ensure that component resets when `IsSaving` is set to `false` manually
+
 ## [38.5.3]
 - [ContentControl] Make sure to disconnect handlers of views.
 

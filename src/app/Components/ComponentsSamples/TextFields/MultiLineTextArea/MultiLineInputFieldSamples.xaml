@@ -80,6 +80,10 @@
             <dui:ListItem Title="Show Buttons">
                 <dui:Switch IsToggled="{Binding ShowButtons, Source={Reference MultiLineTextArea}}"/>
             </dui:ListItem>
+            
+            <dui:ListItem Title="Toggle Is Saving">
+                <dui:Switch IsToggled="{Binding IsSaving, Source={Reference MultiLineTextArea}}"/>
+            </dui:ListItem>
 
             <dui:Button Text="{x:Static localizedStrings:DUILocalizedStrings.InputSampleText}"
                         Clicked="Button_OnClicked" />
