@@ -82,7 +82,7 @@
             </dui:ListItem>
             
             <dui:ListItem Title="Toggle Is Saving">
-                <dui:Switch IsToggled="{Binding IsSaving, Source={Reference MultiLineTextArea}}"/>
+                <dui:Switch IsToggled="{Binding IsSaving}"/>
             </dui:ListItem>
 
             <dui:Button Text="{x:Static localizedStrings:DUILocalizedStrings.InputSampleText}"

@@ -133,7 +133,8 @@ public partial class MultiLineInputField
         nameof(IsSaving),
         typeof(bool),
         typeof(MultiLineInputField),
-        propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnIsSavingChanged());
+        propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnIsSavingChanged(),
+        defaultBindingMode: BindingMode.TwoWay);
     
     public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(
         nameof(SaveCommand),
