@@ -4,9 +4,9 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class Touch : RoutingEffect
 {
-    public static ICommand GetCommand(BindableObject view)
+    public static ICommand? GetCommand(BindableObject view)
     {
-        return (ICommand)view.GetValue(CommandProperty);
+        return (ICommand?)view.GetValue(CommandProperty);
     }
 
     public static void SetCommand(BindableObject view, ICommand command)
@@ -14,9 +14,9 @@ public partial class Touch : RoutingEffect
         view.SetValue(CommandProperty, command);
     }
     
-    public static ICommand GetLongPressCommand(BindableObject view)
+    public static ICommand? GetLongPressCommand(BindableObject view)
     {
-        return (ICommand)view.GetValue(LongPressCommandProperty);
+        return (ICommand?)view.GetValue(LongPressCommandProperty);
     }
 
     public static void SetLongPressCommand(BindableObject view, ICommand command)

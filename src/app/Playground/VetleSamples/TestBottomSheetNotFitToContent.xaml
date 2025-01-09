@@ -17,6 +17,19 @@
     </dui:BottomSheet.Resources>
 
     
-    <CollectionView ItemsSource="{StaticResource Array}" BackgroundColor="Transparent" />
-    
+    <CollectionView ItemsSource="{StaticResource Array}" BackgroundColor="Transparent">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:Label Text="Test"
+                           dui:ContextMenuEffect.Mode="LongPressed">
+                    <dui:ContextMenuEffect.Menu>
+                        <dui:ContextMenu>
+                            <dui:ContextMenuItem Title="Test" />
+                        </dui:ContextMenu>
+                    </dui:ContextMenuEffect.Menu>
+                </dui:Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
 </dui:BottomSheet>

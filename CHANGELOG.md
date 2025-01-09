@@ -1,3 +1,6 @@
+## [38.5.4]
+- [ContextMenuEffect] Fixed edge-case-crash.
+
 ## [38.5.3]
 - [ContentControl] Make sure to disconnect handlers of views.
 
