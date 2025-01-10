@@ -3,6 +3,7 @@
     /// <summary>
     /// A boolean template selector that returns a true or false template depending on a item
     /// </summary>
+    [AcceptEmptyServiceProvider]
     public class BooleanDataTemplateSelector : DataTemplateSelector, IMarkupExtension
     {
         /// <inheritdoc />
