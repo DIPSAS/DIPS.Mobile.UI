@@ -41,15 +41,15 @@ public partial class TouchPlatformEffect
     {
         if (e.State != UIGestureRecognizerState.Began)
             return;
-
-        if (Touch.GetLongPressCommand(Element).CanExecute(Touch.GetLongPressCommandParameter(Element)))
-            Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
+        
+        if (Touch.GetLongPressCommand(Element)?.CanExecute(Touch.GetLongPressCommandParameter(Element)) ?? false)
+            Touch.GetLongPressCommand(Element)?.Execute(Touch.GetLongPressCommandParameter(Element));
     }
 
     private void OnTap()
     {
-        if (Touch.GetCommand(Element).CanExecute(Touch.GetCommandParameter(Element)))
-            Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
+        if (Touch.GetCommand(Element)?.CanExecute(Touch.GetCommandParameter(Element)) ?? false)
+            Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
     protected override partial void OnDetached()

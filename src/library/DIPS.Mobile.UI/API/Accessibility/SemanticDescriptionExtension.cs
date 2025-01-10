@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.API.Accessibility;
 
+[AcceptEmptyServiceProvider]
 public class SemanticDescriptionExtension : IMarkupExtension<string>
 {
     /// <summary>

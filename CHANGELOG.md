@@ -1,5 +1,12 @@
-## [38.5.4]
+## [39.0.1]
 - [MultiLineInputField] Ensure that component resets when `IsSaving` is set to `false` manually
+
+## [39.0.0]
+- [Colors] Removed old deprecated colors
+- [MarkupExtensios] Made sure to add serviceprovider annotation for the missing markupextensions.
+
+## [38.5.4]
+- [ContextMenuEffect] Fixed edge-case-crash.
 
 ## [38.5.3]
 - [ContentControl] Make sure to disconnect handlers of views.

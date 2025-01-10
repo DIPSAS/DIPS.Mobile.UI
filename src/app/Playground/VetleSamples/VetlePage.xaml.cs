@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -136,7 +137,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        ItemPicker.IsEnabled = !ItemPicker.IsEnabled;
+        BottomSheetService.Open(new TestBottomSheetNotFitToContent());
     }
 
     private void SwapRoot(object sender, EventArgs e)
