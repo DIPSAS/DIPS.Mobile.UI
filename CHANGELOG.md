@@ -1,3 +1,7 @@
+## [39.0.0]
+- [Colors] Removed old deprecated colors
+- [MarkupExtensios] Made sure to add serviceprovider annotation for the missing markupextensions.
+
 ## [38.5.4]
 - [ContextMenuEffect] Fixed edge-case-crash.
 
