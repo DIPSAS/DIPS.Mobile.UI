@@ -3,6 +3,7 @@ using System.Windows.Input;
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     [ContentProperty(nameof(BottomSheetType))]
+    [AcceptEmptyServiceProvider]
     public class OpenBottomSheetCommandExtension : IMarkupExtension<ICommand>
     {
         public Type? BottomSheetType { get; set; }
