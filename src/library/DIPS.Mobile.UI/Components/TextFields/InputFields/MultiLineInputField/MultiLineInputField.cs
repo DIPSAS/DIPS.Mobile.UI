@@ -256,10 +256,13 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private void OnIsSavingChanged()
     {
-        if (!IsSaving)
+        if (IsSaving)
+        {
+            OnIsSaving();
             return;
+        }
 
-        OnIsSaving();
+        OnStopSaving();
     }
 
     private async void OnIsSaving()
@@ -280,19 +283,15 @@ public partial class MultiLineInputField : SingleLineInputField
         if (!IsSavingSuccess)
             return;
 
-        OnStopSaving(true);
+        IsSaving = false;
+        Style = Styles.GetInputFieldStyle(InputFieldStyle.Success);
     }
 
-    private async void OnStopSaving(bool success)
+    private async void OnStopSaving()
     {
         FadeInContent();
 
         SetTouchEnabled(true);
-
-        if (success)
-        {
-            Style = Styles.GetInputFieldStyle(InputFieldStyle.Success);
-        }
         
         await m_activityIndicator.FadeTo(0);
         m_activityIndicator.IsVisible = false;
@@ -315,7 +314,8 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private void OnError()
     {
-        OnStopSaving(false);
+        IsSaving = false;
+        OnStopSaving();
         HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.ErrorText, source: this);
         HelpTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
     }

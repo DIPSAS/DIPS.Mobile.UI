@@ -1,3 +1,6 @@
+## [39.0.1]
+- [MultiLineInputField] Ensure that component resets when `IsSaving` is set to `false` manually
+
 ## [39.0.0]
 - [Colors] Removed old deprecated colors
 - [MarkupExtensios] Made sure to add serviceprovider annotation for the missing markupextensions.
