@@ -14,7 +14,7 @@
         <LangVersion>default</LangVersion>
         
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
-        <WarningsAsErrors>XC0022;XC0023;XC0045</WarningsAsErrors>
+        <WarningsAsErrors>XC0022;XC0023;XC0045;XC0103</WarningsAsErrors>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
