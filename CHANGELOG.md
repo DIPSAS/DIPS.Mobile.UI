@@ -1,3 +1,6 @@
+## [40.0.1]
+- Test
+
 ## [40.0.0]
 - Upgraded to .NET MAUI 9030.
 

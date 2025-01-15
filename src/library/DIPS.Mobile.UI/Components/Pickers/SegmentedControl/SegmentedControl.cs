@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using CollectionView = Microsoft.Maui.Controls.CollectionView;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
@@ -15,24 +16,22 @@ namespace DIPS.Mobile.UI.Components.Pickers.SegmentedControl;
 [ContentProperty(nameof(ItemsSource))]
 public partial class SegmentedControl : ContentView
 {
-    private readonly CollectionView m_collectionView;
+    private readonly HorizontalStackLayout m_horizontalStackLayout;
     private List<SelectableItemViewModel> m_allSelectableItems = new();
 
 
     public SegmentedControl()
     {
-        m_collectionView = new Components.Lists.CollectionView()
+        m_horizontalStackLayout = new HorizontalStackLayout
         {
-            AutomationId = "CollectionView".ToDUIAutomationId<SegmentedControl>(),
+            AutomationId = "HorizontalStackLayout".ToDUIAutomationId<SegmentedControl>(),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
-            ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal) {ItemSpacing = 0},
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Never
         };
-        m_collectionView.ItemTemplate = new DataTemplate(CreateSegment);
+        
+        BindableLayout.SetItemTemplate(m_horizontalStackLayout, new DataTemplate(CreateSegment));
 
-        Content = m_collectionView;
+        Content = m_horizontalStackLayout;
     }
 
     private View CreateSegment()
@@ -84,10 +83,11 @@ public partial class SegmentedControl : ContentView
         {
             if (sender is not View view) return;
 
+            /*
             if (m_collectionView.HeightRequest == -1)
             {
                 m_collectionView.HeightRequest = view.Height;
-            }
+            }*/
             
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
@@ -159,8 +159,7 @@ public partial class SegmentedControl : ContentView
             }
         }
 
-
         m_allSelectableItems = listOfSelectableItems;
-        m_collectionView.ItemsSource = m_allSelectableItems;
+        BindableLayout.SetItemsSource(m_horizontalStackLayout, m_allSelectableItems);
     }
 }

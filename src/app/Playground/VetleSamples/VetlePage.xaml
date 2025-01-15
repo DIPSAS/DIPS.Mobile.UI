@@ -20,13 +20,35 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
     
-    <VerticalStackLayout WidthRequest="250"
-                         BindingContext="{Binding TimePlanningViewModel}">
-        <Switch x:Name="Switch"
-                Toggled="Switch_OnToggled"/>
+    <CollectionView>
         
-        <dui:ContentControl 
-                            TemplateSelector="{StaticResource TemplateSelector}"
-                            x:Name="ContentControl" />
-    </VerticalStackLayout>
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>First</x:String>
+                <x:String>Second</x:String>
+                <x:String>Third</x:String>
+            </x:Array>
+        </CollectionView.ItemsSource>
+        
+        <CollectionView.Header>
+            <VerticalStackLayout>
+                
+            <dui:SegmentedControl SelectionMode="Multi">
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>First</x:String>
+                    <x:String>Second</x:String>
+                    <x:String>Third</x:String>
+                </x:Array>
+            </dui:SegmentedControl>
+            </VerticalStackLayout>
+
+        </CollectionView.Header>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="{Binding .}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
 </dui:ContentPage>
