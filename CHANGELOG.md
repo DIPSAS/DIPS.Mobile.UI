@@ -1,3 +1,6 @@
+## [40.0.0]
+- Upgraded to .NET MAUI 9030.
+
 ## [39.0.1]
 - [MultiLineInputField] Ensure that component resets when `IsSaving` is set to `false` manually
 
