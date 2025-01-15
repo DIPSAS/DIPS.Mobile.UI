@@ -111,7 +111,7 @@ public partial class VetlePage
     {
         
         
-        ContentControl.SelectorItem = e.Value;
+        /*ContentControl.SelectorItem = e.Value;*/
         
         
     }
