@@ -19,7 +19,6 @@ public partial class SegmentedControl : ContentView
     private readonly HorizontalStackLayout m_horizontalStackLayout;
     private List<SelectableItemViewModel> m_allSelectableItems = new();
 
-
     public SegmentedControl()
     {
         m_horizontalStackLayout = new HorizontalStackLayout
@@ -31,7 +30,13 @@ public partial class SegmentedControl : ContentView
         
         BindableLayout.SetItemTemplate(m_horizontalStackLayout, new DataTemplate(CreateSegment));
 
-        Content = m_horizontalStackLayout;
+        Content = new ScrollView
+        {
+            Content = m_horizontalStackLayout,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Never,
+            Orientation = ScrollOrientation.Horizontal
+        };
     }
 
     private View CreateSegment()

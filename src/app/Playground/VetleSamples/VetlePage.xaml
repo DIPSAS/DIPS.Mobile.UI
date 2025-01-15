@@ -36,8 +36,8 @@
             <dui:SegmentedControl SelectionMode="Multi">
                 <x:Array Type="{x:Type x:String}">
                     <x:String>First</x:String>
-                    <x:String>Second</x:String>
-                    <x:String>Third</x:String>
+                    <x:String>Second askdlnjasoidjnaso</x:String>
+                    <x:String>Third asoidkjaoisdjoiasjdoia</x:String>
                 </x:Array>
             </dui:SegmentedControl>
             </VerticalStackLayout>
