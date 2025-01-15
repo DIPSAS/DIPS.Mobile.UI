@@ -1,3 +1,7 @@
+## [39.0.2]
+- [ContentControl] Log and avoid possible crash if `BindingContext` and `SelectorItem` is the same object.
+- [DatePickers][iOS] Remove popover if a datepicker is disconnected.
+
 ## [39.0.1]
 - [MultiLineInputField] Ensure that component resets when `IsSaving` is set to `false` manually
 

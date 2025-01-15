@@ -26,6 +26,7 @@ public class VetlePageViewModel : ViewModel
     private DateTime m_date = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Utc);
     private DateTime m_localDate = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Local);
     private TestObject2 m_testObject2;
+    private TimePlanningViewModel m_timePlanningViewModel = null;
 
     public VetlePageViewModel()
     {
@@ -134,10 +135,8 @@ public class VetlePageViewModel : ViewModel
     private async Task DelayFunction()
     {
         await Task.Delay(2000);
-        GroupedTest.Add(["lol", "hehe"]);
-        GroupedTest.Add(["ok", "hehe"]);
 
-        TestObject2 = new TestObject2("lol");
+        TimePlanningViewModel = new TimePlanningViewModel(this);
     }
 
 
@@ -288,6 +287,17 @@ public class VetlePageViewModel : ViewModel
     });
 
     public ObservableCollection<GroupedTest> GroupedTest { get; } = [];
+
+    public TimePlanningViewModel TimePlanningViewModel
+    {
+        get => m_timePlanningViewModel;
+        set => RaiseWhenSet(ref m_timePlanningViewModel, value);
+    }
+
+    public void OnDateChanged()
+    {
+        TimePlanningViewModel = new TimePlanningViewModel(this);
+    }
 }
 
 public class GroupedTest : List<string>

@@ -8,7 +8,6 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
-                 x:DataType="{x:Type vetleSamples:VetlePageViewModel}"
                  Padding="20"
                  x:Name="This"
                  HideSoftInputOnTapped="True">
@@ -17,20 +16,17 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
     
-    <VerticalStackLayout>
-        <dui:ItemPicker x:Name="ItemPicker"
-                        IsEnabled="False">
-            <dui:ItemPicker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Test 1</x:String>
-                    <x:String>Test 1</x:String>
-                    <x:String>Test 1</x:String>
-                </x:Array>
-            </dui:ItemPicker.ItemsSource>
-        </dui:ItemPicker>
-        <dui:Button Text="diable"
-                    
-                    Clicked="Button_OnClicked"></dui:Button>
-    </VerticalStackLayout>
+    <dui:ContentPage.Resources>
+        <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
+    </dui:ContentPage.Resources>
     
+    <VerticalStackLayout WidthRequest="250"
+                         BindingContext="{Binding TimePlanningViewModel}">
+        <Switch x:Name="Switch"
+                Toggled="Switch_OnToggled"/>
+        
+        <dui:ContentControl 
+                            TemplateSelector="{StaticResource TemplateSelector}"
+                            x:Name="ContentControl" />
+    </VerticalStackLayout>
 </dui:ContentPage>

@@ -32,6 +32,21 @@ public partial class DatePickerService
         var currentViewController = Platform.GetCurrentUIViewController();
         
         _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
+        
+        datePicker.HandlerChanging += DatePickerOnHandlerChanging;
+    }
+
+    private static void DatePickerOnHandlerChanging(object? sender, HandlerChangingEventArgs e)
+    {
+        if (e.NewHandler is null)
+        {
+            Close();
+        }
+        
+        if(sender is DatePicker datePicker)
+        {
+            datePicker.HandlerChanging -= DatePickerOnHandlerChanging;
+        }
     }
 
     internal static partial bool IsOpen()

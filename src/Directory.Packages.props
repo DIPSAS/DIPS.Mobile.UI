@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageVersion Include="BitMiracle.LibTiff.NET" Version="2.4.649" />
     <PackageVersion Include="LightInject" Version="6.6.4" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.22" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     <PackageVersion Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.92" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
