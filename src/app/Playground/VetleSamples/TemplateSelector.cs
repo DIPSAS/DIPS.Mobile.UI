@@ -1,3 +1,5 @@
+using DataTemplate = Microsoft.Maui.Controls.DataTemplate;
+
 namespace Playground.VetleSamples;
 
 public class TemplateSelector : DataTemplateSelector
@@ -6,8 +8,21 @@ public class TemplateSelector : DataTemplateSelector
     
     public DataTemplate Test2 { get; set; }
     
+    public static int Test = 0;
+    
     protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
     {
-        return Random.Shared.Next(0, 2) == 0 ? Test1 : Test2;
+        if (Test == 0)
+        {
+            Test++;
+            return new DataTemplate(() => new ViewCellTest());
+        }
+        else
+        {
+            return new DataTemplate(() => new VitalSignView());
+        }
+        
+        
     }
+
 }

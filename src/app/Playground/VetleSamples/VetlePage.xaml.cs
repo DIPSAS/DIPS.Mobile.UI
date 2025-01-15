@@ -109,7 +109,11 @@ public partial class VetlePage
 
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-        ShouldHideFloatingNavigationMenuButton = e.Value;
+        
+        
+        ContentControl.SelectorItem = e.Value;
+        
+        
     }
 
 

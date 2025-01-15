@@ -26,7 +26,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
     {
         m_inlineDatePicker = inlineDatePicker;
         m_datePicker = datePicker;
-
+        
         var nativeSourceView = sourceView?.ToPlatform(DUI.GetCurrentMauiContext!);
 
         ModalPresentationStyle = UIModalPresentationStyle.Popover;

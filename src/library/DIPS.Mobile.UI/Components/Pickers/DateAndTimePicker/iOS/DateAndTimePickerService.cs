@@ -38,6 +38,21 @@ public partial class DateAndTimePickerService
         var currentViewController = Platform.GetCurrentUIViewController();
         
         _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
+        
+        dateAndTimePicker.HandlerChanging += DateAndTimePickerOnHandlerChanging;
+    }
+
+    private static void DateAndTimePickerOnHandlerChanging(object? sender, HandlerChangingEventArgs e)
+    {
+        if (e.NewHandler is null)
+        {
+            Close();
+        }
+        
+        if(sender is DateAndTimePicker dateAndTimePicker)
+        {
+            dateAndTimePicker.HandlerChanging -= DateAndTimePickerOnHandlerChanging;
+        }
     }
 
     internal static partial bool IsOpen()

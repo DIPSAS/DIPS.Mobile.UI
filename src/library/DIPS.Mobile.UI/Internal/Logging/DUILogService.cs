@@ -12,7 +12,7 @@ internal static partial class DUILogService
     /// <param name="message">The message to log as an error.</param>
     internal static void LogError<T>(string message) where T : class
     {
-        LogError(nameof(T), message);
+        LogError(typeof(T).ToString(), message);
     }
 
     /// <summary>
