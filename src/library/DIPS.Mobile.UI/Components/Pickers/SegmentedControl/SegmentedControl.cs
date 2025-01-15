@@ -83,12 +83,6 @@ public partial class SegmentedControl : ContentView
         {
             if (sender is not View view) return;
 
-            /*
-            if (m_collectionView.HeightRequest == -1)
-            {
-                m_collectionView.HeightRequest = view.Height;
-            }*/
-            
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
             var radius = (double)Sizes.GetSize(SizeName.size_8);
