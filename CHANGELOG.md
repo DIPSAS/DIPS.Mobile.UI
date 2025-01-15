@@ -1,3 +1,6 @@
+## [40.0.0]
+- Upgraded to .NET MAUI 9030.
+
 ## [39.0.2]
 - [ContentControl] Log and avoid possible crash if `BindingContext` and `SelectorItem` is the same object.
 - [DatePickers][iOS] Remove popover if a datepicker is disconnected.
