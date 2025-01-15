@@ -29,6 +29,21 @@ public partial class TimePickerService
         var currentViewController = Platform.GetCurrentUIViewController();
 
         _ = currentViewController?.PresentViewControllerAsync(presentedViewController, true);
+        
+        timePicker.HandlerChanging += TimePickerOnHandlerChanging;
+    }
+
+    private static void TimePickerOnHandlerChanging(object? sender, HandlerChangingEventArgs e)
+    {
+        if (e.NewHandler is null)
+        {
+            Close();
+        }
+        
+        if(sender is TimePicker timePicker)
+        {
+            timePicker.HandlerChanging -= TimePickerOnHandlerChanging;
+        }
     }
 
     internal static partial bool IsOpen()
