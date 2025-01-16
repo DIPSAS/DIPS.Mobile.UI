@@ -1,5 +1,8 @@
-## [39.0.3]
+## [40.0.1]
 - [ImageCapture] Make sure we handle unchecked orientation data
+
+## [40.0.0]
+- Upgraded to .NET MAUI 9030.
 
 ## [39.0.2]
 - [ContentControl] Log and avoid possible crash if `BindingContext` and `SelectorItem` is the same object.
