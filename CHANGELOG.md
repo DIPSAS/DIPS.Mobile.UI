@@ -1,3 +1,6 @@
+## [39.0.3]
+- [ImageCapture] Make sure we handle unchecked orientation data
+
 ## [39.0.2]
 - [ContentControl] Log and avoid possible crash if `BindingContext` and `SelectorItem` is the same object.
 - [DatePickers][iOS] Remove popover if a datepicker is disconnected.

@@ -14,6 +14,7 @@ public static class ExifOrientationExtensions
             ExifInterface.OrientationRotate180 => OrientationDegree.Orientation90,
             ExifInterface.OrientationRotate270 => OrientationDegree.Orientation180,
             ExifInterface.OrientationNormal => OrientationDegree.Orientation270,
+            _ => OrientationDegree.Orientation0
         };
     }
 }
