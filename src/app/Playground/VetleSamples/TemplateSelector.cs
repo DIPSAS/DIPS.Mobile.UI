@@ -12,17 +12,7 @@ public class TemplateSelector : DataTemplateSelector
     
     protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
     {
-        if (Test == 0)
-        {
-            Test++;
-            return new DataTemplate(() => new ViewCellTest());
-        }
-        else
-        {
-            return new DataTemplate(() => new VitalSignView());
-        }
-        
-        
+        return new DataTemplate(() => new ViewCellTest());
     }
 
 }
