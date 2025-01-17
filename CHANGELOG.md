@@ -1,3 +1,6 @@
+## [40.0.2]
+- [ImageCapture] Make sure we handle unchecked orientation data
+
 ## [40.0.1]
 - [SegmentedControl][iOS] Rewrote to use BindableLayout with HorizontalStackLayout to fix a bug where SegmentedControl were put in a CollectionView's header.
 
