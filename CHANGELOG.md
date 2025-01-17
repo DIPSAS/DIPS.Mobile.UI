@@ -1,3 +1,6 @@
+## [40.0.3]
+- [ChipGroup] Make sure functions does not run when handler is null.
+
 ## [40.0.2]
 - [ImageCapture] Make sure we handle unchecked orientation data
 
