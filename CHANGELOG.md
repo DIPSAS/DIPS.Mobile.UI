@@ -1,3 +1,6 @@
+## [40.0.1]
+- [SegmentedControl][iOS] Rewrote to use BindableLayout with HorizontalStackLayout to fix a bug where SegmentedControl were put in a CollectionView's header.
+
 ## [40.0.0]
 - Upgraded to .NET MAUI 9030.
 
