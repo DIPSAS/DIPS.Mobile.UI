@@ -17,9 +17,12 @@ public partial class NullableTimePicker : TimePicker.TimePicker, INullableDatePi
         SelectedTime = null;
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         OnSelectedTimeChanged();
     }

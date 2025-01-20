@@ -32,9 +32,12 @@ public partial class NavigationListItem : ListItem
         InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         if (InLineContent is null)
         {

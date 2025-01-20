@@ -8,6 +8,20 @@
              x:DataType="{x:Type vetleSamples:TimePlanningViewModel}"
              x:Name="This">
     
+    <VerticalStackLayout>
        <dui:DateAndTimePicker SelectedDateTime="{Binding DateTime, Mode=TwoWay}" />
     
+       <dui:ChipGroup SelectedItems="{Binding Tests}"
+                      SelectionMode="Single">
+           <dui:ChipGroup.ItemsSource>
+               <x:Array Type="{x:Type x:String}">
+                   <x:String>Test</x:String>
+                   <x:String>Test2</x:String>
+                   <x:String>Test3</x:String>
+
+               </x:Array>
+           </dui:ChipGroup.ItemsSource>
+       </dui:ChipGroup>
+    </VerticalStackLayout>
+       
 </ContentView>

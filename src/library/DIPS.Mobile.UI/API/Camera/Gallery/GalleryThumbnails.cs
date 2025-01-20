@@ -50,11 +50,12 @@ public partial class GalleryThumbnails : Grid
         CameraButtonTapped?.Invoke(this, EventArgs.Empty);
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
         
-        OnImagesChanged();
+        if(args.NewHandler is not null)
+            OnImagesChanged();
     }
 
     private void OnTappedImage(int imageIndex)

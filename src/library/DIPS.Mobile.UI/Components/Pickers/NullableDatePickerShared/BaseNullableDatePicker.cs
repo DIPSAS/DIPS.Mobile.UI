@@ -21,9 +21,13 @@ public abstract class BaseNullableDatePicker : Grid
         this.Add(DateEnabledSwitch, 1);
     }
 
-    protected override void OnHandlerChanged()
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         m_dateOrTimePicker = CreateDateOrTimePicker();
         m_dateOrTimePicker.IsVisible = false;

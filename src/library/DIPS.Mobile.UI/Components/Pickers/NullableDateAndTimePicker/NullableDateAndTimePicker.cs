@@ -13,10 +13,13 @@ public partial class NullableDateAndTimePicker : DateAndTimePicker.DateAndTimePi
         DateChip.CloseCommand = new Command(OnCloseTapped);
         TimeChip.CloseCommand = new Command(OnCloseTapped);
     }
-    
-    protected override void OnHandlerChanged()
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         OnSelectedDateTimeChanged();
     }

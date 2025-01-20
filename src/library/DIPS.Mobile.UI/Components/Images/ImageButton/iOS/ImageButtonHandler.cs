@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Platforms.iOS;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -41,9 +42,16 @@ public partial class ImageButtonHandler
             await Task.Delay(1);
             tries++;
         }
-        
-        handler.PlatformView.SetImage(handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
-        handler.PlatformView.TintColor = imageButton.TintColor.ToPlatform();
+
+        if (handler.PlatformView is not null)
+        {
+            handler.PlatformView.SetImage(handler.PlatformView.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+            handler.PlatformView.TintColor = imageButton.TintColor.ToPlatform();
+        }
+        else
+        {
+            DUILogService.LogError<ImageButtonHandler>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
+        }
     }
 
     private static partial void MapAdditionalHitBoxSize(ImageButtonHandler handler, ImageButton imageButton)

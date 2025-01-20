@@ -193,14 +193,17 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_onRemoveImage.Invoke(m_carouselView.Position);
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
-        
-        OnImagesChanged();
-        _ = OnCarouselViewPositionChanged(m_carouselView!.Position);
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+        {
+            OnImagesChanged();
+            _ = OnCarouselViewPositionChanged(m_carouselView!.Position);    
+        }
     }
-    
+
     private void CarouselViewOnPositionChanged(object? sender, PositionChangedEventArgs e)
     {
         m_cancellationTokenSource.Cancel();

@@ -16,14 +16,12 @@ public partial class ChipGroup : ContentView
         Content = m_flexLayout;
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
-
-        if (SelectedItems is not null)
-        {
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is not null)
             SetChipsToggledBasedOnSelectedItems();
-        }
     }
 
     private void SetChipsToggledBasedOnSelectedItems()

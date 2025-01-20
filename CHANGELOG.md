@@ -1,3 +1,7 @@
+## [40.0.3]
+- Make sure functions does not run when handler is null.
+- Make sure to null check `PlatformView` in some handlers and log if it is.
+
 ## [40.0.2]
 - [ImageCapture] Make sure we handle unchecked orientation data
 

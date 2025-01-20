@@ -76,10 +76,13 @@ internal partial class NavigationMenuButton : Grid
 
     internal View Button { get; }
 
-    protected override async void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
 
+        if (args.NewHandler is null)
+            return;
+        
         // We must set this here, because on Android, the ImageButton disappears when binding rotation
         Button.Rotation = IconRotation;
 

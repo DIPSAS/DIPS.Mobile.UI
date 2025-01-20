@@ -1,11 +1,10 @@
-using System.ComponentModel;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.ImageView;
 using Microsoft.Maui.Platform;
-using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Images.ImageButton;
@@ -29,14 +28,26 @@ public partial class ImageButtonHandler
 
     private static partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
     {
-        handler.PlatformView.SetColorFilter(imageButton.TintColor.ToPlatform());
+        if (handler.PlatformView is null)
+        {
+            DUILogService.LogError<ImageButtonHandler>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
+            return;
+        }
+            
+        handler.PlatformView?.SetColorFilter(imageButton.TintColor.ToPlatform());
     }
 
     private static async partial void MapAdditionalHitBoxSize(ImageButtonHandler handler, ImageButton imageButton)
     {
         await Task.Delay(1);
 
-        handler.PlatformView.SetAdditionalHitBoxSize(imageButton, imageButton.AdditionalHitBoxSize, handler.MauiContext!);
+        if (handler.PlatformView is null)
+        {
+            DUILogService.LogError<ImageButtonHandler>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
+            return;
+        }
+        
+        handler.PlatformView?.SetAdditionalHitBoxSize(imageButton, imageButton.AdditionalHitBoxSize, handler.MauiContext!);
         
     }
 }
