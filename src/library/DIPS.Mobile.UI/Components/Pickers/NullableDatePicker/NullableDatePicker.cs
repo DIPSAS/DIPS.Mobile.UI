@@ -22,9 +22,12 @@ public partial class NullableDatePicker : DatePicker.DatePicker, INullableDatePi
         SelectedDate = null;
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         OnSelectedDateChanged();
     }

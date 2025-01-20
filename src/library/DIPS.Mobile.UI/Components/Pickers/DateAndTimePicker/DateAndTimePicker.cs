@@ -93,10 +93,13 @@ public partial class DateAndTimePicker : Grid, IDatePicker
         return SelectedDateTime.Kind;
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
-
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
+        
         SelectedDateTime = ValidateDateTime(SelectedDateTime);
         OnSelectedDateTimeChanged(SelectedDateTime);
     }

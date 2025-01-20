@@ -62,10 +62,13 @@ public partial class LoadableListItem : ListItem
         CreateBusyContent();
         CreateErrorContent();
     }
-    
-    protected override void OnHandlerChanged()
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         m_cachedCommand = Command;
         m_cachedCommandParameter = CommandParameter;

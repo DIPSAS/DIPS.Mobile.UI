@@ -40,9 +40,12 @@ namespace DIPS.Mobile.UI.Components.Buttons
             }
         }
 
-        protected override void OnHandlerChanged()
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
-            base.OnHandlerChanged();
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+                return;
             
             // If the button is not enabled as the default, we need to update the style to the disabled style
             if(!IsEnabled && Handler is not null)

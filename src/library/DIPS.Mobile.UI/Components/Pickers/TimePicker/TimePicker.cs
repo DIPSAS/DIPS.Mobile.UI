@@ -18,9 +18,12 @@ public partial class TimePicker : Chip, IDatePicker
         TimePickerService.Open(this, this);
     }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+        
+        if(args.NewHandler is null)
+            return;
         
         OnTimeChanged();
     }

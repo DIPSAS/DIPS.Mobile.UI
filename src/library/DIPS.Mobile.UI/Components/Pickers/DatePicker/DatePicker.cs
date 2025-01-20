@@ -19,9 +19,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             DatePickerService.Open(this, this);
         }
 
-        protected override void OnHandlerChanged()
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
-            base.OnHandlerChanged();
+            base.OnHandlerChanging(args);
+            
+            if(args.NewHandler is null)
+                return;
             
             SelectedDate = ValidateDateTime(SelectedDate);            
             OnSelectedDateChanged();

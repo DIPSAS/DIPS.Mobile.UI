@@ -46,9 +46,12 @@ public partial class FilledCheckBox : ContentView
     private Grid InnerGrid { get; }
     private Border Container { get; }
 
-    protected override void OnHandlerChanged()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnHandlerChanged();
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+            return;
 
         _ = SetContainerContent();
         Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
