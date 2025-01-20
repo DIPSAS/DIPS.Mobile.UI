@@ -48,7 +48,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
                 return;
             
             // If the button is not enabled as the default, we need to update the style to the disabled style
-            if(!IsEnabled && Handler is not null)
+            if(!IsEnabled)
                 OnIsEnabledChanged();
         }
 
