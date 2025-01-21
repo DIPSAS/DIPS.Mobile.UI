@@ -32,6 +32,12 @@ public partial class ImageButtonHandler
 
     private static async partial void TrySetTintColor(ImageButtonHandler handler, ImageButton imageButton)
     {
+        if(handler.PlatformView is null)
+        {
+            DUILogService.LogError<ImageButtonHandler>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
+            return;
+        }
+        
         var tries = 0;
         // Wait for Image to be set
         while (handler.PlatformView.ImageView.Image is null)

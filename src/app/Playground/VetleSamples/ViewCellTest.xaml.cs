@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 
 namespace Playground.VetleSamples;
 
@@ -36,4 +37,17 @@ public partial class ViewCellTest : ContentView
         set => SetValue(TestBoolProperty, value);
     }
 
+    private void ItemPicker_OnDidSelectItem(object sender, object e)
+    {
+        if(BindingContext is not TimePlanningViewModel timePlanningViewModel)
+            return;
+
+        if(sender is not ItemPicker itemPicker)
+            return;
+
+        if (itemPicker.SelectedItem == "Test2")
+        {
+            timePlanningViewModel.Update();
+        }
+    }
 }

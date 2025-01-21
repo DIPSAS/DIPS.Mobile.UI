@@ -4,148 +4,141 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
-using Colors = Microsoft.Maui.Graphics.Colors;
 
-namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
+namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
+
+public partial class ItemPicker : ContentView
 {
-    public partial class ItemPicker : ContentView
+    private readonly ContextMenu m_contextMenu = new();
+    private readonly Chip m_chip = new(){AutomationId = "ItemPickerChip".ToDUIAutomationId<ItemPicker>()};
+
+    public ItemPicker()
     {
-        private readonly ContextMenu m_contextMenu = new();
-        private readonly Chip m_chip = new(){AutomationId = "ItemPickerChip".ToDUIAutomationId<ItemPicker>()};
+        m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
+        m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
+        MaximumWidthRequest = 200;
+    }
 
-        public ItemPicker()
-        {
-            m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
-            m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
-            MaximumWidthRequest = 200;
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
             
-            Loaded += OnLoaded;
-            Unloaded += OnUnLoaded;
-        }
-
-        private void OnUnLoaded(object? sender, EventArgs e)
-        {
-            Unloaded -= OnLoaded;
-            Dispose();
-        }
-
-        private void Dispose()
-        {
-            if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
-        }
-
-        private void OnLoaded(object? sender, EventArgs e)
-        {
-            Loaded -= OnLoaded;
+        if(args.NewHandler is not null)
             LayoutContent();
-        }
+        else
+            Dispose();
+    }
 
-        private void LayoutContent()
+    private void LayoutContent()
+    {
+        Content = m_chip;
+
+        if (Mode == PickerMode.ContextMenu)
         {
-            Content = m_chip;
-
-            if (Mode == PickerMode.ContextMenu)
-            {
-                // If not enabled, no need to set context menu effect
-                ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
-                m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
+            // If not enabled, no need to set context menu effect
+            ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
+            m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
                 
-            }
-            else if (Mode == PickerMode.BottomSheet)
-            {
-                m_chip.Command = OpenCommand;
-            }
-
-            SelectedItemChanged();
+        }
+        else if (Mode == PickerMode.BottomSheet)
+        {
+            m_chip.Command = OpenCommand;
         }
 
-        internal void UpdateChipTitle(string? title)
-        {
-            var hasPlaceHolder = title == null || string.IsNullOrEmpty(title);
-            m_chip.Title = hasPlaceHolder ? Placeholder : title!;
-            m_chip.Style = hasPlaceHolder ? EmptyInputStyle.Current : InputStyle.Current;
-        }
+        SelectedItemChanged();
+    }
 
-        public partial void Open()
-        {
-            if (!IsEnabled)
-                return;
+    internal void UpdateChipTitle(string? title)
+    {
+        var hasPlaceHolder = title == null || string.IsNullOrEmpty(title);
+        m_chip.Title = hasPlaceHolder ? Placeholder : title!;
+        m_chip.Style = hasPlaceHolder ? EmptyInputStyle.Current : InputStyle.Current;
+    }
+
+    public partial void Open()
+    {
+        if (!IsEnabled)
+            return;
             
-            if (Mode == PickerMode.BottomSheet)
-            {
-                OpenBottomSheet();
-            }
-        }
-
-        private void SelectedItemChanged()
+        if (Mode == PickerMode.BottomSheet)
         {
-            SelectedItemCommand?.Execute(SelectedItem);
-            DidSelectItem?.Invoke(this, SelectedItem!);
-
-            var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
-            UpdateChipTitle(displayName);
-
-            switch (Mode)
-            {
-                case PickerMode.ContextMenu:
-                    UpdateContextMenuItems(); //<-- Needed if the selected item was set programatically, and not by the user
-                    break;
-                case PickerMode.BottomSheet:
-                    if (BottomSheetService.IsOpen())
-                    {
-                        _ = BottomSheetService.CloseAll();
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            OpenBottomSheet();
         }
+    }
 
-        private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+    private void SelectedItemChanged()
+    {
+        SelectedItemCommand?.Execute(SelectedItem);
+        DidSelectItem?.Invoke(this, SelectedItem!);
+
+        var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
+        UpdateChipTitle(displayName);
+
+        switch (Mode)
         {
-            if (bindable is not ItemPicker picker)
-            {
-                return;
-            }
-
-            if (picker.Mode == PickerMode.ContextMenu)
-            {
-                picker.AddContextMenuItems();
-            }
-
-            if (newValue is INotifyCollectionChanged notifyCollectionChanged)
-            {
-                notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
-            }
-
-            //Make sure to remove selected item if its not a part of the new items source
-            if (picker is {ItemsSource: not null, SelectedItem: not null})
-            {
-                var itemsSource = picker.ItemsSource.Cast<object?>();
-                if (!itemsSource.Contains(picker.SelectedItem))
+            case PickerMode.ContextMenu:
+                UpdateContextMenuItems(); //<-- Needed if the selected item was set programatically, and not by the user
+                break;
+            case PickerMode.BottomSheet:
+                if (BottomSheetService.IsOpen())
                 {
-                    picker.SelectedItem = null;
+                    _ = BottomSheetService.CloseAll();
                 }
-            }
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is not ItemPicker picker)
+        {
+            return;
         }
 
-        private void OnCollectionChanged(object? sender,
-            NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        if (picker.Mode == PickerMode.ContextMenu)
         {
-            AddContextMenuItems();
+            picker.AddContextMenuItems();
         }
 
-        private object? GetItemFromDisplayProperty(string toCompare)
+        if (newValue is INotifyCollectionChanged notifyCollectionChanged)
         {
-            if (ItemsSource == null)
+            notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
+        }
+
+        //Make sure to remove selected item if its not a part of the new items source
+        if (picker is {ItemsSource: not null, SelectedItem: not null})
+        {
+            var itemsSource = picker.ItemsSource.Cast<object?>();
+            if (!itemsSource.Contains(picker.SelectedItem))
             {
-                return null;
+                picker.SelectedItem = null;
             }
-
-            return ItemsSource.Cast<object?>().FirstOrDefault(item =>
-                toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
         }
+    }
+
+    private void OnCollectionChanged(object? sender,
+        NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+    {
+        AddContextMenuItems();
+    }
+
+    private object? GetItemFromDisplayProperty(string toCompare)
+    {
+        if (ItemsSource == null)
+        {
+            return null;
+        }
+
+        return ItemsSource.Cast<object?>().FirstOrDefault(item =>
+            toCompare.Equals(item.GetPropertyValue(ItemDisplayProperty), StringComparison.InvariantCulture));
+    }
+        
+    private void Dispose()
+    {
+        if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+            notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
     }
 }

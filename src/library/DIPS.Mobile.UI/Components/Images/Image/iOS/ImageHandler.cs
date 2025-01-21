@@ -9,6 +9,12 @@ public partial class ImageHandler
 
     private static async partial void TrySetTintColor(ImageHandler handler, Image image)
     {
+        if(handler.PlatformView is null)
+        {
+            DUILogService.LogError<ImageHandler>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
+            return;
+        }
+        
         try
         {
             var tries = 0;
@@ -22,7 +28,8 @@ public partial class ImageHandler
                 tries++;
             }
 
-            if (image.TintColor == null) return;
+            if (image.TintColor == null) 
+                return;
 
             if (handler.PlatformView is null)
             {
