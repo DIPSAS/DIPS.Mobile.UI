@@ -1,5 +1,6 @@
 ## [40.0.4]
-- Test
+- Fixed a possible crash on `Chip`
+- [iOS] Made sure to null check better in `ImageButtonHandler` and `ImageHandler`
 
 ## [40.0.3]
 - Make sure functions does not run when handler is null.
