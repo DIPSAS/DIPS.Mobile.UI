@@ -9,9 +9,4 @@ public partial class ImageHandler
         if (image.TintColor == null) return;
         handler.PlatformView.SetColorFilter(image.TintColor.ToPlatform());
     }
-
-    private static partial void AppendToPropertyMapper()
-    {
-    }
-    
 }

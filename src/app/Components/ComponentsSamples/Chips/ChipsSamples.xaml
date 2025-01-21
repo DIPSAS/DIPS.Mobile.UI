@@ -16,7 +16,7 @@
     </dui:ContentPage.BindingContext>
     
     <dui:VerticalStackLayout>
-        <dui:Label Text="Chip"
+        <!--<dui:Label Text="Chip"
                    Margin="5" />
         <dui:Chip Title="A chip"
                   HorizontalOptions="Start"
@@ -39,7 +39,7 @@
                   IsToggleable="True" />
         
         <dui:Label Text="Single selection chip-group"
-                   Style="{dui:Styles Label=SectionHeader}" />
+                   Style="{dui:Styles Label=SectionHeader}" />-->
         
         <dui:ChipGroup SelectionMode="Single"
                        SelectedItems="{Binding SelectedItems, Mode=TwoWay}">

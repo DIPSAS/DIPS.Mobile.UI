@@ -1,6 +1,5 @@
 ## [40.0.4]
-- Fixed a possible crash on `Chip`
-- [iOS] Made sure to null check better in `ImageButtonHandler` and `ImageHandler`
+- [iOS] Rewrote how we set the tint color on `ImageButton` and `Image`, fixing possible crashes.
 
 ## [40.0.3]
 - Make sure functions does not run when handler is null.
