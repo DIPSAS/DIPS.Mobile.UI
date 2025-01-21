@@ -1,4 +1,5 @@
 using Android.Widget;
+using DIPS.Mobile.UI.Components.Images.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Microsoft.Maui.Platform;
 
@@ -17,12 +18,17 @@ internal class OnToggledChangedListener : Java.Lang.Object, CompoundButton.IOnCh
         m_handler.VirtualView.IsToggled = isChecked;
 
         await Task.Delay(1);
-        
-        if (m_handler.PlatformView is null)
+
+        try
         {
-            DUILogService.LogError<OnToggledChangedListener>("PlatformView is null, this should not happen, most likely the issue is that the Content is rendered and then the handler is instantly disconnected");
-            return;
+            m_handler.PlatformView.CheckedIconTint = m_handler.VirtualView.TitleColor?.ToDefaultColorStateList();
         }
-        m_handler.PlatformView.CheckedIconTint = m_handler.VirtualView.TitleColor?.ToDefaultColorStateList();
+        catch
+        {
+            DUILogService.LogError<IconTintColorHandler>("@@@" +
+                                                         "PlatformView is null, this should not happen." +
+                                                         "Likely the issue is that the Content is rendered and then the handler is instantly disconnected." +
+                                                         "Make sure to address this issue!");
+        }
     }
 }
