@@ -1,5 +1,4 @@
 using Android.Widget;
-using DIPS.Mobile.UI.Components.Images.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Microsoft.Maui.Platform;
 
@@ -25,7 +24,7 @@ internal class OnToggledChangedListener : Java.Lang.Object, CompoundButton.IOnCh
         }
         catch
         {
-            DUILogService.LogError<IconTintColorHandler>("@@@" +
+            DUILogService.LogError<OnToggledChangedListener>("@@@" +
                                                          "PlatformView is null, this should not happen." +
                                                          "Likely the issue is that the Content is rendered and then the handler is instantly disconnected." +
                                                          "Make sure to address this issue!");

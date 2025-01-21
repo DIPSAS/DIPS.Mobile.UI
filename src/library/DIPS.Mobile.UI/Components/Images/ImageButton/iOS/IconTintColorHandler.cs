@@ -3,7 +3,7 @@ using Microsoft.Maui.Platform;
 using UIKit;
 using IImage = Microsoft.Maui.IImage;
 
-namespace DIPS.Mobile.UI.Components.Images.iOS;
+namespace DIPS.Mobile.UI.Components.Images;
 
 // Some inspiration from Maui.CommunityToolkit: https://github.com/CommunityToolkit/Maui/blob/main/src/CommunityToolkit.Maui/Behaviors/PlatformBehaviors/IconTintColor/IconTintColorBehavior.macios.cs
 // Attempts to set the Tint Color of an image on iOS, on the following controls: ImageButton, Image

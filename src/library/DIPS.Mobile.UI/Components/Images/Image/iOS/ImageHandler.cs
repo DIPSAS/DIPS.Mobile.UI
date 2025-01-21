@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Components.Images.iOS;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Images.Image;
