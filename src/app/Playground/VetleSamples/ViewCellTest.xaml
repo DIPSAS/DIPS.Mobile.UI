@@ -9,19 +9,24 @@
              x:Name="This">
     
     <VerticalStackLayout>
-       <dui:DateAndTimePicker SelectedDateTime="{Binding DateTime, Mode=TwoWay}" />
-    
-       <dui:ChipGroup SelectedItems="{Binding Tests}"
-                      SelectionMode="Single">
-           <dui:ChipGroup.ItemsSource>
-               <x:Array Type="{x:Type x:String}">
-                   <x:String>Test</x:String>
-                   <x:String>Test2</x:String>
-                   <x:String>Test3</x:String>
+        
+        <dui:ChipGroup x:Name="DateAndRoundPicker" 
+                       ItemsSource="{Binding Tests, Mode=OneTime}"
+                       SelectedItems="{Binding Tests, Mode=TwoWay}"
+                       SelectionMode="Single"
+                       OnSelectedItemsChanged="DateAndRoundPicker_OnOnSelectedItemsChanged"/>
+        
+        <!--<dui:DatePicker />
 
-               </x:Array>
-           </dui:ChipGroup.ItemsSource>
-       </dui:ChipGroup>
+        ~1~ If round is not selected, show date and time picker @1@
+        <dui:DateAndTimePicker />
+        
+        <dui:ItemPicker x:Name="SchedulePicker"
+                        ItemsSource="{Binding Tests}"
+                        SelectedItem="{Binding Test}"
+                        DidSelectItem="ItemPicker_OnDidSelectItem"
+                        Mode="ContextMenu" />-->
+    
     </VerticalStackLayout>
        
 </ContentView>

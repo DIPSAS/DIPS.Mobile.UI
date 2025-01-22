@@ -23,5 +23,11 @@ public class TimePlanningViewModel : ViewModel
         }
     }
 
-    public List<object> Tests { get; set; } = ["Test"];
+    public List<object> Tests { get; set; } = ["Test", "Test2"];
+    public string Test { get; } = "Test";
+
+    public void Update()
+    {
+        m_vetlePageViewModel.OnDateChanged();
+    }
 }

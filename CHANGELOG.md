@@ -1,3 +1,6 @@
+## [40.0.4]
+- [iOS] Rewrote how we set the tint color on `ImageButton` and `Image`, fixing possible crashes.
+
 ## [40.0.3]
 - Make sure functions does not run when handler is null.
 - Make sure to null check `PlatformView` in some handlers and log if it is.
