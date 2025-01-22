@@ -3,6 +3,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
 using Google.Android.Material.AppBar;
+using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -14,7 +15,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 {
     public override void OnFragmentStarted(FragmentManager fm, Fragment f)
     {
-        if (f is DialogFragment dialogFragment)
+        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
         {
             SetStatusBarColorOnModalAppearing(dialogFragment);
             SetIconColorsOnModal(dialogFragment);
