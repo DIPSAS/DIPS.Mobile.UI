@@ -20,24 +20,7 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-<VerticalStackLayout>
 
-    <dui:Image TintColor="Green"
-               Source="{dui:Icons alert_line}" />
+    <dui:Button Text="Hello" />
     
-    <VerticalStackLayout WidthRequest="250"
-                         BindingContext="{Binding TimePlanningViewModel}">
-        <Switch x:Name="Switch"
-                Toggled="Switch_OnToggled"/>
-
-        <dui:ContentControl 
-            TemplateSelector="{StaticResource TemplateSelector}"
-            x:Name="ContentControl" />
-        
-        <dui:Image TintColor="Green"
-                   Source="{dui:Icons alert_line}" />
-        
-        
-    </VerticalStackLayout>
-</VerticalStackLayout>
 </dui:ContentPage>
