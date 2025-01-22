@@ -42,22 +42,20 @@ then
    fi
 fi
 
+# Save it for later if we need to update
 # PIN TO SPECIFIC GH CLIENT DUE TO BUG WHEN CREATING PRs
-# Specify the version you want to install
-TARGET_VERSION="2.57.0"
+# Construct the download URL
+# GH_URL="https://github.com/cli/cli/releases/download/v2.57.0/gh_2.57.0_macOS_arm64.zip"
 
-# Uninstall the current version of GitHub CLI
-echo "Uninstalling the current version of GitHub CLI..."
-brew uninstall gh
+# # Download and extract the GitHub CLI
+# echo "Downloading GitHub CLI version 2.57.0 from $GH_URL..."
+# curl -L -o gh.tar.gz "$GH_URL"
+# echo "Extracting the GitHub CLI..."
+# tar -xzf gh.tar.gz
 
-# Install the specific version
-echo "Installing GitHub CLI version $TARGET_VERSION..."
-brew install gh@$TARGET_VERSION
-
-# Link the installed version
-echo "Linking GitHub CLI version $TARGET_VERSION..."
-brew link --overwrite gh@$TARGET_VERSION
-
-# Verify the installed version
-echo "Verifying GitHub CLI version..."
-gh --version
+# cd gh_2.57.0_macOS_arm64 || exit 1
+# chmod 777 bin/gh
+# mv bin/gh ../.
+# cd ..
+# rm -rf gh_2.57.0_macOS_arm64
+# rm -rf gh.tar.gz
