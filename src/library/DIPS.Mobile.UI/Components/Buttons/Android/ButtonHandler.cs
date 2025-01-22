@@ -23,21 +23,25 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
         base.ConnectHandler(platformView);
 
-        var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
-        var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
-            null,
-            platformView.Background);
-
+        UpdateForegroundRipple();
+        
         // MaterialButton sets text to all caps as default
         platformView.SetAllCaps(false);
-        
-        
-        platformView.Foreground = ripple;
         
         platformView.SetMinHeight(0);
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
 
+    internal void UpdateForegroundRipple()
+    {
+        var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+        var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
+            null,
+            PlatformView.Background);
+        
+        PlatformView.Foreground = ripple;
+    }
+    
     private static void OverrideMapBackgroundColor(ButtonHandler handler, Button button)
     {
         handler.PlatformView.UpdateBackground(button);
@@ -84,10 +88,5 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 
         if(button is not null && handler.PlatformView is not null)
             handler.PlatformView.SetAdditionalHitBoxSize(button, button.AdditionalHitBoxSize, handler.MauiContext!);
-    }
-
-    public static void MapOverrideCornerRadius(ButtonHandler handler, Button button)
-    {
-        handler.PlatformView.CornerRadius = button.CornerRadius.ToMauiPixel();
     }
 }

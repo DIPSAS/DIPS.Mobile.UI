@@ -1,5 +1,8 @@
+## [40.0.6]
+- [Button][Android] Touch effect on buttons will not go out of bounds anymore.
+
 ## [40.0.5]
-- [Android][BottomSheet] Don't set status bar color on BottomSheet's.
+- [Android][BottomSheet] Don't set status bar color on BottomSheets.
 
 ## [40.0.4]
 - [iOS] Rewrote how we set the tint color on `ImageButton` and `Image`, fixing possible crashes.
