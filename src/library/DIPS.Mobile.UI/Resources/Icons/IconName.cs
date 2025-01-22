@@ -365,5 +365,7 @@ task_fill=178,
 tab_more_line=179,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/microscope_line.svg">View the icon in the browser</a></summary>
 microscope_line=180,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/update_available_fill.svg">View the icon in the browser</a></summary>
+update_available_fill=181,
     }
 }
