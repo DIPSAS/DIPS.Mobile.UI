@@ -41,3 +41,23 @@ then
       sudo dotnet workload list
    fi
 fi
+
+# PIN TO SPECIFIC GH CLIENT DUE TO BUG WHEN CREATING PRs
+# Specify the version you want to install
+TARGET_VERSION="2.57.0"
+
+# Uninstall the current version of GitHub CLI
+echo "Uninstalling the current version of GitHub CLI..."
+brew uninstall gh
+
+# Install the specific version
+echo "Installing GitHub CLI version $TARGET_VERSION..."
+brew install gh@$TARGET_VERSION
+
+# Link the installed version
+echo "Linking GitHub CLI version $TARGET_VERSION..."
+brew link --overwrite gh@$TARGET_VERSION
+
+# Verify the installed version
+echo "Verifying GitHub CLI version..."
+gh --version
