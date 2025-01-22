@@ -1,3 +1,6 @@
+## [40.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [40.0.6]
 - [Button][Android] Touch effect on buttons will not go out of bounds anymore.
 
