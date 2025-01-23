@@ -26,6 +26,8 @@
         <dui:Entry />
         <dui:Editor />
         <dui:SearchBar />
+        <dui:Button Text="Open modal"
+                    Clicked="Button_OnClicked"/>
     </VerticalStackLayout>
 
     

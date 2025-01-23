@@ -1,7 +1,10 @@
 using Android.Provider;
 using Android.Views;
 using Android.Widget;
+using AndroidX.CoordinatorLayout.Widget;
 using AndroidX.Fragment.App;
+using DIPS.Mobile.UI.API.Library.Android;
+using DIPS.Mobile.UI.Components.Buttons.Android;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -19,9 +22,31 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             SetStatusBarColorOnModalAppearing(dialogFragment);
             SetIconColorsOnModal(dialogFragment);
+            
+            // Enable HideSoftInputOnTapped for Modals
+            // Does not work out of the box in MAUI yet..
+            dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
+            {
+                HideFocusHelper.HideFocus(dialogFragment.Dialog?.Window?.CurrentFocus!);
+            }));
+        }
+     
+        base.OnFragmentStarted(fm, f);
+    }
+
+    public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    {
+        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        {
+            dialogFragment.View?.SetOnClickListener(null);
         }
         
-        base.OnFragmentStarted(fm, f);
+        base.OnFragmentDestroyed(fm, f);
+    }
+
+    private void ViewOnClick(object? sender, EventArgs e)
+    {
+        
     }
 
     /// <summary>

@@ -141,7 +141,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        BottomSheetService.Open(new TestBottomSheetNotFitToContent());
+        Navigation.PushModalAsync(new NavigationPage(new VetlePage()));
     }
 
     private void SwapRoot(object sender, EventArgs e)

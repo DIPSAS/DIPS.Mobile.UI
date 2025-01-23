@@ -1,9 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.Content.Res;
-using Android.OS;
-using AndroidX.Camera.Camera2;
-using AndroidX.Camera.Core;
+using MauiAppCompatActivity = DIPS.Mobile.UI.API.Library.MauiAppCompatActivity;
 
 namespace Components;
 

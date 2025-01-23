@@ -38,30 +38,19 @@ public class MauiAppCompatActivity : Microsoft.Maui.MauiAppCompatActivity
 
         //If the touch position is outside the element then we may want to hide the keyboard and remove focus from the element
         var touchedOutsideFocusedElement = x < focused.Left || x > focused.Right || y < focused.Top || y > focused.Bottom;
-        if (touchedOutsideFocusedElement && HideSoftInputOnTapHandlerMappings.RequiresKeyboardDismissal(focused))
+        if (touchedOutsideFocusedElement)
         {
-            Task.Run(async () =>
-            {
-                // Give it a main thread cycle to update the focus
-                await Task.Yield();
-
-                var focusChanged = CurrentFocus != focused;
-                if (!focusChanged)
-                {
-                    // focus stayed on the same item, even if user tapped away
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        // Dismiss keyboard and remove focus
-                        HideSoftInputOnTapHandlerMappings.DismissKeyboard(focused);
-                        focused.ClearFocus();
-                    });
-                }
-            });
+            HideFocusHelper.HideFocus(focused, CurrentFocus);
         }
 
         return true;
     }
 
+    public static void TryRemoveSoftInput()
+    {
+        
+    }
+    
     private bool DispatchMotionDown(MotionEvent motionEvent)
     {
         m_touchDownTime = SystemClock.ElapsedRealtime();

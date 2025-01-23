@@ -15,9 +15,9 @@ internal static class HideSoftInputOnTapHandlerMappings
 {
    private static readonly ConditionalWeakTable<IAViewParent, object> s_activePages = new();
 
-    public static bool RequiresKeyboardDismissal(AView nativeView)
+    public static bool RequiresKeyboardDismissal(AView? nativeView)
     {
-        var parent = nativeView.Parent;
+        var parent = nativeView?.Parent;
         while (parent != null)
         {
             if (s_activePages.TryGetValue(parent, out _))
@@ -70,10 +70,10 @@ internal static class HideSoftInputOnTapHandlerMappings
         }
     }
 
-    public static void DismissKeyboard(AView view)
+    public static void DismissKeyboard(AView? view)
     {
-        var inputMethodManager = view.Context?.GetSystemService(Context.InputMethodService) as InputMethodManager;
-        inputMethodManager?.HideSoftInputFromWindow(view.WindowToken, 0);
+        var inputMethodManager = view?.Context?.GetSystemService(Context.InputMethodService) as InputMethodManager;
+        inputMethodManager?.HideSoftInputFromWindow(view?.WindowToken, 0);
     }
 
     public static void MapInputIsFocused(IViewHandler handler, IView view)
