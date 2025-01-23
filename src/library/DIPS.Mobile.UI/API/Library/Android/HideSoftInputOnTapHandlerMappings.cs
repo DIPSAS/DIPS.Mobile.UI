@@ -8,6 +8,9 @@ using IAViewParent = Android.Views.IViewParent;
 
 namespace DIPS.Mobile.UI.API.Library.Android;
 
+/// <summary>
+/// Taken from: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
+/// </summary>
 internal static class HideSoftInputOnTapHandlerMappings
 {
    private static readonly ConditionalWeakTable<IAViewParent, object> s_activePages = new();

@@ -3,6 +3,9 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.API.Library.iOS;
 
+/// <summary>
+/// Taken from: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
+/// </summary>
 internal static class HideSoftInputOnTapHandlerMappings
 {
     public static void MapHideSoftInputOnTapped(IPageHandler handler, ContentPage page)

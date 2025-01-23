@@ -9,7 +9,8 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  Padding="20"
-                 x:Name="This">
+                 x:Name="This"
+                 HideSoftInputOnTapped="True">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -19,7 +20,13 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
+    <VerticalStackLayout>
+        <dui:MultiLineInputField Text="he"   />
+        <dui:SingleLineInputField Text="Gasd" IsEnabled="True" />
+        <dui:Entry />
+        <dui:Editor />
+        <dui:SearchBar />
+    </VerticalStackLayout>
 
-    <dui:SearchBar HeightRequest="100" Unfocused="SearchBar_OnUnfocused" />
     
 </dui:ContentPage>

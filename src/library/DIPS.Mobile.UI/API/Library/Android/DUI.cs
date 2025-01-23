@@ -22,7 +22,7 @@ public static partial class DUI
         // Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081
         activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
         
-        // Only add the handlers if the MainActivity is derived from our MauiAppCompatActivity
+        // Only replace the mapping if the MainActivity is derived from our MauiAppCompatActivity
         if (activity is MauiAppCompatActivity)
         {
             PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);

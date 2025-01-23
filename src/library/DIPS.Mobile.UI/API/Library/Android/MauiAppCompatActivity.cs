@@ -5,6 +5,9 @@ using DIPS.Mobile.UI.API.Library.Android;
 
 namespace DIPS.Mobile.UI.API.Library;
 
+/// <summary>
+/// Taken from: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
+/// </summary>
 public class MauiAppCompatActivity : Microsoft.Maui.MauiAppCompatActivity
 {
     private long m_touchDownTime;
