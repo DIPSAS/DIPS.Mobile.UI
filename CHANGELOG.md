@@ -1,3 +1,7 @@
+## [40.2.0] 
+- [Android] InputViews will now actually lose focus when tapping outside of the InputView, and not just lose soft keyboard, when using `HideSoftInputOnTapped`.
+- [iOS][SearchBar] SearchBar will now lose focus when tapping outside of the SearchBar, when `HideSoftInputOnTapped`.
+
 ## [40.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

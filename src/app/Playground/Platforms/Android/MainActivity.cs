@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
+using MauiAppCompatActivity = DIPS.Mobile.UI.API.Library.MauiAppCompatActivity;
 
 namespace Playground;
 
@@ -9,4 +11,5 @@ namespace Playground;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    
 }

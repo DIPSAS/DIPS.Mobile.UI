@@ -9,8 +9,7 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  Padding="20"
-                 x:Name="This"
-                 HideSoftInputOnTapped="True">
+                 x:Name="This">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -21,6 +20,6 @@
     </dui:ContentPage.Resources>
 
 
-    <dui:Button Text="Hello" />
+    <dui:SearchBar HeightRequest="100" Unfocused="SearchBar_OnUnfocused" />
     
 </dui:ContentPage>

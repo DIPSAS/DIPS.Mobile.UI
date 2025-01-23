@@ -54,7 +54,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             return;
 
         var statusBarColor = activity.Window!.StatusBarColor;
-        var platformColor = new Android.Graphics.Color(statusBarColor);
+        var platformColor = new global::Android.Graphics.Color(statusBarColor);
 
         var window = dialogFragment.Dialog?.Window;
         if (window is null)
@@ -62,7 +62,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 
         dialogFragment.Dialog.Window?.SetStatusBarColor(platformColor);
 
-        var isColorTransparent = platformColor == Android.Graphics.Color.Transparent;
+        var isColorTransparent = platformColor == global::Android.Graphics.Color.Transparent;
         if (isColorTransparent)
         {
             window.ClearFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);

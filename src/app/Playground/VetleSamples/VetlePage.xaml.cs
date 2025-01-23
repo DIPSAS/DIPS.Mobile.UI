@@ -185,5 +185,8 @@ public partial class VetlePage
     }
 
 
-    
+    private void SearchBar_OnUnfocused(object sender, EventArgs e)
+    {
+        
+    }
 }
