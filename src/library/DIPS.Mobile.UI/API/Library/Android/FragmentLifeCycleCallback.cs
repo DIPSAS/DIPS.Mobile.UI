@@ -25,10 +25,10 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             
             // Enable HideSoftInputOnTapped for Modals
             // Does not work out of the box in MAUI yet..
-            dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
+            /*dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
             {
                 HideFocusHelper.HideFocus(dialogFragment.Dialog?.Window?.CurrentFocus!);
-            }));
+            }));*/
         }
      
         base.OnFragmentStarted(fm, f);
@@ -44,10 +44,10 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         base.OnFragmentDestroyed(fm, f);
     }*/
 
-    public override void OnFragmentDetached(FragmentManager fm, Fragment f)
+    /*public override void OnFragmentDetached(FragmentManager fm, Fragment f)
     {
         base.OnFragmentDetached(fm, f);
-    }
+    }*/
 
     /// <summary>
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
