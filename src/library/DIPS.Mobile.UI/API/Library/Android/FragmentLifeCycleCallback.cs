@@ -25,10 +25,10 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             
             // Enable HideSoftInputOnTapped for Modals
             // Does not work out of the box in MAUI yet..
-            /*dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
+            dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
             {
                 HideFocusHelper.HideFocus(dialogFragment.Dialog?.Window?.CurrentFocus!);
-            }));*/
+            }));
         }
      
         base.OnFragmentStarted(fm, f);
