@@ -34,7 +34,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         base.OnFragmentStarted(fm, f);
     }
 
-    public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    /*public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
     {
         if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
         {
@@ -42,11 +42,11 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
         
         base.OnFragmentDestroyed(fm, f);
-    }
+    }*/
 
-    private void ViewOnClick(object? sender, EventArgs e)
+    public override void OnFragmentDetached(FragmentManager fm, Fragment f)
     {
-        
+        base.OnFragmentDetached(fm, f);
     }
 
     /// <summary>
@@ -71,6 +71,11 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
+    /// <summary>
+    /// To set the status bar color when a modal is shown
+    /// MAUI has a bug after rewriting modals to use DialogFragment
+    /// Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081 
+    /// </summary>
     private static void SetStatusBarColorOnModalAppearing(DialogFragment dialogFragment)
     {
         var activity = Platform.CurrentActivity;
