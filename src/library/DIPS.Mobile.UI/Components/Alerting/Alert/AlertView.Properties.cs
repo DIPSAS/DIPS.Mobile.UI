@@ -8,7 +8,8 @@ public partial class AlertView
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
-        typeof(AlertView));
+        typeof(AlertView),
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleChanged()));
 
     /// <summary>
     /// The title of the alert.
@@ -22,7 +23,8 @@ public partial class AlertView
     public static readonly BindableProperty DescriptionProperty = BindableProperty.Create(
         nameof(Description),
         typeof(string),
-        typeof(AlertView));
+        typeof(AlertView),
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnDescriptionChanged()));
 
     /// <summary>
     /// The description of the alert.
@@ -36,7 +38,8 @@ public partial class AlertView
     public static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),
         typeof(ImageSource),
-        typeof(AlertView));
+        typeof(AlertView),
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnIconChanged()));
 
     /// <summary>
     /// The icon of the alert.
