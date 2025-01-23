@@ -1,3 +1,6 @@
+## [40.1.1]
+- [AlertView] Ensure icon is placed correctly according to whether `Title` is set or not
+
 ## [40.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
