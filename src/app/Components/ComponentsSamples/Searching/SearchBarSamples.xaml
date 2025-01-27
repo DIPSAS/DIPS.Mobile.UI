@@ -9,7 +9,8 @@
                  x:Class="Components.ComponentsSamples.Searching.SearchBarSamples"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  Title="{x:Static localizedStrings:LocalizedStrings.SearchBar}"
-                 Padding="{dui:Sizes size_3}">
+                 Padding="{dui:Sizes size_3}"
+                 HideSoftInputOnTapped="True">
     <dui:ContentPage.BindingContext>
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
@@ -27,6 +28,7 @@
         
         <dui:CollectionView Grid.Row="1"
                             BackgroundColor="Transparent"
+                            RemoveFocusOnScroll="True"
                             ItemsSource="{Binding People}">
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>

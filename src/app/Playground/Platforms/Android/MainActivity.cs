@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using MauiAppCompatActivity = DIPS.Mobile.UI.API.Library.MauiAppCompatActivity;
+/*using MauiAppCompatActivity = DIPS.Mobile.UI.API.Library.MauiAppCompatActivity;*/
 
 namespace Playground;
 

@@ -18,36 +18,39 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 {
     public override void OnFragmentStarted(FragmentManager fm, Fragment f)
     {
-        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        if (f is DialogFragment dialogFragment)
         {
-            SetStatusBarColorOnModalAppearing(dialogFragment);
-            SetIconColorsOnModal(dialogFragment);
-            
-            // Enable HideSoftInputOnTapped for Modals
-            // Does not work out of the box in MAUI yet..
-            dialogFragment.View?.SetOnClickListener(new GenericButtonMenuClickListener(() =>
+            if (f is not BottomSheetDialogFragment)
             {
-                HideFocusHelper.HideFocus(dialogFragment.Dialog?.Window?.CurrentFocus!);
-            }));
+                SetStatusBarColorOnModalAppearing(dialogFragment);
+                SetIconColorsOnModal(dialogFragment);
+            }
+
+            TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
         }
      
         base.OnFragmentStarted(fm, f);
     }
 
-    /*public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)
     {
-        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
-        {
-            dialogFragment.View?.SetOnClickListener(null);
-        }
+        if(!DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
+            return;
         
-        base.OnFragmentDestroyed(fm, f);
-    }*/
+        // Enable HideSoftInputOnTapped for Modals and BottomSheet
+        // Does not work out of the box in MAUI yet..
+        var originalWindow = dialogFragment.Dialog?.Window;
+        var originalCallback = originalWindow?.Callback;
 
-    /*public override void OnFragmentDetached(FragmentManager fm, Fragment f)
-    {
-        base.OnFragmentDetached(fm, f);
-    }*/
+        if (originalWindow is not null && originalCallback is not null)
+        {
+            if (dialogFragment.Dialog is { Window: not null })
+            {
+                dialogFragment.Dialog.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
+            }
+        }
+    }
+
 
     /// <summary>
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039

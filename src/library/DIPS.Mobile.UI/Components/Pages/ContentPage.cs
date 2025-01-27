@@ -15,8 +15,6 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         public ContentPage()
         {
-            HideSoftInputOnTapped = true;
-            
             if (DUI.IsDebug) //Always start the time, as checking for ShouldLogLoadingTime wont work in the constructor
             {
                 m_loadedTimer = new Stopwatch();

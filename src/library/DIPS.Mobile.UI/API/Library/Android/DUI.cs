@@ -18,9 +18,17 @@ public static partial class DUI
         SplashScreen.InstallSplashScreen(activity);
         
         activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
-        
-        // Only replace the mapping if the MainActivity is derived from our MauiAppCompatActivity
-        if (activity is MauiAppCompatActivity)
+        if (activity.Window is not null)
+        {
+            var originalWindow = activity.Window;
+            var originalCallback = originalWindow.Callback;
+            if(originalCallback is null)
+                return;
+            
+            activity.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
+        }
+
+        if (ShouldUseCustomHideSoftInputOnTappedImplementation)
         {
             PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
             EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);

@@ -22,11 +22,14 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<Layout, LayoutHandler>();
         handlers.AddHandler<Switch, SwitchHandler>();
         handlers.AddHandler<CarouselView2, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
-        
-        PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
-        EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
-        EditorHandler.Mapper.ReplaceMapping<Editor, IEditorHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
-        SearchBarHandler.Mapper.ReplaceMapping<SearchBar, ISearchBarHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+
+        if (DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
+        {
+            PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
+            EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+            EditorHandler.Mapper.ReplaceMapping<Editor, IEditorHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+            SearchBarHandler.Mapper.ReplaceMapping<SearchBar, ISearchBarHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+        }
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

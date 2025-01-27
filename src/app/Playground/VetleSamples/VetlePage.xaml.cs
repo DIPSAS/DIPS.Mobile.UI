@@ -141,7 +141,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new NavigationPage(new VetlePage()));
+        Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
     }
 
     private void SwapRoot(object sender, EventArgs e)
