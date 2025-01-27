@@ -1,3 +1,4 @@
+using Android.App;
 using Android.Graphics.Drawables;
 using Android.Views;
 using AndroidX.Core.SplashScreen;
@@ -13,30 +14,36 @@ namespace DIPS.Mobile.UI.API.Library;
 
 public static partial class DUI
 {
-    public static void Init(global::Android.App.Activity activity)
+    public static void Init(Activity activity)
     {
         SplashScreen.InstallSplashScreen(activity);
         
         activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
+        
+        TryEnableCustomHideSoftInputOnTappedImplementation(activity);
+    }
+
+    private static void TryEnableCustomHideSoftInputOnTappedImplementation(Activity activity)
+    {
+        if (!ShouldUseCustomHideSoftInputOnTappedImplementation)
+            return;
+
         if (activity.Window is not null)
         {
             var originalWindow = activity.Window;
             var originalCallback = originalWindow.Callback;
             if(originalCallback is null)
                 return;
-            
+                
             activity.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
         }
 
-        if (ShouldUseCustomHideSoftInputOnTappedImplementation)
-        {
-            PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
-            EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
-            EditorHandler.Mapper.ReplaceMapping<Editor, IEditorHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
-            SearchBarHandler.Mapper.ReplaceMapping<SearchBar, ISearchBarHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
-        }
+        PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
+        EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+        EditorHandler.Mapper.ReplaceMapping<Editor, IEditorHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+        SearchBarHandler.Mapper.ReplaceMapping<SearchBar, ISearchBarHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
     }
-    
+
     private static partial void PlatformInit()
     {
         try

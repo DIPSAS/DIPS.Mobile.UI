@@ -21,4 +21,10 @@ public interface IDIPSUIOptions
     ///     your custom views.
     ///  </param>
     IDIPSUIOptions EnableAutomaticMemoryLeakResolving(Action<object>? additionalResolver = null);
+
+    /// <summary>
+    ///     Sets whether DIPS.Mobile.UI should use a custom implementation for hiding the soft input when a tap is detected.
+    ///     Based on: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
+    /// </summary>
+    IDIPSUIOptions EnableCustomHideSoftInputOnTapped();
 }
