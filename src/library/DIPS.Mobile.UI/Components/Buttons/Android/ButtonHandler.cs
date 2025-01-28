@@ -32,7 +32,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
 
-    internal void UpdateForegroundRipple()
+    private void UpdateForegroundRipple()
     {
         var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
         var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
@@ -79,6 +79,13 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
         PropertyMapper.Add(nameof(Microsoft.Maui.Controls.Button.BackgroundColor), OverrideMapBackgroundColor);
         PropertyMapper.Add(nameof(Microsoft.Maui.Controls.Button.Background), OverrideMapBackground);
+        PropertyMapper.Add(nameof(Microsoft.Maui.Controls.Button.CornerRadius), OverrideMapCornerRadius);
+    }
+
+    private void OverrideMapCornerRadius(ButtonHandler handler, Button button)
+    {
+        MapCornerRadius(handler, button);
+        UpdateForegroundRipple();
     }
 
     private static async partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button)

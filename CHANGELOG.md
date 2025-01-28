@@ -1,3 +1,6 @@
+## [40.2.1] 
+- [Button][Android] Touch effect on buttons that defines its own CornerRadius will no longer go out of bounds.
+
 ## [40.2.0] 
 - Added custom implementation of HideSoftInputOnTapped, which works better for custom controls, and works better on Android.
 
