@@ -40,16 +40,6 @@ namespace DIPS.Mobile.UI.Components.Buttons
             {
                 OnIsEnabledChanged();
             }
-            else if (propertyName == CornerRadiusProperty.PropertyName)
-            {
-/*#if __ANDROID__
-                // We need to update the foreground ripple if the button's corner radius changes, if not, the ripple will go out of bounds
-                if (Handler is ButtonHandler buttonHandler)
-                {
-                    buttonHandler.UpdateForegroundRipple();
-                }
-#endif*/
-            }
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
