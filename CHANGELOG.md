@@ -1,3 +1,6 @@
+## [40.2.0] 
+- Added custom implementation of HideSoftInputOnTapped, which works better for custom controls, and works better on Android.
+
 ## [40.1.1]
 - [AlertView] Ensure icon is placed correctly according to whether `Title` is set or not
 

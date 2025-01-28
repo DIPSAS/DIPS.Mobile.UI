@@ -8,7 +8,8 @@
                  x:Class="Components.ComponentsSamples.TextFields.MultiLineTextArea.MultiLineInputFieldSamples"
                  Padding="20"
                  x:Name="This"
-                 Title="MultiLineInputField">
+                 Title="MultiLineInputField"
+                 HideSoftInputOnTapped="True">
 
     <dui:ContentPage.BindingContext>
         <multiLineTextArea:MultiLineInputFieldSamplesViewModel />

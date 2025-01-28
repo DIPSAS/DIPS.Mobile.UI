@@ -21,6 +21,11 @@ public partial class CollectionView
         get => (bool)GetValue(HasAdditionalSizeAtTheEndProperty);
         set => SetValue(HasAdditionalSizeAtTheEndProperty, value);
     }
+    
+    /// <summary>
+    /// Determines if input fields should be unfocused when the user scrolls the <see cref="CollectionView"/>. (ScrollBar, Editor etc..) 
+    /// </summary>
+    public bool RemoveFocusOnScroll { get; init; }
 
     public static readonly BindableProperty ShouldBounceProperty = BindableProperty.Create(
         nameof(ShouldBounce),

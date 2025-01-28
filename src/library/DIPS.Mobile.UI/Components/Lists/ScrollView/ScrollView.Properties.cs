@@ -16,6 +16,11 @@ public partial class ScrollView
         get => (bool)GetValue(ShouldBounceProperty);
         set => SetValue(ShouldBounceProperty, value);
     }
+    
+    /// <summary>
+    /// Determines if input fields should be unfocused when the user scrolls the <see cref="CollectionView"/>. (ScrollBar, Editor etc..) 
+    /// </summary>
+    public bool RemoveFocusOnScroll { get; init; }
 
     public static readonly BindableProperty HasAdditionalSpaceAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),

@@ -1,7 +1,10 @@
 using Android.Provider;
 using Android.Views;
 using Android.Widget;
+using AndroidX.CoordinatorLayout.Widget;
 using AndroidX.Fragment.App;
+using DIPS.Mobile.UI.API.Library.Android;
+using DIPS.Mobile.UI.Components.Buttons.Android;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -15,14 +18,39 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 {
     public override void OnFragmentStarted(FragmentManager fm, Fragment f)
     {
-        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        if (f is DialogFragment dialogFragment)
         {
-            SetStatusBarColorOnModalAppearing(dialogFragment);
-            SetIconColorsOnModal(dialogFragment);
+            if (f is not BottomSheetDialogFragment)
+            {
+                SetStatusBarColorOnModalAppearing(dialogFragment);
+                SetIconColorsOnModal(dialogFragment);
+            }
+
+            TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
         }
-        
+     
         base.OnFragmentStarted(fm, f);
     }
+
+    private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)
+    {
+        if(!DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
+            return;
+        
+        // Enable HideSoftInputOnTapped for Modals and BottomSheet
+        // Does not work out of the box in MAUI yet..
+        var originalWindow = dialogFragment.Dialog?.Window;
+        var originalCallback = originalWindow?.Callback;
+
+        if (originalWindow is not null && originalCallback is not null)
+        {
+            if (dialogFragment.Dialog is { Window: not null })
+            {
+                dialogFragment.Dialog.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
+            }
+        }
+    }
+
 
     /// <summary>
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
@@ -46,6 +74,11 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
+    /// <summary>
+    /// To set the status bar color when a modal is shown
+    /// MAUI has a bug after rewriting modals to use DialogFragment
+    /// Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081 
+    /// </summary>
     private static void SetStatusBarColorOnModalAppearing(DialogFragment dialogFragment)
     {
         var activity = Platform.CurrentActivity;
@@ -54,7 +87,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             return;
 
         var statusBarColor = activity.Window!.StatusBarColor;
-        var platformColor = new Android.Graphics.Color(statusBarColor);
+        var platformColor = new global::Android.Graphics.Color(statusBarColor);
 
         var window = dialogFragment.Dialog?.Window;
         if (window is null)
@@ -62,7 +95,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 
         dialogFragment.Dialog.Window?.SetStatusBarColor(platformColor);
 
-        var isColorTransparent = platformColor == Android.Graphics.Color.Transparent;
+        var isColorTransparent = platformColor == global::Android.Graphics.Color.Transparent;
         if (isColorTransparent)
         {
             window.ClearFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);

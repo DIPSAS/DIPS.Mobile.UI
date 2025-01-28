@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.MemoryManagement;
 
@@ -21,6 +22,13 @@ internal class DIPSUIOptions : IDIPSUIOptions
             GCCollectionMonitor.Instance.SetAdditionalResolver(additionalResolver);
         }
 
+        return this;
+    }
+
+    public IDIPSUIOptions EnableCustomHideSoftInputOnTapped()
+    {
+        DUI.ShouldUseCustomHideSoftInputOnTappedImplementation = true;
+        
         return this;
     }
 }

@@ -16,6 +16,8 @@ namespace DIPS.Mobile.UI.API.Library
         /// Determines if the library should log traces from components / apis to the console.
         /// </summary>
         public static bool ShouldLogDebug { get; set; }
+        
+        internal static bool ShouldUseCustomHideSoftInputOnTappedImplementation { get; set; }
 
         private static partial void PlatformInit();
         

@@ -1,16 +1,11 @@
-using System.Diagnostics;
 using Android.App;
-using Android.Content;
-using Android.Content.PM;
 using Android.Graphics.Drawables;
-using Android.Hardware.Display;
 using Android.Views;
 using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker.Android;
+using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
-using DIPS.Mobile.UI.Components.Pickers.TimePicker.Android;
-using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
@@ -19,16 +14,36 @@ namespace DIPS.Mobile.UI.API.Library;
 
 public static partial class DUI
 {
-    public static void Init(Android.App.Activity activity)
+    public static void Init(Activity activity)
     {
         SplashScreen.InstallSplashScreen(activity);
         
-        // To set the status bar color when a modal is shown
-        // MAUI has a bug after rewriting modals to use DialogFragment
-        // Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081
         activity.GetFragmentManager()?.RegisterFragmentLifecycleCallbacks(new FragmentLifeCycleCallback(), false);
+        
+        TryEnableCustomHideSoftInputOnTappedImplementation(activity);
     }
-    
+
+    private static void TryEnableCustomHideSoftInputOnTappedImplementation(Activity activity)
+    {
+        if (!ShouldUseCustomHideSoftInputOnTappedImplementation)
+            return;
+
+        if (activity.Window is not null)
+        {
+            var originalWindow = activity.Window;
+            var originalCallback = originalWindow.Callback;
+            if(originalCallback is null)
+                return;
+                
+            activity.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
+        }
+
+        PageHandler.Mapper.ReplaceMapping<ContentPage, IPageHandler>(nameof(ContentPage.HideSoftInputOnTapped), HideSoftInputOnTapHandlerMappings.MapHideSoftInputOnTapped);
+        EntryHandler.Mapper.ReplaceMapping<Entry, IEntryHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+        EditorHandler.Mapper.ReplaceMapping<Editor, IEditorHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+        SearchBarHandler.Mapper.ReplaceMapping<SearchBar, ISearchBarHandler>(nameof(VisualElement.IsFocused), HideSoftInputOnTapHandlerMappings.MapInputIsFocused);
+    }
+
     private static partial void PlatformInit()
     {
         try

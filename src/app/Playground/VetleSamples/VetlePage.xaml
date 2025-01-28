@@ -20,7 +20,15 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
+    <VerticalStackLayout>
+        <dui:MultiLineInputField Text="he"   />
+        <dui:SingleLineInputField Text="Gasd" IsEnabled="True" />
+        <dui:Entry />
+        <dui:Editor />
+        <dui:SearchBar />
+        <dui:Button Text="Open modal"
+                    Clicked="Button_OnClicked"/>
+    </VerticalStackLayout>
 
-    <dui:Button Text="Hello" />
     
 </dui:ContentPage>

@@ -1,11 +1,12 @@
-﻿using DIPS.Mobile.UI.Resources.Sizes;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+﻿using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
-    private Border m_extraSpaceBorder;
+    private readonly Border m_extraSpaceBorder;
+    
+    private readonly List<WeakReference<VisualElement>> m_inputFields = [];
 
     public CollectionView()
     {
@@ -14,6 +15,66 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         m_extraSpaceBorder ??= new Border() {BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent};
         Footer = m_extraSpaceBorder;
         SelectionMode = SelectionMode.None;
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+            return;
+
+        if (!RemoveFocusOnScroll)
+            return;
+
+        var page = this.FindParentOfType<ContentPage>();
+        RetrieveInputFields(page);
+    }
+
+    private void RetrieveInputFields(IVisualTreeElement? visualTreeElement)
+    {
+        foreach (var child in visualTreeElement?.GetVisualTreeDescendants() ?? [])
+        {
+            if(Equals(child, visualTreeElement))
+                continue;
+            
+            switch (child)
+            {
+                case InputView editor:
+                    m_inputFields.Add(new WeakReference<VisualElement>(editor));
+                    break;
+                case SearchBar searchBar:
+                    m_inputFields.Add(new WeakReference<VisualElement>(searchBar));
+                    break;
+            }
+            
+            RetrieveInputFields(child);
+        }
+    }
+    
+    protected override void OnScrolled(ItemsViewScrolledEventArgs e)
+    {
+        base.OnScrolled(e);
+
+#if __ANDROID__ 
+        // OnScrolled gets kicked off when you change the collections item source for some reason, so we have to detect if its a scroll or not
+        if (Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) 
+            return; //0 is idle
+#endif
+        
+        if (!RemoveFocusOnScroll)
+            return;
+
+        foreach (var inputFieldReference in m_inputFields)
+        {
+            if (inputFieldReference.TryGetTarget(out var inputField))
+            {
+                if(inputField is SearchBar searchBar)
+                    searchBar.Unfocus();
+                else
+                    inputField.Unfocus();
+            }
+        }
     }
 
     private void TrySetItemSpacing()

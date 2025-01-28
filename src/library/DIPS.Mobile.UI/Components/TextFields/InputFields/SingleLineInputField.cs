@@ -274,10 +274,11 @@ public partial class SingleLineInputField : Grid
         InputView.IsVisible = Text != string.Empty;
     }
     
-    public new void Focus()
+    public new async void Focus()
     {
         try
         {
+            await Task.Delay(1);
             InputView!.IsVisible = true;
             InputView?.Focus();
         }
