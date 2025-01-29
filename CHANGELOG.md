@@ -1,3 +1,6 @@
+## [40.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [40.2.0] 
 - Added custom implementation of HideSoftInputOnTapped, which works better for custom controls, and works better on Android.
 
