@@ -367,5 +367,15 @@ tab_more_line=179,
 microscope_line=180,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/update_available_fill.svg">View the icon in the browser</a></summary>
 update_available_fill=181,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lock_fill.svg">View the icon in the browser</a></summary>
+lock_fill=182,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/unlock_line.svg">View the icon in the browser</a></summary>
+unlock_line=183,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/user_search_fill.svg">View the icon in the browser</a></summary>
+user_search_fill=184,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/timer_line.svg">View the icon in the browser</a></summary>
+timer_line=185,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/user_search_line.svg">View the icon in the browser</a></summary>
+user_search_line=186,
     }
 }
