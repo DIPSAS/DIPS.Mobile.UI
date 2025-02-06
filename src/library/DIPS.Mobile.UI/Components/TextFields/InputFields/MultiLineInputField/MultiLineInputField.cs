@@ -329,6 +329,8 @@ public partial class MultiLineInputField : SingleLineInputField
 
     protected override void ChangeHeaderTextStyle()
     {
+        if (!HeaderTextLabel.IsVisible) return;
+        
         base.ChangeHeaderTextStyle();
 
         if (IsError)

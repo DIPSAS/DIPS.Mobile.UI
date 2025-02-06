@@ -252,6 +252,8 @@ public partial class SingleLineInputField : Grid
 
     protected virtual void ChangeHeaderTextStyle()
     {
+        if (!HeaderTextLabel.IsVisible) return;
+        
         HeaderTextLabel.Style = InputView.IsFocused ? Styles.GetLabelStyle(LabelStyle.Body100) : Styles.GetLabelStyle(Text == string.Empty ? LabelStyle.Body200 : LabelStyle.Body100);
         
         if(InputView.IsFocused)

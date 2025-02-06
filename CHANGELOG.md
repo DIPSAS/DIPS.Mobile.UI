@@ -1,3 +1,6 @@
+## [40.3.2]
+- Fixed issue with header resizing when not visible
+
 ## [40.3.1] 
 - [Button][Android] Touch effect on buttons that defines its own CornerRadius will no longer go out of bounds.
 
