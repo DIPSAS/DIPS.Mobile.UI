@@ -313,8 +313,10 @@ public partial class SingleLineInputField : Grid
         var headerIsVisible = !string.IsNullOrEmpty(HeaderText);
         HeaderTextLabel.IsVisible = headerIsVisible;
 
-        // InnerGrid.RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
-        // RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
+        InnerGrid.RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
+        InnerGrid.RowDefinitions[1].Height = headerIsVisible ? GridLength.Auto : GridLength.Star;
+        RowDefinitions.First().Height = headerIsVisible ? GridLength.Star : GridLength.Auto;
+        RowDefinitions[1].Height = headerIsVisible ? GridLength.Auto : GridLength.Star;
     }
 
     private void UpdateSemanticHint()
