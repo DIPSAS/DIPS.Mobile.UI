@@ -27,6 +27,8 @@ public class VetlePageViewModel : ViewModel
     private DateTime m_localDate = new DateTime(2023, 2, 1, 23, 30, 0, DateTimeKind.Local);
     private TestObject2 m_testObject2;
     private TimePlanningViewModel m_timePlanningViewModel = null;
+    private bool m_isEnabled;
+    private List<string> m_testStrings = [];
 
     public VetlePageViewModel()
     {
@@ -47,8 +49,16 @@ public class VetlePageViewModel : ViewModel
             IsSavingCompleted = true;
         });
 
-        CompletedCommand = new Command(() => DialogService.ShowMessage("Test asd asdasd a sadasdas dsa", "test lang tesktsdtsdfsefseasdaawdkjawoidjiaowjdo iawjd9oia jwodijawo dijaw uoid jawuidjh awiudhawiud hiawuh " +
-            "asdasdasdasdsadasd diuawhdiuawhdiuawhdiuawhiduhawiudhwaiu dhiauw dhiawudh iawuhd iauwhd iawhdiuawhdiawuhdiaw diuwa hdiuhwaid uhawiduhawdfsefasefase fse fase fase fase fasefasefasefseaf saef sae fsaef seaf sea efsa fsae", "ok"));
+        CompletedCommand = new Command(() =>
+        {
+            if(m_testStrings.Count == 0)
+                m_testStrings.Add("Test");
+            else
+            {
+                m_testStrings.Clear();
+            }
+            RaisePropertyChanged(nameof(IsEnabled));
+        });
 
         SetMaxLinesCommand = new Command<string>(s => MaxLines = int.Parse(s));
 
@@ -293,6 +303,8 @@ public class VetlePageViewModel : ViewModel
         get => m_timePlanningViewModel;
         set => RaiseWhenSet(ref m_timePlanningViewModel, value);
     }
+
+    public bool IsEnabled => m_testStrings.Any(x => x.Equals("Test"));
 
     public void OnDateChanged()
     {
