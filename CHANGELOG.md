@@ -1,3 +1,6 @@
+## [40.3.2] 
+- [Android15] Opts out of edge-to-edge to fix layout issues.
+
 ## [40.3.1] 
 - [Button][Android] Touch effect on buttons that defines its own CornerRadius will no longer go out of bounds.
 
