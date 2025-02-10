@@ -294,13 +294,6 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_timePlanningViewModel, value);
     }
 
-    public List<string> TestStringsTest { get; set; }
-
-    public ICommand TestStringsChangedCommand => new Command<string>(e =>
-    {
-
-    });
-
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);

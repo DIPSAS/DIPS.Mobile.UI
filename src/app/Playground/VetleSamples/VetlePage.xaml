@@ -21,12 +21,13 @@
     </dui:ContentPage.Resources>
 
     <VerticalStackLayout>
-        <dui:SegmentedControl ItemsSource="{Binding TestStrings}"
-                              SelectionMode="Multi"
-                              SelectedItemCommand="{Binding TestStringsChangedCommand}"
-                              SelectedItems="{Binding TestStringsTest}">
-            
-        </dui:SegmentedControl>
+        <dui:MultiLineInputField Text="he"   />
+        <dui:SingleLineInputField Text="Gasd" IsEnabled="True" />
+        <dui:Entry />
+        <dui:Editor />
+        <dui:SearchBar />
+        <dui:Button Text="Open modal"
+                    Clicked="Button_OnClicked"/>            
     </VerticalStackLayout>
 
     
