@@ -42,5 +42,8 @@
 
         <!-- Change the style of the popup menu (context menu) -->
         <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
+
+        <!-- Opts out of edge to edge -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 </resources>
