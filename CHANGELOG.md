@@ -1,3 +1,6 @@
+## [40.3.3] 
+- [Button] Fixed an issue where if a button has bound to a property that returns false, the button would not change its style to disabled.
+
 ## [40.3.2] 
 - [Android15] Opts out of edge-to-edge to fix layout issues.
 
