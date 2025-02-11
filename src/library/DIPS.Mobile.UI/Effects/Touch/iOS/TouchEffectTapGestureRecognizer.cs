@@ -26,7 +26,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     );
 
 }
-    //Because of an issue where our Delegate do not recieve ShouldRecognizeSimultaneously. Which prevents the user from scrolling if the view is used in a scrolling context. This was introduced in iOS 18.2.x
+    //Because of an issue where our Delegate do not recieve ShouldRecognizeSimultaneously. Which prevents the user from scrolling if the view is used in a scrolling context. This was introduced in iOS 18.3.x
     private void ForceGestureRecognition()
     {
         this.Enabled = false;
