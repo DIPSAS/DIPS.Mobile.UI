@@ -65,7 +65,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
         if (!string.IsNullOrEmpty(modifiedOriginalText))
         {
-            while (true)
+            while (modifiedOriginalText.Length > 0)
             {
                 modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
 
