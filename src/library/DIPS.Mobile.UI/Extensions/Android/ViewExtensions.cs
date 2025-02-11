@@ -99,17 +99,27 @@ public static class ViewExtensions
         }
     }
 
-    public static void SetAdditionalHitBoxSize(this AView aView, View view, Thickness additionalHitBoxSize, IMauiContext mauiContext)
+    public static void SetAdditionalHitBoxSize(this AView aView, Thickness additionalHitBoxSize)
     {
+        if(additionalHitBoxSize == Thickness.Zero)
+        {
+            return;
+        }
+        
         var rect = new ARect();
         aView.GetHitRect(rect);
 
-        rect.Top -= additionalHitBoxSize.Top.ToMauiPixel();
-        rect.Left -= additionalHitBoxSize.Left.ToMauiPixel();
-        rect.Bottom += additionalHitBoxSize.Bottom.ToMauiPixel();
-        rect.Right += additionalHitBoxSize.Right.ToMauiPixel();
-
-        if (view.Parent?.ToPlatform(mauiContext) is { } parentView)
+        if(rect.IsEmpty)
+        {
+            return;
+        }
+        
+        rect.Top -= additionalHitBoxSize.Top.ToMauiPixel() ?? 0;
+        rect.Left -= additionalHitBoxSize.Left.ToMauiPixel() ?? 0;
+        rect.Bottom += additionalHitBoxSize.Bottom.ToMauiPixel() ?? 0;
+        rect.Right += additionalHitBoxSize.Right.ToMauiPixel() ?? 0;
+        
+        if (aView.Parent is AView parentView)
         {
             parentView.TouchDelegate = new TouchDelegate(rect, aView);
         }

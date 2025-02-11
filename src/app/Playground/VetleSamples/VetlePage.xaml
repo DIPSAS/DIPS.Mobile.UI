@@ -20,12 +20,19 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <VerticalStackLayout>
-        
-        <dui:Button Text="Test"
-                    Style="{dui:Styles Button=SecondarySmall}"
-                    IsEnabled="{Binding IsEnabled}" />            
-    </VerticalStackLayout>
-
+    <Grid>
     
+    
+        <dui:ImageButton Source="{dui:Icons arrow_back_line}"
+                         AdditionalHitBoxSize="100"
+                         VerticalOptions="Start"/>
+        
+        <!--<dui:Button Text="Test"
+                    Style="{dui:Styles Button=SecondarySmall}"
+                    IsEnabled="{Binding IsEnabled}"
+                    AdditionalHitBoxSize="{dui:Sizes size_2}" />   -->  
+        
+             
+
+    </Grid>
 </dui:ContentPage>

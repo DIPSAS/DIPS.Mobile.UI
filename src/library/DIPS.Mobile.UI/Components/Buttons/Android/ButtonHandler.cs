@@ -3,13 +3,19 @@ using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.Button;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using TextAlignment = Android.Views.TextAlignment;
 
 namespace DIPS.Mobile.UI.Components.Buttons;
 
 public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 {
+    protected override MaterialButton CreatePlatformView()
+    {
+        return new Android.MaterialButton(Context)
+        {
+            Button = VirtualView as Button
+        };
+    }
+
     /// <summary>
     ///  MAUI changes the Background to a BorderDrawable if the Background changes
     ///  Thus we have to set a RippleDrawable to the Foreground
@@ -88,12 +94,8 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         UpdateForegroundRipple();
     }
 
-    private static async partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button)
+    private static partial void MapAdditionalHitBoxSize(ButtonHandler handler, Button button)
     {
-        // Small delay to wait for initialization of hitrect
-        await Task.Delay(1);
-
-        if(button is not null && handler.PlatformView is not null)
-            handler.PlatformView.SetAdditionalHitBoxSize(button, button.AdditionalHitBoxSize, handler.MauiContext!);
+        handler.PlatformView.SetAdditionalHitBoxSize(button.AdditionalHitBoxSize);
     }
 }
