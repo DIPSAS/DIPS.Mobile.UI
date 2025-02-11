@@ -1,5 +1,6 @@
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.Button;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
@@ -40,12 +41,18 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 
     private void UpdateForegroundRipple()
     {
-        var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
-        var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
-            null,
-            PlatformView.Background);
-        
-        PlatformView.Foreground = ripple;
+        try
+        {
+            var rippleColor = Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+            var ripple = new RippleDrawable(new Color(rippleColor.Red, rippleColor.Green, rippleColor.Blue, 0.1f).ToDefaultColorStateList(),
+                null,
+                PlatformView.Background);
+            PlatformView.Foreground = ripple;
+        }
+        catch (Exception e)
+        {
+            DUILogService.LogError<ButtonHandler>("Failed to set ripple effect on button: " + e.Message);
+        }
     }
     
     private static void OverrideMapBackgroundColor(ButtonHandler handler, Button button)
