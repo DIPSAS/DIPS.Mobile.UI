@@ -7,6 +7,7 @@ namespace DIPS.Mobile.UI.Effects.Touch.iOS;
 
 public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
 {
+    private UIView? m_uiView;
     private readonly Action m_onTap;
 
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
@@ -14,10 +15,11 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     private bool m_isCancelled;
     private readonly NSObject m_didBecomeActiveObserver;
 
-    public TouchEffectTapGestureRecognizer(Action onTap)
+    public TouchEffectTapGestureRecognizer(UIView view, Action onTap)
     {
         m_onTap = onTap;
-
+        m_uiView = view;
+        
         Delegate = new TouchEffectGestureRecognizerDelegate();
         m_didBecomeActiveObserver = NSNotificationCenter.DefaultCenter.AddObserver(
         UIApplication.DidBecomeActiveNotification,
@@ -38,7 +40,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         
         m_isCancelled = false;
 
-        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, View);
+        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, m_uiView);
     }
     
     public override void TouchesEnded(NSSet touches, UIEvent evt)
@@ -48,14 +50,14 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         if(m_currentState is not UIGestureRecognizerState.Cancelled)
             m_onTap.Invoke();
         
-        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, View);
+        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, m_uiView);
     }
 
     public override void TouchesCancelled(NSSet touches, UIEvent evt)
     {
         base.TouchesCancelled(touches, evt);
 
-        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, View);
+        TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
     }
     
     public override void TouchesMoved(NSSet touches, UIEvent evt)
@@ -67,9 +69,9 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         
         var touchPoint = GetTouchPoint(touches);
 
-        if (touchPoint == null || !View.Bounds.Contains(touchPoint.Value))
+        if (m_uiView != null && (touchPoint == null || m_uiView.Bounds.Contains(touchPoint.Value)))
         {
-            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, View);
+            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
             m_isCancelled = true;
         }
         
@@ -77,11 +79,12 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     }
     
     private CGPoint? GetTouchPoint(NSSet touches) =>
-        (touches.AnyObject as UITouch)?.LocationInView(View);
+        (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
 
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
         NSNotificationCenter.DefaultCenter.RemoveObserver(m_didBecomeActiveObserver);
+        m_uiView = null;
     }
 }

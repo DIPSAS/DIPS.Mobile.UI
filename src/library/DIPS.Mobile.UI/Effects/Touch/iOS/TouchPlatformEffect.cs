@@ -26,7 +26,7 @@ public partial class TouchPlatformEffect
 
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
         {
-            m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(OnTap);
+            m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
@@ -75,8 +75,9 @@ public partial class TouchPlatformEffect
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,
-        UIView uiView)
+        UIView? uiView)
     {
+        if (uiView is null) return;
         switch (state)
         {
             case UIGestureRecognizerState.Began:
