@@ -18,11 +18,100 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:Button Text="Remove" Command="{Binding Command}" dui:ContextMenuEffect.Mode="LongPressed">
-        <dui:ContextMenuEffect.Menu>
-            <dui:ContextMenu>
-                <dui:ContextMenuItem Title="Test"/>
-            </dui:ContextMenu>
-        </dui:ContextMenuEffect.Menu>
-    </dui:Button>
+    <ScrollView>
+        <VerticalStackLayout>
+            <!-- <dui:NavigationListItem Title="Item" Tapped="ListItem_OnTapped"/> -->
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}" />
+            
+        </VerticalStackLayout>
+    </ScrollView>
 </dui:ContentPage>
