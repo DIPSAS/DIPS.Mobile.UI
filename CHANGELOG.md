@@ -1,4 +1,7 @@
-## [40.3.6] 
+## [40.3.7]
+- [Touch][iOS] Reinitialize the gesture to prevent it from loosing scroll capabilities on iOS 18.3.x.
+
+## [40.3.6]
 - [Label][Android] Fixed a crash that could occur if `TruncatedText` is set, while `Label` has not enough width for the `TruncatedText` to display.
 
 ## [40.3.5] 
