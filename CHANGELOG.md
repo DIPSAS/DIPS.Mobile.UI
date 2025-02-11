@@ -1,3 +1,6 @@
+## [40.3.5] 
+- [Button] Try-catched an unreproducible crash that happened in `ButtonHandler`.
+
 ## [40.3.4] 
 - [ImageButton][Button][Android] Fixed a rare crash when setting `AdditionalHitBoxSize`.
 
