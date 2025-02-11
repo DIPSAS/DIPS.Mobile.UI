@@ -1,3 +1,6 @@
+## [40.3.6] 
+- [Label][Android] Fixed a crash that could occur if `TruncatedText` is set, while `Label` has not enough width for the `TruncatedText` to display.
+
 ## [40.3.5] 
 - [Button] Try-catched an unreproducible crash that happened in `ButtonHandler`.
 

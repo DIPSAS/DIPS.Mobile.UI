@@ -20,10 +20,12 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <Grid>
+    <Grid ColumnDefinitions="100, *">
     
-        <dui:Button Text="Test"
-                    Style="{dui:Styles Button=SecondarySmall}" />     
+        <dui:Label Text="Testtttttt"
+                   MaxLines="1"
+                   LineBreakMode="TailTruncation"
+                   TruncatedText="... lol"/>     
              
 
     </Grid>
