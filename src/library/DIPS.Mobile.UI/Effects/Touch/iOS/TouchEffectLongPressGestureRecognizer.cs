@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Effects.Touch.iOS;
 
 internal sealed class TouchEffectLongPressGestureRecognizer : UILongPressGestureRecognizer
 {
-    private readonly UIView m_uiView;
+    private UIView? m_uiView;
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
 
     public TouchEffectLongPressGestureRecognizer(UIView uiView, Action<UILongPressGestureRecognizer> onLongPressed) : base(
@@ -43,7 +43,7 @@ internal sealed class TouchEffectLongPressGestureRecognizer : UILongPressGesture
     {
         var touchPoint = GetTouchPoint(touches);
         
-        if (touchPoint == null || !m_uiView.Bounds.Contains(touchPoint.Value))
+        if (m_uiView != null && (touchPoint == null || m_uiView.Bounds.Contains(touchPoint.Value)))
         {
             TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
         }
@@ -51,4 +51,10 @@ internal sealed class TouchEffectLongPressGestureRecognizer : UILongPressGesture
 
     private CGPoint? GetTouchPoint(NSSet touches) =>
         (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        m_uiView = null;
+    }
 }

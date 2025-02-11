@@ -7,19 +7,31 @@ namespace DIPS.Mobile.UI.Effects.Touch.iOS;
 
 public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
 {
-    private readonly UIView m_uiView;
+    private UIView? m_uiView;
     private readonly Action m_onTap;
 
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
 
     private bool m_isCancelled;
+    private readonly NSObject m_didBecomeActiveObserver;
 
-    public TouchEffectTapGestureRecognizer(UIView uiView, Action onTap)
+    public TouchEffectTapGestureRecognizer(UIView view, Action onTap)
     {
-        m_uiView = uiView;
         m_onTap = onTap;
-
+        m_uiView = view;
+        
         Delegate = new TouchEffectGestureRecognizerDelegate();
+        m_didBecomeActiveObserver = NSNotificationCenter.DefaultCenter.AddObserver(
+        UIApplication.DidBecomeActiveNotification,
+        _ => ForceGestureRecognition()
+    );
+
+}
+    //Because of an issue where our Delegate do not recieve ShouldRecognizeSimultaneously. Which prevents the user from scrolling if the view is used in a scrolling context. This was introduced in iOS 18.3.x
+    private void ForceGestureRecognition()
+    {
+        this.Enabled = false;
+        this.Enabled = true;
     }
 
     public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -57,7 +69,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         
         var touchPoint = GetTouchPoint(touches);
 
-        if (touchPoint == null || !m_uiView.Bounds.Contains(touchPoint.Value))
+        if (m_uiView != null && (touchPoint == null || m_uiView.Bounds.Contains(touchPoint.Value)))
         {
             TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
             m_isCancelled = true;
@@ -68,5 +80,11 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     
     private CGPoint? GetTouchPoint(NSSet touches) =>
         (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
-    
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        NSNotificationCenter.DefaultCenter.RemoveObserver(m_didBecomeActiveObserver);
+        m_uiView = null;
+    }
 }

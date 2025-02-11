@@ -83,6 +83,11 @@ public partial class HåvardPage
         Shell.Current.Items.RemoveAt(0);
         Shell.Current.Items.Add(tabBar);
     }
+
+    private void ListItem_OnTapped(object sender, EventArgs e)
+    {
+        
+    }
 }
 
 public class SecondRootPage : ContentPage

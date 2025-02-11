@@ -70,11 +70,14 @@ public partial class TouchPlatformEffect
             if(Control.GestureRecognizers != null && m_longPressGestureRecognizer is not null)
                 Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
         }
+
+        m_tapGestureRecognizer?.Dispose();
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,
-        UIView uiView)
+        UIView? uiView)
     {
+        if (uiView is null) return;
         switch (state)
         {
             case UIGestureRecognizerState.Began:
