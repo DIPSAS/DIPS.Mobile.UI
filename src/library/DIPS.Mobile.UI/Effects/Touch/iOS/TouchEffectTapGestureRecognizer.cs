@@ -7,7 +7,6 @@ namespace DIPS.Mobile.UI.Effects.Touch.iOS;
 
 public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
 {
-    // private readonly UIView m_uiView;
     private readonly Action m_onTap;
 
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
