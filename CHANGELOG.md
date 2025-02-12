@@ -1,3 +1,6 @@
+## [40.3.8] 
+- [dui:Editor][iOS] Fixed an issue where the top of the page would sometimes scroll down if `dui:Editor` resides in a ScrollView/CollectionView.
+
 ## [40.3.7]
 - [Touch][iOS] Reinitialize the gesture to prevent it from loosing scroll capabilities on iOS 18.3.x.
 
