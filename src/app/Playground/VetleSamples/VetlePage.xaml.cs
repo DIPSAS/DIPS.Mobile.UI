@@ -14,10 +14,20 @@ public partial class VetlePage
         InitializeComponent();
         TestCommand = new Command(SwitchRoot);
 
-        
+        _ = FuckThisShitUp();
     }
-    
-    
+
+    private async Task FuckThisShitUp()
+    {
+        var thread = new Thread (() => {
+            while (true) {
+                Thread.Sleep (5000);
+                GC.Collect();
+            }
+        }) { IsBackground = true };
+        thread.Start();
+    }
+
 
     protected override void OnBindingContextChanged()
     {

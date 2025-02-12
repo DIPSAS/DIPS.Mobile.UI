@@ -15,18 +15,22 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    
+
     <dui:ContentPage.Resources>
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <Grid ColumnDefinitions="100, *">
-    
-        <dui:Label Text="Testtttttt"
-                   MaxLines="1"
-                   LineBreakMode="TailTruncation"
-                   TruncatedText="... lol"/>     
-             
+    <dui:ScrollView>
 
-    </Grid>
+        <Grid RowDefinitions="Auto, Auto">
+
+            <dui:MultiLineInputField />
+            
+            <dui:Editor Grid.Row="1"
+                        ShouldUseDefaultPadding="False"/>
+
+        </Grid>
+
+    </dui:ScrollView>
+
 </dui:ContentPage>

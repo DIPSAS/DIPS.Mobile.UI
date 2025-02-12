@@ -19,7 +19,7 @@ public partial class EditorHandler
             return;
 
         handler.PlatformView.TextContainer.LineFragmentPadding = 0;
-        handler.PlatformView.TextContainerInset = UIEdgeInsets.Zero;
+        handler.PlatformView.TextContainerInset = new UIEdgeInsets(1f, 0f, 1f, 0f);
     }
 
 
