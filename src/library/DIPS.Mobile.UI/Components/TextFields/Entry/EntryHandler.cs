@@ -1,9 +1,7 @@
-using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
-
 namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 #if __IOS__
-using MauiHandler = TryFixCrashEntryHandler;
+using MauiHandler = iOS.TryFixCrashEntryHandler;
 #else
 using MauiHandler = Microsoft.Maui.Handlers.EntryHandler;
 #endif
