@@ -1,6 +1,14 @@
+using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
+
 namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
-public partial class EntryHandler : Microsoft.Maui.Handlers.EntryHandler
+#if __IOS__
+using MauiHandler = TryFixCrashEntryHandler;
+#else
+using MauiHandler = Microsoft.Maui.Handlers.EntryHandler;
+#endif
+
+public partial class EntryHandler : MauiHandler
 {
     public EntryHandler() : base(PropertyMapper)
     {
