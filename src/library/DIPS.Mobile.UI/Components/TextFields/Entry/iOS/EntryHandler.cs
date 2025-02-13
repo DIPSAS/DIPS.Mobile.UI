@@ -1,12 +1,32 @@
-using Intents;
+using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Entry = DIPS.Mobile.UI.Components.TextFields.Entry;
 
 namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 
 public partial class EntryHandler 
 {
+    protected override MauiTextField CreatePlatformView()
+    {
+        var platformEntry = new TryFixCrashMauiTextField();
+        
+        var accessoryView = new MauiDoneAccessoryView();
+        accessoryView.SetDataContext(this);
+        accessoryView.SetDoneClicked(OnDoneClicked);
+        platformEntry.InputAccessoryView = accessoryView;
+
+        return platformEntry;
+    }
+
+    static void OnDoneClicked(object sender)
+    {
+        if (sender is EntryHandler handler)
+        {
+            handler.PlatformView.ResignFirstResponder();
+            handler.VirtualView.Completed();
+        }
+    }
+
     protected override void ConnectHandler(MauiTextField platformView)
     {
         base.ConnectHandler(platformView);

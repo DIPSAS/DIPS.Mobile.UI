@@ -1,3 +1,7 @@
+## [40.3.9]
+- [Entry][iOS] Added 'Done' toolbar item. 
+- [Entry][iOS] Attempt to avoid seemingly random crash.
+
 ## [40.3.8] 
 - [dui:Editor][iOS] Fixed an issue where the top of the page would sometimes scroll down if `dui:Editor` resides in a ScrollView/CollectionView.
 
