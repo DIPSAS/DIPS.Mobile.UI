@@ -1,4 +1,5 @@
 ## [40.3.9]
+- [Entry][iOS] Added 'Done' toolbar item. 
 - [Entry][iOS] Attempt to avoid seemingly random crash.
 
 ## [40.3.8] 
