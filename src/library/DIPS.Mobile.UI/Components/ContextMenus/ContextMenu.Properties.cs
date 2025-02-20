@@ -5,6 +5,11 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 public partial class ContextMenu : IContextMenu
 {
     public event Action? ItemsSourceUpdated;
+
+    public static readonly BindableProperty ItemsShouldLogWhenClickedProperty = BindableProperty.Create(
+        nameof(ItemsShouldLogWhenClicked),
+        typeof(bool),
+        typeof(ContextMenu), defaultValue:false);
     
     /// <see cref="Title"/>
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
@@ -57,6 +62,16 @@ public partial class ContextMenu : IContextMenu
         set => SetValue(ItemClickedCommandProperty, value);
     }
     
+    /// <summary>
+    /// Determines if all items in the menu should log when they are clicked.
+    /// </summary>
+    /// <remarks>Default value : false</remarks>
+    public bool ItemsShouldLogWhenClicked
+    {
+        get => (bool)GetValue(ItemsShouldLogWhenClickedProperty);
+        set => SetValue(ItemsShouldLogWhenClickedProperty, value);
+    }
+    
 
     /// <summary>
     /// <see cref="ContextMenuHorizontalOptions"/>
@@ -74,9 +89,15 @@ public partial class ContextMenu : IContextMenu
         get => (ContextMenuHorizontalOptions)GetValue(ContextMenuHorizontalOptionsProperty);
         set => SetValue(ContextMenuHorizontalOptionsProperty, value);
     }
+    
+    /// <summary>
+    /// Get the mode of the context menu.
+    /// </summary>
+    /// <remarks>This is non-settable on this class. <a href="https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Context-Menus#modes"> See documentation on how to set it.</a></remarks>
+    public ContextMenuEffect.ContextMenuMode Mode { get; internal set; }
 
     /// <summary>
-    /// 
+    /// Event that gets raised when a <see cref="ContextMenuItem"/> was clicked by the user.
     /// </summary>
     public event EventHandler? DidClickItem;
 
