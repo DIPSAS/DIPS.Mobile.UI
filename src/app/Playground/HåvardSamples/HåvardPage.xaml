@@ -21,6 +21,33 @@
     <ScrollView>
         <VerticalStackLayout>
             <!-- <dui:NavigationListItem Title="Item" Tapped="ListItem_OnTapped"/> -->
+
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}"
+                         dui:ContextMenuEffect.Mode="LongPressed">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu ItemsShouldSendGlobalClicks="True" >
+                        <dui:ContextMenuItem Title="Tap me"
+                                             Command="{Binding Command}" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+            </ContentView>
+            <ContentView HeightRequest="50"
+                         WidthRequest="100"
+                         Background="Red"
+                         Padding="12"
+                         dui:Touch.Command="{Binding Command}"
+                         dui:ContextMenuEffect.Mode="Pressed">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu ItemsShouldSendGlobalClicks="True" >
+                        <dui:ContextMenuItem Title="Tap me"
+                                             Command="{Binding Command}" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+                </ContentView>
             <ContentView HeightRequest="50"
                          WidthRequest="100"
                          Background="Red"
@@ -96,22 +123,7 @@
                          Background="Red"
                          Padding="12"
                          dui:Touch.Command="{Binding Command}" />
-            <ContentView HeightRequest="50"
-                         WidthRequest="100"
-                         Background="Red"
-                         Padding="12"
-                         dui:Touch.Command="{Binding Command}" />
-            <ContentView HeightRequest="50"
-                         WidthRequest="100"
-                         Background="Red"
-                         Padding="12"
-                         dui:Touch.Command="{Binding Command}" />
-            <ContentView HeightRequest="50"
-                         WidthRequest="100"
-                         Background="Red"
-                         Padding="12"
-                         dui:Touch.Command="{Binding Command}" />
-            
+
         </VerticalStackLayout>
     </ScrollView>
 </dui:ContentPage>

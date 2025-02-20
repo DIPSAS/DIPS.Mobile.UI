@@ -28,6 +28,7 @@ public partial class ContextMenuPlatformEffect
         }
 
         m_contextMenu.BindingContext = Element.BindingContext;
+        m_contextMenu.Mode = m_mode;
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)

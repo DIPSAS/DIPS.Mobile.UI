@@ -22,11 +22,11 @@ public class ContextMenuEffect : RoutingEffect
         null,
         propertyChanged:OnHasMenuChanged);
 
-    internal static Action<ContextMenuItem>? ContextMenuItemClickedCallback { get; private set; }
+    internal static Action<GlobalContextMenuClickMetadata>? ContextMenuItemGlobalClicksCallBack { get; private set; }
 
-    internal static void SetContextMenuItemClickedCallback(Action<ContextMenuItem> callback)
+    internal static void SetContextMenuItemLoggingCallback(Action<GlobalContextMenuClickMetadata> callback)
     {
-        ContextMenuItemClickedCallback = callback;
+        ContextMenuItemGlobalClicksCallBack = callback;
     }
 
     public static ContextMenuMode GetMode(BindableObject view)

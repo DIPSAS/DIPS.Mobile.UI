@@ -1,16 +1,21 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Builder;
 
 namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuItem
 {
-    
+    public static readonly BindableProperty ShouldSendGlobalClickProperty = BindableProperty.Create(
+        nameof(ShouldSendGlobalClick),
+        typeof(bool),
+        typeof(ContextMenuItem), defaultValue: false);
+
     public static readonly BindableProperty IsCheckedProperty = BindableProperty.Create(
         nameof(IsChecked),
         typeof(bool),
         typeof(ContextMenuItem));
-    
+
     /// <summary>
     /// <see cref="Command"/>
     /// </summary>
@@ -26,12 +31,12 @@ public partial class ContextMenuItem
         nameof(CommandParameter),
         typeof(object),
         typeof(ContextMenuItem));
-    
+
     public static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),
         typeof(ImageSource),
         typeof(ContextMenuItem));
-    
+
     public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
         nameof(IsVisible),
         typeof(bool),
@@ -51,7 +56,7 @@ public partial class ContextMenuItem
         get => (bool)GetValue(IsDestructiveProperty);
         set => SetValue(IsDestructiveProperty, value);
     }
-    
+
     /// <summary>
     /// The command to run when the item was clicked
     /// </summary>
@@ -78,7 +83,7 @@ public partial class ContextMenuItem
         get => (bool)GetValue(IsVisibleProperty);
         set => SetValue(IsVisibleProperty, value);
     }
-    
+
     /// <summary>
     /// The clicked event when the item was clicked
     /// </summary>
@@ -88,7 +93,7 @@ public partial class ContextMenuItem
         nameof(Title),
         typeof(string),
         typeof(ContextMenuItem));
-    
+
     /// <summary>
     /// The title of the context menu item
     /// </summary>
@@ -102,7 +107,7 @@ public partial class ContextMenuItem
         nameof(IsCheckable),
         typeof(bool),
         typeof(ContextMenuItem));
-    
+
     /// <summary>
     /// Determines if the native check mark should be added to the item when its tapped
     /// </summary>
@@ -120,7 +125,7 @@ public partial class ContextMenuItem
         get => (bool)GetValue(IsCheckedProperty);
         set => SetValue(IsCheckedProperty, value);
     }
-    
+
     /// <summary>
     /// The parent of the context menu item
     /// </summary>
@@ -131,12 +136,12 @@ public partial class ContextMenuItem
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public iOSContextMenuItemOptions iOSOptions { get; set; } = new();
-    
+
     /// <summary>
     /// <see cref="AndroidContextMenuItemOptions"/>
     /// </summary>
     public AndroidContextMenuItemOptions AndroidOptions { get; set; } = new();
-    
+
     /// <summary>
     /// The icon to be used as a image with the context menu item
     /// </summary>
@@ -145,6 +150,16 @@ public partial class ContextMenuItem
     {
         get => (ImageSource)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
+    }
+
+    /// <summary>
+    /// Determines if the context menu item should invoke <see cref="DIPSUIOptions.HandleContextMenuGlobalClicks"/>
+    /// </summary>
+    /// <remarks>Default value : false. If this is left false, but the parent <see cref="ContextMenu.ItemsShouldSendGlobalClicks"/> is true, it will log. If this is set to true but parent <see cref="ContextMenu.ItemsShouldSendGlobalClicks"/> is set to false, it will log.</remarks>
+    public bool ShouldSendGlobalClick
+    {
+        get => (bool)GetValue(ShouldSendGlobalClickProperty);
+        set => SetValue(ShouldSendGlobalClickProperty, value);
     }
 }
 

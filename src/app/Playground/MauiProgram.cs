@@ -14,7 +14,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDIPSUI(options =>
             {
-                options.SetContextMenuItemClickedCallback(OnContextMenuItemClicked);
+                options.HandleContextMenuGlobalClicks(OnContextMenuItemClicked);
                 /*options.EnableAutomaticMemoryLeakResolving();*/
             });
         
@@ -33,8 +33,8 @@ public static class MauiProgram
         return builder.Build();
     }
 
-    private static void OnContextMenuItemClicked(ContextMenuItem obj)
+    private static void OnContextMenuItemClicked(GlobalContextMenuClickMetadata metadata)
     {
-        Console.WriteLine($@"Clicked context menu item with title {obj.Title}!");
+        Console.WriteLine($@"Clicked context menu item with title {metadata.ContextMenuItem.Title}!, menu: {metadata.ContextMenu.Mode}");
     }
 }
