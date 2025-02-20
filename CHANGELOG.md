@@ -1,9 +1,8 @@
 ## [41.0.0]
-- [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `HandleContextMenuLogging`.
-- [ContextMenu] `HandleContextMenuLogging` now sends a `ContextMenuLoggingMetadata`.
-- [ContextMenu] Added `ItemsShouldLogWhenClicked` which controls if all Context Menu item will send a logging callback. Default false.
+- [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.
+- [ContextMenu] `ItemsShouldSendGlobalClicks` now sends a `GlobalContextMenuClickMetadata`.
 - [ContextMenu] Added `Mode` getter to know which mode a menu has.
-- [ContextMenuItem] Added `ShouldLogWhenClicked? which controls if it will send a logging callback. Default false.
+- [ContextMenuItem] Added `ShouldSendGlobalClick` which controls if all Context Menu item will send a logging callback. Default false.
 
 ## [40.3.9]
 - [Entry][iOS] Added 'Done' toolbar item. 

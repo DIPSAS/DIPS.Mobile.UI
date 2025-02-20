@@ -11,18 +11,17 @@ public partial class ContextMenuItem : Element, IContextMenuItem
         Command?.Execute(CommandParameter);
         DidClick?.Invoke(this, EventArgs.Empty);
         
-        // var mode = (ContextMenuEffect.ContextMenuMode)contextMenu.GetValue(ContextMenuEffect.ModeProperty);
-        var contextMenuLoggingMetadata = new ContextMenuLoggingMetadata(this, contextMenu);
+        var contextMenuLoggingMetadata = new GlobalContextMenuClickMetadata(this, contextMenu);
         var didLog = false;
-        if (contextMenu.ItemsShouldLogWhenClicked) //If consumer wants to log for all items
+        if (contextMenu.ItemsShouldSendGlobalClicks) //If consumer wants to send clicks globally for all items
         {
-            ContextMenuEffect.ContextMenuItemLoggingCallback?.Invoke(contextMenuLoggingMetadata);
+            ContextMenuEffect.ContextMenuItemGlobalClicksCallBack?.Invoke(contextMenuLoggingMetadata);
             didLog = true;
         }
         
-        if (ShouldLogWhenClicked && !didLog) //If consumer wants a single item to log, no matter what parent says
+        if (ShouldSendGlobalClick && !didLog) //If consumer wants a single item to log, no matter what parent says
         {
-            ContextMenuEffect.ContextMenuItemLoggingCallback?.Invoke(contextMenuLoggingMetadata);    
+            ContextMenuEffect.ContextMenuItemGlobalClicksCallBack?.Invoke(contextMenuLoggingMetadata);    
         }
     }
 

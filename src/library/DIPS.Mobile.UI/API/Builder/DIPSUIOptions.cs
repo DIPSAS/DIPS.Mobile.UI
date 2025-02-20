@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.API.Builder;
 
 internal class DIPSUIOptions : IDIPSUIOptions
 {
-    public IDIPSUIOptions HandleContextMenuLogging(Action<ContextMenuLoggingMetadata> callback)
+    public IDIPSUIOptions HandleContextMenuGlobalClicks(Action<GlobalContextMenuClickMetadata> callback)
     {
         ContextMenuEffect.SetContextMenuItemLoggingCallback(callback);
 

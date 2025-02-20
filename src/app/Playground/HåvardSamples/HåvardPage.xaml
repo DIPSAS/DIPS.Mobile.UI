@@ -29,7 +29,7 @@
                          dui:Touch.Command="{Binding Command}"
                          dui:ContextMenuEffect.Mode="LongPressed">
                 <dui:ContextMenuEffect.Menu>
-                    <dui:ContextMenu ItemsShouldLogWhenClicked="True" >
+                    <dui:ContextMenu ItemsShouldSendGlobalClicks="True" >
                         <dui:ContextMenuItem Title="Tap me"
                                              Command="{Binding Command}" />
                     </dui:ContextMenu>
@@ -42,7 +42,7 @@
                          dui:Touch.Command="{Binding Command}"
                          dui:ContextMenuEffect.Mode="Pressed">
                 <dui:ContextMenuEffect.Menu>
-                    <dui:ContextMenu ItemsShouldLogWhenClicked="True" >
+                    <dui:ContextMenu ItemsShouldSendGlobalClicks="True" >
                         <dui:ContextMenuItem Title="Tap me"
                                              Command="{Binding Command}" />
                     </dui:ContextMenu>

@@ -6,8 +6,8 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public partial class ContextMenuItem
 {
-    public static readonly BindableProperty ShouldLogWhenClickedProperty = BindableProperty.Create(
-        nameof(ShouldLogWhenClicked),
+    public static readonly BindableProperty ShouldSendGlobalClickProperty = BindableProperty.Create(
+        nameof(ShouldSendGlobalClick),
         typeof(bool),
         typeof(ContextMenuItem), defaultValue: false);
 
@@ -153,13 +153,13 @@ public partial class ContextMenuItem
     }
 
     /// <summary>
-    /// Determines if the context menu item should invoke <see cref="DIPSUIOptions.HandleContextMenuLogging"/>
+    /// Determines if the context menu item should invoke <see cref="DIPSUIOptions.HandleContextMenuGlobalClicks"/>
     /// </summary>
-    /// <remarks>Default value : false. If this is left false, but the parent <see cref="ContextMenu.ItemsShouldLogWhenClicked"/> is true, it will log. If this is set to true but parent <see cref="ContextMenu.ItemsShouldLogWhenClicked"/> is set to false, it will log.</remarks>
-    public bool ShouldLogWhenClicked
+    /// <remarks>Default value : false. If this is left false, but the parent <see cref="ContextMenu.ItemsShouldSendGlobalClicks"/> is true, it will log. If this is set to true but parent <see cref="ContextMenu.ItemsShouldSendGlobalClicks"/> is set to false, it will log.</remarks>
+    public bool ShouldSendGlobalClick
     {
-        get => (bool)GetValue(ShouldLogWhenClickedProperty);
-        set => SetValue(ShouldLogWhenClickedProperty, value);
+        get => (bool)GetValue(ShouldSendGlobalClickProperty);
+        set => SetValue(ShouldSendGlobalClickProperty, value);
     }
 }
 

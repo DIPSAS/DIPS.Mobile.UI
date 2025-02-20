@@ -6,8 +6,8 @@ public partial class ContextMenu : IContextMenu
 {
     public event Action? ItemsSourceUpdated;
 
-    public static readonly BindableProperty ItemsShouldLogWhenClickedProperty = BindableProperty.Create(
-        nameof(ItemsShouldLogWhenClicked),
+    public static readonly BindableProperty ItemsShouldSendGlobalClicksProperty = BindableProperty.Create(
+        nameof(ItemsShouldSendGlobalClicks),
         typeof(bool),
         typeof(ContextMenu), defaultValue:false);
     
@@ -66,10 +66,10 @@ public partial class ContextMenu : IContextMenu
     /// Determines if all items in the menu should log when they are clicked.
     /// </summary>
     /// <remarks>Default value : false</remarks>
-    public bool ItemsShouldLogWhenClicked
+    public bool ItemsShouldSendGlobalClicks
     {
-        get => (bool)GetValue(ItemsShouldLogWhenClickedProperty);
-        set => SetValue(ItemsShouldLogWhenClickedProperty, value);
+        get => (bool)GetValue(ItemsShouldSendGlobalClicksProperty);
+        set => SetValue(ItemsShouldSendGlobalClicksProperty, value);
     }
     
 
