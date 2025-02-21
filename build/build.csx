@@ -186,9 +186,9 @@ AsyncStep createResourcesPR = async () =>
     var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
 
     //Icons
-    DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
+    await DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
     //Animations
-    DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
+    await DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
     //Sizes
     await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
