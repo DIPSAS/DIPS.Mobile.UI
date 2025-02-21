@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 /// </summary>
 public static class DesignTokenApplier
 {
-    public static void TryAddIcons(DirectoryInfo libraryIconsDir, DirectoryInfo generatedIconsDir)
+    public static async Task TryAddIcons(DirectoryInfo libraryIconsDir, DirectoryInfo generatedIconsDir)
     {
         var oldIcons = Directory.GetFiles(libraryIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
         var generatedIcons = Directory.GetFiles(generatedIconsDir.FullName, "*.svg").Select(f => new FileInfo(f));
@@ -32,14 +32,14 @@ public static class DesignTokenApplier
         }
 
 
-        WriteToFileHelper.WriteToEnumFile(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
+        await WriteToFileHelper.WriteToEnumFile(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
                                         , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), 
                                         deletedIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (enumName =>
                                         {
                                             return $"///<summary><a href=\"https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/{enumName}.svg\">View the icon in the browser</a></summary>";
                                         }));
 
-        WriteToFileHelper.WriteToResourcesDictionary(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
+        await WriteToFileHelper.WriteToResourcesDictionary(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs")).FullName
                                                     , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), (key => {
                                                         return $"\"{key}.png\"";
                                                     })
@@ -61,7 +61,7 @@ public static class DesignTokenApplier
 
     }
 
-    public static void TryAddAnimations(DirectoryInfo libraryAnimationsDir, DirectoryInfo generatedAnimationsDir)
+    public static async Task TryAddAnimations(DirectoryInfo libraryAnimationsDir, DirectoryInfo generatedAnimationsDir)
     {
         var oldAnimations = Directory.GetFiles(libraryAnimationsDir.FullName, "*.json").Select(f => new FileInfo(f));
         var generatedAnimations = Directory.GetFiles(generatedAnimationsDir.FullName, "*.json").Select(f => new FileInfo(f));
@@ -83,11 +83,11 @@ public static class DesignTokenApplier
         }
 
 
-        WriteToFileHelper.WriteToEnumFile(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationName.cs")).FullName
+        await WriteToFileHelper.WriteToEnumFile(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationName.cs")).FullName
                                         , newAnimations.Select(f => f.Name.Replace(".json","")).ToArray(), 
                                         deletedAnimations.Select(f => f.Name.Replace(".json","")).ToArray());
 
-        WriteToFileHelper.WriteToResourcesDictionary(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationResources.cs")).FullName
+        await WriteToFileHelper.WriteToResourcesDictionary(libraryAnimationsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("AnimationResources.cs")).FullName
                                                     , newAnimations.Select(f => f.Name.Replace(".json","")).ToArray(), (key => {
                                                         return $"\"{key}.json\"";
                                                     })
@@ -125,18 +125,18 @@ public static class DesignTokenApplier
             DictionaryDiff(generatedSizes, librarySizes, newSizes, removedSizes, updatedSizes);
 
             //Add and remove
-            WriteToFileHelper.WriteToResourcesDictionary(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeResources.cs")).FullName
+            await WriteToFileHelper.WriteToResourcesDictionary(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeResources.cs")).FullName
                                                         , newSizes.Select(keyValue => keyValue.Key).ToArray(), (key => {
                                                             return generatedSizes.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                                                         })
                                                         ,removedSizes.Select(keyValue => keyValue.Key).ToArray());
-            WriteToFileHelper.WriteToEnumFile(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeName.cs")).FullName
+            await WriteToFileHelper.WriteToEnumFile(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeName.cs")).FullName
                                 , newSizes.Select(keyValue => keyValue.Key).ToArray(), 
                                 removedSizes.Select(keyValue => keyValue.Key).ToArray());
             //Update
             foreach (var updatedSize in updatedSizes)
             {
-                WriteToFileHelper.UpdateResourceDictionary(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeResources.cs")).FullName, updatedSize.Key, (key =>
+                await WriteToFileHelper.UpdateResourceDictionary(librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("SizeResources.cs")).FullName, updatedSize.Key, (key =>
                 {
                     return generatedSizes.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                 }));
@@ -167,19 +167,19 @@ public static class DesignTokenApplier
         }
 
         //Add and remove
-        WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
+        await WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
                                                     , newColors.Select(keyValue => keyValue.Key).ToArray(), (key => {
                                                         var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                                                         return $"Color.FromArgb(\"{value}\")";
                                                     })
                                                     ,removedColors.Select(keyValue => keyValue.Key).ToArray());
-        WriteToFileHelper.WriteToEnumFile(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorName.cs")).FullName
+        await WriteToFileHelper.WriteToEnumFile(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorName.cs")).FullName
                             , newColors.Select(keyValue => keyValue.Key).ToArray(), 
                             removedColors.Select(keyValue => keyValue.Key).ToArray());
         //Update
         foreach (var updatedSize in updatedColors)
         {
-            WriteToFileHelper.UpdateResourceDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName, updatedSize.Key, (key =>
+            await WriteToFileHelper.UpdateResourceDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName, updatedSize.Key, (key =>
             {
                 var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                 return $"Color.FromArgb(\"{value}\")";
