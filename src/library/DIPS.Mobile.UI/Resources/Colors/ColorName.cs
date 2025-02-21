@@ -89,7 +89,7 @@ color_background_bg_light=86,
 color_background_bg_blue=87,
 color_background_gradient_light=88,
 color_background_gradient_blue=89,
-color_data visualization_data_1=90,
-color_data visualization_data_1_subtle=91,
+color_data_visualization_data_1=92,
+color_data_visualization_data_1_subtle=93,
     }
 }

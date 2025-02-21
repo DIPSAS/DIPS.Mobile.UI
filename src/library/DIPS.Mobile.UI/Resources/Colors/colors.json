@@ -80,6 +80,6 @@
   "color_background_bg_blue": "#F4F5F5",
   "color_background_gradient_light": "#F4F5F5",
   "color_background_gradient_blue": "#F4F5F5",
-  "color_data visualization_data_1": "#AB69BF",
-  "color_data visualization_data_1_subtle": "#F4DDFA"
+  "color_data_visualization_data_1": "#AB69BF",
+  "color_data_visualization_data_1_subtle": "#F4DDFA"
 }

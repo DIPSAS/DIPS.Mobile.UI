@@ -79,4 +79,6 @@ this file is generated
 ["color_background_bg_light"] = Color.FromArgb("#F4F5F5"),
 ["color_background_bg_blue"] = Color.FromArgb("#F4F5F5"),
 ["color_error_light"] = Color.FromArgb("#FFE6DF"),
+["color_data_visualization_data_1"] = Color.FromArgb("#AB69BF"),
+["color_data_visualization_data_1_subtle"] = Color.FromArgb("#F4DDFA"),
 ["color_background_gradient_light"] =
