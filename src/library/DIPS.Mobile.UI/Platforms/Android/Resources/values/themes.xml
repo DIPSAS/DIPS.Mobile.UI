@@ -2,7 +2,7 @@
 <resources>
     <!-- Splash theme -->
     <style name="DIPS.Mobile.UI.Style" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/color_primary_d_90</item>
+        <item name="windowSplashScreenBackground">@color/color_primary_90</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
         <item name="android:windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/DIPS.Mobile.UI.PostStyle</item>
@@ -21,7 +21,7 @@
         <item name="colorSurface">@color/color_system_white</item>
 
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/color_primary_d_90</item>
+        <item name="colorPrimaryDark">@color/color_primary_90</item>
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <item name="colorAccent">@color/color_primary_90</item>
