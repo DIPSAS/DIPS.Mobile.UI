@@ -167,19 +167,19 @@ public static class DesignTokenApplier
         }
 
         //Add and remove
-        WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
+        await WriteToFileHelper.WriteToResourcesDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName
                                                     , newColors.Select(keyValue => keyValue.Key).ToArray(), (key => {
                                                         var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                                                         return $"Color.FromArgb(\"{value}\")";
                                                     })
                                                     ,removedColors.Select(keyValue => keyValue.Key).ToArray());
-        WriteToFileHelper.WriteToEnumFile(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorName.cs")).FullName
+        await WriteToFileHelper.WriteToEnumFile(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorName.cs")).FullName
                             , newColors.Select(keyValue => keyValue.Key).ToArray(), 
                             removedColors.Select(keyValue => keyValue.Key).ToArray());
         //Update
         foreach (var updatedSize in updatedColors)
         {
-            WriteToFileHelper.UpdateResourceDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName, updatedSize.Key, (key =>
+            await WriteToFileHelper.UpdateResourceDictionary(libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorResources.cs")).FullName, updatedSize.Key, (key =>
             {
                 var value = generatedColors.FirstOrDefault(keyValue => keyValue.Key == key).Value;
                 return $"Color.FromArgb(\"{value}\")";

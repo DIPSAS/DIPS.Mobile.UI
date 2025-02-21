@@ -1,6 +1,6 @@
 public static class WriteToFileHelper
 {
-    public static async void WriteToEnumFile(string enumFilePath, string[] enumsToAdd, string[] enumsToRemove, Func<string,string> enumCommentToAdd=null)
+    public static async Task WriteToEnumFile(string enumFilePath, string[] enumsToAdd, string[] enumsToRemove, Func<string,string> enumCommentToAdd=null)
     {
         if(enumsToAdd.Length == 0 && enumsToRemove.Length == 0) return; //No need to do anything if there is nothing to add
         
@@ -46,7 +46,7 @@ public static class WriteToFileHelper
         await File.WriteAllTextAsync(enumFilePath, enumContent);
     }
 
-    public static async void WriteToResourcesDictionary(string resourcesClassFile, string[] keysToAdd, Func<string,string> valueToAdd, string[] keysToRemove)
+    public static async Task WriteToResourcesDictionary(string resourcesClassFile, string[] keysToAdd, Func<string,string> valueToAdd, string[] keysToRemove)
     {
         if(keysToAdd.Length == 0 && keysToRemove.Length == 0) return; //No need to do anything if there is nothing to add
         var resourcesClassContent = await File.ReadAllTextAsync(resourcesClassFile);
@@ -70,7 +70,7 @@ public static class WriteToFileHelper
 
     }
 
-    public static async void UpdateResourceDictionary(string resourcesClassFile, string keyToUpdate, Func<string,string> valueToAdd)
+    public static async Task UpdateResourceDictionary(string resourcesClassFile, string keyToUpdate, Func<string,string> valueToAdd)
     {
         var resourcesClassContent = await File.ReadAllTextAsync(resourcesClassFile);
         var keys = resourcesClassContent.Split(",");
