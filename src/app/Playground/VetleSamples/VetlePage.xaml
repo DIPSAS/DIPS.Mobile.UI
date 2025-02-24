@@ -23,7 +23,9 @@
     <dui:ScrollView>
 
         <Grid RowDefinitions="Auto, Auto">
-
+            
+            <dui:Button CornerRadius="{dui:Sizes size_2}"></dui:Button>
+            
             <dui:MultiLineInputField />
             
             <dui:Editor Grid.Row="1"

@@ -35,7 +35,7 @@ internal class MaterialScrollPickerFragment(
             Orientation = Orientation.Vertical
         };
         
-        linearLayout.SetPadding(0, 0, 0, Sizes.GetSize(SizeName.size_2));
+        linearLayout.SetPadding(0, 0, 0, (int)Sizes.GetSize(SizeName.size_2));
 
         var title = CreateTitle();
         var numberPickersLayout = CreateNumberPickersLayout(out var numberPickers);
@@ -45,12 +45,12 @@ internal class MaterialScrollPickerFragment(
             linearLayout.AddView(title);
         linearLayout.AddView(new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel() ?? 0)
+            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel())
         });
         linearLayout.AddView(numberPickersLayout);
         linearLayout.AddView(new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel() ?? 0)
+            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel())
         });
         linearLayout.AddView(buttonsLayout);
 
@@ -161,7 +161,7 @@ internal class MaterialScrollPickerFragment(
     {
         return new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(space.ToMauiPixel() ?? 0, ViewGroup.LayoutParams.WrapContent)
+            LayoutParameters = new ViewGroup.LayoutParams(space.ToMauiPixel(), ViewGroup.LayoutParams.WrapContent)
         };
     }
 
@@ -198,7 +198,7 @@ internal class MaterialScrollPickerFragment(
         if (rowsInComponent == 0)
             return null!;
 
-        numberPicker.SelectionDividerHeight = 0.5.ToMauiPixel() ?? 0;
+        numberPicker.SelectionDividerHeight = 0.5.ToMauiPixel();
         numberPicker.MinValue = 0;
         numberPicker.MaxValue = rowsInComponent - 1;
         numberPicker.WrapSelectorWheel = false;

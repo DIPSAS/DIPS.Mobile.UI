@@ -4,8 +4,8 @@ namespace Components.ResourcesSamples.Sizes;
 
 public partial class SizesAsVisualBoxes
 {
-    private Dictionary<string, int> m_sizes;
-    private Dictionary<string, int> m_allSizes;
+    private Dictionary<string, double> m_sizes;
+    private Dictionary<string, double> m_allSizes;
     public SizesAsVisualBoxes()
     {
         InitializeComponent();
@@ -18,7 +18,7 @@ public partial class SizesAsVisualBoxes
         m_allSizes = Sizes;
     }
     
-    public Dictionary<string, int> Sizes
+    public Dictionary<string, double> Sizes
     {
         get => m_sizes;
         private set

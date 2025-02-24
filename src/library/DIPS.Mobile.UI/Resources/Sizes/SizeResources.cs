@@ -6,7 +6,7 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
         namespace DIPS.Mobile.UI.Resources.Sizes;
         internal static class SizeResources
         {
-            public static Dictionary<string, int> Sizes { get; } = new()
+            public static Dictionary<string, double> Sizes { get; } = new()
             {
                 ["none"] = -1,
                 ["size_0"] = 0,
