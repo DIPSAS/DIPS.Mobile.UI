@@ -1,5 +1,5 @@
 ## [42.0.0]
-- Convert SizeResources to use double instead of int as valu.
+- Convert SizeResources to use double instead of int as value.
 
 ## [41.0.0]
 - [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.
