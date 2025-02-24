@@ -12,7 +12,7 @@ namespace DIPS.Mobile.UI.Resources.Sizes
         /// <remarks>This is automatically detected if the extension is used on a <see cref="BindableProperty"/></remarks>
         public SizeDatatype Datatype { get; set; }
 
-        public static int GetSize(string sizeName)
+        public static double GetSize(string sizeName)
         {
             if (!SizeResources.Sizes.TryGetValue(sizeName, out var value))
             {
@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Resources.Sizes
             return value;
         }
 
-        public static int GetSize(SizeName sizeName)
+        public static double GetSize(SizeName sizeName)
         {
             return GetSize(sizeName.ToString());
         }
@@ -58,7 +58,7 @@ namespace DIPS.Mobile.UI.Resources.Sizes
             return Datatype switch
             {
                 SizeDatatype.Integer => size,
-                SizeDatatype.Double => (double)size,
+                SizeDatatype.Double => size,
                 SizeDatatype.Float => (float)size,
                 SizeDatatype.CornerRadiusUniformedSized => new CornerRadius(size),
                 SizeDatatype.ThicknessUniformedSized => new Thickness(size),

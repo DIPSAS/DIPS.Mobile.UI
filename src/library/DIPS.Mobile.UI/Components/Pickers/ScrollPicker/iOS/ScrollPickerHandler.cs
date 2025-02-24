@@ -260,7 +260,7 @@ internal class ScrollPickerViewController : UIViewController
     
     public override void ViewDidLoad()
     {
-        View = new UIStackView { Axis = UILayoutConstraintAxis.Vertical, Spacing = Sizes.GetSize(SizeName.size_1) };
+        View = new UIStackView { Axis = UILayoutConstraintAxis.Vertical, Spacing = (int)Sizes.GetSize(SizeName.size_1) };
         View.AddSubview(m_uiPicker);
         if(m_clearButton is not null)
             View.AddSubview(m_clearButton);

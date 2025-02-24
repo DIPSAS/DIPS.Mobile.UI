@@ -19,17 +19,17 @@ internal class GalleryBottomSheetTopToolbar : Grid
         {
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            TextColor = Colors.GetColor(ColorName.color_text_inverse),
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
         };
-        
+        // TODO: Use correct semantic color (Will be fixed later when new semantic color is pushed)
         m_borderAroundNumberOfImages = new ContentView
         {
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             Content = m_numberOfImagesLabel,
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_2))
+            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small))
         };
 
         UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.size_4));

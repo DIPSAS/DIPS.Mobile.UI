@@ -33,7 +33,7 @@ public partial class GalleryThumbnails : Grid
             ImageSource = Icons.GetIcon(IconName.camera),
             ImageTintColor = Colors.GetColor(ColorName.color_neutral_80),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            CornerRadius = Sizes.GetSize(SizeName.size_2),
+            CornerRadius = (int)Sizes.GetSize(SizeName.size_2),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_30),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),

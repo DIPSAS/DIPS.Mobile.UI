@@ -24,7 +24,15 @@
 
         <Grid RowDefinitions="Auto, Auto">
 
-            <dui:MultiLineInputField />
+            <Border BackgroundColor="Red"
+                    HeightRequest="50"
+                    WidthRequest="59">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
+                </Border.StrokeShape>
+            </Border>
+            
+            <!--<dui:MultiLineInputField />-->
             
             <dui:Editor Grid.Row="1"
                         ShouldUseDefaultPadding="False"/>
