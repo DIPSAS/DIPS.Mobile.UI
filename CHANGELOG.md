@@ -1,3 +1,6 @@
+## [42.0.0]
+- Convert SizeResources to use double instead of int as valu.
+
 ## [41.0.0]
 - [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.
 - [ContextMenu] `ItemsShouldSendGlobalClicks` now sends a `GlobalContextMenuClickMetadata`.

@@ -6,7 +6,7 @@ public static class Sizes
     /// Get the size by <see cref="SizeName"/>
     /// </summary>
     /// <param name="sizeName">The size name to get</param>
-    public static int GetSize(SizeName sizeName)
+    public static double GetSize(SizeName sizeName)
     {
         return SizesExtension.GetSize(sizeName);
     }
