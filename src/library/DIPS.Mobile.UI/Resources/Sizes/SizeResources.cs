@@ -68,7 +68,7 @@ this file is generated
 ["radius_xsmall"] = 4,
 ["radius_small"] = 8,
 ["radius_medium"] = 12,
-["radius_large"] = 12,
+["radius_large"] = 16,
 ["content_margin_xsmall"] = 4,
 ["content_margin_small"] = 8,
 ["content_margin_medium"] = 12,
