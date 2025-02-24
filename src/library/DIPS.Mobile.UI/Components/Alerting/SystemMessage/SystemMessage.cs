@@ -56,7 +56,7 @@ internal class SystemMessage : ContentView, IDisposable
         {
             AutomationId = "FakeBorder".ToDUIAutomationId<SystemMessage>(),
             BackgroundColor = configurator.BackgroundColor,
-            Margin = m_contentGrid.Padding.VerticalThickness * -1,
+            Margin = m_contentGrid.Padding.Top * -1,
             StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_medium) }
         };
 

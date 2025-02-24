@@ -123,7 +123,7 @@ public partial class SingleLineInputField : Grid
     {
         InputView.FontSize = 14;
         InputView.IsVisible = false;
-        InputView.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall), 8, 0);
+        InputView.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall), Sizes.GetSize(SizeName.content_margin_small), 0);
         InputView.SetBinding(BackgroundColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BackgroundColor, source: this);
         InputView.SetBinding(InputView.TextColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.InputTextColor, source: this);
         InputView.SetBinding(InputView.TextProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.Text, source: this);
@@ -173,7 +173,7 @@ public partial class SingleLineInputField : Grid
         AutomationProperties.SetIsInAccessibleTree(m_contentBorder, false);
     }
 
-    private void ValidateMargin(int prevBorderThickness)
+    private void ValidateMargin(double prevBorderThickness)
     {
         var differenceInThickness = Math.Abs(BorderThickness - prevBorderThickness);
         if(differenceInThickness == 0)

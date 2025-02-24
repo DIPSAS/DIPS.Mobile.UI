@@ -17,7 +17,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         // TODO: Lisa
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
-        public static ColorName ToolbarTitleTextColorName => ColorName.color_text_default;
+        public static ColorName ToolbarTitleTextColorName => ColorName.color_text_on_action;
 
         public Shell()
         {
