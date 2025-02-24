@@ -32,7 +32,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small))
         };
 
-        UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.size_4));
+        UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.radius_large));
 
         m_infoButton = new Button
         {
