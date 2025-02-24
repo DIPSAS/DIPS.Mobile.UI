@@ -15,8 +15,9 @@ namespace DIPS.Mobile.UI.Components.Shell
         /// </summary>
         public static PageReference? RootPage { get; set; }
 
+        // TODO: Lisa
         public static ColorName ToolbarBackgroundColorName => ColorName.color_primary_90;
-        public static ColorName ToolbarTitleTextColorName => ColorName.color_system_white;
+        public static ColorName ToolbarTitleTextColorName => ColorName.color_text_default;
 
         public Shell()
         {

@@ -55,11 +55,12 @@ public partial class BottomSheetHandler : ContentViewHandler
         //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
         if (m_bottomSheet.BottomSheetBehavior.Draggable)
         {
-            var innerGrid = new Grid {Padding = new Thickness(0, Sizes.GetSize(SizeName.size_2))};
+            var innerGrid = new Grid {Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small))};
             innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(ToggleBottomSheetIfPossible)
             });
+            // TODO: Lisa
             var handle = new BoxView()
             {
                 HeightRequest = 4,

@@ -32,7 +32,7 @@ internal class SortControlBottomSheet : BottomSheet
 
         Title = DUILocalizedStrings.Sort;
         
-        Padding = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_4));
+        Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_large));
         
         List<SelectableItemViewModel> selectableViewModels = new();
         foreach (var item in m_sortControl.ItemsSource)
@@ -71,16 +71,17 @@ internal class SortControlBottomSheet : BottomSheet
             Source = m_sortControl.CurrentSortOrder == SortOrder.Ascending
                 ? Icons.GetIcon(IconName.ascending_fill)
                 : Icons.GetIcon(IconName.descending_fill),
-            TintColor = Colors.GetColor(ColorName.color_neutral_80)
+            TintColor = Colors.GetColor(ColorName.color_icon_default)
         };
 
         var imageBorder = new Border
         {
             AutomationId = "ImageBorder".ToDUIAutomationId<SortControlBottomSheet>(),
             StrokeShape = new Ellipse(), 
+            // TODO: Lisa
             BackgroundColor = Colors.GetColor(ColorName.color_secondary_20),
             Content = inLineImage,
-            Padding = Sizes.GetSize(SizeName.size_1)
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
 
         var contentView = new ContentView
@@ -98,7 +99,7 @@ internal class SortControlBottomSheet : BottomSheet
         radioButtonListItem.InLineContent = contentView;
         radioButtonListItem.InLineContentOptions = new InLineContentOptions { Width = GridLength.Auto };
 
-        radioButtonListItem.IconOptions = new IconOptions { Color = Colors.GetColor(ColorName.color_neutral_80) };
+        radioButtonListItem.IconOptions = new IconOptions { Color = Colors.GetColor(ColorName.color_icon_default) };
         radioButtonListItem.DividersOptions = new DividersOptions
         {
             BottomDividerMargin = new Thickness(Sizes.GetSize(SizeName.size_13), Sizes.GetSize(SizeName.size_0),

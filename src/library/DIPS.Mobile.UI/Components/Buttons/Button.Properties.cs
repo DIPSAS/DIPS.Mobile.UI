@@ -37,6 +37,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
             nameof(ImageTintColor),
             typeof(Color),
             typeof(Button),
+            // TODO: Lisa
             defaultValue: Colors.GetColor(ColorName.color_system_black));
         
         public static readonly BindableProperty ImagePlacementProperty = BindableProperty.Create(

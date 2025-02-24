@@ -10,19 +10,19 @@ public static class EmptyInputStyle
                 new Setter()
                 {
                     Property = Components.Chips.Chip.CornerRadiusProperty,
-                    Value = DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.size_2)
+                    Value = DIPS.Mobile.UI.Resources.Sizes.Sizes.GetSize(SizeName.radius_small)
                 },
                 new Setter
                 {
                     Property = Components.Chips.Chip.ColorProperty,
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_system_white)
+                        ColorName.color_surface_default)
                 },
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_neutral_90)
+                        ColorName.color_text_default)
                 },
                 new Setter
                 {
@@ -37,6 +37,7 @@ public static class EmptyInputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
+                    // TODO: Lisa
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
                         ColorName.color_neutral_30)
                 }

@@ -11,16 +11,17 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderCornerRadiusProperty, 
-                Value = 4
+                Value = Sizes.Sizes.GetSize(SizeName.radius_xsmall)
             },
             new Setter
             {
                 Property = SingleLineInputField.BorderThicknessProperty, 
-                Value = 1
+                Value = Sizes.Sizes.GetSize(SizeName.stroke_medium)
             },
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_neutral_40)
             },
             new Setter
@@ -31,6 +32,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.HelpTextColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
             }
         }

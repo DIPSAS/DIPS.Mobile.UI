@@ -57,7 +57,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
 #if __IOS__
         Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
 #elif __ANDROID__
-        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2));
+        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small));
 #endif
         
         BackgroundColor = Colors.GetColor(ColorName.color_system_black);
@@ -86,7 +86,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start,
-            Margin = new Thickness(Sizes.GetSize(SizeName.size_4), 0, 0, 0),
+            Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_large), 0, 0, 0),
             Command = new Command(() =>
             {
                 if(m_carouselView is null || m_carouselView.Position == 0)
@@ -99,12 +99,12 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_navigateNextImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_right_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.End,
-            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0),
+            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_large), 0),
             Command = new Command(() =>
             {
                 if(m_carouselView is null || m_carouselView.Position == Images.Count - 1)

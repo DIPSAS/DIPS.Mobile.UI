@@ -9,6 +9,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
     {
         internal const double BottomBarHeight = 120;
 
+        // TODO: Lisa
         internal static ColorName BackgroundColorName => ColorName.color_system_white;
         internal static ColorName ToolbarTextColorName => ColorName.color_system_black;
         internal static ColorName ToolbarActionButtonsName => ColorName.color_primary_90;
@@ -85,9 +86,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             var grid = new Grid
             {
                 AutomationId = "BottomBarGrid".ToDUIAutomationId<BottomSheet>(),
-                ColumnSpacing = Sizes.GetSize(SizeName.size_2), 
+                ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small), 
                 RowDefinitions = [new RowDefinition(GridLength.Star)],
-                Padding = Sizes.GetSize(SizeName.size_3),
+                Padding = Sizes.GetSize(SizeName.content_margin_medium),
                 Background = new LinearGradientBrush
                 {
                     EndPoint = new Point(0, 1),

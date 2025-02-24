@@ -21,6 +21,7 @@ internal partial class NavigationMenuButton : Grid
         Button = new Button()
         {
             AutomationId = "Button".ToDUIAutomationId<NavigationMenuButton>(),
+            // TODO: Lisa
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
             WidthRequest = Sizes.GetSize(SizeName.size_15),
@@ -28,8 +29,8 @@ internal partial class NavigationMenuButton : Grid
         };
         ((Button)Button).CornerRadius = (int)(Button.HeightRequest / 2);
         ((Button)Button).Padding = DeviceInfo.Platform == DevicePlatform.Android
-            ? Sizes.GetSize(SizeName.size_1)
-            : Sizes.GetSize(SizeName.size_3);
+            ? Sizes.GetSize(SizeName.content_margin_xsmall)
+            : Sizes.GetSize(SizeName.content_margin_medium);
         
         Button.SetBinding(Microsoft.Maui.Controls.Button.ImageSourceProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.Icon, source: this);
         Button.SetBinding(BackgroundColorProperty, static (NavigationMenuButton navigationMenuButton) => navigationMenuButton.ButtonBackgroundColor, source: this);
@@ -40,9 +41,10 @@ internal partial class NavigationMenuButton : Grid
         BadgeLabel = new Label
         {
             AutomationId = "BadgeLabel".ToDUIAutomationId<NavigationMenuButton>(),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            TextColor = Colors.GetColor(ColorName.color_text_on_action),
             LineBreakMode = LineBreakMode.NoWrap,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
+            // TODO: Lisa
             FontSize = Sizes.GetSize(SizeName.size_3),
             HorizontalTextAlignment = TextAlignment.Center,
             VerticalTextAlignment = TextAlignment.Center,
@@ -54,7 +56,7 @@ internal partial class NavigationMenuButton : Grid
             Content = BadgeLabel,
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Start,
-            StrokeShape = new RoundRectangle {CornerRadius = 10},
+            StrokeShape = new Ellipse(),
             WidthRequest = 20,
             HeightRequest = 20,
             Padding = 0,

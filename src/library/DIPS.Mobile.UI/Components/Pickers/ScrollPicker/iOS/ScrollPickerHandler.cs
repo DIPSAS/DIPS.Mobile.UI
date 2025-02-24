@@ -184,7 +184,7 @@ internal class ScrollPickerViewController : UIViewController
             onClear.Invoke();
         }));
         m_clearButton.SetTitle(DUILocalizedStrings.Remove, UIControlState.Normal);
-        m_clearButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Normal);
+        m_clearButton.SetTitleColor(Colors.GetColor(ColorName.color_text_action).ToPlatform(), UIControlState.Normal);
     }
 
     private void SetPresentationControllerProperties()
@@ -260,7 +260,7 @@ internal class ScrollPickerViewController : UIViewController
     
     public override void ViewDidLoad()
     {
-        View = new UIStackView { Axis = UILayoutConstraintAxis.Vertical, Spacing = (int)Sizes.GetSize(SizeName.size_1) };
+        View = new UIStackView { Axis = UILayoutConstraintAxis.Vertical, Spacing = (int)Sizes.GetSize(SizeName.content_margin_xsmall) };
         View.AddSubview(m_uiPicker);
         if(m_clearButton is not null)
             View.AddSubview(m_clearButton);

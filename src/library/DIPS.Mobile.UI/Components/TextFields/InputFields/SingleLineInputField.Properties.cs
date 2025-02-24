@@ -123,7 +123,7 @@ public partial class SingleLineInputField
         nameof(InputTextColor),
         typeof(Color),
         typeof(SingleLineInputField),
-        defaultValue:Colors.GetColor(ColorName.color_neutral_90));
+        defaultValue:Colors.GetColor(ColorName.color_text_default));
     
     public static readonly BindableProperty HelpTextProperty = BindableProperty.Create(
         nameof(HelpText),

@@ -13,16 +13,19 @@ public class InputFieldTypeStyle
            new Setter
            {
                Property = SingleLineInputField.BorderColorProperty,
+               // TODO: Lisa
                Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
            },
            new Setter
            {
                Property = VisualElement.BackgroundColorProperty,
+               // TODO: Lisa
                Value = Colors.Colors.GetColor(ColorName.color_neutral_10)
            },
            new Setter
            {
                Property = SingleLineInputField.InputTextColorProperty,
+               // TODO: Lisa
                Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
            }
         }
@@ -36,12 +39,13 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_primary_80)
             },
             new Setter
             {
                 Property = SingleLineInputField.BorderThicknessProperty,
-                Value = 2
+                Value = Sizes.Sizes.GetSize(SizeName.stroke_large)
             }
         }
     };
@@ -54,6 +58,7 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_error_dark)
             }
         }
@@ -67,6 +72,7 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_success_dark)
             }
         }

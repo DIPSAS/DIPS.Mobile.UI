@@ -17,7 +17,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
 
         public CheckBox()
         {
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_2));
+            Padding = new Thickness(Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.content_margin_small));
             //Touch
             Touch.SetCommand(this, new Command(SetSelectedState));
 
@@ -29,7 +29,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
                 (DeviceInfo.Platform == DevicePlatform.Android)
                     ? ColorName.color_primary_90
                     : ColorName.color_system_black);
-            m_selectedNativeIcon.Margin = new Thickness(Sizes.GetSize(SizeName.size_1));
+            m_selectedNativeIcon.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_xsmall));
 
             //Title label
             var itemLabel = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
@@ -50,6 +50,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             {
                 checkBox.m_selectedNativeIcon.AndroidIconResourceName =
                     checkBox.IsSelected ? "btn_checkbox_checked_mtrl" : "btn_checkbox_unchecked_mtrl";
+                // TODO: Lisa
                 checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
             }
             else
@@ -57,6 +58,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
                 checkBox.m_selectedNativeIcon.iOSSystemIconName = (checkBox.IsSelected)
                     ? "checkmark.circle.fill"
                     : "checkmark.circle";
+                // TODO: Lisa
                 checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
             }
 

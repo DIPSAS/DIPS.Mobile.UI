@@ -10,7 +10,7 @@ internal class ImageCaptureBottomToolbarView : Grid
 {
     public ImageCaptureBottomToolbarView()
     {
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_5), 0);
+        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_large), 0);
     }
 
     public void GoToConfirmState(IConfirmStateObserver confirmStateObserver)

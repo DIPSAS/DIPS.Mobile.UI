@@ -18,7 +18,7 @@ public class EmptyView : ScrollView
         {
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_large))
         };
         icon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon);
         icon.SetBinding(IsVisibleProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon, converter: new IsEmptyConverter { Inverted = true });
@@ -28,7 +28,8 @@ public class EmptyView : ScrollView
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_3)),
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_medium)),
+            // TODO: Lisa
             TextColor = Colors.GetColor(ColorName.color_neutral_80),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
@@ -36,6 +37,7 @@ public class EmptyView : ScrollView
 
         var descriptionLabel = new Label
         {
+            // TODO: Lisa
             TextColor = Colors.GetColor(ColorName.color_neutral_70),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,

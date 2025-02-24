@@ -41,7 +41,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             m_collectionView = new CollectionView()
             {
                 ItemTemplate = new DataTemplate(LoadTemplate), 
-                Margin = Sizes.GetSize(SizeName.size_2)
+                Margin = Sizes.GetSize(SizeName.content_margin_small)
             };
             
             m_collectionView.Scrolled += OnCollectionViewScrolled;
@@ -178,6 +178,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                         IsVisible = true,
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.Center,
+                        // TODO: Lisa
                         Margin = new Thickness() {Top = Sizes.GetSize(SizeName.size_5)}
                     }),
                     FalseTemplate = new DataTemplate(() => collectionView)

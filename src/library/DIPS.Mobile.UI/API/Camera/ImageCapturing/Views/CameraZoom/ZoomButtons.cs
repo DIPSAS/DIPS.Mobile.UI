@@ -27,7 +27,7 @@ internal class ZoomButtons : HorizontalStackLayout
         GestureRecognizers.Add(panGestureRecognizer);
         
         BackgroundColor = Colors.Black.WithAlpha(0.2f);
-        Spacing = Sizes.GetSize(SizeName.size_1);
+        Spacing = Sizes.GetSize(SizeName.content_margin_xsmall);
         VerticalOptions = LayoutOptions.Center;
         HorizontalOptions = LayoutOptions.Center;
         Padding = 2;
@@ -168,6 +168,7 @@ internal class ZoomButton : ContentView
         
         m_border.Scale = IsDefaultActive ? 1 : InActiveScale;
         
+        // TODO: Lisa
         m_label = new Label
         {
             Text = IsDefaultActive ? $"{defaultZoomRatio} ×" : $"{defaultZoomRatio}",

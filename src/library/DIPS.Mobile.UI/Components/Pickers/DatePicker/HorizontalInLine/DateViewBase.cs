@@ -21,7 +21,8 @@ public abstract class DateViewBase : Grid
     {
         this.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_primary_90),
+            TrueObject = Colors.GetColor(ColorName.color_text_action),
+            // TODO: Lisa
             FalseObject = Colors.GetColor(ColorName.color_neutral_05)
         });
         

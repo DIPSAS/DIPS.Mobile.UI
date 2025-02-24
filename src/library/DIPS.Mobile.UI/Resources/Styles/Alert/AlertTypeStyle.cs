@@ -15,12 +15,13 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_information_light)
             },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };
@@ -36,11 +37,13 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_error_light)
             },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_error_dark)
             }
         }

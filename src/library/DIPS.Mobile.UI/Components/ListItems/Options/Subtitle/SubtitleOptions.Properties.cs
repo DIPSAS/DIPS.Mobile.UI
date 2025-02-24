@@ -112,6 +112,7 @@ public partial class SubtitleOptions
         nameof(TextColor),
         typeof(Color),
         typeof(ListItem),
+        // TODO: Lisa
         defaultValue:Colors.GetColor(ColorName.color_neutral_60));
    
 }

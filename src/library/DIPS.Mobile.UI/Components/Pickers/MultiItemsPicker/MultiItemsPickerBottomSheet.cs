@@ -40,7 +40,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
         var collectionView = new CollectionView()
         {
-            ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.size_2)
+            ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.content_margin_small)
         };
         
         collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (MultiItemsPickerBottomSheet multiItemsPickerBottomSheet) => multiItemsPickerBottomSheet.Items, source: this);

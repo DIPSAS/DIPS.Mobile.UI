@@ -114,10 +114,10 @@ public static class ViewExtensions
             return;
         }
         
-        rect.Top -= additionalHitBoxSize.Top.ToMauiPixel() ?? 0;
-        rect.Left -= additionalHitBoxSize.Left.ToMauiPixel() ?? 0;
-        rect.Bottom += additionalHitBoxSize.Bottom.ToMauiPixel() ?? 0;
-        rect.Right += additionalHitBoxSize.Right.ToMauiPixel() ?? 0;
+        rect.Top -= (int)additionalHitBoxSize.Top.ToMauiPixel();
+        rect.Left -= (int)additionalHitBoxSize.Left.ToMauiPixel();
+        rect.Bottom += (int)additionalHitBoxSize.Bottom.ToMauiPixel();
+        rect.Right += (int)additionalHitBoxSize.Right.ToMauiPixel();
         
         if (aView.Parent is AView parentView)
         {

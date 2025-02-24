@@ -5,6 +5,7 @@ namespace DIPS.Mobile.UI.Components.Selection;
 
 internal interface  ISelectable
 {
+    // TODO: Lisa
     internal static Color s_tintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
     /// <summary>
     /// Determines if the item is selected.

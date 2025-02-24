@@ -21,12 +21,13 @@ public partial class SingleLineInputField : Grid
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body100),
         IsVisible = false,
-        Margin = new Thickness(16, 0, 0, 0)
+        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_large), 0, 0, 0)
     };
     
     protected readonly Label HeaderTextLabel = new()
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body200),
+        // TODO: Lisa
         TextColor = Colors.GetColor(ColorName.color_neutral_70),
         VerticalOptions = LayoutOptions.Center,
         HorizontalOptions = LayoutOptions.Start,
@@ -122,7 +123,7 @@ public partial class SingleLineInputField : Grid
     {
         InputView.FontSize = 14;
         InputView.IsVisible = false;
-        InputView.Margin = new Thickness(0, 4, 8, 0);
+        InputView.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall), 8, 0);
         InputView.SetBinding(BackgroundColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BackgroundColor, source: this);
         InputView.SetBinding(InputView.TextColorProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.InputTextColor, source: this);
         InputView.SetBinding(InputView.TextProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.Text, source: this);

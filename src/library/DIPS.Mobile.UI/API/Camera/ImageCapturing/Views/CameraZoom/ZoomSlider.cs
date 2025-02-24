@@ -39,14 +39,14 @@ internal class ZoomSlider : Grid
         m_onPanned = onPanned;
         
         VerticalOptions = LayoutOptions.Center;
-        RowSpacing = Sizes.GetSize(SizeName.size_3);
+        RowSpacing = Sizes.GetSize(SizeName.content_margin_medium);
         
         AddRowDefinition(new RowDefinition(GridLength.Star));
         AddRowDefinition(new RowDefinition(GridLength.Star));
         
         m_zoomRatiosLayout = new HorizontalStackLayout
         {
-            Spacing = Sizes.GetSize(SizeName.size_1),
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Center,
@@ -70,6 +70,7 @@ internal class ZoomSlider : Grid
         
         m_pin = new BoxView
         {
+            // TODO: Lisa
             BackgroundColor = Colors.Gold, WidthRequest = 3, HeightRequest = Sizes.GetSize(SizeName.size_15), Opacity = 0
         };
         
@@ -116,6 +117,7 @@ internal class ZoomSlider : Grid
     {
         m_zoomRatioLevelLabel = new Label
         {
+            // TODO: Lisa
             TextColor = Colors.Gold,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
             VerticalTextAlignment = TextAlignment.Center,

@@ -162,18 +162,22 @@ public partial class SegmentedControl
         nameof(SelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
+        // TODO: Lisa
         defaultValue: Colors.GetColor(ColorName.color_neutral_20));
 
     public static readonly BindableProperty DeSelectedColorProperty = BindableProperty.Create(
         nameof(DeSelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
+        // TODO: Lisa
         defaultValue: Colors.GetColor(ColorName.color_system_white));
 
     public static readonly BindableProperty SegmentBorderColorProperty = BindableProperty.Create(
         nameof(SegmentBorderColor),
         typeof(Color),
-        typeof(SegmentedControl), defaultValue: Colors.GetColor(ColorName.color_neutral_30));
+        typeof(SegmentedControl),
+        // TODO: Lisa
+        defaultValue: Colors.GetColor(ColorName.color_neutral_30));
 
     public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
         nameof(SelectedItem),

@@ -21,7 +21,7 @@ public partial class DateAndTimePicker : Grid, IDatePicker
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Auto));
         
-        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
+        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall);
         
         Add(DateChip);
         this.Add(TimeChip, 1);

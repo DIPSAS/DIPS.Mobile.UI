@@ -48,6 +48,7 @@ public partial class SegmentedControl : ContentView
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle
             {
+                // TODO: Lisa
                 CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
                     Sizes.GetSize(SizeName.size_8), 0),
                 StrokeThickness = 0
@@ -64,12 +65,13 @@ public partial class SegmentedControl : ContentView
         var horizontalStackLayout = new HorizontalStackLayout()
         {
             VerticalOptions = LayoutOptions.Center,
-            Spacing = Sizes.GetSize(SizeName.size_1)
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
         horizontalStackLayout.SetBinding(PaddingProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
-            TrueObject = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),
-            FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.size_2))
+            TrueObject = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_small)),
+            // TODO: Lisa
+            FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.content_margin_small))
         });
         var checkedImage = new Image()
         {

@@ -10,6 +10,7 @@ public class LabelTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Label.TextColorProperty,
+                // TODO: Lisa
                 Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
             }
         }

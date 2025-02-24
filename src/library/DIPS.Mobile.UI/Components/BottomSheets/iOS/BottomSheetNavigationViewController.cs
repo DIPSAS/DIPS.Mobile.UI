@@ -20,6 +20,7 @@ public class BottomSheetNavigationViewController : UINavigationController
         
         NavigationBar.StandardAppearance = appearance;
         NavigationBar.ScrollEdgeAppearance = NavigationBar.StandardAppearance;
+        // TODO: Lisa
         NavigationBar.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
     }
     

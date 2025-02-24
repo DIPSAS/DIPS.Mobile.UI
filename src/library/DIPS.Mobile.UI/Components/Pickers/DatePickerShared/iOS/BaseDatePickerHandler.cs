@@ -29,7 +29,7 @@ public abstract class BaseDatePickerHandler : ViewHandler<IDatePicker, UIDatePic
         platformView.EditingDidEnd += OnClose;
         DUI.OnRemoveViewsLocatedOnTopOfPage += TryClose;
         
-        platformView.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
+        platformView.TintColor = Colors.GetColor(ColorName.color_icon_action).ToPlatform();
     }
 
     protected virtual void OnValueChanged(object? sender, EventArgs e)

@@ -7,6 +7,7 @@ public class Divider : ContentView
 {
     public Divider()
     {
+        // TODO: Lisa
         this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_neutral_20);
 
         var line = new Line(){ AutomationId = "Line".ToDUIAutomationId<Divider>()};

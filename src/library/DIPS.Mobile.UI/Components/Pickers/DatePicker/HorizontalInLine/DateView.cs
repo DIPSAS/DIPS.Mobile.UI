@@ -15,6 +15,7 @@ public class DateView : DateViewBase
         var dayNameLabel = CreateLabel(new Label());
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
+            // TODO: Lisa
             TrueObject = Colors.GetColor(ColorName.color_system_white),
             FalseObject = Colors.GetColor(ColorName.color_system_black),
         });

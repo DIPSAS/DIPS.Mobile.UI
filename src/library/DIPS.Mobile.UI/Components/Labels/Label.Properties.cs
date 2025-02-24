@@ -36,6 +36,7 @@ public partial class Label
         nameof(TruncatedTextColor),
         typeof(Color),
         typeof(Label),
+        // TODO: Lisa
         defaultValue: Colors.GetColor(ColorName.color_primary_90));
     
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(

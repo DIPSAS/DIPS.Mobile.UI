@@ -271,7 +271,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(TextColor),
             typeof(Color),
             typeof(SearchBar),
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90));
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default));
         
         public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(
             nameof(SearchCommand),
@@ -287,6 +287,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(PlaceholderColor),
             typeof(Color),
             typeof(SearchBar),
+            // TODO: Lisa
             defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_60));
 
         public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(

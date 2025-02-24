@@ -246,10 +246,10 @@ namespace DIPS.Mobile.UI.Components.ListItems
             typeof(Thickness),
             typeof(ListItem),
             new Thickness(
-            Sizes.GetSize(SizeName.size_2), 
-            Sizes.GetSize(SizeName.size_3),
-            Sizes.GetSize(SizeName.size_2),
-            Sizes.GetSize(SizeName.size_3)));
+            Sizes.GetSize(SizeName.content_margin_small), 
+            Sizes.GetSize(SizeName.content_margin_medium),
+            Sizes.GetSize(SizeName.content_margin_small),
+            Sizes.GetSize(SizeName.content_margin_medium)));
         
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
@@ -284,7 +284,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
             nameof(BackgroundColor),
             typeof(Color),
-            typeof(ListItem), defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_white));
+            typeof(ListItem), defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default));
     
         public static readonly BindableProperty UnderlyingContentProperty = BindableProperty.Create(
             nameof(UnderlyingContent),

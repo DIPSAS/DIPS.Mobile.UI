@@ -30,7 +30,7 @@ public partial class IconOptions
         nameof(Margin),
         typeof(Thickness),
         typeof(IconOptions),
-        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_2), 0),
+        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_small), 0),
         defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty VerticalOptionsProperty = BindableProperty.Create(

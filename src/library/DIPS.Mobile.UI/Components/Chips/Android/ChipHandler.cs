@@ -59,13 +59,14 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
     protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
     {
         base.ConnectHandler(platformView);
-        platformView.SetPadding(Sizes.GetSize(SizeName.size_2).ToMauiPixel(), Sizes.GetSize(SizeName.size_1).ToMauiPixel(), Sizes.GetSize(SizeName.size_2).ToMauiPixel(), Sizes.GetSize(SizeName.size_1).ToMauiPixel());
+        platformView.SetPadding((int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel());
         
         var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
         platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
         platformView.TextAlignment = TextAlignment.Center;
+        // TODO: Lisa
         platformView.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
-        platformView.ChipCornerRadius = Sizes.GetSize(SizeName.size_2).ToMauiPixel();
+        platformView.ChipCornerRadius = Sizes.GetSize(SizeName.radius_small).ToMauiPixel();
         platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;
     }

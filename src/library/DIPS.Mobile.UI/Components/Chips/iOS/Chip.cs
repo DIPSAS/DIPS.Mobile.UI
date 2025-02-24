@@ -18,8 +18,8 @@ public partial class Chip
     {
         var container = new Grid
         {
-            ColumnSpacing = Sizes.GetSize(SizeName.size_1),
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_1)),
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
+            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall)),
             ColumnDefinitions = 
             [
                 new ColumnDefinition(GridLength.Auto), 
@@ -61,7 +61,8 @@ public partial class Chip
     {
         var border = new Border { StrokeShape = new RoundRectangle
         {
-            CornerRadius = Sizes.GetSize(SizeName.size_2),
+            CornerRadius = Sizes.GetSize(SizeName.radius_small),
+            // TODO: Lisa
             BackgroundColor = Colors.GetColor(ColorName.color_secondary_30)
         }};
         
@@ -82,7 +83,7 @@ public partial class Chip
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
-            AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_1)
+            AdditionalHitBoxSize = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
 
         imageButton.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
@@ -111,6 +112,7 @@ public partial class Chip
     {
         var label = new Labels.Label
         {
+            // TODO: Lisa
             TextColor = Colors.GetColor(ColorName.color_system_black),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
