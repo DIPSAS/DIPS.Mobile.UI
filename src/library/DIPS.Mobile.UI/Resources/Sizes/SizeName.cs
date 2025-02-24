@@ -1,14 +1,13 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
 namespace DIPS.Mobile.UI.Resources.Sizes
 {
     public enum SizeName
     {
-        none=-1,
-size_0=0, 
+        none=-1, 
 size_1=1, 
 size_2=2, 
 size_3=3, 
@@ -57,7 +56,25 @@ size_20_negative=45,
 size_21_negative=46, 
 size_22_negative=47, 
 size_23_negative=48, 
-size_24_negative=49, 
+size_24_negative=49,
+stroke_small=50,
+size_half=51,
+size_half_negative=52,
+stroke_medium=53,
+stroke_xlarge=54,
+radius_xsmall=55,
+radius_small=56,
+radius_medium=57,
+radius_large=58,
+content_margin_xsmall=59,
+content_margin_small=60,
+content_margin_medium=61,
+content_margin_large=62,
+page_margin_xsmall=63,
+page_margin_small=64,
+page_margin_medium=65,
+page_margin_xlarge=66,
+stroke_large=67, 
 size_25_negative=50
     }
 }

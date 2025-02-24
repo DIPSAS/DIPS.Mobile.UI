@@ -1,5 +1,6 @@
 {
-  "size_0": "0",
+  "stroke_small": "0.5",
+  "size_half": "2",
   "size_1": "4",
   "size_2": "8",
   "size_3": "12",
@@ -25,6 +26,7 @@
   "size_23": "92",
   "size_24": "96",
   "size_25": "100",
+  "size_half_negative": "-2",
   "size_1_negative": "-4",
   "size_2_negative": "-8",
   "size_3_negative": "-12",
@@ -49,5 +51,20 @@
   "size_22_negative": "-88",
   "size_23_negative": "-92",
   "size_24_negative": "-96",
-  "size_25_negative": "-100"
+  "size_25_negative": "-100",
+  "stroke_medium": "1",
+  "stroke_xlarge": "5",
+  "radius_xsmall": "4",
+  "radius_small": "8",
+  "radius_medium": "12",
+  "radius_large": "12",
+  "content_margin_xsmall": "4",
+  "content_margin_small": "8",
+  "content_margin_medium": "12",
+  "content_margin_large": "16",
+  "page_margin_xsmall": "12",
+  "page_margin_small": "16",
+  "page_margin_medium": "24",
+  "page_margin_xlarge": "32",
+  "stroke_large": "2"
 }
