@@ -1,3 +1,6 @@
+## [41.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [41.0.0]
 - [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.
 - [ContextMenu] `ItemsShouldSendGlobalClicks` now sends a `GlobalContextMenuClickMetadata`.
