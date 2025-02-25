@@ -214,23 +214,20 @@ public partial class MultiLineInputField : SingleLineInputField
         if (Text.Length == 0)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, MaxTextLength.ToString());
-            // TODO: Placeholder semantic color
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
         }
         else if (MaxTextLength > Text.Length)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, (MaxTextLength - Text.Length).ToString());
-            // TODO: Placeholder semantic color
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
             
         }
         else if (MaxTextLength == Text.Length)
         {
             m_textLengthLabel.Text = DUILocalizedStrings.MaxCharactersReached;
-            // TODO: Placeholder semantic color
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
         }
         else

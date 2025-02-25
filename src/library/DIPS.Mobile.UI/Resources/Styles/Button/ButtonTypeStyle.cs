@@ -128,8 +128,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Wait until we have semantic size for this
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
@@ -155,8 +154,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Wait until we have semantic size for this
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
@@ -182,8 +180,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Wait until we have semantic size for this
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };

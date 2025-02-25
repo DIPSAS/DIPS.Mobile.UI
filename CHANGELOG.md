@@ -1,5 +1,6 @@
-## [41.1.0] 
-- Resources was updated from DIPS.Mobile.DesignTokens
+## [42.0.0] 
+- Import semantic colors and sizes.
+- Set semantic colors and sizes on components.
 
 ## [41.0.0]
 - [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.

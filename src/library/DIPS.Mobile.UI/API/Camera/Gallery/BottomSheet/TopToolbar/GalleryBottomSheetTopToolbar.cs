@@ -22,7 +22,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
             TextColor = Colors.GetColor(ColorName.color_text_on_action),
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
         };
-        // TODO: Use correct semantic color (Will be fixed later when new semantic color is pushed)
+        
         m_borderAroundNumberOfImages = new ContentView
         {
             VerticalOptions = LayoutOptions.Center,

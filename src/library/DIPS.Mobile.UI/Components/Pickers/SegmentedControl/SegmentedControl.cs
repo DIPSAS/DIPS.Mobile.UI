@@ -48,9 +48,8 @@ public partial class SegmentedControl : ContentView
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle
             {
-                // TODO: Extra large radius
-                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
-                    Sizes.GetSize(SizeName.size_8), 0),
+                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge), 0,
+                    Sizes.GetSize(SizeName.radius_xlarge), 0),
                 StrokeThickness = 0
 
             }
@@ -70,8 +69,7 @@ public partial class SegmentedControl : ContentView
         horizontalStackLayout.SetBinding(PaddingProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
             TrueObject = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_small)),
-            // TODO: Need to figure out how we can solve this with semantic sizes
-            FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.content_margin_small))
+            FalseObject = new Thickness(Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_small))
         });
         var checkedImage = new Image()
         {
@@ -92,7 +90,7 @@ public partial class SegmentedControl : ContentView
 
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
-            var radius = (double)Sizes.GetSize(SizeName.size_8);
+            var radius = Sizes.GetSize(SizeName.radius_xlarge);
             var roundRectangle = new RoundRectangle() { StrokeThickness = 0};
             if (m_allSelectableItems.Last() == selectableListItem)
             {
