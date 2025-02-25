@@ -66,8 +66,7 @@ public partial class Chip
         nameof(CloseButtonColor),
         typeof(Color),
         typeof(Chip),
-        // TODO: Lisa
-        Colors.GetColor(ColorName.color_neutral_90));
+        Colors.GetColor(ColorName.color_icon_default));
 
     /// <summary>
     /// The color of the close button that people tap to close the chip.

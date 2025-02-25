@@ -214,14 +214,14 @@ public partial class MultiLineInputField : SingleLineInputField
         if (Text.Length == 0)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, MaxTextLength.ToString());
-            // TODO: Lisa
+            // TODO: Placeholder semantic color
             m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
             m_doneButton.IsEnabled = true;
         }
         else if (MaxTextLength > Text.Length)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, (MaxTextLength - Text.Length).ToString());
-            // TODO: Lisa
+            // TODO: Placeholder semantic color
             m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
             m_doneButton.IsEnabled = true;
             
@@ -229,14 +229,13 @@ public partial class MultiLineInputField : SingleLineInputField
         else if (MaxTextLength == Text.Length)
         {
             m_textLengthLabel.Text = DUILocalizedStrings.MaxCharactersReached;
-            // TODO: Lisa
+            // TODO: Placeholder semantic color
             m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
             m_doneButton.IsEnabled = true;
         }
         else
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersTooMany, (Text.Length - MaxTextLength).ToString());
-            // TODO: Lisa
             m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
             m_doneButton.IsEnabled = false;
         }
@@ -321,7 +320,6 @@ public partial class MultiLineInputField : SingleLineInputField
         IsSaving = false;
         OnStopSaving();
         HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.ErrorText, source: this);
-        // TODO: Lisa
         HelpTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
     }
 
@@ -339,17 +337,14 @@ public partial class MultiLineInputField : SingleLineInputField
         if (IsError)
         {
             if(IsFocused)
-                // TODO: Lisa
                 HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
             
             if(Text != string.Empty)
-                // TODO: Lisa
                 HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
         }
         else
         {
-            // TODO: Lisa
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_neutral_70);
+            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle_small);
         }
     }
 

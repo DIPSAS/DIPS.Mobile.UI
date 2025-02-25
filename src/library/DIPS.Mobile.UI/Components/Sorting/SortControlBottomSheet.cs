@@ -71,15 +71,14 @@ internal class SortControlBottomSheet : BottomSheet
             Source = m_sortControl.CurrentSortOrder == SortOrder.Ascending
                 ? Icons.GetIcon(IconName.ascending_fill)
                 : Icons.GetIcon(IconName.descending_fill),
-            TintColor = Colors.GetColor(ColorName.color_icon_default)
+            TintColor = Colors.GetColor(ColorName.color_icon_action)
         };
 
         var imageBorder = new Border
         {
             AutomationId = "ImageBorder".ToDUIAutomationId<SortControlBottomSheet>(),
             StrokeShape = new Ellipse(), 
-            // TODO: Lisa
-            BackgroundColor = Colors.GetColor(ColorName.color_secondary_20),
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_action),
             Content = inLineImage,
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };

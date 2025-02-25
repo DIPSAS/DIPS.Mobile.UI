@@ -21,8 +21,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                // TODO: Lisa
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_40)
+                Value = Colors.Colors.GetColor(ColorName.color_stroke_default)
             },
             new Setter
             {
@@ -32,8 +31,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.HelpTextColorProperty,
-                // TODO: Lisa
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
+                Value = Colors.Colors.GetColor(ColorName.color_text_subtle_small)
             }
         }
     };

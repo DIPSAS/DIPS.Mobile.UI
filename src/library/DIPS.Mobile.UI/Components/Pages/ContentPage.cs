@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 {
     public partial class ContentPage : Microsoft.Maui.Controls.ContentPage
     {
-        // TODO: Lisa
+        // TODO: Wait until we set gradient
         public static readonly ColorName BackgroundColorName = ColorName.color_neutral_10;
 
         private CancellationTokenSource? m_garbageCollectionCts;

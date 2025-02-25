@@ -28,7 +28,7 @@ public partial class GalleryThumbnails : Grid
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
 
-        // TODO: Lisa
+        // TODO: Wait until we have semantic color
         var cameraButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.camera),

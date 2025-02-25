@@ -287,7 +287,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(PlaceholderColor),
             typeof(Color),
             typeof(SearchBar),
-            // TODO: Lisa
+            // TODO: Use placeholder semantic color
             defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_60));
 
         public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(

@@ -38,14 +38,12 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderColorProperty,
-                // TODO: Lisa
-                Value = Colors.Colors.GetColor(ColorName.color_secondary_90)
+                Value = Colors.Colors.GetColor(ColorName.color_stroke_action)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderWidthProperty,
-                // TODO: Lisa
-                Value = 1
+                Value = Sizes.Sizes.GetSize(SizeName.stroke_medium)
             },
             new Setter
             {
@@ -96,7 +94,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                // TODO: Lisa
+                // TODO: Wait until we have a semantic color for this
                 Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
             },
             new Setter
@@ -130,7 +128,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Lisa
+                // TODO: Wait until we have semantic size for this
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
@@ -157,7 +155,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Lisa
+                // TODO: Wait until we have semantic size for this
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
@@ -184,7 +182,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                // TODO: Lisa
+                // TODO: Wait until we have semantic size for this
                 Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }

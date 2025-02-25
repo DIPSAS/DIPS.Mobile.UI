@@ -168,11 +168,10 @@ internal class ZoomButton : ContentView
         
         m_border.Scale = IsDefaultActive ? 1 : InActiveScale;
         
-        // TODO: Lisa
         m_label = new Label
         {
             Text = IsDefaultActive ? $"{defaultZoomRatio} ×" : $"{defaultZoomRatio}",
-            TextColor = IsDefaultActive ? Colors.Gold : Colors.White,
+            TextColor = IsDefaultActive ? DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400) : DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_on_action),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),

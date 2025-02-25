@@ -178,8 +178,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                         IsVisible = true,
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.Center,
-                        // TODO: Lisa
-                        Margin = new Thickness() {Top = Sizes.GetSize(SizeName.size_5)}
+                        Margin = new Thickness() {Top = Sizes.GetSize(SizeName.page_margin_small)}
                     }),
                     FalseTemplate = new DataTemplate(() => collectionView)
                 }

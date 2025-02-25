@@ -49,12 +49,11 @@ internal class ImageThumbnailView : Grid
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.radius_small));
         
-        // TODO: Lisa
         var closeButton = new Border
         {
             StrokeShape = new Ellipse(),
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_60),
-            StrokeThickness = 1,
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_active_subtle),
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
             Stroke = Colors.GetColor(ColorName.color_stroke_action),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
@@ -65,7 +64,7 @@ internal class ImageThumbnailView : Grid
 #endif
             Content = new Image
             {
-                TintColor = Colors.GetColor(ColorName.color_icon_on_action),
+                TintColor = Colors.GetColor(ColorName.color_icon_default),
                 Source = Icons.GetIcon(IconName.close_line)
             },
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall)

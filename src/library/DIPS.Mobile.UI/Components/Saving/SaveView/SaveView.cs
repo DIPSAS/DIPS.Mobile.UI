@@ -35,7 +35,6 @@ public partial class SaveView : ContentView
             BackgroundColor = Colors.Transparent,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
-            // TODO: Lisa
             Spacing = Sizes.GetSize(SizeName.size_12),
             Children = {m_filledCheckBox, m_stateLabel}
         };

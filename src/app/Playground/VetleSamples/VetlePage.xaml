@@ -20,25 +20,32 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:ScrollView>
-
-        <Grid RowDefinitions="Auto, Auto">
-
-            <Border BackgroundColor="Red"
-                    HeightRequest="50"
-                    WidthRequest="59">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="{dui:Sizes size_2}"></RoundRectangle>
-                </Border.StrokeShape>
-            </Border>
-            
-            <!--<dui:MultiLineInputField />-->
-            
-            <dui:Editor Grid.Row="1"
-                        ShouldUseDefaultPadding="False"/>
-
-        </Grid>
-
-    </dui:ScrollView>
+    <VerticalStackLayout HorizontalOptions="Start"
+                         Spacing="20">
+        <dui:Label Text="Small"></dui:Label>
+        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonSmall}"
+                    ImageSource="{dui:Icons close_line}"
+                    />
+        
+        <dui:Divider />
+        
+        <dui:Label Text="Large"></dui:Label>
+        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonLarge}"
+                    ImageSource="{dui:Icons close_line}" />
+        
+        <dui:Divider BackgroundColor="{dui:Colors color_stroke_default}"/>
+        
+        <dui:Label Text="Figma"></dui:Label>
+        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonLarge}"
+                    ImageSource="{dui:Icons close_line}"
+                    WidthRequest="24"
+                    HeightRequest="24" />
+        
+        <dui:Chip Title="Hei" IsCloseable="True"
+                  IsToggleable="True"/>
+        <dui:SearchBar />
+        
+        <dui:Switch />
+    </VerticalStackLayout>
 
 </dui:ContentPage>

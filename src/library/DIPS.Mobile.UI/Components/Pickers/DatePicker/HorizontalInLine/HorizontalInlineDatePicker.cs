@@ -20,7 +20,6 @@ public partial class HorizontalInlineDatePicker : ContentView
             new SlidableContentLayout
             {
                 HeightRequest = GetHeightBasedOnScreenHeight(),
-                // TODO: Lisa
                 BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
                 BindingContextFactory = CreateSelectableDateViewModel,
                 ItemTemplate = new DataTemplate(() => new DateView()),

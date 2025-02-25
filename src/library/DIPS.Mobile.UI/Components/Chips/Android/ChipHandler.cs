@@ -64,8 +64,7 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
         platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
         platformView.TextAlignment = TextAlignment.Center;
-        // TODO: Lisa
-        platformView.SetTextColor(Colors.GetColor(ColorName.color_system_black).ToPlatform());
+        platformView.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
         platformView.ChipCornerRadius = Sizes.GetSize(SizeName.radius_small).ToMauiPixel();
         platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;

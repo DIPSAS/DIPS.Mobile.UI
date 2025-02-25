@@ -6,7 +6,7 @@ public partial class Editor : Microsoft.Maui.Controls.Editor
 {
     public Editor()
     {
-        // TODO: Lisa
+        // TODO: Wait until we have semantic color
         PlaceholderColor = Colors.GetColor(ColorName.color_neutral_60);
         FontFamily = "Body";
         FontSize = 16;

@@ -44,11 +44,11 @@ public partial class SegmentedControl : ContentView
         var border = new Border
         {
             VerticalOptions = LayoutOptions.Center,
-            StrokeThickness = 1,
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle
             {
-                // TODO: Lisa
+                // TODO: Extra large radius
                 CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
                     Sizes.GetSize(SizeName.size_8), 0),
                 StrokeThickness = 0
@@ -70,7 +70,7 @@ public partial class SegmentedControl : ContentView
         horizontalStackLayout.SetBinding(PaddingProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
             TrueObject = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_small)),
-            // TODO: Lisa
+            // TODO: Need to figure out how we can solve this with semantic sizes
             FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.content_margin_small))
         });
         var checkedImage = new Image()

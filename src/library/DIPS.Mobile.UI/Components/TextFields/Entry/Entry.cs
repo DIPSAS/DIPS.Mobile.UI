@@ -7,7 +7,7 @@ public partial class Entry : Microsoft.Maui.Controls.Entry
 {
     public Entry()
     {
-        // TODO: Lisa
+        // TODO: Wait until we have semantic color
         PlaceholderColor = Colors.GetColor(ColorName.color_neutral_60);
         FontFamily = "Body";
         FontSize = 16;

@@ -10,14 +10,12 @@ public static class InputStyle
                 new Setter()
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    // TODO: Lisa
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_secondary_30)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_active)
                 },
                 new Setter()
                 {
                     Property = Components.Chips.Chip.CloseButtonColorProperty,
-                    // TODO: Lisa
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_70)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default)
                 },
                 new Setter()
                 {
@@ -42,9 +40,7 @@ public static class InputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    // TODO: Lisa
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_secondary_30)
+                    Value = Microsoft.Maui.Graphics.Colors.Transparent
                 }
             },
         };

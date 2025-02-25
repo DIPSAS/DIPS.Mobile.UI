@@ -62,8 +62,7 @@ public partial class Chip
         var border = new Border { StrokeShape = new RoundRectangle
         {
             CornerRadius = Sizes.GetSize(SizeName.radius_small),
-            // TODO: Lisa
-            BackgroundColor = Colors.GetColor(ColorName.color_secondary_30)
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_active)
         }};
         
         border.SetBinding(CornerRadiusProperty, static (Chip chip) => chip.CornerRadius, source: this);
@@ -112,8 +111,7 @@ public partial class Chip
     {
         var label = new Labels.Label
         {
-            // TODO: Lisa
-            TextColor = Colors.GetColor(ColorName.color_system_black),
+            TextColor = Colors.GetColor(ColorName.color_text_default),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,

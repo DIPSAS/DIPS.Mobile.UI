@@ -37,9 +37,8 @@ public static class EmptyInputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    // TODO: Lisa
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_neutral_30)
+                        ColorName.color_stroke_default)
                 }
             }
         };

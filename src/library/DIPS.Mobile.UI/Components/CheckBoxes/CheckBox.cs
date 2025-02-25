@@ -26,9 +26,7 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             m_selectedNativeIcon.HeightRequest = Sizes.GetSize(SizeName.size_6);
             m_selectedNativeIcon.WidthRequest = Sizes.GetSize(SizeName.size_6);
             m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty,
-                (DeviceInfo.Platform == DevicePlatform.Android)
-                    ? ColorName.color_primary_90
-                    : ColorName.color_system_black);
+                ColorName.color_icon_default);
             m_selectedNativeIcon.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_xsmall));
 
             //Title label
@@ -50,16 +48,14 @@ namespace DIPS.Mobile.UI.Components.CheckBoxes
             {
                 checkBox.m_selectedNativeIcon.AndroidIconResourceName =
                     checkBox.IsSelected ? "btn_checkbox_checked_mtrl" : "btn_checkbox_unchecked_mtrl";
-                // TODO: Lisa
-                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
+                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_icon_default);
             }
             else
             {
                 checkBox.m_selectedNativeIcon.iOSSystemIconName = (checkBox.IsSelected)
                     ? "checkmark.circle.fill"
                     : "checkmark.circle";
-                // TODO: Lisa
-                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_primary_90);
+                checkBox.m_selectedNativeIcon.SetAppThemeColor(NativeIcon.ColorProperty, ColorName.color_icon_default);
             }
 
             checkBox.Command?.Execute(checkBox.CommandParameter);

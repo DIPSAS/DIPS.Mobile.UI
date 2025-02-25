@@ -1,4 +1,6 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -12,12 +14,14 @@ public class DateView : DateViewBase
     protected override void OnViewCreated()
     {
         //Day shortname label
-        var dayNameLabel = CreateLabel(new Label());
+        var dayNameLabel = CreateLabel(new Label()
+        {
+            Style = Styles.GetLabelStyle(LabelStyle.UI200)
+        });
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            // TODO: Lisa
-            TrueObject = Colors.GetColor(ColorName.color_system_white),
-            FalseObject = Colors.GetColor(ColorName.color_system_black),
+            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.DayName);
         

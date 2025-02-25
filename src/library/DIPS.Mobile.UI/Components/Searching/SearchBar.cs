@@ -6,8 +6,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchBar()
         {
-            // TODO: Lisa
-            this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
+            this.SetAppThemeColor(IconsColorProperty, ColorName.color_icon_neutral);
+            // TODO: Use placeholder semantic color
             this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
 

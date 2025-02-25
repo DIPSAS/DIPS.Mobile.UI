@@ -21,7 +21,6 @@ internal partial class NavigationMenuButton : Grid
         Button = new Button()
         {
             AutomationId = "Button".ToDUIAutomationId<NavigationMenuButton>(),
-            // TODO: Lisa
             BorderColor = Colors.GetColor(ColorName.color_system_white),
             BorderWidth = 3,
             WidthRequest = Sizes.GetSize(SizeName.size_15),
@@ -44,7 +43,6 @@ internal partial class NavigationMenuButton : Grid
             TextColor = Colors.GetColor(ColorName.color_text_on_action),
             LineBreakMode = LineBreakMode.NoWrap,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
-            // TODO: Lisa
             FontSize = Sizes.GetSize(SizeName.size_3),
             HorizontalTextAlignment = TextAlignment.Center,
             VerticalTextAlignment = TextAlignment.Center,

@@ -10,7 +10,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    // TODO: Lisa
+                    // TODO: Wait for semantic color
                     Value = Colors.Colors.GetColor(ColorName.color_primary_80)
                 },
                 new Setter
@@ -36,8 +36,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    // TODO: Lisa
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_30)
+                    Value = Microsoft.Maui.Graphics.Colors.Transparent
                 }
             }
         };

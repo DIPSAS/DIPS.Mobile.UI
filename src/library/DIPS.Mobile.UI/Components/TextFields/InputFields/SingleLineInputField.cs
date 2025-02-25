@@ -21,14 +21,13 @@ public partial class SingleLineInputField : Grid
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body100),
         IsVisible = false,
-        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_large), 0, 0, 0)
+        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), 0, 0, 0)
     };
     
     protected readonly Label HeaderTextLabel = new()
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body200),
-        // TODO: Lisa
-        TextColor = Colors.GetColor(ColorName.color_neutral_70),
+        TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
         VerticalOptions = LayoutOptions.Center,
         HorizontalOptions = LayoutOptions.Start,
         AnchorX = 0
@@ -39,8 +38,8 @@ public partial class SingleLineInputField : Grid
     protected Grid InnerGrid { get; } = new()
     { 
         AutomationId = "InnerGrid".ToDUIAutomationId<SingleLineInputField>(),
-        Margin = new Thickness(16, 8, 8, 8),
-        RowDefinitions = new RowDefinitionCollection { new(GridLength.Star), new(GridLength.Auto), new(GridLength.Auto) }
+        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_small)),
+        RowDefinitions = [new(GridLength.Star), new(GridLength.Auto), new(GridLength.Auto)]
     };
 
     private readonly Border m_contentBorder = new()
@@ -53,7 +52,7 @@ public partial class SingleLineInputField : Grid
     {
         Style = Styles.GetInputFieldStyle(InputFieldStyle.Default);
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
-        RowSpacing = 4;
+        RowSpacing = Sizes.GetSize(SizeName.content_margin_small);
         
         AutomationProperties.SetIsInAccessibleTree(this, false);
         AutomationProperties.SetIsInAccessibleTree(ContentBorderGrid, false);

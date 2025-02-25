@@ -60,7 +60,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             {
                 Command = new Command(ToggleBottomSheetIfPossible)
             });
-            // TODO: Lisa
+            
             var handle = new BoxView()
             {
                 HeightRequest = 4,

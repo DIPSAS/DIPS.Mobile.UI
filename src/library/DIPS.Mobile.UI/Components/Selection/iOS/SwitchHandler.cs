@@ -14,7 +14,6 @@ public class SwitchHandler : Microsoft.Maui.Handlers.SwitchHandler
         // https://stackoverflow.com/questions/10348869/change-color-of-uiswitch-in-off-state
         platformView.Layer.CornerRadius = platformView.Frame.Height / 2;
         platformView.ClipsToBounds = true;
-        // TODO: Lisa
-        platformView.BackgroundColor = Colors.GetColor(ColorName.color_neutral_30).ToPlatform();
+        platformView.BackgroundColor = Colors.GetColor(ColorName.color_stroke_default).ToPlatform();
     }
 }
