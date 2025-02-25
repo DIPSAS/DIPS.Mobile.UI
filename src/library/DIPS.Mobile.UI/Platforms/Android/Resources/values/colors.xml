@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
  
 
- <!-- Do not modify, generated at: 2/24/2025 10:35:20 AM --> 
+ <!-- Do not modify, generated at: 2/25/2025 1:12:27 PM --> 
 
   <resources>
    <color name="color_system_black">#000000</color>
@@ -55,7 +55,7 @@
    <color name="color_surface_default">#FFFFFF</color>
    <color name="color_surface_active_subtle">#ECEDEE</color>
    <color name="color_surface_deactivated">#F9F9F9</color>
-   <color name="color_surface_active">#F0F5F7</color>
+   <color name="color_surface_active">#ECF3F4</color>
    <color name="color_surface_action">#047F89</color>
    <color name="color_surface_action_on_black">#262626</color>
    <color name="color_text_default">#262626</color>
@@ -64,6 +64,7 @@
    <color name="color_text_subtle_small">#464C50</color>
    <color name="color_text_action">#047F89</color>
    <color name="color_text_on_action">#FFFFFF</color>
+   <color name="color_text_placeholder">#6A7073</color>
    <color name="color_stroke_default">#DADBDC</color>
    <color name="color_stroke_subtle">#DADBDC</color>
    <color name="color_stroke_action">#97C8CD</color>
