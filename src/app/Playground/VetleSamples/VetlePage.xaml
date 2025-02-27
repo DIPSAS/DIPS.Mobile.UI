@@ -20,32 +20,8 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <VerticalStackLayout HorizontalOptions="Start"
-                         Spacing="20">
-        <dui:Label Text="Small"></dui:Label>
-        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonSmall}"
-                    ImageSource="{dui:Icons close_line}"
-                    />
-        
-        <dui:Divider />
-        
-        <dui:Label Text="Large"></dui:Label>
-        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonLarge}"
-                    ImageSource="{dui:Icons close_line}" />
-        
-        <dui:Divider BackgroundColor="{dui:Colors color_stroke_default}"/>
-        
-        <dui:Label Text="Figma"></dui:Label>
-        <dui:Button Style="{dui:Styles Button=SecondaryIconButtonLarge}"
-                    ImageSource="{dui:Icons close_line}"
-                    WidthRequest="24"
-                    HeightRequest="24" />
-        
-        <dui:Chip Title="Hei" IsCloseable="True"
-                  IsToggleable="True"/>
-        <dui:SearchBar />
-        
-        <dui:Switch />
-    </VerticalStackLayout>
+    <Grid>
+        <dui:MultiLineInputField IsEnabled="False"></dui:MultiLineInputField>
+    </Grid>
 
 </dui:ContentPage>

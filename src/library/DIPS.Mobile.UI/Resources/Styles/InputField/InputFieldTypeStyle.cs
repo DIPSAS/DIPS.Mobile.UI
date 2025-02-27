@@ -13,20 +13,12 @@ public class InputFieldTypeStyle
            new Setter
            {
                Property = SingleLineInputField.BorderColorProperty,
-               // TODO: Stine
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
+               Value = Colors.Colors.GetColor(ColorName.color_stroke_default)
            },
            new Setter
            {
                Property = VisualElement.BackgroundColorProperty,
-               // TODO: Stine
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_10)
-           },
-           new Setter
-           {
-               Property = SingleLineInputField.InputTextColorProperty,
-               // TODO: Stine
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
+               Value = Colors.Colors.GetColor(ColorName.color_surface_deactivated)
            }
         }
     };
@@ -39,8 +31,7 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                // TODO: Stine
-                Value = Colors.Colors.GetColor(ColorName.color_primary_80)
+                Value = Colors.Colors.GetColor(ColorName.color_stroke_active)
             },
             new Setter
             {
@@ -58,7 +49,6 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                // TODO: Stine
                 Value = Colors.Colors.GetColor(ColorName.color_error_dark)
             }
         }
@@ -72,7 +62,6 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                // TODO: Stine
                 Value = Colors.Colors.GetColor(ColorName.color_success_dark)
             }
         }
