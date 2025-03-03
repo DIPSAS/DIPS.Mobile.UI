@@ -8,6 +8,7 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Effects.ListElement;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
@@ -73,9 +74,10 @@ public static partial class AppHostBuilderExtensions
         
         builder.ConfigureEffects(effects =>
         {
-            effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
-            effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
-            effects.Add(typeof(Layout), typeof(LayoutPlatformEffect));
+            effects.Add<ContextMenuEffect, ContextMenuPlatformEffect>();
+            effects.Add<Touch, TouchPlatformEffect>();
+            effects.Add<Layout, LayoutPlatformEffect>();
+            effects.Add<FirstLastElementCornerRadiusEffect, FirstLastElementCornerRadiusPlatformEffect>();
         });
 
         builder.UseSkiaSharp();

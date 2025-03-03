@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
@@ -29,6 +30,7 @@ public class VetlePageViewModel : ViewModel
     private TimePlanningViewModel m_timePlanningViewModel = null;
     private bool m_isEnabled;
     private List<string> m_testStrings = [];
+    private ObservableCollection<GroupedTest> m_groupedTest = [new(TestStrings), new(TestStrings)];
 
     public VetlePageViewModel()
     {
@@ -146,7 +148,11 @@ public class VetlePageViewModel : ViewModel
     {
         await Task.Delay(2000);
 
-        TimePlanningViewModel = new TimePlanningViewModel(this);
+        GroupedTest = [new(TestStrings), new(TestStrings)];
+        
+        await Task.Delay(5000);
+        
+        GroupedTest = [new(TestStrings), new(TestStrings), new(TestStrings)];
     }
 
 
@@ -167,7 +173,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_defaultSelectedItem, value);
     }
 
-    public ObservableCollection<string> TestStrings { get; set; } = new()
+    public static List<string> TestStrings { get; set; } = new()
     {
         "Lokalisasjon påkrevd - Kodeverk og egendefinert",
         "Lokalisasjon - Fritekst",
@@ -179,6 +185,42 @@ public class VetlePageViewModel : ViewModel
         "HAALAND",
         "ØDEGÅÅRD",
         "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        
     };
 
     public List<TestObject2> TestObject2s { get; } =
@@ -296,7 +338,11 @@ public class VetlePageViewModel : ViewModel
 
     });
 
-    public ObservableCollection<GroupedTest> GroupedTest { get; } = [];
+    public ObservableCollection<GroupedTest> GroupedTest
+    {
+        get => m_groupedTest;
+        set => RaiseWhenSet(ref m_groupedTest, value);
+    }
 
     public TimePlanningViewModel TimePlanningViewModel
     {
@@ -314,6 +360,11 @@ public class VetlePageViewModel : ViewModel
 
 public class GroupedTest : List<string>
 {
+    public GroupedTest(List<string> strings) : base(strings)
+    {
+        
+    }
+    
     public string Header { get; } = "Header";
 }
 

@@ -8,9 +8,9 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
-                 Padding="20"
                  x:Name="This"
-                 HideSoftInputOnTapped="True">
+                 HideSoftInputOnTapped="True"
+                 BackgroundColor="{dui:Colors color_neutral_30}">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -20,17 +20,49 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:ScrollView>
+    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+                        x:Name="CollectionView"
+                        IsGrouped="True"
+                        dui:Layout.AutoCornerRadius="True"
+                        HasAdditionalSpaceAtTheEnd="True"
+                        BackgroundColor="Transparent">
+        
+        <dui:CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <Grid Margin="{dui:Thickness Top=size_4}">
+                    <dui:Label Text="{Binding Header}"
+                               BackgroundColor="Transparent"
+                               Margin="{dui:Thickness Top=size_4}"/>
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.GroupHeaderTemplate>
+        
+        <!--<dui:CollectionView.Header>
+            <Button Text="Test!"
+                    BackgroundColor="Red"
+                    Clicked="Button_OnClicked"></Button>
+        </dui:CollectionView.Header>-->
+        
+        <dui:CollectionView.Header>
+            <dui:Label Text="Hello !"></dui:Label>
+        </dui:CollectionView.Header>
+        
+        <dui:CollectionView.Footer>
+            <dui:Label Text="Footer!"></dui:Label>
+        </dui:CollectionView.Footer>
+        
+        <CollectionView.GroupFooterTemplate>
+            <DataTemplate>
+                <dui:Label Text="Hei der!"></dui:Label>
+            </DataTemplate>
+        </CollectionView.GroupFooterTemplate>
+        
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="system:String">
+                <dui:ListItem Title="{Binding .}"></dui:ListItem>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
 
-        <Grid RowDefinitions="Auto, Auto">
-
-            <dui:MultiLineInputField />
-            
-            <dui:Editor Grid.Row="1"
-                        ShouldUseDefaultPadding="False"/>
-
-        </Grid>
-
-    </dui:ScrollView>
+    </dui:CollectionView>
 
 </dui:ContentPage>

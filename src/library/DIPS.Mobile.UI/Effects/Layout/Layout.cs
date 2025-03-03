@@ -10,13 +10,28 @@ public partial class Layout : RoutingEffect
     /// <summary>
     /// Sets the corner radius
     /// </summary>
-    /// <remarks>Currently only supports uniform corner radius, it uses `TopLeft` for all corners</remarks>
+    /// <remarks>The highest set corner radius will be set for all corners that are defined</remarks>
+    /// <example>If TopLeft = 8, and TopRight = 4, TopRight will be set to 8</example>
     public static void SetCornerRadius(BindableObject view, CornerRadius cornerRadius)
     {
         view.SetValue(CornerRadiusProperty, cornerRadius);
     }
+    
+    public static bool? GetAutoCornerRadius(BindableObject view)
+    {
+        return (bool?)view.GetValue(AutoCornerRadiusProperty);
+    }
 
-    private static void OnCornerRadiusPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
+    /// <summary>
+    /// Sets automatic uniform corner radius
+    /// <remarks>If the View in question is a <see cref="CollectionView"/>, the first and last element will get corner radius</remarks> 
+    /// </summary>
+    public static void SetAutoCornerRadius(BindableObject view, bool autoCornerRadius)
+    {
+        view.SetValue(AutoCornerRadiusProperty, autoCornerRadius);
+    }
+
+    private static void OnLayoutPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)
             return;
