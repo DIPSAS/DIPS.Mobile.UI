@@ -20,17 +20,8 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:ScrollView>
-
-        <Grid RowDefinitions="Auto, Auto">
-
-            <dui:MultiLineInputField />
-            
-            <dui:Editor Grid.Row="1"
-                        ShouldUseDefaultPadding="False"/>
-
-        </Grid>
-
-    </dui:ScrollView>
+    <Grid>
+        <dui:MultiLineInputField IsEnabled="False"></dui:MultiLineInputField>
+    </Grid>
 
 </dui:ContentPage>

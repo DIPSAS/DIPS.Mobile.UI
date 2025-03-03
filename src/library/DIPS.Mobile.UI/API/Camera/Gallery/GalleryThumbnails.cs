@@ -28,12 +28,13 @@ public partial class GalleryThumbnails : Grid
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
 
+        // TODO: Wait until we have semantic color
         var cameraButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.camera),
             ImageTintColor = Colors.GetColor(ColorName.color_neutral_80),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            CornerRadius = Sizes.GetSize(SizeName.size_2),
+            CornerRadius = (int)Sizes.GetSize(SizeName.radius_xsmall),
             BackgroundColor = Colors.GetColor(ColorName.color_neutral_30),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),

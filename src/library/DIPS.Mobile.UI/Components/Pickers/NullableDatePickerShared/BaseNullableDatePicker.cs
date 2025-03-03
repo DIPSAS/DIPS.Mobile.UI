@@ -10,7 +10,7 @@ public abstract class BaseNullableDatePicker : Grid
 
     protected BaseNullableDatePicker()
     {
-        ColumnSpacing = Sizes.GetSize(SizeName.size_3);
+        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium);
         
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));

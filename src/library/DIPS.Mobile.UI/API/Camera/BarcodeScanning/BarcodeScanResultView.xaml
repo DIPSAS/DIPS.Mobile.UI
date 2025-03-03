@@ -16,7 +16,7 @@
              xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings"
              x:Class="DIPS.Mobile.UI.API.Camera.BarcodeScanning.BarcodeScanResultView"
              x:Name="This">
-    <Grid Padding="{sizes:Sizes size_2}"
+    <Grid Padding="{sizes:Margin Left=page_margin_xsmall, Right=page_margin_xsmall, Top=page_margin_small}"
           RowDefinitions="Auto, Auto, *"
           BindingContext="{x:Reference This}"
           x:DataType="{x:Type barcodeScanning:BarcodeScanResultView}">

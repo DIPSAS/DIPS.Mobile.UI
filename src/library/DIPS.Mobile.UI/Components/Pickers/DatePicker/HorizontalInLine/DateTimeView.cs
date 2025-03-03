@@ -9,11 +9,11 @@ public class DateTimeView : DateViewBase
     protected override void OnViewCreated()
     {
         //Time of day label
-        var timeOfDayLabel = CreateLabel(new Label(), SizeName.size_3);
+        var timeOfDayLabel = CreateLabel(new Label(), SizeName.content_margin_medium);
         timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_system_white),
-            FalseObject = Colors.GetColor(ColorName.color_system_black),
+            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         
         timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.FormattedTime);

@@ -18,7 +18,7 @@ public class EmptyView : ScrollView
         {
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_large))
         };
         icon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon);
         icon.SetBinding(IsVisibleProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Icon, converter: new IsEmptyConverter { Inverted = true });
@@ -28,15 +28,15 @@ public class EmptyView : ScrollView
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_3)),
-            TextColor = Colors.GetColor(ColorName.color_neutral_80),
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_medium)),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle_large),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
         titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Title);
 
         var descriptionLabel = new Label
         {
-            TextColor = Colors.GetColor(ColorName.color_neutral_70),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center

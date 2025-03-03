@@ -16,7 +16,7 @@ public class ErrorView : ScrollView
         {
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_4))
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_large))
         };
         icon.SetBinding(Image.SourceProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Icon);
         icon.SetBinding(IsVisibleProperty, static (ErrorViewModel errorViewModel) => errorViewModel.Icon, converter: new IsEmptyConverter {Inverted = true});
@@ -26,8 +26,8 @@ public class ErrorView : ScrollView
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_3)),
-            TextColor = Colors.GetColor(ColorName.color_neutral_80),
+            Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_medium)),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle_large),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
 
@@ -35,7 +35,7 @@ public class ErrorView : ScrollView
 
         var descriptionLabel = new Labels.Label
         {
-            TextColor = Colors.GetColor(ColorName.color_neutral_70),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center

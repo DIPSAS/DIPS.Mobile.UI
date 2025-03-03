@@ -22,7 +22,7 @@ internal class StreamingStateView : Grid
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center
         };

@@ -38,7 +38,7 @@ internal class FloatingNavigationButton : Grid
         
         Add(m_contentGrid);
 
-        Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_13));
+        Padding = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.size_13));
 
         m_contentGrid.RowDefinitions = new RowDefinitionCollection {new() {Height = GridLength.Star}};
         m_contentGrid.ColumnDefinitions = new ColumnDefinitionCollection {new() {Width = GridLength.Auto}};
@@ -137,7 +137,7 @@ internal class FloatingNavigationButton : Grid
         {
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
-            Padding = Sizes.GetSize(SizeName.size_3),
+            Padding = Sizes.GetSize(SizeName.content_margin_medium),
             Stroke = Colors.GetColor(ColorName.color_system_white),
             StrokeThickness = 3,
             StrokeShape = new Ellipse(),

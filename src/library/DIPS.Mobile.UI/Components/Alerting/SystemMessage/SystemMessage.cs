@@ -38,8 +38,8 @@ internal class SystemMessage : ContentView, IDisposable
         m_contentGrid = new Grid
         {
             AutomationId = "ContentGrid".ToDUIAutomationId<SystemMessage>(),
-            ColumnSpacing = Sizes.GetSize(SizeName.size_1),
-            Padding = Sizes.GetSize(SizeName.size_3),
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
+            Padding = Sizes.GetSize(SizeName.content_margin_medium),
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Start,
             ColumnDefinitions = new ColumnDefinitionCollection
@@ -56,8 +56,8 @@ internal class SystemMessage : ContentView, IDisposable
         {
             AutomationId = "FakeBorder".ToDUIAutomationId<SystemMessage>(),
             BackgroundColor = configurator.BackgroundColor,
-            Margin = Sizes.GetSize(SizeName.size_3_negative),
-            StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.size_3) }
+            Margin = m_contentGrid.Padding.Top * -1,
+            StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_medium) }
         };
 
         m_contentGrid.Add(border);

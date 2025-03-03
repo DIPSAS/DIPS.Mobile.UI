@@ -16,14 +16,14 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
 
     public ExtendedNavigationMenuButton()
     {
-        Spacing = 8;
+        Spacing = Sizes.GetSize(SizeName.content_margin_medium);
         
         m_labelButton = new Button()
         {
             AutomationId = "LabelButton".ToDUIAutomationId<ExtendedNavigationMenuButton>(),
             Style = DIPS.Mobile.UI.Resources.Styles.Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
             TextColor = Colors.GetColor(ColorName.color_primary_90),
-            BackgroundColor = Colors.GetColor(ColorName.color_system_white), 
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_default), 
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };

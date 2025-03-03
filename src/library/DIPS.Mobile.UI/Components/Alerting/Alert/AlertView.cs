@@ -22,8 +22,8 @@ public partial class AlertView : Border
     public AlertView()
     {
         Style = Styles.GetAlertStyle(AlertStyle.Information);
-        StrokeShape = new RoundRectangle() {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2))};
-        Content = m_grid = new Grid()
+        StrokeShape = new RoundRectangle() {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_small))};
+        Content = m_grid = new Grid
         {
             AutomationId = "AlertGrid".ToDUIAutomationId<AlertView>(),
             ColumnDefinitions =
@@ -37,8 +37,8 @@ public partial class AlertView : Border
                 new RowDefinition(GridLength.Star),
                 new RowDefinition(GridLength.Auto),
             ],
-            ColumnSpacing = Sizes.GetSize(SizeName.size_2),
-            Padding = Sizes.GetSize(SizeName.size_2)
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium),
+            Padding = Sizes.GetSize(SizeName.content_margin_medium)
         };
         
         m_horizontalStackLayout = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
@@ -88,7 +88,7 @@ public partial class AlertView : Border
         m_titleLabel = new Label()
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.UI200), TextColor = Colors.GetColor(ColorName.color_neutral_90)
+            Style = Styles.GetLabelStyle(LabelStyle.UI200)
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
 
@@ -101,8 +101,7 @@ public partial class AlertView : Border
         var descriptionLabel = new Label()
         {
             AutomationId = "DescriptionLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.Body100),
-            TextColor = Colors.GetColor(ColorName.color_neutral_90)
+            Style = Styles.GetLabelStyle(LabelStyle.Body100)
         };
         
         descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);

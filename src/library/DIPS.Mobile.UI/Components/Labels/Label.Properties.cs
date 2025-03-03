@@ -36,7 +36,7 @@ public partial class Label
         nameof(TruncatedTextColor),
         typeof(Color),
         typeof(Label),
-        defaultValue: Colors.GetColor(ColorName.color_primary_90));
+        defaultValue: Colors.GetColor(ColorName.color_text_action));
     
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
         nameof(TruncatedText),

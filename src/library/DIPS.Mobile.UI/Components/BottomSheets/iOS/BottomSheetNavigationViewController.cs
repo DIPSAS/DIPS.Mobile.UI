@@ -20,7 +20,7 @@ public class BottomSheetNavigationViewController : UINavigationController
         
         NavigationBar.StandardAppearance = appearance;
         NavigationBar.ScrollEdgeAppearance = NavigationBar.StandardAppearance;
-        NavigationBar.TintColor = Colors.GetColor(ColorName.color_primary_90).ToPlatform();
+        NavigationBar.TintColor = Colors.GetColor(ColorName.color_icon_action).ToPlatform();
     }
     
     public void SetPositioning()

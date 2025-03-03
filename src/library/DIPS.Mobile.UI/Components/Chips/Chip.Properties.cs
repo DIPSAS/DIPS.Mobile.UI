@@ -66,7 +66,7 @@ public partial class Chip
         nameof(CloseButtonColor),
         typeof(Color),
         typeof(Chip),
-        Colors.GetColor(ColorName.color_neutral_90));
+        Colors.GetColor(ColorName.color_icon_default));
 
     /// <summary>
     /// The color of the close button that people tap to close the chip.
@@ -136,7 +136,7 @@ public partial class Chip
         nameof(CustomIconTintColor),
         typeof(Color),
         typeof(Chip),
-        Colors.GetColor(ColorName.color_neutral_90));
+        Colors.GetColor(ColorName.color_icon_default));
 
     public static readonly BindableProperty CustomIconProperty = BindableProperty.Create(
         nameof(CustomIcon),

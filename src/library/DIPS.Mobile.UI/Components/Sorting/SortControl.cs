@@ -23,14 +23,14 @@ public partial class SortControl : Grid
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         
-        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
+        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall);
         
         Touch.SetCommand(this, new Command(OpenBottomSheet));
         
         m_sortImage = new Image
         {
             AutomationId = "SortImage".ToDUIAutomationId<SortControl>(),
-            TintColor = Colors.GetColor(ColorName.color_primary_90),
+            TintColor = Colors.GetColor(ColorName.color_icon_action),
             VerticalOptions = LayoutOptions.Center,
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             HeightRequest = Sizes.GetSize(SizeName.size_5)
@@ -40,7 +40,7 @@ public partial class SortControl : Grid
         {
             AutomationId = "SelectedItemText".ToDUIAutomationId<SortControl>(),
             Style = Styles.GetLabelStyle(LabelStyle.UI200),
-            TextColor = Colors.GetColor(ColorName.color_primary_90),
+            TextColor = Colors.GetColor(ColorName.color_text_action),
             VerticalTextAlignment = TextAlignment.Center,
             MaxLines = 1,
             LineBreakMode = LineBreakMode.TailTruncation

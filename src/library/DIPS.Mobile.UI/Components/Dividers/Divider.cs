@@ -7,7 +7,7 @@ public class Divider : ContentView
 {
     public Divider()
     {
-        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_neutral_20);
+        this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_stroke_default);
 
         var line = new Line(){ AutomationId = "Line".ToDUIAutomationId<Divider>()};
         line.SetBinding(BackgroundProperty, static (Divider divider) => divider.BackgroundColor, source: this);

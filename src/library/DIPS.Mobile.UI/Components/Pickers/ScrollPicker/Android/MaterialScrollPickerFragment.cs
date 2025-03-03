@@ -35,7 +35,7 @@ internal class MaterialScrollPickerFragment(
             Orientation = Orientation.Vertical
         };
         
-        linearLayout.SetPadding(0, 0, 0, Sizes.GetSize(SizeName.size_2));
+        linearLayout.SetPadding(0, 0, 0, (int)Sizes.GetSize(SizeName.content_margin_small));
 
         var title = CreateTitle();
         var numberPickersLayout = CreateNumberPickersLayout(out var numberPickers);
@@ -45,12 +45,12 @@ internal class MaterialScrollPickerFragment(
             linearLayout.AddView(title);
         linearLayout.AddView(new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel() ?? 0)
+            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)20.0.ToMauiPixel())
         });
         linearLayout.AddView(numberPickersLayout);
         linearLayout.AddView(new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 20.0.ToMauiPixel() ?? 0)
+            LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)20.0.ToMauiPixel())
         });
         linearLayout.AddView(buttonsLayout);
 
@@ -67,14 +67,14 @@ internal class MaterialScrollPickerFragment(
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
             CharacterSpacing = 1,
             Text = scrollPicker.Title.ToUpper(),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            TextColor = Colors.GetColor(ColorName.color_text_on_action),
         };
         var grid = new Grid
         {
             HeightRequest = Sizes.GetSize(SizeName.size_10),
             Children = { title },
-            BackgroundColor = Colors.GetColor(ColorName.color_primary_90),
-            Padding = new Thickness(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_3))
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_action),
+            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_medium))
         }.ToPlatform(DUI.GetCurrentMauiContext!);
         return grid;
     }
@@ -161,7 +161,7 @@ internal class MaterialScrollPickerFragment(
     {
         return new Space(Context)
         {
-            LayoutParameters = new ViewGroup.LayoutParams(space.ToMauiPixel() ?? 0, ViewGroup.LayoutParams.WrapContent)
+            LayoutParameters = new ViewGroup.LayoutParams((int)space.ToMauiPixel(), ViewGroup.LayoutParams.WrapContent)
         };
     }
 
@@ -173,7 +173,7 @@ internal class MaterialScrollPickerFragment(
             Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
             FontSize = 14,
             CharacterSpacing = 1,
-            TextColor = Colors.GetColor(ColorName.color_primary_90),
+            TextColor = Colors.GetColor(ColorName.color_text_action),
             FontFamily = "UI",
             Command = new Command(command),
             HorizontalOptions = LayoutOptions.Start
@@ -198,7 +198,7 @@ internal class MaterialScrollPickerFragment(
         if (rowsInComponent == 0)
             return null!;
 
-        numberPicker.SelectionDividerHeight = 0.5.ToMauiPixel() ?? 0;
+        numberPicker.SelectionDividerHeight = (int)0.5.ToMauiPixel();
         numberPicker.MinValue = 0;
         numberPicker.MaxValue = rowsInComponent - 1;
         numberPicker.WrapSelectorWheel = false;
@@ -217,10 +217,10 @@ internal class MaterialScrollPickerFragment(
 
         m_componentsNullBeforeOpen = scrollPickerViewModel.IsComponentsSelectedIndexMinusOne;
 
-        var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, 12 * Context.GetDisplayDensity()).Build();
+        var shapeAppearanceModel = new ShapeAppearanceModel.Builder().SetAllCorners(CornerFamily.Rounded, (int)Sizes.GetSize(SizeName.radius_medium) * Context.GetDisplayDensity()).Build();
         var materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
 
-        materialShapeDrawable.FillColor = Colors.GetColor(ColorName.color_system_white).ToDefaultColorStateList();
+        materialShapeDrawable.FillColor = Colors.GetColor(ColorName.color_surface_default).ToDefaultColorStateList();
         materialShapeDrawable.StrokeWidth = 0;
 
         dialog.Window?.SetBackgroundDrawable(materialShapeDrawable);

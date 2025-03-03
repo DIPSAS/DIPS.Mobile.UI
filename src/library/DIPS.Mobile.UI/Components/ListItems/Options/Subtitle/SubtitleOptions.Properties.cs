@@ -112,6 +112,6 @@ public partial class SubtitleOptions
         nameof(TextColor),
         typeof(Color),
         typeof(ListItem),
-        defaultValue:Colors.GetColor(ColorName.color_neutral_60));
+        defaultValue:Colors.GetColor(ColorName.color_text_subtle_small));
    
 }

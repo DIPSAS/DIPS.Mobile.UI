@@ -41,7 +41,7 @@ internal class ImageCaptureTopToolbarView : Grid
 
         m_upperLeftColumn = new HorizontalStackLayout
         {
-            Spacing = Sizes.GetSize(SizeName.size_1),
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start
         };
@@ -77,7 +77,7 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
         ImageSource = Icons.GetIcon(IconName.information_line),
-        ImageTintColor = Colors.White,
+        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_action),
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center
@@ -87,7 +87,7 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
         ImageSource = Icons.GetIcon(IconName.filter_fill),
-        ImageTintColor = Colors.White,
+        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_action),
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center
