@@ -30,7 +30,7 @@ public class VetlePageViewModel : ViewModel
     private TimePlanningViewModel m_timePlanningViewModel = null;
     private bool m_isEnabled;
     private List<string> m_testStrings = [];
-    private ObservableCollection<GroupedTest> m_groupedTest = [new(TestStrings), new(TestStrings)];
+    private ObservableCollection<GroupedTest> m_groupedTest = [];
     private bool m_isRefreshing;
 
     public VetlePageViewModel()
@@ -147,7 +147,7 @@ public class VetlePageViewModel : ViewModel
 
     private async Task DelayFunction()
     {
-        await Task.Delay(2000);
+        await Task.Delay(1000);
 
         GroupedTest = [new(TestStrings), new(TestStrings)];
         

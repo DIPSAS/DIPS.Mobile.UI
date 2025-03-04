@@ -50,11 +50,11 @@ public partial class CollectionView
     /// <summary>
     /// Margin for the content inside the CollectionView, using this will not affect for example scroll bar, like default margin does
     /// </summary>
-    /// <remarks>Default value is (Left: size_3, Right: size_3)</remarks>
+    /// <remarks>Default value is HorizontalThickness: size_3<br/> Left and right must be uniform. <br/>NOTE: Top padding not implemented yet</remarks>
     public Thickness Padding { get; set; } = new(Sizes.GetSize(SizeName.size_3), 0);
     
-    public CornerRadius FirstItemCornerRadius { get; set; }
-    public CornerRadius LastItemCornerRadius { get; set; }
+    public CornerRadius FirstItemCornerRadius { get; init; }
+    public CornerRadius LastItemCornerRadius { get; init; }
     
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),

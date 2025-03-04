@@ -1,5 +1,5 @@
+using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Layout;
-using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items;
 using UIKit;
@@ -14,13 +14,6 @@ public partial class CollectionViewHandler
         return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReordableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
     }
     
-    
-    protected override ItemsViewLayout SelectLayout()
-    {
-        // Try ths shit
-        return base.SelectLayout();
-    }
-
     private static partial void MapShouldBounce(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
@@ -51,58 +44,41 @@ public partial class CollectionViewHandler
     }
 }
 
-class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
+internal class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
     : ReorderableItemsViewController<ReorderableItemsView>(reorderableItemsView, layout)
 {
-    public override async void LoadView()
-    {
-        base.LoadView();
-        
-        try
-        { 
-            // For some reason we need this delay, or the app will crash :D 
-            await Task.Delay(1);
-            SetContentInset();
-            CollectionView.SetNeedsLayout();
-            CollectionView.LayoutIfNeeded();
-        }
-        catch(Exception e)
-        {
-            // Safety measures
-            DUILogService.LogError<CollectionViewHandler>($"Failed to set content inset for CollectionView: {e.Message}");
-        }
-    }
-
+    private UIEdgeInsets? m_overridenContentInset;
+    
     private void SetContentInset()
     {
         var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
-        CollectionView.ContentInset = new UIEdgeInsets((nfloat)mauiCollectionView.Padding.Top + CollectionView.ContentInset.Top, (nfloat)mauiCollectionView.Padding.Left, bottomPadding, (nfloat)mauiCollectionView.Padding.Right);
+        CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top, CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
+        
+        m_overridenContentInset = CollectionView.ContentInset;
     }
 
+    /// <summary>
+    /// Maui sets the ContentInset in this function, so we need to override it to set the ContentInset after Maui has set it.
+    /// </summary>
     public override void ViewDidLayoutSubviews()
     {
         base.ViewDidLayoutSubviews();
-        
-        try
+
+        if(m_overridenContentInset is null)
         {
-            // Maui implementation of CollectionView resets the contentinset, so we need to set it again, if it has changed (Maui never set left and right padding)
-            if (Math.Abs(CollectionView.ContentInset.Left - mauiCollectionView.Padding.Left) > 0.01f ||
-                Math.Abs(CollectionView.ContentInset.Right - mauiCollectionView.Padding.Right) > 0.01f)
-            {
-                SetContentInset();
-                // Need to call this to fix a bug where only the right side padding is applied
-                CollectionView.ReloadData();
-            }
+            SetContentInset();
         }
-        catch
+        else if(CollectionView.ContentInset != m_overridenContentInset)
         {
-            // ignored            
+            SetContentInset();
         }
     }
 
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
+
+        SetCellMargin(collectionView, cell);
 
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
             return cell;
@@ -128,6 +104,21 @@ class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, It
         cell.Layer.MaskedCorners = 0;
 
         return cell;
+    }
+
+    private void SetCellMargin(UICollectionView collectionView, UICollectionViewCell cell)
+    {
+        var horizontalPadding = 0;
+        if(mauiCollectionView.Padding.Left > mauiCollectionView.Padding.Right)
+        {
+            horizontalPadding = (int)mauiCollectionView.Padding.Left * 2;
+        }
+        else if(mauiCollectionView.Padding.Right > mauiCollectionView.Padding.Left)
+        {
+            horizontalPadding = (int)mauiCollectionView.Padding.Right * 2;
+        }
+        
+        cell.Frame = new CGRect(x: horizontalPadding / 2, y: cell.Frame.Y, width: collectionView.Frame.Width - horizontalPadding, height: cell.Frame.Size.Height);
     }
 
     private static void SetCellCornerRadius(UICollectionViewCell cell, CornerRadius cornerRadius)

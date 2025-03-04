@@ -20,14 +20,12 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-<<<<<<< HEAD
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         IsGrouped="True"
-                        dui:Layout.AutoCornerRadius="True"
-                        HasAdditionalSpaceAtTheEnd="True"
+                        Padding="{dui:Thickness Top=size_10, Bottom=size_10}"
                         BackgroundColor="Transparent">
         
         <dui:CollectionView.GroupHeaderTemplate>
@@ -47,7 +45,7 @@
         </dui:CollectionView.Header>-->
         
         <dui:CollectionView.Header>
-            <dui:Label Text="Hello !"></dui:Label>
+            <dui:ListItem Title="Hello"></dui:ListItem>
         </dui:CollectionView.Header>
         
         <dui:CollectionView.Footer>
@@ -68,10 +66,5 @@
 
     </dui:CollectionView>
     </dui:RefreshView>
-=======
-    <Grid>
-        <dui:MultiLineInputField IsEnabled="False"></dui:MultiLineInputField>
-    </Grid>
->>>>>>> main
 
 </dui:ContentPage>
