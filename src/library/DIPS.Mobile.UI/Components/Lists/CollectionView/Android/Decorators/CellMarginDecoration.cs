@@ -18,7 +18,18 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
     {
         base.GetItemOffsets(outRect, view, parent, state);
         
-        outRect.Left = (int)m_collectionView.Padding.Left.ToMauiPixel()!;
-        outRect.Right = (int)m_collectionView.Padding.Right.ToMauiPixel()!;
+        // We have only implemented uniform horizontal padding on iOS, so we do the same for Android 
+        var horizontalPadding = 0;
+        if(m_collectionView.Padding.Left > m_collectionView.Padding.Right)
+        {
+            horizontalPadding = (int)m_collectionView.Padding.Left * 2;
+        }
+        else if(m_collectionView.Padding.Right > m_collectionView.Padding.Left)
+        {
+            horizontalPadding = (int)m_collectionView.Padding.Right * 2;
+        }
+        
+        outRect.Left = (horizontalPadding / 2).ToMauiPixel();
+        outRect.Right = (horizontalPadding / 2).ToMauiPixel();
     }
 }
