@@ -39,14 +39,14 @@ internal class ZoomSlider : Grid
         m_onPanned = onPanned;
         
         VerticalOptions = LayoutOptions.Center;
-        RowSpacing = Sizes.GetSize(SizeName.size_3);
+        RowSpacing = Sizes.GetSize(SizeName.content_margin_medium);
         
         AddRowDefinition(new RowDefinition(GridLength.Star));
         AddRowDefinition(new RowDefinition(GridLength.Star));
         
         m_zoomRatiosLayout = new HorizontalStackLayout
         {
-            Spacing = Sizes.GetSize(SizeName.size_1),
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Center,
@@ -70,7 +70,7 @@ internal class ZoomSlider : Grid
         
         m_pin = new BoxView
         {
-            BackgroundColor = Colors.Gold, WidthRequest = 3, HeightRequest = Sizes.GetSize(SizeName.size_15), Opacity = 0
+            BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400), WidthRequest = 3, HeightRequest = Sizes.GetSize(SizeName.size_15), Opacity = 0
         };
         
         this.Add(m_zoomRatiosLayout, 0, 1);
@@ -116,7 +116,7 @@ internal class ZoomSlider : Grid
     {
         m_zoomRatioLevelLabel = new Label
         {
-            TextColor = Colors.Gold,
+            TextColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400),
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,

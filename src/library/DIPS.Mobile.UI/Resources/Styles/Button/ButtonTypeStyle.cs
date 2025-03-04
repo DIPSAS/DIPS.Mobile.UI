@@ -10,17 +10,17 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_primary_90)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_action)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_action)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_action)
             }
         }
     };
@@ -33,27 +33,27 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_system_white)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_default)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_secondary_90)
+                Value = Colors.Colors.GetColor(ColorName.color_stroke_action)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderWidthProperty,
-                Value = 1
+                Value = Sizes.Sizes.GetSize(SizeName.stroke_medium)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };
@@ -71,12 +71,12 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_primary_90)
+                Value = Colors.Colors.GetColor(ColorName.color_text_action)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_primary_90)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_action)
             },
             new Setter
             {
@@ -94,17 +94,18 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
+                // TODO: Wait until we have a semantic color for this
                 Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {
-                Property = DIPS.Mobile.UI.Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_80)
+                Property = Components.Buttons.Button.ImageTintColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             },
             new Setter
             {
@@ -127,7 +128,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
@@ -140,7 +141,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_4), Sizes.Sizes.GetSize(SizeName.size_1))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_large), Sizes.Sizes.GetSize(SizeName.content_margin_xsmall))
             }
         }
     };
@@ -153,7 +154,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
@@ -166,7 +167,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_4), Sizes.Sizes.GetSize(SizeName.size_1))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_large), Sizes.Sizes.GetSize(SizeName.content_margin_xsmall))
             }
         }
     };
@@ -179,7 +180,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_7), Sizes.Sizes.GetSize(SizeName.size_3))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
@@ -192,7 +193,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.size_4), Sizes.Sizes.GetSize(SizeName.size_1))
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_large), Sizes.Sizes.GetSize(SizeName.content_margin_xsmall))
             }
         }
     };
@@ -220,7 +221,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }
@@ -250,7 +251,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }
@@ -280,7 +281,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }
@@ -310,7 +311,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }
@@ -340,7 +341,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }
@@ -370,7 +371,7 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
-                    ? Sizes.Sizes.GetSize(SizeName.size_1)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
             }
         }

@@ -81,8 +81,8 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
         {
             RowDefinitions = [new RowDefinition(GridLength.Star), new RowDefinition(1), new RowDefinition(40)],
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            RowSpacing = Sizes.GetSize(SizeName.size_1),
-            Padding = Sizes.GetSize(SizeName.size_1)
+            RowSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
 
         m_grid.Add(m_inlineDatePicker);
@@ -98,7 +98,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
                 Text = DUILocalizedStrings.Today,
                 Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
                 Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                TextColor = Colors.GetColor(ColorName.color_primary_90),
+                TextColor = Colors.GetColor(ColorName.color_text_action),
                 HorizontalOptions = LayoutOptions.End
             }, 1, 2);
 
@@ -112,7 +112,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
         if (m_datePicker is Chip chip)
         {
             m_previousTitleColor = chip.TitleColor;
-            chip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+            chip.TitleColor = Colors.GetColor(ColorName.color_text_action);
         }
         
         View = ConstructView();
@@ -125,7 +125,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
             m_datePicker.ShouldDisplayTodayButton && m_grid is not null)
         {
             m_grid.Padding = new Thickness(m_grid.Padding.Left, m_grid.Padding.Top,
-                m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));
+                m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.content_margin_small));
         }
     }
     

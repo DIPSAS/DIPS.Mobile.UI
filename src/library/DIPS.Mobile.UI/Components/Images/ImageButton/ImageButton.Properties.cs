@@ -29,6 +29,6 @@ public partial class ImageButton
     public static readonly BindableProperty TintColorProperty = BindableProperty.Create(
         nameof(TintColor),
         typeof(Color),
-        typeof(ImageButton), defaultValueCreator: (_ => Colors.GetColor(ColorName.color_system_black)));
+        typeof(ImageButton), defaultValueCreator: (_ => Colors.GetColor(ColorName.color_icon_default)));
 
 }

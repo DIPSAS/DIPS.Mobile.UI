@@ -101,7 +101,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
             }
             
             m_previousTitleColor = m_dateAndTimePicker.DateChip.TitleColor;
-            m_dateAndTimePicker.DateChip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+            m_dateAndTimePicker.DateChip.TitleColor = Colors.GetColor(ColorName.color_text_action);
         
             DatePickerEnabled();
         }
@@ -113,7 +113,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
             }
             
             m_previousTitleColor = m_dateAndTimePicker.TimeChip.TitleColor;
-            m_dateAndTimePicker.TimeChip.TitleColor = Colors.GetColor(ColorName.color_primary_90);
+            m_dateAndTimePicker.TimeChip.TitleColor = Colors.GetColor(ColorName.color_text_action);
             
             TimePickerEnabled();
         }
@@ -169,8 +169,8 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
         {
             RowDefinitions = [new RowDefinition(GridLength.Star), new RowDefinition(1), new RowDefinition(40)],
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Star)],
-            RowSpacing = Sizes.GetSize(SizeName.size_1),
-            Padding = Sizes.GetSize(SizeName.size_1)
+            RowSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
 
         m_grid.Add(m_inlineDatePicker);
@@ -189,7 +189,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
                 Text = DUILocalizedStrings.Today,
                 Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
                 Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                TextColor = Colors.GetColor(ColorName.color_primary_90),
+                TextColor = Colors.GetColor(ColorName.color_text_action),
                 HorizontalOptions = LayoutOptions.End
             }, 1, 2);
 
@@ -218,7 +218,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
             m_dateAndTimePicker.ShouldDisplayTodayButton && m_grid is not null)
         {
             m_grid.Padding = new Thickness(m_grid.Padding.Left, m_grid.Padding.Top,
-                m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.size_2));
+                m_grid.Padding.Right, m_grid.Padding.Bottom + Sizes.GetSize(SizeName.content_margin_small));
         }
     }
 

@@ -6,7 +6,7 @@
         {
             Margin = 0;
             WidthRequest = 1;
-            this.SetAppThemeColor(ColorProperty, ColorName.color_primary_90);
+            this.SetAppThemeColor(ColorProperty, ColorName.color_surface_action);
             CornerRadius = 0;
             HorizontalOptions = LayoutOptions.Center;
             VerticalOptions = LayoutOptions.Center;

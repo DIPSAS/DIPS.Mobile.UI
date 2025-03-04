@@ -43,9 +43,9 @@ public partial class SingleLineInputField
     /// <summary>
     /// Sets the thickness of the border around input field and <see cref="HeaderText"/>
     /// </summary>
-    public int BorderThickness
+    public double BorderThickness
     {
-        get => (int)GetValue(BorderThicknessProperty);
+        get => (double)GetValue(BorderThicknessProperty);
         set => SetValue(BorderThicknessProperty, value);
     }
 
@@ -61,9 +61,9 @@ public partial class SingleLineInputField
     /// <summary>
     /// Sets the corner radius of the border around input field and <see cref="HeaderText"/>
     /// </summary>
-    public int BorderCornerRadius
+    public double BorderCornerRadius
     {
-        get => (int)GetValue(BorderCornerRadiusProperty);
+        get => (double)GetValue(BorderCornerRadiusProperty);
         set => SetValue(BorderCornerRadiusProperty, value);
     }
 
@@ -105,7 +105,7 @@ public partial class SingleLineInputField
     
     public static readonly BindableProperty BorderCornerRadiusProperty = BindableProperty.Create(
         nameof(BorderCornerRadius),
-        typeof(int),
+        typeof(double),
         typeof(SingleLineInputField),
         propertyChanged:(bindable, _, _) => ((SingleLineInputField)bindable).OnBorderCornerRadiusChanged());
     
@@ -116,14 +116,14 @@ public partial class SingleLineInputField
     
     public static readonly BindableProperty BorderThicknessProperty = BindableProperty.Create(
         nameof(BorderThickness),
-        typeof(int),
+        typeof(double),
         typeof(SingleLineInputField));
     
     public static readonly BindableProperty InputTextColorProperty = BindableProperty.Create(
         nameof(InputTextColor),
         typeof(Color),
         typeof(SingleLineInputField),
-        defaultValue:Colors.GetColor(ColorName.color_neutral_90));
+        defaultValue:Colors.GetColor(ColorName.color_text_default));
     
     public static readonly BindableProperty HelpTextProperty = BindableProperty.Create(
         nameof(HelpText),

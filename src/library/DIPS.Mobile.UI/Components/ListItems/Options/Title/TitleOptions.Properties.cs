@@ -103,7 +103,7 @@ public partial class TitleOptions
         nameof(Margin),
         typeof(Thickness),
         typeof(TitleOptions),
-        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.size_4), 0),
+        defaultValue: new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_large), 0),
         defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty WidthProperty = BindableProperty.Create(
@@ -117,7 +117,7 @@ public partial class TitleOptions
         nameof(TextColor),
         typeof(Color),
         typeof(ListItem),
-        defaultValue:Colors.GetColor(ColorName.color_neutral_90));
+        defaultValue:Colors.GetColor(ColorName.color_text_default));
     
     public static readonly BindableProperty FontAttributesProperty = BindableProperty.Create(
         nameof(FontAttributes),

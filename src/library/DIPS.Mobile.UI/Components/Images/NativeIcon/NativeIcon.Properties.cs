@@ -32,7 +32,7 @@ namespace DIPS.Mobile.UI.Components.Images.NativeIcon
         public static readonly BindableProperty ColorProperty = BindableProperty.Create(
             nameof(Color),
             typeof(Color),
-            typeof(NativeIcon), defaultValue: Colors.GetColor(ColorName.color_system_black));
+            typeof(NativeIcon), defaultValue: Colors.GetColor(ColorName.color_icon_default));
 
         /// <summary>
         /// The color of the image.

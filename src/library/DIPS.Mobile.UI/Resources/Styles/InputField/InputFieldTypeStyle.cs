@@ -13,17 +13,12 @@ public class InputFieldTypeStyle
            new Setter
            {
                Property = SingleLineInputField.BorderColorProperty,
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
+               Value = Colors.Colors.GetColor(ColorName.color_stroke_default)
            },
            new Setter
            {
                Property = VisualElement.BackgroundColorProperty,
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_10)
-           },
-           new Setter
-           {
-               Property = SingleLineInputField.InputTextColorProperty,
-               Value = Colors.Colors.GetColor(ColorName.color_neutral_60)
+               Value = Colors.Colors.GetColor(ColorName.color_surface_deactivated)
            }
         }
     };
@@ -36,12 +31,12 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_primary_80)
+                Value = Colors.Colors.GetColor(ColorName.color_stroke_active)
             },
             new Setter
             {
                 Property = SingleLineInputField.BorderThicknessProperty,
-                Value = 2
+                Value = Sizes.Sizes.GetSize(SizeName.stroke_large)
             }
         }
     };

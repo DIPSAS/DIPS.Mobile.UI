@@ -27,7 +27,7 @@ internal class ZoomButtons : HorizontalStackLayout
         GestureRecognizers.Add(panGestureRecognizer);
         
         BackgroundColor = Colors.Black.WithAlpha(0.2f);
-        Spacing = Sizes.GetSize(SizeName.size_1);
+        Spacing = Sizes.GetSize(SizeName.content_margin_xsmall);
         VerticalOptions = LayoutOptions.Center;
         HorizontalOptions = LayoutOptions.Center;
         Padding = 2;
@@ -171,7 +171,7 @@ internal class ZoomButton : ContentView
         m_label = new Label
         {
             Text = IsDefaultActive ? $"{defaultZoomRatio} ×" : $"{defaultZoomRatio}",
-            TextColor = IsDefaultActive ? Colors.Gold : Colors.White,
+            TextColor = IsDefaultActive ? DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400) : DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_on_action),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),

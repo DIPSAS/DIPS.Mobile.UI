@@ -147,7 +147,7 @@ public partial class MultiItemsPicker : ContentView
                 {
                     Title = title,
                     Command = OpenCommand,
-                    Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.size_1), 0),
+                    Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_xsmall), 0),
                     IsCloseable = true,
                     CloseCommand = new Command(() =>
                     {

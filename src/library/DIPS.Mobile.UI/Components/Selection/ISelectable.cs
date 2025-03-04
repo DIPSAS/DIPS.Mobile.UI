@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.Selection;
 
 internal interface  ISelectable
 {
-    internal static Color s_tintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+    internal static Color s_tintColor = Resources.Colors.Colors.GetColor(ColorName.color_icon_default);
     /// <summary>
     /// Determines if the item is selected.
     /// </summary>

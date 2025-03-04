@@ -6,8 +6,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchBar()
         {
-            this.SetAppThemeColor(IconsColorProperty, ColorName.color_neutral_60);
-            this.SetAppThemeColor(TextColorProperty, ColorName.color_neutral_60);
+            this.SetAppThemeColor(IconsColorProperty, ColorName.color_icon_neutral);
+            this.SetAppThemeColor(TextColorProperty, ColorName.color_text_placeholder);
             this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_neutral_05);
 
             Unloaded += OnUnloaded;

@@ -18,7 +18,7 @@ public partial class MultiLineInputField : SingleLineInputField
     { 
         Style = Styles.GetLabelStyle(LabelStyle.Body200), 
         IsVisible = false,
-        Margin = new Thickness(0, 4, 8, 0),
+        Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall), Sizes.GetSize(SizeName.content_margin_small), 0),
         VerticalTextAlignment = TextAlignment.Start,
         LineBreakMode = LineBreakMode.TailTruncation
     };
@@ -111,7 +111,7 @@ public partial class MultiLineInputField : SingleLineInputField
                 new ColumnDefinition { Width = GridLength.Auto }
             ],
             ColumnSpacing = 10,
-            Margin = new Thickness(0, 8, 0, 0)
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0)
         };
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
         m_buttonsLayout.Add(m_cancelButton, column: 1);
@@ -214,20 +214,20 @@ public partial class MultiLineInputField : SingleLineInputField
         if (Text.Length == 0)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, MaxTextLength.ToString());
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
         }
         else if (MaxTextLength > Text.Length)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, (MaxTextLength - Text.Length).ToString());
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
             
         }
         else if (MaxTextLength == Text.Length)
         {
             m_textLengthLabel.Text = DUILocalizedStrings.MaxCharactersReached;
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_neutral_60);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
             m_doneButton.IsEnabled = true;
         }
         else
@@ -341,7 +341,7 @@ public partial class MultiLineInputField : SingleLineInputField
         }
         else
         {
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_neutral_70);
+            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle_small);
         }
     }
 

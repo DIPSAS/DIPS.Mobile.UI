@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
 namespace DIPS.Mobile.UI.Resources.Sizes
@@ -57,7 +57,27 @@ size_20_negative=45,
 size_21_negative=46, 
 size_22_negative=47, 
 size_23_negative=48, 
-size_24_negative=49, 
+size_24_negative=49,
+stroke_small=50,
+size_half=51,
+size_half_negative=52,
+stroke_medium=53,
+stroke_xlarge=54,
+radius_xsmall=55,
+radius_small=56,
+radius_medium=57,
+radius_large=58,
+radius_xlarge=59,
+content_margin_xsmall=60,
+content_margin_small=61,
+content_margin_medium=62,
+content_margin_large=63,
+content_margin_xlarge=64,
+page_margin_xsmall=65,
+page_margin_small=66,
+page_margin_medium=67,
+page_margin_xlarge=68,
+stroke_large=69, 
 size_25_negative=50
     }
 }

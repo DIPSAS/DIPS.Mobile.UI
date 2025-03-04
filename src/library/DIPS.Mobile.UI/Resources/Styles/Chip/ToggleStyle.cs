@@ -10,19 +10,18 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    Value = Colors.Colors.GetColor(
-                        ColorName.color_primary_80)
+                    // TODO: Wait for semantic color
+                    Value = Colors.Colors.GetColor(ColorName.color_primary_80)
                 },
                 new Setter
                 {
                     Property = Components.Chips.Chip.CornerRadiusProperty,
-                    Value = Sizes.Sizes.GetSize(SizeName.size_2)
+                    Value = Sizes.Sizes.GetSize(SizeName.radius_small)
                 },
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = Colors.Colors.GetColor(
-                        ColorName.color_system_white)
+                    Value = Colors.Colors.GetColor(ColorName.color_text_on_action)
                 },
                 new Setter
                 {
@@ -37,8 +36,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_neutral_30)
+                    Value = Microsoft.Maui.Graphics.Colors.Transparent
                 }
             }
         };

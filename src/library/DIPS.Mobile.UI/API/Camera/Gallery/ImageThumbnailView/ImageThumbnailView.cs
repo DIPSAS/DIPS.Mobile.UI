@@ -34,7 +34,7 @@ internal class ImageThumbnailView : Grid
         
         Clear();
 
-        Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0);
+        Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_small), 0);
         
         var image = new Image
         {
@@ -47,27 +47,27 @@ internal class ImageThumbnailView : Grid
             image.Source = ImageSource.FromStream(() => new MemoryStream(imageThumbnailViewModel.Image));
         Touch.SetCommand(image, new Command(() => m_onTappedImage.Invoke(imageThumbnailViewModel.Index)));
         
-        UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.size_2));
+        UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.radius_small));
         
         var closeButton = new Border
         {
             StrokeShape = new Ellipse(),
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_60),
-            StrokeThickness = 1,
-            Stroke = Colors.GetColor(ColorName.color_system_white),
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_active_subtle),
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
+            Stroke = Colors.GetColor(ColorName.color_stroke_action),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
 #if __IOS__
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0),
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_small), 0),
 #endif
             Content = new Image
             {
-                TintColor = Colors.GetColor(ColorName.color_system_white),
+                TintColor = Colors.GetColor(ColorName.color_icon_default),
                 Source = Icons.GetIcon(IconName.close_line)
             },
-            Padding = Sizes.GetSize(SizeName.size_1)
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
 
         Touch.SetCommand(closeButton, new Command(async () =>

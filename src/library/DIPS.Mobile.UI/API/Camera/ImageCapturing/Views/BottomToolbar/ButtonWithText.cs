@@ -13,8 +13,8 @@ public class ButtonWithText : VerticalStackLayout
         var button = new Button
         {
             ImageSource = imageSource,
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
-            BackgroundColor = Colors.GetColor(ColorName.color_neutral_90),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_action_on_black),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             Command = new Command(onTapped)
         };
@@ -23,9 +23,9 @@ public class ButtonWithText : VerticalStackLayout
         {
             Text = text,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
-            TextColor = Colors.GetColor(ColorName.color_system_white),
+            TextColor = Colors.GetColor(ColorName.color_text_on_action),
             HorizontalOptions = LayoutOptions.Center,
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0)
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_medium), 0, 0)
         };
         
         Add(button);

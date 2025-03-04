@@ -45,10 +45,10 @@ internal class BottomSheetContainer : Grid
     private void SetPadding(UINavigationBar? navigationBar)
     {
         var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
-            ? Sizes.GetSize(SizeName.size_4) //There is a physical home button
-            : Sizes.GetSize(SizeName.size_1); //There is no physical home button, but we need some air between the safe area and the content
+            ? Sizes.GetSize(SizeName.content_margin_large) //There is a physical home button
+            : Sizes.GetSize(SizeName.content_margin_xsmall); //There is no physical home button, but we need some air between the safe area and the content
 
-        Padding = new Thickness(0, navigationBar is not null ? navigationBar.Frame.Height : Sizes.GetSize(SizeName.size_4), 0, bottom);
+        Padding = new Thickness(0, navigationBar is not null ? navigationBar.Frame.Height : Sizes.GetSize(SizeName.content_margin_large), 0, bottom);
     }
 
     private static void SetConstraints(UIView rootView, UIView uiView)

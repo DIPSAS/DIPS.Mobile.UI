@@ -44,12 +44,12 @@ public partial class SegmentedControl : ContentView
         var border = new Border
         {
             VerticalOptions = LayoutOptions.Center,
-            StrokeThickness = 1,
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
             Stroke = SegmentBorderColor,
             StrokeShape = new RoundRectangle
             {
-                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_8), 0,
-                    Sizes.GetSize(SizeName.size_8), 0),
+                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge), 0,
+                    Sizes.GetSize(SizeName.radius_xlarge), 0),
                 StrokeThickness = 0
 
             }
@@ -64,12 +64,12 @@ public partial class SegmentedControl : ContentView
         var horizontalStackLayout = new HorizontalStackLayout()
         {
             VerticalOptions = LayoutOptions.Center,
-            Spacing = Sizes.GetSize(SizeName.size_1)
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
         horizontalStackLayout.SetBinding(PaddingProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
-            TrueObject = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),
-            FalseObject = new Thickness(Sizes.GetSize(SizeName.size_5), Sizes.GetSize(SizeName.size_2))
+            TrueObject = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_small)),
+            FalseObject = new Thickness(Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_small))
         });
         var checkedImage = new Image()
         {
@@ -90,7 +90,7 @@ public partial class SegmentedControl : ContentView
 
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
-            var radius = (double)Sizes.GetSize(SizeName.size_8);
+            var radius = Sizes.GetSize(SizeName.radius_xlarge);
             var roundRectangle = new RoundRectangle() { StrokeThickness = 0};
             if (m_allSelectableItems.Last() == selectableListItem)
             {

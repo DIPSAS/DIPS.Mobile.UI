@@ -20,7 +20,7 @@ public class AlertTypeStyle
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };

@@ -20,6 +20,7 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
+<<<<<<< HEAD
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
@@ -67,5 +68,10 @@
 
     </dui:CollectionView>
     </dui:RefreshView>
+=======
+    <Grid>
+        <dui:MultiLineInputField IsEnabled="False"></dui:MultiLineInputField>
+    </Grid>
+>>>>>>> main
 
 </dui:ContentPage>

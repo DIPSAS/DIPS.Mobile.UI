@@ -15,12 +15,12 @@ public partial class SizesAsFontSize
 
 public class SizeResource
 {
-    public SizeResource(string key, int value)
+    public SizeResource(string key, double value)
     {
         Key = key;
         Value = value;
     }
         
     public string Key { get; }
-    public int Value { get; }
+    public double Value { get; }
 }
