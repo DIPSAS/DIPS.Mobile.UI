@@ -174,7 +174,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_defaultSelectedItem, value);
     }
 
-    public static List<string> TestStrings { get; set; } = new()
+    public List<string> TestStrings { get; set; } = new()
     {
         "Lokalisasjon påkrevd - Kodeverk og egendefinert",
         "Lokalisasjon - Fritekst",

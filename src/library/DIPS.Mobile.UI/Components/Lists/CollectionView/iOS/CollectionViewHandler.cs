@@ -13,7 +13,13 @@ public partial class CollectionViewHandler
         // Only use new controller if the ItemsLayout is LinearItemsLayout
         return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReordableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
     }
-    
+
+    protected override ItemsViewLayout SelectLayout()
+    {
+        // Only use new layout if the ItemsLayout is LinearItemsLayout
+        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.SelectLayout() : new ListViewLayout(new LinearItemsLayout(ItemsLayoutOrientation.Vertical), ItemsView.ItemSizingStrategy, (VirtualView as CollectionView)!);
+    }
+
     private static partial void MapShouldBounce(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
@@ -41,6 +47,44 @@ public partial class CollectionViewHandler
         {
             uiCollectionView.ReloadData();
         }
+    }
+}
+
+internal class ListViewLayout : Microsoft.Maui.Controls.Handlers.Items.ListViewLayout
+{
+    private CollectionView? m_collectionView;
+
+    public ListViewLayout(LinearItemsLayout itemsLayout, ItemSizingStrategy itemSizingStrategy, CollectionView collectionView) : base(itemsLayout, itemSizingStrategy)
+    {
+        m_collectionView = collectionView;
+    }
+
+    public override void ConstrainTo(CGSize size)
+    {
+        base.ConstrainTo(size);
+        
+        // Convert to uniform horizontal padding
+        var horizontalPadding = 0;
+        if(m_collectionView?.Padding.Left >= m_collectionView?.Padding.Right)
+        {
+            horizontalPadding = (int)m_collectionView.Padding.Left * 2;
+        }
+        else if(m_collectionView?.Padding.Right > m_collectionView?.Padding.Left)
+        {
+            horizontalPadding = (int)m_collectionView.Padding.Right * 2;
+        }
+        
+        var newSize = size;
+        newSize.Width -= horizontalPadding;
+        ConstrainedDimension = newSize.Width;
+        DetermineCellSize();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        m_collectionView = null;
     }
 }
 
@@ -74,11 +118,10 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         }
     }
 
+
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
-
-        SetCellMargin(collectionView, cell);
 
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
             return cell;
@@ -104,21 +147,6 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         cell.Layer.MaskedCorners = 0;
 
         return cell;
-    }
-
-    private void SetCellMargin(UICollectionView collectionView, UICollectionViewCell cell)
-    {
-        var horizontalPadding = 0;
-        if(mauiCollectionView.Padding.Left >= mauiCollectionView.Padding.Right)
-        {
-            horizontalPadding = (int)mauiCollectionView.Padding.Left * 2;
-        }
-        else if(mauiCollectionView.Padding.Right > mauiCollectionView.Padding.Left)
-        {
-            horizontalPadding = (int)mauiCollectionView.Padding.Right * 2;
-        }
-        
-        cell.Frame = new CGRect(x: horizontalPadding / 2, y: cell.Frame.Y, width: collectionView.Frame.Width - horizontalPadding, height: cell.Frame.Size.Height);
     }
 
     private static void SetCellCornerRadius(UICollectionViewCell cell, CornerRadius cornerRadius)

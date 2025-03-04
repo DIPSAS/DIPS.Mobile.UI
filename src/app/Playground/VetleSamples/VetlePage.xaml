@@ -17,17 +17,43 @@
     </dui:ContentPage.BindingContext>
 
     <dui:ContentPage.Resources>
-        <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
+        <DataTemplate x:Key="Test1">
+            <Grid BackgroundColor="White"
+                  RowDefinitions="50">
+                
+                <dui:ListItem Title="{Binding .}"></dui:ListItem>
+                
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="Test2">
+            <Grid BackgroundColor="White"
+                  RowDefinitions="Auto, 100">
+                
+                <dui:ListItem Title="{Binding .}"></dui:ListItem>
+
+                <dui:Label Text="This is test 2"
+                           Grid.Row="1"/>
+
+                
+            </Grid>
+        </DataTemplate>
+        
+        <vetleSamples:TemplateSelector x:Key="TemplateSelector"
+                                       Test1="{StaticResource Test1}"
+                                       Test2="{StaticResource Test2}" />
     </dui:ContentPage.Resources>
 
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+    <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                        ItemTemplate="{StaticResource TemplateSelector}"
                         x:Name="CollectionView"
-                        IsGrouped="True"
+                        dui:Layout.AutoCornerRadius="True"
+                        ItemSpacing="{dui:Sizes size_4}"
                         BackgroundColor="Transparent">
         
-        <dui:CollectionView.GroupHeaderTemplate>
+        <!--<dui:CollectionView.GroupHeaderTemplate>
             <DataTemplate>
                 <Grid Margin="{dui:Thickness Top=size_4}">
                     <dui:Label Text="{Binding Header}"
@@ -35,7 +61,7 @@
                                Margin="{dui:Thickness Top=size_4}"/>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupHeaderTemplate>
+        </dui:CollectionView.GroupHeaderTemplate>-->
         
         <!--<dui:CollectionView.Header>
             <Button Text="Test!"
@@ -51,17 +77,23 @@
             <dui:Label Text="Footer!"></dui:Label>
         </dui:CollectionView.Footer>
         
-        <CollectionView.GroupFooterTemplate>
+        <!--<CollectionView.GroupFooterTemplate>
             <DataTemplate>
                 <dui:Label Text="Hei der!"></dui:Label>
             </DataTemplate>
-        </CollectionView.GroupFooterTemplate>
+        </CollectionView.GroupFooterTemplate>-->
         
-        <dui:CollectionView.ItemTemplate>
+        <!--<dui:CollectionView.ItemTemplate>
             <DataTemplate x:DataType="system:String">
-                <dui:ListItem Title="{Binding .}"></dui:ListItem>
+                
+                <Grid BackgroundColor="White">
+                
+                    <dui:Label Text="{Binding .}" />
+                    
+                </Grid>
+                
             </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView.ItemTemplate>-->
 
     </dui:CollectionView>
     </dui:RefreshView>
