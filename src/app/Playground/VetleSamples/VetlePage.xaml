@@ -25,7 +25,6 @@
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         IsGrouped="True"
-                        Padding="{dui:Thickness Top=size_10, Bottom=size_10}"
                         BackgroundColor="Transparent">
         
         <dui:CollectionView.GroupHeaderTemplate>

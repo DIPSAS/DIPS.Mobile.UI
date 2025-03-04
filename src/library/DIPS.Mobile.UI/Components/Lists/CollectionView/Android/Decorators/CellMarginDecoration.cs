@@ -20,7 +20,7 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
         
         // We have only implemented uniform horizontal padding on iOS, so we do the same for Android 
         var horizontalPadding = 0;
-        if(m_collectionView.Padding.Left > m_collectionView.Padding.Right)
+        if(m_collectionView.Padding.Left >= m_collectionView.Padding.Right)
         {
             horizontalPadding = (int)m_collectionView.Padding.Left * 2;
         }

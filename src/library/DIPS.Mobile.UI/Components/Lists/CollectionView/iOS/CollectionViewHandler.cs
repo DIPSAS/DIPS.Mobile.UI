@@ -109,7 +109,7 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
     private void SetCellMargin(UICollectionView collectionView, UICollectionViewCell cell)
     {
         var horizontalPadding = 0;
-        if(mauiCollectionView.Padding.Left > mauiCollectionView.Padding.Right)
+        if(mauiCollectionView.Padding.Left >= mauiCollectionView.Padding.Right)
         {
             horizontalPadding = (int)mauiCollectionView.Padding.Left * 2;
         }
