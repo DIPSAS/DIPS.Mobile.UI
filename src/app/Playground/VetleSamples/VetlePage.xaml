@@ -20,6 +20,8 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
+    <dui:RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         IsGrouped="True"
@@ -64,5 +66,6 @@
         </dui:CollectionView.ItemTemplate>
 
     </dui:CollectionView>
+    </dui:RefreshView>
 
 </dui:ContentPage>

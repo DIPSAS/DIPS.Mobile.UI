@@ -31,6 +31,7 @@ public class VetlePageViewModel : ViewModel
     private bool m_isEnabled;
     private List<string> m_testStrings = [];
     private ObservableCollection<GroupedTest> m_groupedTest = [new(TestStrings), new(TestStrings)];
+    private bool m_isRefreshing;
 
     public VetlePageViewModel()
     {
@@ -351,6 +352,19 @@ public class VetlePageViewModel : ViewModel
     }
 
     public bool IsEnabled => m_testStrings.Any(x => x.Equals("Test"));
+
+    public ICommand RefreshCommand => new Command(async () =>
+    {
+        await Task.Delay(2000);
+        IsRefreshing = false;
+        GroupedTest = [new(TestStrings), new(TestStrings), new(TestStrings)];
+    });
+
+    public bool IsRefreshing
+    {
+        get => m_isRefreshing;
+        set => RaiseWhenSet(ref m_isRefreshing, value);
+    }
 
     public void OnDateChanged()
     {

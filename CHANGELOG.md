@@ -1,3 +1,6 @@
+## [42.1.0]
+- Test
+
 ## [41.0.0]
 - [ContextMenu] `SetContextMenuItemClickedCallback` is renamed to `ItemsShouldSendGlobalClicks`.
 - [ContextMenu] `ItemsShouldSendGlobalClicks` now sends a `GlobalContextMenuClickMetadata`.

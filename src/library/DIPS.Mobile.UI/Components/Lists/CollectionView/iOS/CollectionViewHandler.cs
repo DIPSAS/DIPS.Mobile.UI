@@ -13,7 +13,8 @@ public partial class CollectionViewHandler
         // Only use new controller if the ItemsLayout is LinearItemsLayout
         return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReordableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
     }
-
+    
+    
     protected override ItemsViewLayout SelectLayout()
     {
         // Try ths shit
@@ -61,8 +62,7 @@ class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, It
         { 
             // For some reason we need this delay, or the app will crash :D 
             await Task.Delay(1);
-            // TODO: Add standard padding to bottom 
-            CollectionView.ContentInset = new UIEdgeInsets((nfloat)mauiCollectionView.Padding.Top, (nfloat)mauiCollectionView.Padding.Left, (nfloat)mauiCollectionView.Padding.Bottom, (nfloat)mauiCollectionView.Padding.Right);
+            SetContentInset();
             CollectionView.SetNeedsLayout();
             CollectionView.LayoutIfNeeded();
         }
@@ -72,7 +72,33 @@ class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, It
             DUILogService.LogError<CollectionViewHandler>($"Failed to set content inset for CollectionView: {e.Message}");
         }
     }
-    
+
+    private void SetContentInset()
+    {
+        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
+        CollectionView.ContentInset = new UIEdgeInsets((nfloat)mauiCollectionView.Padding.Top + CollectionView.ContentInset.Top, (nfloat)mauiCollectionView.Padding.Left, bottomPadding, (nfloat)mauiCollectionView.Padding.Right);
+    }
+
+    public override void ViewDidLayoutSubviews()
+    {
+        base.ViewDidLayoutSubviews();
+        
+        try
+        {
+            // Maui implementation of CollectionView resets the contentinset, so we need to set it again, if it has changed (Maui never set left and right padding)
+            if (Math.Abs(CollectionView.ContentInset.Left - mauiCollectionView.Padding.Left) > 0.01f ||
+                Math.Abs(CollectionView.ContentInset.Right - mauiCollectionView.Padding.Right) > 0.01f)
+            {
+                SetContentInset();
+                // Need to call this to fix a bug where only the right side padding is applied
+                CollectionView.ReloadData();
+            }
+        }
+        catch
+        {
+            // ignored            
+        }
+    }
 
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
