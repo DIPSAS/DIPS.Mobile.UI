@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls.Internals;
+
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView
@@ -18,8 +20,12 @@ public partial class CollectionView
     {
         base.ItemTemplate = new DataTemplate(() =>
         {
-            var consumerContent = ItemTemplate.CreateContent() as View;
+            // Run this through the extension method in case it's really a DataTemplateSelector
+            var itemTemplate = ItemTemplate.SelectDataTemplate(BindingContext, this);
             
+            var consumerContent = itemTemplate.CreateContent() as View;
+            
+            // Here we wrap the consumer content in a grid to add padding
             return new Grid { Children = { consumerContent }, Padding = new Thickness(12, 0)};
         });
     }
