@@ -1,5 +1,6 @@
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Layout;
+using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items;
 using UIKit;
@@ -14,12 +15,18 @@ public partial class CollectionViewHandler
         return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReordableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
     }
 
+    protected override void UpdateLayout()
+    {
+        base.UpdateLayout();
+    }
     protected override ItemsViewLayout SelectLayout()
     {
         // Only use new layout if the ItemsLayout is LinearItemsLayout
         return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.SelectLayout() : new ListViewLayout(new LinearItemsLayout(ItemsLayoutOrientation.Vertical), ItemsView.ItemSizingStrategy, (VirtualView as CollectionView)!);
     }
 
+
+    
     private static partial void MapShouldBounce(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
@@ -57,28 +64,23 @@ internal class ListViewLayout : Microsoft.Maui.Controls.Handlers.Items.ListViewL
     public ListViewLayout(LinearItemsLayout itemsLayout, ItemSizingStrategy itemSizingStrategy, CollectionView collectionView) : base(itemsLayout, itemSizingStrategy)
     {
         m_collectionView = collectionView;
+        
     }
+    
+    
 
-    public override void ConstrainTo(CGSize size)
+    
+
+    /*public override void ConstrainTo(CGSize size)
     {
-        base.ConstrainTo(size);
-        
-        // Convert to uniform horizontal padding
-        var horizontalPadding = 0;
-        if(m_collectionView?.Padding.Left >= m_collectionView?.Padding.Right)
-        {
-            horizontalPadding = (int)m_collectionView.Padding.Left * 2;
-        }
-        else if(m_collectionView?.Padding.Right > m_collectionView?.Padding.Left)
-        {
-            horizontalPadding = (int)m_collectionView.Padding.Right * 2;
-        }
-        
-        var newSize = size;
-        newSize.Width -= horizontalPadding;
-        ConstrainedDimension = newSize.Width;
+        size.Width -= 24;
+        ConstrainedDimension = size.Width;
         DetermineCellSize();
-    }
+        /*InvalidateLayout();#1#
+        /*EstimatedItemSize = new CGSize(40, 100);#1#
+    }*/
+    
+    
 
     protected override void Dispose(bool disposing)
     {
@@ -95,10 +97,23 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
     
     private void SetContentInset()
     {
-        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
+        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
         CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top, CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
         
         m_overridenContentInset = CollectionView.ContentInset;
+    }
+
+    /*public override void UpdateItemsSource()
+    {
+        base.UpdateItemsSource();
+        
+        MainThread.BeginInvokeOnMainThread(() => CollectionView.ReloadData());
+    }*/
+
+    protected override UICollectionViewDelegateFlowLayout CreateDelegator()
+    {
+        return new Test123(ItemsViewLayout, this);
+        
     }
 
     /// <summary>
@@ -118,18 +133,41 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         }
     }
 
+    /*protected override void CacheCellAttributes(NSIndexPath indexPath, CGSize size)
+    {
+        size.Width -= 24;
+        base.CacheCellAttributes(indexPath, size);
+    }*/
 
+    
+    
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
 
+        var paddingWrapper = cell.Subviews[1]?.Subviews[0];
+
+        if (paddingWrapper is null)
+        {
+            DUILogService.LogDebug<ReorderableItemsView>("Could not find padding wrapper in cell; could not modify cell");
+            return cell;
+        }
+        
+        var consumerItem = paddingWrapper.Subviews[0];
+
+        if (consumerItem is null)
+        {
+            DUILogService.LogDebug<ReorderableItemsView>("Could not find consumer item in cell; could not modify cell");
+            return cell;
+        }
+        
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
             return cell;
         
         if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == 0)
         {
             // Apply corner radius to the cell if its the first cell
-            SetCellCornerRadius(cell, mauiCollectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0) : mauiCollectionView.FirstItemCornerRadius);
+            SetViewCornerRadius(consumerItem, mauiCollectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0) : mauiCollectionView.FirstItemCornerRadius);
 
             return cell;
         }
@@ -137,22 +175,72 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1)
         {
             // Apply corner radius to the cell if its the last cell
-            SetCellCornerRadius(cell, mauiCollectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : mauiCollectionView.LastItemCornerRadius);
+            SetViewCornerRadius(consumerItem, mauiCollectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : mauiCollectionView.LastItemCornerRadius);
             return cell;
         }
 
         // Reset the corner radius for all other cells, because of virtualization
-        cell.ClipsToBounds = false;
-        cell.Layer.CornerRadius = 0;
-        cell.Layer.MaskedCorners = 0;
+        consumerItem.ClipsToBounds = false;
+        consumerItem.Layer.CornerRadius = 0;
+        consumerItem.Layer.MaskedCorners = 0;
 
         return cell;
     }
 
-    private static void SetCellCornerRadius(UICollectionViewCell cell, CornerRadius cornerRadius)
+    private static void SetViewCornerRadius(UIView cell, CornerRadius cornerRadius)
     {
         cell.ClipsToBounds = true;
         cell.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
         cell.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
     }
 }
+
+internal class Test123 : ReorderableItemsViewDelegator<ReorderableItemsView, ReorderableItemsViewController<ReorderableItemsView>>
+{
+    public Test123(ItemsViewLayout itemsViewLayout, ReorderableItemsViewController<ReorderableItemsView> itemsViewController) : base(itemsViewLayout, itemsViewController)
+    {
+    }
+
+    /*public override CGSize GetReferenceSizeForFooter(UICollectionView collectionView, UICollectionViewLayout layout, IntPtr section)
+    {
+        var test = base.GetReferenceSizeForFooter(collectionView, layout, section);
+        return test;
+    }*/
+
+    /*public override CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
+    {
+        var size = base.GetSizeForItem(collectionView, layout, indexPath);
+        size.Width -= 24;
+        return size;
+    }*/
+}
+
+/*internal class AwesomeCell : TemplatedCell
+{
+    public static NSString ReuseId = new NSString("DIPS.Mobile.UI.AwesomeCell");
+    public AwesomeCell(CGRect frame) : base(frame)
+    {
+    }
+
+
+    public override CGSize Measure()
+    {
+        // Get property with reflection
+        
+        
+        
+        var measure = PlatformHandler.VirtualView.Measure(ConstrainedDimension, double.PositiveInfinity);
+
+        return new CGSize(ConstrainedDimension, measure.Height);
+    }
+
+    protected override (bool, Size) NeedsContentSizeUpdate(Size currentSize)
+    {
+        
+    }
+
+    protected override bool AttributesConsistentWithConstrainedDimension(UICollectionViewLayoutAttributes attributes)
+    {
+        
+    }
+}*/
