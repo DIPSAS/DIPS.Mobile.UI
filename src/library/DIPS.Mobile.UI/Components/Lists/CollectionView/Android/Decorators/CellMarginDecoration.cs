@@ -1,5 +1,6 @@
 using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.Extensions.Android;
+using Microsoft.Maui.Controls.Handlers.Items;
 using Rect = Android.Graphics.Rect;
 using View = Android.Views.View;
 
@@ -17,19 +18,41 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
     public override void GetItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
     {
         base.GetItemOffsets(outRect, view, parent, state);
-        
-        // We have only implemented uniform horizontal padding on iOS, so we do the same for Android 
-        var horizontalPadding = 0;
-        if(m_collectionView.Padding.Left >= m_collectionView.Padding.Right)
+
+        var position = parent.GetChildAdapterPosition(view);
+
+        if(parent.GetAdapter() is not ReorderableItemsViewAdapter adapter)
         {
-            horizontalPadding = (int)m_collectionView.Padding.Left * 2;
-        }
-        else if(m_collectionView.Padding.Right > m_collectionView.Padding.Left)
-        {
-            horizontalPadding = (int)m_collectionView.Padding.Right * 2;
+            return;
         }
         
-        outRect.Left = (horizontalPadding / 2).ToMauiPixel();
-        outRect.Right = (horizontalPadding / 2).ToMauiPixel();
+        if (!adapter.TryGetGroupAndGroupIndex(position, out var indexInGroup, out var group))
+        {
+            return;   
+        }
+        
+        // Header is an element in the list
+        if(group.IsHeader(position))
+        {
+            return;
+        }
+        
+        if(group.IsFooter(position))
+        {
+            return;
+        }
+        
+        if(group.IsHeader(indexInGroup))
+        {
+            return;
+        }
+        
+        if(group.IsFooter(indexInGroup))
+        {
+            return;
+        }
+        
+        outRect.Left = (int)m_collectionView.Padding.Left.ToMauiPixel();
+        outRect.Right = (int)m_collectionView.Padding.Right.ToMauiPixel();
     }
 }

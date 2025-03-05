@@ -18,21 +18,30 @@ public partial class CollectionView
 
     private void DataTemplateChanged()
     {
-        base.ItemTemplate = new DataTemplate(() =>
-        {
-            // Run this through the extension method in case it's really a DataTemplateSelector
-            var itemTemplate = ItemTemplate.SelectDataTemplate(BindingContext, this);
-            
-            var consumerContent = itemTemplate.CreateContent() as View;
-            
-            // Here we wrap the consumer content in a grid to add padding
-            return new Grid { Children = { consumerContent }, Padding = new Thickness(12, 0)};
-        });
+        base.ItemTemplate = new DataTemplateSelectorWrapper(ItemTemplate, this);
     }
 
     public new DataTemplate ItemTemplate
     {
         get => (DataTemplate)GetValue(ItemTemplateProperty);
         set => SetValue(ItemTemplateProperty, value);
+    }
+
+    private class DataTemplateSelectorWrapper(DataTemplate dataTemplate, CollectionView collectionView) : DataTemplateSelector
+    {
+        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        {
+            // Run this through the extension method in case consumers' ItemTemplate is really a DataTemplateSelector
+            var itemTemplate = dataTemplate.SelectDataTemplate(item, container);
+            
+            var consumerContent = itemTemplate.CreateContent() as View;
+            
+            // Here we wrap the consumer content in a grid to add padding
+            return new DataTemplate(() => new Grid
+            {
+                Children = { consumerContent },
+                Padding = new Thickness(collectionView.Padding.Left, 0, collectionView.Padding.Right, 0)
+            });
+        }
     }
 }

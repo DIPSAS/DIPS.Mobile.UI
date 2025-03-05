@@ -24,6 +24,7 @@
                      IsRefreshing="{Binding IsRefreshing}">
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
+                        Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}"
                         IsGrouped="True"
                         BackgroundColor="Transparent">
         

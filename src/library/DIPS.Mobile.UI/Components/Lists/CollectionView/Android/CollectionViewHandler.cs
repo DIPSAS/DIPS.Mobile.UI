@@ -76,23 +76,11 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
     {
         base.OnBindViewHolder(holder, position);
 
-        var (group, index) = ItemsSource.GetGroupAndIndex(position);
-        
-        IItemsViewSource currentGroup;
-        
-        try
+        if (!TryGetGroupAndGroupIndex(position, out var index, out var currentGroup))
         {
-            currentGroup = ItemsSource.GetGroupItemsViewSource(group);
-            
-            if(currentGroup is null)
-                return;
-        }
-        catch
-        {
-            // Can happen if list is refreshed while scrolling
             return;
         }
-        
+
         var cornerRadius = new CornerRadius();
 
         // On Android, the group header -and footer is actual items in the RecyclerView, so we need to adjust the index
@@ -107,9 +95,37 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         {
             cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : m_collectionView.LastItemCornerRadius;
         }
+
+        /*if (holder.ItemView.LayoutParameters is RecyclerView.LayoutParams layoutParameters)
+        {
+            layoutParameters.LeftMargin = 12.ToMauiPixel();
+            layoutParameters.RightMargin = 12.ToMauiPixel();
+            holder.ItemView.LayoutParameters = layoutParameters;
+        }*/
         
         if(!cornerRadius.IsEmpty())
             SetCellCornerRadius(holder, cornerRadius);
+    }
+
+    public bool TryGetGroupAndGroupIndex(int position, out int index, out IItemsViewSource currentGroup)
+    {
+        (var group, index) = ItemsSource.GetGroupAndIndex(position);
+
+        try
+        {
+            currentGroup = ItemsSource.GetGroupItemsViewSource(group);
+            
+            if(currentGroup is null)
+                return false;
+        }
+        catch
+        {
+            // Can happen if list is refreshed while scrolling
+            currentGroup = null!;
+            return false;
+        }
+
+        return true;
     }
 
     private static void SetCellCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)

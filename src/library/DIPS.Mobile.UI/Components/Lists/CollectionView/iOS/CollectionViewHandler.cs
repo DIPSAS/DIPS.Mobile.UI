@@ -145,16 +145,16 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
     {
         var cell = base.GetCell(collectionView, indexPath);
 
+        // Should be checked after every maui update
         var paddingWrapper = cell.Subviews[1]?.Subviews[0];
-
         if (paddingWrapper is null)
         {
             DUILogService.LogDebug<ReorderableItemsView>("Could not find padding wrapper in cell; could not modify cell");
             return cell;
         }
         
+        // Should be checked after every maui update
         var consumerItem = paddingWrapper.Subviews[0];
-
         if (consumerItem is null)
         {
             DUILogService.LogDebug<ReorderableItemsView>("Could not find consumer item in cell; could not modify cell");
