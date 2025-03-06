@@ -21,7 +21,9 @@
     </dui:ContentPage.Resources>
 
     <Grid>
-        <dui:MultiLineInputField IsEnabled="False"></dui:MultiLineInputField>
+        <dui:Button Text="hello"
+                    VerticalOptions="Start"
+                    CornerRadius="{dui:Sizes radius_large}"></dui:Button>
     </Grid>
 
 </dui:ContentPage>
