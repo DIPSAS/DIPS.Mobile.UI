@@ -101,28 +101,43 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
             return cell;
+
+        var cornerRadius = new CornerRadius();
         
         if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == 0)
         {
             // Apply corner radius to the cell if its the first cell
-            SetViewCornerRadius(consumerItem, mauiCollectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0) : mauiCollectionView.FirstItemCornerRadius);
-
-            return cell;
+            cornerRadius = mauiCollectionView.FirstItemCornerRadius.IsEmpty()
+                ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0)
+                : mauiCollectionView.FirstItemCornerRadius;
         }
         
         if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1)
         {
             // Apply corner radius to the cell if its the last cell
-            SetViewCornerRadius(consumerItem, mauiCollectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : mauiCollectionView.LastItemCornerRadius);
-            return cell;
+            cornerRadius = mauiCollectionView.LastItemCornerRadius.IsEmpty()
+                ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2))
+                : mauiCollectionView.LastItemCornerRadius;
         }
 
-        // Reset the corner radius for all other cells, because of virtualization
-        consumerItem.ClipsToBounds = false;
-        consumerItem.Layer.CornerRadius = 0;
-        consumerItem.Layer.MaskedCorners = 0;
+        if (!cornerRadius.IsEmpty())
+        {
+            SetViewCornerRadius(consumerItem, cornerRadius);
+        }
+        else
+        {
+            // Reset the corner radius for all other cells, because of virtualization
+            consumerItem.ClipsToBounds = false;
+            consumerItem.Layer.CornerRadius = 0;
+            consumerItem.Layer.MaskedCorners = 0;
+        }
 
         return cell;
+    }
+    
+    private bool IsFirstAndLastCell(UICollectionView collectionView, NSIndexPath indexPath)
+    {
+        return indexPath.Row == 0 || indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1;
     }
 
     private static void SetViewCornerRadius(UIView cell, CornerRadius cornerRadius)

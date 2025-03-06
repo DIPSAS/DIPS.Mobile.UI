@@ -94,9 +94,10 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         {
             cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0) : m_collectionView.FirstItemCornerRadius;
         }
-        else if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == lastItemIndex)
+        
+        if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == lastItemIndex)
         {
-            cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(0, 0, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : m_collectionView.LastItemCornerRadius;
+            cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : m_collectionView.LastItemCornerRadius;
         }
 
         /*if (holder.ItemView.LayoutParameters is RecyclerView.LayoutParams layoutParameters)

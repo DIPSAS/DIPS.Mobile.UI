@@ -69,7 +69,7 @@ public class VetlePageViewModel : ViewModel
 
         CancelCommand = new Command(() =>         Shell.Current.Navigation.PushAsync(new VetleTestPage1()));
 
-        _ = DelayFunction();
+        //_ = DelayFunction();
 
         DisableCommand = new Command(Disable);
 
@@ -86,6 +86,9 @@ public class VetlePageViewModel : ViewModel
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
+
+        
+        GroupedTest = [new(["Test"]), new(TestStrings)];
 
     }
 

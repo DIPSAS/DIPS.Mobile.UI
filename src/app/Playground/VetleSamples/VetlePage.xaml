@@ -25,20 +25,17 @@
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}"
-                        ItemSpacing="{dui:Sizes size_2}"
                         IsGrouped="True"
                         BackgroundColor="Transparent">
         
-        <dui:CollectionView.ItemsLayout>
+        <!--<dui:CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
-        </dui:CollectionView.ItemsLayout>
+        </dui:CollectionView.ItemsLayout>-->
         
         <dui:CollectionView.GroupHeaderTemplate>
             <DataTemplate>
-                <Grid Margin="{dui:Thickness Top=size_4}">
-                    <dui:Label Text="{Binding Header}"
-                               BackgroundColor="Transparent"
-                               Margin="{dui:Thickness Top=size_4}"/>
+                <Grid Padding="8">
+                    <dui:ListItem Title="he"></dui:ListItem>
                 </Grid>
             </DataTemplate>
         </dui:CollectionView.GroupHeaderTemplate>
@@ -50,19 +47,22 @@
         </dui:CollectionView.Header>-->
         
         <dui:CollectionView.Header>
+            <Grid Padding="8">
             <dui:ListItem Title="Hello"></dui:ListItem>
+            </Grid>
         </dui:CollectionView.Header>
         
         <dui:CollectionView.Footer>
-            <dui:Label Text="Footer!"></dui:Label>
+            <Grid Padding="8">
+                
+            <dui:ListItem Title="footer"></dui:ListItem>
+            </Grid>
         </dui:CollectionView.Footer>
         
         <dui:CollectionView.GroupFooterTemplate>
             <DataTemplate>
-                <Grid Padding="{dui:Thickness Top=size_4}">
-                    <dui:Label Text="Heyoo"
-                               BackgroundColor="Transparent"
-                               Margin="{dui:Thickness Top=size_4}"/>
+                <Grid Padding="8">
+                    <dui:ListItem Title="footer"></dui:ListItem>
                 </Grid>
             </DataTemplate>
         </dui:CollectionView.GroupFooterTemplate>

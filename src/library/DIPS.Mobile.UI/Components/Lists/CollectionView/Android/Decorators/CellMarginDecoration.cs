@@ -32,12 +32,12 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
         }
         
         // Header is an element in the list
-        if(group.IsHeader(position))
+        if(m_collectionView.HeaderTemplate is not null && position == 0)
         {
             return;
         }
         
-        if(group.IsFooter(position))
+        if(m_collectionView.FooterTemplate is not null && position == parent.GetAdapter().ItemCount - 1)
         {
             return;
         }
