@@ -1,3 +1,6 @@
+## [42.0.1] 
+- [Sizes] Convert size to int if BindableProperty expects an int.
+
 ## [42.0.0] 
 - Import semantic colors and sizes.
 - Set semantic colors and sizes on components.
