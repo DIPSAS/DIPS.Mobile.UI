@@ -36,4 +36,6 @@ public partial class Touch
         typeof(Touch),
         true,
         propertyChanged: OnTouchPropertiesChanged);
+
+    internal Color OriginalBackgroundColor { get; set; }
 }

@@ -8,6 +8,7 @@ namespace DIPS.Mobile.UI.Platforms.iOS
     internal class UIButtonWithExtraTappableArea : UIButton
     {
         private UIGestureRecognizerState m_currentState;
+        private Color? m_originalBackgroundColor;
 
         public Thickness AdditionalHitBoxSize { get; set; }
 
@@ -20,21 +21,21 @@ namespace DIPS.Mobile.UI.Platforms.iOS
         {
             base.TouchesBegan(touches, evt);
             
-            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, this);
+            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, this, m_originalBackgroundColor);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent? evt)
         {
             base.TouchesEnded(touches, evt);
             
-            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, this);
+            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, this, m_originalBackgroundColor);
         }
 
         public override void TouchesCancelled(NSSet touches, UIEvent? evt)
         {
             base.TouchesCancelled(touches, evt);
             
-            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, this);
+            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, this, m_originalBackgroundColor);
         }
         
         public override void TouchesMoved(NSSet touches, UIEvent evt)
@@ -45,11 +46,16 @@ namespace DIPS.Mobile.UI.Platforms.iOS
 
             if (touchPoint == null || !Bounds.Contains(touchPoint.Value))
             {
-                TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, this);
+                TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, this, m_originalBackgroundColor);
             }
         }
     
         private CGPoint? GetTouchPoint(NSSet touches) =>
             (touches.AnyObject as UITouch)?.LocationInView(this);
+
+        public void SetVisualElement(VisualElement visualElement)
+        {
+            m_originalBackgroundColor = visualElement.BackgroundColor;
+        }
     }
 }

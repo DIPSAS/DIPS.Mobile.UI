@@ -4,6 +4,13 @@ namespace DIPS.Mobile.UI.Effects.Touch.iOS;
 
 internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegate
 {
+    private readonly TouchPlatformEffect m_touchPlatformEffect;
+
+    public TouchEffectGestureRecognizerDelegate(TouchPlatformEffect touchPlatformEffect)
+    {
+        m_touchPlatformEffect = touchPlatformEffect;
+    }
+    
     public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
     {
         if (touch.View.IsDescendantOfView(recognizer.View))
@@ -42,8 +49,7 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
             otherGestureRecognizer is UIPanGestureRecognizer &&
             otherGestureRecognizer.State == UIGestureRecognizerState.Began)
         {
-            TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref touchGesture.m_currentState,
-                gestureRecognizer.View);
+            m_touchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref touchGesture.m_currentState);
         }
 
         return true;

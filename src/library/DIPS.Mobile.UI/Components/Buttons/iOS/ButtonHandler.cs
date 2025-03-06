@@ -17,6 +17,16 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
     }
 
+    protected override void ConnectHandler(UIButton platformView)
+    {
+        if (VirtualView is VisualElement visualElement && platformView is UIButtonWithExtraTappableArea uiButtonWithExtraTappableArea)
+        {
+            uiButtonWithExtraTappableArea.SetVisualElement(visualElement);
+        }
+        
+        base.ConnectHandler(platformView);
+    }
+
     private static partial void MapImageToRightSide(ButtonHandler handler, Button button)
     {
         if(button.ImagePlacement == ImagePlacement.Left)
