@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    internal static readonly Color DefaultNativeAnimationColor = new(128, 128, 128, 75);
+    
     private TouchEffectTapGestureRecognizer? m_tapGestureRecognizer;
     private TouchEffectLongPressGestureRecognizer? m_longPressGestureRecognizer;
     private Touch.TouchMode m_touchMode;
@@ -88,7 +88,7 @@ public partial class TouchPlatformEffect
         VisualElement? visualElement, Color? originalColor)
     {
         if (visualElement == null || originalColor == null) return;
-        HandleTouch(state, ref currentState, () => visualElement?.BackgroundColorTo(DefaultNativeAnimationColor),
+        HandleTouch(state, ref currentState, () => visualElement?.BackgroundColorTo(ColorToAnimateTo),
             () => visualElement?.BackgroundColorTo(originalColor));
     }
 
@@ -97,15 +97,18 @@ public partial class TouchPlatformEffect
     {
         if (uiView == null || originalColor == null) return;
 
+#pragma warning disable CA1416
         HandleTouch(state, ref currentState, () => UIView.Animate(0.3, 0, 0, 0,
                 UIViewAnimationOptions.AllowUserInteraction, () =>
                 {
-                    uiView.BackgroundColor = DefaultNativeAnimationColor.ToPlatform();
+                    uiView.BackgroundColor = ColorToAnimateTo.ToPlatform();
                 }, null),
+
             () => UIView.Animate(0.3, 0, 0, 0, UIViewAnimationOptions.AllowUserInteraction, () =>
             {
                 uiView.BackgroundColor = originalColor.ToPlatform();
             }, null));
+#pragma warning restore CA1416
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,

@@ -1,3 +1,6 @@
+## [42.0.2] 
+- Reworked iOS touch effect animation.
+
 ## [42.0.1] 
 - [Sizes] Convert size to int if BindableProperty expects an int.
 

@@ -22,7 +22,7 @@ public partial class ImageButtonHandler
         base.ConnectHandler(platformView);
         
         // We need to set ripple effect because MAUI has not yet done this for ImageButtons
-        var colorStateList = new ColorStateList([[]], [TouchPlatformEffect.DefaultNativeAnimationColor.ToPlatform()]);
+        var colorStateList = new ColorStateList([[]], [TouchPlatformEffect.ColorToAnimateTo.ToPlatform()]);
         
         var ripple = new RippleDrawable(colorStateList, null,  null);
         platformView.Foreground = ripple;
