@@ -1,9 +1,10 @@
+using Android.App;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Alerting.Dialog.Android;
 using DIPS.Mobile.UI.Internal.Logging;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Java.Lang;
 using Microsoft.Maui.Platform;
+using AlertDialog = DIPS.Mobile.UI.Components.Alerting.Dialog.Android.AlertDialog;
 using Exception = System.Exception;
 
 // ReSharper disable once CheckNamespace
@@ -11,8 +12,22 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
-    private const string DialogTag = "MessageAlertTag";
+    private const string AlertDialogTag = "MessageAlertTag";
 
+    private const string InputDialogTag = "InputDialogTag";
+
+    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator)
+    {
+        var inputDialogConfigurator = new InputDialogConfigurator();
+        
+        configurator.Invoke(inputDialogConfigurator);
+        
+        var inputDialog = new InputDialog(inputDialogConfigurator);
+        
+        inputDialog.Show(DUI.GetCurrentMauiContext?.Context?.GetFragmentManager()!, InputDialogTag);
+        return Task.CompletedTask;
+    }
+    
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
     {
         return Show(title, message, actionTitle);
@@ -58,7 +73,7 @@ public static partial class DialogService
     internal static bool TryGetAlertDialog(out AlertDialog? alertDialog)
     {
         var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
-        var previous = fragmentManager!.FindFragmentByTag(DialogTag);
+        var previous = fragmentManager!.FindFragmentByTag(AlertDialogTag);
         alertDialog = null;
         if (previous is not AlertDialog theDialog)
         {
@@ -90,7 +105,7 @@ public static partial class DialogService
                 () => taskCompletionSource.TrySetResult(DialogAction.TappedAction),
                 () => taskCompletionSource.TrySetResult(DialogAction.Closed),
                 isDestructiveDialog);
-            alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, DialogTag);
+            alertDialog.Show(DUI.GetCurrentMauiContext!.Context!.GetFragmentManager()!, AlertDialogTag);
         }
         catch (IllegalStateException)
         {
@@ -109,7 +124,7 @@ public static partial class DialogService
     private static void RemovePreviousDialog()
     {
         var fragmentManager = DUI.GetCurrentMauiContext!.Context!.GetFragmentManager();
-        var previous = fragmentManager!.FindFragmentByTag(DialogTag);
+        var previous = fragmentManager!.FindFragmentByTag(AlertDialogTag);
         if (previous is AlertDialog alertDialog)
         {
             alertDialog.Dismiss();

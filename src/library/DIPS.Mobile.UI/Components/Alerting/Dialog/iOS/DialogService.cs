@@ -11,6 +11,11 @@ public static partial class DialogService
     private static TaskCompletionSource<DialogAction>? m_taskCompletionSource;
     private static UIWindow Window { get; } = new() { BackgroundColor = Colors.Transparent.ToPlatform() };
 
+    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator)
+    {
+        return Task.CompletedTask;
+    }
+    
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
     {
         return Show(title, message, actionTitle);

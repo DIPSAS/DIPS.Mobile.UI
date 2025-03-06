@@ -2,6 +2,8 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
+    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator);
+    
     /// <summary>
     ///     Attempt to show a message with a suggestion and one button.
     /// </summary>

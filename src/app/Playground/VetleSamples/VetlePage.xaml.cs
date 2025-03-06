@@ -151,7 +151,11 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        DialogService.ShowInputDialog(configurator =>
+        {
+            configurator.AddInputField("Skriv navn")
+                        .AddInputField("Skriv url");
+        });
     }
 
     private void SwapRoot(object sender, EventArgs e)
@@ -199,4 +203,6 @@ public partial class VetlePage
     {
         
     }
+
+    
 }

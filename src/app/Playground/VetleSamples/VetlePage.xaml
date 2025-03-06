@@ -23,6 +23,7 @@
     <Grid>
         <dui:Button Text="hello"
                     VerticalOptions="Start"
+                    Clicked="Button_OnClicked"
                     CornerRadius="{dui:Sizes radius_large}"></dui:Button>
     </Grid>
 
