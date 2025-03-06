@@ -25,8 +25,13 @@
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}"
+                        ItemSpacing="{dui:Sizes size_2}"
                         IsGrouped="True"
                         BackgroundColor="Transparent">
+        
+        <dui:CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
+        </dui:CollectionView.ItemsLayout>
         
         <dui:CollectionView.GroupHeaderTemplate>
             <DataTemplate>

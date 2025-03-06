@@ -21,8 +21,11 @@ public partial class CollectionViewHandler
 
     protected override ReorderableItemsViewAdapter<ReorderableItemsView, IGroupableItemsViewSource> CreateAdapter()
     {
-        // Only use new adapter if the ItemsLayout is LinearItemsLayout
-        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateAdapter() : new ReorderableItemsViewAdapter(VirtualView);
+        // Only use new adapter if the ItemsLayout is vertical LinearItemsLayout
+        if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} })
+            return new ReorderableItemsViewAdapter(VirtualView);
+
+        return base.CreateAdapter();
     }
 
     protected override void ConnectHandler(RecyclerView platformView)

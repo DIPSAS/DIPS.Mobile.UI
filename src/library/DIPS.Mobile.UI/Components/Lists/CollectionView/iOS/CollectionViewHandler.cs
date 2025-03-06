@@ -11,20 +11,12 @@ public partial class CollectionViewHandler
 {
     protected override ItemsViewController<ReorderableItemsView> CreateController(ReorderableItemsView itemsView, ItemsViewLayout layout)
     {
-        // Only use new controller if the ItemsLayout is LinearItemsLayout
-        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReordableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+        // Only use new controller if the ItemsLayout is vertical LinearItemsLayout
+        if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} })
+            return new ReordableItemsViewController(itemsView, layout, VirtualView as CollectionView);
+            
+        return base.CreateController(itemsView, layout);
     }
-
-    protected override void UpdateLayout()
-    {
-        base.UpdateLayout();
-    }
-    protected override ItemsViewLayout SelectLayout()
-    {
-        // Only use new layout if the ItemsLayout is LinearItemsLayout
-        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.SelectLayout() : new ListViewLayout(new LinearItemsLayout(ItemsLayoutOrientation.Vertical), ItemsView.ItemSizingStrategy, (VirtualView as CollectionView)!);
-    }
-
 
     
     private static partial void MapShouldBounce(CollectionViewHandler handler,
@@ -57,39 +49,6 @@ public partial class CollectionViewHandler
     }
 }
 
-internal class ListViewLayout : Microsoft.Maui.Controls.Handlers.Items.ListViewLayout
-{
-    private CollectionView? m_collectionView;
-
-    public ListViewLayout(LinearItemsLayout itemsLayout, ItemSizingStrategy itemSizingStrategy, CollectionView collectionView) : base(itemsLayout, itemSizingStrategy)
-    {
-        m_collectionView = collectionView;
-        
-    }
-    
-    
-
-    
-
-    /*public override void ConstrainTo(CGSize size)
-    {
-        size.Width -= 24;
-        ConstrainedDimension = size.Width;
-        DetermineCellSize();
-        /*InvalidateLayout();#1#
-        /*EstimatedItemSize = new CGSize(40, 100);#1#
-    }*/
-    
-    
-
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-
-        m_collectionView = null;
-    }
-}
-
 internal class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
     : ReorderableItemsViewController<ReorderableItemsView>(reorderableItemsView, layout)
 {
@@ -101,19 +60,6 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top, CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
         
         m_overridenContentInset = CollectionView.ContentInset;
-    }
-
-    /*public override void UpdateItemsSource()
-    {
-        base.UpdateItemsSource();
-        
-        MainThread.BeginInvokeOnMainThread(() => CollectionView.ReloadData());
-    }*/
-
-    protected override UICollectionViewDelegateFlowLayout CreateDelegator()
-    {
-        return new Test123(ItemsViewLayout, this);
-        
     }
 
     /// <summary>
@@ -133,14 +79,6 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         }
     }
 
-    /*protected override void CacheCellAttributes(NSIndexPath indexPath, CGSize size)
-    {
-        size.Width -= 24;
-        base.CacheCellAttributes(indexPath, size);
-    }*/
-
-    
-    
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
@@ -194,53 +132,3 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         cell.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
     }
 }
-
-internal class Test123 : ReorderableItemsViewDelegator<ReorderableItemsView, ReorderableItemsViewController<ReorderableItemsView>>
-{
-    public Test123(ItemsViewLayout itemsViewLayout, ReorderableItemsViewController<ReorderableItemsView> itemsViewController) : base(itemsViewLayout, itemsViewController)
-    {
-    }
-
-    /*public override CGSize GetReferenceSizeForFooter(UICollectionView collectionView, UICollectionViewLayout layout, IntPtr section)
-    {
-        var test = base.GetReferenceSizeForFooter(collectionView, layout, section);
-        return test;
-    }*/
-
-    /*public override CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
-    {
-        var size = base.GetSizeForItem(collectionView, layout, indexPath);
-        size.Width -= 24;
-        return size;
-    }*/
-}
-
-/*internal class AwesomeCell : TemplatedCell
-{
-    public static NSString ReuseId = new NSString("DIPS.Mobile.UI.AwesomeCell");
-    public AwesomeCell(CGRect frame) : base(frame)
-    {
-    }
-
-
-    public override CGSize Measure()
-    {
-        // Get property with reflection
-        
-        
-        
-        var measure = PlatformHandler.VirtualView.Measure(ConstrainedDimension, double.PositiveInfinity);
-
-        return new CGSize(ConstrainedDimension, measure.Height);
-    }
-
-    protected override (bool, Size) NeedsContentSizeUpdate(Size currentSize)
-    {
-        
-    }
-
-    protected override bool AttributesConsistentWithConstrainedDimension(UICollectionViewLayoutAttributes attributes)
-    {
-        
-    }
-}*/
