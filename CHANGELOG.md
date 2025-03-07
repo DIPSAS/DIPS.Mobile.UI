@@ -1,3 +1,7 @@
+## [42.1.0] 
+- Added Input dialog
+- Refactored DialogService
+
 ## [42.0.1] 
 - [Sizes] Convert size to int if BindableProperty expects an int.
 

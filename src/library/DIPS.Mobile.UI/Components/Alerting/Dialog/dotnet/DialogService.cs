@@ -29,6 +29,11 @@ public static partial class DialogService
         return Task.FromResult(DialogAction.TappedAction);
     }
 
+    public static partial Task<DialogAction> ShowMessage(Action<IDialogConfigurator> configurator)
+    {
+        return Task.FromResult(DialogAction.TappedAction);
+    }
+    
     public static partial Task Remove()
     {
         return Task.FromResult(DialogAction.TappedAction);

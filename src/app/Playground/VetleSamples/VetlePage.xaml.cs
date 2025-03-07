@@ -153,12 +153,16 @@ public partial class VetlePage
     {
 
         var nameInput = new StringDialogInputField(placeholder: "Name", mustBeSet: true);
-        var urlInput = new StringDialogInputField(placeholder: "Url", mustBeSet: true);
+        var urlInput = new StringDialogInputField(placeholder: "Url", mustBeSet: true, value: "123");
+        
         var result = await DialogService.ShowInputDialog(configurator =>
         {
             configurator
                 .AddInputField(nameInput)
-                .AddInputField(urlInput);
+                .AddInputField(urlInput)
+                .SetTitle("Velg miljø")
+                .SetActionTitle("Legg til")
+                .SetCancelTitle("Avbryt førr fan");
         });
 
         if (result.DialogAction is DialogAction.TappedAction)
