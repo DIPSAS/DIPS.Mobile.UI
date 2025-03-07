@@ -149,13 +149,23 @@ public partial class VetlePage
         /*SignInButton.SetSemanticFocus();*/
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
+    private async void Button_OnClicked(object sender, EventArgs e)
     {
-        DialogService.ShowInputDialog(configurator =>
+
+        var nameInput = new StringDialogInputField(placeholder: "Name", mustBeSet: true);
+        var urlInput = new StringDialogInputField(placeholder: "Url", mustBeSet: true);
+        var result = await DialogService.ShowInputDialog(configurator =>
         {
-            configurator.AddInputField("Skriv navn")
-                        .AddInputField("Skriv url");
+            configurator
+                .AddInputField(nameInput)
+                .AddInputField(urlInput);
         });
+
+        if (result.DialogAction is DialogAction.TappedAction)
+        {
+            var nameOutput = nameInput.Value;
+        }
+        
     }
 
     private void SwapRoot(object sender, EventArgs e)

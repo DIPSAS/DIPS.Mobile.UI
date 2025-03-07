@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
-    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator);
+    public static partial Task<InputDialogAction> ShowInputDialog(Action<IInputDialogConfigurator> configurator);
     
     /// <summary>
     ///     Attempt to show a message with a suggestion and one button.
@@ -52,7 +52,27 @@ public static partial class DialogService
     /// </summary>
     /// <returns>true/false depending on if its showing.</returns>
     public static partial bool IsShowing();
+    
+    internal static bool ActionEnabledState(IInputDialog inputDialog)
+    {
+        return inputDialog.InputDialogEntryConfigurators.All(s =>
+        {
+            if(s is IDialogInputField<string> stringDialogInputField)
+            {
+                return !stringDialogInputField.MustBeSet || !string.IsNullOrEmpty(stringDialogInputField.Value);
+            }
+
+            return true;
+        });
+    }
 }
+
+public class InputDialogAction
+{
+    public DialogAction DialogAction { get; set; }
+    public IEnumerable<IDialogInputField> DialogInputs { get; set; }
+}
+
 
 /// <summary>
 ///     Types of results that can come from a user in a dialog context.

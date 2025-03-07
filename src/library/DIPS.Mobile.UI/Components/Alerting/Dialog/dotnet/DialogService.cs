@@ -3,9 +3,13 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
-    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator)
+    public static partial Task<InputDialogAction> ShowInputDialog(Action<IInputDialogConfigurator> configurator)
     {
-        return Task.CompletedTask;
+        return Task.FromResult(new InputDialogAction
+        {
+            DialogAction = DialogAction.TappedAction,
+            DialogInputs = {  }
+        });
     }
     
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)

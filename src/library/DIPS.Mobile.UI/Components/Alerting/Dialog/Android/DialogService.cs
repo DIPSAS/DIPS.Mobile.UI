@@ -16,16 +16,56 @@ public static partial class DialogService
 
     private const string InputDialogTag = "InputDialogTag";
 
-    public static partial Task ShowInputDialog(Action<IInputDialogConfigurator> configurator)
+    public static partial async Task<InputDialogAction> ShowInputDialog(
+        Action<IInputDialogConfigurator> configurator)
     {
+        var taskCompletionSource = new TaskCompletionSource<InputDialogAction>();
         var inputDialogConfigurator = new InputDialogConfigurator();
-        
-        configurator.Invoke(inputDialogConfigurator);
-        
-        var inputDialog = new InputDialog(inputDialogConfigurator);
-        
-        inputDialog.Show(DUI.GetCurrentMauiContext?.Context?.GetFragmentManager()!, InputDialogTag);
-        return Task.CompletedTask;
+        try
+        {
+            RemovePreviousDialog();
+            configurator.Invoke(inputDialogConfigurator);
+            
+            IInputDialog inputDialogConfig = inputDialogConfigurator;
+
+            var inputDialog = new InputDialog(
+                inputDialogConfigurator,
+                "Ok",
+                "Cancel",
+                () => taskCompletionSource.TrySetResult(new InputDialogAction
+                {
+                    DialogAction = DialogAction.TappedAction,
+                    DialogInputs = inputDialogConfig.InputDialogEntryConfigurators 
+                }),
+                () => taskCompletionSource.TrySetResult(new InputDialogAction
+                {
+                    DialogAction = DialogAction.Closed,
+                    DialogInputs = [] //TODO: Returner liste med tomme verdier
+                }));
+             
+            inputDialog.Show(DUI.GetCurrentMauiContext?.Context?.GetFragmentManager()!, InputDialogTag);
+
+        }
+        catch(IllegalStateException)
+        {
+            taskCompletionSource.TrySetResult(new InputDialogAction
+            {
+                DialogAction = DialogAction.Closed,
+                DialogInputs = []
+            });
+        }
+        catch (Exception e)
+        {
+            DUILogService.LogError<AlertDialog>(e.Message);
+            taskCompletionSource.TrySetResult(new InputDialogAction
+            {
+                DialogAction = DialogAction.Closed,
+                DialogInputs = []
+            });
+            throw;
+        }
+
+        return await taskCompletionSource.Task;
     }
     
     public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)

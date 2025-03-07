@@ -9,6 +9,7 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.Dialog;
 using Microsoft.Maui.Platform;
+using Button = Android.Widget.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Entry = DIPS.Mobile.UI.Components.TextFields.Entry.Entry;
 
@@ -17,10 +18,24 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog.Android;
 internal class InputDialog : DialogFragment
 {
     private readonly IInputDialog m_inputDialogConfigurator;
+    private readonly string m_actionTitle;
+    private readonly string? m_cancelTitle;
+    private readonly Action m_onActionTapped;
+    private readonly Action m_onCancelTapped;
+    private Button? m_actionButton;
 
-    public InputDialog(IInputDialog inputDialogConfigurator)
+    public InputDialog(
+        IInputDialog inputDialogConfigurator,
+        string actionTitle,
+        string? cancelTitle,
+        Action onActionTapped,
+        Action onCancelTapped)
     {
         m_inputDialogConfigurator = inputDialogConfigurator;
+        m_actionTitle = actionTitle;
+        m_cancelTitle = cancelTitle;
+        m_onActionTapped = onActionTapped;
+        m_onCancelTapped = onCancelTapped;
     }
 
     public override global::Android.App.Dialog? OnCreateDialog(Bundle? savedInstanceState)
@@ -38,21 +53,46 @@ internal class InputDialog : DialogFragment
 
         foreach (var inputDialogEntryConfigurator in m_inputDialogConfigurator.InputDialogEntryConfigurators)
         {
-            var entry = new Entry
+
+            if (inputDialogEntryConfigurator is StringDialogInputField dialogInputField)
             {
-                Placeholder = inputDialogEntryConfigurator.Placeholder ?? string.Empty,
-                Text = inputDialogEntryConfigurator.Text ?? string.Empty
-            };
-            
-            verticalStackLayout.Add(entry);
+                var entry = new Entry
+                {
+                    AutomationId = dialogInputField.Identifier.ToString(),
+                    Placeholder = dialogInputField.Placeholder,
+                    Text = dialogInputField.Value,
+                };
+
+                entry.TextChanged += (s, e) =>
+                {
+                    dialogInputField.Value = entry.Text;
+                    if (m_actionButton != null)
+                    {
+                        m_actionButton.Enabled = DialogService.ActionEnabledState(m_inputDialogConfigurator);
+                    }
+                };
+                
+                verticalStackLayout.Add(entry);
+            }
         }
 
         builder?.SetView(verticalStackLayout.ToPlatform(DUI.GetCurrentMauiContext));
-            
-        builder?.SetNegativeButton("Cancel", ((_, _) => { }));
-        builder?.SetPositiveButton("Ok", ((_, _) => {}));
+
+        if (m_cancelTitle != null)
+        {
+            builder?.SetNegativeButton(m_cancelTitle, ((_, _) => { m_onCancelTapped.Invoke(); }));
+        }
+        builder?.SetPositiveButton(m_actionTitle, ((_, _) => { m_onActionTapped.Invoke(); }));
+        
 
         var dialog = builder?.Create();
+
+        HER TRENGER VI KNAPPEN
+        m_actionButton = dialog?.GetButton((int)DialogButtonType.Positive);
+        if (m_actionButton != null)
+        {
+            m_actionButton.Enabled = DialogService.ActionEnabledState(m_inputDialogConfigurator);
+        }
             
         dialog?.Window?.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
         dialog!.ShowEvent += OnShow;
