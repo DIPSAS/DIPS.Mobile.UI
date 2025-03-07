@@ -57,7 +57,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
 
         m_touchPlatformEffect?.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState);
     }
-    
+
     public override void TouchesMoved(NSSet touches, UIEvent evt)
     {
         if (m_isCancelled)

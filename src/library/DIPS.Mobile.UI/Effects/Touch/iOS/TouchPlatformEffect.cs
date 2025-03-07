@@ -25,8 +25,8 @@ public partial class TouchPlatformEffect
 
         if (Element is not VisualElement visualElement) return;
         VisualElement = visualElement;
-
-        OriginalBackgroundColor = visualElement.BackgroundColor;
+        
+        OriginalBackgroundColor = visualElement.BackgroundColor ?? Colors.Transparent;
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(this);

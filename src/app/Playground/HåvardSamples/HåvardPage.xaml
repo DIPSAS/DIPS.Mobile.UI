@@ -18,8 +18,21 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:VerticalStackLayout>
-        <dui:Button Text="Tap"/>
-        <dui:NavigationListItem Title="Tap" Command="{Binding Command}"/>
+    <dui:VerticalStackLayout BackgroundColor="White" VerticalOptions="Start">
+        <Grid dui:ContextMenuEffect.Mode="LongPressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="Test" />
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>
+            <HorizontalStackLayout >
+                <BoxView HeightRequest="40"
+                         dui:Touch.Command="{Binding Command}"
+                         WidthRequest="40" />
+                <BoxView HeightRequest="40"
+                         dui:Touch.Command="{Binding Command}"
+                         WidthRequest="40" />
+            </HorizontalStackLayout>
+        </Grid>
     </dui:VerticalStackLayout>
 </dui:ContentPage>
