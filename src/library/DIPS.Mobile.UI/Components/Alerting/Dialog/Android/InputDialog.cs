@@ -84,16 +84,8 @@ internal class InputDialog : DialogFragment
         }
         builder?.SetPositiveButton(m_actionTitle, ((_, _) => { m_onActionTapped.Invoke(); }));
         
-
         var dialog = builder?.Create();
 
-        HER TRENGER VI KNAPPEN
-        m_actionButton = dialog?.GetButton((int)DialogButtonType.Positive);
-        if (m_actionButton != null)
-        {
-            m_actionButton.Enabled = DialogService.ActionEnabledState(m_inputDialogConfigurator);
-        }
-            
         dialog?.Window?.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
         dialog!.ShowEvent += OnShow;
             
@@ -108,11 +100,14 @@ internal class InputDialog : DialogFragment
     
     private void OnShow(object? sender, EventArgs e)
     {
-        if (sender is AndroidX.AppCompat.App.AlertDialog alertDialog)
+        if (sender is not AndroidX.AppCompat.App.AlertDialog alertDialog)
+            return;
+
+        m_actionButton = alertDialog.GetButton((int)DialogButtonType.Positive);
+        if (m_actionButton is not null)
         {
-            var button = alertDialog.GetButton((int)DialogButtonType.Positive);
-            button!.SetTextColor(Colors.GetColor(ColorName.color_error_dark).ToPlatform());
-        }   
+            m_actionButton.Enabled = DialogService.ActionEnabledState(m_inputDialogConfigurator);
+        }
     }
     
     public override void OnDismiss(IDialogInterface dialog)
