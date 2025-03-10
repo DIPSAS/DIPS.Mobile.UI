@@ -33,7 +33,7 @@ public partial class CollectionViewHandler
         base.ConnectHandler(platformView);
         
         // If the list is horizontal, we don't want to do this
-        if(VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout }) 
+        if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} }) 
             return;
 
         // Pads the RecyclerView elements left and right
