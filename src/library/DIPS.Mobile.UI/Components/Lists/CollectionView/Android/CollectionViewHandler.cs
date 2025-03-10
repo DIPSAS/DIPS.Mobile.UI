@@ -92,12 +92,12 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         
         if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == firstItemIndex)
         {
-            cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0) : m_collectionView.FirstItemCornerRadius;
+            cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0) : m_collectionView.FirstItemCornerRadius;
         }
         
         if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == lastItemIndex)
         {
-            cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2)) : m_collectionView.LastItemCornerRadius;
+            cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
         }
 
         /*if (holder.ItemView.LayoutParameters is RecyclerView.LayoutParams layoutParameters)

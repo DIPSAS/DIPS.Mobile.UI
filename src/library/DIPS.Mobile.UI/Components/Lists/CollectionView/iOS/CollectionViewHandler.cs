@@ -117,7 +117,7 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         {
             // Apply corner radius to the cell if its the first cell
             cornerRadius = mauiCollectionView.FirstItemCornerRadius.IsEmpty()
-                ? new CornerRadius(Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2), 0, 0)
+                ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0)
                 : mauiCollectionView.FirstItemCornerRadius;
         }
         
@@ -125,7 +125,7 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         {
             // Apply corner radius to the cell if its the last cell
             cornerRadius = mauiCollectionView.LastItemCornerRadius.IsEmpty()
-                ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.size_2), Sizes.GetSize(SizeName.size_2))
+                ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small))
                 : mauiCollectionView.LastItemCornerRadius;
         }
 
