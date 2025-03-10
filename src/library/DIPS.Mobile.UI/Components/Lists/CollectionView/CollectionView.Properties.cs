@@ -11,11 +11,16 @@ public partial class CollectionView
         get => (double)GetValue(ItemSpacingProperty);
         set => SetValue(ItemSpacingProperty, value);
     }
+
+    /// <summary>
+    /// Will automatically set the corner radius of the first and last item in the <see cref="CollectionView"/>.
+    /// </summary>
+    internal bool AutoCornerRadius { get; set; } = true;
     
     /// <summary>
     /// Adds additional space at the end of the list so people can more easily see and tap the last items.
     /// </summary>
-    /// <remarks>This is achieved by using the <see cref="CollectionView.Footer"/>. If you overwrite the <see cref="CollectionView.Footer"/> it will be removed</remarks>
+    /// <remarks>Default value is true</remarks>
     public bool HasAdditionalSpaceAtTheEnd
     {
         get => (bool)GetValue(HasAdditionalSizeAtTheEndProperty);
@@ -41,6 +46,15 @@ public partial class CollectionView
         get => (bool)GetValue(ShouldBounceProperty);
         set => SetValue(ShouldBounceProperty, value);
     }
+
+    /// <summary>
+    /// Margin for the content inside the CollectionView, using this will not affect for example scroll bar, like default margin does
+    /// </summary>
+    /// <remarks>Default value is HorizontalThickness: size_3<br/> Left and right must be uniform. <br/><b>NB:</b> Top padding not implemented yet</remarks>
+    public Thickness Padding { get; set; } = new(Sizes.GetSize(SizeName.content_margin_medium), 0);
+    
+    public CornerRadius FirstItemCornerRadius { get; init; }
+    public CornerRadius LastItemCornerRadius { get; init; }
     
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),
@@ -62,5 +76,10 @@ public partial class CollectionView
         {
             handler.ReloadData(handler);
         }
+
+#if __IOS__
+        if(Handler is CollectionView2Handler handler2)
+            handler2.ReloadData(handler2);
+#endif
     }
 }

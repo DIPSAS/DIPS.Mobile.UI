@@ -1,8 +1,10 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
+using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -149,10 +151,7 @@ public partial class VetlePage
         /*SignInButton.SetSemanticFocus();*/
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
-    }
+    
 
     private void SwapRoot(object sender, EventArgs e)
     {
@@ -198,5 +197,13 @@ public partial class VetlePage
     private void SearchBar_OnUnfocused(object sender, EventArgs e)
     {
         
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        if (CollectionView.Handler is CollectionViewHandler collectionViewHandler)
+        {
+            
+        }
     }
 }

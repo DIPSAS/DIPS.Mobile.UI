@@ -1,4 +1,5 @@
-using System;
+using CoreAnimation;
+using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 
 namespace DIPS.Mobile.UI.Effects.Layout;
 
@@ -7,13 +8,18 @@ public partial class LayoutPlatformEffect
     private bool m_originalClipToBound;
     private nfloat m_prevCornerRadius;
     
-    protected override partial void OnAttached()
+    private partial void PlatformOnAttached(CornerRadius cornerRadius)
     {
         m_originalClipToBound = Control.ClipsToBounds;
         m_prevCornerRadius = Control.Layer.CornerRadius;
         
+        var highestCornerRadius = cornerRadius.HighestCornerRadius();
+
+        var maskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
+        
         Control.ClipsToBounds = true;
-        Control.Layer.CornerRadius = (nfloat)Layout.GetCornerRadius(Element).TopLeft;
+        Control.Layer.CornerRadius = (nfloat)highestCornerRadius;
+        Control.Layer.MaskedCorners = maskedCorners;
     }
 
     protected override partial void OnDetached()
@@ -25,6 +31,7 @@ public partial class LayoutPlatformEffect
         {
             Control.ClipsToBounds = m_originalClipToBound;
             Control.Layer.CornerRadius = m_prevCornerRadius;
+            Control.Layer.MaskedCorners = 0;
         }
         catch
         {

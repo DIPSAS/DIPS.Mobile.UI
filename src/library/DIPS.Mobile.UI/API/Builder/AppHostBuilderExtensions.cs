@@ -1,15 +1,11 @@
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets;
-using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
-using DIPS.Mobile.UI.Components.Pickers.DateAndTimePicker;
-using DIPS.Mobile.UI.Components.Pickers.DatePicker;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Effects.Touch;
-using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
@@ -33,7 +29,6 @@ using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 using ShellRenderer = DIPS.Mobile.UI.Components.Shell.ShellRenderer;
-using TimePickerHandler = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerHandler;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -73,9 +68,9 @@ public static partial class AppHostBuilderExtensions
         
         builder.ConfigureEffects(effects =>
         {
-            effects.Add(typeof(ContextMenuEffect), typeof(ContextMenuPlatformEffect));
-            effects.Add(typeof(Touch), typeof(TouchPlatformEffect));
-            effects.Add(typeof(Layout), typeof(LayoutPlatformEffect));
+            effects.Add<ContextMenuEffect, ContextMenuPlatformEffect>();
+            effects.Add<Touch, TouchPlatformEffect>();
+            effects.Add<Layout, LayoutPlatformEffect>();
         });
 
         builder.UseSkiaSharp();

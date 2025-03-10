@@ -6,5 +6,11 @@ public partial class Layout
         typeof(CornerRadius),
         typeof(Layout),
         new CornerRadius(0),
-        propertyChanged: OnCornerRadiusPropertiesChanged);
+        propertyChanged: OnLayoutPropertiesChanged);
+    
+    public static readonly BindableProperty AutoCornerRadiusProperty = BindableProperty.CreateAttached("AutoCornerRadius",
+        typeof(bool?),
+        typeof(Layout),
+        null,
+        propertyChanged: OnLayoutPropertiesChanged);
 }
