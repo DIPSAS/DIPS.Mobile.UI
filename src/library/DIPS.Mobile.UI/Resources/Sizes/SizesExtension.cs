@@ -35,6 +35,10 @@ namespace DIPS.Mobile.UI.Resources.Sizes
                 var provideValueTarget = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
                 if (provideValueTarget?.TargetProperty is BindableProperty bindableProperty)
                 {
+                    if (bindableProperty.ReturnType == typeof(int))
+                    {
+                        Datatype = SizeDatatype.Integer;
+                    }
                     if (bindableProperty.ReturnType == typeof(double))
                     {
                         Datatype = SizeDatatype.Double;
@@ -57,7 +61,7 @@ namespace DIPS.Mobile.UI.Resources.Sizes
             var size = GetSize(SizeName);
             return Datatype switch
             {
-                SizeDatatype.Integer => size,
+                SizeDatatype.Integer => (int)size,
                 SizeDatatype.Double => size,
                 SizeDatatype.Float => (float)size,
                 SizeDatatype.CornerRadiusUniformedSized => new CornerRadius(size),

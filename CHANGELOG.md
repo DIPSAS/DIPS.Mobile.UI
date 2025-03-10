@@ -2,6 +2,9 @@
 - Added new global property to `Layout`: AutoCornerRadius. Will set corner radius on elements automatically, in lists, the first and last item in the list will receive corner radius.
 - [CollectionView] Added padding property. 
 
+## [42.0.1] 
+- [Sizes] Convert size to int if BindableProperty expects an int.
+
 ## [42.0.0] 
 - Import semantic colors and sizes.
 - Set semantic colors and sizes on components.
