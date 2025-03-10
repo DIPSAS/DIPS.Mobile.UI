@@ -100,13 +100,6 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
             cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
         }
 
-        /*if (holder.ItemView.LayoutParameters is RecyclerView.LayoutParams layoutParameters)
-        {
-            layoutParameters.LeftMargin = 12.ToMauiPixel();
-            layoutParameters.RightMargin = 12.ToMauiPixel();
-            holder.ItemView.LayoutParameters = layoutParameters;
-        }*/
-        
         if(!cornerRadius.IsEmpty())
             SetCellCornerRadius(holder, cornerRadius);
     }
