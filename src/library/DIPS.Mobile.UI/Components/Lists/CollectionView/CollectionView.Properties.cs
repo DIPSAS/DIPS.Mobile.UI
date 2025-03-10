@@ -76,5 +76,10 @@ public partial class CollectionView
         {
             handler.ReloadData(handler);
         }
+
+#if __IOS__
+        if(Handler is CollectionView2Handler handler2)
+            handler2.ReloadData(handler2);
+#endif
     }
 }

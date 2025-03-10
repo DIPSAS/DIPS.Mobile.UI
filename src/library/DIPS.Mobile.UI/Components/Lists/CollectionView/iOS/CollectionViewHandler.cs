@@ -83,12 +83,19 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
     {
         var cell = base.GetCell(collectionView, indexPath);
 
+        TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
+
+        return cell;
+    }
+
+    public static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView)
+    {
         // Should be checked after every maui update
         var paddingWrapper = cell.Subviews[1]?.Subviews[0];
         if (paddingWrapper is null)
         {
             DUILogService.LogDebug<ReorderableItemsView>("Could not find padding wrapper in cell; could not modify cell");
-            return cell;
+            return;
         }
         
         // Should be checked after every maui update
@@ -96,11 +103,13 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         if (consumerItem is null)
         {
             DUILogService.LogDebug<ReorderableItemsView>("Could not find consumer item in cell; could not modify cell");
-            return cell;
+            return;
         }
         
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
-            return cell;
+        {
+            return;
+        }
 
         var cornerRadius = new CornerRadius();
         
@@ -131,13 +140,6 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
             consumerItem.Layer.CornerRadius = 0;
             consumerItem.Layer.MaskedCorners = 0;
         }
-
-        return cell;
-    }
-    
-    private bool IsFirstAndLastCell(UICollectionView collectionView, NSIndexPath indexPath)
-    {
-        return indexPath.Row == 0 || indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1;
     }
 
     private static void SetViewCornerRadius(UIView cell, CornerRadius cornerRadius)

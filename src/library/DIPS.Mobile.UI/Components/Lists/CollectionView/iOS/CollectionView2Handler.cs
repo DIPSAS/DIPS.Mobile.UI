@@ -1,65 +1,96 @@
-using CoreGraphics;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items2;
-using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView2Handler
 {
-    protected override ItemsViewController2<ReorderableItemsView> CreateController(ReorderableItemsView itemsView, UICollectionViewLayout layout)
+    public CollectionView2Handler() : base(CollectionViewPropertyMapper)
     {
-        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout } ? base.CreateController(itemsView, layout) : new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+    }
+
+    public static readonly PropertyMapper CollectionViewPropertyMapper =
+        new PropertyMapper<CollectionView2, CollectionViewHandler2>(Mapper)
+        {
+            [nameof(CollectionView2.ShouldBounce)] = MapShouldBounce
+        };
+
+    protected override ItemsViewController2<ReorderableItemsView> CreateController(ReorderableItemsView itemsView,
+        UICollectionViewLayout layout)
+    {
+        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout }
+            ? base.CreateController(itemsView, layout)
+            : new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+    }
+
+    private static void MapShouldBounce(CollectionViewHandler2 handler,
+        CollectionView2 virtualView)
+    {
+        if (handler.PlatformView.Subviews[0] is not UICollectionView uiCollectionView)
+            return;
+            
+        if (virtualView.ItemsLayout is ItemsLayout { Orientation: ItemsLayoutOrientation.Horizontal })
+        {
+            uiCollectionView.AlwaysBounceHorizontal = virtualView.ShouldBounce;
+        }
+        else
+        {
+            uiCollectionView.AlwaysBounceVertical = virtualView.ShouldBounce;
+        }
+    }
+
+    internal void ReloadData(CollectionView2Handler handler)
+    {
+        if (handler.PlatformView.Subviews[0] is UICollectionView uiCollectionView)
+        {
+            uiCollectionView.ReloadData();
+        }
     }
 }
 
-public class ReorderableItemsViewController : ReorderableItemsViewController2<ReorderableItemsView>
+public class ReorderableItemsViewController(
+    ReorderableItemsView itemsView,
+    UICollectionViewLayout layout,
+    CollectionView mauiCollectionView)
+    : ReorderableItemsViewController2<ReorderableItemsView>(itemsView, layout)
 {
-    public ReorderableItemsViewController(ReorderableItemsView itemsView, UICollectionViewLayout layout, CollectionView virtualView) : base(itemsView, layout)
+    private UIEdgeInsets? m_overridenContentInset;
+
+    private void SetContentInset()
     {
+        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd
+            ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.Frame.Height / 2
+            : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
+        CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top,
+            CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
+
+        m_overridenContentInset = CollectionView.ContentInset;
     }
 
-    protected override UICollectionViewDelegateFlowLayout CreateDelegator()
-    {
-        return new TestDelegator(ItemsViewLayout, this);
-    }
-
-    public override async void ViewDidLayoutSubviews()
+    /// <summary>
+    /// Maui sets the ContentInset in this function, so we need to override it to set the ContentInset after Maui has set it.
+    /// </summary>
+    public override void ViewDidLayoutSubviews()
     {
         base.ViewDidLayoutSubviews();
-        /*ItemsViewLayout
-        CollectionView.ContentInset = new UIEdgeInsets(12, 0, 100, 0);
-        ItemsViewLayout.SectionInset*/
-        
+
+        if (m_overridenContentInset is null)
+        {
+            SetContentInset();
+        }
+        else if (CollectionView.ContentInset != m_overridenContentInset)
+        {
+            SetContentInset();
+        }
     }
 
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
 
-        cell.Frame = cell.Bounds.Inset(12, 0);
-        /*ItemsViewLayout*/
-        /*cell.Frame = new CGRect(cell.Frame.X + 12, cell.Frame.Y, cell.Frame.Width - 24, cell.Frame.Height + 1);*/
+        ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
 
         return cell;
-    }
-}
-
-public class TestDelegator : ReorderableItemsViewDelegator2<ReorderableItemsView, ReorderableItemsViewController2<ReorderableItemsView>>
-{
-    public TestDelegator(UICollectionViewLayout itemsViewLayout, ReorderableItemsViewController2<ReorderableItemsView> itemsViewController2) : base(itemsViewLayout, itemsViewController2)
-    {
-    }
-
-    public override UIEdgeInsets GetInsetForSection(UICollectionView collectionView, UICollectionViewLayout layout, IntPtr section)
-    {
-        return new UIEdgeInsets(0, 12, 0, 12);
-    }
-    
-
-    public override CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
-    {
-        return new CGSize(100, 100);
     }
 }

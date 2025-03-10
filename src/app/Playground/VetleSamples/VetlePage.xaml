@@ -22,22 +22,22 @@
 
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+    <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
                         x:Name="CollectionView"
-                        IsGrouped="True"
+                        IsGrouped="False"
                         BackgroundColor="Transparent">
         
         <!--<dui:CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
         </dui:CollectionView.ItemsLayout>-->
         
-        <dui:CollectionView.GroupHeaderTemplate>
+        <dui:CollectionView2.GroupHeaderTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="he"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupHeaderTemplate>
+        </dui:CollectionView2.GroupHeaderTemplate>
         
         <!--<dui:CollectionView.Header>
             <Button Text="Test!"
@@ -45,34 +45,34 @@
                     Clicked="Button_OnClicked"></Button>
         </dui:CollectionView.Header>-->
         
-        <dui:CollectionView.Header>
+        <dui:CollectionView2.Header>
             <Grid Padding="8">
             <dui:ListItem Title="Hello"></dui:ListItem>
             </Grid>
-        </dui:CollectionView.Header>
+        </dui:CollectionView2.Header>
         
-        <dui:CollectionView.Footer>
+        <dui:CollectionView2.Footer>
             <Grid Padding="8">
                 
             <dui:ListItem Title="footer"></dui:ListItem>
             </Grid>
-        </dui:CollectionView.Footer>
+        </dui:CollectionView2.Footer>
         
-        <dui:CollectionView.GroupFooterTemplate>
+        <dui:CollectionView2.GroupFooterTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="footer"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupFooterTemplate>
+        </dui:CollectionView2.GroupFooterTemplate>
         
-        <dui:CollectionView.ItemTemplate>
+        <dui:CollectionView2.ItemTemplate>
             <DataTemplate x:DataType="system:String">
                 <dui:ListItem Title="Hei" />
             </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView2.ItemTemplate>
 
-    </dui:CollectionView>
+    </dui:CollectionView2>
     </dui:RefreshView>
 
 </dui:ContentPage>
