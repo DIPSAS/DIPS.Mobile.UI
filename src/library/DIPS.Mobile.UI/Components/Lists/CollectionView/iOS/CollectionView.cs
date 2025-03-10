@@ -10,15 +10,22 @@ public partial class CollectionView
         typeof(CollectionView),
         propertyChanged: (bindable, _, _) =>
         {
-            if (bindable is CollectionView collectionView)
+            if (bindable is not CollectionView collectionView)
+                return;
+
+            if (collectionView.ItemsLayout is LinearItemsLayout linearItemsLayout)
             {
-                collectionView.DataTemplateChanged();
+                collectionView.DataTemplateChanged(linearItemsLayout.Orientation == ItemsLayoutOrientation.Horizontal);
+            }
+            else
+            {
+                collectionView.DataTemplateChanged(true);
             }
         });
 
-    private void DataTemplateChanged()
+    private void DataTemplateChanged(bool useDefault = false)
     {
-        base.ItemTemplate = new DataTemplateSelectorWrapper(ItemTemplate, this);
+        base.ItemTemplate = useDefault ? ItemTemplate : new DataTemplateSelectorWrapper(ItemTemplate, this);
     }
 
     public new DataTemplate ItemTemplate
