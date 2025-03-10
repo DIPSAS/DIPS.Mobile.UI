@@ -25,12 +25,18 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
         {
             return;
         }
+
+        var indexInGroup = 0;
+        IItemsViewSource? group = null;
         
-        if (!adapter.TryGetGroupAndGroupIndex(position, out var indexInGroup, out var group))
+        if (m_collectionView.IsGrouped)
         {
-            return;   
+            if (!adapter.TryGetGroupAndGroupIndex(position, out indexInGroup, out group))
+            {
+                return;   
+            }
         }
-        
+
         // Header is an element in the list
         if(m_collectionView.HeaderTemplate is not null && position == 0)
         {
@@ -42,12 +48,12 @@ internal class CellMarginDecoration : RecyclerView.ItemDecoration
             return;
         }
         
-        if(group.IsHeader(indexInGroup))
+        if(group is not null && group.IsHeader(indexInGroup))
         {
             return;
         }
         
-        if(group.IsFooter(indexInGroup))
+        if(group is not null && group.IsFooter(indexInGroup))
         {
             return;
         }

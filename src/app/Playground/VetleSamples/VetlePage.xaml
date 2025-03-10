@@ -22,23 +22,22 @@
 
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+    <dui:CollectionView ItemsSource="{Binding TestStrings}"
                         x:Name="CollectionView"
-                        Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}"
-                        IsGrouped="True"
+                        
                         BackgroundColor="Transparent">
         
         <!--<dui:CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
         </dui:CollectionView.ItemsLayout>-->
         
-        <dui:CollectionView.GroupHeaderTemplate>
+        <!--<dui:CollectionView.GroupHeaderTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="he"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupHeaderTemplate>
+        </dui:CollectionView.GroupHeaderTemplate>-->
         
         <!--<dui:CollectionView.Header>
             <Button Text="Test!"
@@ -52,20 +51,20 @@
             </Grid>
         </dui:CollectionView.Header>
         
-        <dui:CollectionView.Footer>
+        <!--<dui:CollectionView.Footer>
             <Grid Padding="8">
                 
             <dui:ListItem Title="footer"></dui:ListItem>
             </Grid>
-        </dui:CollectionView.Footer>
+        </dui:CollectionView.Footer>-->
         
-        <dui:CollectionView.GroupFooterTemplate>
+        <!--<dui:CollectionView.GroupFooterTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="footer"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupFooterTemplate>
+        </dui:CollectionView.GroupFooterTemplate>-->
         
         <dui:CollectionView.ItemTemplate>
             <DataTemplate x:DataType="system:String">
