@@ -1,8 +1,11 @@
 using CoreGraphics;
+using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Lists;

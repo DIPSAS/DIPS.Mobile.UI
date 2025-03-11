@@ -10,7 +10,7 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_neutral_30}">
+                 BackgroundColor="{dui:Colors color_neutral_10}">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -22,10 +22,11 @@
 
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
-                        x:Name="CollectionView"
-                        IsGrouped="False"
-                        BackgroundColor="Transparent">
+    <dui:CollectionView2 ItemsSource="{Binding TestObject2s}"
+                            x:Name="CollectionView"
+                            IsGrouped="False"
+                            BackgroundColor="Transparent"
+                            dui:Layout.AutoCornerRadius="False">
         
         <!--<dui:CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
