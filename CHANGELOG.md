@@ -1,6 +1,11 @@
-## [42.1.0] 
+## [42.2.0] 
 - Added Input dialog
 - Refactored DialogService
+
+## [42.1.0]
+- Added new global property to `Layout`: AutoCornerRadius. Will set corner radius on elements automatically, in lists, the first and last item in the list will receive corner radius.
+- [CollectionView] Added padding property. 
+- [CollectionView] We now add more additional space at the bottom using a different method, potentially fixing bugs.
 
 ## [42.0.1] 
 - [Sizes] Convert size to int if BindableProperty expects an int.

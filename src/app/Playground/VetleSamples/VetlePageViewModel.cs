@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
@@ -29,6 +30,8 @@ public class VetlePageViewModel : ViewModel
     private TimePlanningViewModel m_timePlanningViewModel = null;
     private bool m_isEnabled;
     private List<string> m_testStrings = [];
+    private ObservableCollection<GroupedTest> m_groupedTest = [];
+    private bool m_isRefreshing;
 
     public VetlePageViewModel()
     {
@@ -66,7 +69,7 @@ public class VetlePageViewModel : ViewModel
 
         CancelCommand = new Command(() =>         Shell.Current.Navigation.PushAsync(new VetleTestPage1()));
 
-        _ = DelayFunction();
+        //_ = DelayFunction();
 
         DisableCommand = new Command(Disable);
 
@@ -83,6 +86,9 @@ public class VetlePageViewModel : ViewModel
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
         TestObjects.Add(new TestObject(CheckCommand));
+
+        
+        GroupedTest = [new(["Test"]), new(TestStrings)];
 
     }
 
@@ -144,9 +150,13 @@ public class VetlePageViewModel : ViewModel
 
     private async Task DelayFunction()
     {
-        await Task.Delay(2000);
+        await Task.Delay(1000);
 
-        TimePlanningViewModel = new TimePlanningViewModel(this);
+        GroupedTest = [new(TestStrings), new(TestStrings)];
+        
+        await Task.Delay(5000);
+        
+        GroupedTest = [new(TestStrings), new(TestStrings), new(TestStrings)];
     }
 
 
@@ -167,7 +177,7 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_defaultSelectedItem, value);
     }
 
-    public ObservableCollection<string> TestStrings { get; set; } = new()
+    public List<string> TestStrings { get; set; } = new()
     {
         "Lokalisasjon påkrevd - Kodeverk og egendefinert",
         "Lokalisasjon - Fritekst",
@@ -179,6 +189,42 @@ public class VetlePageViewModel : ViewModel
         "HAALAND",
         "ØDEGÅÅRD",
         "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        "ABC",
+        "ÅBE",
+        "HAALAND",
+        "ØDEGÅÅRD",
+        "Testern",
+        "Test",
+        "Test",
+        "Test",
+        
     };
 
     public List<TestObject2> TestObject2s { get; } =
@@ -296,7 +342,11 @@ public class VetlePageViewModel : ViewModel
 
     });
 
-    public ObservableCollection<GroupedTest> GroupedTest { get; } = [];
+    public ObservableCollection<GroupedTest> GroupedTest
+    {
+        get => m_groupedTest;
+        set => RaiseWhenSet(ref m_groupedTest, value);
+    }
 
     public TimePlanningViewModel TimePlanningViewModel
     {
@@ -306,6 +356,19 @@ public class VetlePageViewModel : ViewModel
 
     public bool IsEnabled => m_testStrings.Any(x => x.Equals("Test"));
 
+    public ICommand RefreshCommand => new Command(async () =>
+    {
+        await Task.Delay(2000);
+        IsRefreshing = false;
+        GroupedTest = [new(TestStrings), new(TestStrings), new(TestStrings)];
+    });
+
+    public bool IsRefreshing
+    {
+        get => m_isRefreshing;
+        set => RaiseWhenSet(ref m_isRefreshing, value);
+    }
+
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);
@@ -314,6 +377,11 @@ public class VetlePageViewModel : ViewModel
 
 public class GroupedTest : List<string>
 {
+    public GroupedTest(List<string> strings) : base(strings)
+    {
+        
+    }
+    
     public string Header { get; } = "Header";
 }
 

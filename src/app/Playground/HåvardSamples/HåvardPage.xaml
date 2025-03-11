@@ -18,14 +18,16 @@
         <håvardSamples:HåvardPageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout>
+    <ScrollView Padding="{dui:Thickness Top=size_2}">
+        <VerticalStackLayout dui:Layout.AutoCornerRadius="True"
+                             HorizontalOptions="Center">
             <!-- <dui:NavigationListItem Title="Item" Tapped="ListItem_OnTapped"/> -->
 
             <ContentView HeightRequest="50"
                          WidthRequest="100"
-                         Background="Red"
-                         Padding="12"
+                         BackgroundColor="Red"
+                         
+                         
                          dui:Touch.Command="{Binding Command}"
                          dui:ContextMenuEffect.Mode="LongPressed">
                 <dui:ContextMenuEffect.Menu>

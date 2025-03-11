@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Library.iOS;
 using DIPS.Mobile.UI.Components.CarouselView;
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
 using Microsoft.Maui.Controls.Handlers.Items;
@@ -22,6 +23,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();
         handlers.AddHandler<Layout, LayoutHandler>();
         handlers.AddHandler<Switch, SwitchHandler>();
+        handlers.AddHandler<CollectionView2, CollectionView2Handler>();
         handlers.AddHandler<CarouselView2, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
         handlers.AddHandler<Entry, TryFixCrashEntryHandler>();
 

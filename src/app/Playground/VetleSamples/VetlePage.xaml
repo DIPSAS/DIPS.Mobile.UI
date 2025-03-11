@@ -8,9 +8,9 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
-                 Padding="20"
                  x:Name="This"
-                 HideSoftInputOnTapped="True">
+                 HideSoftInputOnTapped="True"
+                 BackgroundColor="{dui:Colors color_neutral_30}">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
@@ -20,11 +20,59 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <Grid>
-        <dui:Button Text="hello"
-                    VerticalOptions="Start"
-                    Clicked="Button_OnClicked"
-                    CornerRadius="{dui:Sizes radius_large}"></dui:Button>
-    </Grid>
+    <dui:RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+    <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
+                        x:Name="CollectionView"
+                        IsGrouped="False"
+                        BackgroundColor="Transparent">
+        
+        <!--<dui:CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
+        </dui:CollectionView.ItemsLayout>-->
+        
+        <dui:CollectionView2.GroupHeaderTemplate>
+            <DataTemplate>
+                <Grid Padding="8">
+                    <dui:ListItem Title="he"></dui:ListItem>
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView2.GroupHeaderTemplate>
+        
+        <!--<dui:CollectionView.Header>
+            <Button Text="Test!"
+                    BackgroundColor="Red"
+                    Clicked="Button_OnClicked"></Button>
+        </dui:CollectionView.Header>-->
+        
+        <dui:CollectionView2.Header>
+            <Grid Padding="8">
+            <dui:ListItem Title="Hello"></dui:ListItem>
+            </Grid>
+        </dui:CollectionView2.Header>
+        
+        <dui:CollectionView2.Footer>
+            <Grid Padding="8">
+                
+            <dui:ListItem Title="footer"></dui:ListItem>
+            </Grid>
+        </dui:CollectionView2.Footer>
+        
+        <dui:CollectionView2.GroupFooterTemplate>
+            <DataTemplate>
+                <Grid Padding="8">
+                    <dui:ListItem Title="footer"></dui:ListItem>
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView2.GroupFooterTemplate>
+        
+        <dui:CollectionView2.ItemTemplate>
+            <DataTemplate x:DataType="system:String">
+                <dui:ListItem Title="Hei" />
+            </DataTemplate>
+        </dui:CollectionView2.ItemTemplate>
+
+    </dui:CollectionView2>
+    </dui:RefreshView>
 
 </dui:ContentPage>

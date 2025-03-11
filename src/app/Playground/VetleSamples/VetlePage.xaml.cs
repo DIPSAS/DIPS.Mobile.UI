@@ -1,8 +1,10 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
+using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -149,28 +151,7 @@ public partial class VetlePage
         /*SignInButton.SetSemanticFocus();*/
     }
 
-    private async void Button_OnClicked(object sender, EventArgs e)
-    {
-
-        var nameInput = new StringDialogInputField(placeholder: "Name", mustBeSet: true);
-        var urlInput = new StringDialogInputField(placeholder: "Url", mustBeSet: true, value: "123");
-        
-        var result = await DialogService.ShowInputDialog(configurator =>
-        {
-            configurator
-                .AddInputField(nameInput)
-                .AddInputField(urlInput)
-                .SetTitle("Velg miljø")
-                .SetActionTitle("Legg til")
-                .SetCancelTitle("Avbryt førr fan");
-        });
-
-        if (result.DialogAction is DialogAction.TappedAction)
-        {
-            var nameOutput = nameInput.Value;
-        }
-        
-    }
+    
 
     private void SwapRoot(object sender, EventArgs e)
     {
@@ -218,5 +199,11 @@ public partial class VetlePage
         
     }
 
-    
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        if (CollectionView.Handler is CollectionViewHandler collectionViewHandler)
+        {
+            
+        }
+    }
 }

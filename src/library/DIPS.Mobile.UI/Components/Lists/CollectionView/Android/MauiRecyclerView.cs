@@ -1,5 +1,10 @@
 using Android.Content;
+using Android.Views;
+using AndroidX.RecyclerView.Widget;
+using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Controls.Handlers.Items;
+using Rect = Android.Graphics.Rect;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Lists.Android;
 
@@ -22,3 +27,4 @@ public class MauiRecyclerView : MauiRecyclerView<ReorderableItemsView,
         SetPadding(0, 0, 0, 0);
     }
 }
+

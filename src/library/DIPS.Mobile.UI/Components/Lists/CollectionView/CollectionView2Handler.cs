@@ -6,4 +6,4 @@ using CollectionViewHandlerImpl = Microsoft.Maui.Controls.Handlers.Items.Collect
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-public class CollectionView2Handler : CollectionViewHandlerImpl;
+public partial class CollectionView2Handler : CollectionViewHandlerImpl;

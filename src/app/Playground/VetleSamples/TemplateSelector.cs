@@ -12,7 +12,7 @@ public class TemplateSelector : DataTemplateSelector
     
     protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
     {
-        return new DataTemplate(() => new ViewCellTest());
+        return new Random().Next(0, 2) == 0 ? Test1 : Test2;
     }
 
 }
