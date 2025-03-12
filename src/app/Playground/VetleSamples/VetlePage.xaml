@@ -33,8 +33,8 @@
         
         <dui:CollectionView2.GroupHeaderTemplate>
             <DataTemplate>
-                <Grid Padding="8">
-                    <dui:ListItem Title="he"></dui:ListItem>
+                <Grid>
+                    <dui:ListItem Title="he" ></dui:ListItem>
                 </Grid>
             </DataTemplate>
         </dui:CollectionView2.GroupHeaderTemplate>
@@ -46,21 +46,21 @@
         </dui:CollectionView.Header>-->
         
         <dui:CollectionView2.Header>
-            <Grid Padding="8">
-            <dui:ListItem Title="Hello"></dui:ListItem>
+            <Grid>
+            <dui:ListItem Title="Hello" Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}"></dui:ListItem>
             </Grid>
         </dui:CollectionView2.Header>
         
         <dui:CollectionView2.Footer>
-            <Grid Padding="8">
+            <Grid>
                 
-            <dui:ListItem Title="footer"></dui:ListItem>
+            <dui:ListItem Title="global footer"></dui:ListItem>
             </Grid>
         </dui:CollectionView2.Footer>
         
         <dui:CollectionView2.GroupFooterTemplate>
             <DataTemplate>
-                <Grid Padding="8">
+                <Grid>
                     <dui:ListItem Title="footer"></dui:ListItem>
                 </Grid>
             </DataTemplate>

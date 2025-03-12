@@ -79,23 +79,35 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
     {
         base.OnBindViewHolder(holder, position);
 
-        if (!TryGetGroupAndGroupIndex(position, out var index, out var currentGroup))
+        if (m_collectionView.IsGrouped)
         {
-            return;
+            if (!TryGetGroupAndGroupIndex(position, out position, out var group))
+            {
+                return;   
+            }
+            
+            TrySetCornerRadiusOnCell(holder, position, group.HasHeader, group.HasHeader, group.Count);
         }
+        else
+        {
+            TrySetCornerRadiusOnCell(holder, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
+        }
+    }
 
-        var cornerRadius = new CornerRadius();
-
-        // On Android, the group header -and footer is actual items in the RecyclerView, so we need to adjust the index
-        var firstItemIndex = m_collectionView.GroupHeaderTemplate is null ? 0 : 1;
-        var lastItemIndex = m_collectionView.GroupFooterTemplate is null ? currentGroup.Count - 1 : currentGroup.Count - 2;
+    private void TrySetCornerRadiusOnCell(RecyclerView.ViewHolder holder, int position, bool hasHeader, bool hasFooter, int count)
+    {
+        // Header and footer is included as elements
+        var firstItemIndex = hasHeader ? 1 : 0;
+        var lastItemIndex = count - (hasFooter ? 2 : 1);
         
-        if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == firstItemIndex)
+        var cornerRadius = new CornerRadius();
+        
+        if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == firstItemIndex)
         {
             cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0) : m_collectionView.FirstItemCornerRadius;
         }
         
-        if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && index == lastItemIndex)
+        if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == lastItemIndex)
         {
             cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
         }

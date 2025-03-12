@@ -2,6 +2,9 @@
 - Added Input dialog
 - Refactored DialogService
 
+## [42.1.1]
+- [CollectionView][Android] Fix bug where `AutoCornerRadius` would apply to header and footer.
+
 ## [42.1.0]
 - Added new global property to `Layout`: AutoCornerRadius. Will set corner radius on elements automatically, in lists, the first and last item in the list will receive corner radius.
 - [CollectionView] Added padding property. 
