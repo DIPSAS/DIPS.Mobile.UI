@@ -5,8 +5,6 @@
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
              x:Class="Playground.VetleSamples.TestBottomSheetFitToContent"
-             ShouldFitToContent="True"
-             HasSearchBar="True"
              x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
              SearchCommand="{Binding Navigate}">
     
@@ -23,12 +21,53 @@
                     <x:String>Hei</x:String>
                     <x:String>Hei</x:String>
                     <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+                    <x:String>Hei</x:String>
+
                 </x:Array>
         
             </ResourceDictionary>
     </dui:BottomSheet.Resources>
 
-    
-    <CollectionView ItemsSource="{StaticResource Array}" />
-    
+        <dui:CollectionView ItemsSource="{StaticResource Array}"
+                            BackgroundColor="Black">
+            
+            <dui:CollectionView.Header>
+                <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}"></Grid>
+            </dui:CollectionView.Header>
+            <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:ListItem Title="{Binding .}"></dui:ListItem>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+    </dui:CollectionView>
+
 </dui:BottomSheet>
