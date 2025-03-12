@@ -89,6 +89,7 @@ public class ReorderableItemsViewController(
     {
         var cell = base.GetCell(collectionView, indexPath);
 
+        ReordableItemsViewController.TrySetMarginOnCell(cell, mauiCollectionView);
         ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
 
         return cell;

@@ -20,9 +20,14 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-   <dui:Chip Title="Hello"
-             Margin="{dui:Thickness Top=size_4}"
-             VerticalOptions="Start"
-             HorizontalOptions="Center"/>
+   <dui:CollectionView2 ItemsSource="{Binding TestStrings}">
+       
+       <dui:CollectionView2.ItemTemplate>
+           <DataTemplate>
+               <dui:ListItem Title="{Binding .}" />
+           </DataTemplate>
+       </dui:CollectionView2.ItemTemplate>
+       
+   </dui:CollectionView2>
 
 </dui:ContentPage>
