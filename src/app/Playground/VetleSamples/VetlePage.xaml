@@ -7,11 +7,11 @@
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:divider="clr-namespace:DIPS.Mobile.UI.Effects.Layout.Divider;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
                  BackgroundColor="{dui:Colors color_neutral_10}">
-
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
@@ -26,7 +26,13 @@
                             x:Name="CollectionView"
                             IsGrouped="False"
                             BackgroundColor="Transparent"
-                            dui:Layout.AutoCornerRadius="False">
+                            dui:Layout.AutoCornerRadius="False"
+                            dui:Layout.AutoDivider="True">
+        
+        <!--<dui:Layout.AutoDivider>
+            <divider:DividerConfigurator Padding="{dui:Thickness Top=size_4}"
+                                         Margin="{dui:Thickness Left=size_2}" />
+        </dui:Layout.AutoDivider>-->
         
         <!--<dui:CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>

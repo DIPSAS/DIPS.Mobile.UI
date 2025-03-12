@@ -41,9 +41,9 @@ public partial class CollectionView
     {
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            int? index = 0;
+            int? index = null;
             IList? itemsSourceList = null;
-            if (collectionView.ItemsSource is IList list)
+            if (UI.Effects.Layout.Layout.GetAutoDivider(collectionView) is not null && collectionView.ItemsSource is IList list)
             {
                 itemsSourceList = list;
                 index = list.IndexOf(item);

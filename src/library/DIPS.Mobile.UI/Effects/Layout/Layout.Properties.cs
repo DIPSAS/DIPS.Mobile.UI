@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Effects.Layout.Divider;
+
 namespace DIPS.Mobile.UI.Effects.Layout;
 
 public partial class Layout
@@ -13,4 +15,9 @@ public partial class Layout
         typeof(Layout),
         null,
         propertyChanged: OnLayoutPropertiesChanged);
+    
+    public static readonly BindableProperty AutoDividerProperty = BindableProperty.CreateAttached("AutoDivider",
+        typeof(DividerConfigurator),
+        typeof(Layout),
+        null);
 }

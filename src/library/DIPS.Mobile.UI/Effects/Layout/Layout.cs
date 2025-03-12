@@ -1,3 +1,7 @@
+using System.ComponentModel;
+using System.Globalization;
+using DIPS.Mobile.UI.Effects.Layout.Divider;
+
 namespace DIPS.Mobile.UI.Effects.Layout;
 
 public partial class Layout : RoutingEffect
@@ -30,6 +34,20 @@ public partial class Layout : RoutingEffect
     {
         view.SetValue(AutoCornerRadiusProperty, autoCornerRadius);
     }
+    
+    [TypeConverter(typeof(DividerConfiguratorTypeConverter))]
+    public static DividerConfigurator? GetAutoDivider(BindableObject view)
+    {
+        return (DividerConfigurator?)view.GetValue(AutoDividerProperty);
+    }
+
+    /// <summary>
+    /// Sets automatic divider between elements in a <see cref="CollectionView"/> or <see cref="BindableLayout"/> together with <see cref="VerticalStackLayout"/>
+    /// </summary>
+    public static void SetAutoDivider(BindableObject view, DividerConfigurator? configurator)
+    {
+        view.SetValue(AutoDividerProperty, configurator);
+    }
 
     private static void OnLayoutPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
@@ -54,5 +72,31 @@ public partial class Layout : RoutingEffect
         {
             view.Effects.Remove(view.Effects.FirstOrDefault(e => e is Layout));
         }
+    }
+}
+
+public class DividerConfiguratorTypeConverter : TypeConverter
+{
+    public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+    {
+        if (value is string stringValue)
+        {
+            if(stringValue.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                return new DividerConfigurator();
+            }
+
+            if(stringValue.Equals("false", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+        }
+        
+        if(value is DividerConfigurator)
+        {
+            return value;
+        }
+        
+        throw new ArgumentException("Invalid value passed into AutoDivider, use either 'true', 'false' or a `DividerConfigurator`");
     }
 }
