@@ -1,5 +1,5 @@
 ## [42.2.3] 
-- [CollectionView] Fixed poor performance.
+- [CollectionView][iOS] Fixed poor performance.
 
 ## [42.2.2] 
 - [Chip][Android] Fixed so that default CornerRadius will be set.
