@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -8,33 +7,102 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
-    private static TaskCompletionSource<DialogAction>? m_taskCompletionSource;
+    private static TaskCompletionSource<InputDialogAction>? s_inputTaskCompletionSource;
+    private static TaskCompletionSource<DialogAction>? s_taskCompletionSource;
     private static UIWindow Window { get; } = new() { BackgroundColor = Colors.Transparent.ToPlatform() };
 
-    public static partial Task<DialogAction> ShowMessage(string title, string message, string actionTitle)
+    public static partial async Task<InputDialogAction> ShowInputDialog(Action<IInputDialogConfigurator> configurator)
     {
-        return Show(title, message, actionTitle);
+        await Remove();
+        
+        s_inputTaskCompletionSource = new TaskCompletionSource<InputDialogAction>();
+        var inputDialogConfigurator = new InputDialogConfigurator();
+        
+        configurator.Invoke(inputDialogConfigurator);
+
+        IDialog dialog = inputDialogConfigurator;
+        IInputDialog inputDialog = inputDialogConfigurator;
+
+        var uiAlertController = ConstructGeneralAlertController(dialog, () =>
+        {
+            OnCancelButtonTapped(inputDialogConfigurator, s_inputTaskCompletionSource);
+        },
+        () =>
+        {
+            OnActionButtonTapped(inputDialog, s_inputTaskCompletionSource);
+        });
+        
+        foreach (var dialogInputField in inputDialog.InputDialogEntryConfigurators)
+        {
+            if (dialogInputField is StringDialogInputField stringInputField)
+            {
+                uiAlertController.AddTextField(e =>
+                {
+                    e.RestorationIdentifier = stringInputField.Identifier.ToString();
+                    e.Placeholder = stringInputField.Placeholder;
+                    e.Text = stringInputField.Value;
+                    e.EditingChanged += delegate
+                    {
+                        stringInputField.Value = e.Text;
+                        
+                        SetActionButtonEnabled();
+                    };
+                });
+            }
+        }
+        
+        void SetActionButtonEnabled()
+        {
+            var actionButton = uiAlertController.Actions.FirstOrDefault(action => action.Title == dialog.ActionTitle);
+            if (actionButton is not null)
+            {
+                actionButton.Enabled = ActionEnabledState(inputDialog);
+            }
+        }
+
+        SetActionButtonEnabled();
+        
+        Window.RootViewController?.PresentViewController(uiAlertController, true, () => { });
+        
+        return await s_inputTaskCompletionSource.Task;
     }
 
-    public static partial Task<DialogAction> ShowConfirmationMessage(string title, string message, string closeTitle,
-        string actionTitle)
+    public static partial async Task<DialogAction> ShowMessage(Action<IDialogConfigurator> configurator)
     {
-        return Show(title, message, actionTitle, closeTitle);
-    }
+        var dialogConfigurator = new DialogConfigurator();
+        configurator.Invoke(dialogConfigurator);
+        
+        IDialog dialog = dialogConfigurator;
+        
+        await Remove();
+        
+        s_taskCompletionSource = new TaskCompletionSource<DialogAction>();
+        var uiAlertController = ConstructGeneralAlertController(dialog, () =>
+            {
+                s_taskCompletionSource.SetResult(DialogAction.Closed);
+            },
+            () =>
+            {
+                s_taskCompletionSource.SetResult(DialogAction.TappedAction);
+            }, dialog.IsDestructive);
+       
+        Window.RootViewController?.PresentViewController(uiAlertController, true, () => { });
 
-    public static partial Task<DialogAction> ShowDestructiveConfirmationMessage(string title, string message,
-        string closeTitle, string actionTitle)
-    {
-        return Show(title, message, actionTitle, closeTitle, true);
+        return await s_taskCompletionSource.Task;
     }
-
+    
     public async static partial Task Remove()
     {
         if (TryGetUiAlertViewController(out var viewController))
         {
             await viewController?.DismissViewControllerAsync(false)!;
             Window.Hidden = true;
-            m_taskCompletionSource?.TrySetResult(DialogAction.Closed);   
+            s_taskCompletionSource?.TrySetResult(DialogAction.Closed);  
+            s_inputTaskCompletionSource?.TrySetResult(new InputDialogAction
+            {
+                DialogAction = DialogAction.Closed,
+                DialogInputs = []
+            });
         }
     }
 
@@ -48,7 +116,6 @@ public static partial class DialogService
 
         viewController = Window.RootViewController;
         return true;
-
     }
     
     public static partial bool IsShowing()
@@ -56,52 +123,38 @@ public static partial class DialogService
         return TryGetUiAlertViewController(out _);
     }
 
-    private async static Task<DialogAction> Show(
-        string title,
-        string message,
-        string actionButtonTitle,
-        string? cancelButtonTitle = null,
-        bool isDestructiveDialog = false)
+    private static UIAlertController ConstructGeneralAlertController(IDialog dialog, Action onCancelButtonTapped, Action onActionButtonTapped, bool isDestructiveDialog = false)
     {
-        await Remove();
-
-        m_taskCompletionSource = new TaskCompletionSource<DialogAction>();
-
-        var uiAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-        if (cancelButtonTitle is not null)
+        var uiAlertController = UIAlertController.Create(dialog.Title, dialog.Description, UIAlertControllerStyle.Alert);
+        if (dialog.CancelTitle is not null)
         {
             uiAlertController.AddAction(
                 UIAlertAction.Create(
-                    cancelButtonTitle,
+                    dialog.CancelTitle,
                     UIAlertActionStyle.Default,
                     _ =>
                     {
                         Window.Hidden = true;
-                        m_taskCompletionSource?.SetResult(DialogAction.Closed);
+                        onCancelButtonTapped.Invoke();
                     }));
         }
 
         uiAlertController.AddAction(
             UIAlertAction.Create(
-                actionButtonTitle,
+                dialog.ActionTitle,
                 isDestructiveDialog ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default,
                 _ =>
                 {
                     Window.Hidden = true;
-                    m_taskCompletionSource?.SetResult(DialogAction.TappedAction);
+                    onActionButtonTapped.Invoke();
                 }));
         
         Window.RootViewController = new UIViewController();
-        if (Window.RootViewController.View == null)
-        {
-            return await m_taskCompletionSource.Task;
-        }
         
-        Window.RootViewController.View.BackgroundColor = Colors.Transparent.ToPlatform();
+        Window.RootViewController.View!.BackgroundColor = Colors.Transparent.ToPlatform();
         Window.WindowLevel = UIWindowLevel.Alert + 1;
         Window.MakeKeyAndVisible();
-        Window.RootViewController.PresentViewController(uiAlertController, true, () => { });
 
-        return await m_taskCompletionSource.Task;
+        return uiAlertController;
     }
 }

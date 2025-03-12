@@ -1,3 +1,7 @@
+## [42.2.0] 
+- Added Input dialog
+- Refactored DialogService
+
 ## [42.1.1]
 - [CollectionView][Android] Fix bug where `AutoCornerRadius` would apply to header and footer.
 
