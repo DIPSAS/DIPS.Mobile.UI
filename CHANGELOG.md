@@ -1,3 +1,6 @@
+## [42.2.2] 
+- [Chip][Android] Fixed so that default CornerRadius will be set.
+
 ## [42.2.1] 
 - [SearchPage][ItemPicker] Fixed so that items will get correct default margin and corner radius
 
