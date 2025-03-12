@@ -1,3 +1,6 @@
+## [42.2.1] 
+- [SearchPage][ItemPicker] Fixed so that items will get correct default margin and corner radius
+
 ## [42.2.0] 
 - Added Input dialog
 - Refactored DialogService

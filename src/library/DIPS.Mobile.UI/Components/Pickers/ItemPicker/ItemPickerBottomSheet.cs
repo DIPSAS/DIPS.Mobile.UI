@@ -20,7 +20,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
-            m_originalItems = new List<SelectableItemViewModel>();
+            m_originalItems = [];
 
             if (m_itemPicker.ItemsSource != null)
             {
@@ -38,10 +38,9 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration configuration) => configuration.HasSearchBar, source: m_itemPicker.BottomSheetPickerConfiguration);
             this.SetBinding(ShouldAutoFocusSearchBarProperty, static (ItemPicker itemPicker) => itemPicker.ShouldAutoFocusSearchBar, source: m_itemPicker);
 
-            m_collectionView = new CollectionView()
+            m_collectionView = new CollectionView
             {
                 ItemTemplate = new DataTemplate(LoadTemplate), 
-                Margin = Sizes.GetSize(SizeName.content_margin_small)
             };
             
             m_collectionView.Scrolled += OnCollectionViewScrolled;
