@@ -2,6 +2,31 @@ namespace DIPS.Mobile.UI.Components.Alerting.Dialog;
 
 public static partial class DialogService
 {
+    
+    /// <summary>
+    /// Display an input dialog and use the <see cref="IInputDialogConfigurator"/> to configure it.
+    /// This is used to get a simple input from the user.
+    /// <example>
+    /// For example:
+    /// <code>
+    ///  var someInput = new StringDialogInputField(placeholder: "Type here");
+    ///  var result = await dialogService.ShowInputDialog(configurator =>
+    /// {
+    ///     configurator
+    ///         .AddTitle("Title")
+    ///         .AddDescription("This is some description")
+    ///         .AddInputField(someInput);
+    /// });
+    ///
+    /// if(result.DialogAction == DialogAction.TappedAction)
+    /// {
+    ///     // Use someInput.Value (or result.DialogInputs[0].Value)
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    /// <param name="configurator"></param>
+    /// <returns><see cref="InputDialogAction"/></returns>
     public static partial Task<InputDialogAction> ShowInputDialog(Action<IInputDialogConfigurator> configurator);
 
     /// <summary>
@@ -15,6 +40,26 @@ public static partial class DialogService
     /// <returns>true/false depending on if its showing.</returns>
     public static partial bool IsShowing();
 
+    /// <summary>
+    /// Show a dialog and use the <see cref="IDialogConfigurator"/> to configure it.
+    /// <example>
+    /// For example:
+    /// <code>
+    /// var result = await dialogService.ShowMessage(configurator =>
+    /// {
+    ///     configurator
+    ///         .AddTitle("Title")
+    ///         .AddDescription("This is some description");
+    /// });
+    /// </code>
+    /// </example>
+    /// </summary>
+    /// <param name="configurator"></param>
+    /// <returns>
+    ///     <see cref="DialogAction.TappedAction" />
+    /// ,
+    ///     <see cref="DialogAction.Closed" />
+    /// </returns>
     public static partial Task<DialogAction> ShowMessage(Action<IDialogConfigurator> configurator);
     
     internal static bool ActionEnabledState(IInputDialog? inputDialog)

@@ -347,4 +347,10 @@
     <data name="CodeLanguage" xml:space="preserve">
         <value>Kodespråk</value>
     </data>
+    <data name="DisplayInputDialogWithOneInputField" xml:space="preserve">
+        <value>Vis input dialog med ett input felt</value>
+    </data>
+    <data name="DisplayInputDialogWithTwoInputFields" xml:space="preserve">
+        <value>Vis input dialog med to input felt</value>
+    </data>
 </root>
