@@ -31,10 +31,8 @@
     </dui:SearchPage.NoResultView>
     <dui:SearchPage.ResultItemTemplate>
         <DataTemplate x:DataType="{x:Type sampleData:Person}">
-            <StackLayout BackgroundColor="Transparent">
-                <dui:ListItem Title="{Binding DisplayName}"
-                              CornerRadius="0" />
-            </StackLayout>
+            <dui:ListItem Title="{Binding DisplayName}"
+                          CornerRadius="0" />
         </DataTemplate>
     </dui:SearchPage.ResultItemTemplate>
 </dui:SearchPage>
