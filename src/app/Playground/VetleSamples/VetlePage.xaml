@@ -20,59 +20,9 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:RefreshView Command="{Binding RefreshCommand}"
-                     IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
-                        x:Name="CollectionView"
-                        IsGrouped="False"
-                        BackgroundColor="Transparent">
-        
-        <!--<dui:CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
-        </dui:CollectionView.ItemsLayout>-->
-        
-        <dui:CollectionView2.GroupHeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <dui:ListItem Title="he" ></dui:ListItem>
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView2.GroupHeaderTemplate>
-        
-        <!--<dui:CollectionView.Header>
-            <Button Text="Test!"
-                    BackgroundColor="Red"
-                    Clicked="Button_OnClicked"></Button>
-        </dui:CollectionView.Header>-->
-        
-        <dui:CollectionView2.Header>
-            <Grid>
-            <dui:ListItem Title="Hello" Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}"></dui:ListItem>
-            </Grid>
-        </dui:CollectionView2.Header>
-        
-        <dui:CollectionView2.Footer>
-            <Grid>
-                
-            <dui:ListItem Title="global footer"></dui:ListItem>
-            </Grid>
-        </dui:CollectionView2.Footer>
-        
-        <dui:CollectionView2.GroupFooterTemplate>
-            <DataTemplate>
-                <Grid>
-                    <dui:ListItem Title="footer"></dui:ListItem>
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView2.GroupFooterTemplate>
-        
-        <dui:CollectionView2.ItemTemplate>
-            <DataTemplate x:DataType="system:String">
-                <dui:ListItem Title="Hei" />
-            </DataTemplate>
-        </dui:CollectionView2.ItemTemplate>
-
-    </dui:CollectionView2>
-    </dui:RefreshView>
+   <dui:Chip Title="Hello"
+             Margin="{dui:Thickness Top=size_4}"
+             VerticalOptions="Start"
+             HorizontalOptions="Center"/>
 
 </dui:ContentPage>
