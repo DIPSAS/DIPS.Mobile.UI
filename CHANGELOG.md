@@ -1,3 +1,6 @@
+## [42.2.4] 
+- [CollectionView][iOS] Fixed regression bug where `AutoCornerRadius` did not work.
+
 ## [42.2.3] 
 - [CollectionView][iOS] Fixed poor performance.
 
