@@ -1,4 +1,6 @@
-﻿using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+﻿using System.Collections;
+using DIPS.Mobile.UI.Components.Dividers;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -19,12 +21,33 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         if (args.NewHandler is null)
             return;
 
+        
         if (!RemoveFocusOnScroll)
             return;
 
         var page = this.FindParentOfType<ContentPage>();
         RetrieveInputFields(page);
     }
+
+    /*protected override void OnChildAdded(Element child)
+    {
+        base.OnChildAdded(child);
+
+        if (child.TryFindChildOfType<Divider>(out var divider))
+        {
+            
+        if (divider is not null)
+        {
+            if (IsGrouped)
+            {
+                var groupedItemsSource = ItemsSource as IList<IList>;
+            }
+            /*divider.UpdateVisibility();#1#
+        }
+        }
+
+    }*/
+   
 
     private void RetrieveInputFields(IVisualTreeElement? visualTreeElement)
     {

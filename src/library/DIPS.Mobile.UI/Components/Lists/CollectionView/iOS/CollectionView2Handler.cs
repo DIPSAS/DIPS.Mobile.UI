@@ -1,6 +1,9 @@
+using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Extensions.iOS;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items2;
 using UIKit;
+using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -92,6 +95,11 @@ public class ReorderableItemsViewController(
         ReordableItemsViewController.TrySetMarginOnCell(cell, mauiCollectionView);
         ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
 
+        /*if (cell.RunThroughAllChildrenUntilMatch(view => view is ContentView { CrossPlatformLayout: Divider }, out var divider))
+        {
+            
+        }*/
+        
         return cell;
     }
 }

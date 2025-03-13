@@ -7,7 +7,6 @@
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                 xmlns:divider="clr-namespace:DIPS.Mobile.UI.Effects.Layout.Divider;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -22,12 +21,11 @@
 
     <dui:RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView2 ItemsSource="{Binding TestObject2s}"
+    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                             x:Name="CollectionView"
-                            IsGrouped="False"
+                            IsGrouped="True"
                             BackgroundColor="Transparent"
-                            dui:Layout.AutoCornerRadius="False"
-                            dui:Layout.AutoDivider="True">
+                            dui:Layout.AutoCornerRadius="True">
         
         <!--<dui:Layout.AutoDivider>
             <divider:DividerConfigurator Padding="{dui:Thickness Top=size_4}"
@@ -38,13 +36,13 @@
             <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
         </dui:CollectionView.ItemsLayout>-->
         
-        <dui:CollectionView2.GroupHeaderTemplate>
+        <dui:CollectionView.GroupHeaderTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="he"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView2.GroupHeaderTemplate>
+        </dui:CollectionView.GroupHeaderTemplate>
         
         <!--<dui:CollectionView.Header>
             <Button Text="Test!"
@@ -52,34 +50,37 @@
                     Clicked="Button_OnClicked"></Button>
         </dui:CollectionView.Header>-->
         
-        <dui:CollectionView2.Header>
+        <dui:CollectionView.Header>
             <Grid Padding="8">
             <dui:ListItem Title="Hello"></dui:ListItem>
             </Grid>
-        </dui:CollectionView2.Header>
+        </dui:CollectionView.Header>
         
-        <dui:CollectionView2.Footer>
+        <dui:CollectionView.Footer>
             <Grid Padding="8">
                 
             <dui:ListItem Title="footer"></dui:ListItem>
             </Grid>
-        </dui:CollectionView2.Footer>
+        </dui:CollectionView.Footer>
         
-        <dui:CollectionView2.GroupFooterTemplate>
+        <dui:CollectionView.GroupFooterTemplate>
             <DataTemplate>
                 <Grid Padding="8">
                     <dui:ListItem Title="footer"></dui:ListItem>
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView2.GroupFooterTemplate>
+        </dui:CollectionView.GroupFooterTemplate>
         
-        <dui:CollectionView2.ItemTemplate>
+        <dui:CollectionView.ItemTemplate>
             <DataTemplate x:DataType="system:String">
-                <dui:ListItem Title="Hei" />
+                <Grid RowDefinitions="Auto, Auto">
+                    <dui:ListItem Title="Hei" />
+                    <dui:Divider AutoVisibility="True" VerticalOptions="End" />
+                </Grid>
             </DataTemplate>
-        </dui:CollectionView2.ItemTemplate>
+        </dui:CollectionView.ItemTemplate>
 
-    </dui:CollectionView2>
+    </dui:CollectionView>
     </dui:RefreshView>
 
 </dui:ContentPage>

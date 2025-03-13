@@ -24,6 +24,25 @@ namespace DIPS.Mobile.UI.Extensions.iOS
 
             return null;
         }
+        
+        public static void RunThroughAllChildrenUntilMatch(this UIView? uiView, Func<UIView, bool> predicate)
+        {
+            InternalRunThroughAllChildren(uiView, predicate);
+        }
+
+        private static void InternalRunThroughAllChildren(UIView? uiView, Func<UIView, bool> action)
+        {
+            foreach (var subView in uiView?.Subviews ?? [])
+            {
+                var match = action.Invoke(subView);
+                if (match)
+                {
+                    return;
+                }
+            
+                InternalRunThroughAllChildren(subView, action);
+            }
+        }
 
         public static string PrintAllChildrenOfView(this UIView view, int depth = 0)
         {

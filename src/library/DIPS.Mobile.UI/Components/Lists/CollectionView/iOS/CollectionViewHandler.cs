@@ -2,11 +2,13 @@ using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Layout;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Maui.Platform;
 using UIKit;
+using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -89,6 +91,19 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         TrySetMarginOnCell(cell, mauiCollectionView);
         TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
 
+
+        Divider? divider = null;
+        cell.RunThroughAllChildrenUntilMatch(view =>
+        {
+            if (view is not ContentView { CrossPlatformLayout: Divider crossPlatformLayout })
+                return false;
+
+            divider = crossPlatformLayout;
+            return true;
+        });
+        
+        /*divider.IsVisible*/
+        
         return cell;
     }
 
@@ -111,6 +126,8 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
     internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView)
     {
+        var test = cell.Subviews[1].Subviews[0];
+        
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
             return;
@@ -136,14 +153,14 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
         if (!cornerRadius.IsEmpty())
         {
-            SetViewCornerRadius(cell, cornerRadius);
+            SetViewCornerRadius(test, cornerRadius);
         }
         else
         {
             // Reset the corner radius for all other cells, because of virtualization
-            cell.ClipsToBounds = false;
-            cell.Layer.CornerRadius = 0;
-            cell.Layer.MaskedCorners = 0;
+            test.ClipsToBounds = false;
+            test.Layer.CornerRadius = 0;
+            test.Layer.MaskedCorners = 0;
         }
     }
 

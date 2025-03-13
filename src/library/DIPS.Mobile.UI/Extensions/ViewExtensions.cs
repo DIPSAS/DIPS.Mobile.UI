@@ -69,6 +69,30 @@ public static class ViewExtensions
         return default;
     }
     
+    public static bool TryFindChildOfType<T>(this IVisualTreeElement? visualTreeElement, out T? child)
+        where T : IElement
+    {
+        InternalFindChildOfType(visualTreeElement, out child);
+
+        return child is not null;
+    }
+
+    private static void InternalFindChildOfType<T>(IVisualTreeElement? visualTreeElement, out T? element) where T : IElement
+    {
+        foreach (var child in visualTreeElement?.GetVisualChildren() ?? [])
+        {
+            if (child is T childView)
+            {
+                element = childView;
+                return;
+            }
+            
+            InternalFindChildOfType(child, out element);
+        }
+        
+        element = default;
+    }
+    
     public static IEnumerable<Element> GetParentsPath(this Element self)
     {
         var current = self;
