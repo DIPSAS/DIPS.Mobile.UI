@@ -86,29 +86,31 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
     {
         var cell = base.GetCell(collectionView, indexPath);
 
+        TrySetMarginOnCell(cell, mauiCollectionView);
         TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
 
         return cell;
     }
 
-    public static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView)
+    internal static void TrySetMarginOnCell(UICollectionViewCell cell, CollectionView collectionView)
     {
-        // Should be checked after every maui update
-        var paddingWrapper = cell.Subviews[1]?.Subviews[0];
-        if (paddingWrapper is null)
-        {
-            DUILogService.LogDebug<ReorderableItemsView>("Could not find padding wrapper in cell; could not modify cell");
+        if(collectionView.Padding.HorizontalThickness == 0)
             return;
-        }
         
-        // Should be checked after every maui update
-        var consumerItem = paddingWrapper.Subviews[0];
-        if (consumerItem is null)
-        {
-            DUILogService.LogDebug<ReorderableItemsView>("Could not find consumer item in cell; could not modify cell");
-            return;
-        }
-        
+        var directSubViewUnderCellThatContainsCrossPlatformView = cell.Subviews[1];
+        UpdateConstraintWithConstant(directSubViewUnderCellThatContainsCrossPlatformView, NSLayoutAttribute.Trailing, (nfloat)(collectionView.Padding.Right));
+        UpdateConstraintWithConstant(directSubViewUnderCellThatContainsCrossPlatformView, NSLayoutAttribute.Leading, (nfloat)(-collectionView.Padding.Left));
+    }
+    
+    private static void UpdateConstraintWithConstant(UIView uiView, NSLayoutAttribute attribute, nfloat constant)
+    {
+        var constraint = uiView.Constraints.FirstOrDefault(constraint => constraint.FirstAttribute == attribute);
+        if (constraint is not null)
+            constraint.Constant = constant;
+    }
+
+    internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView)
+    {
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
             return;
@@ -134,14 +136,14 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
         if (!cornerRadius.IsEmpty())
         {
-            SetViewCornerRadius(consumerItem, cornerRadius);
+            SetViewCornerRadius(cell, cornerRadius);
         }
         else
         {
             // Reset the corner radius for all other cells, because of virtualization
-            consumerItem.ClipsToBounds = false;
-            consumerItem.Layer.CornerRadius = 0;
-            consumerItem.Layer.MaskedCorners = 0;
+            cell.ClipsToBounds = false;
+            cell.Layer.CornerRadius = 0;
+            cell.Layer.MaskedCorners = 0;
         }
     }
 

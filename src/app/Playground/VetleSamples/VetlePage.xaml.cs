@@ -201,9 +201,9 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        if (CollectionView.Handler is CollectionViewHandler collectionViewHandler)
+        /*if (CollectionView.Handler is CollectionViewHandler collectionViewHandler)
         {
             
-        }
+        }*/
     }
 }

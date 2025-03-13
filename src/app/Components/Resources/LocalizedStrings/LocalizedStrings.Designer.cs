@@ -692,5 +692,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("CodeLanguage", resourceCulture);
             }
         }
+        
+        internal static string DisplayInputDialogWithOneInputField {
+            get {
+                return ResourceManager.GetString("DisplayInputDialogWithOneInputField", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayInputDialogWithTwoInputFields {
+            get {
+                return ResourceManager.GetString("DisplayInputDialogWithTwoInputFields", resourceCulture);
+            }
+        }
     }
 }

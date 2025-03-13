@@ -342,4 +342,10 @@
     <data name="CodeLanguage" xml:space="preserve">
         <value>Code language</value>
     </data>
+    <data name="DisplayInputDialogWithOneInputField" xml:space="preserve">
+        <value>Show input dialog with one input field</value>
+    </data>
+    <data name="DisplayInputDialogWithTwoInputFields" xml:space="preserve">
+        <value>Show input dialog with two input fields</value>
+    </data>
 </root>

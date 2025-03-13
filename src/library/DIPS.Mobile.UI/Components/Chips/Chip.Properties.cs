@@ -38,9 +38,9 @@ public partial class Chip
     /// <summary>
     /// The radius of the corners of the chip.
     /// </summary>
-    public int CornerRadius
+    public double CornerRadius
     {
-        get => (int)GetValue(CornerRadiusProperty);
+        get => (double)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
     
@@ -115,8 +115,9 @@ public partial class Chip
     
     public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
         nameof(CornerRadius),
-        typeof(int),
-        typeof(Chip));
+        typeof(double),
+        typeof(Chip),
+        Sizes.GetSize(SizeName.radius_small));
     
     public static readonly BindableProperty IsCloseableProperty = BindableProperty.Create(
         nameof(IsCloseable),

@@ -57,9 +57,14 @@ namespace DIPS.Mobile.UI.Components.Searching
 
 
             //Result listview
-            m_resultCollectionView = new CollectionView(){AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>()};
+            m_resultCollectionView = new CollectionView
+            {
+                AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>(),
+                HeaderTemplate = new DataTemplate(() => new Grid { Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_large), 0, 0) })
+            };
+
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
-            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
+            m_resultCollectionView.SetBinding(CollectionView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
 
             //The grid to glue it all together
             m_grid = new Grid()

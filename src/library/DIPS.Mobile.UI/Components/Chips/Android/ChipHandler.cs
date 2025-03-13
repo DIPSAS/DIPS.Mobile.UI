@@ -65,7 +65,6 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
         platformView.TextAlignment = TextAlignment.Center;
         platformView.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
-        platformView.ChipCornerRadius = Sizes.GetSize(SizeName.radius_small).ToMauiPixel();
         platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;
     }
@@ -117,7 +116,7 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
 
     private static void MapCornerRadius(ChipHandler handler, Chip chip)
     {
-        handler.PlatformView.ChipCornerRadius = (float) (handler.VirtualView.CornerRadius*DeviceDisplay.MainDisplayInfo.Density);
+        handler.PlatformView.ChipCornerRadius = handler.VirtualView.CornerRadius.ToMauiPixel();
     }
 
     private static void MapBorderColor(ChipHandler handler, Chip chip)
