@@ -29,26 +29,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         RetrieveInputFields(page);
     }
 
-    /*protected override void OnChildAdded(Element child)
-    {
-        base.OnChildAdded(child);
-
-        if (child.TryFindChildOfType<Divider>(out var divider))
-        {
-            
-        if (divider is not null)
-        {
-            if (IsGrouped)
-            {
-                var groupedItemsSource = ItemsSource as IList<IList>;
-            }
-            /*divider.UpdateVisibility();#1#
-        }
-        }
-
-    }*/
-   
-
     private void RetrieveInputFields(IVisualTreeElement? visualTreeElement)
     {
         foreach (var child in visualTreeElement?.GetVisualTreeDescendants() ?? [])
