@@ -132,10 +132,24 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// </summary>
         public bool AutoHideLastDivider
         {
-            set => UI.Effects.Layout.Layout.SetAutoHideLastDivider(m_resultCollectionView, value);
+            get => (bool)GetValue(AutoHideLastDividerProperty);
+            set => SetValue(AutoHideLastDividerProperty, value);
         }
 
         public SearchBar SearchBar { get; }
+        
+        public static readonly BindableProperty AutoHideLastDividerProperty = BindableProperty.Create(
+            nameof(AutoHideLastDivider),
+            typeof(bool),
+            typeof(SearchPage),
+            defaultBindingMode: BindingMode.OneTime,
+            propertyChanged: (bindable, _, newValue) =>
+            {
+                if (newValue is bool boolean && bindable is SearchPage searchPage)
+                {
+                    UI.Effects.Layout.Layout.SetAutoHideLastDivider(searchPage.m_resultCollectionView, boolean);
+                }
+            });
         
         public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
             nameof(CancelCommand),
