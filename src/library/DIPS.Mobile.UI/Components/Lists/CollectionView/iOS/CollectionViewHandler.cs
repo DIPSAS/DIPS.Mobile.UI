@@ -153,14 +153,12 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
     internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
     {
-        var viewThatReceivedMarginUnderCell = cell.Subviews[1].Subviews[0];
-        
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
             return;
         }
         
-        var test = cell.Subviews[1].Subviews[0];
+        var viewThatReceivedMarginUnderCell = cell.Subviews[1].Subviews[0];
 
         var cornerRadius = new CornerRadius();
         
@@ -199,12 +197,12 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
         if (!cornerRadius.IsEmpty())
         {
-            SetViewCornerRadius(test, cornerRadius);
+            SetViewCornerRadius(viewThatReceivedMarginUnderCell, cornerRadius);
         }
         else
         {
             // Reset the corner radius for all other cells, because of virtualization
-            ResetCornerRadius(test);
+            ResetCornerRadius(viewThatReceivedMarginUnderCell);
         }
     }
 
