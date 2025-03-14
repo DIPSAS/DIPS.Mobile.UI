@@ -2,10 +2,12 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
+using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists.Android;
 using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Controls.Handlers.Items;
+using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
 using CornerRadius = Microsoft.Maui.CornerRadius;
 using View = Microsoft.Maui.Controls.View;
@@ -37,7 +39,7 @@ public partial class CollectionViewHandler
             return;
 
         // Pads the RecyclerView elements left and right
-        platformView.AddItemDecoration(new CellMarginDecoration(VirtualView));
+        platformView.AddItemDecoration(new CellMarginDecoration());
         // Additional space at the end of the RecyclerView
         platformView.AddItemDecoration(new AdditionalEndSpaceDecoration(VirtualView));
     }
@@ -68,6 +70,9 @@ public partial class CollectionViewHandler
 public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<ReorderableItemsView, IGroupableItemsViewSource>
 {
     private readonly CollectionView m_collectionView;
+    private readonly Dictionary<int, Divider> m_lastDividerSetToInvisibleInPosition = new();
+    private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentLastCellWithCornerRadiusInPosition = new();
+    private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentFirstCellWithCornerRadiusInPosition = new();
 
     public ReorderableItemsViewAdapter(ReorderableItemsView reorderableItemsView, Func<View, Context, ItemContentView> createView = null) : base(reorderableItemsView, createView)
     {
@@ -86,34 +91,128 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
                 return;   
             }
             
-            TrySetCornerRadiusOnCell(holder, position, group.HasHeader, group.HasHeader, group.Count);
+            ModifyCell(holder, position, group.HasHeader, group.HasHeader, group.Count);
         }
         else
         {
-            TrySetCornerRadiusOnCell(holder, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
+            ModifyCell(holder, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
         }
     }
 
-    private void TrySetCornerRadiusOnCell(RecyclerView.ViewHolder holder, int position, bool hasHeader, bool hasFooter, int count)
+    internal void ModifyMarginIfNotHeaderAndFooter(global::Android.Graphics.Rect rect, int position)
+    {
+        if (m_collectionView.IsGrouped)
+        {
+            if (!TryGetGroupAndGroupIndex(position, out position, out var group))
+            {
+                return;   
+            }
+            
+            InternalModifyMarginIfNotHeaderAndFooter(rect, position, group.HasHeader, group.HasHeader, group.Count);
+        }
+        else
+        {
+            InternalModifyMarginIfNotHeaderAndFooter(rect, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
+        }
+    }
+
+    private void InternalModifyMarginIfNotHeaderAndFooter(global::Android.Graphics.Rect rect, int position, bool hasHeader, bool hasFooter, int count)
+    {
+        // Don't set margin on header and footer
+        if(hasHeader && position == 0 || hasFooter && position == count - 1)
+            return;
+        
+        rect.Left = (int)m_collectionView.Padding.Left.ToMauiPixel();
+        rect.Right = (int)m_collectionView.Padding.Right.ToMauiPixel();
+    }
+
+    /// <summary>
+    /// Here we shall modify the cell
+    /// </summary>
+    /// <remarks>This is called for each section,
+    /// if the CollectionView has Header and footer,
+    /// and CollectionView has 3 sections,
+    /// this will be called for all items in the sections including section header/footer
+    /// and twice more because of global header and footer,
+    /// so we have to check if the ViewHolder is actually an element in the list
+    /// </remarks>
+    private void ModifyCell(RecyclerView.ViewHolder holder, int position, bool hasHeader, bool hasFooter, int count)
     {
         // Header and footer is included as elements
         var firstItemIndex = hasHeader ? 1 : 0;
         var lastItemIndex = count - (hasFooter ? 2 : 1);
+
+        TrySetCornerRadiusOnCell(holder, position, firstItemIndex, lastItemIndex);
+        TrySetLastDividerToInvisible(holder, position, lastItemIndex);
+    }
+
+    private void TrySetLastDividerToInvisible(RecyclerView.ViewHolder holder, int position, int lastItemIndex)
+    {
+        if(!Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView) || (position != lastItemIndex))
+            return;
         
+        Divider? divider = null;
+        holder.ItemView.BreadthFirstSearchChildrenUntilMatch(view =>
+        {
+            if (view is not ContentViewGroup { CrossPlatformLayout: Divider crossPlatformLayout })
+                return false;
+
+            divider = crossPlatformLayout;
+            return true;
+        });
+
+        if (divider is null)
+            return;
+
+        // We need to check if the last divider was set to invisible in the previous position (Because the list is flattened on Android even though it is grouped)
+        if (m_lastDividerSetToInvisibleInPosition.Remove(position - 1, out var value))
+        {
+            value.IsVisible = true;
+        }
+        
+        divider.IsVisible = false;
+        m_lastDividerSetToInvisibleInPosition[position] = divider;
+    }
+
+    /// <summary>
+    /// Here we set the Corner Radius on the cells
+    /// </summary>
+    /// <remarks>
+    /// If the CollectionView is using ObservableCollection and the consumer adds an element,
+    /// we have to cache which cell that has modified its corner radius, so we can reset it,
+    /// because the new cell that has been added should be either the last or first one 
+    /// </remarks>
+    /// <param name="shouldCache">If we shall cache the cell that has modified its corner radius</param>
+    private void TrySetCornerRadiusOnCell(RecyclerView.ViewHolder holder, int position, int firstItemIndex,
+        int lastItemIndex, bool shouldCache = true)
+    {
         var cornerRadius = new CornerRadius();
         
         if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == firstItemIndex)
         {
+            if (m_currentFirstCellWithCornerRadiusInPosition.Remove(position + 1, out var value))
+            {
+                TrySetCornerRadiusOnCell(value, position + 1, firstItemIndex, lastItemIndex, false);
+            }
+            
             cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0) : m_collectionView.FirstItemCornerRadius;
+            if(shouldCache)
+                m_currentFirstCellWithCornerRadiusInPosition[position] = holder;
         }
         
         if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == lastItemIndex)
         {
+            if (m_currentLastCellWithCornerRadiusInPosition.Remove(position - 1, out var value))
+            {
+                TrySetCornerRadiusOnCell(value, position - 1, firstItemIndex, lastItemIndex, false);
+            }
+            
             cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
+            if(shouldCache)
+                m_currentLastCellWithCornerRadiusInPosition[position] = holder;
         }
-
-        if(!cornerRadius.IsEmpty())
-            SetCellCornerRadius(holder, cornerRadius);
+        
+        SetCellCornerRadius(holder, cornerRadius);
     }
 
     public bool TryGetGroupAndGroupIndex(int position, out int index, out IItemsViewSource currentGroup)
@@ -147,5 +246,14 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         materialShapeDrawable.FillColor = ColorStateList.ValueOf(Color.Transparent);
         
         holder.ItemView.Background = materialShapeDrawable;
+    }
+    
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        m_lastDividerSetToInvisibleInPosition.Clear();
+        m_currentLastCellWithCornerRadiusInPosition.Clear();
+        m_currentFirstCellWithCornerRadiusInPosition.Clear();
     }
 }

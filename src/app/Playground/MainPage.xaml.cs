@@ -4,6 +4,7 @@ using Playground.EirikSamples;
 using Playground.HåvardSamples;
 using Playground.SanderSamples;
 using Playground.VetleSamples;
+using Playground.VetleSamples.CollectionViewTests;
 
 namespace Playground;
 
@@ -74,5 +75,10 @@ public partial class MainPage
         {
             
         }
+    }
+
+    private void GoToCollectionViewTests(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new CollectionViewTests());
     }
 }

@@ -69,28 +69,31 @@ public static class ViewExtensions
         return default;
     }
     
-    public static bool TryFindChildOfType<T>(this IVisualTreeElement? visualTreeElement, out T? child)
-        where T : IElement
+    /// <summary>
+    /// Uses breadth first search, so the child that are closest to the root will be found if a match is found
+    /// </summary>
+    public static T? FindChildOfTypeClosestToRoot<T>(this View? view)
     {
-        InternalFindChildOfType(visualTreeElement, out child);
+        if (view is null) 
+            return default;
+    
+        var queue = new Queue<View>();
+        queue.Enqueue(view);
 
-        return child is not null;
-    }
-
-    private static void InternalFindChildOfType<T>(IVisualTreeElement? visualTreeElement, out T? element) where T : IElement
-    {
-        foreach (var child in visualTreeElement?.GetVisualChildren() ?? [])
+        while (queue.Count > 0)
         {
-            if (child is T childView)
+            var currentView = queue.Dequeue();
+
+            if (currentView is T matchView)
+                return matchView;
+
+            foreach (var visualTreeElement in (currentView as IVisualTreeElement).GetVisualChildren())
             {
-                element = childView;
-                return;
+                queue.Enqueue(visualTreeElement as View);
             }
-            
-            InternalFindChildOfType(child, out element);
         }
-        
-        element = default;
+
+        return default;
     }
     
     public static IEnumerable<Element> GetParentsPath(this Element self)

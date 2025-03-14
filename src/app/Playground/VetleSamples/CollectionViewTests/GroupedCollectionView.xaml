@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:collectionViewTests="clr-namespace:Playground.VetleSamples.CollectionViewTests"
+             x:Class="Playground.VetleSamples.CollectionViewTests.GroupedCollectionView">
+    
+    <ContentPage.BindingContext>
+        <collectionViewTests:GroupedCollectionViewModel />
+    </ContentPage.BindingContext>
+    
+    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+                        x:Name="CollectionView"
+                        IsGrouped="True"
+                        BackgroundColor="Transparent"
+                        dui:Layout.AutoCornerRadius="True"
+                        dui:Layout.AutoHideLastDivider="True">
+        
+        <dui:CollectionView.Header>
+            <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
+                <dui:ListItem Title="Global Header" />
+            </Grid>
+        </dui:CollectionView.Header>
+        
+        <dui:CollectionView.Footer>
+            <Grid Padding="{dui:Thickness Top=size_4}">
+                <dui:ListItem Title="Add item - Global Footer"
+                              Command="{Binding AddItemCommand}" />
+            </Grid>
+        </dui:CollectionView.Footer>
+        
+        <dui:CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
+                    <dui:ListItem Title="Group Header" />
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.GroupHeaderTemplate>
+        
+        <dui:CollectionView.GroupFooterTemplate>
+            <DataTemplate>
+                <Grid Padding="{dui:Thickness Bottom=size_4, Top=size_4}">
+                    <dui:ListItem Title="Group Footer" />
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.GroupFooterTemplate>
+        
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid RowDefinitions="Auto, Auto">
+                    <dui:ListItem Title="{Binding .}">
+                        
+                        <dui:ListItem.UnderlyingContent>
+                            <Grid Padding="8">
+                                <dui:Label Text="{Binding .}"
+                                           TextColor="{dui:Colors color_neutral_60}" />
+                                
+                                <dui:Divider VerticalOptions="End" />
+                            </Grid>
+                        </dui:ListItem.UnderlyingContent>
+                        
+                    </dui:ListItem>
+                    <dui:Divider VerticalOptions="End" />
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+
+    </dui:CollectionView>
+    
+    
+</dui:ContentPage>

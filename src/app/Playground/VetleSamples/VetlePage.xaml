@@ -19,68 +19,23 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:RefreshView Command="{Binding RefreshCommand}"
-                     IsRefreshing="{Binding IsRefreshing}">
-    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
-                            x:Name="CollectionView"
-                            IsGrouped="True"
-                            BackgroundColor="Transparent"
-                            dui:Layout.AutoCornerRadius="True">
+    <ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_4}">
+    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestObject2s}"
+                             dui:Layout.AutoHideLastDivider="True"
+                             dui:Layout.AutoCornerRadius="True"
+                             Spacing="0"
+                             VerticalOptions="Start">
         
-        <!--<dui:Layout.AutoDivider>
-            <divider:DividerConfigurator Padding="{dui:Thickness Top=size_4}"
-                                         Margin="{dui:Thickness Left=size_2}" />
-        </dui:Layout.AutoDivider>-->
-        
-        <!--<dui:CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
-        </dui:CollectionView.ItemsLayout>-->
-        
-        <dui:CollectionView.GroupHeaderTemplate>
+        <BindableLayout.ItemTemplate>
             <DataTemplate>
-                <Grid Padding="8">
-                    <dui:ListItem Title="he"></dui:ListItem>
+                <Grid>
+                    <dui:ListItem Title="{Binding Name}" />
+                    <dui:Divider VerticalOptions="End" />
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupHeaderTemplate>
+        </BindableLayout.ItemTemplate>
         
-        <!--<dui:CollectionView.Header>
-            <Button Text="Test!"
-                    BackgroundColor="Red"
-                    Clicked="Button_OnClicked"></Button>
-        </dui:CollectionView.Header>-->
-        
-        <dui:CollectionView.Header>
-            <Grid Padding="8">
-            <dui:ListItem Title="Hello"></dui:ListItem>
-            </Grid>
-        </dui:CollectionView.Header>
-        
-        <dui:CollectionView.Footer>
-            <Grid Padding="8">
-                
-            <dui:ListItem Title="footer"></dui:ListItem>
-            </Grid>
-        </dui:CollectionView.Footer>
-        
-        <dui:CollectionView.GroupFooterTemplate>
-            <DataTemplate>
-                <Grid Padding="8">
-                    <dui:ListItem Title="footer"></dui:ListItem>
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView.GroupFooterTemplate>
-        
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="system:String">
-                <Grid RowDefinitions="Auto, Auto">
-                    <dui:ListItem Title="Hei" />
-                    <dui:Divider AutoVisibility="True" VerticalOptions="End" />
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-
-    </dui:CollectionView>
-    </dui:RefreshView>
+    </dui:VerticalStackLayout>
+    </ScrollView>
 
 </dui:ContentPage>

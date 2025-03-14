@@ -23,10 +23,10 @@ public partial class CollectionViewHandler
         return base.CreateController(itemsView, layout);
     }
 
-    
     private static partial void MapShouldBounce(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
+        
         if (handler.PlatformView.Subviews[0] is UICollectionView uiCollectionView)
         {
             if (virtualView is CollectionView collectionView)
@@ -59,6 +59,10 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 {
     private UIEdgeInsets? m_overridenContentInset;
     
+    private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
+    private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
+    private readonly Dictionary<int, UICollectionViewCell> m_currentFirstCellWithCornerRadiusInSection = new();
+
     private void SetContentInset()
     {
         var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
@@ -89,11 +93,22 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         var cell = base.GetCell(collectionView, indexPath);
 
         TrySetMarginOnCell(cell, mauiCollectionView);
-        TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
+        TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
+        TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
 
+        return cell;
+    }
 
+    internal static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
+        UICollectionViewCell cell, CollectionView mauiCollectionView,
+        Dictionary<int, Divider> currentDividerSetToInvisibleInSection)
+    {
+        var autoDividerVisibilityEnabled = Effects.Layout.Layout.GetAutoHideLastDivider(mauiCollectionView);
+        if(!autoDividerVisibilityEnabled)
+            return;
+        
         Divider? divider = null;
-        cell.RunThroughAllChildrenUntilMatch(view =>
+        cell.BreadthFirstSearchChildrenUntilMatch(view =>
         {
             if (view is not ContentView { CrossPlatformLayout: Divider crossPlatformLayout })
                 return false;
@@ -101,10 +116,22 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
             divider = crossPlatformLayout;
             return true;
         });
+
+        if(divider is null)
+            return;
         
-        /*divider.IsVisible*/
-        
-        return cell;
+        if (IsLastItemInSection(collectionView, indexPath))
+        {
+            if(currentDividerSetToInvisibleInSection.TryGetValue(indexPath.Section, out var value))
+                value.IsVisible = true;
+            divider.IsVisible = false;
+            currentDividerSetToInvisibleInSection[indexPath.Section] = divider;
+        }
+        else
+        {
+            // Reset the divider for all other cells, because of virtualization
+            divider.IsVisible = true;
+        }
     }
 
     internal static void TrySetMarginOnCell(UICollectionViewCell cell, CollectionView collectionView)
@@ -124,31 +151,48 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
             constraint.Constant = constant;
     }
 
-    internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView)
+    internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
     {
-        var test = cell.Subviews[1].Subviews[0];
-        
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
             return;
         }
+        
+        var test = cell.Subviews[1].Subviews[0];
 
         var cornerRadius = new CornerRadius();
         
-        if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == 0)
+        if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsFirstItemInSection(indexPath))
         {
+            if (currentFirstCellWithCornerRadiusInSection.Remove(indexPath.Section, out var firstCell))
+            {
+                var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row + 1, indexPath.Section);
+                TrySetCornerRadiusOnCell(collectionView, newIndexPath, firstCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+            }
+            
             // Apply corner radius to the cell if its the first cell
             cornerRadius = mauiCollectionView.FirstItemCornerRadius.IsEmpty()
                 ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0)
                 : mauiCollectionView.FirstItemCornerRadius;
+            
+            if(useCache)
+                currentFirstCellWithCornerRadiusInSection[indexPath.Section] = cell;
         }
         
-        if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1)
+        if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsLastItemInSection(collectionView, indexPath))
         {
+            if (currentLastCellWithCornerRadiusInSection.Remove(indexPath.Section, out var lastCell))
+            {
+                var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row - 1, indexPath.Section);
+                TrySetCornerRadiusOnCell(collectionView, newIndexPath, lastCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+            }
             // Apply corner radius to the cell if its the last cell
             cornerRadius = mauiCollectionView.LastItemCornerRadius.IsEmpty()
                 ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small))
                 : mauiCollectionView.LastItemCornerRadius;
+            
+            if(useCache)
+                currentLastCellWithCornerRadiusInSection[indexPath.Section] = cell;
         }
 
         if (!cornerRadius.IsEmpty())
@@ -158,10 +202,28 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         else
         {
             // Reset the corner radius for all other cells, because of virtualization
-            test.ClipsToBounds = false;
-            test.Layer.CornerRadius = 0;
-            test.Layer.MaskedCorners = 0;
+            ResetCornerRadius(test);
         }
+    }
+
+    private static void ResetCornerRadius(UIView? test)
+    {
+        if(test is null)
+            return;
+        
+        test.ClipsToBounds = false;
+        test.Layer.CornerRadius = 0;
+        test.Layer.MaskedCorners = 0;
+    }
+
+    internal static bool IsLastItemInSection(UICollectionView collectionView, NSIndexPath indexPath)
+    {
+        return indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1;
+    }
+
+    internal static bool IsFirstItemInSection(NSIndexPath indexPath)
+    {
+        return indexPath.Row == 0;
     }
 
     private static void SetViewCornerRadius(UIView cell, CornerRadius cornerRadius)
@@ -169,5 +231,14 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         cell.ClipsToBounds = true;
         cell.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
         cell.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
+    }
+    
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        m_currentDividerSetToInvisibleInSection.Clear();
+        m_currentLastCellWithCornerRadiusInSection.Clear();
+        m_currentFirstCellWithCornerRadiusInSection.Clear();
     }
 }

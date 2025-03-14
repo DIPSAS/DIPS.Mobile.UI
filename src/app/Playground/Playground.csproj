@@ -65,6 +65,14 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>DUILocalizedStrings.resx</DependentUpon>
         </Compile>
+        <Compile Update="VetleSamples\CollectionViewTests\RegularCollectionView2.xaml.cs">
+          <DependentUpon>RegularCollectionView2.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="VetleSamples\CollectionViewTests\GroupedCollectionView2.xaml.cs">
+          <DependentUpon>GroupedCollectionView2.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <!-- iOS -->
@@ -105,6 +113,12 @@
         </MauiXaml>
         <MauiXaml Update="VetleSamples\BottomSheetWithToolbar.xaml">
             <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="VetleSamples\CollectionViewTests\RegularCollectionView2.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="VetleSamples\CollectionViewTests\GroupedCollectionView2.xaml">
+          <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 

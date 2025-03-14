@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             x:Class="Playground.VetleSamples.CollectionViewTests.CollectionViewTests">
+    
+    <dui:VerticalStackLayout Spacing="0">
+        <dui:NavigationListItem Title="Regular CollectionView"
+                                Tapped="RegularCollectionView"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Grouped CollectionView"
+                                HasBottomDivider="True"
+                                Tapped="GroupedCollectionView" />
+        <dui:NavigationListItem Title="Regular CollectionView2"
+                                Tapped="RegularCollectionView2"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Grouped CollectionView2"
+                                Tapped="GroupedCollectionView2" />
+    </dui:VerticalStackLayout>
+    
+</dui:ContentPage>
