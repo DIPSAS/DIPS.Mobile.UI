@@ -47,6 +47,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
             m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (ItemPickerBottomSheet itemPickerBottomSheet) => itemPickerBottomSheet.Items, source: this);
 
+            UI.Effects.Layout.Layout.SetAutoHideLastDivider(m_collectionView, true);
+            
             Content = CreateContentControlForActivityIndicator(m_collectionView,
                 m_itemPicker.BottomSheetPickerConfiguration);
         }
@@ -93,7 +95,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private IView CreateDefaultView()
         {
-            var radioButtonListItem = new RadioButtonListItem() {HasBottomDivider = true};
+            var radioButtonListItem = new RadioButtonListItem {HasBottomDivider = true};
             radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
             radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
             radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));

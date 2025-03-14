@@ -64,7 +64,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             };
 
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
-            m_resultCollectionView.SetBinding(CollectionView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
+            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
 
             //The grid to glue it all together
             m_grid = new Grid()

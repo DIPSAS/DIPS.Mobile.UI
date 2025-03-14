@@ -22,8 +22,7 @@
                                 HasBottomDivider="True"/>
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Alert}"
-                                Command="{helpers:NavigationCommand {x:Type alerts:AlertSamples}}"
-                                HasBottomDivider="True"/>
+                                Command="{helpers:NavigationCommand {x:Type alerts:AlertSamples}}" />
         
     </dui:VerticalStackLayout>
     

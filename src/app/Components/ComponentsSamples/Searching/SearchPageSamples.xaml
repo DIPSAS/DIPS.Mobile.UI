@@ -15,7 +15,8 @@
                 SearchPlaceholder="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
                 Shell.PresentationMode="ModalAnimated"
                 Padding="{dui:Thickness Bottom=size_1}"
-                iOsSpecific:Page.UseSafeArea="True">
+                iOsSpecific:Page.UseSafeArea="True"
+                AutoHideLastDivider="True">
     <dui:SearchPage.BindingContext>
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>
@@ -32,7 +33,8 @@
     <dui:SearchPage.ResultItemTemplate>
         <DataTemplate x:DataType="{x:Type sampleData:Person}">
             <dui:ListItem Title="{Binding DisplayName}"
-                          CornerRadius="0" />
+                          CornerRadius="0"
+                          HasBottomDivider="True" />
         </DataTemplate>
     </dui:SearchPage.ResultItemTemplate>
 </dui:SearchPage>
