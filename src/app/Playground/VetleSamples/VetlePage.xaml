@@ -10,8 +10,7 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_neutral_30}">
-
+                 BackgroundColor="{dui:Colors color_neutral_10}">
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
@@ -20,14 +19,23 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-   <dui:CollectionView2 ItemsSource="{Binding TestStrings}">
-       
-       <dui:CollectionView2.ItemTemplate>
-           <DataTemplate>
-               <dui:ListItem Title="{Binding .}" />
-           </DataTemplate>
-       </dui:CollectionView2.ItemTemplate>
-       
-   </dui:CollectionView2>
+    <ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_4}">
+    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestObject2s}"
+                             dui:Layout.AutoHideLastDivider="True"
+                             dui:Layout.AutoCornerRadius="True"
+                             Spacing="0"
+                             VerticalOptions="Start">
+        
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <dui:ListItem Title="{Binding Name}" />
+                    <dui:Divider VerticalOptions="End" />
+                </Grid>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+        
+    </dui:VerticalStackLayout>
+    </ScrollView>
 
 </dui:ContentPage>

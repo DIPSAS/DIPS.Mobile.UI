@@ -1,6 +1,9 @@
+using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Extensions.iOS;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items2;
 using UIKit;
+using ContentView = Microsoft.Maui.Platform.ContentView;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -57,6 +60,10 @@ public class ReorderableItemsViewController(
 {
     private UIEdgeInsets? m_overridenContentInset;
 
+    private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
+    private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
+    private readonly Dictionary<int, UICollectionViewCell> m_currentFirstCellWithCornerRadiusInSection = new();
+    
     private void SetContentInset()
     {
         var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd
@@ -90,8 +97,18 @@ public class ReorderableItemsViewController(
         var cell = base.GetCell(collectionView, indexPath);
 
         ReordableItemsViewController.TrySetMarginOnCell(cell, mauiCollectionView);
-        ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView);
-
+        ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
+        ReordableItemsViewController.TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
+        
         return cell;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        m_currentDividerSetToInvisibleInSection.Clear();
+        m_currentFirstCellWithCornerRadiusInSection.Clear();
+        m_currentLastCellWithCornerRadiusInSection.Clear();
     }
 }

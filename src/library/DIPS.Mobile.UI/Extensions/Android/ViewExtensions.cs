@@ -1,17 +1,55 @@
 using Android.Graphics.Drawables;
 using Android.Views;
-using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
 using ARect = Android.Graphics.Rect;
-using View = Microsoft.Maui.Controls.View;
 
 
 namespace DIPS.Mobile.UI.Extensions.Android;
 
 public static class ViewExtensions
 {
+    /// <summary>
+    /// Uses breadth first search, so the child that are closest to the root will be found if a match is found
+    /// </summary>
+    public static void BreadthFirstSearchChildrenUntilMatch(this AView? view, Func<AView, bool> predicate)
+    {
+        InternalBreadthFirstSearchChildrenUntilMatch(view, predicate);
+    }
+
+    private static void InternalBreadthFirstSearchChildrenUntilMatch(AView? view, Func<AView, bool> action)
+    {
+        if (view == null) 
+            return;
+    
+        var queue = new Queue<AView>();
+        queue.Enqueue(view);
+
+        while (queue.Count > 0)
+        {
+            var currentView = queue.Dequeue();
+
+            var match = action.Invoke(currentView);
+            if (match)
+            {
+                return;
+            }
+            
+            if(currentView is not ViewGroup viewGroup)
+            {
+                continue;
+            }
+
+            for (var i = 0; i < viewGroup.ChildCount; i++)
+            {
+                var child = viewGroup.GetChildAt(i);
+                
+                if(child is not null)
+                    queue.Enqueue(child);
+            }
+        }
+    }
     
     public static T? FindChildView<T>(this ViewGroup? viewGroup) where T : AView
     {

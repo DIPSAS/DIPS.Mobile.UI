@@ -13,4 +13,9 @@ public partial class Layout
         typeof(Layout),
         null,
         propertyChanged: OnLayoutPropertiesChanged);
+    
+    public static readonly BindableProperty AutoHideLastDividerProperty = BindableProperty.CreateAttached("AutoHideLastDivider",
+        typeof(bool),
+        typeof(Layout),
+        false);
 }

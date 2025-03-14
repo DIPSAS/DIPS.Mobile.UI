@@ -206,4 +206,9 @@ public partial class VetlePage
             
         }*/
     }
+
+    private void ListItem_OnTapped(object sender, EventArgs e)
+    {
+        /*CollectionView.ReloadData();*/
+    }
 }

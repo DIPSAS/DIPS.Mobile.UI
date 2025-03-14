@@ -18,7 +18,6 @@
                                 Command="{helpers:NavigationCommand {x:Type pickers:DateTimePickersSamples}}"
                                 HasBottomDivider="True"/>
         <extensions:NavigationListItem Title="Scroll pickers"
-                                       Command="{helpers:NavigationCommand {x:Type pickers:ScrollPickersSamples}}"
-                                       HasBottomDivider="True"/>
+                                       Command="{helpers:NavigationCommand {x:Type pickers:ScrollPickersSamples}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

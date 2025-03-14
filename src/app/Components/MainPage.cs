@@ -11,10 +11,20 @@ public class MainPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     public MainPage(IEnumerable<SampleType> sampleTypes, List<Sample> samples)
     {
         Title = $"{AppInfo.Current.Name} ({AppInfo.Current.VersionString})";
-        Content = new DIPS.Mobile.UI.Components.Lists.CollectionView()
+        var collectionView = new DIPS.Mobile.UI.Components.Lists.CollectionView()
         {
-            ItemsSource = sampleTypes, ItemTemplate = new DataTemplate(() => new NavigateToSamplesItem(samples)),
+            ItemsSource = sampleTypes, 
+            ItemTemplate = new DataTemplate(() => new NavigateToSamplesItem(samples)),
+            Header = new Grid // Padding at the top
+            {
+                Padding = new Thickness(0, Sizes.GetSize(SizeName.page_margin_small))
+            }
         };
+        
+        Content = collectionView;
+        
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetAutoHideLastDivider(collectionView, true);
+
     }
 }
 
@@ -27,7 +37,7 @@ public class NavigateToSamplesItem : NavigationListItem
     {
         m_samples = samples;
         Command = new Command(TryNavigateToSamplesPage);
-        AutoDivider = true;
+        HasBottomDivider = true;
     }
 
     private void TryNavigateToSamplesPage()

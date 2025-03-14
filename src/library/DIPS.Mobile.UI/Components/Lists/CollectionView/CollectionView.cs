@@ -1,4 +1,6 @@
-﻿using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+﻿using System.Collections;
+using DIPS.Mobile.UI.Components.Dividers;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -19,6 +21,7 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         if (args.NewHandler is null)
             return;
 
+        
         if (!RemoveFocusOnScroll)
             return;
 

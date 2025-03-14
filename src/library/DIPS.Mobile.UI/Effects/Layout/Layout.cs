@@ -30,7 +30,21 @@ public partial class Layout : RoutingEffect
     {
         view.SetValue(AutoCornerRadiusProperty, autoCornerRadius);
     }
+    
+    public static bool GetAutoHideLastDivider(BindableObject view)
+    {
+        return (bool)view.GetValue(AutoHideLastDividerProperty);
+    }
 
+    /// <summary>
+    /// Attempts to set the last elements' divider to invisible in CollectionView, and VerticalStackLayout together with BindableLayout
+    /// </summary>
+    /// <remarks>Does nothing if it is set on for example a <see cref="Grid"/></remarks>
+    public static void SetAutoHideLastDivider(BindableObject view, bool autoHideLastDivider)
+    {
+        view.SetValue(AutoHideLastDividerProperty, autoHideLastDivider);
+    }
+    
     private static void OnLayoutPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)

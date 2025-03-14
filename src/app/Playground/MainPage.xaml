@@ -18,6 +18,8 @@
                                     Tapped="GoToSander" />
             <dui:NavigationListItem Title="Eirik"
                                     Tapped="GoToEirik" />
+            <dui:NavigationListItem Title="CollectionViewTests"
+                                    Tapped="GoToCollectionViewTests" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

@@ -1,3 +1,4 @@
+using System.Collections;
 using DIPS.Mobile.UI.Internal;
 using Microsoft.Maui.Controls.Shapes;
 
@@ -9,9 +10,8 @@ public class Divider : ContentView
     {
         this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_stroke_default);
 
-        var line = new Line(){ AutomationId = "Line".ToDUIAutomationId<Divider>()};
+        var line = new Line{ AutomationId = "Line".ToDUIAutomationId<Divider>()};
         line.SetBinding(BackgroundProperty, static (Divider divider) => divider.BackgroundColor, source: this);
         Content = line;
     }
-
 }

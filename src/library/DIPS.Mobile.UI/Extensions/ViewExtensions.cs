@@ -69,6 +69,33 @@ public static class ViewExtensions
         return default;
     }
     
+    /// <summary>
+    /// Uses breadth first search, so the child that are closest to the root will be found if a match is found
+    /// </summary>
+    public static T? FindChildOfTypeClosestToRoot<T>(this View? view)
+    {
+        if (view is null) 
+            return default;
+    
+        var queue = new Queue<View>();
+        queue.Enqueue(view);
+
+        while (queue.Count > 0)
+        {
+            var currentView = queue.Dequeue();
+
+            if (currentView is T matchView)
+                return matchView;
+
+            foreach (var visualTreeElement in (currentView as IVisualTreeElement).GetVisualChildren())
+            {
+                queue.Enqueue(visualTreeElement as View);
+            }
+        }
+
+        return default;
+    }
+    
     public static IEnumerable<Element> GetParentsPath(this Element self)
     {
         var current = self;

@@ -24,6 +24,36 @@ namespace DIPS.Mobile.UI.Extensions.iOS
 
             return null;
         }
+        
+        /// <summary>
+        /// Uses breadth first search, so the child that are closest to the root will be found if a match is found
+        /// </summary>
+        public static void BreadthFirstSearchChildrenUntilMatch(this UIView? uiView, Func<UIView, bool> predicate)
+        {
+            InternalBreadthFirstSearchChildrenUntilMatch(uiView, predicate);
+        }
+
+        private static void InternalBreadthFirstSearchChildrenUntilMatch(UIView? uiView, Func<UIView, bool> action)
+        {
+            if (uiView == null) return;
+    
+            var queue = new Queue<UIView>();
+            queue.Enqueue(uiView);
+
+            while (queue.Count > 0)
+            {
+                var currentView = queue.Dequeue();
+
+                var match = action.Invoke(currentView);
+                if (match)
+                    return;
+
+                foreach (var subView in currentView.Subviews)
+                {
+                    queue.Enqueue(subView);
+                }
+            }
+        }
 
         public static string PrintAllChildrenOfView(this UIView view, int depth = 0)
         {

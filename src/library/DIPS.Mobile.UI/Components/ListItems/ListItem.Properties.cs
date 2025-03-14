@@ -213,6 +213,7 @@ namespace DIPS.Mobile.UI.Components.ListItems
         /// Automatically sets divider based on where it is placed in a <see cref="VerticalStackLayout"/> or <see cref="CollectionView"/>
         /// </summary>
         /// <remarks>Must be a child of <see cref="VerticalStackLayout"/> or <see cref="CollectionView"/></remarks>
+        [Obsolete("Use Layout.AutoHideLastDivider instead")]
         public bool AutoDivider
         {
             get => (bool)GetValue(AutoDividerProperty);

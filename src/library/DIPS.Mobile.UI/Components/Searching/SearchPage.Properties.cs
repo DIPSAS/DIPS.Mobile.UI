@@ -127,6 +127,14 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// </summary>
         public event EventHandler<EventArgs> SearchBarFocused;
 
+        /// <summary>
+        /// Auto hides the last divider (If consumer has divider in its ItemTemplate to separate items)
+        /// </summary>
+        public bool AutoHideLastDivider
+        {
+            set => UI.Effects.Layout.Layout.SetAutoHideLastDivider(m_resultCollectionView, value);
+        }
+
         public SearchBar SearchBar { get; }
         
         public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
