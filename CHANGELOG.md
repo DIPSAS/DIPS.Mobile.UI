@@ -1,7 +1,10 @@
-## [42.2.4] 
+## [42.2.5] 
 - [CollectionView][Android] Fixed issue where headers/footers would get same padding as elements in list.
 - [CollectionView] CornerRadius will now get updated to the next item if an item is added to CollectionView using ObservableCollection.
 - Added new property `AutoHideLastDivider`; attempts to hide the last divider in CollectionView/VerticalStacklayout (With BindableLayout)
+
+## [42.2.4] 
+- [CollectionView][iOS] Fixed regression bug where `AutoCornerRadius` did not work.
 
 ## [42.2.3] 
 - [CollectionView][iOS] Fixed poor performance.

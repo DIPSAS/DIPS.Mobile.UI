@@ -153,6 +153,8 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
     internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
     {
+        var viewThatReceivedMarginUnderCell = cell.Subviews[1].Subviews[0];
+        
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
             return;
