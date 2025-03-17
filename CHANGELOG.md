@@ -1,3 +1,6 @@
+## [42.3.0] 
+- Upgraded to .NET MAUI 9.0.50.
+
 ## [42.2.6] 
 - [SearchPage] Fixed an issue where consumer could not modify `AutoHideLastDivider` property.
 
