@@ -233,6 +233,10 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             handler.ProgressBar.IsRunning = searchBar.IsBusy;
         }
+        
+        private static void MapIsAutocorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
+        {
+        }
 
         private static void MapIconsColor(SearchBarHandler handler, SearchBar searchBar)
         {

@@ -209,6 +209,15 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
         
         /// <summary>
+        /// Whether autocorrect should be enabled or not.
+        /// </summary>
+        public bool IsAutocorrectEnabled 
+        {
+            get => (bool)GetValue(IsAutocorrectEnabledProperty);
+            set => SetValue(IsAutocorrectEnabledProperty, value);
+        }
+        
+        /// <summary>
         /// Event to be raised when the <see cref="SearchBar"/> was focused.
         /// </summary>
         public new event EventHandler<EventArgs> Focused;
@@ -319,6 +328,12 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         public static readonly BindableProperty ShouldCloseKeyboardOnSearchProperty = BindableProperty.Create(
             nameof(ShouldCloseKeyboardOnReturnKeyTapped),
+            typeof(bool),
+            typeof(SearchBar),
+            true);
+        
+        public static readonly BindableProperty IsAutocorrectEnabledProperty = BindableProperty.Create(
+            nameof(IsAutocorrectEnabled),
             typeof(bool),
             typeof(SearchBar),
             true);

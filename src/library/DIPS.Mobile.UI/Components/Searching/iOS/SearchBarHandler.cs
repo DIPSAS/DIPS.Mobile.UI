@@ -238,6 +238,13 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             : UIReturnKeyType.Search;
     }
     
+    private static void MapIsAutocorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
+    {
+        handler.PlatformView.AutocorrectionType = searchBar.IsAutocorrectEnabled
+            ? UITextAutocorrectionType.Yes
+            : UITextAutocorrectionType.No;
+    }
+    
     public partial void Focus() => InternalSearchBar.Focus();
 
     public partial void UnFocus() => InternalSearchBar.Unfocus();
