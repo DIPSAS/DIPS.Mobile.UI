@@ -25,13 +25,14 @@ public partial class TouchPlatformEffect
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             Control.Clickable = true;
-            
+            Control.Click -= OnClick;
             Control.Click += OnClick;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             Control.LongClickable = true;
+            Control.LongClick -= OnLongClick;
             Control.LongClick += OnLongClick;
         }
         
