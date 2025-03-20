@@ -21,9 +21,6 @@
 
     <dui:VerticalStackLayout>
         
-        <dui:NavigationListItem Title="Hello"
-                                Command="{Binding Navigate}"/>
-        <!--<dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
@@ -46,7 +43,8 @@
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
-        <dui:ListItem Title="Hello" />-->
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
 
     </dui:VerticalStackLayout>
 

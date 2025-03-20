@@ -63,7 +63,7 @@ public partial class ListItem : ContentView
 
     public ListItem()
     {
-        ((ContentView)this).BackgroundColor = Colors.Transparent;
+        /*((ContentView)this).BackgroundColor = Colors.Transparent;
         
         OuterBorder.StrokeShape = new RoundRectangle 
         { 
@@ -81,7 +81,7 @@ public partial class ListItem : ContentView
         ContainerGrid.Add(TitleAndLabelGrid, 1);
         RootGrid.Add(OuterBorder);
         
-        this.Content = RootGrid;
+        this.Content = RootGrid;*/
     }
 
     private void BindBorder()
@@ -214,13 +214,13 @@ public partial class ListItem : ContentView
 
     private void AddTouch()
     {
-        Touch.SetAccessibilityContentDescription(OuterBorder, string.Join(".", Title, Subtitle));
+        /*Touch.SetAccessibilityContentDescription(OuterBorder, string.Join(".", Title, Subtitle));
         Touch.SetCommand(OuterBorder, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
-        SetTouchIsEnabled();
+        SetTouchIsEnabled();*/
     }
 
     private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
