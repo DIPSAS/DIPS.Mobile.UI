@@ -20,24 +20,10 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <dui:VerticalStackLayout Spacing="20">
-        <dui:Button Text="Open BottomSheet"
-                    Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"/>
-    
-        <Grid ColumnDefinitions="*, Auto"
-              BackgroundColor="Red"
-              ColumnSpacing="{dui:Sizes content_margin_medium}"
-              Padding="{dui:Sizes content_margin_medium}">
-            
-            <!--<dui:Label Text="Lol aisodnoia sodi asoidja osij doiasj doia jsoid jaois jdoiajs oidjaoisjdoiasjdoiajs oidj aosijd oiasjdoiajsoidj a"
-                       MaxLines="5"
-                       LineBreakMode="TailTruncation"></dui:Label>-->
-            <dui:Button Style="{dui:Styles Button=CloseIconButtonSmall}"
-                        VerticalOptions="Start"
-                        Grid.Column="1"/>
-        
-        </Grid>
-        
-    </dui:VerticalStackLayout>
+    <dui:CollectionView ItemsSource="{Binding TestStrings}">
+        <dui:CollectionView.Header>
+            <dui:NavigationListItem Title="Hello" Command="{Binding Navigate}"></dui:NavigationListItem>
+        </dui:CollectionView.Header>
+    </dui:CollectionView>
 
 </dui:ContentPage>

@@ -23,13 +23,13 @@ public partial class TouchPlatformEffect
         
         m_touchMode = Touch.GetTouchMode(Element);
 
-        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_tapGestureRecognizer is null)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
-        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_longPressGestureRecognizer is null)
         {
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
