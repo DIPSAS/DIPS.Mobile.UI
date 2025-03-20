@@ -8,14 +8,10 @@
     <dui:ContentPage.BindingContext>
         <sanderSamples:SanderPageViewModel />
     </dui:ContentPage.BindingContext>
+    <Grid RowDefinitions="Auto, *">
+    <dui:SearchBar ReturnKeyType="Search"
+                   IsAutocorrectEnabled="True"/>
     
-    <!-- <dui:VerticalStackLayout> -->
-    <!--     <dui:ListItem HasBottomDivider="True" -->
-    <!--                   HasTopDivider="True" -->
-    <!--                   Title="Test"> -->
-    <!--         ~1~ <sanderSamples:SanderContentView BindingContext="{Binding ViewModel}"/> @1@ -->
-    <!--     </dui:ListItem> -->
-    <!-- ~1~ <dui:Button Text="Tap me!" @1@ -->
-    <!-- ~1~             Command="{Binding TestCommand}"/> @1@ -->
-    <!-- </dui:VerticalStackLayout> -->
+    <Label Text="Test" Grid.Row="1"/>
+    </Grid>
 </dui:ContentPage>

@@ -16,7 +16,8 @@
                 Shell.PresentationMode="ModalAnimated"
                 Padding="{dui:Thickness Bottom=size_1}"
                 iOsSpecific:Page.UseSafeArea="True"
-                AutoHideLastDivider="True">
+                AutoHideLastDivider="True"
+                IsAutocorrectEnabled="False">
     <dui:SearchPage.BindingContext>
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>

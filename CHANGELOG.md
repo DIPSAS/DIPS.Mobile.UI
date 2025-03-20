@@ -1,3 +1,6 @@
+## [42.2.7]
+- [SearchPage, SearchBar] Added property `IsAutocorrectEnabled` for consumer to disable autocorrect in search bar.
+
 ## [42.2.6] 
 - [SearchPage] Fixed an issue where consumer could not modify `AutoHideLastDivider` property.
 
