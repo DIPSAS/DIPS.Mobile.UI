@@ -1,6 +1,7 @@
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -17,6 +18,7 @@ using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
 using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
+using TextChangedEventArgs = Microsoft.Maui.Controls.TextChangedEventArgs;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -93,7 +95,12 @@ namespace DIPS.Mobile.UI.Components.Searching
                                                  .GetColor(ColorName.color_neutral_30);
         }
 
-        protected override AView CreatePlatformView() => OuterVerticalStackLayout.ToContainerView(MauiContext!);
+        protected override AView CreatePlatformView()
+        {
+            InternalSearchBar.SetBinding(InputView.IsSpellCheckEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
+            InternalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
+            return OuterVerticalStackLayout.ToContainerView(MauiContext!);
+        }
 
 
         protected override void ConnectHandler(AView platformView)
@@ -234,10 +241,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             handler.ProgressBar.IsRunning = searchBar.IsBusy;
         }
         
-        private static void MapIsAutocorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
-        {
-        }
-
         private static void MapIconsColor(SearchBarHandler handler, SearchBar searchBar)
         {
             var internalSearchBar = handler.InternalSearchBar;

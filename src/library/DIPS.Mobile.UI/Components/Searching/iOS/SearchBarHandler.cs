@@ -146,6 +146,8 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     protected override DuiSearchBar CreatePlatformView()
     {
+        InternalSearchBar.SetBinding(InputView.IsSpellCheckEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
+        InternalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
         var uiSearchBar = (DuiSearchBar)InternalSearchBar.ToPlatform(MauiContext);
         return uiSearchBar;
     }
@@ -236,13 +238,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         handler.PlatformView.ReturnKeyType = searchBar.ReturnKeyType == ReturnType.Done
             ? UIReturnKeyType.Done
             : UIReturnKeyType.Search;
-    }
-    
-    private static void MapIsAutocorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
-    {
-        handler.PlatformView.AutocorrectionType = searchBar.IsAutocorrectEnabled
-            ? UITextAutocorrectionType.Yes
-            : UITextAutocorrectionType.No;
     }
     
     public partial void Focus() => InternalSearchBar.Focus();

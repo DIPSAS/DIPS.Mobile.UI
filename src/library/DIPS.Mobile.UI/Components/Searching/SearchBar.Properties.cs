@@ -210,6 +210,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         /// <summary>
         /// Whether autocorrect should be enabled or not.
+        /// <remarks>As of MAUI 9.0.30, autocorrect requires <see cref="ReturnKeyType"/> set to <see cref="ReturnType.Done"/></remarks>
         /// </summary>
         public bool IsAutocorrectEnabled 
         {
