@@ -203,8 +203,6 @@ namespace DIPS.Mobile.UI.Components.Searching
         private static void MapPlaceholder(SearchBarHandler handler, SearchBar searchbar)
         {
             handler.InternalSearchBar.Placeholder = searchbar.Placeholder;
-            
-            handler.AutoCompleteTextView.
         }
 
         private static void MapTextColor(SearchBarHandler handler, SearchBar searchBar)
