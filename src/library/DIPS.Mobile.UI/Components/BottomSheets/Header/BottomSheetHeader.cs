@@ -20,6 +20,7 @@ internal class BottomSheetHeader : Grid
         m_bottomSheet = bottomSheet;
         
         this.SetBinding(BindingContextProperty, static (BottomSheet bottomSheet) => bottomSheet, source: m_bottomSheet);
+        this.SetBinding(IsVisibleProperty, static (BottomSheetHeaderBehavior behavior) => behavior.IsVisible, source: m_bottomSheet.BottomSheetHeaderBehavior);
         
         BackgroundColor = Colors.GetColor(ColorName.color_system_white);
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium);

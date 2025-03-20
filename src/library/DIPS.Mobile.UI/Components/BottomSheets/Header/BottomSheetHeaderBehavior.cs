@@ -47,7 +47,22 @@ public class BottomSheetHeaderBehavior : BindableObject
         get => (bool)GetValue(IsBackButtonVisibleProperty);
         set => SetValue(IsBackButtonVisibleProperty, value);
     }
+
+    /// <summary>
+    /// Whether the Header should be visible or not
+    /// </summary>
+    public bool IsVisible
+    {
+        get => (bool)GetValue(IsVisibleProperty);
+        set => SetValue(IsVisibleProperty, value);
+    }
     
+    public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
+        nameof(IsVisible),
+        typeof(bool),
+        typeof(BottomSheetHeaderBehavior),
+        true);
+
     public static readonly BindableProperty CloseButtonCommandProperty = BindableProperty.Create(
         nameof(CloseButtonCommand),
         typeof(ICommand),
