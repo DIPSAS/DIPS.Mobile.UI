@@ -11,8 +11,10 @@ public partial class TouchPlatformEffect : PlatformEffect
             return;
         
         element.PropertyChanged += ElementOnPropertyChanged;
+
+        var isEnabled = Touch.GetIsEnabled(Element);
         
-        if (element.IsEnabled)
+        if (element.IsEnabled && isEnabled)
             Init();
     }
     

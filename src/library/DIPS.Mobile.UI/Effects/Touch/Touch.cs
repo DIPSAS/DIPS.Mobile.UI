@@ -59,13 +59,11 @@ public partial class Touch : RoutingEffect
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
 
-    [Obsolete("Use the IsEnabled property directly on the element instead")]
     public static bool GetIsEnabled(BindableObject view)
     {
         return (bool)view.GetValue(IsEnabledProperty);
     }
 
-    [Obsolete("Use the IsEnabled property directly on the element instead")]
     public static void SetIsEnabled(BindableObject view, bool isEnabled)
     {
         view.SetValue(IsEnabledProperty, isEnabled);
@@ -75,10 +73,7 @@ public partial class Touch : RoutingEffect
     {
         if (GetCommand(element) is not null)
         {
-            if (GetLongPressCommand(element) is not null)
-                return TouchMode.Both;
-            
-            return TouchMode.Tap;
+            return GetLongPressCommand(element) is not null ? TouchMode.Both : TouchMode.Tap;
         }
         
         return TouchMode.LongPress;
