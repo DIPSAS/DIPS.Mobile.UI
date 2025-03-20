@@ -14,7 +14,7 @@
         <searching:SearchBarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto,*"
+    <Grid RowDefinitions="Auto ,*"
           RowSpacing="0"
           ColumnDefinitions="*, Auto">
         <dui:SearchBar Grid.Row="0"
@@ -22,6 +22,7 @@
                        VerticalOptions="Start"
                        CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
+                       IsAutocorrectEnabled="False"
                        TextChanged="InputView_OnTextChanged"
                        Margin="{dui:Thickness Bottom=size_1}"/>
         

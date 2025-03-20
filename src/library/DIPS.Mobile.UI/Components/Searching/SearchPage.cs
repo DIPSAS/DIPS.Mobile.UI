@@ -48,6 +48,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.SetBinding(SearchBar.PlaceholderProperty, static (SearchPage searchPage) => searchPage.SearchPlaceholder, source: this);
             SearchBar.SetBinding(SearchBar.ShouldDelayProperty, static (SearchPage searchPage) => searchPage.ShouldDelay, source: this);
             SearchBar.SetBinding(SearchBar.DelayProperty, static (SearchPage searchPage) => searchPage.Delay, source: this);
+            SearchBar.SetBinding(SearchBar.IsAutocorrectEnabledProperty, static (SearchPage searchPage) => searchPage.IsAutocorrectEnabled, source: this);
             
             SearchBar.TextChanged += SearchBarOnTextChanged;
 

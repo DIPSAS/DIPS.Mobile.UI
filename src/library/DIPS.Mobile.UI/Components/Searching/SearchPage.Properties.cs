@@ -111,6 +111,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (SearchMode)GetValue(SearchModeProperty);
             set => SetValue(SearchModeProperty, value);
         }
+        
+        /// <summary>
+        /// Whether autocorrect should be enabled on the search bar.
+        /// </summary>
+        public bool IsAutocorrectEnabled 
+        {
+            get => (bool)GetValue(IsAutocorrectEnabledProperty);
+            set => SetValue(IsAutocorrectEnabledProperty, value);
+        }
 
         /// <summary>
         /// The method to return the result that people will see when they use the search bar in the search page.
@@ -212,5 +221,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(View),
             typeof(SearchPage),
             propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnFooterViewChanged());
+        
+        public static readonly BindableProperty IsAutocorrectEnabledProperty = BindableProperty.Create(
+            nameof(IsAutocorrectEnabled),
+            typeof(bool),
+            typeof(SearchPage),
+            true);
     }
 }
