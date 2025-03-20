@@ -19,23 +19,35 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_4}">
-    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestObject2s}"
-                             dui:Layout.AutoHideLastDivider="True"
-                             dui:Layout.AutoCornerRadius="True"
-                             Spacing="0"
-                             VerticalOptions="Start">
+    <dui:VerticalStackLayout>
         
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <Grid>
-                    <dui:ListItem Title="{Binding Name}" />
-                    <dui:Divider VerticalOptions="End" />
-                </Grid>
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
-        
+        <dui:NavigationListItem Title="Hello"
+                                Command="{Binding Navigate}"/>
+        <!--<dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />-->
+
     </dui:VerticalStackLayout>
-    </ScrollView>
 
 </dui:ContentPage>
