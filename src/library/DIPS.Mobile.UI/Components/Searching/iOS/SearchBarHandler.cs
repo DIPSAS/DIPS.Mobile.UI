@@ -146,8 +146,6 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     protected override DuiSearchBar CreatePlatformView()
     {
-        InternalSearchBar.SetBinding(InputView.IsSpellCheckEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
-        InternalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
         var uiSearchBar = (DuiSearchBar)InternalSearchBar.ToPlatform(MauiContext);
         return uiSearchBar;
     }
