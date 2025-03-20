@@ -17,7 +17,10 @@ internal class BottomSheetHeader : Grid
 
     public BottomSheetHeader(BottomSheet bottomSheet)
     {
-        BindingContext = m_bottomSheet = bottomSheet;
+        m_bottomSheet = bottomSheet;
+        
+        this.SetBinding(BindingContextProperty, static (BottomSheet bottomSheet) => bottomSheet, source: m_bottomSheet);
+        
         BackgroundColor = Colors.GetColor(ColorName.color_system_white);
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium);
 

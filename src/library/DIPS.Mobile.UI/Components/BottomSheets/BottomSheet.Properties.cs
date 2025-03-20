@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
+using DIPS.Mobile.UI.Internal.Logging;
 using Button = Microsoft.Maui.Controls.Button;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
@@ -134,9 +135,9 @@ public partial class BottomSheet
         }
     }
     
-    public BottomSheetHeaderBehavior? BottomSheetHeaderBehavior
+    public BottomSheetHeaderBehavior BottomSheetHeaderBehavior
     {
-        get => (BottomSheetHeaderBehavior?)GetValue(BottomSheetHeaderBehaviorProperty);
+        get => (BottomSheetHeaderBehavior)GetValue(BottomSheetHeaderBehaviorProperty);
         set => SetValue(BottomSheetHeaderBehaviorProperty, value);
     }
         
@@ -160,10 +161,20 @@ public partial class BottomSheet
         nameof(BottomSheetHeaderBehavior),
         typeof(BottomSheetHeaderBehavior),
         typeof(BottomSheet),
+        
         propertyChanged: (bindable, _, newValue) =>
         {
-            if(newValue is not null)
-                ((BindableObject)newValue).BindingContext = bindable.BindingContext;
+            if (newValue is not BottomSheetHeaderBehavior bottomSheetHeaderBehavior)
+            {
+                DUILogService.LogError<BottomSheet>("BottomSheetHeaderBehavior property must be of type BottomSheetHeaderBehavior");
+                return;
+            }
+
+            if (bindable is not BottomSheet bottomSheet)
+                return;
+            
+            bottomSheetHeaderBehavior.SetBinding(BindingContextProperty,
+                static (BottomSheet bottomSheet) => bottomSheet.BindingContext, source: bottomSheet);
         });
 
     public static readonly BindableProperty PositioningProperty = BindableProperty.Create(
