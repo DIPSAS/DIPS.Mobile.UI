@@ -1,7 +1,7 @@
 ## [42.3.0] 
-- [Button][Android] Removed obsolete workaround code.
 - [Button][Android] Fixed an issue where padding were not added to icon in a button.
 - [Touch] Support to also use `IsEnabled` property on the Element.
+- [SortControl] Fixed padding of elements in the BottomSheet.
 
 ## [42.2.6] 
 - [SearchPage] Fixed an issue where consumer could not modify `AutoHideLastDivider` property.
