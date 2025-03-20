@@ -17,7 +17,7 @@
                 Padding="{dui:Thickness Bottom=size_1}"
                 iOsSpecific:Page.UseSafeArea="True"
                 AutoHideLastDivider="True"
-                IsAutocorrectEnabled="True">
+                IsAutocorrectEnabled="False">
     <dui:SearchPage.BindingContext>
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>

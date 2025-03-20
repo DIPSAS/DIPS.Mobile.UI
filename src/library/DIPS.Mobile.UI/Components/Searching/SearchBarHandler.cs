@@ -22,6 +22,7 @@ internal partial class SearchBarHandler
         [nameof(SearchBar.Text)] = MapText,
         [nameof(SearchBar.CancelButtonTextColor)] = MapCancelButtonTextColor,
         [nameof(SearchBar.ReturnKeyType)] = MapReturnKeyType,
+        [nameof(SearchBar.IsAutocorrectEnabled)] = MapIsAutoCorrectEnabled,
     };
 
     private void OnInternalSearchBarFocused(object? sender, FocusEventArgs e)

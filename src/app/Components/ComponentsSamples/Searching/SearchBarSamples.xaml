@@ -22,7 +22,7 @@
                        VerticalOptions="Start"
                        CancelCommand="{Binding CancelCommand}"
                        Text="{Binding FilterQuery}"
-                       IsAutocorrectEnabled="True"
+                       IsAutocorrectEnabled="False"
                        TextChanged="InputView_OnTextChanged"
                        Margin="{dui:Thickness Bottom=size_1}"/>
         

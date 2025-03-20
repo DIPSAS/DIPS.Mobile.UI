@@ -292,6 +292,11 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         }
 
+        private static void MapIsAutoCorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
+        {
+            //Set in CreatePlatformView
+        }
+        
         public partial void Focus()
             => InternalSearchBar.Focus();
 

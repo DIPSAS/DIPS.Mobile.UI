@@ -232,6 +232,13 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     {
         handler.InternalSearchBar.CancelButtonColor = searchBar.CancelButtonTextColor;
     }
+    
+    private static void MapIsAutoCorrectEnabled(SearchBarHandler handler, SearchBar searchBar)
+    {
+        handler.PlatformView.AutocorrectionType = searchBar.IsAutocorrectEnabled
+            ? UITextAutocorrectionType.Yes
+            : UITextAutocorrectionType.No;    
+    }
 
     private static void MapReturnKeyType(SearchBarHandler handler, SearchBar searchBar)
     {
