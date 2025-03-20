@@ -25,11 +25,18 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
 
         Title = DUILocalizedStrings.Settings;
 
-        /*TODO:ToolbarItems.Add(new ToolbarItem
+        BottombarButtons = new List<Button>
         {
-            Text = imageCaptureSettings.CanChangeMaxHeightOrWidth ? DUILocalizedStrings.Save : DUILocalizedStrings.Close,
-            Command = new Command(OnSave)
-        });*/
+            new Components.Buttons.Button
+            {
+                Text = imageCaptureSettings.CanChangeMaxHeightOrWidth
+                    ? DUILocalizedStrings.Save
+                    : DUILocalizedStrings.Close,
+                Command = new Command(OnSave),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.End
+            }
+        };
 
         m_startingEntryText = imageCaptureSettings.MaxHeightOrWidth?.ToString() ?? NotSetText; 
         m_targetHeightOrWidthEntry = new Entry

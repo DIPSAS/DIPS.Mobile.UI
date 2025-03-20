@@ -60,17 +60,21 @@ public partial class TouchPlatformEffect
         {
             if (Control.GestureRecognizers != null && m_tapGestureRecognizer is not null)
             {
-                Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
+                Control.RemoveGestureRecognizer(m_tapGestureRecognizer);
             }
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             if(Control.GestureRecognizers != null && m_longPressGestureRecognizer is not null)
-                Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
+                Control.RemoveGestureRecognizer(m_longPressGestureRecognizer);
         }
 
         m_tapGestureRecognizer?.Dispose();
+        m_longPressGestureRecognizer?.Dispose();
+        
+        m_tapGestureRecognizer = null;
+        m_longPressGestureRecognizer = null;
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,
