@@ -1,19 +1,27 @@
+using Android.Content.Res;
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Extensions.Android;
 using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.Button;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Buttons;
 
 public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 {
+    static readonly ColorStateList TransparentColorStateList = Colors.Transparent.ToDefaultColorStateList();
+    
     protected override MaterialButton CreatePlatformView()
     {
         return new Android.MaterialButton(Context)
         {
-            Button = VirtualView as Button
+            Button = VirtualView as Button,
+            IconGravity = MaterialButton.IconGravityTextStart,
+            IconTintMode = global::Android.Graphics.PorterDuff.Mode.Add,
+            IconTint = TransparentColorStateList,
+            SoundEffectsEnabled = false
         };
     }
 

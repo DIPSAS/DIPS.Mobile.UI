@@ -1,3 +1,8 @@
+## [42.3.0] 
+- [Button][Android] Removed obsolete workaround code.
+- [Button][Android] Fixed an issue where padding were not added to icon in a button.
+- [Touch] Support to use `IsEnabled` property on the Element instead of `Touch.IsEnabled` property. Set `Touch.IsEnabled` as obsolete for now.
+
 ## [42.2.6] 
 - [SearchPage] Fixed an issue where consumer could not modify `AutoHideLastDivider` property.
 

@@ -59,11 +59,13 @@ public partial class Touch : RoutingEffect
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
 
+    [Obsolete("Use the IsEnabled property directly on the element instead")]
     public static bool GetIsEnabled(BindableObject view)
     {
         return (bool)view.GetValue(IsEnabledProperty);
     }
 
+    [Obsolete("Use the IsEnabled property directly on the element instead")]
     public static void SetIsEnabled(BindableObject view, bool isEnabled)
     {
         view.SetValue(IsEnabledProperty, isEnabled);

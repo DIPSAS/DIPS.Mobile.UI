@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection.Metadata;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
@@ -14,23 +15,21 @@ public partial class TouchPlatformEffect
     private TouchEffectTapGestureRecognizer? m_tapGestureRecognizer;
     private TouchEffectLongPressGestureRecognizer? m_longPressGestureRecognizer;
     private Touch.TouchMode m_touchMode;
-    private bool m_isEnabled;
 
-    protected override partial void OnAttached()
+    private partial void Init()
     {
         if(Control is UIButton)
             return;
         
-        m_isEnabled = Touch.GetIsEnabled(Element);
         m_touchMode = Touch.GetTouchMode(Element);
 
-        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
-        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
@@ -52,7 +51,7 @@ public partial class TouchPlatformEffect
             Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
-    protected override partial void OnDetached()
+    private partial void Dispose()
     {
         if(Control is null)
             return;

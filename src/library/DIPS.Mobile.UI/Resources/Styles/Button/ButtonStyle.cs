@@ -15,4 +15,5 @@ public enum ButtonStyle
     SecondaryIconButtonLarge = 10,
     GhostIconButtonSmall = 11,
     GhostIconButtonLarge = 12,
+    CloseIconButtonSmall = 13,
 }

@@ -2,7 +2,6 @@ using Android.Content.Res;
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
-using Action = System.Action;
 using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using View = Android.Views.View;
@@ -12,23 +11,15 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    internal static readonly Color DefaultNativeAnimationColor = new(128, 128, 128, 75);
+    internal static readonly Color s_defaultNativeAnimationColor = new(128, 128, 128, 75);
 
     private Touch.TouchMode m_touchMode;
-    private bool m_isEnabled;
 
     private bool m_changedBackground;
     private Drawable? m_defaultBackground;
 
-    protected override partial void OnAttached()
+    private partial void Init()
     {
-        m_isEnabled = Touch.GetIsEnabled(Element);
-
-        if (!m_isEnabled)
-        {
-            return;
-        }
-        
         m_touchMode = Touch.GetTouchMode(Element);
         
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
@@ -36,7 +27,6 @@ public partial class TouchPlatformEffect
             Control.Clickable = true;
             
             Control.Click += OnClick;
-            Control.ScrollChange += ControlOnScrollChange;
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
@@ -48,8 +38,8 @@ public partial class TouchPlatformEffect
         var contentDescription = Touch.GetAccessibilityContentDescription(Element);
         
         var colorStateList = new ColorStateList(
-            new[] { Array.Empty<int>() },
-            new[] { (int)DefaultNativeAnimationColor.ToPlatform() });
+            [[]],
+            [s_defaultNativeAnimationColor.ToPlatform()]);
         
         var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
         if (Control.Background is null)
@@ -70,22 +60,17 @@ public partial class TouchPlatformEffect
         }
     }
 
-    private void ControlOnScrollChange(object? sender, View.ScrollChangeEventArgs e)
-    {
-        
-    }
-
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
     {
-        Touch.GetLongPressCommand(Element).Execute(Touch.GetLongPressCommandParameter(Element));
+        Touch.GetLongPressCommand(Element)?.Execute(Touch.GetLongPressCommandParameter(Element));
     }
     
     private void OnClick(object? sender, EventArgs eventArgs)
     {
-        Touch.GetCommand(Element).Execute(Touch.GetCommandParameter(Element));
+        Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
-    protected override partial void OnDetached()
+    private partial void Dispose()
     {
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {
