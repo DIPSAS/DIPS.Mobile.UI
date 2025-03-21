@@ -12,9 +12,9 @@ public partial class TouchPlatformEffect : PlatformEffect
         
         element.PropertyChanged += ElementOnPropertyChanged;
 
-        var isEnabled = Touch.GetIsEnabled(Element);
+        var isEnabled = Touch.GetIsEnabled(Element) && element.IsEnabled;
         
-        if (element.IsEnabled && isEnabled)
+        if (isEnabled)
             Init();
     }
     
@@ -28,15 +28,17 @@ public partial class TouchPlatformEffect : PlatformEffect
         if(sender is not VisualElement element)
             return;
 
-        if (element.IsEnabled)
+        var isEnabled = element.IsEnabled && Touch.GetIsEnabled(element);
+        
+        if (isEnabled)
             Init();
         else
-            Dispose();
+            Dispose(false);
     }
 
     protected override void OnDetached()
     {
-        Dispose();
+        Dispose(true);
         
         if (Element is not VisualElement element)
             return;
@@ -44,5 +46,5 @@ public partial class TouchPlatformEffect : PlatformEffect
         element.PropertyChanged -= ElementOnPropertyChanged;
     }
     
-    private partial void Dispose();
+    private partial void Dispose(bool isDetaching);
 }

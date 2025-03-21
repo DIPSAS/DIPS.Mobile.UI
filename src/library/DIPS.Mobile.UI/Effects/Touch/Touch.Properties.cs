@@ -34,6 +34,5 @@ public partial class Touch
     public static readonly BindableProperty IsEnabledProperty = BindableProperty.CreateAttached("IsEnabled",
         typeof(bool),
         typeof(Touch),
-        true,
-        propertyChanged: OnTouchPropertiesChanged);
+        true);
 }
