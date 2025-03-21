@@ -71,7 +71,7 @@ public partial class TouchPlatformEffect
         Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
-    private partial void Dispose()
+    private partial void Dispose(bool isDetaching)
     {
         if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both)
         {

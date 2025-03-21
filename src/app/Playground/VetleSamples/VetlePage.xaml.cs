@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
@@ -76,7 +77,7 @@ public partial class VetlePage
 
     private void SwitchRoot()
     {
-       
+        
 
     }
 
@@ -201,14 +202,14 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        /*if (CollectionView.Handler is CollectionViewHandler collectionViewHandler)
-        {
-            
-        }*/
+        if (sender is ListItem button)
+            button.IsEnabled = !button.IsEnabled;
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
         /*CollectionView.ReloadData();*/
     }
+
+    
 }
