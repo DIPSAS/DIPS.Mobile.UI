@@ -51,11 +51,11 @@ public partial class TouchPlatformEffect
             Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
-    private partial void Remove(bool isDetaching)
+    private partial void Dispose(bool isDetaching)
     {
         if(Control is null)
             return;
-
+        
         // If the Control was set to disabled after being pressed, we need to animate it back to the original state
         if (!isDetaching)
         {

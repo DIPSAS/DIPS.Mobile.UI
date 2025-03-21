@@ -33,12 +33,12 @@ public partial class TouchPlatformEffect : PlatformEffect
         if (isEnabled)
             Init();
         else
-            Remove(false);
+            Dispose(false);
     }
 
     protected override void OnDetached()
     {
-        Remove(true);
+        Dispose(true);
         
         if (Element is not VisualElement element)
             return;
@@ -46,5 +46,5 @@ public partial class TouchPlatformEffect : PlatformEffect
         element.PropertyChanged -= ElementOnPropertyChanged;
     }
     
-    private partial void Remove(bool isDetaching);
+    private partial void Dispose(bool isDetaching);
 }
