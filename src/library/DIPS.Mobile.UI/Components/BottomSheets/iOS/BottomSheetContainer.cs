@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -7,48 +8,56 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
 internal class BottomSheetContainer : Grid
 {
-    private readonly BottomSheet m_bottomsheet;
+    private readonly BottomSheet m_bottomSheet;
 
     public BottomSheetContainer(BottomSheet bottomSheet)
     {
-        m_bottomsheet = bottomSheet;
+        m_bottomSheet = bottomSheet;
         
         BackgroundColor = bottomSheet.BackgroundColor;
         
         AddRowDefinition(new RowDefinition(GridLength.Auto));
+        AddRowDefinition(new RowDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Star));
 
-        this.Add(bottomSheet, 0, 1);
+        AddHeader();
+        this.Add(bottomSheet, 0, 2);
     }
-    
+
+    private void AddHeader()
+    {
+        var header = new BottomSheetHeader(m_bottomSheet);
+        this.Add(header);
+    }
+
     public void ModifySearchbar(bool add)
     {
         if (add)
         {
-            this.Add(m_bottomsheet.SearchBar);
+            this.Add(m_bottomSheet.SearchBar, 0, 1);
         }
         else
         {
-            Remove(m_bottomsheet.SearchBar);
+            Remove(m_bottomSheet.SearchBar);
         }
     }
 
-    public void AddToView(UIView rootView, UINavigationBar? navigationBar)
+    public void AddToView(UIView rootView)
     {
         var nativeView = this.ToPlatform(DUI.GetCurrentMauiContext!);
         
         rootView.AddSubview(nativeView);
-        SetPadding(navigationBar);
+        SetPadding();
         SetConstraints(rootView, nativeView);
     }
 
-    private void SetPadding(UINavigationBar? navigationBar)
+    private void SetPadding()
     {
         var bottom = (UIApplication.SharedApplication.KeyWindow?.SafeAreaInsets.Bottom) == 0
             ? Sizes.GetSize(SizeName.content_margin_large) //There is a physical home button
             : Sizes.GetSize(SizeName.content_margin_xsmall); //There is no physical home button, but we need some air between the safe area and the content
 
-        Padding = new Thickness(0, navigationBar is not null ? navigationBar.Frame.Height : Sizes.GetSize(SizeName.content_margin_large), 0, bottom);
+        Padding = new Thickness(0, 0, 0, bottom);
     }
 
     private static void SetConstraints(UIView rootView, UIView uiView)

@@ -1,3 +1,10 @@
+## [43.0.0] 
+- [Button][Android] Fixed an issue where padding were not added to icon in a button.
+- [Touch] Support to also use `IsEnabled` property on the Element.
+- [SortControl] Fixed padding of elements in the BottomSheet.
+- [BottomSheet] Added default header, which contains title and close button.
+- [BreakingChange][BottomSheet] Removed ToolbarItems.
+
 ## [42.2.7]
 - [SearchPage, SearchBar] Added property `IsAutocorrectEnabled` for consumer to disable autocorrect in search bar.
 

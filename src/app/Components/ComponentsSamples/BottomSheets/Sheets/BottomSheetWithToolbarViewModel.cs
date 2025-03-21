@@ -10,23 +10,19 @@ public class BottomSheetWithToolbarViewModel : ViewModel
 {
     public BottomSheetWithToolbarViewModel()
     {
-        CloseBottomSheetCommand = new Command(() => { BottomSheetService.CloseAll(); });
-
-        TryCloseBottomSheetCommand = new Command(TryCloseBottomSheet);
+        TryCloseBottomSheetCommand = new Command<Action>(TryCloseBottomSheet);
     }
 
-    private async void TryCloseBottomSheet()
+    private async void TryCloseBottomSheet(Action action)
     {
         var result = await DialogService.ShowConfirmationMessage(LocalizedStrings.AreYouSure_,
             LocalizedStrings.ThisWillCloseBottomSheet, LocalizedStrings.Cancel, LocalizedStrings.Yes);
 
         if (result == DialogAction.TappedAction)
         {
-            _ = BottomSheetService.CloseAll();
+            action.Invoke();
         }
     }
-
-    public ICommand CloseBottomSheetCommand { get; set; }
 
     public ICommand TryCloseBottomSheetCommand { get; set; }
 

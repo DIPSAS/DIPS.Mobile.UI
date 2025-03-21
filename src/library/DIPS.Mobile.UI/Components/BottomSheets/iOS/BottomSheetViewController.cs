@@ -1,10 +1,5 @@
-using System.ComponentModel;
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
-using Microsoft.Maui.Platform;
-using ObjCRuntime;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
@@ -20,8 +15,6 @@ public class BottomSheetViewController : UIViewController
         bottomSheet.ViewController = this;
 
         m_container = new BottomSheetContainer(bottomSheet);
-        
-        
     }
     
     public BottomSheet BottomSheet { get; }
@@ -56,41 +49,8 @@ public class BottomSheetViewController : UIViewController
         if(View is null)
             return;
         
-        m_container.AddToView(View, NavigationController?.NavigationBar);
+        m_container.AddToView(View);
         m_bottomBar = new BottomBarView(View, BottomSheet);
-    }
-
-    public void SetBackButton()
-    {
-        if (BottomSheet.BackButtonBehavior is null)
-            return;
-
-        BottomSheet.BackButtonBehavior.BindingContext = BottomSheet.BindingContext;
-
-        NavigationItem.LeftBarButtonItem = new UIBarButtonItem(
-            BottomSheet.BackButtonBehavior.IconOverride is FileImageSource fileImageSource
-                ? UIImage.FromBundle(fileImageSource)
-                : null, UIBarButtonItemStyle.Plain, delegate
-            {
-                BottomSheet.BackButtonBehavior.Command?.Execute(BottomSheet.BackButtonBehavior.CommandParameter);
-            });
-    }
-
-    private UIBarButtonItem ToBarButtonItem(ToolbarItem toolbarItem)
-    {
-        toolbarItem.BindingContext = BottomSheet.BindingContext;
-        if (toolbarItem.IconImageSource is FileImageSource fileImageSource)
-        {
-            return new UIBarButtonItem(UIImage.FromBundle(fileImageSource), UIBarButtonItemStyle.Plain, delegate 
-            {
-                toolbarItem.Command?.Execute(toolbarItem.CommandParameter);
-            });
-        }
-        
-        return new UIBarButtonItem(toolbarItem.Text, UIBarButtonItemStyle.Plain, delegate
-        {
-            toolbarItem.Command?.Execute(toolbarItem.CommandParameter);
-        });
     }
 
     public void Opened()
@@ -119,11 +79,6 @@ public class BottomSheetViewController : UIViewController
         NavigationItem.Title = BottomSheet.Title;
     }
 
-    public void AddToolbarItems()
-    {
-        NavigationItem.RightBarButtonItems = BottomSheet.ToolbarItems.Select(ToBarButtonItem).ToArray();
-    }
-    
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
@@ -131,17 +86,7 @@ public class BottomSheetViewController : UIViewController
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
 
-        BottomSheet.NavigationController = null;
-        
         _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(BottomSheet.ToCollectionContentTarget());
         BottomSheet.DisconnectHandlers();
-    }
-
-    public void SetBackButtonVisibility()
-    {
-        if (NavigationItem.LeftBarButtonItem is not null)
-        {
-            NavigationItem.LeftBarButtonItem.Hidden = !BottomSheet.IsBackButtonVisible;
-        }
     }
 }

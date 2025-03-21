@@ -16,5 +16,6 @@ internal class ButtonStyleResources
         [ButtonStyle.GhostSmall] = ButtonTypeStyle.GhostSmall,
         [ButtonStyle.GhostIconButtonSmall] = ButtonTypeStyle.GhostIconButtonSmall,
         [ButtonStyle.GhostIconButtonLarge] = ButtonTypeStyle.GhostIconButtonLarge,
+        [ButtonStyle.CloseIconButtonSmall] = ButtonTypeStyle.CloseIconButtonSmall
     };
 }

@@ -146,9 +146,6 @@
     <data name="Navigation" xml:space="preserve">
         <value>Navigasjon</value>
     </data>
-    <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
-        <value>Åpne bottom sheet med toolbar</value>
-    </data>
     <data name="SizesAsVisualBoxes" xml:space="preserve">
         <value>Størrelser som bokser</value>
     </data>
@@ -329,7 +326,7 @@
     <data name="Alert" xml:space="preserve">
         <value>Alert</value>
     </data>
-    <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
+    <data name="BottomSheet_OpenWithBottomBars" xml:space="preserve">
         <value>Åpne bottom sheet som har knapper i bunn</value>
     </data>
     <data name="PhotoCapturing" xml:space="preserve">

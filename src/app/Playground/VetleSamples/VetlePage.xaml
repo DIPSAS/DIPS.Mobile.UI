@@ -10,7 +10,8 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_neutral_10}">
+                 BackgroundColor="{dui:Colors color_system_white}">
+                 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
@@ -19,23 +20,24 @@
         <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
     </dui:ContentPage.Resources>
 
-    <ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_4}">
-    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestObject2s}"
-                             dui:Layout.AutoHideLastDivider="True"
-                             dui:Layout.AutoCornerRadius="True"
-                             Spacing="0"
-                             VerticalOptions="Start">
+    <dui:VerticalStackLayout Spacing="20">
+        <dui:Button Text="Open BottomSheet"
+                    Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"/>
+    
+        <Grid ColumnDefinitions="*, Auto"
+              BackgroundColor="Red"
+              ColumnSpacing="{dui:Sizes content_margin_medium}"
+              Padding="{dui:Sizes content_margin_medium}">
+            
+            <!--<dui:Label Text="Lol aisodnoia sodi asoidja osij doiasj doia jsoid jaois jdoiajs oidjaoisjdoiasjdoiajs oidj aosijd oiasjdoiajsoidj a"
+                       MaxLines="5"
+                       LineBreakMode="TailTruncation"></dui:Label>-->
+            <dui:Button Style="{dui:Styles Button=CloseIconButtonSmall}"
+                        VerticalOptions="Start"
+                        Grid.Column="1"/>
         
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <Grid>
-                    <dui:ListItem Title="{Binding Name}" />
-                    <dui:Divider VerticalOptions="End" />
-                </Grid>
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
+        </Grid>
         
     </dui:VerticalStackLayout>
-    </ScrollView>
 
 </dui:ContentPage>
