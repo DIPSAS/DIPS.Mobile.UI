@@ -21,7 +21,8 @@
     </dui:ContentPage.Resources>
 
     <dui:VerticalStackLayout Spacing="20">
-        <dui:Button Text="Open BottomSheet"
+        <dui:ListItem Title="Open BottomSheet"
+                    Tapped="Button_OnClicked"
                     Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"/>
     
         <Grid ColumnDefinitions="*, Auto"

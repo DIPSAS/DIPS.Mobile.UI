@@ -1,3 +1,6 @@
+## [43.0.1] 
+- [Touch][iOS] Fixed a bug where disabling an element right after touch effect fires, makes the element stay at clicked opacity.
+
 ## [43.0.0] 
 - [Button][Android] Fixed an issue where padding were not added to icon in a button.
 - [Touch] Support to also use `IsEnabled` property on the Element.
