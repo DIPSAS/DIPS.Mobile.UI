@@ -197,6 +197,7 @@ public static class ButtonTypeStyle
             }
         }
     };
+    
     public static Style PrimaryIconButtonSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Primary,
@@ -215,7 +216,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_5)
             },
             new Setter()
             {
@@ -245,7 +246,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_7)
             },
             new Setter()
             {
@@ -275,7 +276,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_5)
             },
             new Setter()
             {
@@ -305,7 +306,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_7)
             },
             new Setter()
             {
@@ -335,7 +336,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_5)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_5)
             },
             new Setter()
             {
@@ -365,7 +366,7 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
-                Value = Sizes.Sizes.GetSize(SizeName.size_7)
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_7)
             },
             new Setter()
             {
@@ -373,6 +374,49 @@ public static class ButtonTypeStyle
                 Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
                     ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
                     : 0
+            }
+        }
+    };
+    
+    public static Style CloseIconButtonSmall => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = Ghost,
+        Setters =
+        {
+            new Setter()
+            {
+                Property = VisualElement.HeightRequestProperty,
+                Value = 36
+            },
+            new Setter()
+            {
+                Property = VisualElement.WidthRequestProperty,
+                Value = 36
+            },
+            new Setter()
+            {
+                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                Value = 18
+            },
+            new Setter()
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_background_bg_light)
+            },
+            new Setter()
+            {
+                Property = Components.Buttons.Button.ImageTintColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_neutral)
+            },
+            new Setter()
+            {
+                Property = Components.Buttons.Button.ImageSourceProperty,
+                Value = Icons.Icons.GetIcon(IconName.close_line)
+            },
+            new Setter()
+            {
+                Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                Value = 8
             }
         }
     };

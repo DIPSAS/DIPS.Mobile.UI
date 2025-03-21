@@ -13,24 +13,15 @@ public static partial class BottomSheetService
         {
             var bottomSheetViewController = new BottomSheetViewController(bottomSheet);
 
-            BottomSheetNavigationViewController? navigationController = null;
-            if (bottomSheet.ShouldHaveNavigationBar)
-            {
-                navigationController = new BottomSheetNavigationViewController(bottomSheet, bottomSheetViewController);
-                bottomSheet.NavigationController = navigationController;
-            }
-            
-            UIViewController viewControllerToPresent = navigationController is not null ? navigationController : bottomSheetViewController;
-
             var currentViewController = Platform.GetCurrentUIViewController();
             if (currentViewController is null)
                 return;
             
-            viewControllerToPresent.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
+            bottomSheetViewController.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
 
-            TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController);
+            TryAddGrabberAndSetSheetPresentationProperties(bottomSheetViewController, bottomSheetViewController);
 
-            await currentViewController.PresentViewControllerAsync(viewControllerToPresent, true);
+            await currentViewController.PresentViewControllerAsync(bottomSheetViewController, true);
         }
         catch (Exception e)
         {
@@ -39,19 +30,17 @@ public static partial class BottomSheetService
         }
     }
 
-    private static bool TryAddGrabberAndSetSheetPresentationProperties(UIViewController viewControllerToPresent,
+    private static void TryAddGrabberAndSetSheetPresentationProperties(UIViewController viewControllerToPresent,
         BottomSheetViewController bottomSheetViewController)
     {
-        //Add grabber
         var presentationController = viewControllerToPresent.SheetPresentationController;
-        if (presentationController is null)
-            return true;
+        if (presentationController is null) 
+            return;
 
         presentationController.PrefersGrabberVisible = true;
         presentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
         presentationController.Delegate = new BottomSheetControllerDelegate { BottomSheetViewController = bottomSheetViewController };
         presentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
-        return false;
     }
 
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)

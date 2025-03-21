@@ -32,9 +32,7 @@ internal class SortControlBottomSheet : BottomSheet
 
         Title = DUILocalizedStrings.Sort;
         
-        Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_large));
-        
-        List<SelectableItemViewModel> selectableViewModels = new();
+        List<SelectableItemViewModel> selectableViewModels = [];
         foreach (var item in m_sortControl.ItemsSource)
         {
             selectableViewModels.Add(new SelectableSortOptionViewModel(
@@ -101,7 +99,7 @@ internal class SortControlBottomSheet : BottomSheet
         radioButtonListItem.IconOptions = new IconOptions { Color = Colors.GetColor(ColorName.color_icon_default) };
         radioButtonListItem.DividersOptions = new DividersOptions
         {
-            BottomDividerMargin = new Thickness(Sizes.GetSize(SizeName.size_13), Sizes.GetSize(SizeName.size_0),
+            BottomDividerMargin = new Thickness(Sizes.GetSize(SizeName.size_8), Sizes.GetSize(SizeName.size_0),
                 Sizes.GetSize(SizeName.size_0), Sizes.GetSize(SizeName.size_0))
         };
         

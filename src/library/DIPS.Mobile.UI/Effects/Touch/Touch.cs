@@ -73,10 +73,7 @@ public partial class Touch : RoutingEffect
     {
         if (GetCommand(element) is not null)
         {
-            if (GetLongPressCommand(element) is not null)
-                return TouchMode.Both;
-            
-            return TouchMode.Tap;
+            return GetLongPressCommand(element) is not null ? TouchMode.Both : TouchMode.Tap;
         }
         
         return TouchMode.LongPress;

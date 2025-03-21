@@ -3,13 +3,6 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    protected override partial void OnAttached()
-    {
-        
-    }
-
-    protected override partial void OnDetached()
-    {
-        
-    }
+    private partial void Init(){}
+    private partial void Dispose(){}
 }

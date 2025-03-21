@@ -12,29 +12,16 @@ public partial class BottomSheetHandler
         new PropertyMapper<BottomSheet, BottomSheetHandler>(Mapper)
         {
             [nameof(BottomSheet.IsInteractiveCloseable)] = MapIsInteractiveCloseable,
-            [nameof(BottomSheet.Title)] = MapTitle,
-            [nameof(BottomSheet.ToolbarItems)] = MapToolbarItems,
             [nameof(BottomSheet.HasSearchBar)] = MapHasSearchBar,
             [nameof(BottomSheet.Positioning)] = MapPositioning,
+#if __IOS__
             [nameof(BottomSheet.BottombarButtons)] = MapBottomBar,
-            [nameof(BottomSheet.BackButtonBehavior)] = MapBackButtonBehavior,
-            [nameof(BottomSheet.IsBackButtonVisible)] = MapIsBackButtonVisible,
+#endif
             [nameof(BottomSheet.IsDraggable)] = MapIsDraggable
         };
 
     private static partial void MapIsDraggable(BottomSheetHandler handler, BottomSheet bottomSheet);
-
-    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet);
-
-    private static partial void MapBackButtonBehavior(BottomSheetHandler handler, BottomSheet bottomSheet);
-
-    private static partial void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet);
-
     private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet);
-
     public static partial void MapHasSearchBar(BottomSheetHandler handler, BottomSheet bottomSheet);
-    public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet);
-
-    public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet);
     public static partial void MapIsInteractiveCloseable(BottomSheetHandler handler, BottomSheet bottomSheet);
 }

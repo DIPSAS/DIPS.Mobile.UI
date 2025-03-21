@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection.Metadata;
 using CoreGraphics;
 using DIPS.Mobile.UI.Effects.Touch.iOS;
@@ -14,23 +15,21 @@ public partial class TouchPlatformEffect
     private TouchEffectTapGestureRecognizer? m_tapGestureRecognizer;
     private TouchEffectLongPressGestureRecognizer? m_longPressGestureRecognizer;
     private Touch.TouchMode m_touchMode;
-    private bool m_isEnabled;
 
-    protected override partial void OnAttached()
+    private partial void Init()
     {
         if(Control is UIButton)
             return;
         
-        m_isEnabled = Touch.GetIsEnabled(Element);
         m_touchMode = Touch.GetTouchMode(Element);
 
-        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.Tap or Touch.TouchMode.Both && m_tapGestureRecognizer is null)
         {
             m_tapGestureRecognizer = new TouchEffectTapGestureRecognizer(Control, OnTap);
             Control.AddGestureRecognizer(m_tapGestureRecognizer);
         }
 
-        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_isEnabled)
+        if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both && m_longPressGestureRecognizer is null)
         {
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
@@ -52,7 +51,7 @@ public partial class TouchPlatformEffect
             Touch.GetCommand(Element)?.Execute(Touch.GetCommandParameter(Element));
     }
 
-    protected override partial void OnDetached()
+    private partial void Dispose()
     {
         if(Control is null)
             return;
@@ -61,17 +60,21 @@ public partial class TouchPlatformEffect
         {
             if (Control.GestureRecognizers != null && m_tapGestureRecognizer is not null)
             {
-                Control.RemoveGestureRecognizer(m_tapGestureRecognizer!);
+                Control.RemoveGestureRecognizer(m_tapGestureRecognizer);
             }
         }
 
         if (m_touchMode is Touch.TouchMode.LongPress or Touch.TouchMode.Both)
         {
             if(Control.GestureRecognizers != null && m_longPressGestureRecognizer is not null)
-                Control.RemoveGestureRecognizer(m_longPressGestureRecognizer!);
+                Control.RemoveGestureRecognizer(m_longPressGestureRecognizer);
         }
 
         m_tapGestureRecognizer?.Dispose();
+        m_longPressGestureRecognizer?.Dispose();
+        
+        m_tapGestureRecognizer = null;
+        m_longPressGestureRecognizer = null;
     }
 
     internal static void HandleTouch(UIGestureRecognizerState state, ref UIGestureRecognizerState currentState,

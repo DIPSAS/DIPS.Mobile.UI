@@ -10,7 +10,8 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_neutral_10}">
+                 BackgroundColor="{dui:Colors color_system_white}">
+                 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>

@@ -17,7 +17,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
-            ToolbarItems = new ObservableCollection<ToolbarItem>();
             BottombarButtons = new ObservableCollection<Button>();
 
             SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent};
@@ -44,8 +43,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         internal SearchBar SearchBar { get; private set; }
-
-        internal bool ShouldHaveNavigationBar => !string.IsNullOrEmpty(Title) || ToolbarItems is {Count: > 0} || BackButtonBehavior is not null;
 
         internal void SendClose()
         {
@@ -87,7 +84,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 AutomationId = "BottomBarGrid".ToDUIAutomationId<BottomSheet>(),
                 ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small), 
                 RowDefinitions = [new RowDefinition(GridLength.Star)],
-                Padding = Sizes.GetSize(SizeName.content_margin_medium),
+                Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.page_margin_xlarge)),
                 Background = new LinearGradientBrush
                 {
                     EndPoint = new Point(0, 1),

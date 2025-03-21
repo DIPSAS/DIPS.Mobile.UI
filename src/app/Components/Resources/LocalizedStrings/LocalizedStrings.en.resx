@@ -141,9 +141,6 @@
     <data name="Navigation" xml:space="preserve">
         <value>Navigation</value>
     </data>
-    <data name="BottomSheet_OpenWithToolbar" xml:space="preserve">
-        <value>Open bottom sheet with toolbar</value>
-    </data>
     <data name="SizesAsVisualBoxes" xml:space="preserve">
         <value>Sizes as boxes</value>
     </data>
@@ -324,8 +321,8 @@
     <data name="Alert" xml:space="preserve">
         <value>Alert</value>
     </data>
-    <data name="BottomSheet_OpenWithBottomBar" xml:space="preserve">
-        <value>Open bottom sheet that has bottom bar button</value>
+    <data name="BottomSheet_OpenWithBottomBars" xml:space="preserve">
+        <value>Open bottom sheet that has bottom bar buttons</value>
     </data>
     <data name="PhotoCapturing" xml:space="preserve">
         <value>Photo capturing</value>

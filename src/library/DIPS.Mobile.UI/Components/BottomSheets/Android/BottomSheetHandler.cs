@@ -1,13 +1,9 @@
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Text;
-using DIPS.Mobile.UI.API.Library;
-using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Graphics.Drawable;
-using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -22,6 +18,7 @@ using RelativeLayout = Android.Widget.RelativeLayout;
 using ADrawableCompat = AndroidX.Core.Graphics.Drawable.DrawableCompat;
 using Paint = Android.Graphics.Paint;
 using System.ComponentModel;
+using DIPS.Mobile.UI.Components.BottomSheets.Header;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -32,12 +29,10 @@ public partial class BottomSheetHandler : ContentViewHandler
 #nullable enable
     
     internal RelativeLayout m_linearLayout;
-    private static AView? m_emptyNonFitToContentView;
-    private AView? m_searchBarView;
-    private MaterialToolbar? m_toolbar;
-    
     internal AView? m_bottomBar;
-    private TextOrIconDrawable? m_navigationIconDrawable;
+    
+    private static AView? s_mEmptyNonFitToContentView;
+    private AView? m_searchBarView;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -55,13 +50,18 @@ public partial class BottomSheetHandler : ContentViewHandler
         //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
         if (m_bottomSheet.BottomSheetBehavior.Draggable)
         {
-            var innerGrid = new Grid {Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small))};
-            innerGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            var innerGrid = new Grid
+            {
+                Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0), 
+                BackgroundColor = Colors.GetColor(ColorName.color_system_white)
+            };
+            
+            innerGrid.GestureRecognizers.Add(new TapGestureRecognizer
             {
                 Command = new Command(ToggleBottomSheetIfPossible)
             });
             
-            var handle = new BoxView()
+            var handle = new BoxView
             {
                 HeightRequest = 4,
                 WidthRequest = 32,
@@ -70,21 +70,17 @@ public partial class BottomSheetHandler : ContentViewHandler
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center
             };
+            
             innerGrid.Add(handle);
 
-            bottomSheetLayout.AddView(innerGrid.ToPlatform(mauiContext!));
+            bottomSheetLayout.AddView(innerGrid.ToPlatform(mauiContext));
         }
 
-
-        m_toolbar = new MaterialToolbar(context);
-        bottomSheetLayout.AddView(m_toolbar);
-        ToggleToolbarVisibility(bottomSheet);
-
-        m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext!);
+        bottomSheetLayout.AddView(new BottomSheetHeader(m_bottomSheet).ToPlatform(mauiContext));
+        
+        m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
         bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
-        MapToolbarItems(this, bottomSheet);
-        MapTitle(this, bottomSheet);
 
         bottomSheetLayout.AddView(bottomSheetAndroidView);
 
@@ -94,31 +90,25 @@ public partial class BottomSheetHandler : ContentViewHandler
             if (width.HasValue)
             {
                 // Add an empty view, where its dimensions is set to always match the parent so that the LinearLayout will always take up available space
-                m_emptyNonFitToContentView = new AView(Application.Context)
+                s_mEmptyNonFitToContentView = new AView(Application.Context)
                 {
                     LayoutParameters = new ViewGroup.LayoutParams(width.Value,
                         ViewGroup.LayoutParams.MatchParent)
                 };
-                rootLayout.AddView(m_emptyNonFitToContentView);
+                rootLayout.AddView(s_mEmptyNonFitToContentView);
             }
         }
 
-        if (m_bottomSheet.HasBottomBarButtons)
-        {
-            m_bottomBar = m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
-            m_bottomBar.LayoutParameters =
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(BottomSheet.BottomBarHeight));
-            
-            rootLayout.AddView(m_bottomBar);
-        }
-        
-        return m_linearLayout = rootLayout;
-    }
+        if (!m_bottomSheet.HasBottomBarButtons)
+            return m_linearLayout = rootLayout;
 
-    private void ToggleToolbarVisibility(BottomSheet bottomSheet)
-    {
-        if (m_toolbar is not { } toolbar) return;
-        toolbar.Visibility = bottomSheet.ShouldHaveNavigationBar ? ViewStates.Visible : ViewStates.Gone;
+        m_bottomBar = m_bottomSheet.CreateBottomBar().ToPlatform(MauiContext!);
+        m_bottomBar.LayoutParameters =
+            new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(BottomSheet.BottomBarHeight));
+            
+        rootLayout.AddView(m_bottomBar);
+
+        return m_linearLayout = rootLayout;
     }
 
     private void ToggleSearchBar()
@@ -136,35 +126,17 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private void ToggleFitToContent(BottomSheet bottomSheet)
     {
-        if (m_emptyNonFitToContentView != null) //Only add there is something in the bottom sheet
+        if (s_mEmptyNonFitToContentView != null) //Only add there is something in the bottom sheet
         {
             if (bottomSheet.Positioning is not Positioning.Fit)
             {
-                m_emptyNonFitToContentView.Visibility = ViewStates.Visible;
+                s_mEmptyNonFitToContentView.Visibility = ViewStates.Visible;
             }
             else
             {
-                m_emptyNonFitToContentView.Visibility = ViewStates.Gone;
+                s_mEmptyNonFitToContentView.Visibility = ViewStates.Gone;
             }
         }
-    }
-
-    private static void SetMenuItemIcon(IMenuItem menuItem, ToolbarItem toolBarItem)
-    {
-        toolBarItem.IconImageSource.LoadImage(DUI.GetCurrentMauiContext!, result =>
-        {
-            var baseDrawable = result?.Value;
-
-            if (baseDrawable == null)
-                return;
-
-            using var constant = baseDrawable.GetConstantState();
-            using var newDrawable = constant!.NewDrawable();
-            using var iconDrawable = newDrawable.Mutate();
-            iconDrawable.SetColorFilter(Colors.GetColor(BottomSheet.ToolbarActionButtonsName), FilterMode.SrcAtop);
-
-            menuItem.SetIcon(iconDrawable);
-        });
     }
 
     private static partial void MapPositioning(BottomSheetHandler handler, BottomSheet bottomSheet)
@@ -197,55 +169,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         handler.ToggleSearchBar();
     }
 
-    private static partial void MapBackButtonBehavior(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        handler.SetBackButton(bottomSheet);
-    }
-
-    public static partial void MapToolbarItems(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        handler.ToggleToolbarVisibility(bottomSheet);
-
-        if (handler.m_toolbar is not { } toolbar)
-        {
-            return;
-        }
-
-        if (toolbar.Menu == null) return;
-
-        foreach (var toolbarItem in bottomSheet.ToolbarItems)
-        {
-            toolbarItem.BindingContext = bottomSheet.BindingContext;
-            var color = Colors.GetColor(BottomSheet.ToolbarActionButtonsName).ToPlatform();
-
-            var text = toolbarItem.Text;
-            SpannableString? titleTinted = null;
-            if (!string.IsNullOrEmpty(text))
-            {
-                titleTinted = new SpannableString(text);
-                titleTinted.SetSpan(new ForegroundColorSpan(color), 0, titleTinted.Length(), 0);    
-            }
-
-            var menuItem = toolbar.Menu.Add(0, AView.GenerateViewId(), (int)toolbarItem.Order, titleTinted);
-            menuItem!.SetShowAsAction(ShowAsAction.IfRoom);
-            menuItem.SetOnMenuItemClickListener(
-                new GenericMenuClickListener(((IMenuItemController)toolbarItem).Activate));
-            SetMenuItemIcon(menuItem, toolbarItem);
-        } 
-    }
-
-    public static partial void MapTitle(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        handler.ToggleToolbarVisibility(bottomSheet);
-        if (handler.m_toolbar is not { } toolbar)
-        {
-            return;
-        }
-
-        toolbar.Title = bottomSheet.Title;
-        toolbar.TitleCentered = true;
-    }
-
     public static partial void MapIsInteractiveCloseable(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
         bottomSheet.BottomSheetDialog.SetCancelable(bottomSheet.IsInteractiveCloseable);
@@ -257,66 +180,13 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.Draggable = bottomSheet.IsDraggable;
     }
 
-    private static async partial  void MapBottomBar(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        
-    }
-    
-    private static partial void MapIsBackButtonVisible(BottomSheetHandler handler, BottomSheet bottomSheet)
-    {
-        handler.SetBackButtonVisibility(bottomSheet);
-    }
-
-    private void SetBackButtonVisibility(BottomSheet bottomSheet)
-    {
-        if (m_toolbar is not null)
-        {
-            m_toolbar.NavigationIcon = bottomSheet.IsBackButtonVisible ? m_navigationIconDrawable : null;
-        }
-    }
-
-    private async void SetBackButton(BottomSheet bottomSheet)
-    {
-        // Delay to make sure the toolbar is created
-        await Task.Delay(1); 
-        
-        if(bottomSheet.BackButtonBehavior is null || m_toolbar is null)
-            return;
-
-        bottomSheet.BackButtonBehavior.BindingContext = bottomSheet.BindingContext;
-        DUI.TryGetDrawableFromFileImageSource(bottomSheet.BackButtonBehavior.IconOverride, out var icon);
-        
-        m_navigationIconDrawable = new TextOrIconDrawable(Context, Colors.GetColor(BottomSheet.ToolbarActionButtonsName), icon, bottomSheet.BackButtonBehavior.TextOverride);
-        
-        if(bottomSheet.IsBackButtonVisible)
-            m_toolbar!.NavigationIcon = m_navigationIconDrawable;
-        
-        m_toolbar.SetNavigationOnClickListener(new OnClickListener(() => bottomSheet.BackButtonBehavior.Command?.Execute(bottomSheet.BackButtonBehavior.CommandParameter)));
-        
-    }
-    
     protected override void DisconnectHandler(ContentViewGroup platformView)
     {
         base.DisconnectHandler(platformView);
         
-        m_emptyNonFitToContentView?.RemoveFromParent();
+        s_mEmptyNonFitToContentView?.RemoveFromParent();
     }
     
-    class OnClickListener : Object, AView.IOnClickListener
-    {
-        private readonly Action m_action;
-
-        public OnClickListener(Action action)
-        {
-            m_action = action;
-        }
-
-        public void OnClick(AView? v)
-        {
-            m_action.Invoke();
-        }
-    }
-
     /// <summary>
     /// 1.0 = full screen
     /// 0.0 = medium screen
@@ -343,14 +213,17 @@ public partial class BottomSheetHandler : ContentViewHandler
     
     internal bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? keyEvent)
     {
-        if (keyCode != Keycode.Back)
+        if (keyCode != Keycode.Back || keyEvent?.Action == KeyEventActions.Down)
         {
             return false;
         }
 
-        m_bottomSheet.OnBackButtonPressedCommand?.Execute(null);
+        m_bottomSheet.OnBackButtonPressedCommand?.Execute(() =>
+        {
+            m_bottomSheet.Close();
+        });
+        
         return !m_bottomSheet.IsInteractiveCloseable; //Returning true will block back key action
-
     }
 
     internal class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
@@ -379,7 +252,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         }
     }
 
-    internal class KeyListener : Java.Lang.Object, IDialogInterfaceOnKeyListener
+    internal class KeyListener : Object, IDialogInterfaceOnKeyListener
     {   
         private readonly BottomSheetHandler m_bottomSheetHandler;
 
@@ -418,9 +291,10 @@ class TextOrIconDrawable : DrawerArrowDrawable
     public Color TintColor { get; set; }
     [TypeConverter(nameof(ImageSourceConverter))]
     public ImageSource IconBitmapSource { get; set; }
-    float _defaultSize;
 
-    Color _pressedBackgroundColor => TintColor.AddLuminosity(-.12f);//<item name="highlight_alpha_material_light" format="float" type="dimen">0.12</item>
+    readonly float m_defaultSize;
+
+    Color PressedBackgroundColor => TintColor.AddLuminosity(-.12f);//<item name="highlight_alpha_material_light" format="float" type="dimen">0.12</item>
 
     protected override void Dispose(bool disposing)
     {
@@ -437,11 +311,11 @@ class TextOrIconDrawable : DrawerArrowDrawable
         if (context.TryResolveAttribute(AndroidResource.Attribute.TextSize, out float? value) &&
             value != null)
         {
-            _defaultSize = value.Value;
+            m_defaultSize = value.Value;
         }
         else
         {
-            _defaultSize = 50;
+            m_defaultSize = 50;
         }
 
         IconBitmap = icon;
@@ -450,7 +324,7 @@ class TextOrIconDrawable : DrawerArrowDrawable
 
     public override void Draw(Canvas canvas)
     {
-        bool pressed = false;
+        const bool pressed = false;
         if (IconBitmap != null)
         {
             ADrawableCompat.SetTint(IconBitmap, TintColor.ToPlatform());
@@ -462,9 +336,9 @@ class TextOrIconDrawable : DrawerArrowDrawable
         else if (!string.IsNullOrEmpty(Text))
         {
             var paint = new Paint() { AntiAlias = true };
-            paint.TextSize = _defaultSize;
+            paint.TextSize = m_defaultSize;
 #pragma warning disable CA1416 // https://github.com/xamarin/xamarin-android/issues/6962
-            paint.Color = pressed ? _pressedBackgroundColor.ToPlatform() : TintColor.ToPlatform();
+            paint.Color = pressed ? PressedBackgroundColor.ToPlatform() : TintColor.ToPlatform();
 #pragma warning restore CA1416
             paint.SetStyle(Paint.Style.Fill);
             var y = (Bounds.Height() + paint.TextSize) / 2;

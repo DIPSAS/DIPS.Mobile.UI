@@ -3,10 +3,11 @@ using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using DIPS.Mobile.UI.Extensions.Android;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Buttons.Android;
 
-public class MaterialButton : Google.Android.Material.Button.MaterialButton
+public class MaterialButton : MauiMaterialButton
 {
     protected MaterialButton(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
     {

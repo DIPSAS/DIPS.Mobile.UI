@@ -4,28 +4,35 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 xmlns:header="clr-namespace:DIPS.Mobile.UI.Components.BottomSheets.Header;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.BottomSheetWithToolbar"
                  x:DataType="{x:Type vetleSamples:BottomSheetWithToolbarViewModel}"
-                 Padding="0"
-                 BackgroundColor="{dui:Colors color_neutral_10}">
+                 BackgroundColor="White"
+                 Padding="{dui:Thickness Left=size_1, Top=size_1}"
+                 Title="Hello yes"
+                 IsInteractiveCloseable="False"
+                 OnBackButtonPressedCommand="{Binding CloseCommand}">
 
     <dui:BottomSheet.BindingContext>
         <vetleSamples:BottomSheetWithToolbarViewModel />
     </dui:BottomSheet.BindingContext>
     
-    <dui:BottomSheet.BackButtonBehavior>
-        <BackButtonBehavior IconOverride="{dui:Icons alert_line}"
-                            IsVisible="True"
-                            TextOverride="re"></BackButtonBehavior>
-    </dui:BottomSheet.BackButtonBehavior>
+    <dui:BottomSheet.BottomSheetHeaderBehavior>
+        <header:BottomSheetHeaderBehavior IsBackButtonVisible="{Binding IsVisible}"
+                                          IsTitleAndBackButtonContainerEnabled="{Binding IsEnabled}"
+                                          TitleAndBackButtonContainerCommand="{Binding Test3}"/>
+    </dui:BottomSheet.BottomSheetHeaderBehavior>
+    <!--<dui:BottomSheet.TitleAndBackButtonBehavior>
+        <header:TitleAndBackButtonBehavior IsBackButtonVisible="True" />
+    </dui:BottomSheet.TitleAndBackButtonBehavior>-->
     
-    <dui:BottomSheet.ToolbarItems>
-        <ToolbarItem IconImageSource="{dui:Icons dash_long_fill}"></ToolbarItem>
-    </dui:BottomSheet.ToolbarItems>
-
     
-    <Button  Text="yes"
-             Command="{Binding IsVisible}"></Button>
+    <VerticalStackLayout>
+        <dui:Button Text="Hello" HorizontalOptions="Start"
+                    Command="{Binding TestCommand}" />
+        <dui:Button Text="Enabled" HorizontalOptions="Start"
+                    Command="{Binding TestCommand2}" />
+    </VerticalStackLayout>
 
     
 

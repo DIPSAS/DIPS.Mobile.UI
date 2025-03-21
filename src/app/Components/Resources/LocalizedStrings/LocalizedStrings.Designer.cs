@@ -291,12 +291,6 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string BottomSheet_OpenWithToolbar {
-            get {
-                return ResourceManager.GetString("BottomSheet_OpenWithToolbar", resourceCulture);
-            }
-        }
-        
         internal static string SizesAsVisualBoxes {
             get {
                 return ResourceManager.GetString("SizesAsVisualBoxes", resourceCulture);
@@ -657,9 +651,9 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
-        internal static string BottomSheet_OpenWithBottomBar {
+        internal static string BottomSheet_OpenWithBottomBars {
             get {
-                return ResourceManager.GetString("BottomSheet_OpenWithBottomBar", resourceCulture);
+                return ResourceManager.GetString("BottomSheet_OpenWithBottomBars", resourceCulture);
             }
         }
         

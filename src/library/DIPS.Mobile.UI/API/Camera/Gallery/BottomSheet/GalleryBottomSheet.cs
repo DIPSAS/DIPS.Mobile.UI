@@ -7,6 +7,7 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -53,14 +54,15 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     {
         Positioning = Positioning.Large;
         IsDraggable = false;
+        BackgroundColor = Colors.GetColor(ColorName.color_system_black);
 
+        BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior { IsVisible = false };
+        
 #if __IOS__
         Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
 #elif __ANDROID__
         Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small));
 #endif
-        
-        BackgroundColor = Colors.GetColor(ColorName.color_system_black);
         
         m_onRemoveImage = onRemoveImage;
         m_updateImages = updateImages;

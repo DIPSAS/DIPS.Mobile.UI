@@ -4,27 +4,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
-             xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:header="clr-namespace:DIPS.Mobile.UI.Components.BottomSheets.Header;assembly=DIPS.Mobile.UI"
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetNotClosableByInteracting"
              x:DataType="{x:Type sheets:BottomSheetWithToolbarViewModel}"
              Title="The title"
              IsInteractiveCloseable="False"
-             OnBackButtonPressedCommand="{Binding TryCloseBottomSheetCommand}">
+             OnBackButtonPressedCommand="{Binding TryCloseBottomSheetCommand}"
+             BackgroundColor="{dui:Colors color_background_bg_light}">
     
     <dui:BottomSheet.BindingContext>
         <sheets:BottomSheetWithToolbarViewModel/>
     </dui:BottomSheet.BindingContext>
     
-    <dui:BottomSheet.ToolbarItems>
-      
-        <ToolbarItem Text="{x:Static localizedStrings:LocalizedStrings.Cancel}"
-                     Command="{Binding TryCloseBottomSheetCommand}" />
-    </dui:BottomSheet.ToolbarItems>
+    <dui:BottomSheet.BottomSheetHeaderBehavior>
+        <header:BottomSheetHeaderBehavior CloseButtonCommand="{Binding TryCloseBottomSheetCommand}"
+                                          IsBackButtonVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
+    </dui:BottomSheet.BottomSheetHeaderBehavior>
     
     <dui:VerticalStackLayout>
         <dui:Label
-            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet" 
-            Padding="{dui:Thickness size_4}"/>
+            Text="This is a bottom sheet. The content of the sheet has random components inside of it to test the behavior of them inside a bottom sheet"
+            Padding="{dui:Thickness size_4}" />
+        
+        <dui:ListItem Title="Back button visibility">
+            <dui:Switch x:Name="Switch"
+                        HorizontalOptions="Start"/>
+        </dui:ListItem>
         <dui:ListItem Title="This is a chip:"
                       Margin="{dui:Thickness Top=size_2}">
             <dui:Chip Title="A chip" />
