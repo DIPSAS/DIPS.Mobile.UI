@@ -2,9 +2,27 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 
 public partial class InLineContentOptions : ListItemOptions
 {
-    public override void DoBind(ListItem listItem)
+    public override void SetupDefaults(ListItem listItem)
+    {
+        listItem.ColumnDefinitions[2].Width = Width;
+        
+        if (listItem.InLineContent is not View inLineContent)
+        {
+            return;
+        }
+        
+        inLineContent.HorizontalOptions = this.HorizontalOptions;
+        inLineContent.VerticalOptions = this.VerticalOptions;
+        
+        if (SpanOverUnderlyingContent)
+        {
+            Grid.SetRowSpan(inLineContent, 2);
+        }
+    }
+
+    protected override void DoBind(ListItem listItem)
     { 
-        listItem.ContainerGrid.ColumnDefinitions[2].Width = Width;
+        listItem.ColumnDefinitions[2].Width = Width;
         
         if (listItem.InLineContent is not View inLineContent)
         {

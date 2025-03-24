@@ -9,19 +9,46 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 BackgroundColor="{dui:Colors color_background_bg_light}"
+                 HideSoftInputOnTapped="True">
                  
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ContentPage.Resources>
-        <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
-    </dui:ContentPage.Resources>
-
     <dui:VerticalStackLayout>
         
+        <dui:ListItem Title="Test"
+                      Subtitle="{Binding Subtitle}"
+                      IsDebugMode="True"
+                      Icon="{dui:Icons arrow_back_line}"
+                      Command="{Binding DisableCommand}">
+            
+            <!--<dui:ListItem.TitleOptions>
+                <dui:TitleOptions 
+                                  Width="*"
+                                  MaxLines="2"
+                                  LineBreakMode="TailTruncation"></dui:TitleOptions>
+            </dui:ListItem.TitleOptions>
+            
+            <dui:ListItem.InLineContentOptions>
+                <dui:InLineContentOptions Width="Auto"
+                                          VerticalOptions="Center"></dui:InLineContentOptions>
+            </dui:ListItem.InLineContentOptions>-->
+            
+            <dui:ListItem.SubtitleOptions>
+                <dui:SubtitleOptions MaxLines="2"
+                                     LineBreakMode="TailTruncation" />
+            </dui:ListItem.SubtitleOptions>
+            
+            <dui:ListItem Title="Hello" HeightRequest="100" />
+            
+            <dui:ListItem.UnderlyingContent>
+                <dui:Label Text="yo"></dui:Label>
+            </dui:ListItem.UnderlyingContent>
+        </dui:ListItem>
+        
+        <!--<dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
@@ -43,9 +70,7 @@
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
-        <dui:ListItem Title="Hello" />
-        <dui:ListItem Title="Hello" />
-        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />-->
 
     </dui:VerticalStackLayout>
 

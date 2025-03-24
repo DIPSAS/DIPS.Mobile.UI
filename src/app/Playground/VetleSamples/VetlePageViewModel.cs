@@ -32,6 +32,7 @@ public class VetlePageViewModel : ViewModel
     private List<string> m_testStrings = [];
     private ObservableCollection<GroupedTest> m_groupedTest = [];
     private bool m_isRefreshing;
+    private string m_subtitle = "Hello";
 
     public VetlePageViewModel()
     {
@@ -96,7 +97,7 @@ public class VetlePageViewModel : ViewModel
     
     private void Disable()
     {
-        Disabled = !Disabled;
+        Subtitle = string.Empty;
     }
 
     public bool Disabled
@@ -348,6 +349,12 @@ public class VetlePageViewModel : ViewModel
     {
         TestStrings.Add("Test");
     });
+
+    public string Subtitle
+    {
+        get => m_subtitle;
+        set => RaiseWhenSet(ref m_subtitle, value);
+    }
 
     public void OnDateChanged()
     {

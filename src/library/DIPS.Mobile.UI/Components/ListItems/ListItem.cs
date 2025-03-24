@@ -1,59 +1,24 @@
-using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems.Options;
+using DIPS.Mobile.UI.Components.ListItems.Options.Debugging;
+using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
+using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
+using DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
+using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
-using Microsoft.Maui.Controls.Shapes;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using DIPS.Mobile.UI.Internal.Logging;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 [ContentProperty(nameof(InLineContent))]
-public partial class ListItem : ContentView
+public partial class ListItem : Grid
 {
-    private Grid RootGrid { get; } = new()
-    {
-        AutomationId = "RootGrid".ToDUIAutomationId<ListItem>(),
-        BackgroundColor = Colors.Transparent
-    };
-    
-    internal Grid ContainerGrid { get; } = new()
-    {
-        AutomationId = "ContainerGrid".ToDUIAutomationId<ListItem>(),
-        ColumnDefinitions = new ColumnDefinitionCollection
-        {
-            new(GridLength.Auto),
-            new(GridLength.Auto),
-            new(GridLength.Star)
-        },
-        RowDefinitions = new RowDefinitionCollection()
-        {
-            new(GridLength.Star),
-        }
-    };
-
-    internal Grid TitleAndLabelGrid { get; } = new()
-    {
-        AutomationId = "TitleAndLabelGrid".ToDUIAutomationId<ListItem>(),
-        ColumnDefinitions = new ColumnDefinitionCollection
-        {
-            new(),
-        },
-        RowDefinitions = new RowDefinitionCollection
-        {
-            new(GridLength.Star),
-            new(GridLength.Auto)
-        },
-        VerticalOptions = LayoutOptions.Center
-    };
-
-    internal Border OuterBorder { get; } = new() { StrokeThickness = 0, AutomationId = "OuterBorder".ToDUIAutomationId<ListItem>()};
     internal Image? ImageIcon { get; private set; }
-    internal Label TitleLabel { get; } = new(){AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>()};
-    internal Label SubtitleLabel { get; } = new() { IsVisible = false, AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
+    internal Label? TitleLabel { get; private set; }
+    internal Label? SubtitleLabel { get; private set; } 
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
@@ -63,81 +28,106 @@ public partial class ListItem : ContentView
 
     public ListItem()
     {
-        /*((ContentView)this).BackgroundColor = Colors.Transparent;
+        Padding = new Thickness(
+            Sizes.GetSize(SizeName.content_margin_small),
+            Sizes.GetSize(SizeName.content_margin_medium),
+            Sizes.GetSize(SizeName.content_margin_small),
+            Sizes.GetSize(SizeName.content_margin_medium));
         
-        OuterBorder.StrokeShape = new RoundRectangle 
-        { 
-            AutomationId = "OuterBorder.StrokeShape".ToDUIAutomationId<ListItem>(),
-            CornerRadius = CornerRadius, 
-            StrokeThickness = 0
-        };
-
-        ContainerGrid.SetBinding(Grid.MarginProperty, static (ListItem listItem) => listItem.Padding, source: this);
+        ColumnDefinitions = [
+            new ColumnDefinition(GridLength.Auto), 
+            new ColumnDefinition(GridLength.Auto), 
+            new ColumnDefinition(GridLength.Star)
+        ];
         
-        BindBorder();
-
-        OuterBorder.Content = ContainerGrid;
-
-        ContainerGrid.Add(TitleAndLabelGrid, 1);
-        RootGrid.Add(OuterBorder);
+        RowDefinitions = [
+            new RowDefinition(GridLength.Star), 
+            new RowDefinition(GridLength.Auto),
+            new RowDefinition(GridLength.Auto)
+        ];
         
-        this.Content = RootGrid;*/
-    }
-
-    private void BindBorder()
-    {
-        OuterBorder.SetBinding(Border.BackgroundColorProperty, static (ListItem listItem) => listItem.BackgroundColor, source: this);
-        OuterBorder.SetBinding(Border.MarginProperty, static (ListItem listItem) => listItem.Margin, source: this);
-    }
-
-    protected override void OnPropertyChanged(string? propertyName = null)
-    {
-        base.OnPropertyChanged(propertyName);
-
-        if (propertyName?.Equals(nameof(IsEnabled)) ?? false)
-        {
-            SetTouchIsEnabled();
-        }
+        BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default);
     }
 
     private void AddTitle()
     {
-        TitleAndLabelGrid.Insert(0, TitleLabel);
-
-        BindToOptions(TitleOptions);
+        // Guard against double creation, even though it should not happen
+        if (TitleLabel is not null)
+        {
+            DUILogService.LogError<ListItem>("TitleLabel is already created; this method should not be called if TitleLabel is already created");
+            return;
+        }
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>() };
+        
+        this.Add(TitleLabel, 1);
+
+        SetupDefaultOrBindToOptions<TitleOptions>(TitleOptions);
+        
+        RefreshDebugMode();
     }
 
     private void AddSubtitle()
     {
-        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
+        // Guard against double creation, even though it should not happen
+        if (SubtitleLabel is not null)
+        {
+            DUILogService.LogError<ListItem>("SubtitleLabel is already created; this method should not be called if SubtitleLabel is already created");
+            return;
+        }
         
-        BindToOptions(SubtitleOptions);
+        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        this.Add(SubtitleLabel, 1, 1);
+        
+        SetupDefaultOrBindToOptions<SubtitleOptions>(SubtitleOptions);
+        
+        RefreshDebugMode();
+        UpdateRowSpan();
+
+        SubtitleLabel.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName == IsVisibleProperty.PropertyName)
+            {
+                UpdateRowSpan();
+            }
+        };
+    }
+
+    /// <summary>
+    /// We need to update RowSpan on Icon and InlineContent, so that they are in the center of Title + Subtitle
+    /// </summary>
+    private void UpdateRowSpan()
+    {
+        if(SubtitleLabel is null)
+            return;
+        
+        var rowSpan = SubtitleLabel.IsVisible ? 2 : 1;
+        
+        if (ImageIcon is not null)
+        {
+            this.SetRowSpan(ImageIcon, rowSpan);
+        }
+        
+        if (InLineContent is not null)
+        {
+            this.SetRowSpan(InLineContent, rowSpan);
+        }
     }
 
     private void AddIcon()
     {
-        if (ContainerGrid.Contains(ImageIcon))
-        {
-            ContainerGrid.Remove(ImageIcon);
-        }
-        
         ImageIcon = new Image
         {
             Source = Icon
         };
         
-        BindToOptions(IconOptions);
+        SetupDefaultOrBindToOptions<IconOptions>(IconOptions);
         
-        ContainerGrid.Add(ImageIcon, 0);
+        this.Add(ImageIcon, 0);
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        RefreshDebugMode();
+        UpdateRowSpan();
     }
 
     protected virtual void AddInLineContent()
@@ -147,44 +137,34 @@ public partial class ListItem : ContentView
 
     protected void SetInLineContent(IView view)
     {
-        if(ContainerGrid.Contains(m_oldInLineContent))
+        if(Contains(m_oldInLineContent))
         {
-            ContainerGrid.Remove(m_oldInLineContent);
+            Remove(m_oldInLineContent);
         }
         
-        ContainerGrid.Add(view, ContainerGrid.ColumnDefinitions.Count - 1);
+        this.Add(view, ColumnDefinitions.Count - 1);
         
-        BindToOptions(InLineContentOptions);
+        SetupDefaultOrBindToOptions<InLineContentOptions>(InLineContentOptions);
 
         m_oldInLineContent = view;
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        RefreshDebugMode();
+        UpdateRowSpan();
     }
 
     private void AddUnderlyingContent()
     {
-        if (ContainerGrid.Contains(m_oldUnderlyingContent))
+        if (Contains(m_oldUnderlyingContent))
         {
-            ContainerGrid.Remove(m_oldUnderlyingContent);
-        }
-        else
-        {
-            ContainerGrid.AddRowDefinition(new RowDefinition(GridLength.Auto));
+            Remove(m_oldUnderlyingContent);
         }
         
-        ContainerGrid.Add(UnderlyingContent, 0, 1);
-        ContainerGrid.SetColumnSpan(UnderlyingContent, ContainerGrid.ColumnDefinitions.Count);
+        this.Add(UnderlyingContent, 0, 2);
+        SetColumnSpan(UnderlyingContent, ColumnDefinitions.Count);
         
         m_oldUnderlyingContent = UnderlyingContent;
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
-    }
-
-    private void SetCornerRadius()
-    {
-        OuterBorder.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius, StrokeThickness = 0};
+        RefreshDebugMode();
     }
     
     private void AddDivider(bool top)
@@ -192,47 +172,55 @@ public partial class ListItem : ContentView
         var divider = new Divider();
         if (top)
         {
-            if (RootGrid.Contains(TopDivider))
-                RootGrid.Remove(TopDivider);
+            if (Contains(TopDivider))
+                Remove(TopDivider);
             
             TopDivider = divider;
             TopDivider.VerticalOptions = LayoutOptions.Start;
-            RootGrid.Add(divider);
         }
         else
         {
-            if (RootGrid.Contains(BottomDivider))
-                RootGrid.Remove(BottomDivider);
+            if (Contains(BottomDivider))
+                Remove(BottomDivider);
             
             BottomDivider = divider;
             BottomDivider.VerticalOptions = LayoutOptions.End;
-            RootGrid.Add(divider);
         }
-        
-        BindToOptions(DividersOptions);
-    }
 
+        this.SetRowSpan(divider, RowDefinitions.Count);
+        this.SetColumnSpan(divider, ColumnDefinitions.Count);
+        
+        Add(divider);
+
+        SetupDefaultOrBindToOptions<Options.Dividers.DividersOptions>(DividersOptions);
+    }
+    
     private void AddTouch()
     {
-        /*Touch.SetAccessibilityContentDescription(OuterBorder, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(OuterBorder, new Command(() =>
+        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(this, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
-        SetTouchIsEnabled();*/
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
-
-    private void BindToOptions(ListItemOptions? options) => options?.Bind(this);
-
-    private void AddContextMenu()
+    /// <summary>
+    /// E.g if TitleOptions is set in xaml before Title, the TitleOptions will not be null, and should bind the properties to the Label instantly
+    /// </summary>
+    private void SetupDefaultOrBindToOptions<T>(ListItemOptions? options) where T : ListItemOptions, new()
     {
-        ContextMenuEffect.SetMenu(OuterBorder, ContextMenu);
-        BindToOptions(ContextMenuOptions);
+        if (options is null)
+        {
+            var option = new T();
+            option.SetupDefaults(this);
+        }
+        else
+        {
+            options.Bind(this);
+        }
     }
-    
+
     private static void OnAutoDividerChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not ListItem { AutoDivider: true } listItem)
@@ -304,19 +292,15 @@ public partial class ListItem : ContentView
 
         HasTopDivider = true;
     }
+    
+    private void RefreshDebugMode()
+    {
+        SetupDefaultOrBindToOptions<DebuggingOptions>(DebuggingOptions);
+    }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
-
-        if (args.NewHandler is not null && TitleAndLabelGrid.Children.Count == 0)
-        {
-            AddTitle();
-            AddSubtitle();
-        
-            AddTouch();
-            return;
-        }
 
         ParentChanged -= OnParentChanged;
         

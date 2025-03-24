@@ -59,9 +59,9 @@ public partial class SubtitleOptions
         set => SetValue(MaxLinesProperty, value);
     }
     
-    public FormattedString FormattedText
+    public FormattedString? FormattedText
     {
-        get => (FormattedString)GetValue(FormattedTextProperty);
+        get => (FormattedString?)GetValue(FormattedTextProperty);
         set => SetValue(FormattedTextProperty, value);
     }
 

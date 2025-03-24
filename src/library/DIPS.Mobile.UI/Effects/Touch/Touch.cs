@@ -111,7 +111,7 @@ public partial class Touch : RoutingEffect
         LongPress,
         Both
     }
-
+    
     public static Touch? PickFrom(BindableObject? bindable)
     {
         return (bindable as VisualElement)?.Effects.OfType<Touch>().FirstOrDefault();

@@ -2,12 +2,29 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
 
 public partial class TitleOptions : ListItemOptions
 {
-    public override void DoBind(ListItem listItem)
+    public override void SetupDefaults(ListItem listItem)
     {
-        
-        listItem.ContainerGrid.ColumnDefinitions[1].Width = Width;
+        listItem.ColumnDefinitions[1].Width = Width;
         
         if(listItem.TitleLabel is null)
+            return;
+        
+        listItem.TitleLabel.Text = listItem.Title;
+        listItem.TitleLabel.Style = this.Style;
+        listItem.TitleLabel.FontAttributes = this.FontAttributes;
+        listItem.TitleLabel.TextColor = this.TextColor;
+        listItem.TitleLabel.HorizontalTextAlignment = this.HorizontalTextAlignment;
+        listItem.TitleLabel.VerticalTextAlignment = this.VerticalTextAlignment;
+        listItem.TitleLabel.LineBreakMode = this.LineBreakMode;
+        listItem.TitleLabel.Margin = this.Margin;
+        listItem.TitleLabel.MaximumWidthRequest = this.MaxWidth;
+    }
+    
+    protected override void DoBind(ListItem listItem)
+    {
+        listItem.ColumnDefinitions[1].Width = Width;
+
+        if (listItem.TitleLabel is null)
             return;
         
         listItem.TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: listItem);
@@ -26,5 +43,4 @@ public partial class TitleOptions : ListItemOptions
             listItem.TitleLabel.MaxLines = MaxLines;
         }
     }
-
 }

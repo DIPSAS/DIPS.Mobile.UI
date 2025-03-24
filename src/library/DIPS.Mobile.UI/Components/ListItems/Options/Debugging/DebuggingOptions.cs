@@ -4,14 +4,27 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Debugging;
 
 public partial class DebuggingOptions : ListItemOptions
 {
-    public override void DoBind(ListItem listItem)
+    public override void SetupDefaults(ListItem listItem)
+    {
+        DoBind(listItem);
+    }
+
+    protected override void DoBind(ListItem listItem)
     {
         if(!listItem.IsDebugMode)
             return;
 
         if (ShouldColorEverything)
         {
-            listItem.TitleAndLabelGrid.BackgroundColor = Colors.Red;
+            if (listItem.TitleLabel is not null)
+            {
+                listItem.TitleLabel.BackgroundColor = Colors.Red;
+            }
+            
+            if (listItem.SubtitleLabel is not null)
+            {
+                listItem.SubtitleLabel.BackgroundColor = Colors.Pink;
+            }
 
             if (listItem.InLineContent is not null)
             {
