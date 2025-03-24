@@ -31,289 +31,38 @@
         </dui:CollectionView.ItemTemplate>
         
     </dui:CollectionView>-->
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}">
         
-       
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
+       <BindableLayout.ItemTemplate>
+           <DataTemplate x:DataType="{x:Type x:String}">
+               <dui:ListItem Title="Title"
+                             Subtitle="Subtitle"
+                             HasTopDivider="True"
+                             HasBottomDivider="True"
+                             Icon="{dui:Icons arrow_back_line}">
             
-            <dui:Label Text="Inline" />
+                   <dui:Label Text="Inline" />
             
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
-        
-        <dui:ListItem Title="Title"
-                      Subtitle="Subtitle"
-                      Icon="{dui:Icons arrow_back_line}"
-                      HasTopDivider="True"
-                      HasBottomDivider="True">
-            
-            <dui:Label Text="Inline" />
-            
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="Underlying" />
-            </dui:ListItem.UnderlyingContent>
-            
-        </dui:ListItem>
+                   <dui:ListItem.TitleOptions>
+                       <dui:TitleOptions>
+                           <dui:TitleOptions.FormattedText>
+                               <FormattedString>
+                                   <Span Text="{Binding .}" />
+                               </FormattedString>
+                           </dui:TitleOptions.FormattedText>
+                       </dui:TitleOptions>
+                   </dui:ListItem.TitleOptions>
 
+                   <dui:ListItem.UnderlyingContent>
+                       <dui:Label Text="Underlying" />
+                   </dui:ListItem.UnderlyingContent>
+            
+               </dui:ListItem>
+           </DataTemplate>
+       </BindableLayout.ItemTemplate>
+        
+        
+        
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

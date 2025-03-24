@@ -60,12 +60,10 @@ public partial class ListItem : Grid
     private void AddTitle()
     {
         if (TitleLabel is not null)
-        {
             return;
-        }
         
-        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>(), BindingContext = this };
-        TitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Title);
+        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>() };
+        TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: this);
         
         TitleAndSubtitleContainer.Add(TitleLabel);
 
@@ -78,12 +76,10 @@ public partial class ListItem : Grid
     private void AddSubtitle()
     {
         if (SubtitleLabel is not null)
-        {
             return;
-        }
         
-        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>(), BindingContext = this };
-        SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle);
+        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>() };
+        SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle, source: this);
         
         TitleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
 
