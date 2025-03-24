@@ -2,16 +2,18 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Dividers;
 
 public partial class DividersOptions : ListItemOptions
 {
-    public override void SetupDefaults(ListItem listItem)
+    internal static void SetupDefaults(ListItem listItem)
     {
         if (listItem.TopDivider is not null)
         {
-            listItem.TopDivider.Margin = new Thickness(this.TopDividerMargin.Left - listItem.Padding.Left, this.TopDividerMargin.Top - listItem.Padding.Top, this.TopDividerMargin.Right - listItem.Padding.Right, this.TopDividerMargin.Bottom - listItem.Padding.Bottom);
+            var topDividerMargin = (Thickness)TopDividerMarginProperty.DefaultValue;
+            listItem.TopDivider.Margin = new Thickness(topDividerMargin.Left - listItem.Padding.Left, topDividerMargin.Top - listItem.Padding.Top, topDividerMargin.Right - listItem.Padding.Right, topDividerMargin.Bottom - listItem.Padding.Bottom);
         }
 
         if (listItem.BottomDivider is not null)
         {
-            listItem.BottomDivider.Margin = new Thickness(this.BottomDividerMargin.Left - listItem.Padding.Left, this.BottomDividerMargin.Top - listItem.Padding.Top, this.BottomDividerMargin.Right - listItem.Padding.Right, this.BottomDividerMargin.Bottom - listItem.Padding.Bottom);
+            var bottomDividerMargin = (Thickness)BottomDividerMarginProperty.DefaultValue;
+            listItem.BottomDivider.Margin = new Thickness(bottomDividerMargin.Left - listItem.Padding.Left, bottomDividerMargin.Top - listItem.Padding.Top, bottomDividerMargin.Right - listItem.Padding.Right, bottomDividerMargin.Bottom - listItem.Padding.Bottom);
         }
     }
 

@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
+using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Internal;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
@@ -21,10 +23,12 @@ public partial class MultiItemsPickerListItem : ListItem
             new Image() {Source = Icons.GetIcon(IconName.arrow_right_s_line), HorizontalOptions = LayoutOptions.End},
             1);
 
-        InLineContentOptions.Width = GridLength.Star;
-        InLineContentOptions.HorizontalOptions = LayoutOptions.Fill;
-        InLineContentOptions.VerticalOptions = LayoutOptions.Fill;
-        TitleOptions.Width = GridLength.Auto;
+        InLineContentOptions = new InLineContentOptions
+        {
+            Width = GridLength.Star, HorizontalOptions = LayoutOptions.Fill, VerticalOptions = LayoutOptions.Fill
+        };
+
+        TitleOptions = new TitleOptions { Width = GridLength.Auto };
 
         InLineContent = m_inlineContentGrid;
     }

@@ -7,7 +7,6 @@ using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Converters.ValueConverters;
-using DebuggingOptions = DIPS.Mobile.UI.Components.ListItems.Options.Debugging.DebuggingOptions;
 
 namespace DIPS.Mobile.UI.Components.ListItems;
 
@@ -107,15 +106,6 @@ public partial class ListItem
     {
         get => (IconOptions?)GetValue(IconOptionsProperty);
         set => SetValue(IconOptionsProperty, value);
-    }
-
-    /// <summary>
-    /// Sets options for debugging purposes
-    /// </summary>
-    public DebuggingOptions? DebuggingOptions
-    {
-        get => (DebuggingOptions?)GetValue(DebuggingOptionsProperty);
-        set => SetValue(DebuggingOptionsProperty, value);
     }
 
     /// <summary>
@@ -351,11 +341,6 @@ public partial class ListItem
             }
         });
         
-    public static readonly BindableProperty DebuggingOptionsProperty = BindableProperty.Create(
-        nameof(DebuggingOptions),
-        typeof(DebuggingOptions),
-        typeof(ListItem));
-    
     private static void Bind<T>(object newValue, ListItem listItem) where T : ListItemOptions
     {
         ((T)newValue).Bind(listItem);

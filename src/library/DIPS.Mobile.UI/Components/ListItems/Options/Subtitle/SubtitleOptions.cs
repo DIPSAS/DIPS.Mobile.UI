@@ -4,17 +4,15 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
 public partial class SubtitleOptions : ListItemOptions
 {
-    public override void SetupDefaults(ListItem listItem)
+    public static void SetupDefaults(ListItem listItem)
     {
         if (listItem.SubtitleLabel is null)
             return;
         
-        listItem.SubtitleLabel.Style = this.Style;
-        listItem.SubtitleLabel.FontAttributes = this.FontAttributes;
-        listItem.SubtitleLabel.TextColor = this.TextColor;
-        listItem.SubtitleLabel.HorizontalTextAlignment = this.HorizontalTextAlignment;
-        listItem.SubtitleLabel.VerticalTextAlignment = this.VerticalTextAlignment;
-        listItem.SubtitleLabel.LineBreakMode = this.LineBreakMode;
+        listItem.SubtitleLabel.Style = (Style?)StyleProperty.DefaultValue;
+        listItem.SubtitleLabel.FontAttributes = (FontAttributes)FontAttributesProperty.DefaultValue;
+        listItem.SubtitleLabel.TextColor = (Color)TextColorProperty.DefaultValue;
+        listItem.SubtitleLabel.LineBreakMode = (LineBreakMode)LineBreakModeProperty.DefaultValue;
     }
 
     protected override void DoBind(ListItem listItem)
@@ -23,8 +21,6 @@ public partial class SubtitleOptions : ListItemOptions
             return;
         
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, static (SubtitleOptions options) => options.FontAttributes, source: this);
-        listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (SubtitleOptions options) => options.HorizontalTextAlignment, source: this);
-        listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (SubtitleOptions options) => options.VerticalTextAlignment, source: this);
         listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, static (SubtitleOptions options) => options.Style, source: this);
         listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, static (SubtitleOptions options) => options.TextColor, source: this);
         listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, static (SubtitleOptions options) => options.LineBreakMode, source: this);

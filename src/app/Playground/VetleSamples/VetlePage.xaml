@@ -16,66 +16,24 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
+    <!--<dui:CollectionView>
+        <dui:CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Lol</x:String>
+            </x:Array>
+        </dui:CollectionView.ItemsSource>
+        
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:ListItem Title="{Binding .}"
+                              Command="{Binding Navigate, Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}}"/>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+        
+    </dui:CollectionView>-->
     <dui:VerticalStackLayout>
         
-        <!--<dui:ListItem Title="Test"
-                      Icon="{dui:Icons arrow_back_line}"
-                      Subtitle="Hello"
-                      IsDebugMode="True"
-                      Command="{Binding DisableCommand}">
-            
-            ~1~<dui:ListItem.TitleOptions>
-                <dui:TitleOptions 
-                                  Width="*"
-                                  MaxLines="2"
-                                  LineBreakMode="TailTruncation"></dui:TitleOptions>
-            </dui:ListItem.TitleOptions>@1@
-            
-            ~1~<dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions Width="Auto"
-                                          VerticalOptions="Center"></dui:InLineContentOptions>
-            </dui:ListItem.InLineContentOptions>@1@
-            
-            ~1~<dui:ListItem.SubtitleOptions>
-                <dui:SubtitleOptions MaxLines="2"
-                                     LineBreakMode="TailTruncation" />
-            </dui:ListItem.SubtitleOptions>@1@
-            
-            <dui:ListItem Title="Hello" HeightRequest="100"
-                          IsDebugMode="True">
-                <dui:ListItem.TitleOptions>
-                    <dui:TitleOptions VerticalTextAlignment="End"
-                                      Width="*"/>
-                </dui:ListItem.TitleOptions>
-                <dui:Label Text="Lol"></dui:Label>
-            </dui:ListItem>
-
-            <dui:ListItem.UnderlyingContent>
-                <dui:Label Text="yo"></dui:Label>
-            </dui:ListItem.UnderlyingContent>
-        </dui:ListItem>-->
-        <dui:ListItem Title="Title aiosdjoaisj oijasdoiajsodijas oijsaodijasiodja oiasjdoiasjdoiasj oaijsdoiasjdsa"
-                      Command="{Binding DisableCommand}"
-                      Icon="{dui:Icons alert_line}"
-                      IsDebugMode="True"
-                      Subtitle="{Binding Subtitle}">
-            
-            <dui:ListItem.TitleOptions>
-                <dui:TitleOptions MaxLines="2"
-                                  Width="*"
-                                  LineBreakMode="TailTruncation"></dui:TitleOptions>
-            </dui:ListItem.TitleOptions>
-            <!--<dui:ListItem.IconOptions>
-                
-                <dui:IconOptions VerticalOptions="Center" />
-                
-            </dui:ListItem.IconOptions>-->
-            <!--<BoxView HeightRequest="100"></BoxView>-->
-            <dui:ListItem Title="Hello" HeightRequest="100"></dui:ListItem>
-            
-        </dui:ListItem>
-
-        <!--<dui:ListItem Title="Hello" />
+       
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
@@ -97,7 +55,8 @@
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
         <dui:ListItem Title="Hello" />
-        <dui:ListItem Title="Hello" />-->
+        <dui:ListItem Title="Hello" />
+        <dui:ListItem Title="Hello" />
 
     </dui:VerticalStackLayout>
 

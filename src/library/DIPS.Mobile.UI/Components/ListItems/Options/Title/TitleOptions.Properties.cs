@@ -45,18 +45,6 @@ public partial class TitleOptions
         set => SetValue(WidthProperty, value);
     }
 
-    public TextAlignment HorizontalTextAlignment
-    {
-        get => (TextAlignment)GetValue(HorizontalTextAlignmentProperty);
-        set => SetValue(HorizontalTextAlignmentProperty, value);
-    }
-
-    public TextAlignment VerticalTextAlignment
-    {
-        get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
-        set => SetValue(VerticalTextAlignmentProperty, value);
-    }
-    
     public Thickness Margin
     {
         get => (Thickness)GetValue(MarginProperty);
@@ -127,20 +115,6 @@ public partial class TitleOptions
         nameof(FontAttributes),
         typeof(FontAttributes),
         typeof(TitleOptions),
-        defaultBindingMode: BindingMode.OneTime);
-    
-    public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
-        nameof(HorizontalTextAlignment),
-        typeof(TextAlignment),
-        typeof(TitleOptions),
-        defaultValue:TextAlignment.Start,
-        defaultBindingMode: BindingMode.OneTime);
-    
-    public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
-        nameof(VerticalTextAlignment),
-        typeof(TextAlignment),
-        typeof(TitleOptions),
-        defaultValue:TextAlignment.Center,
         defaultBindingMode: BindingMode.OneTime);
     
     public static readonly BindableProperty StyleProperty = BindableProperty.Create(

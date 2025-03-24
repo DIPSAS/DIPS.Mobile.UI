@@ -4,14 +4,14 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 
 public partial class IconOptions : ListItemOptions
 {
-    public override void SetupDefaults(ListItem listItem)
+    internal static void SetupDefaults(ListItem listItem)
     {
         if (listItem.ImageIcon is null)
             return;
         
-        listItem.ImageIcon.Margin = this.Margin;
-        listItem.ImageIcon.TintColor = this.Color;
-        listItem.ImageIcon.VerticalOptions = this.VerticalOptions;
+        listItem.ImageIcon.Margin = (Thickness)MarginProperty.DefaultValue;
+        listItem.ImageIcon.TintColor = (Color?)ColorProperty.DefaultValue;
+        listItem.ImageIcon.VerticalOptions = (LayoutOptions)VerticalOptionsProperty.DefaultValue;
     }
 
     protected override void DoBind(ListItem listItem)

@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.ListItems.Options;
-using DIPS.Mobile.UI.Components.ListItems.Options.Debugging;
 using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
@@ -8,6 +7,7 @@ using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Internal.Logging;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -19,12 +19,11 @@ public partial class ListItem : Grid
     internal Image? ImageIcon { get; private set; }
     internal Label? TitleLabel { get; private set; }
     internal Label? SubtitleLabel { get; private set; } 
+    internal Divider? TopDivider { get; private set; }
+    internal Divider? BottomDivider { get; private set; }
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
-
-    public Divider? TopDivider;
-    public Divider? BottomDivider;
 
     public readonly Grid TitleAndSubtitleContainer = new()
     {
@@ -60,10 +59,8 @@ public partial class ListItem : Grid
 
     private void AddTitle()
     {
-        // Guard against double creation, even though it should not happen
         if (TitleLabel is not null)
         {
-            DUILogService.LogError<ListItem>("TitleLabel is already created; this method should not be called if TitleLabel is already created");
             return;
         }
         
@@ -72,16 +69,16 @@ public partial class ListItem : Grid
         
         TitleAndSubtitleContainer.Add(TitleLabel);
 
-        UpdateVerticalTextAlignments();
-        SetupDefaultOrBindToOptions<TitleOptions>(TitleOptions);
+        SetDefaultValuesOrBindToOptions(TitleOptions, () =>
+        {
+            TitleOptions.SetDefaultValues(this);
+        });
     }
 
     private void AddSubtitle()
     {
-        // Guard against double creation, even though it should not happen
         if (SubtitleLabel is not null)
         {
-            DUILogService.LogError<ListItem>("SubtitleLabel is already created; this method should not be called if SubtitleLabel is already created");
             return;
         }
         
@@ -89,65 +86,24 @@ public partial class ListItem : Grid
         SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle);
         
         TitleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
-        
-        SetupDefaultOrBindToOptions<SubtitleOptions>(SubtitleOptions);
-        
-        UpdateVerticalTextAlignments();
 
-        SubtitleLabel.PropertyChanged += (_, args) =>
+        SetDefaultValuesOrBindToOptions(SubtitleOptions, () =>
         {
-            if (args.PropertyName != IsVisibleProperty.PropertyName)
-                return;
-
-            UpdateVerticalTextAlignments();
-        };
+            SubtitleOptions.SetupDefaults(this);
+        });
     }
 
-    /// <summary>
-    /// Attempts to set the VerticalTextAlignments of the Title and Subtitle so that they are aligned correctly (No spacing between them)
-    /// Only if consumer has not set the VerticalTextAlignment in their options
-    /// </summary>
-    private void UpdateVerticalTextAlignments()
-    {
-        if (TitleLabel is not null)
-        {
-            // If consumer has not changed the VerticalTextAlignment, we should set it to End
-            if (TitleOptions is null || TitleOptions?.VerticalTextAlignment == (TextAlignment)TitleOptions.VerticalTextAlignmentProperty.DefaultValue)
-            {
-                // If SubtitleLabel is not visible, we should set the VerticalTextAlignment to Center
-                if (SubtitleLabel is { IsVisible: false })
-                {
-                    TitleLabel.VerticalTextAlignment = TextAlignment.Center;
-                }
-                else // If SubtitleLabel is visible, we should set the VerticalTextAlignment to End
-                {
-                    TitleLabel.VerticalTextAlignment = TextAlignment.End;
-                }
-            }
-        }
-
-        if (SubtitleLabel is null)
-            return;
-
-        // If consumer has not changed the VerticalTextAlignment, we should set it to Start
-        if (SubtitleOptions is null || SubtitleOptions?.VerticalTextAlignment ==
-            (TextAlignment)SubtitleOptions.VerticalTextAlignmentProperty.DefaultValue)
-        {
-            SubtitleLabel.VerticalTextAlignment = TextAlignment.Start;
-        }
-    }
-
-    /// <summary>
-    /// We need to update RowSpan on Icon and InlineContent, so that their container spans with Title + Subtitle
-    /// </summary>
     private void AddIcon()
     {
         ImageIcon = new Image
         {
             Source = Icon
         };
-        
-        SetupDefaultOrBindToOptions<IconOptions>(IconOptions);
+
+        SetDefaultValuesOrBindToOptions(IconOptions, () =>
+        {
+            IconOptions.SetupDefaults(this);
+        });
         
         this.Add(ImageIcon, 0);
     }
@@ -165,8 +121,11 @@ public partial class ListItem : Grid
         }
         
         this.Add(view, ColumnDefinitions.Count - 1);
-        
-        SetupDefaultOrBindToOptions<InLineContentOptions>(InLineContentOptions);
+
+        SetDefaultValuesOrBindToOptions(InLineContentOptions, () =>
+        {
+            InLineContentOptions.SetupDefaults(this);
+        });
 
         m_oldInLineContent = view;
     }
@@ -209,7 +168,10 @@ public partial class ListItem : Grid
         
         Add(divider);
 
-        SetupDefaultOrBindToOptions<Options.Dividers.DividersOptions>(DividersOptions);
+        SetDefaultValuesOrBindToOptions(DividersOptions, () =>
+        {
+            Options.Dividers.DividersOptions.SetupDefaults(this);
+        });
     }
     
     private void AddTouch()
@@ -224,13 +186,13 @@ public partial class ListItem : Grid
 
     /// <summary>
     /// E.g if TitleOptions is set in xaml before Title, the TitleOptions will not be null, and should bind the properties to the Label instantly
+    /// <remarks>If options is set after the corresponding view has been created, they will run <see cref="Bind{T}"/> themselves</remarks>
     /// </summary>
-    private void SetupDefaultOrBindToOptions<T>(ListItemOptions? options) where T : ListItemOptions, new()
+    private void SetDefaultValuesOrBindToOptions(ListItemOptions? options, Action onDefault)
     {
         if (options is null)
         {
-            var option = new T();
-            option.SetupDefaults(this);
+            onDefault.Invoke();
         }
         else
         {
@@ -316,8 +278,10 @@ public partial class ListItem : Grid
 
         if (args.NewHandler is not null)
         {
-            if(IsDebugMode)
-                SetupDefaultOrBindToOptions<DebuggingOptions>(DebuggingOptions);
+            if (IsDebugMode)
+            {
+                SetDebugMode();
+            }
             
             return;
         }
@@ -329,5 +293,33 @@ public partial class ListItem : Grid
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+    }
+
+    private void SetDebugMode()
+    {
+        if (TitleLabel is not null)
+        {
+            TitleLabel.BackgroundColor = Colors.Red;
+        }
+            
+        if (SubtitleLabel is not null)
+        {
+            SubtitleLabel.BackgroundColor = Colors.Pink;
+        }
+            
+        if (InLineContent is not null)
+        {
+            ((InLineContent as View)!).BackgroundColor = Colors.Green;
+        }
+            
+        if (UnderlyingContent is not null)
+        {
+            ((UnderlyingContent as View)!).BackgroundColor = Colors.Blue;
+        }
+
+        if (ImageIcon is not null)
+        {
+            ImageIcon.BackgroundColor = Colors.Yellow;
+        }
     }
 }

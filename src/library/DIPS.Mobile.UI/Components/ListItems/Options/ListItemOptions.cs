@@ -11,9 +11,5 @@ public abstract class ListItemOptions : BindableObject
         DoBind(listItem);
     }
 
-    /// <summary>
-    /// Executed when the corresponding ListItem object is created, (e.g TitleLabel, SubtitleLabel)
-    /// </summary>
-    public abstract void SetupDefaults(ListItem listItem);
     protected abstract void DoBind(ListItem listItem);
 }

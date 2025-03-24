@@ -2,19 +2,19 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 
 public partial class InLineContentOptions : ListItemOptions
 {
-    public override void SetupDefaults(ListItem listItem)
+    internal static void SetupDefaults(ListItem listItem)
     {
-        listItem.ColumnDefinitions[2].Width = Width;
+        listItem.ColumnDefinitions[2].Width = (GridLength)WidthProperty.DefaultValue;
         
         if (listItem.InLineContent is not View inLineContent)
         {
             return;
         }
         
-        inLineContent.HorizontalOptions = this.HorizontalOptions;
-        inLineContent.VerticalOptions = this.VerticalOptions;
+        inLineContent.HorizontalOptions = (LayoutOptions)HorizontalOptionsProperty.DefaultValue;
+        inLineContent.VerticalOptions = (LayoutOptions)VerticalOptionsProperty.DefaultValue;
         
-        if (SpanOverUnderlyingContent)
+        if ((bool)SpanOverUnderlyingContentProperty.DefaultValue)
         {
             Grid.SetRowSpan(inLineContent, 2);
         }
