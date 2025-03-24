@@ -1,3 +1,8 @@
+## [44.0.0] 
+- [BreakingChange][ListItem] Removed `ContextMenu` property.
+- [BreakingChange][ListItem] Removed Horizontal -and Vertical Text alignment properties on `TitleOptions` and `SubtitleOptions`, they never worked anyway.
+- [ListItem] Optimized ListItem.
+
 ## [43.0.1] 
 - [Touch][iOS] Fixed a bug where disabling an element right after touch effect fires, makes the element stay at clicked opacity.
 
