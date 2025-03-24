@@ -377,5 +377,9 @@ user_search_fill=184,
 timer_line=185,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/user_search_line.svg">View the icon in the browser</a></summary>
 user_search_line=186,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/mic_ai_line.svg">View the icon in the browser</a></summary>
+mic_ai_line=187,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/mic_ai_fill.svg">View the icon in the browser</a></summary>
+mic_ai_fill=188,
     }
 }
