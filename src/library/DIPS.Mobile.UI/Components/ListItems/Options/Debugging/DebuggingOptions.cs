@@ -25,6 +25,8 @@ public partial class DebuggingOptions : ListItemOptions
             {
                 listItem.SubtitleLabel.BackgroundColor = Colors.Pink;
             }
+            
+            listItem.TitleAndSubtitleContainer.BackgroundColor = Colors.Gray;
 
             if (listItem.InLineContent is not null)
             {

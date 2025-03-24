@@ -9,7 +9,6 @@ public partial class SubtitleOptions : ListItemOptions
         if (listItem.SubtitleLabel is null)
             return;
         
-        listItem.SubtitleLabel.Text = listItem.Subtitle;
         listItem.SubtitleLabel.Style = this.Style;
         listItem.SubtitleLabel.FontAttributes = this.FontAttributes;
         listItem.SubtitleLabel.TextColor = this.TextColor;
@@ -23,7 +22,6 @@ public partial class SubtitleOptions : ListItemOptions
         if (listItem.SubtitleLabel is null)
             return;
         
-        listItem.SubtitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Subtitle, source: listItem);
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, static (SubtitleOptions options) => options.FontAttributes, source: this);
         listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (SubtitleOptions options) => options.HorizontalTextAlignment, source: this);
         listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (SubtitleOptions options) => options.VerticalTextAlignment, source: this);

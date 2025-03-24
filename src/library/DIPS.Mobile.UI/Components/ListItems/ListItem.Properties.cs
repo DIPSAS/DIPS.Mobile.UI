@@ -243,7 +243,20 @@ public partial class ListItem
         nameof(Subtitle),
         typeof(string),
         typeof(ListItem),
-        propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddSubtitle());
+        propertyChanged: (bindable, _, _) =>
+        {
+            if (bindable is not ListItem listItem)
+                return;
+
+            if (listItem.SubtitleLabel is null)
+            {
+                listItem.AddSubtitle();
+            }
+            else
+            {
+                listItem.SubtitleLabel.IsVisible = !string.IsNullOrEmpty(listItem.Subtitle);
+            }
+        });
 
     public static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),

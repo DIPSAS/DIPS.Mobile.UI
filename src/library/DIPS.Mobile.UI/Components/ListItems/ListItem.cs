@@ -26,6 +26,14 @@ public partial class ListItem : Grid
     public Divider? TopDivider;
     public Divider? BottomDivider;
 
+    public readonly Grid TitleAndSubtitleContainer = new()
+    {
+        AutomationId = "TitleAndSubtitleContainer".ToDUIAutomationId<ListItem>(),
+        VerticalOptions = LayoutOptions.Center,
+        RowDefinitions =
+            new RowDefinitionCollection(new RowDefinition(GridLength.Star), new RowDefinition(GridLength.Auto))
+    };
+
     public ListItem()
     {
         Padding = new Thickness(
@@ -42,11 +50,12 @@ public partial class ListItem : Grid
         
         RowDefinitions = [
             new RowDefinition(GridLength.Star), 
-            new RowDefinition(GridLength.Auto),
             new RowDefinition(GridLength.Auto)
         ];
-        
+
         BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default);
+        
+        this.Add(TitleAndSubtitleContainer, 1);
     }
 
     private void AddTitle()
@@ -58,13 +67,13 @@ public partial class ListItem : Grid
             return;
         }
         
-        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>() };
+        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>(), BindingContext = this };
+        TitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Title);
         
-        this.Add(TitleLabel, 1);
+        TitleAndSubtitleContainer.Add(TitleLabel);
 
+        UpdateVerticalTextAlignments();
         SetupDefaultOrBindToOptions<TitleOptions>(TitleOptions);
-        
-        RefreshDebugMode();
     }
 
     private void AddSubtitle()
@@ -76,45 +85,61 @@ public partial class ListItem : Grid
             return;
         }
         
-        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
+        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>(), BindingContext = this };
+        SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle);
         
-        this.Add(SubtitleLabel, 1, 1);
+        TitleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
         
         SetupDefaultOrBindToOptions<SubtitleOptions>(SubtitleOptions);
         
-        RefreshDebugMode();
-        UpdateRowSpan();
+        UpdateVerticalTextAlignments();
 
         SubtitleLabel.PropertyChanged += (_, args) =>
         {
-            if (args.PropertyName == IsVisibleProperty.PropertyName)
-            {
-                UpdateRowSpan();
-            }
+            if (args.PropertyName != IsVisibleProperty.PropertyName)
+                return;
+
+            UpdateVerticalTextAlignments();
         };
     }
 
     /// <summary>
-    /// We need to update RowSpan on Icon and InlineContent, so that they are in the center of Title + Subtitle
+    /// Attempts to set the VerticalTextAlignments of the Title and Subtitle so that they are aligned correctly (No spacing between them)
+    /// Only if consumer has not set the VerticalTextAlignment in their options
     /// </summary>
-    private void UpdateRowSpan()
+    private void UpdateVerticalTextAlignments()
     {
-        if(SubtitleLabel is null)
-            return;
-        
-        var rowSpan = SubtitleLabel.IsVisible ? 2 : 1;
-        
-        if (ImageIcon is not null)
+        if (TitleLabel is not null)
         {
-            this.SetRowSpan(ImageIcon, rowSpan);
+            // If consumer has not changed the VerticalTextAlignment, we should set it to End
+            if (TitleOptions is null || TitleOptions?.VerticalTextAlignment == (TextAlignment)TitleOptions.VerticalTextAlignmentProperty.DefaultValue)
+            {
+                // If SubtitleLabel is not visible, we should set the VerticalTextAlignment to Center
+                if (SubtitleLabel is { IsVisible: false })
+                {
+                    TitleLabel.VerticalTextAlignment = TextAlignment.Center;
+                }
+                else // If SubtitleLabel is visible, we should set the VerticalTextAlignment to End
+                {
+                    TitleLabel.VerticalTextAlignment = TextAlignment.End;
+                }
+            }
         }
-        
-        if (InLineContent is not null)
+
+        if (SubtitleLabel is null)
+            return;
+
+        // If consumer has not changed the VerticalTextAlignment, we should set it to Start
+        if (SubtitleOptions is null || SubtitleOptions?.VerticalTextAlignment ==
+            (TextAlignment)SubtitleOptions.VerticalTextAlignmentProperty.DefaultValue)
         {
-            this.SetRowSpan(InLineContent, rowSpan);
+            SubtitleLabel.VerticalTextAlignment = TextAlignment.Start;
         }
     }
 
+    /// <summary>
+    /// We need to update RowSpan on Icon and InlineContent, so that their container spans with Title + Subtitle
+    /// </summary>
     private void AddIcon()
     {
         ImageIcon = new Image
@@ -125,9 +150,6 @@ public partial class ListItem : Grid
         SetupDefaultOrBindToOptions<IconOptions>(IconOptions);
         
         this.Add(ImageIcon, 0);
-        
-        RefreshDebugMode();
-        UpdateRowSpan();
     }
 
     protected virtual void AddInLineContent()
@@ -147,9 +169,6 @@ public partial class ListItem : Grid
         SetupDefaultOrBindToOptions<InLineContentOptions>(InLineContentOptions);
 
         m_oldInLineContent = view;
-        
-        RefreshDebugMode();
-        UpdateRowSpan();
     }
 
     private void AddUnderlyingContent()
@@ -159,12 +178,10 @@ public partial class ListItem : Grid
             Remove(m_oldUnderlyingContent);
         }
         
-        this.Add(UnderlyingContent, 0, 2);
+        this.Add(UnderlyingContent, 0, 1);
         SetColumnSpan(UnderlyingContent, ColumnDefinitions.Count);
         
         m_oldUnderlyingContent = UnderlyingContent;
-        
-        RefreshDebugMode();
     }
     
     private void AddDivider(bool top)
@@ -292,16 +309,19 @@ public partial class ListItem : Grid
 
         HasTopDivider = true;
     }
-    
-    private void RefreshDebugMode()
-    {
-        SetupDefaultOrBindToOptions<DebuggingOptions>(DebuggingOptions);
-    }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
 
+        if (args.NewHandler is not null)
+        {
+            if(IsDebugMode)
+                SetupDefaultOrBindToOptions<DebuggingOptions>(DebuggingOptions);
+            
+            return;
+        }
+        
         ParentChanged -= OnParentChanged;
         
         if(m_collectionView is not null)

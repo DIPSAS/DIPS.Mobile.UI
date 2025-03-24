@@ -9,7 +9,6 @@ public partial class TitleOptions : ListItemOptions
         if(listItem.TitleLabel is null)
             return;
         
-        listItem.TitleLabel.Text = listItem.Title;
         listItem.TitleLabel.Style = this.Style;
         listItem.TitleLabel.FontAttributes = this.FontAttributes;
         listItem.TitleLabel.TextColor = this.TextColor;
@@ -27,7 +26,6 @@ public partial class TitleOptions : ListItemOptions
         if (listItem.TitleLabel is null)
             return;
         
-        listItem.TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: listItem);
         listItem.TitleLabel.SetBinding(VisualElement.StyleProperty, static (TitleOptions options) => options.Style, source: this);
         listItem.TitleLabel.SetBinding(Label.FontAttributesProperty, static (TitleOptions options) => options.FontAttributes, source: this);
         listItem.TitleLabel.SetBinding(Label.TextColorProperty, static (TitleOptions options) => options.TextColor, source: this);
