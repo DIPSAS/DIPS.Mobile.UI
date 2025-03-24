@@ -193,6 +193,8 @@ this file is generated
 ["user_search_fill"] = "user_search_fill.png",
 ["timer_line"] = "timer_line.png",
 ["user_search_line"] = "user_search_line.png",
+["mic_ai_line"] = "mic_ai_line.png",
+["mic_ai_fill"] = "mic_ai_fill.png",
 
             };
         }

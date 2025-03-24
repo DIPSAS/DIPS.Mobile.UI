@@ -1,3 +1,6 @@
+## [43.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [43.0.1] 
 - [Touch][iOS] Fixed a bug where disabling an element right after touch effect fires, makes the element stay at clicked opacity.
 
