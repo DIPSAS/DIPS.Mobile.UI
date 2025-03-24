@@ -172,6 +172,9 @@ public partial class ListItem : Grid
     
     private void AddTouch()
     {
+        if(Touch.GetCommand(this) is not null)
+            return;
+        
         Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
         Touch.SetCommand(this, new Command(() =>
         {
@@ -277,6 +280,11 @@ public partial class ListItem : Grid
             if (IsDebugMode)
             {
                 SetDebugMode();
+            }
+
+            if (Tapped is not null && Tapped.HasSubscriptions())
+            {
+                AddTouch();
             }
             
             return;

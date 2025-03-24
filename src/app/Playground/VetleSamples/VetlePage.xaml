@@ -35,7 +35,8 @@
         
        <BindableLayout.ItemTemplate>
            <DataTemplate x:DataType="{x:Type x:String}">
-               <dui:ListItem Title="{Binding .}" />
+               <dui:ListItem Title="{Binding .}"
+                             Tapped="ListItem_OnTapped"/>
            </DataTemplate>
        </BindableLayout.ItemTemplate>
         

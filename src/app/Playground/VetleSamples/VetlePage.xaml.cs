@@ -210,6 +210,5 @@ public partial class VetlePage
     {
         /*CollectionView.ReloadData();*/
     }
-
     
 }
