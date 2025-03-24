@@ -91,10 +91,11 @@ public partial class ListItem : Grid
 
     private void AddIcon()
     {
-        ImageIcon = new Image
-        {
-            Source = Icon
-        };
+        if (ImageIcon is not null)
+            return;
+        
+        ImageIcon = new Image();
+        ImageIcon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (ListItem listItem) => listItem.Icon, source: this);
 
         SetDefaultValuesOrBindToOptions(IconOptions, () =>
         {

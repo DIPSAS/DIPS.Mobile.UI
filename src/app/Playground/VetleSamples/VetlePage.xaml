@@ -16,22 +16,18 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!--<dui:CollectionView>
-        <dui:CollectionView.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>Lol</x:String>
-            </x:Array>
-        </dui:CollectionView.ItemsSource>
+    <dui:CollectionView ItemsSource="{Binding TestObject2s}">
         
         <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem Title="{Binding .}"
+            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
+                <dui:ListItem Title="{Binding Name}"
+                              Icon="{Binding Icon}"
                               Command="{Binding Navigate, Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}}"/>
             </DataTemplate>
         </dui:CollectionView.ItemTemplate>
         
-    </dui:CollectionView>-->
-    <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}">
+    </dui:CollectionView>
+    <!--<dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}">
         
        <BindableLayout.ItemTemplate>
            <DataTemplate x:DataType="{x:Type x:String}">
@@ -39,6 +35,6 @@
            </DataTemplate>
        </BindableLayout.ItemTemplate>
         
-    </dui:VerticalStackLayout>
+    </dui:VerticalStackLayout>-->
 
 </dui:ContentPage>

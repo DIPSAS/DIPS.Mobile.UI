@@ -456,8 +456,13 @@ public class TestObject2
     {
         Name = name;
         TestCommand = new Command(() => { });
+        // Generate random icon
+        var random = new Random();
+        var icon = random.Next(0, 2);
+        Icon = icon == 0 ? Icons.GetIcon(IconName.alert_fill) : Icons.GetIcon(IconName.failure_fill);
     }
     
+    public ImageSource Icon { get; set; }
    public string Name { get; set; }
 
    public string SearchTerm { get; } = "Test";
