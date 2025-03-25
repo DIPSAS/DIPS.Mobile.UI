@@ -381,5 +381,11 @@ user_search_line=186,
 mic_ai_line=187,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/mic_ai_fill.svg">View the icon in the browser</a></summary>
 mic_ai_fill=188,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/play_line.svg">View the icon in the browser</a></summary>
+play_line=189,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/larger_line.svg">View the icon in the browser</a></summary>
+larger_line=190,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/pause_mini_line.svg">View the icon in the browser</a></summary>
+pause_mini_line=191,
     }
 }
