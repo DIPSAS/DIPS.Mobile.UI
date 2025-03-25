@@ -16,25 +16,17 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:CollectionView ItemsSource="{Binding TestObject2s}">
+    <dui:ListItem VerticalOptions="Start"
+                  Title="Long title that goes over two lines yes yyesy e ys y sey seyseyeyse">
         
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
-                <dui:ListItem Title="{Binding Name}"
-                              Icon="{Binding Icon}"
-                              Command="{Binding Navigate, Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}}"/>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+        <dui:ListItem.TitleOptions>
+            <dui:TitleOptions Width="*" />
+        </dui:ListItem.TitleOptions>
         
-    </dui:CollectionView>
-    <!--<dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}">
+        <dui:ListItem.InLineContentOptions>
+            <dui:InLineContentOptions Width="Auto" />
+        </dui:ListItem.InLineContentOptions>
         
-       <BindableLayout.ItemTemplate>
-           <DataTemplate x:DataType="{x:Type x:String}">
-               <dui:ListItem Title="{Binding .}" />
-           </DataTemplate>
-       </BindableLayout.ItemTemplate>
-        
-    </dui:VerticalStackLayout>-->
+    </dui:ListItem>
 
 </dui:ContentPage>

@@ -1,3 +1,6 @@
+## [44.0.1] 
+- [ListItem] Fixed a regression bug where consumers could not fill out title without setting `InlineContent`.
+
 ## [44.0.0] 
 - [BreakingChange][ListItem] Removed `ContextMenu` property.
 - [BreakingChange][ListItem] Removed Horizontal -and Vertical Text alignment properties on `TitleOptions` and `SubtitleOptions`, they never worked anyway.

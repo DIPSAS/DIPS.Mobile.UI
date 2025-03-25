@@ -19,7 +19,7 @@ public partial class InLineContentOptions : ListItemOptions
             Grid.SetRowSpan(inLineContent, 2);
         }
     }
-
+    
     protected override void DoBind(ListItem listItem)
     { 
         listItem.ColumnDefinitions[2].Width = Width;
