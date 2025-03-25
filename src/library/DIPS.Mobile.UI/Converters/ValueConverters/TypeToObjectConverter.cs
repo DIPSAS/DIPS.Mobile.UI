@@ -24,6 +24,11 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         /// The type to check against, use {x:Type namespace:MyType}
         /// </summary>
         public Type? Type { get; set; }
+        
+        /// <summary>
+        /// Determines if the expression should be regarded as 'true' as long as the value is an instance of a sub-type of <see cref="Type"/>
+        /// </summary>
+        public bool IncludeInheritance { get; set; }
 
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -36,6 +41,12 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
                 throw new XamlParseException($"{nameof(TrueObject)} can not be null").WithXmlLineInfo(m_serviceProvider);
             if (FalseObject == null)
                 throw new XamlParseException($"{nameof(FalseObject)} can not be null").WithXmlLineInfo(m_serviceProvider);
+
+            if (IncludeInheritance)
+            {
+                return Type.IsInstanceOfType(value) ? TrueObject : FalseObject;
+            }
+            
             return (value.GetType() == Type) ? TrueObject : FalseObject;
         }
         /// <inheritdoc/>

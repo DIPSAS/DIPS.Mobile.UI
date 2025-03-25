@@ -1,3 +1,6 @@
+## [43.3.0]
+- Added `IncludeInheritance` property to `TypeToObjectConverter` to allow to check for sub-types
+
 ## [43.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
