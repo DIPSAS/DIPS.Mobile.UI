@@ -320,7 +320,14 @@ public partial class ListItem
         typeof(ListItem),
         propertyChanged: (bindable, _, newValue) =>
         {
-            if (bindable is ListItem { InLineContent: not null } listItem)
+            if (bindable is not ListItem listItem)
+                return;
+
+            if (listItem.InLineContent is null)
+            {
+                listItem.ColumnDefinitions[2].Width = listItem.InLineContentOptions?.Width ?? listItem.ColumnDefinitions[2].Width;   
+            }
+            else
             {
                 Bind<InLineContentOptions>(newValue, listItem);
             }

@@ -25,7 +25,7 @@ public partial class ListItem : Grid
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
 
-    public readonly Grid TitleAndSubtitleContainer = new()
+    private readonly Grid m_titleAndSubtitleContainer = new()
     {
         AutomationId = "TitleAndSubtitleContainer".ToDUIAutomationId<ListItem>(),
         VerticalOptions = LayoutOptions.Center,
@@ -54,7 +54,7 @@ public partial class ListItem : Grid
 
         BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default);
         
-        this.Add(TitleAndSubtitleContainer, 1);
+        this.Add(m_titleAndSubtitleContainer, 1);
     }
 
     private void AddTitle()
@@ -65,7 +65,7 @@ public partial class ListItem : Grid
         TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>() };
         TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: this);
         
-        TitleAndSubtitleContainer.Add(TitleLabel);
+        m_titleAndSubtitleContainer.Add(TitleLabel);
 
         SetDefaultValuesOrBindToOptions(TitleOptions, () =>
         {
@@ -81,7 +81,7 @@ public partial class ListItem : Grid
         SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>() };
         SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle, source: this);
         
-        TitleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
+        m_titleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
 
         SetDefaultValuesOrBindToOptions(SubtitleOptions, () =>
         {
