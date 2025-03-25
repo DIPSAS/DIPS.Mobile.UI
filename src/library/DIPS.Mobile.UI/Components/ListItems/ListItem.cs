@@ -1,10 +1,12 @@
-using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
-using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.ListItems.Options;
+using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
+using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
+using DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
+using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
-using Microsoft.Maui.Controls.Shapes;
+using DIPS.Mobile.UI.Internal.Logging;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -12,132 +14,95 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 namespace DIPS.Mobile.UI.Components.ListItems;
 
 [ContentProperty(nameof(InLineContent))]
-public partial class ListItem : ContentView
+public partial class ListItem : Grid
 {
-    private Grid RootGrid { get; } = new()
-    {
-        AutomationId = "RootGrid".ToDUIAutomationId<ListItem>(),
-        BackgroundColor = Colors.Transparent
-    };
-    
-    internal Grid ContainerGrid { get; } = new()
-    {
-        AutomationId = "ContainerGrid".ToDUIAutomationId<ListItem>(),
-        ColumnDefinitions = new ColumnDefinitionCollection
-        {
-            new(GridLength.Auto),
-            new(GridLength.Auto),
-            new(GridLength.Star)
-        },
-        RowDefinitions = new RowDefinitionCollection()
-        {
-            new(GridLength.Star),
-        }
-    };
-
-    internal Grid TitleAndLabelGrid { get; } = new()
-    {
-        AutomationId = "TitleAndLabelGrid".ToDUIAutomationId<ListItem>(),
-        ColumnDefinitions = new ColumnDefinitionCollection
-        {
-            new(),
-        },
-        RowDefinitions = new RowDefinitionCollection
-        {
-            new(GridLength.Star),
-            new(GridLength.Auto)
-        },
-        VerticalOptions = LayoutOptions.Center
-    };
-
-    internal Border OuterBorder { get; } = new() { StrokeThickness = 0, AutomationId = "OuterBorder".ToDUIAutomationId<ListItem>()};
     internal Image? ImageIcon { get; private set; }
-    internal Label TitleLabel { get; } = new(){AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>()};
-    internal Label SubtitleLabel { get; } = new() { IsVisible = false, AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>()};
+    internal Label? TitleLabel { get; private set; }
+    internal Label? SubtitleLabel { get; private set; } 
+    internal Divider? TopDivider { get; private set; }
+    internal Divider? BottomDivider { get; private set; }
     
     private IView m_oldInLineContent;
     private IView? m_oldUnderlyingContent;
 
-    public Divider? TopDivider;
-    public Divider? BottomDivider;
+    public readonly Grid TitleAndSubtitleContainer = new()
+    {
+        AutomationId = "TitleAndSubtitleContainer".ToDUIAutomationId<ListItem>(),
+        VerticalOptions = LayoutOptions.Center,
+        RowDefinitions =
+            new RowDefinitionCollection(new RowDefinition(GridLength.Star), new RowDefinition(GridLength.Auto))
+    };
 
     public ListItem()
     {
-        ((ContentView)this).BackgroundColor = Colors.Transparent;
+        Padding = new Thickness(
+            Sizes.GetSize(SizeName.content_margin_small),
+            Sizes.GetSize(SizeName.content_margin_medium),
+            Sizes.GetSize(SizeName.content_margin_small),
+            Sizes.GetSize(SizeName.content_margin_medium));
         
-        OuterBorder.StrokeShape = new RoundRectangle 
-        { 
-            AutomationId = "OuterBorder.StrokeShape".ToDUIAutomationId<ListItem>(),
-            CornerRadius = CornerRadius, 
-            StrokeThickness = 0
-        };
-
-        ContainerGrid.SetBinding(Grid.MarginProperty, static (ListItem listItem) => listItem.Padding, source: this);
+        ColumnDefinitions = [
+            new ColumnDefinition(GridLength.Auto), 
+            new ColumnDefinition(GridLength.Auto), 
+            new ColumnDefinition(GridLength.Star)
+        ];
         
-        BindBorder();
+        RowDefinitions = [
+            new RowDefinition(GridLength.Star), 
+            new RowDefinition(GridLength.Auto)
+        ];
 
-        OuterBorder.Content = ContainerGrid;
-
-        ContainerGrid.Add(TitleAndLabelGrid, 1);
-        RootGrid.Add(OuterBorder);
+        BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default);
         
-        this.Content = RootGrid;
-    }
-
-    private void BindBorder()
-    {
-        OuterBorder.SetBinding(Border.BackgroundColorProperty, static (ListItem listItem) => listItem.BackgroundColor, source: this);
-        OuterBorder.SetBinding(Border.MarginProperty, static (ListItem listItem) => listItem.Margin, source: this);
-    }
-
-    protected override void OnPropertyChanged(string? propertyName = null)
-    {
-        base.OnPropertyChanged(propertyName);
-
-        if (propertyName?.Equals(nameof(IsEnabled)) ?? false)
-        {
-            SetTouchIsEnabled();
-        }
+        this.Add(TitleAndSubtitleContainer, 1);
     }
 
     private void AddTitle()
     {
-        TitleAndLabelGrid.Insert(0, TitleLabel);
-
-        BindToOptions(TitleOptions);
+        if (TitleLabel is not null)
+            return;
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        TitleLabel = new Label { AutomationId = "TitleLabel".ToDUIAutomationId<ListItem>() };
+        TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: this);
+        
+        TitleAndSubtitleContainer.Add(TitleLabel);
+
+        SetDefaultValuesOrBindToOptions(TitleOptions, () =>
+        {
+            TitleOptions.SetDefaultValues(this);
+        });
     }
 
     private void AddSubtitle()
     {
-        TitleAndLabelGrid.Add(SubtitleLabel, 0, 1);
+        if (SubtitleLabel is not null)
+            return;
         
-        BindToOptions(SubtitleOptions);
+        SubtitleLabel = new Label { AutomationId = "SubtitleLabel".ToDUIAutomationId<ListItem>() };
+        SubtitleLabel.SetBinding(Label.TextProperty, static(ListItem listItem) => listItem.Subtitle, source: this);
         
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        TitleAndSubtitleContainer.Add(SubtitleLabel, 0, 1);
+
+        SetDefaultValuesOrBindToOptions(SubtitleOptions, () =>
+        {
+            SubtitleOptions.SetupDefaults(this);
+        });
     }
 
     private void AddIcon()
     {
-        if (ContainerGrid.Contains(ImageIcon))
+        if (ImageIcon is not null)
+            return;
+        
+        ImageIcon = new Image();
+        ImageIcon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (ListItem listItem) => listItem.Icon, source: this);
+
+        SetDefaultValuesOrBindToOptions(IconOptions, () =>
         {
-            ContainerGrid.Remove(ImageIcon);
-        }
+            IconOptions.SetupDefaults(this);
+        });
         
-        ImageIcon = new Image
-        {
-            Source = Icon
-        };
-        
-        BindToOptions(IconOptions);
-        
-        ContainerGrid.Add(ImageIcon, 0);
-        
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
+        this.Add(ImageIcon, 0);
     }
 
     protected virtual void AddInLineContent()
@@ -147,44 +112,32 @@ public partial class ListItem : ContentView
 
     protected void SetInLineContent(IView view)
     {
-        if(ContainerGrid.Contains(m_oldInLineContent))
+        if(Contains(m_oldInLineContent))
         {
-            ContainerGrid.Remove(m_oldInLineContent);
+            Remove(m_oldInLineContent);
         }
         
-        ContainerGrid.Add(view, ContainerGrid.ColumnDefinitions.Count - 1);
-        
-        BindToOptions(InLineContentOptions);
+        this.Add(view, ColumnDefinitions.Count - 1);
+
+        SetDefaultValuesOrBindToOptions(InLineContentOptions, () =>
+        {
+            InLineContentOptions.SetupDefaults(this);
+        });
 
         m_oldInLineContent = view;
-        
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
     }
 
     private void AddUnderlyingContent()
     {
-        if (ContainerGrid.Contains(m_oldUnderlyingContent))
+        if (Contains(m_oldUnderlyingContent))
         {
-            ContainerGrid.Remove(m_oldUnderlyingContent);
-        }
-        else
-        {
-            ContainerGrid.AddRowDefinition(new RowDefinition(GridLength.Auto));
+            Remove(m_oldUnderlyingContent);
         }
         
-        ContainerGrid.Add(UnderlyingContent, 0, 1);
-        ContainerGrid.SetColumnSpan(UnderlyingContent, ContainerGrid.ColumnDefinitions.Count);
+        this.Add(UnderlyingContent, 0, 1);
+        SetColumnSpan(UnderlyingContent, ColumnDefinitions.Count);
         
         m_oldUnderlyingContent = UnderlyingContent;
-        
-        if(IsDebugMode)
-            BindToOptions(DebuggingOptions);
-    }
-
-    private void SetCornerRadius()
-    {
-        OuterBorder.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius, StrokeThickness = 0};
     }
     
     private void AddDivider(bool top)
@@ -192,47 +145,61 @@ public partial class ListItem : ContentView
         var divider = new Divider();
         if (top)
         {
-            if (RootGrid.Contains(TopDivider))
-                RootGrid.Remove(TopDivider);
+            if (Contains(TopDivider))
+                Remove(TopDivider);
             
             TopDivider = divider;
             TopDivider.VerticalOptions = LayoutOptions.Start;
-            RootGrid.Add(divider);
         }
         else
         {
-            if (RootGrid.Contains(BottomDivider))
-                RootGrid.Remove(BottomDivider);
+            if (Contains(BottomDivider))
+                Remove(BottomDivider);
             
             BottomDivider = divider;
             BottomDivider.VerticalOptions = LayoutOptions.End;
-            RootGrid.Add(divider);
         }
-        
-        BindToOptions(DividersOptions);
-    }
 
+        this.SetRowSpan(divider, RowDefinitions.Count);
+        this.SetColumnSpan(divider, ColumnDefinitions.Count);
+        
+        Add(divider);
+
+        SetDefaultValuesOrBindToOptions(DividersOptions, () =>
+        {
+            Options.Dividers.DividersOptions.SetupDefaults(this);
+        });
+    }
+    
     private void AddTouch()
     {
-        Touch.SetAccessibilityContentDescription(OuterBorder, string.Join(".", Title, Subtitle));
-        Touch.SetCommand(OuterBorder, new Command(() =>
+        if(Touch.GetCommand(this) is not null)
+            return;
+        
+        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
+        Touch.SetCommand(this, new Command(() =>
         {
             Command?.Execute(CommandParameter);
             Tapped?.Invoke(this, EventArgs.Empty);
         }));
-        SetTouchIsEnabled();
     }
 
-    private void SetTouchIsEnabled() => Touch.SetIsEnabled(OuterBorder, IsEnabled && (Command is not null || Tapped?.HasSubscriptions() != null));
-
-    private void BindToOptions(ListItemOptions? options) => options?.Bind(this);
-
-    private void AddContextMenu()
+    /// <summary>
+    /// E.g if TitleOptions is set in xaml before Title, the TitleOptions will not be null, and should bind the properties to the Label instantly
+    /// <remarks>If options is set after the corresponding view has been created, they will run <see cref="Bind{T}"/> themselves</remarks>
+    /// </summary>
+    private void SetDefaultValuesOrBindToOptions(ListItemOptions? options, Action onDefault)
     {
-        ContextMenuEffect.SetMenu(OuterBorder, ContextMenu);
-        BindToOptions(ContextMenuOptions);
+        if (options is null)
+        {
+            onDefault.Invoke();
+        }
+        else
+        {
+            options.Bind(this);
+        }
     }
-    
+
     private static void OnAutoDividerChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not ListItem { AutoDivider: true } listItem)
@@ -309,15 +276,21 @@ public partial class ListItem : ContentView
     {
         base.OnHandlerChanging(args);
 
-        if (args.NewHandler is not null && TitleAndLabelGrid.Children.Count == 0)
+        if (args.NewHandler is not null)
         {
-            AddTitle();
-            AddSubtitle();
-        
-            AddTouch();
+            if (IsDebugMode)
+            {
+                SetDebugMode();
+            }
+
+            if (Tapped is not null && Tapped.HasSubscriptions())
+            {
+                AddTouch();
+            }
+            
             return;
         }
-
+        
         ParentChanged -= OnParentChanged;
         
         if(m_collectionView is not null)
@@ -325,5 +298,33 @@ public partial class ListItem : ContentView
         
         if(m_verticalStackLayout is not null)
             m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+    }
+
+    private void SetDebugMode()
+    {
+        if (TitleLabel is not null)
+        {
+            TitleLabel.BackgroundColor = Colors.Red;
+        }
+            
+        if (SubtitleLabel is not null)
+        {
+            SubtitleLabel.BackgroundColor = Colors.Pink;
+        }
+            
+        if (InLineContent is not null)
+        {
+            ((InLineContent as View)!).BackgroundColor = Colors.Green;
+        }
+            
+        if (UnderlyingContent is not null)
+        {
+            ((UnderlyingContent as View)!).BackgroundColor = Colors.Blue;
+        }
+
+        if (ImageIcon is not null)
+        {
+            ImageIcon.BackgroundColor = Colors.Yellow;
+        }
     }
 }

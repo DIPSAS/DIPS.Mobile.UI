@@ -17,12 +17,6 @@ public partial class SubtitleOptions
         set => SetValue(FontAttributesProperty, value);
     }
 
-    public TextAlignment HorizontalTextAlignment
-    {
-        get => (TextAlignment)GetValue(HorizontalTextAlignmentProperty);
-        set => SetValue(HorizontalTextAlignmentProperty, value);
-    }
-    
     /// <summary>
     /// Sets the text color
     /// </summary>
@@ -41,12 +35,6 @@ public partial class SubtitleOptions
         set => SetValue(StyleProperty, value);
     }
 
-    public TextAlignment VerticalTextAlignment
-    {
-        get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
-        set => SetValue(VerticalTextAlignmentProperty, value);
-    }
-
     public LineBreakMode LineBreakMode
     {
         get => (LineBreakMode)GetValue(LineBreakModeProperty);
@@ -59,9 +47,9 @@ public partial class SubtitleOptions
         set => SetValue(MaxLinesProperty, value);
     }
     
-    public FormattedString FormattedText
+    public FormattedString? FormattedText
     {
-        get => (FormattedString)GetValue(FormattedTextProperty);
+        get => (FormattedString?)GetValue(FormattedTextProperty);
         set => SetValue(FormattedTextProperty, value);
     }
 
@@ -87,20 +75,6 @@ public partial class SubtitleOptions
         typeof(SubtitleOptions),
         defaultBindingMode: BindingMode.OneTime);
     
-    public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
-        nameof(HorizontalTextAlignment),
-        typeof(TextAlignment),
-        typeof(SubtitleOptions),
-        defaultValue:TextAlignment.Start,
-        defaultBindingMode: BindingMode.OneTime);
-    
-    public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
-        nameof(VerticalTextAlignment),
-        typeof(TextAlignment),
-        typeof(SubtitleOptions),
-        defaultValue:TextAlignment.Start,
-        defaultBindingMode: BindingMode.OneTime);
-
     public static readonly BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),

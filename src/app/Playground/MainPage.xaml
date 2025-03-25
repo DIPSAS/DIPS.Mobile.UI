@@ -10,8 +10,13 @@
                  Title="Welcome to Playground">
     <dui:ScrollView>
         <VerticalStackLayout>
-            <dui:NavigationListItem Title="Vetle"
-                                    Tapped="GoToVetle" />
+            <!--<dui:NavigationListItem Title="Vetle"
+                                    >
+                <dui:NavigationListItem.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToVetle"></TapGestureRecognizer>
+                </dui:NavigationListItem.GestureRecognizers>
+                
+            </dui:NavigationListItem>
             <dui:NavigationListItem Title="Håvard"
                                     Tapped="GoToHåvard" />
             <dui:NavigationListItem Title="Sander"
@@ -19,9 +24,9 @@
             <dui:NavigationListItem Title="Eirik"
                                     Tapped="GoToEirik" />
             <dui:NavigationListItem Title="CollectionViewTests"
-                                    Tapped="GoToCollectionViewTests" />
+                                    Tapped="GoToCollectionViewTests" />-->
             <dui:Button Text="Tap me"
-                        Clicked="TapMe" />
+                        Clicked="GoToVetle" />
         </VerticalStackLayout>
     </dui:ScrollView>
 </dui:ContentPage>

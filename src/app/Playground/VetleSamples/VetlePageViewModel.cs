@@ -32,6 +32,7 @@ public class VetlePageViewModel : ViewModel
     private List<string> m_testStrings = [];
     private ObservableCollection<GroupedTest> m_groupedTest = [];
     private bool m_isRefreshing;
+    private string m_subtitle = "Hello";
 
     public VetlePageViewModel()
     {
@@ -96,7 +97,7 @@ public class VetlePageViewModel : ViewModel
     
     private void Disable()
     {
-        Disabled = !Disabled;
+        Subtitle = string.Empty;
     }
 
     public bool Disabled
@@ -349,6 +350,12 @@ public class VetlePageViewModel : ViewModel
         TestStrings.Add("Test");
     });
 
+    public string Subtitle
+    {
+        get => m_subtitle;
+        set => RaiseWhenSet(ref m_subtitle, value);
+    }
+
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);
@@ -449,8 +456,13 @@ public class TestObject2
     {
         Name = name;
         TestCommand = new Command(() => { });
+        // Generate random icon
+        var random = new Random();
+        var icon = random.Next(0, 2);
+        Icon = icon == 0 ? Icons.GetIcon(IconName.alert_fill) : Icons.GetIcon(IconName.failure_fill);
     }
     
+    public ImageSource Icon { get; set; }
    public string Name { get; set; }
 
    public string SearchTerm { get; } = "Test";

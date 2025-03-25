@@ -2,20 +2,31 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Title;
 
 public partial class TitleOptions : ListItemOptions
 {
-    public override void DoBind(ListItem listItem)
+    internal static void SetDefaultValues(ListItem listItem)
     {
-        
-        listItem.ContainerGrid.ColumnDefinitions[1].Width = Width;
+        listItem.ColumnDefinitions[1].Width = (GridLength)WidthProperty.DefaultValue;
         
         if(listItem.TitleLabel is null)
             return;
         
-        listItem.TitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Title, source: listItem);
+        listItem.TitleLabel.Style = (Style?)StyleProperty.DefaultValue;
+        listItem.TitleLabel.FontAttributes = (FontAttributes)FontAttributesProperty.DefaultValue;
+        listItem.TitleLabel.TextColor = (Color)TextColorProperty.DefaultValue;
+        listItem.TitleLabel.LineBreakMode = (LineBreakMode)LineBreakModeProperty.DefaultValue;
+        listItem.TitleLabel.Margin = (Thickness)MarginProperty.DefaultValue;
+        listItem.TitleLabel.MaximumWidthRequest = (double)MaxWidthProperty.DefaultValue;
+    }
+    
+    protected override void DoBind(ListItem listItem)
+    {
+        listItem.ColumnDefinitions[1].Width = Width;
+
+        if (listItem.TitleLabel is null)
+            return;
+        
         listItem.TitleLabel.SetBinding(VisualElement.StyleProperty, static (TitleOptions options) => options.Style, source: this);
         listItem.TitleLabel.SetBinding(Label.FontAttributesProperty, static (TitleOptions options) => options.FontAttributes, source: this);
         listItem.TitleLabel.SetBinding(Label.TextColorProperty, static (TitleOptions options) => options.TextColor, source: this);
-        listItem.TitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (TitleOptions options) => options.HorizontalTextAlignment, source: this);
-        listItem.TitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (TitleOptions options) => options.VerticalTextAlignment, source: this);
         listItem.TitleLabel.SetBinding(Label.LineBreakModeProperty, static (TitleOptions options) => options.LineBreakMode, source: this);
         listItem.TitleLabel.SetBinding(View.MarginProperty, static (TitleOptions options) => options.Margin, source: this);
         listItem.TitleLabel.SetBinding(Label.FormattedTextProperty, static (TitleOptions options) => options.FormattedText, source: this);
@@ -26,5 +37,4 @@ public partial class TitleOptions : ListItemOptions
             listItem.TitleLabel.MaxLines = MaxLines;
         }
     }
-
 }

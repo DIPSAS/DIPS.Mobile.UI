@@ -9,36 +9,32 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 HideSoftInputOnTapped="True"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 BackgroundColor="{dui:Colors color_background_bg_light}"
+                 HideSoftInputOnTapped="True">
                  
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ContentPage.Resources>
-        <vetleSamples:TemplateSelector x:Key="TemplateSelector" />
-    </dui:ContentPage.Resources>
-
-    <dui:VerticalStackLayout Spacing="20">
-        <dui:ListItem Title="Open BottomSheet"
-                    Tapped="Button_OnClicked"
-                    Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"/>
-    
-        <Grid ColumnDefinitions="*, Auto"
-              BackgroundColor="Red"
-              ColumnSpacing="{dui:Sizes content_margin_medium}"
-              Padding="{dui:Sizes content_margin_medium}">
-            
-            <!--<dui:Label Text="Lol aisodnoia sodi asoidja osij doiasj doia jsoid jaois jdoiajs oidjaoisjdoiasjdoiajs oidj aosijd oiasjdoiajsoidj a"
-                       MaxLines="5"
-                       LineBreakMode="TailTruncation"></dui:Label>-->
-            <dui:Button Style="{dui:Styles Button=CloseIconButtonSmall}"
-                        VerticalOptions="Start"
-                        Grid.Column="1"/>
+    <dui:CollectionView ItemsSource="{Binding TestObject2s}">
         
-        </Grid>
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type vetleSamples:TestObject2}">
+                <dui:ListItem Title="{Binding Name}"
+                              Icon="{Binding Icon}"
+                              Command="{Binding Navigate, Source={RelativeSource AncestorType={x:Type vetleSamples:VetlePageViewModel}}}"/>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
         
-    </dui:VerticalStackLayout>
+    </dui:CollectionView>
+    <!--<dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding TestStrings}">
+        
+       <BindableLayout.ItemTemplate>
+           <DataTemplate x:DataType="{x:Type x:String}">
+               <dui:ListItem Title="{Binding .}" />
+           </DataTemplate>
+       </BindableLayout.ItemTemplate>
+        
+    </dui:VerticalStackLayout>-->
 
 </dui:ContentPage>

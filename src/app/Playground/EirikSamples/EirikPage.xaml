@@ -24,7 +24,7 @@
                                   HasBottomDivider="True"
                                   HasTopDivider="True"
                                   BindingContextChanged="ListItemOnBindingContextChanged">
-                        <dui:ListItem.ContextMenu>
+                        <dui:ContextMenuEffect.Menu>
                             <dui:ContextMenu BindingContextChanged="ContextMenu_OnBindingContextChanged">
                                 <dui:ContextMenuItem Title="Show system message"
                                                      Command="{Binding BindingContext.ShowSystemMessageCommand, Source={x:Reference This}}"
@@ -33,7 +33,7 @@
                                                      Command="{Binding BindingContext.RemoveFromListCommand, Source={x:Reference This}}"
                                                      CommandParameter="{Binding .}"/>
                             </dui:ContextMenu>
-                        </dui:ListItem.ContextMenu>
+                        </dui:ContextMenuEffect.Menu>
                     </dui:ListItem>
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>

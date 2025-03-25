@@ -1,3 +1,8 @@
+## [44.0.0] 
+- [BreakingChange][ListItem] Removed `ContextMenu` property.
+- [BreakingChange][ListItem] Removed Horizontal -and Vertical Text alignment properties on `TitleOptions` and `SubtitleOptions`, they never worked anyway.
+- [ListItem] Optimized ListItem.
+
 ## [43.3.0]
 - Added `IncludeInheritance` property to `TypeToObjectConverter` to allow to check for sub-types
 

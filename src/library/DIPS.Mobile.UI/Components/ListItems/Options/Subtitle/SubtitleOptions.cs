@@ -1,26 +1,32 @@
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Label;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using System.ComponentModel;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
 public partial class SubtitleOptions : ListItemOptions
 {
-    public override void DoBind(ListItem listItem)
+    public static void SetupDefaults(ListItem listItem)
     {
-        if(listItem.SubtitleLabel is null)
-            return;            
+        if (listItem.SubtitleLabel is null)
+            return;
         
-        listItem.SubtitleLabel.SetBinding(Label.TextProperty, static (ListItem listItem) => listItem.Subtitle, source: listItem);
+        listItem.SubtitleLabel.Style = (Style?)StyleProperty.DefaultValue;
+        listItem.SubtitleLabel.FontAttributes = (FontAttributes)FontAttributesProperty.DefaultValue;
+        listItem.SubtitleLabel.TextColor = (Color)TextColorProperty.DefaultValue;
+        listItem.SubtitleLabel.LineBreakMode = (LineBreakMode)LineBreakModeProperty.DefaultValue;
+    }
+
+    protected override void DoBind(ListItem listItem)
+    {
+        if (listItem.SubtitleLabel is null)
+            return;
+        
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, static (SubtitleOptions options) => options.FontAttributes, source: this);
-        listItem.SubtitleLabel.SetBinding(Label.HorizontalTextAlignmentProperty, static (SubtitleOptions options) => options.HorizontalTextAlignment, source: this);
-        listItem.SubtitleLabel.SetBinding(Label.VerticalTextAlignmentProperty, static (SubtitleOptions options) => options.VerticalTextAlignment, source: this);
         listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, static (SubtitleOptions options) => options.Style, source: this);
         listItem.SubtitleLabel.SetBinding(Label.TextColorProperty, static (SubtitleOptions options) => options.TextColor, source: this);
         listItem.SubtitleLabel.SetBinding(Label.LineBreakModeProperty, static (SubtitleOptions options) => options.LineBreakMode, source: this);
         listItem.SubtitleLabel.SetBinding(Label.FormattedTextProperty, static (SubtitleOptions options) => options.FormattedText, source: this);
-
-        UpdateVisibility(listItem);
+        
+        listItem.SubtitleLabel.PropertyChanged += SubtitleLabelOnPropertyChanged;
         
         if (MaxLines > -1) //We can not trigger property changed for this if its -1 because it causes bugs on Android.
         {
@@ -28,18 +34,31 @@ public partial class SubtitleOptions : ListItemOptions
         }
     }
 
-    private bool IsSubtitleEmptyOrNull(ListItem listItem)
+    private void SubtitleLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (FormattedText is not null)
+        if (e.PropertyName == Label.TextProperty.PropertyName)
         {
-            return string.IsNullOrEmpty(FormattedText.ToString());
+            if (sender is Label label)
+            {
+                UpdateVisibility(label);
+            }
         }
-
-        return string.IsNullOrEmpty(listItem.Subtitle);
+        else if (e.PropertyName == Label.FormattedTextProperty.PropertyName)
+        {
+            if (sender is Label label)
+            {
+                UpdateVisibility(label);
+            }
+        }
     }
 
-    public void UpdateVisibility(ListItem listItem)
+    private bool IsSubtitleEmptyOrNull(Label label)
     {
-        listItem.SubtitleLabel.IsVisible = !IsSubtitleEmptyOrNull(listItem);
+        return string.IsNullOrEmpty(FormattedText is not null ? FormattedText.ToString() : label.Text);
+    }
+
+    private void UpdateVisibility(Label label)
+    {
+        label.IsVisible = !IsSubtitleEmptyOrNull(label);
     }
 }
