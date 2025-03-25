@@ -65,5 +65,47 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
 
             actualOutput.Should().Be(ExpectedFalseObject);
         }
+        
+        [Fact]
+        public void Convert_ValueIsOfSubTypeWhenDisallowSubTypes_FalseObjectAsOutput()
+        {
+            m_typeToObjectConverter.TrueObject = ExpectedTrueObject;
+            m_typeToObjectConverter.FalseObject = ExpectedFalseObject;
+            m_typeToObjectConverter.Type = typeof(MyTestTypeA);
+
+            var actualOutput = m_typeToObjectConverter.Convert<string>(new MyTestTypeB());
+
+            actualOutput.Should().Be(ExpectedFalseObject);
+        }
+        
+        [Fact]
+        public void Convert_ValueIsOfSubTypeWhenAllowSubTypes_TrueObjectAsOutput()
+        {
+            m_typeToObjectConverter.TrueObject = ExpectedTrueObject;
+            m_typeToObjectConverter.FalseObject = ExpectedFalseObject;
+            m_typeToObjectConverter.Type = typeof(MyTestTypeA);
+            m_typeToObjectConverter.IncludeInheritance = true;
+
+            var actualOutput = m_typeToObjectConverter.Convert<string>(new MyTestTypeB());
+
+            actualOutput.Should().Be(ExpectedTrueObject);
+        }
+        
+        [Fact]
+        public void Convert_ValueIsNotOfSubTypeWhenAllowSubTypes_FalseObjectAsOutput()
+        {
+            m_typeToObjectConverter.TrueObject = ExpectedTrueObject;
+            m_typeToObjectConverter.FalseObject = ExpectedFalseObject;
+            m_typeToObjectConverter.Type = typeof(MyTestTypeA);
+            m_typeToObjectConverter.IncludeInheritance = true;
+
+            var actualOutput = m_typeToObjectConverter.Convert<string>("This is a string");
+
+            actualOutput.Should().Be(ExpectedFalseObject);
+        }
+
+        private class MyTestTypeA;
+
+        private class MyTestTypeB : MyTestTypeA;
     }
 }
