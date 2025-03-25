@@ -3,6 +3,9 @@
 - [BreakingChange][ListItem] Removed Horizontal -and Vertical Text alignment properties on `TitleOptions` and `SubtitleOptions`, they never worked anyway.
 - [ListItem] Optimized ListItem.
 
+## [43.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [43.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
