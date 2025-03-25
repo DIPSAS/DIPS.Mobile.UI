@@ -195,6 +195,9 @@ this file is generated
 ["user_search_line"] = "user_search_line.png",
 ["mic_ai_line"] = "mic_ai_line.png",
 ["mic_ai_fill"] = "mic_ai_fill.png",
+["play_line"] = "play_line.png",
+["larger_line"] = "larger_line.png",
+["pause_mini_line"] = "pause_mini_line.png",
 
             };
         }
