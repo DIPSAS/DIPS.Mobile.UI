@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.AmplitudeView.AmplitudeViewSamples"
+                 x:Name="This">
+
+    <ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_4, Bottom=size_25}">
+        
+        <VerticalStackLayout Spacing="10"
+                             x:Name="Container">
+
+            <dui:ListItem Title="Frames per second (FPS)"
+                          dui:Layout.AutoCornerRadius="True"
+                          Subtitle="{Binding Source={x:Reference FpsStepper}, Path=Value}">
+
+                <Stepper Increment="1"
+                         x:Name="FpsStepper" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="Sample Rate"
+                          dui:Layout.AutoCornerRadius="True"
+                          Subtitle="{Binding Source={x:Reference SampleRateStepper}, Path=Value}">
+
+                <Stepper Increment="1"
+                         x:Name="SampleRateStepper">
+                </Stepper>
+
+            </dui:ListItem>
+
+            <dui:ListItem Title="Height"
+                          dui:Layout.AutoCornerRadius="True"
+                          Subtitle="{Binding Source={x:Reference HeightStepper}, Path=Value}">
+
+                <Stepper Increment="10"
+                         Value="100"
+                         Maximum="1000"
+                         x:Name="HeightStepper" />
+
+            </dui:ListItem>
+
+            <dui:ListItem Title="Timer"
+                          dui:Layout.AutoCornerRadius="True">
+                <Switch x:Name="TimerSwitch" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="Amplitude Color"
+                          dui:Layout.AutoCornerRadius="True">
+                <dui:ItemPicker ItemsSource="{Binding Source={x:Reference This}, Path=ColorList}"
+                                SelectedItem="{Binding Source={x:Reference This}, Path=AmplitudeColorString}" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="Placeholder Amplitude Color"
+                          dui:Layout.AutoCornerRadius="True">
+                <dui:ItemPicker ItemsSource="{Binding Source={x:Reference This}, Path=ColorList}"
+                                SelectedItem="{Binding Source={x:Reference This}, Path=PlaceholderAmplitudeColorString}" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="Fade color"
+                          dui:Layout.AutoCornerRadius="True">
+                <dui:ItemPicker ItemsSource="{Binding Source={x:Reference This}, Path=ColorList}"
+                                SelectedItem="{Binding Source={x:Reference This}, Path=FadeColorString}" />
+            </dui:ListItem>
+
+            <dui:NavigationListItem Title="Update"
+                                    dui:Layout.AutoCornerRadius="True"
+                                    Tapped="Button_OnClicked" />
+
+            <dui:NavigationListItem Title="Play"
+                                    x:Name="PausePlayButton"
+                                    dui:Layout.AutoCornerRadius="True"
+                                    Tapped="PausePlay" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</dui:ContentPage>

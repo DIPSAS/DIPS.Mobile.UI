@@ -1,4 +1,5 @@
 using Components.ComponentsSamples.Alerting;
+using Components.ComponentsSamples.AmplitudeView;
 using Components.ComponentsSamples.BarcodeScanning;
 using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
@@ -55,6 +56,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCaptureSample(), true),
             new(SampleType.Components, "Tip", () => new TipSamples()),
             new(SampleType.Components, "Syntax Highlighting", () => new SyntaxHighlightingSamples()),
+            new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),
 
             
 
