@@ -4,6 +4,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Sorting;
+using DIPS.Mobile.UI.Components.VoiceVisualizer;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.Icons;
 
@@ -68,7 +69,7 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
-        CancelCommand = new Command(() =>         Shell.Current.Navigation.PushAsync(new VetleTestPage1()));
+        CancelCommand = new Command(() => Controller.IsPlaying = !Controller.IsPlaying);
 
         //_ = DelayFunction();
 
@@ -356,9 +357,19 @@ public class VetlePageViewModel : ViewModel
         set => RaiseWhenSet(ref m_subtitle, value);
     }
 
+    public Controller Controller { get; } = new();
+
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);
+    }
+}
+
+public class Controller : AmplitudeViewController
+{
+    public override float GetNextAmplitude()
+    {
+        return (float)new Random().NextDouble();
     }
 }
 

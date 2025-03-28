@@ -1,3 +1,6 @@
+## [44.1.0] 
+- Added AmplitudeView.
+
 ## [44.0.1] 
 - [ListItem] Fixed a regression bug where consumers could not fill out title without setting `InlineContent`.
 

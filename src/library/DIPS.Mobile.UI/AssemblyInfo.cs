@@ -87,7 +87,7 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.MemoryManagement")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.API.Camera.Gallery")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.SyntaxHighlighting")]
-
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.VoiceVisualizer")]
 
 
 

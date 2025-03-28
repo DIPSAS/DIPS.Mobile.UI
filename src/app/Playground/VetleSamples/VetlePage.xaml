@@ -6,27 +6,24 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 BackgroundColor="{dui:Colors color_background_bg_light}"
+                 BackgroundColor="{dui:Colors color_system_white}"
                  HideSoftInputOnTapped="True">
-                 
+
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <dui:ListItem VerticalOptions="Start"
-                  Title="Long title that goes over two lines yes yyesy e ys y sey seyseyeyse">
-        
-        <dui:ListItem.TitleOptions>
-            <dui:TitleOptions Width="*" />
-        </dui:ListItem.TitleOptions>
-        
-        <dui:ListItem.InLineContentOptions>
-            <dui:InLineContentOptions Width="Auto" />
-        </dui:ListItem.InLineContentOptions>
-        
-    </dui:ListItem>
+    <Grid RowDefinitions="Auto, Auto">
+        <dui:AmplitudeView Grid.Row="0"
+                           Controller="{Binding Controller, Mode=OneTime}"
+                           HeightRequest="75"
+                           x:Name="VoiceVisualizer" />
+
+        <dui:Button Text="Pause"
+                    Grid.Row="1"
+                    Command="{Binding CancelCommand}" />
+    </Grid>
 
 </dui:ContentPage>
