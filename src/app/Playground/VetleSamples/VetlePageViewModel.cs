@@ -69,7 +69,7 @@ public class VetlePageViewModel : ViewModel
 
         SortingDoneCommand = new Command<(object, SortOrder)>(SortingDone);
 
-        CancelCommand = new Command(() => Controller.IsPlaying = !Controller.IsPlaying);
+        CancelCommand = new Command(() => Controller.IsRunning = !Controller.IsRunning);
 
         //_ = DelayFunction();
 

@@ -58,7 +58,7 @@ public partial class AmplitudeView : Grid
     {
         Dispatcher.StartTimer(TimeSpan.FromMilliseconds(1000 / FramesPerSecond), () =>
         {
-            if (Controller is not null && Controller.IsPlaying)
+            if (Controller is not null && Controller.IsRunning)
             {
                 m_drawable.Update();  
             }
@@ -79,14 +79,14 @@ public partial class AmplitudeView : Grid
             return;
         }
         
-        if (Controller!.IsPlaying)
+        if (Controller!.IsRunning)
         {
             m_stopwatch.Start();            
         }
             
         Dispatcher.StartTimer(TimeSpan.FromSeconds(0.25), () =>
         {
-            if (Controller is null || !Controller.IsPlaying)
+            if (Controller is null || !Controller.IsRunning)
                 return IsActive;
 
             var minutes = (m_stopwatch.ElapsedMilliseconds / 1000) / 60;
@@ -117,11 +117,11 @@ public partial class AmplitudeView : Grid
 
     private async Task StartLabelFadeAnimation()
     {
-        while (Controller is not null && !Controller.IsPlaying)
+        while (Controller is not null && !Controller.IsRunning)
         {
             await m_elapsedTimeLabel.FadeTo(0);
             await Task.Delay(250);
-            if(!Controller.IsPlaying)
+            if(!Controller.IsRunning)
                 await m_elapsedTimeLabel.FadeTo(1);
 
             await Task.Delay(500);

@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Components.VoiceVisualizer;
 
 public abstract class AmplitudeViewController
 {
-    private bool m_isPlaying;
+    private bool m_isRunning;
     
     /// <summary>
     /// Get the next amplitude to display
@@ -10,12 +10,12 @@ public abstract class AmplitudeViewController
     /// <remarks>0 is minimum height, 1 is maximum height</remarks>
     public abstract float GetNextAmplitude();
     
-    public bool IsPlaying
+    public bool IsRunning
     {
-        get => m_isPlaying;
+        get => m_isRunning;
         set
         {
-            m_isPlaying = value;
+            m_isRunning = value;
             OnIsPlayingChanged?.Invoke(value);
         }
     }

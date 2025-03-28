@@ -129,13 +129,13 @@ public partial class AmplitudeViewSamples
 
     private void PausePlay(object? sender, EventArgs e)
     {
-        m_controller.IsPlaying = !m_controller.IsPlaying;
+        m_controller.IsRunning = !m_controller.IsRunning;
         RefreshPausePlayButton();
     }
 
     private void RefreshPausePlayButton()
     {
-        PausePlayButton.Title = m_controller.IsPlaying ? "Pause" : "Play";
+        PausePlayButton.Title = m_controller.IsRunning ? "Pause" : "Play";
     }
 }
 
