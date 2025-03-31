@@ -94,6 +94,8 @@ public partial class AmplitudeView : Grid
 
             m_elapsedTimeLabel.Text = $"{minutes:D1}:{seconds:D2}";
 
+            Controller.ElapsedMilliseconds = m_stopwatch.ElapsedMilliseconds;
+            
             return IsActive;
         });
     }
@@ -106,7 +108,7 @@ public partial class AmplitudeView : Grid
             m_elapsedTimeLabel.FadeTo(1);
             m_stopwatch.Start();
         }
-        else
+        else if(m_stopwatch.IsRunning)
         {
             m_drawable.Pause();
             
