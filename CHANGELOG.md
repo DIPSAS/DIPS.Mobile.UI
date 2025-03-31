@@ -1,3 +1,6 @@
+## [44.1.2] 
+- [ListItem][iOS] Fixed a bug where setting `FormattedText` sometimes did not wrap on a new line.
+
 ## [44.1.1] 
 - [CollectionView][Android] Fixed a bug where CornerRadius and padding were not set on last element if group footer was not set.
 - [AmplitudeView] Added ElapsedMilliseconds to Controller.

@@ -33,7 +33,7 @@ public class VetlePageViewModel : ViewModel
     private List<string> m_testStrings = [];
     private ObservableCollection<GroupedTest> m_groupedTest = [];
     private bool m_isRefreshing;
-    private string m_subtitle = "Hello";
+    private string m_subtitle = "Tjeneste med tilleggsspørsmål og egenskaper";
 
     public VetlePageViewModel()
     {
@@ -98,7 +98,7 @@ public class VetlePageViewModel : ViewModel
     
     private void Disable()
     {
-        Subtitle = string.Empty;
+        /*Subtitle = string.Empty;*/
     }
 
     public bool Disabled
@@ -183,7 +183,7 @@ public class VetlePageViewModel : ViewModel
     [
         "Lokalisasjon påkrevd - Kodeverk og egendefinert",
         "Lokalisasjon - Fritekst",
-        "526321",
+        "tjeneste med tilleggsspørsmål og egenskaper",
         "271351",
         "912512",
         "ABC",

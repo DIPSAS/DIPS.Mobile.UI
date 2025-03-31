@@ -48,7 +48,7 @@ public partial class ListItem : Grid
         ];
         
         RowDefinitions = [
-            new RowDefinition(GridLength.Star), 
+            new RowDefinition(GridLength.Auto), 
             new RowDefinition(GridLength.Auto)
         ];
 
