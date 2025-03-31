@@ -1,3 +1,8 @@
+## [44.1.1] 
+- [CollectionView][Android] Fixed a bug where CornerRadius and padding were not set on last element if group footer was not set.
+- [AmplitudeView] Added ElapsedMilliseconds to Controller.
+- [AmplitudeView] Fixed bug where pause animation on timer could be set multiple times.
+
 ## [44.1.0] 
 - Added AmplitudeView.
 

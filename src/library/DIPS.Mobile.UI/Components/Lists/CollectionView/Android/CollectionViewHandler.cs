@@ -91,7 +91,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
                 return;   
             }
             
-            ModifyCell(holder, position, group.HasHeader, group.HasHeader, group.Count);
+            ModifyCell(holder, position, group.HasHeader, group.HasFooter, group.Count);
         }
         else
         {
@@ -108,7 +108,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
                 return;   
             }
             
-            InternalModifyMarginIfNotHeaderAndFooter(rect, position, group.HasHeader, group.HasHeader, group.Count);
+            InternalModifyMarginIfNotHeaderAndFooter(rect, position, group.HasHeader, group.HasFooter, group.Count);
         }
         else
         {

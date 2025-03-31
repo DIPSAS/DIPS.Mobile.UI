@@ -38,13 +38,13 @@
             </DataTemplate>
         </dui:CollectionView.GroupHeaderTemplate>
         
-        <dui:CollectionView.GroupFooterTemplate>
+        <!--<dui:CollectionView.GroupFooterTemplate>
             <DataTemplate>
                 <Grid Padding="{dui:Thickness Bottom=size_4, Top=size_4}">
                     <dui:ListItem Title="Group Footer" />
                 </Grid>
             </DataTemplate>
-        </dui:CollectionView.GroupFooterTemplate>
+        </dui:CollectionView.GroupFooterTemplate>-->
         
         <dui:CollectionView.ItemTemplate>
             <DataTemplate>

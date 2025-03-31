@@ -20,5 +20,10 @@ public abstract class AmplitudeViewController
         }
     }
 
+    /// <summary>
+    /// How many milliseconds that has elapsed
+    /// </summary>
+    public float ElapsedMilliseconds { get; internal set; }
+    
     internal event Action<bool>? OnIsPlayingChanged;
 }
