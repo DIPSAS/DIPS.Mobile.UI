@@ -29,6 +29,7 @@
                     <dui:ContextMenuItem Title="yo"
                     />
                 </dui:ContextMenuGroup>
+                <dui:ContextMenuSeparatorItem />
                 <dui:ContextMenuGroup Title="Hello" IsVisible="{Binding IsVisible}" >
                     
                     <dui:ContextMenuItem Title="Hello"

@@ -165,7 +165,7 @@ public partial class ContextMenuItem
     /// <summary>
     /// The ContextMenu that the item is in
     /// </summary>
-    internal ContextMenu? ContextMenu { get; set; }
+    public ContextMenu? ContextMenu { get; set; }
 }
 
 /// <summary>

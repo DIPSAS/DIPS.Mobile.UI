@@ -19,7 +19,7 @@ public partial class ContextMenu : Button
         {
             foreach (var c in ItemsSource)
             {
-                (c as ContextMenuItem)!.ContextMenu = this;
+                c.ContextMenu = this;
                 (c as Element)!.BindingContext = BindingContext;
             }
         }
