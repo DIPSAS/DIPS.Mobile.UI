@@ -19,6 +19,7 @@ public partial class ContextMenuGroup : ContextMenuItem
         {
             foreach (var c in ItemsSource)
             {
+                c.ContextMenu = ContextMenu;
                 c.BindingContext = BindingContext;
             }
         }

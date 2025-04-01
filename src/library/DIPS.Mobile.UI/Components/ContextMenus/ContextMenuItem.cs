@@ -25,6 +25,20 @@ public partial class ContextMenuItem : Element, IContextMenuItem
         }
     }
 
+    protected override void OnPropertyChanged(string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+        
+        if(propertyName == IsVisibleProperty.PropertyName || 
+           propertyName == IconProperty.PropertyName ||
+           propertyName == TitleProperty.PropertyName ||
+           propertyName == IsCheckedProperty.PropertyName || 
+           propertyName == IsDestructiveProperty.PropertyName)
+        {
+            ContextMenu?.SendItemPropertiesUpdated();
+        }
+    }
+
     public void Dispose()
     {
         DidClick = null;

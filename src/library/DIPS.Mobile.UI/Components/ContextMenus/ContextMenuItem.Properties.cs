@@ -161,6 +161,11 @@ public partial class ContextMenuItem
         get => (bool)GetValue(ShouldSendGlobalClickProperty);
         set => SetValue(ShouldSendGlobalClickProperty, value);
     }
+    
+    /// <summary>
+    /// The ContextMenu that the item is in
+    /// </summary>
+    internal ContextMenu? ContextMenu { get; set; }
 }
 
 /// <summary>

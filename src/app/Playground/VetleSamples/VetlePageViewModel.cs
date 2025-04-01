@@ -34,6 +34,7 @@ public class VetlePageViewModel : ViewModel
     private ObservableCollection<GroupedTest> m_groupedTest = [];
     private bool m_isRefreshing;
     private string m_subtitle = "Tjeneste med tilleggsspørsmål og egenskaper";
+    private bool m_isVisible;
 
     public VetlePageViewModel()
     {
@@ -98,7 +99,7 @@ public class VetlePageViewModel : ViewModel
     
     private void Disable()
     {
-        /*Subtitle = string.Empty;*/
+        IsVisible = !IsVisible;
     }
 
     public bool Disabled
@@ -358,6 +359,12 @@ public class VetlePageViewModel : ViewModel
     }
 
     public Controller Controller { get; } = new();
+
+    public bool IsVisible
+    {
+        get => m_isVisible;
+        set => RaiseWhenSet(ref m_isVisible, value);
+    }
 
     public void OnDateChanged()
     {
