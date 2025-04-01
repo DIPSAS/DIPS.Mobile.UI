@@ -5,7 +5,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 public partial class ContextMenu : IContextMenu
 {
     public event Action? ItemsSourceUpdated;
-    internal event Action? ItemsPropertiesUpdated;
+    internal event Action? ItemPropertiesUpdated;
 
     public static readonly BindableProperty ItemsShouldSendGlobalClicksProperty = BindableProperty.Create(
         nameof(ItemsShouldSendGlobalClicks),

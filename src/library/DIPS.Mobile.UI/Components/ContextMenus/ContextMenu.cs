@@ -73,6 +73,6 @@ public partial class ContextMenu : Button
 
     internal void SendItemPropertiesUpdated()
     {
-        ItemsPropertiesUpdated?.Invoke();
+        ItemPropertiesUpdated?.Invoke();
     }
 }
