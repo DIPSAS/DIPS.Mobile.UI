@@ -1,3 +1,6 @@
+## [44.1.3] 
+- [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes. 
+
 ## [44.1.2] 
 - [ListItem][iOS] Fixed a bug where setting `FormattedText` sometimes did not wrap on a new line.
 

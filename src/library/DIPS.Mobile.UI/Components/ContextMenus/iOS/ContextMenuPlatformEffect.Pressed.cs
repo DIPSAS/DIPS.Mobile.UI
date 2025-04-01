@@ -15,6 +15,7 @@ public partial class ContextMenuPlatformEffect
     private void SetupPressedMode(ContextMenu contextMenu)
     {
         contextMenu.ItemsSourceUpdated += RebuildMenu;
+        contextMenu.ItemPropertiesUpdated += RebuildMenu;
         
         if (Control is not UIButton uiButton)
         {
@@ -97,6 +98,7 @@ public partial class ContextMenuPlatformEffect
         m_uiButtonToRemove?.RemoveFromSuperview();
         
         m_contextMenu.ItemsSourceUpdated -= RebuildMenu;
+        m_contextMenu.ItemPropertiesUpdated -= RebuildMenu;
         
         if(Element is not null)
             Element.PropertyChanged -= ElementOnPropertyChanged;

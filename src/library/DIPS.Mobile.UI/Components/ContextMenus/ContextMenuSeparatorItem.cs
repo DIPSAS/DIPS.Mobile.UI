@@ -14,6 +14,23 @@ public class ContextMenuSeparatorItem : Element, IContextMenuItem
         set => SetValue(IsVisibleProperty, value);
     }
 
+    /// <summary>
+    /// The ContextMenu that the item is in
+    /// </summary>
+    public ContextMenu? ContextMenu { get; set; }
+
+#if __IOS__
+    protected override void OnPropertyChanged(string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+        
+        if(propertyName == IsVisibleProperty.PropertyName) 
+        {
+            ContextMenu?.SendItemPropertiesUpdated();
+        }
+    }
+#endif
+    
     public void Dispose()
     {
         

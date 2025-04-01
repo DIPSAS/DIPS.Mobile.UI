@@ -15,67 +15,38 @@
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-
-
-    <!--<dui:VerticalStackLayout>-->
-        <Grid ColumnDefinitions="Auto, *, Auto"
-              RowDefinitions="Auto, Auto"
-              Margin="{dui:Thickness Left=size_3, Right=size_3}"
-              BackgroundColor="Red"
-              dui:Layout.AutoCornerRadius="True"
-              Padding="{dui:Thickness Left=content_margin_small, Top=content_margin_medium, Right=content_margin_small, Bottom=content_margin_medium}">
-            <Image Source="{dui:Icons alert_line}"
-                   Margin="{dui:Thickness Right=size_2}" />
-
-            <Grid Grid.Column="1"
-                  RowDefinitions="*, Auto"
-                  VerticalOptions="Center">
-                <dui:Label FormattedText="Tjeneste med tilleggsspørsmål og egenskaper"
-                           FontSize="16"
-                           VerticalTextAlignment="Center">
-                </dui:Label>
-            </Grid>
-
-            <Image Source="{dui:Icons check_line}"
-                   Grid.Column="2"
-                   Margin="{dui:Thickness Left=size_2}" />
-
-        </Grid>
-        
-        <!--<dui:ListItem Icon="{dui:Icons alert_line}"
-                      Margin="{dui:Thickness Left=size_3, Right=size_3}"
-                      >
-            <dui:ListItem.TitleOptions>
-                <dui:TitleOptions FormattedText="Tjeneste med tilleggsspørsmål og egenskaper"
-                                  Width="*" />
-            </dui:ListItem.TitleOptions>
-            
-            <dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions Width="Auto" />
-            </dui:ListItem.InLineContentOptions>
-            
-            <dui:Image Source="{dui:Icons check_line}" />
-            
-        </dui:ListItem>-->
-        
-    <!--</dui:VerticalStackLayout>-->
-
-    <!--<dui:ListItem VerticalOptions="Start"
-                      BackgroundColor="Red"
-                      Icon="{dui:Icons alert_line}">
-            
-            <dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions Width="Auto" />
-            </dui:ListItem.InLineContentOptions>
-            
-            <dui:ListItem.TitleOptions>
-                <dui:TitleOptions Width="*" FormattedText="{Binding Subtitle}" />
+    
+    <dui:VerticalStackLayout>
+    <dui:Button Text="Hello"
+                dui:ContextMenuEffect.Mode="Pressed">
+        <dui:ContextMenuEffect.Menu>
+            <dui:ContextMenu>
+                <dui:ContextMenuGroup Title="Hello" IsVisible="{Binding IsVisible}" >
                     
-            </dui:ListItem.TitleOptions>
-            
-            <dui:Image Source="{dui:Icons check_line}" />
-            
-        </dui:ListItem>-->
+                    <dui:ContextMenuItem Title="Hello"
+                                         />
+                    
+                    <dui:ContextMenuItem Title="yo"
+                    />
+                </dui:ContextMenuGroup>
+                <dui:ContextMenuSeparatorItem />
+                <dui:ContextMenuGroup Title="Hello" IsVisible="{Binding IsVisible}" >
+                    
+                    <dui:ContextMenuItem Title="Hello"
+                    />
+                    
+                    <dui:ContextMenuItem Title="yo"
+                    />
+                </dui:ContextMenuGroup>
+            </dui:ContextMenu>
+        </dui:ContextMenuEffect.Menu>
+    </dui:Button>
+        
+        <dui:Button Text="IsVisible"
+                    Command="{Binding DisableCommand}"></dui:Button>
+        
+    </dui:VerticalStackLayout>
+    
 
 
 </dui:ContentPage>

@@ -19,6 +19,7 @@ public partial class ContextMenu : Button
         {
             foreach (var c in ItemsSource)
             {
+                c.ContextMenu = this;
                 (c as Element)!.BindingContext = BindingContext;
             }
         }
@@ -69,4 +70,11 @@ public partial class ContextMenu : Button
     {
         ItemsSourceUpdated?.Invoke();
     }
+
+#if __IOS__
+    internal void SendItemPropertiesUpdated()
+    {
+        ItemPropertiesUpdated?.Invoke();
+    }
+#endif
 }
