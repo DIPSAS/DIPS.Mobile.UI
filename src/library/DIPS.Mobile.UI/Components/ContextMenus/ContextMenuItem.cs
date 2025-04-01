@@ -25,6 +25,7 @@ public partial class ContextMenuItem : Element, IContextMenuItem
         }
     }
 
+#if __IOS__
     protected override void OnPropertyChanged(string propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
@@ -38,6 +39,7 @@ public partial class ContextMenuItem : Element, IContextMenuItem
             ContextMenu?.SendItemPropertiesUpdated();
         }
     }
+#endif
 
     public void Dispose()
     {

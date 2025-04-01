@@ -71,8 +71,10 @@ public partial class ContextMenu : Button
         ItemsSourceUpdated?.Invoke();
     }
 
+#if __IOS__
     internal void SendItemPropertiesUpdated()
     {
         ItemPropertiesUpdated?.Invoke();
     }
+#endif
 }
