@@ -1,3 +1,6 @@
+## [44.2.0]
+- [AlertView] Added `ButtonAlignment` property, that now supports `Underlying` and `Inline` button alignments
+
 ## [44.1.3] 
 - [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes. 
 
