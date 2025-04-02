@@ -387,7 +387,7 @@ play_line=189,
 larger_line=190,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/pause_mini_line.svg">View the icon in the browser</a></summary>
 pause_mini_line=191,
-///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chain_link.svg">View the icon in the browser</a></summary>
-chain_link=192,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chain_link_line.svg">View the icon in the browser</a></summary>
+chain_link_line=193,
     }
 }
