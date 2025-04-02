@@ -1,3 +1,6 @@
+## [44.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [44.1.3] 
 - [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes. 
 

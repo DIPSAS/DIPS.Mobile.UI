@@ -198,6 +198,7 @@ this file is generated
 ["play_line"] = "play_line.png",
 ["larger_line"] = "larger_line.png",
 ["pause_mini_line"] = "pause_mini_line.png",
+["chain_link"] = "chain_link.png",
 
             };
         }
