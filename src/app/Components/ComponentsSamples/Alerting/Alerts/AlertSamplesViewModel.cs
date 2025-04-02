@@ -10,6 +10,7 @@ namespace Components.ComponentsSamples.Alerting.Alerts;
 public class AlertSamplesViewModel : ViewModel
 {
     private AlertView.ButtonAlignmentType m_buttonAlignment = AlertView.ButtonAlignmentType.Inline;
+    private string m_title = "A Short Title";
 
     public AlertSamplesViewModel()
     {
@@ -27,9 +28,19 @@ public class AlertSamplesViewModel : ViewModel
             ButtonAlignment = ButtonAlignment is AlertView.ButtonAlignmentType.Inline
                 ? AlertView.ButtonAlignmentType.Underlying
                 : AlertView.ButtonAlignmentType.Inline);
+
+        SwitchTitleCommand = new Command(() =>
+            Title = Title == "A Short Title" ? "A Very Long Title That Should Move The Button" : "A Short Title");
     }
 
     public ICommand Command { get; }
+    public ICommand SwitchTitleCommand { get; }
+
+    public string Title
+    {
+        get => m_title;
+        private set => RaiseWhenSet(ref m_title, value);
+    }
 
     public ICommand ToggleButtonAlignmentCommand { get; }
     
