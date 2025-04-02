@@ -52,12 +52,19 @@
             <dui:Label Text="In-line Buttons"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:AlertView Title="A Short Title"
-                           Description="This text will be fitted when the buttons change to be inline."
+                           Description="This text will be wrapped when the button is inline"
                            Style="{dui:Styles Alert=Information}"
                            LeftButtonText="Toggle Inline"
                            LeftButtonCommand="{Binding ToggleButtonAlignmentCommand}"
-                           ButtonAlignment="{Binding ButtonAlignment}"
-            />
+                           ButtonAlignment="{Binding ButtonAlignment}"/>
+        </dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="No Description"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="Just Title Set, I'm Gonna Make it very long!"
+                           Style="{dui:Styles Alert=Information}"
+                           LeftButtonText="See info"
+                           LeftButtonCommand="{Binding Command}"/>
         </dui:VerticalStackLayout>
     </dui:VerticalStackLayout>
     

@@ -140,6 +140,7 @@ public partial class AlertView
         nameof(ButtonAlignment),
         typeof(ButtonAlignmentType),
         typeof(AlertView),
+        defaultValue: ButtonAlignmentType.Auto,
         propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnButtonAlignmentChanged()));
 
     public ButtonAlignmentType ButtonAlignment

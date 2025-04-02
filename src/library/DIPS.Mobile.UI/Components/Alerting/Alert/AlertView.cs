@@ -14,9 +14,22 @@ namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
 public partial class AlertView : Border
 {
+    /// <summary>
+    /// Determines how the <see cref="AlertView"/>'s buttons should align. 
+    /// </summary>
     public enum ButtonAlignmentType
     {
+        /// <summary>
+        ///     Automatically determine alignment. Will use <see cref="Underlying"/> if <see cref="AlertView.Description"/> is set. Otherwise, it will us <see cref="Inline"/>.
+        /// </summary>
+        Auto,
+        /// <summary>
+        ///     Aligns the buttons directly underneath the title and description.
+        /// </summary>
         Underlying,
+        /// <summary>
+        ///     Aligns the buttons to the same line as the title, to the top right of the view.
+        /// </summary>
         Inline
     }
 
@@ -60,22 +73,30 @@ public partial class AlertView : Border
         m_grid.Add(m_innerGrid, 0);
         
         m_horizontalStackLayout = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, VerticalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
-        m_innerGrid.Add(m_horizontalStackLayout,1,2);
+        UpdateButtonAlignment();
     }
 
     private void OnButtonAlignmentChanged()
     {
-        if (ButtonAlignment is ButtonAlignmentType.Underlying)
+        UpdateButtonAlignment();
+    }
+
+    private void UpdateButtonAlignment()
+    {
+        if (ButtonAlignment is ButtonAlignmentType.Auto && string.IsNullOrEmpty(Description)
+            || ButtonAlignment is ButtonAlignmentType.Inline)
+        {
+            m_horizontalStackLayout.Margin = new Thickness(Sizes.GetSize(SizeName.size_2));
+            m_grid!.Remove(m_horizontalStackLayout);
+            m_innerGrid!.Remove(m_horizontalStackLayout);
+            m_grid.Add(m_horizontalStackLayout,1);
+        }
+        else
         {
             m_horizontalStackLayout.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0);
             m_grid!.Remove(m_horizontalStackLayout);
-            m_innerGrid.Add(m_horizontalStackLayout,1,2);
-        }
-        else if (ButtonAlignment is ButtonAlignmentType.Inline)
-        {
-            m_horizontalStackLayout.Margin = new Thickness(Sizes.GetSize(SizeName.size_2));
             m_innerGrid!.Remove(m_horizontalStackLayout);
-            m_grid.Add(m_horizontalStackLayout,1);
+            m_innerGrid.Add(m_horizontalStackLayout,1,2);
         }
     }
 
@@ -122,8 +143,7 @@ public partial class AlertView : Border
         m_titleLabel = new Label()
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.UI200),
-            VerticalTextAlignment = TextAlignment.Center
+            Style = Styles.GetLabelStyle(LabelStyle.UI200)
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
 
@@ -142,6 +162,8 @@ public partial class AlertView : Border
         descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
 
         m_innerGrid?.Add(descriptionLabel, 1, 1);
+        
+        UpdateButtonAlignment();
     }
 
     private void OnIconChanged()
@@ -156,7 +178,7 @@ public partial class AlertView : Border
             AutomationId = "Image".ToDUIAutomationId<AlertView>(),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
-            VerticalOptions = LayoutOptions.End
+            VerticalOptions = LayoutOptions.Start
         };
         
         m_image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this, mode: BindingMode.OneTime);
