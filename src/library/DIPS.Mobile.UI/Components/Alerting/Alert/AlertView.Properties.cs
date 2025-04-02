@@ -135,4 +135,16 @@ public partial class AlertView
         get => (object)GetValue(RightButtonCommandParameterProperty);
         set => SetValue(RightButtonCommandParameterProperty, value);
     }
+
+    public static readonly BindableProperty ButtonAlignmentProperty = BindableProperty.Create(
+        nameof(ButtonAlignment),
+        typeof(ButtonAlignmentType),
+        typeof(AlertView),
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnButtonAlignmentChanged()));
+
+    public ButtonAlignmentType ButtonAlignment
+    {
+        get => (ButtonAlignmentType)GetValue(ButtonAlignmentProperty);
+        set => SetValue(ButtonAlignmentProperty, value);
+    }
 }

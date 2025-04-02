@@ -48,6 +48,17 @@
                            Description="Good job! You did it!"
                            Style="{dui:Styles Alert=Success}" />
         </dui:VerticalStackLayout>
+        <dui:VerticalStackLayout>
+            <dui:Label Text="In-line Buttons"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:AlertView Title="A Short Title"
+                           Description="This text will be fitted when the buttons change to be inline."
+                           Style="{dui:Styles Alert=Information}"
+                           LeftButtonText="Toggle Inline"
+                           LeftButtonCommand="{Binding ToggleButtonAlignmentCommand}"
+                           ButtonAlignment="{Binding ButtonAlignment}"
+            />
+        </dui:VerticalStackLayout>
     </dui:VerticalStackLayout>
-
+    
 </dui:ContentPage>
