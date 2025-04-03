@@ -93,19 +93,19 @@ public partial class AlertView : Border
         var maxWidth = m_innerGrid.Measure(int.MaxValue, int.MaxValue).Width;
         var buttonsWidth = m_horizontalStackLayout.Measure(int.MaxValue, int.MaxValue).Width;
         var remainingWidth = Width - maxWidth - buttonsWidth;
-        var buttonsWillFit = remainingWidth >= Sizes.GetSize(SizeName.size_2);
+        var buttonsWillFit = remainingWidth >= Sizes.GetSize(SizeName.content_margin_small);
         
         if (ButtonAlignment is ButtonAlignmentType.Auto && buttonsWillFit
             || ButtonAlignment is ButtonAlignmentType.Inline)
         {
-            m_horizontalStackLayout.Margin = new Thickness(Sizes.GetSize(SizeName.size_2));
+            m_horizontalStackLayout.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_small));
             m_grid!.Remove(m_horizontalStackLayout);
             m_innerGrid!.Remove(m_horizontalStackLayout);
             m_grid.Add(m_horizontalStackLayout,1);
         }
         else
         {
-            m_horizontalStackLayout.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0);
+            m_horizontalStackLayout.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
             m_grid!.Remove(m_horizontalStackLayout);
             m_innerGrid!.Remove(m_horizontalStackLayout);
             m_innerGrid.Add(m_horizontalStackLayout,1,2);
