@@ -1,5 +1,11 @@
-## [44.2.0]
+## [44.4.0]
 - [AlertView] Added `ButtonAlignment` property that determines whether the buttons should be aligned underneath the title/description, or to the top right.
+
+## [44.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [44.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [44.1.3] 
 - [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes. 
