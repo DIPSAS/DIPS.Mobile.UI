@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:autoScrollingText="clr-namespace:DIPS.Mobile.UI.Components.Text.AutoScrollingText;assembly=DIPS.Mobile.UI"
+                 xmlns:text="clr-namespace:Components.ComponentsSamples.Text"
+                 x:Class="Components.ComponentsSamples.Text.AutoScrollingTextViewSamples"
+                 x:DataType="{x:Type text:AutoScrollingTextViewSamples}">
+    
+    <Grid RowDefinitions="400, Auto, Auto"
+          RowSpacing="{dui:Sizes size_2}"
+          Margin="{dui:Thickness Left=page_margin_small, Right=page_margin_small}">
+        
+        <autoScrollingText:AutoScrollingTextView Text="{Binding TranscriptionText}"
+                                                 BackgroundColor="{dui:Colors color_surface_default}"
+                                                 dui:Layout.AutoCornerRadius="True"/>
+        
+        <dui:NavigationListItem Title="Sample Text"
+                                Grid.Row="1"
+                                dui:Layout.AutoCornerRadius="True"
+                                Command="{Binding SampleTextCommand}" />
+        
+        <dui:ListItem Title="Random Text Input"
+                      dui:Layout.AutoCornerRadius="True"
+                      Grid.Row="2">
+            <dui:Switch IsToggled="{Binding IsToggled}" />
+        </dui:ListItem>
+        
+    </Grid>
+    
+</dui:ContentPage>

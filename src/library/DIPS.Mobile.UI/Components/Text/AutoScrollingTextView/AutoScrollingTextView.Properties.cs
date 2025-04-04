@@ -3,7 +3,7 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Text.AutoScrollingText;
 
-public partial class AutoScrollingText
+public partial class AutoScrollingTextView
 {
     public Color TextColor
     {
@@ -35,28 +35,30 @@ public partial class AutoScrollingText
         set => SetValue(ShouldFadeOutProperty, value);
     }
 
+    public object TranscriptionText { get; }
+
     public static readonly BindableProperty ShouldFadeOutProperty = BindableProperty.Create(
         nameof(ShouldFadeOut),
         typeof(bool),
-        typeof(AutoScrollingText),
+        typeof(AutoScrollingTextView),
         true,
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly new BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),
-        typeof(AutoScrollingText),
+        typeof(AutoScrollingTextView),
         defaultValue: Label.DefaultLabelStyle,
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty FadeColorProperty = BindableProperty.Create(
         nameof(FadeColor),
         typeof(Color),
-        typeof(AutoScrollingText),
+        typeof(AutoScrollingTextView),
         defaultBindingMode: BindingMode.OneTime,
         propertyChanged: (bindable, _, _) =>
         {
-            if (bindable is AutoScrollingText autoScrollingText)
+            if (bindable is AutoScrollingTextView autoScrollingText)
             {
                 autoScrollingText.SetFadingBoxFade();
             }
@@ -65,10 +67,10 @@ public partial class AutoScrollingText
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
         nameof(Text),
         typeof(string),
-        typeof(AutoScrollingText),
+        typeof(AutoScrollingTextView),
         propertyChanged: (bindable, _, _) =>
         {
-            if (bindable is not AutoScrollingText autoScrollingText)
+            if (bindable is not AutoScrollingTextView autoScrollingText)
                 return;
 
             autoScrollingText.m_label.Text = autoScrollingText.Text;
@@ -77,7 +79,7 @@ public partial class AutoScrollingText
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
         typeof(Color),
-        typeof(AutoScrollingText),
+        typeof(AutoScrollingTextView),
         Colors.GetColor(ColorName.color_text_default),
         defaultBindingMode: BindingMode.OneTime);
 }

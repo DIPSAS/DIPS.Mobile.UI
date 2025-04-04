@@ -9,7 +9,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Text.AutoScrollingText;
 
-public partial class AutoScrollingText : Grid
+public partial class AutoScrollingTextView : Grid
 {
     private readonly BoxView m_fadingBox;
     private readonly ScrollView m_scrollView;
@@ -18,7 +18,7 @@ public partial class AutoScrollingText : Grid
     private bool m_isUserScrolling;
     private readonly Button m_scrollToBottomHelper;
 
-    public AutoScrollingText()
+    public AutoScrollingTextView()
     {
         m_label = new Labels.Label
         {
@@ -59,9 +59,9 @@ public partial class AutoScrollingText : Grid
         m_scrollView.PropertyChanged += ScrollViewOnPropertyChanged;
         m_scrollView.Scrolled += ScrollViewOnScrolled;
         
-        m_fadingBox.SetBinding(IsVisibleProperty, static (AutoScrollingText autoScrollingText) => autoScrollingText.ShouldFadeOut, source: this);
-        m_label.SetBinding(StyleProperty, static (AutoScrollingText autoScrollingText) => autoScrollingText.Style, source: this);
-        m_label.SetBinding(TextColorProperty, static (AutoScrollingText autoScrollingText) => autoScrollingText.TextColor, source: this);
+        m_fadingBox.SetBinding(IsVisibleProperty, static (AutoScrollingTextView autoScrollingText) => autoScrollingText.ShouldFadeOut, source: this);
+        m_label.SetBinding(StyleProperty, static (AutoScrollingTextView autoScrollingText) => autoScrollingText.Style, source: this);
+        m_label.SetBinding(TextColorProperty, static (AutoScrollingTextView autoScrollingText) => autoScrollingText.TextColor, source: this);
         
         SetFadingBoxFade();
         

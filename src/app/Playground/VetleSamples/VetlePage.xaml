@@ -16,7 +16,7 @@
     </dui:ContentPage.BindingContext>
 
     <Grid>
-    <dui:AutoScrollingText Text="{Binding TranscriptionText}"
+    <dui:AutoScrollingTextView Text="{Binding TranscriptionText}"
                            HeightRequest="50"
                            
                            x:Name="AutoScrollingText"/>
