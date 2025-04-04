@@ -5,13 +5,14 @@ namespace DIPS.Mobile.UI.Components.Labels
 {
     public partial class Label : Microsoft.Maui.Controls.Label
     {
+        public static Style DefaultLabelStyle = Styles.GetLabelStyle(LabelStyle.Body300);
+        
         public Label()
         {
             this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);
             MaxLines = int.MaxValue;
-            Style = Styles.GetLabelStyle(LabelStyle.Body300);
+            Style = DefaultLabelStyle;
         }
-        
         
         private void OnTextChanged()
         {
