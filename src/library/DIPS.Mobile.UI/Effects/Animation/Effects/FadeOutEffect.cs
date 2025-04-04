@@ -1,7 +1,5 @@
 using System.ComponentModel;
 using Microsoft.Maui.Controls.Platform;
-using Microsoft.Maui.Platform;
-using UIKit;
 
 namespace DIPS.Mobile.UI.Effects.Animation.Effects;
 

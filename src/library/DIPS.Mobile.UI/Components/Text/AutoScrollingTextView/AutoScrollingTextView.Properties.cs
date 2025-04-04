@@ -35,8 +35,6 @@ public partial class AutoScrollingTextView
         set => SetValue(ShouldFadeOutProperty, value);
     }
 
-    public object TranscriptionText { get; }
-
     public static readonly BindableProperty ShouldFadeOutProperty = BindableProperty.Create(
         nameof(ShouldFadeOut),
         typeof(bool),

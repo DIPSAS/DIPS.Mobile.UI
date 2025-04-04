@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using DIPS.Mobile.UI.Effects.Animation;
 using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -13,10 +12,10 @@ public partial class AutoScrollingTextView : Grid
 {
     private readonly BoxView m_fadingBox;
     private readonly ScrollView m_scrollView;
-    private Task? m_scrollingTask;
     private readonly Labels.Label m_label;
-    private bool m_isUserScrolling;
     private readonly Button m_scrollToBottomHelper;
+    
+    private bool m_shouldAutoScroll;
 
     public AutoScrollingTextView()
     {
@@ -27,7 +26,7 @@ public partial class AutoScrollingTextView : Grid
         
         m_fadingBox = new BoxView
         {
-            HeightRequest = Sizes.GetSize(SizeName.size_5),
+            HeightRequest = Sizes.GetSize(SizeName.size_10),
             VerticalOptions = LayoutOptions.Start,
             InputTransparent = true
         };
@@ -40,14 +39,9 @@ public partial class AutoScrollingTextView : Grid
 
         m_scrollToBottomHelper = new Button
         {
-            ImageSource = Icons.GetIcon(IconName.arrow_down_thick_line_fill),
+            ImageSource = Icons.GetIcon(IconName.arrow_down_line),
             Style = Styles.GetButtonStyle(ButtonStyle.SecondaryIconButtonSmall),
-            Command = new Command(() =>
-            {
-                _ = ScrollToBottom(true);
-                m_isUserScrolling = false;
-                m_scrollToBottomHelper!.IsVisible = false;
-            }),
+            Command = new Command(() => _ = ScrollToBottom(true)),
             IsVisible = false,
             VerticalOptions = LayoutOptions.End,
             HorizontalOptions = LayoutOptions.Center,
@@ -70,19 +64,27 @@ public partial class AutoScrollingTextView : Grid
         Add(m_scrollToBottomHelper);
     }
 
-    private async void ScrollViewOnScrolled(object? sender, ScrolledEventArgs e)
-    { 
-        if(!m_scrollingTask?.IsCompleted ?? false)
-            return;
-
-        m_isUserScrolling = !IsAtBottom;
-
+    private void ScrollViewOnScrolled(object? sender, ScrolledEventArgs e)
+    {
         if (IsAtBottom)
         {
-            await m_scrollToBottomHelper.FadeTo(0);
-            m_scrollToBottomHelper.IsVisible = false;
+            m_shouldAutoScroll = true;
+            _ = FadeHelperOut();
         }
-        else m_scrollToBottomHelper.IsVisible = true;
+        else if(!m_scrollToBottomHelper.IsVisible)
+        {
+            m_shouldAutoScroll = false;
+            m_scrollToBottomHelper.IsVisible = true;
+        }
+    }
+
+    private async Task FadeHelperOut()
+    {
+        if(!m_scrollToBottomHelper.IsVisible)
+            return;
+        
+        await m_scrollToBottomHelper.FadeTo(0);
+        m_scrollToBottomHelper.IsVisible = false;
     }
 
     private void ScrollViewOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -93,20 +95,20 @@ public partial class AutoScrollingTextView : Grid
         }
     }
 
-    private bool IsAtBottom => m_scrollView.ScrollY + m_scrollView.Height >= m_scrollView.ContentSize.Height - 1;
+    private bool IsAtBottom => Math.Abs((m_scrollView.ScrollY + m_scrollView.Height) - m_scrollView.ContentSize.Height) < 0.05f;
     
     public async Task ScrollToBottom(bool force = false)
     {   
-        if(m_isUserScrolling && !force)
-            return;
-        
         // Don't scroll if ScrollView's height is not initialized or if the content is smaller than the ScrollView
         if(m_scrollView.Height < 0 || m_scrollView.ContentSize.Height <= m_scrollView.Height && !force)
             return;
 
         await Task.Delay(10);
         
-        m_scrollingTask = m_scrollView.ScrollToAsync(0, m_scrollView.ContentSize.Height, true);
+        if(!m_shouldAutoScroll && !force)
+            return;
+        
+        await m_scrollView.ScrollToAsync(0, m_scrollView.ContentSize.Height, false);
     }
 
     private void SetFadingBoxFade()
