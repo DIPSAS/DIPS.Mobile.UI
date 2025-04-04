@@ -199,6 +199,7 @@ this file is generated
 ["larger_line"] = "larger_line.png",
 ["pause_mini_line"] = "pause_mini_line.png",
 ["chain_link_line"] = "chain_link_line.png",
+["arrow_down_line"] = "arrow_down_line.png",
 
             };
         }
