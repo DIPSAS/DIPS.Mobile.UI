@@ -1,3 +1,6 @@
+## [44.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [44.4.0]
 - [AlertView] Added `ButtonAlignment` property that determines whether the buttons should be aligned underneath the title/description, or to the top right.
 
