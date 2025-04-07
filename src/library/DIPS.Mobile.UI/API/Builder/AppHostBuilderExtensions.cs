@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
+using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -71,6 +72,8 @@ public static partial class AppHostBuilderExtensions
             effects.Add<ContextMenuEffect, ContextMenuPlatformEffect>();
             effects.Add<Touch, TouchPlatformEffect>();
             effects.Add<Layout, LayoutPlatformEffect>();
+            effects.Add<FadeInEffect, FadeInPlatformEffect>();
+            effects.Add<FadeOutEffect, FadeOutPlatformEffect>();
         });
 
         builder.UseSkiaSharp();

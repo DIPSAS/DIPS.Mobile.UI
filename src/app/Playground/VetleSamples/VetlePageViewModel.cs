@@ -35,6 +35,7 @@ public class VetlePageViewModel : ViewModel
     private bool m_isRefreshing;
     private string m_subtitle = "Tjeneste med tilleggsspørsmål og egenskaper";
     private bool m_isVisible;
+    private string m_transcriptionText;
 
     public VetlePageViewModel()
     {
@@ -93,6 +94,20 @@ public class VetlePageViewModel : ViewModel
         
         GroupedTest = [new(["Test"]), new(TestStrings.ToList())];
 
+        _ = GenerateRandomWords();
+    }
+
+    private async Task GenerateRandomWords()
+    {
+        var random = new Random();
+        var words = new List<string> { "apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew" };
+        while(true)
+        {
+            var randomWord = words[random.Next(words.Count)];
+            TranscriptionText += randomWord + " ";
+
+            await Task.Delay(250);
+        }
     }
 
     public TimeSpan? Time { get; set; } = TimeSpan.Zero;
@@ -364,6 +379,12 @@ public class VetlePageViewModel : ViewModel
     {
         get => m_isVisible;
         set => RaiseWhenSet(ref m_isVisible, value);
+    }
+
+    public string TranscriptionText
+    {
+        get => m_transcriptionText;
+        set => RaiseWhenSet(ref m_transcriptionText, value);
     }
 
     public void OnDateChanged()

@@ -202,13 +202,11 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        if (sender is ListItem button)
-            button.IsEnabled = !button.IsEnabled;
+        AutoScrollingText.ScrollToBottom();
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
         /*CollectionView.ReloadData();*/
     }
-    
 }

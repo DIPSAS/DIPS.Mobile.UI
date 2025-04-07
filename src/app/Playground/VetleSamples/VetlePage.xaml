@@ -9,44 +9,23 @@
                  xmlns:converters="clr-namespace:Arena.Mobile.Domains.MunicipalCare.Shared.Converters"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 BackgroundColor="{dui:Colors color_system_white}"
                  HideSoftInputOnTapped="True">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
+
+    <Grid>
+    <dui:AutoScrollingTextView Text="{Binding TranscriptionText}"
+                           HeightRequest="50"
+                           
+                           x:Name="AutoScrollingText"/>
     
-    <dui:VerticalStackLayout>
-    <dui:Button Text="Hello"
-                dui:ContextMenuEffect.Mode="Pressed">
-        <dui:ContextMenuEffect.Menu>
-            <dui:ContextMenu>
-                <dui:ContextMenuGroup Title="Hello" IsVisible="{Binding IsVisible}" >
-                    
-                    <dui:ContextMenuItem Title="Hello"
-                                         />
-                    
-                    <dui:ContextMenuItem Title="yo"
-                    />
-                </dui:ContextMenuGroup>
-                <dui:ContextMenuSeparatorItem />
-                <dui:ContextMenuGroup Title="Hello" IsVisible="{Binding IsVisible}" >
-                    
-                    <dui:ContextMenuItem Title="Hello"
-                    />
-                    
-                    <dui:ContextMenuItem Title="yo"
-                    />
-                </dui:ContextMenuGroup>
-            </dui:ContextMenu>
-        </dui:ContextMenuEffect.Menu>
-    </dui:Button>
-        
-        <dui:Button Text="IsVisible"
-                    Command="{Binding DisableCommand}"></dui:Button>
-        
-    </dui:VerticalStackLayout>
+        <!--<dui:Button Text="Test"
+                    Clicked="Button_OnClicked"/>-->
     
+    </Grid>
+
 
 
 </dui:ContentPage>
