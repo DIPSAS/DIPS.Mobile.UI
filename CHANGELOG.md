@@ -1,5 +1,6 @@
 ## [44.6.0] 
-- Added
+- Added `AutoScrollingTextView`.
+- Added `Animation` API.
 
 ## [44.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
