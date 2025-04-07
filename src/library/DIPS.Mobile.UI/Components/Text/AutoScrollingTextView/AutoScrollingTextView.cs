@@ -96,14 +96,19 @@ public partial class AutoScrollingTextView : Grid
     
     public async Task ScrollToBottom(bool force = false)
     {   
-        // Don't scroll if ScrollView's height is not initialized or if the content is smaller than the ScrollView
-        if(m_scrollView.Height < 0 || m_scrollView.ContentSize.Height <= m_scrollView.Height && !force)
+        // Don't scroll if ScrollView's height is not initialized
+        if(m_scrollView.Height < 0)
             return;
 
         if (!IsAtBottom && !force)
             return;
         
-        await Task.Delay(10);
+        // Since we subscribe to the PropertyChanging event of the ScrollView, we need to wait for the ContentSize to be updated before scrolling
+        var contentSize = m_scrollView.ContentSize;
+        while (Math.Abs(contentSize.Height - m_scrollView.ContentSize.Height) < 0.01f && Handler is not null && !force)
+        {
+            await Task.Delay(1);
+        }
         
         await m_scrollView.ScrollToAsync(0, m_scrollView.ContentSize.Height, false);
     }
