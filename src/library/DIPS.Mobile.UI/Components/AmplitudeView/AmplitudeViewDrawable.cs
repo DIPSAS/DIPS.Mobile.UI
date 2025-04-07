@@ -18,14 +18,14 @@ public class AmplitudeViewDrawable : IDrawable
     
     private DateTime? m_lastUpdateTime;
     
-    private AmplitudeView m_amplitudeView;
+    private Components.AmplitudeView.AmplitudeView m_amplitudeView;
 
     public AmplitudeViewDrawable(GraphicsView graphicsView)
     {
         m_graphicsView = graphicsView;
     }
 
-    public void Setup(AmplitudeView amplitudeView)
+    public void Setup(Components.AmplitudeView.AmplitudeView amplitudeView)
     {
         m_amplitudeView = amplitudeView;
     }

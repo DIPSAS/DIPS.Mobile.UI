@@ -1,8 +1,9 @@
 using System.Diagnostics;
+using DIPS.Mobile.UI.Components.VoiceVisualizer;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 
-namespace DIPS.Mobile.UI.Components.VoiceVisualizer;
+namespace DIPS.Mobile.UI.Components.AmplitudeView;
 
 public partial class AmplitudeView : Grid
 {

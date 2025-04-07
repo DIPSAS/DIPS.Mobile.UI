@@ -1,11 +1,12 @@
+using DIPS.Mobile.UI.Components.VoiceVisualizer;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.VoiceVisualizer;
+namespace DIPS.Mobile.UI.Components.AmplitudeView;
 
 public partial class AmplitudeView
 {
     /// <summary>
-    /// The controller to configure the <see cref="AmplitudeView"/>
+    /// The controller to configure the <see cref="Components.AmplitudeView.AmplitudeView"/>
     /// </summary>
     /// <remarks>This must be set</remarks>
     public AmplitudeViewController? Controller
@@ -62,7 +63,7 @@ public partial class AmplitudeView
     /// <summary>
     /// Sets the color of the fade boxes
     /// </summary>
-    /// <remarks>Should be same color as the container <see cref="AmplitudeView"/> is in</remarks>
+    /// <remarks>Should be same color as the container <see cref="Components.AmplitudeView.AmplitudeView"/> is in</remarks>
     public Color FadeColor
     {
         get => (Color)GetValue(FadeColorProperty);
@@ -72,48 +73,48 @@ public partial class AmplitudeView
     public static readonly BindableProperty FadeColorProperty = BindableProperty.Create(
         nameof(FadeColor),
         typeof(Color),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultBindingMode: BindingMode.OneTime,
         defaultValue: Colors.GetColor(ColorName.color_surface_default));
 
     public static readonly BindableProperty PlaceholderAmplitudeColorProperty = BindableProperty.Create(
         nameof(PlaceholderAmplitudeColor),
         typeof(Color),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultValue: Colors.GetColor(ColorName.color_text_placeholder),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty AmplitudeColorProperty = BindableProperty.Create(
         nameof(AmplitudeColor),
         typeof(Color),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultValue: Colors.GetColor(ColorName.color_text_default),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty HasTimerProperty = BindableProperty.Create(
         nameof(HasTimer),
         typeof(bool),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultValue: true,
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty SampleRateProperty = BindableProperty.Create(
         nameof(SampleRate),
         typeof(int),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultBindingMode: BindingMode.OneTime,
         defaultValue: 15);
 
     public static readonly BindableProperty ControllerProperty = BindableProperty.Create(
         nameof(Controller),
         typeof(AmplitudeViewController),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty FramesPerSecondProperty = BindableProperty.Create(
         nameof(FramesPerSecond),
         typeof(int),
-        typeof(AmplitudeView),
+        typeof(Components.AmplitudeView.AmplitudeView),
         defaultValueCreator: _ => (int)DeviceDisplay.MainDisplayInfo.RefreshRate,
         defaultBindingMode: BindingMode.OneTime,
         coerceValue: (_, value) =>

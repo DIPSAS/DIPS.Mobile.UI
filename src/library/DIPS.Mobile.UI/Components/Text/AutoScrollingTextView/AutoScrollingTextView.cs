@@ -71,7 +71,7 @@ public partial class AutoScrollingTextView : Grid
             m_shouldAutoScroll = true;
             _ = FadeHelperOut();
         }
-        else if(!m_scrollToBottomHelper.IsVisible)
+        else
         {
             m_shouldAutoScroll = false;
             m_scrollToBottomHelper.IsVisible = true;
@@ -95,7 +95,7 @@ public partial class AutoScrollingTextView : Grid
         }
     }
 
-    private bool IsAtBottom => Math.Abs((m_scrollView.ScrollY + m_scrollView.Height) - m_scrollView.ContentSize.Height) < 0.05f;
+    private bool IsAtBottom => Math.Abs((m_scrollView.ScrollY + m_scrollView.Height) - m_scrollView.ContentSize.Height) < 25 || m_scrollView.ScrollY + m_scrollView.Height > m_scrollView.ContentSize.Height;
     
     public async Task ScrollToBottom(bool force = false)
     {   
@@ -103,10 +103,10 @@ public partial class AutoScrollingTextView : Grid
         if(m_scrollView.Height < 0 || m_scrollView.ContentSize.Height <= m_scrollView.Height && !force)
             return;
 
-        await Task.Delay(10);
-        
-        if(!m_shouldAutoScroll && !force)
+        if (!IsAtBottom && !force)
             return;
+        
+        await Task.Delay(10);
         
         await m_scrollView.ScrollToAsync(0, m_scrollView.ContentSize.Height, false);
     }
@@ -124,5 +124,16 @@ public partial class AutoScrollingTextView : Grid
                 new GradientStop(fadeColor.WithAlpha(0), 1)
             ]
         };
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            m_scrollView.PropertyChanged -= ScrollViewOnPropertyChanged;
+            m_scrollView.Scrolled -= ScrollViewOnScrolled;   
+        }
     }
 }

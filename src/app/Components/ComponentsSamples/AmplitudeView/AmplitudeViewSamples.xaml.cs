@@ -7,7 +7,7 @@ namespace Components.ComponentsSamples.AmplitudeView;
 
 public partial class AmplitudeViewSamples
 {
-    private DIPS.Mobile.UI.Components.VoiceVisualizer.AmplitudeView m_amplitudeView;
+    private DIPS.Mobile.UI.Components.AmplitudeView.AmplitudeView m_amplitudeView;
     private Controller m_controller;
     private string? m_placeholderAmplitudeColorString;
     private string? m_amplitudeColorString;
@@ -76,7 +76,7 @@ public partial class AmplitudeViewSamples
 
         m_controller = new Controller();
         
-        m_amplitudeView = new DIPS.Mobile.UI.Components.VoiceVisualizer.AmplitudeView
+        m_amplitudeView = new DIPS.Mobile.UI.Components.AmplitudeView.AmplitudeView
         {
             Controller = m_controller,
             FadeColor = BackgroundColor,
@@ -93,7 +93,7 @@ public partial class AmplitudeViewSamples
         Container.Remove(m_amplitudeView);
         m_amplitudeView.DisconnectHandlers();
         
-        m_amplitudeView = new DIPS.Mobile.UI.Components.VoiceVisualizer.AmplitudeView
+        m_amplitudeView = new DIPS.Mobile.UI.Components.AmplitudeView.AmplitudeView
         {
             FadeColor = BackgroundColor,
             Controller = m_controller,
