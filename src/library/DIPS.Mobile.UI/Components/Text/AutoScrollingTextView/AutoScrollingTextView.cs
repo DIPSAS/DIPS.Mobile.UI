@@ -6,7 +6,7 @@ using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.Components.Text.AutoScrollingText;
+namespace DIPS.Mobile.UI.Components.Text.AutoScrollingTextView;
 
 public partial class AutoScrollingTextView : Grid
 {

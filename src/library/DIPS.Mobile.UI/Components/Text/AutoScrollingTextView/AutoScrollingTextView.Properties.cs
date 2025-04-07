@@ -1,22 +1,32 @@
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.Components.Text.AutoScrollingText;
+namespace DIPS.Mobile.UI.Components.Text.AutoScrollingTextView;
 
 public partial class AutoScrollingTextView
 {
+    /// <summary>
+    /// Defines the <see cref="Microsoft.Maui.Controls.Label.TextColor"/>
+    /// </summary>
     public Color TextColor
     {
         get => (Color)GetValue(TextColorProperty);
         set => SetValue(TextColorProperty, value);
     }
 
+    /// <summary>
+    /// Text to be displayed
+    /// </summary>
     public string Text
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
 
+    /// <summary>
+    /// Sets the color of the fading box
+    /// </summary>
+    /// <remarks>Should be same color as the container <see cref="AutoScrollingTextView"/> is in</remarks>
     public Color? FadeColor
     {
         get => (Color?)GetValue(FadeColorProperty);
@@ -29,6 +39,9 @@ public partial class AutoScrollingTextView
         set => SetValue(StyleProperty, value);
     }
 
+    /// <summary>
+    /// Whether the text at the top should fade out
+    /// </summary>
     public bool ShouldFadeOut
     {
         get => (bool)GetValue(ShouldFadeOutProperty);
