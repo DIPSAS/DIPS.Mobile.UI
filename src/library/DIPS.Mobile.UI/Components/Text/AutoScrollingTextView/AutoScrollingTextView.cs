@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace DIPS.Mobile.UI.Components.Text.AutoScrollingTextView;
 
@@ -15,8 +16,6 @@ public partial class AutoScrollingTextView : Grid
     private readonly Labels.Label m_label;
     private readonly Button m_scrollToBottomHelper;
     
-    private bool m_shouldAutoScroll;
-
     public AutoScrollingTextView()
     {
         m_label = new Labels.Label
@@ -50,7 +49,7 @@ public partial class AutoScrollingTextView : Grid
         
         Animation.SetFadeIn(m_scrollToBottomHelper, new AnimationConfig());
         
-        m_scrollView.PropertyChanged += ScrollViewOnPropertyChanged;
+        m_scrollView.PropertyChanging += ScrollViewOnPropertyChanged;
         m_scrollView.Scrolled += ScrollViewOnScrolled;
         
         m_fadingBox.SetBinding(IsVisibleProperty, static (AutoScrollingTextView autoScrollingText) => autoScrollingText.ShouldFadeOut, source: this);
@@ -68,12 +67,10 @@ public partial class AutoScrollingTextView : Grid
     {
         if (IsAtBottom)
         {
-            m_shouldAutoScroll = true;
             _ = FadeHelperOut();
         }
         else
         {
-            m_shouldAutoScroll = false;
             m_scrollToBottomHelper.IsVisible = true;
         }
     }
@@ -87,7 +84,7 @@ public partial class AutoScrollingTextView : Grid
         m_scrollToBottomHelper.IsVisible = false;
     }
 
-    private void ScrollViewOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void ScrollViewOnPropertyChanged(object sender, PropertyChangingEventArgs e)
     {
         if (e.PropertyName == ScrollView.ContentSizeProperty.PropertyName)
         {
@@ -95,7 +92,7 @@ public partial class AutoScrollingTextView : Grid
         }
     }
 
-    private bool IsAtBottom => Math.Abs((m_scrollView.ScrollY + m_scrollView.Height) - m_scrollView.ContentSize.Height) < 25 || m_scrollView.ScrollY + m_scrollView.Height > m_scrollView.ContentSize.Height;
+    private bool IsAtBottom => Math.Abs((m_scrollView.ScrollY + m_scrollView.Height) - m_scrollView.ContentSize.Height) < 1 || m_scrollView.ScrollY + m_scrollView.Height > m_scrollView.ContentSize.Height;
     
     public async Task ScrollToBottom(bool force = false)
     {   
@@ -132,7 +129,7 @@ public partial class AutoScrollingTextView : Grid
 
         if (args.NewHandler is null)
         {
-            m_scrollView.PropertyChanged -= ScrollViewOnPropertyChanged;
+            m_scrollView.PropertyChanging -= ScrollViewOnPropertyChanged;
             m_scrollView.Scrolled -= ScrollViewOnScrolled;   
         }
     }

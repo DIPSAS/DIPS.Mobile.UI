@@ -3,7 +3,6 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:autoScrollingText="clr-namespace:DIPS.Mobile.UI.Components.Text.AutoScrollingText;assembly=DIPS.Mobile.UI"
                  xmlns:text="clr-namespace:Components.ComponentsSamples.Text"
                  x:Class="Components.ComponentsSamples.Text.AutoScrollingTextViewSamples"
                  x:DataType="{x:Type text:AutoScrollingTextViewSamples}">
@@ -12,7 +11,7 @@
           RowSpacing="{dui:Sizes size_2}"
           Margin="{dui:Thickness Left=page_margin_small, Right=page_margin_small}">
         
-        <autoScrollingText:AutoScrollingTextView Text="{Binding TranscriptionText}"
+        <dui:AutoScrollingTextView Text="{Binding TranscriptionText}"
                                                  BackgroundColor="{dui:Colors color_surface_default}"
                                                  dui:Layout.AutoCornerRadius="True"/>
         
