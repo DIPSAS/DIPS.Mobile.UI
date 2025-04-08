@@ -1,3 +1,6 @@
+## [44.6.1]
+- Fixed command not being updated
+
 ## [44.6.0] 
 - Added `AutoScrollingTextView`.
 - Added `Animation` API.
