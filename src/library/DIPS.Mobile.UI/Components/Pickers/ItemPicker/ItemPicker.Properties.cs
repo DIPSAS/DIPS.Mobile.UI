@@ -95,6 +95,28 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         }
 
         /// <summary>
+        /// Factory for creating an Item containing free text. Set this property to enable free text. When free text is
+        /// enabled, people will be able to add what they enter into the search bar as a custom selection.
+        /// </summary>
+        /// <remarks>
+        /// Free text is only available in <see cref="PickerMode.BottomSheet"/>, and with <see cref="BottomSheetPickerConfiguration.HasSearchBar"/> enabled.
+        /// </remarks>
+        public Func<string, object>? FreeTextItemFactory
+        {
+            get => (Func<string, object>)GetValue(FreeTextItemFactoryProperty);
+            set => SetValue(FreeTextItemFactoryProperty, value);
+        }
+        
+        /// <summary>
+        /// Prefix that will be added before a free text item as it appears in the bottom sheet.
+        /// </summary>
+        public string FreeTextPrefix
+        {
+            get => (string)GetValue(FreeTextPrefixProperty);
+            set => SetValue(FreeTextPrefixProperty, value);
+        }
+        
+        /// <summary>
         /// Opens the picker.
         /// </summary>
         /// <remarks>This will not work if <see cref="Mode"/> is <see cref="PickerMode.ContextMenu"/></remarks>
@@ -122,6 +144,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             nameof(ShouldAutoFocusSearchBar),
             typeof(bool),
             typeof(ItemPicker));
+
+        public static readonly BindableProperty FreeTextItemFactoryProperty = BindableProperty.Create(
+            nameof(FreeTextItemFactory),
+            typeof(Func<string, object>),
+            typeof(ItemPicker));
+
+        public static readonly BindableProperty FreeTextPrefixProperty = BindableProperty.Create(
+            nameof(FreeTextPrefix),
+            typeof(string),
+            typeof(ItemPicker),
+            defaultValue: string.Empty);
     }
 
     public enum PickerMode

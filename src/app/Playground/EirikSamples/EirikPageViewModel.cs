@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.HorizontalInLine;
 using DIPS.Mobile.UI.Components.Slidable;
@@ -19,6 +20,7 @@ public class EirikPageViewModel : ViewModel
 
     private SliderConfig m_config = new(-3, 0);
     private SlidableProperties m_properties = new(0);
+    private bool m_toggleView;
 
     public EirikPageViewModel()
     {
@@ -26,6 +28,14 @@ public class EirikPageViewModel : ViewModel
         ShowSystemMessageCommand = new Command<string>(ShowSystemMessage);
         RemoveFromListCommand = new Command<string>(RemoveFromList);
         NavigateCommand = new Command(Navigate);
+
+        DoSomethingCommand = new Command(DoSomething);
+    }
+
+    private async void DoSomething()
+    {
+        await DialogService.ShowMessage(options => options.SetActionTitle("Yep!").SetTitle("Something was done."));
+        ToggleView = !ToggleView;
     }
 
     private void Navigate()
@@ -34,6 +44,16 @@ public class EirikPageViewModel : ViewModel
     }
 
     public ICommand NavigateCommand { get; }
+
+    public List<string> Items { get; } = ["One", "Two", "Three", "Four"];
+    
+    public Func<string, string> FreeTextItemFactory { get; } = text => text;
+
+    public bool ToggleView
+    {
+        get => m_toggleView;
+        private set => RaiseWhenSet(ref m_toggleView, value);
+    }
 
     private void RemoveFromList(string obj)
     {
@@ -55,6 +75,7 @@ public class EirikPageViewModel : ViewModel
     public ICommand AddToListCommand { get; }
     public ICommand ShowSystemMessageCommand { get; }
     public ICommand RemoveFromListCommand { get; }
+    public ICommand DoSomethingCommand { get; }
 
     private void AddToList()
     {

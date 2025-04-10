@@ -30,6 +30,15 @@
                         Mode="BottomSheet"
                         SelectedItem="{Binding SelectedPerson}"
                         ItemsSource="{Binding People}" />
+        <dui:Label Text="ItemPicker, Mode: Bottom Sheet w/ Free Text"
+                   Margin="5" />
+        <dui:ItemPicker VerticalOptions="Start"
+                        HorizontalOptions="Start"
+                        Mode="BottomSheet"
+                        SelectedItem="{Binding SelectedPerson}"
+                        ItemsSource="{Binding People}" 
+                        FreeTextItemFactory="{Binding PersonFactory}"
+                        FreeTextPrefix="Free text: "/>
         <dui:Label Text="MultiItemsPicker"
                    Margin="5" />
         
