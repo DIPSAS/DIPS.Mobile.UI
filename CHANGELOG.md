@@ -1,5 +1,8 @@
-## [44.7.0]
+## [44.8.0]
 - [ItemPicker] Added `FreeTextItemFactory` and `FreeTextPrefix` properties to support custom text item in bottom sheet mode
+
+## [44.7.0]
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [44.6.0] 
 - Added `AutoScrollingTextView`.
