@@ -18,7 +18,7 @@ public partial class ItemPicker : ContentView
         m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
         MaximumWidthRequest = 200;
     }
-
+    
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
