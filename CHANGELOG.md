@@ -1,3 +1,6 @@
+## [44.6.1] 
+- [Tip][iOS] Fixed bug where you could not present a tip in a modal context.
+
 ## [44.6.0] 
 - Added `AutoScrollingTextView`.
 - Added `Animation` API.

@@ -1,10 +1,13 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.Lists;
+using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
+using UIKit;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
@@ -81,12 +84,28 @@ public partial class VetlePage
 
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+        var test2 = Handler.PlatformView;
+        if (test2 is UIView uiView)
+        {
+            var test3 = uiView.FindParentViewOfType<UIViewController>();
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        
+#if __IOS__
+        var test = Platform.GetCurrentUIViewController();
+#endif
 
+        
+        
+        /*_ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));*/
         /*Button.IsVisible = true;*/
 
         /*
@@ -202,11 +221,13 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        AutoScrollingText.ScrollToBottom();
+        /*AutoScrollingText.ScrollToBottom();*/
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
-        /*CollectionView.ReloadData();*/
+        TipService.Show("Test", sender as View);
     }
+
+    
 }

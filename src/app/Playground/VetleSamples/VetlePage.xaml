@@ -15,16 +15,23 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid>
-    <dui:AutoScrollingTextView Text="{Binding TranscriptionText}"
-                           HeightRequest="50"
-                           
-                           x:Name="AutoScrollingText"/>
-    
-        <!--<dui:Button Text="Test"
-                    Clicked="Button_OnClicked"/>-->
-    
-    </Grid>
+    <!--<dui:NavigationListItem />-->
+    <dui:ListItem VerticalOptions="Start"
+                  Title="Tore"
+                  Subtitle="Geir"
+                  Tapped="ListItem_OnTapped">
+        
+        <dui:ListItem.TitleOptions>
+            <dui:TitleOptions Width="30"></dui:TitleOptions>
+        </dui:ListItem.TitleOptions>
+        
+        <dui:Image Source="{dui:Icons chevron_right_line}" />
+        
+        <dui:ListItem.UnderlyingContent>
+            <dui:Label Text="Stine"></dui:Label>
+        </dui:ListItem.UnderlyingContent>
+        
+    </dui:ListItem>
 
 
 

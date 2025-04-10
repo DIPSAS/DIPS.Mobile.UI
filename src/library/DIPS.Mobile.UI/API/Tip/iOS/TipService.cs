@@ -39,6 +39,12 @@ public static partial class TipService
             }
         }
 
+        // Traverse to the topmost presented view controller
+        while (rootViewController.PresentedViewController != null)
+        {
+            rootViewController = rootViewController.PresentedViewController;
+        }
+
         if (rootViewController == null) return false;   
         var uiView = viewHandler.PlatformView;
         if ((anchoredView is Slider))
