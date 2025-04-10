@@ -10,37 +10,12 @@
     <dui:ContentPage.BindingContext>
         <eirikSamples:EirikPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
-        <dui:CollectionView ItemsSource="{Binding List}"
-                            IsGrouped="True">
-            <dui:CollectionView.GroupHeaderTemplate>
-                <DataTemplate x:DataType="{x:Type eirikSamples:GroupedStrings}">
-                    <dui:Label Text="{Binding GroupTitle}"/>
-                </DataTemplate>
-            </dui:CollectionView.GroupHeaderTemplate>
-            <dui:CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type x:String}">
-                    <dui:ListItem Title="{Binding .}"
-                                  HasBottomDivider="True"
-                                  HasTopDivider="True"
-                                  BindingContextChanged="ListItemOnBindingContextChanged">
-                        <dui:ContextMenuEffect.Menu>
-                            <dui:ContextMenu BindingContextChanged="ContextMenu_OnBindingContextChanged">
-                                <dui:ContextMenuItem Title="Show system message"
-                                                     Command="{Binding BindingContext.ShowSystemMessageCommand, Source={x:Reference This}}"
-                                                     CommandParameter="{Binding .}"/>
-                                <dui:ContextMenuItem Title="Remove"
-                                                     Command="{Binding BindingContext.RemoveFromListCommand, Source={x:Reference This}}"
-                                                     CommandParameter="{Binding .}"/>
-                            </dui:ContextMenu>
-                        </dui:ContextMenuEffect.Menu>
-                    </dui:ListItem>
-                </DataTemplate>
-            </dui:CollectionView.ItemTemplate>
-        </dui:CollectionView>
-        <dui:Button Text="Add to list"
-                    Command="{Binding AddToListCommand}"/>
-        <dui:Button Text="Navigate"
-                    Command="{Binding NavigateCommand}"/>
-    </dui:VerticalStackLayout>
+    <dui:ItemPicker Mode="BottomSheet"
+                    ItemsSource="{Binding Items}"
+                    FreeTextItemFactory="{Binding FreeTextItemFactory}"
+                    FreeTextPrefix="Fritekst: ">
+        <dui:ItemPicker.BottomSheetPickerConfiguration>
+            <dui:BottomSheetPickerConfiguration HasSearchBar="True"/>
+        </dui:ItemPicker.BottomSheetPickerConfiguration>
+    </dui:ItemPicker>
 </dui:ContentPage>

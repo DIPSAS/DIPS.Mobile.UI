@@ -16,23 +16,41 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private readonly ItemPicker m_itemPicker;
         private readonly List<SelectableItemViewModel> m_originalItems;
         private readonly CollectionView m_collectionView;
-
+        
+        private SelectableItemViewModel? m_freeTextItem;
+        
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
             m_originalItems = [];
 
+            var selectedItemIsInItemsSource = false;
             if (m_itemPicker.ItemsSource != null)
             {
                 foreach (var item in m_itemPicker.ItemsSource)
                 {
+                    if (item.Equals(m_itemPicker.SelectedItem))
+                    {
+                        selectedItemIsInItemsSource = true;
+                    }
+                    
                     m_originalItems.Add(new SelectableItemViewModel(
                         item.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!,
                         item.Equals(m_itemPicker.SelectedItem), item));
                 }
             }
 
-            Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
+            var itemsToInsert = new List<SelectableItemViewModel>(m_originalItems);
+            // If selected item is missing and FreeTextItemFactory is set, we can assume that the item was added as a free text option
+            if (m_itemPicker.FreeTextItemFactory is not null && m_itemPicker.SelectedItem is not null && !selectedItemIsInItemsSource)
+            {
+                var displayString = m_itemPicker.SelectedItem.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!;
+                var freeTextItem = m_itemPicker.FreeTextItemFactory(displayString);
+                m_freeTextItem = new SelectableItemViewModel(itemPicker.FreeTextPrefix + displayString, true, freeTextItem);
+                itemsToInsert.Insert(0, m_freeTextItem);
+            }
+            
+            Items = new ObservableCollection<SelectableItemViewModel>(itemsToInsert);
             
             this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: m_itemPicker.BottomSheetPickerConfiguration);
             this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration configuration) => configuration.HasSearchBar, source: m_itemPicker.BottomSheetPickerConfiguration);
@@ -52,7 +70,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             Content = CreateContentControlForActivityIndicator(m_collectionView,
                 m_itemPicker.BottomSheetPickerConfiguration);
         }
-        
+
         private void OnCollectionViewScrolled(object? sender, ItemsViewScrolledEventArgs e)
         {
 #if __ANDROID__ //Scrolled gets kicked off when you change the collections item source for some reason, so we have to detect if its a scroll or not
@@ -116,6 +134,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 }
             }
 
+            if (theSelectedItem is null && m_freeTextItem is not null &&
+                m_freeTextItem.Item.Equals(selectableListItem.Item))
+            {
+                theSelectedItem = m_freeTextItem.Item;
+            }
+
             if (theSelectedItem != null && theSelectedItem.Equals(m_itemPicker.SelectedItem))
             {
                 //Make sure people can not visually deselect the radio button
@@ -152,15 +176,41 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 {
                     Items.Add(item);
                 }
+
+                if (m_freeTextItem is not null && m_itemPicker.SelectedItem is not null && m_itemPicker.SelectedItem.Equals(m_freeTextItem.Item))
+                {
+                    Items.Insert(0, m_freeTextItem);
+                }
+                else
+                {
+                    m_freeTextItem = null;
+                }
             }
             else
             {
                 var filteredItems = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
                     .ToList();
                 Items.Clear();
+
+                var couldCreateFreeTextItem = true;
                 foreach (var item in filteredItems)
                 {
                     Items.Add(item);
+                    if (item.DisplayName.Equals(filterText))
+                    {
+                        couldCreateFreeTextItem = false;
+                    }
+                }
+
+                if (m_itemPicker.FreeTextItemFactory is not null && couldCreateFreeTextItem)
+                {
+                    var freeTextItem = m_itemPicker.FreeTextItemFactory(value);
+                    
+                    m_freeTextItem = new SelectableItemViewModel(
+                        m_itemPicker.FreeTextPrefix + filterText,
+                        freeTextItem.Equals(m_itemPicker.SelectedItem), freeTextItem);
+                
+                    Items.Insert(0, m_freeTextItem);
                 }
             }
         }
