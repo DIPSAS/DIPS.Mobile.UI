@@ -45,7 +45,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (m_itemPicker.FreeTextItemFactory is not null && m_itemPicker.SelectedItem is not null && !selectedItemIsInItemsSource)
             {
                 var displayString = m_itemPicker.SelectedItem.GetPropertyValue(m_itemPicker.ItemDisplayProperty)!;
-                var freeTextItem = m_itemPicker.FreeTextItemFactory(displayString);
+                var freeTextItem = m_itemPicker.SelectedItem;
                 m_freeTextItem = new SelectableItemViewModel(itemPicker.FreeTextPrefix + displayString, true, freeTextItem);
                 itemsToInsert.Insert(0, m_freeTextItem);
             }
