@@ -1,3 +1,6 @@
+## [44.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [44.8.1] 
 - [Tip][iOS] Fixed bug where you could not present a tip in a modal context.
 
