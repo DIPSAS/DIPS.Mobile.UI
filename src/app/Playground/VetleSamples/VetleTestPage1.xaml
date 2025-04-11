@@ -27,32 +27,8 @@
     <Grid RowDefinitions="Auto, Auto, *"
           Padding="{dui:Thickness Top=size_10}"
           >
-        <Label Text="hello"
-               Grid.Row="1"></Label>
-        
-        <Entry Grid.Row="0"></Entry>
-        
-    
-    <CollectionView Grid.Row="2">
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>Test</x:String>
-                <x:String>Test</x:String>
-                <x:String>Test</x:String>
-                <x:String>Test</x:String>
-                <x:String>Test</x:String>
-
-            </x:Array>
-        </CollectionView.ItemsSource>
-        
-        
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:Label Text="{Binding .}"></dui:Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
+       <dui:ListItem Title="test"
+                     Tapped="ListItem_OnTapped"></dui:ListItem>
     
     </Grid>
 

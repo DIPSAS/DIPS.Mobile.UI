@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -17,6 +18,10 @@ public partial class VetleTestPage1
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+#if __IOS__
+        var test = Platform.GetCurrentUIViewController();
+#endif
         
         //FloatingNavigationButtonService.TryHideOrShowFloatingNavigationButton(this);
     }
@@ -50,5 +55,10 @@ public partial class VetleTestPage1
     private void Button_OnClicked(object sender, EventArgs e)
     {
         Navigation.PushAsync(new VetleTestPage2());
+    }
+
+    private void ListItem_OnTapped(object sender, EventArgs e)
+    {
+        TipService.Show("Test", sender as View);
     }
 }
