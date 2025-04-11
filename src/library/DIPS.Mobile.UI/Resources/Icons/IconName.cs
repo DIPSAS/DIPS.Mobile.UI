@@ -391,5 +391,7 @@ pause_mini_line=191,
 chain_link_line=193,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_down_line.svg">View the icon in the browser</a></summary>
 arrow_down_line=194,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chain_unlink_line.svg">View the icon in the browser</a></summary>
+chain_unlink_line=195,
     }
 }
