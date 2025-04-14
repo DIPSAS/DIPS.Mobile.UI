@@ -188,14 +188,17 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
             else
             {
-                var filteredItems = m_originalItems.Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
+                var filteredItems = m_originalItems
+                    .Where(p => p.DisplayName.ToLower().Contains(filterText.ToLower()))
                     .ToList();
                 Items.Clear();
 
+                var itemsToAdd = new List<SelectableItemViewModel>(filteredItems);
+                
                 var couldCreateFreeTextItem = true;
                 foreach (var item in filteredItems)
                 {
-                    Items.Add(item);
+                    itemsToAdd.Add(item);
                     if (item.DisplayName.Equals(filterText))
                     {
                         couldCreateFreeTextItem = false;
@@ -210,7 +213,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                         m_itemPicker.FreeTextPrefix + filterText,
                         freeTextItem.Equals(m_itemPicker.SelectedItem), freeTextItem);
                 
-                    Items.Insert(0, m_freeTextItem);
+                    itemsToAdd.Insert(0, m_freeTextItem);
+                }
+                
+                foreach (var item in itemsToAdd)
+                {
+                    Items.Add(item);
                 }
             }
         }
