@@ -1,3 +1,6 @@
+## [44.9.2] 
+- [Tip][iOS] Fixed bug where text sometimes were clipped and in completely wrong position.
+
 ## [44.9.1] 
 - [ItemPicker] Fixed an issue where keyboard would close if searching with free-text enabled.
 

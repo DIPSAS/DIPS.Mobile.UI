@@ -40,12 +40,14 @@ public static partial class TipService
         }
 
         // Traverse to the topmost presented view controller
-        while (rootViewController.PresentedViewController != null)
+        while (rootViewController?.PresentedViewController != null)
         {
             rootViewController = rootViewController.PresentedViewController;
         }
 
-        if (rootViewController == null) return false;   
+        if (rootViewController is null) 
+            return false;
+        
         var uiView = viewHandler.PlatformView;
         if ((anchoredView is Slider))
         {
@@ -58,7 +60,6 @@ public static partial class TipService
 
     private static bool TryGetRootViewControllerFromBottomSheet(VisualElement anchoredView, out UIViewController? rootViewController)
     {
-
         var bottomSheet = anchoredView.FindParentOfType<BottomSheet>();
         rootViewController = bottomSheet?.ViewController;
         return rootViewController != null;
@@ -79,7 +80,6 @@ public static partial class TipService
     {
         var tipUiViewController = new TipUIViewController(message);
         setup.Invoke(tipUiViewController);
-
         
         await rootViewController.PresentViewControllerAsync(
             tipUiViewController,
@@ -87,11 +87,17 @@ public static partial class TipService
 
         if (durationInMilliseconds > 0)
         {
-            _ = new Timer(_ =>
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(durationInMilliseconds);
+                if (!tipUiViewController.IsDismissed)
                 {
-                    MainThread.InvokeOnMainThreadAsync(() => tipUiViewController.Close());
-                }, null, TimeSpan.FromMilliseconds(durationInMilliseconds),
-                TimeSpan.FromMilliseconds(durationInMilliseconds));
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        tipUiViewController.Close();
+                    });
+                }
+            });
         }
     }
 }
