@@ -10,9 +10,10 @@ namespace DIPS.Mobile.UI.API.Tip;
 
 internal class TipUIViewController : UIViewController
 {
-    private CGSize m_maxSize = new(300, 300);
-    private CGSize m_minSize = new(0, 30);
-    
+    // After manual testing, we found out that having the popover's Height < 50px, the arrow is not drawn correctly.
+    private const int MinHeight = 50;
+    private const int MaxHeightWidth = 300;
+
     private Grid m_grid;
     private UIView m_gridPlatform;
     
@@ -34,7 +35,14 @@ internal class TipUIViewController : UIViewController
             ColumnSpacing = Sizes.GetSize(SizeName.content_margin_large),
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small)),
             ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)),
-            Children = { new Components.Labels.Label { Text = m_message } }
+            Children =
+            {
+                new Components.Labels.Label 
+                { 
+                    Text = m_message, 
+                    VerticalTextAlignment = TextAlignment.Center 
+                }
+            }
         };
         
         var closeButton = new ImageButton
@@ -52,6 +60,7 @@ internal class TipUIViewController : UIViewController
                 if (closeTask is not null)
                     await closeTask;
                 
+                // DidDismiss not called in delegate when closing from code
                 base.Dispose();
             })
         };
@@ -62,19 +71,23 @@ internal class TipUIViewController : UIViewController
         
         View?.AddSubview(m_gridPlatform);
 
-        SetPopoverSize();
+        SetPopoverSizeBasedOnGridContent();
     }
 
-    private void SetPopoverSize()
+    private void SetPopoverSizeBasedOnGridContent()
     {
-        var measurement = m_grid.Measure(m_maxSize.Width, m_maxSize.Height);
+        var measurement = m_grid.Measure(MaxHeightWidth, MaxHeightWidth);
 
-        var clampedWidth = Math.Max(m_minSize.Width, Math.Min(measurement.Width, m_maxSize.Width));
-        var clampedHeight = Math.Max(m_minSize.Height, Math.Min(measurement.Height, m_maxSize.Height));
+        var clampedWidth = Math.Min(measurement.Width, MaxHeightWidth);
+        var clampedHeight = Math.Max(measurement.Height, MinHeight);
 
         PreferredContentSize = new CGSize(clampedWidth, clampedHeight);
     }
 
+    /// <summary>
+    /// We need to translate the grid when the arrow is pointing up or left, after manual testing we found out that the arrow is approx 13px.
+    /// Because, the grid uses the arrow's container as a reference point, we need to move the grid to the left or up.
+    /// </summary>
     public override void ViewDidLayoutSubviews()
     {
         base.ViewDidLayoutSubviews();
@@ -87,7 +100,7 @@ internal class TipUIViewController : UIViewController
             switch (PopoverPresentationController.ArrowDirection)
             {
                 case UIPopoverArrowDirection.Left:
-                    xOffset = 7;
+                    xOffset = 13;
                     break;
                 case UIPopoverArrowDirection.Up:
                     yOffset = 13;
