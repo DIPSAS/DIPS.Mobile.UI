@@ -1,3 +1,6 @@
+## [44.9.3] 
+- [CollectionView][iOS] Fixed bug where auto corner radius in grouped collectionview would sometimes be set wrong.
+
 ## [44.9.2] 
 - [Tip][iOS] Fixed bug where text sometimes were clipped and in completely wrong position.
 

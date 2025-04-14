@@ -159,15 +159,19 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         }
         
         var viewThatReceivedMarginUnderCell = cell.Subviews[1].Subviews[0];
-
+        // Uncomment to easier debug what cell you are currently debugging
+        /*var debugText = viewThatReceivedMarginUnderCell.FindChildView<MauiLabel>().Text;*/
         var cornerRadius = new CornerRadius();
         
         if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsFirstItemInSection(indexPath))
         {
-            if (currentFirstCellWithCornerRadiusInSection.Remove(indexPath.Section, out var firstCell))
+            if(currentFirstCellWithCornerRadiusInSection.TryGetValue(indexPath.Section, out var currentFirstCell))
             {
-                var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row + 1, indexPath.Section);
-                TrySetCornerRadiusOnCell(collectionView, newIndexPath, firstCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+                if (!currentFirstCell.Equals(cell) && currentFirstCellWithCornerRadiusInSection.Remove(indexPath.Section))
+                {
+                    var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row + 1, indexPath.Section);
+                    TrySetCornerRadiusOnCell(collectionView, newIndexPath, currentFirstCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+                }
             }
             
             // Apply corner radius to the cell if its the first cell
@@ -181,11 +185,15 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         
         if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsLastItemInSection(collectionView, indexPath))
         {
-            if (currentLastCellWithCornerRadiusInSection.Remove(indexPath.Section, out var lastCell))
+            if (currentLastCellWithCornerRadiusInSection.TryGetValue(indexPath.Section, out var currentLastCell))
             {
-                var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row - 1, indexPath.Section);
-                TrySetCornerRadiusOnCell(collectionView, newIndexPath, lastCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+                if (!currentLastCell.Equals(cell) && currentLastCellWithCornerRadiusInSection.Remove(indexPath.Section))
+                {
+                    var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row - 1, indexPath.Section);
+                    TrySetCornerRadiusOnCell(collectionView, newIndexPath, currentLastCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
+                }
             }
+            
             // Apply corner radius to the cell if its the last cell
             cornerRadius = mauiCollectionView.LastItemCornerRadius.IsEmpty()
                 ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small))
