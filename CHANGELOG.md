@@ -1,5 +1,8 @@
-## [44.8.2] 
+## [44.9.1] 
 - [Tip][iOS] Fixed bug where text sometimes were clipped and in completely wrong position.
+
+## [44.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [44.8.1] 
 - [Tip][iOS] Fixed bug where you could not present a tip in a modal context.

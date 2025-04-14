@@ -200,6 +200,7 @@ this file is generated
 ["pause_mini_line"] = "pause_mini_line.png",
 ["chain_link_line"] = "chain_link_line.png",
 ["arrow_down_line"] = "arrow_down_line.png",
+["chain_unlink_line"] = "chain_unlink_line.png",
 
             };
         }
