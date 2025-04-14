@@ -1,3 +1,6 @@
+## [44.9.1] 
+- [ItemPicker] Fixed an issue where keyboard would close if searching with free-text enabled.
+
 ## [44.9.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
