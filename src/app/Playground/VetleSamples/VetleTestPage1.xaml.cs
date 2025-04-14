@@ -59,6 +59,6 @@ public partial class VetleTestPage1
 
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
-        TipService.Show("Test", sender as View);
+        TipService.Show("This is a test!", sender as View);
     }
 }

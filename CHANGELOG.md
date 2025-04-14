@@ -1,3 +1,6 @@
+## [44.8.2] 
+- [Tip][iOS] Fixed bug where text sometimes were clipped and in completely wrong position.
+
 ## [44.8.1] 
 - [Tip][iOS] Fixed bug where you could not present a tip in a modal context.
 

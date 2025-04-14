@@ -1,109 +1,109 @@
 using CoreGraphics;
-using CoreImage;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Effects.Touch;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using ContentView = Microsoft.Maui.Controls.ContentView;
+using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton.ImageButton;
+using UIModalPresentationStyle = UIKit.UIModalPresentationStyle;
 
+// ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.API.Tip;
 
 internal class TipUIViewController : UIViewController
 {
     private CGSize m_maxSize = new(300, 300);
+    private CGSize m_minSize = new(0, 30);
+    
+    private Grid m_grid;
+    private UIView m_gridPlatform;
+    
     private readonly string m_message;
-    private Label? m_label;
-    private Grid? m_grid;
 
     public TipUIViewController(string message)
     {
         m_message = message;
     }
-    
 
-    public override void ViewWillAppear(bool animated)
-    {
-        base.ViewWillAppear(animated);
-        if (PopoverPresentationController == null) return;
-
-        //Set padding depending on arrow direction
-        if (m_grid == null) return;
-        var padding = new Thickness(Sizes.GetSize(SizeName.size_3));
-        var arrowSize = Sizes.GetSize(SizeName.size_4);
-
-        switch (PopoverPresentationController.ArrowDirection)
-        {
-            case UIPopoverArrowDirection.Up:
-                padding.Top += arrowSize;
-                padding.Bottom = 0;
-                break;
-            case UIPopoverArrowDirection.Down:
-                padding.Bottom = padding.Top = arrowSize;
-                break;
-            case UIPopoverArrowDirection.Left: //Can be tested by rotating the phone
-                padding.Left += arrowSize;
-                break;
-            case UIPopoverArrowDirection.Right: //Can be tested by rotating the phone
-                padding.Right += arrowSize;
-                break;
-            case UIPopoverArrowDirection.Any:
-            case UIPopoverArrowDirection.Unknown:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        m_grid.Padding = padding;
-
-        if (View == null) return;
-
-        //Set the size of the popover to fit the grid
-        PreferredContentSize = View.SizeThatFits(m_maxSize);
-    }
+    public bool IsDismissed { get; private set; }
 
     public override void ViewDidLoad()
     {
-        m_grid = new Grid()
-        {
-            BackgroundColor = Colors.Transparent,
-            ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)],
-            RowDefinitions = new RowDefinitionCollection(new RowDefinition(GridLength.Star))
-        };
+        base.ViewDidLoad();
 
-        var closeImage = new Image()
+        m_grid = new Grid
+        {
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_large),
+            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small)),
+            ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)),
+            Children = { new Components.Labels.Label { Text = m_message } }
+        };
+        
+        var closeButton = new ImageButton
         {
             VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.End,
             Source = Icons.GetIcon(IconName.close_fill),
             WidthRequest = Sizes.GetSize(SizeName.size_4),
-            HeightRequest = Sizes.GetSize(SizeName.size_4)
+            HeightRequest = Sizes.GetSize(SizeName.size_4),
+            TintColor = Resources.Colors.Colors.GetColor(ColorName.color_icon_default),
+            AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_2),
+            Command = new Command(async () =>
+            {
+                var closeTask = Close();
+                if (closeTask is not null)
+                    await closeTask;
+                
+                base.Dispose();
+            })
         };
-        var wrappingContentView = new ContentView() {Content = closeImage, Padding = 3};
+        
+        m_grid.Add(closeButton, 1);
+        
+        m_gridPlatform = m_grid.ToPlatform(DUI.GetCurrentMauiContext!);
+        
+        View?.AddSubview(m_gridPlatform);
 
-        Touch.SetCommand(wrappingContentView, new Command(() =>
+        SetPopoverSize();
+    }
+
+    private void SetPopoverSize()
+    {
+        var measurement = m_grid.Measure(m_maxSize.Width, m_maxSize.Height);
+
+        var clampedWidth = Math.Max(m_minSize.Width, Math.Min(measurement.Width, m_maxSize.Width));
+        var clampedHeight = Math.Max(m_minSize.Height, Math.Min(measurement.Height, m_maxSize.Height));
+
+        PreferredContentSize = new CGSize(clampedWidth, clampedHeight);
+    }
+
+    public override void ViewDidLayoutSubviews()
+    {
+        base.ViewDidLayoutSubviews();
+        
+        var xOffset = 0;
+        var yOffset = 0;
+
+        if (PopoverPresentationController?.ArrowDirection != null)
         {
-            _ = Close();
-        }));
-
-        m_label = new Label() {Text = m_message};
-        m_grid.Add(m_label, 0);
-        m_grid.Add(wrappingContentView, 1);
-
-
-        if (DUI.GetCurrentMauiContext != null)
-        {
-            View = m_grid.ToPlatform(DUI.GetCurrentMauiContext);
+            switch (PopoverPresentationController.ArrowDirection)
+            {
+                case UIPopoverArrowDirection.Left:
+                    xOffset = 7;
+                    break;
+                case UIPopoverArrowDirection.Up:
+                    yOffset = 13;
+                    break;
+            }
         }
 
-        base.ViewDidLoad();
+        m_gridPlatform.Frame = new CGRect(xOffset, yOffset, PreferredContentSize.Width, PreferredContentSize.Height);
     }
 
     internal Task? Close()
     {
-        return PopoverPresentationController?.PresentingViewController.DismissViewControllerAsync(true);
+        return IsDismissed ? Task.CompletedTask : PopoverPresentationController?.PresentingViewController.DismissViewControllerAsync(true);
     }
 
-    public void SetupPopover(UIView? anchorView = null, UIBarButtonItem? anchorUIBarButton = null, UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
+    public void SetupPopover(UIView? anchorView = null, UIBarButtonItem? anchorUiBarButton = null, UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)
     {
         ModalPresentationStyle = UIModalPresentationStyle.Popover;
 
@@ -119,17 +119,28 @@ internal class TipUIViewController : UIViewController
             PopoverPresentationController.SourceView = anchorView;
         }
 
-        if (anchorUIBarButton != null)
+        if (anchorUiBarButton != null)
         {
-            // PopoverPresentationController.SourceRect = anchorUIBarButton.Bounds;
-            if (OperatingSystem.IsIOSVersionAtLeast(16, 0))
+            if (OperatingSystem.IsIOSVersionAtLeast(16))
             {
-                PopoverPresentationController.SourceItem = anchorUIBarButton;
-                PopoverPresentationController.BarButtonItem = anchorUIBarButton;
+                PopoverPresentationController.SourceItem = anchorUiBarButton;
+#pragma warning disable CA1422
+                PopoverPresentationController.BarButtonItem = anchorUiBarButton;
+#pragma warning restore CA1422
             }
         }
-       
-        PopoverPresentationController.Delegate =
-            new TipUIPopoverPresentationControllerDelegate();
+
+        PopoverPresentationController.Delegate = new TipUIPopoverPresentationControllerDelegate()
+        {
+            TipUiViewController = this
+        };
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        IsDismissed = true;
+        m_gridPlatform = null!;
     }
 }

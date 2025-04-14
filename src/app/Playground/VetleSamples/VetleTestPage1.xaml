@@ -28,6 +28,8 @@
           Padding="{dui:Thickness Top=size_10}"
           >
        <dui:ListItem Title="test"
+                     VerticalOptions="Center"
+                     Grid.Row="2"
                      Tapped="ListItem_OnTapped"></dui:ListItem>
     
     </Grid>

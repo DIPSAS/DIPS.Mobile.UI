@@ -16,22 +16,11 @@
     </dui:ContentPage.BindingContext>
 
     <!--<dui:NavigationListItem />-->
-    <dui:ListItem VerticalOptions="Start"
-                  Title="Tore"
-                  Subtitle="Geir"
-                  Tapped="ListItem_OnTapped">
-        
-        <dui:ListItem.TitleOptions>
-            <dui:TitleOptions Width="30"></dui:TitleOptions>
-        </dui:ListItem.TitleOptions>
-        
-        <dui:Image Source="{dui:Icons chevron_right_line}" />
-        
-        <dui:ListItem.UnderlyingContent>
-            <dui:Label Text="Stine"></dui:Label>
-        </dui:ListItem.UnderlyingContent>
-        
-    </dui:ListItem>
+    <dui:Button Text="Hello"
+                Clicked="ListItem_OnTapped"
+                
+                VerticalOptions="End"
+                Margin="0, 0, 0, 0"></dui:Button>
 
 
 
