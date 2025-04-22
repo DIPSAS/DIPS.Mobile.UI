@@ -63,7 +63,6 @@ namespace DIPS.Mobile.UI.API.Library
         }
 
         private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage();
-
     }
 
     public enum OrientationDegree

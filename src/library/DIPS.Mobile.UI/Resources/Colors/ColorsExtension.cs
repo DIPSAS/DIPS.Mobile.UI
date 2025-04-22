@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.API.Library;
+
 namespace DIPS.Mobile.UI.Resources.Colors
 {
     [AcceptEmptyServiceProvider]
@@ -16,7 +18,8 @@ namespace DIPS.Mobile.UI.Resources.Colors
 
         public static Color GetColor(string colorName, float alpha = -1)
         {
-            if (!ColorResources.Colors.TryGetValue(colorName, out var value))
+            var colors = DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.Colors) ? ColorResources2.Colors : ColorResources.Colors;
+            if (!colors.TryGetValue(colorName, out var value))
             {
                 return Microsoft.Maui.Graphics.Colors.White;
             }

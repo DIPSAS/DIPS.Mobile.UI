@@ -12,7 +12,10 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI();
+            .UseDIPSUI(configurator =>
+            {
+                /*configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.Colors);*/
+            });
         
         builder.ConfigureFonts(fonts =>
         {

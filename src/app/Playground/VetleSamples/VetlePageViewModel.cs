@@ -401,7 +401,7 @@ public class Controller : AmplitudeViewController
     }
 }
 
-public class GroupedTest : List<string>
+public class GroupedTest : ObservableCollection<string>
 {
     public GroupedTest(List<string> strings) : base(strings)
     {
