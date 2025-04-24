@@ -1,5 +1,3 @@
-using CoreGraphics;
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Extensions.iOS;
@@ -18,7 +16,7 @@ public partial class CollectionViewHandler
     {
         // Only use new controller if the ItemsLayout is vertical LinearItemsLayout
         if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} })
-            return new ReordableItemsViewController(itemsView, layout, VirtualView as CollectionView);
+            return new ReordeableItemsViewController(itemsView, layout, VirtualView as CollectionView);
             
         return base.CreateController(itemsView, layout);
     }
@@ -54,49 +52,49 @@ public partial class CollectionViewHandler
     }
 }
 
-internal class ReordableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
+internal class ReordeableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
     : ReorderableItemsViewController<ReorderableItemsView>(reorderableItemsView, layout)
 {
-    private UIEdgeInsets? m_overridenContentInset;
-    
     private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
     private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
     private readonly Dictionary<int, UICollectionViewCell> m_currentFirstCellWithCornerRadiusInSection = new();
-
-    private void SetContentInset()
-    {
-        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.Frame.Height / 2 : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
-        CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top, CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
-        
-        m_overridenContentInset = CollectionView.ContentInset;
-    }
-
-    /// <summary>
-    /// Maui sets the ContentInset in this function, so we need to override it to set the ContentInset after Maui has set it.
-    /// </summary>
-    public override void ViewDidLayoutSubviews()
-    {
-        base.ViewDidLayoutSubviews();
-
-        if(m_overridenContentInset is null)
-        {
-            SetContentInset();
-        }
-        else if(CollectionView.ContentInset != m_overridenContentInset)
-        {
-            SetContentInset();
-        }
-    }
-
+    
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
 
-        TrySetMarginOnCell(cell, mauiCollectionView);
+        TrySetMarginOnCell(cell, mauiCollectionView.Padding);
         TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
         TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
 
         return cell;
+    }
+
+    internal static void TrySetMarginOnCell(UICollectionViewCell cell, Thickness collectionViewPadding)
+    {
+        var crossPlatformElement = GetCrossPlatformElementFromCell(cell);
+
+        if (crossPlatformElement is null)
+        {
+            DUILogService.LogError<CollectionViewHandler>("Could not find cross platform element in cell");
+            return;
+        }
+        
+        crossPlatformElement.Margin = new Thickness(collectionViewPadding.Left, 
+            crossPlatformElement.Margin.Top, 
+            collectionViewPadding.Right, 
+            crossPlatformElement.Margin.Bottom);
+    }
+
+    private static View? GetCrossPlatformElementFromCell(UICollectionViewCell cell)
+    {
+        var subView = cell.Subviews[1].Subviews[0];
+        if (subView is LayoutView layoutView)
+        {
+            return (View?)layoutView.CrossPlatformLayout;
+        }
+
+        return null;
     }
 
     internal static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
@@ -134,23 +132,6 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
         }
     }
 
-    internal static void TrySetMarginOnCell(UICollectionViewCell cell, CollectionView collectionView)
-    {
-        if(collectionView.Padding.HorizontalThickness == 0)
-            return;
-        
-        var directSubViewUnderCellThatContainsCrossPlatformView = cell.Subviews[1];
-        UpdateConstraintWithConstant(directSubViewUnderCellThatContainsCrossPlatformView, NSLayoutAttribute.Trailing, (nfloat)(collectionView.Padding.Right));
-        UpdateConstraintWithConstant(directSubViewUnderCellThatContainsCrossPlatformView, NSLayoutAttribute.Leading, (nfloat)(-collectionView.Padding.Left));
-    }
-    
-    private static void UpdateConstraintWithConstant(UIView uiView, NSLayoutAttribute attribute, nfloat constant)
-    {
-        var constraint = uiView.Constraints.FirstOrDefault(constraint => constraint.FirstAttribute == attribute);
-        if (constraint is not null)
-            constraint.Constant = constant;
-    }
-
     internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
     {
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
@@ -158,7 +139,7 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
             return;
         }
         
-        var viewThatReceivedMarginUnderCell = cell.Subviews[1].Subviews[0];
+        var viewThatHasCrossPlatformElement = cell.Subviews[1].Subviews[0];
         // Uncomment to easier debug what cell you are currently debugging
         /*var debugText = viewThatReceivedMarginUnderCell.FindChildView<MauiLabel>().Text;*/
         var cornerRadius = new CornerRadius();
@@ -205,12 +186,12 @@ internal class ReordableItemsViewController(ReorderableItemsView reorderableItem
 
         if (!cornerRadius.IsEmpty())
         {
-            SetViewCornerRadius(viewThatReceivedMarginUnderCell, cornerRadius);
+            SetViewCornerRadius(viewThatHasCrossPlatformElement, cornerRadius);
         }
         else
         {
             // Reset the corner radius for all other cells, because of virtualization
-            ResetCornerRadius(viewThatReceivedMarginUnderCell);
+            ResetCornerRadius(viewThatHasCrossPlatformElement);
         }
     }
 

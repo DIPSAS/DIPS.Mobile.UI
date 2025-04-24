@@ -12,6 +12,7 @@
     
     <dui:CollectionView ItemsSource="{Binding TestStrings}"
                         x:Name="CollectionView"
+                        HasAdditionalSpaceAtTheEnd="True"
                         BackgroundColor="Transparent"
                         dui:Layout.AutoCornerRadius="True"
                         dui:Layout.AutoHideLastDivider="True">
@@ -22,12 +23,14 @@
             </Grid>
         </dui:CollectionView.Header>
         
-        <dui:CollectionView.Footer>
-            <Grid Padding="{dui:Thickness Top=size_4}">
-                <dui:ListItem Title="Add item - Global Footer"
-                              Command="{Binding AddItemCommand}" />
-            </Grid>
-        </dui:CollectionView.Footer>
+        <dui:CollectionView.FooterTemplate>
+            <DataTemplate>
+                <Grid Padding="{dui:Thickness Top=size_4}">
+                    <dui:ListItem Title="Add item - Global Footer"
+                                  Command="{Binding AddItemCommand}" />
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.FooterTemplate>
         
         <dui:CollectionView.ItemTemplate>
             <DataTemplate>

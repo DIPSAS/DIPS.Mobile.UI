@@ -6,7 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:converters="clr-namespace:Arena.Mobile.Domains.MunicipalCare.Shared.Converters"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True">
@@ -15,17 +14,23 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!--<dui:NavigationListItem />-->
-    <dui:Image 
-              
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                Source="{dui:Icons arrow_back_line}"
-                Margin="0, 0, 0, 0">
-        <dui:Image.GestureRecognizers>
-            <TapGestureRecognizer Tapped="ListItem_OnTapped"></TapGestureRecognizer>
-        </dui:Image.GestureRecognizers>
-    </dui:Image>
+    <CollectionView ItemsSource="{Binding TestStrings}">
+        
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <dui:ListItem Command="{Binding Navigate}"
+                              Title="h"></dui:ListItem>
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:ListItem Title="{Binding .}"
+                              Margin="{dui:Thickness Left=size_3, Right=size_3}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
 
 
 </dui:ContentPage>

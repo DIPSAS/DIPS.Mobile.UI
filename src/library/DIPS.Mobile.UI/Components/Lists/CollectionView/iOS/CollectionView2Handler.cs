@@ -96,9 +96,9 @@ public class ReorderableItemsViewController(
     {
         var cell = base.GetCell(collectionView, indexPath);
 
-        ReordableItemsViewController.TrySetMarginOnCell(cell, mauiCollectionView);
-        ReordableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
-        ReordableItemsViewController.TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
+        ReordeableItemsViewController.TrySetMarginOnCell(cell, mauiCollectionView.Padding);
+        ReordeableItemsViewController.TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
+        ReordeableItemsViewController.TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
         
         return cell;
     }
