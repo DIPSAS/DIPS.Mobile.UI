@@ -1,3 +1,6 @@
+## [44.10.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [44.9.3] 
 - [CollectionView][iOS] Fixed bug where auto corner radius in grouped collectionview would sometimes be set wrong.
 
