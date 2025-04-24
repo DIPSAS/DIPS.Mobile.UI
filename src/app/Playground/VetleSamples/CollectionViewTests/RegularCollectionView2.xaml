@@ -31,15 +31,16 @@
             </Grid>
         </dui:CollectionView2.Header>
         
-        <dui:CollectionView2.Footer>
-            <Grid Padding="8"
-                  RowDefinitions="Auto, Auto">
+        <dui:CollectionView2.FooterTemplate>
+            <DataTemplate>
+            <Grid Padding="8">
                 
                 <dui:ListItem Title="Add item"
                               Command="{Binding AddItemCommand}" />
             
             </Grid>
-        </dui:CollectionView2.Footer>
+            </DataTemplate>
+        </dui:CollectionView2.FooterTemplate>
         
         <dui:CollectionView2.GroupFooterTemplate>
             <DataTemplate>

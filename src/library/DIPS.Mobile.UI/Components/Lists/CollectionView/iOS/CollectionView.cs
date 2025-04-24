@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using Microsoft.Maui.Controls.Internals;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
@@ -104,18 +105,12 @@ public partial class CollectionView
     private BoxView CreateSpacingBox()
     {
         SpacingBox ??= new BoxView { BackgroundColor = Colors.Transparent, InputTransparent = true };
+        SpacingBox.SetBinding(HeightRequestProperty, static (CollectionView collectionView) => collectionView.Height, converter: new MultiplicationConverter
+        {
+            Factor = .5
+        }, source: this);
         Grid.SetRow(SpacingBox, 1);
         return SpacingBox;
-    }
-
-    protected override void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-        
-        if (SpacingBox is not null)
-        {
-            SpacingBox.HeightRequest = height / 2;
-        }
     }
 
     protected override void OnBindingContextChanged()
