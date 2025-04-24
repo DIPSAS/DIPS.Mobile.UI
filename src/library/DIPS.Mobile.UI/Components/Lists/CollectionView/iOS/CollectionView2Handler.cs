@@ -58,40 +58,10 @@ public class ReorderableItemsViewController(
     CollectionView mauiCollectionView)
     : ReorderableItemsViewController2<ReorderableItemsView>(itemsView, layout)
 {
-    private UIEdgeInsets? m_overridenContentInset;
-
     private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
     private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
     private readonly Dictionary<int, UICollectionViewCell> m_currentFirstCellWithCornerRadiusInSection = new();
     
-    private void SetContentInset()
-    {
-        var bottomPadding = mauiCollectionView.HasAdditionalSpaceAtTheEnd
-            ? (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.Frame.Height / 2
-            : (nfloat)mauiCollectionView.Padding.Bottom + CollectionView.ContentInset.Bottom;
-        CollectionView.ContentInset = new UIEdgeInsets(CollectionView.ContentInset.Top,
-            CollectionView.ContentInset.Left, bottomPadding, CollectionView.ContentInset.Right);
-
-        m_overridenContentInset = CollectionView.ContentInset;
-    }
-
-    /// <summary>
-    /// Maui sets the ContentInset in this function, so we need to override it to set the ContentInset after Maui has set it.
-    /// </summary>
-    public override void ViewDidLayoutSubviews()
-    {
-        base.ViewDidLayoutSubviews();
-
-        if (m_overridenContentInset is null)
-        {
-            SetContentInset();
-        }
-        else if (CollectionView.ContentInset != m_overridenContentInset)
-        {
-            SetContentInset();
-        }
-    }
-
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);

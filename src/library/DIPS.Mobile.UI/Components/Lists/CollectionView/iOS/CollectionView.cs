@@ -14,15 +14,14 @@ public partial class CollectionView
             if (bindable is not CollectionView collectionView)
                 return;
 
-            if (collectionView.ItemsLayout is LinearItemsLayout linearItemsLayout)
-            {
-                collectionView.FooterTemplateChanged(linearItemsLayout.Orientation == ItemsLayoutOrientation.Horizontal);
-            }
-            else
-            {
-                collectionView.FooterTemplateChanged(true);
-            }
+            collectionView.FooterTemplateChanged();
         });
+    
+    public new DataTemplate? FooterTemplate
+    {
+        get => (DataTemplate?)GetValue(FooterTemplateProperty);
+        set => SetValue(FooterTemplateProperty, value);
+    }
 
     public static readonly new BindableProperty FooterProperty = BindableProperty.Create(
         nameof(Footer),
@@ -33,48 +32,35 @@ public partial class CollectionView
             if (bindable is not CollectionView collectionView)
                 return;
             
-            if (collectionView.ItemsLayout is LinearItemsLayout linearItemsLayout)
-            {
-                collectionView.FooterChanged(linearItemsLayout.Orientation == ItemsLayoutOrientation.Horizontal);
-            }
-            else
-            {
-                collectionView.FooterChanged(true);
-            }
+            collectionView.FooterChanged();
         });
 
-    private void FooterChanged(bool useDefault = false)
+    public new object? Footer
     {
-        if (!HasAdditionalSpaceAtTheEnd || useDefault || Footer is not View)
+        get => GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
+    }
+
+    private void FooterTemplateChanged()
+    {
+        if (!ShouldHaveAdditionalSpaceAtTheEnd)
+        {
+            base.FooterTemplate = FooterTemplate;
+            return;
+        }
+        
+        base.FooterTemplate = new DataTemplateSelectorWrapper(FooterTemplate!, this);
+    }
+    
+    private void FooterChanged()
+    {
+        if (!ShouldHaveAdditionalSpaceAtTheEnd || Footer is not View)
         {
             base.Footer = Footer;
             return;
         }
 
         base.Footer = CreateFooter(Footer as View);
-    }
-
-    public new object Footer
-    {
-        get => GetValue(FooterProperty);
-        set => SetValue(FooterProperty, value);
-    }
-
-    private void FooterTemplateChanged(bool useDefault = false)
-    {
-        if (!HasAdditionalSpaceAtTheEnd || useDefault)
-        {
-            base.FooterTemplate = FooterTemplate;
-            return;
-        }
-        
-        base.FooterTemplate = new DataTemplateSelectorWrapper(FooterTemplate, this);
-    }
-
-    public new DataTemplate FooterTemplate
-    {
-        get => (DataTemplate)GetValue(FooterTemplateProperty);
-        set => SetValue(FooterTemplateProperty, value);
     }
 
     private class DataTemplateSelectorWrapper(DataTemplate dataTemplate, CollectionView collectionView) : DataTemplateSelector
@@ -91,15 +77,22 @@ public partial class CollectionView
         }
     }
 
-    private Grid CreateFooter(View? consumerContent)
+    private Grid CreateFooter(View? consumerContent = null)
     {
-        var footer = new Grid
-        {
-            RowDefinitions =
-            [
+        var rowDefinitions = consumerContent is not null ? 
+            new RowDefinitionCollection
+            {
                 new RowDefinition { Height = GridLength.Star },
                 new RowDefinition { Height = GridLength.Auto }
-            ],
+            } :
+            new RowDefinitionCollection
+            {
+                new RowDefinition { Height = GridLength.Auto }
+            };
+        
+        var footer = new Grid
+        {
+            RowDefinitions = rowDefinitions,
             Children = { consumerContent, CreateSpacingBox() }
         };
         
@@ -131,8 +124,23 @@ public partial class CollectionView
 
         // FooterTemplate wont show if Footer is not set, because we use DataTemplateSelector to wrap the consumer content to add additional space at the end
         // https://github.com/dotnet/maui/blob/main/src/Controls/src/Core/Handlers/Items/iOS/TemplateHelpers.cs#L28
+        if(!ShouldHaveAdditionalSpaceAtTheEnd || FooterTemplate is null)
+            return;
+        
         base.Footer ??= BindingContext;
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+        if(Handler is null || !ShouldHaveAdditionalSpaceAtTheEnd)
+            return;
+
+        base.FooterTemplate ??= new DataTemplate(() => CreateFooter());
+    }
+
+    private bool ShouldHaveAdditionalSpaceAtTheEnd => ItemsLayout is LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } && HasAdditionalSpaceAtTheEnd;
+    
     public BoxView? SpacingBox { get; set; }
 }
