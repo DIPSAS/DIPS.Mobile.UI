@@ -96,7 +96,7 @@ public partial class CollectionView
             Children = { consumerContent, CreateSpacingBox() }
         };
         
-        footer.SetBinding(BindingContextProperty, static (CollectionView collectionView) => collectionView.BindingContext, source: this);
+        footer.SetBinding(BindingContextProperty, static (CollectionView collectionView) => collectionView.Footer, source: this);
 
         return footer;
     }
@@ -121,10 +121,10 @@ public partial class CollectionView
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
-
+        
         // FooterTemplate wont show if Footer is not set, because we use DataTemplateSelector to wrap the consumer content to add additional space at the end
         // https://github.com/dotnet/maui/blob/main/src/Controls/src/Core/Handlers/Items/iOS/TemplateHelpers.cs#L28
-        if(!ShouldHaveAdditionalSpaceAtTheEnd || FooterTemplate is null)
+        if(!ShouldHaveAdditionalSpaceAtTheEnd)
             return;
         
         base.Footer ??= BindingContext;
@@ -137,7 +137,11 @@ public partial class CollectionView
         if(Handler is null || !ShouldHaveAdditionalSpaceAtTheEnd)
             return;
 
-        base.FooterTemplate ??= new DataTemplate(() => CreateFooter());
+        if (base.FooterTemplate is null)
+        {
+            var footer = CreateFooter();
+            base.FooterTemplate = new DataTemplate(() => footer);
+        }
     }
 
     private bool ShouldHaveAdditionalSpaceAtTheEnd => ItemsLayout is LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } && HasAdditionalSpaceAtTheEnd;

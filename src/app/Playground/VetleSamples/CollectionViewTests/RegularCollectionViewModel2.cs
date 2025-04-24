@@ -9,7 +9,7 @@ public class RegularCollectionViewModel2 : ViewModel
     public ObservableCollection<string> TestStrings { get; set; } =
     [
         "Lokalisasjon påkrevd - Kodeverk og egendefinert",
-        /*"Lokalisasjon - Fritekst",
+        "Lokalisasjon - Fritekst",
         "526321",
         "271351",
         "912512",
@@ -28,7 +28,7 @@ public class RegularCollectionViewModel2 : ViewModel
         "ÅBE",
         "HAALAND",
         "ØDEGÅÅRD",
-        "Testern",*/
+        "Testern",
     ];
 
     public ICommand AddItemCommand => new Command(() =>

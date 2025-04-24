@@ -14,7 +14,8 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <CollectionView ItemsSource="{Binding TestStrings}">
+    <CollectionView ItemsSource="{Binding TestStrings}"
+                    Footer="{Binding .}">
         
         <CollectionView.FooterTemplate>
             <DataTemplate>
