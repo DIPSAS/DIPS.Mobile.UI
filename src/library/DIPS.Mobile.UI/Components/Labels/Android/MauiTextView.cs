@@ -1,10 +1,13 @@
 using Android.Content;
 using Android.Graphics;
 using Android.Text;
+using AndroidX.AppCompat.Widget;
 
 namespace DIPS.Mobile.UI.Components.Labels.Android;
 
-public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
+// TODO: Inherit from MauiTextView in .NET MAUI 9.0.70
+// Workaround because of this bug: https://github.com/dotnet/maui/issues/29194#issuecomment-2829948069
+public class MauiTextView : AppCompatTextView
 {
     private readonly Label m_label;
     
@@ -116,5 +119,4 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
         return m_label.FormattedText is not null ? m_label.FormattedText.ToString() : m_label.Text;
     }
-
 }

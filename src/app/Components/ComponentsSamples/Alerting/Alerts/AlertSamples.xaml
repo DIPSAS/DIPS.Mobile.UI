@@ -14,59 +14,63 @@
     <dui:ContentPage.BindingContext>
         <alerts:AlertSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
+    
+    <ScrollView>
+    
+        <dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Information"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Informing title"
+                               Description="This is a description that will provide you with information."
+                               Style="{dui:Styles Alert=Information}"
+                               LeftButtonText="{Binding ButtonText}"
+                               LeftButtonCommand="{Binding Command}"
+                               LeftButtonCommandParameter="Here's the info!" />
+            </dui:VerticalStackLayout>
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Error"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Something went wrong"
+                               Description="Something terribly wrong happened."
+                               Style="{dui:Styles Alert=Error}" />
+            </dui:VerticalStackLayout>
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Warning"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="We warn you"
+                               Description="Dont do it...okay do it. No, dont!"
+                               Style="{dui:Styles Alert=Warning}" />
+            </dui:VerticalStackLayout>
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Success"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Yey"
+                               Description="Good job! You did it!"
+                               Style="{dui:Styles Alert=Success}" />
+            </dui:VerticalStackLayout>
+            <dui:VerticalStackLayout>
+                <dui:Label Text="In-line Buttons"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="A Short Title"
+                               Description="This text will be wrapped when the button is inline"
+                               Style="{dui:Styles Alert=Information}"
+                               LeftButtonText="Toggle Inline"
+                               LeftButtonCommand="{Binding ToggleButtonAlignmentCommand}"
+                               ButtonAlignment="{Binding ButtonAlignment}"/>
+            </dui:VerticalStackLayout>
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Auto Alignment"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="{Binding Title}"
+                               Description="And a short description!"
+                               Style="{dui:Styles Alert=Information}"
+                               LeftButtonText="Switch title"
+                               LeftButtonCommand="{Binding SwitchTitleCommand}"/>
+            </dui:VerticalStackLayout>
+        </dui:VerticalStackLayout>
         
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Information"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="Informing title"
-                           Description="This is a description that will provide you with information."
-                           Style="{dui:Styles Alert=Information}"
-                           LeftButtonText="{Binding ButtonText}"
-                           LeftButtonCommand="{Binding Command}"
-                           LeftButtonCommandParameter="Here's the info!"
-                           />
-        </dui:VerticalStackLayout>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Error"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="Something went wrong"
-                           Description="Something terribly wrong happened."
-                           Style="{dui:Styles Alert=Error}" />
-        </dui:VerticalStackLayout>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Warning"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="We warn you"
-                           Description="Dont do it...okay do it. No, dont!"
-                           Style="{dui:Styles Alert=Warning}" />
-        </dui:VerticalStackLayout>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Success"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="Yey"
-                           Description="Good job! You did it!"
-                           Style="{dui:Styles Alert=Success}" />
-        </dui:VerticalStackLayout>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="In-line Buttons"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="A Short Title"
-                           Description="This text will be wrapped when the button is inline"
-                           Style="{dui:Styles Alert=Information}"
-                           LeftButtonText="Toggle Inline"
-                           LeftButtonCommand="{Binding ToggleButtonAlignmentCommand}"
-                           ButtonAlignment="{Binding ButtonAlignment}"/>
-        </dui:VerticalStackLayout>
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Auto Alignment"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="{Binding Title}"
-                           Description="And a short description!"
-                           Style="{dui:Styles Alert=Information}"
-                           LeftButtonText="Switch title"
-                           LeftButtonCommand="{Binding SwitchTitleCommand}"/>
-        </dui:VerticalStackLayout>
-    </dui:VerticalStackLayout>
+    </ScrollView>
     
 </dui:ContentPage>

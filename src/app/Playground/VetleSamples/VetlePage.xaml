@@ -14,24 +14,31 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <CollectionView ItemsSource="{Binding TestStrings}"
-                    Footer="{Binding .}">
+    <ScrollView>
         
-        <CollectionView.FooterTemplate>
-            <DataTemplate>
-                <dui:ListItem Command="{Binding Navigate}"
-                              Title="h"></dui:ListItem>
-            </DataTemplate>
-        </CollectionView.FooterTemplate>
+        <VerticalStackLayout>
+            
+                <dui:Label Text="Hello"
+                           BackgroundColor="Red"
+                           IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+                <!--<Grid ColumnDefinitions="*, Auto">
+                    <Grid ColumnDefinitions="Auto, *"
+                          RowDefinitions="Auto, *, Auto">
+                        
+                    </Grid>
+                </Grid>-->
+            
+            <!--<dui:AlertView Title="Hello">
+                
+            </dui:AlertView>-->
+            
+            <Switch x:Name="Switch" />
+            
+            <Entry></Entry>
+            
+        </VerticalStackLayout>
         
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem Title="{Binding .}"
-                              Margin="{dui:Thickness Left=size_3, Right=size_3}" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
+    </ScrollView>
 
 
 </dui:ContentPage>
