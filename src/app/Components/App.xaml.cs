@@ -1,5 +1,6 @@
 ﻿using Components.Resources.LocalizedStrings;
 using Components.Services;
+using DIPS.Mobile.UI.API.Library;
 
 namespace Components;
 
@@ -12,6 +13,8 @@ public partial class App
         InitializeComponent();
 
         m_appCenterService = new AppCenterService();
+        
+        DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.Colors);
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

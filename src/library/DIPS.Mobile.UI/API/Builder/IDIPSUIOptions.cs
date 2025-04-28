@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -27,4 +28,10 @@ public interface IDIPSUIOptions
     ///     Based on: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
     /// </summary>
     IDIPSUIOptions EnableCustomHideSoftInputOnTapped();
+
+    /// <summary>
+    /// Enable a specific experimental feature.
+    /// </summary>
+    /// <param name="feature">The experimental feature to enable.</param>
+    IDIPSUIOptions EnableExperimentalFeature(DUI.ExperimentalFeatures feature);
 }

@@ -17,4 +17,23 @@ public class GroupedCollectionViewModel : ViewModel
     {
         GroupedTest.Add(new GroupedTest(["Test5", "Test6"]));
     });
+    
+    public ICommand AddItemAtEndInSectionCommand => new Command(() =>
+    {
+        GroupedTest[0].Add("Test7");
+    });
+    
+    public ICommand AddItemAtStartInSectionCommand => new Command(() =>
+    {
+        GroupedTest[0].Insert(0, "Test8");
+    });
+    
+    public ICommand AddItemAtMiddleInSectionCommand => new Command(async () =>
+    {
+        GroupedTest[0].Clear();
+        await Task.Delay(1);
+        GroupedTest[0].Add("Test9");
+        GroupedTest[0].Add("Test9");
+        GroupedTest[0].Add("Test9");
+    });
 }
