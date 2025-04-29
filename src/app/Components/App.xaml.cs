@@ -13,8 +13,6 @@ public partial class App
         InitializeComponent();
 
         m_appCenterService = new AppCenterService();
-        
-        DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.Colors);
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

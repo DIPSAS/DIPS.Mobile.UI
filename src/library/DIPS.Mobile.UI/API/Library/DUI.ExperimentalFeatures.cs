@@ -5,9 +5,7 @@ public partial class DUI
     [Flags]
     public enum ExperimentalFeatures
     {
-        None = 0,
-        // Uses new color palette
-        Colors = 1 << 0,
+        None = 0
         // Add more experimental features here as needed
     }
 
