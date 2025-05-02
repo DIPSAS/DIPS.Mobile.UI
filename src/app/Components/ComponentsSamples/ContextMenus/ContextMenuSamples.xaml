@@ -155,7 +155,8 @@
 
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}"
                       HasTopDivider="True"
-                      HasBottomDivider="True">
+                      HasBottomDivider="True"
+                      dui:ContextMenuEffect.Mode="LongPressed">
 
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -167,7 +168,8 @@
         </dui:ListItem>
 
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithDestructiveAction}"
-                      HasBottomDivider="True">
+                      HasBottomDivider="True"
+                      dui:ContextMenuEffect.Mode="LongPressed">
 
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
@@ -181,7 +183,8 @@
         
         <!-- One item + one menu -->
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPress_OneItemOneGroup}"
-                      HasBottomDivider="True">
+                      HasBottomDivider="True"
+                      dui:ContextMenuEffect.Mode="LongPressed">
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenuItem

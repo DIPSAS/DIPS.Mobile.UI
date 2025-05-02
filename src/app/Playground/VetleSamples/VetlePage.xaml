@@ -6,7 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:converters="clr-namespace:Arena.Mobile.Domains.MunicipalCare.Shared.Converters"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True">
@@ -15,17 +14,31 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <!--<dui:NavigationListItem />-->
-    <dui:Image 
-              
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                Source="{dui:Icons arrow_back_line}"
-                Margin="0, 0, 0, 0">
-        <dui:Image.GestureRecognizers>
-            <TapGestureRecognizer Tapped="ListItem_OnTapped"></TapGestureRecognizer>
-        </dui:Image.GestureRecognizers>
-    </dui:Image>
+    <ScrollView>
+        
+        <VerticalStackLayout>
+            
+                <dui:Label Text="Hello"
+                           BackgroundColor="Red"
+                           IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+                <!--<Grid ColumnDefinitions="*, Auto">
+                    <Grid ColumnDefinitions="Auto, *"
+                          RowDefinitions="Auto, *, Auto">
+                        
+                    </Grid>
+                </Grid>-->
+            
+            <!--<dui:AlertView Title="Hello">
+                
+            </dui:AlertView>-->
+            
+            <Switch x:Name="Switch" />
+            
+            <Entry></Entry>
+            
+        </VerticalStackLayout>
+        
+    </ScrollView>
 
 
 </dui:ContentPage>

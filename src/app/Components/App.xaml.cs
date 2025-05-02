@@ -1,5 +1,6 @@
 ﻿using Components.Resources.LocalizedStrings;
 using Components.Services;
+using DIPS.Mobile.UI.API.Library;
 
 namespace Components;
 

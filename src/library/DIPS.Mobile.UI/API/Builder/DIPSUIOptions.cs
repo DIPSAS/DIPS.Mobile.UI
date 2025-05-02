@@ -31,4 +31,11 @@ internal class DIPSUIOptions : IDIPSUIOptions
         
         return this;
     }
+
+    public IDIPSUIOptions EnableExperimentalFeature(DUI.ExperimentalFeatures feature)
+    {
+        DUI.EnableExperimentalFeature(feature);
+        
+        return this;
+    }
 }
