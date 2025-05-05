@@ -1,3 +1,6 @@
+## [45.0.1] 
+- [CollectionView][iOS] Support Border as root element for padding.
+
 ## [45.0.0] 
 - Upgraded .NET MAUI to 9.0.60.
 - Added Experimental Features API.
