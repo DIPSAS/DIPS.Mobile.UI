@@ -89,12 +89,12 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
     private static View? GetCrossPlatformElementFromCell(UICollectionViewCell cell)
     {
         var subView = cell.Subviews[1].Subviews[0];
-        if (subView is LayoutView layoutView)
+        return subView switch
         {
-            return (View?)layoutView.CrossPlatformLayout;
-        }
-
-        return null;
+            LayoutView layoutView => (View?)layoutView.CrossPlatformLayout,
+            ContentView contentView => (View?)contentView.CrossPlatformLayout,
+            _ => null
+        };
     }
 
     internal static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
