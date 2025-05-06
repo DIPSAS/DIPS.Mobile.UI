@@ -38,10 +38,10 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
     {
     }
 
-    public override void SetAppearance(BottomNavigationView bottomView, IShellAppearanceElement appearance)
+    protected override void SetBackgroundColor(BottomNavigationView bottomView, Microsoft.Maui.Graphics.Color color)
     {
-        base.SetAppearance(bottomView, appearance);
-
+        base.SetBackgroundColor(bottomView, color);
+        
         m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
         
         TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
@@ -65,14 +65,18 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
                 return;
 
             var badgeDrawable = bottomView.GetOrCreateBadge(tabIndex);
+            
+            // Because the text is being bolded when active, the badge is translated upwards
+            // So we need to set a vertical offset to make sure the badge is not clipping when the tab is selected
             badgeDrawable.VerticalOffset = 10;
             
             if (count is null)
             {
-                badgeDrawable.ClearText();
+                badgeDrawable.SetVisible(false);
             }
             else
             {
+                badgeDrawable.SetVisible(true);
                 badgeDrawable.Text = count;
             }
             
