@@ -19,15 +19,22 @@ public partial class App : Application
     protected override Window CreateWindow(IActivationState activationState)
     {
         var shell = new Shell();
-        var tabBar = new TabBar();
-        var tab = new Tab();
-
+        var tabBar = new TabBar() { Route = "app" };
+        var tab = new Tab() { Route = "tab1", Title = "Main", Icon = Icons.GetIcon(IconName.mail_open_line) };
+        var tab2 = new Tab() { Route = "tab2", Title = "Test", Icon = Icons.GetIcon(IconName.placeholdericon_fill)};
+        
         tab.Items.Add(new ShellContent()
         {
             ContentTemplate =
                 new DataTemplate(() => new MainPage())
         });
+        tab2.Items.Add(new ShellContent()
+        {
+            ContentTemplate =
+                new DataTemplate(() => new TestTab())
+        });
         tabBar.Items.Add(tab);
+        tabBar.Items.Add(tab2);
         shell.Items.Add(tabBar);
 
         return new Window(shell);

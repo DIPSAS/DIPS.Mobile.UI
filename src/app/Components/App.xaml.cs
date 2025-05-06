@@ -19,8 +19,10 @@ public partial class App
     {
         var shell = new DIPS.Mobile.UI.Components.Shell.Shell
         {
-            ShouldGarbageCollectPreviousPage = true
+            ShouldGarbageCollectPreviousPage = true,
+            
         };
+        
         var tabBar = new TabBar();
         var tab = new Tab();
         
