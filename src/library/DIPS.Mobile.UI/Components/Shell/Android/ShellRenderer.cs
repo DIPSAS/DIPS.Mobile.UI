@@ -1,18 +1,16 @@
-using System.Diagnostics;
-using Android.App;
 using Android.OS;
-using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
-using AndroidX.DrawerLayout.Widget;
+using DIPS.Mobile.UI.API.TabBadge;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using DIPS.Mobile.UI.Components.Pages;
-using Google.Android.Material.AppBar;
+using Google.Android.Material.BottomNavigation;
 using Microsoft.Maui.Controls.Platform.Compatibility;
 using Microsoft.Maui.Platform;
 using Activity = Android.App.Activity;
 using Application = Android.App.Application;
+using Color = Android.Graphics.Color;
 using Object = Java.Lang.Object;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 using View = Android.Views.View;
@@ -24,6 +22,76 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
     protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker() => ToolbarApperanceTrancer = new CustomToolbarAppearanceTracker(this);
 
     internal CustomToolbarAppearanceTracker ToolbarApperanceTrancer { get; set; }
+    protected override IShellBottomNavViewAppearanceTracker CreateBottomNavViewAppearanceTracker(ShellItem shellItem)
+    {
+        return new BadgeShellBottomNavViewAppearanceTracker(this, shellItem);
+    }
+}
+
+
+
+internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppearanceTracker
+{
+    private WeakReference<BottomNavigationView>? m_bottomView;
+
+    public BadgeShellBottomNavViewAppearanceTracker(IShellContext shellContext, ShellItem shellItem) : base(shellContext, shellItem)
+    {
+    }
+
+    public override void SetAppearance(BottomNavigationView bottomView, IShellAppearanceElement appearance)
+    {
+        base.SetAppearance(bottomView, appearance);
+
+        m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
+        
+        TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
+        TabBadgeService.OnBadgeCountChanged -= OnTabBadgeServicePropertyChanged;
+        
+        TabBadgeService.OnBadgeColorChanged += OnTabBadgeServicePropertyChanged;
+        TabBadgeService.OnBadgeCountChanged += OnTabBadgeServicePropertyChanged;
+
+        SetBadges();
+    }
+
+    private void SetBadges()
+    {
+        if(m_bottomView is null || !m_bottomView.TryGetTarget(out var bottomView))
+            return;
+        
+        foreach (var (tabIndex, count) in TabBadgeService.s_badgeCounts)
+        {
+            var tabBarItems = bottomView.Menu;
+            if(tabBarItems is null || tabBarItems.Size() < tabIndex)
+                return;
+
+            var badgeDrawable = bottomView.GetOrCreateBadge(tabIndex);
+            badgeDrawable.VerticalOffset = 10;
+            
+            if (count is null)
+            {
+                badgeDrawable.ClearText();
+            }
+            else
+            {
+                badgeDrawable.Text = count;
+            }
+            
+            badgeDrawable.BackgroundColor = TabBadgeService.s_badgeColors.TryGetValue(tabIndex, out var color) ? color.ToPlatform() : Color.Red;
+        }
+    }
+
+    private void OnTabBadgeServicePropertyChanged()
+    {
+        SetBadges();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        
+        TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
+        TabBadgeService.OnBadgeCountChanged -= OnTabBadgeServicePropertyChanged;
+    }
 }
 
 internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker

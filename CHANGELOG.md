@@ -1,3 +1,6 @@
+## [45.1.0] 
+- Added `TabBadgeService`.
+
 ## [45.0.1] 
 - [CollectionView][iOS] Support Border as root element for padding.
 
