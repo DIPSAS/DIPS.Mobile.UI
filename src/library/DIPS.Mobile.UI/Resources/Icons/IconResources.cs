@@ -201,6 +201,9 @@ this file is generated
 ["chain_link_line"] = "chain_link_line.png",
 ["arrow_down_line"] = "arrow_down_line.png",
 ["chain_unlink_line"] = "chain_unlink_line.png",
+["underline"] = "underline.png",
+["bold"] = "bold.png",
+["italic"] = "italic.png",
 
             };
         }
