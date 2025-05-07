@@ -393,5 +393,11 @@ chain_link_line=193,
 arrow_down_line=194,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/chain_unlink_line.svg">View the icon in the browser</a></summary>
 chain_unlink_line=195,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/underline.svg">View the icon in the browser</a></summary>
+underline=196,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/bold.svg">View the icon in the browser</a></summary>
+bold=197,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/italic.svg">View the icon in the browser</a></summary>
+italic=198,
     }
 }
