@@ -14,31 +14,33 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <ScrollView>
-        
+    <Grid RowDefinitions="Auto, *">
         <VerticalStackLayout>
+            <dui:ListItem x:Name="SearchBar"
+                          Title="Lol"
+                           />
             
-                <dui:Label Text="Hello"
-                           BackgroundColor="Red"
-                           IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
-                <!--<Grid ColumnDefinitions="*, Auto">
-                    <Grid ColumnDefinitions="Auto, *"
-                          RowDefinitions="Auto, *, Auto">
-                        
-                    </Grid>
-                </Grid>-->
-            
-            <!--<dui:AlertView Title="Hello">
-                
-            </dui:AlertView>-->
-            
-            <Switch x:Name="Switch" />
-            
-            <Entry></Entry>
-            
+            <dui:Button Text="Test"
+                        />
+
         </VerticalStackLayout>
+    
+        <dui:CollectionView ItemsSource="{Binding TestStrings}"
+                            Grid.Row="1">
+            
+            <dui:CollectionView.CollapsableElements>
+                <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
+                                        InputTransparentOnCollapse="True"/>
+            </dui:CollectionView.CollapsableElements>
+            
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <dui:ListItem Title="{Binding .}" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
         
-    </ScrollView>
+    </Grid>
 
 
 </dui:ContentPage>

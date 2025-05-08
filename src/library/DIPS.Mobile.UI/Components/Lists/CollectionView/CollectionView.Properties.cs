@@ -46,6 +46,12 @@ public partial class CollectionView
         get => (bool)GetValue(ShouldBounceProperty);
         set => SetValue(ShouldBounceProperty, value);
     }
+    
+    public List<CollapsableElement> CollapsableElements
+    {
+        get => (List<CollapsableElement>)GetValue(CollapsableElementsProperty);
+        set => SetValue(CollapsableElementsProperty, value);
+    }
 
     /// <summary>
     /// Margin for the content inside the CollectionView, using this will not affect for example scroll bar, like default margin does
@@ -66,6 +72,13 @@ public partial class CollectionView
         typeof(double),
         typeof(CollectionView), propertyChanged: (bindable, value, newValue) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
 
+    public static readonly BindableProperty CollapsableElementsProperty = BindableProperty.Create(
+        nameof(CollapsableElements),
+        typeof(List<CollapsableElement>),
+        typeof(CollectionView),
+        new List<CollapsableElement>(),
+        defaultBindingMode: BindingMode.OneTime);
+    
     /// <summary>
     /// Reloads all the data in the <see cref="CollectionView"/>
     /// </summary>
@@ -81,5 +94,151 @@ public partial class CollectionView
         if(Handler is CollectionView2Handler handler2)
             handler2.ReloadData(handler2);
 #endif
+    }
+}
+
+public class CollapsableElement : BindableObject
+{
+    public static readonly BindableProperty ElementProperty = BindableProperty.Create(
+        nameof(Element),
+        typeof(VisualElement),
+        typeof(CollapsableElement), 
+        defaultBindingMode: BindingMode.OneTime);
+
+    public static readonly BindableProperty InputTransparentOnCollapseProperty = BindableProperty.Create(
+        nameof(InputTransparentOnCollapse),
+        typeof(bool),
+        typeof(CollapsableElement),
+        defaultBindingMode: BindingMode.OneTime);
+
+    public static readonly BindableProperty ShouldFadeOutProperty = BindableProperty.Create(
+        nameof(ShouldFadeOut),
+        typeof(bool),
+        typeof(CollapsableElement), 
+        defaultValue: true);
+
+    public static readonly BindableProperty FadeOutThresholdProperty = BindableProperty.Create(
+        nameof(FadeOutThreshold),
+        typeof(float),
+        typeof(CollapsableElement),
+        defaultValue: 0.5f);
+
+    /// <summary>
+    /// The threshold for when the element should be completely faded out
+    /// </summary>
+    public float FadeOutThreshold
+    {
+        get => (float)GetValue(FadeOutThresholdProperty);
+        set => SetValue(FadeOutThresholdProperty, value);
+    }
+
+    /// <summary>
+    /// When collapsing, the element will fade out if this is set to true.
+    /// </summary>
+    public bool ShouldFadeOut
+    {
+        get => (bool)GetValue(ShouldFadeOutProperty);
+        set => SetValue(ShouldFadeOutProperty, value);
+    }
+    
+    /// <summary>
+    /// When collapsing, the element will be set to InputTransparent if this is set to true.
+    /// <remarks>InputTransparency will be set at the very start of the collapse</remarks>
+    /// </summary>
+    public bool InputTransparentOnCollapse
+    {
+        get => (bool)GetValue(InputTransparentOnCollapseProperty);
+        set => SetValue(InputTransparentOnCollapseProperty, value);
+    }
+    
+    /// <summary>
+    /// The element that will be collapsed
+    /// </summary>
+    public VisualElement Element
+    {
+        get => (VisualElement)GetValue(ElementProperty);
+        set => SetValue(ElementProperty, value);
+    }
+
+    /// <summary>
+    /// For some reason, the ScaleY property is not set on Android when scrolling fast, so we set it manually in the platform
+    /// </summary>
+    internal void SetScaleY(double scaleY)
+    {
+#if __ANDROID__
+
+        if (Element.Handler?.PlatformView is global::Android.Views.View view)
+        {
+            view.ScaleY = (float)scaleY;
+        }
+#else
+        Element.ScaleY = scaleY;
+#endif
+    }
+    
+    internal double? OriginalHeight { get; set; }
+
+    internal void TryFade()
+    {
+        if (!ShouldFadeOut || OriginalHeight is null)
+        {
+            return;
+        }
+
+        var opacity = (Element.HeightRequest / OriginalHeight.Value - FadeOutThreshold) / FadeOutThreshold;
+        Element.Opacity = Math.Clamp(opacity, 0, 1);
+    }
+
+    internal void TryScale()
+    {
+        // Adjust the scale of the search bar based on its height
+        if (OriginalHeight is not null)
+        {
+            var scaleY = Element.HeightRequest / OriginalHeight.Value;
+            SetScaleY(scaleY);
+        }
+    }
+
+    internal void TrySetInputTransparent()
+    {
+        if (!InputTransparentOnCollapse)
+            return;
+
+        // Set InputTransparent to true if the height is less than the original height
+        if (Math.Abs(Element.Height - OriginalHeight!.Value) < 0.05f)
+        {
+            Element.InputTransparent = false;
+        }
+        else
+        {
+            Element.InputTransparent = true;
+            if (Element is SearchBar searchBar)
+            {
+                searchBar.Unfocus();    
+            }
+            else
+            {
+                Element.Unfocus();
+            }
+        }
+    }
+
+    internal void Reset()
+    {
+        if(!OriginalHeight.HasValue)
+            return;
+        
+        Element.HeightRequest = OriginalHeight.Value;
+        SetScaleY(1);
+        Element.InputTransparent = false;
+    }
+
+    internal void TryInitialize()
+    {
+        if (OriginalHeight is not null)
+            return;
+
+        OriginalHeight = Element.Height;
+        Element.HeightRequest = OriginalHeight.Value;
     }
 }
