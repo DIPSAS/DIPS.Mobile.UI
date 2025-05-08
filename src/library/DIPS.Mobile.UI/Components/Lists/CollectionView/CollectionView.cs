@@ -34,7 +34,10 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         base.OnHandlerChanging(args);
 
         if (args.NewHandler is null)
+        {
+            Dispose();
             return;
+        }
 
         
         if (!RemoveFocusOnScroll)
@@ -107,14 +110,16 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             
             var isScrollingDown = e.VerticalDelta > 0;
             // Shrink the search bar when scrolling down
-            if (isScrollingDown && collapsableElement.Element.HeightRequest > 0)
+            if (isScrollingDown && collapsableElement.Element!.HeightRequest > 0)
             {
                 collapsableElement.Element.HeightRequest = Math.Max(0, collapsableElement.Element.HeightRequest - e.VerticalDelta);
+                m_suppressScroll = true;
             }
             // Expand the search bar when scrolling up
-            else if (!isScrollingDown && collapsableElement.Element.HeightRequest < collapsableElement.OriginalHeight)
+            else if (!isScrollingDown && collapsableElement.Element!.HeightRequest < collapsableElement.OriginalHeight)
             {
                 collapsableElement.Element.HeightRequest = Math.Min(collapsableElement.OriginalHeight.Value, collapsableElement.Element.HeightRequest - e.VerticalDelta);
+                m_suppressScroll = true;
             }
             
             collapsableElement.TryScale();
@@ -176,5 +181,14 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             },
             _ => null
         };
+    }
+    
+    private void Dispose()
+    {
+        CollapsableElements.ForEach(element =>
+        {
+            element.Element?.DisconnectHandlers();
+        });
+        CollapsableElements = [];
     }
 }

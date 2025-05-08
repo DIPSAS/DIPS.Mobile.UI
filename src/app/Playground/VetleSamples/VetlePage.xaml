@@ -14,32 +14,63 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, *">
-        <VerticalStackLayout>
-            <dui:ListItem x:Name="SearchBar"
-                          Title="Lol"
-                           />
+    <Grid RowDefinitions="Auto, Auto, Auto, *"
+          ColumnDefinitions="Auto, *">
+        
+        <Grid HeightRequest="100" ColumnSpan="2"></Grid>
+        
+        <Grid ColumnDefinitions="*, Auto"
+              ColumnSpan="2"
+              Row="1"
+              x:Name="Container"
+              ColumnSpacing="{dui:Sizes size_2}"
+              Padding="{dui:Thickness Right=content_margin_medium, Left=content_margin_medium}">
+            <dui:SearchBar x:Name="SearchBar" />
             
             <dui:Button Text="Test"
-                        />
+                        Grid.Column="1" />
 
-        </VerticalStackLayout>
+        </Grid>
+        
+        <Grid Row="2"
+              ColumnSpan="2"
+              HeightRequest="100"></Grid>
     
+        <dui:RefreshView Grid.Row="3"
+                         Grid.ColumnSpan="2">
+            
+        
         <dui:CollectionView ItemsSource="{Binding TestStrings}"
-                            Grid.Row="1">
+                            
+                            dui:Layout.AutoHideLastDivider="True">
             
             <dui:CollectionView.CollapsableElements>
-                <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
+                <dui:CollapsableElement Element="{Binding Source={x:Reference Container}}" 
                                         InputTransparentOnCollapse="True"/>
             </dui:CollectionView.CollapsableElements>
             
             <dui:CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <dui:ListItem Title="{Binding .}" />
+                    <dui:ListItem Title="{Binding .}"
+                                  HasBottomDivider="True" />
                 </DataTemplate>
             </dui:CollectionView.ItemTemplate>
+            
+            <dui:CollectionView.FooterTemplate>
+                <DataTemplate>
+                    <Grid RowSpacing="0"
+                          RowDefinitions="Auto"
+                          Padding="{dui:Sizes size_0}"
+                          AutomationId="FooterGrid">
+                        
+
+                        <dui:ActivityIndicator Grid.Row="1"
+                                               IsRunning="True" />
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.FooterTemplate>
         </dui:CollectionView>
-        
+        </dui:RefreshView>        
     </Grid>
 
 

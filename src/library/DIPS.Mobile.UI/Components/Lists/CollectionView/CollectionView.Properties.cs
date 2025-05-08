@@ -123,6 +123,29 @@ public class CollapsableElement : BindableObject
         typeof(CollapsableElement),
         defaultValue: 0.5f);
 
+    public static readonly BindableProperty ScaleYEnabledProperty = BindableProperty.Create(
+        nameof(ScaleYEnabled),
+        typeof(bool),
+        typeof(CollapsableElement),
+        defaultValue: true);
+
+    public static readonly BindableProperty ScaleXEnabledProperty = BindableProperty.Create(
+        nameof(ScaleXEnabled),
+        typeof(bool),
+        typeof(CollapsableElement));
+
+    public bool ScaleXEnabled
+    {
+        get => (bool)GetValue(ScaleXEnabledProperty);
+        set => SetValue(ScaleXEnabledProperty, value);
+    }
+    
+    public bool ScaleYEnabled
+    {
+        get => (bool)GetValue(ScaleYEnabledProperty);
+        set => SetValue(ScaleYEnabledProperty, value);
+    }
+    
     /// <summary>
     /// The threshold for when the element should be completely faded out
     /// </summary>
@@ -154,9 +177,9 @@ public class CollapsableElement : BindableObject
     /// <summary>
     /// The element that will be collapsed
     /// </summary>
-    public VisualElement Element
+    public VisualElement? Element
     {
-        get => (VisualElement)GetValue(ElementProperty);
+        get => (VisualElement?)GetValue(ElementProperty);
         set => SetValue(ElementProperty, value);
     }
 
@@ -167,12 +190,12 @@ public class CollapsableElement : BindableObject
     {
 #if __ANDROID__
 
-        if (Element.Handler?.PlatformView is global::Android.Views.View view)
+        if (Element?.Handler?.PlatformView is global::Android.Views.View view)
         {
             view.ScaleY = (float)scaleY;
         }
 #else
-        Element.ScaleY = scaleY;
+        Element!.ScaleY = scaleY;
 #endif
     }
     
@@ -185,7 +208,7 @@ public class CollapsableElement : BindableObject
             return;
         }
 
-        var opacity = (Element.HeightRequest / OriginalHeight.Value - FadeOutThreshold) / FadeOutThreshold;
+        var opacity = (Element!.HeightRequest / OriginalHeight.Value - FadeOutThreshold) / FadeOutThreshold;
         Element.Opacity = Math.Clamp(opacity, 0, 1);
     }
 
@@ -194,7 +217,7 @@ public class CollapsableElement : BindableObject
         // Adjust the scale of the search bar based on its height
         if (OriginalHeight is not null)
         {
-            var scaleY = Element.HeightRequest / OriginalHeight.Value;
+            var scaleY = Element!.HeightRequest / OriginalHeight.Value;
             SetScaleY(scaleY);
         }
     }
@@ -205,7 +228,7 @@ public class CollapsableElement : BindableObject
             return;
 
         // Set InputTransparent to true if the height is less than the original height
-        if (Math.Abs(Element.Height - OriginalHeight!.Value) < 0.05f)
+        if (Math.Abs(Element!.Height - OriginalHeight!.Value) < 0.05f)
         {
             Element.InputTransparent = false;
         }
@@ -228,8 +251,9 @@ public class CollapsableElement : BindableObject
         if(!OriginalHeight.HasValue)
             return;
         
-        Element.HeightRequest = OriginalHeight.Value;
         SetScaleY(1);
+        Element!.HeightRequest = OriginalHeight.Value;
+        Element.Opacity = 1;
         Element.InputTransparent = false;
     }
 
@@ -238,6 +262,9 @@ public class CollapsableElement : BindableObject
         if (OriginalHeight is not null)
             return;
 
+        if(Element is null)
+            throw new NullReferenceException("Element is null, cannot initialize CollapsableElement. If you are binding using Source and compiled bindings on Source is activated, remember to set x:DataType to the correct type");
+        
         OriginalHeight = Element.Height;
         Element.HeightRequest = OriginalHeight.Value;
     }
