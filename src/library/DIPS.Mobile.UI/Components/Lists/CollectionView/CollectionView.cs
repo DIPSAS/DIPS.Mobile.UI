@@ -70,19 +70,33 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
     private void TryCollapseOrExpandElements(ItemsViewScrolledEventArgs e)
     {
-        if (CollapsableElement is null || IsBouncing(e) || e.VerticalDelta == 0)
+        // Safety measure if user scrolls too fast and the element has not have time to expand completely
+        if (e.VerticalOffset <= 0)
+        {
+            CollapsableElement?.Reset();
+            return;
+        }
+        
+        if (CollapsableElement is null || e.VerticalDelta == 0)
             return;
 
         CollapsableElement.TryInitialize();
 
         var curHeight = CollapsableElement.Element!.HeightRequest;
 
-        var delta = e.VerticalDelta - m_previousHeightDifference;
+        var delta = e.VerticalDelta;
+
+#if __ANDROID__
+        delta = e.VerticalDelta - m_previousHeightDifference;
+#endif
         
         var isScrollingDown = delta > 0;
 
-        if (isScrollingDown && e.VerticalOffset < CollapsableElement.OffsetThreshold)
+        if (isScrollingDown && e.VerticalOffset < CollapsableElement.OffsetThreshold ||
+            !isScrollingDown && e.VerticalOffset > CollapsableElement.OffsetThreshold)
+        {
             return;
+        }
         
         if (isScrollingDown && CollapsableElement.Element!.HeightRequest > 0)
         {
@@ -98,29 +112,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         CollapsableElement.TryScale();
         CollapsableElement.TryFade();
         CollapsableElement.TrySetInputTransparent();
-    }
-
-    private bool IsBouncing(ItemsViewScrolledEventArgs e)
-    {
-#if __IOS__
-        if(Handler?.PlatformView is not UIKit.UIView uiView)
-            return true;
-            
-        if(uiView.Subviews[0] is not UIKit.UICollectionView uiCollectionView)
-            return true;
-            
-        // Prevent adjustments if the list is bouncing (at the start or end)
-        if (e.VerticalOffset <= 0 
-            || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20 // CollectionView
-            || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20) // CollectionView2
-        {
-            return true;
-        }
-
-        return false;
-#else
-        return false;
-#endif
     }
 
     private void TryRemoveScroll()
