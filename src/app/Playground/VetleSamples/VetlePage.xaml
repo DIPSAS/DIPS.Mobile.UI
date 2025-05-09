@@ -28,21 +28,20 @@
               ColumnSpan="2"
               HeightRequest="100"></Grid>-->
     
-        <!--<dui:RefreshView Grid.Row="2"
-                         >-->
+        <dui:RefreshView Grid.Row="2"
+                         >
             
         
         <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
-                             Grid.Row="2"
-                            RemainingItemsThreshold="0"
+                             RemainingItemsThreshold="0"
                              HasAdditionalSpaceAtTheEnd="True"
                             
                             dui:Layout.AutoHideLastDivider="True">
             
-            <dui:CollectionView2.CollapsableElements>
+            <dui:CollectionView2.CollapsableElement>
                 <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
                                         InputTransparentOnCollapse="True"/>
-            </dui:CollectionView2.CollapsableElements>
+            </dui:CollectionView2.CollapsableElement>
             
             <dui:CollectionView2.ItemTemplate>
                 <DataTemplate>
@@ -64,7 +63,7 @@
                 </DataTemplate>
             </dui:CollectionView2.FooterTemplate>
         </dui:CollectionView2>
-        <!--</dui:RefreshView>        -->
+        </dui:RefreshView>        
     </Grid>
 
 

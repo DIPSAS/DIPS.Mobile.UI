@@ -70,40 +70,34 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
     private void TryCollapseOrExpandElements(ItemsViewScrolledEventArgs e)
     {
-        if (CollapsableElements.Count == 0)
+        if (CollapsableElement is null || IsBouncing(e) || e.VerticalDelta == 0)
             return;
 
-        foreach (var collapsableElement in CollapsableElements)
+        CollapsableElement.TryInitialize();
+
+        var curHeight = CollapsableElement.Element!.HeightRequest;
+
+        var delta = e.VerticalDelta - m_previousHeightDifference;
+        
+        var isScrollingDown = delta > 0;
+
+        if (isScrollingDown && e.VerticalOffset < CollapsableElement.OffsetThreshold)
+            return;
+        
+        if (isScrollingDown && CollapsableElement.Element!.HeightRequest > 0)
         {
-            collapsableElement.TryInitialize();
-
-            if (e.VerticalDelta == 0)
-                return;
-
-            if (IsBouncing(e))
-                continue;
-
-            var curHeight = collapsableElement.Element!.HeightRequest;
-
-            var delta = e.VerticalDelta - m_previousHeightDifference;
-            
-            var isScrollingDown = delta > 0;
-            
-            if (isScrollingDown && collapsableElement.Element!.HeightRequest > 0)
-            {
-                collapsableElement.Element.HeightRequest = Math.Max(0, collapsableElement.Element.HeightRequest - delta);
-            }
-            else if (!isScrollingDown && collapsableElement.Element!.HeightRequest < collapsableElement.OriginalHeight)
-            {
-                collapsableElement.Element.HeightRequest = Math.Min(collapsableElement.OriginalHeight.Value, collapsableElement.Element.HeightRequest - delta);
-            }
-
-            m_previousHeightDifference = collapsableElement.Element.HeightRequest - curHeight;
-
-            collapsableElement.TryScale();
-            collapsableElement.TryFade();
-            collapsableElement.TrySetInputTransparent();
+            CollapsableElement.Element.HeightRequest = Math.Max(0, CollapsableElement.Element.HeightRequest - delta);
         }
+        else if (!isScrollingDown && CollapsableElement.Element!.HeightRequest < CollapsableElement.OriginalHeight)
+        {
+            CollapsableElement.Element.HeightRequest = Math.Min(CollapsableElement.OriginalHeight.Value, CollapsableElement.Element.HeightRequest - delta);
+        }
+
+        m_previousHeightDifference = CollapsableElement.Element.HeightRequest - curHeight;
+
+        CollapsableElement.TryScale();
+        CollapsableElement.TryFade();
+        CollapsableElement.TrySetInputTransparent();
     }
 
     private bool IsBouncing(ItemsViewScrolledEventArgs e)
@@ -120,7 +114,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20 // CollectionView
             || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20) // CollectionView2
         {
-            Console.WriteLine("Is bouncing!!!");
             return true;
         }
 
@@ -166,10 +159,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     
     private void Dispose()
     {
-        CollapsableElements.ForEach(element =>
-        {
-            element.Element = null;
-        });
-        CollapsableElements = [];
+        CollapsableElement = null;
     }
 }

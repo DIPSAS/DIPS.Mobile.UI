@@ -47,10 +47,10 @@ public partial class CollectionView
         set => SetValue(ShouldBounceProperty, value);
     }
     
-    public List<CollapsableElement> CollapsableElements
+    public CollapsableElement? CollapsableElement
     {
-        get => (List<CollapsableElement>)GetValue(CollapsableElementsProperty);
-        set => SetValue(CollapsableElementsProperty, value);
+        get => (CollapsableElement?)GetValue(CollapsableElementProperty);
+        set => SetValue(CollapsableElementProperty, value);
     }
 
     /// <summary>
@@ -72,11 +72,10 @@ public partial class CollectionView
         typeof(double),
         typeof(CollectionView), propertyChanged: (bindable, value, newValue) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
 
-    public static readonly BindableProperty CollapsableElementsProperty = BindableProperty.Create(
-        nameof(CollapsableElements),
-        typeof(List<CollapsableElement>),
+    public static readonly BindableProperty CollapsableElementProperty = BindableProperty.Create(
+        nameof(CollapsableElement),
+        typeof(CollapsableElement),
         typeof(CollectionView),
-        new List<CollapsableElement>(),
         defaultBindingMode: BindingMode.OneTime);
     
     /// <summary>
@@ -123,31 +122,25 @@ public class CollapsableElement : BindableObject
         typeof(CollapsableElement),
         defaultValue: 0.5f);
 
-    public static readonly BindableProperty ScaleYEnabledProperty = BindableProperty.Create(
-        nameof(ScaleYEnabled),
-        typeof(bool),
+    public static readonly BindableProperty OffsetThresholdProperty = BindableProperty.Create(
+        nameof(OffsetThreshold),
+        typeof(float),
         typeof(CollapsableElement),
-        defaultValue: true);
+        defaultValue: 50f);
 
-    public static readonly BindableProperty ScaleXEnabledProperty = BindableProperty.Create(
-        nameof(ScaleXEnabled),
-        typeof(bool),
-        typeof(CollapsableElement));
-
-    public bool ScaleXEnabled
+    /// <summary>
+    /// When the element should begin to be collapsed, 50 is default
+    /// <remarks>A value of 50 seems to resolve some issues if CollectionView is wrapped with RefreshView on Android</remarks>
+    /// </summary>
+    public float OffsetThreshold
     {
-        get => (bool)GetValue(ScaleXEnabledProperty);
-        set => SetValue(ScaleXEnabledProperty, value);
-    }
-    
-    public bool ScaleYEnabled
-    {
-        get => (bool)GetValue(ScaleYEnabledProperty);
-        set => SetValue(ScaleYEnabledProperty, value);
+        get => (float)GetValue(OffsetThresholdProperty);
+        set => SetValue(OffsetThresholdProperty, value);
     }
     
     /// <summary>
     /// The threshold for when the element should be completely faded out
+    /// A threshold of 0.5 means that the element will be completely faded out when it is at 50% of its original height
     /// </summary>
     public float FadeOutThreshold
     {
@@ -199,7 +192,7 @@ public class CollapsableElement : BindableObject
 #endif
     }
     
-    internal double? OriginalHeight { get; private set; }
+    internal double? OriginalHeight { get; set; }
 
     internal void TryFade()
     {
@@ -250,6 +243,17 @@ public class CollapsableElement : BindableObject
                 Element.Unfocus();
             }
         }
+    }
+
+    internal void Reset()
+    {
+        if(!OriginalHeight.HasValue)
+            return;
+        
+        SetScaleY(1);
+        Element!.HeightRequest = OriginalHeight.Value;
+        Element.Opacity = 1;
+        Element.InputTransparent = false;
     }
 
     internal void TryInitialize()
