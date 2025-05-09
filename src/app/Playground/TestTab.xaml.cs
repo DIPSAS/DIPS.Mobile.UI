@@ -16,7 +16,7 @@ public partial class TestTab
 
     private void Stepper_OnValueChanged(object sender, ValueChangedEventArgs e)
     {
-        TabBadgeService.SetCount(1, (int)e.NewValue);
+        TabBadgeService.SetCount(tabIndex: 1, (int)e.NewValue);
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)
