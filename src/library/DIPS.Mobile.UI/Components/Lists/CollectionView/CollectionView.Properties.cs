@@ -212,12 +212,18 @@ public class CollapsableElement : BindableObject
         Element.Opacity = Math.Clamp(opacity, 0, 1);
     }
 
+    /// <summary>
+    /// Try adjust the scale of the element based on its height relative to its original height
+    /// </summary>
     internal void TryScale()
     {
-        // Adjust the scale of the search bar based on its height
         if (OriginalHeight is not null)
         {
             var scaleY = Element!.HeightRequest / OriginalHeight.Value;
+            if (double.IsNaN(scaleY))
+            {
+                scaleY = 0;
+            }
             SetScaleY(scaleY);
         }
     }

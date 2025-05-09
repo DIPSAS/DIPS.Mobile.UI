@@ -8,26 +8,13 @@ namespace DIPS.Mobile.UI.Components.Lists;
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
     private readonly List<WeakReference<VisualElement>> m_inputFields = [];
-    private bool m_suppressScroll;
+    private double m_previousHeightDifference;
 
     public CollectionView()
     {
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
         SelectionMode = SelectionMode.None;
     }
-
-#if __ANDROID__
-    /// <summary>
-    /// The Scroll event will be invoked on Android if the CollectionView's size is changed
-    /// So we need to make sure to suppress the next scroll event
-    /// </summary>
-    protected override void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-
-        m_suppressScroll = true;
-    }
-#endif
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
@@ -88,40 +75,32 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
         foreach (var collapsableElement in CollapsableElements)
         {
-#if __ANDROID__
-            // For some reason, Android bugs out if scrolling up and down at the start, so force reset when reaching start
-            if (e.VerticalOffset == 0)
-            {
-                collapsableElement.Reset();
-                continue;
-            }
-            
-            if (m_suppressScroll)
-            {
-                m_suppressScroll = false;
-                return;
-            }
-#endif
-
             collapsableElement.TryInitialize();
+
+            if (e.VerticalDelta == 0)
+                return;
 
             if (IsBouncing(e))
                 continue;
+
+            var curHeight = collapsableElement.Element!.HeightRequest;
+
+            var delta = e.VerticalDelta - m_previousHeightDifference;
             
-            var isScrollingDown = e.VerticalDelta > 0;
-            // Shrink the search bar when scrolling down
+            var isScrollingDown = delta > 0;
+            
+            // Calculate the new height directly based on the previous delta
             if (isScrollingDown && collapsableElement.Element!.HeightRequest > 0)
             {
-                collapsableElement.Element.HeightRequest = Math.Max(0, collapsableElement.Element.HeightRequest - e.VerticalDelta);
-                m_suppressScroll = true;
+                collapsableElement.Element.HeightRequest = Math.Max(0, collapsableElement.Element.HeightRequest - delta);
             }
-            // Expand the search bar when scrolling up
             else if (!isScrollingDown && collapsableElement.Element!.HeightRequest < collapsableElement.OriginalHeight)
             {
-                collapsableElement.Element.HeightRequest = Math.Min(collapsableElement.OriginalHeight.Value, collapsableElement.Element.HeightRequest - e.VerticalDelta);
-                m_suppressScroll = true;
+                collapsableElement.Element.HeightRequest = Math.Min(collapsableElement.OriginalHeight.Value, collapsableElement.Element.HeightRequest - delta);
             }
-            
+
+            m_previousHeightDifference = collapsableElement.Element.HeightRequest - curHeight;
+
             collapsableElement.TryScale();
             collapsableElement.TryFade();
             collapsableElement.TrySetInputTransparent();
@@ -187,7 +166,7 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     {
         CollapsableElements.ForEach(element =>
         {
-            element.Element?.DisconnectHandlers();
+            element.Element = null;
         });
         CollapsableElements = [];
     }

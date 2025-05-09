@@ -14,30 +14,22 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *"
-          ColumnDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *">
         
-        <Grid HeightRequest="100" ColumnSpan="2"></Grid>
+        <!--<Grid HeightRequest="100" ColumnSpan="2"></Grid>-->
         
-        <Grid ColumnDefinitions="*, Auto"
-              ColumnSpan="2"
-              Row="1"
-              x:Name="Container"
-              ColumnSpacing="{dui:Sizes size_2}"
-              Padding="{dui:Thickness Right=content_margin_medium, Left=content_margin_medium}">
-            <dui:SearchBar x:Name="SearchBar" />
-            
-            <dui:Button Text="Test"
-                        Grid.Column="1" />
-
-        </Grid>
+        <dui:SearchBar x:Name="SearchBar" />
         
+        <dui:Button Grid.Row="1"
+                    Clicked="Button_OnClicked"/>
+        
+        <!--
         <Grid Row="2"
               ColumnSpan="2"
-              HeightRequest="100"></Grid>
+              HeightRequest="100"></Grid>-->
     
-        <dui:RefreshView Grid.Row="3"
-                         Grid.ColumnSpan="2">
+        <dui:RefreshView Grid.Row="2"
+                         >
             
         
         <dui:CollectionView ItemsSource="{Binding TestStrings}"
@@ -45,7 +37,7 @@
                             dui:Layout.AutoHideLastDivider="True">
             
             <dui:CollectionView.CollapsableElements>
-                <dui:CollapsableElement Element="{Binding Source={x:Reference Container}}" 
+                <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
                                         InputTransparentOnCollapse="True"/>
             </dui:CollectionView.CollapsableElements>
             
