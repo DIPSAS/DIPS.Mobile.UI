@@ -234,7 +234,7 @@ public class VetlePageViewModel : ViewModel
     public ICommand RemoveStringCommand => new Command(s =>
     {
         var firstOrDefault = TestStrings.FirstOrDefault(testString => (string)s == testString);
-        TestStrings.Remove(firstOrDefault);
+        /*TestStrings.Remove(firstOrDefault);*/
     });
 
     public List<TestObject> TestObjects { get; } = new List<TestObject>();
@@ -386,6 +386,29 @@ public class VetlePageViewModel : ViewModel
         get => m_transcriptionText;
         set => RaiseWhenSet(ref m_transcriptionText, value);
     }
+
+    public ICommand AddMoreItemsCommand => new Command(() =>
+    {
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+        TestStrings.Add("asd");
+    });
 
     public void OnDateChanged()
     {

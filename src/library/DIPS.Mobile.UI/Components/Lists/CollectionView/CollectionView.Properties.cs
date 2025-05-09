@@ -199,7 +199,7 @@ public class CollapsableElement : BindableObject
 #endif
     }
     
-    internal double? OriginalHeight { get; set; }
+    internal double? OriginalHeight { get; private set; }
 
     internal void TryFade()
     {
@@ -250,17 +250,6 @@ public class CollapsableElement : BindableObject
                 Element.Unfocus();
             }
         }
-    }
-
-    internal void Reset()
-    {
-        if(!OriginalHeight.HasValue)
-            return;
-        
-        SetScaleY(1);
-        Element!.HeightRequest = OriginalHeight.Value;
-        Element.Opacity = 1;
-        Element.InputTransparent = false;
     }
 
     internal void TryInitialize()

@@ -89,7 +89,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             
             var isScrollingDown = delta > 0;
             
-            // Calculate the new height directly based on the previous delta
             if (isScrollingDown && collapsableElement.Element!.HeightRequest > 0)
             {
                 collapsableElement.Element.HeightRequest = Math.Max(0, collapsableElement.Element.HeightRequest - delta);
@@ -117,8 +116,11 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             return true;
             
         // Prevent adjustments if the list is bouncing (at the start or end)
-        if (e.VerticalOffset <= 0 || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20)
+        if (e.VerticalOffset <= 0 
+            || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20 // CollectionView
+            || e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20) // CollectionView2
         {
+            Console.WriteLine("Is bouncing!!!");
             return true;
         }
 

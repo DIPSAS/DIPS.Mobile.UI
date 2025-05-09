@@ -28,41 +28,43 @@
               ColumnSpan="2"
               HeightRequest="100"></Grid>-->
     
-        <dui:RefreshView Grid.Row="2"
-                         >
+        <!--<dui:RefreshView Grid.Row="2"
+                         >-->
             
         
-        <dui:CollectionView ItemsSource="{Binding TestStrings}"
+        <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
+                             Grid.Row="2"
+                            RemainingItemsThreshold="0"
+                             HasAdditionalSpaceAtTheEnd="True"
                             
                             dui:Layout.AutoHideLastDivider="True">
             
-            <dui:CollectionView.CollapsableElements>
+            <dui:CollectionView2.CollapsableElements>
                 <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
                                         InputTransparentOnCollapse="True"/>
-            </dui:CollectionView.CollapsableElements>
+            </dui:CollectionView2.CollapsableElements>
             
-            <dui:CollectionView.ItemTemplate>
+            <dui:CollectionView2.ItemTemplate>
                 <DataTemplate>
                     <dui:ListItem Title="{Binding .}"
                                   HasBottomDivider="True" />
                 </DataTemplate>
-            </dui:CollectionView.ItemTemplate>
+            </dui:CollectionView2.ItemTemplate>
             
-            <dui:CollectionView.FooterTemplate>
+            <dui:CollectionView2.FooterTemplate>
                 <DataTemplate>
                     <Grid RowSpacing="0"
                           RowDefinitions="Auto"
-                          Padding="{dui:Sizes size_0}"
+                          Padding="{dui:Thickness Top=size_4, Bottom=size_4}"
                           AutomationId="FooterGrid">
-                        
 
                         <dui:ActivityIndicator Grid.Row="1"
                                                IsRunning="True" />
                     </Grid>
                 </DataTemplate>
-            </dui:CollectionView.FooterTemplate>
-        </dui:CollectionView>
-        </dui:RefreshView>        
+            </dui:CollectionView2.FooterTemplate>
+        </dui:CollectionView2>
+        <!--</dui:RefreshView>        -->
     </Grid>
 
 
