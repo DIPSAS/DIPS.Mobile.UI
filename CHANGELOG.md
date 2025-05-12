@@ -1,5 +1,8 @@
+## [45.3.1] 
+- [iOS][CollapsibleElement] Fix bug when small list.
+
 ## [45.3.0] 
-- Added `CollapsableElements` to `dui:CollectionView`.
+- Added `CollapsibleElement` to `dui:CollectionView`.
 
 ## [45.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

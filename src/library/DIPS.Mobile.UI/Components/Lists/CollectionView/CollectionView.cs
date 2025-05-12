@@ -70,6 +70,9 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 
     private void TryCollapseOrExpandElements(ItemsViewScrolledEventArgs e)
     {
+        if (IsBouncing(e))
+            return;
+        
         // Safety measure if user scrolls too fast and the element has not have time to expand completely
         if (e.VerticalOffset <= 0)
         {
@@ -129,6 +132,31 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
                     inputField.Unfocus();
             }
         }
+    }
+    
+    private bool IsBouncing(ItemsViewScrolledEventArgs e)
+    {
+#if __IOS__
+        if(Handler?.PlatformView is not UIKit.UIView uiView)
+            return true;
+
+        if(uiView.Subviews[0] is not UIKit.UICollectionView uiCollectionView)
+            return true;
+
+        if (this is CollectionView2)
+        {
+            if (e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20)
+                return true;
+        }
+        else if (e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20)
+        {
+            return true;
+        }
+
+        return false;
+#else
+        return false;
+#endif
     }
 
     private void TrySetItemSpacing()
