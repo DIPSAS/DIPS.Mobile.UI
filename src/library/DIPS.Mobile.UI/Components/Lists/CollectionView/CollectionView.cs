@@ -73,16 +73,16 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         // Safety measure if user scrolls too fast and the element has not have time to expand completely
         if (e.VerticalOffset <= 0)
         {
-            CollapsableElement?.Reset();
+            CollapsibleElement?.Reset();
             return;
         }
         
-        if (CollapsableElement is null || e.VerticalDelta == 0)
+        if (CollapsibleElement is null || e.VerticalDelta == 0)
             return;
 
-        CollapsableElement.TryInitialize();
+        CollapsibleElement.TryInitialize();
 
-        var curHeight = CollapsableElement.Element!.HeightRequest;
+        var curHeight = CollapsibleElement.Element!.HeightRequest;
 
         var delta = e.VerticalDelta;
 
@@ -92,26 +92,26 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         
         var isScrollingDown = delta > 0;
 
-        if (isScrollingDown && e.VerticalOffset < CollapsableElement.OffsetThreshold ||
-            !isScrollingDown && e.VerticalOffset > CollapsableElement.OffsetThreshold)
+        if (isScrollingDown && e.VerticalOffset < CollapsibleElement.OffsetThreshold ||
+            !isScrollingDown && e.VerticalOffset > CollapsibleElement.OffsetThreshold)
         {
             return;
         }
         
-        if (isScrollingDown && CollapsableElement.Element!.HeightRequest > 0)
+        if (isScrollingDown && CollapsibleElement.Element!.HeightRequest > 0)
         {
-            CollapsableElement.Element.HeightRequest = Math.Max(0, CollapsableElement.Element.HeightRequest - delta);
+            CollapsibleElement.Element.HeightRequest = Math.Max(0, CollapsibleElement.Element.HeightRequest - delta);
         }
-        else if (!isScrollingDown && CollapsableElement.Element!.HeightRequest < CollapsableElement.OriginalHeight)
+        else if (!isScrollingDown && CollapsibleElement.Element!.HeightRequest < CollapsibleElement.OriginalHeight)
         {
-            CollapsableElement.Element.HeightRequest = Math.Min(CollapsableElement.OriginalHeight.Value, CollapsableElement.Element.HeightRequest - delta);
+            CollapsibleElement.Element.HeightRequest = Math.Min(CollapsibleElement.OriginalHeight.Value, CollapsibleElement.Element.HeightRequest - delta);
         }
 
-        m_previousHeightDifference = CollapsableElement.Element.HeightRequest - curHeight;
+        m_previousHeightDifference = CollapsibleElement.Element.HeightRequest - curHeight;
 
-        CollapsableElement.TryScale();
-        CollapsableElement.TryFade();
-        CollapsableElement.TrySetInputTransparent();
+        CollapsibleElement.TryScale();
+        CollapsibleElement.TryFade();
+        CollapsibleElement.TrySetInputTransparent();
     }
 
     private void TryRemoveScroll()
@@ -150,6 +150,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
     
     private void Dispose()
     {
-        CollapsableElement = null;
+        CollapsibleElement = null;
     }
 }

@@ -38,10 +38,10 @@
                             
                             dui:Layout.AutoHideLastDivider="True">
             
-            <dui:CollectionView2.CollapsableElement>
-                <dui:CollapsableElement Element="{Binding Source={x:Reference SearchBar}}" 
+            <dui:CollectionView2.CollapsibleElement>
+                <dui:CollapsibleElement Element="{Binding Source={x:Reference SearchBar}}" 
                                         InputTransparentOnCollapse="True"/>
-            </dui:CollectionView2.CollapsableElement>
+            </dui:CollectionView2.CollapsibleElement>
             
             <dui:CollectionView2.ItemTemplate>
                 <DataTemplate>

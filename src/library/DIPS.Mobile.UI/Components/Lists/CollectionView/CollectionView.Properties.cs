@@ -47,10 +47,10 @@ public partial class CollectionView
         set => SetValue(ShouldBounceProperty, value);
     }
     
-    public CollapsableElement? CollapsableElement
+    public CollapsibleElement? CollapsibleElement
     {
-        get => (CollapsableElement?)GetValue(CollapsableElementProperty);
-        set => SetValue(CollapsableElementProperty, value);
+        get => (CollapsibleElement?)GetValue(CollapsibleElementProperty);
+        set => SetValue(CollapsibleElementProperty, value);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public partial class CollectionView
     public static readonly BindableProperty ItemSpacingProperty = BindableProperty.Create(
         nameof(ItemSpacing),
         typeof(double),
-        typeof(CollectionView), propertyChanged: (bindable, value, newValue) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
+        typeof(CollectionView), propertyChanged: (bindable, _, _) => ((CollectionView)bindable).TrySetItemSpacing(), defaultValue:(double)Sizes.GetSize(SizeName.size_1));
 
-    public static readonly BindableProperty CollapsableElementProperty = BindableProperty.Create(
-        nameof(CollapsableElement),
-        typeof(CollapsableElement),
+    public static readonly BindableProperty CollapsibleElementProperty = BindableProperty.Create(
+        nameof(CollapsibleElement),
+        typeof(CollapsibleElement),
         typeof(CollectionView),
         defaultBindingMode: BindingMode.OneTime);
     
@@ -96,41 +96,41 @@ public partial class CollectionView
     }
 }
 
-public class CollapsableElement : BindableObject
+public class CollapsibleElement : BindableObject
 {
     public static readonly BindableProperty ElementProperty = BindableProperty.Create(
         nameof(Element),
         typeof(VisualElement),
-        typeof(CollapsableElement), 
+        typeof(CollapsibleElement), 
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty InputTransparentOnCollapseProperty = BindableProperty.Create(
         nameof(InputTransparentOnCollapse),
         typeof(bool),
-        typeof(CollapsableElement),
+        typeof(CollapsibleElement),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty ShouldFadeOutProperty = BindableProperty.Create(
         nameof(ShouldFadeOut),
         typeof(bool),
-        typeof(CollapsableElement), 
+        typeof(CollapsibleElement), 
         defaultValue: true);
 
     public static readonly BindableProperty FadeOutThresholdProperty = BindableProperty.Create(
         nameof(FadeOutThreshold),
         typeof(float),
-        typeof(CollapsableElement),
+        typeof(CollapsibleElement),
         defaultValue: 0.5f);
 
     public static readonly BindableProperty OffsetThresholdProperty = BindableProperty.Create(
         nameof(OffsetThreshold),
         typeof(float),
-        typeof(CollapsableElement),
+        typeof(CollapsibleElement),
         defaultValue: 50f);
 
     /// <summary>
     /// When the element should begin to be collapsed, 50 is default
-    /// <remarks>A value of 50 seems to resolve some issues if CollectionView is wrapped with RefreshView on Android</remarks>
+    /// <remarks>A value of 50 seems to resolve some issues if CollectionView is wrapped with RefreshView</remarks>
     /// </summary>
     public float OffsetThreshold
     {
@@ -192,7 +192,7 @@ public class CollapsableElement : BindableObject
 #endif
     }
     
-    internal double? OriginalHeight { get; set; }
+    internal double? OriginalHeight { get; private set; }
 
     internal void TryFade()
     {
