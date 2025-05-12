@@ -17,11 +17,6 @@ public class MauiRecyclerView : MauiRecyclerView<ReorderableItemsView,
     {
     }
 
-    public override void OnScrolled(int dx, int dy)
-    {
-        base.OnScrolled(dx, dy);
-    }
-
     protected override void UpdateItemSpacing()
     {
         base.UpdateItemSpacing();
