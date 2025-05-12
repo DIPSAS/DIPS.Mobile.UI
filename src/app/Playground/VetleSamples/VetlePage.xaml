@@ -14,31 +14,57 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <ScrollView>
+    <Grid RowDefinitions="Auto, Auto, *">
         
-        <VerticalStackLayout>
+        <!--<Grid HeightRequest="100" ColumnSpan="2"></Grid>-->
+        
+        <dui:SearchBar x:Name="SearchBar" />
+        
+        <dui:Button Grid.Row="1"
+                    Clicked="Button_OnClicked"/>
+        
+        <!--
+        <Grid Row="2"
+              ColumnSpan="2"
+              HeightRequest="100"></Grid>-->
+    
+        <dui:RefreshView Grid.Row="2"
+                         >
             
-                <dui:Label Text="Hello"
-                           BackgroundColor="Red"
-                           IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
-                <!--<Grid ColumnDefinitions="*, Auto">
-                    <Grid ColumnDefinitions="Auto, *"
-                          RowDefinitions="Auto, *, Auto">
-                        
+        
+        <dui:CollectionView2 ItemsSource="{Binding TestStrings}"
+                             RemainingItemsThreshold="0"
+                             HasAdditionalSpaceAtTheEnd="True"
+                            
+                            dui:Layout.AutoHideLastDivider="True">
+            
+            <dui:CollectionView2.CollapsibleElement>
+                <dui:CollapsibleElement Element="{Binding Source={x:Reference SearchBar}}" 
+                                        InputTransparentOnCollapse="True"/>
+            </dui:CollectionView2.CollapsibleElement>
+            
+            <dui:CollectionView2.ItemTemplate>
+                <DataTemplate>
+                    <dui:ListItem Title="{Binding .}"
+                                  HasBottomDivider="True" />
+                </DataTemplate>
+            </dui:CollectionView2.ItemTemplate>
+            
+            <dui:CollectionView2.FooterTemplate>
+                <DataTemplate>
+                    <Grid RowSpacing="0"
+                          RowDefinitions="Auto"
+                          Padding="{dui:Thickness Top=size_4, Bottom=size_4}"
+                          AutomationId="FooterGrid">
+
+                        <dui:ActivityIndicator Grid.Row="1"
+                                               IsRunning="True" />
                     </Grid>
-                </Grid>-->
-            
-            <!--<dui:AlertView Title="Hello">
-                
-            </dui:AlertView>-->
-            
-            <Switch x:Name="Switch" />
-            
-            <Entry></Entry>
-            
-        </VerticalStackLayout>
-        
-    </ScrollView>
+                </DataTemplate>
+            </dui:CollectionView2.FooterTemplate>
+        </dui:CollectionView2>
+        </dui:RefreshView>        
+    </Grid>
 
 
 </dui:ContentPage>

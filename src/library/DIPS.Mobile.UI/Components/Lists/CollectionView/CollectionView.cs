@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DIPS.Mobile.UI.Components.Dividers;
+using Microsoft.Maui.Platform;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.Lists;
@@ -7,6 +8,7 @@ namespace DIPS.Mobile.UI.Components.Lists;
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
     private readonly List<WeakReference<VisualElement>> m_inputFields = [];
+    private double m_previousHeightDifference;
 
     public CollectionView()
     {
@@ -19,7 +21,10 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         base.OnHandlerChanging(args);
 
         if (args.NewHandler is null)
+        {
+            Dispose();
             return;
+        }
 
         
         if (!RemoveFocusOnScroll)
@@ -59,7 +64,58 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         if (Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) 
             return; //0 is idle
 #endif
+        TryCollapseOrExpandElements(e);
+        TryRemoveScroll();
+    }
+
+    private void TryCollapseOrExpandElements(ItemsViewScrolledEventArgs e)
+    {
+        // Safety measure if user scrolls too fast and the element has not have time to expand completely
+        if (e.VerticalOffset <= 0)
+        {
+            CollapsibleElement?.Reset();
+            return;
+        }
         
+        if (CollapsibleElement is null || e.VerticalDelta == 0)
+            return;
+
+        CollapsibleElement.TryInitialize();
+
+        var curHeight = CollapsibleElement.Element!.HeightRequest;
+
+        var delta = e.VerticalDelta;
+
+#if __ANDROID__
+        delta = e.VerticalDelta - m_previousHeightDifference;
+#endif
+        
+        var isScrollingDown = delta > 0;
+
+        if (isScrollingDown && e.VerticalOffset < CollapsibleElement.OffsetThreshold ||
+            !isScrollingDown && e.VerticalOffset > CollapsibleElement.OffsetThreshold)
+        {
+            return;
+        }
+        
+        if (isScrollingDown && CollapsibleElement.Element!.HeightRequest > 0)
+        {
+            CollapsibleElement.Element.HeightRequest = Math.Max(0, CollapsibleElement.Element.HeightRequest - delta);
+        }
+        else if (!isScrollingDown && CollapsibleElement.Element!.HeightRequest < CollapsibleElement.OriginalHeight)
+        {
+            CollapsibleElement.Element.HeightRequest = Math.Min(CollapsibleElement.OriginalHeight.Value, CollapsibleElement.Element.HeightRequest - delta);
+        }
+
+        m_previousHeightDifference = CollapsibleElement.Element.HeightRequest - curHeight;
+
+        CollapsibleElement.TryScale();
+        CollapsibleElement.TryFade();
+        CollapsibleElement.TrySetInputTransparent();
+    }
+
+    private void TryRemoveScroll()
+    {
         if (!RemoveFocusOnScroll)
             return;
 
@@ -90,5 +146,10 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             },
             _ => null
         };
+    }
+    
+    private void Dispose()
+    {
+        CollapsibleElement = null;
     }
 }

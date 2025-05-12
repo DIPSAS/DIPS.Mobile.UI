@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.Lists;
+using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
@@ -69,6 +70,8 @@ public partial class VetlePage
         typeof(VetlePage));
 
     private string m_test1 = "Test123";
+    private double? m_originalHeight;
+    private bool m_ignoreScrollEvent;
 
     public bool TestBool
     {
@@ -189,7 +192,7 @@ public partial class VetlePage
 
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
-        DisplayAlert("Size Changed", "The size of the element has changed", "OK");    
+        m_ignoreScrollEvent = true;
     }
 
     public string Test
@@ -213,11 +216,6 @@ public partial class VetlePage
         
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        /*AutoScrollingText.ScrollToBottom();*/
-    }
-
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
         /*TipService.Show("Test", sender as View);*/
@@ -225,5 +223,9 @@ public partial class VetlePage
 
     }
 
-    
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        SearchBar.HeightTo(0, 1000);
+    }
 }

@@ -1,3 +1,6 @@
+## [45.3.0] 
+- Added `CollapsableElements` to `dui:CollectionView`.
+
 ## [45.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
