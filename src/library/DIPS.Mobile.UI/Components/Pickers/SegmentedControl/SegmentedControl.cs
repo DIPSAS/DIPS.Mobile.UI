@@ -30,13 +30,17 @@ public partial class SegmentedControl : ContentView
         
         BindableLayout.SetItemTemplate(m_horizontalStackLayout, new DataTemplate(CreateSegment));
 
-        Content = new ScrollView
+        var scrollView = new ScrollView
         {
             Content = m_horizontalStackLayout,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
             VerticalScrollBarVisibility = ScrollBarVisibility.Never,
             Orientation = ScrollOrientation.Horizontal
         };
+        
+        scrollView.SetBinding(HorizontalOptionsProperty, static (SegmentedControl segmentedControl) => segmentedControl.HorizontalOptions, source: this);
+        
+        Content = scrollView;
     }
 
     private View CreateSegment()
