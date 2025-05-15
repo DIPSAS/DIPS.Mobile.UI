@@ -1,3 +1,6 @@
+## [45.3.2] 
+- [SegmentedControl][Android] Fixed bug where setting `HorizontalOptions` had no effect.
+
 ## [45.3.1] 
 - [iOS][CollapsibleElement] Fix bug when small list.
 
