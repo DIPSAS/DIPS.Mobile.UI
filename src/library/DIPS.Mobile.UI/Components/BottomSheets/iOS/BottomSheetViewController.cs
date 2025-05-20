@@ -88,5 +88,7 @@ public class BottomSheetViewController : UIViewController
 
         _ = GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(BottomSheet.ToCollectionContentTarget());
         BottomSheet.DisconnectHandlers();
+        m_container.DisconnectHandlers();
+        m_bottomBar?.DisconnectHandlers();
     }
 }

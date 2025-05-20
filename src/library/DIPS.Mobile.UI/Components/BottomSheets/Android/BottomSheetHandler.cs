@@ -33,6 +33,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     
     private static AView? s_mEmptyNonFitToContentView;
     private AView? m_searchBarView;
+    private BottomSheetHeader m_bottomSheetHeader;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -76,7 +77,8 @@ public partial class BottomSheetHandler : ContentViewHandler
             bottomSheetLayout.AddView(innerGrid.ToPlatform(mauiContext));
         }
 
-        bottomSheetLayout.AddView(new BottomSheetHeader(m_bottomSheet).ToPlatform(mauiContext));
+        m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
+        bottomSheetLayout.AddView(m_bottomSheetHeader.ToPlatform(mauiContext));
         
         m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
         bottomSheetLayout.AddView(m_searchBarView);
@@ -185,6 +187,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         base.DisconnectHandler(platformView);
         
         s_mEmptyNonFitToContentView?.RemoveFromParent();
+        m_bottomSheetHeader.DisconnectHandlers();
     }
     
     /// <summary>
