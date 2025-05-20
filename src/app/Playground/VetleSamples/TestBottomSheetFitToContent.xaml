@@ -8,10 +8,6 @@
              x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
              SearchCommand="{Binding Navigate}">
     
-    <dui:BottomSheet.BindingContext>
-        <vetleSamples:VetleTestPage1ViewModel />
-    </dui:BottomSheet.BindingContext>
-    
     <dui:BottomSheet.Resources>
             <ResourceDictionary>
                 

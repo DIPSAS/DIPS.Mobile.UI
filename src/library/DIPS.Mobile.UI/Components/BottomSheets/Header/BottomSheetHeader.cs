@@ -125,4 +125,11 @@ internal class BottomSheetHeader : Grid
         this.SetColumnSpan(divider, 2);
         Add(divider);
     }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+        
+    }
 }

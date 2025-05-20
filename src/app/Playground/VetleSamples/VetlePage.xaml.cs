@@ -223,9 +223,8 @@ public partial class VetlePage
 
     }
 
-
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        SearchBar.HeightTo(0, 1000);
+        
     }
 }
