@@ -1,5 +1,5 @@
 ## [45.3.3] 
-- [BottomSheet][Android] Fixed memory leak regarding BottomSheet Header.
+- [BottomSheet] Fixed memory leak regarding BottomSheet Header.
 
 ## [45.3.2] 
 - [SegmentedControl][Android] Fixed bug where setting `HorizontalOptions` had no effect.
