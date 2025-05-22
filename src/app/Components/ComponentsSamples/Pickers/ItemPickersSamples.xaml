@@ -117,6 +117,7 @@
                         <dui:BottomSheetPickerConfiguration.FooterTemplate>
                             <DataTemplate>
                                 <dui:AlertView Style="{dui:Styles Alert=Information}"
+                                               Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"
                                                Title="Here you can write an alert for your user."/>
                             </DataTemplate>
                         </dui:BottomSheetPickerConfiguration.FooterTemplate>
