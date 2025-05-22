@@ -115,10 +115,10 @@
                     <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
                                                         HasSearchBar="False">
                         <dui:BottomSheetPickerConfiguration.FooterTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="pickers:ItemPickersSamplesViewModel">
                                 <dui:AlertView Style="{dui:Styles Alert=Information}"
                                                Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"
-                                               Title="Here you can write an alert for your user."/>
+                                               Title="{Binding AlertText}"/>
                             </DataTemplate>
                         </dui:BottomSheetPickerConfiguration.FooterTemplate>
                     </dui:BottomSheetPickerConfiguration>
