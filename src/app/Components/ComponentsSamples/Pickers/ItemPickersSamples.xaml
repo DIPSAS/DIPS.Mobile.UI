@@ -99,5 +99,30 @@
                 </dui:ItemPicker.BottomSheetPickerConfiguration>
             </dui:ItemPicker>
         </dui:ListItem>
+        
+        <dui:Label Text="Picker in ListItem with bottom sheet footer"
+                   Margin="5" />
+        
+        <dui:ListItem Title="Title"
+                      CornerRadius="{dui:Sizes size_4}"
+                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                      BackgroundColor="{dui:Colors color_neutral_05}">
+            
+            <dui:ItemPicker Mode="BottomSheet"
+                            ItemsSource="{Binding People}"
+                            ItemDisplayProperty="DisplayName">
+                <dui:ItemPicker.BottomSheetPickerConfiguration>
+                    <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
+                                                        HasSearchBar="False">
+                        <dui:BottomSheetPickerConfiguration.FooterTemplate>
+                            <DataTemplate>
+                                <dui:AlertView Style="{dui:Styles Alert=Information}"
+                                               Title="Here you can write an alert for your user."/>
+                            </DataTemplate>
+                        </dui:BottomSheetPickerConfiguration.FooterTemplate>
+                    </dui:BottomSheetPickerConfiguration>
+                </dui:ItemPicker.BottomSheetPickerConfiguration>
+            </dui:ItemPicker>
+        </dui:ListItem>
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -224,8 +224,10 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         }
 
         public static ContentControl CreateContentControlForActivityIndicator(CollectionView collectionView,
-            BottomSheetPickerConfiguration? bottomSheetPickerConfiguration)
+            BottomSheetPickerConfiguration bottomSheetPickerConfiguration)
         {
+            collectionView.FooterTemplate = bottomSheetPickerConfiguration.FooterTemplate;
+            
             var contentControl = new ContentControl()
             {
                 BindingContext = bottomSheetPickerConfiguration,
