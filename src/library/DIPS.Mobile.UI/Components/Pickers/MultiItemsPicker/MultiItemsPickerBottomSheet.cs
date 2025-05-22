@@ -36,6 +36,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
         Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
         
+        this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: multiItemsPicker.BottomSheetPickerConfiguration);
         this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration bottomSheetPickerConfiguration) => bottomSheetPickerConfiguration.HasSearchBar, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
 
         var collectionView = new CollectionView()
