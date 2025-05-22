@@ -47,6 +47,9 @@
                               HorizontalOptions="Start"
                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
                               ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
+            <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+                <dui:BottomSheetPickerConfiguration Title="Select multiple"/>
+            </dui:MultiItemsPicker.BottomSheetPickerConfiguration>
         </dui:MultiItemsPicker>
         <dui:Label Text="SegmentedControl: Mode: Single"
                    Margin="5" />
