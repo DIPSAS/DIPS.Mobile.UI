@@ -1,3 +1,6 @@
+## [45.5.0]
+- [MultiItemsPicker] Added `ResetBehaviour` property to `MultiItemsPicker` to enable a button for resetting selected items.
+
 ## [45.4.0]
 - [ItemPicker][MultiItemsPicker] Added `FooterTemplate` property to `BottomSheetPickerConfiguration` to allow for setting a footer to item picker bottom sheet.
 

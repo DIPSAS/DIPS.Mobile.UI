@@ -41,7 +41,6 @@
                         FreeTextPrefix="Free text: "/>
         <dui:Label Text="MultiItemsPicker"
                    Margin="5" />
-        
         <dui:MultiItemsPicker VerticalOptions="Start"
                               Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
                               HorizontalOptions="Start"
@@ -50,7 +49,11 @@
             <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
                 <dui:BottomSheetPickerConfiguration Title="Select multiple"/>
             </dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+            <dui:MultiItemsPicker.ResetBehaviour>
+                <dui:ResetBehaviour Command="{Binding ClearPeopleCommand, Mode=OneWay}"/>
+            </dui:MultiItemsPicker.ResetBehaviour>
         </dui:MultiItemsPicker>
+        
         <dui:Label Text="SegmentedControl: Mode: Single"
                    Margin="5" />
         

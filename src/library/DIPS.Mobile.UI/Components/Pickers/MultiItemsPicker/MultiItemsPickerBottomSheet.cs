@@ -4,6 +4,10 @@ using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
 using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using CheckBox = DIPS.Mobile.UI.Components.CheckBoxes.CheckBox;
 
@@ -18,24 +22,8 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         m_multiItemsPicker = multiItemsPicker;
         m_originalItems = new List<SelectableItemViewModel>();
 
-        if (m_multiItemsPicker.ItemsSource != null)
-        {
-            foreach (var item in m_multiItemsPicker.ItemsSource)
-            {
-                var isSelected = false;
-                if (multiItemsPicker.SelectedItems != null)
-                {
-                    isSelected = multiItemsPicker.SelectedItems.Cast<object?>().ToList().Contains(item);
-                }
-                
-                m_originalItems.Add(new SelectableItemViewModel(
-                    (item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty) ?? item.ToString()) ?? string.Empty,
-                    isSelected, item));
-            }
-        }
+        LoadItemsFromPicker(multiItemsPicker);
 
-        Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
-        
         this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
         this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration bottomSheetPickerConfiguration) => bottomSheetPickerConfiguration.HasSearchBar, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
 
@@ -53,6 +41,61 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         collectionView.FooterTemplate = m_multiItemsPicker.BottomSheetPickerConfiguration.FooterTemplate;
         
         Content = ItemPickerBottomSheet.CreateContentControlForActivityIndicator(collectionView, m_multiItemsPicker.BottomSheetPickerConfiguration);
+
+        if (m_multiItemsPicker.ResetBehaviour is not null)
+        {
+            m_multiItemsPicker.ResetBehaviour.SetBinding(BindingContextProperty, static (MultiItemsPicker picker) => picker.BindingContext, source: m_multiItemsPicker);
+            
+            var button = new Button
+            {
+                Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), Text = DUILocalizedStrings.Reset,
+                Command = new Command(ClearSelectedItems)
+            };
+            
+            BottombarButtons.Add(button);
+        }
+    }
+
+    private void LoadItemsFromPicker(MultiItemsPicker multiItemsPicker)
+    {
+        m_originalItems.Clear();
+        if (m_multiItemsPicker.ItemsSource != null)
+        {
+            foreach (var item in m_multiItemsPicker.ItemsSource)
+            {
+                var isSelected = false;
+                if (multiItemsPicker.SelectedItems != null)
+                {
+                    isSelected = multiItemsPicker.SelectedItems.Cast<object?>().ToList().Contains(item);
+                }
+                
+                m_originalItems.Add(new SelectableItemViewModel(
+                    (item.GetPropertyValue(m_multiItemsPicker.ItemDisplayProperty) ?? item.ToString()) ?? string.Empty,
+                    isSelected, item));
+            }
+        }
+
+        Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
+    }
+
+    private void ClearSelectedItems()
+    {
+        if (m_multiItemsPicker.ResetBehaviour?.Command is not null)
+        {
+            // Do custom user action, then reload the list
+            m_multiItemsPicker.ResetBehaviour.Command.Execute(null);
+            
+            LoadItemsFromPicker(m_multiItemsPicker);
+        }
+        else
+        {
+            foreach (var item in Items)
+            {
+                item.IsSelected = false;
+            }   
+        
+            m_multiItemsPicker.ClearSelectedItems();
+        }
     }
     
     private object LoadTemplate()

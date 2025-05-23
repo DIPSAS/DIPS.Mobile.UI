@@ -101,4 +101,10 @@ public partial class MultiItemsPicker
     /// Opens the picker.
     /// </summary>
     public ICommand OpenCommand { get; }
+
+    /// <summary>
+    /// Defines how the picker should handle resetting its selected items. Setting this property to null will disable
+    /// any reset behaviour.
+    /// </summary>
+    public ResetBehaviour? ResetBehaviour { get; set; }
 }
