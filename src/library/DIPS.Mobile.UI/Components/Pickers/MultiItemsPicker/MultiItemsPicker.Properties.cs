@@ -103,8 +103,9 @@ public partial class MultiItemsPicker
     public ICommand OpenCommand { get; }
 
     /// <summary>
-    /// Defines how the picker should handle resetting its selected items. Setting this property to null will disable
-    /// any reset behaviour.
+    /// Defines how the picker should handle resetting its selected items. Setting it will make a "Reset"-button appear
+    /// in the picker's bottom sheet, which will reset the list. Set the <see cref="ResetBehaviour.Command"/> property
+    /// to override the reset method.
     /// </summary>
     public ResetBehaviour? ResetBehaviour { get; set; }
 }

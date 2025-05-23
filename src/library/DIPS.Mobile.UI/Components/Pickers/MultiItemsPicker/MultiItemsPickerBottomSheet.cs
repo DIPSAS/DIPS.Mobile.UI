@@ -48,7 +48,9 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
             
             var button = new Button
             {
-                Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), Text = DUILocalizedStrings.Reset,
+                Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), 
+                Text = DUILocalizedStrings.Reset,
+                VerticalOptions = LayoutOptions.End,
                 Command = new Command(ClearSelectedItems)
             };
             
