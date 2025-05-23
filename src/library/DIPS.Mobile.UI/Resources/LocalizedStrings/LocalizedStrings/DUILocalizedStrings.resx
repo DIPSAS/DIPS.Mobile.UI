@@ -186,4 +186,7 @@
     <data name="ViewCode" xml:space="preserve">
         <value />
     </data>
+    <data name="Reset" xml:space="preserve">
+        <value>Tilbakestill</value>
+    </data>
 </root>

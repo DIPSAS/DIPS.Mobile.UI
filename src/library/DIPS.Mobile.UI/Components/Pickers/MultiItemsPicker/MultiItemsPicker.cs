@@ -32,6 +32,8 @@ public partial class MultiItemsPicker : ContentView
         m_currentDeviceOrientation = DeviceDisplay.Current.MainDisplayInfo.Orientation;
     }
 
+    
+    internal Button? ClearButton { get; }
 
     private void MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
@@ -120,6 +122,15 @@ public partial class MultiItemsPicker : ContentView
 
         SelectedItemsCommand?.Execute(SelectedItems);
         DidSelectItem?.Invoke(this, item);
+    }
+
+    public void ClearSelectedItems()
+    {
+        if (SelectedItems is null) return;
+
+        SelectedItems = new List<object>();
+        
+        SelectedItemsCommand?.Execute(SelectedItems);
     }
 
     private void OnSelectedItemsChanged()

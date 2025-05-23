@@ -179,4 +179,7 @@
     <data name="Rotate" xml:space="preserve">
         <value>Rotate</value>
     </data>
+    <data name="Reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
 </root>

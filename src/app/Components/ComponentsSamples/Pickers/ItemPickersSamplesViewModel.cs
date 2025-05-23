@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using Components.SampleData;
 using DIPS.Mobile.UI.MVVM;
 
@@ -7,6 +8,17 @@ public class ItemPickersSamplesViewModel : ViewModel
 {
     private Person m_selectedPerson;
     private List<Person> m_selectedItems = [SampleDataStorage.People[1]];
+
+    public ItemPickersSamplesViewModel()
+    {
+        ClearPeopleCommand = new Command(ClearPeople);
+    }
+
+    private void ClearPeople()
+    {
+        SelectedItems = [SampleDataStorage.People[1]];
+    }
+
     public IEnumerable<Person> People { get; } = SampleDataStorage.People;
 
     public Person SelectedPerson
@@ -42,4 +54,6 @@ public class ItemPickersSamplesViewModel : ViewModel
 
         return new Person(firstName, lastName, middleName);
     };
+
+    public ICommand ClearPeopleCommand { get; }
 }
