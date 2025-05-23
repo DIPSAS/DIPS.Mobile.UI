@@ -41,6 +41,8 @@ public class BottomSheetPickerConfiguration : BindableObject
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+    
+    public DataTemplate? FooterTemplate { get; set; }
 
     public ControlTemplate? SelectableItemTemplate { get; set; }
 }

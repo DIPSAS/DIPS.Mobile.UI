@@ -1,3 +1,6 @@
+## [45.4.0]
+- [ItemPicker][MultiItemsPicker] Added `FooterTemplate` property to `BottomSheetPickerConfiguration` to allow for setting a footer to item picker bottom sheet.
+
 ## [45.3.3] 
 - [BottomSheet] Fixed memory leak.
 

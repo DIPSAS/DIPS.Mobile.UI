@@ -47,6 +47,9 @@
                               HorizontalOptions="Start"
                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
                               ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
+            <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+                <dui:BottomSheetPickerConfiguration Title="Select multiple"/>
+            </dui:MultiItemsPicker.BottomSheetPickerConfiguration>
         </dui:MultiItemsPicker>
         <dui:Label Text="SegmentedControl: Mode: Single"
                    Margin="5" />
@@ -96,6 +99,32 @@
                 <dui:ItemPicker.BottomSheetPickerConfiguration>
                     <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
                                                         HasSearchBar="False"/>
+                </dui:ItemPicker.BottomSheetPickerConfiguration>
+            </dui:ItemPicker>
+        </dui:ListItem>
+        
+        <dui:Label Text="Picker in ListItem with bottom sheet footer"
+                   Margin="5" />
+        
+        <dui:ListItem Title="Title"
+                      CornerRadius="{dui:Sizes size_4}"
+                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                      BackgroundColor="{dui:Colors color_neutral_05}">
+            
+            <dui:ItemPicker Mode="BottomSheet"
+                            ItemsSource="{Binding People}"
+                            ItemDisplayProperty="DisplayName">
+                <dui:ItemPicker.BottomSheetPickerConfiguration>
+                    <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
+                                                        HasSearchBar="False">
+                        <dui:BottomSheetPickerConfiguration.FooterTemplate>
+                            <DataTemplate x:DataType="pickers:ItemPickersSamplesViewModel">
+                                <dui:AlertView Style="{dui:Styles Alert=Information}"
+                                               Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"
+                                               Title="{Binding AlertText}"/>
+                            </DataTemplate>
+                        </dui:BottomSheetPickerConfiguration.FooterTemplate>
+                    </dui:BottomSheetPickerConfiguration>
                 </dui:ItemPicker.BottomSheetPickerConfiguration>
             </dui:ItemPicker>
         </dui:ListItem>

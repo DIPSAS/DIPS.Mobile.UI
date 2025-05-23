@@ -21,6 +21,8 @@ public class ItemPickersSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_selectedItems, value);
     }
 
+    public string AlertText => "Here you can write an alert for your user.";
+
     public Func<string, Person> PersonFactory { get; } = fullName =>
     {
         var splitNames = fullName.Split(" ");
