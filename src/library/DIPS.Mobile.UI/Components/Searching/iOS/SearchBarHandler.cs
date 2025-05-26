@@ -131,7 +131,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapHasCancelButton(SearchBarHandler searchBarHandler, SearchBar internalSearchBar)
     {
-        searchBarHandler.PlatformView.ShowsCancelButton = internalSearchBar.HasCancelButton;
+        searchBarHandler.PlatformView.SetShowsCancelButton(internalSearchBar.HasCancelButton, true);
 
         if (!internalSearchBar.HasCancelButton)
             return;

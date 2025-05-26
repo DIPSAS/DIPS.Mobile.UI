@@ -1,3 +1,6 @@
+## [45.6.0]
+- [SearchBar][iOS] Setting cancel button visibility in runtime will now animate.
+
 ## [45.5.0]
 - [MultiItemsPicker] Added `ResetBehaviour` property to `MultiItemsPicker` to enable a button for resetting selected items.
 

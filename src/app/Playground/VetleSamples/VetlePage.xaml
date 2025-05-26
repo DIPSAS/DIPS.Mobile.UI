@@ -16,8 +16,15 @@
 
     <Grid RowDefinitions="Auto, Auto, *">
         
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+        <dui:SearchBar HasCancelButton="True"
+                       IsVisible="False"
+                       CancelButtonTextColor="Green"
+                       x:Name="SearchBar"/>
              
+        <dui:Button Text="Lol"
+                    Grid.Row="1"
+                    Clicked="Button_OnClicked"></dui:Button>
+        
     </Grid>
 
 
