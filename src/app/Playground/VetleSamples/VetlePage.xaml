@@ -14,16 +14,17 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *"
+          >
         
         <dui:SearchBar HasCancelButton="True"
-                       IsVisible="False"
-                       CancelButtonTextColor="Green"
+                       CancelButtonTextColor="{dui:Colors color_primary_90}"
+                       CancelCommand="{Binding CancelCommand}"
                        x:Name="SearchBar"/>
              
         <dui:Button Text="Lol"
                     Grid.Row="1"
-                    Clicked="Button_OnClicked"></dui:Button>
+                    ></dui:Button>
         
     </Grid>
 
