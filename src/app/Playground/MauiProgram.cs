@@ -16,6 +16,7 @@ public static class MauiProgram
             {
                 options.HandleContextMenuGlobalClicks(OnContextMenuItemClicked);
                 /*options.EnableAutomaticMemoryLeakResolving();*/
+                options.EnableCustomHideSoftInputOnTapped();
             });
         
         builder.ConfigureFonts(fonts =>

@@ -155,6 +155,8 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         base.ConnectHandler(platformView);
 
         platformView.SearchBarStyle = UISearchBarStyle.Minimal;
+        
+        VirtualView.Unfocused += VirtualViewOnUnfocused;
 
         if (platformView.SearchTextField.LeftView is UIImageView uiImageView) //Magnifier icon on the left
         {
@@ -162,6 +164,15 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
         }
 
         SubscribeToEvents();
+    }
+
+    private async void VirtualViewOnUnfocused(object? sender, EventArgs e)
+    {
+        var cancelButton = PlatformView.FindChildView<UIButton>();
+        if (cancelButton is null)
+            return;
+        await Task.Delay(1);
+        cancelButton.Enabled = true;
     }
 
     private void SubscribeToEvents()

@@ -1,3 +1,6 @@
+## [45.6.1]
+- [SearchBar][iOS] Keep cancel button enabled when losing focus on search bar.
+
 ## [45.6.0]
 - [SearchBar][iOS] Setting cancel button visibility in runtime will now animate.
 
