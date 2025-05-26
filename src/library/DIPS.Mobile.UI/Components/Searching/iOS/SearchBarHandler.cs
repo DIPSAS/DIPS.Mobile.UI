@@ -220,6 +220,8 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             clearButton.TouchUpInside -= OnClearButtonClicked;
         }
 
+        VirtualView.Unfocused -= VirtualViewOnUnfocused;
+        
         InternalSearchBar.Focused -= OnInternalSearchBarFocused;
         InternalSearchBar.Unfocused -= OnInternalSearchBarUnFocused;
     }
