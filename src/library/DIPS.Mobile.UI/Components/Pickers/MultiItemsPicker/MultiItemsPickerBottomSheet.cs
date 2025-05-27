@@ -30,6 +30,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
         this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration bottomSheetPickerConfiguration) => bottomSheetPickerConfiguration.HasSearchBar, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
         this.SetBinding(IsInteractiveCloseableProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.HasDoneButton, source: m_multiItemsPicker, converter: new InvertedBoolConverter());
+        BottomSheetHeaderBehavior.SetBinding(BottomSheets.Header.BottomSheetHeaderBehavior.IsCloseButtonVisibleProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.HasDoneButton, source: m_multiItemsPicker, converter: new InvertedBoolConverter());
         
         var collectionView = new CollectionView()
         {
