@@ -44,6 +44,7 @@
         <dui:MultiItemsPicker VerticalOptions="Start"
                               Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
                               HorizontalOptions="Start"
+                              HasDoneButton="True"
                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
                               ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
             <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
