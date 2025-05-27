@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using DIPS.Mobile.UI.Internal;
 using Colors = Microsoft.Maui.Graphics.Colors;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
@@ -18,6 +19,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
 
             BottombarButtons = new ObservableCollection<Button>();
+
+            BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior();
 
             SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent};
             SearchBar.TextChanged += OnSearchTextChanged;

@@ -1,9 +1,12 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
 using DIPS.Mobile.UI.Components.Pickers.ItemPicker;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.MVVM.Commands;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -26,7 +29,9 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
 
         this.SetBinding(TitleProperty, static (BottomSheetPickerConfiguration configuration) => configuration.Title, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
         this.SetBinding(HasSearchBarProperty, static (BottomSheetPickerConfiguration bottomSheetPickerConfiguration) => bottomSheetPickerConfiguration.HasSearchBar, source: m_multiItemsPicker.BottomSheetPickerConfiguration);
-
+        this.SetBinding(IsInteractiveCloseableProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.HasDoneButton, source: m_multiItemsPicker, converter: new InvertedBoolConverter());
+        BottomSheetHeaderBehavior.SetBinding(BottomSheets.Header.BottomSheetHeaderBehavior.IsCloseButtonVisibleProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.HasDoneButton, source: m_multiItemsPicker, converter: new InvertedBoolConverter());
+        
         var collectionView = new CollectionView()
         {
             ItemTemplate = new DataTemplate(LoadTemplate), Margin = Sizes.GetSize(SizeName.content_margin_small)
@@ -42,20 +47,32 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         
         Content = ItemPickerBottomSheet.CreateContentControlForActivityIndicator(collectionView, m_multiItemsPicker.BottomSheetPickerConfiguration);
 
-        if (m_multiItemsPicker.ResetBehaviour is not null)
+        AddBottomBarButtons();
+    }
+
+    private void AddBottomBarButtons()
+    {
+        TryAddResetButton();
+
+        AddDoneButton();
+    }
+
+    private void TryAddResetButton()
+    {
+        if (m_multiItemsPicker.ResetBehaviour is null) return;
+
+        m_multiItemsPicker.ResetBehaviour.SetBinding(BindingContextProperty, static (MultiItemsPicker picker) => picker.BindingContext, source: m_multiItemsPicker);
+            
+        var button = new Button
         {
-            m_multiItemsPicker.ResetBehaviour.SetBinding(BindingContextProperty, static (MultiItemsPicker picker) => picker.BindingContext, source: m_multiItemsPicker);
+            Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), 
+            Text = DUILocalizedStrings.Reset,
+            VerticalOptions = LayoutOptions.End,
+            HorizontalOptions = LayoutOptions.Center,
+            Command = new Command(ClearSelectedItems)
+        };
             
-            var button = new Button
-            {
-                Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), 
-                Text = DUILocalizedStrings.Reset,
-                VerticalOptions = LayoutOptions.End,
-                Command = new Command(ClearSelectedItems)
-            };
-            
-            BottombarButtons.Add(button);
-        }
+        BottombarButtons.Add(button);
     }
 
     private void LoadItemsFromPicker(MultiItemsPicker multiItemsPicker)
@@ -78,6 +95,22 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         }
 
         Items = new ObservableCollection<SelectableItemViewModel>(m_originalItems);
+    }
+
+    private void AddDoneButton()
+    {
+        if (!m_multiItemsPicker.HasDoneButton) return;
+        
+        var doneButton = new Button
+        {
+            Style = Styles.GetButtonStyle(ButtonStyle.PrimaryLarge),
+            Text = DUILocalizedStrings.Done,
+            VerticalOptions = LayoutOptions.End,
+            HorizontalOptions = LayoutOptions.Center,
+            Command = new AsyncCommand(() => Close())
+        };
+        
+        BottombarButtons.Add(doneButton);
     }
 
     private void ClearSelectedItems()

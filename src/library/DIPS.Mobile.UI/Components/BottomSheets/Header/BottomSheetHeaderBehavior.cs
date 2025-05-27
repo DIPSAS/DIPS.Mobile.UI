@@ -42,10 +42,22 @@ public class BottomSheetHeaderBehavior : BindableObject
         set => SetValue(CloseButtonCommandProperty, value);
     }
 
+    /// <summary>
+    /// Whether the back button should be visible in the header.
+    /// </summary>
     public bool IsBackButtonVisible
     {
         get => (bool)GetValue(IsBackButtonVisibleProperty);
         set => SetValue(IsBackButtonVisibleProperty, value);
+    }
+    
+    /// <summary>
+    /// Whether the close button should be visible in the header.
+    /// </summary>
+    public bool IsCloseButtonVisible
+    {
+        get => (bool)GetValue(IsCloseButtonVisibleProperty);
+        set => SetValue(IsCloseButtonVisibleProperty, value);
     }
 
     /// <summary>
@@ -77,6 +89,12 @@ public class BottomSheetHeaderBehavior : BindableObject
         nameof(IsBackButtonVisible),
         typeof(bool),
         typeof(BottomSheetHeaderBehavior));
+
+    public static readonly BindableProperty IsCloseButtonVisibleProperty = BindableProperty.Create(
+        nameof(IsCloseButtonVisible),
+        typeof(bool),
+        typeof(BottomSheetHeaderBehavior),
+        true);
     
     public static readonly BindableProperty IsTitleAndBackButtonContainerEnabledProperty = BindableProperty.Create(
         nameof(IsTitleAndBackButtonContainerEnabled),
