@@ -1,3 +1,7 @@
+## [45.7.0]
+- [MultiItemsPicker] Added property `HasDoneButton` for displaying a done button in the bottom sheet
+- [BottomSheet] Added property `IsCloseButtonVisible` for controlling whether the close button should be visible in the header
+
 ## [45.6.1]
 - [SearchBar][iOS] Keep cancel button enabled when losing focus on search bar.
 
