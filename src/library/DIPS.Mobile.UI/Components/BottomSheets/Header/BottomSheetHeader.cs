@@ -65,7 +65,7 @@ internal class BottomSheetHeader : Grid
         
         SemanticProperties.SetDescription(closeButton, DUILocalizedStrings.Close);
         
-        closeButton.SetBinding(IsVisibleProperty, static (BottomSheetHeaderBehavior headerBehavior) => headerBehavior.IsBackButtonVisible, source: m_bottomSheet.BottomSheetHeaderBehavior);
+        closeButton.SetBinding(IsVisibleProperty, static (BottomSheetHeaderBehavior headerBehavior) => headerBehavior.IsCloseButtonVisible, source: m_bottomSheet.BottomSheetHeaderBehavior);
         
         this.Add(closeButton, 1);
     }
