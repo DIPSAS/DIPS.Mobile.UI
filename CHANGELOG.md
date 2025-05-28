@@ -1,3 +1,6 @@
+## [45.7.2]
+- [Android][AlertView] Fix bad scaling when text goes over multiple lines and no buttons are visible
+
 ## [45.7.1]
 - [SingleLineInputField] Make sure to set InputView visible when text is set from consumer.
 

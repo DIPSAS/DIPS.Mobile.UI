@@ -35,7 +35,7 @@ public partial class AlertView : Border
 
     private readonly Grid m_grid;
     private readonly Grid m_innerGrid;
-    private readonly HorizontalStackLayout m_horizontalStackLayout;
+    private readonly HorizontalStackLayout m_buttonsContainer;
     private Label? m_titleLabel;
     private Image? m_image;
     private Label? m_descriptionLabel;
@@ -73,7 +73,7 @@ public partial class AlertView : Border
         };
         m_grid.Add(m_innerGrid, 0);
         
-        m_horizontalStackLayout = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, VerticalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
+        m_buttonsContainer = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, VerticalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
     }
 
     private void OnButtonAlignmentChanged()
@@ -90,50 +90,52 @@ public partial class AlertView : Border
 
     private void UpdateButtonAlignment()
     {
+        if (LeftButtonCommand is null && RightButtonCommand is null) return;
+        
         var maxWidth = m_innerGrid.Measure(int.MaxValue, int.MaxValue).Width;
-        var buttonsWidth = m_horizontalStackLayout.Measure(int.MaxValue, int.MaxValue).Width;
+        var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
         var remainingWidth = Width - maxWidth - buttonsWidth;
         var buttonsWillFit = remainingWidth >= Sizes.GetSize(SizeName.content_margin_small);
         
         if (ButtonAlignment is ButtonAlignmentType.Auto && buttonsWillFit
             || ButtonAlignment is ButtonAlignmentType.Inline)
         {
-            m_horizontalStackLayout.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_small));
-            m_grid!.Remove(m_horizontalStackLayout);
-            m_innerGrid!.Remove(m_horizontalStackLayout);
-            m_grid.Add(m_horizontalStackLayout,1);
+            m_buttonsContainer.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_small));
+            m_grid!.Remove(m_buttonsContainer);
+            m_innerGrid!.Remove(m_buttonsContainer);
+            m_grid.Add(m_buttonsContainer,1);
         }
         else
         {
-            m_horizontalStackLayout.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            m_grid!.Remove(m_horizontalStackLayout);
-            m_innerGrid!.Remove(m_horizontalStackLayout);
-            m_innerGrid.Add(m_horizontalStackLayout,1,2);
+            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+            m_grid!.Remove(m_buttonsContainer);
+            m_innerGrid!.Remove(m_buttonsContainer);
+            m_innerGrid.Add(m_buttonsContainer,1,2);
         }
     }
 
     private void OnButtonChanged()
     {
-        m_horizontalStackLayout.IsVisible = LeftButtonCommand != null || RightButtonCommand != null;
-        if (!m_horizontalStackLayout.IsVisible)
+        m_buttonsContainer.IsVisible = LeftButtonCommand != null || RightButtonCommand != null;
+        if (!m_buttonsContainer.IsVisible)
         {
             return;
         }
 
-        m_horizontalStackLayout.Clear();
+        m_buttonsContainer.Clear();
         if (LeftButtonCommand != null)
         {
             if (RightButtonCommand != null)
             {
-                m_horizontalStackLayout.Clear();
+                m_buttonsContainer.Clear();
             }
             
-            m_horizontalStackLayout.Add(CreateButton(LeftButtonText, LeftButtonCommand, LeftButtonCommandParameter, "LeftButton".ToDUIAutomationId<AlertView>()));
+            m_buttonsContainer.Add(CreateButton(LeftButtonText, LeftButtonCommand, LeftButtonCommandParameter, "LeftButton".ToDUIAutomationId<AlertView>()));
         }
 
         if (RightButtonCommand != null)
         {
-            m_horizontalStackLayout.Add(CreateButton(RightButtonText, RightButtonCommand, RightButtonCommandParameter, "RightButton".ToDUIAutomationId<AlertView>()));
+            m_buttonsContainer.Add(CreateButton(RightButtonText, RightButtonCommand, RightButtonCommandParameter, "RightButton".ToDUIAutomationId<AlertView>()));
         }
         
         UpdateButtonAlignment();
