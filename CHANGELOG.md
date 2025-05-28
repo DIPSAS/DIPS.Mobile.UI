@@ -1,3 +1,6 @@
+## [45.7.2]
+- [Android][ItemPicker][MultiItemsPicker] Fixed content of `BottomSheetConfiguration.FooterTemplate` not scaling well
+
 ## [45.7.1]
 - [SingleLineInputField] Make sure to set InputView visible when text is set from consumer.
 
