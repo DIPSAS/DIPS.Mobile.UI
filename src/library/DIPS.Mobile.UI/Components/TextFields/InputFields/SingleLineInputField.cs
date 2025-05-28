@@ -247,6 +247,11 @@ public partial class SingleLineInputField : Grid
         if (InputView is null)
             return;
 
+        if (this is not MultiLineInputField.MultiLineInputField)
+        {
+            InputView.IsVisible = !string.IsNullOrEmpty(Text);
+        }
+        
         ChangeHeaderTextStyle();
     }
 
