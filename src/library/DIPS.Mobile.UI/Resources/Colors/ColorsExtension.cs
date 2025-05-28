@@ -16,12 +16,22 @@ public class ColorsExtension : IMarkupExtension<Color>
 
     public static Color GetColor(string colorName, float alpha = -1)
     {
-        if (!ColorResources.Colors.TryGetValue(colorName, out var value))
+        if (ColorResources.Colors.TryGetValue(colorName, out var value))
         {
-            return Microsoft.Maui.Graphics.Colors.White;
+            return (alpha >= 0) ? value.WithAlpha(alpha) : value;
         }
 
-        return (alpha >= 0) ? value.WithAlpha(alpha) : value;
+        if (ColorResourcesExperimental.Colors.TryGetValue(colorName, out value))
+        {
+            return (alpha >= 0) ? value.WithAlpha(alpha) : value;
+        }
+
+        if (ColorResourcesLight.Colors.TryGetValue(colorName, out value))
+        {
+            return (alpha >= 0) ? value.WithAlpha(alpha) : value;
+        }
+
+        return Microsoft.Maui.Graphics.Colors.White;
     }
 
     public static Color GetColor(ColorName colorName, float alpha = -1) => GetColor(colorName.ToString(), alpha);
