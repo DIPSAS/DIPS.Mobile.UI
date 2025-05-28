@@ -17,14 +17,12 @@
     <Grid RowDefinitions="Auto, Auto, *"
           >
         
-        <dui:SearchBar HasCancelButton="True"
-                       CancelButtonTextColor="{dui:Colors color_primary_90}"
-                       CancelCommand="{Binding CancelCommand}"
-                       x:Name="SearchBar"/>
-             
-        <dui:Button Text="Lol"
-                    Grid.Row="1"
-                    ></dui:Button>
+        <dui:SingleLineInputField Text="{Binding TestString}"
+                                  HeaderText="Hello"/>
+        
+        <dui:MultiLineInputField Text="{Binding TestString}"
+                                 HeaderText="Hello"
+                                 Grid.Row="1"/>
         
     </Grid>
 

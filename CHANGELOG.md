@@ -1,3 +1,6 @@
+## [45.7.1]
+- [SingleLineInputField] Make sure to set InputView visible when text is set from consumer.
+
 ## [45.7.0]
 - [MultiItemsPicker] Added property `HasDoneButton` for displaying a done button in the bottom sheet
 - [BottomSheet] Added property `IsCloseButtonVisible` for controlling whether the close button should be visible in the header

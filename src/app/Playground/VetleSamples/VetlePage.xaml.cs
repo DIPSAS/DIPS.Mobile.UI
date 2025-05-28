@@ -226,7 +226,8 @@ public partial class VetlePage
     private void Button_OnClicked(object sender, EventArgs e)
     {
         /*SearchBar.HasCancelButton = !SearchBar.HasCancelButton;*/
-        SearchBar.IsVisible = !SearchBar.IsVisible;
+        /*SearchBar.IsVisible = !SearchBar.IsVisible;*/
+
     }
 
 }
