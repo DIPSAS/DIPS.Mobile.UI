@@ -16,9 +16,14 @@
 
     <Grid RowDefinitions="Auto, Auto, *">
         
-        <!--<dui:Button Text="Lol"
-                    Grid.Row="1"
-                    BackgroundColor="{dui:Colors colorbackground_default}"></dui:Button>-->
+        <!--<dui:Label Text="Helo"
+                   >
+        </dui:Label>-->
+        
+        <dui:SearchBar HasBusyIndication="True"
+                       IsBusy="True"
+                       AndroidBusyBackgroundColor="Yellow"
+                       AndroidBusyColor="Green"/>
         
     </Grid>
 
