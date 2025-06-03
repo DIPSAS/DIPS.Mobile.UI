@@ -32,6 +32,5 @@ internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgre
     private static void MapIsRunning(IndeterminateProgressBarHandler handler, IndeterminateProgressBar indeterminateProgressBar)
     {
         handler.PlatformView.Indeterminate = indeterminateProgressBar.IsRunning;
-        handler.PlatformView.Progress = !indeterminateProgressBar.IsRunning ? 100 : 0;
     }
 }
