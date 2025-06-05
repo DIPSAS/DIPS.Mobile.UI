@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Icons;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -17,7 +18,7 @@ public partial class VetlePage
     public VetlePage()
     {
         InitializeComponent();
-        TestCommand = new Command(SwitchRoot);
+        TestCommand = new Command(SwitchRoot); 
 
         _ = FuckThisShitUp();
     }

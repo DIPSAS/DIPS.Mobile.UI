@@ -6,25 +6,100 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 HideSoftInputOnTapped="True">
-
+                 HideSoftInputOnTapped="True"
+                 Title="Hello"
+                 LargeTitleDisplay="Always"
+                 iOsSpecific:Page.UseSafeArea="True"
+                 Shell.BackgroundColor="Black">
+    
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *"
-          >
-        
-        <dui:SingleLineInputField Text="{Binding TestString}"
-                                  HeaderText="Hello"/>
-        
-        <dui:MultiLineInputField Text="{Binding TestString}"
-                                 HeaderText="Hello"
-                                 Grid.Row="1"/>
-        
-    </Grid>
-
-
+    <!--<Grid RowDefinitions="*">
+        <dui:Label Text="Hello"></dui:Label>-->
+    
+        <CollectionView>
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+            </x:Array>
+        </CollectionView.ItemsSource>
+    </CollectionView>
+    <!--<ScrollView>
+        <Grid RowDefinitions="Auto, Auto, *"
+              HeightRequest="10000">
+            
+            <dui:SingleLineInputField Text="{Binding TestString}"
+                                      HeaderText="Hello"/>
+            
+            <dui:MultiLineInputField Text="{Binding TestString}"
+                                     HeaderText="Hello"
+                                     Grid.Row="1"/>
+            
+        </Grid>
+    </ScrollView>-->
+    <!--</Grid>-->
 </dui:ContentPage>

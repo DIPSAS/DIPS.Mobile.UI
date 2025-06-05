@@ -1,3 +1,6 @@
+## [45.8.0]
+- [iOS] Can now set large titles on pages
+
 ## [45.7.2]
 - [Android][AlertView] Fix bad scaling when text goes over multiple lines and no buttons are visible
 
