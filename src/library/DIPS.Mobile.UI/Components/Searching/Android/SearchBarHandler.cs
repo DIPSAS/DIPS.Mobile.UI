@@ -85,14 +85,14 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             handler.ProgressBar.IndicatorColor = searchBar.AndroidBusyColor ??
                                                  DIPS.Mobile.UI.Resources.Colors.Colors
-                                                     .GetColor(ColorName.color_primary_90);
+                                                     .GetColor(ColorName.color_neutral_30);
         }
 
         private static void MapAndroidBusyBackgroundColor(SearchBarHandler handler, SearchBar searchBar)
         {
             handler.ProgressBar.TrackColor = searchBar.AndroidBusyBackgroundColor ??
                                              DIPS.Mobile.UI.Resources.Colors.Colors
-                                                 .GetColor(ColorName.color_neutral_30);
+                                                 .GetColor(ColorName.color_primary_90);
         }
 
         protected override AView CreatePlatformView()

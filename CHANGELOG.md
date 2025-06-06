@@ -1,3 +1,6 @@
+## [45.7.3]
+- [Searchbar][Android] `AndroidBusyBackgroundColor` will now show if `IsBusy` is set to false.
+
 ## [45.7.2]
 - [Android][AlertView] Fix bad scaling when text goes over multiple lines and no buttons are visible
 
