@@ -12,8 +12,7 @@
                  HideSoftInputOnTapped="True"
                  Title="Hello"
                  LargeTitleDisplay="Always"
-                 iOsSpecific:Page.UseSafeArea="True"
-                 Shell.BackgroundColor="Black">
+                 >
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
