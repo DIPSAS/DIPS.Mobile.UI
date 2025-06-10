@@ -16,15 +16,13 @@
 
     <Grid RowDefinitions="Auto, Auto, *">
         
-        <!--<dui:Label Text="Helo"
-                   >
-        </dui:Label>-->
+        <dui:SingleLineInputField Text="{Binding TestString}"
+                                  HeaderText="Hello"/>
         
-        <dui:SearchBar HasBusyIndication="True"
-                       IsBusy="True"
-                       AndroidBusyBackgroundColor="Yellow"
-                       AndroidBusyColor="Green"/>
-        
+        <dui:MultiLineInputField Text="{Binding TestString}"
+                                 HeaderText="Hello"
+                                 Grid.Row="1"/>
+<dui:SearchBar AndroidBusyBackgroundColor=""></dui:SearchBar>        
     </Grid>
 
 

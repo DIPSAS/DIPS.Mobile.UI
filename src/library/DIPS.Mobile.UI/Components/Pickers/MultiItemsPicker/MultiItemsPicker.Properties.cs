@@ -96,6 +96,22 @@ public partial class MultiItemsPicker
         get => (string)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
+
+    public static readonly BindableProperty HasDoneButtonBindableProperty = BindableProperty.Create(
+        nameof(HasDoneButton),
+        typeof(bool),
+        typeof(MultiItemsPicker));
+
+    /// <summary>
+    /// Whether the bottom sheet should have a "Done" button, which will close the bottom sheet when tapped. Setting
+    /// this to true will also disallow people from closing the bottom sheet by dragging it down or tapping outside it,
+    /// and also hide the close button in the header.
+    /// </summary>
+    public bool HasDoneButton
+    {
+        get => (bool)GetValue(HasDoneButtonBindableProperty);
+        set => SetValue(HasDoneButtonBindableProperty, value);
+    }
     
     /// <summary>
     /// Opens the picker.
