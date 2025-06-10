@@ -1,6 +1,9 @@
 ## [45.8.0]
 - Imported new colors.
 
+## [45.7.4]
+- [iOS] Fixed freeze when showing barcode result.
+
 ## [45.7.3]
 - [Searchbar][Android] `AndroidBusyBackgroundColor` will now show if `IsBusy` is set to false.
 

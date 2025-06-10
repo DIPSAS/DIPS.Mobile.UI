@@ -39,8 +39,10 @@
                                                 Tapped="OnAndroidFormatTapped"
                                                 Subtitle="{Binding BarcodeScanResult.Barcode.Format}">
         </listitemsExtensions:NavigationListItem>
+        <!-- TODO: Figure out why HasAdditionalSpaceAtTheEnd set to true freezes the app -->
         <lists:CollectionView Grid.Row="2"
                               VerticalScrollBarVisibility="Never"
+                              HasAdditionalSpaceAtTheEnd="False"
                               ItemsSource="{Binding BarcodeScanResult.Observations}"
                               Header="."
                               IsVisible="{Binding BarcodeScanResult.HasMultipleObservations}"
