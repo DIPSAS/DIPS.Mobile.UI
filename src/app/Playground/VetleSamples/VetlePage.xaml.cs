@@ -227,7 +227,6 @@ public partial class VetlePage
     {
         /*SearchBar.HasCancelButton = !SearchBar.HasCancelButton;*/
         /*SearchBar.IsVisible = !SearchBar.IsVisible;*/
-
     }
 
 }

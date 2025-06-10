@@ -14,8 +14,7 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *"
-          >
+    <Grid RowDefinitions="Auto, Auto, *">
         
         <dui:SingleLineInputField Text="{Binding TestString}"
                                   HeaderText="Hello"/>

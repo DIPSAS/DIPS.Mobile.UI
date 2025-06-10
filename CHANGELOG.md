@@ -1,3 +1,6 @@
+## [45.8.0]
+- Imported new colors.
+
 ## [45.7.4]
 - [iOS] Fixed freeze when showing barcode result.
 
