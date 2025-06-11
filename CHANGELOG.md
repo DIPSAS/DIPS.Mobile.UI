@@ -1,3 +1,6 @@
+## [45.9.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [45.8.0]
 - Imported new colors.
 
