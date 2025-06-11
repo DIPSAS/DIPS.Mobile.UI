@@ -52,19 +52,13 @@
             <DataTemplate>
                 <Grid RowDefinitions="Auto, Auto">
                     <dui:ListItem Title="{Binding .}"
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtMiddleInSectionCommand}">
+                                  Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtMiddleInSectionCommand}"
+                                  HasTopDivider="True">
                         
-                        <dui:ListItem.UnderlyingContent>
-                            <Grid Padding="8">
-                                <dui:Label Text="{Binding .}"
-                                           TextColor="{dui:Colors color_neutral_60}" />
-                                
-                                <dui:Divider VerticalOptions="End" />
-                            </Grid>
-                        </dui:ListItem.UnderlyingContent>
+                        
                         
                     </dui:ListItem>
-                    <dui:Divider VerticalOptions="End" />
+                    
                 </Grid>
             </DataTemplate>
         </dui:CollectionView.ItemTemplate>
