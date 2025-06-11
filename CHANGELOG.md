@@ -1,5 +1,5 @@
 ## [45.8.1]
-- [ListItem][CollectionView][iOS] Divider in a CollectionView will now no longer expand its height.
+- [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer expand its height.
 
 ## [45.8.0]
 - Imported new colors.

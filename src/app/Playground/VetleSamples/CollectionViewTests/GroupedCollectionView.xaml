@@ -53,7 +53,7 @@
                 <Grid RowDefinitions="Auto, Auto">
                     <dui:ListItem Title="{Binding .}"
                                   Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtMiddleInSectionCommand}"
-                                  HasBottomDivider="True">
+                                  HasTopDivider="True">
                         
                         
                         
