@@ -154,10 +154,10 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         Divider? divider = null;
         holder.ItemView.BreadthFirstSearchChildrenUntilMatch(view =>
         {
-            if (view is not ContentViewGroup { CrossPlatformLayout: Divider crossPlatformLayout })
+            if (view is not DividerShapeView dividerShapeView)
                 return false;
 
-            divider = crossPlatformLayout;
+            divider = dividerShapeView.VirtualView;
             return true;
         });
 
