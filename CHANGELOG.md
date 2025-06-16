@@ -1,3 +1,6 @@
+## [45.8.2]
+- [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer have weird positioning.
+
 ## [45.8.1]
 - [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer expand its height.
 
