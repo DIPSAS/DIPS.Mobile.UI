@@ -201,7 +201,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 var couldCreateFreeTextItem = true;
                 foreach (var item in filteredItems)
                 {
-                    itemsToAdd.Add(item);
                     if (item.DisplayName.Equals(filterText))
                     {
                         couldCreateFreeTextItem = false;

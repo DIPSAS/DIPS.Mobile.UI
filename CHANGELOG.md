@@ -1,3 +1,6 @@
+## [45.8.1]
+- Fix duplicates when filtering in ItemPicker BottomSheet
+
 ## [45.8.0]
 - Imported new colors.
 
