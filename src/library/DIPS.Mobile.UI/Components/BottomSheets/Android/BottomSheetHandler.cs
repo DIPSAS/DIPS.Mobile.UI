@@ -34,6 +34,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     private static AView? s_mEmptyNonFitToContentView;
     private AView? m_searchBarView;
     private BottomSheetHeader m_bottomSheetHeader;
+    private bool m_setPositioningToLargeUsingSearchBar;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -119,11 +120,30 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (m_bottomSheet.HasSearchBar)
         {
             m_searchBarView.Visibility = ViewStates.Visible;
+            m_bottomSheet.SearchBar.Focused += SearchBarOnFocused;
+            m_bottomSheet.SearchBar.Unfocused += SearchBarOnUnfocused;
         }
         else
         {
             m_searchBarView.Visibility = ViewStates.Gone;
         }
+    }
+
+    private void SearchBarOnUnfocused(object? sender, EventArgs e)
+    {
+        if (m_setPositioningToLargeUsingSearchBar)
+            m_bottomSheet.Positioning = Positioning.Medium;
+        
+        m_setPositioningToLargeUsingSearchBar = false;
+    }
+
+    private void SearchBarOnFocused(object? sender, EventArgs e)
+    {
+        if(m_bottomSheet.Positioning is Positioning.Large)
+            return;
+        
+        m_bottomSheet.Positioning = Positioning.Large;
+        m_setPositioningToLargeUsingSearchBar = true;
     }
 
     private void ToggleFitToContent(BottomSheet bottomSheet)
@@ -155,6 +175,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         else if (bottomSheet.Positioning == Positioning.Medium)
         {
             bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
+            handler.m_searchBarView?.ClearFocus();
         }
     }
 
@@ -188,6 +209,9 @@ public partial class BottomSheetHandler : ContentViewHandler
         
         s_mEmptyNonFitToContentView?.RemoveFromParent();
         m_bottomSheetHeader.DisconnectHandlers();
+        
+        m_bottomSheet.SearchBar.Focused -= SearchBarOnFocused;
+        m_bottomSheet.SearchBar.Unfocused -= SearchBarOnUnfocused;
     }
     
     /// <summary>
