@@ -1,5 +1,8 @@
-## [45.8.4]
+## [45.9.1]
 - [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
+
+## [45.9.0]
+- [BottomSheet][Android] Focusing `SearchBar` will now expand the `BottomSheet`.
 
 ## [45.8.3]
 - [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer have weird positioning.
