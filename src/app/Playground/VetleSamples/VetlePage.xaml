@@ -22,7 +22,7 @@
         <dui:MultiLineInputField Text="{Binding TestString}"
                                  HeaderText="Hello"
                                  Grid.Row="1"/>
-<dui:SearchBar AndroidBusyBackgroundColor=""></dui:SearchBar>        
+<dui:SearchBar ></dui:SearchBar>        
     </Grid>
 
 

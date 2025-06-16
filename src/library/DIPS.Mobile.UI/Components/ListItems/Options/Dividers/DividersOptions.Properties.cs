@@ -16,12 +16,18 @@ public partial class DividersOptions
         defaultValue: new Thickness(Sizes.GetSize(SizeName.content_margin_small), 0, 0, 0),
         defaultBindingMode: BindingMode.OneTime);
 
+    /// <summary>
+    /// Horizontal margin only supported
+    /// </summary>
     public Thickness BottomDividerMargin
     {
         get => (Thickness)GetValue(BottomDividerMarginProperty);
         set => SetValue(BottomDividerMarginProperty, value);
     }
     
+    /// <summary>
+    /// Horizontal margin only supported
+    /// </summary>
     public Thickness TopDividerMargin
     {
         get => (Thickness)GetValue(TopDividerMarginProperty);
