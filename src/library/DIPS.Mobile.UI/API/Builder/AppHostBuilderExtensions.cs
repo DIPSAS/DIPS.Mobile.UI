@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
@@ -63,6 +64,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             handlers.AddHandler<PreviewView, PreviewViewHandler>();
+            handlers.AddHandler<Divider, DividerHandler>();
             
             AddPlatformHandlers(handlers);
         });

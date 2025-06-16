@@ -1,3 +1,6 @@
+## [45.8.3]
+- [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer have weird positioning.
+
 ## [45.8.2]
 - Fix duplicates when filtering in ItemPicker BottomSheet
 

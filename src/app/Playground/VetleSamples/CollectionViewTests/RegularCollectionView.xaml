@@ -10,7 +10,7 @@
         <collectionViewTests:RegularCollectionViewModel />
     </ContentPage.BindingContext>
     
-    <dui:CollectionView ItemsSource="{Binding TestStrings}"
+    <dui:CollectionView ItemsSource="{Binding TestItems}"
                         x:Name="CollectionView"
                         HasAdditionalSpaceAtTheEnd="True"
                         BackgroundColor="Transparent"
@@ -36,19 +36,12 @@
             <DataTemplate>
                 
                     <Grid RowDefinitions="Auto, Auto">
-                        <dui:ListItem Title="{Binding .}">
+                        <dui:ListItem Title="{Binding Name}"
+                                      HasBottomDivider="True">
                             
-                            <dui:ListItem.UnderlyingContent>
-                                <Grid Padding="8">
-                                    <dui:Label Text="{Binding .}"
-                                               TextColor="{dui:Colors color_neutral_60}" />
-                                    
-                                    <dui:Divider VerticalOptions="End" />
-                                </Grid>
-                            </dui:ListItem.UnderlyingContent>
+                           
                             
                         </dui:ListItem>
-                        <dui:Divider VerticalOptions="End" />
                     </Grid>
             </DataTemplate>
         </dui:CollectionView.ItemTemplate>

@@ -20,7 +20,7 @@ public class GroupedCollectionViewModel : ViewModel
     
     public ICommand AddItemAtEndInSectionCommand => new Command(() =>
     {
-        GroupedTest[0].Add("Test7");
+        GroupedTest[0].Add($"Test {GroupedTest[0].Count}");
     });
     
     public ICommand AddItemAtStartInSectionCommand => new Command(() =>
