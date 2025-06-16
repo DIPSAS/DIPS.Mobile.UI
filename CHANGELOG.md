@@ -1,5 +1,5 @@
 ## [45.8.4]
-- [MultiItemsPicker] Add binding context
+- [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
 
 ## [45.8.3]
 - [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer have weird positioning.
