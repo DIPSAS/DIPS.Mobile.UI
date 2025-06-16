@@ -1,3 +1,6 @@
+## [45.9.1]
+- [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
+
 ## [45.9.0]
 - [BottomSheet][Android] Focusing `SearchBar` will now expand the `BottomSheet`.
 
