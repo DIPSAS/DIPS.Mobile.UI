@@ -16,13 +16,9 @@
 
     <Grid RowDefinitions="Auto, Auto, *">
         
-        <dui:SingleLineInputField Text="{Binding TestString}"
-                                  HeaderText="Hello"/>
         
-        <dui:MultiLineInputField Text="{Binding TestString}"
-                                 HeaderText="Hello"
-                                 Grid.Row="1"/>
-<dui:SearchBar ></dui:SearchBar>        
+        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"></dui:Button>
+        
     </Grid>
 
 
