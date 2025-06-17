@@ -1,3 +1,6 @@
+## [45.9.4]
+- [ItemPickerBottomSheet] Prevent the bindingcontext from being displayed in the bottom sheet in Android
+
 ## [45.9.3]
 - [ListItem][CollectionView][Divider][iOS] Revert all fixes regarding ListItem's divider. Now we only toggle Opacity value instead of IsVisible, to fix divider UI glitches.
 
