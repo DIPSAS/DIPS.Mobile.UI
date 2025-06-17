@@ -14,12 +14,27 @@
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *">
         
         
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"></dui:Button>
+        <dui:CollectionView ItemsSource="{Binding TestObjects}">
+            
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="Auto, 50">
+                        
+                        <dui:Label Text="{Binding Name}"
+                                   FontSize="25"/>
+                        
+                        <dui:Image TintColor="{Binding IconColor}"
+                                    Source="{dui:Icons criticalinfo_fill}"
+                                   Grid.Column="1" />
+                        
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+            
+        </dui:CollectionView>
         
-    </Grid>
 
 
 </dui:ContentPage>

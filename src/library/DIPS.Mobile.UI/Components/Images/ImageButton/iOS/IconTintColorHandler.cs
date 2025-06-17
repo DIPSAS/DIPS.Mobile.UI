@@ -80,13 +80,21 @@ internal class IconTintColorHandler : IDisposable
 
     private static void SetUIImageViewTintColor(UIImageView imageView, Color? color)
     {
-        if (imageView.Image is null || color is null)
+        if (imageView.Image is null)
         {
             return;
         }
 
-        imageView.Image = imageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
-        imageView.TintColor = color.ToPlatform();
+        if (color is null)
+        {
+            // Reset to original image colors (no tint)
+            imageView.Image = imageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+        }
+        else
+        {
+            imageView.Image = imageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            imageView.TintColor = color.ToPlatform();
+        }
     }
 
     public void Dispose()

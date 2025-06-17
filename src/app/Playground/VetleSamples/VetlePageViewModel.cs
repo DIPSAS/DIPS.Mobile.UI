@@ -86,10 +86,6 @@ public class VetlePageViewModel : ViewModel
             IsSavingCompleted = true;
         });
         
-        TestObjects.Add(new TestObject(CheckCommand));
-        TestObjects.Add(new TestObject(CheckCommand));
-        TestObjects.Add(new TestObject(CheckCommand));
-        TestObjects.Add(new TestObject(CheckCommand));
 
         
         GroupedTest = [new(["Test"]), new(TestStrings.ToList())];
@@ -237,7 +233,8 @@ public class VetlePageViewModel : ViewModel
         /*TestStrings.Remove(firstOrDefault);*/
     });
 
-    public List<TestObject> TestObjects { get; } = new List<TestObject>();
+    // Create many
+    public List<TestObject> TestObjects { get; } = [new TestObject(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new()];
     
     public ICommand Navigate { get; }
     public ICommand SaveSuccess { get; }
@@ -502,12 +499,25 @@ class SortOptionComparer : IComparer<string>
 }
 public class TestObject
 {
-    public TestObject(ICommand command)
+    public TestObject()
     {
-        Command = command;
+        
+        var random = new Random().Next(0, 2);
+        if (random == 0)
+        {
+            IconColor = Colors.Red;
+            Name = "Has Color";
+        }
+        else
+        {
+            Name = "No Color";
+        }
+        
     }
-    
-    public ICommand Command { get; }
+
+    public Color? IconColor { get; }
+    public string Name { get; }
+
 
     public bool IsChecked { get; } = true;
 }
