@@ -11,8 +11,7 @@ public partial class ItemPicker : ContentView
 {
     private readonly ContextMenu m_contextMenu = new();
     private readonly Chip m_chip = new(){AutomationId = "ItemPickerChip".ToDUIAutomationId<ItemPicker>()};
-    public object? FooterBindingContext => BottomSheetPickerConfiguration.FooterTemplate != null ? BindingContext : null;
-
+    
     public ItemPicker()
     {
         m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
