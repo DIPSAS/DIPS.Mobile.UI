@@ -108,10 +108,10 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         Divider? divider = null;
         cell.BreadthFirstSearchChildrenUntilMatch(view =>
         {
-            if (view is not DividerShapeView dividerShapeView)
+            if (view is not ContentView { CrossPlatformLayout: Divider crossPlatformLayout })
                 return false;
 
-            divider = dividerShapeView.VirtualView;
+            divider = crossPlatformLayout;
             return true;
         });
 

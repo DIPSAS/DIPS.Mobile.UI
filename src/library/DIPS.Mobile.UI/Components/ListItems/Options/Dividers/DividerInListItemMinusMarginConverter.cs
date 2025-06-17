@@ -17,7 +17,7 @@ internal class MinusPaddingOfListItemConverter : IValueConverter
         if(parameter is not Thickness ListItemPadding)
             throw new Exception("Parameter must be of type Thickness");
 
-        return new Thickness(thickness.Left - ListItemPadding.Left, 0, thickness.Right - ListItemPadding.Right, 0);
+        return new Thickness(thickness.Left - ListItemPadding.Left, thickness.Top - ListItemPadding.Top, thickness.Right - ListItemPadding.Right, thickness.Bottom - ListItemPadding.Bottom);
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
