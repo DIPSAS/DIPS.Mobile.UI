@@ -66,8 +66,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (ItemPickerBottomSheet itemPickerBottomSheet) => itemPickerBottomSheet.Items, source: this);
 
             UI.Effects.Layout.Layout.SetAutoHideLastDivider(m_collectionView, true);
-            
-            m_collectionView.SetBinding(StructuredItemsView.FooterProperty, static (ItemPicker itemPicker) => itemPicker.BindingContext, source: m_itemPicker);
+
+            m_collectionView.SetBinding(StructuredItemsView.FooterProperty, static (ItemPicker itemPicker) => itemPicker.FooterBindingContext, source: m_itemPicker);
             m_collectionView.FooterTemplate = m_itemPicker.BottomSheetPickerConfiguration.FooterTemplate;
             
             Content = CreateContentControlForActivityIndicator(m_collectionView,

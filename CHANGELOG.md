@@ -1,3 +1,6 @@
+## [45.9.3]
+- [ItemPickerBottomSheet] Prevent the bindingcontext from being displayed in the bottom sheet in Android
+
 ## [45.9.2]
 - [CollectionView][Image] Handle resetting image tint colors on iOS and Android to avoid tint artifacts caused by view recycling.
 
