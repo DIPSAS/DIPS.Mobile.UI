@@ -1,3 +1,6 @@
+## [45.9.2]
+- [CollectionView][Image] Handle resetting image tint colors on iOS and Android to avoid tint artifacts caused by view recycling.
+
 ## [45.9.1]
 - [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
 
