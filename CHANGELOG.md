@@ -1,3 +1,6 @@
+## [45.9.5]
+- [ImageThumbnailView] Fix position of close button on image
+
 ## [45.9.4]
 - [ItemPickerBottomSheet] Prevent the bindingcontext from being displayed in the bottom sheet in Android
 
