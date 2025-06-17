@@ -1,3 +1,6 @@
+## [45.9.2]
+- [ListItem][CollectionView][Divider][iOS] Revert all fixes regarding ListItem's divider. Now we only toggle Opacity value instead of IsVisible, to fix divider UI glitches.
+
 ## [45.9.1]
 - [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
 
