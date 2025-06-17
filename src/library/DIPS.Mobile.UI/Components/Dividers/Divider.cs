@@ -5,8 +5,6 @@ namespace DIPS.Mobile.UI.Components.Dividers;
 
 public class Divider : ContentView
 {
-    internal static string s_automationId = "Divider".ToDUIAutomationId<Divider>();
-    
     public Divider()
     {
         this.SetAppThemeColor(BackgroundColorProperty, ColorName.color_stroke_default);

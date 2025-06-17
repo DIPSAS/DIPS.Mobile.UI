@@ -64,7 +64,6 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             handlers.AddHandler<PreviewView, PreviewViewHandler>();
-            /*handlers.AddHandler<Divider, DividerHandler>();*/
             
             AddPlatformHandlers(handlers);
         });
