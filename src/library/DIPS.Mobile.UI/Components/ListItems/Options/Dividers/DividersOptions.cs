@@ -7,15 +7,13 @@ public partial class DividersOptions : ListItemOptions
         if (listItem.TopDivider is not null)
         {
             var topDividerMargin = (Thickness)TopDividerMarginProperty.DefaultValue;
-            listItem.TopDivider.Margin = new Thickness(topDividerMargin.Left - listItem.Padding.Left, 0, topDividerMargin.Right - listItem.Padding.Right, 0);
-            listItem.TopDivider.TranslationY = -listItem.Padding.Top;
+            listItem.TopDivider.Margin = new Thickness(topDividerMargin.Left - listItem.Padding.Left, topDividerMargin.Top - listItem.Padding.Top, topDividerMargin.Right - listItem.Padding.Right, topDividerMargin.Bottom - listItem.Padding.Bottom);
         }
 
         if (listItem.BottomDivider is not null)
         {
             var bottomDividerMargin = (Thickness)BottomDividerMarginProperty.DefaultValue;
-            listItem.BottomDivider.Margin = new Thickness(bottomDividerMargin.Left - listItem.Padding.Left, 0, bottomDividerMargin.Right - listItem.Padding.Right, 0);
-            listItem.BottomDivider.TranslationY = listItem.Padding.Bottom;
+            listItem.BottomDivider.Margin = new Thickness(bottomDividerMargin.Left - listItem.Padding.Left, bottomDividerMargin.Top - listItem.Padding.Top, bottomDividerMargin.Right - listItem.Padding.Right, bottomDividerMargin.Bottom - listItem.Padding.Bottom);
         }
     }
 
