@@ -66,9 +66,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             m_collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (ItemPickerBottomSheet itemPickerBottomSheet) => itemPickerBottomSheet.Items, source: this);
 
             UI.Effects.Layout.Layout.SetAutoHideLastDivider(m_collectionView, true);
-            
-            m_collectionView.SetBinding(StructuredItemsView.FooterProperty, static (ItemPicker itemPicker) => itemPicker.BindingContext, source: m_itemPicker);
+
             m_collectionView.FooterTemplate = m_itemPicker.BottomSheetPickerConfiguration.FooterTemplate;
+            if (m_collectionView.FooterTemplate is not null)
+            {
+                m_collectionView.SetBinding(StructuredItemsView.FooterProperty, static (ItemPicker itemPicker) => itemPicker.BindingContext, source: m_itemPicker);
+            }
             
             Content = CreateContentControlForActivityIndicator(m_collectionView,
                 m_itemPicker.BottomSheetPickerConfiguration);
@@ -201,7 +204,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 var couldCreateFreeTextItem = true;
                 foreach (var item in filteredItems)
                 {
-                    itemsToAdd.Add(item);
                     if (item.DisplayName.Equals(filterText))
                     {
                         couldCreateFreeTextItem = false;

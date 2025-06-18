@@ -1,4 +1,3 @@
-using System.Collections;
 using DIPS.Mobile.UI.Internal;
 using Microsoft.Maui.Controls.Shapes;
 

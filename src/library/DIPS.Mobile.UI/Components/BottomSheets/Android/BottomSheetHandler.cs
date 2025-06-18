@@ -18,7 +18,10 @@ using RelativeLayout = Android.Widget.RelativeLayout;
 using ADrawableCompat = AndroidX.Core.Graphics.Drawable.DrawableCompat;
 using Paint = Android.Graphics.Paint;
 using System.ComponentModel;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
+using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
+using View = Microsoft.Maui.Controls.View;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
@@ -34,6 +37,8 @@ public partial class BottomSheetHandler : ContentViewHandler
     private static AView? s_mEmptyNonFitToContentView;
     private AView? m_searchBarView;
     private BottomSheetHeader m_bottomSheetHeader;
+    private List<WeakReference<SearchBar>> m_weakSearchBars = [];
+    private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -83,6 +88,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
         bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
+        FindAndSetupSearchBars();
 
         bottomSheetLayout.AddView(bottomSheetAndroidView);
 
@@ -109,21 +115,56 @@ public partial class BottomSheetHandler : ContentViewHandler
             new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)Context.ToPixels(BottomSheet.BottomBarHeight));
             
         rootLayout.AddView(m_bottomBar);
-
+        
         return m_linearLayout = rootLayout;
     }
 
+    private void FindAndSetupSearchBars()
+    {
+        m_weakSearchBars = m_bottomSheet.FindAllChildrenOfType<SearchBar>().Select(sb => new WeakReference<SearchBar>(sb)).ToList();
+
+        foreach (var weakSearchBar in m_weakSearchBars)
+        {
+            if (!weakSearchBar.TryGetTarget(out var searchBar))
+                continue;
+
+            searchBar.Focused += SearchBarOnFocused;
+            searchBar.Unfocused += SearchBarOnUnfocused;
+        }
+        
+        // Also, setup the internal search bar in BottomSheet
+        if (m_bottomSheet.SearchBar is { } searchBarInternal)
+        {
+            searchBarInternal.Focused += SearchBarOnFocused;
+            searchBarInternal.Unfocused += SearchBarOnUnfocused;
+        }
+        
+    }
+
+
     private void ToggleSearchBar()
     {
-        if (m_searchBarView == null) return;
-        if (m_bottomSheet.HasSearchBar)
-        {
-            m_searchBarView.Visibility = ViewStates.Visible;
-        }
-        else
-        {
-            m_searchBarView.Visibility = ViewStates.Gone;
-        }
+        if (m_searchBarView == null) 
+            return;
+        
+        m_searchBarView.Visibility = m_bottomSheet.HasSearchBar ? ViewStates.Visible : ViewStates.Gone;
+    }
+
+    private void SearchBarOnUnfocused(object? sender, EventArgs e)
+    {
+        if (m_weakCurrentFocusedSearchBar is not null)
+            m_bottomSheet.Positioning = Positioning.Medium;
+
+        m_weakCurrentFocusedSearchBar = null;
+    }
+
+    private void SearchBarOnFocused(object? sender, EventArgs e)
+    {
+        if(m_bottomSheet.Positioning is Positioning.Large)
+            return;
+        
+        m_weakCurrentFocusedSearchBar = new WeakReference<AView>(((sender as View)!).ToPlatform(DUI.GetCurrentMauiContext!));
+        m_bottomSheet.Positioning = Positioning.Large;
     }
 
     private void ToggleFitToContent(BottomSheet bottomSheet)
@@ -155,6 +196,10 @@ public partial class BottomSheetHandler : ContentViewHandler
         else if (bottomSheet.Positioning == Positioning.Medium)
         {
             bottomSheet.BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
+            if (handler.m_weakCurrentFocusedSearchBar?.TryGetTarget(out var searchBarNativeView) ?? false)
+            {
+                searchBarNativeView.ClearFocus();
+            }
         }
     }
 
@@ -188,6 +233,22 @@ public partial class BottomSheetHandler : ContentViewHandler
         
         s_mEmptyNonFitToContentView?.RemoveFromParent();
         m_bottomSheetHeader.DisconnectHandlers();
+
+        foreach (var weakSearchBar in m_weakSearchBars)
+        {
+            if (!weakSearchBar.TryGetTarget(out var searchBar))
+                continue;
+
+            searchBar.Focused -= SearchBarOnFocused;
+            searchBar.Unfocused -= SearchBarOnUnfocused;
+        }
+        
+        // Also, dispose the internal search bar in BottomSheet
+        if (m_bottomSheet.SearchBar is { } searchBarInternal)
+        {
+            searchBarInternal.Focused -= SearchBarOnFocused;
+            searchBarInternal.Unfocused -= SearchBarOnUnfocused;
+        }
     }
     
     /// <summary>

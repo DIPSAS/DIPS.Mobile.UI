@@ -11,6 +11,7 @@
                  Padding="{dui:Thickness Left=size_1, Top=size_1}"
                  Title="Hello yes"
                  IsInteractiveCloseable="False"
+                 HasSearchBar="True"
                  OnBackButtonPressedCommand="{Binding CloseCommand}">
 
     <dui:BottomSheet.BindingContext>
@@ -28,10 +29,7 @@
     
     
     <VerticalStackLayout>
-        <dui:Button Text="Hello" HorizontalOptions="Start"
-                    Command="{Binding TestCommand}" />
-        <dui:Button Text="Enabled" HorizontalOptions="Start"
-                    Command="{Binding TestCommand2}" />
+        <dui:SearchBar />
     </VerticalStackLayout>
 
     

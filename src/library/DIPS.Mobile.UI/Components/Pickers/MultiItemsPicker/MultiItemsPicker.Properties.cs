@@ -19,8 +19,18 @@ public partial class MultiItemsPicker
         get => (bool)GetValue(HasHapticsProperty);
         set => SetValue(HasHapticsProperty, value);
     }
-    public BottomSheetPickerConfiguration BottomSheetPickerConfiguration { get; set; } = new();
-    
+
+    public BottomSheetPickerConfiguration BottomSheetPickerConfiguration
+    {
+        get => m_bottomSheetPickerConfiguration;
+        set
+        {
+            m_bottomSheetPickerConfiguration = value;
+            m_bottomSheetPickerConfiguration.SetBinding(BindingContextProperty, static (MultiItemsPicker multiItemsPicker) => multiItemsPicker.BindingContext, source: this);
+
+        }
+    }
+
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
         typeof(IEnumerable),
@@ -101,6 +111,8 @@ public partial class MultiItemsPicker
         nameof(HasDoneButton),
         typeof(bool),
         typeof(MultiItemsPicker));
+
+    private BottomSheetPickerConfiguration m_bottomSheetPickerConfiguration = new();
 
     /// <summary>
     /// Whether the bottom sheet should have a "Done" button, which will close the bottom sheet when tapped. Setting

@@ -59,9 +59,6 @@ internal class ImageThumbnailView : Grid
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
-#if __IOS__
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_small), 0),
-#endif
             Content = new Image
             {
                 TintColor = Colors.GetColor(ColorName.color_icon_default),

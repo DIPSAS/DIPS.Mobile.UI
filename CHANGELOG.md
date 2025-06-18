@@ -1,3 +1,33 @@
+## [45.9.6]
+- [BottomSheet][Android] Focusing any `SearchBar` in `BottomSheet` will now expand the `BottomSheet`.
+
+## [45.9.5]
+- [ImageThumbnailView] Fix position of close button on image
+
+## [45.9.4]
+- [ItemPickerBottomSheet] Prevent the bindingcontext from being displayed in the bottom sheet in Android
+
+## [45.9.3]
+- [ListItem][CollectionView][Divider][iOS] Revert all fixes regarding ListItem's divider. Now we only toggle Opacity value instead of IsVisible, to fix divider UI glitches.
+
+## [45.9.2]
+- [CollectionView][Image] Handle resetting image tint colors on iOS and Android to avoid tint artifacts caused by view recycling.
+
+## [45.9.1]
+- [MultiItemsPicker] Set BindingContext to BottomSheetPickerConfiguration inside MultiItemsPicker
+
+## [45.9.0]
+- [BottomSheet][Android] Focusing `SearchBar` will now expand the `BottomSheet`.
+
+## [45.8.3]
+- [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer have weird positioning.
+
+## [45.8.2]
+- Fix duplicates when filtering in ItemPicker BottomSheet
+
+## [45.8.1]
+- [ListItem][CollectionView][iOS] ListItem's divider in a CollectionView will now no longer expand its height.
+
 ## [45.8.0]
 - Imported new colors.
 

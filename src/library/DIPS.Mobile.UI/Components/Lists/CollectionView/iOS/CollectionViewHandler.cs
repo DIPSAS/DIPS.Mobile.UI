@@ -121,14 +121,14 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         if (IsLastItemInSection(collectionView, indexPath))
         {
             if(currentDividerSetToInvisibleInSection.TryGetValue(indexPath.Section, out var value))
-                value.IsVisible = true;
-            divider.IsVisible = false;
+                value.Opacity = 1;
+            divider.Opacity = 0;
             currentDividerSetToInvisibleInSection[indexPath.Section] = divider;
         }
         else
         {
             // Reset the divider for all other cells, because of virtualization
-            divider.IsVisible = true;
+            divider.Opacity = 1;
         }
     }
 
