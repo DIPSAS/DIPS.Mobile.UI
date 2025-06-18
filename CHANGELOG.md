@@ -1,3 +1,6 @@
+## [45.9.6]
+- [BottomSheet][Android] Focusing any `SearchBar` in `BottomSheet` will now expand the `BottomSheet`.
+
 ## [45.9.5]
 - [ImageThumbnailView] Fix position of close button on image
 

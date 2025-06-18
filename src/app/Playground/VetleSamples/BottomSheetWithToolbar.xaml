@@ -29,11 +29,7 @@
     
     
     <VerticalStackLayout>
-        <dui:Editor />
-        <dui:Button Text="Hello" HorizontalOptions="Start"
-                    Command="{Binding TestCommand}" />
-        <dui:Button Text="Enabled" HorizontalOptions="Start"
-                    Command="{Binding TestCommand2}" />
+        <dui:SearchBar />
     </VerticalStackLayout>
 
     
