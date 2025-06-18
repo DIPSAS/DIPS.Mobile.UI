@@ -96,6 +96,40 @@ public static class ViewExtensions
         return default;
     }
     
+    /// <summary>
+    /// Finds all children of a specific type in the visual tree of the given view.
+    /// </summary>
+    public static List<T> FindAllChildrenOfType<T>(this View? view)
+    {
+        var results = new List<T>();
+
+        if (view is null)
+            return results;
+
+        var queue = new Queue<View>();
+        queue.Enqueue(view);
+
+        while (queue.Count > 0)
+        {
+            var currentView = queue.Dequeue();
+
+            if (currentView is T matchView)
+                results.Add(matchView);
+
+            if (currentView is IVisualTreeElement visualTreeElement)
+            {
+                foreach (var child in visualTreeElement.GetVisualChildren())
+                {
+                    if (child is View childView)
+                        queue.Enqueue(childView);
+                }
+            }
+        }
+
+        return results;
+    }
+
+    
     public static IEnumerable<Element> GetParentsPath(this Element self)
     {
         var current = self;
