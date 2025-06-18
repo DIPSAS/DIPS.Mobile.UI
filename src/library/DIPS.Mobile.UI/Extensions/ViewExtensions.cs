@@ -96,6 +96,9 @@ public static class ViewExtensions
         return default;
     }
     
+    /// <summary>
+    /// Finds all children of a specific type in the visual tree of the given view.
+    /// </summary>
     public static List<T> FindAllChildrenOfType<T>(this View? view)
     {
         var results = new List<T>();
