@@ -1,6 +1,6 @@
 using Google.Android.Material.Tabs;
 
-namespace DIPS.Mobile.UI.Components.Tabs;
+namespace DIPS.Mobile.UI.Components.Tabs.Android;
 
 internal class OnSelectedChangedListener
 {
