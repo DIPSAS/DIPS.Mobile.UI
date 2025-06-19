@@ -1,3 +1,7 @@
+## [45.9.7]
+- [MultiItemsPicker] Can now tap outside the `BottomSheet` to close.
+- [BottomSheet] `SearchBar` has now keyboard `Done` button as default.
+
 ## [45.9.6]
 - [BottomSheet][Android] Focusing any `SearchBar` in `BottomSheet` will now expand the `BottomSheet`.
 
