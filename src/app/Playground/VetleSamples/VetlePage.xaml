@@ -16,7 +16,8 @@
 
         
         
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"></dui:Button>
+        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"
+                    BackgroundColor="{dui:Colors color_background_bg_blue}"></dui:Button>
         
 
 
