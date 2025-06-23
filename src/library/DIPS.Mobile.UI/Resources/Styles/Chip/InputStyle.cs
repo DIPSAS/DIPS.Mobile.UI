@@ -41,6 +41,11 @@ public static class InputStyle
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
                     Value = Microsoft.Maui.Graphics.Colors.Transparent
+                },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.CustomIconTintColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_inverted)
                 }
             },
         };

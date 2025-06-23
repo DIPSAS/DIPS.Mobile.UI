@@ -86,31 +86,6 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
         
         navBar.StandardAppearance = navBar.ScrollEdgeAppearance = navigationBarAppearance;
         navBar.PrefersLargeTitles = true;
-
-        /*var navBar = controller.NavigationBar;
-
-        var navigationBarAppearance = new UINavigationBarAppearance();
-        navigationBarAppearance.ConfigureWithTransparentBackground();
-
-        // Clear divider line
-        navigationBarAppearance.ShadowColor = UIColor.Clear;
-
-        navigationBarAppearance.BackgroundColor = appearance.BackgroundColor.ToPlatform();
-        navigationBarAppearance.BackgroundEffect = null;
-        navigationBarAppearance.TitleTextAttributes = new UIStringAttributes
-        {
-            ForegroundColor = appearance.ForegroundColor.ToPlatform()
-        };
-        navigationBarAppearance.LargeTitleTextAttributes = new UIStringAttributes
-        {
-            ForegroundColor = appearance.ForegroundColor.ToPlatform()
-        };
-        navBar.ScrollEdgeAppearance = navBar.StandardAppearance = navBar.CompactScrollEdgeAppearance  = navigationBarAppearance;
-
-        /*navBar.Translucent = true;#1#
-        /*navBar.PrefersLargeTitles = true;#1#
-        // Back button color and toolbar items color
-        navBar.TintColor = appearance.ForegroundColor.ToPlatform();*/
     }
 
     public void UpdateLayout(UINavigationController controller)

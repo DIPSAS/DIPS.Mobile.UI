@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
-using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.Components.Shell
 {
@@ -17,6 +16,7 @@ namespace DIPS.Mobile.UI.Components.Shell
 
         public static ColorName ToolbarTitleTextColorName => ColorName.color_text_default;
         public static ColorName ToolbarForegroundColorName => ColorName.color_icon_action;
+        public static ColorName ToolbarBackgroundColorName => ColorName.color_background_default;
 
         public Shell()
         {

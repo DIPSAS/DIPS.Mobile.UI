@@ -1,3 +1,8 @@
+## [45.11.0] 
+- Set new colors.
+- Updated colors.
+- Obsoleted old colors.
+
 ## [45.10.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

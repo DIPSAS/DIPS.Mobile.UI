@@ -39,6 +39,11 @@ public static class EmptyInputStyle
                     Property = Components.Chips.Chip.BorderColorProperty,
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
                         ColorName.color_border_default)
+                },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.CustomIconTintColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default)
                 }
             }
         };

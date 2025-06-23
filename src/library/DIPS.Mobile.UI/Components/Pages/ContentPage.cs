@@ -133,14 +133,16 @@ namespace DIPS.Mobile.UI.Components.Pages
                 {
                     new GradientStop
                     {
-                        Color = Colors.GetColor(ColorName.color_surface_default), Offset = 0.0f
+                        Color = Colors.GetColor(ColorName.color_background_default), Offset = 0.0f
                     },
                     new GradientStop { Color = Colors.GetColor(ColorName.color_surface_subtle), Offset = .57f }
                 },
                 StartPoint = new Point(0, 0),
                 EndPoint = new Point(0, 1)
             };
-
+            
+            Microsoft.Maui.Controls.Shell.SetBackgroundColor(this, 
+                Colors.GetColor(Shell.Shell.ToolbarBackgroundColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetTitleColor(this,
                 Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetForegroundColor(this,

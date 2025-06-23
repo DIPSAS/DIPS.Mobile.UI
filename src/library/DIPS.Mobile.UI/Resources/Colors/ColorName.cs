@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Resources.Colors
 {
     public enum ColorName
     {
-        [System.Obsolete("Use Puls color instead")] none=-1,
+        none=-1,
         [System.Obsolete("Use Puls color instead")] color_system_black=0,
         [System.Obsolete("Use Puls color instead")] color_system_white=1,
         [System.Obsolete("Use Puls color instead")] color_primary_10=2,
