@@ -11,7 +11,7 @@
                  x:Name="This"
                  HideSoftInputOnTapped="True"
                  Title="Hello"
-                 LargeTitleDisplay="Always"
+                 
                  >
     
     <dui:ContentPage.BindingContext>
@@ -20,8 +20,15 @@
 
         
         
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"
-                    BackgroundColor="{dui:Colors color_background_bg_blue}"></dui:Button>
+    <CollectionView ItemsSource="{Binding TestStrings}"
+                    >
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <dui:Label Text="{Binding .}"
+                           FontSize="20"></dui:Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
         
 
 

@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Shell
 {
@@ -21,6 +22,11 @@ namespace DIPS.Mobile.UI.Components.Shell
         public Shell()
         {
             Navigated += OnNavigated;
+            
+            SetTabBarBackgroundColor(this, Colors.GetColor(ColorName.color_surface_subtle));
+            SetTabBarTitleColor(this, Colors.GetColor(ColorName.color_text_action));
+            SetTabBarUnselectedColor(this, Colors.GetColor(ColorName.color_icon_subtle));
+            
         }
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
