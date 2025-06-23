@@ -2,6 +2,7 @@
 - Set new colors.
 - Updated colors.
 - Obsoleted old colors.
+- [iOS] Can now use Large Title.
 
 ## [45.10.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
