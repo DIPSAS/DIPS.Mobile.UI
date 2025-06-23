@@ -6,10 +6,14 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 HideSoftInputOnTapped="True">
-
+                 HideSoftInputOnTapped="True"
+                 Title="Hello"
+                 LargeTitleDisplay="Always"
+                 >
+    
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>

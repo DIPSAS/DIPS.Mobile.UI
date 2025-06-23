@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Saving.SaveView;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
@@ -62,5 +63,17 @@ public partial class ContentPage
     {
         get => (bool)GetValue(ShouldLogLoadingTimeProperty);
         set => SetValue(ShouldLogLoadingTimeProperty, value);
+    }
+
+    public static readonly BindableProperty LargeTitleDisplayProperty = BindableProperty.Create(
+        nameof(LargeTitleDisplay),
+        typeof(LargeTitleDisplayMode),
+        typeof(ContentPage),
+        defaultValue: LargeTitleDisplayMode.Never);
+
+    public LargeTitleDisplayMode LargeTitleDisplay
+    {
+        get => (LargeTitleDisplayMode)GetValue(LargeTitleDisplayProperty);
+        set => SetValue(LargeTitleDisplayProperty, value);
     }
 }

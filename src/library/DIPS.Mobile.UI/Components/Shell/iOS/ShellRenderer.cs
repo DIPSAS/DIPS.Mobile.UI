@@ -3,8 +3,12 @@ using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using DIPS.Mobile.UI.Components.Pages;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Controls.Platform.Compatibility;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
+using Page = Microsoft.Maui.Controls.Page;
 
 namespace DIPS.Mobile.UI.Components.Shell;
 
@@ -18,6 +22,105 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
     protected override IShellTabBarAppearanceTracker CreateTabBarAppearanceTracker()
     {
         return new BadgeShellTabBarAppearanceTracker();
+    }
+
+    protected override IShellNavBarAppearanceTracker CreateNavBarAppearanceTracker()
+    {
+        return new NavBarAppearanceTracker();
+    }
+}
+
+public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
+{
+    public void Dispose()
+    {
+        
+    }
+
+    public void ResetAppearance(UINavigationController controller)
+    {
+        
+    }
+
+    public void SetAppearance(UINavigationController controller, ShellAppearance appearance)
+    {
+        var navBar = controller.NavigationBar;
+
+        var navigationBarAppearance = new UINavigationBarAppearance();
+
+        // since we cannot set the Background Image directly, let's use the alpha in the background color to determine translucence
+        if (appearance.BackgroundColor?.Alpha < 1.0f)
+        {
+            navigationBarAppearance.ConfigureWithTransparentBackground();
+            navBar.Translucent = true;
+        }
+        else
+        {
+            navigationBarAppearance.ConfigureWithOpaqueBackground();
+            navBar.Translucent = false;
+        }
+
+        // Set ForegroundColor
+        var foreground = appearance.ForegroundColor;
+
+        if (foreground != null)
+            navBar.TintColor = foreground.ToPlatform();
+
+        // Set BackgroundColor
+        var background = appearance.BackgroundColor;
+
+        if (background != null)
+            navigationBarAppearance.BackgroundColor = background.ToPlatform();
+
+        // Clear divider line
+        navigationBarAppearance.ShadowColor = UIColor.Clear;
+        
+        // Set TitleColor
+        var titleColor = appearance.TitleColor;
+
+        if (titleColor != null)
+        {
+            navigationBarAppearance.TitleTextAttributes = new UIStringAttributes { ForegroundColor = titleColor.ToPlatform() };
+            navigationBarAppearance.LargeTitleTextAttributes = new UIStringAttributes { ForegroundColor = appearance.ForegroundColor.ToPlatform() };
+        }
+        
+        navBar.StandardAppearance = navBar.ScrollEdgeAppearance = navigationBarAppearance;
+        navBar.PrefersLargeTitles = true;
+
+        /*var navBar = controller.NavigationBar;
+
+        var navigationBarAppearance = new UINavigationBarAppearance();
+        navigationBarAppearance.ConfigureWithTransparentBackground();
+
+        // Clear divider line
+        navigationBarAppearance.ShadowColor = UIColor.Clear;
+
+        navigationBarAppearance.BackgroundColor = appearance.BackgroundColor.ToPlatform();
+        navigationBarAppearance.BackgroundEffect = null;
+        navigationBarAppearance.TitleTextAttributes = new UIStringAttributes
+        {
+            ForegroundColor = appearance.ForegroundColor.ToPlatform()
+        };
+        navigationBarAppearance.LargeTitleTextAttributes = new UIStringAttributes
+        {
+            ForegroundColor = appearance.ForegroundColor.ToPlatform()
+        };
+        navBar.ScrollEdgeAppearance = navBar.StandardAppearance = navBar.CompactScrollEdgeAppearance  = navigationBarAppearance;
+
+        /*navBar.Translucent = true;#1#
+        /*navBar.PrefersLargeTitles = true;#1#
+        // Back button color and toolbar items color
+        navBar.TintColor = appearance.ForegroundColor.ToPlatform();*/
+    }
+
+    public void UpdateLayout(UINavigationController controller)
+    {
+        
+    }
+
+    public void SetHasShadow(UINavigationController controller, bool hasShadow)
+    {
+        
     }
 }
 
@@ -86,11 +189,27 @@ internal class CustomShellPageRendererTracker : ShellPageRendererTracker
     {
     }
 
+    protected override void OnPageSet(Page oldPage, Page newPage)
+    {
+        base.OnPageSet(oldPage, newPage);
+
+        if (newPage is not ContentPage contentPage)
+            return;
+
+        ViewController.NavigationItem.LargeTitleDisplayMode = contentPage.LargeTitleDisplay switch
+        {
+            LargeTitleDisplayMode.Automatic => UINavigationItemLargeTitleDisplayMode.Automatic,
+            LargeTitleDisplayMode.Never => UINavigationItemLargeTitleDisplayMode.Never,
+            LargeTitleDisplayMode.Always => UINavigationItemLargeTitleDisplayMode.Always,
+            _ => UINavigationItemLargeTitleDisplayMode.Automatic
+        };
+    }
+
     protected override void UpdateToolbarItems()
     {
         base.UpdateToolbarItems();
         
-        if (ViewController.NavigationItem == null)
+        if (ViewController?.NavigationItem == null)
         {
             return;
         }
