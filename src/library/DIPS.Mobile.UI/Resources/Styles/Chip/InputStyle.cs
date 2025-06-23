@@ -10,12 +10,12 @@ public static class InputStyle
                 new Setter()
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_active)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_action)
                 },
                 new Setter()
                 {
                     Property = Components.Chips.Chip.CloseButtonColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_default_active)
                 },
                 new Setter()
                 {
@@ -25,7 +25,7 @@ public static class InputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_on_inverted)
                 },
                 new Setter
                 {

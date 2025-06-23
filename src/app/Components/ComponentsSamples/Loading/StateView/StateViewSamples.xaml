@@ -82,10 +82,10 @@
 
                 <dui:StateView.ErrorView>
                     <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
-                        <dui:Image Source="{dui:Icons failure_fill}" TintColor="{dui:Colors color_error_dark}" />
+                        <dui:Image Source="{dui:Icons failure_fill}" TintColor="{dui:Colors color_icon_danger}" />
                         <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.Error}"
                                    Style="{dui:Styles Label=UI300}"
-                                   TextColor="{dui:Colors color_error_dark}" />
+                                   TextColor="{dui:Colors color_text_danger}" />
                     </dui:HorizontalStackLayout>
                 </dui:StateView.ErrorView>
 

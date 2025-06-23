@@ -92,7 +92,7 @@ namespace DIPS.Mobile.UI.Resources.Colors
         [System.Obsolete("Use Puls color instead")] color_stroke_active=81,
         color_icon_default=82,
         color_icon_action=83,
-        [System.Obsolete("Use Puls color instead")] color_icon_subtle=84,
+        color_icon_subtle=84,
         [System.Obsolete("Use Puls color instead")] color_icon_neutral=85,
         [System.Obsolete("Use Puls color instead")] color_icon_on_action=86,
         [System.Obsolete("Use Puls color instead")] color_background_bg_light=87,

@@ -24,7 +24,7 @@
                                 Icon="{dui:Icons internalmessage_fill}"
                                 HasTopDivider="True">
             <dui:NavigationListItem.IconOptions>
-                <icon:IconOptions Color="{dui:Colors color_primary_90}" />
+                <icon:IconOptions Color="{dui:Colors color_icon_action}" />
             </dui:NavigationListItem.IconOptions>
         </dui:NavigationListItem>
 
@@ -53,7 +53,7 @@
                               BusyText="{x:Static localizedStrings:LocalizedStrings.Loading}"
                               IsBusy="{Binding IsBusy}"
                               ErrorText="{x:Static localizedStrings:LocalizedStrings.Error}"
-                              ErrorTextColor="{dui:Colors color_error_dark}"
+                              ErrorTextColor="{dui:Colors color_text_danger}"
                               IsError="{Binding IsError}"
                               OnErrorTappedCommand="{Binding RefreshCommand}"
                               Command="{Binding RefreshCommand}"

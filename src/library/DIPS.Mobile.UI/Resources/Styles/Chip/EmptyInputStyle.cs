@@ -38,7 +38,7 @@ public static class EmptyInputStyle
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
                     Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(
-                        ColorName.color_stroke_default)
+                        ColorName.color_border_default)
                 }
             }
         };

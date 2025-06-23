@@ -10,12 +10,13 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.information_line)
+                Property = AlertView.IconProperty, 
+                Value = Icons.Icons.GetIcon(IconName.information_line)
             },
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_information_light)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_information)
             },
             new Setter()
             {
@@ -36,12 +37,12 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_error_light)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_danger)
             },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_error_dark)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_danger)
             }
         }
     };
@@ -54,12 +55,12 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_attention_extralight)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_warning)
             },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_90)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_warning)
             }
         }
     };
@@ -75,12 +76,12 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_success_light)
+                Value = Colors.Colors.GetColor(ColorName.color_surface_success)
             },
             new Setter()
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_success_dark)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_success)
             }
         }
     };

@@ -22,7 +22,7 @@ internal partial class ExtendedNavigationMenuButton : HorizontalStackLayout
         {
             AutomationId = "LabelButton".ToDUIAutomationId<ExtendedNavigationMenuButton>(),
             Style = DIPS.Mobile.UI.Resources.Styles.Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
-            TextColor = Colors.GetColor(ColorName.color_primary_90),
+            TextColor = Colors.GetColor(ColorName.color_text_action),
             BackgroundColor = Colors.GetColor(ColorName.color_surface_default), 
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center

@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components.Pages
     public partial class ContentPage : Microsoft.Maui.Controls.ContentPage
     {
         // TODO: Wait until we set gradient
-        public static readonly ColorName BackgroundColorName = ColorName.color_neutral_10;
+        public static readonly ColorName BackgroundColorName = ColorName.color_background_default;
 
         private CancellationTokenSource? m_garbageCollectionCts;
         private readonly Stopwatch m_loadedTimer;
@@ -127,14 +127,24 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private void SetColors(AppTheme osAppTheme)
         {
-            this.SetAppThemeColor(BackgroundColorProperty, BackgroundColorName);
+            Background = new LinearGradientBrush
+            {
+                GradientStops =
+                {
+                    new GradientStop
+                    {
+                        Color = Colors.GetColor(ColorName.color_surface_default), Offset = 0.0f
+                    },
+                    new GradientStop { Color = Colors.GetColor(ColorName.color_surface_subtle), Offset = .57f }
+                },
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(0, 1)
+            };
 
-            Microsoft.Maui.Controls.Shell.SetBackgroundColor(this,
-                Colors.GetColor(Shell.Shell.ToolbarBackgroundColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetTitleColor(this,
                 Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName, osAppTheme));
             Microsoft.Maui.Controls.Shell.SetForegroundColor(this,
-                Colors.GetColor(Shell.Shell.ToolbarTitleTextColorName, osAppTheme));
+                Colors.GetColor(Shell.Shell.ToolbarForegroundColorName, osAppTheme));
         }
 
 

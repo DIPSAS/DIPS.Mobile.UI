@@ -98,6 +98,6 @@ public partial class FilledCheckBox
         nameof(UnCheckedBackgroundColor),
         typeof(Color),
         typeof(FilledCheckBox),
-        defaultValue:Colors.GetColor(ColorName.color_system_white));
+        defaultValue:Colors.GetColor(ColorName.color_surface_default));
     
 }

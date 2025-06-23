@@ -1,4 +1,3 @@
-
 using DIPS.Mobile.UI.Resources.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching.Android
@@ -22,7 +21,7 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
         public static readonly BindableProperty TrackColorProperty = BindableProperty.Create(
             nameof(TrackColor),
             typeof(Color),
-            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_30));
+            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_border_default));
 
         public Color? TrackColor
         {
@@ -33,7 +32,7 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
         public static readonly BindableProperty IndicatorColorProperty = BindableProperty.Create(
             nameof(IndicatorColor),
             typeof(Color),
-            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_primary_90));
+            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_action));
 
         public Color IndicatorColor
         {
