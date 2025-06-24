@@ -66,7 +66,7 @@ internal partial class NavigationMenuButton
         nameof(BadgeColor),
         typeof(Color),
         typeof(NavigationMenuButton),
-        defaultValue: Colors.GetColor(ColorName.color_information_dark));
+        defaultValue: Colors.GetColor(ColorName.color_fill_information));
     
     public static readonly BindableProperty BadgeCountProperty = BindableProperty.Create(
         nameof(BadgeCount),
@@ -88,7 +88,7 @@ internal partial class NavigationMenuButton
         nameof(ButtonBackgroundColor),
         typeof(Color),
         typeof(NavigationMenuButton),
-        defaultValue:Colors.GetColor(ColorName.color_primary_90));
+        defaultValue:Colors.GetColor(ColorName.color_text_action));
     
     public static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),

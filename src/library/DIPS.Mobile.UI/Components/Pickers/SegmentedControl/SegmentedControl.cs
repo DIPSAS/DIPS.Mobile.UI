@@ -4,8 +4,7 @@ using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
-using CollectionView = Microsoft.Maui.Controls.CollectionView;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using HorizontalStackLayout = DIPS.Mobile.UI.Components.Lists.HorizontalStackLayout;
@@ -47,6 +46,7 @@ public partial class SegmentedControl : ContentView
     {
         var border = new Border
         {
+            BackgroundColor = Colors.GetColor(ColorName.color_fill_default),
             VerticalOptions = LayoutOptions.Center,
             StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
             Stroke = SegmentBorderColor,
@@ -80,10 +80,16 @@ public partial class SegmentedControl : ContentView
             Source = Icons.GetIcon(IconName.check_line),
             WidthRequest = Sizes.GetSize(SizeName.size_3),
             HeightRequest = Sizes.GetSize(SizeName.size_3),
+            TintColor = Colors.GetColor(ColorName.color_icon_action)
         };
         checkedImage.SetBinding(IsVisibleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
-        var label = new Label() {VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200)};
+        var label = new Label { VerticalTextAlignment = TextAlignment.Center, Style = Styles.GetLabelStyle(LabelStyle.Body200) };
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
+        label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
+        {
+            TrueObject = Colors.GetColor(ColorName.color_text_action),
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle)
+        });
 
         horizontalStackLayout.Add(checkedImage);
         horizontalStackLayout.Add(label);

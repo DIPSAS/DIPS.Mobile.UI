@@ -6,7 +6,7 @@ public partial class Editor : Microsoft.Maui.Controls.Editor
 {
     public Editor()
     {
-        PlaceholderColor = Colors.GetColor(ColorName.color_text_placeholder);
+        PlaceholderColor = Colors.GetColor(ColorName.color_text_subtle);
         FontFamily = "Body";
         FontSize = 16;
         TextColor = Colors.GetColor(ColorName.color_text_default);

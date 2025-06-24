@@ -10,17 +10,17 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_surface_action)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_action)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_on_action)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default_inverted)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_action)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_default_active)
             }
         }
     };
@@ -33,12 +33,12 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_surface_default)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_action_secondary)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_stroke_action)
+                Value = Colors.Colors.GetColor(ColorName.color_border_action_secondary)
             },
             new Setter
             {
@@ -48,7 +48,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_default)
+                Value = Colors.Colors.GetColor(ColorName.color_text_action_neutral)
             },
             new Setter
             {
@@ -66,7 +66,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Microsoft.Maui.Graphics.Colors.Transparent
+                Value = Colors.Colors.GetColor(ColorName.color_fill_action_ghost)
             },
             new Setter
             {
@@ -94,18 +94,17 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                // TODO: Wait until we have a semantic color for this
-                Value = Colors.Colors.GetColor(ColorName.color_neutral_30)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_disabled)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_default)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_fill_disabled)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_deactivated)
             },
             new Setter
             {
@@ -401,12 +400,12 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_background_bg_light)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_subtle)
             },
             new Setter()
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_neutral)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_default)
             },
             new Setter()
             {

@@ -1,3 +1,12 @@
+## [46.0.0] 
+- Set new colors.
+- Updated colors.
+- Obsoleted old colors.
+- [iOS] Can now use Large Title. (However, it's buggy)
+- [Android] Removed workaround to set status bar when pushing modal
+- [Android] Removed workaround for Label
+- Upgraded to .NET MAUI 9.0.80.
+
 ## [45.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

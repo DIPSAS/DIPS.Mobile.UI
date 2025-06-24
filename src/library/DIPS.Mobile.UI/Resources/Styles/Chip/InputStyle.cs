@@ -10,12 +10,12 @@ public static class InputStyle
                 new Setter()
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_active)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_default_active_subtle)
                 },
                 new Setter()
                 {
                     Property = Components.Chips.Chip.CloseButtonColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_action_on_fill)
                 },
                 new Setter()
                 {
@@ -25,7 +25,7 @@ public static class InputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default)
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_action_on_fill)
                 },
                 new Setter
                 {
@@ -40,7 +40,12 @@ public static class InputStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    Value = Microsoft.Maui.Graphics.Colors.Transparent
+                    Value = Colors.Colors.GetColor(ColorName.color_border_action_secondary_active)
+                },
+                new Setter
+                {
+                    Property = Components.Chips.Chip.CustomIconTintColorProperty,
+                    Value = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_action_on_fill)
                 }
             },
         };

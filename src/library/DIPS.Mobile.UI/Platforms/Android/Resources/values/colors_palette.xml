@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Do not edit directly,
+this file is generated for palette colors only
+-->
+<resources>
+    <color name="color_palette_blue_200">#FFD8EFFF</color> <!-- palette color blue-200 -->
+    <color name="color_palette_blue_400">#FF93BDE9</color> <!-- palette color blue-400 -->
+    <color name="color_palette_blue_800">#FF095ABF</color> <!-- palette color blue-800 -->
+    <color name="color_palette_green_200">#FFDDF5D8</color> <!-- palette color green-200 -->
+    <color name="color_palette_green_400">#FF98C9AD</color> <!-- palette color green-400 -->
+    <color name="color_palette_green_800">#FF0F7157</color> <!-- palette color green-800 -->
+    <color name="color_palette_navy_100">#FFF2F5FD</color> <!-- palette color navy-100 -->
+    <color name="color_palette_navy_200">#FFE1E9FA</color> <!-- palette color navy-200 -->
+    <color name="color_palette_navy_300">#FFC0CFF0</color> <!-- palette color navy-300 -->
+    <color name="color_palette_navy_400">#FF8DA9E4</color> <!-- palette color navy-400 -->
+    <color name="color_palette_navy_50">#FFF8FAFF</color> <!-- palette color navy-50 -->
+    <color name="color_palette_navy_500">#FF5376D5</color> <!-- palette color navy-500 -->
+    <color name="color_palette_navy_600">#FF253ABE</color> <!-- palette color navy-600 -->
+    <color name="color_palette_navy_700">#FF0000CC</color> <!-- palette color navy-700 -->
+    <color name="color_palette_navy_800">#FF00107E</color> <!-- palette color navy-800 -->
+    <color name="color_palette_navy_900">#FF050948</color> <!-- palette color navy-900 -->
+    <color name="color_palette_navy_950">#FF000435</color> <!-- palette color navy-950 -->
+    <color name="color_palette_neutral_100">#FFF4F5F5</color> <!-- palette color neutral-100 -->
+    <color name="color_palette_neutral_200">#FFECEDEE</color> <!-- palette color neutral-200 -->
+    <color name="color_palette_neutral_300">#FFDADBDC</color> <!-- palette color neutral-300 -->
+    <color name="color_palette_neutral_400">#FFB6B7B9</color> <!-- palette color neutral-400 -->
+    <color name="color_palette_neutral_50">#FFF8F8F7</color> <!-- palette color neutral-50 -->
+    <color name="color_palette_neutral_500">#FF8F9496</color> <!-- palette color neutral-500 -->
+    <color name="color_palette_neutral_600">#FF6A7073</color> <!-- palette color neutral-600 -->
+    <color name="color_palette_neutral_700">#FF464C50</color> <!-- palette color neutral-700 -->
+    <color name="color_palette_neutral_800">#FF373D40</color> <!-- palette color neutral-800 -->
+    <color name="color_palette_neutral_900">#FF262626</color> <!-- palette color neutral-900 -->
+    <color name="color_palette_neutral_black">#FF000000</color> <!-- palette color neutral-black -->
+    <color name="color_palette_neutral_transparent">#00FFFFFF</color> <!-- palette color neutral-transparent -->
+    <color name="color_palette_neutral_white">#FFFFFFFF</color> <!-- palette color neutral-white -->
+    <color name="color_palette_orange_200">#FFFFE0BD</color> <!-- palette color orange-200 -->
+    <color name="color_palette_orange_800">#FFEC942D</color> <!-- palette color orange-800 -->
+    <color name="color_palette_red_100">#FFFFF7F2</color> <!-- palette color red-100 -->
+    <color name="color_palette_red_200">#FFF9EAE2</color> <!-- palette color red-200 -->
+    <color name="color_palette_red_300">#FFFDDFD4</color> <!-- palette color red-300 -->
+    <color name="color_palette_red_400">#FFFBC7BB</color> <!-- palette color red-400 -->
+    <color name="color_palette_red_500">#FFF9A698</color> <!-- palette color red-500 -->
+    <color name="color_palette_red_600">#FFF98572</color> <!-- palette color red-600 -->
+    <color name="color_palette_red_700">#FFF3583D</color> <!-- palette color red-700 -->
+    <color name="color_palette_red_800">#FFAB321D</color> <!-- palette color red-800 -->
+    <color name="color_palette_red_900">#FF811C0B</color> <!-- palette color red-900 -->
+    <color name="color_palette_teal_100">#FFF2FCFD</color> <!-- palette color teal-100 -->
+    <color name="color_palette_teal_200">#FFE1F9F9</color> <!-- palette color teal-200 -->
+    <color name="color_palette_teal_300">#FFC0F2F2</color> <!-- palette color teal-300 -->
+    <color name="color_palette_teal_400">#FF9AEDED</color> <!-- palette color teal-400 -->
+    <color name="color_palette_teal_500">#FF5CD6D6</color> <!-- palette color teal-500 -->
+    <color name="color_palette_teal_600">#FF34C5C5</color> <!-- palette color teal-600 -->
+    <color name="color_palette_teal_700">#FF13B1B1</color> <!-- palette color teal-700 -->
+    <color name="color_palette_teal_800">#FF0C8E8E</color> <!-- palette color teal-800 -->
+    <color name="color_palette_teal_900">#FF125C5C</color> <!-- palette color teal-900 -->
+    <color name="color_palette_yellow_100">#FFFFF9DB</color> <!-- palette color yellow-100 -->
+    <color name="color_palette_yellow_200">#FFFFED96</color> <!-- palette color yellow-200 -->
+    <color name="color_palette_yellow_400">#FFF9DB73</color> <!-- palette color yellow-400 -->
+    <color name="color_palette_yellow_800">#FFECB62D</color> <!-- palette color yellow-800 -->
+    <color name="none">#00000000</color> <!-- Transparent -->
+</resources>

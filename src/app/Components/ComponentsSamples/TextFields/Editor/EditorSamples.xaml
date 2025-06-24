@@ -24,7 +24,7 @@
                     Clicked="Button_OnClicked"/>
         
         <dui:Editor Placeholder="{x:Static localizedStrings:LocalizedStrings.InputText}"
-                    BackgroundColor="{dui:Colors color_system_white}"
+                    BackgroundColor="{dui:Colors color_background_default}"
                     HeightRequest="500"
                     HasBorder="{Binding Source={x:Reference BorderSwitch}, Path=IsToggled}"
                     x:Name="Entry" />

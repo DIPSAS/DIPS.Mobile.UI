@@ -24,7 +24,7 @@ public partial class ContextMenuPlatformEffect
 
         m_uiButton = uiButton;
         m_uiButton.ShowsMenuAsPrimaryAction = true;
-        m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform(), UIControlState.Highlighted);
+        m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_text_action).ToPlatform(), UIControlState.Highlighted);
         
         if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
         {
