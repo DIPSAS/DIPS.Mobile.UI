@@ -2,7 +2,7 @@ using Microsoft.Maui.Handlers;
 
 namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 
-public partial class FloatingNavigationButtonHandler : LayoutHandler
+public partial class FloatingNavigationButtonHandler : Microsoft.Maui.Handlers.LayoutHandler
 {
     public FloatingNavigationButtonHandler():base(s_propertyMapper)
     {
