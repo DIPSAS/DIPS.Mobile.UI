@@ -73,7 +73,8 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
             navigationBarAppearance.BackgroundColor = background.ToPlatform();
 
         // Clear divider line
-        navigationBarAppearance.ShadowColor = UIColor.Clear;
+        // TODO: Only hide this if we can manage to hide it in modal pages as well.
+        /*navigationBarAppearance.ShadowColor = UIColor.Clear;*/
         
         // Set TitleColor
         var titleColor = appearance.TitleColor;
