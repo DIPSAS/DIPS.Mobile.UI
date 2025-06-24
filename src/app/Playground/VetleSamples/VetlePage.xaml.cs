@@ -9,7 +9,6 @@ using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
-using NavigationPage = DIPS.Mobile.UI.Components.Navigation.NavigationPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
