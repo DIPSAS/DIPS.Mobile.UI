@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace DIPS.Mobile.UI.Components.Tabs
 {
     public partial class Tab
@@ -30,6 +32,15 @@ namespace DIPS.Mobile.UI.Components.Tabs
             set => SetValue(CounterProperty, value);
         }
         
+        /// <summary>
+        /// The command to execute when people tap the chip.
+        /// </summary>
+        public ICommand? Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             nameof(IsSelected),
             typeof(bool),
@@ -45,6 +56,11 @@ namespace DIPS.Mobile.UI.Components.Tabs
         public static readonly BindableProperty CounterProperty = BindableProperty.Create(
             nameof(Counter),
             typeof(string),
+            typeof(Tab));
+        
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            nameof(Command),
+            typeof(ICommand),
             typeof(Tab));
     }   
 }

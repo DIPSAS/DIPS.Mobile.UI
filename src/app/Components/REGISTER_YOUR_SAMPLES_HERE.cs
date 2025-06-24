@@ -16,6 +16,7 @@ using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
 using Components.ComponentsSamples.SyntaxHighlighting;
+using Components.ComponentsSamples.TabView;
 using Components.ComponentsSamples.Text;
 using Components.ComponentsSamples.TextFields;
 using Components.ComponentsSamples.Tip;
@@ -59,6 +60,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Syntax Highlighting", () => new SyntaxHighlightingSamples()),
             new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),
             new(SampleType.Components, "Text", () => new TextSamples()),
+            new(SampleType.Components, "TabView", () => new TabViewSamples()),
 
             
 

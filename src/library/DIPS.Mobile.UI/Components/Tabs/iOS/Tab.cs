@@ -20,7 +20,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             
             m_titleLabel = CreateTitleLabel();
             m_counterLabel = CreateCounterLabel();
-
+    
             container.Add(m_titleLabel);
             container.Add(m_counterLabel);
             
@@ -31,11 +31,11 @@ namespace DIPS.Mobile.UI.Components.Tabs
         {
             var label = new Labels.Label
             {
-                TextColor = Colors.GetColor(ColorName.color_neutral_90),
-                Style = Styles.GetLabelStyle(LabelStyle.Body300),
+                TextColor = Colors.GetColor(ColorName.color_neutral_70),
+                Style = Styles.GetLabelStyle(LabelStyle.Body200),
                 VerticalTextAlignment = TextAlignment.Center
             };
-            label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title + "(" + tab.Counter + ")", source: this);
+            //label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title + "(" + tab.Counter + ")", source: this);
 
             return label;
         }

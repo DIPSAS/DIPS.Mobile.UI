@@ -2,7 +2,9 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
+using DIPS.Mobile.UI.Components.Tabs;
 using Microsoft.Maui.LifecycleEvents;
+using Tab = Microsoft.Maui.Controls.Tab;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -15,7 +17,8 @@ public static partial class AppHostBuilderExtensions
                 typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
             .AddHandler(typeof(Chip), typeof(ChipHandler))
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
-            .AddHandler<CameraPreview, CameraPreviewHandler>();
+            .AddHandler<CameraPreview, CameraPreviewHandler>()
+            .AddHandler<Tab, TabHandler>();
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

@@ -1,9 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Components.ComponentsSamples.TabView.TabViewSamples">
-    <ContentPage.Content>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:tabView="clr-namespace:Components.ComponentsSamples.TabView"
+                 xmlns:tabs="clr-namespace:DIPS.Mobile.UI.Components.Tabs;assembly=DIPS.Mobile.UI"
+                 x:Class="Components.ComponentsSamples.TabView.TabViewSamples"
+                 x:DataType="{x:Type tabView:TabsSamplesViewModel}"
+                 BackgroundColor="{dui:Colors color_system_white}"
+                 Padding="{dui:Sizes size_2}">
+    
+    <dui:ContentPage.BindingContext>
+        <tabView:TabsSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <dui:VerticalStackLayout>
+        <dui:Label Text="Tab"
+                   Margin="5" />
+        <tabs:Tab Title="A tab"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start"/>
         
-    </ContentPage.Content>
-</ContentPage>
+        <dui:Label Text="{Binding SelectedItem}"
+                   Style="{dui:Styles Label=SectionHeader}" />
+        
+        <dui:TabView SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                     ItemsSource="{Binding TabItemsTexts}">
+        </dui:TabView>
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>

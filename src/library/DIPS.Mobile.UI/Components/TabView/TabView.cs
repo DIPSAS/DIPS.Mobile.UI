@@ -1,13 +1,10 @@
-using DIPS.Mobile.UI.Components.ChipGroup;
-using DIPS.Mobile.UI.Components.Chips;
-using DIPS.Mobile.UI.Resources.Styles.Chip;
 using Microsoft.Maui.Layouts;
 
 namespace DIPS.Mobile.UI.Components.TabView;
 
 public partial class TabView : ContentView
 {
-    private readonly TabViewItem m_selectedItem = new TabViewItem(new Tab(), new object());
+    private TabViewItem m_selectedItem = new TabViewItem(new DIPS.Mobile.UI.Components.Tabs.Tab(), new object());
     private readonly FlexLayout m_flexLayout = new () { Wrap = FlexWrap.Wrap, Direction = FlexDirection.Row, AlignItems = FlexAlignItems.Start };
     private readonly List<TabViewItem> m_tabItems = [];
 
@@ -23,51 +20,19 @@ public partial class TabView : ContentView
         if(args.NewHandler is not null)
             SetTabToggledBasedOnSelectedItem();
     }
-    
+
     private void SetTabToggledBasedOnSelectedItem()
     {
-        var selectedItemList = SelectedItem;
-        
-            var selectedItem = selectedItemList.FirstOrDefault();
-            if (selectedItem is not null)
-            {
-                var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
-                chipItem!.Chip.IsToggled = true;
-                ChipToggled(chipItem!, false);
-            }
-    }
-}
-
-    private void SetChipsToggledBasedOnSelectedItems()
-    {
-        var selectedItemList = SelectedItems?.Cast<object>().ToList();
-
-        if (selectedItemList is null || selectedItemList.Count is 0)
+        if (m_selectedItem is null)
         {
-            m_selectedItems.ForEach(item => item.Chip.IsToggled = false);
-            m_selectedItems.Clear();
+            m_selectedItem.Tab.IsSelected = false;
+            m_selectedItem = null;
             return;
         }
-
-        if (SelectionMode == ChipGroupSelectionMode.Single)
-        {
-            var selectedItem = selectedItemList.FirstOrDefault();
-            if (selectedItem is not null)
-            {
-                var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
-                chipItem!.Chip.IsToggled = true;
-                ChipToggled(chipItem!, false);
-            }
-        }
-        else
-        {
-            selectedItemList.ForEach(item =>
-            {
-                var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(item.GetPropertyValue(ItemDisplayProperty)));
-                chipItem!.Chip.IsToggled = true;
-                ChipToggled(chipItem!, false);
-            });
-        }
+        
+        // var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
+        // tabItem!.Tab.IsSelected = true;
+        // TabToggled(tabItem!, false);
     }
 
     private void OnItemsSourceChanged()
@@ -87,68 +52,47 @@ public partial class TabView : ContentView
 
         list.ForEach(obj =>
         {
-            var chip = new Chip
+            var tab = new DIPS.Mobile.UI.Components.Tabs.Tab
             {
-                Style = Styles.GetChipStyle(ChipStyle.EmptyInput),
-                Title = obj.GetPropertyValue(ItemDisplayProperty) ?? string.Empty, 
-                IsToggleable = true, 
-                Margin = 2
+                Title = obj.GetPropertyValue(ItemDisplayProperty)?.ToString() ?? string.Empty,
+                Counter = list.Count.ToString()
             };
-            var item = new ChipGroupItem(chip, obj!);
-            chip.Command = new Command(_ => ChipToggled(item));
-            
-            m_chipItems.Add(item);
-            m_flexLayout.Add(chip);
+            var item = new TabViewItem(tab, obj!);
+            tab.Command = new Command(_ => TabToggled(item));
+
+            m_tabItems.Add(item);
+            m_flexLayout.Add(tab);
         });
+    }
+    
+    private void TabToggled(TabViewItem tabViewItem, bool didTap = true)
+    {
+        if (m_selectedItem.Tab.Title.Equals(tabViewItem.Tab.Title))
+        {
+            m_selectedItem.Tab.IsSelected = true;
+            return;
+        }
+        
+        m_selectedItem.Tab.IsSelected = false;
+        m_selectedItem = tabViewItem;
+        m_selectedItem.Tab.IsSelected = true;
     }
 
     private void ClearItems()
     {
-        m_chipItems.Clear();
+        m_tabItems.Clear();
         m_flexLayout.Children.Clear();
-    }
-
-    private void ChipToggled(ChipGroupItem chipGroupItem, bool didTap = true)
-    {
-        if (SelectionMode is ChipGroupSelectionMode.Single)
-        {
-            if (m_selectedItems.FirstOrDefault(item => item.Chip.Title.Equals(chipGroupItem.Chip.Title)) != null)
-            {
-                chipGroupItem.Chip.IsToggled = true;
-                return;
-            }
-
-            m_selectedItems.ForEach(item => item.Chip.IsToggled = false);
-            m_selectedItems.Clear();
-        }
-
-        if (chipGroupItem.Chip.IsToggled)
-        {
-            if(m_selectedItems.FirstOrDefault(item => item.Chip.Title.Equals(chipGroupItem.Chip.Title)) is null)
-                m_selectedItems.Add(chipGroupItem);
-        }
-        else
-        {
-            m_selectedItems.Remove(chipGroupItem);
-        }
-
-        if (didTap)
-        {
-            var selectedItems = m_selectedItems.Select(groupItem => groupItem.Obj).ToList();
-            OnSelectedItemsChanged?.Invoke(this, new ChipGroupEventArgs(selectedItems));
-            SelectedItems = selectedItems;
-        }
     }
 }
 
 public class TabViewItem
 {
-    public TabViewItem(Tab tab, object obj)
+    public TabViewItem(DIPS.Mobile.UI.Components.Tabs.Tab tab, object obj)
     {
         Tab = tab;
         Obj = obj;
     }
 
-    public Tab Tab { get; }
+    public DIPS.Mobile.UI.Components.Tabs.Tab Tab { get; }
     public object Obj { get; }
 }
