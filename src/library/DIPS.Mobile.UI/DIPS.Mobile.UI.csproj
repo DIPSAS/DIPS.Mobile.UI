@@ -153,6 +153,7 @@
         <None Include="Components\SyntaxHighlighting\syntax-highlighting\*.css" Pack="True" PackagePath="buildTransitive\Components\SyntaxHighlighting\syntax-highlighting\" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Components\Navigation\Android\" />
         <Folder Include="Components\Pickers\DatePicker\iOS\" />
         <Folder Include="Resources\Splash\" />
         <Folder Include="API\Vibration\dotnet\" />

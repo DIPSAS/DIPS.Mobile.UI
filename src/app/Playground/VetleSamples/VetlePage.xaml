@@ -11,24 +11,21 @@
                  x:Name="This"
                  HideSoftInputOnTapped="True"
                  Title="Hello"
-                 
                  >
+
     
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
+    
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons alert_line}"></ToolbarItem>
+        <ToolbarItem Text="Hello"></ToolbarItem>
+    </dui:ContentPage.ToolbarItems>
 
         
         
-    <CollectionView ItemsSource="{Binding TestStrings}"
-                    >
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:Label Text="{Binding .}"
-                           FontSize="20"></dui:Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <dui:Button Clicked="Button_OnClicked"/>
         
 
 

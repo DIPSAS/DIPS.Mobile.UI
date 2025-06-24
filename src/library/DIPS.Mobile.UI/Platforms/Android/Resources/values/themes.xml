@@ -25,9 +25,11 @@
 
         <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">@color/color_background_default</item>
+        
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <item name="colorAccent">@color/color_palette_navy_700</item>
+        
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="windowActionModeOverlay">true</item>
@@ -48,5 +50,13 @@
 
         <!-- Opts out of edge to edge -->
         <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+
+        <!-- Control modal toolbar style -->
+        <item name="toolbarStyle">@style/MyCustomToolbar</item>
     </style>
+
+    <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
+    </style>
+
 </resources>

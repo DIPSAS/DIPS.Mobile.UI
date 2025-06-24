@@ -9,6 +9,7 @@ using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using NavigationPage = DIPS.Mobile.UI.Components.Navigation.NavigationPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -73,6 +74,7 @@ public partial class VetlePage
     private string m_test1 = "Test123";
     private double? m_originalHeight;
     private bool m_ignoreScrollEvent;
+    private bool m_firstTime;
 
     public bool TestBool
     {
@@ -101,9 +103,9 @@ public partial class VetlePage
         var test = Platform.GetCurrentUIViewController();
 #endif
 
-        
-        
-        /*_ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));*/
+        /*if(!m_firstTime)
+            */
+        m_firstTime = true;
         /*Button.IsVisible = true;*/
 
         /*
@@ -228,6 +230,8 @@ public partial class VetlePage
     {
         /*SearchBar.HasCancelButton = !SearchBar.HasCancelButton;*/
         /*SearchBar.IsVisible = !SearchBar.IsVisible;*/
+        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
     }
 
+    
 }

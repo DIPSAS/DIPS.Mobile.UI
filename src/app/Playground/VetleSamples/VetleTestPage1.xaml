@@ -11,7 +11,8 @@
                  ShouldHideFloatingNavigationMenuButton="True"
                  IsSaving="{Binding IsSaving}"
                  IsSavingCompleted="{Binding IsSavingCompleted}"
-                 SavingCompletedCommand="{Binding CompletedCommand}">
+                 SavingCompletedCommand="{Binding CompletedCommand}"
+                 >
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />

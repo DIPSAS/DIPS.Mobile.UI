@@ -2,7 +2,9 @@
 - Set new colors.
 - Updated colors.
 - Obsoleted old colors.
-- [iOS] Can now use Large Title.
+- [iOS] Can now use Large Title. (However, it's buggy)
+- [Android] Removed workaround to set status bar when pushing modal
+- [Android] Removed workaround for Label
 
 ## [45.10.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
