@@ -22,6 +22,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<CollectionView2, CollectionView2Handler>();
         handlers.AddHandler<CarouselView2, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
         handlers.AddHandler<Entry, TryFixCrashEntryHandler>();
+        handlers.AddHandler<Layout, LayoutHandler>();
 
         if (DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
         {
