@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
+using LayoutHandler = DIPS.Mobile.UI.Components.LayoutHandler.iOS.LayoutHandler;
 using SwitchHandler = DIPS.Mobile.UI.Components.Selection.iOS.SwitchHandler;
 
 namespace DIPS.Mobile.UI.API.Builder;
