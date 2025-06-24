@@ -204,6 +204,7 @@ this file is generated
 ["underline"] = "underline.png",
 ["bold"] = "bold.png",
 ["italic"] = "italic.png",
+["arrow_dropdown_line"] = "arrow_dropdown_line.png",
 
             };
         }
