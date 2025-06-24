@@ -34,6 +34,7 @@
         <dui:Label Text="Chip, toggleable"
                    Margin="5"/>
         <dui:Chip Title="A toggleable chip"
+                  Style="{dui:Styles Chip=EmptyInput}"
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
                   IsToggleable="True" />
