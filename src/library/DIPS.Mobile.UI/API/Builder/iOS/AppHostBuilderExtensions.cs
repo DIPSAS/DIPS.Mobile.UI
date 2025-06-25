@@ -4,11 +4,9 @@ using DIPS.Mobile.UI.Components.CarouselView;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Inline.iOS;
 using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
-using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
-using CarouselView = DIPS.Mobile.UI.Components.CarouselView.CarouselView;
-using LayoutHandler = DIPS.Mobile.UI.Components.Layout.LayoutHandler;
+using LayoutHandler = DIPS.Mobile.UI.Components.LayoutHandler.iOS.LayoutHandler;
 using SwitchHandler = DIPS.Mobile.UI.Components.Selection.iOS.SwitchHandler;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -21,11 +19,11 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<InlineDatePicker, InlineDatePickerHandler>();
         handlers.AddHandler<InlineTimePicker, InlineTimePickerHandler>();
         handlers.AddHandler<InlineDateAndTimePicker, InlineDateAndTimePickerHandler>();
-        handlers.AddHandler<Layout, LayoutHandler>();
         handlers.AddHandler<Switch, SwitchHandler>();
         handlers.AddHandler<CollectionView2, CollectionView2Handler>();
         handlers.AddHandler<CarouselView2, Microsoft.Maui.Controls.Handlers.Items2.CarouselViewHandler2>();
         handlers.AddHandler<Entry, TryFixCrashEntryHandler>();
+        handlers.AddHandler<Layout, LayoutHandler>();
 
         if (DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
         {

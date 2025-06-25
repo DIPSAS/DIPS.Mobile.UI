@@ -162,8 +162,7 @@ public partial class SegmentedControl
         nameof(SelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
-        // TODO: Wait until we have a semantic color for this
-        defaultValue: Colors.GetColor(ColorName.color_neutral_20));
+        defaultValue: Colors.GetColor(ColorName.color_fill_default_active_subtle));
 
     public static readonly BindableProperty DeSelectedColorProperty = BindableProperty.Create(
         nameof(DeSelectedColor),
@@ -175,8 +174,7 @@ public partial class SegmentedControl
         nameof(SegmentBorderColor),
         typeof(Color),
         typeof(SegmentedControl),
-        // TODO: Wait until we have a semantic color for this
-        defaultValue: Colors.GetColor(ColorName.color_neutral_30));
+        defaultValue: Colors.GetColor(ColorName.color_border_action_secondary));
 
     public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
         nameof(SelectedItem),

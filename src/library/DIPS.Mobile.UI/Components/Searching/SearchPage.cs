@@ -9,6 +9,7 @@ using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
@@ -28,21 +29,20 @@ namespace DIPS.Mobile.UI.Components.Searching
             
             //Searchbar
             SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(), HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
-            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, 
-                Shell.Shell.ToolbarBackgroundColorName);
+            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, ColorName.color_surface_default);
             
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
                 SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
-                    Shell.Shell.ToolbarTitleTextColorName);
+                    ColorName.color_text_default);
                 SearchBar.SetAppThemeColor(SearchBar.IconsColorProperty, 
-                    Shell.Shell.ToolbarTitleTextColorName);
+                    ColorName.color_icon_default);
                 SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
-                    Shell.Shell.ToolbarTitleTextColorName);
+                    ColorName.color_text_subtle);
 #else
             SearchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
-                Shell.Shell.ToolbarTitleTextColorName);
+                ColorName.color_text_action);
 #endif
             SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty, static (SearchPage searchPage) => searchPage.SearchMode, source: this);
             SearchBar.SetBinding(SearchBar.PlaceholderProperty, static (SearchPage searchPage) => searchPage.SearchPlaceholder, source: this);

@@ -5,9 +5,7 @@ using AndroidX.AppCompat.Widget;
 
 namespace DIPS.Mobile.UI.Components.Labels.Android;
 
-// TODO: Inherit from MauiTextView in .NET MAUI 9.0.70
-// Workaround because of this bug: https://github.com/dotnet/maui/issues/29194#issuecomment-2829948069
-public class MauiTextView : AppCompatTextView
+public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 {
     private readonly Label m_label;
     

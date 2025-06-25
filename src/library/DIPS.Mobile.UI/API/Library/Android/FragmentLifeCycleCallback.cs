@@ -1,13 +1,10 @@
-using Android.Provider;
-using Android.Views;
+using Android.Text;
 using Android.Widget;
-using AndroidX.CoordinatorLayout.Widget;
+using AndroidX.AppCompat.Graphics.Drawable;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Library.Android;
-using DIPS.Mobile.UI.Components.Buttons.Android;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -22,8 +19,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-                SetStatusBarColorOnModalAppearing(dialogFragment);
-                SetIconColorsOnModal(dialogFragment);
+              SetColorsOnModal(dialogFragment);
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
@@ -53,10 +49,11 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
 
 
     /// <summary>
+    /// TODO: Workaround: .NET MAUI does not inherit the color from the Shell, so we need to set it manually.
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
-    /// Sets the toolbar item icon's tint color
+    /// Sets the toolbar item's tint color on icon and title
     /// </summary>
-    private static void SetIconColorsOnModal(DialogFragment dialogFragment)
+    private static void SetColorsOnModal(DialogFragment dialogFragment)
     {
         var linearLayout = dialogFragment.Dialog?.Window?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
         
@@ -65,48 +62,23 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         if (child1 is not MaterialToolbar materialToolbar)
             return;
         
-        var stateListColor = Colors.GetColor(Shell.ToolbarTitleTextColorName)
+        var stateListColor = Colors.GetColor(Shell.ForegroundColorName)
             .ToDefaultColorStateList();
-                
+        
+        const float shadowDp = 6f;
+        var shadowPx = materialToolbar.Context?.Resources?.DisplayMetrics?.Density * shadowDp ?? 0;
+
+        materialToolbar.Elevation = shadowPx; 
+        
         for (var i = 0; i < materialToolbar.Menu?.Size(); i++)
         {
-            materialToolbar.Menu.GetItem(i)?.SetIconTintList(stateListColor);
+            var menuItem = materialToolbar.Menu.GetItem(i);
+            menuItem?.SetIconTintList(stateListColor);
+
+            var item = materialToolbar.Menu.GetItem(i);
+            var span = new SpannableString(item?.TitleFormatted);
+            span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(Colors.GetColor(Shell.ForegroundColorName).ToPlatform()), 0, span.Length(), 0);
+            item?.SetTitle(span);
         }
-    }
-
-    /// <summary>
-    /// To set the status bar color when a modal is shown
-    /// MAUI has a bug after rewriting modals to use DialogFragment
-    /// Workaround found here: https://github.com/CommunityToolkit/Maui/issues/2370#issuecomment-2552701081 
-    /// </summary>
-    private static void SetStatusBarColorOnModalAppearing(DialogFragment dialogFragment)
-    {
-        var activity = Platform.CurrentActivity;
-
-        if (activity is null)
-            return;
-
-        var statusBarColor = activity.Window!.StatusBarColor;
-        var platformColor = new global::Android.Graphics.Color(statusBarColor);
-
-        var window = dialogFragment.Dialog?.Window;
-        if (window is null)
-            return;
-
-        dialogFragment.Dialog.Window?.SetStatusBarColor(platformColor);
-
-        var isColorTransparent = platformColor == global::Android.Graphics.Color.Transparent;
-        if (isColorTransparent)
-        {
-            window.ClearFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
-            window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
-        }
-        else
-        {
-            window.ClearFlags(WindowManagerFlags.LayoutNoLimits);
-            window.SetFlags(WindowManagerFlags.DrawsSystemBarBackgrounds, WindowManagerFlags.DrawsSystemBarBackgrounds);
-        }
-
-        window.SetDecorFitsSystemWindows(!isColorTransparent);
     }
 }

@@ -1,8 +1,8 @@
 using Microsoft.Maui.Platform;
 
-namespace DIPS.Mobile.UI.Components.Layout;
+namespace DIPS.Mobile.UI.Components.LayoutHandler.iOS;
 
-public partial class LayoutHandler : Microsoft.Maui.Handlers.LayoutHandler
+public class LayoutHandler : Microsoft.Maui.Handlers.LayoutHandler
 {
     protected override void ConnectHandler(LayoutView platformView)
     {

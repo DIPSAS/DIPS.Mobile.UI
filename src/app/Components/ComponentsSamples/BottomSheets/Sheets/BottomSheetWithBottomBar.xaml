@@ -6,7 +6,7 @@
                  xmlns:header="clr-namespace:DIPS.Mobile.UI.Components.BottomSheets.Header;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithBottomBar"
                  Title="The title"
-                 BackgroundColor="{dui:Colors color_background_bg_light}">
+                 BackgroundColor="{dui:Colors color_background_default}">
 
     <dui:BottomSheet.BottomSheetHeaderBehavior>
         <header:BottomSheetHeaderBehavior IsBackButtonVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />

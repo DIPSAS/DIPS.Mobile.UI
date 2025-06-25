@@ -115,7 +115,7 @@ public partial class AutoScrollingTextView : Grid
 
     private void SetFadingBoxFade()
     {
-        var fadeColor = FadeColor ?? BackgroundColor ?? Colors.GetColor(ColorName.color_neutral_10);
+        var fadeColor = FadeColor ?? BackgroundColor ?? Colors.GetColor(ColorName.color_surface_default);
         
         m_fadingBox.Background = new LinearGradientBrush
         {

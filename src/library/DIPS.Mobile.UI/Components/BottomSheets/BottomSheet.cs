@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
             BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior();
 
-            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent};
+            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent, ReturnKeyType = ReturnType.Done };
             SearchBar.TextChanged += OnSearchTextChanged;
         }
 

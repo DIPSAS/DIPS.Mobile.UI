@@ -113,7 +113,7 @@ public partial class LoadableListItem : ListItem
         var errorImage = new Image
         {
             AutomationId = "ErrorImage".ToDUIAutomationId<LoadableListItem>(),
-            TintColor = Colors.GetColor(ColorName.color_error_dark), 
+            TintColor = Colors.GetColor(ColorName.color_icon_danger), 
             Source = Icons.GetIcon(IconName.failure_fill)
         };
         m_errorContent.Add(errorImage, 1);
@@ -126,7 +126,7 @@ public partial class LoadableListItem : ListItem
             AutomationId = "BusyTextLabel".ToDUIAutomationId<LoadableListItem>(),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.End,
-            TextColor = Colors.GetColor(ColorName.color_neutral_90)
+            TextColor = Colors.GetColor(ColorName.color_text_action)
         };
         busyText.SetBinding(Label.TextProperty, static (LoadableListItem loadableListItem) => loadableListItem.BusyText, source: this);
         m_busyContent.Add(busyText);

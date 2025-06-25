@@ -2,8 +2,7 @@ using Android.Content.Res;
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
-using Color = Microsoft.Maui.Graphics.Color;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +10,7 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    internal static readonly Color s_defaultNativeAnimationColor = new(128, 128, 128, 75);
+    internal static readonly Color s_defaultNativeAnimationColor = Colors.GetColor(ColorName.color_fill_action, 0.1f);
 
     private Touch.TouchMode m_touchMode;
 
@@ -42,7 +41,7 @@ public partial class TouchPlatformEffect
             [[]],
             [s_defaultNativeAnimationColor.ToPlatform()]);
         
-        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.White.ToPlatform()));
+        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.GetColor(ColorName.color_palette_neutral_white).ToPlatform()));
         if (Control.Background is null)
         {
             m_changedBackground = true;

@@ -8,7 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  x:Class="Components.ComponentsSamples.Pickers.DateTimePickersSamples"
                  Title="Date / time pickers"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 BackgroundColor="{dui:Colors color_background_default}">
 
     <dui:ContentPage.Resources>
         <Style TargetType="{x:Type dui:Label}"

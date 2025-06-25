@@ -27,7 +27,7 @@ public partial class SingleLineInputField : Grid
     protected readonly Label HeaderTextLabel = new()
     {
         Style = Styles.GetLabelStyle(LabelStyle.Body200),
-        TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
+        TextColor = Colors.GetColor(ColorName.color_text_subtle),
         VerticalOptions = LayoutOptions.Center,
         HorizontalOptions = LayoutOptions.Start,
         AnchorX = 0
@@ -45,7 +45,7 @@ public partial class SingleLineInputField : Grid
     private readonly Border m_contentBorder = new()
     {
         AutomationId = "ContentBorder".ToDUIAutomationId<SingleLineInputField>(),
-        BackgroundColor = Colors.GetColor(ColorName.color_system_white)
+        BackgroundColor = Colors.GetColor(ColorName.color_surface_default)
     };
 
     public SingleLineInputField()

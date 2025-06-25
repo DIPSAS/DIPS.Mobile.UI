@@ -45,8 +45,8 @@ internal static class ColorResourcesDark
         ["color_fill_action_secondary_active"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_fill_action_secondary_hover"] = Color.FromRgba("#00107eff"), // navy-800
         ["color_fill_danger"] = Color.FromRgba("#f3583dff"), // red-700
-        ["color_fill_danger_active"] = Color.FromRgba("#ab321dff"), // red-800
-        ["color_fill_danger_hover"] = Color.FromRgba("#ab321dff"), // red-800
+        ["color_fill_danger_active"] = Color.FromRgba("#f9a698ff"), // red-500
+        ["color_fill_danger_hover"] = Color.FromRgba("#f98572ff"), // red-600
         ["color_fill_danger_subtle"] = Color.FromRgba("#ab321dff"), // red-800
         ["color_fill_default"] = Color.FromRgba("#00107eff"), // navy-800
         ["color_fill_default_active"] = Color.FromRgba("#c0cff0ff"), // navy-300
@@ -71,6 +71,7 @@ internal static class ColorResourcesDark
         ["color_fill_warning_hover"] = Color.FromRgba("#ecb62dff"), // yellow-800
         ["color_icon_action"] = Color.FromRgba("#c0cff0ff"), // navy-300
         ["color_icon_action_hover"] = Color.FromRgba("#e1e9faff"), // navy-200
+        ["color_icon_action_on_fill"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_danger"] = Color.FromRgba("#f9eae2ff"), // red-200
         ["color_icon_default"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_disabled"] = Color.FromRgba("#b6b7b9ff"), // neutral-400
@@ -83,6 +84,7 @@ internal static class ColorResourcesDark
         ["color_icon_on_fill_default_focus"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_on_fill_default_hover"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_on_fill_default_selected"] = Color.FromRgba("#000000ff"), // neutral-black
+        ["color_icon_on_fill_inverted"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_on_fill_success_hover"] = Color.FromRgba("#0f7157ff"), // green-800
         ["color_icon_readonly"] = Color.FromRgba("#8f9496ff"), // neutral-500
         ["color_icon_subtle"] = Color.FromRgba("#dadbdcff"), // neutral-300
@@ -92,13 +94,14 @@ internal static class ColorResourcesDark
         ["color_surface_default"] = Color.FromRgba("#050948ff"), // navy-900
         ["color_surface_information"] = Color.FromRgba("#095abfff"), // blue-800
         ["color_surface_neutral"] = Color.FromRgba("#373d40ff"), // neutral-800
-        ["color_surface_subtle"] = Color.FromRgba("#00107eff"), // navy-800
+        ["color_surface_subtle"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_surface_success"] = Color.FromRgba("#0f7157ff"), // green-800
-        ["color_surface_visited"] = Color.FromRgba("#0000ccff"), // navy-700
+        ["color_surface_visited"] = Color.FromRgba("#00107eff"), // navy-800
         ["color_surface_warning"] = Color.FromRgba("#ecb62dff"), // yellow-800
         ["color_text_action"] = Color.FromRgba("#c0cff0ff"), // navy-300
         ["color_text_action_hover"] = Color.FromRgba("#e1e9faff"), // navy-200
         ["color_text_action_neutral"] = Color.FromRgba("#ffffffff"), // neutral-white
+        ["color_text_action_on_fill"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_danger"] = Color.FromRgba("#f9eae2ff"), // red-200
         ["color_text_default"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_default_inverted"] = Color.FromRgba("#000000ff"), // neutral-black

@@ -59,7 +59,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             var innerGrid = new Grid
             {
                 Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0), 
-                BackgroundColor = Colors.GetColor(ColorName.color_system_white)
+                BackgroundColor = Colors.GetColor(ColorName.color_surface_default)
             };
             
             innerGrid.GestureRecognizers.Add(new TapGestureRecognizer
@@ -72,7 +72,7 @@ public partial class BottomSheetHandler : ContentViewHandler
                 HeightRequest = 4,
                 WidthRequest = 32,
                 CornerRadius = 10,
-                BackgroundColor = Colors.GetColor(ColorName.color_neutral_40),
+                BackgroundColor = Colors.GetColor(ColorName.color_border_subtle),
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center
             };
