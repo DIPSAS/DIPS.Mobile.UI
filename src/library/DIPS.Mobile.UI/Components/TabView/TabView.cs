@@ -10,7 +10,10 @@ public partial class TabView : ContentView
     private TabViewItem m_selectedItem;
 
     private ScrollView m_scrollView = new () { Orientation = ScrollOrientation.Horizontal };
-    private HorizontalStackLayout m_stackLayout = new();
+    private HorizontalStackLayout m_stackLayout = new(){ 
+        Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), 0),            
+        Spacing = Sizes.GetSize(SizeName.size_1),
+    };
     private readonly List<TabViewItem> m_tabItems = [];
 
     public TabView()
@@ -73,16 +76,16 @@ public partial class TabView : ContentView
     
     private void TabToggled(TabViewItem tabViewItem, bool didTap = true)
     {
-        if (m_selectedItem.Obj.Equals(tabViewItem.Obj))
+        if (m_selectedItem.Obj.Equals(tabViewItem.Obj) && didTap)
         {
             m_selectedItem.Tab.IsSelected = true;
             return;
-        } else
-        {
-            m_selectedItem.Tab.IsSelected = false;
         }
+        m_selectedItem.Tab.IsSelected = false;
+        
         tabViewItem.Tab.TextColor = Colors.GetColor(ColorName.color_text_action);
         tabViewItem.Tab.TextStyle = Styles.GetLabelStyle(LabelStyle.UI300);
+
         foreach (var tabItem in m_tabItems)
         {
             if (tabItem != tabViewItem)

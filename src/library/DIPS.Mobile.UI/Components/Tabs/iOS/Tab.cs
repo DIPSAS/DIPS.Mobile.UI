@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Tabs
 {
@@ -19,25 +20,32 @@ namespace DIPS.Mobile.UI.Components.Tabs
 
         internal void ConstructView()
         {
-            var container = new HorizontalStackLayout()
-                {
-                    Spacing = Sizes.GetSize(SizeName.size_1),
-                    Margin = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_1))
-                };
-            
+            var container = new VerticalStackLayout();
+            var titleContainer = new HorizontalStackLayout()
+            {
+                Spacing = Sizes.GetSize(SizeName.size_1),
+                HorizontalOptions = LayoutOptions.Center,
+                Padding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2))            
+            };
             m_titleLabel = CreateTitleLabel();
             m_counterLabel = CreateCounterLabel();
     
-            container.Add(m_titleLabel);
-            container.Add(m_counterLabel);
+            titleContainer.Add(m_titleLabel);
+            titleContainer.Add(m_counterLabel);
+            container.Add(titleContainer);
+            
+            var boxView = new BoxView
+            {
+                HorizontalOptions = LayoutOptions.Fill,
+                HeightRequest = Sizes.GetSize(SizeName.size_1),
+                BackgroundColor = Colors.GetColor(ColorName.color_border_action_secondary_active)
+            };
+            boxView.SetBinding(IsVisibleProperty, static (Tab tab) => tab.IsSelected, source: this);
+            container.Add(boxView);
             
             m_border = new Border
             {
-                Content = container,
-                StrokeShape = new RoundRectangle
-                {
-                    CornerRadius = Sizes.GetSize(SizeName.radius_small)
-                }
+                Content = container
             };
 
             Touch.SetCommand(m_border, new Command(() => SendTapped()));
@@ -51,7 +59,6 @@ namespace DIPS.Mobile.UI.Components.Tabs
             {
                 TextColor = Colors.GetColor(ColorName.color_neutral_70),
                 Style = Styles.GetLabelStyle(LabelStyle.Body200),
-                VerticalTextAlignment = TextAlignment.Center
             };
             
             label.SetBinding(Label.TextColorProperty, static (Tab tab) => tab.TextColor, source: this);
@@ -65,9 +72,10 @@ namespace DIPS.Mobile.UI.Components.Tabs
         {
             var label = new Labels.Label
             {
-                VerticalTextAlignment = TextAlignment.Center
+                TextColor = Colors.GetColor(ColorName.color_neutral_70),
+                Style = Styles.GetLabelStyle(LabelStyle.Body200),
             };
-            //label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title + "(" + tab.Counter + ")", source: this);
+            label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Counter, source: this);
 
             return label;
         }

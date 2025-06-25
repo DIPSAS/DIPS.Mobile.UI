@@ -5,24 +5,27 @@ namespace Components.ComponentsSamples.TabView;
 
 public class TabsSamplesViewModel : ViewModel
 {
-    private string m_selectedItem = "Tab 1";
-    private List<string>? m_tabItemsTexts = ["Tab 1", "Tab 2"];
+    private List<TabItem>? m_tabItemsTexts = [];
 
     public TabsSamplesViewModel()
     {
-        TabItemsTexts = new List<string> { "Tab 1", "Tab 2", "Tab 3" };
-        SelectedItem = TabItemsTexts.FirstOrDefault(); // Initialize with the first item
-    }
-
-    public string? SelectedItem
-    {
-        get => m_selectedItem;
-        set => RaiseWhenSet(ref m_selectedItem, value);
+        TabItemsTexts = new List<TabItem>
+        {
+            new TabItem { Title = "Tab 1", Counter = "1" },
+            new TabItem { Title = "Tab 2", Counter = "2" },
+            new TabItem { Title = "Tab 3", Counter = "3" }
+        };
     }
     
-    public List<string> TabItemsTexts
+    public List<TabItem> TabItemsTexts
     {
-        get => m_tabItemsTexts ??= new List<string> { "Tab 1", "Tab 2" };
+        get => m_tabItemsTexts ?? [];
         set => RaiseWhenSet(ref m_tabItemsTexts, value);
     }
+}
+
+public class TabItem
+{
+    public string Title { get; set; }
+    public string Counter { get; set; }
 }
