@@ -15,14 +15,24 @@ public partial class TabView
         get => (IEnumerable?)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
-        
+    public event EventHandler<TabViewEventArgs>? OnSelectedItemChanged;
+    
+    public class TabViewEventArgs : EventArgs
+    {
+        public TabViewEventArgs(TabViewItem selectedItem)
+        {
+            SelectedItem = selectedItem;
+        }
+    
+        public TabViewItem SelectedItem { get; }
+    }
     public string? ItemDisplayProperty { get; set; }
 
     public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
         nameof(SelectedItem),
         typeof(Object),
         typeof(TabView),
-        defaultValue: new object(),
+        defaultValue: null,
         defaultBindingMode: BindingMode.TwoWay,
         propertyChanged: (bindable, _, _) => ((TabView)bindable).SetTabToggledBasedOnSelectedItem());
     

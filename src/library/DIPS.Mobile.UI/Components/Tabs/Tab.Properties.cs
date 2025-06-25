@@ -1,9 +1,29 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Tabs
 {
     public partial class Tab
     {
+        /// <summary>
+        /// Sets the text color of the tab
+        /// </summary>
+        public Color? TextColor
+        {
+            get => (Color?)GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
+        }
+        
+        /// <summary>
+        /// Sets the selected text style of the label of the tab
+        /// </summary>
+        public Style? TextStyle
+        {
+            get => (Style?)GetValue(TextStyleProperty);
+            set => SetValue(TextStyleProperty, value);
+        }
         
         /// <summary>
         /// Defines if the tab is selected or not
@@ -40,11 +60,38 @@ namespace DIPS.Mobile.UI.Components.Tabs
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
-
+        
+        /// <summary>
+        /// The command parameter to pass to the command when it executes when people tap the tab.
+        /// </summary>
+        public object? CommandParameter
+        {
+            get => (object)GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+        
+        /// <summary>
+        /// The event to be invoked when the tab is tapped.
+        /// </summary>
+        public event EventHandler? Tapped;
+        
+        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
+            nameof(TextColor),
+            typeof(Color),
+            typeof(Tab),
+            Colors.GetColor(ColorName.color_neutral_70));
+        
+        public static readonly BindableProperty TextStyleProperty = BindableProperty.Create(
+            nameof(TextStyle),
+            typeof(Style),
+            typeof(Tab),
+            Styles.GetLabelStyle(LabelStyle.Body200));
+        
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             nameof(IsSelected),
             typeof(bool),
             typeof(Tab),
+            defaultValue: false,
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: (bindable, _, _) => ((Tab)bindable).OnIsSelectedChanged());
         
@@ -61,6 +108,11 @@ namespace DIPS.Mobile.UI.Components.Tabs
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             nameof(Command),
             typeof(ICommand),
+            typeof(Tab));
+        
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            nameof(CommandParameter),
+            typeof(object),
             typeof(Tab));
     }   
 }

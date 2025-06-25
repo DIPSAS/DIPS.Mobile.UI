@@ -1,5 +1,7 @@
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Tabs
@@ -8,7 +10,12 @@ namespace DIPS.Mobile.UI.Components.Tabs
     {
         private Label m_titleLabel;
         private Label m_counterLabel;
-        private bool m_isSelected;
+        private Border m_border;
+        
+        public Tab()
+        {
+            ConstructView();
+        }
 
         internal void ConstructView()
         {
@@ -24,7 +31,18 @@ namespace DIPS.Mobile.UI.Components.Tabs
             container.Add(m_titleLabel);
             container.Add(m_counterLabel);
             
-            Content = container;
+            m_border = new Border
+            {
+                Content = container,
+                StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = Sizes.GetSize(SizeName.radius_small)
+                }
+            };
+
+            Touch.SetCommand(m_border, new Command(() => SendTapped()));
+
+            Content = m_border;
         }
         
         private Labels.Label CreateTitleLabel()
@@ -35,7 +53,10 @@ namespace DIPS.Mobile.UI.Components.Tabs
                 Style = Styles.GetLabelStyle(LabelStyle.Body200),
                 VerticalTextAlignment = TextAlignment.Center
             };
-            //label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title + "(" + tab.Counter + ")", source: this);
+            
+            label.SetBinding(Label.TextColorProperty, static (Tab tab) => tab.TextColor, source: this);
+            label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title, source: this);
+            label.SetBinding(Label.StyleProperty, static (Tab tab) => tab.TextStyle, source: this);
 
             return label;
         }
@@ -46,7 +67,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             {
                 VerticalTextAlignment = TextAlignment.Center
             };
-            label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title, source: this);
+            //label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Title + "(" + tab.Counter + ")", source: this);
 
             return label;
         }

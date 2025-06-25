@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.TabView;
@@ -9,8 +10,9 @@ public class TabsSamplesViewModel : ViewModel
 
     public TabsSamplesViewModel()
     {
+        TabItemsTexts = new List<string> { "Tab 1", "Tab 2", "Tab 3" };
+        SelectedItem = TabItemsTexts.FirstOrDefault(); // Initialize with the first item
     }
-    
 
     public string? SelectedItem
     {

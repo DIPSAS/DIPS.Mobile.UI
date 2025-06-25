@@ -17,17 +17,10 @@
     </dui:ContentPage.BindingContext>
     
     <dui:VerticalStackLayout>
-        <dui:Label Text="Tab"
-                   Margin="5" />
-        <tabs:Tab Title="A tab"
-                     HorizontalOptions="Start"
-                     VerticalOptions="Start"/>
-        
-        <dui:Label Text="{Binding SelectedItem}"
+        <dui:Label Text="Tab View"
                    Style="{dui:Styles Label=SectionHeader}" />
         
-        <dui:TabView SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                     ItemsSource="{Binding TabItemsTexts}">
+        <dui:TabView ItemsSource="{Binding TabItemsTexts}">
         </dui:TabView>
     </dui:VerticalStackLayout>
 
