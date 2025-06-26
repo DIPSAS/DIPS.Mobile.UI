@@ -5,27 +5,15 @@ namespace Components.ComponentsSamples.TabView;
 
 public class TabsSamplesViewModel : ViewModel
 {
-    private List<TabItem>? m_tabItemsTexts = [];
+    public List<DIPS.Mobile.UI.Components.Tabs.Tab> TabsExample { get; set; }
 
     public TabsSamplesViewModel()
     {
-        TabItemsTexts = new List<TabItem>
+        TabsExample = new List<DIPS.Mobile.UI.Components.Tabs.Tab>
         {
-            new TabItem { Title = "Tab 1", Counter = "1" },
-            new TabItem { Title = "Tab 2", Counter = "2" },
-            new TabItem { Title = "Tab 3", Counter = "3" }
+            new DIPS.Mobile.UI.Components.Tabs.Tab() { Title = "Tab 1", Counter = "3" },
+            new DIPS.Mobile.UI.Components.Tabs.Tab() { Title = "Tab 2", Counter = "1" },
+            new DIPS.Mobile.UI.Components.Tabs.Tab() { Title = "Tab 3" }
         };
     }
-    
-    public List<TabItem> TabItemsTexts
-    {
-        get => m_tabItemsTexts ?? [];
-        set => RaiseWhenSet(ref m_tabItemsTexts, value);
-    }
-}
-
-public class TabItem
-{
-    public string Title { get; set; }
-    public string Counter { get; set; }
 }

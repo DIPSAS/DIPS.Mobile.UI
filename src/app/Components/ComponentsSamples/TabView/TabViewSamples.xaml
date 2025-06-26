@@ -20,7 +20,9 @@
         <dui:Label Text="Tab View"
                    Style="{dui:Styles Label=SectionHeader}" />
         
-        <dui:TabView ItemsSource="{Binding TabItemsTexts}">
+        <dui:TabView>
+            <dui:Tab Title="Tab 1" Counter="3" />    
+            <dui:Tab Title="Tab 2" />    
         </dui:TabView>
     </dui:VerticalStackLayout>
 

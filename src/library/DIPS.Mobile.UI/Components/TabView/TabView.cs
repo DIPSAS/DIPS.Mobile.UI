@@ -5,6 +5,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.TabView;
 
+[ContentProperty(nameof(ItemsSource))]
 public partial class TabView : ContentView
 {
     private TabViewItem m_selectedItem;
@@ -28,6 +29,7 @@ public partial class TabView : ContentView
 
         if (args.NewHandler is not null)
         {
+            OnItemsSourceChanged();
             SetTabToggledBasedOnSelectedItem();   
         }
     }
@@ -47,7 +49,7 @@ public partial class TabView : ContentView
     private void OnItemsSourceChanged()
     {
         ClearItems();
-        var list = ItemsSource?.Cast<object?>().ToList();
+        var list = ItemsSource;
         if (list is null || list.Count == 0)
         {
             return;
@@ -55,22 +57,17 @@ public partial class TabView : ContentView
 
         list.ForEach(obj =>
         {
-            var tab = new DIPS.Mobile.UI.Components.Tabs.Tab
+            obj.Tapped += (sender, args) =>
             {
-                Title = obj.GetPropertyValue(ItemDisplayProperty)?.ToString() ?? string.Empty,
-                Counter = list.Count.ToString(),
-            };
-            tab.Tapped += (sender, args) =>
-            {
-                var item = new TabViewItem(tab, obj!);
+                var item = new TabViewItem(obj, obj!);
                 TabToggled(item);
             };
             
-            var item = new TabViewItem(tab, obj!);
-            tab.Command = new Command(_ => TabToggled(item));
+            var item = new TabViewItem(obj, obj!);
+            obj.Command = new Command(_ => TabToggled(item));
 
             m_tabItems.Add(item);
-            m_stackLayout.Add(tab);
+            m_stackLayout.Add(obj);
         });
     }
     

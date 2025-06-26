@@ -91,7 +91,7 @@ using Microsoft.Maui.Controls.Internals;
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Text.AutoScrollingTextView")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Effects.Animation.Effects")]
 [assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.TabView")]
-
+[assembly: XmlnsDefinition("http://dips.com/mobile.ui","DIPS.Mobile.UI.Components.Tabs")]
 
 
 

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
@@ -75,7 +76,22 @@ namespace DIPS.Mobile.UI.Components.Tabs
                 TextColor = Colors.GetColor(ColorName.color_neutral_70),
                 Style = Styles.GetLabelStyle(LabelStyle.Body200),
             };
-            label.SetBinding<Tab, string>(Label.TextProperty, static (Tab tab) => tab.Counter, source: this);
+            
+            var counterString = new Span();
+            
+            counterString.SetBinding<Tab, string>(Span.TextProperty, static (Tab tab) => tab.Counter, source: this);
+            
+            label.FormattedText = new FormattedString()
+            {
+                Spans =
+                {
+                    new Span { Text = "(", TextColor = Colors.GetColor(ColorName.color_text_default) },
+                    counterString,
+                    new Span { Text = ")", TextColor = Colors.GetColor(ColorName.color_text_default) }
+                }
+            };
+            
+            label.SetBinding<Tab, string>(Label.IsVisibleProperty, static (Tab tab) => tab.Counter, converter: new IsEmptyConverter(){Inverted = true}, source: this);
 
             return label;
         }

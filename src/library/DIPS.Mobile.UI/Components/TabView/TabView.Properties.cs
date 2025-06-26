@@ -9,10 +9,10 @@ public partial class TabView
         get => (Object?)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
-    
-    public IEnumerable? ItemsSource
+
+    public List<Tabs.Tab>? ItemsSource
     {
-        get => (IEnumerable?)GetValue(ItemsSourceProperty);
+        get => (List<Tabs.Tab>?)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
     public event EventHandler<TabViewEventArgs>? OnSelectedItemChanged;
@@ -38,7 +38,8 @@ public partial class TabView
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
-        typeof(IEnumerable),
+        typeof(List<Tabs.Tab>),
         typeof(TabView),
+        defaultValueCreator:(bindable => new List<Tabs.Tab>()),
         propertyChanged: (bindable, _, _) => ((TabView)bindable).OnItemsSourceChanged());
 }

@@ -8,7 +8,6 @@ using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-// ReSharper disable once CheckNamespace
 namespace DIPS.Mobile.UI.Components.Tabs;
 
 public class TabHandler : ViewHandler<Tab, Google.Android.Material.Tabs.TabItem>
