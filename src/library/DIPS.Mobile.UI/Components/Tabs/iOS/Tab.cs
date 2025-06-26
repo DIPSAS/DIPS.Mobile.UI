@@ -58,8 +58,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
         {
             var label = new Labels.Label
             {
-                TextColor = Colors.GetColor(ColorName.color_neutral_70),
-                Style = Styles.GetLabelStyle(LabelStyle.Body200),
+                VerticalTextAlignment = TextAlignment.Center
             };
             
             label.SetBinding(Label.TextColorProperty, static (Tab tab) => tab.TextColor, source: this);
@@ -73,25 +72,29 @@ namespace DIPS.Mobile.UI.Components.Tabs
         {
             var label = new Labels.Label
             {
-                TextColor = Colors.GetColor(ColorName.color_neutral_70),
-                Style = Styles.GetLabelStyle(LabelStyle.Body200),
+                VerticalTextAlignment = TextAlignment.Center
             };
+
+            var spans = new List<Span>();
+            spans.Add(new Span { Text = "(" });
             
             var counterString = new Span();
-            
             counterString.SetBinding<Tab, string>(Span.TextProperty, static (Tab tab) => tab.Counter, source: this);
+            spans.Add(counterString);
             
-            label.FormattedText = new FormattedString()
+            spans.Add(new Span { Text = ")" });
+
+            label.FormattedText = new FormattedString();
+            foreach (var span in spans)
             {
-                Spans =
-                {
-                    new Span { Text = "(", TextColor = Colors.GetColor(ColorName.color_text_default) },
-                    counterString,
-                    new Span { Text = ")", TextColor = Colors.GetColor(ColorName.color_text_default) }
-                }
-            };
+                span.SetBinding(Span.FontFamilyProperty, static (Label label) => label.FontFamily, source: label);
+                span.SetBinding(Span.FontSizeProperty, static (Label label) => label.FontSize, source: label);  
+                label.FormattedText.Spans.Add(span);
+            }
             
-            label.SetBinding<Tab, string>(Label.IsVisibleProperty, static (Tab tab) => tab.Counter, converter: new IsEmptyConverter(){Inverted = true}, source: this);
+            label.SetBinding(Label.IsVisibleProperty, static (Tab tab) => tab.Counter, converter: new IsEmptyConverter(){Inverted = true}, source: this);
+            label.SetBinding(Label.TextColorProperty, static (Tab tab) => tab.TextColor, source: this);
+            label.SetBinding(Label.StyleProperty, static (Tab tab) => tab.TextStyle, source: this);
 
             return label;
         }

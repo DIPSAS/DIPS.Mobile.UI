@@ -19,12 +19,12 @@ public partial class TabView
     
     public class TabViewEventArgs : EventArgs
     {
-        public TabViewEventArgs(TabViewItem selectedItem)
+        public TabViewEventArgs(Tabs.Tab selectedItem)
         {
             SelectedItem = selectedItem;
         }
     
-        public TabViewItem SelectedItem { get; }
+        public Tabs.Tab SelectedItem { get; }
     }
     public string? ItemDisplayProperty { get; set; }
 

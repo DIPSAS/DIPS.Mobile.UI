@@ -2,20 +2,21 @@ using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Layouts;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.Components.TabView;
 
 [ContentProperty(nameof(ItemsSource))]
 public partial class TabView : ContentView
 {
-    private TabViewItem m_selectedItem;
+    private Tab m_selectedItem;
 
     private ScrollView m_scrollView = new () { Orientation = ScrollOrientation.Horizontal };
     private HorizontalStackLayout m_stackLayout = new(){ 
         Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), 0),            
         Spacing = Sizes.GetSize(SizeName.size_1),
     };
-    private readonly List<TabViewItem> m_tabItems = [];
+    private readonly List<Tab> m_tabItems = [];
 
     public TabView()
     { 
@@ -37,10 +38,9 @@ public partial class TabView : ContentView
     private void SetTabToggledBasedOnSelectedItem()
     {
         var selectedItem = SelectedItem ?? m_tabItems.FirstOrDefault();
-        var test = m_selectedItem;
         
         var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem == selectedItem);
-        tabItem.Tab.IsSelected = true;
+        tabItem.IsSelected = true;
         
         m_selectedItem = tabItem;
         TabToggled(tabItem, false);
@@ -59,11 +59,10 @@ public partial class TabView : ContentView
         {
             obj.Tapped += (sender, args) =>
             {
-                var item = new TabViewItem(obj, obj!);
-                TabToggled(item);
+                TabToggled(obj);
             };
             
-            var item = new TabViewItem(obj, obj!);
+            var item = obj;
             obj.Command = new Command(_ => TabToggled(item));
 
             m_tabItems.Add(item);
@@ -71,28 +70,28 @@ public partial class TabView : ContentView
         });
     }
     
-    private void TabToggled(TabViewItem tabViewItem, bool didTap = true)
+    private void TabToggled(Tab tabViewItem, bool didTap = true)
     {
-        if (m_selectedItem.Obj.Equals(tabViewItem.Obj) && didTap)
+        if (m_selectedItem.Equals(tabViewItem) && didTap)
         {
-            m_selectedItem.Tab.IsSelected = true;
+            m_selectedItem.IsSelected = true;
             return;
         }
-        m_selectedItem.Tab.IsSelected = false;
+        m_selectedItem.IsSelected = false;
         
-        tabViewItem.Tab.TextColor = Colors.GetColor(ColorName.color_text_action);
-        tabViewItem.Tab.TextStyle = Styles.GetLabelStyle(LabelStyle.UI300);
+        tabViewItem.TextColor = Colors.GetColor(ColorName.color_text_action);
+        tabViewItem.TextStyle = Styles.GetLabelStyle(LabelStyle.UI300);
 
         foreach (var tabItem in m_tabItems)
         {
             if (tabItem != tabViewItem)
             {
-                tabItem.Tab.TextColor = Colors.GetColor(ColorName.color_text_default);
-                tabViewItem.Tab.TextStyle = Styles.GetLabelStyle(LabelStyle.Body200);   
+                tabItem.TextColor = Colors.GetColor(ColorName.color_text_default);
+                tabViewItem.TextStyle = Styles.GetLabelStyle(LabelStyle.Body200);   
             }
         }
         m_selectedItem = tabViewItem;
-        m_selectedItem.Tab.IsSelected = true;
+        m_selectedItem.IsSelected = true;
         
         if (didTap)
         {
@@ -106,16 +105,4 @@ public partial class TabView : ContentView
         m_tabItems.Clear();
         m_stackLayout.Clear();
     }
-}
-
-public class TabViewItem
-{
-    public TabViewItem(DIPS.Mobile.UI.Components.Tabs.Tab tab, object obj)
-    {
-        Tab = tab;
-        Obj = obj;
-    }
-
-    public DIPS.Mobile.UI.Components.Tabs.Tab Tab { get; }
-    public object Obj { get; }
 }
