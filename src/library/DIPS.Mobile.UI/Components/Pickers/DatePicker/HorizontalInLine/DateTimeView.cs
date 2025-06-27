@@ -12,7 +12,7 @@ public class DateTimeView : DateViewBase
         var timeOfDayLabel = CreateLabel(new Label(), SizeName.content_margin_medium);
         timeOfDayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
             FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         

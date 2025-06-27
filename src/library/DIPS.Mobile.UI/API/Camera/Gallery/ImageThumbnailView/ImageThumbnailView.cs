@@ -52,9 +52,9 @@ internal class ImageThumbnailView : Grid
         var closeButton = new Border
         {
             StrokeShape = new Ellipse(),
-            BackgroundColor = Colors.GetColor(ColorName.color_surface_active_subtle),
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_subtle),
             StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
-            Stroke = Colors.GetColor(ColorName.color_stroke_action),
+            Stroke = Colors.GetColor(ColorName.color_border_action_secondary_active),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             VerticalOptions = LayoutOptions.Start,

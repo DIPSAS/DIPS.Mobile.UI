@@ -341,7 +341,7 @@ public partial class MultiLineInputField : SingleLineInputField
         }
         else
         {
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle_small);
+            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
         }
     }
 

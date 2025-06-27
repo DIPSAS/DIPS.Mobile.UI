@@ -70,7 +70,7 @@ internal class ZoomSlider : Grid
         
         m_pin = new BoxView
         {
-            BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400), WidthRequest = 3, HeightRequest = Sizes.GetSize(SizeName.size_15), Opacity = 0
+            BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_warning), WidthRequest = 3, HeightRequest = Sizes.GetSize(SizeName.size_15), Opacity = 0
         };
         
         this.Add(m_zoomRatiosLayout, 0, 1);
@@ -116,7 +116,7 @@ internal class ZoomSlider : Grid
     {
         m_zoomRatioLevelLabel = new Label
         {
-            TextColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_yellow_400),
+            TextColor = Colors.Yellow,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,

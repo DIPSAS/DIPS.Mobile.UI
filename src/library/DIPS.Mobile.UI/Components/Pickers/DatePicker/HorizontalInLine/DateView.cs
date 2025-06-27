@@ -20,7 +20,7 @@ public class DateView : DateViewBase
         });
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
             FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         dayNameLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.DayName);
