@@ -1,3 +1,6 @@
+## [47.1.0] 
+- Added `Tag` component.
+
 ## [47.0.0] 
 - Removed all old colors.
 - Set remaining colors.
