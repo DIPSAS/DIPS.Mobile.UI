@@ -29,8 +29,6 @@ public class TabHandler : ViewHandler<Tab, Google.Android.Material.Tabs.TabItem>
         base.ConnectHandler(platformView);
         platformView.SetPadding((int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel());
         platformView.Click += OnTabTapped;
-
-        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
     }
 
     private static void MapTitle(TabHandler handler, Tab tab)

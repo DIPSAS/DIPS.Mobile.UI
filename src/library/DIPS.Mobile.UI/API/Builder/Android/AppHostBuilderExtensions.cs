@@ -10,9 +10,10 @@ using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
 using DIPS.Mobile.UI.Components.Tabs;
 using DIPS.Mobile.UI.Components.TabView;
-using Tab = Microsoft.Maui.Controls.Tab;
+using DIPS.Mobile.UI.Components.TabView.Android;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
+using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -27,7 +28,7 @@ public static partial class AppHostBuilderExtensions
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
             .AddHandler<CameraPreview, CameraPreviewHandler>()
             .AddHandler<Tab, TabHandler>()
-            .AddHandler<TabView, TabHandler>();
+            .AddHandler<TabView, TabViewHandler>();
         
         ToolbarHandler.Mapper.AppendToMapping<Toolbar, IToolbarHandler>(nameof(Toolbar.ToolbarItems), (h, t) =>
         {

@@ -1,7 +1,3 @@
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Label;
-using Microsoft.Maui.Layouts;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.Components.TabView;
@@ -35,7 +31,7 @@ public partial class TabView : ContentView
         }
     }
 
-    private void SetTabToggledBasedOnSelectedItem()
+    private void SetTabToggled()
     {
         var selectedItem = SelectedItem ?? m_tabItems.FirstOrDefault();
         
@@ -46,7 +42,7 @@ public partial class TabView : ContentView
         TabToggled(tabItem, false);
     }
     
-    private void OnItemsSourceChanged()
+    private void ItemsSourceChanged()
     {
         ClearItems();
         var list = ItemsSource;

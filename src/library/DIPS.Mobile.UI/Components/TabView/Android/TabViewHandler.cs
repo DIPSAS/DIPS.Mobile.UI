@@ -1,4 +1,5 @@
 using Google.Android.Material.Tabs;
+using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.TabView.Android;
 using Microsoft.Maui.Handlers;
@@ -12,24 +13,23 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
     
     public static readonly IPropertyMapper<TabView, TabViewHandler> PropertyMapper = new PropertyMapper<TabView, TabViewHandler>(ViewMapper)
     {
-        //[nameof(Tab.DefaultTextColor)] = MapTextColor,
-        //[nameof(Tab.DefaultTextStyle)] = MapTextStyle
+        [nameof(TabView.ItemsSource)] = MapItemsSource,
+        [nameof(TabView.SelectedItem)] = MapSelectedItem
     };
 
     protected override TabLayout CreatePlatformView()
         {
             var context = MauiApplication.Current.ApplicationContext;
 
-            var tabLayout = new TabLayout(context);
+            var tabLayout = new TabLayout(Context);
             tabLayout.TabMode = TabLayout.ModeScrollable;
-            tabLayout.TabGravity = TabLayout.GravityFill;
+            //tabLayout.TabGravity = TabLayout.GravityFill;
 
-            //tabLayout.SetTabTextColors(color, color); // selected = pink
-
+            tabLayout.SetTabTextColors(VirtualView.DefaultTextColor.ToPlatform(), VirtualView.SelectedTextColor.ToPlatform());
             return tabLayout;
         }
 
-        protected override void ConnectHandler(TabLayout platformView)
+        protected async override void ConnectHandler(TabLayout platformView)
         {
             base.ConnectHandler(platformView);
 
@@ -47,11 +47,13 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
 
         void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
         {
-            var index = e.Tab.Position;
-            if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
-            {
-                VirtualView.SelectedItem = VirtualView.ItemsSource[index];
-            }
+            VirtualView.SelectedItem = e.Tab;
+
+            // var index = e.Tab.Position;
+            // if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
+            // {
+            //     VirtualView.SelectedItem = VirtualView.ItemsSource[index];
+            // }
         }
 
         public static void MapItemsSource(TabViewHandler handler, TabView tabView)
@@ -64,7 +66,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
             handler.UpdateSelectedItem();
         }
 
-        void UpdateItemsSource()
+        public void UpdateItemsSource()
         {
             var platformView = PlatformView;
             platformView.RemoveAllTabs();
