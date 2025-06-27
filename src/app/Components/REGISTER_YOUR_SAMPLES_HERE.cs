@@ -5,6 +5,7 @@ using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
+using Components.ComponentsSamples.Counters;
 using Components.ComponentsSamples.ImageCapturing;
 using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
@@ -61,6 +62,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),
             new(SampleType.Components, "Text", () => new TextSamples()),
             new(SampleType.Components, "Tag", () => new TagsSamples()),
+            new(SampleType.Components, "Counters", () => new CountersSamples()),
 
             
 
