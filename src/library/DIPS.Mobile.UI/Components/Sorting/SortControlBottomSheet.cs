@@ -76,7 +76,7 @@ internal class SortControlBottomSheet : BottomSheet
         {
             AutomationId = "ImageBorder".ToDUIAutomationId<SortControlBottomSheet>(),
             StrokeShape = new Ellipse(), 
-            BackgroundColor = Colors.GetColor(ColorName.color_surface_active),
+            BackgroundColor = Colors.GetColor(ColorName.color_border_action_secondary_active),
             Content = inLineImage,
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
         };

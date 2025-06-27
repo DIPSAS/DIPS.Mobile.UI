@@ -138,7 +138,7 @@ internal class FloatingNavigationButton : Grid
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             Padding = Sizes.GetSize(SizeName.content_margin_medium),
-            Stroke = Colors.GetColor(ColorName.color_system_white),
+            Stroke = Colors.GetColor(ColorName.color_border_default),
             StrokeThickness = 3,
             StrokeShape = new Ellipse(),
             BackgroundColor = closedColor,

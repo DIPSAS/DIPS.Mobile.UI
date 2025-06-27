@@ -49,8 +49,7 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                //TODO: Puls
-                Value = Colors.Colors.GetColor(ColorName.color_error_dark)
+                Value = Colors.Colors.GetColor(ColorName.color_border_input_danger)
             }
         }
     };
@@ -63,8 +62,7 @@ public class InputFieldTypeStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                //TODO: Puls
-                Value = Colors.Colors.GetColor(ColorName.color_success_dark)
+                Value = Colors.Colors.GetColor(ColorName.color_border_success)
             }
         }
     };

@@ -20,7 +20,7 @@ public partial class HorizontalInlineDatePicker : ContentView
             new SlidableContentLayout
             {
                 HeightRequest = GetHeightBasedOnScreenHeight(),
-                BackgroundColor = Colors.GetColor(ColorName.color_neutral_05), ScaleDown = false,
+                BackgroundColor = Colors.GetColor(ColorName.color_surface_subtle), ScaleDown = false,
                 BindingContextFactory = CreateSelectableDateViewModel,
                 ItemTemplate = new DataTemplate(() => new DateView()),
                 Config = new SliderConfig(-MaxSelectableDaysFromToday, MaxSelectableDaysFromToday),

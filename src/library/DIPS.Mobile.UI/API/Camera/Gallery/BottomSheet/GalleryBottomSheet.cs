@@ -54,7 +54,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     {
         Positioning = Positioning.Large;
         IsDraggable = false;
-        BackgroundColor = Colors.GetColor(ColorName.color_system_black);
+        BackgroundColor = Microsoft.Maui.Graphics.Colors.Black;
 
         BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior { IsVisible = false };
         
@@ -67,7 +67,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_onRemoveImage = onRemoveImage;
         m_updateImages = updateImages;
 
-        var fadedBlackColor = Colors.GetColor(ColorName.color_system_black).WithAlpha(.5f);
+        var fadedBlackColor = Microsoft.Maui.Graphics.Colors.Black.WithAlpha(.5f);
         
         m_topToolbar = new GalleryBottomSheetTopToolbar(() => new CapturedImageInfoBottomSheet(Images[m_carouselView?.Position ?? 0]).Open(), GoToEditState)
         {
@@ -83,7 +83,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_navigatePreviousImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_left_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_system_white),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,
@@ -101,7 +101,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_navigateNextImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_right_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,

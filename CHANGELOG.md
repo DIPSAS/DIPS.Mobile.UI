@@ -1,3 +1,7 @@
+## [47.0.0] 
+- Removed all old colors.
+- Set remaining colors.
+
 ## [46.0.0] 
 - Set new colors.
 - Updated colors.

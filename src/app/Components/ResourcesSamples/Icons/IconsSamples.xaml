@@ -26,8 +26,8 @@
                         <Border HeightRequest="75"
                                 WidthRequest="100"
                                 StrokeThickness="1"
-                                Stroke="{dui:Colors color_neutral_50}"
-                                BackgroundColor="{dui:Colors color_neutral_40}"
+                                Stroke="{dui:Colors color_border_default}"
+                                BackgroundColor="{dui:Colors color_fill_neutral}"
                                 Grid.Row="0">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="{dui:CornerRadius size_3}" />

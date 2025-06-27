@@ -21,7 +21,7 @@ internal partial class NavigationMenuButton : Grid
         Button = new Button()
         {
             AutomationId = "Button".ToDUIAutomationId<NavigationMenuButton>(),
-            BorderColor = Colors.GetColor(ColorName.color_system_white),
+            BorderColor = Colors.GetColor(ColorName.color_border_default),
             BorderWidth = 3,
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15)
@@ -40,7 +40,7 @@ internal partial class NavigationMenuButton : Grid
         BadgeLabel = new Label
         {
             AutomationId = "BadgeLabel".ToDUIAutomationId<NavigationMenuButton>(),
-            TextColor = Colors.GetColor(ColorName.color_text_on_action),
+            TextColor = Colors.GetColor(ColorName.color_text_default_inverted),
             LineBreakMode = LineBreakMode.NoWrap,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             FontSize = Sizes.GetSize(SizeName.size_3),
