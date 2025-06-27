@@ -32,7 +32,7 @@ public partial class CameraPreview : ContentView
     
     public CameraPreview()
     {
-        BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_system_black);
+        BackgroundColor = Colors.Black;
         Loaded += OnLoaded;
 
 #if __IOS__

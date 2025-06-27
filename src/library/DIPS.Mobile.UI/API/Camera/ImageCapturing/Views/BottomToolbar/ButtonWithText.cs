@@ -13,8 +13,8 @@ public class ButtonWithText : VerticalStackLayout
         var button = new Button
         {
             ImageSource = imageSource,
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
-            BackgroundColor = Colors.GetColor(ColorName.color_surface_action_on_black),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
+            BackgroundColor = Colors.GetColor(ColorName.color_palette_neutral_900),
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             Command = new Command(onTapped)
         };
@@ -23,7 +23,7 @@ public class ButtonWithText : VerticalStackLayout
         {
             Text = text,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
-            TextColor = Colors.GetColor(ColorName.color_text_on_action),
+            TextColor = Microsoft.Maui.Graphics.Colors.White,
             HorizontalOptions = LayoutOptions.Center,
             Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_medium), 0, 0)
         };

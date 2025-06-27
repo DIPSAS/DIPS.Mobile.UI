@@ -81,7 +81,7 @@ public partial class AmplitudeView
         nameof(PlaceholderAmplitudeColor),
         typeof(Color),
         typeof(Components.AmplitudeView.AmplitudeView),
-        defaultValue: Colors.GetColor(ColorName.color_text_placeholder),
+        defaultValue: Colors.GetColor(ColorName.color_fill_subtle),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty AmplitudeColorProperty = BindableProperty.Create(

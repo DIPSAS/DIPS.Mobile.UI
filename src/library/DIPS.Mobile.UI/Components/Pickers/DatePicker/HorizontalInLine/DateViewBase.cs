@@ -2,6 +2,8 @@ using DIPS.Mobile.UI.Components.Content;
 using DIPS.Mobile.UI.Components.Content.DataTemplateSelectors;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Extensions.Markup;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -21,8 +23,8 @@ public abstract class DateViewBase : Grid
     {
         this.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_surface_action),
-            FalseObject = Colors.GetColor(ColorName.color_surface_active_subtle)
+            TrueObject = Colors.GetColor(ColorName.color_fill_action),
+            FalseObject = Colors.GetColor(ColorName.color_fill_subtle)
         });
         
         if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
@@ -51,7 +53,7 @@ public abstract class DateViewBase : Grid
         var dayLabel = CreateLabel(new Label());
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
             FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.Day);
@@ -75,7 +77,7 @@ public abstract class DateViewBase : Grid
         var dayLabel = CreateLabel(new Label());
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
             FalseObject = Colors.GetColor(ColorName.color_text_default),
         });
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.Day);
@@ -93,9 +95,8 @@ public abstract class DateViewBase : Grid
 
         contentControl.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            // TODO: Wait until we have matching semantic color
-            TrueObject = Colors.GetColor(ColorName.color_secondary_90),
-            FalseObject = Colors.GetColor(ColorName.color_surface_active_subtle)
+            TrueObject = Colors.GetColor(ColorName.color_fill_action_secondary_active),
+            FalseObject = Colors.GetColor(ColorName.color_surface_subtle)
         });
         contentControl.SetBinding(ContentControl.SelectorItemProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsCurrentYear);
         
@@ -104,8 +105,7 @@ public abstract class DateViewBase : Grid
             TrueTemplate = new DataTemplate(() =>
             {
                 var monthLabel = CreateLabel(new Label() {
-                    FontSize = Sizes.GetSize(SizeName.size_4), 
-                    TextColor = Colors.GetColor(ColorName.color_text_subtle_large)});
+                    Style = Styles.GetLabelStyle(LabelStyle.Body200)});
                 monthLabel.HorizontalTextAlignment = TextAlignment.Center;
                 monthLabel.TextTransform = TextTransform.Uppercase;
                 monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.MonthName);
@@ -114,7 +114,7 @@ public abstract class DateViewBase : Grid
                 {
                     monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
                     {
-                        TrueObject = Colors.GetColor(ColorName.color_icon_on_action),
+                        TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
                         FalseObject = Colors.GetColor(ColorName.color_text_default),
                     });
                 }
@@ -138,7 +138,7 @@ public abstract class DateViewBase : Grid
                 {
                     monthAndYearLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
                     {
-                        TrueObject = Colors.GetColor(ColorName.color_text_on_action),
+                        TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
                         FalseObject = Colors.GetColor(ColorName.color_text_default),
                     });
                 }

@@ -27,7 +27,6 @@ public class ErrorView : ScrollView
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center,
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_medium)),
-            TextColor = Colors.GetColor(ColorName.color_text_subtle_large),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
 
@@ -35,7 +34,7 @@ public class ErrorView : ScrollView
 
         var descriptionLabel = new Labels.Label
         {
-            TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center

@@ -77,7 +77,7 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
         ImageSource = Icons.GetIcon(IconName.information_line),
-        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_action),
+        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_inverted),
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center
@@ -87,7 +87,7 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
         ImageSource = Icons.GetIcon(IconName.filter_fill),
-        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_action),
+        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_inverted),
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center

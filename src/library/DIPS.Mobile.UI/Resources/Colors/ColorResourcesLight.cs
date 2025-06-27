@@ -3,7 +3,7 @@ Do not edit directly,
 this file is generated
 */
 
-namespace DIPS.Mobile.UI.Resources.Colors.Experimental;
+namespace DIPS.Mobile.UI.Resources.Colors;
 
 internal static class ColorResourcesLight
 {
@@ -25,6 +25,7 @@ internal static class ColorResourcesLight
         ["color_border_input_readonly"] = Color.FromRgba("#b6b7b9ff"), // neutral-400
         ["color_border_link"] = Color.FromRgba("#253abeff"), // navy-600
         ["color_border_subtle"] = Color.FromRgba("#ecedeeff"), // neutral-200
+        ["color_border_success"] = Color.FromRgba("#0f7157ff"), // green-800
         ["color_data_data_1"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_data_data_1_border"] = Color.FromRgba("#00107eff"), // navy-800
         ["color_data_data_1_subtle"] = Color.FromRgba("#f2f5fdff"), // navy-100
@@ -106,6 +107,7 @@ internal static class ColorResourcesLight
         ["color_text_default"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_default_inverted"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_disabled"] = Color.FromRgba("#b6b7b9ff"), // neutral-400
+        ["color_text_error"] = Color.FromRgba("#ab321dff"), // red-800
         ["color_text_information"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_input"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_label"] = Color.FromRgba("#262626ff"), // neutral-900

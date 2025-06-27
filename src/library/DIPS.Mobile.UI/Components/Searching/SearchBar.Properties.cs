@@ -298,7 +298,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(PlaceholderColor),
             typeof(Color),
             typeof(SearchBar),
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_placeholder));
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_subtle));
 
         public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(
             nameof(CancelButtonTextColor),

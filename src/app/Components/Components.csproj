@@ -54,7 +54,7 @@
     <ItemGroup>
 
         <MauiIcon Include="Resources\AppIcon\appicon.svg">
-            <Color>#ff047f89</Color>
+            <Color>#050948</Color>
         </MauiIcon>
 
         <!-- Images -->
