@@ -2,7 +2,6 @@ using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.Components.TabView;
 
-[ContentProperty(nameof(ItemsSource))]
 public partial class TabView : ContentView
 {
     private Tab m_selectedItem;
@@ -20,26 +19,15 @@ public partial class TabView : ContentView
         m_scrollView.Content = m_stackLayout;
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-
-        if (args.NewHandler is not null)
-        {
-            OnItemsSourceChanged();
-            SetTabToggledBasedOnSelectedItem();   
-        }
-    }
-
     private void SetTabToggled()
     {
-        var selectedItem = SelectedItem ?? m_tabItems.FirstOrDefault();
+        //var selectedItem = SelectedItem ?? m_tabItems.FirstOrDefault();
         
-        var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem == selectedItem);
-        tabItem.IsSelected = true;
-        
-        m_selectedItem = tabItem;
-        TabToggled(tabItem, false);
+        // //var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem == selectedItem);
+        // tabItem.IsSelected = true;
+        //
+        // m_selectedItem = tabItem;
+        // TabToggled(tabItem, false);
     }
     
     private void ItemsSourceChanged()
@@ -53,16 +41,16 @@ public partial class TabView : ContentView
 
         list.ForEach(obj =>
         {
-            obj.Tapped += (sender, args) =>
-            {
-                TabToggled(obj);
-            };
-            
-            var item = obj;
-            obj.Command = new Command(_ => TabToggled(item));
-
-            m_tabItems.Add(item);
-            m_stackLayout.Add(obj);
+            // obj.Tapped += (sender, args) =>
+            // {
+            //     TabToggled(obj);
+            // };
+            //
+            // var item = obj;
+            // obj.Command = new Command(_ => TabToggled(item));
+            //
+            // m_tabItems.Add(item);
+            // m_stackLayout.Add(obj);
         });
     }
     
@@ -81,7 +69,7 @@ public partial class TabView : ContentView
         if (didTap)
         {
             OnSelectedItemChanged?.Invoke(this, new TabViewEventArgs(m_selectedItem));
-            SelectedItem = m_selectedItem;
+            //SelectedItem = m_selectedItem;
         }
         SetTextStyleForAllTabs();
     }

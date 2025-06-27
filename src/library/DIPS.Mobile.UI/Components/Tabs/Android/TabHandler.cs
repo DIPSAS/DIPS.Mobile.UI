@@ -24,7 +24,7 @@ public class TabHandler : ViewHandler<Tab, Google.Android.Material.Tabs.TabItem>
     
     protected override Google.Android.Material.Tabs.TabItem CreatePlatformView() => new(Context);
 
-    protected void ConnectHandler(Google.Android.Material.Tabs.TabItem platformView)
+    protected override void ConnectHandler(Google.Android.Material.Tabs.TabItem platformView)
     {
         base.ConnectHandler(platformView);
         platformView.SetPadding((int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel());

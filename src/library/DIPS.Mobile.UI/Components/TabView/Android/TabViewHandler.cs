@@ -47,13 +47,11 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
 
         void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
         {
-            VirtualView.SelectedItem = e.Tab;
-
-            // var index = e.Tab.Position;
-            // if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
-            // {
-            //     VirtualView.SelectedItem = VirtualView.ItemsSource[index];
-            // }
+            var index = e.Tab.Position;
+            if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
+            {
+                VirtualView.SelectedItem = VirtualView.ItemsSource[index];
+            }
         }
 
         public static void MapItemsSource(TabViewHandler handler, TabView tabView)
@@ -76,7 +74,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
 
             foreach (var item in VirtualView.ItemsSource)
             {
-                var title = item?.ToString() ?? "Tab";
+                var title = item.Title;
                 var tab = platformView.NewTab().SetText(title);
                 platformView.AddTab(tab);
             }
@@ -89,8 +87,8 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
 
             if (selectedItem == null || VirtualView.ItemsSource == null)
                 return;
-
-            var index = VirtualView.ItemsSource.IndexOf((Tabs.Tab)selectedItem);
+            var newTabItem = new TabItem() { Title = selectedItem.Title, Counter = selectedItem.Counter };
+            var index = VirtualView.ItemsSource.IndexOf((TabItem)selectedItem);
             if (index >= 0 && index < platformView.TabCount)
             {
                 var tab = platformView.GetTabAt(index);

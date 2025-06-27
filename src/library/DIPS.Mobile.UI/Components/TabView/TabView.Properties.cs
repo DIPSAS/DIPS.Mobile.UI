@@ -43,15 +43,15 @@ public partial class TabView
         set => SetValue(SelectedTextStyleProperty, value);
     }
     
-    public Object? SelectedItem
+    public TabItem? SelectedItem
     {
-        get => (Object?)GetValue(SelectedItemProperty);
+        get => (TabItem?)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
 
-    public List<Tabs.Tab>? ItemsSource
+    public List<TabItem>? ItemsSource
     {
-        get => (List<Tabs.Tab>?)GetValue(ItemsSourceProperty);
+        get => (List<TabItem>?)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
     public event EventHandler<TabViewEventArgs>? OnSelectedItemChanged;
@@ -93,15 +93,15 @@ public partial class TabView
     public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
         nameof(SelectedItem),
         typeof(Object),
-        typeof(TabView),
+        typeof(TabItem),
         defaultValue: null,
         defaultBindingMode: BindingMode.TwoWay,
         propertyChanged: (bindable, _, _) => ((TabView)bindable).SetTabToggledBasedOnSelectedItem());
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
-        typeof(List<Tabs.Tab>),
+        typeof(List<TabItem>),
         typeof(TabView),
-        defaultValueCreator:(bindable => new List<Tabs.Tab>()),
+        defaultValueCreator:(bindable => new List<TabItem>()),
         propertyChanged: (bindable, _, _) => ((TabView)bindable).OnItemsSourceChanged());
 }
