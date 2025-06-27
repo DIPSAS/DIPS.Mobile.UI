@@ -1,6 +1,8 @@
+using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Internal;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
@@ -30,6 +32,10 @@ public partial class NavigationListItem : ListItem
             Width = GridLength.Star, LineBreakMode = LineBreakMode.TailTruncation, MaxLines = 1
         };
         InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
+        IconOptions = new IconOptions()
+        {
+            Color = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_subtle)
+        };
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
