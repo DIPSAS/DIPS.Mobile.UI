@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.Tag;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Tag;
@@ -9,6 +10,7 @@ public partial class Tag : HorizontalStackLayout
 {
     public Tag()
     {
+        Style = Styles.GetTagStyle(TagStyle.Default);
         Padding = Sizes.GetSize(SizeName.size_half);
         UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
         
