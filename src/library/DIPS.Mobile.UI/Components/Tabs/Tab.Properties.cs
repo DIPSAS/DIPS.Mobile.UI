@@ -10,19 +10,38 @@ namespace DIPS.Mobile.UI.Components.Tabs
         /// <summary>
         /// Sets the text color of the tab
         /// </summary>
-        public Color? TextColor
+        public Color DefaultTextColor
         {
-            get => (Color?)GetValue(TextColorProperty);
+            get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
         }
         
+                
         /// <summary>
         /// Sets the selected text style of the label of the tab
         /// </summary>
-        public Style? TextStyle
+        public Style DefaultTextStyle
         {
-            get => (Style?)GetValue(TextStyleProperty);
+            get => (Style)GetValue(TextStyleProperty);
             set => SetValue(TextStyleProperty, value);
+        }
+        
+        /// <summary>
+        /// Sets the selected text style of the label of the tab when it is selected
+        /// </summary>
+        public Style SelectedTextStyle
+        {
+            get => (Style)GetValue(SelectedTextStyleProperty);
+            set => SetValue(SelectedTextStyleProperty, value);
+        }
+        
+        /// <summary>
+        /// Sets the text color of the tab when it is selected
+        /// </summary>
+        public Color SelectedTextColor
+        {
+            get => (Color)GetValue(SelectedTextColorProperty);
+            set => SetValue(SelectedTextColorProperty, value);
         }
         
         /// <summary>
@@ -76,16 +95,28 @@ namespace DIPS.Mobile.UI.Components.Tabs
         public event EventHandler? Tapped;
         
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
-            nameof(TextColor),
+            nameof(DefaultTextColor),
             typeof(Color),
             typeof(Tab),
-            Colors.GetColor(ColorName.color_neutral_70));
+            Colors.GetColor(ColorName.color_text_default));
         
         public static readonly BindableProperty TextStyleProperty = BindableProperty.Create(
-            nameof(TextStyle),
+            nameof(DefaultTextStyle),
             typeof(Style),
             typeof(Tab),
             Styles.GetLabelStyle(LabelStyle.Body200));
+        
+        public static readonly BindableProperty SelectedTextColorProperty = BindableProperty.Create(
+            nameof(SelectedTextColor),
+            typeof(Color),
+            typeof(Tab),
+            Colors.GetColor(ColorName.color_text_action));
+        
+        public static readonly BindableProperty SelectedTextStyleProperty = BindableProperty.Create(
+            nameof(SelectedTextStyle),
+            typeof(Style),
+            typeof(Tab),
+            Styles.GetLabelStyle(LabelStyle.UI300));
         
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             nameof(IsSelected),

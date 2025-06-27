@@ -21,7 +21,7 @@
                    Style="{dui:Styles Label=SectionHeader}" />
         
         <dui:TabView>
-            <dui:Tab Title="Tab 1" Counter="3" />    
+            <dui:Tab Title="Tab 1" Counter="3"/>    
             <dui:Tab Title="Tab 2" />    
             <dui:Tab Title="Tab 3" Counter="2"/>    
         </dui:TabView>

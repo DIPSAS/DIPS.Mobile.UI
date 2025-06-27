@@ -79,17 +79,6 @@ public partial class TabView : ContentView
         }
         m_selectedItem.IsSelected = false;
         
-        tabViewItem.TextColor = Colors.GetColor(ColorName.color_text_action);
-        tabViewItem.TextStyle = Styles.GetLabelStyle(LabelStyle.UI300);
-
-        foreach (var tabItem in m_tabItems)
-        {
-            if (tabItem != tabViewItem)
-            {
-                tabItem.TextColor = Colors.GetColor(ColorName.color_text_default);
-                tabViewItem.TextStyle = Styles.GetLabelStyle(LabelStyle.Body200);   
-            }
-        }
         m_selectedItem = tabViewItem;
         m_selectedItem.IsSelected = true;
         
@@ -97,6 +86,16 @@ public partial class TabView : ContentView
         {
             OnSelectedItemChanged?.Invoke(this, new TabViewEventArgs(m_selectedItem));
             SelectedItem = m_selectedItem;
+        }
+        else
+        {
+#if __IOS__
+            foreach (var tabItem in m_tabItems)
+            {
+                tabItem.SetTextStyle(tabItem.IsSelected);
+
+            }
+#endif
         }
     }
 

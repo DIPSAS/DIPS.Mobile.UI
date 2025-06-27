@@ -10,5 +10,8 @@ public partial class Tab : ContentView
     
     private void OnIsSelectedChanged()
     {
+#if __IOS__
+        SetTextStyle(IsSelected);
+#endif
     }
 }
