@@ -1,3 +1,6 @@
+## [46.1.0]
+- Added TabView Component
+
 ## [46.0.0] 
 - Set new colors.
 - Updated colors.

@@ -91,22 +91,16 @@ namespace DIPS.Mobile.UI.Components.Tabs
             }
             
             label.SetBinding(Label.IsVisibleProperty, static (Tab tab) => tab.Counter, converter: new IsEmptyConverter(){Inverted = true}, source: this);
-            label.SetBinding(Label.TextColorProperty, static (Tab tab) => tab.DefaultTextColor, source: this);
-            label.SetBinding(Label.StyleProperty, static (Tab tab) => tab.DefaultTextStyle, source: this);
 
             return label;
         }
         
-        public void SetTextStyle(bool isSelected)
+        public void SetTextStyle(Style textStyle, Color textColor)
         {
-            if(m_titleLabel is null || m_counterLabel is null)
-            {
-                return;
-            }
-            m_titleLabel.TextColor = isSelected ? SelectedTextColor : DefaultTextColor;
-            m_titleLabel.Style = isSelected ? SelectedTextStyle : DefaultTextStyle;
-            m_counterLabel.TextColor = isSelected ? SelectedTextColor : DefaultTextColor;
-            m_counterLabel.Style = isSelected ? SelectedTextStyle : DefaultTextStyle;
+            m_titleLabel.TextColor = textColor;
+            m_titleLabel.Style = textStyle;
+            m_counterLabel.TextColor = textColor;
+            m_counterLabel.Style = textStyle;
         }
     }
 }

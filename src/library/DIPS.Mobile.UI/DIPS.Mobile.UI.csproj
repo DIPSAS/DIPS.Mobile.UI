@@ -155,8 +155,6 @@
     <ItemGroup>
         <Folder Include="Components\Navigation\Android\" />
         <Folder Include="Components\Pickers\DatePicker\iOS\" />
-        <Folder Include="Components\TabView\Android\" />
-        <Folder Include="Components\TabView\iOS\" />
         <Folder Include="Resources\Splash\" />
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
