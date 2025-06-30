@@ -129,7 +129,5 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
                 tab.SetCustomView(customTab);
             }
         }
-        
-
     }
 }
