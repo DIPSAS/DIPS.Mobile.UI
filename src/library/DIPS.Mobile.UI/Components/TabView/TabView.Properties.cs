@@ -101,8 +101,12 @@ public partial class TabView
         typeof(Object),
         typeof(TabItem),
         defaultValue: null,
-        defaultBindingMode: BindingMode.TwoWay,
-        propertyChanged: (bindable, _, _) => ((TabView)bindable).SetTabToggledBasedOnSelectedItem());
+        defaultBindingMode: BindingMode.TwoWay
+#if __IOS__
+        ,
+        propertyChanged: (bindable, _, _) => ((TabView)bindable).SetTabToggled()
+#endif
+        );
     
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),

@@ -27,7 +27,6 @@ public static partial class AppHostBuilderExtensions
             .AddHandler(typeof(Chip), typeof(ChipHandler))
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
             .AddHandler<CameraPreview, CameraPreviewHandler>()
-            .AddHandler<Tab, TabHandler>()
             .AddHandler<TabView, TabViewHandler>();
         
         ToolbarHandler.Mapper.AppendToMapping<Toolbar, IToolbarHandler>(nameof(Toolbar.ToolbarItems), (h, t) =>

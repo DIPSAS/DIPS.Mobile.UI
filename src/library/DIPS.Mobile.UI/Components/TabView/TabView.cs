@@ -11,7 +11,9 @@ public partial class TabView : ContentView
         if (args.NewHandler is not null)
         {
             OnItemsSourceChanged();
-            SetTabToggledBasedOnSelectedItem();   
+#if __IOS__
+            SetTabToggled();   
+#endif
         }
     }
     
@@ -23,13 +25,6 @@ public partial class TabView : ContentView
         }
 #if __IOS__
         ItemsSourceChanged();
-#endif
-    }
-    
-    private void SetTabToggledBasedOnSelectedItem()
-    {
-#if __IOS__
-        SetTabToggled();
 #endif
     }
 }
