@@ -20,7 +20,7 @@
         <dui:Label Text="Tab View"
                    Style="{dui:Styles Label=SectionHeader}" />
         
-        <dui:TabView>
+        <dui:TabView x:Name="TabViewSample">
             <dui:TabItem Title="Tab 1" Counter="3"/>    
             <dui:TabItem Title="Tab 2" />    
             <dui:TabItem Title="Tab 3" Counter="2"/>    
@@ -28,6 +28,22 @@
             <dui:TabItem Title="Tab 5"/>
             <dui:TabItem Title="Tab 6" Counter="1"/>   
         </dui:TabView>
+        <ContentView IsVisible="False">
+            <ContentView.Triggers>
+                <DataTrigger TargetType="ContentView" Binding="{Binding SelectedItem.Title, Source={x:Reference TabViewSample}}" Value="Tab 1">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </ContentView.Triggers>
+            <Label Text="This is the view for the FIRST tab"></Label>
+        </ContentView>
+        <ContentView IsVisible="False">
+            <ContentView.Triggers>
+                <DataTrigger TargetType="ContentView" Binding="{Binding SelectedItem.Title, Source={x:Reference TabViewSample}}" Value="Tab 2">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </ContentView.Triggers>
+            <Label Text="This is the view for the SECOND tab"></Label>
+        </ContentView>
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

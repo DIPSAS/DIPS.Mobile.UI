@@ -1,6 +1,4 @@
 using Android.Widget;
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Tabs;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
