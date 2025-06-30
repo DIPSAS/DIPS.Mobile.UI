@@ -1,5 +1,8 @@
-## [46.3.0]
+## [47.4.0]
 - Added TabView Component
+
+## [47.3.0] 
+- [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
 
 ## [47.2.0] 
 - [NavigationListItem] Removed default icon color and set chevron color.
