@@ -1,10 +1,12 @@
 using Android.Widget;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Google.Android.Material.Tabs;
 using Microsoft.Maui.Platform;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.TabView.Android;
 using Microsoft.Maui.Handlers;
-using DIPS.Mobile.UI.Extensions.Android;
 
 public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.TabLayout>
 {
@@ -20,93 +22,114 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
     };
 
     protected override TabLayout CreatePlatformView()
+    {
+        var tabLayout = new TabLayout(Context);
+        tabLayout.TabMode = TabLayout.ModeScrollable;
+        tabLayout.SetBackgroundColor(Colors.GetColor(ColorName.color_palette_neutral_transparent).ToPlatform());
+        _tabLayout = tabLayout;
+        
+        return tabLayout;
+    }
+
+    protected async override void ConnectHandler(TabLayout platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        UpdateItemsSource();
+        UpdateSelectedItem();
+
+        platformView.TabSelected += OnTabSelected;
+    }
+
+    protected override void DisconnectHandler(TabLayout platformView)
+    {
+        platformView.TabSelected -= OnTabSelected;
+        base.DisconnectHandler(platformView);
+    }
+
+    void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
+    {
+        var index = e.Tab.Position;
+        if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
         {
-            var tabLayout = new TabLayout(Context);
-            tabLayout.TabMode = TabLayout.ModeScrollable;
-            tabLayout.SetTabTextColors(VirtualView.DefaultTextColor.ToPlatform(), VirtualView.SelectedTextColor.ToPlatform());
-            _tabLayout = tabLayout;
-            
-            return tabLayout;
+            VirtualView.SelectedItem = VirtualView.ItemsSource[index];
+        }
+    }
+
+    public static void MapItemsSource(TabViewHandler handler, TabView tabView)
+    {
+        handler.UpdateItemsSource();
+    }
+
+    public static void MapSelectedItem(TabViewHandler handler, TabView tabView)
+    {
+        handler.UpdateSelectedItem();
+    }
+
+    public void UpdateItemsSource()
+    {
+        var platformView = PlatformView;
+        platformView.RemoveAllTabs();
+
+        if (VirtualView.ItemsSource == null)
+            return;
+
+        foreach (var item in VirtualView.ItemsSource)
+        {
+            var title = item.Title;
+            title += item.Counter is null or 0 ? "" : " ("+ item.Counter + ")";
+            var tab = platformView.NewTab().SetText(title);
+            platformView.AddTab(tab);
         }
 
-        protected async override void ConnectHandler(TabLayout platformView)
+        UpdateTabColor();
+    }
+
+    void UpdateSelectedItem()
+    {
+        var platformView = PlatformView;
+        var selectedItem = VirtualView.SelectedItem;
+
+        if (selectedItem == null || VirtualView.ItemsSource == null)
+            return;
+
+        var index = VirtualView.ItemsSource.IndexOf(selectedItem);
+        if (index >= 0 && index < platformView.TabCount)
         {
-            base.ConnectHandler(platformView);
-
-            UpdateItemsSource();
-            UpdateSelectedItem();
-
-            platformView.TabSelected += OnTabSelected;
+            var tab = platformView.GetTabAt(index);
+            tab?.Select();
         }
+        UpdateTabColor();
+    }
+    
+    //_tabLayout.SetTabTextColors is not working dynamically, so must set for each tab, fix in future versions?
+    private void UpdateTabColor()
+    {
+        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
 
-        protected override void DisconnectHandler(TabLayout platformView)
+        for (var i = 0; i < _tabLayout.TabCount; i++)
         {
-            platformView.TabSelected -= OnTabSelected;
-            base.DisconnectHandler(platformView);
-        }
-
-        void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
-        {
-            var index = e.Tab.Position;
-            if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
+            var tab = _tabLayout.GetTabAt(i);
+            if (tab != null)
             {
-                VirtualView.SelectedItem = VirtualView.ItemsSource[index];
-            }
-        }
-
-        public static void MapItemsSource(TabViewHandler handler, TabView tabView)
-        {
-            handler.UpdateItemsSource();
-        }
-
-        public static void MapSelectedItem(TabViewHandler handler, TabView tabView)
-        {
-            handler.UpdateSelectedItem();
-        }
-
-        public void UpdateItemsSource()
-        {
-            var platformView = PlatformView;
-            platformView.RemoveAllTabs();
-
-            if (VirtualView.ItemsSource == null)
-                return;
-
-            foreach (var item in VirtualView.ItemsSource)
-            {
-                var title = item.Title;
-                var tab = platformView.NewTab().SetText(title);
-                platformView.AddTab(tab);
-            }
-            for (int i = 0; i < _tabLayout.TabCount; i++)
-            {
-                var tab = _tabLayout.GetTabAt(i);
-                if (tab != null)
+                var customTab = new TextView(Context);
+                customTab.Text = tab.Text;
+                customTab.SetTextAppearance(Resource.Style.TabStyle);
+                if (tab.IsSelected)
                 {
-                    TextView customTab = new TextView(Context);
-                    customTab.Text = tab.Text;
-                    customTab.SetTextAppearance(Resource.Style.TabStyle);
-                    tab.SetCustomView(customTab);
+                    customTab.SetTextColor(VirtualView.SelectedTextColor.ToPlatform());
+                    customTab.UpdateFont(textStyle: new Label { Style = VirtualView.SelectedTextStyle }, fontManager!);
                 }
-            }
-            
-        }
-
-        void UpdateSelectedItem()
-        {
-            var platformView = PlatformView;
-            var selectedItem = VirtualView.SelectedItem;
-
-            if (selectedItem == null || VirtualView.ItemsSource == null)
-                return;
-            var newTabItem = new TabItem() { Title = selectedItem.Title, Counter = selectedItem.Counter };
-            var index = VirtualView.ItemsSource.IndexOf((TabItem)selectedItem);
-            if (index >= 0 && index < platformView.TabCount)
-            {
-                var tab = platformView.GetTabAt(index);
-                tab?.Select();
+                else
+                {
+                    customTab.SetTextColor(VirtualView.DefaultTextColor.ToPlatform());
+                    customTab.UpdateFont(textStyle: new Label { Style = VirtualView.DefaultTextStyle }, fontManager!);
+                }
+                
+                tab.SetCustomView(customTab);
             }
         }
         
-        
+
+    }
 }
