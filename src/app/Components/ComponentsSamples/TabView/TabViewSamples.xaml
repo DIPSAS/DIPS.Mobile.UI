@@ -9,7 +9,7 @@
                  xmlns:tabs="clr-namespace:DIPS.Mobile.UI.Components.Tabs;assembly=DIPS.Mobile.UI"
                  x:Class="Components.ComponentsSamples.TabView.TabViewSamples"
                  x:DataType="{x:Type tabView:TabsSamplesViewModel}"
-                 BackgroundColor="{dui:Colors color_system_white}"
+                 BackgroundColor="{dui:Colors color_background_default}"
                  Padding="{dui:Sizes size_2}">
     
     <dui:ContentPage.BindingContext>

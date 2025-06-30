@@ -5,7 +5,11 @@ namespace DIPS.Mobile.UI.Components.TabView;
 public partial class TabView : ContentView
 {
     private Tab? m_selectedItem;
-    private ScrollView m_scrollView = new () { Orientation = ScrollOrientation.Horizontal };
+    private ScrollView m_scrollView = new () { 
+        Orientation = ScrollOrientation.Horizontal,     
+        HorizontalScrollBarVisibility = ScrollBarVisibility.Never
+    };
+
     private HorizontalStackLayout m_stackLayout = new(){ 
         Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), 0),            
         Spacing = Sizes.GetSize(SizeName.size_1),
