@@ -111,4 +111,26 @@ public class TagTypeStyle
             }
         }
     };
+    
+    public static Style Information => new(typeof(Components.Tag.Tag))
+    {
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_information)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.TextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            }
+        }
+    };
 }
