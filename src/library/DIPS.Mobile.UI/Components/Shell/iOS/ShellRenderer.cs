@@ -32,6 +32,8 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
 
 public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
 {
+    private bool m_nextPageHasShadow;
+
     public void Dispose()
     {
         
@@ -73,8 +75,8 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
             navigationBarAppearance.BackgroundColor = background.ToPlatform();
 
         // Clear divider line
-        // TODO: Only hide this if we can manage to hide it in modal pages as well.
-        /*navigationBarAppearance.ShadowColor = UIColor.Clear;*/
+        if(!m_nextPageHasShadow)
+            navigationBarAppearance.ShadowColor = UIColor.Clear;
         
         // Set TitleColor
         var titleColor = appearance.TitleColor;
@@ -96,7 +98,7 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
 
     public void SetHasShadow(UINavigationController controller, bool hasShadow)
     {
-        
+        m_nextPageHasShadow = hasShadow;
     }
 }
 
