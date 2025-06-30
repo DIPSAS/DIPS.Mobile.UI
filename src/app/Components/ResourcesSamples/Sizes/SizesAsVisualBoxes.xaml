@@ -32,7 +32,7 @@
                                     HorizontalOptions="Start"
                                     IsVisible="{Binding Value, Converter={dui:IsEmptyConverter Inverted=True}}"
                                     HeightRequest="{dui:Sizes size_5}"
-                                    BackgroundColor="{dui:Colors color_primary_90}" />
+                                    BackgroundColor="{dui:Colors color_fill_action}" />
                         </Grid>
                     </Border>
                 </DataTemplate>

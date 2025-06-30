@@ -24,14 +24,14 @@ internal class EditStateBottomView : Grid
                 {
                     Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
                     ImageSource = Icons.GetIcon(IconName.clockwise_fill),
-                    ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
+                    ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
                     Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(true))
                 },
                 new Components.Buttons.Button
                 {
                     Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
                     ImageSource = Icons.GetIcon(IconName.counter_clockwise_fill),
-                    ImageTintColor = Colors.GetColor(ColorName.color_icon_on_action),
+                    ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
                     Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(false))
                 }
             }
@@ -41,7 +41,7 @@ internal class EditStateBottomView : Grid
         {
             HorizontalOptions = LayoutOptions.Start,
             VerticalOptions = LayoutOptions.End,
-            TextColor = Colors.GetColor(ColorName.color_text_on_action),
+            TextColor = Microsoft.Maui.Graphics.Colors.White,
             Text = DUILocalizedStrings.Cancel,
             Style = Styles.GetButtonStyle(ButtonStyle.GhostSmall),
             Command = new Command(imageEditStateObserver.OnCancelButtonTapped)

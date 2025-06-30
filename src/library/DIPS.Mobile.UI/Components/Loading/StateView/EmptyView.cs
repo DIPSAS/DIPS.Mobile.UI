@@ -29,14 +29,13 @@ public class EmptyView : ScrollView
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center,
             Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_medium)),
-            TextColor = Colors.GetColor(ColorName.color_text_subtle_large),
             Style = Styles.GetLabelStyle(LabelStyle.UI300)
         };
         titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (EmptyViewModel emptyViewModel) => emptyViewModel.Title);
 
         var descriptionLabel = new Label
         {
-            TextColor = Colors.GetColor(ColorName.color_text_subtle_small),
+            TextColor = Colors.GetColor(ColorName.color_text_subtle),
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             HorizontalTextAlignment = TextAlignment.Center

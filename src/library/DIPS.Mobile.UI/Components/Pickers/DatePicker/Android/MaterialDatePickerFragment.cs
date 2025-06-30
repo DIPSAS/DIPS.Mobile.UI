@@ -139,7 +139,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
             LetterSpacing = .06f,
         };
         
-        button.SetTextColor(Colors.GetColor(ColorName.color_primary_90).ToPlatform());
+        button.SetTextColor(Colors.GetColor(ColorName.color_text_action).ToPlatform());
         button.SetOnClickListener(new GenericButtonMenuClickListener(() =>
         {
             onExecute.Invoke();

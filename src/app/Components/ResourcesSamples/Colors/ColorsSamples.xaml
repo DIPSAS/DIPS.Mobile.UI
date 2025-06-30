@@ -21,7 +21,7 @@
                                 Padding="2"
                                 HorizontalOptions="Center"
                                 StrokeThickness="1"
-                                Stroke="{dui:Colors color_system_black}"
+                                Stroke="{dui:Colors color_border_default}"
                                 VerticalOptions="Center">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="{dui:CornerRadius size_2}" />
