@@ -10,7 +10,7 @@ using Microsoft.Maui.Handlers;
 
 public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.TabLayout>
 {
-    private TabLayout _tabLayout;
+    private TabLayout m_tabLayout;
     public TabViewHandler() : base(PropertyMapper)
     {
     }
@@ -26,7 +26,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         var tabLayout = new TabLayout(Context);
         tabLayout.TabMode = TabLayout.ModeScrollable;
         tabLayout.SetBackgroundColor(Colors.GetColor(ColorName.color_palette_neutral_transparent).ToPlatform());
-        _tabLayout = tabLayout;
+        m_tabLayout = tabLayout;
         
         return tabLayout;
     }
@@ -102,14 +102,14 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         UpdateTabColor();
     }
     
-    //_tabLayout.SetTabTextColors is not working dynamically, so must set for each tab, fix in future versions?
+    //m_tabLayout.SetTabTextColors is not working dynamically, so must set for each tab, fix in future versions?
     private void UpdateTabColor()
     {
         var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
 
-        for (var i = 0; i < _tabLayout.TabCount; i++)
+        for (var i = 0; i < m_tabLayout.TabCount; i++)
         {
-            var tab = _tabLayout.GetTabAt(i);
+            var tab = m_tabLayout.GetTabAt(i);
             if (tab != null)
             {
                 var customTab = new TextView(Context);
