@@ -4,7 +4,7 @@ namespace DIPS.Mobile.UI.Components.TabView;
 
 public partial class TabView : ContentView
 {
-    private Tab m_selectedItem;
+    private Tab? m_selectedItem;
 
     private ScrollView m_scrollView = new () { Orientation = ScrollOrientation.Horizontal };
     private HorizontalStackLayout m_stackLayout = new(){ 
@@ -21,13 +21,15 @@ public partial class TabView : ContentView
 
     private void SetTabToggled()
     {
-        //var selectedItem = SelectedItem ?? m_tabItems.FirstOrDefault();
+        var selectedItem = m_tabItems.FirstOrDefault();
+        if (SelectedItem is not null) selectedItem = new Tab() { Title = SelectedItem.Title, Counter = SelectedItem?.Counter is null || SelectedItem.Counter == 0 ? "" : SelectedItem.Counter.ToString() };;
         
-        // //var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem == selectedItem);
-        // tabItem.IsSelected = true;
-        //
-        // m_selectedItem = tabItem;
-        // TabToggled(tabItem, false);
+         var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem.Title == selectedItem.Title);
+         if (tabItem is null) return;
+         tabItem.IsSelected = true;
+        
+         m_selectedItem = tabItem;
+         TabToggled(tabItem, false);
     }
     
     private void ItemsSourceChanged()
@@ -41,16 +43,17 @@ public partial class TabView : ContentView
 
         list.ForEach(obj =>
         {
-            // obj.Tapped += (sender, args) =>
-            // {
-            //     TabToggled(obj);
-            // };
-            //
-            // var item = obj;
-            // obj.Command = new Command(_ => TabToggled(item));
-            //
-            // m_tabItems.Add(item);
-            // m_stackLayout.Add(obj);
+            var tab = new Tab() { Title = obj.Title, Counter = obj?.Counter is null || obj.Counter == 0 ? "" : obj.Counter.ToString() };
+            tab.Tapped += (sender, args) =>
+            {
+                TabToggled(tab);
+            };
+            
+            var item = tab;
+            tab.Command = new Command(_ => TabToggled(item));
+            
+            m_tabItems.Add(item);
+            m_stackLayout.Add(tab);
         });
     }
     
@@ -69,7 +72,7 @@ public partial class TabView : ContentView
         if (didTap)
         {
             OnSelectedItemChanged?.Invoke(this, new TabViewEventArgs(m_selectedItem));
-            //SelectedItem = m_selectedItem;
+            SelectedItem = new TabItem(){ Title = m_selectedItem.Title, Counter = String.IsNullOrEmpty(m_selectedItem?.Counter) ? null : int.Parse(m_selectedItem.Counter) };
         }
         SetTextStyleForAllTabs();
     }

@@ -24,6 +24,9 @@
             <dui:TabItem Title="Tab 1" Counter="3"/>    
             <dui:TabItem Title="Tab 2" />    
             <dui:TabItem Title="Tab 3" Counter="2"/>    
+            <dui:TabItem Title="Tab 4" Counter="2"/>   
+            <dui:TabItem Title="Tab 5"/>
+            <dui:TabItem Title="Tab 3" Counter="2"/>   
         </dui:TabView>
     </dui:VerticalStackLayout>
 

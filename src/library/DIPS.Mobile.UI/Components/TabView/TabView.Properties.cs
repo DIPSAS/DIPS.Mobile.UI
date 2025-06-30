@@ -43,12 +43,18 @@ public partial class TabView
         set => SetValue(SelectedTextStyleProperty, value);
     }
     
+    /// <summary>
+    /// Sets the selected tab
+    /// </summary>
     public TabItem? SelectedItem
     {
         get => (TabItem?)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
 
+    /// <summary>
+    /// Title and possibly counter for all tabs
+    /// </summary>
     public List<TabItem>? ItemsSource
     {
         get => (List<TabItem>?)GetValue(ItemsSourceProperty);

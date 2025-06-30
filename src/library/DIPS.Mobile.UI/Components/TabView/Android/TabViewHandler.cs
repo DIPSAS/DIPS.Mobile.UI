@@ -1,3 +1,4 @@
+using Android.Widget;
 using Google.Android.Material.Tabs;
 using Microsoft.Maui.Platform;
 
@@ -7,6 +8,7 @@ using DIPS.Mobile.UI.Extensions.Android;
 
 public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.TabLayout>
 {
+    private TabLayout _tabLayout;
     public TabViewHandler() : base(PropertyMapper)
     {
     }
@@ -19,13 +21,11 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
 
     protected override TabLayout CreatePlatformView()
         {
-            var context = MauiApplication.Current.ApplicationContext;
-
             var tabLayout = new TabLayout(Context);
             tabLayout.TabMode = TabLayout.ModeScrollable;
-            //tabLayout.TabGravity = TabLayout.GravityFill;
-
             tabLayout.SetTabTextColors(VirtualView.DefaultTextColor.ToPlatform(), VirtualView.SelectedTextColor.ToPlatform());
+            _tabLayout = tabLayout;
+            
             return tabLayout;
         }
 
@@ -78,6 +78,18 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
                 var tab = platformView.NewTab().SetText(title);
                 platformView.AddTab(tab);
             }
+            for (int i = 0; i < _tabLayout.TabCount; i++)
+            {
+                var tab = _tabLayout.GetTabAt(i);
+                if (tab != null)
+                {
+                    TextView customTab = new TextView(Context);
+                    customTab.Text = tab.Text;
+                    customTab.SetTextAppearance(Resource.Style.TabStyle);
+                    tab.SetCustomView(customTab);
+                }
+            }
+            
         }
 
         void UpdateSelectedItem()
@@ -95,4 +107,6 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
                 tab?.Select();
             }
         }
+        
+        
 }
