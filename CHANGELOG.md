@@ -1,3 +1,8 @@
+## [47.2.0] 
+- [NavigationListItem] Removed default icon color and set chevron color.
+- [TabBar] Set different background color.
+- [Tag] Add `Information` style.
+
 ## [47.1.0] 
 - Added `Tag` component.
 
