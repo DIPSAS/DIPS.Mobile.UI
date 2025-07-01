@@ -88,12 +88,12 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         var platformView = PlatformView;
         var selectedTabIndex = VirtualView.SelectedTabIndex;
 
-        if (selectedTabIndex == null || VirtualView.ItemsSource == null)
+        if (VirtualView.ItemsSource == null)
             return;
 
         if (selectedTabIndex >= 0 && selectedTabIndex < platformView.TabCount)
         {
-            var tab = platformView.GetTabAt((int)selectedTabIndex);
+            var tab = platformView.GetTabAt(selectedTabIndex);
             tab?.Select();
         }
         UpdateTabColor();

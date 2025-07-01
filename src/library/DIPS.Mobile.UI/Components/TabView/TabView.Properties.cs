@@ -45,9 +45,9 @@ public partial class TabView
     /// <summary>
     /// Sets the selected tab´s index
     /// </summary>
-    public int? SelectedTabIndex
+    public int SelectedTabIndex
     {
-        get => (int?)GetValue(SelectedTabIndexProperty);
+        get => (int)GetValue(SelectedTabIndexProperty);
         set => SetValue(SelectedTabIndexProperty, value);
     }
 
@@ -99,7 +99,7 @@ public partial class TabView
         nameof(SelectedTabIndex),
         typeof(int),
         typeof(TabItem),
-        defaultValue: null,
+        defaultValue: 0,
         defaultBindingMode: BindingMode.TwoWay
 #if __IOS__
         ,

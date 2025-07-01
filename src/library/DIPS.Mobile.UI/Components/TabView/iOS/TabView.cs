@@ -23,14 +23,7 @@ public partial class TabView : ContentView
 
     private void SetTabToggled()
     {
-        var selectedItem = m_tabItems.FirstOrDefault();
-        if (SelectedTabIndex is not null)
-        {
-            selectedItem = m_tabItems[(int)SelectedTabIndex];
-        }
-        
-        var tabItem = m_tabItems.FirstOrDefault(tabItem => tabItem.Title == selectedItem.Title);
-        if (tabItem is null) return;
+        var tabItem = m_tabItems[SelectedTabIndex];
         tabItem.IsSelected = true;
         
         TabToggled(tabItem, false);
@@ -70,14 +63,11 @@ public partial class TabView : ContentView
             return;
         }
         
-        if (SelectedTabIndex is null) return;
-        
         previousTab.IsSelected = false;
         var index = m_tabItems.IndexOf(tabViewItem);
         m_previouslySelectedTabIndex = index;
         
-        var selectedItem = tabViewItem;
-        selectedItem.IsSelected = true;
+        tabViewItem.IsSelected = true;
         
         if (didTap)
         {
