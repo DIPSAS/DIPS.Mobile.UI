@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
@@ -10,6 +11,7 @@ public partial class Chip
 {
     private Image m_toggleableIcon;
     private Image m_customIcon;
+    private Image m_customRightIcon;
     private ImageButton m_closeButton;
     private Label m_titleLabel;
     private Border m_border;
@@ -34,6 +36,7 @@ public partial class Chip
         m_toggleableIcon = CreateIsToggleableIcon();
         m_titleLabel = CreateTitleLabel();
         m_closeButton = CreateCloseButton();
+        m_customRightIcon = CreateCustomRightIcon();
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
 
@@ -41,10 +44,25 @@ public partial class Chip
         container.Add(m_toggleableIcon);
         container.Add(m_titleLabel, 1);
         container.Add(m_closeButton, 2);
+        container.Add(m_customRightIcon, 2);
 
         m_border.Content = container;
         
         Content = m_border;
+    }
+
+    private Image CreateCustomRightIcon()
+    {
+        var image = new Images.Image.Image 
+        { 
+            Source = Icons.GetIcon(ToggledIconName), 
+            HeightRequest = Sizes.GetSize(SizeName.size_4), 
+            WidthRequest = Sizes.GetSize(SizeName.size_4),
+            VerticalOptions = LayoutOptions.Center
+        };
+        image.SetBinding(Image.SourceProperty, static (Chip chip) => chip.CustomRightIcon, source: this);
+        
+        return image;
     }
 
     private Image CreateCustomIcon()
@@ -158,6 +176,11 @@ public partial class Chip
         if (propertyName.Equals(nameof(CustomIcon)))
         {
             m_customIcon.IsVisible = CustomIcon is not null;
+        }
+
+        if (propertyName.Equals(nameof(CustomRightIcon)))
+        {
+            m_customRightIcon.IsVisible = CustomRightIcon is not null;
         }
     }
 
