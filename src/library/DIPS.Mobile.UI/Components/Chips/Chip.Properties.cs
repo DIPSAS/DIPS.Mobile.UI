@@ -213,6 +213,31 @@ public partial class Chip
     /// </summary>
     public event EventHandler? CloseTapped;
 
+    
+    internal Thickness InnerPadding
+    {
+        get => (Thickness)GetValue(InnerPaddingProperty);
+        set => SetValue(InnerPaddingProperty, value);
+    }
+
+    internal TextAlignment TitleTextAlignment
+    {
+        get => (TextAlignment)GetValue(TitleTextAlignmentProperty);
+        set => SetValue(TitleTextAlignmentProperty, value);
+    }
+    
+    internal static readonly BindableProperty TitleTextAlignmentProperty = BindableProperty.Create(
+        nameof(TitleTextAlignment),
+        typeof(TextAlignment),
+        typeof(Chip),
+        defaultValue: TextAlignment.Center);
+    
+    internal static readonly BindableProperty InnerPaddingProperty = BindableProperty.Create(
+        nameof(InnerPadding),
+        typeof(Thickness),
+        typeof(Chip),
+        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0));
+
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
         typeof(object),

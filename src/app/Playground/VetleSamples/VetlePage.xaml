@@ -7,6 +7,7 @@
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -25,7 +26,15 @@
     </dui:ContentPage.ToolbarItems>
 
         
-    <dui:ItemPicker Size="Large" HorizontalOptions="Fill" VerticalOptions="Start" />
+    <dui:ItemPicker Size="Large"
+                    VerticalOptions="Start">
+        <dui:ItemPicker.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Lol</x:String>
+            </x:Array>
+        </dui:ItemPicker.ItemsSource>
+        
+    </dui:ItemPicker>
 
 
 </dui:ContentPage>

@@ -21,7 +21,7 @@ public partial class Chip
         var container = new Grid
         {
             ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
-            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall)),
+            
             ColumnDefinitions = 
             [
                 new ColumnDefinition(GridLength.Auto), 
@@ -30,6 +30,8 @@ public partial class Chip
             ],
             RowDefinitions = [new RowDefinition(GridLength.Star)]
         };
+        
+        container.SetBinding(PaddingProperty, static (Chip chip) => chip.InnerPadding, source: this);
 
         m_customIcon = CreateCustomIcon();
         m_border = CreateBorder();
@@ -58,7 +60,8 @@ public partial class Chip
             Source = Icons.GetIcon(ToggledIconName), 
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
-            VerticalOptions = LayoutOptions.Center
+            VerticalOptions = LayoutOptions.Center,
+            IsVisible = false
         };
         image.SetBinding(Image.SourceProperty, static (Chip chip) => chip.CustomRightIcon, source: this);
         
@@ -132,12 +135,12 @@ public partial class Chip
             TextColor = Colors.GetColor(ColorName.color_text_action),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
             MaxLines = 1,
             LineBreakMode = LineBreakMode.TailTruncation
         };
         label.SetBinding(Label.TextProperty, static (Chip chip) => chip.Title, source: this);
         label.SetBinding(Label.TextColorProperty, static (Chip chip) => chip.TitleColor, source: this);
+        label.SetBinding(Label.HorizontalTextAlignmentProperty, static (Chip chip) => chip.TitleTextAlignment, source: this);
 
         return label;
     }
@@ -180,7 +183,7 @@ public partial class Chip
 
         if (propertyName.Equals(nameof(CustomRightIcon)))
         {
-            m_customRightIcon.IsVisible = CustomRightIcon is not null;
+            m_customRightIcon.IsVisible = CustomRightIcon is not null && !IsCloseable;
         }
     }
 
