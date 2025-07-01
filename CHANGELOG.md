@@ -1,3 +1,6 @@
+## [47.5.0]
+- Added `Counter` component
+
 ## [47.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
