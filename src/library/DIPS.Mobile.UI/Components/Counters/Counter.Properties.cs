@@ -29,12 +29,6 @@ public partial class Counter
         defaultBindingMode: BindingMode.OneWay,
         propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsSecondaryUrgentChanged());
 
-    public bool IsSecondaryUrgent
-    {
-        get => (bool)GetValue(IsSecondaryUrgentProperty);
-        set => SetValue(IsSecondaryUrgentProperty, value);
-    }
-
     public static readonly BindableProperty ModeProperty = BindableProperty.Create(
         nameof(Mode),
         typeof(CounterDisplayMode),
@@ -42,27 +36,50 @@ public partial class Counter
         defaultBindingMode: BindingMode.OneWay,
         propertyChanged: (bindable, _, _) => ((Counter)bindable).OnModeChanged());
 
+    /// <summary>
+    /// The mode determining how the primary and secondary counter should be displayed.
+    /// </summary>
     public CounterDisplayMode Mode
     {
         get => (CounterDisplayMode)GetValue(ModeProperty);
         set => SetValue(ModeProperty, value);
     }
     
+    /// <summary>
+    /// Whether the primary value should have an urgent style.
+    /// </summary>
     public bool IsUrgent
     {
         get => (bool)GetValue(IsUrgentProperty);
         set => SetValue(IsUrgentProperty, value);
     }
     
+    /// <summary>
+    /// Whether the secondary value should have an urgent style.
+    /// </summary>
+    public bool IsSecondaryUrgent
+    {
+        get => (bool)GetValue(IsSecondaryUrgentProperty);
+        set => SetValue(IsSecondaryUrgentProperty, value);
+    }
+    
+    /// <summary>
+    /// The primary counter value.
+    /// </summary>
+    public int Value
+    {
+        get => (int)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    
+    /// <summary>
+    /// The secondary counter value.
+    /// </summary>
     public int SecondaryValue
     {
         get => (int)GetValue(SecondaryValueProperty);
         set => SetValue(SecondaryValueProperty, value);
     }
     
-    public int Value
-    {
-        get => (int)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    
 }
