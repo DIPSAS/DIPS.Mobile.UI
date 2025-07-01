@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             xmlns:counters="clr-namespace:DIPS.Mobile.UI.Components.Counters;assembly=DIPS.Mobile.UI"
+             xmlns:counters1="clr-namespace:Components.ComponentsSamples.Counters"
+             x:Class="Components.ComponentsSamples.Counters.CountersSamples"
+             x:DataType="counters1:CountersSamplesViewModel">
+    <dui:ContentPage.BindingContext>
+        <counters1:CountersSamplesViewModel/>
+    </dui:ContentPage.BindingContext>
+    <dui:ScrollView>
+        <dui:VerticalStackLayout>
+            <dui:ListItem Title="Counter">
+                <counters:Counter Value="{Binding Value}"
+                                  SecondaryValue="{Binding SecondaryValue}"
+                                  Mode="{Binding Mode}"
+                                  IsUrgent="{Binding IsUrgent}"
+                                  IsSecondaryUrgent="{Binding IsSecondaryUrgent}"/>
+            </dui:ListItem>
+            <!-- <dui:ListItem Title="Standard counter"> -->
+            <!--     <counters:Counter Value="5"/> -->
+            <!-- </dui:ListItem> -->
+            <!-- <dui:ListItem Title="Urgent counter"> -->
+            <!--     <counters:Counter Value="5" -->
+            <!--                       IsUrgent="True"/> -->
+            <!-- </dui:ListItem> -->
+            <!-- <dui:ListItem Title="Double counter"> -->
+            <!--     <counters:Counter Value="5" -->
+            <!--                       SecondaryValue="10" -->
+            <!--                       Mode="Double"/> -->
+            <!-- </dui:ListItem> -->
+            <!-- <dui:ListItem Title="Double counter"> -->
+            <!--     <counters:Counter Value="5" -->
+            <!--                       Mode="Double"/> -->
+            <!-- </dui:ListItem> -->
+            <!-- <dui:ListItem Title="Double urgent counter"> -->
+            <!--     <counters:Counter Value="5" -->
+            <!--                       SecondaryValue="10" -->
+            <!--                       IsSecondaryUrgent="True" -->
+            <!--                       Mode="Double"/> -->
+            <!-- </dui:ListItem> -->
+            <dui:ListItem Title="Value">
+                <dui:Entry Text="{Binding Value}"
+                           Keyboard="Numeric"
+                           HasBorder="True"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Secondary Value">
+                <dui:Entry Text="{Binding SecondaryValue}"
+                           Keyboard="Numeric"
+                           HasBorder="True"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Mode">
+                <dui:ItemPicker Mode="ContextMenu"
+                                SelectedItem="{Binding Mode}"
+                                ItemsSource="{Binding Modes}">
+                </dui:ItemPicker>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Urgent">
+                <dui:Switch IsToggled="{Binding IsUrgent}"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Secondary Urgent">
+                <dui:Switch IsToggled="{Binding IsSecondaryUrgent}"/>
+            </dui:ListItem>
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

@@ -1,5 +1,11 @@
-## [47.4.0]
+## [47.6.0]
 - Added TabView Component
+
+## [47.5.0]
+- Added `Counter` component
+
+## [47.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [47.3.0] 
 - [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
