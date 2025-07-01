@@ -1,3 +1,6 @@
+## [47.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [47.3.0] 
 - [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
 
