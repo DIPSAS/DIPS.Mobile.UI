@@ -115,9 +115,9 @@ internal static class ContextMenuHelper
         if (contextMenuItem.IsDestructive)
         {
             var s = new SpannableString(contextMenuItem.Title);
-            s.SetSpan(new ForegroundColorSpan(Colors.GetColor(ColorName.color_obsolete_danger).ToPlatform()), 0, s.Length(), 0);
+            s.SetSpan(new ForegroundColorSpan(Colors.GetColor(ColorName.color_text_danger).ToPlatform()), 0, s.Length(), 0);
             menuItem.SetTitle(s);
-            menuItem.SetIconTintList(Colors.GetColor(ColorName.color_obsolete_danger).ToDefaultColorStateList());
+            menuItem.SetIconTintList(Colors.GetColor(ColorName.color_text_danger).ToDefaultColorStateList());
         }
 
         

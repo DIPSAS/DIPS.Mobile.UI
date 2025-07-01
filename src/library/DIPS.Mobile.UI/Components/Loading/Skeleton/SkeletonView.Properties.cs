@@ -23,7 +23,7 @@ public partial class SkeletonView
     public static readonly BindableProperty SkeletonColorProperty = BindableProperty.Create(
         nameof(SkeletonColor),
         typeof(Color),
-        typeof(SkeletonView), defaultValueCreator:(_ => Colors.GetColor(ColorName.color_neutral_50)));
+        typeof(SkeletonView), defaultValueCreator:(_ => Colors.GetColor(ColorName.color_background_subtle)));
     
     /// <summary>
     /// Color used on skeletons. Defaults to LightGray

@@ -10,7 +10,7 @@
              Title="The title"
              IsInteractiveCloseable="False"
              OnBackButtonPressedCommand="{Binding TryCloseBottomSheetCommand}"
-             BackgroundColor="{dui:Colors color_background_bg_light}">
+             BackgroundColor="{dui:Colors color_background_default}">
     
     <dui:BottomSheet.BindingContext>
         <sheets:BottomSheetWithToolbarViewModel/>

@@ -1,5 +1,29 @@
-## [45.12.0] 
+## [47.4.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
+
+## [47.3.0] 
+- [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
+
+## [47.2.0] 
+- [NavigationListItem] Removed default icon color and set chevron color.
+- [TabBar] Set different background color.
+- [Tag] Add `Information` style.
+
+## [47.1.0] 
+- Added `Tag` component.
+
+## [47.0.0] 
+- Removed all old colors.
+- Set remaining colors.
+
+## [46.0.0] 
+- Set new colors.
+- Updated colors.
+- Obsoleted old colors.
+- [iOS] Can now use Large Title. (However, it's buggy)
+- [Android] Removed workaround to set status bar when pushing modal
+- [Android] Removed workaround for Label
+- Upgraded to .NET MAUI 9.0.80.
 
 ## [45.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

@@ -141,5 +141,5 @@ public partial class LoadableListItem
         nameof(ErrorTextColor),
         typeof(Color),
         typeof(LoadableListItem),
-        defaultValue: Colors.GetColor(ColorName.color_neutral_90));
+        defaultValue: Colors.GetColor(ColorName.color_text_danger));
 }

@@ -3,7 +3,7 @@ Do not edit directly,
 this file is generated
 */
 
-namespace DIPS.Mobile.UI.Resources.Colors.Experimental;
+namespace DIPS.Mobile.UI.Resources.Colors;
 
 internal static class ColorResourcesLight
 {
@@ -25,6 +25,7 @@ internal static class ColorResourcesLight
         ["color_border_input_readonly"] = Color.FromRgba("#b6b7b9ff"), // neutral-400
         ["color_border_link"] = Color.FromRgba("#253abeff"), // navy-600
         ["color_border_subtle"] = Color.FromRgba("#ecedeeff"), // neutral-200
+        ["color_border_success"] = Color.FromRgba("#0f7157ff"), // green-800
         ["color_data_data_1"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_data_data_1_border"] = Color.FromRgba("#00107eff"), // navy-800
         ["color_data_data_1_subtle"] = Color.FromRgba("#f2f5fdff"), // navy-100
@@ -44,13 +45,13 @@ internal static class ColorResourcesLight
         ["color_fill_action_secondary"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_fill_action_secondary_active"] = Color.FromRgba("#c0cff0ff"), // navy-300
         ["color_fill_action_secondary_hover"] = Color.FromRgba("#e1e9faff"), // navy-200
-        ["color_fill_danger"] = Color.FromRgba("#f9eae2ff"), // red-200
+        ["color_fill_danger"] = Color.FromRgba("#f3583dff"), // red-700
         ["color_fill_danger_active"] = Color.FromRgba("#811c0bff"), // red-900
         ["color_fill_danger_hover"] = Color.FromRgba("#ab321dff"), // red-800
-        ["color_fill_danger_subtle"] = Color.FromRgba("#f9eae2ff"), // red-200
+        ["color_fill_danger_subtle"] = Color.FromRgba("#fbc7bbff"), // red-400
         ["color_fill_default"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_fill_default_active"] = Color.FromRgba("#253abeff"), // navy-600
-        ["color_fill_default_active_subtle"] = Color.FromRgba("#c0cff0ff"), // navy-300
+        ["color_fill_default_active_subtle"] = Color.FromRgba("#e1e9faff"), // navy-200
         ["color_fill_default_focus"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_fill_default_hover"] = Color.FromRgba("#f2f5fdff"), // navy-100
         ["color_fill_default_selected"] = Color.FromRgba("#5376d5ff"), // navy-500
@@ -69,12 +70,11 @@ internal static class ColorResourcesLight
         ["color_fill_warning"] = Color.FromRgba("#ffed96ff"), // yellow-200
         ["color_fill_warning_active"] = Color.FromRgba("#ecb62dff"), // yellow-800
         ["color_fill_warning_hover"] = Color.FromRgba("#f9db73ff"), // yellow-400
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_icon_action_exp"] = Color.FromRgba("#0000ccff"), // navy-700
+        ["color_icon_action"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_icon_action_hover"] = Color.FromRgba("#050948ff"), // navy-900
+        ["color_icon_action_on_fill"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_icon_danger"] = Color.FromRgba("#ab321dff"), // red-800
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_icon_default_exp"] = Color.FromRgba("#262626ff"), // neutral-900
+        ["color_icon_default"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_icon_disabled"] = Color.FromRgba("#dadbdcff"), // neutral-300
         ["color_icon_information"] = Color.FromRgba("#095abfff"), // blue-800
         ["color_icon_input"] = Color.FromRgba("#262626ff"), // neutral-900
@@ -85,39 +85,38 @@ internal static class ColorResourcesLight
         ["color_icon_on_fill_default_focus"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_icon_on_fill_default_hover"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_icon_on_fill_default_selected"] = Color.FromRgba("#ffffffff"), // neutral-white
+        ["color_icon_on_fill_inverted"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_on_fill_success_hover"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_icon_readonly"] = Color.FromRgba("#373d40ff"), // neutral-800
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_icon_subtle_exp"] = Color.FromRgba("#373d40ff"), // neutral-800
+        ["color_icon_subtle"] = Color.FromRgba("#6a7073ff"), // neutral-600
         ["color_icon_success"] = Color.FromRgba("#0f7157ff"), // green-800
         ["color_icon_warning"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_surface_danger"] = Color.FromRgba("#f9eae2ff"), // red-200
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_surface_default_exp"] = Color.FromRgba("#ffffffff"), // neutral-white
+        ["color_surface_default"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_surface_information"] = Color.FromRgba("#d8efffff"), // blue-200
         ["color_surface_neutral"] = Color.FromRgba("#f8f8f7ff"), // neutral-50
-        ["color_surface_subtle"] = Color.FromRgba("#f2f5fdff"), // navy-100
+        ["color_surface_subtle"] = Color.FromRgba("#e1e9faff"), // navy-200
         ["color_surface_success"] = Color.FromRgba("#ddf5d8ff"), // green-200
-        ["color_surface_visited"] = Color.FromRgba("#e1e9faff"), // navy-200
+        ["color_surface_visited"] = Color.FromRgba("#f2f5fdff"), // navy-100
         ["color_surface_warning"] = Color.FromRgba("#ffed96ff"), // yellow-200
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_text_action_exp"] = Color.FromRgba("#0000ccff"), // navy-700
+        ["color_text_action"] = Color.FromRgba("#0000ccff"), // navy-700
         ["color_text_action_hover"] = Color.FromRgba("#050948ff"), // navy-900
         ["color_text_action_neutral"] = Color.FromRgba("#262626ff"), // neutral-900
-        ["color_text_danger"] = Color.FromRgba("#ab321dff"), // red-800
-        // TODO: Remove _exp suffix when no longer needed
-        ["color_text_default_exp"] = Color.FromRgba("#262626ff"), // neutral-900
+        ["color_text_action_on_fill"] = Color.FromRgba("#0000ccff"), // navy-700
+        ["color_text_danger"] = Color.FromRgba("#262626ff"), // neutral-900
+        ["color_text_default"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_default_inverted"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_disabled"] = Color.FromRgba("#b6b7b9ff"), // neutral-400
-        ["color_text_information"] = Color.FromRgba("#095abfff"), // blue-800
+        ["color_text_error"] = Color.FromRgba("#ab321dff"), // red-800
+        ["color_text_information"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_input"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_label"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_on_fill_disabled"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_on_fill_warning"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_on_inverted"] = Color.FromRgba("#ffffffff"), // neutral-white
         ["color_text_readonly"] = Color.FromRgba("#464c50ff"), // neutral-700
-        ["color_text_subtle"] = Color.FromRgba("#373d40ff"), // neutral-800
-        ["color_text_success"] = Color.FromRgba("#0f7157ff"), // green-800
+        ["color_text_subtle"] = Color.FromRgba("#6a7073ff"), // neutral-600
+        ["color_text_success"] = Color.FromRgba("#262626ff"), // neutral-900
         ["color_text_warning"] = Color.FromRgba("#262626ff"), // neutral-900
         ["none"] = Microsoft.Maui.Graphics.Colors.Transparent, // Transparent
     };

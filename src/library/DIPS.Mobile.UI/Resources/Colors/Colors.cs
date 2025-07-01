@@ -8,7 +8,7 @@ public static class Colors
     /// <param name="colorName">The name of the color to get</param>
     /// <param name="alpha">The color alpha</param>
     /// <returns><see cref="Color"/></returns>
-    public static Color GetColor(ColorName colorName, float alpha = -1) => GetColor(colorName, (Application.Current != null)?Application.Current.RequestedTheme:AppTheme.Light);
+    public static Color GetColor(ColorName colorName, float alpha = -1) => GetColor(colorName, (Application.Current != null)?Application.Current.RequestedTheme:AppTheme.Light, alpha);
 
     /// <summary>
     /// Get the color by <see cref="AppTheme"/>.

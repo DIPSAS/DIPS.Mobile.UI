@@ -22,7 +22,7 @@ internal class BottomSheetHeader : Grid
         this.SetBinding(BindingContextProperty, static (BottomSheet bottomSheet) => bottomSheet, source: m_bottomSheet);
         this.SetBinding(IsVisibleProperty, static (BottomSheetHeaderBehavior behavior) => behavior.IsVisible, source: m_bottomSheet.BottomSheetHeaderBehavior);
         
-        BackgroundColor = Colors.GetColor(ColorName.color_system_white);
+        BackgroundColor = Colors.GetColor(ColorName.color_surface_default);
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium);
 
         var topPadding = Sizes.GetSize(SizeName.content_margin_medium);

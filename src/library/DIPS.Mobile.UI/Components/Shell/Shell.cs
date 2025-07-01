@@ -1,6 +1,6 @@
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.MemoryManagement;
-using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Shell
 {
@@ -15,12 +15,27 @@ namespace DIPS.Mobile.UI.Components.Shell
         /// </summary>
         public static PageReference? RootPage { get; set; }
 
-        public static ColorName ToolbarBackgroundColorName => ColorName.color_icon_action;
-        public static ColorName ToolbarTitleTextColorName => ColorName.color_text_on_action;
+        public static ColorName TitleTextColorName => ColorName.color_text_default;
+        public static ColorName ForegroundColorName => ColorName.color_icon_action;
+        public static ColorName BackgroundColorName => ColorName.color_background_default;
 
         public Shell()
         {
             Navigated += OnNavigated;
+            
+            SetBackgroundColor(this, Colors.GetColor(BackgroundColorName));
+            SetForegroundColor(this, Colors.GetColor(ForegroundColorName));
+            SetTitleColor(this, Colors.GetColor(TitleTextColorName));
+            
+            SetTabBarBackgroundColor(this, Colors.GetColor(ColorName.color_background_default));
+            SetTabBarTitleColor(this, Colors.GetColor(ColorName.color_text_action));
+            SetTabBarUnselectedColor(this, Colors.GetColor(ColorName.color_icon_subtle));
+
+#if __ANDROID__
+            SetNavBarHasShadow(this, false);
+#elif __IOS__
+            SetNavBarHasShadow(this, true);            
+#endif
         }
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)

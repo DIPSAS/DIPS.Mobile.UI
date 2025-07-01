@@ -214,26 +214,26 @@ public partial class MultiLineInputField : SingleLineInputField
         if (Text.Length == 0)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, MaxTextLength.ToString());
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
             m_doneButton.IsEnabled = true;
         }
         else if (MaxTextLength > Text.Length)
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersLeft, (MaxTextLength - Text.Length).ToString());
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
             m_doneButton.IsEnabled = true;
             
         }
         else if (MaxTextLength == Text.Length)
         {
             m_textLengthLabel.Text = DUILocalizedStrings.MaxCharactersReached;
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_placeholder);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
             m_doneButton.IsEnabled = true;
         }
         else
         {
             m_textLengthLabel.Text = string.Format(DUILocalizedStrings.NumberOfCharactersTooMany, (Text.Length - MaxTextLength).ToString());
-            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
+            m_textLengthLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
             m_doneButton.IsEnabled = false;
         }
 
@@ -317,7 +317,7 @@ public partial class MultiLineInputField : SingleLineInputField
         IsSaving = false;
         OnStopSaving();
         HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.ErrorText, source: this);
-        HelpTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
+        HelpTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
     }
 
     private void OnChangedToNoError()
@@ -334,14 +334,14 @@ public partial class MultiLineInputField : SingleLineInputField
         if (IsError)
         {
             if(IsFocused)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
+                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
             
             if(Text != string.Empty)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_error_dark);
+                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
         }
         else
         {
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle_small);
+            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
         }
     }
 

@@ -2,7 +2,7 @@
 <resources>
     <!-- Splash theme -->
     <style name="DIPS.Mobile.UI.Style" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/color_primary_d_90</item>
+        <item name="windowSplashScreenBackground">#050948</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
         <item name="android:windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/DIPS.Mobile.UI.PostStyle</item>
@@ -15,16 +15,21 @@
         <item name="windowNoTitle">true</item>
         <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette -->
         <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">@color/color_primary_90</item>
-        <item name="colorSecondary">@color/color_secondary_90</item>
+        <item name="colorPrimary">@color/color_palette_navy_700</item>
+        <item name="colorSecondary">@color/color_palette_navy_400</item>
 
-        <item name="colorSurface">@color/color_system_white</item>
+        <!-- Status bar text color will be able to be seen when the status bar color is white -->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="colorSurface">@color/color_surface_default</item>
 
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/color_primary_d_90</item>
+        <item name="colorPrimaryDark">@color/color_background_default</item>
+        
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
-        <item name="colorAccent">@color/color_primary_90</item>
+        <item name="colorAccent">@color/color_palette_navy_700</item>
+        
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="windowActionModeOverlay">true</item>
@@ -45,5 +50,13 @@
 
         <!-- Opts out of edge to edge -->
         <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+
+        <!-- Control modal toolbar style -->
+        <item name="toolbarStyle">@style/MyCustomToolbar</item>
     </style>
+
+    <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
+    </style>
+
 </resources>

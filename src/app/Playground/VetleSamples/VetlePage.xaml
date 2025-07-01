@@ -6,17 +6,27 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
-                 HideSoftInputOnTapped="True">
+                 HideSoftInputOnTapped="True"
+                 Title="Hello"
+                 
+                 >
 
+    
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
+    
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{dui:Icons alert_line}"></ToolbarItem>
+        <ToolbarItem Text="Hello"></ToolbarItem>
+    </dui:ContentPage.ToolbarItems>
 
         
         
-        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}"></dui:Button>
+    <dui:Button Clicked="Button_OnClicked"/>
         
 
 

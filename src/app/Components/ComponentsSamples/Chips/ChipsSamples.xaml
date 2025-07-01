@@ -8,7 +8,7 @@
                  xmlns:chips="clr-namespace:Components.ComponentsSamples.Chips"
                  x:Class="Components.ComponentsSamples.Chips.ChipsSamples"
                  x:DataType="{x:Type chips:ChipsSamplesViewModel}"
-                 BackgroundColor="{dui:Colors color_system_white}"
+                 BackgroundColor="{dui:Colors color_background_default}"
                  Padding="{dui:Sizes size_2}">
     
     <dui:ContentPage.BindingContext>
@@ -34,6 +34,7 @@
         <dui:Label Text="Chip, toggleable"
                    Margin="5"/>
         <dui:Chip Title="A toggleable chip"
+                  Style="{dui:Styles Chip=EmptyInput}"
                   HorizontalOptions="Start"
                   VerticalOptions="Start"
                   IsToggleable="True" />

@@ -15,7 +15,7 @@ namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 /// Must be a <see cref="Grid"/> because CascadingInputTransparent does not work on <see cref="ContentView"/>
 internal class FloatingNavigationButton : Grid
 {
-    private Color OpenedColor = Colors.GetColor(ColorName.color_obsolete_accent);
+    private Color OpenedColor = Colors.GetColor(ColorName.color_fill_action);
     private Color ClosedColor = Color.FromArgb("#BF8DCE");
     private ImageSource OpenedIcon = Icons.GetIcon(IconName.close_line);
     private ImageSource ClosedIcon = Icons.GetIcon(IconName.menu_line);
@@ -108,7 +108,7 @@ internal class FloatingNavigationButton : Grid
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.End,
             Icon = ClosedIcon,
-            ButtonBackgroundColor = Colors.GetColor(ColorName.color_obsolete_accent),
+            ButtonBackgroundColor = Colors.GetColor(ColorName.color_fill_action),
             Command = new Command(OnClickedMainButton),
         };
         
@@ -138,7 +138,7 @@ internal class FloatingNavigationButton : Grid
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             Padding = Sizes.GetSize(SizeName.content_margin_medium),
-            Stroke = Colors.GetColor(ColorName.color_system_white),
+            Stroke = Colors.GetColor(ColorName.color_border_default),
             StrokeThickness = 3,
             StrokeShape = new Ellipse(),
             BackgroundColor = closedColor,

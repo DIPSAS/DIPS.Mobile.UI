@@ -10,7 +10,7 @@ public class LabelTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Label.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_subtle_large)
+                Value = Colors.Colors.GetColor(ColorName.color_text_subtle)
             }
         }
     };

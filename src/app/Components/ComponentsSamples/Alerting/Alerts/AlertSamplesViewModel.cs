@@ -19,8 +19,8 @@ public class AlertSamplesViewModel : ViewModel
             SystemMessageService.Display(config =>
             {
                 config.Text = s;
-                config.BackgroundColor = Colors.GetColor(ColorName.color_information_light);
-                config.TextColor = Colors.GetColor(ColorName.color_primary_90);
+                config.BackgroundColor = Colors.GetColor(ColorName.color_surface_information);
+                config.TextColor = Colors.GetColor(ColorName.color_text_action);
             });
         });
 

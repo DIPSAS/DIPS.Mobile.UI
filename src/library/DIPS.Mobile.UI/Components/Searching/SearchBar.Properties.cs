@@ -230,7 +230,8 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty IconsColorProperty = BindableProperty.Create(
             nameof(IconsColor),
             typeof(Color),
-            typeof(SearchBar));
+            typeof(SearchBar),
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_subtle));
         
         public static readonly BindableProperty HasCancelButtonProperty = BindableProperty.Create(
             nameof(HasCancelButton),
@@ -297,7 +298,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(PlaceholderColor),
             typeof(Color),
             typeof(SearchBar),
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_placeholder));
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_subtle));
 
         public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(
             nameof(CancelButtonTextColor),

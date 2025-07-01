@@ -21,7 +21,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_stroke_enhanced)
+                Value = Colors.Colors.GetColor(ColorName.color_border_default)
             },
             new Setter
             {
@@ -31,7 +31,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.HelpTextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_subtle_small)
+                Value = Colors.Colors.GetColor(ColorName.color_text_subtle)
             }
         }
     };

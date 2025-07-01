@@ -11,7 +11,7 @@
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers"
                  Padding="{dui:Sizes size_4}"
-                 BackgroundColor="{dui:Colors color_system_white}">
+                 BackgroundColor="{dui:Colors color_background_default}">
     <dui:ContentPage.BindingContext>
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>
@@ -90,7 +90,7 @@
         <dui:ListItem Title="Title"
                       CornerRadius="{dui:Sizes size_4}"
                       Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_neutral_05}">
+                      BackgroundColor="{dui:Colors color_background_subtle}">
             
             <dui:ItemPicker Mode="ContextMenu"
                             ItemsSource="{Binding People}"
@@ -103,7 +103,7 @@
         <dui:ListItem Title="Title"
                       CornerRadius="{dui:Sizes size_4}"
                       Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_neutral_05}">
+                      BackgroundColor="{dui:Colors color_background_subtle}">
             
             <dui:ItemPicker Mode="BottomSheet"
                             ItemsSource="{Binding People}"
@@ -121,7 +121,7 @@
         <dui:ListItem Title="Title"
                       CornerRadius="{dui:Sizes size_4}"
                       Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_neutral_05}">
+                      BackgroundColor="{dui:Colors color_background_subtle}">
             
             <dui:ItemPicker Mode="BottomSheet"
                             ItemsSource="{Binding People}"

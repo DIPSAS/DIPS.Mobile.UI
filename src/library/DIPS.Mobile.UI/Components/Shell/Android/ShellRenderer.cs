@@ -37,7 +37,7 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
     public BadgeShellBottomNavViewAppearanceTracker(IShellContext shellContext, ShellItem shellItem) : base(shellContext, shellItem)
     {
     }
-
+    
     protected override void SetBackgroundColor(BottomNavigationView bottomView, Microsoft.Maui.Graphics.Color color)
     {
         base.SetBackgroundColor(bottomView, color);

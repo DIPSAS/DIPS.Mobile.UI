@@ -217,7 +217,7 @@ public partial class Chip
         nameof(TitleColor),
         typeof(Color),
         typeof(Chip),
-        Colors.GetColor(ColorName.color_neutral_90));
+        Colors.GetColor(ColorName.color_text_default));
 
     public static readonly BindableProperty CommandProperty = BindableProperty.Create(
         nameof(Command),
