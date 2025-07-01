@@ -1,8 +1,10 @@
+using DIPS.Mobile.UI.Components.Images.Image;
 using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Internal;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.Components.ListItems.Extensions;
 
@@ -24,7 +26,8 @@ public partial class NavigationListItem : ListItem
                 AutomationId = "ArrowImage".ToDUIAutomationId<NavigationListItem>(),
                 Source = Icons.GetIcon(IconName.arrow_right_s_line),
                 VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.End
+                HorizontalOptions = LayoutOptions.End,
+                TintColor = Colors.GetColor(ColorName.color_icon_subtle),
             }, 1);
 
         TitleOptions = new TitleOptions()
@@ -32,10 +35,6 @@ public partial class NavigationListItem : ListItem
             Width = GridLength.Star, LineBreakMode = LineBreakMode.TailTruncation, MaxLines = 1
         };
         InLineContentOptions = new InLineContentOptions() {Width = GridLength.Auto};
-        IconOptions = new IconOptions()
-        {
-            Color = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_subtle)
-        };
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)

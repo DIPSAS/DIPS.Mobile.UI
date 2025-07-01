@@ -8,4 +8,5 @@ public enum TagStyle
     Subtle = 3,
     Success = 4,
     Warning = 5,
+    Information = 6
 }

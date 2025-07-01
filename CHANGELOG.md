@@ -1,3 +1,14 @@
+## [47.4.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [47.3.0] 
+- [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
+
+## [47.2.0] 
+- [NavigationListItem] Removed default icon color and set chevron color.
+- [TabBar] Set different background color.
+- [Tag] Add `Information` style.
+
 ## [47.1.0] 
 - Added `Tag` component.
 

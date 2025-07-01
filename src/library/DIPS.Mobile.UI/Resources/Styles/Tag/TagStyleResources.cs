@@ -8,6 +8,7 @@ public class TagStyleResources
         [TagStyle.Danger] = TagTypeStyle.Danger,
         [TagStyle.Subtle] = TagTypeStyle.Subtle,
         [TagStyle.Success] = TagTypeStyle.Success,
-        [TagStyle.Warning] = TagTypeStyle.Warning
+        [TagStyle.Warning] = TagTypeStyle.Warning,
+        [TagStyle.Information] = TagTypeStyle.Information
     };
 }

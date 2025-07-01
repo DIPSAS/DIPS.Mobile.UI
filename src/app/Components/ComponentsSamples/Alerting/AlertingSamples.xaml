@@ -14,7 +14,6 @@
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SystemMessage}"
                                 Command="{helpers:NavigationCommand {x:Type systemMessages:SystemMessageSamples}}"
-                                HasTopDivider="True"
                                 HasBottomDivider="True"/>
         
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Dialog}"
