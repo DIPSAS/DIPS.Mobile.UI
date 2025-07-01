@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.Components.TabView;
@@ -48,6 +49,11 @@ public partial class TabView : ContentView
             
             var item = tab;
             tab.Command = new Command(_ => TabToggled(item));
+            
+            SemanticProperties.SetHint(tab, DUILocalizedStrings.Accessibility_TapToChangeView);
+            var counterString = String.IsNullOrEmpty(tab.Counter) ? "" : ", " + tab.Counter + DUILocalizedStrings.Elements;
+            var semanticDescriptionCombinedText = tab.Title + counterString;
+            SemanticProperties.SetDescription(tab, semanticDescriptionCombinedText);
             
             m_tabItems.Add(item);
             m_stackLayout.Add(tab);

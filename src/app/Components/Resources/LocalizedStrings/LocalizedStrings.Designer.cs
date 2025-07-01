@@ -698,5 +698,17 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("DisplayInputDialogWithTwoInputFields", resourceCulture);
             }
         }
+        
+        internal static string Accessibility_TapToChangeView {
+            get {
+                return ResourceManager.GetString("Accessibility_TapToChangeView", resourceCulture);
+            }
+        }
+        
+        internal static string Elements {
+            get {
+                return ResourceManager.GetString("Elements", resourceCulture);
+            }
+        }
     }
 }

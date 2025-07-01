@@ -1,4 +1,5 @@
 using Android.Widget;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Google.Android.Material.Tabs;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -77,6 +78,10 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
             var title = item.Title;
             title += item.Counter is null or 0 ? "" : " ("+ item.Counter + ")";
             var tab = platformView.NewTab().SetText(title);
+            
+            var counterString = item.Counter is null ? "" : ", " + item.Counter + DUILocalizedStrings.Elements;
+            var semanticDescriptionCombinedText = item.Title + counterString;
+            tab.SetContentDescription(semanticDescriptionCombinedText);
             platformView.AddTab(tab);
         }
 

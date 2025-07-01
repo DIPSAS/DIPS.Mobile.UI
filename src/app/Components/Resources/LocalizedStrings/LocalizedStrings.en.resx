@@ -345,4 +345,10 @@
     <data name="DisplayInputDialogWithTwoInputFields" xml:space="preserve">
         <value>Show input dialog with two input fields</value>
     </data>
+    <data name="Accessibility_TapToChangeView" xml:space="preserve">
+        <value>Tap to change tab</value>
+    </data>
+    <data name="Elements" xml:space="preserve">
+        <value>elements</value>
+    </data>
 </root>
