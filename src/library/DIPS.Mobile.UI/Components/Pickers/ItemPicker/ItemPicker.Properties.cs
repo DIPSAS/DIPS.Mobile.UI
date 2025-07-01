@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
@@ -117,6 +118,16 @@ public partial class ItemPicker
     }
 
     /// <summary>
+    /// Will be used to add an additional context menu item to the picker.
+    /// <remarks>Only works if <see cref="Mode"/> is set to <see cref="PickerMode.ContextMenu"/></remarks>
+    /// </summary>
+    public ContextMenuItem? AdditionalContextMenuItem
+    {
+        get => (ContextMenuItem)GetValue(AdditionalContextMenuItemProperty);
+        set => SetValue(AdditionalContextMenuItemProperty, value);
+    }
+
+    /// <summary>
     /// Opens the picker.
     /// </summary>
     /// <remarks>This will not work if <see cref="Mode"/> is <see cref="PickerMode.ContextMenu"/></remarks>
@@ -134,6 +145,11 @@ public partial class ItemPicker
         get => (PickerSize)GetValue(SizeProperty);
         set => SetValue(SizeProperty, value);
     }
+    
+    public static readonly BindableProperty AdditionalContextMenuItemProperty = BindableProperty.Create(
+        nameof(AdditionalContextMenuItem),
+        typeof(ContextMenuItem),
+        typeof(ItemPicker));
 
     public static readonly BindableProperty SizeProperty = BindableProperty.Create(
         nameof(Size),

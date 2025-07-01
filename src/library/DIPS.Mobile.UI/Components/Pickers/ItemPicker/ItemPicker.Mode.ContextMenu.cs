@@ -8,31 +8,32 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
     {
         private void UpdateContextMenuItems()
         {
-            if (m_contextMenu == null ||
-                m_contextMenu.ItemsSource!.FirstOrDefault() is not ContextMenuGroup contextMenuGroup)
+            if (m_contextMenu?.ItemsSource is null)
             {
                 return;
             }
             
-            if (contextMenuGroup.ItemsSource == null)
+            foreach (var item in m_contextMenu.ItemsSource)
             {
-                return;
-            }
-            
-            foreach (var item in contextMenuGroup.ItemsSource)
-            {
-                item.IsChecked = false;
+                if(item is ContextMenuItem contextMenuItem)
+                    contextMenuItem.IsChecked = false;
             }
 
             if (SelectedItem is not null)
             {
-                var contextMenuItem = contextMenuGroup.ItemsSource?.FirstOrDefault(i =>
-                    i.Title != null && i.Title.Equals(SelectedItem.GetPropertyValue(ItemDisplayProperty),
-                        StringComparison.InvariantCultureIgnoreCase));
-                if (contextMenuItem != null)
+                var selectedItem = m_contextMenu.ItemsSource?.FirstOrDefault(i =>
                 {
+                    if (i is ContextMenuItem item)
+                    {
+                        return item.Title != null && item.Title.Equals(SelectedItem.GetPropertyValue(ItemDisplayProperty),
+                            StringComparison.InvariantCultureIgnoreCase);
+                    }
+
+                    return false;
+                });
+
+                if (selectedItem is ContextMenuItem contextMenuItem)
                     contextMenuItem.IsChecked = true;
-                }
             }
             
             m_contextMenu.SendItemsSourceUpdated();
@@ -45,24 +46,35 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
-            var group = new ContextMenuGroup() {IsCheckable = true};
+            m_contextMenu.ItemsSource!.Clear();
+            
             foreach (var obj in ItemsSource)
             {
                 var itemDisplayName = obj.GetPropertyValue(ItemDisplayProperty);
-                group.ItemsSource?.Add(new ContextMenuItem()
+                m_contextMenu.ItemsSource?.Add(new ContextMenuItem
                 {
-                    Title = itemDisplayName, IsChecked = SelectedItem == obj
+                    Title = itemDisplayName, 
+                    IsChecked = SelectedItem == obj, 
+                    IsCheckable = true
                 });
             }
 
-            m_contextMenu.ItemsSource!.Clear();
-            m_contextMenu.ItemsSource.Add(group);
+            if (AdditionalContextMenuItem is not null)
+            {
+                m_contextMenu.ItemsSource?.Add(new ContextMenuSeparatorItem());
+                m_contextMenu.ItemsSource?.Add(AdditionalContextMenuItem);
+            }
             
             m_contextMenu.SendItemsSourceUpdated();
         }
 
         private void SetSelectedItemBasedOnContextMenuItem(ContextMenuItem item)
         {
+            if (item == AdditionalContextMenuItem)
+            {
+                return;
+            }
+            
             if (HasHaptics)
             {
                 VibrationService.SelectionChanged();    

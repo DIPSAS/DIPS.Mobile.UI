@@ -28,6 +28,10 @@
         
     <dui:ItemPicker Size="Large"
                     VerticalOptions="Start">
+        <dui:ItemPicker.AdditionalContextMenuItem>
+            <dui:ContextMenuItem Title="Hello!" />
+        </dui:ItemPicker.AdditionalContextMenuItem>
+        
         <dui:ItemPicker.ItemsSource>
             <x:Array Type="{x:Type x:String}">
                 <x:String>Lol</x:String>
