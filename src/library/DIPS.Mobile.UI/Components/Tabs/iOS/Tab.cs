@@ -102,5 +102,11 @@ namespace DIPS.Mobile.UI.Components.Tabs
             m_counterLabel.TextColor = textColor;
             m_counterLabel.Style = textStyle;
         }
+        
+        public void SendTapped()
+        {
+            Command?.Execute(CommandParameter);
+            Tapped?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

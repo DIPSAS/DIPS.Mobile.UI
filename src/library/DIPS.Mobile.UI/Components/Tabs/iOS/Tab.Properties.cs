@@ -62,8 +62,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             typeof(bool),
             typeof(Tab),
             defaultValue: false,
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (bindable, _, _) => ((Tab)bindable).OnIsSelectedChanged());
+            defaultBindingMode: BindingMode.TwoWay);
         
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             nameof(Title),
