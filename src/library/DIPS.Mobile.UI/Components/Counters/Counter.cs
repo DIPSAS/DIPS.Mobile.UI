@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -9,14 +10,14 @@ public partial class Counter : Grid
 {
     private readonly Border m_primaryBorder = new()
     {
-        StrokeShape = new RoundRectangle {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2)), StrokeThickness = 0},
+        StrokeShape = new RoundRectangle {StrokeThickness = 0},
         Padding = 0,
         Margin = 0
     };
 
     private readonly Border m_secondaryBorder = new()
     {
-        StrokeShape = new RoundRectangle {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2)), StrokeThickness = 0},
+        StrokeShape = new RoundRectangle {StrokeThickness = 0},
         Padding = 0,
         Margin = 0
     };
@@ -35,6 +36,8 @@ public partial class Counter : Grid
         var primaryLabel = new Label {Style = Styles.GetLabelStyle(LabelStyle.Body200), Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0)};
         var secondaryLabel = new Label {Style = Styles.GetLabelStyle(LabelStyle.Body200), Margin = new Thickness(Sizes.GetSize(SizeName.size_2), 0)};
 
+        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_2));
+        
         m_primaryBorder.Content = primaryLabel;
         m_secondaryBorder.Content = secondaryLabel;
         
@@ -81,20 +84,6 @@ public partial class Counter : Grid
         }
         
         UpdateDivider();
-        UpdateCornerRadius();
-    }
-
-    private void UpdateCornerRadius()
-    {
-        if (m_primaryBorder.IsVisible && m_secondaryBorder.IsVisible)
-        {
-            ((RoundRectangle)m_primaryBorder.StrokeShape!).CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2), 0, Sizes.GetSize(SizeName.size_2), 0);
-            ((RoundRectangle)m_secondaryBorder.StrokeShape!).CornerRadius = new CornerRadius(0, Sizes.GetSize(SizeName.size_2), 0, Sizes.GetSize(SizeName.size_2));
-        }
-        else
-        {
-            ((RoundRectangle)m_primaryBorder.StrokeShape!).CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2));
-        }
     }
 
     private void UpdateDivider()
