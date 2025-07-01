@@ -8,7 +8,7 @@ namespace Arena.Mobile.Domains.MunicipalCare.Shared.Converters;
 public class TextHighlighter : IMultiValueConverter, IMarkupExtension
 {
     public string FontFamily { get; set; } = "UI";
-    public Color TextColor { get; set; } = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+    public Color TextColor { get; set; } = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default);
     public double FontSize { get; set; } = 16;
     public bool ShouldAddEllipsisAtStart { get; set; } = true;
     

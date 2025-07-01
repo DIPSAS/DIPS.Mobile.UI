@@ -16,7 +16,6 @@ public partial class ItemPicker : ContentView
     {
         m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
         m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
-        MaximumWidthRequest = 200;
     }
     
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -31,6 +30,15 @@ public partial class ItemPicker : ContentView
 
     private void LayoutContent()
     {
+        if (Size is PickerSize.Small)
+        {
+            MaximumWidthRequest = 200;
+        }
+        else
+        {
+            /*m_chip.CustomRightIcon = */
+        }
+        
         Content = m_chip;
 
         if (Mode == PickerMode.ContextMenu)
@@ -48,7 +56,7 @@ public partial class ItemPicker : ContentView
         SelectedItemChanged();
     }
 
-    internal void UpdateChipTitle(string? title)
+    private void UpdateChipTitle(string? title)
     {
         var hasPlaceHolder = title == null || string.IsNullOrEmpty(title);
         m_chip.Title = hasPlaceHolder ? Placeholder : title!;

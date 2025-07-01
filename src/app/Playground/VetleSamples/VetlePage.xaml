@@ -25,9 +25,7 @@
     </dui:ContentPage.ToolbarItems>
 
         
-        
-    <dui:Button Clicked="Button_OnClicked"/>
-        
+    <dui:ItemPicker Size="Large" HorizontalOptions="Fill" VerticalOptions="Start" />
 
 
 </dui:ContentPage>

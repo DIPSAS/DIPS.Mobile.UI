@@ -17,7 +17,10 @@ public partial class ButtonHandler
             [nameof(Button.AdditionalHitBoxSize)] = MapAdditionalHitBoxSize,
             [nameof(Button.ImageTintColor)] = MapImageTintColor,
             [nameof(Button.ImagePlacement)] = MapImageToRightSide,
-            [nameof(IImage.Source)] = OverrideMapImageSource
+            [nameof(IImage.Source)] = OverrideMapImageSource,
+#if __IOS__
+            [nameof(IButton.Padding)] = OverrideMapPadding
+#endif
         };
 
     private static partial void OverrideMapImageSource(ButtonHandler handler, Button button);

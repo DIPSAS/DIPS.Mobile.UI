@@ -31,8 +31,24 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         [nameof(Chip.IsToggled)] = MapIsToggled,
         [nameof(Chip.TitleColor)] = MapTitleColor,
         [nameof(Chip.IsToggleable)] = MapIsToggleable,
-        [nameof(Chip.CustomIcon)] = MapCustomIcon
+        [nameof(Chip.CustomIcon)] = MapCustomIcon,
+        [nameof(Chip.CustomRightIcon)] = MapCustomRightIcon
     };
+
+    private static void MapCustomRightIcon(ChipHandler handler, Chip chip)
+    {
+        if(chip.IsCloseable || chip.CustomRightIcon is not FileImageSource fileImageSource)
+            return;
+        
+        handler.PlatformView.CloseIconVisible = true;
+        DUI.TryGetResourceId(fileImageSource.File, out var id, defType:"drawable");
+        
+        if (id == 0)
+            return;
+
+        var drawable = Platform.AppContext.Resources?.GetDrawable(id);
+        handler.PlatformView.CloseIcon = drawable;
+    }
 
     private static void MapCustomIcon(ChipHandler handler, Chip chip)
     {

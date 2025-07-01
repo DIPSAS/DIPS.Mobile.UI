@@ -25,6 +25,16 @@ public partial class Chip
         get => (Color)GetValue(CustomIconTintColorProperty);
         set => SetValue(CustomIconTintColorProperty, value);
     }
+
+    /// <summary>
+    /// Set an icon that will be displayed on the right side of the chip.
+    /// <remarks>Will be hidden if <see cref="IsCloseable"/> is true</remarks>
+    /// </summary>
+    public ImageSource? CustomRightIcon
+    {
+        get => (ImageSource)GetValue(CustomRightIconProperty);
+        set => SetValue(CustomRightIconProperty, value);
+    }
     
     /// <summary>
     /// The color of the chip.
@@ -249,6 +259,11 @@ public partial class Chip
     public static readonly BindableProperty IsToggleableProperty = BindableProperty.Create(
         nameof(IsToggleable),
         typeof(bool),
+        typeof(Chip));
+    
+    public static readonly BindableProperty CustomRightIconProperty = BindableProperty.Create(
+        nameof(CustomRightIcon),
+        typeof(ImageSource),
         typeof(Chip));
 
 }
