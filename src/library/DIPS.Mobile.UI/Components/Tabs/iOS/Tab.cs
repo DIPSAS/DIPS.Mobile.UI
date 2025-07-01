@@ -5,7 +5,7 @@ using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Tabs
 {
-    public partial class Tab : ContentView
+    internal partial class Tab : ContentView
     {
         private Label m_titleLabel;
         private Label m_counterLabel;

@@ -2,7 +2,7 @@ using System.Windows.Input;
 
 namespace DIPS.Mobile.UI.Components.Tabs
 {
-    public partial class Tab
+    internal partial class Tab
     {
         /// <summary>
         /// Defines if the tab is selected or not

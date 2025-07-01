@@ -16,7 +16,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
     public static readonly IPropertyMapper<TabView, TabViewHandler> PropertyMapper = new PropertyMapper<TabView, TabViewHandler>(ViewMapper)
     {
         [nameof(TabView.ItemsSource)] = MapItemsSource,
-        [nameof(TabView.SelectedItem)] = MapSelectedItem
+        [nameof(TabView.SelectedTabIndex)] = MapSelectedTabIndex
     };
 
     protected override TabLayout CreatePlatformView()
@@ -50,7 +50,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         var index = e.Tab.Position;
         if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
         {
-            VirtualView.SelectedItem = VirtualView.ItemsSource[index];
+            VirtualView.SelectedTabIndex = index;
         }
     }
 
@@ -59,7 +59,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         handler.UpdateItemsSource();
     }
 
-    public static void MapSelectedItem(TabViewHandler handler, TabView tabView)
+    public static void MapSelectedTabIndex(TabViewHandler handler, TabView tabView)
     {
         handler.UpdateSelectedItem();
     }
@@ -86,15 +86,14 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
     void UpdateSelectedItem()
     {
         var platformView = PlatformView;
-        var selectedItem = VirtualView.SelectedItem;
+        var selectedTabIndex = VirtualView.SelectedTabIndex;
 
-        if (selectedItem == null || VirtualView.ItemsSource == null)
+        if (selectedTabIndex == null || VirtualView.ItemsSource == null)
             return;
 
-        var index = VirtualView.ItemsSource.IndexOf(selectedItem);
-        if (index >= 0 && index < platformView.TabCount)
+        if (selectedTabIndex >= 0 && selectedTabIndex < platformView.TabCount)
         {
-            var tab = platformView.GetTabAt(index);
+            var tab = platformView.GetTabAt((int)selectedTabIndex);
             tab?.Select();
         }
         UpdateTabColor();

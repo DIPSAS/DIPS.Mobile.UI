@@ -1,19 +1,15 @@
-using Android.Views;
 using AndroidX.AppCompat.Graphics.Drawable;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
-using DIPS.Mobile.UI.Components.Tabs;
 using DIPS.Mobile.UI.Components.TabView;
 using DIPS.Mobile.UI.Components.TabView.Android;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
-using Tab = DIPS.Mobile.UI.Components.Tabs.Tab;
 
 namespace DIPS.Mobile.UI.API.Builder;
 

@@ -43,12 +43,12 @@ public partial class TabView
     }
     
     /// <summary>
-    /// Sets the selected tab
+    /// Sets the selected tab´s index
     /// </summary>
-    public TabItem? SelectedItem
+    public int? SelectedTabIndex
     {
-        get => (TabItem?)GetValue(SelectedItemProperty);
-        set => SetValue(SelectedItemProperty, value);
+        get => (int?)GetValue(SelectedTabIndexProperty);
+        set => SetValue(SelectedTabIndexProperty, value);
     }
 
     /// <summary>
@@ -63,12 +63,12 @@ public partial class TabView
     
     public class TabViewEventArgs : EventArgs
     {
-        public TabViewEventArgs(Tabs.Tab selectedItem)
+        public TabViewEventArgs(int selectedTabIndex)
         {
-            SelectedItem = selectedItem;
+            SelectedTabIndex = selectedTabIndex;
         }
     
-        public Tabs.Tab SelectedItem { get; }
+        public int SelectedTabIndex { get; }
     }
     
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
@@ -95,9 +95,9 @@ public partial class TabView
         typeof(Tab),
         Styles.GetLabelStyle(LabelStyle.UI300));
 
-    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-        nameof(SelectedItem),
-        typeof(Object),
+    public static readonly BindableProperty SelectedTabIndexProperty = BindableProperty.Create(
+        nameof(SelectedTabIndex),
+        typeof(int),
         typeof(TabItem),
         defaultValue: null,
         defaultBindingMode: BindingMode.TwoWay
