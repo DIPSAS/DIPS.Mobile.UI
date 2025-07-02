@@ -31,6 +31,30 @@ public partial class TabView : ContentView
 
 public class TabItem : BindableObject
 {
-    public string Title { get; set; }
-    public int? Counter { get; set; }
+    public static readonly BindableProperty CounterProperty =
+        BindableProperty.Create(
+            nameof(Counter),
+            typeof(int?),
+            typeof(TabItem),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay);
+
+    public int? Counter
+    {
+        get => (int?)GetValue(CounterProperty);
+        set => SetValue(CounterProperty, value);
+    }
+
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(TabItem),
+            defaultValue: string.Empty);
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
 }

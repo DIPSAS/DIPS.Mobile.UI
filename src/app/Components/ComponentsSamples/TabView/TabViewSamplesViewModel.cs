@@ -1,10 +1,13 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DIPS.Mobile.UI.MVVM;
+
 namespace Components.ComponentsSamples.TabView;
 
-public partial class TabViewSamples
+public class TabViewSamplesViewModel : ViewModel, INotifyPropertyChanged
 {
-    public TabViewSamples()
+    public TabViewSamplesViewModel()
     {
-        InitializeComponent();
     }
     
     private string m_tab1Title = "Tab 1";
@@ -50,5 +53,12 @@ public partial class TabViewSamples
             m_tab2Counter = value;
             OnPropertyChanged();
         }
+    }
+    
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
