@@ -49,9 +49,4 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         if (handler.PlatformView is UIButtonWithExtraTappableArea uiButton)
             uiButton.AdditionalHitBoxSize = button.AdditionalHitBoxSize;
     }
-
-    private static void OverrideMapPadding(ButtonHandler arg1, Button arg2)
-    {
-        
-    }
 }
