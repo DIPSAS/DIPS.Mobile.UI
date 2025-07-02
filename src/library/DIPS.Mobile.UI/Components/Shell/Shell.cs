@@ -31,11 +31,7 @@ namespace DIPS.Mobile.UI.Components.Shell
             SetTabBarTitleColor(this, Colors.GetColor(ColorName.color_text_action));
             SetTabBarUnselectedColor(this, Colors.GetColor(ColorName.color_icon_subtle));
 
-#if __ANDROID__
             SetNavBarHasShadow(this, false);
-#elif __IOS__
-            SetNavBarHasShadow(this, true);            
-#endif
         }
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)

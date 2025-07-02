@@ -7,6 +7,7 @@
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -24,24 +25,36 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-
        
-    <dui:VerticalStackLayout Padding="{dui:Thickness Top=size_4}">
-        <dui:SegmentedControl>
-            <dui:SegmentedControl.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>𝐁</x:String>
-                    <x:String>U̲</x:String>
-                    <x:String>𝘐</x:String>
-                </x:Array>
-            </dui:SegmentedControl.ItemsSource>
+    <dui:VerticalStackLayout>
+        <vetleSamples:SegmentedControl></vetleSamples:SegmentedControl>
+        
+        <!--<dui:ItemPicker Size="Large"
+                        VerticalOptions="Start"
+                        ItemsSource="{Binding TestObjects}"
+                        ItemDisplayProperty="Name">
+            <dui:ItemPicker.AdditionalContextMenuItem>
+                <dui:ContextMenuItem Title="Hello!"
+                                     Command="{Binding Navigate}"/>
+            </dui:ItemPicker.AdditionalContextMenuItem>
+        </dui:ItemPicker>-->
     
-        </dui:SegmentedControl>
-   
+        <dui:MultiItemsPicker ItemsSource="{Binding TestObjects}"
+                              ItemDisplayProperty="Name"
+                              Placeholder="To"/>
         
+        <dui:Chip IsCloseable="True"
+                  HorizontalOptions="Start"
+                  Title="Hello"></dui:Chip>
         
-        <dui:Button Clicked="Button_OnClicked"/>
+        <dui:ItemPicker Size="Large" />
+        <!--
+        <dui:Chip Style="{dui:Styles Chip=Input}"
+                  Title="hlos"
+                  CustomIcon="{dui:Icons arrow_back_line}"/>-->
+        
     </dui:VerticalStackLayout>
+    
 
 
 </dui:ContentPage>

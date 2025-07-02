@@ -10,135 +10,143 @@
                  xmlns:sampleData="clr-namespace:Components.SampleData"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers"
-                 Padding="{dui:Sizes size_4}"
                  BackgroundColor="{dui:Colors color_background_default}">
     <dui:ContentPage.BindingContext>
         <pickers:ItemPickersSamplesViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:VerticalStackLayout>
-        <dui:Label Text="ItemPicker, Mode: Context Menu"
-                   Margin="5" />
-        <dui:ItemPicker VerticalOptions="Start"
-                        HorizontalOptions="Start"
-                        Mode="ContextMenu"
-                        ItemsSource="{Binding People}"
-                        ItemDisplayProperty="DisplayName" />
-        <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
-                   Margin="5" />
-        <dui:ItemPicker VerticalOptions="Start"
-                        HorizontalOptions="Start"
-                        Mode="BottomSheet"
-                        SelectedItem="{Binding SelectedPerson}"
-                        ItemsSource="{Binding People}" />
-        <dui:Label Text="ItemPicker, Mode: Bottom Sheet w/ Free Text"
-                   Margin="5" />
-        <dui:ItemPicker VerticalOptions="Start"
-                        HorizontalOptions="Start"
-                        Mode="BottomSheet"
-                        SelectedItem="{Binding SelectedPerson}"
-                        ItemsSource="{Binding People}" 
-                        FreeTextItemFactory="{Binding PersonFactory}"
-                        FreeTextPrefix="Free text: "/>
-        <dui:Label Text="MultiItemsPicker"
-                   Margin="5" />
-        <dui:MultiItemsPicker VerticalOptions="Start"
-                              Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
-                              HorizontalOptions="Start"
-                              HasDoneButton="True"
-                              SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
-                              ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
-            <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
-                <dui:BottomSheetPickerConfiguration Title="Select multiple">
-                    <dui:BottomSheetPickerConfiguration.FooterTemplate>
-                        <DataTemplate>
-                                <dui:AlertView Title="Writing a lot of text here, a long text that should span across multiple lines to see if we can recreate thing"
-                                               Style="{dui:Styles Alert=Information}"
-                                               Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"/>
-                        </DataTemplate>
-                    </dui:BottomSheetPickerConfiguration.FooterTemplate>
-                </dui:BottomSheetPickerConfiguration>
-            </dui:MultiItemsPicker.BottomSheetPickerConfiguration>
-            <dui:MultiItemsPicker.ResetBehaviour>
-                <dui:ResetBehaviour Command="{Binding ClearPeopleCommand, Mode=OneWay}"/>
-            </dui:MultiItemsPicker.ResetBehaviour>
-        </dui:MultiItemsPicker>
-        
-        <dui:Label Text="SegmentedControl: Mode: Single"
-                   Margin="5" />
-        
-        <dui:SegmentedControl SelectionMode="Single">
-            <x:Array Type="{x:Type x:String}">
-                <x:String>First</x:String>
-                <x:String>Second</x:String>
-                <x:String>Third</x:String>
-            </x:Array>
-        </dui:SegmentedControl>
-        <dui:Label Text="SegmentedControl: Mode: Multi"
-                   Margin="5" />
-        
-        <dui:SegmentedControl SelectionMode="Multi">
-            <x:Array Type="{x:Type x:String}">
-                <x:String>First</x:String>
-                <x:String>Second</x:String>
-                <x:String>Third</x:String>
-            </x:Array>
-        </dui:SegmentedControl>
-        
-        <dui:Label Text="Picker in ListItem"
-                   Margin="5" />
-        
-        <dui:ListItem Title="Title"
-                      CornerRadius="{dui:Sizes size_4}"
-                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_background_subtle}">
-            
-            <dui:ItemPicker Mode="ContextMenu"
+    <ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout>
+            <dui:Label Text="ItemPicker, Mode: Context Menu"
+                       Margin="5" />
+            <dui:ItemPicker VerticalOptions="Start"
+                            HorizontalOptions="Start"
+                            Mode="ContextMenu"
                             ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName"/>
-        </dui:ListItem>
-        
-        <dui:Label Text="Picker in ListItem with custom bottom sheet configuration"
-                   Margin="5" />
-        
-        <dui:ListItem Title="Title"
-                      CornerRadius="{dui:Sizes size_4}"
-                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_background_subtle}">
-            
-            <dui:ItemPicker Mode="BottomSheet"
+                            ItemDisplayProperty="DisplayName" />
+            <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
+                       Margin="5" />
+            <dui:ItemPicker VerticalOptions="Start"
+                            HorizontalOptions="Start"
+                            Mode="BottomSheet"
+                            SelectedItem="{Binding SelectedPerson}"
+                            ItemsSource="{Binding People}" />
+            <dui:Label Text="ItemPicker, Mode: Bottom Sheet w/ Free Text"
+                       Margin="5" />
+            <dui:ItemPicker VerticalOptions="Start"
+                            HorizontalOptions="Start"
+                            Mode="BottomSheet"
+                            SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName">
-                <dui:ItemPicker.BottomSheetPickerConfiguration>
-                    <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
-                                                        HasSearchBar="False"/>
-                </dui:ItemPicker.BottomSheetPickerConfiguration>
-            </dui:ItemPicker>
-        </dui:ListItem>
-        
-        <dui:Label Text="Picker in ListItem with bottom sheet footer"
-                   Margin="5" />
-        
-        <dui:ListItem Title="Title"
-                      CornerRadius="{dui:Sizes size_4}"
-                      Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                      BackgroundColor="{dui:Colors color_background_subtle}">
-            
-            <dui:ItemPicker Mode="BottomSheet"
-                            ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName">
-                <dui:ItemPicker.BottomSheetPickerConfiguration>
-                    <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
-                                                        HasSearchBar="False">
+                            FreeTextItemFactory="{Binding PersonFactory}"
+                            FreeTextPrefix="Free text: " />
+            <dui:Label Text="ItemPicker, Size: Large"
+                       Margin="5" />
+            <dui:ItemPicker VerticalOptions="Start"
+                            Size="Large"
+                            SelectedItem="{Binding SelectedPerson}"
+                            ItemsSource="{Binding People}" />
+            <dui:Label Text="MultiItemsPicker"
+                       Margin="5" />
+            <dui:MultiItemsPicker VerticalOptions="Start"
+                                  Placeholder="{x:Static localizedStrings:LocalizedStrings.To}"
+                                  HorizontalOptions="Start"
+                                  HasDoneButton="True"
+                                  SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+                                  ItemsSource="{x:Static sampleData:SampleDataStorage.People}">
+                <dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+                    <dui:BottomSheetPickerConfiguration Title="Select multiple">
                         <dui:BottomSheetPickerConfiguration.FooterTemplate>
-                            <DataTemplate x:DataType="pickers:ItemPickersSamplesViewModel">
-                                <dui:AlertView Style="{dui:Styles Alert=Information}"
-                                               Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"
-                                               Title="{Binding AlertText}"/>
+                            <DataTemplate>
+                                <dui:AlertView
+                                    Title="Writing a lot of text here, a long text that should span across multiple lines to see if we can recreate thing"
+                                    Style="{dui:Styles Alert=Information}"
+                                    Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}" />
                             </DataTemplate>
                         </dui:BottomSheetPickerConfiguration.FooterTemplate>
                     </dui:BottomSheetPickerConfiguration>
-                </dui:ItemPicker.BottomSheetPickerConfiguration>
-            </dui:ItemPicker>
-        </dui:ListItem>
-    </dui:VerticalStackLayout>
+                </dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+                <dui:MultiItemsPicker.ResetBehaviour>
+                    <dui:ResetBehaviour Command="{Binding ClearPeopleCommand, Mode=OneWay}" />
+                </dui:MultiItemsPicker.ResetBehaviour>
+            </dui:MultiItemsPicker>
+
+            <dui:Label Text="SegmentedControl: Mode: Single"
+                       Margin="5" />
+
+            <dui:SegmentedControl SelectionMode="Single">
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>First</x:String>
+                    <x:String>Second</x:String>
+                    <x:String>Third</x:String>
+                </x:Array>
+            </dui:SegmentedControl>
+            <dui:Label Text="SegmentedControl: Mode: Multi"
+                       Margin="5" />
+
+            <dui:SegmentedControl SelectionMode="Multi">
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>First</x:String>
+                    <x:String>Second</x:String>
+                    <x:String>Third</x:String>
+                </x:Array>
+            </dui:SegmentedControl>
+
+            <dui:Label Text="Picker in ListItem"
+                       Margin="5" />
+
+            <dui:ListItem Title="Title"
+                          CornerRadius="{dui:Sizes size_4}"
+                          Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                          BackgroundColor="{dui:Colors color_background_subtle}">
+
+                <dui:ItemPicker Mode="ContextMenu"
+                                ItemsSource="{Binding People}"
+                                ItemDisplayProperty="DisplayName" />
+            </dui:ListItem>
+
+            <dui:Label Text="Picker in ListItem with custom bottom sheet configuration"
+                       Margin="5" />
+
+            <dui:ListItem Title="Title"
+                          CornerRadius="{dui:Sizes size_4}"
+                          Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                          BackgroundColor="{dui:Colors color_background_subtle}">
+
+                <dui:ItemPicker Mode="BottomSheet"
+                                ItemsSource="{Binding People}"
+                                ItemDisplayProperty="DisplayName">
+                    <dui:ItemPicker.BottomSheetPickerConfiguration>
+                        <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
+                                                            HasSearchBar="False" />
+                    </dui:ItemPicker.BottomSheetPickerConfiguration>
+                </dui:ItemPicker>
+            </dui:ListItem>
+
+            <dui:Label Text="Picker in ListItem with bottom sheet footer"
+                       Margin="5" />
+
+            <dui:ListItem Title="Title"
+                          CornerRadius="{dui:Sizes size_4}"
+                          Margin="{dui:Thickness Left=size_4, Right=size_4}"
+                          BackgroundColor="{dui:Colors color_background_subtle}">
+
+                <dui:ItemPicker Mode="BottomSheet"
+                                ItemsSource="{Binding People}"
+                                ItemDisplayProperty="DisplayName">
+                    <dui:ItemPicker.BottomSheetPickerConfiguration>
+                        <dui:BottomSheetPickerConfiguration Title="Title in bottom sheet "
+                                                            HasSearchBar="False">
+                            <dui:BottomSheetPickerConfiguration.FooterTemplate>
+                                <DataTemplate x:DataType="pickers:ItemPickersSamplesViewModel">
+                                    <dui:AlertView Style="{dui:Styles Alert=Information}"
+                                                   Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}"
+                                                   Title="{Binding AlertText}" />
+                                </DataTemplate>
+                            </dui:BottomSheetPickerConfiguration.FooterTemplate>
+                        </dui:BottomSheetPickerConfiguration>
+                    </dui:ItemPicker.BottomSheetPickerConfiguration>
+                </dui:ItemPicker>
+            </dui:ListItem>
+        </dui:VerticalStackLayout>
+    </ScrollView>
 </dui:ContentPage>

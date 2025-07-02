@@ -59,7 +59,7 @@
                         <dui:ListItem.UnderlyingContent>
                             <Grid Padding="8">
                                 <dui:Label Text="{Binding .}"
-                                           TextColor="{dui:Colors color_neutral_60}" />
+                                           TextColor="{dui:Colors color_text_subtle}" />
                                 
                                 <dui:Divider VerticalOptions="End" />
                             </Grid>
