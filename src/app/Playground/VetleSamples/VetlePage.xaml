@@ -25,20 +25,24 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
+       
+    <dui:VerticalStackLayout>
+        <dui:ItemPicker Size="Large"
+                        VerticalOptions="Start"
+                        ItemsSource="{Binding TestObjects}"
+                        ItemDisplayProperty="Name">
+            <dui:ItemPicker.AdditionalContextMenuItem>
+                <dui:ContextMenuItem Title="Hello!"
+                                     Command="{Binding Navigate}"/>
+            </dui:ItemPicker.AdditionalContextMenuItem>
+        </dui:ItemPicker>
+    
+        <dui:Chip Style="{dui:Styles Chip=Input}"
+                  Title="hlos"
+                  CustomIcon="{dui:Icons arrow_back_line}"/>
         
-    <dui:ItemPicker Size="Large"
-                    VerticalOptions="Start">
-        <dui:ItemPicker.AdditionalContextMenuItem>
-            <dui:ContextMenuItem Title="Hello!" />
-        </dui:ItemPicker.AdditionalContextMenuItem>
-        
-        <dui:ItemPicker.ItemsSource>
-            <x:Array Type="{x:Type x:String}">
-                <x:String>Lol</x:String>
-            </x:Array>
-        </dui:ItemPicker.ItemsSource>
-        
-    </dui:ItemPicker>
+    </dui:VerticalStackLayout>
+    
 
 
 </dui:ContentPage>
