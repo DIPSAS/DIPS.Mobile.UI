@@ -189,4 +189,10 @@
     <data name="Reset" xml:space="preserve">
         <value>Tilbakestill</value>
     </data>
+    <data name="Elements" xml:space="preserve">
+        <value>elementer</value>
+    </data>
+    <data name="Accessibility_TapToChangeView" xml:space="preserve">
+        <value>Trykk for å endre fane</value>
+    </data>
 </root>

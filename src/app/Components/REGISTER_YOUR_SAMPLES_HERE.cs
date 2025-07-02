@@ -17,6 +17,7 @@ using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
 using Components.ComponentsSamples.SyntaxHighlighting;
+using Components.ComponentsSamples.TabView;
 using Components.ComponentsSamples.Tags;
 using Components.ComponentsSamples.Text;
 using Components.ComponentsSamples.TextFields;
@@ -63,7 +64,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Text", () => new TextSamples()),
             new(SampleType.Components, "Tag", () => new TagsSamples()),
             new(SampleType.Components, "Counters", () => new CountersSamples()),
-
+            new(SampleType.Components, "TabView", () => new TabViewSamples()),
             
 
 

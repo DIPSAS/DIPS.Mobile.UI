@@ -350,4 +350,10 @@
     <data name="DisplayInputDialogWithTwoInputFields" xml:space="preserve">
         <value>Vis input dialog med to input felt</value>
     </data>
+    <data name="Accessibility_TapToChangeView" xml:space="preserve">
+        <value>Trykk for å endre fane</value>
+    </data>
+    <data name="Elements" xml:space="preserve">
+        <value>elementer</value>
+    </data>
 </root>

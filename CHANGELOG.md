@@ -1,3 +1,6 @@
+## [47.6.0]
+- Added TabView Component
+
 ## [47.5.1]
 - [SegmentedControl][Android] Make sure all border always have same height.
 - [SegmentedControl] Unselected items' text color is now text_default.

@@ -62,7 +62,7 @@
                        SelectedItems="{Binding SelectedItemsFootballers, Mode=TwoWay}"
                        OnSelectedItemsChanged="ChipGroup_OnOnSelectedItemsChanged">
             
-         
+            
         </dui:ChipGroup>
     </dui:VerticalStackLayout>
 
