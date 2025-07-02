@@ -24,8 +24,7 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-<<<<<<< Updated upstream
-=======
+
        
     <dui:VerticalStackLayout Padding="{dui:Thickness Top=size_4}">
         <dui:SegmentedControl>
@@ -38,13 +37,11 @@
             </dui:SegmentedControl.ItemsSource>
     
         </dui:SegmentedControl>
-        
-        <dui:Button Clicked="Button_OnClicked"></dui:Button>
->>>>>>> Stashed changes
+   
         
         
-    <dui:Button Clicked="Button_OnClicked"/>
-        
+        <dui:Button Clicked="Button_OnClicked"/>
+    </dui:VerticalStackLayout>
 
 
 </dui:ContentPage>
