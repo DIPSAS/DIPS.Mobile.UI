@@ -24,10 +24,24 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
+
+       
+    <dui:VerticalStackLayout Padding="{dui:Thickness Top=size_4}">
+        <dui:SegmentedControl>
+            <dui:SegmentedControl.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>𝐁</x:String>
+                    <x:String>U̲</x:String>
+                    <x:String>𝘐</x:String>
+                </x:Array>
+            </dui:SegmentedControl.ItemsSource>
+    
+        </dui:SegmentedControl>
+   
         
         
-    <dui:Button Clicked="Button_OnClicked"/>
-        
+        <dui:Button Clicked="Button_OnClicked"/>
+    </dui:VerticalStackLayout>
 
 
 </dui:ContentPage>
