@@ -41,7 +41,7 @@ public partial class TabView : ContentView
 
         list.ForEach(obj =>
         {
-            var tab = new Tab() { Title = obj.Title, Counter = obj?.Counter is null || obj.Counter == 0 ? "" : obj.Counter.ToString() };
+            var tab = new Tab() { Title = obj.Title, Counter = obj.Counter };
             tab.Tapped += (sender, args) =>
             {
                 TabToggled(tab);
@@ -51,7 +51,7 @@ public partial class TabView : ContentView
             tab.Command = new Command(_ => TabToggled(item));
             
             SemanticProperties.SetHint(tab, DUILocalizedStrings.Accessibility_TapToChangeView);
-            var counterString = String.IsNullOrEmpty(tab.Counter) ? "" : ", " + tab.Counter + DUILocalizedStrings.Elements;
+            var counterString = tab.Counter is null ? "" : ", " + tab.Counter + DUILocalizedStrings.Elements;
             var semanticDescriptionCombinedText = tab.Title + counterString;
             SemanticProperties.SetDescription(tab, semanticDescriptionCombinedText);
             

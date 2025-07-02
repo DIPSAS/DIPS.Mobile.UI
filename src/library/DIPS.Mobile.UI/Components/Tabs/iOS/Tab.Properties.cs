@@ -25,9 +25,9 @@ namespace DIPS.Mobile.UI.Components.Tabs
         /// <summary>
         /// Part of the label, shows how many items are in the tab
         /// </summary>
-        public string Counter
+        public int? Counter
         {
-            get => (string)GetValue(CounterProperty);
+            get => (int?)GetValue(CounterProperty);
             set => SetValue(CounterProperty, value);
         }
         
@@ -68,7 +68,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
         
         public static readonly BindableProperty CounterProperty = BindableProperty.Create(
             nameof(Counter),
-            typeof(string),
+            typeof(int?),
             typeof(Tab));
         
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(

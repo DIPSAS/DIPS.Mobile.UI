@@ -74,7 +74,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             spans.Add(new Span { Text = "(" });
             
             var counterString = new Span();
-            counterString.SetBinding<Tab, string>(Span.TextProperty, static (Tab tab) => tab.Counter, source: this);
+            counterString.SetBinding<Tab, int?>(Span.TextProperty, static (Tab tab) => tab.Counter, source: this);
             spans.Add(counterString);
             
             spans.Add(new Span { Text = ")" });
