@@ -49,11 +49,20 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         platformView.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
         platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
         platformView.Click += OnChipTapped;
+        VirtualView.SizeChanged += VirtualViewOnSizeChanged;
     }
-    
+
+    private void VirtualViewOnSizeChanged(object? sender, EventArgs e)
+    {
+        // This is a workaround because setting padding top and bottom does not work as expected on Android.
+        VirtualView.MinimumHeightRequest = VirtualView.InnerPadding.Bottom + VirtualView.InnerPadding.Top + VirtualView.Height;
+        VirtualView.SizeChanged -= VirtualViewOnSizeChanged;
+    }
+
     private static void MapPadding(ChipHandler handler, Chip chip)
     {
-        handler.PlatformView.SetPadding((int)chip.InnerPadding.Left.ToMauiPixel(), (int)chip.InnerPadding.Top.ToMauiPixel(), (int)chip.InnerPadding.Right.ToMauiPixel(), (int)chip.InnerPadding.Bottom.ToMauiPixel());
+        handler.PlatformView.ChipStartPadding = chip.InnerPadding.Left.ToMauiPixel();
+        handler.PlatformView.ChipEndPadding = chip.InnerPadding.Right.ToMauiPixel();
     }
 
     private static void MapTitleTextAlignment(ChipHandler handler, Chip chip)
@@ -90,7 +99,6 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         var id = DUI.GetResourceId(fileImageSource.File.Replace(".png", string.Empty), "drawable");
         var icon = Platform.AppContext.GetDrawable((int)id);
         handler.PlatformView.ChipIcon = icon;
-        handler.PlatformView.TextStartPadding = handler.PlatformView.ChipIconSize;
     }
     
     private static void MapCustomIconTintColor(ChipHandler handler, Chip chip)
@@ -126,6 +134,7 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         {
             handler.PlatformView.CloseIconVisible = true;
             handler.PlatformView.SetOnCloseIconClickListener(new ChipCloseListener(handler));
+            
             DUI.TryGetResourceId(Icons.GetIconName(Chip.CloseIconName), out var id, defType:"drawable");
             if (id != 0)
             {

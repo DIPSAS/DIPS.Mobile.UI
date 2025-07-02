@@ -27,7 +27,9 @@
 
        
     <dui:VerticalStackLayout>
-        <dui:ItemPicker Size="Large"
+        <vetleSamples:SegmentedControl></vetleSamples:SegmentedControl>
+        
+        <!--<dui:ItemPicker Size="Large"
                         VerticalOptions="Start"
                         ItemsSource="{Binding TestObjects}"
                         ItemDisplayProperty="Name">
@@ -35,11 +37,21 @@
                 <dui:ContextMenuItem Title="Hello!"
                                      Command="{Binding Navigate}"/>
             </dui:ItemPicker.AdditionalContextMenuItem>
-        </dui:ItemPicker>
+        </dui:ItemPicker>-->
     
+        <dui:MultiItemsPicker ItemsSource="{Binding TestObjects}"
+                              ItemDisplayProperty="Name"
+                              Placeholder="To"/>
+        
+        <dui:Chip IsCloseable="True"
+                  HorizontalOptions="Start"
+                  Title="Hello"></dui:Chip>
+        
+        <dui:ItemPicker Size="Large" />
+        <!--
         <dui:Chip Style="{dui:Styles Chip=Input}"
                   Title="hlos"
-                  CustomIcon="{dui:Icons arrow_back_line}"/>
+                  CustomIcon="{dui:Icons arrow_back_line}"/>-->
         
     </dui:VerticalStackLayout>
     
