@@ -1,13 +1,13 @@
-using Android.Views;
 using AndroidX.AppCompat.Graphics.Drawable;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
+using DIPS.Mobile.UI.Components.TabView;
+using DIPS.Mobile.UI.Components.TabView.Android;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
@@ -22,7 +22,8 @@ public static partial class AppHostBuilderExtensions
                 typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
             .AddHandler(typeof(Chip), typeof(ChipHandler))
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
-            .AddHandler<CameraPreview, CameraPreviewHandler>();
+            .AddHandler<CameraPreview, CameraPreviewHandler>()
+            .AddHandler<TabView, TabViewHandler>();
         
         ToolbarHandler.Mapper.AppendToMapping<Toolbar, IToolbarHandler>(nameof(Toolbar.ToolbarItems), (h, t) =>
         {

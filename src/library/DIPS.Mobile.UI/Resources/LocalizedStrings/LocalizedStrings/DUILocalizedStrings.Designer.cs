@@ -386,5 +386,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Reset", resourceCulture);
             }
         }
+        
+        internal static string Elements {
+            get {
+                return ResourceManager.GetString("Elements", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_TapToChangeView {
+            get {
+                return ResourceManager.GetString("Accessibility_TapToChangeView", resourceCulture);
+            }
+        }
     }
 }

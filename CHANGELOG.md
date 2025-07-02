@@ -1,8 +1,15 @@
-## [47.6.0] 
+## [47.7.0] 
 - [ItemPicker] Added `Large` size, which will transform its layout.
 - [ItemPicker] Added `AdditionalContextMenuItem` property.
 - [Chip][Android] Set tint color to custom icon.
 - [Shell][iOS] Remove divider in navigationbar on all shell pages.
+
+## [47.6.0]
+- Added TabView Component
+
+## [47.5.1]
+- [SegmentedControl][Android] Make sure all border always have same height.
+- [SegmentedControl] Unselected items' text color is now text_default.
 
 ## [47.5.0]
 - Added `Counter` component

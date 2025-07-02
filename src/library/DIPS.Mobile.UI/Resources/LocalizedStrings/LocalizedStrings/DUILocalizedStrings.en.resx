@@ -182,4 +182,10 @@
     <data name="Reset" xml:space="preserve">
         <value>Reset</value>
     </data>
+    <data name="Elements" xml:space="preserve">
+        <value>elements</value>
+    </data>
+    <data name="Accessibility_TapToChangeView" xml:space="preserve">
+        <value>Tap to change tab</value>
+    </data>
 </root>

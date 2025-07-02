@@ -1,0 +1,46 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:tabView="clr-namespace:Components.ComponentsSamples.TabView"
+                 x:Class="Components.ComponentsSamples.TabView.TabViewSamples"
+                 BackgroundColor="{dui:Colors color_background_default}"
+                 Padding="{dui:Sizes size_2}">
+    <dui:ContentPage.BindingContext>
+        <tabView:TabViewSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <dui:VerticalStackLayout>
+        <dui:Label Text="Tab View"
+                   Style="{dui:Styles Label=SectionHeader}" />
+        
+        <dui:TabView x:Name="TabViewSample">
+            <dui:TabItem Title="{Binding Tab1Title}" Counter="{Binding Tab1Counter}"/>    
+            <dui:TabItem Title="{Binding Tab2Title}" />    
+            <dui:TabItem Title="Tab 3" Counter="2"/>    
+            <dui:TabItem Title="Tab 4" Counter="2"/>   
+            <dui:TabItem Title="Tab 5"/>
+            <dui:TabItem Title="Tab 6" Counter="1"/>   
+        </dui:TabView>
+        <ContentView IsVisible="False">
+            <ContentView.Triggers>
+                <DataTrigger TargetType="ContentView" Binding="{Binding SelectedTabIndex, Source={x:Reference TabViewSample}}" Value="0">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </ContentView.Triggers>
+            <Label Text="This is the view for the FIRST tab"></Label>
+        </ContentView>
+        <ContentView IsVisible="False">
+            <ContentView.Triggers>
+                <DataTrigger TargetType="ContentView" Binding="{Binding SelectedTabIndex, Source={x:Reference TabViewSample}}" Value="1">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </ContentView.Triggers>
+            <Label Text="This is the view for the SECOND tab"></Label>
+        </ContentView>
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>
