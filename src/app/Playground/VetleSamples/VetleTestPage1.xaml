@@ -28,10 +28,25 @@
     <Grid RowDefinitions="Auto, Auto, *"
           Padding="{dui:Thickness Top=size_10}"
           >
-       <dui:ListItem Title="test"
-                     VerticalOptions="Center"
-                     Grid.Row="2"
-                     Tapped="ListItem_OnTapped"></dui:ListItem>
+        
+        <dui:SegmentedControl SelectionMode="Multi"
+                              IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}">
+            <dui:SegmentedControl.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>𝐁</x:String>
+                    <x:String>U̲</x:String>
+                    <x:String>𝘐</x:String>
+                </x:Array>
+            </dui:SegmentedControl.ItemsSource>
+    
+        </dui:SegmentedControl>
+        
+        <dui:Switch x:Name="Switch" Grid.Row="1" />
+        
+        <!--<dui:ListItem Title="test"
+                      VerticalOptions="Center"
+                      Grid.Row="2"
+                      Tapped="ListItem_OnTapped"></dui:ListItem>-->
     
     </Grid>
 

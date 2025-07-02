@@ -88,7 +88,7 @@ public partial class SegmentedControl : ContentView
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
             TrueObject = Colors.GetColor(ColorName.color_text_action),
-            FalseObject = Colors.GetColor(ColorName.color_text_subtle)
+            FalseObject = Colors.GetColor(ColorName.color_text_default)
         });
 
         horizontalStackLayout.Add(checkedImage);
@@ -97,6 +97,11 @@ public partial class SegmentedControl : ContentView
         border.SizeChanged += ((sender, _) =>
         {
             if (sender is not View view) return;
+
+            // Sometimes on Android, the different does not have equal heights, so this is a workaround to ensure all borders have same height.
+#if __ANDROID__
+            border.HeightRequest = this.Height;
+#endif
 
             if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
