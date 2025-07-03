@@ -27,7 +27,10 @@
 
        
     <dui:VerticalStackLayout>
-        <dui:ItemPicker Mode="BottomSheet">
+        
+        
+        <dui:ItemPicker Mode="BottomSheet"
+                        HorizontalOptions="Start">
             
             <dui:ItemPicker.BottomSheetPickerConfiguration>
                 <dui:BottomSheetPickerConfiguration Title="{Binding TestString}" />
