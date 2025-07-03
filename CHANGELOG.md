@@ -1,3 +1,6 @@
+## [47.8.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [47.7.1] 
 - [ItemPicker] BottomSheetPickerConfiguration's properties can now be bound.
 
