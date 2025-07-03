@@ -16,6 +16,7 @@ public partial class Chip : ContentView
 #endif
       
         Style = m_buttonToggleStyle = InputStyle.Current;
+        MinimumHeightRequest = Sizes.GetSize(SizeName.size_6);
     }
 
     public void SendTapped()

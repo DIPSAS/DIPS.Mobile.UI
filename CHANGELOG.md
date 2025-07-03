@@ -1,3 +1,6 @@
+## [47.7.1] 
+- [ItemPicker] BottomSheetPickerConfiguration's properties can now be bound.
+
 ## [47.7.0] 
 - [ItemPicker] Added `Large` size, which will transform its layout.
 - [ItemPicker] Added `AdditionalContextMenuItem` property.
