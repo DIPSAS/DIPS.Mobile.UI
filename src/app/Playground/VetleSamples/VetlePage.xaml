@@ -7,6 +7,7 @@
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -24,24 +25,26 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-
        
-    <dui:VerticalStackLayout Padding="{dui:Thickness Top=size_4}">
-        <dui:SegmentedControl>
-            <dui:SegmentedControl.ItemsSource>
+    <dui:VerticalStackLayout>
+        
+        
+        <dui:ItemPicker Mode="BottomSheet"
+                        HorizontalOptions="Start">
+            
+            <dui:ItemPicker.BottomSheetPickerConfiguration>
+                <dui:BottomSheetPickerConfiguration Title="{Binding TestString}" />
+            </dui:ItemPicker.BottomSheetPickerConfiguration>
+            
+            <dui:ItemPicker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
-                    <x:String>𝐁</x:String>
-                    <x:String>U̲</x:String>
-                    <x:String>𝘐</x:String>
+                    <x:String>Lol</x:String>
                 </x:Array>
-            </dui:SegmentedControl.ItemsSource>
-    
-        </dui:SegmentedControl>
-   
-        
-        
-        <dui:Button Clicked="Button_OnClicked"/>
+            </dui:ItemPicker.ItemsSource>
+        </dui:ItemPicker>
+
     </dui:VerticalStackLayout>
+    
 
 
 </dui:ContentPage>

@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 
 namespace DIPS.Mobile.UI.Components.Chips;
@@ -15,8 +14,9 @@ public partial class Chip : ContentView
 #if __IOS__
         ConstructView();
 #endif
-        
+      
         Style = m_buttonToggleStyle = InputStyle.Current;
+        MinimumHeightRequest = Sizes.GetSize(SizeName.size_6);
     }
 
     public void SendTapped()

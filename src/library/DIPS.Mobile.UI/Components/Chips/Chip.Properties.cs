@@ -25,6 +25,16 @@ public partial class Chip
         get => (Color)GetValue(CustomIconTintColorProperty);
         set => SetValue(CustomIconTintColorProperty, value);
     }
+
+    /// <summary>
+    /// Set an icon that will be displayed on the right side of the chip.
+    /// <remarks>Will be hidden if <see cref="IsCloseable"/> is true</remarks>
+    /// </summary>
+    public ImageSource? CustomRightIcon
+    {
+        get => (ImageSource)GetValue(CustomRightIconProperty);
+        set => SetValue(CustomRightIconProperty, value);
+    }
     
     /// <summary>
     /// The color of the chip.
@@ -203,6 +213,31 @@ public partial class Chip
     /// </summary>
     public event EventHandler? CloseTapped;
 
+    
+    internal Thickness InnerPadding
+    {
+        get => (Thickness)GetValue(InnerPaddingProperty);
+        set => SetValue(InnerPaddingProperty, value);
+    }
+
+    internal TextAlignment TitleTextAlignment
+    {
+        get => (TextAlignment)GetValue(TitleTextAlignmentProperty);
+        set => SetValue(TitleTextAlignmentProperty, value);
+    }
+    
+    internal static readonly BindableProperty TitleTextAlignmentProperty = BindableProperty.Create(
+        nameof(TitleTextAlignment),
+        typeof(TextAlignment),
+        typeof(Chip),
+        defaultValue: TextAlignment.Center);
+    
+    internal static readonly BindableProperty InnerPaddingProperty = BindableProperty.Create(
+        nameof(InnerPadding),
+        typeof(Thickness),
+        typeof(Chip),
+        defaultValue: new Thickness(Sizes.GetSize(SizeName.size_2), 0));
+
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
         typeof(object),
@@ -249,6 +284,11 @@ public partial class Chip
     public static readonly BindableProperty IsToggleableProperty = BindableProperty.Create(
         nameof(IsToggleable),
         typeof(bool),
+        typeof(Chip));
+    
+    public static readonly BindableProperty CustomRightIconProperty = BindableProperty.Create(
+        nameof(CustomRightIcon),
+        typeof(ImageSource),
         typeof(Chip));
 
 }

@@ -31,8 +31,65 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         [nameof(Chip.IsToggled)] = MapIsToggled,
         [nameof(Chip.TitleColor)] = MapTitleColor,
         [nameof(Chip.IsToggleable)] = MapIsToggleable,
-        [nameof(Chip.CustomIcon)] = MapCustomIcon
+        [nameof(Chip.CustomIcon)] = MapCustomIcon,
+        [nameof(Chip.CustomIconTintColor)] = MapCustomIconTintColor,
+        [nameof(Chip.CustomRightIcon)] = MapCustomRightIcon,
+        [nameof(Chip.TitleTextAlignment)] = MapTitleTextAlignment,
+        [nameof(Chip.InnerPadding)] = MapPadding
     };
+
+    protected override Google.Android.Material.Chip.Chip CreatePlatformView() => new(Context);
+
+    protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
+    {
+        base.ConnectHandler(platformView);
+        
+        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
+        platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
+        platformView.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
+        platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
+        platformView.Click += OnChipTapped;
+        VirtualView.SizeChanged += VirtualViewOnSizeChanged;
+    }
+
+    private void VirtualViewOnSizeChanged(object? sender, EventArgs e)
+    {
+        // This is a workaround because setting padding top and bottom does not work as expected on Android.
+        VirtualView.MinimumHeightRequest = VirtualView.InnerPadding.Bottom + VirtualView.InnerPadding.Top + VirtualView.Height;
+        VirtualView.SizeChanged -= VirtualViewOnSizeChanged;
+    }
+
+    private static void MapPadding(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.ChipStartPadding = chip.InnerPadding.Left.ToMauiPixel();
+        handler.PlatformView.ChipEndPadding = chip.InnerPadding.Right.ToMauiPixel();
+    }
+
+    private static void MapTitleTextAlignment(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.TextAlignment = chip.TitleTextAlignment switch
+        {
+            Microsoft.Maui.TextAlignment.Start => TextAlignment.ViewStart,
+            Microsoft.Maui.TextAlignment.Center => TextAlignment.Center,
+            Microsoft.Maui.TextAlignment.End => TextAlignment.ViewEnd,
+            _ => TextAlignment.ViewStart
+        };
+    }
+
+    private static void MapCustomRightIcon(ChipHandler handler, Chip chip)
+    {
+        if(chip.IsCloseable || chip.CustomRightIcon is not FileImageSource fileImageSource)
+            return;
+        
+        handler.PlatformView.CloseIconVisible = true;
+        DUI.TryGetResourceId(fileImageSource.File.Replace(".png", string.Empty), out var id, defType:"drawable");
+        
+        if (id == 0)
+            return;
+
+        var drawable = Platform.AppContext.Resources?.GetDrawable(id);
+        handler.PlatformView.CloseIcon = drawable;
+    }
 
     private static void MapCustomIcon(ChipHandler handler, Chip chip)
     {
@@ -43,6 +100,11 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         var icon = Platform.AppContext.GetDrawable((int)id);
         handler.PlatformView.ChipIcon = icon;
     }
+    
+    private static void MapCustomIconTintColor(ChipHandler handler, Chip chip)
+    {
+        handler.PlatformView.ChipIconTint = chip.CustomIconTintColor.ToDefaultColorStateList();
+    }
 
     internal void OnChipTapped()
     {
@@ -52,21 +114,6 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
     internal void OnCloseTapped()
     {
         VirtualView.SendCloseTapped();
-    }
-    
-    protected override Google.Android.Material.Chip.Chip CreatePlatformView() => new(Context);
-
-    protected override void ConnectHandler(Google.Android.Material.Chip.Chip platformView)
-    {
-        base.ConnectHandler(platformView);
-        platformView.SetPadding((int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_small).ToMauiPixel(), (int)Sizes.GetSize(SizeName.content_margin_xsmall).ToMauiPixel());
-        
-        var fontManager = MauiContext?.Services.GetRequiredService<IFontManager>();
-        platformView.UpdateFont(textStyle: new Label { Style = Styles.GetLabelStyle(LabelStyle.Body200) }, fontManager!);
-        platformView.TextAlignment = TextAlignment.Center;
-        platformView.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
-        platformView.SetEnsureMinTouchTargetSize(false); //Remove extra margins around the chip, this is added to get more space to hit the chip but its not necessary : https://stackoverflow.com/a/57188310
-        platformView.Click += OnChipTapped;
     }
 
     private void OnChipTapped(object? sender, EventArgs e)
@@ -87,6 +134,7 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         {
             handler.PlatformView.CloseIconVisible = true;
             handler.PlatformView.SetOnCloseIconClickListener(new ChipCloseListener(handler));
+            
             DUI.TryGetResourceId(Icons.GetIconName(Chip.CloseIconName), out var id, defType:"drawable");
             if (id != 0)
             {

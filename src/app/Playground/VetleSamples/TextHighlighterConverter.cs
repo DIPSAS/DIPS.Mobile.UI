@@ -7,7 +7,7 @@ namespace Playground.VetleSamples;
 public class TextHighlighterConverter : IMultiValueConverter, IMarkupExtension
 {
     public string FontFamily { get; set; } = "UI";
-    public Color TextColor { get; set; } = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_neutral_90);
+    public Color TextColor { get; set; } = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default);
     public int FontSize { get; set; } = 16;
     public bool ShouldAddEllipsisAtStart { get; set; } = true;
     
