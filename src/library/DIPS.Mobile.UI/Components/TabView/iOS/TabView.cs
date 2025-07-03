@@ -10,7 +10,7 @@ public partial class TabView : ContentView
         HorizontalScrollBarVisibility = ScrollBarVisibility.Never
     };
     private HorizontalStackLayout m_stackLayout = new(){ 
-        Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), 0),            
+        Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2)),            
         Spacing = Sizes.GetSize(SizeName.size_1),
     };
     private readonly List<Tab> m_tabItems = [];

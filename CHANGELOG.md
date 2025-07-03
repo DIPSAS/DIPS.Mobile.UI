@@ -1,3 +1,6 @@
+## [47.8.1] 
+- [TabView] Small style fixes
+
 ## [47.8.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
