@@ -1,3 +1,6 @@
+## [47.10.1]
+- [TabView] Remove padding on sides on iOS
+
 ## [47.10.0]
 - [TabView] Add possibility to check if switching tab is allowed.
 
