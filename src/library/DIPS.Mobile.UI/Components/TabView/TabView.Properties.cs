@@ -59,7 +59,14 @@ public partial class TabView
         get => (List<TabItem>?)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
-    public event EventHandler<TabViewEventArgs>? OnSelectedItemChanged;
+    
+    public Func<int, Task<bool>>? CanSwitchTab
+    {
+        get => (Func<int, Task<bool>>?)GetValue(CanSwitchTabProperty);
+        set => SetValue(CanSwitchTabProperty, value);
+    }  
+    
+    public event EventHandler<TabViewEventArgs>? OnSelectedTabIndexChanged;
     
     public class TabViewEventArgs : EventArgs
     {
@@ -113,4 +120,10 @@ public partial class TabView
         typeof(TabView),
         defaultValueCreator:(bindable => new List<TabItem>()),
         propertyChanged: (bindable, _, _) => ((TabView)bindable).OnItemsSourceChanged());
+
+    public static readonly BindableProperty CanSwitchTabProperty = BindableProperty.Create(
+        nameof(CanSwitchTab),
+        typeof(Func<int, Task<bool>>),
+        typeof(Tab)
+    );
 }

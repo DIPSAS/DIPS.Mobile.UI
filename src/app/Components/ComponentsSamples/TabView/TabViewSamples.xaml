@@ -15,7 +15,9 @@
     
     <Grid RowDefinitions="Auto, *">
         
-        <dui:TabView x:Name="TabViewSample" Grid.Row="0">
+        <dui:TabView x:Name="TabViewSample" 
+                     Grid.Row="0" 
+                     CanSwitchTab="{Binding CanSwitchTab}">
             <dui:TabItem Title="{Binding Tab1Title}" Counter="{Binding Tab1Counter}"/>    
             <dui:TabItem Title="{Binding Tab2Title}" />    
             <dui:TabItem Title="Tab 3" Counter="2"/>    
