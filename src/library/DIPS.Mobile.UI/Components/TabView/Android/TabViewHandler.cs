@@ -160,9 +160,4 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
             }
         }
     }
-
-    public void OnTabSelected(TabLayout.Tab? tab)
-    {
-        throw new NotImplementedException();
-    }
 }
