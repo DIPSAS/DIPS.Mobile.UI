@@ -10,6 +10,9 @@ public class CountersSamplesViewModel : ViewModel
     private CounterDisplayMode m_mode = CounterDisplayMode.Single;
     private bool m_isUrgent;
     private bool m_isSecondaryUrgent;
+    private bool m_isError;
+    private bool m_isSecondaryError;
+    private bool m_isFlipped;
 
     public List<CounterDisplayMode> Modes { get; } =
     [
@@ -42,9 +45,27 @@ public class CountersSamplesViewModel : ViewModel
         set => RaiseWhenSet(ref m_isSecondaryUrgent, value);
     }
 
+    public bool IsError
+    {
+        get => m_isError;
+        set => RaiseWhenSet(ref m_isError, value);
+    }
+
+    public bool IsSecondaryError
+    {
+        get => m_isSecondaryError;
+        set => RaiseWhenSet(ref m_isSecondaryError, value);
+    }
+
     public CounterDisplayMode Mode
     {
         get => m_mode;
         set => RaiseWhenSet(ref m_mode, value);
+    }
+
+    public bool IsFlipped
+    {
+        get => m_isFlipped;
+        set => RaiseWhenSet(ref m_isFlipped, value);
     }
 }

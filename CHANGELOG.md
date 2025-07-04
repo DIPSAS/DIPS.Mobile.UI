@@ -1,5 +1,8 @@
-## [47.9.0]
+## [47.10.0]
 - [TabView] Add possibility to check if switching tab is allowed.
+
+## [47.9.0]
+- [Counter] Add `IsError`, `IsSecondaryError` and `IsFlipped` properties
 
 ## [47.8.1] 
 - [TabView] Small style fixes

@@ -17,30 +17,11 @@
                                   SecondaryValue="{Binding SecondaryValue}"
                                   Mode="{Binding Mode}"
                                   IsUrgent="{Binding IsUrgent}"
-                                  IsSecondaryUrgent="{Binding IsSecondaryUrgent}"/>
+                                  IsSecondaryUrgent="{Binding IsSecondaryUrgent}"
+                                  IsError="{Binding IsError}"
+                                  IsSecondaryError="{Binding IsSecondaryError}"
+                                  IsFlipped="{Binding IsFlipped}"/>
             </dui:ListItem>
-            <!-- <dui:ListItem Title="Standard counter"> -->
-            <!--     <counters:Counter Value="5"/> -->
-            <!-- </dui:ListItem> -->
-            <!-- <dui:ListItem Title="Urgent counter"> -->
-            <!--     <counters:Counter Value="5" -->
-            <!--                       IsUrgent="True"/> -->
-            <!-- </dui:ListItem> -->
-            <!-- <dui:ListItem Title="Double counter"> -->
-            <!--     <counters:Counter Value="5" -->
-            <!--                       SecondaryValue="10" -->
-            <!--                       Mode="Double"/> -->
-            <!-- </dui:ListItem> -->
-            <!-- <dui:ListItem Title="Double counter"> -->
-            <!--     <counters:Counter Value="5" -->
-            <!--                       Mode="Double"/> -->
-            <!-- </dui:ListItem> -->
-            <!-- <dui:ListItem Title="Double urgent counter"> -->
-            <!--     <counters:Counter Value="5" -->
-            <!--                       SecondaryValue="10" -->
-            <!--                       IsSecondaryUrgent="True" -->
-            <!--                       Mode="Double"/> -->
-            <!-- </dui:ListItem> -->
             <dui:ListItem Title="Value">
                 <dui:Entry Text="{Binding Value}"
                            Keyboard="Numeric"
@@ -62,6 +43,15 @@
             </dui:ListItem>
             <dui:ListItem Title="Is Secondary Urgent">
                 <dui:Switch IsToggled="{Binding IsSecondaryUrgent}"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Error">
+                <dui:Switch IsToggled="{Binding IsError}"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Secondary Error">
+                <dui:Switch IsToggled="{Binding IsSecondaryError}"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Flipped">
+                <dui:Switch IsToggled="{Binding IsFlipped}"/>
             </dui:ListItem>
         </dui:VerticalStackLayout>
     </dui:ScrollView>
