@@ -36,6 +36,30 @@ public partial class Counter
         defaultBindingMode: BindingMode.OneWay,
         propertyChanged: (bindable, _, _) => ((Counter)bindable).OnModeChanged());
 
+    public static readonly BindableProperty IsErrorProperty = BindableProperty.Create(
+        nameof(IsError),
+        typeof(bool),
+        typeof(Counter),
+        propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsErrorChanged());
+
+    public static readonly BindableProperty IsSecondaryErrorProperty = BindableProperty.Create(
+        nameof(IsSecondaryError),
+        typeof(bool),
+        typeof(Counter),
+        propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsSecondaryErrorChanged());
+
+    public bool IsSecondaryError
+    {
+        get => (bool)GetValue(IsSecondaryErrorProperty);
+        set => SetValue(IsSecondaryErrorProperty, value);
+    }    
+    
+    public bool IsError
+    {
+        get => (bool)GetValue(IsErrorProperty);
+        set => SetValue(IsErrorProperty, value);
+    }
+    
     /// <summary>
     /// The mode determining how the primary and secondary counter should be displayed.
     /// </summary>

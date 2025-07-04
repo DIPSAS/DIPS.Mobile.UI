@@ -1,3 +1,6 @@
+## [47.9.0]
+- [Counter] Add `IsError` and `IsSecondaryError` properties
+
 ## [47.8.1] 
 - [TabView] Small style fixes
 
