@@ -19,7 +19,8 @@
                                   IsUrgent="{Binding IsUrgent}"
                                   IsSecondaryUrgent="{Binding IsSecondaryUrgent}"
                                   IsError="{Binding IsError}"
-                                  IsSecondaryError="{Binding IsSecondaryError}"/>
+                                  IsSecondaryError="{Binding IsSecondaryError}"
+                                  IsFlipped="{Binding IsFlipped}"/>
             </dui:ListItem>
             <dui:ListItem Title="Value">
                 <dui:Entry Text="{Binding Value}"
@@ -48,6 +49,9 @@
             </dui:ListItem>
             <dui:ListItem Title="Is Secondary Error">
                 <dui:Switch IsToggled="{Binding IsSecondaryError}"/>
+            </dui:ListItem>
+            <dui:ListItem Title="Is Flipped">
+                <dui:Switch IsToggled="{Binding IsFlipped}"/>
             </dui:ListItem>
         </dui:VerticalStackLayout>
     </dui:ScrollView>

@@ -12,6 +12,7 @@ public class CountersSamplesViewModel : ViewModel
     private bool m_isSecondaryUrgent;
     private bool m_isError;
     private bool m_isSecondaryError;
+    private bool m_isFlipped;
 
     public List<CounterDisplayMode> Modes { get; } =
     [
@@ -60,5 +61,11 @@ public class CountersSamplesViewModel : ViewModel
     {
         get => m_mode;
         set => RaiseWhenSet(ref m_mode, value);
+    }
+
+    public bool IsFlipped
+    {
+        get => m_isFlipped;
+        set => RaiseWhenSet(ref m_isFlipped, value);
     }
 }

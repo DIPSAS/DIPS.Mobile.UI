@@ -57,9 +57,9 @@ public partial class Counter : Grid
         m_secondaryGrid.Add(m_secondaryLabel);
         m_secondaryGrid.Add(m_secondaryErrorIcon);
         
-        this.Add(m_primaryGrid, 0);
+        this.Add(m_primaryGrid, IsFlipped ? 2 : 0);
         this.Add(m_divider, 1);
-        this.Add(m_secondaryGrid, 2);
+        this.Add(m_secondaryGrid, IsFlipped ? 0 : 2);
         
         OnModeChanged();
         OnIsUrgentChanged();
@@ -132,5 +132,11 @@ public partial class Counter : Grid
     {
         m_secondaryErrorIcon.IsVisible = IsSecondaryError;
         m_secondaryLabel.IsVisible = !IsSecondaryError;
+    }
+
+    private void OnIsFlippedChanged()
+    {
+        this.SetColumn(m_primaryGrid, IsFlipped ? 2 : 0);
+        this.SetColumn(m_secondaryGrid, IsFlipped ? 0 : 2);
     }
 }
