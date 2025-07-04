@@ -51,9 +51,4 @@ public partial class TabViewSamples
             OnPropertyChanged();
         }
     }
-
-    private void TabViewSample_OnOnSelectedTabIndexChanged(object? sender, DIPS.Mobile.UI.Components.TabView.TabView.TabViewEventArgs e)
-    {
-        
-    }
 }
