@@ -1,3 +1,6 @@
+## [47.9.0]
+- [TabView] Add possibility to check if switching tab is allowed.
+
 ## [47.8.1] 
 - [TabView] Small style fixes
 

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.MVVM;
 
 namespace Components.ComponentsSamples.TabView;
@@ -8,8 +9,28 @@ public class TabViewSamplesViewModel : ViewModel, INotifyPropertyChanged
 {
     public TabViewSamplesViewModel()
     {
+        CanSwitchTab = CanSwitchTab1;
     }
-    
+
+    private async Task<bool> CanSwitchTab1(int arg)
+    {
+        if (arg == 2)
+        {
+            var result = await DialogService.ShowMessage(config => 
+            {
+                config.SetTitle("Are you sure you want to switch tab?");
+                config.SetCancelTitle("Cancel");
+            });
+            if (result is DialogAction.TappedAction)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        return true;
+    }
+
     private string m_tab1Title = "Tab 1";
     private int m_tab1Counter = 5;
     private string m_tab2Title = "Tab 2";
@@ -54,7 +75,9 @@ public class TabViewSamplesViewModel : ViewModel, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    
+
+    public Func<int, Task<bool>>? CanSwitchTab { get; }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

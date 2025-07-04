@@ -47,14 +47,40 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
         platformView.TabSelected -= OnTabSelected;
         base.DisconnectHandler(platformView);
     }
-
-    void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
+    
+    async void OnTabSelected(object sender, TabLayout.TabSelectedEventArgs e)
     {
+        if (await TrySwitchTab())
+        {
+            return;
+        }
+
         var index = e.Tab.Position;
         if (VirtualView.ItemsSource != null && index >= 0 && index < VirtualView.ItemsSource.Count)
         {
-            VirtualView.SelectedTabIndex = index;
+            VirtualView.SetSelectedTabIndex(index);
         }
+    }
+
+    // This method is called when the user tries to switch tabs, to check if a confirmation is needed and if switching shall proceed.
+    private async Task<bool> TrySwitchTab()
+    {
+        if (VirtualView.CanSwitchTab != null)
+        {
+            UpdateTabColor();
+            var result = await VirtualView.CanSwitchTab(VirtualView.SelectedTabIndex);
+            if (!result)
+            {
+                m_tabLayout.TabSelected -= OnTabSelected; // Temporarily remove the event handler to prevent recursion
+                m_tabLayout.SelectTab(m_tabLayout.GetTabAt(VirtualView.SelectedTabIndex));
+                UpdateTabColor();
+                m_tabLayout.TabSelected += OnTabSelected;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void MapItemsSource(TabViewHandler handler, TabView tabView)
@@ -133,5 +159,10 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
                 tab.SetCustomView(customTab);
             }
         }
+    }
+
+    public void OnTabSelected(TabLayout.Tab? tab)
+    {
+        throw new NotImplementedException();
     }
 }
