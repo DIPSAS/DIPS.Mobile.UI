@@ -1,3 +1,6 @@
+## [47.11.0]
+- [Tag] Added `LineBreakMode` property
+
 ## [47.10.1]
 - [TabView] Remove padding on sides on iOS
 

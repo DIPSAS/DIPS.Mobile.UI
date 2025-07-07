@@ -46,6 +46,7 @@ public partial class Tag : HorizontalStackLayout
         
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (Tag tag) => tag.Text, source: this);
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (Tag tag) => tag.TextColor, source: this);
+        label.SetBinding(Microsoft.Maui.Controls.Label.LineBreakModeProperty, static (Tag tag) => tag.LineBreakMode, source: this);
         
         Add(label);
     }

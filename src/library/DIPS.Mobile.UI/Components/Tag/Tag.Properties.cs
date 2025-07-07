@@ -24,6 +24,20 @@ public partial class Tag
         typeof(Color),
         typeof(Tag));
 
+    public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create(
+        nameof(LineBreakMode),
+        typeof(LineBreakMode),
+        typeof(Tag));
+
+    /// <summary>
+    /// Sets the <see cref="LineBreakMode"/> for the text in the tag.
+    /// </summary>
+    public LineBreakMode LineBreakMode
+    {
+        get => (LineBreakMode)GetValue(LineBreakModeProperty);
+        set => SetValue(LineBreakModeProperty, value);
+    }
+
     /// <summary>
     /// Sets the color of the icon in the tag.
     /// </summary>
