@@ -41,7 +41,8 @@ public partial class Tag : HorizontalStackLayout
         var label = new Label
         {
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
-            VerticalTextAlignment = TextAlignment.Center
+            VerticalTextAlignment = TextAlignment.Center,
+            HorizontalOptions = LayoutOptions.Fill
         };
         
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (Tag tag) => tag.Text, source: this);
