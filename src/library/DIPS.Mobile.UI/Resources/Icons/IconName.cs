@@ -401,5 +401,7 @@ bold=197,
 italic=198,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_dropdown_line.svg">View the icon in the browser</a></summary>
 arrow_dropdown_line=199,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/phone_line.svg">View the icon in the browser</a></summary>
+phone_line=200,
     }
 }
