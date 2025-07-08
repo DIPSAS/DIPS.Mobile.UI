@@ -11,10 +11,6 @@
         <dui:Tag Text="Default" 
                  Icon="{dui:Icons lock_fill}"/>
         
-        <dui:Tag Text="A tag with a very long text and I want the end of it to be truncated with three small cute dots."
-                 LineBreakMode="TailTruncation"
-                 Icon="{dui:Icons lock_fill}"/>
-        
         <dui:Tag Style="{dui:Styles Tag=Danger}"
                  Text="Danger"
                  Icon="{dui:Icons alert_fill}" />
