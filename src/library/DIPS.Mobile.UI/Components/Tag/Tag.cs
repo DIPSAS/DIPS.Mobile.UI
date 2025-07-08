@@ -6,15 +6,17 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Tag;
 
-public partial class Tag : HorizontalStackLayout
+public partial class Tag : Grid
 {
     public Tag()
     {
+        ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
+
         Style = Styles.GetTagStyle(TagStyle.Default);
         Padding = Sizes.GetSize(SizeName.size_half);
         UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
         
-        Spacing = Sizes.GetSize(SizeName.size_1);
+        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
         
         HorizontalOptions = LayoutOptions.Start;
 
@@ -33,7 +35,7 @@ public partial class Tag : HorizontalStackLayout
         icon.SetBinding(Images.Image.Image.TintColorProperty, static (Tag tag) => tag.IconColor, source: this);
         icon.SetBinding(IsVisibleProperty, static (Tag tag) => tag.Icon, converter: new IsEmptyConverter { Inverted = true }, source: this);
 
-        Add(icon);
+        this.Add(icon, 0);
     }
 
     private void CreateTextLabel()
@@ -42,13 +44,14 @@ public partial class Tag : HorizontalStackLayout
         {
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
             VerticalTextAlignment = TextAlignment.Center,
-            HorizontalOptions = LayoutOptions.Fill
+            HorizontalOptions = LayoutOptions.Start,
+            MaxLines = 1
         };
         
         label.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (Tag tag) => tag.Text, source: this);
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (Tag tag) => tag.TextColor, source: this);
         label.SetBinding(Microsoft.Maui.Controls.Label.LineBreakModeProperty, static (Tag tag) => tag.LineBreakMode, source: this);
         
-        Add(label);
+        this.Add(label, 1);
     }
 }
