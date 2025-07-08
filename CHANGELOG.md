@@ -1,3 +1,6 @@
+## [47.12.0]
+- [Tag] Added `LineBreakMode` property
+
 ## [47.11.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
