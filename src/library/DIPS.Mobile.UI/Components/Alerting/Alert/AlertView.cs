@@ -10,7 +10,7 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.Components.Alerting.Alert;
+namespace DIPS.Mobile.UI.Components.Alerting. Alert;
 
 public partial class AlertView : Border
 {
@@ -162,6 +162,7 @@ public partial class AlertView : Border
             Style = Styles.GetLabelStyle(LabelStyle.UI200)
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
+        m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.MaxLinesProperty, static (AlertView alertView) => alertView.TitleMaxLines, source: this);
 
         m_innerGrid?.Add(m_titleLabel, 1);
         OnIconChanged();
