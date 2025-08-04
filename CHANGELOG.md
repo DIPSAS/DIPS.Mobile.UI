@@ -1,3 +1,6 @@
+## [47.15.0] 
+- Fixed splash screen color.
+
 ## [47.14.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

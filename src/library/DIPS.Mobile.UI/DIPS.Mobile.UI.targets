@@ -2,7 +2,7 @@
   <ItemGroup>
     <MauiImage Include="$(MSBuildThisFileDirectory)\Resources\Icons\*.svg" />
     <MauiAsset Condition="'$(DIPSIncludeAnimations)' == 'True' OR '$(DIPSIncludeAnimations)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Animations\*.json" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-    <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#ff047f89" />
+    <MauiSplashScreen Condition="'$(DIPSIncludeSplashScreen)' == 'True' OR '$(DIPSIncludeSplashScreen)' == ''" Include="$(MSBuildThisFileDirectory)\Resources\Splash\splash.svg" Color="#050948" />
     <MauiAsset Include="$(MSBuildThisFileDirectory)\Components\SyntaxHighlighting\syntax-highlighting\*.js" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <MauiAsset Include="$(MSBuildThisFileDirectory)\Components\SyntaxHighlighting\syntax-highlighting\*.css" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
