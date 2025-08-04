@@ -1,3 +1,6 @@
+## [47.14.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [47.13.0]
 - [AlertView] Added `TitleMaxlines` and `DescriptionMaxLines`.
 
