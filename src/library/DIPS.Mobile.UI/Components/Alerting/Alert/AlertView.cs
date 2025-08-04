@@ -162,7 +162,12 @@ public partial class AlertView : Border
             LineBreakMode = LineBreakMode.TailTruncation
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
-        m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.MaxLinesProperty, static (AlertView alertView) => alertView.TitleMaxLines, source: this);
+        
+        // Default value for MaxLines is -1 and causes a crash when binding directly on Android
+        if (TitleMaxLines > -1)
+        {
+            m_titleLabel.MaxLines = TitleMaxLines;
+        }
 
         m_innerGrid?.Add(m_titleLabel, 1);
         OnIconChanged();
@@ -179,8 +184,13 @@ public partial class AlertView : Border
         };
         
         m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
-        m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.MaxLinesProperty, static (AlertView alertView) => alertView.DescriptionMaxLines, source: this);
 
+        // Default value for MaxLines is -1 and causes a crash when binding directly on Android
+        if (DescriptionMaxLines > -1)
+        {
+            m_descriptionLabel.MaxLines = DescriptionMaxLines;
+        }
+        
         m_innerGrid?.Add(m_descriptionLabel, 1, 1);
         
         UpdateButtonAlignment();
