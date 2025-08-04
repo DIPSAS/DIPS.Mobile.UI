@@ -154,14 +154,14 @@ public partial class AlertView
         nameof(TitleMaxLines),
         typeof(int),
         typeof(AlertView),
-        defaultValue: -1);
+        Label.MaxLinesProperty.DefaultValue);
 
 
     public static readonly BindableProperty DescriptionMaxLinesProperty = BindableProperty.Create(
         nameof(DescriptionMaxLines),
         typeof(int),
         typeof(AlertView),
-        defaultValue: -1);
+        Label.MaxLinesProperty.DefaultValue);
 
     /// <summary>
     /// Determines how many lines the <see cref="Description"/> property can take up before it is truncated.
