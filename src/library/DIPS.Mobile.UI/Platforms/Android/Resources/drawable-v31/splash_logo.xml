@@ -79,14 +79,6 @@
         <aapt:attr name="android:animation">
             <set>
                 <objectAnimator
-                        android:propertyName="fillColor"
-                        android:startOffset="100"
-                        android:duration="900"
-                        android:valueFrom="#ffffff"
-                        android:valueTo="#CA4C4B"
-                        android:valueType="colorType"
-                        android:interpolator="@android:interpolator/fast_out_slow_in"/>
-                <objectAnimator
                         android:propertyName="fillAlpha"
                         android:startOffset="100"
                         android:duration="900"
