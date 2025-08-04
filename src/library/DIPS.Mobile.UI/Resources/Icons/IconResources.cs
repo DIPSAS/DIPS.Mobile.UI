@@ -205,6 +205,9 @@ this file is generated
 ["bold"] = "bold.png",
 ["italic"] = "italic.png",
 ["arrow_dropdown_line"] = "arrow_dropdown_line.png",
+["phone_line"] = "phone_line.png",
+["layout_row_line"] = "layout_row_line.png",
+["settings_line"] = "settings_line.png",
 
             };
         }

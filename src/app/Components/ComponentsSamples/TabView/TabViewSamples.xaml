@@ -13,11 +13,11 @@
         <tabView:TabViewSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <dui:VerticalStackLayout>
-        <dui:Label Text="Tab View"
-                   Style="{dui:Styles Label=SectionHeader}" />
+    <Grid RowDefinitions="Auto, *">
         
-        <dui:TabView x:Name="TabViewSample">
+        <dui:TabView x:Name="TabViewSample" 
+                     Grid.Row="0" 
+                     CanSwitchTab="{Binding CanSwitchTab}">
             <dui:TabItem Title="{Binding Tab1Title}" Counter="{Binding Tab1Counter}"/>    
             <dui:TabItem Title="{Binding Tab2Title}" />    
             <dui:TabItem Title="Tab 3" Counter="2"/>    
@@ -25,7 +25,7 @@
             <dui:TabItem Title="Tab 5"/>
             <dui:TabItem Title="Tab 6" Counter="1"/>   
         </dui:TabView>
-        <ContentView IsVisible="False">
+        <ContentView IsVisible="False" Grid.Row="1">
             <ContentView.Triggers>
                 <DataTrigger TargetType="ContentView" Binding="{Binding SelectedTabIndex, Source={x:Reference TabViewSample}}" Value="0">
                     <Setter Property="IsVisible" Value="True" />
@@ -33,7 +33,7 @@
             </ContentView.Triggers>
             <Label Text="This is the view for the FIRST tab"></Label>
         </ContentView>
-        <ContentView IsVisible="False">
+        <ContentView IsVisible="False" Grid.Row="1">
             <ContentView.Triggers>
                 <DataTrigger TargetType="ContentView" Binding="{Binding SelectedTabIndex, Source={x:Reference TabViewSample}}" Value="1">
                     <Setter Property="IsVisible" Value="True" />
@@ -41,6 +41,6 @@
             </ContentView.Triggers>
             <Label Text="This is the view for the SECOND tab"></Label>
         </ContentView>
-    </dui:VerticalStackLayout>
+    </Grid>
 
 </dui:ContentPage>

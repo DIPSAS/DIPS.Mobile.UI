@@ -23,7 +23,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             {
                 Spacing = Sizes.GetSize(SizeName.size_1),
                 HorizontalOptions = LayoutOptions.Center,
-                Padding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2))            
+                Padding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_1))            
             };
             m_titleLabel = CreateTitleLabel();
             m_counterLabel = CreateCounterLabel();

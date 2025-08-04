@@ -27,6 +27,12 @@ public partial class TabView : ContentView
         ItemsSourceChanged();
 #endif
     }
+
+    internal void SetSelectedTabIndex(int index)
+    {
+        OnSelectedTabIndexChanged?.Invoke(this, new TabViewEventArgs(index));
+        SelectedTabIndex = index;
+    }
 }
 
 public class TabItem : BindableObject

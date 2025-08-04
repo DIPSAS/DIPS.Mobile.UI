@@ -1,5 +1,29 @@
-## [47.9.0] 
+## [47.15.0] 
 - Fixed splash screen color.
+
+## [47.14.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [47.13.0]
+- [AlertView] Added `TitleMaxlines` and `DescriptionMaxLines`.
+
+## [47.12.0]
+- [Tag] Added `LineBreakMode` property
+
+## [47.11.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [47.10.1]
+- [TabView] Remove padding on sides on iOS
+
+## [47.10.0]
+- [TabView] Add possibility to check if switching tab is allowed.
+
+## [47.9.0]
+- [Counter] Add `IsError`, `IsSecondaryError` and `IsFlipped` properties
+
+## [47.8.1] 
+- [TabView] Small style fixes
 
 ## [47.8.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

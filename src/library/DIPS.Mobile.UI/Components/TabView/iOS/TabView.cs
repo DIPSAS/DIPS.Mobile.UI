@@ -10,11 +10,11 @@ public partial class TabView : ContentView
         HorizontalScrollBarVisibility = ScrollBarVisibility.Never
     };
     private HorizontalStackLayout m_stackLayout = new(){ 
-        Padding = new Thickness(Sizes.GetSize(SizeName.size_3), 0, Sizes.GetSize(SizeName.size_3), 0),            
+        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.size_2)),            
         Spacing = Sizes.GetSize(SizeName.size_1),
     };
     private readonly List<Tab> m_tabItems = [];
-    private int m_previouslySelectedTabIndex = 0;
+    private int m_previouslySelectedTabIndex = -1;
 
     public TabView()
     { 
@@ -24,10 +24,12 @@ public partial class TabView : ContentView
 
     private void SetTabToggled()
     {
+        if (m_previouslySelectedTabIndex == SelectedTabIndex) return;
+        
         var tabItem = m_tabItems[SelectedTabIndex];
         tabItem.IsSelected = true;
         
-        TabToggled(tabItem, false);
+        _ = TabToggled(tabItem, false);
     }
     
     private void ItemsSourceChanged()
@@ -44,11 +46,10 @@ public partial class TabView : ContentView
             var tab = new Tab() { Title = obj.Title, Counter = obj.Counter };
             tab.Tapped += (sender, args) =>
             {
-                TabToggled(tab);
+                _ = TabToggled(tab);
             };
             
             var item = tab;
-            tab.Command = new Command(_ => TabToggled(item));
             
             SemanticProperties.SetHint(tab, DUILocalizedStrings.Accessibility_TapToChangeView);
             var counterString = tab.Counter is null ? "" : ", " + tab.Counter + DUILocalizedStrings.Elements;
@@ -60,16 +61,28 @@ public partial class TabView : ContentView
         });
     }
     
-    private void TabToggled(Tab tabViewItem, bool didTap = true)
+    private async Task TabToggled(Tab tabViewItem, bool didTap = true)
     {
-        var previousTab = m_tabItems[m_previouslySelectedTabIndex];
-        if (previousTab.Equals(tabViewItem) && didTap)
+        if (didTap && CanSwitchTab != null)
         {
-            previousTab.IsSelected = true;
-            return;
+            if (!await CanSwitchTab(m_previouslySelectedTabIndex))
+            {
+                return;
+            }
         }
         
-        previousTab.IsSelected = false;
+        if (m_previouslySelectedTabIndex != -1)
+        {
+            var previousTab = m_tabItems[m_previouslySelectedTabIndex];
+            if (previousTab.Equals(tabViewItem) && didTap)
+            {
+                previousTab.IsSelected = true;
+                return;
+            }
+        
+            previousTab.IsSelected = false;
+        }
+        
         var index = m_tabItems.IndexOf(tabViewItem);
         m_previouslySelectedTabIndex = index;
         
@@ -77,8 +90,7 @@ public partial class TabView : ContentView
         
         if (didTap)
         {
-            OnSelectedItemChanged?.Invoke(this, new TabViewEventArgs(index));
-            SelectedTabIndex = index;
+            SetSelectedTabIndex(index);
         }
         SetTextStyleForAllTabs();
     }
@@ -97,6 +109,6 @@ public partial class TabView : ContentView
     {
         m_tabItems.Clear();
         m_stackLayout.Clear();
-        m_previouslySelectedTabIndex = 0;
+        m_previouslySelectedTabIndex = -1;
     }
 }

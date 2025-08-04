@@ -36,6 +36,51 @@ public partial class Counter
         defaultBindingMode: BindingMode.OneWay,
         propertyChanged: (bindable, _, _) => ((Counter)bindable).OnModeChanged());
 
+    public static readonly BindableProperty IsErrorProperty = BindableProperty.Create(
+        nameof(IsError),
+        typeof(bool),
+        typeof(Counter),
+        propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsErrorChanged());
+
+    public static readonly BindableProperty IsSecondaryErrorProperty = BindableProperty.Create(
+        nameof(IsSecondaryError),
+        typeof(bool),
+        typeof(Counter),
+        propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsSecondaryErrorChanged());
+
+    public static readonly BindableProperty IsFlippedProperty = BindableProperty.Create(
+        nameof(IsFlipped),
+        typeof(bool),
+        typeof(Counter),
+        propertyChanged: (bindable, _, _) => ((Counter)bindable).OnIsFlippedChanged());
+
+    /// <summary>
+    /// Determines whether the counter is flipped, meaning the primary value is displayed on the right side and the secondary value on the left side.
+    /// </summary>
+    public bool IsFlipped
+    {
+        get => (bool)GetValue(IsFlippedProperty);
+        set => SetValue(IsFlippedProperty, value);
+    }
+    
+    /// <summary>
+    /// Determines whether the secondary value is in an error state and should display an error icon.
+    /// </summary>
+    public bool IsSecondaryError
+    {
+        get => (bool)GetValue(IsSecondaryErrorProperty);
+        set => SetValue(IsSecondaryErrorProperty, value);
+    }    
+    
+    /// <summary>
+    /// Determines whether the primary value is in an error state and should display an error icon.
+    /// </summary>
+    public bool IsError
+    {
+        get => (bool)GetValue(IsErrorProperty);
+        set => SetValue(IsErrorProperty, value);
+    }
+    
     /// <summary>
     /// The mode determining how the primary and secondary counter should be displayed.
     /// </summary>
