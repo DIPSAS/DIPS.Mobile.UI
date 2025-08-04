@@ -1,3 +1,6 @@
+## [47.13.0]
+- [AlertView] Added `TitleMaxlines` and `DescriptionMaxLines`.
+
 ## [47.12.0]
 - [Tag] Added `LineBreakMode` property
 

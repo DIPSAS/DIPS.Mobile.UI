@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Library;
 
 namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
@@ -56,7 +57,7 @@ public partial class AlertView
         nameof(IconColor),
         typeof(Color),
         typeof(AlertView));
-
+    
     /// <summary>
     /// The color of the icon.
     /// </summary>
@@ -147,5 +148,36 @@ public partial class AlertView
     {
         get => (ButtonAlignmentType)GetValue(ButtonAlignmentProperty);
         set => SetValue(ButtonAlignmentProperty, value);
+    }
+
+    public static readonly BindableProperty TitleMaxLinesProperty = BindableProperty.Create(
+        nameof(TitleMaxLines),
+        typeof(int),
+        typeof(AlertView),
+        defaultValue: -1);
+
+
+    public static readonly BindableProperty DescriptionMaxLinesProperty = BindableProperty.Create(
+        nameof(DescriptionMaxLines),
+        typeof(int),
+        typeof(AlertView),
+        defaultValue: -1);
+
+    /// <summary>
+    /// Determines how many lines the <see cref="Description"/> property can take up before it is truncated.
+    /// </summary>
+    public int DescriptionMaxLines
+    {
+        get => (int)GetValue(DescriptionMaxLinesProperty);
+        set => SetValue(DescriptionMaxLinesProperty, value);
+    }
+    
+    /// <summary>
+    /// Determines how many lines the <see cref="Title"/> property can take up before it is truncated.
+    /// </summary>
+    public int TitleMaxLines
+    {
+        get => (int)GetValue(TitleMaxLinesProperty);
+        set => SetValue(TitleMaxLinesProperty, value);
     }
 }

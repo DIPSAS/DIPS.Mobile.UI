@@ -6,7 +6,6 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -159,9 +158,11 @@ public partial class AlertView : Border
         m_titleLabel = new Label()
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.UI200)
+            Style = Styles.GetLabelStyle(LabelStyle.UI200),
+            LineBreakMode = LineBreakMode.TailTruncation
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
+        m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.MaxLinesProperty, static (AlertView alertView) => alertView.TitleMaxLines, source: this);
 
         m_innerGrid?.Add(m_titleLabel, 1);
         OnIconChanged();
@@ -173,10 +174,12 @@ public partial class AlertView : Border
         m_descriptionLabel = new Label()
         {
             AutomationId = "DescriptionLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.Body100)
+            Style = Styles.GetLabelStyle(LabelStyle.Body100),
+            LineBreakMode = LineBreakMode.TailTruncation
         };
         
         m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
+        m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.MaxLinesProperty, static (AlertView alertView) => alertView.DescriptionMaxLines, source: this);
 
         m_innerGrid?.Add(m_descriptionLabel, 1, 1);
         
