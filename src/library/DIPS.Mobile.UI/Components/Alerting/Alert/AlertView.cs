@@ -6,11 +6,10 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
-namespace DIPS.Mobile.UI.Components.Alerting. Alert;
+namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
 public partial class AlertView : Border
 {
