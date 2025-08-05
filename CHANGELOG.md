@@ -1,3 +1,6 @@
+## [47.15.2]
+- [ItemPicker] Fixed arrow icon size for `ItemPicker` when `Size=Large`.
+
 ## [47.15.1]
 - [AlertView][Android] Fixed crash on Android when not setting `TitleMaxLines` or `DescriptionMaxLines`.
 
