@@ -10,48 +10,38 @@
 
     <!-- Getting started: (Material 2 & 3) https://github.com/material-components/material-components-android/blob/836c51e44a720a736aeb47a2b16a7094f7f0f712/docs/getting-started.md?plain=1#L188 !-->
     <!-- Base theme applied no matter what API -->
-    <style name="DIPS.Mobile.UI.PostStyle" parent="Theme.MaterialComponents.Light"> <!-- Change this to DayNight when we support Dark Mode colors -->
-        <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
-        <item name="windowNoTitle">true</item>
-        <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette -->
-        <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">@color/color_palette_navy_700</item>
-        <item name="colorSecondary">@color/color_palette_navy_400</item>
+    <!-- TODO: Switch to DayNight when supporting dark mode -->
+    <style name="DIPS.Mobile.UI.PostStyle" parent="Theme.Material3.Light">
 
-        <!-- Status bar text color will be able to be seen when the status bar color is white -->
+        <!-- Window configuration -->
+        <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="windowActionModeOverlay">true</item>
+
+        <!-- Make sure that the colors are not being modified by material 3, for example; white should be pure white -->
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Color scheme -->
+        <item name="colorPrimary">@color/color_palette_navy_700</item>
+
+        <item name="colorSecondary">@color/color_palette_navy_400</item>
 
         <item name="colorSurface">@color/color_surface_default</item>
 
-        <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/color_background_default</item>
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/color_background_default</item>
         
-        <!-- colorAccent is used as the default value for colorControlActivated
-             which is used to tint widgets -->
-        <item name="colorAccent">@color/color_palette_navy_700</item>
-        
-        <!-- You can also set colorControlNormal, colorControlActivated
-             colorControlHighlight and colorSwitchThumbNormal. -->
-        <item name="windowActionModeOverlay">true</item>
-        
-        <!-- Globally set the shape appearance of all material design components -->
-        <item name="shapeAppearanceSmallComponent">@style/DIPS.ShapeAppearance.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/DIPS.ShapeAppearance.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/DIPS.ShapeAppearance.LargeComponent</item>
-        
-        <!-- Globally set the alert dialog styles if one are to use Material Dialogs -->
-        <item name="materialAlertDialogTheme">@style/DIPS.ThemeOverlay.App.MaterialAlertDialog</item>
-        
-        <!-- Removes default margin from material buttons !-->
+        <!-- Set color to DatePickers, Dialogs etc. -->
+        <item name="colorSurfaceContainerHigh">@color/color_surface_default</item>
+
+        <!-- Button style override -->
         <item name="materialButtonStyle">@style/DIPS.Button</item>
 
-        <!-- Change the style of the popup menu (context menu) -->
+        <!-- Popup menu style -->
         <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
 
-        <!-- Opts out of edge to edge -->
-        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
-
-        <!-- Control modal toolbar style -->
+        <!-- Toolbar -->
         <item name="toolbarStyle">@style/MyCustomToolbar</item>
     </style>
 

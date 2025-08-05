@@ -29,19 +29,12 @@
     <dui:VerticalStackLayout>
         
         
-        <dui:ItemPicker Mode="BottomSheet"
-                        HorizontalOptions="Start">
-            
-            <dui:ItemPicker.BottomSheetPickerConfiguration>
-                <dui:BottomSheetPickerConfiguration Title="{Binding TestString}" />
-            </dui:ItemPicker.BottomSheetPickerConfiguration>
-            
-            <dui:ItemPicker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Lol</x:String>
-                </x:Array>
-            </dui:ItemPicker.ItemsSource>
-        </dui:ItemPicker>
+        <dui:Switch HorizontalOptions="Start" />
+        
+        <dui:ActivityIndicator IsRunning="True" 
+                               IsVisible="True"
+                               HeightRequest="1"
+                               WidthRequest="20"/>
 
     </dui:VerticalStackLayout>
     
