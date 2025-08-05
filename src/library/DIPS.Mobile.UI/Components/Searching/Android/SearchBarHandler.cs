@@ -37,23 +37,22 @@ namespace DIPS.Mobile.UI.Components.Searching
         internal Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
-        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() {Spacing = 0};
+
+        private Grid m_outerGrid;
+
+        private VerticalStackLayout m_SearchBarContainer;
 
         private partial void Construct()
         {
-            var grid = new Grid()
+            m_outerGrid = new Grid
             {
-                ColumnDefinitions =
-                    new ColumnDefinitionCollection() {new() {Width = GridLength.Star}, new() {Width = GridLength.Auto}},
-                RowDefinitions =
-                    new RowDefinitionCollection() {new() {Height = GridLength.Auto}, new() {Height = GridLength.Auto}},
+                ColumnDefinitions = [new ColumnDefinition { Width = GridLength.Star }, new ColumnDefinition { Width = GridLength.Auto }],
                 RowSpacing = 0,
                 ColumnSpacing = 0,
             };
-
+            
             //Add Maui Search bar
-            InternalSearchBar = new Microsoft.Maui.Controls.SearchBar();
-            grid.Add(InternalSearchBar, 0);
+            InternalSearchBar = new InternalSearchBar();
 
             //Add button to cancel the search
             CancelButton = new DIPS.Mobile.UI.Components.Buttons.Button
@@ -62,14 +61,25 @@ namespace DIPS.Mobile.UI.Components.Searching
                 VerticalOptions = LayoutOptions.Center,
                 Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge)
             };
-            grid.Add(CancelButton, 1);
-
-            OuterVerticalStackLayout.Add(grid);
 
             //Add progressbar
-            ProgressBar = new IndeterminateProgressBar();
-            OuterVerticalStackLayout.Add(ProgressBar);
+            ProgressBar = new IndeterminateProgressBar { Margin = new Thickness(20, 0) };
 
+            m_SearchBarContainer = new VerticalStackLayout
+            {
+                Spacing = 0, 
+                Children = 
+                {
+                    InternalSearchBar,
+                    ProgressBar 
+                }
+            };
+            
+            Effects.Layout.Layout.SetCornerRadius(m_SearchBarContainer, new CornerRadius(Sizes.GetSize(SizeName.size_6)));
+            
+            m_outerGrid.Add(m_SearchBarContainer, 0);
+            m_outerGrid.Add(CancelButton, 1);
+            
             AppendToPropertyMapper();
         }
 
@@ -99,7 +109,8 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             InternalSearchBar.SetBinding(InputView.IsSpellCheckEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
             InternalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
-            return OuterVerticalStackLayout.ToContainerView(MauiContext!);
+            m_SearchBarContainer.SetBinding(VisualElement.BackgroundColorProperty, static (SearchBar searchBar) => searchBar.SearchFieldBackgroundColor, source: VirtualView);
+            return m_outerGrid.ToContainerView(MauiContext!);
         }
 
 
@@ -229,8 +240,8 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void MapBarColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            handler.InternalSearchBar.BackgroundColor = searchBar.BarColor;
-            handler.OuterVerticalStackLayout.BackgroundColor = searchBar.BarColor;
+            /*handler.InternalSearchBar.BackgroundColor = searchBar.BarColor;*/
+            /*handler.OuterVerticalStackLayout.BackgroundColor = searchBar.BarColor;*/
 
             MapAndroidBusyBackgroundColor(handler,
                 searchBar); //Make sure the background color of the progress bar is in sync if its not set by the consumer.

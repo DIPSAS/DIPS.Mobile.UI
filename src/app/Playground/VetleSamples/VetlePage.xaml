@@ -26,7 +26,7 @@
     </dui:ContentPage.ToolbarItems>
 
        
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout >
         
         
         <dui:Switch HorizontalOptions="Start" />
@@ -36,6 +36,11 @@
                                HeightRequest="1"
                                WidthRequest="20"/>
 
+        <dui:SearchBar IsBusy="True"
+                       HasBusyIndication="True"
+                       HasCancelButton="True"
+                       WidthRequest="400" />
+        
     </dui:VerticalStackLayout>
     
 

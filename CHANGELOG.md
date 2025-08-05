@@ -1,3 +1,6 @@
+## [48.0.0] 
+- Upgraded to material design 3.
+
 ## [47.15.0] 
 - Fixed splash screen color.
 

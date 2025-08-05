@@ -22,7 +22,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void AppendToPropertyMapper()
     {
-        SearchBarPropertyMapper.Add(nameof(SearchBar.iOSSearchFieldBackgroundColor), MapiOSSearchFieldBackgroundColor);
+        SearchBarPropertyMapper.Add(nameof(SearchBar.SearchFieldBackgroundColor), MapiOSSearchFieldBackgroundColor);
     }
 
     private Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
@@ -58,11 +58,11 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapiOSSearchFieldBackgroundColor(SearchBarHandler searchBarHandler, SearchBar searchBar)
     {
-        if (searchBar.iOSSearchFieldBackgroundColor == null)
+        if (searchBar.SearchFieldBackgroundColor == null)
             return;
 
         searchBarHandler.PlatformView.SearchTextField.BackgroundColor =
-            searchBar.iOSSearchFieldBackgroundColor.ToPlatform();
+            searchBar.SearchFieldBackgroundColor.ToPlatform();
     }
 
     /// <summary>

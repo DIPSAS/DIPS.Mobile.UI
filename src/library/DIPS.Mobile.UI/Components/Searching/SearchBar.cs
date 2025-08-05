@@ -1,3 +1,5 @@
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+
 namespace DIPS.Mobile.UI.Components.Searching
 {
     public partial class SearchBar : View
@@ -8,8 +10,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             this.SetAppThemeColor(IconsColorProperty, ColorName.color_icon_subtle);
             this.SetAppThemeColor(TextColorProperty, ColorName.color_text_subtle);
-            this.SetAppThemeColor(iOSSearchFieldBackgroundColorProperty, ColorName.color_background_subtle);
 
+#if __ANDROID__
+            this.SetBinding(BackgroundColorProperty, static (SearchBar searchBar) => searchBar.BarColor, source: this);
+#endif
+            
             Unloaded += OnUnloaded;
         }
 
