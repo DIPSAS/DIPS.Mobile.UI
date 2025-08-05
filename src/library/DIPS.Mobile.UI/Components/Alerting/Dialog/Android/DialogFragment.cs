@@ -113,6 +113,14 @@ internal class DialogFragment : AndroidX.Fragment.App.DialogFragment
 
         if(m_inputDialog is not null)
             m_actionButton.Enabled = DialogService.ActionEnabledState(m_inputDialog);
+        
+        // Removing bottom margin from the button panel, so that buttons are pinned to the bottom of the dialog
+        var buttonPanel = alertDialog.FindViewById(Resource.Id.buttonPanel);
+        if (buttonPanel?.LayoutParameters is not ViewGroup.MarginLayoutParams lp)
+            return;
+
+        lp.BottomMargin = 0;
+        buttonPanel.LayoutParameters = lp;
     }
     
     public override void OnDismiss(IDialogInterface dialog)
