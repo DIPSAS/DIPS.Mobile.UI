@@ -50,6 +50,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 ColumnDefinitions = [new ColumnDefinition { Width = GridLength.Star }, new ColumnDefinition { Width = GridLength.Auto }],
                 RowSpacing = 0,
                 ColumnSpacing = 0,
+                // iOS has default padding, so we mimick, so that the search bar's placement looks the same on both platforms
+                Padding = new Thickness(Sizes.GetSize(SizeName.size_2))
             };
             
             //Add Maui Search bar

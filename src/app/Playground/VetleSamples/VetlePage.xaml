@@ -33,13 +33,15 @@
         
         <dui:ActivityIndicator IsRunning="True" 
                                IsVisible="True"
-                               HeightRequest="1"
+                               HeightRequest="20"
                                WidthRequest="20"/>
 
         <dui:SearchBar IsBusy="True"
+                       BarColor="Red"
                        HasBusyIndication="True"
+                       CancelButtonTextColor="Green"
                        HasCancelButton="True"
-                       WidthRequest="400" />
+                        />
         
     </dui:VerticalStackLayout>
     
