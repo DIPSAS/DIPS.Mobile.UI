@@ -3,6 +3,9 @@
 - [SearchBar][BreakingChange] Renamed iOSSearchFieldBackgroundColor property to SearchFieldBackgroundColor.
 - [SearchBar][Android] Changed styling.
 
+## [47.15.1]
+- [AlertView][Android] Fixed crash on Android when not setting `TitleMaxLines` or `DescriptionMaxLines`.
+
 ## [47.15.0] 
 - Fixed splash screen color.
 
