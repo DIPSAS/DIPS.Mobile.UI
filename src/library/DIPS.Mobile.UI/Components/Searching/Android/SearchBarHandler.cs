@@ -240,9 +240,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void MapBarColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            /*handler.InternalSearchBar.BackgroundColor = searchBar.BarColor;*/
-            /*handler.OuterVerticalStackLayout.BackgroundColor = searchBar.BarColor;*/
-
             MapAndroidBusyBackgroundColor(handler,
                 searchBar); //Make sure the background color of the progress bar is in sync if its not set by the consumer.
         }
