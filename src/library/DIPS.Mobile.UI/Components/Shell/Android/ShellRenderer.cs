@@ -68,7 +68,7 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
             
             // Because the text is being bolded when active, the badge is translated upwards
             // So we need to set a vertical offset to make sure the badge is not clipping when the tab is selected
-            badgeDrawable.VerticalOffset = 10;
+            badgeDrawable.VerticalOffset = 30;
             
             if (count is null)
             {
