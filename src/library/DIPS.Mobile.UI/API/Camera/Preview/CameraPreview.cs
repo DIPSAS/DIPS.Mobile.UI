@@ -175,7 +175,7 @@ public partial class CameraPreview : ContentView
         });
     }
 
-    internal void AddTopToolbarView(View? toolbarItems)
+    public void AddTopToolbarView(View? toolbarItems)
     {
         if(m_topToolbarContainer.Contains(toolbarItems))
             return;
@@ -183,7 +183,7 @@ public partial class CameraPreview : ContentView
         m_topToolbarContainer.Add(toolbarItems);
     }
     
-    internal void RemoveTopToolbarView(View? toolbarItems)
+    public void RemoveTopToolbarView(View? toolbarItems)
     {
         if (toolbarItems is null) 
             return;
@@ -192,7 +192,7 @@ public partial class CameraPreview : ContentView
         toolbarItems.DisconnectHandlers();
     }
 
-    internal void AddBottomToolbarView(View? toolbarItems)
+    public void AddBottomToolbarView(View? toolbarItems)
     {
         if(m_bottomToolbarContainer.Contains(toolbarItems))
             return;
@@ -200,7 +200,7 @@ public partial class CameraPreview : ContentView
         m_bottomToolbarContainer.Add(toolbarItems);
     }
     
-    internal void RemoveBottomToolbarView(View? toolbarItems)
+    public void RemoveBottomToolbarView(View? toolbarItems)
     {
         if (toolbarItems is null) 
             return;
