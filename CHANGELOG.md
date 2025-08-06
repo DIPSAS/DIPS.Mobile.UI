@@ -1,3 +1,6 @@
+## [48.1.1] 
+- [Touch][iOS] Block touch when context menu is open.
+
 ## [48.1.0] 
 - [ImageCapture] Fixed bug where if you edit an image, the edited image would not be displayed after saving.
 - [CameraPreview] Made methods public to add views to top/bottom toolbar.

@@ -6,6 +6,13 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
 {
     public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
     {
+        // Do not allow touch recognition if a context menu is currently displayed.
+        // NOTE: This can be subject to change in future iOS versions
+        if (Platform.GetCurrentUIViewController()?.Class.Name?.Contains("UIContextMenuActionsOnlyViewController") ?? false)
+            return false;
+
+        var test = Platform.GetCurrentUIViewController()?.Class.Name;
+        
         if (touch.View.IsDescendantOfView(recognizer.View))
         {
             if (touch.View.Equals(recognizer.View))

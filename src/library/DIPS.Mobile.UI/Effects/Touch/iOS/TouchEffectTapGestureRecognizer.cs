@@ -23,10 +23,9 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         Delegate = new TouchEffectGestureRecognizerDelegate();
         m_didBecomeActiveObserver = NSNotificationCenter.DefaultCenter.AddObserver(
         UIApplication.DidBecomeActiveNotification,
-        _ => ForceGestureRecognition()
-    );
+        _ => ForceGestureRecognition());
+    }
 
-}
     //Because of an issue where our Delegate do not recieve ShouldRecognizeSimultaneously. Which prevents the user from scrolling if the view is used in a scrolling context. This was introduced in iOS 18.3.x
     private void ForceGestureRecognition()
     {
