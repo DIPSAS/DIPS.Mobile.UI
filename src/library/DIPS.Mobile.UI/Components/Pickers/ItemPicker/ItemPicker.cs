@@ -38,7 +38,7 @@ public partial class ItemPicker : ContentView
         {
             m_chip.InnerPadding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2));
             m_chip.TitleTextAlignment = TextAlignment.Start;
-            m_chip.CustomRightIcon = Icons.GetIcon(IconName.arrow_dropdown_line);
+            m_chip.CustomRightIcon = Icons.GetIcon(IconName.chevron_down_line);
         }
         
         Content = m_chip;
