@@ -29,19 +29,31 @@
     <dui:VerticalStackLayout >
         
         
-        <dui:Switch HorizontalOptions="Start" />
+        <Grid HeightRequest="100" WidthRequest="100"
+              BackgroundColor="Red">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="Hello!" />
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>    
+        </Grid>
         
-        <dui:ActivityIndicator IsRunning="True" 
-                               IsVisible="True"
-                               HeightRequest="20"
-                               WidthRequest="20"/>
-
-        <dui:SearchBar IsBusy="True"
-                       BarColor="Red"
-                       HasBusyIndication="True"
-                       CancelButtonTextColor="Green"
-                       HasCancelButton="True"
-                        />
+        <Grid HeightRequest="100" WidthRequest="100"
+              BackgroundColor="Red">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="Hello!" />
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>    
+        </Grid>
+        
+        <dui:Button Text="Click me"
+                    Clicked="Button_OnClicked" />
+        
+        <Grid BackgroundColor="Red"
+              WidthRequest="109"
+              HeightRequest="109"
+                    dui:Touch.Command="{Binding CancelCommand}" />
         
     </dui:VerticalStackLayout>
     

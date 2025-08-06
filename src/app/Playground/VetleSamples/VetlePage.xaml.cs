@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -227,9 +228,9 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        /*SearchBar.HasCancelButton = !SearchBar.HasCancelButton;*/
-        /*SearchBar.IsVisible = !SearchBar.IsVisible;*/
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        var test = Platform.GetCurrentUIViewController();
+        
+        Console.WriteLine(test);
     }
 
     
