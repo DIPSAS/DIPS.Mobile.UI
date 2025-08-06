@@ -135,7 +135,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
     {
         var button = new Button(Application.Context, null, global::Android.Resource.Attribute.ButtonBarButtonStyle)
         {
-            Text = text.ToUpper(),
+            Text = text,
             LetterSpacing = .06f,
         };
         

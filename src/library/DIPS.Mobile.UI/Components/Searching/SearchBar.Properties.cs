@@ -165,10 +165,10 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// The background color of the textfield.
         /// </summary>
-        public Color? iOSSearchFieldBackgroundColor
+        public Color SearchFieldBackgroundColor
         {
-            get => (Color)GetValue(iOSSearchFieldBackgroundColorProperty);
-            set => SetValue(iOSSearchFieldBackgroundColorProperty, value);
+            get => (Color)GetValue(SearchFieldBackgroundColorProperty);
+            set => SetValue(SearchFieldBackgroundColorProperty, value);
         }
 
         /// <summary>
@@ -289,10 +289,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(ICommand),
             typeof(SearchBar));
         
-        public static readonly BindableProperty iOSSearchFieldBackgroundColorProperty = BindableProperty.Create(
-            nameof(iOSSearchFieldBackgroundColor),
+        public static readonly BindableProperty SearchFieldBackgroundColorProperty = BindableProperty.Create(
+            nameof(SearchFieldBackgroundColor),
             typeof(Color),
-            typeof(SearchBar));
+            typeof(SearchBar),
+#if __IOS__
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_background_subtle));            
+#else
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_default));      
+#endif
         
         public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(
             nameof(PlaceholderColor),

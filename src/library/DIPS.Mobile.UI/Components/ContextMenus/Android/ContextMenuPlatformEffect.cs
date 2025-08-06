@@ -1,7 +1,8 @@
 using Android.Views;
-using Android.Widget;
+using AndroidX.AppCompat.Widget;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using Object = Java.Lang.Object;
+using PopupMenu = Android.Widget.PopupMenu;
 using View = Android.Views.View;
 
 // ReSharper disable once CheckNamespace

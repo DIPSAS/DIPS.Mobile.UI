@@ -39,7 +39,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     ColorName.color_text_subtle);
 #else
-            SearchBar.SetAppThemeColor(SearchBar.iOSSearchFieldBackgroundColorProperty, 
+            SearchBar.SetAppThemeColor(SearchBar.SearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 ColorName.color_text_action);

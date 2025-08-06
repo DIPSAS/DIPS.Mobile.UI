@@ -1,3 +1,8 @@
+## [48.0.0] 
+- Upgraded to material design 3.
+- [SearchBar][BreakingChange] Renamed iOSSearchFieldBackgroundColor property to SearchFieldBackgroundColor.
+- [SearchBar][Android] Changed styling.
+
 ## [47.15.2]
 - [ItemPicker] Fixed arrow icon size for `ItemPicker` when `Size=Large`.
 

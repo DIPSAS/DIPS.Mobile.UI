@@ -18,6 +18,7 @@ using Button = Microsoft.Maui.Controls.Button;
 using AView = Android.Views.View;
 using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
+using SearchView = Google.Android.Material.Search.SearchView;
 using TextChangedEventArgs = Microsoft.Maui.Controls.TextChangedEventArgs;
 
 namespace DIPS.Mobile.UI.Components.Searching
@@ -37,23 +38,24 @@ namespace DIPS.Mobile.UI.Components.Searching
         internal Microsoft.Maui.Controls.SearchBar InternalSearchBar { get; set; }
         private IndeterminateProgressBar ProgressBar { get; set; }
         private Button CancelButton { get; set; }
-        private VerticalStackLayout OuterVerticalStackLayout { get; } = new() {Spacing = 0};
+
+        private Grid m_outerGrid;
+
+        private Grid m_searchBarContainer;
 
         private partial void Construct()
         {
-            var grid = new Grid()
+            m_outerGrid = new Grid
             {
-                ColumnDefinitions =
-                    new ColumnDefinitionCollection() {new() {Width = GridLength.Star}, new() {Width = GridLength.Auto}},
-                RowDefinitions =
-                    new RowDefinitionCollection() {new() {Height = GridLength.Auto}, new() {Height = GridLength.Auto}},
+                ColumnDefinitions = [new ColumnDefinition { Width = GridLength.Star }, new ColumnDefinition { Width = GridLength.Auto }],
                 RowSpacing = 0,
                 ColumnSpacing = 0,
+                // iOS has default padding, so we mimick, so that the search bar's placement looks the same on both platforms
+                Padding = new Thickness(Sizes.GetSize(SizeName.size_2))
             };
-
+            
             //Add Maui Search bar
-            InternalSearchBar = new Microsoft.Maui.Controls.SearchBar();
-            grid.Add(InternalSearchBar, 0);
+            InternalSearchBar = new InternalSearchBar();
 
             //Add button to cancel the search
             CancelButton = new DIPS.Mobile.UI.Components.Buttons.Button
@@ -62,14 +64,28 @@ namespace DIPS.Mobile.UI.Components.Searching
                 VerticalOptions = LayoutOptions.Center,
                 Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge)
             };
-            grid.Add(CancelButton, 1);
-
-            OuterVerticalStackLayout.Add(grid);
 
             //Add progressbar
-            ProgressBar = new IndeterminateProgressBar();
-            OuterVerticalStackLayout.Add(ProgressBar);
+            ProgressBar = new IndeterminateProgressBar
+            {
+                Margin = new Thickness(20, 0),
+                VerticalOptions = LayoutOptions.End
+            };
 
+            m_searchBarContainer = new Grid
+            {
+                Children = 
+                {
+                    InternalSearchBar,
+                    ProgressBar 
+                }
+            };
+            
+            Effects.Layout.Layout.SetCornerRadius(m_searchBarContainer, new CornerRadius(Sizes.GetSize(SizeName.size_6)));
+            
+            m_outerGrid.Add(m_searchBarContainer, 0);
+            m_outerGrid.Add(CancelButton, 1);
+            
             AppendToPropertyMapper();
         }
 
@@ -83,30 +99,27 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void MapAndroidBusyColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            handler.ProgressBar.IndicatorColor = searchBar.AndroidBusyColor ??
-                                                 DIPS.Mobile.UI.Resources.Colors.Colors
-                                                     .GetColor(ColorName.color_border_default);
+            if (searchBar.AndroidBusyColor is not null)
+                handler.ProgressBar.IndicatorColor = searchBar.AndroidBusyColor;
         }
 
         private static void MapAndroidBusyBackgroundColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            handler.ProgressBar.TrackColor = searchBar.AndroidBusyBackgroundColor ??
-                                             DIPS.Mobile.UI.Resources.Colors.Colors
-                                                 .GetColor(ColorName.color_text_action);
+            if(searchBar.AndroidBusyBackgroundColor is not null)
+                handler.ProgressBar.TrackColor = searchBar.AndroidBusyBackgroundColor;
         }
 
         protected override AView CreatePlatformView()
         {
             InternalSearchBar.SetBinding(InputView.IsSpellCheckEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
             InternalSearchBar.SetBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty, static (SearchBar searchBar) => searchBar.IsAutocorrectEnabled, source: VirtualView);
-            return OuterVerticalStackLayout.ToContainerView(MauiContext!);
+            m_searchBarContainer.SetBinding(VisualElement.BackgroundColorProperty, static (SearchBar searchBar) => searchBar.SearchFieldBackgroundColor, source: VirtualView);
+            return m_outerGrid.ToContainerView(MauiContext!);
         }
-
 
         protected override void ConnectHandler(AView platformView)
         {
             base.ConnectHandler(platformView);
-
 
             if (InternalSearchBar.Handler != null)
             {
@@ -229,9 +242,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void MapBarColor(SearchBarHandler handler, SearchBar searchBar)
         {
-            handler.InternalSearchBar.BackgroundColor = searchBar.BarColor;
-            handler.OuterVerticalStackLayout.BackgroundColor = searchBar.BarColor;
-
             MapAndroidBusyBackgroundColor(handler,
                 searchBar); //Make sure the background color of the progress bar is in sync if its not set by the consumer.
         }

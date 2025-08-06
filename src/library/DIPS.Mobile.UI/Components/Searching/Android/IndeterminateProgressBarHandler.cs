@@ -1,6 +1,7 @@
 using Google.Android.Material.ProgressIndicator;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching.Android;
 
@@ -15,13 +16,7 @@ internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgre
     {
         [nameof(IndeterminateProgressBar.IsRunning)] = MapIsRunning,
         [nameof(IndeterminateProgressBar.TrackColor)] = MapTrackColor,
-        [nameof(IndeterminateProgressBar.IndicatorColor)] = MapIndicatorColor
     };
-
-    private static void MapIndicatorColor(IndeterminateProgressBarHandler handler, IndeterminateProgressBar bar)
-    {
-        handler.PlatformView.SetIndicatorColor(bar.IndicatorColor.ToPlatform());
-    }
 
     private static void MapTrackColor(IndeterminateProgressBarHandler handler, IndeterminateProgressBar bar)
     {
@@ -31,6 +26,15 @@ internal class IndeterminateProgressBarHandler : ViewHandler<IndeterminateProgre
 
     private static void MapIsRunning(IndeterminateProgressBarHandler handler, IndeterminateProgressBar indeterminateProgressBar)
     {
+        if (indeterminateProgressBar.IsRunning)
+        {
+            handler.PlatformView.SetIndicatorColor(indeterminateProgressBar.IndicatorColor.ToPlatform());
+        }
+        else
+        {
+            handler.PlatformView.SetIndicatorColor(Colors.Transparent.ToPlatform());
+        }
+        
         handler.PlatformView.Indeterminate = indeterminateProgressBar.IsRunning;
     }
 }

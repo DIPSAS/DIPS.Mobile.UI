@@ -1,6 +1,6 @@
 namespace DIPS.Mobile.UI.Components.Loading;
 
-public class ActivityIndicator : Microsoft.Maui.Controls.ActivityIndicator
+public partial class ActivityIndicator : Microsoft.Maui.Controls.ActivityIndicator
 {
     internal const ColorName LoadingIndicatorColorName = ColorName.color_icon_subtle;
 
