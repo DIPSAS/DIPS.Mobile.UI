@@ -1,3 +1,7 @@
+## [48.1.0] 
+- [ImageCapture] Fixed bug where if you edit an image, the edited image would not be displayed after saving.
+- [CameraPreview] Made methods public to add views to top/bottom toolbar.
+
 ## [48.0.0] 
 - Upgraded to material design 3.
 - [SearchBar][BreakingChange] Renamed iOSSearchFieldBackgroundColor property to SearchFieldBackgroundColor.

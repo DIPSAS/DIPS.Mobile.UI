@@ -32,14 +32,14 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     private readonly Action m_updateImages;
     private readonly Button m_navigatePreviousImageButton;
     private readonly Button m_navigateNextImageButton;
-    private CarouselView? m_carouselView;
     private readonly ContentView m_carouselViewWrapperView = new();
-    private CancellationTokenSource m_cancellationTokenSource = new();
-    private int? m_positionBeforeRemoval;
     private readonly Grid m_grid;
-
     private readonly GalleryBottomSheetTopToolbar m_topToolbar;
     private readonly GalleryBottomSheetBottomToolbar m_bottomToolbar;
+    
+    private CarouselView? m_carouselView;
+    private CancellationTokenSource m_cancellationTokenSource = new();
+
     
     private CapturedImage m_currentlyRotatedCaptureImageDisplayed;
     private CapturedImage m_currentlyCapturedImageDisplayed;
@@ -49,6 +49,9 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     private double? m_startingImageWidth;
     private double m_startingImageHeight;
     private bool m_hasSetToolbarHeights;
+    
+    private int? m_positionBeforeRemoval;
+    private int? m_positionBeforeEdit;
 
     public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action updateImages)
     {
@@ -165,6 +168,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     {
         m_topToolbar.GoToDefaultState();
         m_bottomToolbar.GoToDefaultState(this);
+
+        m_positionBeforeEdit = m_carouselView!.Position;
         
         m_grid.Remove(m_currentlyRotatedImageDisplayed);
         UpdateNavigationButtonsVisibility(m_carouselView.Position);
@@ -280,12 +285,25 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
                 // ignored
             }
         }
+
+        var carouselViewPosition = m_startingIndex;
+        
+        if(m_positionBeforeRemoval is not null)
+        {
+            carouselViewPosition = m_positionBeforeRemoval.Value;
+            m_positionBeforeRemoval = null;
+        }
+        else if (m_positionBeforeEdit is not null)
+        {
+            carouselViewPosition = m_positionBeforeEdit.Value;
+            m_positionBeforeEdit = null;
+        }
         
         m_carouselView = new CarouselView
         {
             Loop = false,
             ItemTemplate = new DataTemplate(CreateImageView),
-            Position = m_positionBeforeRemoval ?? m_startingIndex, 
+            Position = carouselViewPosition, 
             ItemsSource = Images.Select(i => i.AsByteArray)
         };
         m_carouselViewWrapperView.Content = m_carouselView;
@@ -322,6 +340,7 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
 
 #if __ANDROID__
     private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
+
     protected override void OnOpened()
     {
         if (Handler is BottomSheetHandler handler)
