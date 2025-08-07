@@ -167,6 +167,7 @@ public partial class AlertView
         nameof(ShouldAnimate),
         typeof(bool),
         typeof(AlertView),
+        true,
         propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnShouldAnimateChanged());
     
     /// <summary>
