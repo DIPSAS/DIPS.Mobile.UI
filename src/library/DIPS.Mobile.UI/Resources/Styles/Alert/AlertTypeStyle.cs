@@ -18,10 +18,10 @@ public class AlertTypeStyle
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_information)
             },
-            new Setter()
+            new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_information)
             }
         }
     };
@@ -39,7 +39,7 @@ public class AlertTypeStyle
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_danger)
             },
-            new Setter()
+            new Setter
             {
                 Property = AlertView.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_danger)

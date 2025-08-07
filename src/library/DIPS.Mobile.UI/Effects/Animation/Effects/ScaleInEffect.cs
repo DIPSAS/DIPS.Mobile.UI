@@ -3,9 +3,9 @@ using Microsoft.Maui.Controls.Platform;
 
 namespace DIPS.Mobile.UI.Effects.Animation.Effects;
 
-internal class FadeInEffect : RoutingEffect;
+public class ScaleInEffect : RoutingEffect;
 
-internal class FadeInPlatformEffect : PlatformEffect
+internal class ScaleInPlatformEffect : PlatformEffect
 {
 #nullable disable
     private AnimationConfig m_config;
@@ -15,18 +15,18 @@ internal class FadeInPlatformEffect : PlatformEffect
     {
         Element.PropertyChanged += ElementOnPropertyChanged;
 
-        m_config = Animation.GetFadeIn(Element);
+        m_config = Animation.GetScaleIn(Element);
         if (Element is not VisualElement visualElement)
             return;
 
-        visualElement.Opacity = m_config.StartingValue;
+        visualElement.Scale = m_config.StartingValue;
         
         if (visualElement.IsVisible)
         {
-            visualElement.FadeTo(1, m_config.Duration, easing: m_config.Easing);
+            visualElement.ScaleTo(1, m_config.Duration, easing: m_config.Easing);
         }
     }
-    
+
     private void ElementOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != VisualElement.IsVisibleProperty.PropertyName)
@@ -34,11 +34,11 @@ internal class FadeInPlatformEffect : PlatformEffect
 
         if (Element is VisualElement { IsVisible: true } visualElement)
         {
-            visualElement.Opacity = m_config.StartingValue;
-            visualElement.FadeTo(1, m_config.Duration, easing: m_config.Easing);
+            visualElement.Scale = m_config.StartingValue;
+            visualElement.ScaleTo(1, m_config.Duration, easing: m_config.Easing);
         }
     }
-    
+
     protected override void OnDetached()
     {
         Element.PropertyChanged -= ElementOnPropertyChanged;

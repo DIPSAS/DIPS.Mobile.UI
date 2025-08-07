@@ -75,6 +75,7 @@ public static partial class AppHostBuilderExtensions
             effects.Add<Layout, LayoutPlatformEffect>();
             effects.Add<FadeInEffect, FadeInPlatformEffect>();
             effects.Add<FadeOutEffect, FadeOutPlatformEffect>();
+            effects.Add<ScaleInEffect, ScaleInPlatformEffect>();
         });
 
         builder.UseSkiaSharp();

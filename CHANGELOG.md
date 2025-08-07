@@ -1,3 +1,10 @@
+## [48.1.2] 
+- [AlertView] Fixed icon tint colors not being set.
+- [AlertView] Fixed icon size.
+- [AlertView] Now using correct text style on title, if the description is not set.
+- [AlertView] Can now be easily animated.
+- [Animations] Added Scale animation.
+
 ## [48.1.1] 
 - [Touch][iOS] Block touch when context menu is open.
 
