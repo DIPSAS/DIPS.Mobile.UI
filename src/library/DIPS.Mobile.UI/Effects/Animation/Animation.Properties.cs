@@ -28,6 +28,18 @@ public partial class Animation
             }
         });
     
+    public static readonly BindableProperty ScaleInProperty = BindableProperty.CreateAttached("ScaleIn",
+        typeof(AnimationConfig),
+        typeof(Animation),
+        null,
+        propertyChanged: (bindable, _, _) =>
+        {
+            if (bindable is VisualElement visualElement)
+            {
+                visualElement.Effects.Add(new ScaleInEffect());
+            }
+        });
+    
     public static AnimationConfig GetFadeIn(BindableObject view)
     {
         return (AnimationConfig)view.GetValue(FadeInProperty);
@@ -54,6 +66,16 @@ public partial class Animation
     {
         view.SetValue(FadeOutProperty, name);
     }
+    
+    public static AnimationConfig GetScaleIn(BindableObject view)
+    {
+        return (AnimationConfig)view.GetValue(ScaleInProperty);
+    }
+    
+    public static void SetScaleIn(BindableObject view, AnimationConfig scaleIn)
+    {
+        view.SetValue(ScaleInProperty, scaleIn);
+    }
 }
 
 public class AnimationConfig : BindableObject
@@ -69,6 +91,17 @@ public class AnimationConfig : BindableObject
         get => (Easing)GetValue(EasingProperty);
         set => SetValue(EasingProperty, value);
     }
+
+    public float StartingValue
+    {
+        get => (float)GetValue(StartingValueProperty);
+        set => SetValue(StartingValueProperty, value);
+    }
+    
+    public static readonly BindableProperty StartingValueProperty = BindableProperty.Create(
+        nameof(StartingValue),
+        typeof(float),
+        typeof(Animation));
 
     public static readonly BindableProperty DurationProperty = BindableProperty.Create(
         nameof(Duration),

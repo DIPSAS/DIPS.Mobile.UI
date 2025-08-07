@@ -1,10 +1,13 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Effects.Animation;
+using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
+using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
@@ -67,8 +70,8 @@ public partial class AlertView : Border
                 new RowDefinition(GridLength.Star),
                 new RowDefinition(GridLength.Auto),
             ],
-            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium),
-            Padding = Sizes.GetSize(SizeName.content_margin_medium)
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
+            Padding = Sizes.GetSize(SizeName.content_margin_small)
         };
         m_grid.Add(m_innerGrid, 0);
         
@@ -158,8 +161,9 @@ public partial class AlertView : Border
         m_titleLabel = new Label()
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
-            Style = Styles.GetLabelStyle(LabelStyle.UI200),
-            LineBreakMode = LineBreakMode.TailTruncation
+            Style = m_descriptionLabel is not null ? Styles.GetLabelStyle(LabelStyle.UI200) : Styles.GetLabelStyle(LabelStyle.Body200),
+            LineBreakMode = LineBreakMode.TailTruncation,
+            VerticalTextAlignment = TextAlignment.Start
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
         
@@ -184,7 +188,10 @@ public partial class AlertView : Border
         };
         
         m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
-
+        
+        if(m_titleLabel is not null)
+            m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI200);
+        
         // Default value for MaxLines is -1 and causes a crash when binding directly on Android
         if (DescriptionMaxLines > -1)
         {
@@ -206,12 +213,12 @@ public partial class AlertView : Border
         m_image = new Image()
         {
             AutomationId = "Image".ToDUIAutomationId<AlertView>(),
-            HeightRequest = Sizes.GetSize(SizeName.size_5),
-            WidthRequest = Sizes.GetSize(SizeName.size_5),
+            HeightRequest = Sizes.GetSize(SizeName.size_6),
+            WidthRequest = Sizes.GetSize(SizeName.size_6),
             VerticalOptions = LayoutOptions.Start
         };
         
-        m_image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this, mode: BindingMode.OneTime);
+        m_image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
         m_image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (AlertView alertView) => alertView.Icon, source: this, mode: BindingMode.OneTime);
 
         if (m_titleLabel is null)
@@ -220,5 +227,36 @@ public partial class AlertView : Border
             return;
         }
         m_innerGrid?.Add(m_image, 0, string.IsNullOrEmpty(m_titleLabel?.Text) ? 0 : 1);
+    }
+
+    private void OnShouldAnimateChanged()
+    {
+        if (ShouldAnimate)
+        {
+            Animation.SetFadeIn(this, new AnimationConfig
+            {
+                StartingValue = .25f
+            });
+            Animation.SetScaleIn(this, new AnimationConfig
+            {
+                Easing = Easing.SpringOut,
+                StartingValue = .75f
+            });
+        }
+        else
+        {
+            Effects.Remove(Effects.FirstOrDefault(effect => effect is FadeInEffect));
+            Effects.Remove(Effects.FirstOrDefault(effect => effect is ScaleInEffect));
+        }
+    }
+
+    /// <summary>
+    /// Animates the alert view
+    /// </summary>
+    /// <remarks>Only works if <see cref="ShouldAnimate"/> is set to true</remarks>
+    public void Animate()
+    {
+        IsVisible = false;
+        IsVisible = true;
     }
 }

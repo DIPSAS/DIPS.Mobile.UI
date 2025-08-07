@@ -9,15 +9,19 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:alerts="clr-namespace:Components.ComponentsSamples.Alerting.Alerts"
                  x:Class="Components.ComponentsSamples.Alerting.Alerts.AlertSamples"
-                 Title="{x:Static localizedStrings:LocalizedStrings.Alert}"
-                 Padding="{dui:Sizes size_5}">
+                 Title="{x:Static localizedStrings:LocalizedStrings.Alert}">
+    
     <dui:ContentPage.BindingContext>
         <alerts:AlertSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <ScrollView>
+    <ScrollView Padding="{dui:Sizes size_5}">
     
         <dui:VerticalStackLayout>
+            
+            <dui:Button Text="Animate"
+                        HorizontalOptions="End"
+                        Clicked="Button_OnClicked"/>
             
             <dui:VerticalStackLayout>
                 <dui:Label Text="Information"
@@ -34,13 +38,18 @@
                            Style="{dui:Styles Label=SectionHeader}" />
                 <dui:AlertView Title="Something went wrong"
                                Description="Something terribly wrong happened."
-                               Style="{dui:Styles Alert=Error}" />
+                               Style="{dui:Styles Alert=Error}"
+                               ShouldAnimate="True"/>
             </dui:VerticalStackLayout>
             <dui:VerticalStackLayout>
                 <dui:Label Text="Warning"
                            Style="{dui:Styles Label=SectionHeader}" />
+                
                 <dui:AlertView Title="We warn you"
                                Description="Dont do it...okay do it. No, dont!"
+                               Style="{dui:Styles Alert=Warning}" />
+                <dui:AlertView Title="We warn you with only title"
+                               Margin="{dui:Thickness Top=size_2}"
                                Style="{dui:Styles Alert=Warning}" />
             </dui:VerticalStackLayout>
             <dui:VerticalStackLayout>
