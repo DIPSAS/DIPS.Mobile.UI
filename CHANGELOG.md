@@ -1,3 +1,6 @@
+## [48.2.0] 
+- [ItemPicker] Added `CustomTapCommand` property.
+
 ## [48.1.2] 
 - [AlertView] Fixed icon tint colors not being set.
 - [AlertView] Fixed icon size.
