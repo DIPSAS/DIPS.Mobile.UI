@@ -51,4 +51,6 @@ public class AlertSamplesViewModel : ViewModel
         get => m_buttonAlignment;
         set => RaiseWhenSet(ref m_buttonAlignment, value);
     }
+
+    public ICommand AnimateCommand => new Command(AlertViewService.TriggerAnimation);
 }

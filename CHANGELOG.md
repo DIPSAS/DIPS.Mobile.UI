@@ -1,3 +1,6 @@
+## [48.3.0] 
+- Added `AlertViewService` to easily trigger `AlertView` animation.
+
 ## [48.2.0] 
 - [ItemPicker] Added `CustomTapCommand` property.
 

@@ -21,7 +21,7 @@
             
             <dui:Button Text="Animate"
                         HorizontalOptions="End"
-                        Clicked="Button_OnClicked"/>
+                        Command="{Binding AnimateCommand}" />
             
             <dui:VerticalStackLayout>
                 <dui:Label Text="Information"

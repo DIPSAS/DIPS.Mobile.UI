@@ -250,13 +250,24 @@ public partial class AlertView : Border
         }
     }
 
-    /// <summary>
-    /// Animates the alert view
-    /// </summary>
-    /// <remarks>Only works if <see cref="ShouldAnimate"/> is set to true</remarks>
-    public void Animate()
+    internal void Animate()
     {
         IsVisible = false;
         IsVisible = true;
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (Handler is not null)
+        {
+            OnShouldAnimateChanged();
+            AlertViewService.OnAnimationTriggered += Animate;
+        }
+        else
+        {
+            AlertViewService.OnAnimationTriggered -= Animate;
+        }
     }
 }
