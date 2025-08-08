@@ -145,6 +145,32 @@ public partial class ItemPicker
         get => (PickerSize)GetValue(SizeProperty);
         set => SetValue(SizeProperty, value);
     }
+
+    /// <summary>
+    /// Overrides the default tap command of the <see cref="ItemPicker"/>.
+    /// <remarks>This can be useful if you have a very complex BottomSheet, which, for instance, requires its own viewmodel, but still want the benefits of the <see cref="ItemPicker"/></remarks>
+    /// </summary>
+    public ICommand? CustomTapCommand
+    {
+        get => (ICommand?)GetValue(CustomTapCommandProperty);
+        set => SetValue(CustomTapCommandProperty, value);
+    }
+
+    public object? CustomTapCommandParameter
+    {
+        get => (object?)GetValue(CustomTapCommandParameterProperty);
+        set => SetValue(CustomTapCommandParameterProperty, value);
+    }
+    
+    public static readonly BindableProperty CustomTapCommandParameterProperty = BindableProperty.Create(
+        nameof(CustomTapCommandParameter),
+        typeof(object),
+        typeof(ItemPicker));
+    
+    public static readonly BindableProperty CustomTapCommandProperty = BindableProperty.Create(
+        nameof(CustomTapCommand),
+        typeof(ICommand),
+        typeof(ItemPicker));
     
     public static readonly BindableProperty AdditionalContextMenuItemProperty = BindableProperty.Create(
         nameof(AdditionalContextMenuItem),

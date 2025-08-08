@@ -8,6 +8,7 @@
                  xmlns:pickers="clr-namespace:Components.ComponentsSamples.Pickers"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:sampleData="clr-namespace:Components.SampleData"
+                 xmlns:sheets="clr-namespace:Components.ComponentsSamples.BottomSheets.Sheets"
                  x:Class="Components.ComponentsSamples.Pickers.ItemPickersSamples"
                  Title="Item pickers"
                  BackgroundColor="{dui:Colors color_background_default}">
@@ -70,6 +71,15 @@
                 </dui:MultiItemsPicker.ResetBehaviour>
             </dui:MultiItemsPicker>
 
+            <dui:Label Text="ItemPicker, Custom Tap Command"
+                       Margin="5" />
+            <dui:ItemPicker VerticalOptions="Start"
+                            HorizontalOptions="Start"
+                            Mode="BottomSheet"
+                            SelectedItem="{Binding SelectedPerson}"
+                            ItemsSource="{Binding People}"
+                            CustomTapCommand="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
+            
             <dui:Label Text="SegmentedControl: Mode: Single"
                        Margin="5" />
 

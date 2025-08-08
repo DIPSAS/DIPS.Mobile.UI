@@ -1,7 +1,9 @@
 using System.Collections.Specialized;
+using System.Security.AccessControl;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 
@@ -43,16 +45,24 @@ public partial class ItemPicker : ContentView
         
         Content = m_chip;
 
-        if (Mode == PickerMode.ContextMenu)
+        if (CustomTapCommand is not null)
         {
-            // If not enabled, no need to set context menu effect
-            ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
-            m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
-                
+            m_chip.Command = CustomTapCommand;
+            m_chip.CommandParameter = CustomTapCommandParameter;
         }
-        else if (Mode == PickerMode.BottomSheet)
+        else
         {
-            m_chip.Command = OpenCommand;
+            if (Mode == PickerMode.ContextMenu)
+            {
+                // If not enabled, no need to set context menu effect
+                ContextMenuEffect.SetMenu(m_chip, m_contextMenu);
+                m_contextMenu.ItemClickedCommand = new Command<ContextMenuItem>(SetSelectedItemBasedOnContextMenuItem);
+                    
+            }
+            else if (Mode == PickerMode.BottomSheet)
+            {
+                m_chip.Command = OpenCommand;
+            }
         }
 
         SelectedItemChanged();
