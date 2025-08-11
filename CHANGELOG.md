@@ -1,3 +1,6 @@
+## [48.4.1] 
+- [AlertView] Fixed bug where triggering animation would make non-visible `AlertView` visible.
+
 ## [48.4.0] 
 - Added `LoadingOverlay`.
 
