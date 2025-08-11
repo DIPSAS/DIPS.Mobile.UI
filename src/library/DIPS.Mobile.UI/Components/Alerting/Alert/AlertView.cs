@@ -252,6 +252,9 @@ public partial class AlertView : Border
 
     internal void Animate()
     {
+        if(!IsVisible)
+            return;
+        
         IsVisible = false;
         IsVisible = true;
     }
