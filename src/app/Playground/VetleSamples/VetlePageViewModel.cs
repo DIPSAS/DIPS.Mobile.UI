@@ -81,9 +81,7 @@ public class VetlePageViewModel : ViewModel
 
         CheckCommand = new Command(async () =>
         {
-            IsSaving = true;
-            await Task.Delay(2000);
-            IsSavingCompleted = true;
+            Test2();
         });
         
 
