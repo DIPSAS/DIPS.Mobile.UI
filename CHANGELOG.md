@@ -1,3 +1,6 @@
+## [48.4.2] 
+- [LoadingOverlay] Fixed bug where it displayed duplicate loading overlay.
+
 ## [48.4.1] 
 - [AlertView] Fixed bug where triggering animation would make non-visible `AlertView` visible.
 

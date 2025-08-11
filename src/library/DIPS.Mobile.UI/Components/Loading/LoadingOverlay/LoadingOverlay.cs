@@ -63,7 +63,6 @@ public partial class LoadingOverlay : Grid
             return;
         
         Insert(0, Content);
-        _ = OnIsBusyChanged();
     }
 
     private async Task OnIsBusyChanged()
