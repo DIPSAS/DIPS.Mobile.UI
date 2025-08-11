@@ -8,6 +8,7 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                 xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -28,32 +29,48 @@
        
     <dui:VerticalStackLayout >
         
+        <dui:Switch x:Name="Switch" />
         
-        <Grid HeightRequest="100" WidthRequest="100"
-              BackgroundColor="Red">
-            <dui:ContextMenuEffect.Menu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="Hello!" />
-                </dui:ContextMenu>
-            </dui:ContextMenuEffect.Menu>    
-        </Grid>
+       
         
-        <Grid HeightRequest="100" WidthRequest="100"
-              BackgroundColor="Red">
-            <dui:ContextMenuEffect.Menu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="Hello!" />
-                </dui:ContextMenu>
-            </dui:ContextMenuEffect.Menu>    
-        </Grid>
+        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                                       Text="Laaaaaaaaaang loading tekst som vil gå over flere linjer og som vil bli avkortet når det er for langt. Dette er en test for å se om det fungerer som forventet.">
+            <Grid HeightRequest="100" WidthRequest="300"
+                  BackgroundColor="Red">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Hello!" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>    
+            </Grid>
+        </loadingOverlay:LoadingOverlay>
         
-        <dui:Button Text="Click me"
-                    Clicked="Button_OnClicked" />
+        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                                       >
+                <Grid HeightRequest="100" WidthRequest="300"
+                      BackgroundColor="Red">
+                    <dui:ContextMenuEffect.Menu>
+                        <dui:ContextMenu>
+                            <dui:ContextMenuItem Title="Hello!" />
+                        </dui:ContextMenu>
+                    </dui:ContextMenuEffect.Menu>    
+                </Grid>
+            </loadingOverlay:LoadingOverlay>
         
-        <Grid BackgroundColor="Red"
-              WidthRequest="109"
-              HeightRequest="109"
-                    dui:Touch.Command="{Binding CancelCommand}" />
+        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                                       Text="Laster dokumenttyper..."
+                                       ContentColor="Black"
+                                       OverlayColor="White"
+                                       ContentFadeOutValue="0"
+                                       dui:Layout.CornerRadius="{dui:Sizes size_2}"
+                                       Margin="{dui:Thickness Left=size_3, Right=size_3}">
+            
+            <dui:ItemPicker Size="Large"
+                            
+                            Placeholder="Testing"></dui:ItemPicker>
+        </loadingOverlay:LoadingOverlay>
+        
+        
         
     </dui:VerticalStackLayout>
     

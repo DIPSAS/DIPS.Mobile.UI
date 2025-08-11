@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             x:Class="Components.ComponentsSamples.Loading.LoadingOverlay.LoadingOverlaySamples">
+    
+    <dui:VerticalStackLayout Padding="{dui:Thickness Top=size_4, Left=size_3, Right=size_3}"
+                             Spacing="{dui:Sizes size_2}">
+        
+        <dui:ListItem Title="Is Loading" 
+                      Margin="{dui:Thickness Bottom=size_4}">
+            <dui:Switch x:Name="Switch" />
+        </dui:ListItem>
+    
+        <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                            dui:Layout.CornerRadius="{dui:Sizes size_2}">
+            <dui:ItemPicker Size="Large" />
+        </dui:LoadingOverlay>
+        
+        <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                            dui:Layout.CornerRadius="{dui:Sizes size_2}"
+                            ContentColor="Black"
+                            OverlayColor="White">
+            <dui:ItemPicker Size="Large" />
+        </dui:LoadingOverlay>
+        
+        <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                            dui:Layout.CornerRadius="{dui:Sizes size_2}"
+                            ContentColor="Black"
+                            OverlayColor="White"
+                            Text="Loading data, please wait...">
+            <dui:ItemPicker Size="Large" />
+        </dui:LoadingOverlay>
+        
+        <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                            dui:Layout.CornerRadius="{dui:Sizes size_2}"
+                            ContentColor="Black"
+                            OverlayColor="White"
+                            ContentFadeOutValue="0"
+                            Text="Loading data, please wait...">
+            <dui:ItemPicker Size="Large" />
+        </dui:LoadingOverlay>
+        
+    </dui:VerticalStackLayout>
+    
+</dui:ContentPage>

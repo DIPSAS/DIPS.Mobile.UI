@@ -1,3 +1,6 @@
+## [48.4.0] 
+- Added `LoadingOverlay`.
+
 ## [48.3.0] 
 - Added `AlertViewService` to easily trigger `AlertView` animation.
 
