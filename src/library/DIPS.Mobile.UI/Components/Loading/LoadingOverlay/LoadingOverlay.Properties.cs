@@ -64,13 +64,13 @@ public partial class LoadingOverlay
         nameof(OverlayColor),
         typeof(Color),
         typeof(LoadingOverlay),
-        defaultValue: Colors.GetColor(ColorName.color_palette_neutral_black));
+        defaultValue: Colors.GetColor(ColorName.color_fill_default));
     
     public static readonly BindableProperty ContentColorProperty = BindableProperty.Create(
         nameof(ContentColor),
         typeof(Color),
         typeof(LoadingOverlay),
-        defaultValue: Colors.GetColor(ColorName.color_text_default_inverted));
+        defaultValue: Colors.GetColor(ColorName.color_text_subtle));
     
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
         nameof(Text),

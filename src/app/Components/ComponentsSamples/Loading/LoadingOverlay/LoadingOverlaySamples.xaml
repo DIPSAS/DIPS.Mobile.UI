@@ -19,25 +19,21 @@
         </dui:LoadingOverlay>
         
         <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
-                            dui:Layout.CornerRadius="{dui:Sizes size_2}"
-                            ContentColor="Black"
-                            OverlayColor="White">
+                            dui:Layout.CornerRadius="{dui:Sizes size_2}">
             <dui:ItemPicker Size="Large" />
         </dui:LoadingOverlay>
         
         <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
                             dui:Layout.CornerRadius="{dui:Sizes size_2}"
-                            ContentColor="Black"
-                            OverlayColor="White"
                             Text="Loading data, please wait...">
             <dui:ItemPicker Size="Large" />
         </dui:LoadingOverlay>
         
         <dui:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
                             dui:Layout.CornerRadius="{dui:Sizes size_2}"
-                            ContentColor="Black"
-                            OverlayColor="White"
                             ContentFadeOutValue="0"
+                            ContentColor="Green"
+                            OverlayColor="Aqua"
                             Text="Loading data, please wait...">
             <dui:ItemPicker Size="Large" />
         </dui:LoadingOverlay>

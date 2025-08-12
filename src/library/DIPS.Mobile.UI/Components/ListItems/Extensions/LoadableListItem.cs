@@ -126,12 +126,18 @@ public partial class LoadableListItem : ListItem
             AutomationId = "BusyTextLabel".ToDUIAutomationId<LoadableListItem>(),
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.End,
-            TextColor = Colors.GetColor(ColorName.color_text_action)
+            TextColor = Colors.GetColor(ColorName.color_text_subtle)
         };
         busyText.SetBinding(Label.TextProperty, static (LoadableListItem loadableListItem) => loadableListItem.BusyText, source: this);
         m_busyContent.Add(busyText);
         
-        var busyActivityIndicator = new ActivityIndicator { AutomationId = "BusyActivityIndicator".ToDUIAutomationId<LoadableListItem>(),IsRunning = true };
+        var busyActivityIndicator = new ActivityIndicator
+        {
+            AutomationId = "BusyActivityIndicator".ToDUIAutomationId<LoadableListItem>(),
+            IsRunning = true, 
+            Color = Colors.GetColor(ColorName.color_text_subtle)
+        };
+        
         m_busyContent.Add(busyActivityIndicator, 1);
     }
 
