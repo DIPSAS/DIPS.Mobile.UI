@@ -405,10 +405,18 @@ public class VetlePageViewModel : ViewModel
         TestStrings.Add("asd");
     });
 
+    public ContextMenuViewModel ContextMenuViewModel { get; } = new();
+
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);
     }
+}
+
+public class ContextMenuViewModel
+{
+    public string Name => "Vetle";
+    public bool IsVisible => true;
 }
 
 public class Controller : AmplitudeViewController

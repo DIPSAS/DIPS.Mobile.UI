@@ -17,13 +17,6 @@ public partial class ContextMenuPlatformEffect
     
     private void OnLongPressed()
     {
-        m_contextMenu = ContextMenuEffect.GetMenu(Element);
-        
-        if(m_contextMenu == null)
-            return;
-
-        m_contextMenu.BindingContext = Element.BindingContext;
-
         m_delegate.Element = Element;
         m_interaction = new UIContextMenuInteraction(m_delegate);
         
@@ -47,7 +40,7 @@ public partial class ContextMenuPlatformEffect
             
             Touch.SetIsEnabled(Element, false);
 
-            var contextMenu = ContextMenuEffect.GetMenu((Element));
+            var contextMenu = ContextMenuEffect.GetMenu(Element);
             
             var dict = ContextMenuHelper.CreateMenuItems(
                 contextMenu!.ItemsSource!,
