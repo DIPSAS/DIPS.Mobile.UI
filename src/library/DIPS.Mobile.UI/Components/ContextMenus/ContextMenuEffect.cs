@@ -25,7 +25,8 @@ public class ContextMenuEffect : RoutingEffect
     public static readonly BindableProperty MenuBindingContextProperty = BindableProperty.CreateAttached("MenuBindingContext",
         typeof(object),
         typeof(ContextMenuEffect),
-        null);
+        null,
+        propertyChanged:OnMenuBindingContextChanged);
 
     internal static Action<GlobalContextMenuClickMetadata>? ContextMenuItemGlobalClicksCallBack { get; private set; }
 
@@ -103,6 +104,15 @@ public class ContextMenuEffect : RoutingEffect
             return;
 
         contextMenu.BindingContext = menuBindingContext ?? view.BindingContext;
+    }
+    
+    private static void OnMenuBindingContextChanged(BindableObject bindable, object? oldValue, object? newValue)
+    {
+        var contextMenu = GetMenu(bindable);
+        if(contextMenu is null || newValue is null)
+            return;
+        
+        contextMenu.BindingContext = newValue;
     }
 
     public enum ContextMenuMode
