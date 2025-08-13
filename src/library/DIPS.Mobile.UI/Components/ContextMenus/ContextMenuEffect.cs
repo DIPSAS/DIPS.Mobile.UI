@@ -44,11 +44,15 @@ public class ContextMenuEffect : RoutingEffect
         view.SetValue(ModeProperty, mode);
     }
     
-    public static ContextMenu GetMenu(BindableObject view)
+    public static ContextMenu? GetMenu(BindableObject view)
     {
-        return (ContextMenu)view.GetValue(MenuProperty);
+        return (ContextMenu?)view.GetValue(MenuProperty);
     }
 
+    /// <summary>
+    /// Provides a BindingContext for the ContextMenu
+    /// </summary>
+    /// <remarks>Use if you want the Context Menu to have a different <see cref="View.BindingContext"/> than the Element it is attached to</remarks>
     public static void SetMenu(BindableObject view, ContextMenu itemsSource)
     {
         view.SetValue(MenuProperty, itemsSource);
@@ -95,10 +99,10 @@ public class ContextMenuEffect : RoutingEffect
 
         var contextMenu = GetMenu(view);
         var menuBindingContext = GetMenuBindingContext(view);
-        if (contextMenu is null || menuBindingContext is not null)
+        if (contextMenu is null)
             return;
 
-        contextMenu.BindingContext = view.BindingContext;
+        contextMenu.BindingContext = menuBindingContext ?? view.BindingContext;
     }
 
     public enum ContextMenuMode
