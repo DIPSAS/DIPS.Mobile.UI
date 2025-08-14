@@ -26,52 +26,22 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-       
-    <dui:VerticalStackLayout >
-        
-        <dui:Switch x:Name="Switch" />
-        
-       
-        
-        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
-                                       Text="Laaaaaaaaaang loading tekst som vil gå over flere linjer og som vil bli avkortet når det er for langt. Dette er en test for å se om det fungerer som forventet.">
-            <Grid HeightRequest="100" WidthRequest="300"
-                  BackgroundColor="Red">
-                <dui:ContextMenuEffect.Menu>
-                    <dui:ContextMenu>
-                        <dui:ContextMenuItem Title="Hello!" />
-                    </dui:ContextMenu>
-                </dui:ContextMenuEffect.Menu>    
-            </Grid>
-        </loadingOverlay:LoadingOverlay>
-        
-        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
-                                       >
-                <Grid HeightRequest="100" WidthRequest="300"
-                      BackgroundColor="Red">
-                    <dui:ContextMenuEffect.Menu>
-                        <dui:ContextMenu>
-                            <dui:ContextMenuItem Title="Hello!" />
-                        </dui:ContextMenu>
-                    </dui:ContextMenuEffect.Menu>    
-                </Grid>
-            </loadingOverlay:LoadingOverlay>
-        
-        <loadingOverlay:LoadingOverlay IsBusy="{Binding Source={x:Reference Switch}, Path=IsToggled}"
-                                       Text="Laster dokumenttyper..."
-                                       ContentColor="Black"
-                                       OverlayColor="White"
-                                       ContentFadeOutValue="0"
-                                       dui:Layout.CornerRadius="{dui:Sizes size_2}"
-                                       Margin="{dui:Thickness Left=size_3, Right=size_3}">
-            
-            <dui:ItemPicker Size="Large"
-                            
-                            Placeholder="Testing"></dui:ItemPicker>
-        </loadingOverlay:LoadingOverlay>
-        
-        
-        
+
+    <dui:VerticalStackLayout>
+
+        <Grid HeightRequest="100" WidthRequest="300"
+              BackgroundColor="Red"
+              dui:ContextMenuEffect.Mode="LongPressed"
+              dui:ContextMenuEffect.MenuBindingContext="{Binding ContextMenuViewModel}">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu>
+                    <dui:ContextMenuItem Title="{Binding Name}"
+                                         IsVisible="{Binding IsVisible}" />
+                    <dui:ContextMenuItem Title="This works, yes"></dui:ContextMenuItem>
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>
+        </Grid>
+
     </dui:VerticalStackLayout>
     
 

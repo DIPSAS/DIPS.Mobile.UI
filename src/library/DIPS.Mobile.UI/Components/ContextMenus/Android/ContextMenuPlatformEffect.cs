@@ -28,7 +28,8 @@ public partial class ContextMenuPlatformEffect
             return;
         }
 
-        m_contextMenu.BindingContext = Element.BindingContext;
+        var bindingContext = ContextMenuEffect.GetMenuBindingContext(Element);
+        m_contextMenu.BindingContext = bindingContext ?? Element.BindingContext;
         m_contextMenu.Mode = m_mode;
         m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
 

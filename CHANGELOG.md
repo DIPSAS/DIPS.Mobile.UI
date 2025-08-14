@@ -1,3 +1,6 @@
+## [48.6.0] 
+- [ContextMenuEffect] Added `MenuBindingContext` property. 
+
 ## [48.5.0] 
 - [LoadableListItem] Changed color when IsBusy.
 - [LoadingOverlay] Changed default colors.

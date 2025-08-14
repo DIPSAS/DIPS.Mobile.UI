@@ -228,9 +228,9 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        var test = Platform.GetCurrentUIViewController();
+        /*var test = Platform.GetCurrentUIViewController();
         
-        Console.WriteLine(test);
+        Console.WriteLine(test);*/
     }
 
     

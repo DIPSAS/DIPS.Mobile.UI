@@ -21,6 +21,12 @@ public class ContextMenuEffect : RoutingEffect
         typeof(ContextMenuEffect),
         null,
         propertyChanged:OnHasMenuChanged);
+    
+    public static readonly BindableProperty MenuBindingContextProperty = BindableProperty.CreateAttached("MenuBindingContext",
+        typeof(object),
+        typeof(ContextMenuEffect),
+        null,
+        propertyChanged:OnMenuBindingContextChanged);
 
     internal static Action<GlobalContextMenuClickMetadata>? ContextMenuItemGlobalClicksCallBack { get; private set; }
 
@@ -39,14 +45,28 @@ public class ContextMenuEffect : RoutingEffect
         view.SetValue(ModeProperty, mode);
     }
     
-    public static ContextMenu GetMenu(BindableObject view)
+    public static ContextMenu? GetMenu(BindableObject view)
     {
-        return (ContextMenu)view.GetValue(MenuProperty);
+        return (ContextMenu?)view.GetValue(MenuProperty);
     }
 
+    /// <summary>
+    /// Provides a BindingContext for the ContextMenu
+    /// </summary>
+    /// <remarks>Use if you want the Context Menu to have a different <see cref="View.BindingContext"/> than the Element it is attached to</remarks>
     public static void SetMenu(BindableObject view, ContextMenu itemsSource)
     {
         view.SetValue(MenuProperty, itemsSource);
+    }
+    
+    public static object? GetMenuBindingContext(BindableObject view)
+    {
+        return (object?)view.GetValue(MenuBindingContextProperty);
+    }
+
+    public static void SetMenuBindingContext(BindableObject view, object bindingContext)
+    {
+        view.SetValue(MenuBindingContextProperty, bindingContext);
     }
 
     private static void OnHasMenuChanged(BindableObject bindableObject, object oldValue, object newValue)
@@ -79,9 +99,20 @@ public class ContextMenuEffect : RoutingEffect
         if (sender is not View view) return;
 
         var contextMenu = GetMenu(view);
-        if (contextMenu is null) return;
+        var menuBindingContext = GetMenuBindingContext(view);
+        if (contextMenu is null)
+            return;
 
-        contextMenu.BindingContext = view.BindingContext;
+        contextMenu.BindingContext = menuBindingContext ?? view.BindingContext;
+    }
+    
+    private static void OnMenuBindingContextChanged(BindableObject bindable, object? oldValue, object? newValue)
+    {
+        var contextMenu = GetMenu(bindable);
+        if(contextMenu is null || newValue is null)
+            return;
+        
+        contextMenu.BindingContext = newValue;
     }
 
     public enum ContextMenuMode
