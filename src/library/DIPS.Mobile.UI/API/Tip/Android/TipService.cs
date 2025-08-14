@@ -25,7 +25,7 @@ public static void Show(string message, Android.Views.View anchorView, int durat
         var snackBar = Snackbar.Make(anchorView, message, durationInMilliseconds);
         snackBar.SetAnchorView(anchorView);
         
-        var actionColor = Resources.Colors.Colors.GetColor(ColorName.color_surface_neutral);
+        var actionColor = Resources.Colors.Colors.GetColor(ColorName.color_text_default);
         snackBar.SetBackgroundTintList(
             ColorStateList.ValueOf(Resources.Colors.Colors.GetColor(ColorName.color_surface_default).ToPlatform()));
         snackBar.SetActionTextColor(
