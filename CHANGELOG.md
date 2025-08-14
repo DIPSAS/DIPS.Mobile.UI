@@ -1,3 +1,8 @@
+## [49.0.0] 
+- Upgrade .NET MAUI to 9.0.100.
+- Change style of `SectionHeader`.
+- [Android][Tip] Fix wrong color.
+
 ## [48.6.0] 
 - [ContextMenuEffect] Added `MenuBindingContext` property. 
 

@@ -21,7 +21,7 @@ internal class LabelStyleResources
         [LabelStyle.Header600] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.SixHundred), 
         [LabelStyle.Header500] = LabelFontFamilyStyle.Header.ConcatenateWithStyle(LabelWeightStyle.FiveHundred),
         
-        [LabelStyle.SectionHeader] = LabelTypeStyle.SectionHeader
+        [LabelStyle.SectionHeader] = LabelFontFamilyStyle.UI.ConcatenateWithStyle(LabelWeightStyle.FourHundred)
     };
    
 }
