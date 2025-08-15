@@ -78,8 +78,14 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
 
     private static void MapCustomRightIcon(ChipHandler handler, Chip chip)
     {
-        if(chip.IsCloseable || chip.CustomRightIcon is not FileImageSource fileImageSource)
+        if(chip.IsCloseable)
             return;
+
+        if (chip.CustomRightIcon is not FileImageSource fileImageSource)
+        {
+            handler.PlatformView.CloseIcon = null;
+            return;
+        }
         
         handler.PlatformView.CloseIconVisible = true;
         DUI.TryGetResourceId(fileImageSource.File.Replace(".png", string.Empty), out var id, defType:"drawable");
