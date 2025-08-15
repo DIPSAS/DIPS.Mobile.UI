@@ -264,7 +264,7 @@ public partial class AlertView : Border
 
     internal void Animate()
     {
-        if(!IsVisible)
+        if(!IsVisible || !ShouldAnimate)
             return;
         
         this.Animate(AnimationType.FadeIn, config =>
