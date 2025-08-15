@@ -5,6 +5,7 @@ using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
@@ -13,6 +14,8 @@ public partial class ItemPicker : ContentView
 {
     private readonly ContextMenu m_contextMenu = new();
     private readonly Chip m_chip = new(){AutomationId = "ItemPickerChip".ToDUIAutomationId<ItemPicker>()};
+    
+    private readonly ImageSource m_largeItemPickerRightIcon = Icons.GetIcon(IconName.chevron_down_line);
     
     public ItemPicker()
     {
@@ -40,7 +43,7 @@ public partial class ItemPicker : ContentView
         {
             m_chip.InnerPadding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2));
             m_chip.TitleTextAlignment = TextAlignment.Start;
-            m_chip.CustomRightIcon = Icons.GetIcon(IconName.chevron_down_line);
+            m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
         }
         
         Content = m_chip;
@@ -68,11 +71,24 @@ public partial class ItemPicker : ContentView
         SelectedItemChanged();
     }
 
-    private void UpdateChipTitle(string? title)
+    private void UpdateChipTitle()
     {
-        var hasPlaceHolder = title == null || string.IsNullOrEmpty(title);
-        m_chip.Title = hasPlaceHolder ? Placeholder : title!;
-        m_chip.Style = hasPlaceHolder ? EmptyInputStyle.Current : InputStyle.Current;
+        var title = SelectedItem?.GetPropertyValue(ItemDisplayProperty);
+        
+        m_chip.Title = string.IsNullOrEmpty(title) ? Placeholder : title!;
+        SetStyle();
+    }
+
+    private void SetStyle()
+    {
+        if (IsReadOnly)
+        {
+            m_chip.Style = Styles.GetChipStyle(ChipStyle.ReadOnly);
+        }
+        else
+        {
+            m_chip.Style = SelectedItem is null ? EmptyInputStyle.Current : InputStyle.Current;
+        }
     }
 
     public partial void Open()
@@ -90,9 +106,8 @@ public partial class ItemPicker : ContentView
     {
         SelectedItemCommand?.Execute(SelectedItem);
         DidSelectItem?.Invoke(this, SelectedItem!);
-
-        var displayName = SelectedItem?.GetPropertyValue(ItemDisplayProperty) ?? null;
-        UpdateChipTitle(displayName);
+        
+        UpdateChipTitle();
 
         switch (Mode)
         {
@@ -160,5 +175,14 @@ public partial class ItemPicker : ContentView
     {
         if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
             notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+    }
+
+    private void OnIsReadOnlyChanged()
+    {
+        if(Size is PickerSize.Large)
+            m_chip.CustomRightIcon = IsReadOnly ? null : m_largeItemPickerRightIcon;
+        
+        IsEnabled = !IsReadOnly;
+        SetStyle();
     }
 }

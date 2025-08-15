@@ -9,6 +9,7 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
@@ -162,8 +163,7 @@ public partial class AlertView : Border
         {
             AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
             Style = m_descriptionLabel is not null ? Styles.GetLabelStyle(LabelStyle.UI200) : Styles.GetLabelStyle(LabelStyle.Body200),
-            LineBreakMode = LineBreakMode.TailTruncation,
-            VerticalTextAlignment = TextAlignment.Start
+            LineBreakMode = LineBreakMode.TailTruncation
         };
         m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
         
@@ -176,6 +176,16 @@ public partial class AlertView : Border
         m_innerGrid?.Add(m_titleLabel, 1);
         OnIconChanged();
         UpdateButtonAlignment();
+
+        UpdateTitleLabelTextAlignment();
+    }
+
+    private void UpdateTitleLabelTextAlignment()
+    {
+        if(m_titleLabel is null)
+            return;
+        
+        m_titleLabel.VerticalTextAlignment = string.IsNullOrEmpty(Description) ? TextAlignment.Center : TextAlignment.Start;
     }
 
     private void OnDescriptionChanged()
@@ -191,6 +201,8 @@ public partial class AlertView : Border
         
         if(m_titleLabel is not null)
             m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI200);
+        
+        UpdateTitleLabelTextAlignment();
         
         // Default value for MaxLines is -1 and causes a crash when binding directly on Android
         if (DescriptionMaxLines > -1)
@@ -255,8 +267,15 @@ public partial class AlertView : Border
         if(!IsVisible)
             return;
         
-        IsVisible = false;
-        IsVisible = true;
+        this.Animate(AnimationType.FadeIn, config =>
+        {
+            config.StartingValue = .25f;
+        });
+        this.Animate(AnimationType.ScaleIn, config =>
+        {
+            config.Easing = Easing.SpringOut;
+            config.StartingValue = .75f;
+        });
     }
 
     protected override void OnHandlerChanged()

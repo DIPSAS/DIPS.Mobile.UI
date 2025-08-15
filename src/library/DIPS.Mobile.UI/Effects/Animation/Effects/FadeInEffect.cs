@@ -3,7 +3,14 @@ using Microsoft.Maui.Controls.Platform;
 
 namespace DIPS.Mobile.UI.Effects.Animation.Effects;
 
-internal class FadeInEffect : RoutingEffect;
+internal class FadeInEffect : RoutingEffect
+{
+    internal static void Animate(VisualElement visualElement, AnimationConfig config)
+    {
+        visualElement.Opacity = config.StartingValue;
+        visualElement.FadeTo(1, config.Duration, easing: config.Easing);
+    }
+}
 
 internal class FadeInPlatformEffect : PlatformEffect
 {
@@ -34,11 +41,10 @@ internal class FadeInPlatformEffect : PlatformEffect
 
         if (Element is VisualElement { IsVisible: true } visualElement)
         {
-            visualElement.Opacity = m_config.StartingValue;
-            visualElement.FadeTo(1, m_config.Duration, easing: m_config.Easing);
+            FadeInEffect.Animate(visualElement, m_config);
         }
     }
-    
+
     protected override void OnDetached()
     {
         Element.PropertyChanged -= ElementOnPropertyChanged;
