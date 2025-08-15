@@ -17,20 +17,29 @@
     </dui:ContentPage.BindingContext>
     <ScrollView Padding="{dui:Sizes size_4}">
         <dui:VerticalStackLayout>
+            
+            <dui:ListItem Title="Read-only"
+                          HorizontalOptions="End"
+                          BackgroundColor="Transparent">
+                <dui:Switch x:Name="ReadOnlySwitch" />
+            </dui:ListItem>
+            
             <dui:Label Text="ItemPicker, Mode: Context Menu"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
                             HorizontalOptions="Start"
                             Mode="ContextMenu"
                             ItemsSource="{Binding People}"
-                            ItemDisplayProperty="DisplayName" />
+                            ItemDisplayProperty="DisplayName"
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
             <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
                             HorizontalOptions="Start"
                             Mode="BottomSheet"
                             SelectedItem="{Binding SelectedPerson}"
-                            ItemsSource="{Binding People}" />
+                            ItemsSource="{Binding People}"
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
             <dui:Label Text="ItemPicker, Mode: Bottom Sheet w/ Free Text"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
@@ -39,13 +48,15 @@
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
                             FreeTextItemFactory="{Binding PersonFactory}"
-                            FreeTextPrefix="Free text: " />
+                            FreeTextPrefix="Free text: "
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
             <dui:Label Text="ItemPicker, Size: Large"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
                             Size="Large"
                             SelectedItem="{Binding SelectedPerson}"
-                            ItemsSource="{Binding People}" />
+                            ItemsSource="{Binding People}"
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
             <dui:Label Text="MultiItemsPicker"
                        Margin="5" />
             <dui:MultiItemsPicker VerticalOptions="Start"
@@ -78,7 +89,8 @@
                             Mode="BottomSheet"
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
-                            CustomTapCommand="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}" />
+                            CustomTapCommand="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
             
             <dui:Label Text="SegmentedControl: Mode: Single"
                        Margin="5" />

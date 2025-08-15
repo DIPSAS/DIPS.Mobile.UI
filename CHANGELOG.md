@@ -1,3 +1,6 @@
+## [49.1.0] 
+- [ItemPicker] Added `IsReadOnly` property.
+
 ## [49.0.0] 
 - Upgrade .NET MAUI to 9.0.100.
 - Change style of `SectionHeader`.

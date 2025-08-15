@@ -6,5 +6,6 @@ internal static class ChipStyleResources
     {
         [ChipStyle.Input] = InputStyle.Current, 
         [ChipStyle.EmptyInput] = EmptyInputStyle.Current,
+        [ChipStyle.ReadOnly] = ReadOnlyStyle.Current,
     };
 }

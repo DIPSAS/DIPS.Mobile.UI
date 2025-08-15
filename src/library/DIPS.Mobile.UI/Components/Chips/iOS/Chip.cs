@@ -65,6 +65,7 @@ public partial class Chip
         };
         image.SetBinding(Image.SourceProperty, static (Chip chip) => chip.CustomRightIcon, source: this);
         
+        
         return image;
     }
 

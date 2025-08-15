@@ -161,6 +161,18 @@ public partial class ItemPicker
         get => (object?)GetValue(CustomTapCommandParameterProperty);
         set => SetValue(CustomTapCommandParameterProperty, value);
     }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    
+    public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(
+        nameof(IsReadOnly),
+        typeof(bool),
+        typeof(ItemPicker),
+        propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).OnIsReadOnlyChanged());
     
     public static readonly BindableProperty CustomTapCommandParameterProperty = BindableProperty.Create(
         nameof(CustomTapCommandParameter),
