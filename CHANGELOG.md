@@ -1,5 +1,7 @@
 ## [49.1.0] 
 - [ItemPicker] Added `IsReadOnly` property.
+- [AlertView] Fixed bug where animating it, would break consumers' bindings on IsVisible.
+- [AlertView] Fixed bug where title were not centered when description not set.
 
 ## [49.0.0] 
 - Upgrade .NET MAUI to 9.0.100.

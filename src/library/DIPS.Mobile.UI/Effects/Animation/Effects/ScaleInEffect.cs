@@ -3,7 +3,14 @@ using Microsoft.Maui.Controls.Platform;
 
 namespace DIPS.Mobile.UI.Effects.Animation.Effects;
 
-public class ScaleInEffect : RoutingEffect;
+public class ScaleInEffect : RoutingEffect
+{
+    internal static void Animate(VisualElement visualElement, AnimationConfig config)
+    {
+        visualElement.Scale = config.StartingValue;
+        visualElement.ScaleTo(1, config.Duration, easing: config.Easing);
+    }
+}
 
 internal class ScaleInPlatformEffect : PlatformEffect
 {
@@ -34,8 +41,7 @@ internal class ScaleInPlatformEffect : PlatformEffect
 
         if (Element is VisualElement { IsVisible: true } visualElement)
         {
-            visualElement.Scale = m_config.StartingValue;
-            visualElement.ScaleTo(1, m_config.Duration, easing: m_config.Easing);
+            ScaleInEffect.Animate(visualElement, m_config);
         }
     }
 
