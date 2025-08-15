@@ -255,8 +255,8 @@ public partial class AlertView : Border
         if(!IsVisible)
             return;
         
-        IsVisible = false;
-        IsVisible = true;
+        base.IsVisible = false;
+        base.IsVisible = true;
     }
 
     protected override void OnHandlerChanged()
@@ -272,5 +272,10 @@ public partial class AlertView : Border
         {
             AlertViewService.OnAnimationTriggered -= Animate;
         }
+    }
+
+    private void OnInternalIsVisibleChanged()
+    {
+        base.IsVisible = IsVisible;
     }
 }

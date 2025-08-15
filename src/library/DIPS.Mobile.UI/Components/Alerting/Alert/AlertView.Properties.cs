@@ -196,4 +196,16 @@ public partial class AlertView
         get => (bool)GetValue(ShouldAnimateProperty);
         set => SetValue(ShouldAnimateProperty, value);
     }
+
+    public static readonly new BindableProperty IsVisibleProperty = BindableProperty.Create(
+        nameof(IsVisible),
+        typeof(bool),
+        typeof(AlertView),
+        propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnInternalIsVisibleChanged());
+
+    public new bool IsVisible
+    {
+        get => (bool)GetValue(IsVisibleProperty);
+        set => SetValue(IsVisibleProperty, value);
+    }
 }
