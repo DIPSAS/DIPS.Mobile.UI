@@ -1,3 +1,6 @@
+## [49.1.1] 
+- [AlertView] Don't trigger animation from `AlertViewService` if `ShouldAnimate` is set to `false`.
+
 ## [49.1.0] 
 - [ItemPicker] Added `IsReadOnly` property.
 - [AlertView] Fixed bug where animating it, would break consumers' bindings on IsVisible.
