@@ -1,3 +1,7 @@
+## [49.2.0] 
+- [Button] Changed `CloseButtonIcon` style colors.
+- [BottomSheet] Changed color on `Divider` in header.
+
 ## [49.1.1] 
 - [AlertView] Don't trigger animation from `AlertViewService` if `ShouldAnimate` is set to `false`.
 

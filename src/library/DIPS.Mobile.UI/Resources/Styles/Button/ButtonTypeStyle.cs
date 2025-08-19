@@ -400,12 +400,12 @@ public static class ButtonTypeStyle
             new Setter()
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_subtle)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_neutral)
             },
             new Setter()
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_default)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_subtle)
             },
             new Setter()
             {
