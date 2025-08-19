@@ -115,6 +115,7 @@ internal class BottomSheetHeader : Grid
     {
         var divider = new Divider
         {
+            BackgroundColor = Colors.GetColor(ColorName.color_border_subtle),
             VerticalOptions = LayoutOptions.End,
             Margin = new Thickness(this.Padding.Left * -1, this.Padding.Top * -1, this.Padding.Right * -1, this.Padding.Bottom * -1)
         };
