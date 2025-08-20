@@ -1,3 +1,6 @@
+## [49.3.0]
+- Fixed splash screen icon colors.
+
 ## [49.2.1]
 - [PositionInListConverter] Converter now works properly when list elements are grouped.
 
