@@ -1,3 +1,6 @@
+## [49.2.1]
+- [PositionInListConverter] Converter now works properly when list elements are grouped.
+
 ## [49.2.0] 
 - [Button] Changed `CloseButtonIcon` style colors.
 - [BottomSheet] Changed color on `Divider` in header.

@@ -48,8 +48,20 @@ namespace DIPS.Mobile.UI.Converters.MultiValueConverters
 
             try
             {
-                var list = (values[0] as IList) ?? (IList)values[1];
-                var item = list == values[0] ? values[1] : values[0];
+                IList list;
+                object item;
+                if (values[0] is IList && values[1] is IList)
+                {
+                    // Both provided values are lists, we assume that the first is the item, and it is a grouped list
+                    item = values[0];
+                    list = (IList)values[1];
+                }
+                else
+                {
+                    list = (values[0] as IList) ?? (IList)values[1];
+                    item = list == values[0] ? values[1] : values[0];
+                }
+                
                 if(list.Count == 0)
                 {
                     return FalseObject;
