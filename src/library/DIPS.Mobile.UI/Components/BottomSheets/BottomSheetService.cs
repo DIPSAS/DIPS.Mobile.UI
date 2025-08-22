@@ -40,6 +40,22 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             if (BottomSheetStack == null) return;
 
+            // Log the stack
+            for (var i = 0; i < BottomSheetStack.Count; i++)
+            {
+                var bottomSheet = BottomSheetStack[i];
+                Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
+            }
+            
+            // Log the reversed stack
+            var reversedStack = BottomSheetStack.ToList();
+            reversedStack.Reverse();
+            for (var i = 0; i < BottomSheetStack.Count; i++)
+            {
+                var bottomSheet = reversedStack[i];
+                Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
+            }
+            
             //Make a copy and reverse it.
             //If its not reversed, it wont work on iOS because of sheets being presented on top of each other.
             //If its not a copy, exception will be thrown because we remove from the stack during iterations of the stack.
