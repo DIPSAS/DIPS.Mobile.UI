@@ -91,6 +91,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public static partial Task Close(BottomSheet bottomSheet, bool animated = true);
 
         internal static partial Task PlatformOpen(BottomSheet bottomSheet);
-        internal static void RemoveFromStack(BottomSheet bottomSheet) => BottomSheetStack?.Remove(bottomSheet);
+        internal static void RemoveFromStack(BottomSheet bottomSheet) 
+        {
+            BottomSheetStack?.Remove(bottomSheet);
+            for (var i = 0; i < BottomSheetStack?.Count; i++)
+                        {
+                            Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
+                        }
+        } 
     }
 }
