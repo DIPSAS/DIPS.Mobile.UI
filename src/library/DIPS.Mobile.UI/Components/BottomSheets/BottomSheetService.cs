@@ -16,6 +16,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             BottomSheetStack ??= [];
             BottomSheetStack.Add(bottomSheet);
+            
+            // Log the stack
+            for (var i = 0; i < BottomSheetStack.Count; i++)
+            {
+                Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
+            }
 
             var shouldFocusSearchBarOnOpen = bottomSheet is { HasSearchBar: true, ShouldAutoFocusSearchBar: true };
             if (shouldFocusSearchBarOnOpen)
