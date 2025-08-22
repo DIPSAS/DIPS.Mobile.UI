@@ -47,7 +47,9 @@ public static partial class BottomSheetService
     {
         if (bottomSheet?.ViewController == null) return;
         
+        Console.WriteLine($"Dismissing bottom sheet: {bottomSheet.GetType().Name}");
         await bottomSheet.ViewController.DismissViewControllerAsync(animated);
+        Console.WriteLine($"Disposing bottom sheet: {bottomSheet.GetType().Name}");
         bottomSheet.ViewController.Dispose();
     }
 }

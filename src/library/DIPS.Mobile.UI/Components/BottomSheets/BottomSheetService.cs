@@ -46,6 +46,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             var stack = BottomSheetStack.ToArray().Reverse();
             foreach (var bottomSheet in stack)
             {
+                Console.WriteLine($"Closing bottom sheet: {bottomSheet.GetType().Name}");
                 await bottomSheet.Close(animated);
             }
         }

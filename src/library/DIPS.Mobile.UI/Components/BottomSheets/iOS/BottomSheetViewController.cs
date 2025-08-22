@@ -79,6 +79,13 @@ public class BottomSheetViewController : UIViewController
         NavigationItem.Title = BottomSheet.Title;
     }
 
+    public override void ViewDidDisappear(bool animated)
+    {
+        base.ViewDidDisappear(animated);
+        
+        Console.WriteLine($"BottomSheet: {BottomSheet.GetType().Name} ViewDidDisappear");
+    }
+
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);

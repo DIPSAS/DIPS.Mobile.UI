@@ -29,7 +29,8 @@
     
     
     <VerticalStackLayout>
-        <dui:SearchBar />
+        <dui:Button Text="Test" Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}" />
+        <dui:Button Clicked="Button_OnClicked" Text="CloseAll" />
     </VerticalStackLayout>
 
     

@@ -26,9 +26,10 @@ public partial class BottomSheetWithToolbar
         base.OnOpened();
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
+    private async void Button_OnClicked(object sender, EventArgs e)
     {
-        this.Positioning = Positioning.Large;
+        await BottomSheetService.CloseAll();
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
     }
 
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
