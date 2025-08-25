@@ -5,8 +5,13 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
     /// </summary>
     public static partial class BottomSheetService
     {
-        public static List<BottomSheet>? BottomSheetStack { get; internal set; }
+        public static readonly List<BottomSheet> BottomSheetStack;
 
+        static BottomSheetService()
+        {
+            BottomSheetStack = [];
+        }
+        
         /// <summary>
         /// Presents a bottom sheet for people to see.
         /// </summary>
@@ -14,7 +19,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// <returns></returns>
         public static async Task Open(BottomSheet bottomSheet)
         {
-            BottomSheetStack ??= [];
             BottomSheetStack.Add(bottomSheet);
             
             // Log the stack
@@ -46,6 +50,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             if (BottomSheetStack == null) return;
 
+            Console.WriteLine("--- Closing all bottom sheets ---");
+            
+            Console.WriteLine("--- Logging stack ---");
             // Log the stack
             for (var i = 0; i < BottomSheetStack.Count; i++)
             {
@@ -53,6 +60,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
             }
             
+            Console.WriteLine("--- Logging reversed stack ---");
             // Log the reversed stack
             var reversedStack = BottomSheetStack.ToList();
             reversedStack.Reverse();
@@ -93,6 +101,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         internal static partial Task PlatformOpen(BottomSheet bottomSheet);
         internal static void RemoveFromStack(BottomSheet bottomSheet) 
         {
+            Console.WriteLine("--- Removing bottom sheet from stack and log ---");
             BottomSheetStack?.Remove(bottomSheet);
             for (var i = 0; i < BottomSheetStack?.Count; i++)
             {
