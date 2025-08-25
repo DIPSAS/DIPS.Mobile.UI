@@ -20,7 +20,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             // Log the stack
             for (var i = 0; i < BottomSheetStack.Count; i++)
             {
-                Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
+                Console.WriteLine($"[{i}] {BottomSheetStack[i].GetType().Name}");
             }
 
             var shouldFocusSearchBarOnOpen = bottomSheet is { HasSearchBar: true, ShouldAutoFocusSearchBar: true };
@@ -95,9 +95,9 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         {
             BottomSheetStack?.Remove(bottomSheet);
             for (var i = 0; i < BottomSheetStack?.Count; i++)
-                        {
-                            Console.WriteLine($"[{i}] {bottomSheet.GetType().Name}");
-                        }
+            {
+                Console.WriteLine($"[{i}] {BottomSheetStack[i].GetType().Name}");
+            }
         } 
     }
 }
