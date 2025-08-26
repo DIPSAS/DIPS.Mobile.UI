@@ -7,14 +7,15 @@ public partial class ContextMenuItem : Element, IContextMenuItem
 {
     internal async void SendClicked(ContextMenu contextMenu)
     {
+
+        
+        contextMenu.SendClicked(this);
+        Command?.Execute(CommandParameter);
 #if __IOS__
         // We need a small delay to make sure that something is not presented on top of the context menu's UIViewController, which breaks the app.
         // This can happen in release, where everything runs fast.
         await Task.Delay(10);
 #endif
-        
-        contextMenu.SendClicked(this);
-        Command?.Execute(CommandParameter);
         DidClick?.Invoke(this, EventArgs.Empty);
         
         var contextMenuLoggingMetadata = new GlobalContextMenuClickMetadata(this, contextMenu);

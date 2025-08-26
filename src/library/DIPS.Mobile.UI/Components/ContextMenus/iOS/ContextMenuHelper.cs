@@ -97,7 +97,11 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                 }
                 
                 var uiAction = UIAction.Create(menuItem.Title!, image, null,
-                    uiAction => OnMenuItemClick(uiAction, menuItem, contextMenu, callBackWhenItemTapped));
+                    uiAction =>
+                    {
+                        
+                        OnMenuItemClick(uiAction, menuItem, contextMenu, callBackWhenItemTapped);
+                    });
 
                 if (menuItem.IsDestructive)
                 {
