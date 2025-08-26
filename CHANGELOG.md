@@ -1,3 +1,6 @@
+## [49.5.1] 
+ - [ContextMenu][iOS] Make sure nothing breaks when context menu item is tapped.
+
 ## [49.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
