@@ -23,14 +23,17 @@
                                           IsTitleAndBackButtonContainerEnabled="{Binding IsEnabled}"
                                           TitleAndBackButtonContainerCommand="{Binding Test3}"/>
     </dui:BottomSheet.BottomSheetHeaderBehavior>
-    <!--<dui:BottomSheet.TitleAndBackButtonBehavior>
-        <header:TitleAndBackButtonBehavior IsBackButtonVisible="True" />
-    </dui:BottomSheet.TitleAndBackButtonBehavior>-->
     
-    
-    <VerticalStackLayout>
-        <dui:SearchBar />
-    </VerticalStackLayout>
+    <Grid >
+        
+        <dui:ContextMenuEffect.Menu>
+            <dui:ContextMenu>
+                <dui:ContextMenuItem Title="Test"
+                                     Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+            </dui:ContextMenu>
+        </dui:ContextMenuEffect.Menu>
+        
+    </Grid>
 
     
 

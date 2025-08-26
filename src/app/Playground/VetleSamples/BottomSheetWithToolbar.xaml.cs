@@ -34,4 +34,9 @@ public partial class BottomSheetWithToolbar
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
     }
+
+    private void ContextMenuItem_OnDidClick(object sender, EventArgs e)
+    {
+        
+    }
 }

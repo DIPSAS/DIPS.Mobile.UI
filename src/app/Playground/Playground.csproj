@@ -23,7 +23,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.1</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
 
-        <!--<_MauiForceXamlCForDebug>true</_MauiForceXamlCForDebug>-->
+        <_MauiForceXamlCForDebug>true</_MauiForceXamlCForDebug>
         <!--<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>-->
         <!--<WarningsAsErrors>XC0022;XC0023;XC0045</WarningsAsErrors>-->
         <!--<MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>-->
