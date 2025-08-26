@@ -95,7 +95,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
                     image = image?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
                         .ApplyTintColor(UIColor.SystemRed);
                 }
-                
+
                 var uiAction = UIAction.Create(menuItem.Title!, image, null,
                     uiAction => OnMenuItemClick(uiAction, menuItem, contextMenu, callBackWhenItemTapped));
 

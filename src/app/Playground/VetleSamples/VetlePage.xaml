@@ -31,15 +31,8 @@
 
         <Grid HeightRequest="100" WidthRequest="300"
               BackgroundColor="Red"
-              dui:ContextMenuEffect.Mode="LongPressed"
-              dui:ContextMenuEffect.MenuBindingContext="{Binding ContextMenuViewModel}">
-            <dui:ContextMenuEffect.Menu>
-                <dui:ContextMenu>
-                    <dui:ContextMenuItem Title="{Binding Name}"
-                                         IsVisible="{Binding IsVisible}" />
-                    <dui:ContextMenuItem Title="This works, yes"></dui:ContextMenuItem>
-                </dui:ContextMenu>
-            </dui:ContextMenuEffect.Menu>
+              dui:Touch.Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}">
+            
         </Grid>
 
     </dui:VerticalStackLayout>

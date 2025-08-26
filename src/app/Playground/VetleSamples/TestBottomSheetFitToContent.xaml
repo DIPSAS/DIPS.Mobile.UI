@@ -8,62 +8,7 @@
              x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
              SearchCommand="{Binding Navigate}">
     
-    <dui:BottomSheet.Resources>
-            <ResourceDictionary>
-                
-                <x:Array Type="{x:Type x:String}" x:Key="Array">
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-                    <x:String>Hei</x:String>
-
-                </x:Array>
-        
-            </ResourceDictionary>
-    </dui:BottomSheet.Resources>
-
-        <dui:CollectionView ItemsSource="{StaticResource Array}"
-                            BackgroundColor="Black">
-            
-            <dui:CollectionView.Header>
-                <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}"></Grid>
-            </dui:CollectionView.Header>
-            <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <dui:ListItem Title="{Binding .}"></dui:ListItem>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
-    </dui:CollectionView>
+    <dui:Button Text="CloseAll"
+                Clicked="Button_OnClicked"></dui:Button>
 
 </dui:BottomSheet>
