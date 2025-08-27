@@ -1,6 +1,10 @@
 ## [49.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
+## [49.5.2] 
+- [Gallery] Fix crash when removing image.
+- Revert previous commit
+
 ## [49.5.1] 
  - [ContextMenu][iOS] Make sure nothing breaks when context menu item is tapped.
 

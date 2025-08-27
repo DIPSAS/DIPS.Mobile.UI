@@ -194,9 +194,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         var newImages = new List<CapturedImage>(Images);
         newImages.RemoveAt(m_carouselView.Position);
         Images = newImages;
-        
-        _ = OnCarouselViewPositionChanged(m_positionBeforeRemoval.Value);
-        
+
+        _ = OnCarouselViewPositionChanged(m_carouselView.Position);
         m_onRemoveImage.Invoke(m_carouselView.Position);
     }
 
