@@ -1,3 +1,6 @@
+## [49.6.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [49.5.2] 
 - [Gallery] Fix crash when removing image.
 - Revert previous commit
