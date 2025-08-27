@@ -29,10 +29,16 @@
 
     <dui:VerticalStackLayout>
 
-        <Grid HeightRequest="100" WidthRequest="300"
-              BackgroundColor="Red"
-              dui:Touch.Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:BottomSheetWithToolbar}}">
-            
+        <dui:Switch x:Name="Switch" />
+        
+        
+        <Grid>
+            <Grid >
+            <dui:Button Style="{dui:Styles Button=PrimaryIconButtonLarge}"
+                        ImageSource="{dui:Icons alert_line}"
+                        IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
+                
+                </Grid>
         </Grid>
 
     </dui:VerticalStackLayout>
