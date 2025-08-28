@@ -1,3 +1,6 @@
+## [49.7.1] 
+- [Button] Fixed bug where toggling IsVisible would reset icon's tint color.
+
 ## [49.6.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
