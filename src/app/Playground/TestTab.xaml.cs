@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DIPS.Mobile.UI.API.TabBadge;
+using Playground.VetleSamples;
 
 namespace Playground;
 
@@ -22,5 +23,10 @@ public partial class TestTab
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
         TabBadgeService.SetColor(1, Colors.Blue);
+    }
+
+    private void ListItem_OnTapped2(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new VetlePage());
     }
 }

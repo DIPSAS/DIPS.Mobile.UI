@@ -16,6 +16,8 @@
         <dui:ListItem Title="Set blue color"
                       Tapped="ListItem_OnTapped"></dui:ListItem>
         
+        <dui:ListItem Tapped="ListItem_OnTapped2"></dui:ListItem>
+        
     </VerticalStackLayout>
     
 </dui:ContentPage>

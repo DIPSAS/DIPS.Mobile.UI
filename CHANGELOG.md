@@ -1,3 +1,6 @@
+## [49.8.0] 
+- [Android] Retapping tab will now pop to root, similar to iOS.
+
 ## [49.7.1] 
 - [Button] Fixed bug where toggling IsVisible would reset icon's tint color.
 
