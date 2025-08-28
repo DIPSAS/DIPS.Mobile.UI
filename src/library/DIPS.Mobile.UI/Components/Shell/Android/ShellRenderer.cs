@@ -41,6 +41,15 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
     protected override void SetBackgroundColor(BottomNavigationView bottomView, Microsoft.Maui.Graphics.Color color)
     {
         base.SetBackgroundColor(bottomView, color);
+
+        bottomView.ItemReselected += async delegate
+        {
+            // Pop to root when tab pressed twice
+            if (Microsoft.Maui.Controls.Shell.Current?.CurrentItem?.CurrentItem?.Navigation is not null)
+            {
+                await Microsoft.Maui.Controls.Shell.Current.CurrentItem.CurrentItem.Navigation.PopToRootAsync(animated: true);
+            }
+        };
         
         m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
         
