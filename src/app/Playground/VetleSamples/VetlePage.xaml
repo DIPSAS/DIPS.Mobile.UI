@@ -29,20 +29,12 @@
 
     <dui:VerticalStackLayout>
 
-        <dui:Switch x:Name="Switch" />
-        
-        
-        <Grid>
-            <Grid >
-            <dui:Button Style="{dui:Styles Button=PrimaryIconButtonLarge}"
-                        ImageSource="{dui:Icons alert_line}"
-                        IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
-                
-                </Grid>
-        </Grid>
+        <dui:SearchBar Placeholder="Test"
+                       HasCancelButton="True"
+                       CancelButtonTextColor="Red"
+
+                        />
 
     </dui:VerticalStackLayout>
-    
-
 
 </dui:ContentPage>

@@ -293,11 +293,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(SearchFieldBackgroundColor),
             typeof(Color),
             typeof(SearchBar),
-#if __IOS__
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_background_subtle));            
-#else
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_default));      
-#endif
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));      
         
         public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(
             nameof(PlaceholderColor),

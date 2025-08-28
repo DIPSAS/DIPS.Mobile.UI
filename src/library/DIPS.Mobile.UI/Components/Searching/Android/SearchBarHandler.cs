@@ -81,9 +81,19 @@ namespace DIPS.Mobile.UI.Components.Searching
                 }
             };
             
-            Effects.Layout.Layout.SetCornerRadius(m_searchBarContainer, new CornerRadius(Sizes.GetSize(SizeName.size_6)));
+            var searchBarContainerBorder = new Border
+            {
+                Stroke = Resources.Colors.Colors.GetColor(ColorName.color_border_default), 
+                StrokeThickness = 2,
+                BackgroundColor = Colors.Transparent,
+                Content = m_searchBarContainer,
+                StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = Sizes.GetSize(SizeName.size_6)
+                }
+            };
             
-            m_outerGrid.Add(m_searchBarContainer, 0);
+            m_outerGrid.Add(searchBarContainerBorder, 0);
             m_outerGrid.Add(CancelButton, 1);
             
             AppendToPropertyMapper();
