@@ -1,3 +1,7 @@
+## [49.9.1] 
+- [Button][iOS] Fix possible crash.
+- [SearchBar][Android] Make sure busy indicator default color is same as searchbar background
+
 ## [49.9.0] 
 - [SearchBar] Updated styling.
 

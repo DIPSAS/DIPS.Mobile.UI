@@ -21,7 +21,7 @@ namespace DIPS.Mobile.UI.Components.Searching.Android
         public static readonly BindableProperty TrackColorProperty = BindableProperty.Create(
             nameof(TrackColor),
             typeof(Color),
-            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_default));
+            typeof(IndeterminateProgressBar), defaultValueCreator: bindable => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));
 
         public Color? TrackColor
         {
