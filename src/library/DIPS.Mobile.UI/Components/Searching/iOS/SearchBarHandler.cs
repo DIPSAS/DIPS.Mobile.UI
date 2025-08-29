@@ -6,6 +6,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using UISearchBarStyle = UIKit.UISearchBarStyle;
 
 namespace DIPS.Mobile.UI.Components.Searching;
@@ -37,7 +38,10 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
 
     private static void MapPlaceholderColor(SearchBarHandler handler, SearchBar searchBar)
     {
-        MapPlaceholder(handler, searchBar);
+        if (searchBar.PlaceholderColor is not null)
+        {
+            handler.InternalSearchBar.PlaceholderColor = searchBar.PlaceholderColor;
+        }
     }
 
     private static void MapTextColor(SearchBarHandler handler, SearchBar searchBar)
@@ -163,7 +167,15 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
             MagnifierIcon = uiImageView;
         }
 
+        SetStroke();
         SubscribeToEvents();
+    }
+
+    private void SetStroke()
+    {
+        PlatformView.SearchTextField.Layer.CornerRadius = 10;
+        PlatformView.SearchTextField.Layer.BorderWidth = 2;
+        PlatformView.SearchTextField.Layer.BorderColor = Colors.GetColor(ColorName.color_border_default).ToCGColor();
     }
 
     private async void VirtualViewOnUnfocused(object? sender, EventArgs e)

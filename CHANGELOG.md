@@ -1,3 +1,6 @@
+## [49.9.0] 
+- [SearchBar] Updated styling.
+
 ## [49.8.0] 
 - [Android] Retapping tab will now pop to root, similar to iOS.
 
