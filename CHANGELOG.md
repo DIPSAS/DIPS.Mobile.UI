@@ -1,3 +1,6 @@
+## [49.9.2] 
+- [ChipGroup][iOS] Test. 
+
 ## [49.9.1] 
 - [Button][iOS] Fix possible crash.
 - [SearchBar][Android] Make sure busy indicator default color is same as searchbar background

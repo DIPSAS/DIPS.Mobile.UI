@@ -27,14 +27,18 @@
     </dui:ContentPage.ToolbarItems>
 
 
-    <dui:VerticalStackLayout>
-
-        <dui:SearchBar Placeholder="Test"
-                       HasCancelButton="True"
-                       CancelButtonTextColor="Red"
-
-                        />
-
-    </dui:VerticalStackLayout>
+    <dui:ListItem HasTopDivider="True"
+                  VerticalOptions="Start"
+                  >
+        
+        <dui:ChipGroup SelectionMode="Single">
+            <dui:ChipGroup.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Tid</x:String>
+                    <x:String>Runde</x:String>
+                </x:Array>
+            </dui:ChipGroup.ItemsSource>
+        </dui:ChipGroup>
+    </dui:ListItem>
 
 </dui:ContentPage>
