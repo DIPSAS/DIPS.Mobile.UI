@@ -1,3 +1,6 @@
+## [49.9.1] 
+- [Button][iOS] Fix possible crash.
+
 ## [49.9.0] 
 - [SearchBar] Updated styling.
 

@@ -8,6 +8,8 @@ namespace DIPS.Mobile.UI.Components.Buttons;
 
 public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
 {
+    private bool m_disposed;
+
     protected override UIButton CreatePlatformView()
     {
         var button = new UIButtonWithExtraTappableArea();
@@ -30,7 +32,8 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         if (e.PropertyName == View.IsVisibleProperty.PropertyName)
         {
             await Task.Delay(1);
-            MapImageTintColor(this, VirtualView as Button);
+            if(!m_disposed)
+                MapImageTintColor(this, VirtualView as Button);
         }
     }
 
@@ -74,7 +77,9 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     protected override void DisconnectHandler(UIButton platformView)
     {
         base.DisconnectHandler(platformView);
+
+        m_disposed = true;
         
-        (VirtualView as View).PropertyChanged += OnPropertyChanged;
+        (VirtualView as View).PropertyChanged -= OnPropertyChanged;
     }
 }
