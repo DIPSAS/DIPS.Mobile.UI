@@ -1,5 +1,5 @@
 ## [49.9.2] 
-- [ChipGroup][iOS] Test. 
+- [ChipGroup][iOS] Chips now won't be truncated when there is available space. 
 
 ## [49.9.1] 
 - [Button][iOS] Fix possible crash.
