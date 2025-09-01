@@ -1,3 +1,6 @@
+## [49.9.4]
+- Update color resources
+
 ## [49.9.3]
 - [Checkmark][CheckmarkListItem][iOS] Fix bug where checkmark is never visible.
 
