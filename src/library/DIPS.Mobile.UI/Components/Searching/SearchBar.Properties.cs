@@ -293,13 +293,17 @@ namespace DIPS.Mobile.UI.Components.Searching
             nameof(SearchFieldBackgroundColor),
             typeof(Color),
             typeof(SearchBar),
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));      
+#if __IOS__
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_palette_neutral_white));    
+#else
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));
+#endif
         
         public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(
             nameof(PlaceholderColor),
             typeof(Color),
             typeof(SearchBar),
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_palette_red_900));
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_subtle));
 
         public static readonly BindableProperty CancelButtonTextColorProperty = BindableProperty.Create(
             nameof(CancelButtonTextColor),
