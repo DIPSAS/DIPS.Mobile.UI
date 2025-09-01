@@ -1,4 +1,4 @@
-## [49.9.2]
+## [49.9.3]
 - [Checkmark][iOS] Fix bug where checkmark is never visible.
 ## [49.9.2] 
 - [ChipGroup][iOS] Chips now won't be truncated when there is available space.
