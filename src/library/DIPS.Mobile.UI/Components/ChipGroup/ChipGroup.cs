@@ -78,7 +78,9 @@ public partial class ChipGroup : ContentView
                 Style = Styles.GetChipStyle(ChipStyle.EmptyInput),
                 Title = obj.GetPropertyValue(ItemDisplayProperty) ?? string.Empty, 
                 IsToggleable = true, 
-                Margin = 2
+                Margin = 2,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Center
             };
             var item = new ChipGroupItem(chip, obj!);
             chip.Command = new Command(_ => ChipToggled(item));
