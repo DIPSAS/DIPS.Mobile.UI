@@ -292,10 +292,11 @@ namespace DIPS.Mobile.UI.Components.Searching
         public static readonly BindableProperty SearchFieldBackgroundColorProperty = BindableProperty.Create(
             nameof(SearchFieldBackgroundColor),
             typeof(Color),
-            typeof(SearchBar),
-#if __IOS__
+            typeof(SearchBar), 
+#if __IOS__ 
+            // iOS places a semi-transparent background on top of the search field by default, so we use a different default value for iOS
             defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_palette_neutral_white));    
-#else
+#else 
             defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));
 #endif
         
