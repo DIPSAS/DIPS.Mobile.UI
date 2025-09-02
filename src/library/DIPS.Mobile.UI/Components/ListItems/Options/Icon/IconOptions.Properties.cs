@@ -8,12 +8,6 @@ public partial class IconOptions
         set => SetValue(IsVisibleProperty, value);
     }
     
-    public float Opacity
-    {
-        get => (float)GetValue(OpacityProperty);
-        set => SetValue(OpacityProperty, value);
-    }
-    
     public Color Color
     {
         get => (Color)GetValue(ColorProperty);
@@ -57,10 +51,4 @@ public partial class IconOptions
         typeof(bool),
         typeof(IconOptions),
         defaultValue: true);
-    
-    public static readonly BindableProperty OpacityProperty = BindableProperty.Create(
-        nameof(Opacity),
-        typeof(float),
-        typeof(IconOptions),
-        defaultValue: (float)0.0);
 }

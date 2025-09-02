@@ -33,7 +33,7 @@ public partial class Checkmark : ImageButton, ISelectable
 #if __ANDROID__
         Source = Icons.GetIcon(IsSelected ? IconName.checkbox_checked_fill : IconName.checkbox_unchecked_line);
 #elif __IOS__
-        Opacity = IsSelected ? 1 : 0;
+        TintColor = IsSelected ? ISelectable.s_tintColor : Colors.Transparent;
 #endif
         SelectedCommand?.Execute(SelectedCommandParameter);
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));

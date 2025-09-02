@@ -23,7 +23,6 @@ public partial class IconOptions : ListItemOptions
         listItem.ImageIcon.SetBinding(Image.TintColorProperty, static (IconOptions options) => options.Color, source: this);
         listItem.ImageIcon.SetBinding(VisualElement.IsVisibleProperty, static (IconOptions options) => options.IsVisible, source: this);
         listItem.ImageIcon.SetBinding(View.VerticalOptionsProperty, static (IconOptions options) => options.VerticalOptions, source: this);
-        listItem.ImageIcon.SetBinding(VisualElement.OpacityProperty, static (IconOptions options) => options.Opacity, source: this);
     }
 
 }

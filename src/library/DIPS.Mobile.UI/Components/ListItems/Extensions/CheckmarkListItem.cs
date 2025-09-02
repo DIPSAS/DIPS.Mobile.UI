@@ -46,7 +46,7 @@ public partial class CheckmarkListItem : ListItem, ISelectable
 #if __ANDROID__
         Icon = Icons.GetIcon(IsSelected ? IconName.checkbox_checked_fill : IconName.checkbox_unchecked_line);
 #elif __IOS__
-        m_iconOptions.Opacity = IsSelected ? (float)1.0 : (float)0.0;
+        m_iconOptions.Color = IsSelected ? ISelectable.s_tintColor : Colors.Transparent;
 #endif
         
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
