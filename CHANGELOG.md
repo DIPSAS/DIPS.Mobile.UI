@@ -1,3 +1,8 @@
+## [49.9.4]
+- [SearchBar] Set correct text color.
+- [SearchBar][iOS] Modify background color. 
+- Revert previous commit where things were changed in `IconTintColorHandler`, breaking icon tinting.
+
 ## [49.9.3]
 - [Checkmark][CheckmarkListItem][iOS] Fix bug where checkmark is never visible.
 

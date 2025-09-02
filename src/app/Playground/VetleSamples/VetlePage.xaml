@@ -27,18 +27,14 @@
     </dui:ContentPage.ToolbarItems>
 
 
-    <dui:ListItem HasTopDivider="True"
-                  VerticalOptions="Start"
-                  >
+    <VerticalStackLayout>
         
-        <dui:ChipGroup SelectionMode="Single">
-            <dui:ChipGroup.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Tid</x:String>
-                    <x:String>Runde</x:String>
-                </x:Array>
-            </dui:ChipGroup.ItemsSource>
-        </dui:ChipGroup>
-    </dui:ListItem>
+    <dui:SearchBar Placeholder="Hello"/>
+    
+    <dui:Label Text="Hello"></dui:Label>
+    <dui:Label Text="Hello"
+               TextColor="{dui:Colors color_text_subtle}"></dui:Label>
+    
+    </VerticalStackLayout>
 
 </dui:ContentPage>

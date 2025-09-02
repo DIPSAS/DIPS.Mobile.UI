@@ -8,9 +8,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchBar()
         {
-            this.SetAppThemeColor(IconsColorProperty, ColorName.color_icon_subtle);
-            this.SetAppThemeColor(TextColorProperty, ColorName.color_text_subtle);
-
 #if __ANDROID__
             this.SetBinding(BackgroundColorProperty, static (SearchBar searchBar) => searchBar.BarColor, source: this);
 #endif

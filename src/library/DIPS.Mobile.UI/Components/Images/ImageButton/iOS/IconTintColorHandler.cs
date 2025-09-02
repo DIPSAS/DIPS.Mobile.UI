@@ -1,78 +1,67 @@
 using System.ComponentModel;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using IImage = Microsoft.Maui.IImage;
 
 namespace DIPS.Mobile.UI.Components.Images;
 
 // Some inspiration from Maui.CommunityToolkit: https://github.com/CommunityToolkit/Maui/blob/main/src/CommunityToolkit.Maui/Behaviors/PlatformBehaviors/IconTintColor/IconTintColorBehavior.macios.cs
-// Attempts to set the Tint Color of an image on iOS, on the following controls: ImageButton, Image, Button
+// Attempts to set the Tint Color of an image on iOS, on the following controls: ImageButton, Image
 internal class IconTintColorHandler : IDisposable
 {
     private readonly View m_view;
 
-    public IconTintColorHandler(IView view)
+    public IconTintColorHandler(IImage image)
     {
-        if (view is not View v)
-            throw new ArgumentException($"{view.GetType().Name} is not a View");
-        
-        v.PropertyChanged += ViewOnPropertyChanged;
-        m_view = v;
+        if (image is not View view)
+            return;
+
+        view.PropertyChanged += ViewOnPropertyChanged;
+        m_view = view;
     }
 
     private static void ViewOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is not View view)
+        if (e.PropertyName != Microsoft.Maui.Controls.ImageButton.IsLoadingProperty.PropertyName
+            && e.PropertyName != Microsoft.Maui.Controls.ImageButton.SourceProperty.PropertyName
+            && e.PropertyName != ImageButton.ImageButton.TintColorProperty.PropertyName
+            && e.PropertyName != Image.Image.TintColorProperty.PropertyName)
             return;
-        
-        if ((e.PropertyName != Microsoft.Maui.Controls.ImageButton.IsLoadingProperty.PropertyName
-             && e.PropertyName != Microsoft.Maui.Controls.Image.SourceProperty.PropertyName
-             && e.PropertyName != Microsoft.Maui.Controls.ImageButton.SourceProperty.PropertyName
-            && e.PropertyName != Microsoft.Maui.Controls.Button.ImageSourceProperty.PropertyName)
-            || view is not IImageElement element)
-        {
+
+        if (sender is not IImageElement imageElement)
             return;
-        }
-        
-        if (!element.IsLoading)
-        {
-            TrySetTintColor(view);
-        }
+
+        if (!imageElement.IsLoading)
+            TrySetTintColor((sender as View)!);
     }
-    
+
     private static void TrySetTintColor(View view)
     {
-        if(view.Handler?.PlatformView is not UIView uiView)
+        if (view.Handler?.PlatformView is not UIView uiView)
             return;
 
         switch (uiView)
         {
             case UIImageView imageView:
-                
+
                 if (view is not Image.Image image)
                 {
                     break;
                 }
-                
+
                 SetUIImageViewTintColor(imageView, image.TintColor);
                 break;
             case UIButton button:
-
-                switch (view)
+                if (view is not ImageButton.ImageButton imageButton)
                 {
-                    case Button buttonView:
-                        SetUIButtonTintColor(button, buttonView.ImageTintColor);
-                        break;
-                    case ImageButton.ImageButton imageButton:
-                        SetUIButtonTintColor(button, imageButton.TintColor);
-                        break;
+                    break;
                 }
 
+                SetUIButtonTintColor(button, imageButton.TintColor);
                 break;
         }
     }
-    
+
     private static void SetUIButtonTintColor(UIButton button, Color color)
     {
         if (button.ImageView.Image is null || button.CurrentImage is null)
