@@ -1,3 +1,7 @@
+## [49.9.6]
+- Update color resources
+- Revert changes that broke navigationlistitem with icon
+
 ## [49.9.5]
 - [SaveView] Removed touch effect when tapping the component
 
