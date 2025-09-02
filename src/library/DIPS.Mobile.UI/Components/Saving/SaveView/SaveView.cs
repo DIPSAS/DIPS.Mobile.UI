@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.CheckBoxes;
-using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -41,14 +40,14 @@ public partial class SaveView : ContentView
 
         Content = content;
         
-        Touch.SetCommand(m_filledCheckBox, new Command(() =>
+        GestureRecognizers.Add(new TapGestureRecognizer
         {
-            Command?.Execute(CommandParameter);
-            DidTapToSave = true;
-        }));
-        
-        // The SaveView should default to not being tappable, only when Command is set should the view be tappable
-        Touch.SetIsEnabled(m_filledCheckBox, false);
+            Command = new Command(() =>
+            {
+                Command?.Execute(CommandParameter);
+                DidTapToSave = true;
+            })
+        });
     }
     
     private bool DidTapToSave { get; set; }
@@ -103,10 +102,5 @@ public partial class SaveView : ContentView
                 saveView.DidTapToSave = false;
             }
         }
-    }
-
-    private void OnCommandChanged()
-    {
-        Touch.SetIsEnabled(m_filledCheckBox, Command is not null);
     }
 }
