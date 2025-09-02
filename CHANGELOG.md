@@ -1,5 +1,9 @@
-## [49.9.5]
+## [49.9.6]
 - Update color resources
+- Revert changes that broke navigationlistitem with icon
+
+## [49.9.5]
+- [SaveView] Removed touch effect when tapping the component
 
 ## [49.9.4]
 - [SearchBar] Set correct text color.
