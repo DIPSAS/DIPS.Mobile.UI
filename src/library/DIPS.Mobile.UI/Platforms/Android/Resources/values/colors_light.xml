@@ -98,20 +98,20 @@ this file is generated for light mode
     <color name="color_text_action_hover">#FF050948</color> <!-- navy-900 -->
     <color name="color_text_action_neutral">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_action_on_fill">#FF0000CC</color> <!-- navy-700 -->
-    <color name="color_text_danger">#FF262626</color> <!-- neutral-900 -->
+    <color name="color_text_danger">#FFAB321D</color> <!-- red-800 -->
     <color name="color_text_default">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_default_inverted">#FFFFFFFF</color> <!-- neutral-white -->
     <color name="color_text_disabled">#FFB6B7B9</color> <!-- neutral-400 -->
-    <color name="color_text_error">#FFAB321D</color> <!-- red-800 -->
-    <color name="color_text_information">#FF262626</color> <!-- neutral-900 -->
+    <color name="color_text_highlight">#FFF9DB73</color> <!-- yellow-400 -->
     <color name="color_text_input">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_label">#FF262626</color> <!-- neutral-900 -->
+    <color name="color_text_on_fill_danger">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_on_fill_disabled">#FFFFFFFF</color> <!-- neutral-white -->
+    <color name="color_text_on_fill_information">#FF262626</color> <!-- neutral-900 -->
+    <color name="color_text_on_fill_success">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_on_fill_warning">#FF262626</color> <!-- neutral-900 -->
     <color name="color_text_on_inverted">#FFFFFFFF</color> <!-- neutral-white -->
     <color name="color_text_readonly">#FF464C50</color> <!-- neutral-700 -->
     <color name="color_text_subtle">#FF6A7073</color> <!-- neutral-600 -->
-    <color name="color_text_success">#FF262626</color> <!-- neutral-900 -->
-    <color name="color_text_warning">#FF262626</color> <!-- neutral-900 -->
     <color name="none">#00000000</color> <!-- Transparent -->
 </resources>
