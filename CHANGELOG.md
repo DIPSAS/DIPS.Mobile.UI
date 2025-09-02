@@ -1,3 +1,6 @@
+## [49.9.5]
+- [SaveView] Removed touch effect when tapping the component
+
 ## [49.9.4]
 - [SearchBar] Set correct text color.
 - [SearchBar][iOS] Modify background color. 
