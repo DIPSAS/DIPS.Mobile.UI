@@ -10,7 +10,7 @@
     <dui:ContentPage.BindingContext>
         <eirikSamples:EirikPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:SaveView IsSaving="{Binding IsSaving}"
-                  IsSavingCompleted="{Binding IsSavingCompleted}"
-                  Command="{Binding SaveCommand}"/>
+    <dui:ScrollView RemoveFocusOnScroll="True">
+        <dui:Editor Text="{Binding Text, Mode=TwoWay}"/>
+    </dui:ScrollView>
 </dui:ContentPage>

@@ -63,7 +63,7 @@ public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
     
     private void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        if (!RemoveFocusOnScroll)
+        if (!RemoveFocusOnScroll || Math.Abs(e.ScrollY) < 0.01)
             return;
 
         foreach (var inputFieldReference in m_inputFields)

@@ -13,6 +13,7 @@ public class EirikPageViewModel : ViewModel
 {
     private bool m_isSaving;
     private bool m_isSavingCompleted;
+    private string m_text;
 
     public EirikPageViewModel()
     {
@@ -22,6 +23,12 @@ public class EirikPageViewModel : ViewModel
             await Task.Delay(2000);
             IsSavingCompleted = true;
         });
+    }
+
+    public string Text
+    {
+        get => m_text;
+        set => RaiseWhenSet(ref m_text, value);
     }
 
     public bool IsSaving
