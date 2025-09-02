@@ -1,7 +1,9 @@
+using System.Reflection.Metadata;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Effects.Animation;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -39,22 +41,23 @@ public partial class AlertView : Border
     private readonly Grid m_grid;
     private readonly Grid m_innerGrid;
     private readonly HorizontalStackLayout m_buttonsContainer;
-    private Label? m_titleLabel;
     private Image? m_image;
-    private Label? m_descriptionLabel;
+    private Label m_titleAndDescriptionLabel;
 
     public AlertView()
     {
         Style = Styles.GetAlertStyle(AlertStyle.Information);
         StrokeShape = new RoundRectangle() {CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_small))};
-        Content = m_grid = new Grid()
+        Content = m_grid = new Grid
         {
             AutomationId = "AlertGrid".ToDUIAutomationId<AlertView>(),
             ColumnDefinitions =
             [
                 new ColumnDefinition(GridLength.Star),
                 new ColumnDefinition(GridLength.Auto)
-            ]
+            ],
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
+            Padding = Sizes.GetSize(SizeName.content_margin_small)
         };
         
         m_innerGrid = new Grid
@@ -71,13 +74,14 @@ public partial class AlertView : Border
                 new RowDefinition(GridLength.Star),
                 new RowDefinition(GridLength.Auto),
             ],
-            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
-            Padding = Sizes.GetSize(SizeName.content_margin_small)
+            
         };
         m_grid.Add(m_innerGrid, 0);
         
         m_buttonsContainer = new HorizontalStackLayout() {AutomationId="HorizontalStackLayout".ToDUIAutomationId<AlertView>(), HorizontalOptions = LayoutOptions.Start, VerticalOptions = LayoutOptions.Start, Spacing = Sizes.GetSize(SizeName.size_2), IsVisible = false, Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)};
     }
+
+    public bool IsLargeAlert => !string.IsNullOrEmpty(Description);
 
     private void OnButtonAlignmentChanged()
     {
@@ -159,33 +163,61 @@ public partial class AlertView : Border
 
     private void OnTitleChanged()
     {
-        m_titleLabel = new Label()
+        var formattedString = new FormattedString
         {
-            AutomationId = "TitleLabel".ToDUIAutomationId<AlertView>(),
-            Style = m_descriptionLabel is not null ? Styles.GetLabelStyle(LabelStyle.UI200) : Styles.GetLabelStyle(LabelStyle.Body200),
-            LineBreakMode = LineBreakMode.TailTruncation
+            Spans =
+            {
+                new Span
+                {
+                    Text = Title, 
+                    FontFamily = IsLargeAlert ? "UI" : "Body",
+                }
+            }
         };
-        m_titleLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Title, source: this);
-        
-        // Default value for MaxLines is -1 and causes a crash when binding directly on Android
-        if (TitleMaxLines > -1)
+
+        if (IsLargeAlert)
         {
-            m_titleLabel.MaxLines = TitleMaxLines;
+            formattedString.Spans.Add(new Span
+            {
+                Text = Environment.NewLine
+            });
+            
+            formattedString.Spans.Add(new Span
+            {
+                Text = Description,
+                FontFamily = "Body"
+            });
         }
 
+        m_titleAndDescriptionLabel = new Label
+        {
+            MaxLines = IsLargeAlert ? 4 : 1,
+            LineBreakMode = LineBreakMode.TailTruncation,
+            AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
+            Style = Styles.GetLabelStyle(LabelStyle.Body200),
+            FormattedText = formattedString,
+            TruncatedText = $" ...{DUILocalizedStrings.More.ToLower()}",
+            TruncatedTextColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default),
+        };
+        
+        m_innerGrid.Remove(m_titleLabel);
         m_innerGrid?.Add(m_titleLabel, 1);
+        
         OnIconChanged();
         UpdateButtonAlignment();
 
-        UpdateTitleLabelTextAlignment();
+        UpdateTitleAndIconProperties();
     }
 
-    private void UpdateTitleLabelTextAlignment()
+    private void UpdateTitleAndIconProperties()
     {
         if(m_titleLabel is null)
             return;
         
+        Grid.SetRowSpan(m_image, string.IsNullOrEmpty(Description) ? 3 : 1);
+        Grid.SetRowSpan(m_titleLabel, string.IsNullOrEmpty(Description) ? 2 : 1);
         m_titleLabel.VerticalTextAlignment = string.IsNullOrEmpty(Description) ? TextAlignment.Center : TextAlignment.Start;
+        m_titleLabel.MaxLines = string.IsNullOrEmpty(Description) ? 1 : 4;
     }
 
     private void OnDescriptionChanged()
@@ -194,22 +226,18 @@ public partial class AlertView : Border
         {
             AutomationId = "DescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
-            LineBreakMode = LineBreakMode.TailTruncation
+            LineBreakMode = LineBreakMode.TailTruncation,
+            TruncatedText = $" ...{DUILocalizedStrings.More.ToLower()}",
+            TruncatedTextColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_text_default),
+            Text = Description
         };
-        
-        m_descriptionLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (AlertView alertView) => alertView.Description, source: this);
         
         if(m_titleLabel is not null)
             m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI200);
         
-        UpdateTitleLabelTextAlignment();
+        UpdateTitleAndIconProperties();
         
-        // Default value for MaxLines is -1 and causes a crash when binding directly on Android
-        if (DescriptionMaxLines > -1)
-        {
-            m_descriptionLabel.MaxLines = DescriptionMaxLines;
-        }
-        
+        m_innerGrid.Remove(m_descriptionLabel);
         m_innerGrid?.Add(m_descriptionLabel, 1, 1);
         
         UpdateButtonAlignment();
@@ -227,18 +255,15 @@ public partial class AlertView : Border
             AutomationId = "Image".ToDUIAutomationId<AlertView>(),
             HeightRequest = Sizes.GetSize(SizeName.size_6),
             WidthRequest = Sizes.GetSize(SizeName.size_6),
-            VerticalOptions = LayoutOptions.Start
+            VerticalOptions = LayoutOptions.Center
         };
         
         m_image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
         m_image.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (AlertView alertView) => alertView.Icon, source: this, mode: BindingMode.OneTime);
 
-        if (m_titleLabel is null)
-        {
-            m_innerGrid?.Add(m_image, 0, 1);
-            return;
-        }
-        m_innerGrid?.Add(m_image, 0, string.IsNullOrEmpty(m_titleLabel?.Text) ? 0 : 1);
+        m_innerGrid?.Add(m_image);
+        
+        UpdateTitleAndIconProperties();
     }
 
     private void OnShouldAnimateChanged()

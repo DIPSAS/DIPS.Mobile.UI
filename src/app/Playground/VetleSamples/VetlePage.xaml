@@ -26,15 +26,33 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-
-    <VerticalStackLayout>
+    <dui:VerticalStackLayout>
+        <!--<Grid ColumnDefinitions="*, *">
+            <dui:Label Text=" Hlegopkjoiweg jwoiegj wioeujg oiwrj giuegie jgioerw jgoierjgoiejg oerwjgoierj goiejwoijeoirg eroigeo"
+                       TruncatedText="... l0l"
+                       MaxLines="1"
+                       LineBreakMode="TailTruncation"></dui:Label>
+        </Grid>
         
-    <dui:SearchBar Placeholder="Hello"/>
+        <dui:AlertView Title="You have unsaved changes"
+                       LeftButtonText="Save"
+                       ButtonAlignment="Auto"
+                       LeftButtonCommand="{Binding CompletedCommand}" />
+        
+        <dui:AlertView Title="Test asidoasoidjoaisjd asoidjsaoidjasiodjai askld masoid masoiso"
+                       LeftButtonText="Yo"
+                       ButtonAlignment="Underlying"
+                       LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
+        
+        <dui:AlertView Title="Test" />-->
+        
+        <dui:AlertView Title="Test asdk asksaopdkaspodka sodkasoidkasio djaiosdjsoid mjoisj doiasj doiasj doisajdoiasjdoiasjdoias jdoiasjdoiasjdoisajdosajdoiasjd aoisdjaoisdjasiodjas oidjsa"
+                       Description="Hello"
+                       ButtonAlignment="Underlying"
+                       LeftButtonCommand="{Binding CompletedCommand}"
+                       LeftButtonText="STRE"/>
     
-    <dui:Label Text="Hello"></dui:Label>
-    <dui:Label Text="Hello"
-               TextColor="{dui:Colors color_text_subtle}"></dui:Label>
+    </dui:VerticalStackLayout>
     
-    </VerticalStackLayout>
-
+    
 </dui:ContentPage>
