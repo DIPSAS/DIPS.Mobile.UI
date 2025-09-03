@@ -30,9 +30,11 @@
         
         <dui:AlertView Title="Hello! ASijdoaisjd "
                        LeftButtonText="Hello"
-                       LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
+                       ShowCloseButton="True"
+                       ></dui:AlertView>
         
         <dui:AlertView Title="Hello! ASijdoaisjd "
+                       ShowCloseButton="True"
                        Description="Ll"
                        LeftButtonText="Hello"
                        LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>

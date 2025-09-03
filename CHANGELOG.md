@@ -1,4 +1,7 @@
-## [49.9.7]
+## [50.0.0]
+- [AlertView] Optimized layout.
+- [AlertView][BreakingChange] Removed `ButtonAlignment`, `TitleMaxLines` and `DescriptionMaxLines` properties.
+- [AlertView] The component now corresponds to figma.
 - [Label] Fixed bug where Spans would lose formatting from FormattedText when `TruncatedText` was set.
 - [Label] Added `TruncatedTextStyle` property with new `SpanStyle` enum to apply span styles to custom truncation text.
 - [Styles] Added `SpanStyle` enum and styling system for spans, with shared style definitions between `LabelStyle` and `SpanStyle` for easier maintenance.

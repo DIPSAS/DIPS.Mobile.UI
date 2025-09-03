@@ -32,7 +32,8 @@ public class AlertTypeStyle
         {
             new Setter
             {
-                Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.important_line)
+                Property = AlertView.IconProperty, 
+                Value = Icons.Icons.GetIcon(IconName.important_line)
             },
             new Setter
             {
@@ -51,13 +52,17 @@ public class AlertTypeStyle
     {
         Setters =
         {
-            new Setter {Property = AlertView.IconProperty, Value = Icons.Icons.GetIcon(IconName.alert_line)},
+            new Setter
+            {
+                Property = AlertView.IconProperty, 
+                Value = Icons.Icons.GetIcon(IconName.alert_line)
+            },
             new Setter
             {
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_warning)
             },
-            new Setter()
+            new Setter
             {
                 Property = AlertView.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_warning)
@@ -78,7 +83,7 @@ public class AlertTypeStyle
                 Property = VisualElement.BackgroundProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_success)
             },
-            new Setter()
+            new Setter
             {
                 Property = AlertView.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_success)

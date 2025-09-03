@@ -2,7 +2,6 @@
 using Microsoft.Maui.Platform;
 namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
-[Obsolete("Use Button with styles if possible")]
 public partial class ImageButton : Microsoft.Maui.Controls.ImageButton
 {
     //TODO: Fix when MAUI fixes: https://github.com/dotnet/maui/issues/18001

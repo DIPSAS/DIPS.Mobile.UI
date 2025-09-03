@@ -21,6 +21,20 @@ public partial class AlertView
         set => SetValue(TitleProperty, value);
     }
 
+    public static readonly BindableProperty ShowCloseButtonProperty = BindableProperty.Create(
+        nameof(ShowCloseButton),
+        typeof(bool),
+        typeof(AlertView), propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnShowCloseButtonChanged());
+
+    /// <summary>
+    /// If true, a close button will be shown in the top right corner of the alert.
+    /// </summary>
+    public bool ShowCloseButton
+    {
+        get => (bool)GetValue(ShowCloseButtonProperty);
+        set => SetValue(ShowCloseButtonProperty, value);
+    }
+
     public static readonly BindableProperty DescriptionProperty = BindableProperty.Create(
         nameof(Description),
         typeof(string),

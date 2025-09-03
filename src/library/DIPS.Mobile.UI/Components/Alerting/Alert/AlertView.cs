@@ -12,6 +12,7 @@ using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
+using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton.ImageButton;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Alerting.Alert;
@@ -19,7 +20,8 @@ namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 public partial class AlertView : Grid
 {
     private readonly HorizontalStackLayout m_buttonsContainer;
-    private Image? m_image;
+    private Image? m_icon;
+    private ImageButton? m_closeIcon;
     private Label m_titleAndDescriptionLabel;
 
     public AlertView()
@@ -48,8 +50,7 @@ public partial class AlertView : Grid
             HorizontalOptions = LayoutOptions.Start,
             VerticalOptions = LayoutOptions.Start,
             Spacing = Sizes.GetSize(SizeName.size_2),
-            IsVisible = false,
-            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_2), 0, 0)
+            IsVisible = false
         };
     }
 
@@ -82,12 +83,12 @@ public partial class AlertView : Grid
         
         if (buttonsWillFit)
         {
-            m_buttonsContainer.Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_small));
+            m_buttonsContainer.Margin = 0;
             this.Add(m_buttonsContainer, 2);
         }
         else
         {
-            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+            m_buttonsContainer.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_small), 0);
             this.Add(m_buttonsContainer, 1, 1);
         }
     }
@@ -163,12 +164,9 @@ public partial class AlertView : Grid
                 Text = Description,
                 Style = Styles.GetSpanStyle(SpanStyle.Body100)
             });
-
-            if (m_image is not null)
-            {
-                m_image.VerticalOptions = LayoutOptions.Start;
-            }
         }
+        
+        OnIsLargeAlertDetermined();
 
         m_titleAndDescriptionLabel = new Label
         {
@@ -188,14 +186,33 @@ public partial class AlertView : Grid
         UpdateButtonAlignment();
     }
 
+    /// <summary>
+    /// The AlertView is large if it has a description, if it is large we want to align the icon and close button to the top of the alert
+    /// </summary>
+    private void OnIsLargeAlertDetermined()
+    {
+        if(!IsLargeAlert)
+            return;
+        
+        if (m_icon is not null)
+        {
+            m_icon.VerticalOptions = LayoutOptions.Start;
+        }
+
+        if (m_closeIcon is not null)
+        {
+            m_closeIcon.VerticalOptions = LayoutOptions.Start;
+        }
+    }
+
     private void OnIconChanged()
     {
-        if (Contains(m_image))
+        if (Contains(m_icon))
         {
-            Remove(m_image);
+            Remove(m_icon);
         }
         
-        m_image = new Image
+        m_icon = new Image
         {
             AutomationId = "Image".ToDUIAutomationId<AlertView>(),
             HeightRequest = Sizes.GetSize(SizeName.size_6),
@@ -204,9 +221,9 @@ public partial class AlertView : Grid
             Source = Icon
         };
         
-        m_image.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
+        m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
-        Add(m_image);
+        Add(m_icon);
     }
 
     private void OnShouldAnimateChanged()
@@ -259,5 +276,25 @@ public partial class AlertView : Grid
         {
             AlertViewService.OnAnimationTriggered -= Animate;
         }
+    }
+
+    private void OnShowCloseButtonChanged()
+    {
+        if (!ShowCloseButton)
+            return;
+
+        m_closeIcon = new ImageButton
+        {
+            AutomationId = "CloseImage".ToDUIAutomationId<AlertView>(),
+            Source = Icons.GetIcon(IconName.close_line),
+            HeightRequest = Sizes.GetSize(SizeName.size_5),
+            WidthRequest = Sizes.GetSize(SizeName.size_5),
+            HorizontalOptions = LayoutOptions.End,
+            TintColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_2),
+            Command = new Command(() => IsVisible = false)
+        };
+            
+        this.Add(m_closeIcon, 2);
     }
 }
