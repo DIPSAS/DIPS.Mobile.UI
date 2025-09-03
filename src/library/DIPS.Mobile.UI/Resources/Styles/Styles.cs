@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.Span;
 using DIPS.Mobile.UI.Resources.Styles.Tag;
 
 namespace DIPS.Mobile.UI.Resources.Styles;
@@ -24,6 +25,11 @@ public static class Styles
     public static Style GetLabelStyle(LabelStyle style)
     {
         return LabelStyleResources.Styles.TryGetValue(style, out var labelStyle) ? labelStyle : new Style(typeof(View));
+    }
+
+    public static Style GetSpanStyle(SpanStyle style)
+    {
+        return SpanStyleResources.Styles.TryGetValue(style, out var spanStyle) ? spanStyle : new Style(typeof(View));
     }
 
     public static Style GetInputFieldStyle(InputFieldStyle style)

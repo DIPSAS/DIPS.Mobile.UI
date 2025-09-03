@@ -1,8 +1,8 @@
 using DIPS.Mobile.UI.Resources.Styles.Shared;
 
-namespace DIPS.Mobile.UI.Resources.Styles.Label;
+namespace DIPS.Mobile.UI.Resources.Styles.Span;
 
-public enum LabelStyle
+public enum SpanStyle
 {
     None = TextStyle.None,
     Body400 = TextStyle.Body400,

@@ -10,7 +10,7 @@ public partial class AlertView
         nameof(Title),
         typeof(string),
         typeof(AlertView),
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleChanged()));
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleOrDescriptionChanged()));
 
     /// <summary>
     /// The title of the alert.
@@ -25,7 +25,7 @@ public partial class AlertView
         nameof(Description),
         typeof(string),
         typeof(AlertView),
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnDescriptionChanged()));
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleOrDescriptionChanged()));
 
     /// <summary>
     /// The description of the alert.
@@ -137,32 +137,6 @@ public partial class AlertView
         set => SetValue(RightButtonCommandParameterProperty, value);
     }
 
-    public static readonly BindableProperty ButtonAlignmentProperty = BindableProperty.Create(
-        nameof(ButtonAlignment),
-        typeof(ButtonAlignmentType),
-        typeof(AlertView),
-        defaultValue: ButtonAlignmentType.Auto,
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnButtonAlignmentChanged()));
-
-    public ButtonAlignmentType ButtonAlignment
-    {
-        get => (ButtonAlignmentType)GetValue(ButtonAlignmentProperty);
-        set => SetValue(ButtonAlignmentProperty, value);
-    }
-
-    public static readonly BindableProperty TitleMaxLinesProperty = BindableProperty.Create(
-        nameof(TitleMaxLines),
-        typeof(int),
-        typeof(AlertView),
-        Label.MaxLinesProperty.DefaultValue);
-
-
-    public static readonly BindableProperty DescriptionMaxLinesProperty = BindableProperty.Create(
-        nameof(DescriptionMaxLines),
-        typeof(int),
-        typeof(AlertView),
-        Label.MaxLinesProperty.DefaultValue);
-
     public static readonly BindableProperty ShouldAnimateProperty = BindableProperty.Create(
         nameof(ShouldAnimate),
         typeof(bool),
@@ -170,24 +144,6 @@ public partial class AlertView
         true,
         propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnShouldAnimateChanged());
     
-    /// <summary>
-    /// Determines how many lines the <see cref="Description"/> property can take up before it is truncated.
-    /// </summary>
-    public int DescriptionMaxLines
-    {
-        get => (int)GetValue(DescriptionMaxLinesProperty);
-        set => SetValue(DescriptionMaxLinesProperty, value);
-    }
-    
-    /// <summary>
-    /// Determines how many lines the <see cref="Title"/> property can take up before it is truncated.
-    /// </summary>
-    public int TitleMaxLines
-    {
-        get => (int)GetValue(TitleMaxLinesProperty);
-        set => SetValue(TitleMaxLinesProperty, value);
-    }
-
     /// <summary>
     /// Determines whether the alert should animate when it appears.
     /// </summary>

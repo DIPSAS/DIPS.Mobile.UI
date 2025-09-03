@@ -27,14 +27,17 @@
     </dui:ContentPage.ToolbarItems>
 
     <dui:VerticalStackLayout>
-        <!--<Grid ColumnDefinitions="*, *">
-            <dui:Label Text=" Hlegopkjoiweg jwoiegj wioeujg oiwrj giuegie jgioerw jgoierjgoiejg oerwjgoierj goiejwoijeoirg eroigeo"
-                       TruncatedText="... l0l"
-                       MaxLines="1"
-                       LineBreakMode="TailTruncation"></dui:Label>
-        </Grid>
         
-        <dui:AlertView Title="You have unsaved changes"
+        <dui:AlertView Title="Hello! ASijdoaisjd "
+                       LeftButtonText="Hello"
+                       LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
+        
+        <dui:AlertView Title="Hello! ASijdoaisjd "
+                       Description="Ll"
+                       LeftButtonText="Hello"
+                       LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
+        
+        <!--<dui:AlertView Title="You have unsaved changes"
                        LeftButtonText="Save"
                        ButtonAlignment="Auto"
                        LeftButtonCommand="{Binding CompletedCommand}" />
@@ -44,13 +47,13 @@
                        ButtonAlignment="Underlying"
                        LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
         
-        <dui:AlertView Title="Test" />-->
+        <dui:AlertView Title="Test" />
         
         <dui:AlertView Title="Test asdk asksaopdkaspodka sodkasoidkasio djaiosdjsoid mjoisj doiasj doiasj doisajdoiasjdoiasjdoias jdoiasjdoiasjdoisajdosajdoiasjd aoisdjaoisdjasiodjas oidjsa"
                        Description="Hello"
                        ButtonAlignment="Underlying"
                        LeftButtonCommand="{Binding CompletedCommand}"
-                       LeftButtonText="STRE"/>
+                       LeftButtonText="STRE"/>-->
     
     </dui:VerticalStackLayout>
     
