@@ -181,4 +181,31 @@ public partial class AlertView
         get => (bool)GetValue(ShouldAnimateProperty);
         set => SetValue(ShouldAnimateProperty, value);
     }
+
+    public static readonly BindableProperty TitleTruncationModeProperty = BindableProperty.Create(
+        nameof(TitleTruncationMode),
+        typeof(AlertTitleTruncationMode),
+        typeof(AlertView));
+
+    /// <summary>
+    /// Determines how aggressively the title should be truncated.
+    /// <remarks>Only works when <see cref="Description"/> is not set</remarks>
+    /// </summary>
+    public AlertTitleTruncationMode TitleTruncationMode
+    {
+        get => (AlertTitleTruncationMode)GetValue(TitleTruncationModeProperty);
+        set => SetValue(TitleTruncationModeProperty, value);
+    }
+}
+
+public enum AlertTitleTruncationMode
+{
+    /// <summary>
+    /// Will aggressively truncate the title (MaxLines = 1)
+    /// </summary>
+    Aggressive,
+    /// <summary>
+    /// Will moderately truncate the title (MaxLines = 2)
+    /// </summary>
+    Moderate
 }

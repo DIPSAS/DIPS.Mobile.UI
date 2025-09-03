@@ -183,7 +183,7 @@ public partial class AlertView : Grid
 
         m_titleAndDescriptionLabel = new Label
         {
-            MaxLines = IsLargeAlert ? 4 : 1,
+            MaxLines = GetTitleMaxLines(),
             LineBreakMode = LineBreakMode.TailTruncation,
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
@@ -201,6 +201,14 @@ public partial class AlertView : Grid
         
         UpdateButtonAlignment();
         UpdateAccessibility();
+    }
+
+    private int GetTitleMaxLines()
+    {
+        if (IsLargeAlert)
+            return 4;
+        
+        return TitleTruncationMode is AlertTitleTruncationMode.Aggressive ? 1 : 2;
     }
 
     private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
