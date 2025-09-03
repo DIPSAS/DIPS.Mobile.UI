@@ -33,9 +33,10 @@
                        ShowCloseButton="True"
                        ></dui:AlertView>
         
-        <dui:AlertView Title="Hello! ASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjd "
+        <dui:AlertView Title="Hello! "
+                       BottomSheetTitle="Hello"
                        ShowCloseButton="True"
-                       Description="Ll"
+                       Description="Ll akfmaoifmjwoie fjowiejfwoijew"
                        LeftButtonText="Hello"
                        LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
         

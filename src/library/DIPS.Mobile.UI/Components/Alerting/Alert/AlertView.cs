@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Effects.Animation;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -190,11 +193,39 @@ public partial class AlertView : Grid
             TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
             VerticalTextAlignment = IsLargeAlert ? TextAlignment.Start : TextAlignment.Center,
         };
+
+        m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
+        m_titleAndDescriptionLabel.PropertyChanged += TitleAndDescriptionLabelOnPropertyChanged;
         
         this.Add(m_titleAndDescriptionLabel, 1);
         
         UpdateButtonAlignment();
         UpdateAccessibility();
+    }
+
+    private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == Label.IsTruncatedProperty.PropertyName)
+        {
+            TryEnableBottomSheetOnTap();
+        }
+    }
+
+    private void TryEnableBottomSheetOnTap()
+    {
+        if (m_titleAndDescriptionLabel?.IsTruncated ?? false)
+        {
+            Touch.SetCommand(this, new Command(() =>
+            {
+                _ = BottomSheetService.Open(new AlertBottomSheet(this));
+            }));
+        }
+        else
+        {
+            var touchEffect = Effects.FirstOrDefault(effect => effect is Touch);
+            if (touchEffect is not null)
+                Effects.Remove(touchEffect);
+        }
     }
 
     protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -373,6 +404,10 @@ public partial class AlertView : Grid
         else
         {
             AlertViewService.OnAnimationTriggered -= Animate;
+            if (m_titleAndDescriptionLabel is not null)
+            {
+                m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
+            }
         }
     }
 

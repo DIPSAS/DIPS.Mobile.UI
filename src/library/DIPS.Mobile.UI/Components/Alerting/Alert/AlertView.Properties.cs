@@ -35,6 +35,21 @@ public partial class AlertView
         set => SetValue(ShowCloseButtonProperty, value);
     }
 
+    public static readonly BindableProperty BottomSheetTitleProperty = BindableProperty.Create(
+        nameof(BottomSheetTitle),
+        typeof(string),
+        typeof(AlertView));
+
+    /// <summary>
+    /// Sets the title of the bottom sheet that appears when the alert is tapped.
+    /// <remarks>Can only open a BottomSheet if the text inside the alert is truncated</remarks>
+    /// </summary>
+    public string? BottomSheetTitle
+    {
+        get => (string?)GetValue(BottomSheetTitleProperty);
+        set => SetValue(BottomSheetTitleProperty, value);
+    }
+
     public static readonly BindableProperty DescriptionProperty = BindableProperty.Create(
         nameof(Description),
         typeof(string),
@@ -50,7 +65,7 @@ public partial class AlertView
         set => SetValue(DescriptionProperty, value);
     }
 
-    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+    internal static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),
         typeof(ImageSource),
         typeof(AlertView),
@@ -61,13 +76,13 @@ public partial class AlertView
     /// </summary>
     /// <remarks>Use <see cref="Style"/> instead of settings this manually.</remarks>
     [TypeConverter(nameof(ImageSourceConverter))]
-    public ImageSource Icon
+    internal ImageSource Icon
     {
         get => (ImageSource)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
-    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
+    internal static readonly BindableProperty IconColorProperty = BindableProperty.Create(
         nameof(IconColor),
         typeof(Color),
         typeof(AlertView));
@@ -76,7 +91,7 @@ public partial class AlertView
     /// The color of the icon.
     /// </summary>
     /// <remarks>Use <see cref="Style"/> instead of settings this manually.</remarks>
-    public Color IconColor
+    internal Color IconColor
     {
         get => (Color)GetValue(IconColorProperty);
         set => SetValue(IconColorProperty, value);
