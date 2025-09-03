@@ -195,4 +195,34 @@
     <data name="Accessibility_TapToChangeView" xml:space="preserve">
         <value>Trykk for å endre fane</value>
     </data>
+    <data name="Information" xml:space="preserve">
+        <value>Informasjon</value>
+    </data>
+    <data name="Error" xml:space="preserve">
+        <value>Feil</value>
+    </data>
+    <data name="Warning" xml:space="preserve">
+        <value>Advarsel</value>
+    </data>
+    <data name="Success" xml:space="preserve">
+        <value>Suksess</value>
+    </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Varsel</value>
+    </data>
+    <data name="Button" xml:space="preserve">
+        <value>Knapp</value>
+    </data>
+    <data name="Accessibility_SwipeRightForActionButtons" xml:space="preserve">
+        <value>Dra til høyre for å få tilgang til handlingsknapper</value>
+    </data>
+    <data name="Accessibility_SwipeRightForCloseButton" xml:space="preserve">
+        <value>Dra til høyre for å få tilgang til lukkeknapp</value>
+    </data>
+    <data name="Accessibility_CloseAlert" xml:space="preserve">
+        <value>Lukk varsel</value>
+    </data>
+    <data name="Accessibility_TapToDismissAlert" xml:space="preserve">
+        <value>Trykk for å lukke dette varselet</value>
+    </data>
 </root>

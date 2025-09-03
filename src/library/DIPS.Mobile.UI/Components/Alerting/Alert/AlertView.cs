@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Effects.Animation;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
@@ -22,7 +23,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private Label m_titleAndDescriptionLabel;
+    private Label? m_titleAndDescriptionLabel;
 
     public AlertView()
     {
@@ -52,6 +53,9 @@ public partial class AlertView : Grid
             Spacing = Sizes.GetSize(SizeName.size_2),
             IsVisible = false
         };
+
+        // Set initial accessibility
+        UpdateAccessibility();
     }
 
     public bool IsLargeAlert => !string.IsNullOrEmpty(Description);
@@ -88,7 +92,7 @@ public partial class AlertView : Grid
         }
         else
         {
-            m_buttonsContainer.Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_small), 0);
+            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
             this.Add(m_buttonsContainer, 1, 1);
         }
     }
@@ -118,11 +122,12 @@ public partial class AlertView : Grid
         }
         
         UpdateButtonAlignment();
+        UpdateAccessibility();
     }
 
     private static Button CreateButton(string buttonText, ICommand buttonCommand, object buttonCommandParameter, string automationId)
     {
-        return new Button
+        var button = new Button
         {
             AutomationId = automationId,
             HorizontalOptions = LayoutOptions.Start,
@@ -131,11 +136,16 @@ public partial class AlertView : Grid
             CommandParameter = buttonCommandParameter,
             Text = buttonText
         };
+        
+        // Set accessibility properties for the button
+        SemanticProperties.SetDescription(button, buttonText);
+        
+        return button;
     }
 
     private void OnTitleOrDescriptionChanged()
     {
-        if (Contains(m_titleAndDescriptionLabel))
+        if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
         {
             Remove(m_titleAndDescriptionLabel);
         }
@@ -184,6 +194,91 @@ public partial class AlertView : Grid
         this.Add(m_titleAndDescriptionLabel, 1);
         
         UpdateButtonAlignment();
+        UpdateAccessibility();
+    }
+
+    protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+        
+        // Update accessibility when style changes
+        if (propertyName == nameof(Style))
+        {
+            UpdateAccessibility();
+        }
+    }
+
+    private AlertStyle GetCurrentAlertType()
+    {
+        // Infer alert type from the icon property value set by the style
+        var iconSource = Icon?.ToString();
+        
+        if (iconSource != null)
+        {
+            if (iconSource.Contains("important_line"))
+                return AlertStyle.Error;
+            if (iconSource.Contains("alert_line"))
+                return AlertStyle.Warning;
+            if (iconSource.Contains("check_circle_line"))
+                return AlertStyle.Success;
+            if (iconSource.Contains("information_line"))
+                return AlertStyle.Information;
+        }
+        
+        // Fallback: check background color
+        var backgroundColor = BackgroundColor;
+        if (backgroundColor == Colors.GetColor(ColorName.color_surface_danger))
+            return AlertStyle.Error;
+        if (backgroundColor == Colors.GetColor(ColorName.color_surface_warning))
+            return AlertStyle.Warning;
+        if (backgroundColor == Colors.GetColor(ColorName.color_surface_success))
+            return AlertStyle.Success;
+            
+        // Default to Information
+        return AlertStyle.Information;
+    }
+
+    private void UpdateAccessibility()
+    {
+        // Make the container non-focusable to allow navigation to child elements
+        AutomationProperties.SetIsInAccessibleTree(this, false);
+        
+        // Ensure the title/description label is accessible if it exists
+        if (m_titleAndDescriptionLabel != null)
+        {
+            SemanticProperties.SetDescription(m_titleAndDescriptionLabel, GetAccessibilityDescription());
+            SemanticProperties.SetHeadingLevel(m_titleAndDescriptionLabel, SemanticHeadingLevel.Level2);
+        }
+    }
+
+    private string GetAccessibilityDescription()
+    {
+        var alertTypeName = GetAlertTypeName();
+        var description = $"{alertTypeName}";
+        
+        if (!string.IsNullOrEmpty(Title))
+        {
+            description += $". {Title}";
+        }
+        
+        if (!string.IsNullOrEmpty(Description))
+        {
+            description += $". {Description}";
+        }
+        
+        return description;
+    }
+
+    private string GetAlertTypeName()
+    {
+        return GetCurrentAlertType() switch
+        {
+            AlertStyle.Information => DUILocalizedStrings.Information,
+            AlertStyle.Error => DUILocalizedStrings.Error,
+            AlertStyle.Warning => DUILocalizedStrings.Warning,
+            AlertStyle.Success => DUILocalizedStrings.Success,
+            _ => DUILocalizedStrings.Alert
+        };
     }
 
     /// <summary>
@@ -220,6 +315,9 @@ public partial class AlertView : Grid
             VerticalOptions = LayoutOptions.Center,
             Source = Icon
         };
+        
+        // Hide icon from screen readers since alert type is already announced
+        m_icon.SetValue(AutomationProperties.IsInAccessibleTreeProperty, false);
         
         m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
@@ -294,7 +392,12 @@ public partial class AlertView : Grid
             AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_2),
             Command = new Command(() => IsVisible = false)
         };
+        
+        // Set accessibility properties for the close button
+        SemanticProperties.SetDescription(m_closeIcon, DUILocalizedStrings.Accessibility_CloseAlert);
+        SemanticProperties.SetHint(m_closeIcon, DUILocalizedStrings.Accessibility_TapToDismissAlert);
             
         this.Add(m_closeIcon, 2);
+        UpdateAccessibility();
     }
 }

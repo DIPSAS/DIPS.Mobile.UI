@@ -15,7 +15,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = VisualElement.BackgroundProperty,
+                Property = VisualElement.BackgroundColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_information)
             },
             new Setter
@@ -37,7 +37,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = VisualElement.BackgroundProperty,
+                Property = VisualElement.BackgroundColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_danger)
             },
             new Setter
@@ -59,7 +59,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = VisualElement.BackgroundProperty,
+                Property = VisualElement.BackgroundColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_warning)
             },
             new Setter
@@ -80,7 +80,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = VisualElement.BackgroundProperty,
+                Property = VisualElement.BackgroundColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_surface_success)
             },
             new Setter

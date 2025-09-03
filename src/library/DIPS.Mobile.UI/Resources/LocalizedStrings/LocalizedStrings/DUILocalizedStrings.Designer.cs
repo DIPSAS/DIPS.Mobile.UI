@@ -398,5 +398,59 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Accessibility_TapToChangeView", resourceCulture);
             }
         }
+        
+        internal static string Information {
+            get {
+                return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
+            }
+        }
+        
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        internal static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_SwipeRightForActionButtons {
+            get {
+                return ResourceManager.GetString("Accessibility_SwipeRightForActionButtons", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_SwipeRightForCloseButton {
+            get {
+                return ResourceManager.GetString("Accessibility_SwipeRightForCloseButton", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_CloseAlert {
+            get {
+                return ResourceManager.GetString("Accessibility_CloseAlert", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_TapToDismissAlert {
+            get {
+                return ResourceManager.GetString("Accessibility_TapToDismissAlert", resourceCulture);
+            }
+        }
     }
 }
