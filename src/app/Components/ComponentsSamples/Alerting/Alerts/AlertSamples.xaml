@@ -66,18 +66,9 @@
                                Description="This text will be wrapped when the button is inline"
                                Style="{dui:Styles Alert=Information}"
                                LeftButtonText="Toggle Inline"
-                               LeftButtonCommand="{Binding ToggleButtonAlignmentCommand}"
-                               ButtonAlignment="{Binding ButtonAlignment}"/>
+                               LeftButtonCommand="{Binding Command}" />
             </dui:VerticalStackLayout>
-            <dui:VerticalStackLayout>
-                <dui:Label Text="Auto Alignment"
-                           Style="{dui:Styles Label=SectionHeader}" />
-                <dui:AlertView Title="{Binding Title}"
-                               Description="And a short description!"
-                               Style="{dui:Styles Alert=Information}"
-                               LeftButtonText="Switch title"
-                               LeftButtonCommand="{Binding SwitchTitleCommand}"/>
-            </dui:VerticalStackLayout>
+            
         </dui:VerticalStackLayout>
         
     </ScrollView>

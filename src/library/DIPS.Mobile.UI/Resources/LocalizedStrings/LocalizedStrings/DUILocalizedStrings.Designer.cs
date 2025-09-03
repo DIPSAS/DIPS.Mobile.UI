@@ -429,18 +429,6 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
-        internal static string Accessibility_SwipeRightForActionButtons {
-            get {
-                return ResourceManager.GetString("Accessibility_SwipeRightForActionButtons", resourceCulture);
-            }
-        }
-        
-        internal static string Accessibility_SwipeRightForCloseButton {
-            get {
-                return ResourceManager.GetString("Accessibility_SwipeRightForCloseButton", resourceCulture);
-            }
-        }
-        
         internal static string Accessibility_CloseAlert {
             get {
                 return ResourceManager.GetString("Accessibility_CloseAlert", resourceCulture);

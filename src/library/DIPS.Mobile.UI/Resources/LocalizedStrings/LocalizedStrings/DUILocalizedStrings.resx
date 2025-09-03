@@ -210,15 +210,6 @@
     <data name="Alert" xml:space="preserve">
         <value>Varsel</value>
     </data>
-    <data name="Button" xml:space="preserve">
-        <value>Knapp</value>
-    </data>
-    <data name="Accessibility_SwipeRightForActionButtons" xml:space="preserve">
-        <value>Dra til høyre for å få tilgang til handlingsknapper</value>
-    </data>
-    <data name="Accessibility_SwipeRightForCloseButton" xml:space="preserve">
-        <value>Dra til høyre for å få tilgang til lukkeknapp</value>
-    </data>
     <data name="Accessibility_CloseAlert" xml:space="preserve">
         <value>Lukk varsel</value>
     </data>

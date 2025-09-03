@@ -200,4 +200,10 @@
     <data name="Success" xml:space="preserve">
         <value>Success</value>
     </data>
+    <data name="Accessibility_CloseAlert" xml:space="preserve">
+        <value>Close alert</value>
+    </data>
+    <data name="Accessibility_TapToDismissAlert" xml:space="preserve">
+        <value>Press to close this alert</value>
+    </data>
 </root>
