@@ -28,12 +28,12 @@
 
     <dui:VerticalStackLayout>
         
-        <dui:AlertView Title="Hello! ASijdoaisjd "
+        <dui:AlertView Title="Hello! ASijdoaisjd asmdklamslkdmaslkdmaskldsa"
                        LeftButtonText="Hello"
                        ShowCloseButton="True"
                        ></dui:AlertView>
         
-        <dui:AlertView Title="Hello! ASijdoaisjd "
+        <dui:AlertView Title="Hello! ASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjdASijdoaisjd "
                        ShowCloseButton="True"
                        Description="Ll"
                        LeftButtonText="Hello"
