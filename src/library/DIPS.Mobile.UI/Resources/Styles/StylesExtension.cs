@@ -3,6 +3,7 @@ using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.Span;
 using DIPS.Mobile.UI.Resources.Styles.Tag;
 
 namespace DIPS.Mobile.UI.Resources.Styles
@@ -25,6 +26,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
         /// </summary>
         public LabelStyle Label { get; set; }
         
+        /// <summary>
+        /// The <see cref="SpanStyle"/> to look for.
+        /// </summary>
+        public SpanStyle Span { get; set; }
+        
         public InputFieldStyle InputField { get; set; }
         public AlertStyle Alert { get; set; }
         
@@ -45,6 +51,11 @@ namespace DIPS.Mobile.UI.Resources.Styles
             if (Label != LabelStyle.None)
             {
                 return Styles.GetLabelStyle(Label);
+            }
+
+            if (Span != SpanStyle.None)
+            {
+                return Styles.GetSpanStyle(Span);
             }
 
             if (InputField != InputFieldStyle.None)

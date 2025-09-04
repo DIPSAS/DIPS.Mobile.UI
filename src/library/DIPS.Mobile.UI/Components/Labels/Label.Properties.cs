@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.Styles.Span;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Labels;
@@ -31,12 +32,27 @@ public partial class Label
         get => (Color)GetValue(TruncatedTextColorProperty);
         set => SetValue(TruncatedTextColorProperty, value);
     }
+
+    /// <summary>
+    /// Sets the style of <see cref="TruncatedText"/>. If set, this will override <see cref="TruncatedTextFontFamily"/> and <see cref="TruncatedTextColor"/>
+    /// </summary>
+    public SpanStyle TruncatedTextStyle
+    {
+        get => (SpanStyle)GetValue(TruncatedTextStyleProperty);
+        set => SetValue(TruncatedTextStyleProperty, value);
+    }
     
     public static readonly BindableProperty TruncatedTextColorProperty = BindableProperty.Create(
         nameof(TruncatedTextColor),
         typeof(Color),
         typeof(Label),
         defaultValue: Colors.GetColor(ColorName.color_text_action));
+
+    public static readonly BindableProperty TruncatedTextStyleProperty = BindableProperty.Create(
+        nameof(TruncatedTextStyle),
+        typeof(SpanStyle),
+        typeof(Label),
+        defaultValue: SpanStyle.None);
     
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
         nameof(TruncatedText),

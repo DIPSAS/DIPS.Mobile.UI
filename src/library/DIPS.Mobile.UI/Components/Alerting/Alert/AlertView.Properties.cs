@@ -10,7 +10,7 @@ public partial class AlertView
         nameof(Title),
         typeof(string),
         typeof(AlertView),
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleChanged()));
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleOrDescriptionChanged()));
 
     /// <summary>
     /// The title of the alert.
@@ -21,11 +21,40 @@ public partial class AlertView
         set => SetValue(TitleProperty, value);
     }
 
+    public static readonly BindableProperty ShowCloseButtonProperty = BindableProperty.Create(
+        nameof(ShowCloseButton),
+        typeof(bool),
+        typeof(AlertView), propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnShowCloseButtonChanged());
+
+    /// <summary>
+    /// If true, a close button will be shown in the top right corner of the alert.
+    /// </summary>
+    public bool ShowCloseButton
+    {
+        get => (bool)GetValue(ShowCloseButtonProperty);
+        set => SetValue(ShowCloseButtonProperty, value);
+    }
+
+    public static readonly BindableProperty BottomSheetTitleProperty = BindableProperty.Create(
+        nameof(BottomSheetTitle),
+        typeof(string),
+        typeof(AlertView));
+
+    /// <summary>
+    /// Sets the title of the bottom sheet that appears when the alert is tapped.
+    /// <remarks>Can only open a BottomSheet if the text inside the alert is truncated</remarks>
+    /// </summary>
+    public string? BottomSheetTitle
+    {
+        get => (string?)GetValue(BottomSheetTitleProperty);
+        set => SetValue(BottomSheetTitleProperty, value);
+    }
+
     public static readonly BindableProperty DescriptionProperty = BindableProperty.Create(
         nameof(Description),
         typeof(string),
         typeof(AlertView),
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnDescriptionChanged()));
+        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnTitleOrDescriptionChanged()));
 
     /// <summary>
     /// The description of the alert.
@@ -36,7 +65,7 @@ public partial class AlertView
         set => SetValue(DescriptionProperty, value);
     }
 
-    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+    internal static readonly BindableProperty IconProperty = BindableProperty.Create(
         nameof(Icon),
         typeof(ImageSource),
         typeof(AlertView),
@@ -47,13 +76,13 @@ public partial class AlertView
     /// </summary>
     /// <remarks>Use <see cref="Style"/> instead of settings this manually.</remarks>
     [TypeConverter(nameof(ImageSourceConverter))]
-    public ImageSource Icon
+    internal ImageSource Icon
     {
         get => (ImageSource)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
-    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
+    internal static readonly BindableProperty IconColorProperty = BindableProperty.Create(
         nameof(IconColor),
         typeof(Color),
         typeof(AlertView));
@@ -62,7 +91,7 @@ public partial class AlertView
     /// The color of the icon.
     /// </summary>
     /// <remarks>Use <see cref="Style"/> instead of settings this manually.</remarks>
-    public Color IconColor
+    internal Color IconColor
     {
         get => (Color)GetValue(IconColorProperty);
         set => SetValue(IconColorProperty, value);
@@ -137,32 +166,6 @@ public partial class AlertView
         set => SetValue(RightButtonCommandParameterProperty, value);
     }
 
-    public static readonly BindableProperty ButtonAlignmentProperty = BindableProperty.Create(
-        nameof(ButtonAlignment),
-        typeof(ButtonAlignmentType),
-        typeof(AlertView),
-        defaultValue: ButtonAlignmentType.Auto,
-        propertyChanged: ((bindable, _, _) => ((AlertView)bindable).OnButtonAlignmentChanged()));
-
-    public ButtonAlignmentType ButtonAlignment
-    {
-        get => (ButtonAlignmentType)GetValue(ButtonAlignmentProperty);
-        set => SetValue(ButtonAlignmentProperty, value);
-    }
-
-    public static readonly BindableProperty TitleMaxLinesProperty = BindableProperty.Create(
-        nameof(TitleMaxLines),
-        typeof(int),
-        typeof(AlertView),
-        Label.MaxLinesProperty.DefaultValue);
-
-
-    public static readonly BindableProperty DescriptionMaxLinesProperty = BindableProperty.Create(
-        nameof(DescriptionMaxLines),
-        typeof(int),
-        typeof(AlertView),
-        Label.MaxLinesProperty.DefaultValue);
-
     public static readonly BindableProperty ShouldAnimateProperty = BindableProperty.Create(
         nameof(ShouldAnimate),
         typeof(bool),
@@ -171,24 +174,6 @@ public partial class AlertView
         propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnShouldAnimateChanged());
     
     /// <summary>
-    /// Determines how many lines the <see cref="Description"/> property can take up before it is truncated.
-    /// </summary>
-    public int DescriptionMaxLines
-    {
-        get => (int)GetValue(DescriptionMaxLinesProperty);
-        set => SetValue(DescriptionMaxLinesProperty, value);
-    }
-    
-    /// <summary>
-    /// Determines how many lines the <see cref="Title"/> property can take up before it is truncated.
-    /// </summary>
-    public int TitleMaxLines
-    {
-        get => (int)GetValue(TitleMaxLinesProperty);
-        set => SetValue(TitleMaxLinesProperty, value);
-    }
-
-    /// <summary>
     /// Determines whether the alert should animate when it appears.
     /// </summary>
     public bool ShouldAnimate
@@ -196,4 +181,32 @@ public partial class AlertView
         get => (bool)GetValue(ShouldAnimateProperty);
         set => SetValue(ShouldAnimateProperty, value);
     }
+
+    public static readonly BindableProperty TitleTruncationModeProperty = BindableProperty.Create(
+        nameof(TitleTruncationMode),
+        typeof(AlertTitleTruncationMode),
+        typeof(AlertView),
+        propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnTitleTruncationModeChanged());
+
+    /// <summary>
+    /// Determines how aggressively the title should be truncated.
+    /// <remarks>Only works when <see cref="Description"/> is not set</remarks>
+    /// </summary>
+    public AlertTitleTruncationMode TitleTruncationMode
+    {
+        get => (AlertTitleTruncationMode)GetValue(TitleTruncationModeProperty);
+        set => SetValue(TitleTruncationModeProperty, value);
+    }
+}
+
+public enum AlertTitleTruncationMode
+{
+    /// <summary>
+    /// Will aggressively truncate the title (MaxLines = 1)
+    /// </summary>
+    Aggressive,
+    /// <summary>
+    /// Will moderately truncate the title (MaxLines = 2)
+    /// </summary>
+    Moderate
 }

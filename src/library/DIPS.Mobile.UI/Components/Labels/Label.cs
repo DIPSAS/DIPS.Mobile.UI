@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using DIPS.Mobile.UI.Resources.Styles.Span;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
@@ -24,5 +25,26 @@ public partial class Label : Microsoft.Maui.Controls.Label
         {
             this.InvalidateMeasure();
         }
+    }
+
+    /// <summary>
+    /// Applies style properties from a Style to a Span for truncated text
+    /// </summary>
+    internal Span CreateTruncatedTextSpan(string text)
+    {
+        var span = new Span { Text = text };
+
+        if (TruncatedTextStyle != SpanStyle.None)
+        {
+            span.Style = Styles.GetSpanStyle(TruncatedTextStyle);
+        }
+        else
+        {
+            span.FontSize = FontSize;
+            span.FontFamily = FontFamily;
+            span.TextColor = TruncatedTextColor;
+        }
+
+        return span;
     }
 }
