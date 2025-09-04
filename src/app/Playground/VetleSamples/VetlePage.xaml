@@ -29,11 +29,13 @@
     <dui:VerticalStackLayout>
         
         <dui:VerticalStackLayout>
-            <dui:Label Text="Large Alert"
+            <dui:Label Text="Small Alert - Information - With Button"
                        Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="A Large Alert has a maximum of 4 lines in the title and description"
-                           Description="This is a very long description and it will be truncated after the total text in the AlertView reaches 4 lines. This is done to ensure that the AlertView does not take up too much space on the screen and remains readable for the user."
-                           Style="{dui:Styles Alert=Information}" />
+            <dui:AlertView Title="Alert With Button"
+                           Style="{dui:Styles Alert=Information}"
+                           LeftButtonText="Test"
+                           LeftButtonCommand="{Binding CancelCommand}"
+                           LeftButtonCommandParameter="Here's the info!" />
         </dui:VerticalStackLayout>
         
         <!--<dui:AlertView Title="You have unsaved changes"

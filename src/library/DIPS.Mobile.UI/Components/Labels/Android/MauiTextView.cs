@@ -63,15 +63,35 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
     private void RemoveTextUntilNotTruncated()
     {
         var modifiedOriginalText = GetTextFromLabel();
+        var truncatedText = m_label.TruncatedText ?? "";
 
         if (!string.IsNullOrEmpty(modifiedOriginalText))
         {
-            while (modifiedOriginalText.Length > 0)
+            // Start with a more aggressive initial reduction to ensure we have space for truncation text
+            var maxAttempts = modifiedOriginalText.Length;
+            var attempts = 0;
+            
+            while (modifiedOriginalText.Length > 0 && attempts < maxAttempts)
+            {
+                var testText = modifiedOriginalText + truncatedText;
+                
+                if (!CheckIfTruncated(testText))
+                    break;
+                    
+                // Remove more characters at once initially, then fine-tune
+                var charsToRemove = Math.Max(1, modifiedOriginalText.Length / 10);
+                if (attempts > maxAttempts * 0.8) // Fine-tune in last 20% of attempts
+                    charsToRemove = 1;
+                    
+                var newLength = Math.Max(0, modifiedOriginalText.Length - charsToRemove);
+                modifiedOriginalText = modifiedOriginalText.Substring(0, newLength);
+                attempts++;
+            }
+            
+            // Final safety check - if still truncated, remove more aggressively
+            while (modifiedOriginalText.Length > 0 && CheckIfTruncated(modifiedOriginalText + truncatedText))
             {
                 modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
-
-                if (!CheckIfTruncated(modifiedOriginalText + m_label.TruncatedText))
-                    break;
             }
         }
         
@@ -103,11 +123,12 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
                         FontAttributes = originalSpan.FontAttributes,
                         TextDecorations = originalSpan.TextDecorations,
                         CharacterSpacing = originalSpan.CharacterSpacing,
-                        LineHeight = originalSpan.LineHeight
+                        LineHeight = originalSpan.LineHeight,
+                        Style = originalSpan.Style // Preserve style
                     });
                     currentLength += spanText.Length;
                 }
-                else
+                else if (remainingLength > 0)
                 {
                     // Include partial span
                     var truncatedSpanText = spanText.Substring(0, remainingLength);
@@ -120,25 +141,46 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
                         FontAttributes = originalSpan.FontAttributes,
                         TextDecorations = originalSpan.TextDecorations,
                         CharacterSpacing = originalSpan.CharacterSpacing,
-                        LineHeight = originalSpan.LineHeight
+                        LineHeight = originalSpan.LineHeight,
+                        Style = originalSpan.Style // Preserve style
                     });
                     break;
                 }
             }
             
-            // Add the truncation text span
-            newFormattedString.Spans.Add(m_label.CreateTruncatedTextSpan(m_label.TruncatedText));
+            // Add the truncation text span only if we have content
+            if (newFormattedString.Spans.Count > 0 && !string.IsNullOrEmpty(truncatedText))
+            {
+                newFormattedString.Spans.Add(m_label.CreateTruncatedTextSpan(truncatedText));
+            }
             
             m_label.FormattedText = newFormattedString;
         }
         else
         {
-            // Fallback to simple text handling
-            m_label.FormattedText = new FormattedString { Spans =
+            // Fallback to simple text handling - only if we have content
+            if (!string.IsNullOrEmpty(modifiedOriginalText) || !string.IsNullOrEmpty(truncatedText))
             {
-                new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
-                m_label.CreateTruncatedTextSpan(m_label.TruncatedText) 
-            } };
+                var newFormattedString = new FormattedString();
+                
+                if (!string.IsNullOrEmpty(modifiedOriginalText))
+                {
+                    newFormattedString.Spans.Add(new Span 
+                    { 
+                        Text = modifiedOriginalText, 
+                        FontSize = m_label.FontSize, 
+                        FontFamily = m_label.FontFamily,
+                        TextColor = m_label.TextColor
+                    });
+                }
+                
+                if (!string.IsNullOrEmpty(truncatedText))
+                {
+                    newFormattedString.Spans.Add(m_label.CreateTruncatedTextSpan(truncatedText));
+                }
+                
+                m_label.FormattedText = newFormattedString;
+            }
         }
     }
 

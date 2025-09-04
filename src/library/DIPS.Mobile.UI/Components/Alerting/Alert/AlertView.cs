@@ -79,6 +79,7 @@ public partial class AlertView : Grid
         
         if (IsLargeAlert)
         {
+            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
             this.Add(m_buttonsContainer, 1, 1);
             return;
         }
@@ -86,16 +87,18 @@ public partial class AlertView : Grid
         var maxWidth = Measure(int.MaxValue, int.MaxValue).Width;
         var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
         var remainingWidth = Width - maxWidth - buttonsWidth;
-        var buttonsWillFit = remainingWidth >= Sizes.GetSize(SizeName.content_margin_small);
+        
+        var buttonsWillFit = remainingWidth >= (Sizes.GetSize(SizeName.content_margin_small));
         
         if (buttonsWillFit)
         {
-            m_buttonsContainer.Margin = 0;
+            m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
             this.Add(m_buttonsContainer, 2);
         }
         else
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+            m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
             this.Add(m_buttonsContainer, 1, 1);
         }
     }
@@ -267,11 +270,11 @@ public partial class AlertView : Grid
         
         // Fallback: check background color
         var backgroundColor = BackgroundColor;
-        if (backgroundColor == Colors.GetColor(ColorName.color_surface_danger))
+        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_danger)))
             return AlertStyle.Error;
-        if (backgroundColor == Colors.GetColor(ColorName.color_surface_warning))
+        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_warning)))
             return AlertStyle.Warning;
-        if (backgroundColor == Colors.GetColor(ColorName.color_surface_success))
+        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_success)))
             return AlertStyle.Success;
             
         // Default to Information
