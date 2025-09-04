@@ -7,6 +7,9 @@
 - [Label] Added `TruncatedTextStyle` property with new `SpanStyle` enum to apply span styles to custom truncation text.
 - [Styles] Added `SpanStyle` enum and styling system for spans, with shared style definitions between `LabelStyle` and `SpanStyle` for easier maintenance.
 
+## [49.9.7]
+- Fix wrong margin on tag without icon
+
 ## [49.9.6]
 - Update color resources
 - Revert changes that broke navigationlistitem with icon
