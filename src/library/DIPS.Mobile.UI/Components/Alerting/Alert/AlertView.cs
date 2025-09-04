@@ -151,6 +151,7 @@ public partial class AlertView : Grid
         if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
         {
             Remove(m_titleAndDescriptionLabel);
+            m_titleAndDescriptionLabel.DisconnectHandlers();
         }
         
         var formattedString = new FormattedString
@@ -344,6 +345,7 @@ public partial class AlertView : Grid
         if (Contains(m_icon))
         {
             Remove(m_icon);
+            m_icon?.DisconnectHandlers();
         }
         
         m_icon = new Image
@@ -351,7 +353,7 @@ public partial class AlertView : Grid
             AutomationId = "Image".ToDUIAutomationId<AlertView>(),
             HeightRequest = Sizes.GetSize(SizeName.size_6),
             WidthRequest = Sizes.GetSize(SizeName.size_6),
-            VerticalOptions = LayoutOptions.Center,
+            VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
             Source = Icon
         };
         
@@ -361,6 +363,8 @@ public partial class AlertView : Grid
         m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
         Add(m_icon);
+        
+        Grid.SetRowSpan(m_icon, 2);
     }
 
     private void OnShouldAnimateChanged()
@@ -433,7 +437,8 @@ public partial class AlertView : Grid
             HorizontalOptions = LayoutOptions.End,
             TintColor = Colors.GetColor(ColorName.color_text_on_fill_information),
             AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_2),
-            Command = new Command(() => IsVisible = false)
+            Command = new Command(() => IsVisible = false),
+            VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center
         };
         
         // Set accessibility properties for the close button

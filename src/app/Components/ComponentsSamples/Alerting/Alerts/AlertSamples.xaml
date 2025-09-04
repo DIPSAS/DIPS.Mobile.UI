@@ -17,56 +17,119 @@
     
     <ScrollView Padding="{dui:Sizes size_5}">
     
-        <dui:VerticalStackLayout>
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
             
             <dui:Button Text="Animate"
                         HorizontalOptions="End"
                         Command="{Binding AnimateCommand}" />
             
             <dui:VerticalStackLayout>
-                <dui:Label Text="Information"
+                <dui:Label Text="Small Alert - Information"
                            Style="{dui:Styles Label=SectionHeader}" />
-                <dui:AlertView Title="Informing title"
-                               Description="This is a description that will provide you with information."
+                <dui:AlertView Title="Informing title that will be truncated"
+                               Style="{dui:Styles Alert=Information}" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Small Alert - Information - Aggressive Title Truncation Mode (Default)"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Informing title that will be truncated after having too many words in the title"
+                               Style="{dui:Styles Alert=Information}"
+                                />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Small Alert - Information - Moderate Title Truncation Mode"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Informing title that will be truncated after having too many words in the title, with this mode, the title will be truncated after a longer text in the title"
+                               TitleTruncationMode="Moderate"
+                               Style="{dui:Styles Alert=Information}" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Small Alert - Information - With Button"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Alert With Button"
                                Style="{dui:Styles Alert=Information}"
                                LeftButtonText="{Binding ButtonText}"
                                LeftButtonCommand="{Binding Command}"
                                LeftButtonCommandParameter="Here's the info!" />
             </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Small Alert - Information - With Button"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Button Automatically Adapts To Title Length"
+                               Style="{dui:Styles Alert=Information}"
+                               LeftButtonText="{Binding ButtonText}"
+                               LeftButtonCommand="{Binding Command}"
+                               LeftButtonCommandParameter="Here's the info!" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Small Alert - Information - With Close Button"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Informing title"
+                               Style="{dui:Styles Alert=Information}"
+                               ShowCloseButton="True" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Large Alert"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Large Alert has a title"
+                               Description="And a description!"
+                               Style="{dui:Styles Alert=Information}" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Large Alert"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="A Large Alert has a maximum of 4 lines in the title and description"
+                               Description="This is a very long description and it will be truncated after the total text in the AlertView reaches 4 lines. This is done to ensure that the AlertView does not take up too much space on the screen and remains readable for the user."
+                               Style="{dui:Styles Alert=Information}" />
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Large Alert"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="There is buttons in this Alert"
+                               Description="Will always be placed under the text"
+                               Style="{dui:Styles Alert=Information}"
+                               LeftButtonText="{Binding ButtonText}"
+                               LeftButtonCommand="{Binding Command}"
+                               LeftButtonCommandParameter="Here's the info!"/>
+            </dui:VerticalStackLayout>
+            
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Large Alert - With Close Button"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:AlertView Title="Large Alert has a title"
+                               Description="And a not so very long description, that won't be truncated."
+                               Style="{dui:Styles Alert=Information}"
+                               ShowCloseButton="True" />
+            </dui:VerticalStackLayout>
+            
             <dui:VerticalStackLayout>
                 <dui:Label Text="Error"
                            Style="{dui:Styles Label=SectionHeader}" />
                 <dui:AlertView Title="Something went wrong"
-                               Description="Something terribly wrong happened."
                                Style="{dui:Styles Alert=Error}"
                                ShouldAnimate="True"/>
             </dui:VerticalStackLayout>
+            
             <dui:VerticalStackLayout>
                 <dui:Label Text="Warning"
                            Style="{dui:Styles Label=SectionHeader}" />
                 
                 <dui:AlertView Title="We warn you"
-                               Description="Dont do it...okay do it. No, dont!"
-                               Style="{dui:Styles Alert=Warning}" />
-                <dui:AlertView Title="We warn you with only title"
-                               Margin="{dui:Thickness Top=size_2}"
                                Style="{dui:Styles Alert=Warning}" />
             </dui:VerticalStackLayout>
             <dui:VerticalStackLayout>
                 <dui:Label Text="Success"
                            Style="{dui:Styles Label=SectionHeader}" />
                 <dui:AlertView Title="Yey"
-                               Description="Good job! You did it!"
                                Style="{dui:Styles Alert=Success}" />
-            </dui:VerticalStackLayout>
-            <dui:VerticalStackLayout>
-                <dui:Label Text="In-line Buttons"
-                           Style="{dui:Styles Label=SectionHeader}" />
-                <dui:AlertView Title="A Short Title"
-                               Description="This text will be wrapped when the button is inline"
-                               Style="{dui:Styles Alert=Information}"
-                               LeftButtonText="Toggle Inline"
-                               LeftButtonCommand="{Binding Command}" />
             </dui:VerticalStackLayout>
             
         </dui:VerticalStackLayout>
