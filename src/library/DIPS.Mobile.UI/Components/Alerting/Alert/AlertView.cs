@@ -443,4 +443,12 @@ public partial class AlertView : Grid
         this.Add(m_closeIcon, 2);
         UpdateAccessibility();
     }
+
+    private void OnTitleTruncationModeChanged()
+    {
+        if (m_titleAndDescriptionLabel is not null && !IsLargeAlert)
+        {
+            m_titleAndDescriptionLabel.MaxLines = GetTitleMaxLines();
+        }
+    }
 }

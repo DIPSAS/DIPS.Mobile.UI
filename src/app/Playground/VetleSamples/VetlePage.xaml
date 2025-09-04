@@ -31,6 +31,7 @@
         <dui:AlertView Title="Hello! ASijdoaisjd asmdklamslkdmaslkdmaskldsa"
                        LeftButtonText="Hello"
                        ShowCloseButton="True"
+                       TitleTruncationMode="Moderate"
                        ></dui:AlertView>
         
         <dui:AlertView Title="Hello! "

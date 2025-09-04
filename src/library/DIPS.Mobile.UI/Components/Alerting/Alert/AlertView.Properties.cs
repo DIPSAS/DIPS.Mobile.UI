@@ -185,7 +185,8 @@ public partial class AlertView
     public static readonly BindableProperty TitleTruncationModeProperty = BindableProperty.Create(
         nameof(TitleTruncationMode),
         typeof(AlertTitleTruncationMode),
-        typeof(AlertView));
+        typeof(AlertView),
+        propertyChanged: (bindable, _, _) => ((AlertView)bindable).OnTitleTruncationModeChanged());
 
     /// <summary>
     /// Determines how aggressively the title should be truncated.
