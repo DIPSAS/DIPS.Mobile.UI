@@ -1,3 +1,6 @@
+## [49.9.7]
+- Fix wrong margin on tag without icon
+
 ## [49.9.6]
 - Update color resources
 - Revert changes that broke navigationlistitem with icon

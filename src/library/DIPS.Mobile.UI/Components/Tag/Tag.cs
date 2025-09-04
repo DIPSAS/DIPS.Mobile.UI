@@ -16,8 +16,6 @@ public partial class Tag : Grid
         Padding = Sizes.GetSize(SizeName.size_half);
         UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
         
-        ColumnSpacing = Sizes.GetSize(SizeName.size_1);
-        
         HorizontalOptions = LayoutOptions.Start;
 
         CreateIcon();
@@ -29,6 +27,7 @@ public partial class Tag : Grid
         var icon = new Images.Image.Image
         {
             HeightRequest = Sizes.GetSize(SizeName.size_4), WidthRequest = Sizes.GetSize(SizeName.size_4),
+            Margin = new Thickness(){Right = Sizes.GetSize(SizeName.size_1)}
         };
         
         icon.SetBinding(Image.SourceProperty, static (Tag tag) => tag.Icon, source: this);
