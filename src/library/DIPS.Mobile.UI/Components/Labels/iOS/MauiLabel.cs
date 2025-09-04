@@ -1,9 +1,13 @@
 using CoreGraphics;
 using Foundation;
+using Microsoft.Maui.Controls.Platform;
 using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
+/// <summary>
+/// TODO: Should maybe create a `CustomTruncationLabel' so that not every label has this overhead
+/// </summary>
 public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
     private readonly Label m_label;
@@ -55,16 +59,65 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         if (string.IsNullOrEmpty(text))
             return false;
         
-        var nssString = new NSString(text);
-
-        var labelSize = nssString.GetBoundingRect(new CGSize(Bounds.Width, nfloat.PositiveInfinity),
-            NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = Font },null);
-
-        var numberOfLines = (int)Math.Ceiling(new nfloat(labelSize.Height) / Font.LineHeight);
-
         if (Lines == -1)
             return false;
-            
+
+        CGRect labelSize;
+
+        // FIXED: Check if we have formatted text with spans that need individual font handling
+        if (m_label.FormattedText != null && m_label.FormattedText.Spans.Count > 0)
+        {
+            // Create NSAttributedString to properly handle different fonts per span
+            var attributedString = new NSMutableAttributedString();
+            var currentLength = 0;
+            var targetText = stringToCheck ?? string.Empty;
+
+            foreach (var span in m_label.FormattedText.Spans)
+            {
+                var spanText = span.Text ?? string.Empty;
+                
+                // If we're checking a specific string, only include the portion that fits within that string
+                if (stringToCheck != null)
+                {
+                    var remainingLength = targetText.Length - currentLength;
+                    if (remainingLength <= 0)
+                        break;
+                    
+                    if (spanText.Length > remainingLength)
+                        spanText = spanText.Substring(0, remainingLength);
+                }
+
+                if (!string.IsNullOrEmpty(spanText))
+                {
+                    var spanString = new NSString(spanText);
+                    
+                    var spanAttributes = new UIStringAttributes { Font = span.ToUIFont() };
+                    var spanAttributedString = new NSAttributedString(spanString, spanAttributes);
+                    attributedString.Append(spanAttributedString);
+                }
+
+                currentLength += spanText.Length;
+                
+                if (stringToCheck != null && currentLength >= targetText.Length)
+                    break;
+            }
+
+            // Use the attributed string for accurate bounds calculation
+            labelSize = attributedString.GetBoundingRect(
+                new CGSize(Bounds.Width, nfloat.PositiveInfinity),
+                NSStringDrawingOptions.UsesLineFragmentOrigin,
+                null);
+        }
+        else
+        {
+            // Fallback to simple text handling when no formatted spans exist
+            var nssString = new NSString(text);
+            labelSize = nssString.GetBoundingRect(new CGSize(Bounds.Width, nfloat.PositiveInfinity),
+                NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = Font }, null);
+        }
+
+        var numberOfLines = (int)Math.Ceiling(new nfloat(labelSize.Height) / Font.LineHeight);
+        
         return numberOfLines > Lines;
     }
 

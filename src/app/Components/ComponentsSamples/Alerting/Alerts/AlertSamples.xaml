@@ -5,7 +5,6 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 xmlns:dialogs="clr-namespace:Components.ComponentsSamples.Alerting.Dialogs"
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:alerts="clr-namespace:Components.ComponentsSamples.Alerting.Alerts"
                  x:Class="Components.ComponentsSamples.Alerting.Alerts.AlertSamples"
@@ -16,7 +15,7 @@
     </dui:ContentPage.BindingContext>
     
     <ScrollView Padding="{dui:Sizes size_5}">
-    
+        
         <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
             
             <dui:Button Text="Animate"
@@ -26,7 +25,7 @@
             <dui:VerticalStackLayout>
                 <dui:Label Text="Small Alert - Information"
                            Style="{dui:Styles Label=SectionHeader}" />
-                <dui:AlertView Title="Informing title that will be truncated"
+                <dui:AlertView Title="Informing title"
                                Style="{dui:Styles Alert=Information}" />
             </dui:VerticalStackLayout>
             
@@ -34,8 +33,7 @@
                 <dui:Label Text="Small Alert - Information - Aggressive Title Truncation Mode (Default)"
                            Style="{dui:Styles Label=SectionHeader}" />
                 <dui:AlertView Title="Informing title that will be truncated after having too many words in the title"
-                               Style="{dui:Styles Alert=Information}"
-                                />
+                               Style="{dui:Styles Alert=Information}" />  
             </dui:VerticalStackLayout>
             
             <dui:VerticalStackLayout>
@@ -125,6 +123,7 @@
                 <dui:AlertView Title="We warn you"
                                Style="{dui:Styles Alert=Warning}" />
             </dui:VerticalStackLayout>
+            
             <dui:VerticalStackLayout>
                 <dui:Label Text="Success"
                            Style="{dui:Styles Label=SectionHeader}" />

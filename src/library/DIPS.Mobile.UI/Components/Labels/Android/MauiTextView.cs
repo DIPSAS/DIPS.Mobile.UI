@@ -1,6 +1,7 @@
 using Android.Content;
 using Android.Graphics;
 using Android.Text;
+using Android.Text.Style;
 using AndroidX.AppCompat.Widget;
 
 namespace DIPS.Mobile.UI.Components.Labels.Android;
@@ -192,23 +193,103 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
             return false;
         }
         
-        var tempPaint = new TextPaint(Paint)
-        {
-            TextSize = TextSize,
-        };
-        tempPaint.SetTypeface(Typeface);
-        
-        var width = Width - PaddingLeft - PaddingRight;
-        
-#pragma warning disable CA1422
-        var staticLayout = new StaticLayout(text, tempPaint, width,
-            global::Android.Text.Layout.Alignment.AlignNormal, LineSpacingMultiplier, LineSpacingExtra, false);
-#pragma warning restore CA1422
-        
         if (m_label.MaxLines == -1)
             return false;
 
-        return staticLayout.LineCount > m_label.MaxLines;
+        var width = Width - PaddingLeft - PaddingRight;
+        
+        // Handle formatted text with spans that need individual font handling
+        if (m_label.FormattedText != null && m_label.FormattedText.Spans.Count > 0)
+        {
+            var spannableString = new SpannableString(text);
+            var currentLength = 0;
+            var targetText = stringToCheck ?? string.Empty;
+
+            foreach (var span in m_label.FormattedText.Spans)
+            {
+                var spanText = span.Text ?? string.Empty;
+                
+                // If we're checking a specific string, only include the portion that fits within that string
+                if (stringToCheck != null)
+                {
+                    var remainingLength = targetText.Length - currentLength;
+                    if (remainingLength <= 0)
+                        break;
+                    
+                    if (spanText.Length > remainingLength)
+                        spanText = spanText.Substring(0, remainingLength);
+                }
+
+                if (!string.IsNullOrEmpty(spanText))
+                {
+                    var spanStart = currentLength;
+                    var spanEnd = currentLength + spanText.Length;
+                    
+                    // Apply font size if different from default
+                    if (span.FontSize != m_label.FontSize && span.FontSize > 0)
+                    {
+                        var fontSizeSpan = new AbsoluteSizeSpan((int)(span.FontSize * base.Context.Resources.DisplayMetrics.ScaledDensity));
+                        spannableString.SetSpan(fontSizeSpan, spanStart, spanEnd, SpanTypes.ExclusiveExclusive);
+                    }
+                    
+                    // Apply font family if different
+                    if (!string.IsNullOrEmpty(span.FontFamily) && span.FontFamily != m_label.FontFamily)
+                    {
+                        var typeface = Typeface.Create(span.FontFamily, TypefaceStyle.Normal);
+                        var typefaceSpan = new TypefaceSpan(typeface);
+                        spannableString.SetSpan(typefaceSpan, spanStart, spanEnd, SpanTypes.ExclusiveExclusive);
+                    }
+                    
+                    // Apply font attributes
+                    if (span.FontAttributes != FontAttributes.None)
+                    {
+                        var style = TypefaceStyle.Normal;
+                        if (span.FontAttributes.HasFlag(FontAttributes.Bold) && span.FontAttributes.HasFlag(FontAttributes.Italic))
+                            style = TypefaceStyle.BoldItalic;
+                        else if (span.FontAttributes.HasFlag(FontAttributes.Bold))
+                            style = TypefaceStyle.Bold;
+                        else if (span.FontAttributes.HasFlag(FontAttributes.Italic))
+                            style = TypefaceStyle.Italic;
+                            
+                        if (style != TypefaceStyle.Normal)
+                        {
+                            var styleSpan = new StyleSpan(style);
+                            spannableString.SetSpan(styleSpan, spanStart, spanEnd, SpanTypes.ExclusiveExclusive);
+                        }
+                    }
+                }
+
+                currentLength += spanText.Length;
+                
+                if (stringToCheck != null && currentLength >= targetText.Length)
+                    break;
+            }
+
+            // Create StaticLayout with the properly formatted SpannableString
+            var tempPaint = new TextPaint(Paint);
+#pragma warning disable CA1422
+            var staticLayout = new StaticLayout(spannableString, tempPaint, width,
+                global::Android.Text.Layout.Alignment.AlignNormal, LineSpacingMultiplier, LineSpacingExtra, false);
+#pragma warning restore CA1422
+            
+            return staticLayout.LineCount > m_label.MaxLines;
+        }
+        else
+        {
+            // Fallback to simple text handling when no formatted spans exist
+            var tempPaint = new TextPaint(Paint)
+            {
+                TextSize = TextSize,
+            };
+            tempPaint.SetTypeface(Typeface);
+            
+#pragma warning disable CA1422
+            var staticLayout = new StaticLayout(text, tempPaint, width,
+                global::Android.Text.Layout.Alignment.AlignNormal, LineSpacingMultiplier, LineSpacingExtra, false);
+#pragma warning restore CA1422
+            
+            return staticLayout.LineCount > m_label.MaxLines;
+        }
     }
     
     private string? GetTextFromLabel()
