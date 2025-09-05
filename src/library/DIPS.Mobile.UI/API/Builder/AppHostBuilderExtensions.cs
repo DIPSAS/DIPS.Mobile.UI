@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Images.NativeIcon;
+using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
@@ -55,6 +56,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
             handlers.AddHandler<Label, LabelHandler>();
+            handlers.AddHandler<CustomTruncationLabel, CustomTruncationLabelHandler>();
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();

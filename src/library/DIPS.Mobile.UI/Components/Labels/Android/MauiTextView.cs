@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.Labels.Android;
 
 public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 {
-    private readonly Label m_label;
+    private readonly CustomTruncationLabel m_label;
     
     private string m_originalText;
     private string m_textAfterCustomTruncation;
@@ -17,7 +17,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
     private bool m_firstDraw = true;
 
-    public MauiTextView(Context context, Label label) : base(context)
+    public MauiTextView(Context context, CustomTruncationLabel label) : base(context)
     {
         m_label = label;
     }
