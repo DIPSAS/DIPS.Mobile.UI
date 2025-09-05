@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -5,6 +6,7 @@ using DIPS.Mobile.UI.Resources.Styles.InputField;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Label = Microsoft.Maui.Controls.Label;
 
 namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
@@ -14,7 +16,7 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private string? m_textWhenFirstFocused;
 
-    private readonly Label m_label = new Labels.Label
+    private readonly Label m_label = new CustomTruncationLabel
     { 
         Style = Styles.GetLabelStyle(LabelStyle.Body200), 
         IsVisible = false,
@@ -76,7 +78,7 @@ public partial class MultiLineInputField : SingleLineInputField
     /// </summary>
     private void SetupLabel()
     {
-        m_label.SetBinding(Labels.Label.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        m_label.SetBinding(CustomTruncationLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         m_label.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.Text, source: this);
         m_label.SetBinding(Label.MaxLinesProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.MaxLines, source: this);
         
@@ -140,7 +142,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         base.OnInputViewUnFocused(sender, e);
         
-        m_label.SetBinding(Labels.Label.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        m_label.SetBinding(CustomTruncationLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         
         UpdateLabelVisibility();
         

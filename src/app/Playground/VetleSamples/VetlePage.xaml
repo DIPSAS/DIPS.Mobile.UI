@@ -31,7 +31,7 @@
         <dui:VerticalStackLayout>
             <dui:Label Text="Small Alert - Information - With Button"
                        Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="Alert With Button"
+            <dui:AlertView Title="Alert With Button aisdjoaisjdioajds asidoiasjdoiasj "
                            Style="{dui:Styles Alert=Information}"
                            LeftButtonText="Test"
                            LeftButtonCommand="{Binding CancelCommand}"

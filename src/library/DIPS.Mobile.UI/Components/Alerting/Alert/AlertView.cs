@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Effects.Animation;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Effects.Touch;
@@ -26,7 +27,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private Label? m_titleAndDescriptionLabel;
+    private CustomTruncationLabel? m_titleAndDescriptionLabel;
 
     public AlertView()
     {
@@ -185,7 +186,7 @@ public partial class AlertView : Grid
         
         OnIsLargeAlertDetermined();
 
-        m_titleAndDescriptionLabel = new Label
+        m_titleAndDescriptionLabel = new CustomTruncationLabel
         {
             MaxLines = GetTitleMaxLines(),
             LineBreakMode = LineBreakMode.TailTruncation,
@@ -217,7 +218,7 @@ public partial class AlertView : Grid
 
     private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == Label.IsTruncatedProperty.PropertyName)
+        if (e.PropertyName == CustomTruncationLabel.IsTruncatedProperty.PropertyName)
         {
             TryEnableBottomSheetOnTap();
         }

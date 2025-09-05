@@ -1,3 +1,6 @@
+## [51.0.0]
+- Added `CustomTruncationLabel`.
+
 ## [50.0.0]
 - [AlertView] Optimized layout.
 - [AlertView][BreakingChange] Removed `ButtonAlignment`, `TitleMaxLines` and `DescriptionMaxLines` properties.
