@@ -4,11 +4,6 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class LabelHandler
 {
-    protected override MauiLabel CreatePlatformView()
-    {
-        return new MauiLabel(VirtualView as Label);
-    }
-
     private static partial void MapOverrideMaxLinesAndLineBreakMode(LabelHandler handler, Label label)
     {
         switch (label.LineBreakMode)
