@@ -31,10 +31,10 @@
         <dui:Switch x:Name="Switch" />
         
         <Grid ColumnDefinitions="*, *">
-        <dui:CustomTruncationLabel Text="Hello asodoiajsdoia sjdoiasjdoi asjiodajs idojasiodjasodi ajsoidjasoidjoaisjdioasjdioajsidojasio"
-                                   LineBreakMode="TailTruncation"
-                                   TruncatedText="Lol"
-                                   MaxLines="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject={x:Int32 1}, FalseObject={x:Int32 2}}}" />
+            <dui:CustomTruncationLabel FormattedText="Hello asodoiajsdoia sjdoiasjdoi asjiodajs idojasiodjasodi ajsoidjasoidjoaisjdioasjdioajsidojasio"
+                                       LineBreakMode="TailTruncation"
+                                       TruncatedText="Lol"
+                                       MaxLines="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject=1, FalseObject=4}}" />
         </Grid>
         
         <!--<dui:AlertView Title="You have unsaved changes"

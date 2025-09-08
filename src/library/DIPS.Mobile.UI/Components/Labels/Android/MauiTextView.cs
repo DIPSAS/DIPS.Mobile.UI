@@ -32,8 +32,34 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
         if (m_firstDraw)
         {
-            m_originalText = GetTextFromLabel();
-            m_originalFormattedText = m_label.FormattedText;
+            // Only capture original values if we haven't applied custom truncation yet
+            // Check if the current FormattedText is already truncated by looking for custom truncation text
+            var isAlreadyTruncated = false;
+            if (m_label.FormattedText != null && !string.IsNullOrEmpty(m_label.TruncatedText))
+            {
+                var formattedText = m_label.FormattedText.ToString();
+                if (formattedText.EndsWith(m_label.TruncatedText))
+                {
+                    isAlreadyTruncated = true;
+                }
+            }
+            
+            if (!isAlreadyTruncated)
+            {
+                m_originalText = GetTextFromLabel();
+                m_originalFormattedText = m_label.FormattedText;
+            }
+            else
+            {
+                // If already truncated, we need to reconstruct the original
+                // For now, use the Text property as original if available
+                if (!string.IsNullOrEmpty(m_label.Text))
+                {
+                    m_originalText = m_label.Text;
+                    m_originalFormattedText = null; // Clear FormattedText since Text takes priority
+                }
+            }
+            
             m_firstDraw = false;
         }
         
@@ -41,13 +67,49 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         if (m_textAfterCustomTruncation == GetTextFromLabel() && m_maxLinesAfterCustomTruncation == m_label.MaxLines)
             return;
 
-        // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
-        if (GetTextFromLabel() == m_textAfterCustomTruncation)
+        // If MaxLines changed, we need to restore original content before re-evaluating truncation
+        if (m_maxLinesAfterCustomTruncation != m_label.MaxLines)
         {
             // Restore original text and formatted text
             if (m_originalFormattedText != null)
             {
-                m_label.Text = string.Empty; // Clear text to prioritize FormattedText
+                // Force clear Text first to prioritize FormattedText
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the FormattedText
+                m_label.FormattedText = m_originalFormattedText;
+            }
+            else
+            {
+                // Force clear FormattedText first
+                m_label.FormattedText = null;
+                
+                // Force a layout update to ensure FormattedText is cleared
+                m_label.InvalidateMeasure();
+                
+                // Trigger property change notification by setting to empty first, then to actual value
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the actual original text
+                m_label.Text = m_originalText;
+            }
+            
+            // Force layout invalidation after restoring original content
+            m_label.InvalidateMeasure();
+        }
+        // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
+        else if (GetTextFromLabel() == m_textAfterCustomTruncation)
+        {
+            // Restore original text and formatted text
+            if (m_originalFormattedText != null)
+            {
+                // Force clear Text first to prioritize FormattedText
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the FormattedText
                 m_label.FormattedText = m_originalFormattedText;
             }
             else
@@ -89,7 +151,10 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
             var maxAttempts = modifiedOriginalText.Length;
             var attempts = 0;
             
-            while (modifiedOriginalText.Length > 0 && attempts < maxAttempts)
+            // Always ensure we have enough space for the full truncation text
+            var minRequiredSpace = truncatedText.Length;
+            
+            while (modifiedOriginalText.Length > minRequiredSpace && attempts < maxAttempts)
             {
                 var testText = modifiedOriginalText + truncatedText;
                 
@@ -101,13 +166,13 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
                 if (attempts > maxAttempts * 0.8) // Fine-tune in last 20% of attempts
                     charsToRemove = 1;
                     
-                var newLength = Math.Max(0, modifiedOriginalText.Length - charsToRemove);
+                var newLength = Math.Max(minRequiredSpace, modifiedOriginalText.Length - charsToRemove);
                 modifiedOriginalText = modifiedOriginalText.Substring(0, newLength);
                 attempts++;
             }
             
-            // Final safety check - if still truncated, remove more aggressively
-            while (modifiedOriginalText.Length > 0 && CheckIfTruncated(modifiedOriginalText + truncatedText))
+            // Final safety check - if still truncated, remove more aggressively but never go below minimum space
+            while (modifiedOriginalText.Length > minRequiredSpace && CheckIfTruncated(modifiedOriginalText + truncatedText))
             {
                 modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
             }

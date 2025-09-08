@@ -33,8 +33,34 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
         if (m_firstDraw)
         {
-            m_originalText = GetTextFromLabel();
-            m_originalFormattedText = m_label.FormattedText;
+            // Only capture original values if we haven't applied custom truncation yet
+            // Check if the current FormattedText is already truncated by looking for custom truncation text
+            var isAlreadyTruncated = false;
+            if (m_label.FormattedText != null && !string.IsNullOrEmpty(m_label.TruncatedText))
+            {
+                var formattedText = m_label.FormattedText.ToString();
+                if (formattedText.EndsWith(m_label.TruncatedText))
+                {
+                    isAlreadyTruncated = true;
+                }
+            }
+            
+            if (!isAlreadyTruncated)
+            {
+                m_originalText = GetTextFromLabel();
+                m_originalFormattedText = m_label.FormattedText;
+            }
+            else
+            {
+                // If already truncated, we need to reconstruct the original
+                // For now, use the Text property as original if available
+                if (!string.IsNullOrEmpty(m_label.Text))
+                {
+                    m_originalText = m_label.Text;
+                    m_originalFormattedText = null; // Clear FormattedText since Text takes priority
+                }
+            }
+            
             m_firstDraw = false;
         }
         
@@ -42,13 +68,49 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         if (m_textAfterCustomTruncation == GetTextFromLabel() && m_maxLinesAfterCustomTruncation == m_label.MaxLines)
             return;
 
-        // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
-        if (GetTextFromLabel() == m_textAfterCustomTruncation)
+        // If MaxLines changed, we need to restore original content before re-evaluating truncation
+        if (m_maxLinesAfterCustomTruncation != m_label.MaxLines)
         {
             // Restore original text and formatted text
             if (m_originalFormattedText != null)
             {
-                m_label.Text = string.Empty; // Clear text to prioritize FormattedText
+                // Force clear Text first to prioritize FormattedText
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the FormattedText
+                m_label.FormattedText = m_originalFormattedText;
+            }
+            else
+            {
+                // Force clear FormattedText first
+                m_label.FormattedText = null;
+                
+                // Force a layout update to ensure FormattedText is cleared
+                m_label.InvalidateMeasure();
+                
+                // Trigger property change notification by setting to empty first, then to actual value
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the actual original text
+                m_label.Text = m_originalText;
+            }
+            
+            // Force layout invalidation after restoring original content
+            m_label.InvalidateMeasure();
+        }
+        // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
+        else if (GetTextFromLabel() == m_textAfterCustomTruncation)
+        {
+            // Restore original text and formatted text
+            if (m_originalFormattedText != null)
+            {
+                // Force clear Text first to prioritize FormattedText
+                m_label.Text = string.Empty;
+                m_label.InvalidateMeasure();
+                
+                // Now set the FormattedText
                 m_label.FormattedText = m_originalFormattedText;
             }
             else
@@ -59,16 +121,10 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             
             // Force layout invalidation after restoring original content
             m_label.InvalidateMeasure();
-            
-            // Debug: Log the restoration
-            System.Diagnostics.Debug.WriteLine($"[MauiLabel] Restored original content. MaxLines: {m_label.MaxLines}, Text: '{GetTextFromLabel()?.Substring(0, Math.Min(50, GetTextFromLabel()?.Length ?? 0))}...'");
         }
         
         var wasTruncated = m_label.IsTruncated;
         m_label.IsTruncated = CheckIfTruncated();
-        
-        // Debug: Log truncation check
-        System.Diagnostics.Debug.WriteLine($"[MauiLabel] CheckIfTruncated result: {m_label.IsTruncated}, was: {wasTruncated}, MaxLines: {m_label.MaxLines}");
         
         SetTruncatedText();
         
@@ -167,79 +223,111 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void RemoveTextUntilNotTruncated()
     {
-        var modifiedOriginalText = GetTextFromLabel();
-        while (modifiedOriginalText.Length > 0)
-        {
-            modifiedOriginalText = modifiedOriginalText.Substring(0, modifiedOriginalText.Length - 1);
-
-            if (!CheckIfTruncated(modifiedOriginalText + m_label.TruncatedText))
-                break;
-        }
+        var truncatedText = m_label.TruncatedText ?? "";
         
-        // Preserve original formatting if FormattedText exists
         if (m_label.FormattedText != null && m_label.FormattedText.Spans.Count > 0)
         {
-            var newFormattedString = new FormattedString();
-            var currentLength = 0;
-            var targetLength = modifiedOriginalText.Length;
+            // Handle FormattedText by working with the actual spans
+            var totalOriginalLength = m_label.FormattedText.ToString().Length;
             
-            // Recreate spans up to the truncation point, preserving original formatting
-            foreach (var originalSpan in m_label.FormattedText.Spans)
+            if (totalOriginalLength > 0)
             {
-                if (currentLength >= targetLength)
-                    break;
-                    
-                var spanText = originalSpan.Text ?? string.Empty;
-                var remainingLength = targetLength - currentLength;
+                var maxAttempts = Math.Min(50, totalOriginalLength); // Limit attempts to prevent infinite loops
+                var attempts = 0;
+                var targetLength = totalOriginalLength;
                 
-                if (spanText.Length <= remainingLength)
+                while (targetLength > 0 && attempts < maxAttempts)
                 {
-                    // Include the entire span
-                    newFormattedString.Spans.Add(new Span
-                    {
-                        Text = spanText,
-                        FontSize = originalSpan.FontSize,
-                        FontFamily = originalSpan.FontFamily,
-                        TextColor = originalSpan.TextColor,
-                        FontAttributes = originalSpan.FontAttributes,
-                        TextDecorations = originalSpan.TextDecorations,
-                        CharacterSpacing = originalSpan.CharacterSpacing,
-                        LineHeight = originalSpan.LineHeight
-                    });
-                    currentLength += spanText.Length;
+                    // Create a test FormattedText with the current target length + truncation text
+                    var testFormattedText = CreateTruncatedFormattedText(targetLength);
+                    testFormattedText.Spans.Add(m_label.CreateTruncatedTextSpan(truncatedText));
+                    
+                    // Test by temporarily setting the FormattedText
+                    var originalFormattedText = m_label.FormattedText;
+                    m_label.FormattedText = testFormattedText;
+                    
+                    var isTruncated = CheckIfTruncated();
+                    
+                    // Restore original
+                    m_label.FormattedText = originalFormattedText;
+                    
+                    if (!isTruncated)
+                        break;
+                        
+                    // Remove characters more conservatively - start with 1 character and increase gradually
+                    var charsToRemove = Math.Max(1, attempts < 5 ? 1 : Math.Min(5, targetLength / 20));
+                    targetLength = Math.Max(0, targetLength - charsToRemove);
+                    attempts++;
                 }
-                else
-                {
-                    // Include partial span
-                    var truncatedSpanText = spanText.Substring(0, remainingLength);
-                    newFormattedString.Spans.Add(new Span
-                    {
-                        Text = truncatedSpanText,
-                        FontSize = originalSpan.FontSize,
-                        FontFamily = originalSpan.FontFamily,
-                        TextColor = originalSpan.TextColor,
-                        FontAttributes = originalSpan.FontAttributes,
-                        TextDecorations = originalSpan.TextDecorations,
-                        CharacterSpacing = originalSpan.CharacterSpacing,
-                        LineHeight = originalSpan.LineHeight
-                    });
-                    break;
-                }
+                
+                // Apply the final truncated length
+                ApplyFormattedTextTruncation(targetLength);
             }
-            
-            // Add the truncation text span
-            newFormattedString.Spans.Add(m_label.CreateTruncatedTextSpan(m_label.TruncatedText));
-            
-            m_label.FormattedText = newFormattedString;
         }
         else
         {
-            // Fallback to simple text handling
-            m_label.FormattedText = new FormattedString { Spans =
+            // Handle regular text - but convert to FormattedText to preserve truncation styling
+            var originalText = GetTextFromLabel();
+            
+            if (!string.IsNullOrEmpty(originalText))
             {
-                new Span { Text = modifiedOriginalText, FontSize = m_label.FontSize, FontFamily = m_label.FontFamily },
-                m_label.CreateTruncatedTextSpan(m_label.TruncatedText) 
-            } };
+                var maxAttempts = Math.Min(50, originalText.Length); // Limit attempts
+                var attempts = 0;
+                var targetLength = originalText.Length;
+                
+                while (targetLength > 0 && attempts < maxAttempts)
+                {
+                    var truncatedOriginalText = originalText.Substring(0, targetLength);
+                    
+                    // Create FormattedText to preserve truncation text styling
+                    var testFormattedText = new FormattedString();
+                    testFormattedText.Spans.Add(new Span 
+                    { 
+                        Text = truncatedOriginalText, 
+                        FontSize = m_label.FontSize, 
+                        FontFamily = m_label.FontFamily,
+                        FontAttributes = m_label.FontAttributes,
+                        TextColor = m_label.TextColor
+                    });
+                    testFormattedText.Spans.Add(m_label.CreateTruncatedTextSpan(truncatedText));
+                    
+                    // Test by temporarily setting the FormattedText
+                    var originalFormattedText = m_label.FormattedText;
+                    m_label.Text = string.Empty; // Clear text first
+                    m_label.FormattedText = testFormattedText;
+                    
+                    var isTruncated = CheckIfTruncated();
+                    
+                    // Restore original state
+                    m_label.FormattedText = originalFormattedText;
+                    if (originalFormattedText == null)
+                        m_label.Text = originalText;
+                    
+                    if (!isTruncated)
+                        break;
+                        
+                    // Remove characters more conservatively
+                    var charsToRemove = Math.Max(1, attempts < 5 ? 1 : Math.Min(5, targetLength / 20));
+                    targetLength = Math.Max(0, targetLength - charsToRemove);
+                    attempts++;
+                }
+                
+                // Apply the result using FormattedText to preserve styling
+                var finalTruncatedText = originalText.Substring(0, targetLength);
+                var finalFormattedText = new FormattedString();
+                finalFormattedText.Spans.Add(new Span 
+                { 
+                    Text = finalTruncatedText, 
+                    FontSize = m_label.FontSize, 
+                    FontFamily = m_label.FontFamily,
+                    FontAttributes = m_label.FontAttributes,
+                    TextColor = m_label.TextColor
+                });
+                finalFormattedText.Spans.Add(m_label.CreateTruncatedTextSpan(truncatedText));
+                
+                m_label.Text = string.Empty;
+                m_label.FormattedText = finalFormattedText;
+            }
         }
     }
 
@@ -249,6 +337,66 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             return m_label.Text;
 
         return m_label.FormattedText is not null ? m_label.FormattedText.ToString() : m_label.Text;
+    }
+    
+    private FormattedString CreateTruncatedFormattedText(int targetLength)
+    {
+        var newFormattedString = new FormattedString();
+        var currentLength = 0;
+        
+        foreach (var span in m_label.FormattedText!.Spans)
+        {
+            var spanText = span.Text ?? string.Empty;
+            var remainingLength = targetLength - currentLength;
+            
+            if (remainingLength <= 0)
+                break;
+                
+            if (spanText.Length <= remainingLength)
+            {
+                // Include the entire span
+                newFormattedString.Spans.Add(new Span
+                {
+                    Text = spanText,
+                    FontSize = span.FontSize,
+                    FontFamily = span.FontFamily,
+                    TextColor = span.TextColor,
+                    FontAttributes = span.FontAttributes,
+                    TextDecorations = span.TextDecorations,
+                    CharacterSpacing = span.CharacterSpacing,
+                    LineHeight = span.LineHeight
+                });
+                currentLength += spanText.Length;
+            }
+            else
+            {
+                // Include partial span
+                var truncatedSpanText = spanText.Substring(0, remainingLength);
+                newFormattedString.Spans.Add(new Span
+                {
+                    Text = truncatedSpanText,
+                    FontSize = span.FontSize,
+                    FontFamily = span.FontFamily,
+                    TextColor = span.TextColor,
+                    FontAttributes = span.FontAttributes,
+                    TextDecorations = span.TextDecorations,
+                    CharacterSpacing = span.CharacterSpacing,
+                    LineHeight = span.LineHeight
+                });
+                break;
+            }
+        }
+        
+        return newFormattedString;
+    }
+    
+    private void ApplyFormattedTextTruncation(int targetLength)
+    {
+        var newFormattedString = CreateTruncatedFormattedText(targetLength);
+        newFormattedString.Spans.Add(m_label.CreateTruncatedTextSpan(m_label.TruncatedText ?? ""));
+        
+        m_label.FormattedText = null;
+        m_label.FormattedText = newFormattedString;
     }
     
 }
