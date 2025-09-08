@@ -28,14 +28,12 @@
 
     <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
         
-        <dui:Switch x:Name="Switch" />
         
-        <Grid ColumnDefinitions="*, *">
-            <dui:CustomTruncationLabel FormattedText="Hello asodoiajsdoia sjdoiasjdoi asjiodajs idojasiodjasodi ajsoidjasoidjoaisjdioasjdioajsidojasio"
-                                       LineBreakMode="TailTruncation"
-                                       TruncatedText="Lol"
-                                       MaxLines="{Binding Source={x:Reference Switch}, Path=IsToggled, Converter={dui:BoolToObjectConverter TrueObject=1, FalseObject=4}}" />
-        </Grid>
+        
+        <dui:CustomTruncatedTextView Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
+                                     MaxLines="2"
+                                     TruncatedText="more"
+                                     />
         
         <!--<dui:AlertView Title="You have unsaved changes"
                        LeftButtonText="Save"
