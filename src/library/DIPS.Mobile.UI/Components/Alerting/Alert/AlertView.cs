@@ -192,7 +192,6 @@ public partial class AlertView : Grid
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             FormattedText = formattedString,
-            TruncatedText = DUILocalizedStrings.More.ToLower(),
             TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
             TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,

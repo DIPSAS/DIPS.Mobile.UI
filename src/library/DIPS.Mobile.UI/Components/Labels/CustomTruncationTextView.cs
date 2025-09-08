@@ -21,7 +21,8 @@ public partial class CustomTruncationTextView : Grid
         m_customTruncationTextLabel = new Label
         {
             HorizontalTextAlignment = TextAlignment.End,
-            VerticalTextAlignment = TextAlignment.End
+            VerticalTextAlignment = TextAlignment.End,
+            TextTransform = TextTransform.Lowercase
         };
         
         this.SetBinding(IsTruncatedProperty, static (CheckTruncatedLabel customTruncationTextView) => customTruncationTextView.IsTruncated, source: m_checkTruncatedLabel);

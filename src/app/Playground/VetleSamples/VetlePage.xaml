@@ -29,13 +29,12 @@
     <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
         
         <dui:AlertView Title="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
-                       TitleTruncationMode="Moderate"
                        
                        />
         
         <dui:CustomTruncationTextView Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
                                      MaxLines="2"
-                                     TruncatedText="more"
+                                     
                                      Style="{dui:Styles Label=Header1000}"
                                      TruncatedTextStyle="{dui:Styles Label=Header1000}"
                                      />

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Labels;
@@ -102,7 +103,7 @@ public partial class CustomTruncationTextView
         nameof(TruncatedTextColor),
         typeof(Color),
         typeof(CustomTruncationTextView),
-        defaultValue: Colors.GetColor(ColorName.color_text_action));
+        defaultValue: Colors.GetColor(ColorName.color_text_on_fill_information));
 
     public static readonly BindableProperty TruncatedTextStyleProperty = BindableProperty.Create(
         nameof(TruncatedTextStyle),
@@ -113,5 +114,6 @@ public partial class CustomTruncationTextView
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
         nameof(TruncatedText),
         typeof(string),
-        typeof(CustomTruncationTextView));
+        typeof(CustomTruncationTextView),
+        defaultValue: DUILocalizedStrings.More);
 }
