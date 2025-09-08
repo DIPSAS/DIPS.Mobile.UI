@@ -26,7 +26,7 @@ public partial class CustomTruncationTextView
     }
 
     /// <summary>
-    /// Sets the style of <see cref="TruncatedText"/>. If set, this will override <see cref="TruncatedTextFontFamily"/> and <see cref="TruncatedTextColor"/>
+    /// Sets the style of <see cref="TruncatedText"/>
     /// </summary>
     public Style TruncatedTextStyle
     {
@@ -34,36 +34,55 @@ public partial class CustomTruncationTextView
         set => SetValue(TruncatedTextStyleProperty, value);
     }
 
+    /// <summary>
+    /// Sets the formatted text of the Label
+    /// </summary>
     public FormattedString FormattedText
     {
         get => (FormattedString)GetValue(FormattedTextProperty);
         set => SetValue(FormattedTextProperty, value);
     }
 
+    /// <summary>
+    /// Sets the text of the Label
+    /// </summary>
     public string Text
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
 
+    /// <summary>
+    /// Sets the text color of the Label
+    /// </summary>
     public Color TextColor
     {
         get => (Color)GetValue(TextColorProperty);
         set => SetValue(TextColorProperty, value);
     }
 
+    /// <summary>
+    /// Sets the style of the Label
+    /// </summary>
     public new Style Style
     {
         get => (Style)GetValue(StyleProperty);
         set => SetValue(StyleProperty, value);
     }
 
+    /// <summary>
+    /// Sets the maximum number of lines to display before truncating the text
+    /// <remarks>TailTruncation is default enabled</remarks>
+    /// </summary>
     public int MaxLines
     {
         get => (int)GetValue(MaxLinesProperty);
         set => SetValue(MaxLinesProperty, value);
     }
 
+    /// <summary>
+    /// Whether the text is currently truncated or not
+    /// </summary>
     public bool IsTruncated
     {
         get => (bool)GetValue(IsTruncatedProperty);

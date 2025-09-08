@@ -27,7 +27,6 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
             e.PropertyName == nameof(CheckTruncatedLabel.MaxLines))
         {
-            DUILogService.LogDebug<MauiLabel>($"Property changed: {e.PropertyName}");
             m_needsTruncationCheck = true;
             SetNeedsLayout();
         }
@@ -40,8 +39,6 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         if (!m_needsTruncationCheck)
             return;
             
-        DUILogService.LogDebug<MauiLabel>($"LayoutSubviews - Starting truncation check. Lines: {Lines}, MaxLines: {m_label.MaxLines}");
-        
         // Schedule a delayed check to ensure layout is complete
         DispatchQueue.MainQueue.DispatchAsync(CheckTruncationAfterLayout);
         
@@ -50,17 +47,11 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void CheckTruncationAfterLayout()
     {
-        DUILogService.LogDebug<MauiLabel>($"CheckTruncationAfterLayout - Lines: {Lines}, MaxLines: {m_label.MaxLines}, NumberOfLines: {Lines}");
-        
         // Check if text would need more lines if unconstrained
         var isTruncated = WouldTextExceedMaxLines();
         
-        DUILogService.LogDebug<MauiLabel>($"CheckTruncationAfterLayout - IsTruncated: {isTruncated}");
-        
         // Update the IsTruncated property
         m_label.IsTruncated = isTruncated;
-        
-        DUILogService.LogDebug<MauiLabel>($"CheckTruncationAfterLayout - Final IsTruncated set to: {isTruncated}");
     }
 
     private bool WouldTextExceedMaxLines()
@@ -108,12 +99,8 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             var unconstrainedSize = unconstrainedLabel.SizeThatFits(new CGSize(Bounds.Width, nfloat.PositiveInfinity));
             var constrainedSize = constrainedLabel.SizeThatFits(new CGSize(Bounds.Width, nfloat.PositiveInfinity));
             
-            DUILogService.LogDebug<MauiLabel>($"Height comparison - Unconstrained: {unconstrainedSize.Height}, Constrained ({m_label.MaxLines} lines): {constrainedSize.Height}");
-            
             // If unconstrained height > constrained height, then text is truncated
             var isTruncated = unconstrainedSize.Height > constrainedSize.Height + 1; // +1 for rounding tolerance
-            
-            DUILogService.LogDebug<MauiLabel>($"Text would exceed MaxLines: {isTruncated}");
             
             return isTruncated;
         }
@@ -122,64 +109,6 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             DUILogService.LogError<MauiLabel>($"Error checking truncation: {ex.Message}");
             return false;
         }
-    }
-
-    private bool IsTextTruncated()
-    {
-        DUILogService.LogDebug<MauiLabel>($"IsTextTruncated - Starting check. Bounds: {Bounds}, MaxLines: {m_label.MaxLines}");
-        
-        if (Bounds.Width <= 0 || m_label.MaxLines <= 0)
-        {
-            DUILogService.LogDebug<MauiLabel>($"Invalid bounds or MaxLines - Width: {Bounds.Width}, MaxLines: {m_label.MaxLines}");
-            return false;
-        }
-
-        var maxLines = m_label.MaxLines;
-
-        try
-        {
-            if (base.AttributedText != null && base.AttributedText.Length > 0)
-            {
-                DUILogService.LogDebug<MauiLabel>($"Checking AttributedText: '{base.AttributedText.Value}', Length: {base.AttributedText.Length}");
-                
-                var textBounds = base.AttributedText.GetBoundingRect(
-                    new CGSize(Bounds.Width, nfloat.PositiveInfinity),
-                    NSStringDrawingOptions.UsesLineFragmentOrigin,
-                    null);
-                var numberOfLines = (int)Math.Ceiling(textBounds.Height / base.Font.LineHeight);
-                
-                DUILogService.LogDebug<MauiLabel>($"AttributedText - Lines: {numberOfLines}, MaxLines: {maxLines}, Height: {textBounds.Height}, LineHeight: {base.Font.LineHeight}, Result: {numberOfLines > maxLines}");
-                
-                return numberOfLines > maxLines;
-            }
-            else if (!string.IsNullOrEmpty(base.Text))
-            {
-                DUILogService.LogDebug<MauiLabel>($"Checking PlainText: '{base.Text}', Length: {base.Text.Length}");
-                
-                var nsString = new NSString(base.Text);
-                var textBounds = nsString.GetBoundingRect(
-                    new CGSize(Bounds.Width, nfloat.PositiveInfinity),
-                    NSStringDrawingOptions.UsesLineFragmentOrigin,
-                    new UIStringAttributes { Font = base.Font },
-                    null);
-                var numberOfLines = (int)Math.Ceiling(textBounds.Height / base.Font.LineHeight);
-                
-                DUILogService.LogDebug<MauiLabel>($"PlainText - Lines: {numberOfLines}, MaxLines: {maxLines}, Height: {textBounds.Height}, LineHeight: {base.Font.LineHeight}, Result: {numberOfLines > maxLines}");
-                
-                return numberOfLines > maxLines;
-            }
-            else
-            {
-                DUILogService.LogDebug<MauiLabel>("No text content to check");
-            }
-        }
-        catch (Exception ex)
-        {
-            DUILogService.LogError<MauiLabel>($"Error checking truncation: {ex.Message}");
-        }
-
-        DUILogService.LogDebug<MauiLabel>("IsTextTruncated - Returning false");
-        return false;
     }
 
     protected override void Dispose(bool disposing)

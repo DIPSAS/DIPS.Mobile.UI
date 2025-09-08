@@ -1,6 +1,7 @@
-## [51.0.1]
+## [51.1.0]
+- Added `CustomTruncationTextView`.
+- Added `CheckTruncatedLabel`.
 - [Android] Fix crash on startup.
-- [CustomTruncationLabel] Text will now change if changing MaxLines.
 
 ## [51.0.0]
 - Added `CustomTruncationLabel`.

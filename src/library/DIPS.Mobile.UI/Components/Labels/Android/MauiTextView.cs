@@ -1,8 +1,6 @@
 #if ANDROID
 using Android.Content;
 using Android.Graphics;
-using Android.Text;
-using Android.Text.Method;
 using Android.Util;
 using Android.Views;
 using DIPS.Mobile.UI.Internal.Logging;
@@ -28,7 +26,6 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
             e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
             e.PropertyName == nameof(CheckTruncatedLabel.MaxLines))
         {
-            DUILogService.LogDebug<MauiTextView>($"Property changed: {e.PropertyName}");
             m_needsTruncationCheck = true;
             RequestLayout();
         }
@@ -49,17 +46,11 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
     private void CheckTruncationAfterLayout()
     {
-        DUILogService.LogDebug<MauiTextView>($"CheckTruncationAfterLayout - LineCount: {LineCount}, MaxLines: {m_label.MaxLines}");
-        
         // Check if text would need more lines if unconstrained
         var isTruncated = WouldTextExceedMaxLines();
         
-        DUILogService.LogDebug<MauiTextView>($"CheckTruncationAfterLayout - IsTruncated: {isTruncated}");
-        
         // Update the IsTruncated property
         m_label.IsTruncated = isTruncated;
-        
-        DUILogService.LogDebug<MauiTextView>($"CheckTruncationAfterLayout - Final IsTruncated set to: {isTruncated}");
     }
 
     private bool WouldTextExceedMaxLines()
@@ -115,12 +106,8 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
             var unconstrainedHeight = unconstrainedTextView.MeasuredHeight;
             var constrainedHeight = constrainedTextView.MeasuredHeight;
             
-            DUILogService.LogDebug<MauiTextView>($"Height comparison - Unconstrained: {unconstrainedHeight}, Constrained ({m_label.MaxLines} lines): {constrainedHeight}");
-            
             // If unconstrained height > constrained height, then text is truncated
             var isTruncated = unconstrainedHeight > constrainedHeight + 5; // +5 for rounding tolerance
-            
-            DUILogService.LogDebug<MauiTextView>($"Text would exceed MaxLines: {isTruncated}");
             
             return isTruncated;
         }
