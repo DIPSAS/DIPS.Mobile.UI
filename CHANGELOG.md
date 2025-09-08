@@ -1,3 +1,8 @@
+## [51.1.0]
+- Added `CustomTruncationTextView`.
+- Added `CheckTruncatedLabel`.
+- [Android] Fix crash on startup.
+
 ## [51.0.0]
 - Added `CustomTruncationLabel`.
 

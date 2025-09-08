@@ -26,17 +26,18 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
         
-        <dui:VerticalStackLayout>
-            <dui:Label Text="Small Alert - Information - With Button"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:AlertView Title="Alert With Button aisdjoaisjdioajds asidoiasjdoiasj "
-                           Style="{dui:Styles Alert=Information}"
-                           LeftButtonText="Test"
-                           LeftButtonCommand="{Binding CancelCommand}"
-                           LeftButtonCommandParameter="Here's the info!" />
-        </dui:VerticalStackLayout>
+        <dui:AlertView Title="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
+                       
+                       />
+        
+        <dui:CustomTruncationTextView Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
+                                     MaxLines="2"
+                                     
+                                     Style="{dui:Styles Label=Header1000}"
+                                     TruncatedTextStyle="{dui:Styles Label=Header1000}"
+                                     />
         
         <!--<dui:AlertView Title="You have unsaved changes"
                        LeftButtonText="Save"

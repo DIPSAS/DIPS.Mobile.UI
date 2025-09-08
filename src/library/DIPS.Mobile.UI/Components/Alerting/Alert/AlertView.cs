@@ -27,7 +27,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private CustomTruncationLabel? m_titleAndDescriptionLabel;
+    private CustomTruncationTextView? m_titleAndDescriptionLabel;
 
     public AlertView()
     {
@@ -186,17 +186,15 @@ public partial class AlertView : Grid
         
         OnIsLargeAlertDetermined();
 
-        m_titleAndDescriptionLabel = new CustomTruncationLabel
+        m_titleAndDescriptionLabel = new CustomTruncationTextView()
         {
             MaxLines = GetTitleMaxLines(),
-            LineBreakMode = LineBreakMode.TailTruncation,
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             FormattedText = formattedString,
-            TruncatedText = $" ...{DUILocalizedStrings.More.ToLower()}",
-            TruncatedTextStyle = SpanStyle.UI100,
+            TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
             TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
-            VerticalTextAlignment = IsLargeAlert ? TextAlignment.Start : TextAlignment.Center,
+            VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 
         m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
@@ -218,7 +216,7 @@ public partial class AlertView : Grid
 
     private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == CustomTruncationLabel.IsTruncatedProperty.PropertyName)
+        if (e.PropertyName == CheckTruncatedLabel.IsTruncatedProperty.PropertyName)
         {
             TryEnableBottomSheetOnTap();
         }

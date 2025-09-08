@@ -16,7 +16,7 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private string? m_textWhenFirstFocused;
 
-    private readonly Label m_label = new CustomTruncationLabel
+    private readonly Label m_label = new CheckTruncatedLabel
     { 
         Style = Styles.GetLabelStyle(LabelStyle.Body200), 
         IsVisible = false,
@@ -78,7 +78,7 @@ public partial class MultiLineInputField : SingleLineInputField
     /// </summary>
     private void SetupLabel()
     {
-        m_label.SetBinding(CustomTruncationLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         m_label.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.Text, source: this);
         m_label.SetBinding(Label.MaxLinesProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.MaxLines, source: this);
         
@@ -142,7 +142,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         base.OnInputViewUnFocused(sender, e);
         
-        m_label.SetBinding(CustomTruncationLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         
         UpdateLabelVisibility();
         
