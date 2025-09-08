@@ -1,5 +1,6 @@
 ## [51.0.1]
-- Fix
+- [Android] Fix crash on startup.
+- [CustomTruncationLabel] Text will now change if changing MaxLines.
 
 ## [51.0.0]
 - Added `CustomTruncationLabel`.
