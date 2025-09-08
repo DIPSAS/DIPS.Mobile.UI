@@ -38,6 +38,9 @@ public partial class CustomTruncationTextView : Grid
         
         this.Add(m_checkTruncatedLabel);
         this.Add(m_customTruncationTextLabel, 1);
+        
+        OnTruncatedTextStyleChanged();
+        OnStyleChanged();
     }
 
     private void OnTruncatedTextStyleChanged()

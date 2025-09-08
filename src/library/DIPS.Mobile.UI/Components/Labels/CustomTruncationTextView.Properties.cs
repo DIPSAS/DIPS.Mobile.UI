@@ -1,4 +1,6 @@
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Labels;
@@ -109,6 +111,7 @@ public partial class CustomTruncationTextView
         nameof(TruncatedTextStyle),
         typeof(Style),
         typeof(CustomTruncationTextView),
+        defaultValue: Styles.GetLabelStyle(LabelStyle.UI100),
         propertyChanged: (bindable, _, _) => ((CustomTruncationTextView)bindable).OnTruncatedTextStyleChanged());
     
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
