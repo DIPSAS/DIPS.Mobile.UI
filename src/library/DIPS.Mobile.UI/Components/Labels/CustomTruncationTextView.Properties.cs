@@ -1,9 +1,8 @@
-using DIPS.Mobile.UI.Resources.Styles.Span;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
-public partial class CustomTruncatedTextView
+public partial class CustomTruncationTextView
 {
     /// <summary>
     /// Places <see cref="TruncatedText"/> at the end of the Label if it is truncated
@@ -61,45 +60,58 @@ public partial class CustomTruncatedTextView
         get => (int)GetValue(MaxLinesProperty);
         set => SetValue(MaxLinesProperty, value);
     }
+
+    public bool IsTruncated
+    {
+        get => (bool)GetValue(IsTruncatedProperty);
+        set => SetValue(IsTruncatedProperty, value);
+    }
+    
+    public static readonly BindableProperty IsTruncatedProperty = BindableProperty.Create(
+        nameof(IsTruncated),
+        typeof(bool),
+        typeof(CustomTruncationTextView));
     
     public static readonly BindableProperty MaxLinesProperty = BindableProperty.Create(
         nameof(MaxLines),
         typeof(int),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView));
     
     public new static readonly BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView),
+        propertyChanged: (bindable, _, _) => ((CustomTruncationTextView)bindable).OnStyleChanged());
     
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
         typeof(Color),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView));
     
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
         nameof(Text),
         typeof(string),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView));
     
     public static readonly BindableProperty FormattedTextProperty = BindableProperty.Create(
         nameof(FormattedText),
         typeof(FormattedString),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView));
     
     public static readonly BindableProperty TruncatedTextColorProperty = BindableProperty.Create(
         nameof(TruncatedTextColor),
         typeof(Color),
-        typeof(CustomTruncatedTextView),
+        typeof(CustomTruncationTextView),
         defaultValue: Colors.GetColor(ColorName.color_text_action));
 
     public static readonly BindableProperty TruncatedTextStyleProperty = BindableProperty.Create(
         nameof(TruncatedTextStyle),
         typeof(Style),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView),
+        propertyChanged: (bindable, _, _) => ((CustomTruncationTextView)bindable).OnTruncatedTextStyleChanged());
     
     public static readonly BindableProperty TruncatedTextProperty = BindableProperty.Create(
         nameof(TruncatedText),
         typeof(string),
-        typeof(CustomTruncatedTextView));
+        typeof(CustomTruncationTextView));
 }

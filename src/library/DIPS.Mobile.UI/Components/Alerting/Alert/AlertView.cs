@@ -27,7 +27,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private CheckTruncatedLabel? m_titleAndDescriptionLabel;
+    private CustomTruncationTextView? m_titleAndDescriptionLabel;
 
     public AlertView()
     {
@@ -186,17 +186,16 @@ public partial class AlertView : Grid
         
         OnIsLargeAlertDetermined();
 
-        m_titleAndDescriptionLabel = new CheckTruncatedLabel
+        m_titleAndDescriptionLabel = new CustomTruncationTextView()
         {
             MaxLines = GetTitleMaxLines(),
-            LineBreakMode = LineBreakMode.TailTruncation,
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             FormattedText = formattedString,
-            /*TruncatedText = $" ...{DUILocalizedStrings.More.ToLower()}",
-            TruncatedTextStyle = SpanStyle.UI100,
-            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),*/
-            VerticalTextAlignment = IsLargeAlert ? TextAlignment.Start : TextAlignment.Center,
+            TruncatedText = DUILocalizedStrings.More.ToLower(),
+            TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
+            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 
         m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
