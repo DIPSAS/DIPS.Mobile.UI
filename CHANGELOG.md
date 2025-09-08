@@ -1,3 +1,6 @@
+## [51.0.1]
+- Fix
+
 ## [51.0.0]
 - Added `CustomTruncationLabel`.
 

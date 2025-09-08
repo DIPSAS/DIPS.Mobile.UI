@@ -11,6 +11,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
     private readonly CustomTruncationLabel m_label;
 
     private string m_originalText;
+    private FormattedString? m_originalFormattedText;
     
     private string m_textAfterCustomTruncation;
     private int m_maxLinesAfterCustomTruncation;
@@ -33,6 +34,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         if (m_firstDraw)
         {
             m_originalText = GetTextFromLabel();
+            m_originalFormattedText = m_label.FormattedText;
             m_firstDraw = false;
         }
         
@@ -43,11 +45,36 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
         if (GetTextFromLabel() == m_textAfterCustomTruncation)
         {
-            m_label.Text = m_originalText;
+            // Restore original text and formatted text
+            if (m_originalFormattedText != null)
+            {
+                m_label.Text = string.Empty; // Clear text to prioritize FormattedText
+                m_label.FormattedText = m_originalFormattedText;
+            }
+            else
+            {
+                m_label.FormattedText = null; // Clear FormattedText to prioritize Text
+                m_label.Text = m_originalText;
+            }
+            
+            // Force layout invalidation after restoring original content
+            m_label.InvalidateMeasure();
+            
+            // Debug: Log the restoration
+            System.Diagnostics.Debug.WriteLine($"[MauiLabel] Restored original content. MaxLines: {m_label.MaxLines}, Text: '{GetTextFromLabel()?.Substring(0, Math.Min(50, GetTextFromLabel()?.Length ?? 0))}...'");
         }
         
+        var wasTruncated = m_label.IsTruncated;
         m_label.IsTruncated = CheckIfTruncated();
+        
+        // Debug: Log truncation check
+        System.Diagnostics.Debug.WriteLine($"[MauiLabel] CheckIfTruncated result: {m_label.IsTruncated}, was: {wasTruncated}, MaxLines: {m_label.MaxLines}");
+        
         SetTruncatedText();
+        
+        // Always update tracking variables to ensure proper state management
+        m_textAfterCustomTruncation = GetTextFromLabel();
+        m_maxLinesAfterCustomTruncation = m_label.MaxLines;
     }
 
     private bool CheckIfTruncated(string? stringToCheck = null)

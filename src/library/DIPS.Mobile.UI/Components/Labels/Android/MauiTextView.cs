@@ -2,7 +2,6 @@ using Android.Content;
 using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
-using AndroidX.AppCompat.Widget;
 
 namespace DIPS.Mobile.UI.Components.Labels.Android;
 
@@ -11,6 +10,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
     private readonly CustomTruncationLabel m_label;
     
     private string m_originalText;
+    private FormattedString? m_originalFormattedText;
     private string m_textAfterCustomTruncation;
     
     private int m_maxLinesAfterCustomTruncation;
@@ -33,6 +33,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         if (m_firstDraw)
         {
             m_originalText = GetTextFromLabel();
+            m_originalFormattedText = m_label.FormattedText;
             m_firstDraw = false;
         }
         
@@ -43,11 +44,27 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         // If the consumer only changed MaxLines, the Text will still be the custom truncated text, so we have to check if they are equal, if so, set the Text to the original
         if (GetTextFromLabel() == m_textAfterCustomTruncation)
         {
-            m_label.Text = m_originalText;
+            // Restore original text and formatted text
+            if (m_originalFormattedText != null)
+            {
+                m_label.Text = string.Empty; // Clear text to prioritize FormattedText
+                m_label.FormattedText = m_originalFormattedText;
+            }
+            else
+            {
+                m_label.FormattedText = null; // Clear FormattedText to prioritize Text
+                m_label.Text = m_originalText;
+            }
+            
+            // Force layout invalidation after restoring original content
+            m_label.InvalidateMeasure();
         }
-
+        
         m_label.IsTruncated = CheckIfTruncated();
-        SetTruncatedText();
+        
+        SetTruncatedText();        // Always update tracking variables to ensure proper state management
+        m_textAfterCustomTruncation = GetTextFromLabel();
+        m_maxLinesAfterCustomTruncation = m_label.MaxLines;
     }
 
     public void SetTruncatedText()

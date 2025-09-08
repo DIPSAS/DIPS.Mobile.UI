@@ -3,13 +3,13 @@ using DIPS.Mobile.UI.Resources.Styles.Span;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 
-public partial class CustomTruncationLabel : Microsoft.Maui.Controls.Label
+public partial class CustomTruncationLabel : Label
 {
     public CustomTruncationLabel()
     {
         this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);
         MaxLines = int.MaxValue;
-        Style = Label.DefaultLabelStyle;
+        Style = DefaultLabelStyle;
     }
     
     private void OnTextChanged()
