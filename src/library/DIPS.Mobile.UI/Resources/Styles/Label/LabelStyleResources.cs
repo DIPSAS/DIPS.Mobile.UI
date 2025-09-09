@@ -8,7 +8,7 @@ internal class LabelStyleResources
     {
         get
         {
-            var sharedStyles = SharedStyleResources.GetStylesForType(typeof(Components.Labels.Label));
+            var sharedStyles = SharedStyleResources.GetStylesForType(typeof(Microsoft.Maui.Controls.Label));
             return new Dictionary<LabelStyle, Style>
             {
                 [LabelStyle.None] = sharedStyles[TextStyle.None],
