@@ -5,7 +5,8 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class Label : Microsoft.Maui.Controls.Label
 {
-    public static Style DefaultLabelStyle = Styles.GetLabelStyle(LabelStyle.Body300);
+    private static Style? s_defaultLabelStyle;
+    public static Style DefaultLabelStyle => s_defaultLabelStyle ??= Styles.GetLabelStyle(LabelStyle.Body300);
         
     public Label()
     {
