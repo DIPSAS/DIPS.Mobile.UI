@@ -28,6 +28,47 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
     {
         return new NavBarAppearanceTracker();
     }
+    
+    protected override IShellItemRenderer CreateShellItemRenderer(ShellItem item)
+    {
+        var renderer = base.CreateShellItemRenderer(item);
+        if (renderer is ShellItemRenderer shellItemRenderer &&
+            ((IShellItemRenderer)shellItemRenderer).ViewController is UITabBarController tabController)
+        {
+            tabController.Delegate = new TabBarDelegate(tabController);
+        }
+        return renderer;
+    }
+}
+
+public class TabBarDelegate : UITabBarControllerDelegate
+{
+    private readonly UITabBarController _controller;
+
+    public TabBarDelegate(UITabBarController controller)
+    {
+        _controller = controller;
+    }
+
+    public override bool ShouldSelectViewController(UITabBarController tabBarController, UIViewController viewController)
+    {
+        if (_controller.SelectedViewController == viewController)
+        {
+            if (viewController is IPlatformViewHandler handler &&
+                handler.VirtualView is Page page &&
+                page is ITabReselected reselectionAware)
+            {
+                reselectionAware.OnTabReselected();
+            }
+        }
+
+        return true;
+    }
+}
+
+public interface ITabReselected
+{
+    void OnTabReselected();
 }
 
 public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
