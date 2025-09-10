@@ -1,3 +1,6 @@
+## [51.2.0]
+- Test
+
 ## [51.1.0]
 - Added `CustomTruncationTextView`.
 - Added `CheckTruncatedLabel`.

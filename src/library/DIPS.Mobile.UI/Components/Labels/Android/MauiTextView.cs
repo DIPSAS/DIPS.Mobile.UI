@@ -1,4 +1,3 @@
-#if ANDROID
 using Android.Content;
 using Android.Graphics;
 using Android.Util;
@@ -127,4 +126,3 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         base.Dispose(disposing);
     }
 }
-#endif
