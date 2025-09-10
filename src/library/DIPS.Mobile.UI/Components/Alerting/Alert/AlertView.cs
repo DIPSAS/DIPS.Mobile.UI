@@ -27,7 +27,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private CustomTruncationTextView? m_titleAndDescriptionLabel;
+    private Label? m_titleAndDescriptionLabel;
 
     public AlertView()
     {
@@ -186,14 +186,14 @@ public partial class AlertView : Grid
         
         OnIsLargeAlertDetermined();
 
-        m_titleAndDescriptionLabel = new CustomTruncationTextView()
+        m_titleAndDescriptionLabel = new Label()
         {
             MaxLines = GetTitleMaxLines(),
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             FormattedText = formattedString,
-            TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
-            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            /*TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
+            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),*/
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 
@@ -216,15 +216,15 @@ public partial class AlertView : Grid
 
     private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == CheckTruncatedLabel.IsTruncatedProperty.PropertyName)
+        /*if (e.PropertyName == CheckTruncatedLabel.IsTruncatedProperty.PropertyName)
         {
             TryEnableBottomSheetOnTap();
-        }
+        }*/
     }
 
     private void TryEnableBottomSheetOnTap()
     {
-        if (m_titleAndDescriptionLabel?.IsTruncated ?? false)
+        /*if (m_titleAndDescriptionLabel?.IsTruncated ?? false)
         {
             Touch.SetCommand(this, new Command(() =>
             {
@@ -236,7 +236,7 @@ public partial class AlertView : Grid
             var touchEffect = Effects.FirstOrDefault(effect => effect is Touch);
             if (touchEffect is not null)
                 Effects.Remove(touchEffect);
-        }
+        }*/
     }
 
     protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)

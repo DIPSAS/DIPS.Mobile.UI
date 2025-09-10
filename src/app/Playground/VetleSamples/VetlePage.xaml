@@ -32,12 +32,6 @@
                        
                        />
         
-        <dui:CustomTruncationTextView Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
-                                     MaxLines="2"
-                                     
-                                     Style="{dui:Styles Label=Header1000}"
-                                     TruncatedTextStyle="{dui:Styles Label=Header1000}"
-                                     />
         
         <!--<dui:AlertView Title="You have unsaved changes"
                        LeftButtonText="Save"
