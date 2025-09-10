@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class CustomTruncationTextView
 {
-    /*/// <summary>
+    /// <summary>
     /// Places <see cref="TruncatedText"/> at the end of the Label if it is truncated
     /// </summary>
     public string TruncatedText
@@ -64,11 +64,11 @@ public partial class CustomTruncationTextView
     /// <summary>
     /// Sets the style of the Label
     /// </summary>
-    public new Style Style
+    /*public new Style Style
     {
         get => (Style)GetValue(StyleProperty);
         set => SetValue(StyleProperty, value);
-    }
+    }*/
 
     /// <summary>
     /// Sets the maximum number of lines to display before truncating the text
@@ -99,11 +99,11 @@ public partial class CustomTruncationTextView
         typeof(int),
         typeof(CustomTruncationTextView));
     
-    public new static readonly BindableProperty StyleProperty = BindableProperty.Create(
+    /*public new static readonly BindableProperty StyleProperty = BindableProperty.Create(
         nameof(Style),
         typeof(Style),
         typeof(CustomTruncationTextView),
-        propertyChanged: (bindable, _, _) => ((CustomTruncationTextView)bindable).OnStyleChanged());
+        propertyChanged: (bindable, _, _) => ((CustomTruncationTextView)bindable).OnStyleChanged());*/
     
     public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
         nameof(TextColor),
@@ -137,5 +137,5 @@ public partial class CustomTruncationTextView
         nameof(TruncatedText),
         typeof(string),
         typeof(CustomTruncationTextView),
-        defaultValue: DUILocalizedStrings.More);*/
+        defaultValue: DUILocalizedStrings.More);
 }

@@ -1,7 +1,7 @@
 namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class CustomTruncationTextView : Grid
-{/*
+{
     private readonly Label m_customTruncationTextLabel;
     private readonly CheckTruncatedLabel m_checkTruncatedLabel;
 
@@ -25,7 +25,7 @@ public partial class CustomTruncationTextView : Grid
             TextTransform = TextTransform.Lowercase
         };
         
-        this.SetBinding(IsTruncatedProperty, static (CheckTruncatedLabel customTruncationTextView) => customTruncationTextView.IsTruncated, source: m_checkTruncatedLabel);
+        /*this.SetBinding(IsTruncatedProperty, static (CheckTruncatedLabel customTruncationTextView) => customTruncationTextView.IsTruncated, source: m_checkTruncatedLabel);
         
         m_checkTruncatedLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (CustomTruncationTextView customTruncationTextView) => customTruncationTextView.Text, source: this);
         m_checkTruncatedLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (CustomTruncationTextView customTruncationTextView) => customTruncationTextView.TextColor, source: this);
@@ -34,13 +34,13 @@ public partial class CustomTruncationTextView : Grid
         
         m_customTruncationTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (CustomTruncationTextView customTruncationTextView) => customTruncationTextView.TruncatedText, source: this);
         m_customTruncationTextLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (CustomTruncationTextView customTruncationTextView) => customTruncationTextView.TruncatedTextColor, source: this);
-        m_customTruncationTextLabel.SetBinding(IsVisibleProperty, static (CheckTruncatedLabel checkTruncatedLabel) => checkTruncatedLabel.IsTruncated, source: m_checkTruncatedLabel);
+        m_customTruncationTextLabel.SetBinding(IsVisibleProperty, static (CheckTruncatedLabel checkTruncatedLabel) => checkTruncatedLabel.IsTruncated, source: m_checkTruncatedLabel);*/
         
         this.Add(m_checkTruncatedLabel);
         this.Add(m_customTruncationTextLabel, 1);
         
         OnTruncatedTextStyleChanged();
-        OnStyleChanged();
+        /*OnStyleChanged();*/
     }
 
     private void OnTruncatedTextStyleChanged()
@@ -48,7 +48,7 @@ public partial class CustomTruncationTextView : Grid
         m_customTruncationTextLabel.Style = TruncatedTextStyle;
     }
 
-    private void OnStyleChanged()
+    /*private void OnStyleChanged()
     {
         m_checkTruncatedLabel.Style = Style;
     }*/
