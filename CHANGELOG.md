@@ -1,5 +1,5 @@
-## [51.2.0]
-- Test
+## [51.1.1]
+- [Android][AOT] Fixed periodic crash on startup.
 
 ## [51.1.0]
 - Added `CustomTruncationTextView`.
