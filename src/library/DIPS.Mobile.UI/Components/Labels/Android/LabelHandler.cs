@@ -8,7 +8,7 @@ public partial class LabelHandler
 {
     private static partial void MapOverrideMaxLinesAndLineBreakMode(LabelHandler handler, Label label)
     {
-        if (handler.PlatformView is not AppCompatTextView textView)
+        if (handler.PlatformView is not AppCompatTextView textView || label is null)
             return;
 
         textView.Ellipsize = label.LineBreakMode switch
