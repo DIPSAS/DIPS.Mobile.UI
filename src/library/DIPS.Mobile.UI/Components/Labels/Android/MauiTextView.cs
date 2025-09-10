@@ -16,10 +16,10 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         m_label = label;
         
         // Listen for property changes that might affect truncation
-        m_label.PropertyChanged += OnLabelPropertyChanged;
+       // m_label.PropertyChanged += OnLabelPropertyChanged;
     }
 
-    private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    /*private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(CheckTruncatedLabel.Text) || 
             e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
@@ -124,5 +124,5 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
             m_label.PropertyChanged -= OnLabelPropertyChanged;
         }
         base.Dispose(disposing);
-    }
+    }*/
 }

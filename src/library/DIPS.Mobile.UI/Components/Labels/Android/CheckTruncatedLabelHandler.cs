@@ -7,6 +7,6 @@ public partial class CheckTruncatedLabelHandler
 {
     protected override AppCompatTextView CreatePlatformView()
     {
-        return new MauiTextView(Context, (VirtualView as CheckTruncatedLabel)!);
+        return new MauiTextView(Context, VirtualView as CheckTruncatedLabel);
     }
 }
