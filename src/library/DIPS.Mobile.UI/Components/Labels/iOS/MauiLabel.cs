@@ -10,10 +10,10 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
-    private readonly CheckTruncatedLabel m_label;
+    private readonly CheckTruncatedLabel.CheckTruncatedLabel m_label;
     private bool m_needsTruncationCheck = true;
 
-    public MauiLabel(CheckTruncatedLabel label)
+    public MauiLabel(CheckTruncatedLabel.CheckTruncatedLabel label)
     {
         m_label = label;
         
@@ -23,9 +23,9 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(CheckTruncatedLabel.Text) || 
-            e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
-            e.PropertyName == nameof(CheckTruncatedLabel.MaxLines))
+        if (e.PropertyName == nameof(CheckTruncatedLabel.CheckTruncatedLabel.Text) || 
+            e.PropertyName == nameof(CheckTruncatedLabel.CheckTruncatedLabel.FormattedText) ||
+            e.PropertyName == nameof(CheckTruncatedLabel.CheckTruncatedLabel.MaxLines))
         {
             m_needsTruncationCheck = true;
             SetNeedsLayout();

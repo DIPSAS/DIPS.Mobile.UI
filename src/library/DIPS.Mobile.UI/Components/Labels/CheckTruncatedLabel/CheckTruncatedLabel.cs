@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.Labels;
+namespace DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
 
 /// <summary>
 /// Use this to check if the text is truncated

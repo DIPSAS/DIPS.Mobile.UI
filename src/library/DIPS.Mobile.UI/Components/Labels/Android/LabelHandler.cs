@@ -1,4 +1,3 @@
-#if ANDROID
 using Android.Text;
 using AndroidX.AppCompat.Widget;
 
@@ -25,4 +24,3 @@ public partial class LabelHandler
         textView.SetMaxLines(label.MaxLines);
     }
 }
-#endif
