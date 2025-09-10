@@ -9,7 +9,7 @@ public partial class Label : Microsoft.Maui.Controls.Label
         
     public Label()
     {
-        this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);
+        /*this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);*/
         MaxLines = int.MaxValue;
         Style = DefaultLabelStyle;
     }
