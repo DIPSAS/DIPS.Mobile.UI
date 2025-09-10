@@ -1,7 +1,7 @@
 namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class CustomTruncationTextView : Grid
-{
+{/*
     private readonly Label m_customTruncationTextLabel;
     private readonly CheckTruncatedLabel m_checkTruncatedLabel;
 
@@ -51,5 +51,5 @@ public partial class CustomTruncationTextView : Grid
     private void OnStyleChanged()
     {
         m_checkTruncatedLabel.Style = Style;
-    }
+    }*/
 }
