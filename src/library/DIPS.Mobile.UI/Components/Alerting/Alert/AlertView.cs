@@ -27,7 +27,7 @@ public partial class AlertView : Grid
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
-    private CustomTruncationTextView? m_titleAndDescriptionLabel;
+    
 
     public AlertView()
     {
@@ -152,11 +152,11 @@ public partial class AlertView : Grid
 
     private void OnTitleOrDescriptionChanged()
     {
-        if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
+        /*if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
         {
             Remove(m_titleAndDescriptionLabel);
             m_titleAndDescriptionLabel.DisconnectHandlers();
-        }
+        }*/
         
         var formattedString = new FormattedString
         {
@@ -186,7 +186,7 @@ public partial class AlertView : Grid
         
         OnIsLargeAlertDetermined();
 
-        m_titleAndDescriptionLabel = new CustomTruncationTextView()
+        /*m_titleAndDescriptionLabel = new CustomTruncationTextView()
         {
             MaxLines = GetTitleMaxLines(),
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
@@ -200,7 +200,7 @@ public partial class AlertView : Grid
         m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
         m_titleAndDescriptionLabel.PropertyChanged += TitleAndDescriptionLabelOnPropertyChanged;
         
-        this.Add(m_titleAndDescriptionLabel, 1);
+        this.Add(m_titleAndDescriptionLabel, 1);*/
         
         UpdateButtonAlignment();
         UpdateAccessibility();
@@ -216,15 +216,15 @@ public partial class AlertView : Grid
 
     private void TitleAndDescriptionLabelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == CheckTruncatedLabel.IsTruncatedProperty.PropertyName)
+        /*if (e.PropertyName == CheckTruncatedLabel.IsTruncatedProperty.PropertyName)
         {
             TryEnableBottomSheetOnTap();
-        }
+        }*/
     }
 
     private void TryEnableBottomSheetOnTap()
     {
-        if (m_titleAndDescriptionLabel?.IsTruncated ?? false)
+        /*if (m_titleAndDescriptionLabel?.IsTruncated ?? false)
         {
             Touch.SetCommand(this, new Command(() =>
             {
@@ -236,7 +236,7 @@ public partial class AlertView : Grid
             var touchEffect = Effects.FirstOrDefault(effect => effect is Touch);
             if (touchEffect is not null)
                 Effects.Remove(touchEffect);
-        }
+        }*/
     }
 
     protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -286,11 +286,11 @@ public partial class AlertView : Grid
         AutomationProperties.SetIsInAccessibleTree(this, false);
         
         // Ensure the title/description label is accessible if it exists
-        if (m_titleAndDescriptionLabel != null)
+        /*if (m_titleAndDescriptionLabel != null)
         {
             SemanticProperties.SetDescription(m_titleAndDescriptionLabel, GetAccessibilityDescription());
             SemanticProperties.SetHeadingLevel(m_titleAndDescriptionLabel, SemanticHeadingLevel.Level2);
-        }
+        }*/
     }
 
     private string GetAccessibilityDescription()
@@ -418,10 +418,10 @@ public partial class AlertView : Grid
         else
         {
             AlertViewService.OnAnimationTriggered -= Animate;
-            if (m_titleAndDescriptionLabel is not null)
+            /*if (m_titleAndDescriptionLabel is not null)
             {
                 m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
-            }
+            }*/
         }
     }
 
@@ -453,9 +453,9 @@ public partial class AlertView : Grid
 
     private void OnTitleTruncationModeChanged()
     {
-        if (m_titleAndDescriptionLabel is not null && !IsLargeAlert)
+        /*if (m_titleAndDescriptionLabel is not null && !IsLargeAlert)
         {
             m_titleAndDescriptionLabel.MaxLines = GetTitleMaxLines();
-        }
+        }*/
     }
 }

@@ -1,4 +1,4 @@
-## [51.1.1]
+## [51.1.2]
 - [Android][AOT] Fixed periodic crash on startup.
 
 ## [51.1.0]

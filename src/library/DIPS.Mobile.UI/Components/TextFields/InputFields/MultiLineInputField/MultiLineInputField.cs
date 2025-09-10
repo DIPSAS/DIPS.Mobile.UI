@@ -16,14 +16,14 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private string? m_textWhenFirstFocused;
 
-    private readonly Label m_label = new CheckTruncatedLabel
+    /*private readonly Label m_label = new CheckTruncatedLabel
     { 
         Style = Styles.GetLabelStyle(LabelStyle.Body200), 
         IsVisible = false,
         Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall), Sizes.GetSize(SizeName.content_margin_small), 0),
         VerticalTextAlignment = TextAlignment.Start,
         LineBreakMode = LineBreakMode.TailTruncation
-    };
+    };*/
 
     private Button m_doneButton = new ();
     private Button m_cancelButton = new();
@@ -78,11 +78,11 @@ public partial class MultiLineInputField : SingleLineInputField
     /// </summary>
     private void SetupLabel()
     {
-        m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        /*m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         m_label.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.Text, source: this);
         m_label.SetBinding(Label.MaxLinesProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.MaxLines, source: this);
         
-        InnerGrid.Add(m_label, 0, 1);
+        InnerGrid.Add(m_label, 0, 1);*/
     }
 
     private void CreateButtons()
@@ -126,7 +126,7 @@ public partial class MultiLineInputField : SingleLineInputField
 
         IsTruncated = false;
         
-        m_label.IsVisible = false;
+        /*m_label.IsVisible = false;*/
 
         ToggleButtonsVisibility(true);
         
@@ -142,7 +142,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         base.OnInputViewUnFocused(sender, e);
         
-        m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
+        /*m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);*/
         
         UpdateLabelVisibility();
         
@@ -246,7 +246,7 @@ public partial class MultiLineInputField : SingleLineInputField
     {
         if (!InputView.IsFocused)
         {
-            m_label.IsVisible = Text != string.Empty;
+            /*m_label.IsVisible = Text != string.Empty;*/
         }
     }
 
