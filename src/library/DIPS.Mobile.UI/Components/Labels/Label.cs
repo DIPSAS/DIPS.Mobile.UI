@@ -1,6 +1,5 @@
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
-using DIPS.Mobile.UI.Resources.Styles.Span;
 
 namespace DIPS.Mobile.UI.Components.Labels;
 

@@ -25,7 +25,6 @@ using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using ImageButton = DIPS.Mobile.UI.Components.Images.ImageButton;
 using ImageHandler = DIPS.Mobile.UI.Components.Images.Image.ImageHandler;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
-using LabelHandler = DIPS.Mobile.UI.Components.Labels.LabelHandler;
 using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
 using LayoutPlatformEffect = DIPS.Mobile.UI.Effects.Layout.LayoutPlatformEffect;
 using ScrollView = DIPS.Mobile.UI.Components.Lists.ScrollView;
@@ -56,7 +55,6 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<ImageButton.ImageButton, ImageButton.ImageButtonHandler>();
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
-            handlers.AddHandler<Label, LabelHandler>();
             handlers.AddHandler<CheckTruncatedLabel, CheckTruncatedLabelHandler>();
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
