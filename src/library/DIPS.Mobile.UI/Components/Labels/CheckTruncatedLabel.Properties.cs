@@ -13,8 +13,6 @@ public partial class CheckTruncatedLabel
         get => (bool)GetValue(IsTruncatedProperty);
         set => SetValue(IsTruncatedProperty, value);
     }
-
-    
     
     public static readonly BindableProperty IsTruncatedProperty = BindableProperty.Create(
         nameof(IsTruncated),
