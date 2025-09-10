@@ -1,3 +1,6 @@
+## [51.0.0]
+- Rollback
+
 ## [49.9.7]
 - Fix wrong margin on tag without icon
 
