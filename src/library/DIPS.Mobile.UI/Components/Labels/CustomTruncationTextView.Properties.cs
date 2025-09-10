@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Labels;
 
 public partial class CustomTruncationTextView
 {
-    /// <summary>
+    /*/// <summary>
     /// Places <see cref="TruncatedText"/> at the end of the Label if it is truncated
     /// </summary>
     public string TruncatedText
@@ -137,5 +137,5 @@ public partial class CustomTruncationTextView
         nameof(TruncatedText),
         typeof(string),
         typeof(CustomTruncationTextView),
-        defaultValue: DUILocalizedStrings.More);
+        defaultValue: DUILocalizedStrings.More);*/
 }
