@@ -8,8 +8,8 @@ public partial class CheckTruncatedLabel : Label
 {
     public CheckTruncatedLabel()
     {
-        this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);
+        /*this.SetAppThemeColor(TextColorProperty, ColorName.color_text_default);
         MaxLines = int.MaxValue;
-        Style = DefaultLabelStyle;
+        Style = DefaultLabelStyle;*/
     }
 }

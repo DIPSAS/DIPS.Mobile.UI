@@ -56,7 +56,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Image, ImageHandler>();
             handlers.AddHandler<Button, ButtonHandler>();
             handlers.AddHandler<Label, LabelHandler>();
-            handlers.AddHandler<CheckTruncatedLabel, CheckTruncatedLabelHandler>();
+            /*handlers.AddHandler<CheckTruncatedLabel, CheckTruncatedLabelHandler>();*/
             handlers.AddHandler<CollectionView, CollectionViewHandler>();
             handlers.AddHandler<ScrollView, ScrollViewHandler>();
             handlers.AddHandler<FloatingNavigationButton, FloatingNavigationButtonHandler>();
