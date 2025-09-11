@@ -32,7 +32,7 @@
                        
                        />
         
-        <dui:CustomTruncationTextView Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
+        <dui:CheckTruncatedLabel Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
                                      MaxLines="2"
                                      
                                      Style="{dui:Styles Label=Header1000}"

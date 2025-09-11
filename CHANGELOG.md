@@ -1,3 +1,8 @@
+## [51.2.0]
+- [Label] Removed handler because of obsolete workaround.
+- [CheckTruncatedLabel] Removed redundant constructor.
+- Moved some files.
+
 ## [51.1.0]
 - Added `CustomTruncationTextView`.
 - Added `CheckTruncatedLabel`.

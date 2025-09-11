@@ -5,7 +5,7 @@ using Android.Util;
 using Android.Views;
 using DIPS.Mobile.UI.Internal.Logging;
 
-namespace DIPS.Mobile.UI.Components.Labels.Android;
+namespace DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel.Android;
 
 public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 {
@@ -22,9 +22,7 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
 
     private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(CheckTruncatedLabel.Text) || 
-            e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
-            e.PropertyName == nameof(CheckTruncatedLabel.MaxLines))
+        if (e.PropertyName is nameof(CheckTruncatedLabel.Text) or nameof(CheckTruncatedLabel.FormattedText) or nameof(CheckTruncatedLabel.MaxLines))
         {
             m_needsTruncationCheck = true;
             RequestLayout();
