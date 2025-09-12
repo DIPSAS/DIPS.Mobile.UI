@@ -208,6 +208,7 @@ this file is generated
 ["phone_line"] = "phone_line.png",
 ["layout_row_line"] = "layout_row_line.png",
 ["settings_line"] = "settings_line.png",
+["secret_adress_fill"] = "secret_adress_fill.png",
 
             };
         }
