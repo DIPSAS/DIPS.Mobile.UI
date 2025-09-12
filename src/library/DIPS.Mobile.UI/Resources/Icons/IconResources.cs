@@ -204,6 +204,7 @@ this file is generated
 ["underline"] = "underline.png",
 ["bold"] = "bold.png",
 ["italic"] = "italic.png",
+["secret_adress_fill"] = "secret_adress_fill.png",
 
             };
         }

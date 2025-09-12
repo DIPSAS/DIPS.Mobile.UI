@@ -399,5 +399,7 @@ underline=196,
 bold=197,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/italic.svg">View the icon in the browser</a></summary>
 italic=198,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_dropdown_line.svg">View the icon in the browser</a></summary>
+secret_adress_fill=199,
     }
 }
