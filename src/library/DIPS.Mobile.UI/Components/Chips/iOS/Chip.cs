@@ -75,6 +75,8 @@ public partial class Chip
 
     private ImageButton CreateCloseButton()
     {
+        var extendedHitbox = new Thickness(Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_medium));
+        
         var imageButton = new Images.ImageButton.ImageButton
         { 
             Command = new Command(() => OnTappedButtonChip(true)), 
@@ -82,9 +84,10 @@ public partial class Chip
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
-            AdditionalHitBoxSize = Sizes.GetSize(SizeName.content_margin_xsmall)
+            AdditionalHitBoxSize = extendedHitbox
         };
 
+        
         imageButton.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
         imageButton.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
         
