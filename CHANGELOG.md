@@ -1,3 +1,6 @@
+## [51.2.1] 
+- [Android][MultiItemsPicker] Fixed issue where ToString of the MultiItemsPicker would be visible if footer on the BottomSheet were not set.
+
 ## [51.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

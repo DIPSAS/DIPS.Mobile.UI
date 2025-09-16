@@ -38,11 +38,11 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         
         collectionView.SetBinding(ItemsView.ItemsSourceProperty, static (MultiItemsPickerBottomSheet multiItemsPickerBottomSheet) => multiItemsPickerBottomSheet.Items, source: this);
         
-        collectionView.SetBinding(StructuredItemsView.FooterProperty, static (MultiItemsPickerBottomSheet multiItemsPickerBottomSheet) => multiItemsPickerBottomSheet.BindingContext, source: this);
-        collectionView.FooterTemplate = m_multiItemsPicker.BottomSheetPickerConfiguration.FooterTemplate;
-        
-        collectionView.SetBinding(StructuredItemsView.FooterProperty, static (MultiItemsPicker itemPicker) => itemPicker.BindingContext, source: m_multiItemsPicker);
-        collectionView.FooterTemplate = m_multiItemsPicker.BottomSheetPickerConfiguration.FooterTemplate;
+        if (m_multiItemsPicker.BottomSheetPickerConfiguration.FooterTemplate is not null)
+        {
+            collectionView.SetBinding(StructuredItemsView.FooterProperty, static (MultiItemsPicker itemPicker) => itemPicker.BindingContext, source: m_multiItemsPicker);
+            collectionView.FooterTemplate = m_multiItemsPicker.BottomSheetPickerConfiguration.FooterTemplate;
+        }
         
         Content = ItemPickerBottomSheet.CreateContentControlForActivityIndicator(collectionView, m_multiItemsPicker.BottomSheetPickerConfiguration);
 

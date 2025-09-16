@@ -11,5 +11,6 @@ public partial class Editor : Microsoft.Maui.Controls.Editor
         FontSize = 16;
         TextColor = Colors.GetColor(ColorName.color_text_default);
         Keyboard = Keyboard.Text;
+        BackgroundColor = Colors.GetColor(ColorName.color_fill_default);
     }
 }
