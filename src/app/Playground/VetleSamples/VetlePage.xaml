@@ -39,6 +39,37 @@
                                      TruncatedTextStyle="{dui:Styles Label=Header1000}"
                                      />
         
+        <dui:MultiItemsPicker VerticalOptions="Start"
+                              HorizontalOptions="Start"
+                              Placeholder="ok">
+            
+            <dui:MultiItemsPicker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Item 1</x:String>
+                    <x:String>Item 2</x:String>
+                    <x:String>Item 3</x:String>
+                    
+                </x:Array>
+            </dui:MultiItemsPicker.ItemsSource>
+           
+            <!--<dui:MultiItemsPicker.BottomSheetPickerConfiguration>
+            <dui:BottomSheetPickerConfiguration Title="Select multiple">
+                <dui:BottomSheetPickerConfiguration.FooterTemplate>
+                    <DataTemplate>
+                        <dui:AlertView
+                            Title="Writing a lot of text here, a long text that should span across multiple lines to see if we can recreate thing"
+                            Style="{dui:Styles Alert=Information}"
+                            Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}" />
+                    </DataTemplate>
+                </dui:BottomSheetPickerConfiguration.FooterTemplate>
+            </dui:BottomSheetPickerConfiguration>
+            
+            </dui:MultiItemsPicker.BottomSheetPickerConfiguration>-->
+        </dui:MultiItemsPicker>
+        
+        <dui:Editor HasBorder="True" BackgroundColor="Red" />
+        <dui:Entry />
+        
         <!--<dui:AlertView Title="You have unsaved changes"
                        LeftButtonText="Save"
                        ButtonAlignment="Auto"
