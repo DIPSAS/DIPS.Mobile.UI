@@ -10,13 +10,14 @@ public partial class Chip
 {
     private Image m_toggleableIcon;
     private Image m_customIcon;
-    private ImageButton m_closeButton;
+    private Border m_closeButton;
     private Label m_titleLabel;
     private Border m_border;
+    private Grid m_container;
 
     internal void ConstructView()
     {
-        var container = new Grid
+        m_container = new Grid
         {
             ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall)),
@@ -36,13 +37,13 @@ public partial class Chip
         m_closeButton = CreateCloseButton();
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
+        
+        m_container.Add(m_customIcon);
+        m_container.Add(m_toggleableIcon);
+        m_container.Add(m_titleLabel, 1);
+        m_container.Add(m_closeButton, 2);
 
-        container.Add(m_customIcon);
-        container.Add(m_toggleableIcon);
-        container.Add(m_titleLabel, 1);
-        container.Add(m_closeButton, 2);
-
-        m_border.Content = container;
+        m_border.Content = m_container;
         
         Content = m_border;
     }
@@ -73,26 +74,41 @@ public partial class Chip
         return border;
     }
 
-    private ImageButton CreateCloseButton()
+    private Border CreateCloseButton()
     {
-        var extendedHitbox = new Thickness(Sizes.GetSize(SizeName.content_margin_large), Sizes.GetSize(SizeName.content_margin_medium));
-        
-        var imageButton = new Images.ImageButton.ImageButton
+        var closeChipCommand = new Command(() => OnTappedButtonChip(true));
+        var closeButtonIcon = new Images.ImageButton.ImageButton
         { 
-            Command = new Command(() => OnTappedButtonChip(true)), 
+            Command = closeChipCommand, 
             Source = Icons.GetIcon(CloseIconName),
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
-            AdditionalHitBoxSize = extendedHitbox
         };
-
         
-        imageButton.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
-        imageButton.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
+        closeButtonIcon.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
         
-        return imageButton;
+        var closeButtonWrapper = new Border()
+        {
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Orange,
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_xsmall), 
+                Sizes.GetSize(SizeName.content_margin_xsmall), 
+                Sizes.GetSize(SizeName.content_margin_small), 
+                Sizes.GetSize(SizeName.content_margin_xsmall)),
+        };
+        
+        var tapGestureRecognizer = new TapGestureRecognizer();
+        
+        tapGestureRecognizer.Tapped += (_, _) => closeChipCommand.Execute(null);
+        
+        closeButtonWrapper.GestureRecognizers.Add(tapGestureRecognizer);
+        closeButtonWrapper.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
+        closeButtonWrapper.Content = closeButtonIcon;
+        
+        return closeButtonWrapper;
     }
+    
 
     private Image CreateIsToggleableIcon()
     {
@@ -161,6 +177,13 @@ public partial class Chip
         if (propertyName.Equals(nameof(CustomIcon)))
         {
             m_customIcon.IsVisible = CustomIcon is not null;
+        }        
+        
+        if (propertyName.Equals(nameof(IsCloseable)))
+        {
+            m_container.Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), 0, 0, 0);
+            m_container.ColumnSpacing = 0;
+            m_titleLabel.Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall));
         }
     }
 
