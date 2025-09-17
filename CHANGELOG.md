@@ -1,3 +1,8 @@
+## [51.3.0]
+- [Label] Removed handler because of obsolete workaround.
+- [CheckTruncatedLabel] Removed redundant constructor.
+- Moved some files.
+
 ## [51.2.1] 
 - [Android][MultiItemsPicker] Fixed issue where ToString of the MultiItemsPicker would be visible if footer on the BottomSheet were not set.
 

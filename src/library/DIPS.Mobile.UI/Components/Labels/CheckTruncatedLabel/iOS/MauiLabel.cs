@@ -1,12 +1,9 @@
-#if IOS
 using CoreFoundation;
 using CoreGraphics;
 using DIPS.Mobile.UI.Internal.Logging;
-using Foundation;
-using Microsoft.Maui.Platform;
 using UIKit;
 
-namespace DIPS.Mobile.UI.Components.Labels;
+namespace DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel.iOS;
 
 public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
@@ -23,9 +20,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(CheckTruncatedLabel.Text) || 
-            e.PropertyName == nameof(CheckTruncatedLabel.FormattedText) ||
-            e.PropertyName == nameof(CheckTruncatedLabel.MaxLines))
+        if (e.PropertyName is nameof(CheckTruncatedLabel.Text) or nameof(CheckTruncatedLabel.FormattedText) or nameof(CheckTruncatedLabel.MaxLines))
         {
             m_needsTruncationCheck = true;
             SetNeedsLayout();
@@ -120,4 +115,3 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         base.Dispose(disposing);
     }
 }
-#endif

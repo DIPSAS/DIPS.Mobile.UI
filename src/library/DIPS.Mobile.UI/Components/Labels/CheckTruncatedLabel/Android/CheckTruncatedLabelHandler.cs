@@ -1,7 +1,7 @@
 using AndroidX.AppCompat.Widget;
-using MauiTextView = DIPS.Mobile.UI.Components.Labels.Android.MauiTextView;
+using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel.Android;
 
-namespace DIPS.Mobile.UI.Components.Labels;
+namespace DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
 
 public partial class CheckTruncatedLabelHandler
 {
