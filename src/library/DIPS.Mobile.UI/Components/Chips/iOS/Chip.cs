@@ -10,7 +10,7 @@ public partial class Chip
 {
     private Image m_toggleableIcon;
     private Image m_customIcon;
-    private Border m_closeButton;
+    private Grid m_closeButton;
     private Label m_titleLabel;
     private Border m_border;
     private Grid m_container;
@@ -74,23 +74,19 @@ public partial class Chip
         return border;
     }
 
-    private Border CreateCloseButton()
+    private Grid CreateCloseButton()
     {
         var closeChipCommand = new Command(() => OnTappedButtonChip(true));
-        var closeButtonIcon = new Images.ImageButton.ImageButton
+        var closeButtonIcon = new Image
         { 
-            Command = closeChipCommand, 
             Source = Icons.GetIcon(CloseIconName),
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
         };
         
-        closeButtonIcon.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
-        
-        var closeButtonWrapper = new Border()
+        var closeButtonWrapper = new Grid()
         {
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.Orange,
             Padding = new Thickness(
                 Sizes.GetSize(SizeName.content_margin_xsmall), 
                 Sizes.GetSize(SizeName.content_margin_xsmall), 
@@ -98,13 +94,10 @@ public partial class Chip
                 Sizes.GetSize(SizeName.content_margin_xsmall)),
         };
         
-        var tapGestureRecognizer = new TapGestureRecognizer();
+        Touch.SetCommand(closeButtonWrapper, closeChipCommand);
         
-        tapGestureRecognizer.Tapped += (_, _) => closeChipCommand.Execute(null);
-        
-        closeButtonWrapper.GestureRecognizers.Add(tapGestureRecognizer);
         closeButtonWrapper.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
-        closeButtonWrapper.Content = closeButtonIcon;
+        closeButtonWrapper.Add(closeButtonIcon);
         
         return closeButtonWrapper;
     }

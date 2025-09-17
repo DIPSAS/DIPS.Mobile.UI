@@ -1,5 +1,5 @@
 ## [45.9.9]
-- Increased hitbox on chip close button on IOS
+- [Chip][iOS] Increased hitbox on chip close button on IOS
 
 ## [45.9.8] 
 - Resources was updated from DIPS.Mobile.DesignTokens
