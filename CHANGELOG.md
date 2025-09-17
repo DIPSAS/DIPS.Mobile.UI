@@ -1,3 +1,6 @@
+## [45.9.9]
+- [Chip][iOS] Increased hitbox on close button.
+
 ## [45.9.8] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

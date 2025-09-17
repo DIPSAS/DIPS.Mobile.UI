@@ -10,16 +10,29 @@ public partial class Chip
 {
     private Image m_toggleableIcon;
     private Image m_customIcon;
-    private ImageButton m_closeButton;
+    private Grid m_closeButton;
     private Label m_titleLabel;
     private Border m_border;
+    private Grid m_container;
+    
+    private readonly double m_defaultContainerColumnSpacing = 
+        Sizes.GetSize(SizeName.content_margin_xsmall);
+    
+    private readonly Thickness m_defaultContainerPadding = 
+        new (Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall));    
+    
+    private readonly Thickness m_containerPaddingWhenClosable = 
+        new (Sizes.GetSize(SizeName.content_margin_medium), 0, 0, 0);    
+    
+    private readonly Thickness m_titlePaddingWhenClosable = 
+        new (0, Sizes.GetSize(SizeName.content_margin_xsmall));
 
     internal void ConstructView()
     {
-        var container = new Grid
+        m_container = new Grid
         {
-            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
-            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall)),
+            ColumnSpacing = m_defaultContainerColumnSpacing,
+            Padding = m_defaultContainerPadding,
             ColumnDefinitions = 
             [
                 new ColumnDefinition(GridLength.Auto), 
@@ -36,13 +49,13 @@ public partial class Chip
         m_closeButton = CreateCloseButton();
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
+        
+        m_container.Add(m_customIcon);
+        m_container.Add(m_toggleableIcon);
+        m_container.Add(m_titleLabel, 1);
+        m_container.Add(m_closeButton, 2);
 
-        container.Add(m_customIcon);
-        container.Add(m_toggleableIcon);
-        container.Add(m_titleLabel, 1);
-        container.Add(m_closeButton, 2);
-
-        m_border.Content = container;
+        m_border.Content = m_container;
         
         Content = m_border;
     }
@@ -73,23 +86,34 @@ public partial class Chip
         return border;
     }
 
-    private ImageButton CreateCloseButton()
+    private Grid CreateCloseButton()
     {
-        var imageButton = new Images.ImageButton.ImageButton
+        var closeChipCommand = new Command(() => OnTappedButtonChip(true));
+        var closeButtonIcon = new Image
         { 
-            Command = new Command(() => OnTappedButtonChip(true)), 
             Source = Icons.GetIcon(CloseIconName),
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
-            AdditionalHitBoxSize = Sizes.GetSize(SizeName.content_margin_xsmall)
         };
-
-        imageButton.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
-        imageButton.SetBinding(Images.ImageButton.ImageButton.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
         
-        return imageButton;
+        var closeButtonWrapper = new Grid()
+        {
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_xsmall), 
+                Sizes.GetSize(SizeName.content_margin_xsmall), 
+                Sizes.GetSize(SizeName.content_margin_small), 
+                Sizes.GetSize(SizeName.content_margin_xsmall)),
+        };
+        
+        Touch.SetCommand(closeButtonWrapper, closeChipCommand);
+        
+        closeButtonWrapper.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
+        closeButtonWrapper.Add(closeButtonIcon);
+        
+        return closeButtonWrapper;
     }
+    
 
     private Image CreateIsToggleableIcon()
     {
@@ -158,6 +182,15 @@ public partial class Chip
         if (propertyName.Equals(nameof(CustomIcon)))
         {
             m_customIcon.IsVisible = CustomIcon is not null;
+        }        
+        
+        if (propertyName.Equals(nameof(IsCloseable)))
+        {
+            m_container.Padding = IsCloseable ? m_containerPaddingWhenClosable : m_defaultContainerPadding;
+                
+            m_container.ColumnSpacing = IsCloseable ? 0 : m_defaultContainerColumnSpacing;
+            
+            m_titleLabel.Padding = IsCloseable ? m_titlePaddingWhenClosable : Thickness.Zero;
         }
     }
 
