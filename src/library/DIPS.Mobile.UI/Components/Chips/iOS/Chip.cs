@@ -14,13 +14,25 @@ public partial class Chip
     private Label m_titleLabel;
     private Border m_border;
     private Grid m_container;
+    
+    private readonly double m_defaultContainerColumnSpacing = 
+        Sizes.GetSize(SizeName.content_margin_xsmall);
+    
+    private readonly Thickness m_defaultContainerPadding = 
+        new (Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall));    
+    
+    private readonly Thickness m_containerPaddingWhenClosable = 
+        new (Sizes.GetSize(SizeName.content_margin_medium), 0, 0, 0);    
+    
+    private readonly Thickness m_titlePaddingWhenClosable = 
+        new (0, Sizes.GetSize(SizeName.content_margin_xsmall));
 
     internal void ConstructView()
     {
         m_container = new Grid
         {
-            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
-            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_xsmall)),
+            ColumnSpacing = m_defaultContainerColumnSpacing,
+            Padding = m_defaultContainerPadding,
             ColumnDefinitions = 
             [
                 new ColumnDefinition(GridLength.Auto), 
@@ -174,9 +186,11 @@ public partial class Chip
         
         if (propertyName.Equals(nameof(IsCloseable)))
         {
-            m_container.Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), 0, 0, 0);
-            m_container.ColumnSpacing = 0;
-            m_titleLabel.Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_xsmall));
+            m_container.Padding = IsCloseable ? m_containerPaddingWhenClosable : m_defaultContainerPadding;
+                
+            m_container.ColumnSpacing = IsCloseable ? 0 : m_defaultContainerColumnSpacing;
+            
+            m_titleLabel.Padding = IsCloseable ? m_titlePaddingWhenClosable : Thickness.Zero;
         }
     }
 
