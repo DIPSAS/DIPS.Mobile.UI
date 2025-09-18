@@ -89,13 +89,15 @@ public partial class Chip
     private Grid CreateCloseButton()
     {
         var closeChipCommand = new Command(() => OnTappedButtonChip(true));
-        var closeButtonIcon = new Image
+        var closeButtonIcon = new Images.Image.Image()
         { 
             Source = Icons.GetIcon(CloseIconName),
             HeightRequest = Sizes.GetSize(SizeName.size_4), 
             WidthRequest = Sizes.GetSize(SizeName.size_4),
             VerticalOptions = LayoutOptions.Center,
         };
+        
+        closeButtonIcon.SetBinding(Images.Image.Image.TintColorProperty, static (Chip chip) => chip.CloseButtonColor, source: this);
         
         var closeButtonWrapper = new Grid()
         {
