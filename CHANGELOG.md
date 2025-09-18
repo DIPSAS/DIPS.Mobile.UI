@@ -1,3 +1,6 @@
+## [45.9.10]
+- [Chip][iOS] Added back removed tint logic.
+
 ## [45.9.9]
 - [Chip][iOS] Increased hitbox on close button.
 
