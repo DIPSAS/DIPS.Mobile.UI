@@ -1,3 +1,6 @@
+## [51.3.1]
+- [Chip][iOS] Increased hitbox on close button.
+
 ## [51.3.0]
 - [Label] Removed handler because of obsolete workaround.
 - [CheckTruncatedLabel] Removed redundant constructor.
