@@ -28,66 +28,8 @@
 
     <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
         
-        <dui:AlertView Title="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
-                       
-                       />
+        <dui:ScrollPicker Components="{Binding ItemComponents}" />
         
-        <dui:CheckTruncatedLabel Text="Hello this is vetle speakinga soidjoaisjdoiasjdoiasjsaioj asoidjasoij asdasdasdasdsa LOLOLO"
-                                     MaxLines="2"
-                                     
-                                     Style="{dui:Styles Label=Header1000}"
-                                     TruncatedTextStyle="{dui:Styles Label=Header1000}"
-                                     />
-        
-        <dui:MultiItemsPicker VerticalOptions="Start"
-                              HorizontalOptions="Start"
-                              Placeholder="ok">
-            
-            <dui:MultiItemsPicker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Item 1</x:String>
-                    <x:String>Item 2</x:String>
-                    <x:String>Item 3</x:String>
-                    
-                </x:Array>
-            </dui:MultiItemsPicker.ItemsSource>
-           
-            <!--<dui:MultiItemsPicker.BottomSheetPickerConfiguration>
-            <dui:BottomSheetPickerConfiguration Title="Select multiple">
-                <dui:BottomSheetPickerConfiguration.FooterTemplate>
-                    <DataTemplate>
-                        <dui:AlertView
-                            Title="Writing a lot of text here, a long text that should span across multiple lines to see if we can recreate thing"
-                            Style="{dui:Styles Alert=Information}"
-                            Margin="{dui:Margin Top=size_2, Bottom=size_2, Right=size_3, Left=size_3}" />
-                    </DataTemplate>
-                </dui:BottomSheetPickerConfiguration.FooterTemplate>
-            </dui:BottomSheetPickerConfiguration>
-            
-            </dui:MultiItemsPicker.BottomSheetPickerConfiguration>-->
-        </dui:MultiItemsPicker>
-        
-        <dui:Editor HasBorder="True" BackgroundColor="Red" />
-        <dui:Entry />
-        
-        <!--<dui:AlertView Title="You have unsaved changes"
-                       LeftButtonText="Save"
-                       ButtonAlignment="Auto"
-                       LeftButtonCommand="{Binding CompletedCommand}" />
-        
-        <dui:AlertView Title="Test asidoasoidjoaisjd asoidjsaoidjasiodjai askld masoid masoiso"
-                       LeftButtonText="Yo"
-                       ButtonAlignment="Underlying"
-                       LeftButtonCommand="{Binding CompletedCommand}"></dui:AlertView>
-        
-        <dui:AlertView Title="Test" />
-        
-        <dui:AlertView Title="Test asdk asksaopdkaspodka sodkasoidkasio djaiosdjsoid mjoisj doiasj doiasj doisajdoiasjdoiasjdoias jdoiasjdoiasjdoisajdosajdoiasjd aoisdjaoisdjasiodjas oidjsa"
-                       Description="Hello"
-                       ButtonAlignment="Underlying"
-                       LeftButtonCommand="{Binding CompletedCommand}"
-                       LeftButtonText="STRE"/>-->
-    
     </dui:VerticalStackLayout>
     
     
