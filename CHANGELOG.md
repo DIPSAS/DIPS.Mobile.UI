@@ -1,3 +1,6 @@
+## [51.3.2]
+- [ScrollPicker][iOS] Fixed bug where `ScrollPicker` could not be used when residing in a modal.
+
 ## [51.3.1]
 - [Chip][iOS] Increased hitbox on close button.
 

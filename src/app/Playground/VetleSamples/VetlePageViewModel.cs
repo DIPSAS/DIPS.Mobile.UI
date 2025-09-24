@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Loading.StateView;
+using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 using DIPS.Mobile.UI.Components.Sorting;
 using DIPS.Mobile.UI.Components.VoiceVisualizer;
 using DIPS.Mobile.UI.MVVM;
@@ -89,7 +91,40 @@ public class VetlePageViewModel : ViewModel
         GroupedTest = [new(["Test"]), new(TestStrings.ToList())];
 
         _ = GenerateRandomWords();
+        
+        var currentWeek = GetCurrentWeek();
+        var test = Enumerable.Range(1, GetNumberOfWeeksInCurrentYear() - 1).ToList();
+        var nullableItems = new StandardScrollPickerComponent<int>(test, currentWeek, OnSelectedItemChanged, true, true);
+        ItemComponents = [nullableItems];
     }
+    
+    private static int GetCurrentWeek()
+    {
+        var dfi = DateTimeFormatInfo.CurrentInfo;
+        var date = DateTime.Now;
+        var cal = dfi.Calendar;
+        return cal.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+    }
+    
+    private static int GetNumberOfWeeksInCurrentYear()
+    {
+        var dfi = DateTimeFormatInfo.CurrentInfo;
+        var date1 = new DateTime(DateTime.Now.Year, 12, 31);
+        var cal = dfi.Calendar;
+        return cal.GetWeekOfYear(date1, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+    }
+    
+    private async void OnSelectedItemChanged(int obj)
+    {
+        if (obj == -1)
+        {
+            await Task.Delay(1000);
+            ItemComponents[0].SetSelectedIndex(2);
+            ItemComponents[0].InvalidateData();
+        }
+    }
+    
+    public List<IScrollPickerComponent> ItemComponents { get; set; }
 
     private async Task GenerateRandomWords()
     {
