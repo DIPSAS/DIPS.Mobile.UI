@@ -122,7 +122,9 @@ public abstract class CameraFragment : Fragment
         PreviewUseCase = new AndroidX.Camera.Core.Preview.Builder()
             .SetResolutionSelector(resolutionSelector)
             .Build();
-        PreviewUseCase.SetSurfaceProvider(PreviewView?.SurfaceProvider);
+        
+        var cameraExecutor = Executors.NewSingleThreadExecutor() ?? throw new Exception($"Unable to retrieve {nameof(IExecutorService)}");
+        PreviewUseCase.SetSurfaceProvider(cameraExecutor, PreviewView?.SurfaceProvider);
         
         await WaitForPreviewViewToInitialize();
 
