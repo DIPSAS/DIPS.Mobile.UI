@@ -4,9 +4,9 @@ namespace DIPS.Mobile.UI.Components.Loading.LoadingOverlay;
 
 public partial class LoadingOverlay
 {
-    public View Content
+    public View? Content
     {
-        get => (View)GetValue(ContentProperty);
+        get => (View?)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 

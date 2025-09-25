@@ -1,3 +1,6 @@
+## [51.3.4]
+- Fixed LoadingOverlay not functioning properly.
+
 ## [51.3.3]
 - [Android] Update nuget packages to support 16kb page sizes.
 
