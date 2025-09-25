@@ -38,9 +38,6 @@
                       IsCloseable="True"
                       HorizontalOptions="Start"
                       VerticalOptions="Start"
-                      Color="{dui:Colors color_primary_80}"
-                      TitleColor="{dui:Colors color_system_white}"
-                      CloseButtonColor="{dui:Colors color_system_white}"
                       Tapped="Chip_OnTapped"
                       CloseTapped="Chip_OnCloseTapped" />
         </HorizontalStackLayout>

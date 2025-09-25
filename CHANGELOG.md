@@ -1,3 +1,6 @@
+## [51.2.0]
+- [Android] Update nuget packages to support 16kb page sizes.
+
 ## [51.3.2]
 - [ScrollPicker][iOS] Fixed bug where `ScrollPicker` could not be used when residing in a modal.
 
