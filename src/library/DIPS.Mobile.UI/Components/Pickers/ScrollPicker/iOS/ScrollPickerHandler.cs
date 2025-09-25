@@ -72,13 +72,10 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, UIView>
 
     private void OnTapped(Chip chip)
     {
-        if (PlatformView.Window.RootViewController is not {} rootViewController)
-            return;
-        
         m_scrollPickerViewController = new ScrollPickerViewController();
         m_scrollPickerViewController.Setup(chip, m_scrollPickerViewModel, OnClear);
         
-        _ = rootViewController.PresentViewControllerAsync(m_scrollPickerViewController, true);
+        _ = Platform.GetCurrentUIViewController()?.PresentViewControllerAsync(m_scrollPickerViewController, true);
     }
 
     private void OnClear()

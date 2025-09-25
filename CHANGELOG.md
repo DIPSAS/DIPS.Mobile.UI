@@ -1,3 +1,6 @@
+## [45.9.11]
+- [ScrollPicker][iOS] Fixed bug where `ScrollPicker` could not be used when residing in a modal.
+
 ## [45.9.10]
 - [Chip][iOS] Added back removed tint logic.
 
