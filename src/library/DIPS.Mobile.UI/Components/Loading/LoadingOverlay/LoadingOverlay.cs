@@ -63,21 +63,23 @@ public partial class LoadingOverlay : Grid
             return;
         
         Insert(0, Content);
+        _ = OnIsBusyChanged();
     }
 
     private async Task OnIsBusyChanged()
     {
-        if (IsBusy)
+        if (Handler is null) return;
+        if (IsBusy && m_overlay is null)
         {
             m_overlay = CreateOverlay();
             m_overlay.Opacity = 0;
             Add(m_overlay);
             _ = m_overlay.FadeTo(1);
-            _ = Content.FadeTo(ContentFadeOutValue);
+            _ = Content?.FadeTo(ContentFadeOutValue);
         }
         else if(m_overlay is not null)
         {
-            _ = Content.FadeTo(1);
+            _ = Content?.FadeTo(1);
             await m_overlay.FadeTo(0);
             m_overlay.DisconnectHandlers();
             Remove(m_overlay);
