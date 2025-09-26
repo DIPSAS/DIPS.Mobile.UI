@@ -45,7 +45,7 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
         public void Convert_NullValue_ReturnsTrue()
         {
             var result = m_invertedBoolConverter.Convert(null, null!, null!, null!);
-            result.Should().Be(false);
+            result.Should().Be(true);
         }
     }
 }
