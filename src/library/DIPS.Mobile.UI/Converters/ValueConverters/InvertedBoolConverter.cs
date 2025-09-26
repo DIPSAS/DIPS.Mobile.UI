@@ -29,7 +29,8 @@ namespace DIPS.Mobile.UI.Converters.ValueConverters
         /// <returns></returns>
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || !bool.TryParse(value.ToString(), out var booleanValue))
+            value ??= false;
+            if (!bool.TryParse(value.ToString(), out var booleanValue))
             {
                 throw new XamlParseException("Value has to be of type boolean").WithXmlLineInfo(m_serviceProvider);
             }

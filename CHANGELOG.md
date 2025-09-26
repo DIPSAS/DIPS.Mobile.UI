@@ -1,3 +1,6 @@
+## [51.4.0]
+- InvertedBoolConverter now supports nullable bools.
+
 ## [51.3.4]
 - Fixed LoadingOverlay not functioning properly.
 
