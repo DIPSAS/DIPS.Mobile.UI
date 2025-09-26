@@ -25,8 +25,7 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
         [InlineData("Not a bool")]
         [InlineData(0)]
         [InlineData(0.1)]
-        [InlineData(null)]
-        public void Convert_ValueIsNull_XamlParseExceptionThrown(object value)
+        public void Convert_InvalidInput_XamlParseExceptionThrown(object value)
         {
             Action act = () => m_invertedBoolConverter.Convert(value, null!, null!, null!);
 
@@ -40,6 +39,13 @@ namespace DIPS.Mobile.UI.UnitTests.Converters.ValueConverters
         {
             var result = m_invertedBoolConverter.ConvertBack(value, null!, null!, null!);
             result.Should().Be(value);
+        }
+        
+        [Fact]
+        public void Convert_NullValue_ReturnsTrue()
+        {
+            var result = m_invertedBoolConverter.Convert(null, null!, null!, null!);
+            result.Should().Be(false);
         }
     }
 }
