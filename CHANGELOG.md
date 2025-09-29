@@ -1,3 +1,6 @@
+## [51.4.1]
+- Add comment on LineBreakMode Property in TitleOptions
+ 
 ## [51.4.0]
 - InvertedBoolConverter now supports nullable bools.
 
