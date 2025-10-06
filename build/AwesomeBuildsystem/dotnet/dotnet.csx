@@ -43,9 +43,9 @@ public static class dotnet
     }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-8.0
-    public static async Task PackAndroid(string projectPath, string outputDir, string applicationDisplayVersion, string applicationVersion, bool isCustomerBuild, string applicationId = "", string androidPackageFormat = "aab")
+    public static async Task PackAndroid(string projectPath, string outputDir, string applicationDisplayVersion, string applicationVersion, string applicationId = "", string androidPackageFormat = "aab")
     {
-         var args = $"-f net9.0-android -c Release -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir} -r android-arm64 -p:AndroidPackageFormat={androidPackageFormat} -p:IsCustomerBuild={isCustomerBuild}";
+         var args = $"-f net9.0-android -c Release -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir} -r android-arm64 -p:AndroidPackageFormat={androidPackageFormat}";
         if(!string.IsNullOrEmpty(applicationId))
         {
             args += $" -p:ApplicationId={applicationId}";
