@@ -9,7 +9,7 @@ if [ $? -eq 1 ]; then
 else
      cd build
      
-     dotnet-script AwesomeBuildsystem.csx -- "$@"
+     dotnet-script build.csx -- "$@"
      
      cd ..
 fi
