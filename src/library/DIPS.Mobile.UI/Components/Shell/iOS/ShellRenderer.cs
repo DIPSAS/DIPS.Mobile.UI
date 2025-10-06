@@ -21,7 +21,7 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
     
     protected override IShellTabBarAppearanceTracker CreateTabBarAppearanceTracker()
     {
-        return new BadgeShellTabBarAppearanceTracker();
+        return new TabBarAppearanceTracker();
     }
 
     protected override IShellNavBarAppearanceTracker CreateNavBarAppearanceTracker()
@@ -102,9 +102,14 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
     }
 }
 
-internal class BadgeShellTabBarAppearanceTracker : ShellTabBarAppearanceTracker
+internal class TabBarAppearanceTracker : ShellTabBarAppearanceTracker
 {
     private WeakReference<UITabBarController>? m_tabBarController;
+
+    private void TabBarOnItemSelected(object? sender, UITabBarItemEventArgs e)
+    {
+        Shell.InvokeOnTabTapped(e.Item.Title ?? string.Empty);
+    }
 
     public override void UpdateLayout(UITabBarController controller)
     {
@@ -117,6 +122,9 @@ internal class BadgeShellTabBarAppearanceTracker : ShellTabBarAppearanceTracker
         
         TabBadgeService.OnBadgeColorChanged += OnTabBadgeServicePropertyChanged;
         TabBadgeService.OnBadgeCountChanged += OnTabBadgeServicePropertyChanged;
+        
+        /*controller.TabBar.ItemSelected -= TabBarOnItemSelected;
+        controller.TabBar.ItemSelected += TabBarOnItemSelected;*/
         
         SetBadges();
     }
@@ -158,6 +166,11 @@ internal class BadgeShellTabBarAppearanceTracker : ShellTabBarAppearanceTracker
         
         TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
         TabBadgeService.OnBadgeCountChanged -= OnTabBadgeServicePropertyChanged;
+
+        if (m_tabBarController?.TryGetTarget(out var target) ?? false)
+        {
+            target.TabBar.ItemSelected -= TabBarOnItemSelected;
+        }
     }
 }
 

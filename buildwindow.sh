@@ -7,7 +7,7 @@ if [ $? -eq 1 ]; then
     echo "❌ Bootstrapper failed. Exiting..."
     exit 1
 else
-     cd build
+     cd AwesomeBuildsystem
      
      dotnet-script build.csx -- "$@"
      
