@@ -32,6 +32,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
+        <CodesignKey>Apple Distribution: DIPS ASA (4Q5EE2A94B)</CodesignKey>
+        <CodesignProvision>Components</CodesignProvision>
     </PropertyGroup>
     
     <PropertyGroup  Condition=" '$(Configuration)' == 'Release' AND $(TargetFramework.Contains('-android')) ">
