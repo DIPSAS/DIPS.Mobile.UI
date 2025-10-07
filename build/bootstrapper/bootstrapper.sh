@@ -36,7 +36,7 @@ then
       echo "Will make sure we install correct sdk from sdk-version.json."
       # USE THIS IF NO PIN
       #sudo dotnet workload install maui-android maui-ios 
-      sudo dotnet workload install ios --from-rollback-file sdk-versions.json
+      sudo dotnet workload install ios --from-rollback-file sdk-versions.json maui-android maui-ios 
       echo "✅ .NET MAUI was installed."
       echo "✅ iOS SDK was pinned."
       sudo dotnet workload list
