@@ -191,11 +191,6 @@ TaskRunner
         await iOS.Package(ComponentsPath, versionName);
     })
     .DoesAfter(() => { 
-        var file = MobileEssentials.CopyAppSettings(RawAssetsPath, Path.Combine(BuildEnv.OutputDir,"pipeline_debug"), "ios");
-        if(AzureDevops.IsBuildServer)
-        {
-            AzureDevops.UploadArtifact("appsettings_ios.json", "pipeline-debug", file);
-        }
         Console.WriteLine("##[endgroup]"); return Task.CompletedTask; 
         });
 
