@@ -26,6 +26,27 @@ public static class AzureCLI{
         return true;
     }
 
+    /// <summary>
+    /// Configure Azure DevOps defaults when running on build server with external source control
+    /// </summary>
+    private static async Task ConfigureAzureDevOpsDefaults()
+    {
+        var organization = Environment.GetEnvironmentVariable("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+        var project = Environment.GetEnvironmentVariable("SYSTEM_TEAMPROJECT");
+        
+        if (!string.IsNullOrEmpty(organization))
+        {
+            Console.WriteLine($"Configuring Azure DevOps organization: {organization}");
+            await Command.ExecuteAsync("az", $"devops configure --defaults organization={organization}");
+        }
+        
+        if (!string.IsNullOrEmpty(project))
+        {
+            Console.WriteLine($"Configuring Azure DevOps project: {project}");
+            await Command.ExecuteAsync("az", $"devops configure --defaults project={project}");
+        }
+    }
+
 
     /// <summary>
     /// Get a variable from a variable group
@@ -36,6 +57,12 @@ public static class AzureCLI{
     public static async Task<Dictionary<string, string>> GetVariable(int variableGroupId, params string[] variableNames)
     {
         var variableDict = new Dictionary<string, string>();
+
+        // Configure Azure DevOps defaults if running on build server with GitHub source
+        if (BuildServer.IsBuildServer)
+        {
+            await ConfigureAzureDevOpsDefaults();
+        }
 
         CommandResult result = null;
 
