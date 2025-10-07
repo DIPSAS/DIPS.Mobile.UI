@@ -438,11 +438,10 @@ TaskRunner
         var aabFilePath = outputFiles.FirstOrDefault(f => f.EndsWith(".aab"));
         var version = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
         var releaseNote = Utils.GetChangelogNotes(RootDirectory, $"{ChangelogHeaderPrefix}{VersionPattern}] - [0-9]+-[0-9]+-[0-9]+");
-        var productVersion = VersionUtils.GetProductVersion(ProductVersionPath);
         var isIOSDelivery = ipaFilePath != null;
         var isAndroidDelivery = aabFilePath != null;
 
-        Logger.LogDebug($"Will publish apps with version: {version}, for product version: {productVersion}");
+        Logger.LogDebug($"Will publish apps with version: {version}");
         
         if(isIOSDelivery)
         {
