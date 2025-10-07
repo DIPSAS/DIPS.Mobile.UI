@@ -139,7 +139,7 @@ TaskRunner
     .DoesBefore(() => {
         Console.WriteLine("##[group]packageAndroid 📦");
         Directory.CreateDirectory(BuildEnv.OutputDir);
-        return MobileEssentials.ResetAppSettings(RawAssetsPath);
+        return Task.CompletedTask;
     })
     .Does(async() =>
     {
@@ -149,9 +149,6 @@ TaskRunner
         var versionCode = Utils.GetBuildId().ToString();
         var versionName = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
 
-        await VersionUtils.CopyProductVersionToAppSettings(ProductVersionPath, RawAssetsPath);
-        await UpdateGitCommitAndAppCreationDate();
-        
         await Android.Package(ComponentsPath, 
                         $"{GetKeyStoreFile()}", 
                         variables["android.keystore.password"], 
@@ -189,18 +186,13 @@ TaskRunner
     {
         Console.WriteLine("##[group]packageiOS 📦");
         Directory.CreateDirectory(BuildEnv.OutputDir);
-        return MobileEssentials.ResetAppSettings(RawAssetsPath);
+        return Task.CompletedTask;
     })
     .Does(async () =>
     {
         var versionName = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
 
-        var applicationId = string.Empty;
-
-        await VersionUtils.CopyProductVersionToAppSettings(ProductVersionPath, RawAssetsPath);
-        await UpdateGitCommitAndAppCreationDate();
-
-        await iOS.Package(ComponentsPath, versionName, applicationId: applicationId);
+        await iOS.Package(ComponentsPath, versionName);
     })
     .DoesAfter(() => { 
         var file = MobileEssentials.CopyAppSettings(RawAssetsPath, Path.Combine(BuildEnv.OutputDir,"pipeline_debug"), "ios");
