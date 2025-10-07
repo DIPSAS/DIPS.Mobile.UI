@@ -70,7 +70,7 @@ private static string dotNetVersion = "9.0";
 readonly string ChocoOutputDirectory = Path.Combine(BuildEnv.OutputDir);
 public string CustomerKeyStoreFile = "dips-mob-android.keystore";
 public string AndroidAppUploadKeystoreFile = "dips-mob-android-aab.keystore";
-public static string PackageIdentifierName = "com.dipsas.mobile.components";
+public static string PackageIdentifierName = "com.dipsas.components";
 public bool IsDryRun => !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("IsDryRun")) || !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("DryRun"));
 public string AppStoreConnectId = "6753674372";
 public string AndroidTrack = "internal";
@@ -159,13 +159,9 @@ TaskRunner
         
     })
     .DoesAfter(() => { 
-        var file = MobileEssentials.CopyAppSettings(RawAssetsPath, Path.Combine(BuildEnv.OutputDir,"pipeline_debug"), "android");
-        if(AzureDevops.IsBuildServer)
-        {
-            AzureDevops.UploadArtifact("appsettings_android.json", "pipeline-debug", file);
-        }
-        Console.WriteLine("##[endgroup]"); return Task.CompletedTask; 
-        });
+        Console.WriteLine("##[endgroup]"); 
+        return Task.CompletedTask; 
+    });
 
 
 TaskRunner
