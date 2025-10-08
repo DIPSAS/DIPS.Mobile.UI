@@ -72,6 +72,7 @@
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
         <PackageReference Include="Newtonsoft.Json"  />
+        <PackageReference Include="SkiaSharp" />
         <PackageReference Include="SkiaSharp.Extended.UI.Maui"  />
     </ItemGroup>
 

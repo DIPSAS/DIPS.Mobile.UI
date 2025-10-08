@@ -1,3 +1,6 @@
+## [51.4.2]
+- Pin SkiaSharp to version 3.119.1
+
 ## [51.4.1]
 - Add comment on LineBreakMode Property in TitleOptions
  
