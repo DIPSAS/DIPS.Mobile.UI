@@ -15,7 +15,7 @@ public static class Android
     /// <param name="configuration">The msbuild configuration to run under</param>
     /// <returns></returns>
     public static Task Build(string androidProjectPath, string configuration ="Release"){
-        return dotnet.Build(androidProjectPath, configuration, targetFramework:"net9.0-android");
+        return dotnet.Build($"{androidProjectPath}.csproj", configuration, targetFramework:"net9.0-android");
     }
     
     /// <summary>
