@@ -1,3 +1,6 @@
+## [51.3.8]
+- [Google_Play] Fix publish directly to open testing track.
+
 ## [51.3.7]
 - [Google_Play] Publish directly to open testing.
 
