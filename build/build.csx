@@ -121,7 +121,7 @@ TaskRunner
     .Alias("ba")
     .IsDependentOn("init")
     .DoesBefore(() => { Console.WriteLine("##[group]buildAndroid 🛠"); return Task.CompletedTask; })
-    .Does(() => Android.Build(ComponentsPath))
+    .Does(() => Android.Build(ComponentsPath, "Debug"))
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
@@ -163,7 +163,7 @@ TaskRunner
     .Alias("bi")
     .IsDependentOn("init")
     .DoesBefore(() => { Console.WriteLine("##[group]buildiOS 🛠"); return Task.CompletedTask; })
-    .Does(() => iOS.Build(LibraryPath))
+    .Does(() => iOS.Build(LibraryPath, "Debug"))
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
