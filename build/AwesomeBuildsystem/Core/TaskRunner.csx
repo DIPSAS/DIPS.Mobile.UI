@@ -72,24 +72,44 @@ public static class TaskRunner
     }
     
     /// <summary>
-    /// Runs a single task by name
+    /// Resolves a task name or alias to the actual task name
     /// </summary>
-    /// <param name="taskName">Name of the task to run</param>
-    public static async Task RunAsync(string taskName)
+    /// <param name="taskNameOrAlias">Task name or alias</param>
+    /// <returns>The actual task name, or null if not found</returns>
+    private static string ResolveTaskName(string taskNameOrAlias)
     {
-        if (tasks.TryGetValue(taskName, out var task))
+        // First try direct task name lookup
+        if (tasks.ContainsKey(taskNameOrAlias))
         {
-            Console.WriteLine($"Running task: {taskName}");
+            return taskNameOrAlias;
+        }
+        
+        // Then try alias lookup
+        var taskByAlias = tasks.Values.FirstOrDefault(t => t.AliasText == taskNameOrAlias);
+        return taskByAlias?.Name;
+    }
+    
+    /// <summary>
+    /// Runs a single task by name or alias
+    /// </summary>
+    /// <param name="taskNameOrAlias">Name or alias of the task to run</param>
+    public static async Task RunAsync(string taskNameOrAlias)
+    {
+        var actualTaskName = ResolveTaskName(taskNameOrAlias);
+        
+        if (actualTaskName != null && tasks.TryGetValue(actualTaskName, out var task))
+        {
+            Console.WriteLine($"Running task: {actualTaskName}" + (actualTaskName != taskNameOrAlias ? $" (alias: {taskNameOrAlias})" : ""));
             
             if (task.BeforeAction != null) await task.BeforeAction();
             if (task.Action != null) await task.Action();
             if (task.AfterAction != null) await task.AfterAction();
             
-            Console.WriteLine($"Completed task: {taskName}");
+            Console.WriteLine($"Completed task: {actualTaskName}");
         }
         else
         {
-            Console.WriteLine($"Task '{taskName}' not found");
+            Console.WriteLine($"Task '{taskNameOrAlias}' not found");
         }
     }
     

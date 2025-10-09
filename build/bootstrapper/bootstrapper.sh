@@ -59,11 +59,8 @@ fi
 #maui
 if [[ "$*" != *"skipMAUIBootstrap"* ]]
 then
-   echo "Will install MAUI."
-   sudo dotnet workload install maui
-   echo "✅ .NET MAUI was installed."
-   echo "Will make sure we install correct sdk from sdk-version.json."
-   sudo dotnet workload install android ios --from-rollback-file sdk-versions.json
-   echo "✅ Android and iOS was installed."
+   echo "Will install MAUI with Android and iOS from sdk-versions.json."
+   sudo dotnet workload install maui android ios --from-rollback-file sdk-versions.json
+   echo "✅ .NET MAUI, Android and iOS were installed."
    sudo dotnet workload list
 fi
