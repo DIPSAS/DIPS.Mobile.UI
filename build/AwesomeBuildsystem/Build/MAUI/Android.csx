@@ -15,7 +15,8 @@ public static class Android
     /// <param name="configuration">The msbuild configuration to run under</param>
     /// <returns></returns>
     public static Task Build(string androidProjectPath, string configuration ="Release"){
-        return dotnet.Build($"{androidProjectPath}.csproj", configuration, targetFramework:"net9.0-android");
+        var androidProjectFilePath = FileHelper.FindSingleFileByExtension(androidProjectPath, ".csproj");
+        return dotnet.Build(androidProjectFilePath.FullName, configuration, targetFramework:"net9.0-android");
     }
     
     /// <summary>
