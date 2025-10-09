@@ -57,6 +57,10 @@ public partial class TitleOptions
         set => SetValue(MaxLinesProperty, value);
     }
 
+    /// <summary>
+    /// Sets the LineBreakMode <see cref="Microsoft.Maui.LineBreakMode"/>
+    /// <remarks>Should be used together with Width="*" <see cref="GridLength.Star"/></remarks>
+    /// </summary>
     public LineBreakMode LineBreakMode
     {
         get => (LineBreakMode)GetValue(LineBreakModeProperty);

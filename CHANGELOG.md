@@ -1,20 +1,8 @@
-## [51.3.10]
-- Changelog should be correctly parsed.
-
-## [51.3.9]
-- [Google_Play] Revert back to internal track.
-
-## [51.3.8]
-- [Google_Play] Fix publish directly to open testing track.
-
-## [51.3.7]
-- [Google_Play] Publish directly to open testing.
-
-## [51.3.6]
-- This is also a test to publish a new app on google play and appstore
-
-## [51.3.5]
-- This is a test to publish a new app on google play and appstore
+## [51.4.1]
+- Add comment on LineBreakMode Property in TitleOptions
+ 
+## [51.4.0]
+- InvertedBoolConverter now supports nullable bools.
 
 ## [51.3.4]
 - Fixed LoadingOverlay not functioning properly.
