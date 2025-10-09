@@ -39,7 +39,7 @@ using System.Globalization;
 const string ProjectName = "Components";
 const string Configuration = "Release";
 private static string SolutionName = "DIPS.Mobile.UI.sln";
-private static string SolutionPath = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY") ?? Directory.GetCurrentDirectory();
+private static string SolutionPath = BuildEnv.SourcesDirectory;
 private static string RootDirectory = Directory.GetParent(SolutionPath)?.FullName ?? Directory.GetCurrentDirectory();
 private static string OutputDirectory = Path.Combine(RootDirectory, "output");
 private static string ChangelogHeaderPrefix = "## [";

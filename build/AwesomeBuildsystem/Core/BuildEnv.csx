@@ -19,7 +19,7 @@ public static class BuildEnv
     public static string OutputDir => Environment.GetEnvironmentVariable("BUILD_ARTIFACTSTAGINGDIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "output");
     
     /// <summary>
-    /// Gets the sources directory from build environment
+    /// Gets the sources directory from build environment (always points to /src folder)
     /// </summary>
-    public static string SourcesDirectory => Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY") ?? Directory.GetCurrentDirectory();
+    public static string SourcesDirectory => Path.Combine(Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY") ?? Directory.GetCurrentDirectory().Replace("/build", ""), "src");
 }
