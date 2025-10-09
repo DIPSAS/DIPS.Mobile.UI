@@ -206,12 +206,12 @@ TaskRunner
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
-    .AsyncTask("packageLibrary")
+    .AsyncTask("pack")
     .Description("package the DIPS.Mobile.UI library as NuGet package")
     .Alias("pl")
     .IsDependentOn("buildLibrary")
     .DoesBefore(() => { 
-        Console.WriteLine("##[group]packageLibrary 📦");
+        Console.WriteLine("##[group]pack 📦");
         Directory.CreateDirectory(BuildEnv.OutputDir);
         return Task.CompletedTask;
     })
@@ -222,11 +222,11 @@ TaskRunner
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
-    .AsyncTask("publishLibrary")
+    .AsyncTask("publish")
     .Description("publish the DIPS.Mobile.UI library to NuGet feed")
     .Alias("publ")
-    .IsDependentOn("packageLibrary")
-    .DoesBefore(() => { Console.WriteLine("##[group]publishLibrary 🚀"); return Task.CompletedTask; })
+    .IsDependentOn("pack")
+    .DoesBefore(() => { Console.WriteLine("##[group]publish 🚀"); return Task.CompletedTask; })
     .Does(async () => {
         if (!AzureDevops.IsBuildServer)
         {
@@ -403,9 +403,9 @@ TaskRunner
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
-    .AsyncTask("publish")
+    .AsyncTask("publishApp")
     .Description("publishes the android and ios apps to stores")
-    .Alias("pub")
+    .Alias("pubApp")
     .DoesBefore(() => { Console.WriteLine("##[group]publish 🚀"); return Task.CompletedTask; })
     .Does( async () =>
     {
@@ -417,8 +417,7 @@ TaskRunner
         if (!await Git.CurrentBranchIsMain())
         {
             var currentBranch = await Git.GetCurrentBranch();
-            // TODO: Enable when works 
-            // throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
+            throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
         }
 
         //Create output folder
