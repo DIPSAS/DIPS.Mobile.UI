@@ -1,3 +1,6 @@
+## [51.4.2]
+- Modify build script to publish to Google Play and TestFlight.
+
 ## [51.4.1]
 - Add comment on LineBreakMode Property in TitleOptions
  
