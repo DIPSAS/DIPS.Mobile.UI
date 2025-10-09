@@ -1,4 +1,3 @@
-#r "../../DIPS.Buildsystem.Core.dll"
 #load "../Logging/Logger.csx"
 #r "nuget:Google.Apis.AndroidPublisher.v3, 1.67.0.3354"
 #r "nuget:Google.Apis.Oauth2.v2 , 1.67.0.1869"

@@ -3,12 +3,8 @@
 #load "../../Android/AndroidManifest.csx"
 #load "../../dotnet/dotnet.csx"
 #load "../../Helpers/FileHelper.csx"
-#r "../../DIPS.Buildsystem.Core.dll"
 
 using System.Xml;
-using DIPS.Buildsystem.Core.Build;
-using DIPS.Buildsystem.Core.Versioning;
-using DIPS.Buildsystem.Core.Integrations;
 
 public static class Android
 {
@@ -52,7 +48,7 @@ public static class Android
                     throw new Exception($"The Android keystore file does not exist: {keyStorePath}");
         }
         outputDirectory = outputDirectory
-                          == null ? BuildEnv.OutputDir : outputDirectory;
+                          == null ? (Environment.GetEnvironmentVariable("BUILD_ARTIFACTSTAGINGDIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "output")) : outputDirectory;
         var androidProjectFilePath = FileHelper.FindSingleFileByExtension(androidProjectPath, ".csproj");
         await dotnet.PackAndroid(androidProjectFilePath.FullName, outputDirectory, versionName, versionCode, applicationId:applicationId, androidPackageFormat:packageFormat);
 

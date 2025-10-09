@@ -2,9 +2,18 @@
 #load "../Distribute/DistributionGroup.csx"
 #load "../Logging/Logger.csx"
 #load "../Distribute/ReleaseDetails.csx"
-#r "../DIPS.Buildsystem.Core.dll"
 
-using DIPS.Buildsystem.Core.Slack;
+using System.Net.Http;
+
+public static class Slack 
+{
+    public static async Task PostJsonAsync(string webHookUri, string json)
+    {
+        using var client = new HttpClient();
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        await client.PostAsync(webHookUri, content);
+    }
+}
 
 public static class SlackExtender
 {

@@ -1,5 +1,5 @@
 #r "nuget:Newtonsoft.Json, 13.0.3"
-#r "../DIPS.Buildsystem.Core.dll"
+#load "../Logging/Logger.csx"
 
 using Newtonsoft.Json;
 

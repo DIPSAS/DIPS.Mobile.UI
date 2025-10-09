@@ -1,12 +1,10 @@
 #load "../Command.csx"
 
-#r "../DIPS.Buildsystem.Core.dll"
 #r "nuget:Newtonsoft.Json, 13.0.3"
 
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using DIPS.Buildsystem.Core.Integrations;
 
 public static class AzureCLI{
     
@@ -59,7 +57,7 @@ public static class AzureCLI{
         var variableDict = new Dictionary<string, string>();
 
         // Configure Azure DevOps defaults if running on build server with GitHub source
-        if (BuildServer.IsBuildServer)
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("BUILD_BUILDID")))
         {
             await ConfigureAzureDevOpsDefaults();
         }
@@ -79,7 +77,7 @@ public static class AzureCLI{
 
         if(!result.StandardError.Equals(string.Empty))
         {
-            if(!BuildServer.IsBuildServer)
+            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("BUILD_BUILDID")))
             {
                 Console.WriteLine("You are not logged in, logging in and trying again...");
 

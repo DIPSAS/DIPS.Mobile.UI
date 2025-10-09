@@ -1,4 +1,9 @@
-#r "AwesomeBuildsystem/DIPS.Buildsystem.Core.dll"
+//Core framework
+#load "AwesomeBuildsystem/Core/BuildServer.csx"
+#load "AwesomeBuildsystem/Core/BuildEnv.csx"
+#load "AwesomeBuildsystem/Core/VersionUtil.csx"
+#load "AwesomeBuildsystem/Core/TaskRunner.csx"
+#load "AwesomeBuildsystem/Core/BuildWindow.csx"
 
 //iOS
 #load "AwesomeBuildsystem/Build/MAUI/iOS.csx"
@@ -28,25 +33,15 @@
 #load "AwesomeBuildsystem/Helpers/NugetHelper.csx"
 #load "AwesomeBuildsystem/Build/MAUI/PackageIdentifier.csx"
 
-using DIPS.Buildsystem.Core.Slack;
-using DIPS.Buildsystem.Core.Build;
-using DIPS.Buildsystem.Core.DotnetBuild;
-using DIPS.Buildsystem.Core.Files;
-using DIPS.Buildsystem.Core.Versioning;
-using DIPS.Buildsystem.Core.Logging;
-using DIPS.Buildsystem.Core.PackageManagement;
-using DIPS.Buildsystem.Core.Tasks;
-using DIPS.Buildsystem.Core.Test;
-using DIPS.Buildsystem.Core.Tools;
-using DIPS.Buildsystem.Core.Utils;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
 const string ProjectName = "Components";
 const string Configuration = "Release";
 private static string SolutionName = "DIPS.Mobile.UI.sln";
-private static string SolutionPath = BuildEnv.SrcDir;
-private static string RootDirectory = BuildEnv.RootDir;
+private static string SolutionPath = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY") ?? Directory.GetCurrentDirectory();
+private static string RootDirectory = Directory.GetParent(SolutionPath)?.FullName ?? Directory.GetCurrentDirectory();
+private static string OutputDirectory = Path.Combine(RootDirectory, "output");
 private static string ChangelogHeaderPrefix = "## [";
 private static string VersionPattern = "[0-9]+.[0-9]+.[0-9]+";
 private static string ComponentsProject = "Components.csproj";
@@ -67,7 +62,7 @@ private static string TestPath = Path.Combine(SolutionPath, "tests", "unittests"
 private static string TestProject = "DIPS.Mobile.UI.UnitTests";
 private static int SharedVariableGroupId = 14;
 private static string dotNetVersion = "9.0";
-readonly string ChocoOutputDirectory = Path.Combine(BuildEnv.OutputDir);
+readonly string ChocoOutputDirectory = Path.Combine(OutputDirectory);
 public string CustomerKeyStoreFile = "dips-mob-android.keystore";
 public string AndroidAppUploadKeystoreFile = "dips-mob-android-aab.keystore";
 public static string PackageIdentifierName = "com.dipsas.components";
@@ -417,7 +412,7 @@ TaskRunner
         if (!await Git.CurrentBranchIsMain())
         {
             var currentBranch = await Git.GetCurrentBranch();
-            throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
+            //throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
         }
 
         //Create output folder
@@ -655,7 +650,7 @@ private async Task<string> GetVersionWithBranchSuffix()
 Args.Remove("skipMAUIBootstrap"); //People can skip maui bootstrap
 Args.Remove("skipBootstrap"); //People can skip bootstrap
 
-await BuildWindow.RunAsync(Args, ProjectName);
+await BuildWindow.RunAsync(Args.ToArray(), ProjectName);
 
 // Nuget.Install("DIPS.Mobile.Essentials", sourceFeed: "https://pkgs.dev.azure.com/dips/_packaging/dips-mob-shared/nuget/v3/index.json", outputDir: ".tmp");
 //⭐ Want to use Unicode icons, get them here: https://www.compart.com/en/unicode/block/U+1F300

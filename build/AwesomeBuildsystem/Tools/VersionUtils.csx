@@ -1,4 +1,4 @@
-#r "../DIPS.BuildSystem.Core.dll"
+
 #r "nuget:Newtonsoft.Json, 13.0.3"
 #r "nuget:NuGet.Versioning, 6.8.0"
 
@@ -10,7 +10,6 @@
 #load "AppSettings.csx"
 
 using System.Text.RegularExpressions;
-using DIPS.Buildsystem.Core.Tools;
 using NuGet.Versioning;
 using Newtonsoft.Json;
 

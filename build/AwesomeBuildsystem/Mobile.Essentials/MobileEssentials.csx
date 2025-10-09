@@ -2,9 +2,7 @@
 #load "../Helpers/FileHelper.csx"
 #load "../Tools/Git.csx"
 #load "../Command.csx"
-#r "../DIPS.Buildsystem.Core.dll"
 
-using DIPS.Buildsystem.Core.Build;
 using Newtonsoft.Json;
 /// <summary>
 /// Buildsystem helper class to support consumers of DIPS.Mobile.Essentials during build and packaging
@@ -98,11 +96,11 @@ public static class MobileEssentials
 
     public static async Task<string> CopyFileFromNugetPackage(string version, string fileToCopy, string pathToCopyTo)
     {
-        var tmpPath = Path.Combine(BuildEnv.RootDir, ".tmp");
+        var tmpPath = Path.Combine(Directory.GetCurrentDirectory(), ".tmp");
         var newFilePath = string.Empty;
         if(Version.Parse(version) >= new Version(14, 0 ,1))
         {
-            await Command.ExecuteAsync("nuget", $"install DIPS.Mobile.Essentials -Source https://pkgs.dev.azure.com/dips/_packaging/dips-mob-shared/nuget/v3/index.json -Version {version} -DependencyVersion Ignore -OutputDir .tmp", workingDirectory: BuildEnv.RootDir);
+            await Command.ExecuteAsync("nuget", $"install DIPS.Mobile.Essentials -Source https://pkgs.dev.azure.com/dips/_packaging/dips-mob-shared/nuget/v3/index.json -Version {version} -DependencyVersion Ignore -OutputDir .tmp", workingDirectory: Directory.GetCurrentDirectory());
             var essentialsEventCodesFile = Path.Combine(tmpPath, $"DIPS.Mobile.Essentials.{version}", fileToCopy);
             if(File.Exists(essentialsEventCodesFile))
             {

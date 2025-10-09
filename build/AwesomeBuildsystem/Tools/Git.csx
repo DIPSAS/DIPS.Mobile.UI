@@ -1,13 +1,10 @@
 #load "../Command.csx"
-#r "../DIPS.Buildsystem.Core.dll"
-
-using DIPS.Buildsystem.Core.Integrations;
 
 public static class Git{
 
     public static async Task<string> GetCurrentBranch(string workingDirectory = null, bool isPrBranch = false)
     {
-        if (BuildServer.IsBuildServer) //When building on azure it checks out a commit based on a branch, so the branch name has to be collected from a environment variable
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("BUILD_BUILDID"))) //When building on azure it checks out a commit based on a branch, so the branch name has to be collected from a environment variable
         {
             var branch = (isPrBranch) ? Environment.GetEnvironmentVariable("SYSTEM_PULLREQUEST_SOURCEBRANCH") : Environment.GetEnvironmentVariable("BUILD_SOURCEBRANCH");
             return branch.Replace("refs/heads/", "");

@@ -1,4 +1,4 @@
-#r "../DIPS.Buildsystem.Core.dll"
+
 #load "DistributionGroup.csx"
 
 using Newtonsoft.Json;

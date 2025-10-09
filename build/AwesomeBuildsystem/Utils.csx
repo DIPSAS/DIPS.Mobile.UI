@@ -1,10 +1,7 @@
 #load "Command.csx"
 #load "Logging/Logger.csx"
 
-#r "DIPS.Buildsystem.Core.dll"
 using System.Text.RegularExpressions;
-using DIPS.Buildsystem.Core.Integrations;
-using DIPS.Buildsystem.Core.Versioning;
 
 public static class Utils{
     /// <summary>

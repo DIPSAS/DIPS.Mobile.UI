@@ -1,8 +1,5 @@
 #load "../../Command.csx"
 #load "../../Helpers/FileHelper.csx"
-#r "../../DIPS.Buildsystem.Core.dll"
-
-using DIPS.Buildsystem.Core.Build;
 
 public static class iOS
 {
@@ -34,7 +31,7 @@ public static class iOS
         string configuration ="Release"){
 
         outputDirectory = outputDirectory
-                        == null ? BuildEnv.OutputDir : outputDirectory;
+                        == null ? (Environment.GetEnvironmentVariable("BUILD_ARTIFACTSTAGINGDIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "output")) : outputDirectory;
         var iOSProject = FileHelper.FindSingleFileByExtension(iOSProjectPath, ".csproj");
         //TODO: Update version and other plist features here with Plistbuddy
         await RemoveUnwantedPlistBrackets(GetInfoPlist(iOSProjectPath));

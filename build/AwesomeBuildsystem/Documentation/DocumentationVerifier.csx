@@ -3,10 +3,7 @@
 #load "models/ErrorCodes.csx"
 #load "models/ReleaseNotes.csx"
 #load "../Logging/Logger.csx"
-#r "../DIPS.Buildsystem.Core.dll"
 
-
-using DIPS.Buildsystem.Core.Build;
 using System;
 using System.Collections.Generic;
 using System.IO;
