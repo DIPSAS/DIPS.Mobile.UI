@@ -511,7 +511,11 @@ TaskRunner
         //Delivery to slack when both deliveries was OK.
         if(isIOSDelivery && isAndroidDelivery && !IsDryRun)
         {
-            SlackExtender.SetWebHookURI("/services/T0ACXDN4C/B09KD4G9691/5pmbp2slfOJoIIOOerZyg8R0"); //This is configured here : https://api.slack.com/apps/A04D1D1S4E7/incoming-webhooks
+            var slackWebhook = AzureDevops.GetEnvironmentVariable("slackWebhookUrl");
+            if (!string.IsNullOrEmpty(slackWebhook)) {
+                SlackExtender.SetWebHookURI(slackWebhook);
+            }
+            SlackExtender.SetWebHookURI(slackWebhook); //This is configured here : https://api.slack.com/apps/A04D1D1S4E7/incoming-webhooks
             await SlackExtender.SendAppStoreGooglePlayReleaseMessage(ProjectName, version, packageName, releaseNote, AndroidTrack, "Internal Testing");
         }
     })
