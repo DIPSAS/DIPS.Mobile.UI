@@ -1,3 +1,6 @@
+## [51.3.9]
+- [Google_Play] Revert back to internal track.
+
 ## [51.3.8]
 - [Google_Play] Fix publish directly to open testing track.
 

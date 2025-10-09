@@ -73,7 +73,7 @@ public string AndroidAppUploadKeystoreFile = "dips-mob-android-aab.keystore";
 public static string PackageIdentifierName = "com.dipsas.components";
 public bool IsDryRun => !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("IsDryRun")) || !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("DryRun"));
 public string AppStoreConnectId = "6753674372";
-public string AndroidTrack = "open-testing";
+public string AndroidTrack = "internal";
 
 TaskRunner
     .AsyncTask("validateChangelog")
