@@ -73,7 +73,7 @@ public string AndroidAppUploadKeystoreFile = "dips-mob-android-aab.keystore";
 public static string PackageIdentifierName = "com.dipsas.components";
 public bool IsDryRun => !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("IsDryRun")) || !string.IsNullOrEmpty(AzureDevops.GetEnvironmentVariable("DryRun"));
 public string AppStoreConnectId = "6753674372";
-public string AndroidTrack = "internal";
+public string AndroidTrack = "open";
 
 TaskRunner
     .AsyncTask("validateChangelog")
@@ -512,7 +512,7 @@ TaskRunner
         //Delivery to slack when both deliveries was OK.
         if(isIOSDelivery && isAndroidDelivery && !IsDryRun)
         {
-            SlackExtender.SetWebHookURI("/services/T0ACXDN4C/B04E1AVN0BU/0lCFpu76bcvUPyXgAnz68xby"); //This is configured here : https://api.slack.com/apps/A04D1D1S4E7/incoming-webhooks
+            SlackExtender.SetWebHookURI("/services/T0ACXDN4C/B09KD4G9691/5pmbp2slfOJoIIOOerZyg8R0"); //This is configured here : https://api.slack.com/apps/A04D1D1S4E7/incoming-webhooks
             await SlackExtender.SendAppStoreGooglePlayReleaseMessage(ProjectName, version, packageName, releaseNote, AndroidTrack, "Internal Testing");
         }
     })

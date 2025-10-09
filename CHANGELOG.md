@@ -1,3 +1,6 @@
+## [51.3.7]
+- [Google_Play] Publish directly to open testing.
+
 ## [51.3.6]
 - This is also a test to publish a new app on google play and appstore
 
