@@ -1,5 +1,8 @@
+## [51.3.6]
+- This is also a test to publish a new app on google play and appstore
+
 ## [51.3.5]
-- Test
+- This is a test to publish a new app on google play and appstore
 
 ## [51.3.4]
 - Fixed LoadingOverlay not functioning properly.
