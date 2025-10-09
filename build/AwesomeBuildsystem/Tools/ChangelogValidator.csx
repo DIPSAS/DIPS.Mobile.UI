@@ -24,22 +24,9 @@ public static class ChangelogValidator
     /// <param name="headerPrefix">See <see cref="DIPS.Buildsystem.Core.Versioning.VersionUtil.GetLatestVersionFromChangelog(string, string, string)"/></param>
     /// <param name="versionPattern">See <see cref="DIPS.Buildsystem.Core.Versioning.VersionUtil.GetLatestVersionFromChangelog(string, string, string)"/></param>
     /// <returns>True if the changelog is valid and has been bumped</returns>
-    public static async Task<bool> ValidateChangelog(string changelogPath, string productVersionFilePath, string headerPrefix, string versionPattern)
+    public static async Task<bool> ValidateChangelog(string changelogPath, string headerPrefix, string versionPattern)
     {
         var currentLatestChangelogVersionNumber = Utils.GetChangelogVersion(changelogPath, headerPrefix, versionPattern);
-
-        //Check if changelog version matches rules of major and minor from product version
-        var expectedMajorAndMinorAppVersion = VersionUtils.GetMajorAndMinorAppVersionFromProductVersion(productVersionFilePath);
-        if(Version.TryParse(currentLatestChangelogVersionNumber, out var currentChangelogVersion)){
-            if(currentChangelogVersion.Major != expectedMajorAndMinorAppVersion.Major){
-                Logger.LogError($"Changelog major version number is different than product version from: {productVersionFilePath}", false);
-                return false;
-            }
-            if(currentChangelogVersion.Minor != expectedMajorAndMinorAppVersion.Minor){
-                Logger.LogError($"Changelog minor version number is different than product version from: {productVersionFilePath}", false);
-                return false;
-            }
-        }
 
         //Compare current version against latest version
         await Git.FetchAll();

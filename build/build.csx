@@ -46,8 +46,6 @@ private static string ChangelogHeaderPrefix = "## [";
 private static string VersionPattern = "[0-9]+.[0-9]+.[0-9]+";
 private static string ComponentsProject = "Components.csproj";
 private static string LibraryProject = "DIPS.Mobile.UI.csproj";
-private static string ProductVersionFileName = "productversion.txt";
-private static string ProductVersionPath = Path.Combine(SolutionPath, "..", ProductVersionFileName);
 private static string ComponentsProjectPath = Path.Combine(SolutionPath, "app", "Components", ComponentsProject);
 private static string ComponentsPath = Path.Combine(SolutionPath, "app", "Components");
 private static string LibraryProjectPath = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI", LibraryProject);
@@ -77,7 +75,7 @@ TaskRunner
     .DoesBefore(() => { Console.WriteLine("##[group]validateChangelog 📝"); return Task.CompletedTask; })
     .Does(async () => {
 
-            var result = await ChangelogValidator.ValidateChangelog(BuildEnv.RootDir, ProductVersionPath, ChangelogHeaderPrefix, VersionPattern);
+            var result = await ChangelogValidator.ValidateChangelog(BuildEnv.RootDir, ChangelogHeaderPrefix, VersionPattern);
             if(result)
             {
                 Logger.LogSuccess("Changelog has been bumped!");
@@ -345,14 +343,6 @@ TaskRunner
         await TaskRunner.RunAsync(new [] {"validate"}, false);
         await Command.ExecuteAsync("dotnet", $"test {TestPath}/{TestProject} -c Test");
     })
-    .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
-
-TaskRunner
-    .AsyncTask("releasenote")
-    .Description("get list of release notes from azure boards")
-    .Alias("rn")
-    .DoesBefore(() => { Console.WriteLine("##[group]releasenote 🗒"); return Task.CompletedTask; })
-    .Does(async () => await AzureWorkItem.CreateReleaseNotes(RawAssetsPath, ImageAssetsPath, ProductVersionPath))
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
 TaskRunner
