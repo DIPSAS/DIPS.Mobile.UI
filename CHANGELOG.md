@@ -1,3 +1,6 @@
+## [51.3.10]
+- Changelog should be correctly parsed.
+
 ## [51.3.9]
 - [Google_Play] Revert back to internal track.
 
