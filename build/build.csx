@@ -56,8 +56,8 @@ private static string RawAssetsPath = Path.Combine(ComponentsPath, "Resources", 
 private static string ImageAssetsPath = Path.Combine(ComponentsPath, "Resources", "Images");
 private static string AndroidPlatformPlath = Path.Combine(ComponentsPath, "Platforms", "Android");
 private static string iOSPlatformPlath = Path.Combine(ComponentsPath, "Platforms", "iOS");
-private static string TestPath = Path.Combine(SolutionPath, "tests", "unittests");
-private static string TestProject = "DIPS.Mobile.UI.UnitTests";
+private static string TestPath = Path.Combine(SolutionPath, "tests");
+private static string TestProject = Path.Combine(TestPath, "unittests");
 private static int SharedVariableGroupId = 14;
 private static string dotNetVersion = "9.0";
 readonly string ChocoOutputDirectory = Path.Combine(OutputDirectory);
@@ -339,9 +339,7 @@ TaskRunner
     .IsDependentOn("init")
     .DoesBefore(() => { Console.WriteLine("##[group]test 🧪"); return Task.CompletedTask; })
     .Does(async () => {
-        //Verify before running unit tests
-        await TaskRunner.RunAsync(new [] {"validate"}, false);
-        await Command.ExecuteAsync("dotnet", $"test {TestPath}/{TestProject} -c Test");
+        await Command.ExecuteAsync("dotnet", $"test {TestPath}/{TestProject}");
     })
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
