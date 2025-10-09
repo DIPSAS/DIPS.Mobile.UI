@@ -1,25 +1,44 @@
+#load "TaskRunner.csx"
+
 /// <summary>
 /// Provides build completion and summary functionality
 /// </summary>
 public static class BuildWindow 
 {
     /// <summary>
-    /// Runs the build completion routine
+    /// Runs the build completion routine and executes the specified tasks
     /// </summary>
-    /// <param name="args">Build arguments</param>
+    /// <param name="args">Build arguments - task names to execute</param>
     /// <param name="projectName">Name of the project being built</param>
     public static async Task RunAsync(string[] args, string projectName)
     {
-        Console.WriteLine($"🎉 Build completed successfully for {projectName}!");
+        var startTime = DateTime.Now;
+        
+        Console.WriteLine($"🚀 Starting build for {projectName}...");
         
         if (args?.Length > 0)
         {
             Console.WriteLine($"Build arguments: {string.Join(", ", args)}");
+            
+            // Run each task specified in arguments
+            foreach (var taskName in args)
+            {
+                if (!string.IsNullOrWhiteSpace(taskName))
+                {
+                    Console.WriteLine($"⚡ Running task: {taskName}");
+                    await TaskRunner.RunAsync(taskName);
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("No specific tasks specified - build completed");
         }
         
-        Console.WriteLine($"Build finished at: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-        
-        await Task.CompletedTask;
+        var duration = DateTime.Now - startTime;
+        Console.WriteLine($"🎉 Build completed successfully for {projectName}!");
+        Console.WriteLine($"⏱️ Total duration: {duration:mm\\:ss}");
+        Console.WriteLine($"📅 Build finished at: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
     }
     
     /// <summary>
