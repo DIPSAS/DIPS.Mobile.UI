@@ -14,6 +14,11 @@ namespace DIPS.Mobile.UI.Components.Shell
         /// The root page of the application.
         /// </summary>
         public static PageReference? RootPage { get; set; }
+        
+        /// <summary>
+        /// Invoked when a tab is selected, with the Tab's Title as its argument
+        /// </summary>
+        public static event Action<string>? OnTabTapped;
 
         public static ColorName TitleTextColorName => ColorName.color_text_default;
         public static ColorName ForegroundColorName => ColorName.color_icon_action;
@@ -22,6 +27,7 @@ namespace DIPS.Mobile.UI.Components.Shell
         public Shell()
         {
             Navigated += OnNavigated;
+            Navigating += OnNavigating;
             
             SetBackgroundColor(this, Colors.GetColor(BackgroundColorName));
             SetForegroundColor(this, Colors.GetColor(ForegroundColorName));
@@ -32,6 +38,11 @@ namespace DIPS.Mobile.UI.Components.Shell
             SetTabBarUnselectedColor(this, Colors.GetColor(ColorName.color_icon_subtle));
 
             SetNavBarHasShadow(this, false);
+        }
+
+        private void OnNavigating(object? sender, ShellNavigatingEventArgs e)
+        {
+            Console.WriteLine("YEES");   
         }
 
         private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
@@ -202,6 +213,11 @@ namespace DIPS.Mobile.UI.Components.Shell
             {
                 DUILogService.LogDebug<Shell>(e.ToString());
             }
+        }
+
+        internal static void InvokeOnTabTapped(string tabTitle)
+        {
+            OnTabTapped?.Invoke(tabTitle);
         }
     }
 }
