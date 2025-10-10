@@ -339,7 +339,7 @@ TaskRunner
     .IsDependentOn("init")
     .DoesBefore(() => { Console.WriteLine("##[group]test 🧪"); return Task.CompletedTask; })
     .Does(async () => {
-        await Command.ExecuteAsync("dotnet", $"test {TestPath}/{TestProject}");
+        await Command.ExecuteAsync("dotnet", $"test {TestProject}");
     })
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
@@ -365,7 +365,7 @@ TaskRunner
 
 TaskRunner
     .AsyncTask("ci")
-    .Description("Complete CI build - builds, tests, and packages both Components app and DIPS.Mobile.UI library")
+    .Description("Complete CI build - validates, builds and tests both Components app and DIPS.Mobile.UI library")
     .Alias("ci")
     .DoesBefore(() => { Console.WriteLine("##[group]CI Build 🚀"); return Task.CompletedTask; })
     .Does(async () => {
@@ -377,9 +377,6 @@ TaskRunner
         
         // Run tests
         await TaskRunner.RunAsync(new[] { "test" }, false);
-        
-        // Package everything
-        await TaskRunner.RunAsync(new[] { "packageAll" }, false);
         
         Logger.LogSuccess("CI build completed successfully!");
     })
