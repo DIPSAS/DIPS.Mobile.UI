@@ -2,6 +2,7 @@
 #load "../../Android/SDK.csx"
 #load "../../Android/AndroidManifest.csx"
 #load "../../Helpers/FileHelper.csx"
+#load "../../Core/BuildEnv.csx"
 
 using System.Xml;
 
@@ -48,7 +49,7 @@ public static class Android
             throw new Exception($"The Android keystore file does not exist: {keyStorePath}");
         }
         outputDirectory = outputDirectory
-                          == null ? (Environment.GetEnvironmentVariable("BUILD_ARTIFACTSTAGINGDIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "output")) : outputDirectory;
+                          == null ? BuildEnv.OutputDir : outputDirectory;
         var androidProjectFilePath = FileHelper.FindSingleFileByExtension(androidProjectPath, ".csproj");
         //TODO: Do changes to manifest, like setting versions
         await AndroidManifest.UpdateVersionNumbers(versionCode, versionName, androidProjectPath);
