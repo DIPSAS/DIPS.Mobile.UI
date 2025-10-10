@@ -1,3 +1,6 @@
+## [51.4.3]
+- Revert some changes.
+
 ## [51.4.2]
 - Modify build script to publish to Google Play and TestFlight.
 
