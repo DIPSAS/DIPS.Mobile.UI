@@ -45,10 +45,7 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
 
         m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
         
-        bottomView.ItemSelected -= OnItemSelected;
         bottomView.ItemReselected -= OnItemReSelected;
-        
-        bottomView.ItemSelected += OnItemSelected;
         bottomView.ItemReselected += OnItemReSelected;
         
         TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
@@ -67,13 +64,6 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
         {
             await Microsoft.Maui.Controls.Shell.Current.CurrentItem.CurrentItem.Navigation.PopToRootAsync(animated: true);
         }
-        
-        Shell.InvokeOnTabTapped(e.Item.TitleFormatted?.ToString() ?? string.Empty);
-    }
-
-    private void OnItemSelected(object? sender, NavigationBarView.ItemSelectedEventArgs e)
-    {
-        Shell.InvokeOnTabTapped(e.Item.TitleFormatted?.ToString() ?? string.Empty);
     }
 
     private void SetBadges()
@@ -121,7 +111,6 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
 
         if (m_bottomView?.TryGetTarget(out var target) ?? false)
         {
-            target.ItemSelected -= OnItemSelected;
             target.ItemReselected -= OnItemReSelected;
         }
     }
