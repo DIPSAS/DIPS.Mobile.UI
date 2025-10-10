@@ -2,6 +2,7 @@
 #load "../../Helpers/FileHelper.csx"
 #load "../../dotnet/dotnet.csx"
 #load "../../Apple/PlistBuddy.csx"
+#load "../../Core/BuildEnv.csx"
 
 public static class iOS
 {
@@ -34,7 +35,7 @@ public static class iOS
         string applicationId = ""){
 
         outputDirectory = outputDirectory
-                        == null ? (Environment.GetEnvironmentVariable("BUILD_ARTIFACTSTAGINGDIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "output")) : outputDirectory;
+                        == null ? BuildEnv.OutputDir : outputDirectory;
         var iOSProject = FileHelper.FindSingleFileByExtension(iOSProjectPath, ".csproj");
         //TODO: Update version and other plist features here with Plistbuddy
         await RemoveUnwantedPlistBrackets(GetInfoPlist(Path.Combine(iOSProjectPath, "Platforms", "iOS")));
