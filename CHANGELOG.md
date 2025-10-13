@@ -1,3 +1,6 @@
+## [51.4.4]
+- Pin SkiaSharp to version 3.119.1
+
 ## [51.4.3]
 - Revert some changes.
 
