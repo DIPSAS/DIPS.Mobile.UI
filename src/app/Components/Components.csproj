@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net9.0-ios;net9.0-android;</TargetFrameworks>
+        <TargetFrameworks>net10.0-ios;net10.0-android;</TargetFrameworks>
         <OutputType>Exe</OutputType>
         <RootNamespace>Components</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -25,12 +25,10 @@
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug' AND $(TargetFramework.Contains('ios'))">
         <CreatePackage>false</CreatePackage>
-        <CodesignProvision>Automatic</CodesignProvision>
-        <CodesignKey>iPhone Developer</CodesignKey>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)' == 'Release' AND $(TargetFramework.Contains('ios'))">
         <CreatePackage>false</CreatePackage>
         <CodesignKey>Apple Distribution: DIPS ASA (4Q5EE2A94B)</CodesignKey>
         <CodesignProvision>Components</CodesignProvision>
