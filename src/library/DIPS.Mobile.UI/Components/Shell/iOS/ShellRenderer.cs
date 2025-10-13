@@ -21,7 +21,7 @@ public partial class ShellRenderer : Microsoft.Maui.Controls.Handlers.Compatibil
     
     protected override IShellTabBarAppearanceTracker CreateTabBarAppearanceTracker()
     {
-        return new BadgeShellTabBarAppearanceTracker();
+        return new TabBarAppearanceTracker();
     }
 
     protected override IShellNavBarAppearanceTracker CreateNavBarAppearanceTracker()
@@ -102,7 +102,7 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
     }
 }
 
-internal class BadgeShellTabBarAppearanceTracker : ShellTabBarAppearanceTracker
+internal class TabBarAppearanceTracker : ShellTabBarAppearanceTracker
 {
     private WeakReference<UITabBarController>? m_tabBarController;
 

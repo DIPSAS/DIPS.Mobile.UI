@@ -12,7 +12,7 @@
         <ApplicationTitle>Components</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.dipsas.mobile.components</ApplicationId>
+        <ApplicationId>com.dipsas.components</ApplicationId>
         <ApplicationIdGuid>13A74CA2-6A7D-4CF7-8646-8930B4282590</ApplicationIdGuid>
 
         <!-- Versions -->
@@ -32,8 +32,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
-        <CodesignProvision>Automatic:InHouse</CodesignProvision>
-        <CodesignKey>iPhone Distribution</CodesignKey>
+        <CodesignKey>Apple Distribution: DIPS ASA (4Q5EE2A94B)</CodesignKey>
+        <CodesignProvision>Components</CodesignProvision>
     </PropertyGroup>
     
     <PropertyGroup  Condition=" '$(Configuration)' == 'Release' AND $(TargetFramework.Contains('-android')) ">

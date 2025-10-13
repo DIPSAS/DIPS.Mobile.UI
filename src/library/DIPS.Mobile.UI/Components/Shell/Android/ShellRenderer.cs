@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using DIPS.Mobile.UI.Components.Pages;
 using Google.Android.Material.BottomNavigation;
+using Google.Android.Material.Navigation;
 using Microsoft.Maui.Controls.Platform.Compatibility;
 using Microsoft.Maui.Platform;
 using Activity = Android.App.Activity;
@@ -42,16 +43,10 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
     {
         base.SetBackgroundColor(bottomView, color);
 
-        bottomView.ItemReselected += async delegate
-        {
-            // Pop to root when tab pressed twice
-            if (Microsoft.Maui.Controls.Shell.Current?.CurrentItem?.CurrentItem?.Navigation is not null)
-            {
-                await Microsoft.Maui.Controls.Shell.Current.CurrentItem.CurrentItem.Navigation.PopToRootAsync(animated: true);
-            }
-        };
-        
         m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
+        
+        bottomView.ItemReselected -= OnItemReSelected;
+        bottomView.ItemReselected += OnItemReSelected;
         
         TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
         TabBadgeService.OnBadgeCountChanged -= OnTabBadgeServicePropertyChanged;
@@ -60,6 +55,15 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
         TabBadgeService.OnBadgeCountChanged += OnTabBadgeServicePropertyChanged;
 
         SetBadges();
+    }
+
+    private async void OnItemReSelected(object? sender, NavigationBarView.ItemReselectedEventArgs e)
+    {
+        // Pop to root when tab pressed twice
+        if (Microsoft.Maui.Controls.Shell.Current?.CurrentItem?.CurrentItem?.Navigation is not null)
+        {
+            await Microsoft.Maui.Controls.Shell.Current.CurrentItem.CurrentItem.Navigation.PopToRootAsync(animated: true);
+        }
     }
 
     private void SetBadges()
@@ -104,6 +108,11 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
         
         TabBadgeService.OnBadgeColorChanged -= OnTabBadgeServicePropertyChanged;
         TabBadgeService.OnBadgeCountChanged -= OnTabBadgeServicePropertyChanged;
+
+        if (m_bottomView?.TryGetTarget(out var target) ?? false)
+        {
+            target.ItemReselected -= OnItemReSelected;
+        }
     }
 }
 

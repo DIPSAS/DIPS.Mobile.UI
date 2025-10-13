@@ -1,5 +1,11 @@
-## [51.4.2]
+## [51.4.4]
 - Pin SkiaSharp to version 3.119.1
+
+## [51.4.3]
+- Revert some changes.
+
+## [51.4.2]
+- Modify build script to publish to Google Play and TestFlight.
 
 ## [51.4.1]
 - Add comment on LineBreakMode Property in TitleOptions

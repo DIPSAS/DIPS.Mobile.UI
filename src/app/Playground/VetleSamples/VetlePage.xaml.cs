@@ -22,6 +22,15 @@ public partial class VetlePage
         TestCommand = new Command(SwitchRoot); 
 
         _ = FuckThisShitUp();
+        /*Shell.OnTabTapped += ShellOnOnTabTapped;*/
+    }
+
+    private void ShellOnOnTabTapped(string obj)
+    {
+        _ = DialogService.ShowMessage(config =>
+        {
+            config.SetTitle(obj);
+        });
     }
 
     private async Task FuckThisShitUp()
