@@ -180,7 +180,6 @@ TaskRunner
     .Does(async () =>
     {
         var versionName = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
-
         await iOS.Package(ComponentsPath, versionName);
     })
     .DoesAfter(() => { 
