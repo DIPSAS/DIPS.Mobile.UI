@@ -409,5 +409,7 @@ layout_row_line=201,
 settings_line=202,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/secret_adress_fill.svg">View the icon in the browser</a></summary>
 secret_adress_fill=203,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/omni_icon.svg">View the icon in the browser</a></summary>
+omni_icon=204,
     }
 }
