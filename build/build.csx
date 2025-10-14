@@ -626,7 +626,8 @@ private async Task<string> GetVersionWithBranchSuffix()
     var version = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
     if (await Git.ShouldAddPreSuffix())
     {
-        return $"{version}-pre";
+        var buildId = Utils.GetBuildId();
+        return $"{version}-pre{buildId}";
     }
     return version;
 }
