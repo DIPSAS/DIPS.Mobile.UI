@@ -270,8 +270,6 @@ TaskRunner
     var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
     var generatedTokensDir = new DirectoryInfo(Path.Combine(OutputDir, "tokens"));
 
-    var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
-    var generatedDotnetMauiColorsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("colors"));
     var generatedDotnetMauiIconsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("icons"));
     var generatedDotnetMauiSizesDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("sizes"));
     var generatedDotnetMauiAnimationsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("animations"));
@@ -280,14 +278,12 @@ TaskRunner
     var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
     var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryDir, "Platforms", "Android"));
 
-    var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
     var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
     var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
     var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
 
     //Icons
     await DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
-    
     //Animations
     await DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
