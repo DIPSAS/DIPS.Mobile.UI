@@ -70,7 +70,7 @@ internal class AlertBottomSheet : BottomSheet
         alertContainer.Add(icon);
         alertContainer.Add(titleAndDescriptionLabel, 1);
         
-        UI.Effects.Layout.Layout.SetCornerRadius(alertContainer, UI.Effects.Layout.Layout.GetCornerRadius(alertView));
+        UI.Effects.Layout.Layout.SetCornerRadius(alertContainer, Sizes.GetSize(SizeName.radius_small));
 
         Content = new ScrollView
         {
