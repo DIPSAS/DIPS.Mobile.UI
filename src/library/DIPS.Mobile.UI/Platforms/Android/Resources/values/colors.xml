@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
  
 
- <!-- Do not modify, generated at: 2/26/2025 1:05:44 PM --> 
+ <!-- Do not modify, generated at: 10/14/2025 10:34:03 AM --> 
 
   <resources>
    <color name="color_system_black">#000000</color>
@@ -52,20 +52,26 @@
    <color name="color_obsolete_aqua">#129DDB</color>
    <color name="color_tertiary_70">#F3583D</color>
    <color name="color_tertiary_50">#F9A698</color>
+   <color name="color_surface_default">#FFFFFF</color>
    <color name="color_surface_active_subtle">#ECEDEE</color>
    <color name="color_surface_deactivated">#F9F9F9</color>
    <color name="color_surface_active">#ECF3F4</color>
    <color name="color_surface_action">#047F89</color>
    <color name="color_surface_action_on_black">#262626</color>
+   <color name="color_text_default">#262626</color>
    <color name="color_text_on_alert">#262626</color>
    <color name="color_text_subtle_large">#373D40</color>
    <color name="color_text_subtle_small">#464C50</color>
+   <color name="color_text_action">#047F89</color>
    <color name="color_text_on_action">#FFFFFF</color>
    <color name="color_text_placeholder">#6A7073</color>
    <color name="color_stroke_default">#DADBDC</color>
    <color name="color_stroke_enhanced">#B6B7B9</color>
    <color name="color_stroke_action">#97C8CD</color>
    <color name="color_stroke_active">#047F89</color>
+   <color name="color_icon_default">#373D40</color>
+   <color name="color_icon_action">#047F89</color>
+   <color name="color_icon_subtle">#ECF3F4</color>
    <color name="color_icon_neutral">#373D40</color>
    <color name="color_icon_on_action">#FFFFFF</color>
    <color name="color_background_bg_light">#F4F5F5</color>

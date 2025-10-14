@@ -1,3 +1,6 @@
+## [51.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [51.4.4]
 - Pin SkiaSharp to version 3.119.1
 
