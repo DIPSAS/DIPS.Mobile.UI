@@ -4,6 +4,7 @@
 #load "AwesomeBuildsystem/Core/VersionUtil.csx"
 #load "AwesomeBuildsystem/Core/TaskRunner.csx"
 #load "AwesomeBuildsystem/Core/BuildWindow.csx"
+#load "AwesomeBuildsystem/DesignTokens/DesignTokenApplier.csx"
 
 //iOS
 #load "AwesomeBuildsystem/Build/MAUI/iOS.csx"
@@ -41,6 +42,7 @@ const string Configuration = "Release";
 private static string SolutionName = "DIPS.Mobile.UI.sln";
 private static string SolutionPath = BuildEnv.SrcDir;
 private static string RootDirectory = Directory.GetParent(SolutionPath)?.FullName ?? Directory.GetCurrentDirectory();
+private static string LibraryDir = Path.Combine(SolutionPath, "library", "DIPS.Mobile.UI");
 private static string OutputDirectory = Path.Combine(RootDirectory, "output");
 private static string ChangelogHeaderPrefix = "## [";
 private static string VersionPattern = "[0-9]+.[0-9]+.[0-9]+";
@@ -257,77 +259,63 @@ TaskRunner
     .Does(async () =>
     {
         var prBranchName = "designToken-resources-update";
-        
-        //checkout new branch
-        Logger.LogDebug($"Trying to create {prBranchName}");
-        await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
-        await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
+    
+    //checkout new branch
+    Logger.LogDebug($"Trying to create {prBranchName}");
+    await Command.CaptureAsync("git", $"branch -D {prBranchName}"); //Clean it up if its there
+    await Command.CaptureAsync("git", $"checkout -b {prBranchName}");
 
-        //Where is everything located
-        //Generated resources
-        var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
-        var generatedTokensDir = new DirectoryInfo(Path.Combine(OutputDir, "tokens"));
+    //Where is everything located
+    //Generated resources
+    var generatedAndroidDir = new DirectoryInfo(Path.Combine(OutputDir, "android"));
+    var generatedTokensDir = new DirectoryInfo(Path.Combine(OutputDir, "tokens"));
 
-        var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
-        var generatedDotnetMauiColorsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("colors"));
-        var generatedDotnetMauiIconsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("icons"));
-        var generatedDotnetMauiSizesDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("sizes"));
-        var generatedDotnetMauiAnimationsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("animations"));
+    var generatedAndroidColorFile = generatedAndroidDir.GetFiles().FirstOrDefault(f => f.Name.Equals("colors.xml"));
+    var generatedDotnetMauiColorsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("colors"));
+    var generatedDotnetMauiIconsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("icons"));
+    var generatedDotnetMauiSizesDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("sizes"));
+    var generatedDotnetMauiAnimationsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("animations"));
 
-        //The source repository paths
-        var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryPath, "Resources"));
-        var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryPath, "Platforms", "Android"));
+    //The source repository paths
+    var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
+    var libraryAndroidDir = new DirectoryInfo(Path.Combine(LibraryDir, "Platforms", "Android"));
 
-        var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
-        var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
-        var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
-        var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
+    var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
+    var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
+    var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
+    var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
 
-        //Icons
-        // TODO: Implement DesignTokenApplier.TryAddIcons or replace with appropriate logic
-        Logger.LogDebug("Processing icons...");
-        
-        //Animations
-        // TODO: Implement DesignTokenApplier.TryAddAnimations or replace with appropriate logic  
-        Logger.LogDebug("Processing animations...");
+    //Icons
+    await DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
+    
+    //Animations
+    await DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
-        //Sizes
-        // TODO: Implement DesignTokenApplier.TryAddSizes or replace with appropriate logic
-        Logger.LogDebug("Processing sizes...");
+    //Sizes
+    await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
 
-        //Colors
-        // TODO: Implement DesignTokenApplier.TryAddColors or replace with appropriate logic
-        Logger.LogDebug("Processing colors...");
-        if(generatedAndroidColorFile != null && libraryAndroidDir.Exists)
-        {
-            var valuesDir = Path.Combine(libraryAndroidDir.FullName, "Resources", "values");
-            Directory.CreateDirectory(valuesDir);
-            generatedAndroidColorFile.CopyTo(Path.Combine(valuesDir, generatedAndroidColorFile.Name), true);
-        }
-        
+    //Bump changelog
+    var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
+    var currentVersion = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
+    var versionParts = currentVersion.Split('.');
+    var nextMinorVersion = int.Parse(versionParts[1]) + 1;
+    var nextVersion = $"{versionParts[0]}.{nextMinorVersion}.0";
+    
+    var changelogContent = File.ReadAllText(ChangeLogPath);
+    var updatedContent = $"## [{nextVersion}] \n- {changesetMessage}\n\n{changelogContent}";
+    File.WriteAllText(ChangeLogPath, updatedContent);
 
-        //Bump changelog
-        var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
-        var currentVersion = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
-        var versionParts = currentVersion.Split('.');
-        var nextMinorVersion = int.Parse(versionParts[1]) + 1;
-        var nextVersion = $"{versionParts[0]}.{nextMinorVersion}.0";
-        
-        var changelogContent = File.ReadAllText(ChangeLogPath);
-        var updatedContent = $"## [{nextVersion}] \n- {changesetMessage}\n\n{changelogContent}";
-        File.WriteAllText(ChangeLogPath, updatedContent);
+    //Commit changes
+    Logger.LogDebug($"Resources moved to folders, commiting changes");
+    await Command.CaptureAsync("git", "add .", BuildEnv.RootDir);
+    await Command.CaptureAsync("git", $"commit -m 'Generated'");
 
-        //Commit changes
-        Logger.LogDebug($"Resources moved to folders, commiting changes");
-        await Command.CaptureAsync("git", "add .", RootDirectory);
-        await Command.CaptureAsync("git", $"commit -m 'Generated'");
+    Logger.LogDebug($"Pushing {prBranchName} to repository");
+    await Command.CaptureAsync("git", $"push -f origin {prBranchName}");
 
-        Logger.LogDebug($"Pushing {prBranchName} to repository");
-        await Command.CaptureAsync("git", $"push -f origin {prBranchName}");
-
-        //Create PR
-        await Command.CaptureAsync("gh", $"auth login");
-        await Command.ExecuteAsync("gh", $"pr create --title \"{changesetMessage}\" --body \"Here is the latest resources that was generated by DIPS.Mobile.DesignTokens repository\" --head {prBranchName}");
+    //Create PR
+    await Command.CaptureAsync("gh", $"auth login");
+    await Command.ExecuteAsync("gh", $"pr create --title \"{changesetMessage}\" --body \"Here is the latest resources that was generated by DIPS.Mobile.DesignTokens repository\" --head {prBranchName}");
     })
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
