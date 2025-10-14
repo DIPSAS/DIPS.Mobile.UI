@@ -98,7 +98,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
                 Text = DUILocalizedStrings.Today,
                 Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
                 Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                TextColor = Colors.GetColor(ColorName.color_text_action),
+                TextColor = Colors.GetColor(ColorName.color_text_on_button),
                 HorizontalOptions = LayoutOptions.End
             }, 1, 2);
 
@@ -112,7 +112,7 @@ internal class DateOrTimePickerPopoverViewController : UIViewController, IDatePi
         if (m_datePicker is Chip chip)
         {
             m_previousTitleColor = chip.TitleColor;
-            chip.TitleColor = Colors.GetColor(ColorName.color_text_action);
+            chip.TitleColor = Colors.GetColor(ColorName.color_text_on_button);
         }
         
         View = ConstructView();

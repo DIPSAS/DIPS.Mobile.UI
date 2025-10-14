@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button;
 
 public static class ButtonTypeStyle
 {
-    private static Style Primary => new(typeof(Components.Buttons.Button))
+    private static Style CallToAction => new(typeof(Components.Buttons.Button))
     {
         BasedOn = ButtonDefaultStyle.Current,
         Setters =
@@ -25,7 +25,7 @@ public static class ButtonTypeStyle
         }
     };
     
-    private static Style Secondary => new(typeof(Components.Buttons.Button))
+    private static Style Default => new(typeof(Components.Buttons.Button))
     {
         BasedOn = ButtonDefaultStyle.Current,
         Setters =
@@ -119,9 +119,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimaryLarge => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter
@@ -132,9 +132,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimarySmall => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter
@@ -145,9 +145,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style SecondaryLarge => new(typeof(Components.Buttons.Button))
+    public static Style DefaultLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter
@@ -158,9 +158,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style SecondarySmall => new(typeof(Components.Buttons.Button))
+    public static Style DefaultSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter
@@ -197,9 +197,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionButtonSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter()
@@ -227,9 +227,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style PrimaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionButtonLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter()
@@ -317,9 +317,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style SecondaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconButtonSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter()
@@ -347,9 +347,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style SecondaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconButtonLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter()
@@ -416,6 +416,32 @@ public static class ButtonTypeStyle
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = 8
+            }
+        }
+    };
+    
+    public static Style DefaultFloatingIconButton => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = DefaultIconButtonLarge,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
+            }
+        }
+    };
+    
+    public static Style DefaultFloatingButton => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = Default,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
             }
         }
     };

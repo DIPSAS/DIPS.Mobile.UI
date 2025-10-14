@@ -108,7 +108,7 @@ internal class DialogFragment : AndroidX.Fragment.App.DialogFragment
 
         if (m_dialog.IsDestructive)
         {
-            m_actionButton.SetTextColor(Colors.GetColor(ColorName.color_text_action).ToPlatform());
+            m_actionButton.SetTextColor(Colors.GetColor(ColorName.color_text_danger).ToPlatform());
         }
 
         if(m_inputDialog is not null)

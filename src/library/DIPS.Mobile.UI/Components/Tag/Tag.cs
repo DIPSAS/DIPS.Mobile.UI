@@ -2,24 +2,35 @@ using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using DIPS.Mobile.UI.Resources.Styles.Tag;
+using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Tag;
 
-public partial class Tag : Grid
+public partial class Tag : Border
 {
+    private readonly Grid m_grid;
+
     public Tag()
     {
-        ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
-
+        StrokeThickness = Sizes.GetSize(SizeName.stroke_medium);
+        StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_half)) };
+        this.SetBinding(StrokeProperty, static (Tag tag) => tag.BorderColor, source: this);
+        
+        m_grid = new Grid
+        {
+            ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)]
+        };
+        
         Style = Styles.GetTagStyle(TagStyle.Default);
         Padding = Sizes.GetSize(SizeName.size_half);
-        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
         
         HorizontalOptions = LayoutOptions.Start;
 
         CreateIcon();
         CreateTextLabel();
+
+        Content = m_grid;
     }
 
     private void CreateIcon()
@@ -34,7 +45,7 @@ public partial class Tag : Grid
         icon.SetBinding(Images.Image.Image.TintColorProperty, static (Tag tag) => tag.IconColor, source: this);
         icon.SetBinding(IsVisibleProperty, static (Tag tag) => tag.Icon, converter: new IsEmptyConverter { Inverted = true }, source: this);
 
-        this.Add(icon, 0);
+        m_grid.Add(icon, 0);
     }
 
     private void CreateTextLabel()
@@ -51,6 +62,6 @@ public partial class Tag : Grid
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (Tag tag) => tag.TextColor, source: this);
         label.SetBinding(Microsoft.Maui.Controls.Label.LineBreakModeProperty, static (Tag tag) => tag.LineBreakMode, source: this);
         
-        this.Add(label, 1);
+        m_grid.Add(label, 1);
     }
 }

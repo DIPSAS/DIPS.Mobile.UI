@@ -23,9 +23,9 @@
         <item name="elevationOverlayEnabled">false</item>
 
         <!-- Color scheme -->
-        <item name="colorPrimary">@color/color_palette_navy_700</item>
+        <item name="colorPrimary">@color/color_text_default</item>
 
-        <item name="colorSecondary">@color/color_palette_navy_400</item>
+        <item name="colorSecondary">@color/color_palette_grey_700</item>
 
         <item name="colorSurface">@color/color_surface_default</item>
 

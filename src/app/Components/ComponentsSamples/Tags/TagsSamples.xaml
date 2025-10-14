@@ -23,8 +23,13 @@
                  Text="Success"
                  Icon="{dui:Icons bell_line}" />
         
+        <dui:Tag Style="{dui:Styles Tag=Warning}"
+                 Text="Warning"
+                 Icon="{dui:Icons bell_line}" />
+        
         <dui:Tag Style="{dui:Styles Tag=Information}"
-                 Text="Information" />
+                 Text="Information"
+                 Icon="{dui:Icons information_fill}" />
         
     </dui:VerticalStackLayout>
     

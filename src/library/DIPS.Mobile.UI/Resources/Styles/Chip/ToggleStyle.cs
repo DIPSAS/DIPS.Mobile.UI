@@ -35,7 +35,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_border_default)
+                    Value = Colors.Colors.GetColor(ColorName.color_border_button_active)
                 }
             }
         };

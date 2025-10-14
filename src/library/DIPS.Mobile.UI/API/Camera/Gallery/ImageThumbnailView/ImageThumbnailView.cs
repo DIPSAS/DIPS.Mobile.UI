@@ -68,12 +68,14 @@ internal class ImageThumbnailView : Grid
         };*/
         var closeButton = new Button
         {
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultFloatingIconButton),
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall),
             ImageSource = Icons.GetIcon(IconName.close_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_default),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
-            CornerRadius = 10
+            CornerRadius = 10,
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.End
         };
 
         Touch.SetCommand(closeButton, new Command(async () =>

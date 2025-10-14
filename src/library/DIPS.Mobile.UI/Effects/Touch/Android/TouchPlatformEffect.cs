@@ -10,7 +10,7 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    internal static readonly Color s_defaultNativeAnimationColor = Colors.GetColor(ColorName.color_fill_action, 0.1f);
+    internal static readonly Color s_defaultNativeAnimationColor = Colors.GetColor(ColorName.color_fill_button_cta_hover, 0.1f);
 
     private Touch.TouchMode m_touchMode;
 
@@ -41,7 +41,7 @@ public partial class TouchPlatformEffect
             [[]],
             [s_defaultNativeAnimationColor.ToPlatform()]);
         
-        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.GetColor(ColorName.color_palette_neutral_white).ToPlatform()));
+        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.GetColor(ColorName.color_fill_neutral).ToPlatform()));
         if (Control.Background is null)
         {
             m_changedBackground = true;

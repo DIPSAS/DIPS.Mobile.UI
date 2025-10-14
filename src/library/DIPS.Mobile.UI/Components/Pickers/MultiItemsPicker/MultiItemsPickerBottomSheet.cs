@@ -64,7 +64,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
             
         var button = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.SecondaryLarge), 
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultLarge), 
             Text = DUILocalizedStrings.Reset,
             VerticalOptions = LayoutOptions.End,
             HorizontalOptions = LayoutOptions.Center,
@@ -102,7 +102,7 @@ internal class MultiItemsPickerBottomSheet : BottomSheet
         
         var doneButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.PrimaryLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.CallToActionLarge),
             Text = DUILocalizedStrings.Done,
             VerticalOptions = LayoutOptions.End,
             HorizontalOptions = LayoutOptions.Center,

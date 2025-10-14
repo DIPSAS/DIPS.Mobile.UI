@@ -28,7 +28,6 @@ internal class GalleryBottomSheetTopToolbar : Grid
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             Content = m_numberOfImagesLabel,
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.DarkGrey,
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small))
         };
 

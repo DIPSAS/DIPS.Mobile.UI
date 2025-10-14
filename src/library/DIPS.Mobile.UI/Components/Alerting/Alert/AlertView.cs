@@ -146,7 +146,7 @@ public partial class AlertView : Border
         {
             AutomationId = automationId,
             HorizontalOptions = LayoutOptions.Start,
-            Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
             Command = buttonCommand,
             CommandParameter = buttonCommandParameter,
             Text = buttonText

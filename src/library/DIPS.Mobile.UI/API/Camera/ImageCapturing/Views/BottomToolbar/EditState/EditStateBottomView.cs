@@ -52,7 +52,7 @@ internal class EditStateBottomView : Grid
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.End,
             Text = DUILocalizedStrings.Save,
-            Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.CallToActionSmall),
             Command = new Command(imageEditStateObserver.OnSaveButtonTapped)
         });
         

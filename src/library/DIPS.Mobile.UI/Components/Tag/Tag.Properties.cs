@@ -29,6 +29,17 @@ public partial class Tag
         typeof(LineBreakMode),
         typeof(Tag));
 
+    internal static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
+        nameof(BorderColor),
+        typeof(Color),
+        typeof(Tag));
+
+    internal Color BorderColor
+    {
+        get => (Color)GetValue(BorderColorProperty);
+        set => SetValue(BorderColorProperty, value);
+    }
+    
     /// <summary>
     /// Sets the <see cref="LineBreakMode"/> for the text in the tag.
     /// </summary>

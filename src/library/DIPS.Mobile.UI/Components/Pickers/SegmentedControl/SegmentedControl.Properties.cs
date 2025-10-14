@@ -162,7 +162,7 @@ public partial class SegmentedControl
         nameof(SelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
-        defaultValue: Colors.GetColor(ColorName.color_surface_default_active));
+        defaultValue: Colors.GetColor(ColorName.color_fill_default_active));
 
     public static readonly BindableProperty DeSelectedColorProperty = BindableProperty.Create(
         nameof(DeSelectedColor),

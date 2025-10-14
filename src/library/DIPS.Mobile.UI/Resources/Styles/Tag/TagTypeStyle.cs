@@ -20,6 +20,11 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_default)
             }
         }
     };
@@ -42,6 +47,16 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_readonly)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_danger)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_danger)
             }
         }
     };
@@ -64,6 +79,11 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_readonly)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_subtle)
             }
         }
     };
@@ -86,6 +106,16 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_success)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_success)
             }
         }
     };
@@ -108,6 +138,16 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_warning)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_warning)
             }
         }
     };
@@ -130,6 +170,16 @@ public class TagTypeStyle
             {
                 Property = Components.Tag.Tag.IconColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.BorderColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_information)
+            },
+            new Setter
+            {
+                Property = Components.Tag.Tag.IconColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_information)
             }
         }
     };
