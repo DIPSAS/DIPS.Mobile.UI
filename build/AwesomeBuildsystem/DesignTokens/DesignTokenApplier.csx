@@ -1,5 +1,5 @@
 #load "../Helpers/WriteToFileHelper.csx"
-#r "nuget:Newtonsoft.Json, 13.0.2"
+#r "nuget:Newtonsoft.Json, 13.0.3"
 using Newtonsoft.Json;
 
 
