@@ -27,13 +27,15 @@
     </dui:ContentPage.ToolbarItems>
 
     <Grid Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}"
-          VerticalOptions="Start">
+          VerticalOptions="Center"
+          
+          WidthRequest="50"
+          HeightRequest="50"
+          dui:Layout.Stroke="Green"
+          dui:Layout.StrokeThickness="1"
+          dui:Layout.AutoCornerRadius="True">
         
-        <dui:AlertView Title="Hello"
-                       
-                       LeftButtonCommand="{Binding AddItemCommand}"
-                       LeftButtonText="Dette er en lang tekst"
-                       />
+        
         
     </Grid>
     

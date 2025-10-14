@@ -8,7 +8,8 @@ public partial class LayoutPlatformEffect : PlatformEffect
     protected override void OnAttached()
     {
         var autoCornerRadius = Layout.GetAutoCornerRadius(Element);
-        var cornerRadius = Layout.GetCornerRadius(Element);
+        CornerRadius? cornerRadius = Layout.GetCornerRadius(Element);
+        var stroke = Layout.GetStroke(Element);
 
         if (Element is CollectionView collectionView)
         {
@@ -20,12 +21,11 @@ public partial class LayoutPlatformEffect : PlatformEffect
             {
                 cornerRadius = autoCornerRadius.Value ? Sizes.GetSize(SizeName.size_2) : cornerRadius;
             }
-
-            PlatformOnAttached(cornerRadius);
         }
+        
+        PlatformOnAttached(cornerRadius, stroke);
     }
 
-    private partial void PlatformOnAttached(CornerRadius cornerRadius);
-    
+    private partial void PlatformOnAttached(CornerRadius? cornerRadius, Color? stroke);
     protected override partial void OnDetached();
 }
