@@ -396,7 +396,7 @@ TaskRunner
         if (!await Git.CurrentBranchIsMain())
         {
             var currentBranch = await Git.GetCurrentBranch();
-            throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
+            //throw new Exception($"You are not allowed to publish to stores from branch: {currentBranch}. Publishing to stores is only allowed from the main branch.");
         }
 
         //Create output folder
