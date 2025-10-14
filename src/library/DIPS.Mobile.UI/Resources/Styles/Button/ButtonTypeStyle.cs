@@ -420,7 +420,7 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style DefaultFloatingButton => new(typeof(Components.Buttons.Button))
+    public static Style DefaultFloatingIcon => new(typeof(Components.Buttons.Button))
     {
         BasedOn = DefaultIconLarge,
         Setters =
@@ -435,7 +435,7 @@ public static class ButtonTypeStyle
     
     public static Style DefaultFloating => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Default,
+        BasedOn = DefaultLarge,
         Setters =
         {
             new Setter
