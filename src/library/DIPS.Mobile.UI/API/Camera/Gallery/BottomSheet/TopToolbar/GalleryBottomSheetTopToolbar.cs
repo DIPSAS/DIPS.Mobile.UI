@@ -38,7 +38,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = Icons.GetIcon(IconName.information_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             Command = new Command(onInfoIconTapped)
         };
@@ -47,7 +47,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             ImageSource = Icons.GetIcon(IconName.filter_fill),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             Command = new Command(onEditButtonTapped)
         };

@@ -21,7 +21,17 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_information)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_information)
+            },
+            new Setter
+            {
+                Property = Border.StrokeProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_information)
+            },
+            new Setter
+            {
+                Property = AlertView.TextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_information)
             }
         }
     };
@@ -43,7 +53,17 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_danger)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_danger)
+            },
+            new Setter
+            {
+                Property = Border.StrokeProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_danger)
+            },
+            new Setter
+            {
+                Property = AlertView.TextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_danger)
             }
         }
     };
@@ -65,7 +85,17 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_warning)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_warning)
+            },
+            new Setter
+            {
+                Property = Border.StrokeProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_warning)
+            },
+            new Setter
+            {
+                Property = AlertView.TextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_warning)
             }
         }
     };
@@ -87,7 +117,17 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_success)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_success)
+            },
+            new Setter
+            {
+                Property = Border.StrokeProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_border_success)
+            },
+            new Setter
+            {
+                Property = AlertView.TextColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_success)
             }
         }
     };

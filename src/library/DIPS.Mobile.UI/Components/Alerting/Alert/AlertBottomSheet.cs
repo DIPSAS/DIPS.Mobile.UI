@@ -9,7 +9,7 @@ namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
 internal class AlertBottomSheet : BottomSheet
 {
-    public AlertBottomSheet(AlertView alertView)
+    public AlertBottomSheet(AlertView alertView, double columnSpacing)
     {
         Title = alertView.BottomSheetTitle ?? string.Empty;
 
@@ -18,7 +18,7 @@ internal class AlertBottomSheet : BottomSheet
             BackgroundColor = alertView.BackgroundColor, 
             ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)],
             VerticalOptions = LayoutOptions.Start,
-            ColumnSpacing = alertView.ColumnSpacing,
+            ColumnSpacing = columnSpacing,
             Padding = alertView.Padding
         };
 

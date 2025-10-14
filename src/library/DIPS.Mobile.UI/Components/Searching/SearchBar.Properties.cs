@@ -295,7 +295,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(SearchBar), 
 #if __IOS__ 
             // iOS places a semi-transparent background on top of the search field by default, so we use a different default value for iOS
-            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_palette_neutral_white));    
+            defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_palette_base_white));    
 #else 
             defaultValue: DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_fill_neutral));
 #endif

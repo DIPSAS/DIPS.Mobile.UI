@@ -23,7 +23,7 @@ public partial class SkeletonView
     public static readonly BindableProperty SkeletonColorProperty = BindableProperty.Create(
         nameof(SkeletonColor),
         typeof(Color),
-        typeof(SkeletonView), defaultValueCreator:(_ => Colors.GetColor(ColorName.color_background_subtle)));
+        typeof(SkeletonView), defaultValueCreator:(_ => Colors.GetColor(ColorName.color_surface_default_hover)));
     
     /// <summary>
     /// Color used on skeletons. Defaults to LightGray

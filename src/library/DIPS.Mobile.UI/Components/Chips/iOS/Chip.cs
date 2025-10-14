@@ -157,7 +157,6 @@ public partial class Chip
     {
         var label = new Labels.Label
         {
-            TextColor = Colors.GetColor(ColorName.color_text_action),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
             MaxLines = 1,

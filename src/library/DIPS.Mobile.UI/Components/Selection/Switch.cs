@@ -14,7 +14,7 @@ public class Switch : Microsoft.Maui.Controls.Switch
 #if __IOS__
     public Switch()
     {
-        OnColor = Colors.GetColor(ColorName.color_fill_action);
+        OnColor = Colors.GetColor(ColorName.color_fill_input_toggle_selected);
     }
 #endif
 }

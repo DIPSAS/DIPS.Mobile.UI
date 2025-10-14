@@ -10,17 +10,17 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_cta)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_default_inverted)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_button_inverted)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_default_active)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_button_inverted)
             }
         }
     };
@@ -33,12 +33,12 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action_secondary)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_border_action_secondary)
+                Value = Colors.Colors.GetColor(ColorName.color_border_button)
             },
             new Setter
             {
@@ -48,7 +48,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_action_neutral)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_button)
             },
             new Setter
             {
@@ -66,7 +66,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action_ghost)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_ghost)
             },
             new Setter
             {
@@ -94,7 +94,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_disabled)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_disabled)
             },
             new Setter
             {
@@ -104,7 +104,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_deactivated)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_disabled)
             },
             new Setter
             {

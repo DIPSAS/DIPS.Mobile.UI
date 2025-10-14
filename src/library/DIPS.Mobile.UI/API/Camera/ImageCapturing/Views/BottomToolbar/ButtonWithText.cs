@@ -14,7 +14,7 @@ public class ButtonWithText : VerticalStackLayout
         {
             ImageSource = imageSource,
             ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
-            BackgroundColor = Colors.GetColor(ColorName.color_palette_neutral_900),
+            BackgroundColor = Microsoft.Maui.Graphics.Colors.Black,
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
             Command = new Command(onTapped)
         };

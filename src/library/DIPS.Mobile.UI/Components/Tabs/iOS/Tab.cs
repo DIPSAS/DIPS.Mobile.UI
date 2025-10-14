@@ -36,7 +36,7 @@ namespace DIPS.Mobile.UI.Components.Tabs
             {
                 HorizontalOptions = LayoutOptions.Fill,
                 HeightRequest = Sizes.GetSize(SizeName.size_half),
-                BackgroundColor = Colors.GetColor(ColorName.color_border_action_secondary_active)
+                BackgroundColor = Colors.GetColor(ColorName.color_border_button_active)
             };
             boxView.SetBinding(IsVisibleProperty, static (Tab tab) => tab.IsSelected, source: this);
             container.Add(boxView);

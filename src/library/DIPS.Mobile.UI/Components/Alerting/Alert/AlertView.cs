@@ -14,6 +14,7 @@ using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using DIPS.Mobile.UI.Resources.Styles.Span;
+using Microsoft.Maui.Controls.Shapes;
 using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -23,32 +24,36 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
-public partial class AlertView : Grid
+public partial class AlertView : Border
 {
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
     private CustomTruncationTextView? m_titleAndDescriptionLabel;
-
-    public AlertView()
+    private readonly Grid m_grid = new()
     {
-        Style = Styles.GetAlertStyle(AlertStyle.Information);
-        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.radius_small));
-        AutomationId = "AlertView".ToDUIAutomationId<AlertView>();
-        ColumnDefinitions = 
+        ColumnDefinitions =
         [
             new ColumnDefinition(GridLength.Auto),
             new ColumnDefinition(GridLength.Star),
             new ColumnDefinition(GridLength.Auto)
-        ];
+        ],
         RowDefinitions =
         [
             new RowDefinition(GridLength.Star),
             new RowDefinition(GridLength.Auto),
-        ];
+        ],
+        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
+    };
 
-        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small);
+    public AlertView()
+    {
+        Style = Styles.GetAlertStyle(AlertStyle.Information);
+        AutomationId = "AlertView".ToDUIAutomationId<AlertView>();
+        StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_small) };
+
         Padding = Sizes.GetSize(SizeName.content_margin_small);
+        StrokeThickness = Sizes.GetSize(SizeName.stroke_medium);
         
         m_buttonsContainer = new HorizontalStackLayout
         {
@@ -61,6 +66,8 @@ public partial class AlertView : Grid
 
         // Set initial accessibility
         UpdateAccessibility();
+
+        Content = m_grid;
     }
 
     public bool IsLargeAlert => !string.IsNullOrEmpty(Description);
@@ -77,12 +84,12 @@ public partial class AlertView : Grid
         if (LeftButtonCommand is null && RightButtonCommand is null) 
             return;
         
-        Remove(m_buttonsContainer);
+        m_grid.Remove(m_buttonsContainer);
         
         if (IsLargeAlert)
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            this.Add(m_buttonsContainer, 1, 1);
+            m_grid.Add(m_buttonsContainer, 1, 1);
             return;
         }
         
@@ -95,13 +102,13 @@ public partial class AlertView : Grid
         if (buttonsWillFit)
         {
             m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
-            this.Add(m_buttonsContainer, 2);
+            m_grid.Add(m_buttonsContainer, 2);
         }
         else
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
             m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
-            this.Add(m_buttonsContainer, 1, 1);
+            m_grid.Add(m_buttonsContainer, 1, 1);
         }
     }
 
@@ -153,9 +160,9 @@ public partial class AlertView : Grid
 
     private void OnTitleOrDescriptionChanged()
     {
-        if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
+        if (m_titleAndDescriptionLabel != null && m_grid.Contains(m_titleAndDescriptionLabel))
         {
-            Remove(m_titleAndDescriptionLabel);
+            m_grid.Remove(m_titleAndDescriptionLabel);
             m_titleAndDescriptionLabel.DisconnectHandlers();
         }
         
@@ -192,16 +199,17 @@ public partial class AlertView : Grid
             MaxLines = GetTitleMaxLines(),
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
+            TextColor = TextColor,
             FormattedText = formattedString,
             TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
-            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            TruncatedTextColor = TextColor,
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 
         m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
         m_titleAndDescriptionLabel.PropertyChanged += TitleAndDescriptionLabelOnPropertyChanged;
         
-        this.Add(m_titleAndDescriptionLabel, 1);
+        m_grid.Add(m_titleAndDescriptionLabel, 1);
         
         UpdateButtonAlignment();
         UpdateAccessibility();
@@ -229,7 +237,7 @@ public partial class AlertView : Grid
         {
             Touch.SetCommand(this, new Command(() =>
             {
-                _ = BottomSheetService.Open(new AlertBottomSheet(this));
+                _ = BottomSheetService.Open(new AlertBottomSheet(this, m_grid.ColumnSpacing));
             }));
         }
         else
@@ -345,9 +353,9 @@ public partial class AlertView : Grid
 
     private void OnIconChanged()
     {
-        if (Contains(m_icon))
+        if (m_grid.Contains(m_icon))
         {
-            Remove(m_icon);
+            m_grid.Remove(m_icon);
             m_icon?.DisconnectHandlers();
         }
         
@@ -365,7 +373,7 @@ public partial class AlertView : Grid
         
         m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
-        Add(m_icon);
+        m_grid.Add(m_icon);
         
         Grid.SetRowSpan(m_icon, 2);
     }
@@ -448,7 +456,7 @@ public partial class AlertView : Grid
         SemanticProperties.SetDescription(m_closeIcon, DUILocalizedStrings.Accessibility_CloseAlert);
         SemanticProperties.SetHint(m_closeIcon, DUILocalizedStrings.Accessibility_TapToDismissAlert);
             
-        this.Add(m_closeIcon, 2);
+        m_grid.Add(m_closeIcon, 2);
         UpdateAccessibility();
     }
 

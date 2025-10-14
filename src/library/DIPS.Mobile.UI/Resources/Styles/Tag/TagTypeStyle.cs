@@ -9,7 +9,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_subtle)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_default)
             },
             new Setter
             {
@@ -31,7 +31,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_danger_subtle)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_danger)
             },
             new Setter
             {

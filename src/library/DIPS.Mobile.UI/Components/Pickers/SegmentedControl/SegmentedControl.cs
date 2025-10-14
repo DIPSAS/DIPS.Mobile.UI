@@ -88,7 +88,7 @@ public partial class SegmentedControl : ContentView
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
             TrueObject = Colors.GetColor(ColorName.color_text_action),
-            FalseObject = Colors.GetColor(ColorName.color_text_default)
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle)
         });
 
         horizontalStackLayout.Add(checkedImage);

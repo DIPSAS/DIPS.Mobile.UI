@@ -97,6 +97,17 @@ public partial class AlertView
         set => SetValue(IconColorProperty, value);
     }
 
+    internal static readonly BindableProperty TextColorProperty = BindableProperty.Create(
+        nameof(TextColor),
+        typeof(Color),
+        typeof(AlertView));
+
+    internal Color TextColor
+    {
+        get => (Color)GetValue(TextColorProperty);
+        set => SetValue(TextColorProperty, value);
+    }
+
     public static readonly BindableProperty LeftButtonTextProperty = BindableProperty.Create(
         nameof(LeftButtonText),
         typeof(string),

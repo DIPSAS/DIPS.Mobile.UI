@@ -119,7 +119,7 @@
             <dui:ListItem Title="Title"
                           CornerRadius="{dui:Sizes size_4}"
                           Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                          BackgroundColor="{dui:Colors color_background_subtle}">
+                          BackgroundColor="{dui:Colors color_surface_subtle}">
 
                 <dui:ItemPicker Mode="ContextMenu"
                                 ItemsSource="{Binding People}"
@@ -132,7 +132,7 @@
             <dui:ListItem Title="Title"
                           CornerRadius="{dui:Sizes size_4}"
                           Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                          BackgroundColor="{dui:Colors color_background_subtle}">
+                          BackgroundColor="{dui:Colors color_surface_subtle}">
 
                 <dui:ItemPicker Mode="BottomSheet"
                                 ItemsSource="{Binding People}"
@@ -150,7 +150,7 @@
             <dui:ListItem Title="Title"
                           CornerRadius="{dui:Sizes size_4}"
                           Margin="{dui:Thickness Left=size_4, Right=size_4}"
-                          BackgroundColor="{dui:Colors color_background_subtle}">
+                          BackgroundColor="{dui:Colors color_surface_subtle}">
 
                 <dui:ItemPicker Mode="BottomSheet"
                                 ItemsSource="{Binding People}"

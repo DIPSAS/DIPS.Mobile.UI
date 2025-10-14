@@ -49,7 +49,7 @@ internal class ImageThumbnailView : Grid
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.radius_small));
         
-        var closeButton = new Border
+        /*var closeButton = new Border
         {
             StrokeShape = new Ellipse(),
             BackgroundColor = Colors.GetColor(ColorName.color_surface_subtle),
@@ -65,6 +65,15 @@ internal class ImageThumbnailView : Grid
                 Source = Icons.GetIcon(IconName.close_line)
             },
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
+        };*/
+        var closeButton = new Button
+        {
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall),
+            ImageSource = Icons.GetIcon(IconName.close_line),
+            ImageTintColor = Colors.GetColor(ColorName.color_icon_default),
+            HeightRequest = Sizes.GetSize(SizeName.size_5),
+            WidthRequest = Sizes.GetSize(SizeName.size_5),
+            CornerRadius = 10
         };
 
         Touch.SetCommand(closeButton, new Command(async () =>

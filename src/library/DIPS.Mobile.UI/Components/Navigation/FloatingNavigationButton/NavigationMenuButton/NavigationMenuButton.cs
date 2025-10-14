@@ -40,7 +40,7 @@ internal partial class NavigationMenuButton : Grid
         BadgeLabel = new Label
         {
             AutomationId = "BadgeLabel".ToDUIAutomationId<NavigationMenuButton>(),
-            TextColor = Colors.GetColor(ColorName.color_text_default_inverted),
+            TextColor = Microsoft.Maui.Graphics.Colors.White,
             LineBreakMode = LineBreakMode.NoWrap,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             FontSize = Sizes.GetSize(SizeName.size_3),
