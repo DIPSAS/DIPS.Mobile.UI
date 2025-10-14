@@ -6,18 +6,18 @@ internal class ButtonStyleResources
     {
         [ButtonStyle.CallToActionLarge] = ButtonTypeStyle.CallToActionLarge,
         [ButtonStyle.CallToActionSmall] = ButtonTypeStyle.CallToActionSmall,
-        [ButtonStyle.CallToActionIconButtonSmall] = ButtonTypeStyle.CallToActionButtonSmall,
-        [ButtonStyle.CallToActionButtonLarge] = ButtonTypeStyle.CallToActionButtonLarge,
+        [ButtonStyle.CallToActionIconSmall] = ButtonTypeStyle.CallToActionIconSmall,
+        [ButtonStyle.CallToActionIconLarge] = ButtonTypeStyle.CallToActionIconLarge,
         [ButtonStyle.DefaultLarge] = ButtonTypeStyle.DefaultLarge,
         [ButtonStyle.DefaultSmall] = ButtonTypeStyle.DefaultSmall,
-        [ButtonStyle.DefaultIconButtonSmall] = ButtonTypeStyle.DefaultIconButtonSmall,
-        [ButtonStyle.DefaultIconButtonLarge] = ButtonTypeStyle.DefaultIconButtonLarge,
+        [ButtonStyle.DefaultIconSmall] = ButtonTypeStyle.DefaultIconSmall,
+        [ButtonStyle.DefaultIconLarge] = ButtonTypeStyle.DefaultIconLarge,
         [ButtonStyle.GhostLarge] = ButtonTypeStyle.GhostLarge,
         [ButtonStyle.GhostSmall] = ButtonTypeStyle.GhostSmall,
-        [ButtonStyle.GhostIconButtonSmall] = ButtonTypeStyle.GhostIconButtonSmall,
-        [ButtonStyle.GhostIconButtonLarge] = ButtonTypeStyle.GhostIconButtonLarge,
-        [ButtonStyle.CloseIconButtonSmall] = ButtonTypeStyle.CloseIconButtonSmall,
-        [ButtonStyle.DefaultFloatingIconButton] = ButtonTypeStyle.DefaultFloatingIconButton,
-        [ButtonStyle.DefaultFloatingButton] = ButtonTypeStyle.DefaultFloatingButton
+        [ButtonStyle.GhostIconSmall] = ButtonTypeStyle.GhostIconSmall,
+        [ButtonStyle.GhostIconLarge] = ButtonTypeStyle.GhostIconLarge,
+        [ButtonStyle.CloseIconSmall] = ButtonTypeStyle.CloseIconSmall,
+        [ButtonStyle.DefaultFloatingIcon] = ButtonTypeStyle.DefaultFloatingButton,
+        [ButtonStyle.DefaultFloating] = ButtonTypeStyle.DefaultFloating
     };
 }

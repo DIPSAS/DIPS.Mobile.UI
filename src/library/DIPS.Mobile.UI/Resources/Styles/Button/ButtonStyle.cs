@@ -9,13 +9,13 @@ public enum ButtonStyle
     CallToActionSmall = 4,
     GhostLarge = 5,
     GhostSmall = 6,
-    CallToActionIconButtonSmall = 7,
-    CallToActionButtonLarge = 8,
-    DefaultIconButtonSmall = 9,
-    DefaultIconButtonLarge = 10,
-    GhostIconButtonSmall = 11,
-    GhostIconButtonLarge = 12,
-    CloseIconButtonSmall = 13,
-    DefaultFloatingIconButton = 14,
-    DefaultFloatingButton = 15
+    CallToActionIconSmall = 7,
+    CallToActionIconLarge = 8,
+    DefaultIconSmall = 9,
+    DefaultIconLarge = 10,
+    GhostIconSmall = 11,
+    GhostIconLarge = 12,
+    CloseIconSmall = 13,
+    DefaultFloatingIcon = 14,
+    DefaultFloating = 15
 }

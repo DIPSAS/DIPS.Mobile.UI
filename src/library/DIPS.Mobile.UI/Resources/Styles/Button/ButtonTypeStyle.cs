@@ -197,7 +197,7 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style CallToActionButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionIconSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = CallToAction,
         Setters =
@@ -227,7 +227,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style CallToActionButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionIconLarge => new(typeof(Components.Buttons.Button))
     {
         BasedOn = CallToAction,
         Setters =
@@ -257,7 +257,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style GhostIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style GhostIconSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Ghost,
         Setters =
@@ -287,7 +287,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style GhostIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style GhostIconLarge => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Ghost,
         Setters =
@@ -317,7 +317,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style DefaultIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Default,
         Setters =
@@ -347,7 +347,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style DefaultIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconLarge => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Default,
         Setters =
@@ -377,7 +377,7 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style CloseIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style CloseIconSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Ghost,
         Setters =
@@ -420,9 +420,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style DefaultFloatingIconButton => new(typeof(Components.Buttons.Button))
+    public static Style DefaultFloatingButton => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = DefaultIconButtonLarge,
+        BasedOn = DefaultIconLarge,
         Setters =
         {
             new Setter
@@ -433,7 +433,7 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style DefaultFloatingButton => new(typeof(Components.Buttons.Button))
+    public static Style DefaultFloating => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Default,
         Setters =

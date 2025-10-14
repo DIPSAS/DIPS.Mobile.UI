@@ -65,7 +65,7 @@ internal class ImageCaptureTopToolbarView : Grid
 
     private Button SettingsButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
         ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_fill) : Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
@@ -75,7 +75,7 @@ internal class ImageCaptureTopToolbarView : Grid
     
     private static Button InfoButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
         ImageSource = Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
@@ -85,7 +85,7 @@ internal class ImageCaptureTopToolbarView : Grid
 
     private static Button EditButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
         ImageSource = Icons.GetIcon(IconName.filter_fill),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,

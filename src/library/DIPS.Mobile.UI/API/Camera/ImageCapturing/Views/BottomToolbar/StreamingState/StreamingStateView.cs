@@ -20,7 +20,7 @@ internal class StreamingStateView : Grid
 
         m_blitzButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
             ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             HorizontalOptions = LayoutOptions.End,

@@ -35,7 +35,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
 
         m_infoButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             ImageSource = Icons.GetIcon(IconName.information_line),
             ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
@@ -44,7 +44,7 @@ internal class GalleryBottomSheetTopToolbar : Grid
         
         m_editButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             ImageSource = Icons.GetIcon(IconName.filter_fill),
             ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,

@@ -22,14 +22,14 @@ internal class EditStateBottomView : Grid
             {
                 new Components.Buttons.Button
                 {
-                    Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+                    Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
                     ImageSource = Icons.GetIcon(IconName.clockwise_fill),
                     ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
                     Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(true))
                 },
                 new Components.Buttons.Button
                 {
-                    Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+                    Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
                     ImageSource = Icons.GetIcon(IconName.counter_clockwise_fill),
                     ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
                     Command = new Command(() => _ = imageEditStateObserver.OnRotateButtonTapped(false))

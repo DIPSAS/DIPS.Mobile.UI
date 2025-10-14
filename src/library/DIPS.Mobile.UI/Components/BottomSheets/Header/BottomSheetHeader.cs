@@ -46,7 +46,7 @@ internal class BottomSheetHeader : Grid
         var closeButton = new Button
         {
             VerticalOptions = LayoutOptions.Start, 
-            Style = Styles.GetButtonStyle(ButtonStyle.CloseIconButtonSmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.CloseIconSmall),
             Command = new Command(() =>
             {
                 if (m_bottomSheet.BottomSheetHeaderBehavior?.CloseButtonCommand is not null)

@@ -39,7 +39,7 @@ public partial class AutoScrollingTextView : Grid
         m_scrollToBottomHelper = new Button
         {
             ImageSource = Icons.GetIcon(IconName.arrow_down_line),
-            Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconButtonSmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall),
             Command = new Command(() => _ = ScrollToBottom(true)),
             IsVisible = false,
             VerticalOptions = LayoutOptions.End,
