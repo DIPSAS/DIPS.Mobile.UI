@@ -26,11 +26,16 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
+    <Grid Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}"
+          VerticalOptions="Start">
         
-        <dui:ScrollPicker Components="{Binding ItemComponents}" />
+        <dui:AlertView Title="Hello"
+                       
+                       LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Dette er en lang tekst"
+                       />
         
-    </dui:VerticalStackLayout>
+    </Grid>
     
     
 </dui:ContentPage>

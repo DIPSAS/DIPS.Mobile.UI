@@ -44,6 +44,7 @@ public partial class AlertView : Border
             new RowDefinition(GridLength.Auto),
         ],
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
+        Padding = Sizes.GetSize(SizeName.content_margin_small)
     };
 
     public AlertView()
@@ -52,7 +53,7 @@ public partial class AlertView : Border
         AutomationId = "AlertView".ToDUIAutomationId<AlertView>();
         StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_small) };
 
-        Padding = Sizes.GetSize(SizeName.content_margin_small);
+        
         StrokeThickness = Sizes.GetSize(SizeName.stroke_medium);
         
         m_buttonsContainer = new HorizontalStackLayout
@@ -101,6 +102,7 @@ public partial class AlertView : Border
         
         if (buttonsWillFit)
         {
+            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_1), 0, Sizes.GetSize(SizeName.size_1));
             m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
             m_grid.Add(m_buttonsContainer, 2);
         }
