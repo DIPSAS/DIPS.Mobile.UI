@@ -30,8 +30,10 @@ public partial class  LayoutPlatformEffect
         {
             m_previousPadding = layout.Padding;
             
-            // We have to add padding to make the stroke visible, since the stroke is drawn inside the view. And views inside the layout will otherwise overlap the stroke.
-            layout.Padding = Layout.GetStrokeThickness(Element);
+            var strokeThickness = Layout.GetStrokeThickness(Element);
+            
+            // We have to increase padding to make the stroke visible, since the stroke is drawn inside the view. And views inside the layout will otherwise overlap the stroke.
+            layout.Padding = new Thickness(m_previousPadding.Value.Left + strokeThickness, m_previousPadding.Value.Top + strokeThickness, m_previousPadding.Value.Right + strokeThickness, m_previousPadding.Value.Bottom + strokeThickness);
         }
 
         Control.Background = materialShapeDrawable;
