@@ -26,6 +26,20 @@ CheckIfInstalledCorrectly ()
 }
 
 echo "🥾 ---- Running bootstrapper ---- 🥾"
+
+# -- x-platform stuff --
+
+# dotnet-script
+if dotnet tool list -g | grep dotnet-script > /dev/null ; then
+   echo "✅ dotnet-script was found"
+else
+   echo "❌ dotnet-script was not found, installing..."
+   dotnet tool install -g dotnet-script > /dev/null
+   CheckIfInstalledCorrectly "dotnet-script"
+fi
+
+# -- macOS stuff --
+
 # Check if you are running macos
 if [[ "$(uname -s 2>/dev/null)" == "Darwin" ]]; then
    echo "✅ You are running on Apple software."
@@ -35,16 +49,6 @@ if [[ "$(uname -s 2>/dev/null)" == "Darwin" ]]; then
 else
    echo "❌ You are not running on  software. This build system requires you to run on a Mac."
    exit 0
-fi
-
-#dotnet-script
-
-if dotnet tool list -g | grep dotnet-script > /dev/null ; then
-   echo "✅ dotnet-script was found"
-else
-   echo "❌ dotnet-script was not found, installing..."
-   dotnet tool install -g dotnet-script > /dev/null
-   CheckIfInstalledCorrectly "dotnet-script"
 fi
 
 
