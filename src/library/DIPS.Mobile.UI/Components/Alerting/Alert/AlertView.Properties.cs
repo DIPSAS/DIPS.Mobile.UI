@@ -208,6 +208,18 @@ public partial class AlertView
         get => (AlertTitleTruncationMode)GetValue(TitleTruncationModeProperty);
         set => SetValue(TitleTruncationModeProperty, value);
     }
+
+    internal static readonly BindableProperty StrokeProperty = BindableProperty.Create(
+        nameof(Stroke),
+        typeof(Color),
+        typeof(AlertView),
+        propertyChanged: (bindable, _, newValue) => UI.Effects.Layout.Layout.SetStroke(bindable, newValue as Color));
+
+    internal Color Stroke
+    {
+        get => (Color)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }   
 }
 
 public enum AlertTitleTruncationMode

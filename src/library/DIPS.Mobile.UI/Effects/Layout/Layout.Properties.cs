@@ -26,7 +26,7 @@ public partial class Layout
         propertyChanged: OnLayoutPropertiesChanged);
     
     public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.CreateAttached("StrokeThickness",
-        typeof(int),
+        typeof(double),
         typeof(Layout),
-        1);
+        1d);
 }

@@ -55,12 +55,12 @@ public partial class Layout : RoutingEffect
         view.SetValue(StrokeProperty, stroke);
     }
     
-    public static int GetStrokeThickness(BindableObject view)
+    public static double GetStrokeThickness(BindableObject view)
     {
-        return (int)view.GetValue(StrokeThicknessProperty);
+        return (double)view.GetValue(StrokeThicknessProperty);
     }
     
-    public static void SetStrokeThickness(BindableObject view, int strokeThickness)
+    public static void SetStrokeThickness(BindableObject view, double strokeThickness)
     {
         view.SetValue(StrokeThicknessProperty, strokeThickness);
     }

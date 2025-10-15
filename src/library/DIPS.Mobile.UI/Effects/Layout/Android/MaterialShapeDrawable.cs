@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Effects.Layout;
 
 public static class MaterialShapeDrawableHelper
 {
-    public static MaterialShapeDrawable GetMaterialShapeDrawableFromCornerRadius(CornerRadius? cornerRadius, Microsoft.Maui.Graphics.Color? strokeColor, int strokeThickness)
+    public static MaterialShapeDrawable GetMaterialShapeDrawableFromCornerRadius(CornerRadius? cornerRadius, Color? strokeColor, double strokeThickness)
     {
         var builder = new ShapeAppearanceModel.Builder();
 
@@ -36,6 +36,6 @@ public static class MaterialShapeDrawableHelper
 
         strokeColor ??= Colors.Transparent;
         
-        return new MaterialShapeDrawable(builder.Build()) { StrokeWidth = strokeThickness, StrokeColor = strokeColor.ToDefaultColorStateList()};
+        return new MaterialShapeDrawable(builder.Build()) { StrokeWidth = (float)strokeThickness, StrokeColor = strokeColor.ToDefaultColorStateList()};
     }
 }

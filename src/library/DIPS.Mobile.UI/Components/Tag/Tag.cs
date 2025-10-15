@@ -2,26 +2,18 @@ using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using DIPS.Mobile.UI.Resources.Styles.Tag;
-using Microsoft.Maui.Controls.Shapes;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Tag;
 
-public partial class Tag : Border
+public partial class Tag : Grid
 {
-    private readonly Grid m_grid;
-
     public Tag()
     {
-        StrokeThickness = Sizes.GetSize(SizeName.stroke_medium);
-        StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_half)) };
-        this.SetBinding(StrokeProperty, static (Tag tag) => tag.BorderColor, source: this);
-        
-        m_grid = new Grid
-        {
-            ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)]
-        };
-        
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetStrokeThickness(this, Sizes.GetSize(SizeName.stroke_medium));
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
+
+        ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
         Style = Styles.GetTagStyle(TagStyle.Default);
         Padding = Sizes.GetSize(SizeName.size_half);
         
@@ -29,8 +21,6 @@ public partial class Tag : Border
 
         CreateIcon();
         CreateTextLabel();
-
-        Content = m_grid;
     }
 
     private void CreateIcon()
@@ -45,7 +35,7 @@ public partial class Tag : Border
         icon.SetBinding(Images.Image.Image.TintColorProperty, static (Tag tag) => tag.IconColor, source: this);
         icon.SetBinding(IsVisibleProperty, static (Tag tag) => tag.Icon, converter: new IsEmptyConverter { Inverted = true }, source: this);
 
-        m_grid.Add(icon, 0);
+        this.Add(icon, 0);
     }
 
     private void CreateTextLabel()
@@ -62,6 +52,6 @@ public partial class Tag : Border
         label.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (Tag tag) => tag.TextColor, source: this);
         label.SetBinding(Microsoft.Maui.Controls.Label.LineBreakModeProperty, static (Tag tag) => tag.LineBreakMode, source: this);
         
-        m_grid.Add(label, 1);
+        this.Add(label, 1);
     }
 }

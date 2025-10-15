@@ -3,10 +3,11 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
+using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
 
 namespace DIPS.Mobile.UI.Components.Counters;
 
-public partial class Counter : Border
+public partial class Counter : Grid
 {
     private readonly Grid m_primaryGrid = new()
     {
@@ -36,24 +37,20 @@ public partial class Counter : Border
     };
     
     private readonly BoxView m_divider = new() { Color = Colors.GetColor(ColorName.color_border_default), Margin = 0};
-    private readonly Grid m_grid;
 
     public Counter()
     {
-        m_grid = new Grid
-        {
-            ColumnSpacing = 0,
-            ColumnDefinitions =
-            [
-                new ColumnDefinition { Width = GridLength.Auto },
-                new ColumnDefinition { Width = 1 },
-                new ColumnDefinition { Width = GridLength.Auto }
-            ],
-        };
+        ColumnSpacing = 0;
+        ColumnDefinitions =
+        [
+            new ColumnDefinition { Width = GridLength.Auto },
+            new ColumnDefinition { Width = 1 },
+            new ColumnDefinition { Width = GridLength.Auto }
+        ];
 
-        StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.size_2)) };
-        StrokeThickness = 1;
-        Stroke = Colors.GetColor(ColorName.color_border_default);
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_2));
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetStrokeThickness(this, 1);
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, Colors.GetColor(ColorName.color_border_default));
         
         m_primaryLabel.SetBinding(Label.TextProperty, static (Counter counter) => counter.Value, source: this);
         m_secondaryLabel.SetBinding(Label.TextProperty, static (Counter counter) => counter.SecondaryValue, source: this);
@@ -64,9 +61,9 @@ public partial class Counter : Border
         m_secondaryGrid.Add(m_secondaryLabel);
         m_secondaryGrid.Add(m_secondaryErrorIcon);
         
-        m_grid.Add(m_primaryGrid, IsFlipped ? 2 : 0);
-        m_grid.Add(m_divider, 1);
-        m_grid.Add(m_secondaryGrid, IsFlipped ? 0 : 2);
+        this.Add(m_primaryGrid, IsFlipped ? 2 : 0);
+        this.Add(m_divider, 1);
+        this.Add(m_secondaryGrid, IsFlipped ? 0 : 2);
         
         OnModeChanged();
         OnIsUrgentChanged();
@@ -74,7 +71,6 @@ public partial class Counter : Border
         OnIsErrorChanged();
         OnIsSecondaryErrorChanged();
         
-        Content = m_grid;
     }
 
     private void OnIsUrgentChanged()
@@ -89,11 +85,11 @@ public partial class Counter : Border
     {
         if (IsUrgent && IsSecondaryUrgent)
         {
-            Stroke = Colors.GetColor(ColorName.color_border_danger);
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, Colors.GetColor(ColorName.color_border_danger));
         }
         else
         {
-            Stroke = Colors.GetColor(ColorName.color_border_default);
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, Colors.GetColor(ColorName.color_border_default));
         }
     }
 
@@ -159,7 +155,7 @@ public partial class Counter : Border
 
     private void OnIsFlippedChanged()
     {
-        m_grid.SetColumn(m_primaryGrid, IsFlipped ? 2 : 0);
-        m_grid.SetColumn(m_secondaryGrid, IsFlipped ? 0 : 2);
+        this.SetColumn(m_primaryGrid, IsFlipped ? 2 : 0);
+        this.SetColumn(m_secondaryGrid, IsFlipped ? 0 : 2);
     }
 }

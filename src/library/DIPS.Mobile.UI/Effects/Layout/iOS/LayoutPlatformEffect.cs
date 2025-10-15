@@ -33,7 +33,7 @@ public partial class LayoutPlatformEffect
         if (stroke is not null)
         {
             Control.Layer.BorderColor = stroke.ToCGColor();
-            Control.Layer.BorderWidth = Layout.GetStrokeThickness(Element);
+            Control.Layer.BorderWidth = (nfloat)Layout.GetStrokeThickness(Element);
         }
     }
 

@@ -25,7 +25,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = Border.StrokeProperty,
+                Property = AlertView.StrokeProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_border_information)
             },
             new Setter
@@ -57,7 +57,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = Border.StrokeProperty,
+                Property = AlertView.StrokeProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_border_danger)
             },
             new Setter
@@ -89,7 +89,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = Border.StrokeProperty,
+                Property = AlertView.StrokeProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_border_warning)
             },
             new Setter
@@ -121,7 +121,7 @@ public class AlertTypeStyle
             },
             new Setter
             {
-                Property = Border.StrokeProperty,
+                Property = AlertView.StrokeProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_border_success)
             },
             new Setter

@@ -24,37 +24,33 @@ using Label = DIPS.Mobile.UI.Components.Labels.Label;
 
 namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 
-public partial class AlertView : Border
+public partial class AlertView : Grid
 {
     private readonly HorizontalStackLayout m_buttonsContainer;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
     private CustomTruncationTextView? m_titleAndDescriptionLabel;
-    private readonly Grid m_grid = new()
-    {
-        ColumnDefinitions =
-        [
-            new ColumnDefinition(GridLength.Auto),
-            new ColumnDefinition(GridLength.Star),
-            new ColumnDefinition(GridLength.Auto)
-        ],
-        RowDefinitions =
-        [
-            new RowDefinition(GridLength.Star),
-            new RowDefinition(GridLength.Auto),
-        ],
-        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
-        Padding = Sizes.GetSize(SizeName.content_margin_small)
-    };
 
     public AlertView()
     {
         Style = Styles.GetAlertStyle(AlertStyle.Information);
         AutomationId = "AlertView".ToDUIAutomationId<AlertView>();
-        StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_small) };
-
+        ColumnDefinitions =
+        [
+            new ColumnDefinition(GridLength.Auto),
+            new ColumnDefinition(GridLength.Star),
+            new ColumnDefinition(GridLength.Auto)
+        ];
+        RowDefinitions =
+        [
+            new RowDefinition(GridLength.Star),
+            new RowDefinition(GridLength.Auto),
+        ];
+        ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small);
+        Padding = Sizes.GetSize(SizeName.content_margin_small);
         
-        StrokeThickness = Sizes.GetSize(SizeName.stroke_medium);
+        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.radius_small));
+        UI.Effects.Layout.Layout.SetStrokeThickness(this, Sizes.GetSize(SizeName.stroke_medium));
         
         m_buttonsContainer = new HorizontalStackLayout
         {
@@ -67,8 +63,6 @@ public partial class AlertView : Border
 
         // Set initial accessibility
         UpdateAccessibility();
-
-        Content = m_grid;
     }
 
     public bool IsLargeAlert => !string.IsNullOrEmpty(Description);
@@ -85,12 +79,12 @@ public partial class AlertView : Border
         if (LeftButtonCommand is null && RightButtonCommand is null) 
             return;
         
-        m_grid.Remove(m_buttonsContainer);
+        Remove(m_buttonsContainer);
         
         if (IsLargeAlert)
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            m_grid.Add(m_buttonsContainer, 1, 1);
+            this.Add(m_buttonsContainer, 1, 1);
             return;
         }
         
@@ -102,15 +96,15 @@ public partial class AlertView : Border
         
         if (buttonsWillFit)
         {
-            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_1), 0, Sizes.GetSize(SizeName.size_1));
+            m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
             m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
-            m_grid.Add(m_buttonsContainer, 2);
+            this.Add(m_buttonsContainer, 2);
         }
         else
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
             m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
-            m_grid.Add(m_buttonsContainer, 1, 1);
+            this.Add(m_buttonsContainer, 1, 1);
         }
     }
 
@@ -162,9 +156,9 @@ public partial class AlertView : Border
 
     private void OnTitleOrDescriptionChanged()
     {
-        if (m_titleAndDescriptionLabel != null && m_grid.Contains(m_titleAndDescriptionLabel))
+        if (m_titleAndDescriptionLabel != null && this.Contains(m_titleAndDescriptionLabel))
         {
-            m_grid.Remove(m_titleAndDescriptionLabel);
+            this.Remove(m_titleAndDescriptionLabel);
             m_titleAndDescriptionLabel.DisconnectHandlers();
         }
         
@@ -211,7 +205,7 @@ public partial class AlertView : Border
         m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
         m_titleAndDescriptionLabel.PropertyChanged += TitleAndDescriptionLabelOnPropertyChanged;
         
-        m_grid.Add(m_titleAndDescriptionLabel, 1);
+        this.Add(m_titleAndDescriptionLabel, 1);
         
         UpdateButtonAlignment();
         UpdateAccessibility();
@@ -239,7 +233,7 @@ public partial class AlertView : Border
         {
             Touch.SetCommand(this, new Command(() =>
             {
-                _ = BottomSheetService.Open(new AlertBottomSheet(this, m_grid.ColumnSpacing));
+                _ = BottomSheetService.Open(new AlertBottomSheet(this));
             }));
         }
         else
@@ -355,9 +349,9 @@ public partial class AlertView : Border
 
     private void OnIconChanged()
     {
-        if (m_grid.Contains(m_icon))
+        if (this.Contains(m_icon))
         {
-            m_grid.Remove(m_icon);
+            this.Remove(m_icon);
             m_icon?.DisconnectHandlers();
         }
         
@@ -375,7 +369,7 @@ public partial class AlertView : Border
         
         m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
-        m_grid.Add(m_icon);
+        this.Add(m_icon);
         
         Grid.SetRowSpan(m_icon, 2);
     }
@@ -458,7 +452,7 @@ public partial class AlertView : Border
         SemanticProperties.SetDescription(m_closeIcon, DUILocalizedStrings.Accessibility_CloseAlert);
         SemanticProperties.SetHint(m_closeIcon, DUILocalizedStrings.Accessibility_TapToDismissAlert);
             
-        m_grid.Add(m_closeIcon, 2);
+        this.Add(m_closeIcon, 2);
         UpdateAccessibility();
     }
 
