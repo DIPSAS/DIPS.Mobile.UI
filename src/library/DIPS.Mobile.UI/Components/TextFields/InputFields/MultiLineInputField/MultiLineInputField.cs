@@ -91,14 +91,14 @@ public partial class MultiLineInputField : SingleLineInputField
         m_cancelButton = new Button
         {
             Text = DUILocalizedStrings.Cancel, 
-            Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
             Command = new Command(OnCancelTapped)
         };
 
         m_doneButton = new Button
         {
             Text = DUILocalizedStrings.Save, 
-            Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.CallToActionSmall),
             Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
@@ -328,24 +328,6 @@ public partial class MultiLineInputField : SingleLineInputField
         HelpTextLabel.SetBinding(Label.TextProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.HelpText, source: this);
         HelpTextLabel.SetBinding(Label.TextColorProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.HelpTextColor, source: this);
         OnPropertyChanged(nameof(HelpText));
-    }
-
-    protected override void ChangeHeaderTextStyle()
-    {
-        base.ChangeHeaderTextStyle();
-
-        if (IsError)
-        {
-            if(IsFocused)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
-            
-            if(Text != string.Empty)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
-        }
-        else
-        {
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
-        }
     }
 
     protected override void SetStyle()

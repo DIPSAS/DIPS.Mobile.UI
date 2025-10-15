@@ -101,7 +101,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
             }
             
             m_previousTitleColor = m_dateAndTimePicker.DateChip.TitleColor;
-            m_dateAndTimePicker.DateChip.TitleColor = Colors.GetColor(ColorName.color_text_action);
+            m_dateAndTimePicker.DateChip.TitleColor = Colors.GetColor(ColorName.color_text_on_button);
         
             DatePickerEnabled();
         }
@@ -113,7 +113,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
             }
             
             m_previousTitleColor = m_dateAndTimePicker.TimeChip.TitleColor;
-            m_dateAndTimePicker.TimeChip.TitleColor = Colors.GetColor(ColorName.color_text_action);
+            m_dateAndTimePicker.TimeChip.TitleColor = Colors.GetColor(ColorName.color_text_on_button);
             
             TimePickerEnabled();
         }
@@ -189,7 +189,7 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
                 Text = DUILocalizedStrings.Today,
                 Command = new Command(() => m_inlineDatePicker?.SetSelectedDateTime(DateTime.Now)),
                 Style = Styles.GetLabelStyle(LabelStyle.UI300),
-                TextColor = Colors.GetColor(ColorName.color_text_action),
+                TextColor = Colors.GetColor(ColorName.color_text_on_button),
                 HorizontalOptions = LayoutOptions.End
             }, 1, 2);
 

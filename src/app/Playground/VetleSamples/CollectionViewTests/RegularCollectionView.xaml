@@ -35,14 +35,11 @@
         <dui:CollectionView.ItemTemplate>
             <DataTemplate>
                 
-                    <Grid RowDefinitions="Auto, Auto">
                         <dui:ListItem Title="{Binding Name}"
-                                      HasBottomDivider="True">
+                                      HasBottomDivider="True" />
                             
                            
                             
-                        </dui:ListItem>
-                    </Grid>
             </DataTemplate>
         </dui:CollectionView.ItemTemplate>
 

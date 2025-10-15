@@ -18,4 +18,15 @@ public partial class Layout
         typeof(bool),
         typeof(Layout),
         false);
+    
+    public static readonly BindableProperty StrokeProperty = BindableProperty.CreateAttached("Stroke",
+        typeof(Color),
+        typeof(Layout),
+        null,
+        propertyChanged: OnLayoutPropertiesChanged);
+    
+    public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.CreateAttached("StrokeThickness",
+        typeof(double),
+        typeof(Layout),
+        1d);
 }

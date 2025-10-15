@@ -65,8 +65,8 @@ internal class ImageCaptureTopToolbarView : Grid
 
     private Button SettingsButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_fill) : Icons.GetIcon(IconName.information_line),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
+        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_line) : Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
@@ -75,9 +75,9 @@ internal class ImageCaptureTopToolbarView : Grid
     
     private static Button InfoButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
         ImageSource = Icons.GetIcon(IconName.information_line),
-        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+        ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center
@@ -85,9 +85,9 @@ internal class ImageCaptureTopToolbarView : Grid
 
     private static Button EditButton => new()
     {
-        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+        Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
         ImageSource = Icons.GetIcon(IconName.filter_fill),
-        ImageTintColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+        ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
         VerticalOptions = LayoutOptions.Center

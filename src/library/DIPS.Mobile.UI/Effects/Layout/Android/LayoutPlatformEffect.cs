@@ -10,11 +10,11 @@ public partial class  LayoutPlatformEffect
 {
     private Drawable? m_originalBackground;
 
-    private partial void PlatformOnAttached(CornerRadius cornerRadius)
+    private partial void PlatformOnAttached(CornerRadius? cornerRadius, Color? stroke)
     {
         m_originalBackground = Control.Background;
-
-        var materialShapeDrawable = MaterialShapeDrawableHelper.GetMaterialShapeDrawableFromCornerRadius(cornerRadius);
+        
+        var materialShapeDrawable = MaterialShapeDrawableHelper.GetMaterialShapeDrawableFromCornerRadius(cornerRadius, stroke, Layout.GetStrokeThickness(Element));
       
         Control.ClipToOutline = true;
         

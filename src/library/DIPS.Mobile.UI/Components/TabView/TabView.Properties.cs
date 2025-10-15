@@ -82,7 +82,7 @@ public partial class TabView
         nameof(DefaultTextColor),
         typeof(Color),
         typeof(Tab),
-        Colors.GetColor(ColorName.color_text_default));
+        Colors.GetColor(ColorName.color_text_subtle));
         
     public static readonly BindableProperty TextStyleProperty = BindableProperty.Create(
         nameof(DefaultTextStyle),
@@ -94,7 +94,7 @@ public partial class TabView
         nameof(SelectedTextColor),
         typeof(Color),
         typeof(Tab),
-        Colors.GetColor(ColorName.color_text_action));
+        Colors.GetColor(ColorName.color_text_default));
         
     public static readonly BindableProperty SelectedTextStyleProperty = BindableProperty.Create(
         nameof(SelectedTextStyle),

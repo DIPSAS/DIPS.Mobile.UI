@@ -9,11 +9,11 @@
     <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
         
         <dui:Tag Text="Default" 
-                 Icon="{dui:Icons lock_fill}"/>
+                 Icon="{dui:Icons lock_line}"/>
         
         <dui:Tag Style="{dui:Styles Tag=Danger}"
                  Text="Danger"
-                 Icon="{dui:Icons alert_fill}" />
+                 Icon="{dui:Icons alert_line}" />
         
         <dui:Tag Style="{dui:Styles Tag=Subtle}"
                  Text="Subtle"
@@ -23,8 +23,13 @@
                  Text="Success"
                  Icon="{dui:Icons bell_line}" />
         
+        <dui:Tag Style="{dui:Styles Tag=Warning}"
+                 Text="Warning"
+                 Icon="{dui:Icons bell_line}" />
+        
         <dui:Tag Style="{dui:Styles Tag=Information}"
-                 Text="Information" />
+                 Text="Information"
+                 Icon="{dui:Icons information_line}" />
         
     </dui:VerticalStackLayout>
     

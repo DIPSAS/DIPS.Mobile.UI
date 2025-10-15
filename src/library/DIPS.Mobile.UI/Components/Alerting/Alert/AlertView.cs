@@ -14,6 +14,7 @@ using DIPS.Mobile.UI.Resources.Styles.Alert;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using DIPS.Mobile.UI.Resources.Styles.Span;
+using Microsoft.Maui.Controls.Shapes;
 using Animation = DIPS.Mobile.UI.Effects.Animation.Animation;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -33,9 +34,8 @@ public partial class AlertView : Grid
     public AlertView()
     {
         Style = Styles.GetAlertStyle(AlertStyle.Information);
-        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.radius_small));
         AutomationId = "AlertView".ToDUIAutomationId<AlertView>();
-        ColumnDefinitions = 
+        ColumnDefinitions =
         [
             new ColumnDefinition(GridLength.Auto),
             new ColumnDefinition(GridLength.Star),
@@ -46,9 +46,11 @@ public partial class AlertView : Grid
             new RowDefinition(GridLength.Star),
             new RowDefinition(GridLength.Auto),
         ];
-
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small);
         Padding = Sizes.GetSize(SizeName.content_margin_small);
+        
+        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.radius_small));
+        UI.Effects.Layout.Layout.SetStrokeThickness(this, Sizes.GetSize(SizeName.stroke_medium));
         
         m_buttonsContainer = new HorizontalStackLayout
         {
@@ -94,6 +96,7 @@ public partial class AlertView : Grid
         
         if (buttonsWillFit)
         {
+            m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
             m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
             this.Add(m_buttonsContainer, 2);
         }
@@ -139,7 +142,7 @@ public partial class AlertView : Grid
         {
             AutomationId = automationId,
             HorizontalOptions = LayoutOptions.Start,
-            Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
             Command = buttonCommand,
             CommandParameter = buttonCommandParameter,
             Text = buttonText
@@ -153,9 +156,9 @@ public partial class AlertView : Grid
 
     private void OnTitleOrDescriptionChanged()
     {
-        if (m_titleAndDescriptionLabel != null && Contains(m_titleAndDescriptionLabel))
+        if (m_titleAndDescriptionLabel != null && this.Contains(m_titleAndDescriptionLabel))
         {
-            Remove(m_titleAndDescriptionLabel);
+            this.Remove(m_titleAndDescriptionLabel);
             m_titleAndDescriptionLabel.DisconnectHandlers();
         }
         
@@ -192,9 +195,10 @@ public partial class AlertView : Grid
             MaxLines = GetTitleMaxLines(),
             AutomationId = "TitleAndDescriptionLabel".ToDUIAutomationId<AlertView>(),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
+            TextColor = TextColor,
             FormattedText = formattedString,
             TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
-            TruncatedTextColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            TruncatedTextColor = TextColor,
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 
@@ -345,9 +349,9 @@ public partial class AlertView : Grid
 
     private void OnIconChanged()
     {
-        if (Contains(m_icon))
+        if (this.Contains(m_icon))
         {
-            Remove(m_icon);
+            this.Remove(m_icon);
             m_icon?.DisconnectHandlers();
         }
         
@@ -365,7 +369,7 @@ public partial class AlertView : Grid
         
         m_icon.SetBinding(Image.TintColorProperty, static (AlertView alertView) => alertView.IconColor, source: this);
 
-        Add(m_icon);
+        this.Add(m_icon);
         
         Grid.SetRowSpan(m_icon, 2);
     }

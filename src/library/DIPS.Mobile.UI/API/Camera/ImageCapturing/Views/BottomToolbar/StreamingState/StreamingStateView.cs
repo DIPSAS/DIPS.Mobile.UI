@@ -20,9 +20,9 @@ internal class StreamingStateView : Grid
 
         m_blitzButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
+            ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_line) : Icons.GetIcon(IconName.flash_off_fill),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center
         };
@@ -31,7 +31,7 @@ internal class StreamingStateView : Grid
         {
             isBlitzOn = !isBlitzOn;
             streamingStateObserver.OnTappedFlashButton();
-            m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
+            m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_line) : Icons.GetIcon(IconName.flash_off_fill);
         });
         
         Add(m_shutterButton);

@@ -10,7 +10,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.ColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_fill_default_active_subtle)
+                    Value = Colors.Colors.GetColor(ColorName.color_fill_default_selected)
                 },
                 new Setter
                 {
@@ -20,7 +20,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.TitleColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_text_action_on_fill)
+                    Value = Colors.Colors.GetColor(ColorName.color_text_default)
                 },
                 new Setter
                 {
@@ -35,7 +35,7 @@ internal static class ToggleStyle
                 new Setter
                 {
                     Property = Components.Chips.Chip.BorderColorProperty,
-                    Value = Colors.Colors.GetColor(ColorName.color_border_action_secondary_active)
+                    Value = Colors.Colors.GetColor(ColorName.color_border_button_active)
                 }
             }
         };

@@ -26,11 +26,18 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <dui:VerticalStackLayout Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}">
+    <Grid Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}"
+          VerticalOptions="Center"
+          
+          WidthRequest="50"
+          HeightRequest="50"
+          dui:Layout.Stroke="Green"
+          dui:Layout.StrokeThickness="1"
+          dui:Layout.AutoCornerRadius="True">
         
-        <dui:ScrollPicker Components="{Binding ItemComponents}" />
         
-    </dui:VerticalStackLayout>
+        
+    </Grid>
     
     
 </dui:ContentPage>

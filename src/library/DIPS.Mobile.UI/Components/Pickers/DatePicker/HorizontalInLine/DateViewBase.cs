@@ -23,8 +23,8 @@ public abstract class DateViewBase : Grid
     {
         this.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_fill_action),
-            FalseObject = Colors.GetColor(ColorName.color_fill_subtle)
+            TrueObject = Colors.GetColor(ColorName.color_fill_default_active),
+            FalseObject = Colors.GetColor(ColorName.color_fill_neutral)
         });
         
         if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait)
@@ -53,8 +53,8 @@ public abstract class DateViewBase : Grid
         var dayLabel = CreateLabel(new Label());
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
-            FalseObject = Colors.GetColor(ColorName.color_text_default),
+            TrueObject = Colors.GetColor(ColorName.color_text_default),
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle),
         });
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.Day);
 
@@ -77,8 +77,8 @@ public abstract class DateViewBase : Grid
         var dayLabel = CreateLabel(new Label());
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
-            FalseObject = Colors.GetColor(ColorName.color_text_default),
+            TrueObject = Colors.GetColor(ColorName.color_text_default),
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle),
         });
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.Day);
 
@@ -95,8 +95,8 @@ public abstract class DateViewBase : Grid
 
         contentControl.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
-            TrueObject = Colors.GetColor(ColorName.color_fill_action_secondary_active),
-            FalseObject = Colors.GetColor(ColorName.color_surface_subtle)
+            TrueObject = Colors.GetColor(ColorName.color_fill_default_active),
+            FalseObject = Colors.GetColor(ColorName.color_fill_neutral)
         });
         contentControl.SetBinding(ContentControl.SelectorItemProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsCurrentYear);
         
@@ -114,8 +114,8 @@ public abstract class DateViewBase : Grid
                 {
                     monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
                     {
-                        TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
-                        FalseObject = Colors.GetColor(ColorName.color_text_default),
+                        TrueObject = Colors.GetColor(ColorName.color_text_default),
+                        FalseObject = Colors.GetColor(ColorName.color_text_subtle),
                     });
                 }
 
@@ -138,8 +138,8 @@ public abstract class DateViewBase : Grid
                 {
                     monthAndYearLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
                     {
-                        TrueObject = Colors.GetColor(ColorName.color_text_default_inverted),
-                        FalseObject = Colors.GetColor(ColorName.color_text_default),
+                        TrueObject = Colors.GetColor(ColorName.color_text_default),
+                        FalseObject = Colors.GetColor(ColorName.color_text_subtle),
                     });
                 }
 

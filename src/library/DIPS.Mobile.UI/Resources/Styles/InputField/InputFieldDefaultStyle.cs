@@ -21,7 +21,7 @@ public class InputFieldDefaultStyle
             new Setter
             {
                 Property = SingleLineInputField.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_border_default)
+                Value = Colors.Colors.GetColor(ColorName.color_border_input)
             },
             new Setter
             {

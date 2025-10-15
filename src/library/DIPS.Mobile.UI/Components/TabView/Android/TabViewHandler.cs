@@ -24,7 +24,7 @@ public class TabViewHandler : ViewHandler<TabView, Google.Android.Material.Tabs.
     {
         var tabLayout = new TabLayout(Context);
         tabLayout.TabMode = TabLayout.ModeScrollable;
-        tabLayout.SetBackgroundColor(Colors.GetColor(ColorName.color_palette_neutral_transparent).ToPlatform());
+        tabLayout.SetBackgroundColor(Colors.GetColor(ColorName.color_palette_base_transparent).ToPlatform());
         var density = Context.Resources.DisplayMetrics.Density;
         tabLayout.SetPadding(0, 0, 0, (int)(Sizes.GetSize(SizeName.size_2) * density));
         m_tabLayout = tabLayout;

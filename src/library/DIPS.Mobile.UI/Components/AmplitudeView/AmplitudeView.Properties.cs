@@ -81,14 +81,14 @@ public partial class AmplitudeView
         nameof(PlaceholderAmplitudeColor),
         typeof(Color),
         typeof(Components.AmplitudeView.AmplitudeView),
-        defaultValue: Colors.GetColor(ColorName.color_fill_subtle),
+        defaultValue: Colors.GetColor(ColorName.color_icon_disabled),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty AmplitudeColorProperty = BindableProperty.Create(
         nameof(AmplitudeColor),
         typeof(Color),
         typeof(Components.AmplitudeView.AmplitudeView),
-        defaultValue: Colors.GetColor(ColorName.color_text_default),
+        defaultValue: Colors.GetColor(ColorName.color_icon_default),
         defaultBindingMode: BindingMode.OneTime);
 
     public static readonly BindableProperty HasTimerProperty = BindableProperty.Create(

@@ -28,7 +28,6 @@ internal class GalleryBottomSheetTopToolbar : Grid
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             Content = m_numberOfImagesLabel,
-            BackgroundColor = Microsoft.Maui.Graphics.Colors.DarkGrey,
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small))
         };
 
@@ -36,18 +35,18 @@ internal class GalleryBottomSheetTopToolbar : Grid
 
         m_infoButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             ImageSource = Icons.GetIcon(IconName.information_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             Command = new Command(onInfoIconTapped)
         };
         
         m_editButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             ImageSource = Icons.GetIcon(IconName.filter_fill),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
             Command = new Command(onEditButtonTapped)
         };

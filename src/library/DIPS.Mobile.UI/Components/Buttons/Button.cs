@@ -8,7 +8,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
 
         public Button()
         {
-            Style = ButtonTypeStyle.PrimaryLarge;
+            Style = ButtonTypeStyle.DefaultLarge;
             HorizontalOptions = LayoutOptions.Center;
         }
 
