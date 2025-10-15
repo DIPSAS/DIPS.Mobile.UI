@@ -10,16 +10,16 @@ namespace DIPS.Mobile.UI.Effects.Layout;
 
 public partial class LayoutPlatformEffect
 {
-    private Drawable? _originalBackground;
-    private Drawable? _originalForeground;
+    private Drawable? m_originalBackground;
+    private Drawable? m_originalForeground;
 
     private partial void PlatformOnAttached(CornerRadius? cornerRadius, Color? stroke)
     {
         if (Control == null)
             return;
 
-        _originalBackground = Control.Background;
-        _originalForeground = Control.Foreground;
+        m_originalBackground = Control.Background;
+        m_originalForeground = Control.Foreground;
 
         var strokeThickness = Layout.GetStrokeThickness(Element);
 
@@ -54,7 +54,7 @@ public partial class LayoutPlatformEffect
         if (Control == null)
             return;
 
-        Control.Background = _originalBackground;
-        Control.Foreground = _originalForeground;
+        Control.Background = m_originalBackground;
+        Control.Foreground = m_originalForeground;
     }
 }

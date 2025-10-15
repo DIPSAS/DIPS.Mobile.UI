@@ -34,12 +34,17 @@
                    Margin="{dui:Thickness Left=size_3, Right=size_3}" />
     
     
-    <dui:ListItem Title="Helllo"
-                  
-                  dui:Layout.Stroke="{dui:Colors color_border_default}"
-                  dui:Touch.Command="{Binding CancelCommand}"
-                  Margin="{dui:Thickness size_3}"
-                  ></dui:ListItem>
+    <Grid HeightRequest="50"
+          WidthRequest="50"
+          BackgroundColor="Red"
+          
+          
+          dui:Touch.Command="{Binding CancelCommand}"
+          dui:Layout.StrokeThickness="10"
+          dui:Layout.Stroke="{dui:Colors color_palette_green_900}">
+        
+        
+        </Grid>
     
     </VerticalStackLayout>
     
