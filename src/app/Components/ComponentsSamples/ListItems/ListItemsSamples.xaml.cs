@@ -14,12 +14,4 @@ public partial class ListItemsSamples
     {
         InitializeComponent();
     }
-
-    private void VisualElement_OnLoaded(object? sender, EventArgs e)
-    {
-        if (sender is ListItem listItem)
-        {
-            listItem.Icon = Icons.GetIcon(IconName.image_fill);
-        }
-    }
 }
