@@ -41,17 +41,38 @@ public partial class TouchPlatformEffect
             [[]],
             [s_defaultNativeAnimationColor.ToPlatform()]);
         
-        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.GetColor(ColorName.color_fill_neutral).ToPlatform()));
-        if (Control.Background is null)
+        var existingForeground = Control.Foreground;
+
+        // Only replace if there’s something to ripple over
+        if (existingForeground != null)
         {
-            m_changedBackground = true;
-            m_defaultBackground = Control.Background;
-            Control.Background = ripple;
+            var ripple = new RippleDrawable(
+                colorStateList,
+                existingForeground,
+                new ColorDrawable(Android.Graphics.Color.White));
+
+            m_defaultBackground = existingForeground;
+            Control.Foreground = ripple;
         }
         else
         {
-            m_defaultBackground = Control.Foreground;
-            Control.Foreground = ripple;
+            // fallback if no foreground drawable
+            var ripple = new RippleDrawable(
+                colorStateList,
+                null,
+                new ColorDrawable(Android.Graphics.Color.White));
+
+            if (Control.Background is null)
+            {
+                m_changedBackground = true; 
+                m_defaultBackground = Control.Background; 
+                Control.Background = ripple;
+            }
+            else
+            {
+                m_defaultBackground = Control.Foreground;
+                Control.Foreground = ripple;
+            }
         }
         
         if (!string.IsNullOrEmpty(contentDescription))

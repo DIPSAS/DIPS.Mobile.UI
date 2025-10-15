@@ -19,6 +19,7 @@
                 
             </dui:NavigationListItem>
             <dui:NavigationListItem Title="Håvard"
+                                    BackgroundColor="Red"
                                     Tapped="GoToHåvard" />
             <dui:NavigationListItem Title="Sander"
                                     Tapped="GoToSander" />
