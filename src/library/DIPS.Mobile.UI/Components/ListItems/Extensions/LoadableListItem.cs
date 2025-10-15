@@ -114,7 +114,7 @@ public partial class LoadableListItem : ListItem
         {
             AutomationId = "ErrorImage".ToDUIAutomationId<LoadableListItem>(),
             TintColor = Colors.GetColor(ColorName.color_icon_danger), 
-            Source = Icons.GetIcon(IconName.failure_fill)
+            Source = Icons.GetIcon(IconName.alert_line)
         };
         m_errorContent.Add(errorImage, 1);
     }
