@@ -1,3 +1,6 @@
+## [53.5.0]
+- Added experimental dictation button with delegate on multiline input fields.
+
 ## [53.4.0] 
 - [GC] Added `EnableAutomaticModalHandlerDisconnection` to `IDIPSUIOptions` to enable automatic disconnection of modal pages.
 - [GC] Fixed bug where the tooling could not print out actual elements.

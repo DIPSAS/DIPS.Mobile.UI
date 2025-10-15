@@ -1,5 +1,6 @@
 ﻿using DIPS.Mobile.UI.API.Builder;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -14,8 +15,11 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDIPSUI(configurator =>
             {
-                /*configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.Colors);*/
+                configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields);
+                configurator.EnableCustomHideSoftInputOnTapped();
             });
+
+        DUI.StartDictationDelegate = DictationSimulationHelper.StartDictationDelegateTest;
         
         builder.ConfigureFonts(fonts =>
         {

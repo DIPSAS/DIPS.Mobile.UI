@@ -13,6 +13,18 @@ internal static class HideSoftInputOnTapHandlerMappings
         UIView view = handler.PlatformView;
 
         var existingDismissKeyboardTapGestureRecognizer = view.GestureRecognizers?.OfType<DismissKeyboardTapGestureRecognizer>().FirstOrDefault();
+
+        // Temporary change to make the dictation toggle button in textfields not unfocus the input view. Should be removed and 
+        // a better solution should be implemented once used in production.
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields))
+        {
+            if (existingDismissKeyboardTapGestureRecognizer is null) return;
+            
+            view.RemoveGestureRecognizer(existingDismissKeyboardTapGestureRecognizer);
+
+            return;
+        };
+        
         if (page.HideSoftInputOnTapped)
         {
             if (existingDismissKeyboardTapGestureRecognizer is null)

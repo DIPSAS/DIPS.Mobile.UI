@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -41,4 +42,6 @@ public interface IDIPSUIOptions
     /// </summary>
     /// <param name="feature">The experimental feature to enable.</param>
     IDIPSUIOptions EnableExperimentalFeature(DUI.ExperimentalFeatures feature);
+
+    IDIPSUIOptions AddStartDictationDelegate(Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? startDictationDelegate);
 }
