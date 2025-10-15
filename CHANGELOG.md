@@ -1,3 +1,6 @@
+## [52.0.2]
+- [iOS] Automatically set compliance when in App Store Connect.
+
 ## [52.0.1]
 - [Layout][Android] Fix bug where setting `Stroke` would not appear visually sometimes.
 
