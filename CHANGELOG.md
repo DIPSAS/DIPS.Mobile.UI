@@ -1,3 +1,6 @@
+## [52.0.1]
+- [Layout][Android] Fix bug where setting `Stroke` would not appear visually sometimes.
+
 ## [52.0.0]
 - Imported and set new colors.
 - Imported new icons.

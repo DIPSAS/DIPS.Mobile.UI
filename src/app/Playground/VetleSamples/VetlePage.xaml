@@ -26,16 +26,14 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}"
+    <Grid 
           VerticalOptions="Center"
           
-          WidthRequest="50"
-          HeightRequest="50"
           dui:Layout.Stroke="Green"
           dui:Layout.StrokeThickness="1"
           dui:Layout.AutoCornerRadius="True">
         
-        
+        <dui:ListItem Title="Hello!" BackgroundColor="Transparent" />
         
     </Grid>
     

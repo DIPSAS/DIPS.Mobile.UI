@@ -9,6 +9,7 @@ namespace DIPS.Mobile.UI.Effects.Layout;
 public partial class  LayoutPlatformEffect
 {
     private Drawable? m_originalBackground;
+    private Thickness? m_previousPadding;
 
     private partial void PlatformOnAttached(CornerRadius? cornerRadius, Color? stroke)
     {
@@ -25,6 +26,14 @@ public partial class  LayoutPlatformEffect
                 : Colors.Transparent.ToDefaultColorStateList();
         }
         
+        if (stroke is not null && Element is Microsoft.Maui.Controls.Layout layout)
+        {
+            m_previousPadding = layout.Padding;
+            
+            // We have to add padding to make the stroke visible, since the stroke is drawn inside the view. And views inside the layout will otherwise overlap the stroke.
+            layout.Padding = Layout.GetStrokeThickness(Element);
+        }
+
         Control.Background = materialShapeDrawable;
     }
 
@@ -34,5 +43,10 @@ public partial class  LayoutPlatformEffect
             return;
         
         Control.Background = m_originalBackground;
+        
+        if(m_previousPadding is not null && Element is Microsoft.Maui.Controls.Layout layout)
+        {
+            layout.Padding = m_previousPadding.Value;
+        }
     }
 }
