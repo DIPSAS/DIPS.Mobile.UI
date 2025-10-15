@@ -1,4 +1,7 @@
-## [52.0.0]
+## [52.0.1]
+- Added experimental custom transcription button on multiline input field.
+
+- ## [52.0.0]
 - Imported and set new colors.
 - Imported new icons.
 - [Layout] Added `Stroke` and `StrokeThickness` bindable attached properties to easier set stroke on any `VisualElement`.

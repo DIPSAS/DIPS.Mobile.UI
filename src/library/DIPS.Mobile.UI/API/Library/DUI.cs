@@ -37,6 +37,8 @@ namespace DIPS.Mobile.UI.API.Library
             };
         }
         
+        public static Func<IView?>? GetCustomMultiLineInputFieldButtons { get; set; }
+        
         public static void RemoveViewsLocatedOnTopOfPage()
         {
             if (BottomSheetService.IsOpen())

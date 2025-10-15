@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
@@ -103,7 +104,6 @@ public partial class MultiLineInputField : SingleLineInputField
             CommandParameter = InputView.Text
         };
         AutomationProperties.SetIsInAccessibleTree(m_doneButton, false);
-
         
         m_buttonsLayout = new Grid
         { 
@@ -111,14 +111,25 @@ public partial class MultiLineInputField : SingleLineInputField
             [
                 new ColumnDefinition { Width = GridLength.Star },
                 new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto },
                 new ColumnDefinition { Width = GridLength.Auto }
             ],
             ColumnSpacing = 10,
             Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0)
         };
+        
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
-        m_buttonsLayout.Add(m_cancelButton, column: 1);
-        m_buttonsLayout.Add(m_doneButton, column: 2);
+        
+        var getCustomMultiLineInputFieldButtonsCallback = DUI.GetCustomMultiLineInputFieldButtons;
+        var buttonView = getCustomMultiLineInputFieldButtonsCallback?.Invoke();
+        
+        if (buttonView != null)
+        {
+            m_buttonsLayout.Add(buttonView, column: 1);
+        }
+
+        m_buttonsLayout.Add(m_cancelButton, column: 2);
+        m_buttonsLayout.Add(m_doneButton, column: 3);
     }
     
     protected override void OnInputViewFocused(object? sender, FocusEventArgs e)
