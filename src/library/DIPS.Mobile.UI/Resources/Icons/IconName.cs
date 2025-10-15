@@ -341,11 +341,13 @@ settings_line=202,
 secret_adress_fill=203,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/omni_icon.svg">View the icon in the browser</a></summary>
 omni_icon=204,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/arrow_up_line.svg">View the icon in the browser</a></summary>
+arrow_up_line=205,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_outgoing.svg">View the icon in the browser</a></summary>
-plo_outgoing=205,
+plo_outgoing=206,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lock_line.svg">View the icon in the browser</a></summary>
-lock_line=206,
+lock_line=207,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_incoming.svg">View the icon in the browser</a></summary>
-plo_incoming=207,
+plo_incoming=208,
     }
 }
