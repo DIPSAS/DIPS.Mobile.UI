@@ -238,7 +238,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     private static void SetCellCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)
     {
-        var materialShapeDrawable = MaterialShapeDrawableHelper.GetMaterialShapeDrawableFromCornerRadius(cornerRadius, null, 0);
+        var materialShapeDrawable = MaterialShapeDrawableHelper.CreateDrawable(cornerRadius);
       
         holder.ItemView.ClipToOutline = true;
 

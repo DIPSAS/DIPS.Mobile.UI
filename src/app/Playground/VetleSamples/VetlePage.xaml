@@ -26,16 +26,17 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid 
+    <VerticalStackLayout 
           VerticalOptions="Center"
-          
-          dui:Layout.Stroke="Green"
+          BackgroundColor="White"
+          dui:Layout.Stroke="Red"
           dui:Layout.StrokeThickness="1"
-          dui:Layout.AutoCornerRadius="True">
+          dui:Layout.AutoCornerRadius="True"
+          Margin="{dui:Thickness Left=size_3, Right=size_3}">
         
         <dui:ListItem Title="Hello!" BackgroundColor="Transparent" />
         
-    </Grid>
+    </VerticalStackLayout>
     
     
 </dui:ContentPage>
