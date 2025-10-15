@@ -343,8 +343,8 @@ secret_adress_fill=203,
 omni_icon=204,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_outgoing.svg">View the icon in the browser</a></summary>
 plo_outgoing=205,
-///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lock.svg">View the icon in the browser</a></summary>
-lock=206,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lock_line.svg">View the icon in the browser</a></summary>
+lock_line=206,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_incoming.svg">View the icon in the browser</a></summary>
 plo_incoming=207,
     }

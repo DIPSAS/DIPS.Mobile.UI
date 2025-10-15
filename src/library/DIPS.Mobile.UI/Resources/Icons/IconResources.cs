@@ -176,7 +176,7 @@ this file is generated
 ["secret_adress_fill"] = "secret_adress_fill.png",
 ["omni_icon"] = "omni_icon.png",
 ["plo_outgoing"] = "plo_outgoing.png",
-["lock"] = "lock.png",
+["lock_line"] = "lock_line.png",
 ["plo_incoming"] = "plo_incoming.png",
 
             };
