@@ -26,18 +26,22 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid Padding="{dui:Thickness Left=size_3, Top=size_10, Right=size_3}"
-          VerticalOptions="Center"
-          
-          WidthRequest="50"
-          HeightRequest="50"
-          dui:Layout.Stroke="Green"
-          dui:Layout.StrokeThickness="1"
-          dui:Layout.AutoCornerRadius="True">
-        
-        
-        
-    </Grid>
+    <VerticalStackLayout>
+    <dui:AlertView Title="Hello asidkjaoi wjdoiawjdo iawjdoiawjiodjawoidjaw "
+                   VerticalOptions="Start"
+                   dui:Layout.StrokeThickness="1"
+                   dui:Layout.Stroke="Green"
+                   Margin="{dui:Thickness Left=size_3, Right=size_3}" />
+    
+    
+    <dui:ListItem Title="Helllo"
+                  
+                  dui:Layout.Stroke="{dui:Colors color_border_default}"
+                  dui:Touch.Command="{Binding CancelCommand}"
+                  Margin="{dui:Thickness size_3}"
+                  ></dui:ListItem>
+    
+    </VerticalStackLayout>
     
     
 </dui:ContentPage>

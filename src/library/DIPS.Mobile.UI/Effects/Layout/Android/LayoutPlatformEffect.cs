@@ -1,38 +1,60 @@
+using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Views;
 using Google.Android.Material.Shape;
 using Microsoft.Maui.Platform;
-using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Color = Microsoft.Maui.Graphics.Color;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Effects.Layout;
 
-public partial class  LayoutPlatformEffect
+public partial class LayoutPlatformEffect
 {
-    private Drawable? m_originalBackground;
+    private Drawable? _originalBackground;
+    private Drawable? _originalForeground;
 
     private partial void PlatformOnAttached(CornerRadius? cornerRadius, Color? stroke)
     {
-        m_originalBackground = Control.Background;
-        
-        var materialShapeDrawable = MaterialShapeDrawableHelper.GetMaterialShapeDrawableFromCornerRadius(cornerRadius, stroke, Layout.GetStrokeThickness(Element));
-      
-        Control.ClipToOutline = true;
-        
-        if (Element is VisualElement visualElement)
+        if (Control == null)
+            return;
+
+        _originalBackground = Control.Background;
+        _originalForeground = Control.Foreground;
+
+        var strokeThickness = Layout.GetStrokeThickness(Element);
+
+        // Background drawable (with corner + fill)
+        var backgroundDrawable = MaterialShapeDrawableHelper.CreateDrawable(cornerRadius);
+        if (Element is VisualElement ve)
         {
-            materialShapeDrawable.FillColor = visualElement.BackgroundColor is not null ? 
-                visualElement.BackgroundColor.ToDefaultColorStateList() 
-                : Colors.Transparent.ToDefaultColorStateList();
+            backgroundDrawable.FillColor = ve.BackgroundColor?.ToDefaultColorStateList()
+                                           ?? Colors.Transparent.ToDefaultColorStateList();
         }
-        
-        Control.Background = materialShapeDrawable;
+
+        // Foreground drawable (stroke only)
+        var strokeDrawable = MaterialShapeDrawableHelper.CreateDrawable(cornerRadius);
+        strokeDrawable.FillColor = Colors.Transparent.ToDefaultColorStateList();
+        if (stroke != null)
+        {
+            strokeDrawable.StrokeColor = stroke.ToDefaultColorStateList();
+            strokeDrawable.StrokeWidth = (float)strokeThickness;
+        }
+
+        // Apply
+        Control.Background = backgroundDrawable;
+        Control.Foreground = strokeDrawable;
+
+        // Needed for corners to visually clip content
+        Control.ClipToOutline = true;
+        Control.OutlineProvider = ViewOutlineProvider.Background;
     }
 
     protected override partial void OnDetached()
     {
-        if(Control is null)
+        if (Control == null)
             return;
-        
-        Control.Background = m_originalBackground;
+
+        Control.Background = _originalBackground;
+        Control.Foreground = _originalForeground;
     }
 }

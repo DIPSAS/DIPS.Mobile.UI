@@ -59,7 +59,7 @@ public partial class VetlePage
         tabBar.Items.Add(new Tab
         {
             Title = "Test",
-            Icon = Icons.GetIcon(IconName.alert_fill),
+            Icon = Icons.GetIcon(IconName.alert_line),
             Items =
             {
                 new ShellContent

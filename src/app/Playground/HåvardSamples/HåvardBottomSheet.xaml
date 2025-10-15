@@ -13,6 +13,6 @@
     </dui:BottomSheet.BindingContext>
     <dui:VerticalStackLayout>
         <dui:Button Text="Med bilde"
-                    ImageSource="{dui:Icons alert_fill}" />
+                    ImageSource="{dui:Icons alert_line}" />
     </dui:VerticalStackLayout>
 </dui:BottomSheet>

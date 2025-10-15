@@ -21,7 +21,6 @@
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons bell_fill}" Command="{Binding Test}" />
         <ToolbarItem Text="Test" />
-        <ToolbarItem IconImageSource="{dui:Icons beaker_zoom_fill}" />
 
     </dui:ContentPage.ToolbarItems>
 
