@@ -49,23 +49,6 @@ internal class ImageThumbnailView : Grid
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.radius_small));
         
-        /*var closeButton = new Border
-        {
-            StrokeShape = new Ellipse(),
-            BackgroundColor = Colors.GetColor(ColorName.color_surface_subtle),
-            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
-            Stroke = Colors.GetColor(ColorName.color_border_action_secondary_active),
-            HeightRequest = Sizes.GetSize(SizeName.size_5),
-            WidthRequest = Sizes.GetSize(SizeName.size_5),
-            VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.End,
-            Content = new Image
-            {
-                TintColor = Colors.GetColor(ColorName.color_icon_default),
-                Source = Icons.GetIcon(IconName.close_line)
-            },
-            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
-        };*/
         var closeButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.DefaultFloatingIcon),

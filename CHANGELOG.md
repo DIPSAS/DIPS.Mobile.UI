@@ -1,5 +1,7 @@
 ## [52.0.0]
-- Add new colors.
+- Imported and set new colors.
+- Imported new icons.
+- [Layout] Added `Stroke` and `StrokeThickness` bindable attached properties to easier set stroke on any `VisualElement`.
 
 ## [51.4.4]
 - Pin SkiaSharp to version 3.119.1
