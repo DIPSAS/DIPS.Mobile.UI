@@ -20,8 +20,20 @@ public partial class Counter : Grid
         BackgroundColor = Colors.GetColor(ColorName.color_fill_neutral)
     };
     
-    private readonly Label m_primaryLabel = new() {Style = Styles.GetLabelStyle(LabelStyle.Body200), HeightRequest = Sizes.GetSize(SizeName.size_5), TextColor = Colors.GetColor(ColorName.color_text_default)};
-    private readonly Label m_secondaryLabel = new() {Style = Styles.GetLabelStyle(LabelStyle.Body200), HeightRequest = Sizes.GetSize(SizeName.size_5), TextColor = Colors.GetColor(ColorName.color_text_default) };
+    private readonly Label m_primaryLabel = new()
+    {
+        Style = Styles.GetLabelStyle(LabelStyle.Body200), 
+        VerticalTextAlignment = TextAlignment.Center,
+        HorizontalTextAlignment = TextAlignment.Center,
+        TextColor = Colors.GetColor(ColorName.color_text_default)
+    };
+    private readonly Label m_secondaryLabel = new()
+    {
+        Style = Styles.GetLabelStyle(LabelStyle.Body200),
+        VerticalTextAlignment = TextAlignment.Center,
+        HorizontalTextAlignment = TextAlignment.Center,
+        TextColor = Colors.GetColor(ColorName.color_text_default)
+    };
 
     private readonly Image m_primaryErrorIcon = new()
     {

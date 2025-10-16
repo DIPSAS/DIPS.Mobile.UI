@@ -1,3 +1,11 @@
+## [53.0.0]
+- [BreakingChange] Renamed some button styles.
+- [Button] Fixed floating and close button disabled state.
+- [Counter] Always center text, and now behaves better when font size is increased on the OS.
+- [Tag] Increased padding.
+- [ListItem] Fixed potential crash.
+- [Layout][Android] Convert to correct stroke size.
+
 ## [52.0.2]
 - [iOS] Automatically set compliance when in App Store Connect.
 

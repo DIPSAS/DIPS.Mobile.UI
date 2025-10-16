@@ -1,6 +1,7 @@
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Views;
+using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.Shape;
 using Microsoft.Maui.Platform;
 using Color = Microsoft.Maui.Graphics.Color;
@@ -37,7 +38,7 @@ public partial class LayoutPlatformEffect
         if (stroke != null)
         {
             strokeDrawable.StrokeColor = stroke.ToDefaultColorStateList();
-            strokeDrawable.StrokeWidth = (float)strokeThickness;
+            strokeDrawable.StrokeWidth = strokeThickness.ToMauiPixel();
         }
 
         // Apply

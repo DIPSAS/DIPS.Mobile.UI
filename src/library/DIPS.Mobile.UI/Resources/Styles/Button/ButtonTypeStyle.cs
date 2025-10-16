@@ -57,6 +57,42 @@ public static class ButtonTypeStyle
             }
         }
     };
+
+    private static Style DefaultFloating => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = Default,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
+            }
+        }
+    };
+    
+    private static Style Close => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = ButtonDefaultStyle.Current,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_neutral)
+            },
+            new Setter
+            {
+                Property = Components.Buttons.Button.ImageTintColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_subtle)
+            },
+            new Setter
+            {
+                Property = Components.Buttons.Button.ImageSourceProperty,
+                Value = Icons.Icons.GetIcon(IconName.close_line)
+            }
+        }
+    };
     
     private static Style Ghost => new(typeof(Components.Buttons.Button))
     {
@@ -379,7 +415,7 @@ public static class ButtonTypeStyle
     
     public static Style CloseIconSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Ghost,
+        BasedOn = Close,
         Setters =
         {
             new Setter()
@@ -399,49 +435,51 @@ public static class ButtonTypeStyle
             },
             new Setter()
             {
-                Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_neutral)
-            },
-            new Setter()
-            {
-                Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_subtle)
-            },
-            new Setter()
-            {
-                Property = Components.Buttons.Button.ImageSourceProperty,
-                Value = Icons.Icons.GetIcon(IconName.close_line)
-            },
-            new Setter()
-            {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
                 Value = 8
             }
         }
     };
     
-    public static Style DefaultFloatingIcon => new(typeof(Components.Buttons.Button))
+    public static Style DefaultFloatingIconLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = DefaultIconLarge,
+        BasedOn = DefaultFloating,
         Setters =
         {
-            new Setter
+            new Setter()
             {
-                Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
+                Property = VisualElement.HeightRequestProperty,
+                Value = Sizes.Sizes.GetSize(SizeName.size_14)
+            },
+            new Setter()
+            {
+                Property = VisualElement.WidthRequestProperty,
+                Value = Sizes.Sizes.GetSize(SizeName.size_14)
+            },
+            new Setter()
+            {
+                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_7)
+            },
+            new Setter()
+            {
+                Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
+                    : 0
             }
         }
     };
     
-    public static Style DefaultFloating => new(typeof(Components.Buttons.Button))
+    public static Style DefaultFloatingLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = DefaultLarge,
+        BasedOn = DefaultFloating,
         Setters =
         {
             new Setter
             {
-                Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
+                Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };
