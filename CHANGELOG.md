@@ -1,3 +1,6 @@
+## [53.0.1]
+- [BottomSheetService] Fix issue where using `CloseAll` method, would blank out `BottomSheet`-
+
 ## [53.0.0]
 - [BreakingChange] Renamed some button styles.
 - [Button] Fixed floating and close button disabled state.
