@@ -16,6 +16,6 @@ public enum ButtonStyle
     GhostIconSmall = 11,
     GhostIconLarge = 12,
     CloseIconSmall = 13,
-    DefaultFloatingIcon = 14,
-    DefaultFloating = 15
+    DefaultFloatingIconLarge = 14,
+    DefaultFloatingLarge = 15
 }

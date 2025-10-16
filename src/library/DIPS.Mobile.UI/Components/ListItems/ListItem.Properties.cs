@@ -348,8 +348,11 @@ public partial class ListItem
             }
         });
         
-    private static void Bind<T>(object newValue, ListItem listItem) where T : ListItemOptions
+    private static void Bind<T>(object? newValue, ListItem listItem) where T : ListItemOptions
     {
+        if(newValue is null)
+            return;
+        
         ((T)newValue).Bind(listItem);
     }
         

@@ -17,7 +17,7 @@ internal class ButtonStyleResources
         [ButtonStyle.GhostIconSmall] = ButtonTypeStyle.GhostIconSmall,
         [ButtonStyle.GhostIconLarge] = ButtonTypeStyle.GhostIconLarge,
         [ButtonStyle.CloseIconSmall] = ButtonTypeStyle.CloseIconSmall,
-        [ButtonStyle.DefaultFloatingIcon] = ButtonTypeStyle.DefaultFloatingIcon,
-        [ButtonStyle.DefaultFloating] = ButtonTypeStyle.DefaultFloating
+        [ButtonStyle.DefaultFloatingIconLarge] = ButtonTypeStyle.DefaultFloatingIconLarge,
+        [ButtonStyle.DefaultFloatingLarge] = ButtonTypeStyle.DefaultFloatingLarge
     };
 }

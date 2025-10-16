@@ -26,25 +26,28 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
-    <dui:AlertView Title="Hello asidkjaoi wjdoiawjdo iawjdoiawjiodjawoidjaw "
-                   VerticalOptions="Start"
-                   dui:Layout.StrokeThickness="1"
-                   dui:Layout.Stroke="Green"
-                   Margin="{dui:Thickness Left=size_3, Right=size_3}" />
+    <VerticalStackLayout Spacing="10">
     
-    
-    <Grid HeightRequest="50"
-          WidthRequest="50"
-          BackgroundColor="Red"
-          
-          
-          dui:Touch.Command="{Binding CancelCommand}"
-          dui:Layout.StrokeThickness="10"
-          dui:Layout.Stroke="{dui:Colors color_palette_green_900}">
+        <dui:NavigationListItem Title="hello">
+            
+            <!--<dui:ListItem.TitleOptions>
+                <dui:TitleOptions Width="*" />
+            </dui:ListItem.TitleOptions>
+            
+            <dui:ListItem.InLineContentOptions>
+                <dui:InLineContentOptions Width="Auto"></dui:InLineContentOptions>
+            </dui:ListItem.InLineContentOptions>-->
+            
+            <Grid>
+            <dui:Counter 
+                         IsUrgent="True"
+                         Value="10"
+                          />
+            </Grid>
+        </dui:NavigationListItem>
         
-        
-        </Grid>
+        <dui:Tag Text="10"
+                 HorizontalOptions="Center"/>
     
     </VerticalStackLayout>
     

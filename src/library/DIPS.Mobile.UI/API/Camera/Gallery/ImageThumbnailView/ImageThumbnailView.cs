@@ -51,7 +51,7 @@ internal class ImageThumbnailView : Grid
         
         var closeButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.DefaultFloatingIcon),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultFloatingIconLarge),
             Padding = Sizes.GetSize(SizeName.content_margin_xsmall),
             ImageSource = Icons.GetIcon(IconName.close_line),
             HeightRequest = Sizes.GetSize(SizeName.size_5),

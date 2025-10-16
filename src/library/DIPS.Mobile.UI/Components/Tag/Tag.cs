@@ -15,7 +15,7 @@ public partial class Tag : Grid
 
         ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
         Style = Styles.GetTagStyle(TagStyle.Default);
-        Padding = Sizes.GetSize(SizeName.size_half);
+        Padding = Sizes.GetSize(SizeName.size_1);
         
         HorizontalOptions = LayoutOptions.Start;
 
