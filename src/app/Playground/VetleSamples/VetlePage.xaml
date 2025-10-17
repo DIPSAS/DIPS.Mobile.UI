@@ -26,30 +26,30 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout Spacing="10">
+    <VerticalStackLayout>
     
-        <dui:NavigationListItem Title="hello">
-            
-            <!--<dui:ListItem.TitleOptions>
-                <dui:TitleOptions Width="*" />
-            </dui:ListItem.TitleOptions>
-            
-            <dui:ListItem.InLineContentOptions>
-                <dui:InLineContentOptions Width="Auto"></dui:InLineContentOptions>
-            </dui:ListItem.InLineContentOptions>-->
-            
-            <Grid>
-            <dui:Counter 
-                         IsUrgent="True"
-                         Value="10"
-                          />
-            </Grid>
-        </dui:NavigationListItem>
+        <dui:Switch IsToggled="{Binding IsToggled, Mode=TwoWay}" />
         
-        <dui:Tag Text="10"
-                 HorizontalOptions="Center"/>
+        <dui:ContentControl SelectorItem="{Binding IsToggled}">
+            
+            <dui:ContentControl.TemplateSelector>
+                <dui:BooleanDataTemplateSelector>
+                    <dui:BooleanDataTemplateSelector.TrueTemplate>
+                        <DataTemplate>
+                            <dui:Label Text="Hello"></dui:Label>
+                        </DataTemplate>
+                    </dui:BooleanDataTemplateSelector.TrueTemplate>
+                    <dui:BooleanDataTemplateSelector.FalseTemplate>
+                        <DataTemplate>
+                            <dui:MultiLineInputField />
+                        </DataTemplate>
+                    </dui:BooleanDataTemplateSelector.FalseTemplate>
+                </dui:BooleanDataTemplateSelector>
+            </dui:ContentControl.TemplateSelector>
+            
+            
+        </dui:ContentControl>
     
     </VerticalStackLayout>
-    
     
 </dui:ContentPage>
