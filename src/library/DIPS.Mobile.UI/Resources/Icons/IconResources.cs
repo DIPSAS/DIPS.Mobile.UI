@@ -104,7 +104,6 @@ this file is generated
 ["team_line"] = "team_line.png",
 ["language_line"] = "language_line.png",
 ["l_line"] = "l_line.png",
-["clock_line"] = "clock_line.png",
 ["matrix_line"] = "matrix_line.png",
 ["more_fill"] = "more_fill.png",
 ["c_line"] = "c_line.png",
@@ -179,6 +178,8 @@ this file is generated
 ["plo_outgoing"] = "plo_outgoing.png",
 ["lock_line"] = "lock_line.png",
 ["plo_incoming"] = "plo_incoming.png",
+["news"] = "news.png",
+["folder_open"] = "folder_open.png",
 
             };
         }

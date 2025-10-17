@@ -199,8 +199,6 @@ team_line=121,
 language_line=122,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/l_line.svg">View the icon in the browser</a></summary>
 l_line=123,
-///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clock_line.svg">View the icon in the browser</a></summary>
-clock_line=124,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/matrix_line.svg">View the icon in the browser</a></summary>
 matrix_line=125,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/more_fill.svg">View the icon in the browser</a></summary>
@@ -349,5 +347,9 @@ plo_outgoing=206,
 lock_line=207,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/plo_incoming.svg">View the icon in the browser</a></summary>
 plo_incoming=208,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/news.svg">View the icon in the browser</a></summary>
+news=209,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/folder_open.svg">View the icon in the browser</a></summary>
+folder_open=210,
     }
 }
