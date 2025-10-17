@@ -1,3 +1,6 @@
+## [53.0.2]
+- [CheckTruncatedLabel][Android] Fix potential crashes.
+
 ## [53.0.1]
 - [BottomSheetService] Fix issue where using `CloseAll` method, would blank out `BottomSheet`.
 

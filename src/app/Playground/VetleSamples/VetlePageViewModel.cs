@@ -303,7 +303,7 @@ public class VetlePageViewModel : ViewModel
         get => m_isToggled;
         set
         {
-            m_isToggled = value;
+            RaiseWhenSet(ref m_isToggled, value);
             if (value)
             {
                 HorizontalOptions = LayoutOptions.Center;
