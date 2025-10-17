@@ -14,10 +14,7 @@ public static class Slack
         using var client = new HttpClient { BaseAddress = new Uri(BaseAddress) };
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
         
-        // If webHookUri is a full URL, use it directly, otherwise combine with base address
-        var uri = webHookUri.StartsWith("http") ? webHookUri : $"{BaseAddress}{webHookUri}";
-        
-        await client.PostAsync(uri, content);
+        await client.PostAsync(webHookUri, content);
     }
 }
 
