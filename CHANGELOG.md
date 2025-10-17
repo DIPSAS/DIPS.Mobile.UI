@@ -1,3 +1,6 @@
+## [53.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [53.0.2]
 - [CheckTruncatedLabel][Android] Fix potential crashes.
 
