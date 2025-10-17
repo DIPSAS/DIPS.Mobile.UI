@@ -28,27 +28,11 @@
 
     <VerticalStackLayout>
     
-        <dui:Switch IsToggled="{Binding IsToggled, Mode=TwoWay}" />
         
-        <dui:ContentControl SelectorItem="{Binding IsToggled}">
-            
-            <dui:ContentControl.TemplateSelector>
-                <dui:BooleanDataTemplateSelector>
-                    <dui:BooleanDataTemplateSelector.TrueTemplate>
-                        <DataTemplate>
-                            <dui:Label Text="Hello"></dui:Label>
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.TrueTemplate>
-                    <dui:BooleanDataTemplateSelector.FalseTemplate>
-                        <DataTemplate>
-                            <dui:MultiLineInputField />
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.FalseTemplate>
-                </dui:BooleanDataTemplateSelector>
-            </dui:ContentControl.TemplateSelector>
-            
-            
-        </dui:ContentControl>
+        <dui:ListItem Title="Hei"
+                      Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                      BackgroundColor="{dui:Colors color_fill_default}"
+                      dui:Layout.Stroke="{dui:Colors color_border_default}" />
     
     </VerticalStackLayout>
     

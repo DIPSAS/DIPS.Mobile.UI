@@ -7,11 +7,17 @@ using System.Net.Http;
 
 public static class Slack 
 {
+    private static readonly string BaseAddress = "https://hooks.slack.com";
+    
     public static async Task PostJsonAsync(string webHookUri, string json)
     {
-        using var client = new HttpClient();
+        using var client = new HttpClient { BaseAddress = new Uri(BaseAddress) };
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-        await client.PostAsync(webHookUri, content);
+        
+        // If webHookUri is a full URL, use it directly, otherwise combine with base address
+        var uri = webHookUri.StartsWith("http") ? webHookUri : $"{BaseAddress}{webHookUri}";
+        
+        await client.PostAsync(uri, content);
     }
 }
 
