@@ -180,6 +180,7 @@ this file is generated
 ["plo_incoming"] = "plo_incoming.png",
 ["news"] = "news.png",
 ["folder_open"] = "folder_open.png",
+["clock_line"] = "clock_line.png",
 
             };
         }

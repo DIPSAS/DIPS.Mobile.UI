@@ -60,7 +60,6 @@ this file is generated
 ["size_23_negative"] = -92,
 ["size_24_negative"] = -96,
 ["size_25_negative"] = -100,
-["stroke_small"] = 0.5,
 ["size_half"] = 2,
 ["size_half_negative"] = -2,
 ["stroke_medium"] = 1,
@@ -80,6 +79,7 @@ this file is generated
 ["page_margin_medium"] = 24,
 ["page_margin_xlarge"] = 32,
 ["stroke_large"] = 2,
+["stroke_small"] = 0,5,
 
             };
         }

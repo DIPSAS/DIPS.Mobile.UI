@@ -9,7 +9,7 @@ public static class BuildEnv
     /// - Local: Navigates up from build directory to project root
     /// </summary>
     public static string RootDir => Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY") ?? 
-                                  Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), ".."));
+                                  Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory()));
     
     /// <summary>
     /// Gets the source directory path (where .csproj files are located)

@@ -351,5 +351,7 @@ plo_incoming=208,
 news=209,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/folder_open.svg">View the icon in the browser</a></summary>
 folder_open=210,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clock_line.svg">View the icon in the browser</a></summary>
+clock_line=211,
     }
 }
