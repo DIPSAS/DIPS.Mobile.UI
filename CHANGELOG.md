@@ -1,3 +1,6 @@
+## [53.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [53.1.1] 
 - Fix missing icon.
 
