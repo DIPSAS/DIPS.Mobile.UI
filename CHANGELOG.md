@@ -1,3 +1,7 @@
+## [53.2.1] 
+- [DateView] Fix styling.
+- [Counter] Set correct border color when `IsUrgent` is true, and no secondary value.
+
 ## [53.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
