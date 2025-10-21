@@ -10,12 +10,18 @@
         <collectionViewTests:GroupedCollectionViewModel />
     </ContentPage.BindingContext>
     
+    <Grid RowDefinitions="Auto, *">
+    
+        <dui:Button Text="Clear"
+                    Command="{Binding ResetCommand}" />
+        
     <dui:CollectionView ItemsSource="{Binding GroupedTest}"
                         x:Name="CollectionView"
                         IsGrouped="True"
                         BackgroundColor="Transparent"
                         dui:Layout.AutoCornerRadius="True"
-                        dui:Layout.AutoHideLastDivider="True">
+                        dui:Layout.AutoHideLastDivider="True"
+                        Grid.Row="1">
         
         <dui:CollectionView.Header>
             <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
@@ -64,6 +70,7 @@
         </dui:CollectionView.ItemTemplate>
 
     </dui:CollectionView>
+    </Grid>
     
     
 </dui:ContentPage>

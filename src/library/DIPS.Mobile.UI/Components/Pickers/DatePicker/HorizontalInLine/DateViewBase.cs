@@ -16,6 +16,8 @@ public abstract class DateViewBase : Grid
 {
     protected DateViewBase()
     {
+        UI.Effects.Layout.Layout.SetStroke(this, Colors.GetColor(ColorName.color_border_button));
+        
         Loaded += CreateView;
     }
 
@@ -51,6 +53,13 @@ public abstract class DateViewBase : Grid
 
         //Day number label
         var dayLabel = CreateLabel(new Label());
+        
+        dayLabel.SetBinding(StyleProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Styles.GetLabelStyle(LabelStyle.UI200),
+            FalseObject = Styles.GetLabelStyle(LabelStyle.Body200),
+        });
+        
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
         {
             TrueObject = Colors.GetColor(ColorName.color_text_default),
@@ -80,6 +89,11 @@ public abstract class DateViewBase : Grid
             TrueObject = Colors.GetColor(ColorName.color_text_default),
             FalseObject = Colors.GetColor(ColorName.color_text_subtle),
         });
+        dayLabel.SetBinding(StyleProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Styles.GetLabelStyle(LabelStyle.UI200),
+            FalseObject = Styles.GetLabelStyle(LabelStyle.Body200),
+        });
         dayLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.Day);
 
         this.Add(dayLabel, 1);
@@ -89,69 +103,48 @@ public abstract class DateViewBase : Grid
     
     protected virtual void OnViewCreated() {}
 
-    private ContentControl CreateMonthHeaderContentControl()
+    private View CreateMonthHeaderContentControl()
     {
-        var contentControl = new ContentControl { Padding = new Thickness(Sizes.GetSize(SizeName.size_2)) };
+        var container = new Grid { Padding = new Thickness(Sizes.GetSize(SizeName.size_2)) };
 
-        contentControl.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        container.SetBinding(BackgroundColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter
         {
             TrueObject = Colors.GetColor(ColorName.color_fill_default_active),
             FalseObject = Colors.GetColor(ColorName.color_fill_neutral)
         });
-        contentControl.SetBinding(ContentControl.SelectorItemProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsCurrentYear);
         
-        contentControl.TemplateSelector = new BooleanDataTemplateSelector()
+        var monthAndYearLabel = CreateLabel(new Label
         {
-            TrueTemplate = new DataTemplate(() =>
-            {
-                var monthLabel = CreateLabel(new Label() {
-                    Style = Styles.GetLabelStyle(LabelStyle.Body200)});
-                monthLabel.HorizontalTextAlignment = TextAlignment.Center;
-                monthLabel.TextTransform = TextTransform.Uppercase;
-                monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.MonthName);
+            Style = Styles.GetLabelStyle(LabelStyle.Body200)
+        });
+        
+        var monthNameSpan = new Span();
+        monthNameSpan.SetBinding(Span.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Colors.GetColor(ColorName.color_text_default),
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle),
+        });
+        
+        monthNameSpan.SetBinding(Span.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.MonthName);
 
-                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
-                {
-                    monthLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
-                    {
-                        TrueObject = Colors.GetColor(ColorName.color_text_default),
-                        FalseObject = Colors.GetColor(ColorName.color_text_subtle),
-                    });
-                }
+        var blankSpan = new Span { Text = Environment.NewLine };
+        var yearNameSpan = new Span();
+        yearNameSpan.SetBinding(Span.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
+        {
+            TrueObject = Colors.GetColor(ColorName.color_text_default),
+            FalseObject = Colors.GetColor(ColorName.color_text_subtle),
+        });
+        yearNameSpan.SetBinding(Span.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.YearName);
+        
+        monthAndYearLabel.FormattedText = new FormattedString { Spans = { monthNameSpan, blankSpan, yearNameSpan } };
 
-                return monthLabel;
-            }),
-            FalseTemplate = new DataTemplate(() =>
-            {
-                var monthAndYearLabel = CreateLabel(new Label() {FontSize = Sizes.GetSize(SizeName.size_4)});
-                var monthNameSpan =
-                    new Span() {FontSize = Sizes.GetSize(SizeName.size_4), TextTransform = TextTransform.Uppercase};
-                monthNameSpan.SetBinding(Span.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.MonthName,
-                    converter: new StringCaseConverter() {StringCase = StringCase.Upper});
-                var blankSpan = new Span() {Text = " "};
-                var yearNameSpan = new Span() {FontSize = Sizes.GetSize(SizeName.size_4)};
-                yearNameSpan.SetBinding(Span.TextProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.YearName);
-                monthAndYearLabel.FormattedText =
-                    new FormattedString() {Spans = {monthNameSpan, blankSpan, yearNameSpan}};
+        container.Add(monthAndYearLabel);
 
-                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
-                {
-                    monthAndYearLabel.SetBinding(Microsoft.Maui.Controls.Label.TextColorProperty, static (SelectableDateViewModel selectableDateViewModel) => selectableDateViewModel.IsSelected, converter: new BoolToObjectConverter()
-                    {
-                        TrueObject = Colors.GetColor(ColorName.color_text_default),
-                        FalseObject = Colors.GetColor(ColorName.color_text_subtle),
-                    });
-                }
-
-                return monthAndYearLabel;
-            })
-        };
-        return contentControl;
+        return container;
     }
 
-    protected static Label CreateLabel(Label theLabel, SizeName size = SizeName.size_4)
+    protected static Label CreateLabel(Label theLabel)
     {
-        theLabel.FontSize = Sizes.GetSize(size);
         theLabel.HorizontalTextAlignment = TextAlignment.Center;
         theLabel.VerticalTextAlignment = TextAlignment.Center;
         return theLabel;

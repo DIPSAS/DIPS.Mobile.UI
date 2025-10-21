@@ -82,7 +82,6 @@ public partial class Counter : Grid
         OnIsSecondaryUrgentChanged();
         OnIsErrorChanged();
         OnIsSecondaryErrorChanged();
-        
     }
 
     private void OnIsUrgentChanged()
@@ -95,7 +94,7 @@ public partial class Counter : Grid
 
     private void UpdateStroke()
     {
-        if (IsUrgent && IsSecondaryUrgent)
+        if (IsUrgent && SecondaryValue == 0 || IsUrgent && IsSecondaryUrgent)
         {
             DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, Colors.GetColor(ColorName.color_border_danger));
         }

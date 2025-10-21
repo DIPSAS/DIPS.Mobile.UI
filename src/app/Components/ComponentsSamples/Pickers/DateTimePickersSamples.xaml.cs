@@ -12,4 +12,11 @@ public partial class DateTimePickersSamples
     {
         InitializeComponent();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        
+    }
 }

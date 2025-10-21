@@ -36,4 +36,9 @@ public class GroupedCollectionViewModel : ViewModel
         GroupedTest[0].Add("Test9");
         GroupedTest[0].Add("Test9");
     });
+
+    public ICommand ResetCommand => new Command(() =>
+    {
+        GroupedTest.Clear();
+    });
 }
