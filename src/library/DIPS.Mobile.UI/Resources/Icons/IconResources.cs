@@ -181,6 +181,7 @@ this file is generated
 ["news"] = "news.png",
 ["folder_open"] = "folder_open.png",
 ["clock_line"] = "clock_line.png",
+["kommunal_journal"] = "kommunal_journal.png",
 
 
             };
