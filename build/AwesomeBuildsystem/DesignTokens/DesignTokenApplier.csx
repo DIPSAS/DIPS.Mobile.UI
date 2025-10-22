@@ -31,6 +31,79 @@ public static class DesignTokenApplier
             }
         }
 
+        // VALIDATION: Check if IconResources.cs and IconName.cs have all SVG files represented
+        // This catches cases where SVG exists but the entry is missing from generated files
+        var iconResourcesFile = libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconResources.cs"));
+        var iconNameFile = libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs"));
+        
+        var iconResourcesKeys = new List<string>();
+        var iconNameKeys = new List<string>();
+        
+        if (iconResourcesFile != null)
+        {
+            var iconResourcesContent = await File.ReadAllTextAsync(iconResourcesFile.FullName);
+            iconResourcesKeys = iconResourcesContent
+                .Split(new[] { '[', ']' }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(s => s.Trim().StartsWith("\"") && s.Trim().EndsWith("\""))
+                .Select(s => s.Trim().Trim('"'))
+                .ToList();
+        }
+        
+        if (iconNameFile != null)
+        {
+            var iconNameContent = await File.ReadAllTextAsync(iconNameFile.FullName);
+            var lines = iconNameContent.Split('\n');
+            foreach (var line in lines)
+            {
+                var trimmed = line.Trim();
+                if (trimmed.Contains("=") && !trimmed.StartsWith("//") && !trimmed.StartsWith("/*"))
+                {
+                    var equalIndex = trimmed.IndexOf('=');
+                    if (equalIndex > 0)
+                    {
+                        var iconName = trimmed.Substring(0, equalIndex).Trim();
+                        if (!string.IsNullOrEmpty(iconName))
+                        {
+                            iconNameKeys.Add(iconName);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Check if any SVG files are missing from IconResources.cs or IconName.cs
+        var svgNames = oldIcons.Select(i => i.Name.Replace(".svg", "")).ToList();
+        var missingFromResources = svgNames.Where(s => !iconResourcesKeys.Contains(s)).ToList();
+        var missingFromEnum = svgNames.Where(s => !iconNameKeys.Contains(s)).ToList();
+        
+        if (missingFromResources.Any() || missingFromEnum.Any())
+        {
+            Console.WriteLine($"⚠️  Found icons missing from generated files:");
+            
+            if (missingFromResources.Any())
+            {
+                Console.WriteLine($"   Missing from IconResources.cs: {string.Join(", ", missingFromResources)}");
+            }
+            
+            if (missingFromEnum.Any())
+            {
+                Console.WriteLine($"   Missing from IconName.cs: {string.Join(", ", missingFromEnum)}");
+            }
+            
+            // Add missing icons to newIcons list so they get added
+            var allMissing = missingFromResources.Union(missingFromEnum).Distinct();
+            foreach (var missingName in allMissing)
+            {
+                var missingIcon = oldIcons.FirstOrDefault(i => i.Name.Replace(".svg", "") == missingName);
+                if (missingIcon != null && !newIcons.Any(n => n.Name == missingIcon.Name))
+                {
+                    Console.WriteLine($"   ➕ Adding to newIcons: {missingName}");
+                    newIcons.Add(missingIcon);
+                }
+            }
+        }
+
+        Console.WriteLine($"📊 Icon summary: {oldIcons.Count()} old, {generatedIcons.Count()} generated, {newIcons.Count} to add, {deletedIcons.Count} to delete");
 
         await WriteToFileHelper.WriteToEnumFile(libraryIconsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("IconName.cs")).FullName
                                         , newIcons.Select(f => f.Name.Replace(".svg","")).ToArray(), 

@@ -37,7 +37,19 @@ public static class WriteToFileHelper
         //Remove enums
         foreach (var enumToRemove in enumsToRemove)
         {
-            enumContent = RemoveTextFromContentWithCommas(enumContent, () => enums.FirstOrDefault(s => s.Contains(enumToRemove)));
+            // Use more precise matching to avoid partial matches (e.g., "clock_line" matching "lock_line")
+            enumContent = RemoveTextFromContentWithCommas(enumContent, () => {
+                return enums.FirstOrDefault(s => {
+                    var trimmed = s.Trim();
+                    // Extract the enum name (before the '=')
+                    if (trimmed.Contains("="))
+                    {
+                        var enumName = trimmed.Substring(0, trimmed.IndexOf('=')).Trim();
+                        return enumName == enumToRemove;
+                    }
+                    return false;
+                });
+            });
         }
 
         //Insert generated comment
