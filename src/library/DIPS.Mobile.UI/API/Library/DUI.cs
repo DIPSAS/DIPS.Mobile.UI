@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 using SkiaSharp.Extended.UI.Controls.Themes;
 
 namespace DIPS.Mobile.UI.API.Library
@@ -9,6 +10,33 @@ namespace DIPS.Mobile.UI.API.Library
         public static void Init()
         {
             PlatformInit();
+            StartDictationDelegate = StartDictationDelegateTest;
+        }
+
+        public async static Task<StartDictationResult> StartDictationDelegateTest(IDictationConsumerDelegate consumerDelegate, 
+            CancellationToken cancellationToken)
+        {
+            const int maxWords = 200;
+            
+            string[] vocabulary =
+            [
+                "The", "quick", "brown", "fox", "jumps", "over", "a", "lazy", "dog.",
+                "My", "day", "has", "been", "great,", "thank", "you!",
+                "Please", "record", "the", "following", "message", "accurately."
+            ];
+
+            var random = new Random();
+            
+            consumerDelegate.UpdateTextWithDictationResult("Well...");
+            
+            foreach (var i in Enumerable.Range(0, maxWords))
+            {
+                if (cancellationToken.IsCancellationRequested) return new StartDictationResult();
+                await Task.Delay(TimeSpan.FromMilliseconds(new Random().Next(400, 1501)), cancellationToken);
+                consumerDelegate.UpdateTextWithDictationResult(vocabulary[random.Next(vocabulary.Length)]);
+            }
+            
+            return new StartDictationResult("Error");
         }
         
         public static bool IsDebug { get; set; }
@@ -37,7 +65,7 @@ namespace DIPS.Mobile.UI.API.Library
             };
         }
         
-        public static Func<IView?>? GetCustomMultiLineInputFieldButtons { get; set; }
+        public static Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? StartDictationDelegate { get; set; }
         
         public static void RemoveViewsLocatedOnTopOfPage()
         {

@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
+using DIPS.Mobile.UI.MVVM.Commands;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -12,7 +13,7 @@ using Label = Microsoft.Maui.Controls.Label;
 
 namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
 
-public partial class MultiLineInputField : SingleLineInputField
+public partial class MultiLineInputField : SingleLineInputField, IDictationConsumerDelegate
 {
     private Grid? m_buttonsLayout;
 
@@ -29,6 +30,7 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private Button m_doneButton = new ();
     private Button m_cancelButton = new();
+    private Button m_toggleTranscriptionButton = new();
 
     private Label m_textLengthLabel = new Labels.Label
     {
@@ -41,6 +43,7 @@ public partial class MultiLineInputField : SingleLineInputField
         HorizontalOptions = LayoutOptions.Start,
         LineBreakMode = LineBreakMode.TailTruncation
     };
+    
 
     private ActivityIndicator m_activityIndicator;
 
@@ -120,16 +123,88 @@ public partial class MultiLineInputField : SingleLineInputField
         
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
         
-        var getCustomMultiLineInputFieldButtonsCallback = DUI.GetCustomMultiLineInputFieldButtons;
-        var buttonView = getCustomMultiLineInputFieldButtonsCallback?.Invoke();
+        DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields); // remember to remove
         
-        if (buttonView != null)
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) && DUI.StartDictationDelegate is not null)
         {
-            m_buttonsLayout.Add(buttonView, column: 1);
+            m_toggleTranscriptionButton = new Button
+            {
+                Text = "Dictation", 
+                Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
+                Command = new AsyncCommand(ToggleDictation)
+            };
+            
+            m_buttonsLayout.Add(m_toggleTranscriptionButton, column: 1);
         }
 
         m_buttonsLayout.Add(m_cancelButton, column: 2);
         m_buttonsLayout.Add(m_doneButton, column: 3);
+    }
+
+    private CancellationTokenSource? m_cancellationTokenSource;
+
+    private bool m_IsDictationActive;
+    
+    private async Task ToggleDictation()
+    {
+        if (!DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields)) return;
+
+        if (DUI.StartDictationDelegate is null) return;
+
+        if (!m_IsDictationActive)
+        {
+            await StartDictation();
+
+            //m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.CallToActionIconSmall);
+            return;
+        }
+
+        await StopDictation();
+        m_IsDictationActive = false;
+        //m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall);
+    }   
+
+    private async Task StartDictation()
+    {
+        if (m_IsDictationActive) return;
+        
+        if (!DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields)) return;
+
+        if (DUI.StartDictationDelegate is null) return;
+
+        var cancellationTokenSource = new CancellationTokenSource();
+        m_cancellationTokenSource = cancellationTokenSource;
+        
+        _ = DUI.StartDictationDelegate(this, m_cancellationTokenSource.Token);
+        m_IsDictationActive = true;
+    }    
+    
+    private async Task StopDictation()
+    {
+        if (!m_IsDictationActive) return;
+        
+        if (m_cancellationTokenSource is null)
+            throw new InvalidOperationException(
+                $"Trying to stop dictation without a {nameof(CancellationTokenSource)} set.");
+
+        if (m_cancellationTokenSource.IsCancellationRequested) return;
+        
+        await m_cancellationTokenSource.CancelAsync();
+    }
+    
+    
+    
+    public void UpdateTextWithDictationResult(string textToAdd)
+    {
+        if (Text.Length > 1)
+        {
+            var lastLetterOfText = Text[Text.Length - 1];
+            if (!char.IsWhiteSpace(lastLetterOfText) && !string.IsNullOrWhiteSpace(textToAdd))
+            {
+                Text += " ";
+            }
+        }
+        Text += textToAdd;
     }
     
     protected override void OnInputViewFocused(object? sender, FocusEventArgs e)

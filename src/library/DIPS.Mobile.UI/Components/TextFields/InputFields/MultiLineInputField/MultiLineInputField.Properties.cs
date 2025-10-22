@@ -107,7 +107,7 @@ public partial class MultiLineInputField
     {
         get => (string)GetValue(ErrorTextProperty);
         set => SetValue(ErrorTextProperty, value);
-    }
+    }    
     
     /// <summary>
     /// Determines whether the 'Save' and 'Cancel' buttons should be visible.
@@ -116,6 +116,15 @@ public partial class MultiLineInputField
     {
         get => (bool)GetValue(ShowButtonsProperty);
         set => SetValue(ShowButtonsProperty, value);
+    }
+    
+    /// <summary>
+    /// Determines whether the dictation toggle button is shown as active or not.
+    /// /// </summary>
+    public bool IsDictationActive
+    {
+        get => (bool)GetValue(IsDictationActiveProperty);
+        set => SetValue(IsDictationActiveProperty, value);
     }
     
     public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(
@@ -187,4 +196,10 @@ public partial class MultiLineInputField
         typeof(MultiLineInputField),
         defaultValue: true,
         propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnShowButtonsChanged());
+
+    public static readonly BindableProperty IsDictationActiveProperty = BindableProperty.Create(
+        nameof(IsDictationActive),
+        typeof(bool),
+        typeof(MultiLineInputField));
+    // propertyChanged: (bindable, _, _) => ((MultiLineInputField)bindable).OnShowButtonsChanged()); Maybe have a ToggleDictation function?
 }
