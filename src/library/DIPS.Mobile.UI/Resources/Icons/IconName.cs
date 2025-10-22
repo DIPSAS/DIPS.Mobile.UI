@@ -353,5 +353,7 @@ news=209,
 folder_open=210,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/clock_line.svg">View the icon in the browser</a></summary>
 clock_line=211,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/kommunal_journal.svg">View the icon in the browser</a></summary>
+kommunal_journal=212,
     }
 }
