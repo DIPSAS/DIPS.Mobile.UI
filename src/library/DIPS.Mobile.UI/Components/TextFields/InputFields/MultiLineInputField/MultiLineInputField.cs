@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 using DIPS.Mobile.UI.MVVM.Commands;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -123,14 +124,13 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
         
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
         
-        DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields); // remember to remove
-        
-        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) && DUI.StartDictationDelegate is not null)
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) 
+            && DUI.StartDictationDelegate is not null)
         {
-            m_toggleTranscriptionButton = new Button
+            m_toggleTranscriptionButton = new Button()
             {
-                Text = "Dictation", 
-                Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
+                ImageSource = Icons.GetIcon(IconName.mic_ai_line),
+                Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall),
                 Command = new AsyncCommand(ToggleDictation)
             };
             
@@ -143,7 +143,7 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
 
     private CancellationTokenSource? m_cancellationTokenSource;
 
-    private bool m_IsDictationActive;
+    private bool m_isDictationActive;
     
     private async Task ToggleDictation()
     {
@@ -151,22 +151,21 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
 
         if (DUI.StartDictationDelegate is null) return;
 
-        if (!m_IsDictationActive)
+        if (!m_isDictationActive)
         {
-            await StartDictation();
+            StartDictation();
 
-            //m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.CallToActionIconSmall);
+            m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.CallToActionIconSmall);
             return;
         }
 
         await StopDictation();
-        m_IsDictationActive = false;
-        //m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall);
+        m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall);
     }   
 
-    private async Task StartDictation()
+    private void StartDictation()
     {
-        if (m_IsDictationActive) return;
+        if (m_isDictationActive) return;
         
         if (!DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields)) return;
 
@@ -176,12 +175,12 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
         m_cancellationTokenSource = cancellationTokenSource;
         
         _ = DUI.StartDictationDelegate(this, m_cancellationTokenSource.Token);
-        m_IsDictationActive = true;
+        m_isDictationActive = true;
     }    
     
     private async Task StopDictation()
     {
-        if (!m_IsDictationActive) return;
+        if (!m_isDictationActive) return;
         
         if (m_cancellationTokenSource is null)
             throw new InvalidOperationException(
@@ -190,9 +189,9 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
         if (m_cancellationTokenSource.IsCancellationRequested) return;
         
         await m_cancellationTokenSource.CancelAsync();
+        m_isDictationActive = false;
+        m_toggleTranscriptionButton.Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall);
     }
-    
-    
     
     public void UpdateTextWithDictationResult(string textToAdd)
     {
@@ -228,6 +227,8 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
     protected override void OnInputViewUnFocused(object? sender, FocusEventArgs e)
     {
         base.OnInputViewUnFocused(sender, e);
+
+        if (m_isDictationActive) _ = StopDictation();
         
         m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         
@@ -259,6 +260,8 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
 
     private void OnSaveTapped()
     {
+        if (m_isDictationActive) _ = StopDictation();
+        
         m_textWhenFirstFocused = InputView?.Text;
         SaveTapped?.Invoke(this, EventArgs.Empty);
         SaveCommand?.Execute(SaveCommandParameter);
@@ -268,6 +271,8 @@ public partial class MultiLineInputField : SingleLineInputField, IDictationConsu
     
     private void OnCancelTapped()
     {
+        if (m_isDictationActive) _ = StopDictation();
+        
         InputView!.Text = m_textWhenFirstFocused;
         CancelTapped?.Invoke(this, EventArgs.Empty);
         CancelCommand?.Execute(CancelCommandParameter);

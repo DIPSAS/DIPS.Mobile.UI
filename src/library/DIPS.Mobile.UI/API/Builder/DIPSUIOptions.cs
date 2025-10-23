@@ -1,6 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
-using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 using DIPS.Mobile.UI.MemoryManagement;
 
 namespace DIPS.Mobile.UI.API.Builder;

@@ -14,7 +14,8 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDIPSUI(configurator =>
             {
-                /*configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.Colors);*/
+                configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields);
+                configurator.EnableCustomHideSoftInputOnTapped();
             });
         
         builder.ConfigureFonts(fonts =>

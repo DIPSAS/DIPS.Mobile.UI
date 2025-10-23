@@ -1,4 +1,4 @@
-## [52.0.1]
+## [52.0.20]
 - Added experimental custom transcription button on multiline input field.
 
 - ## [52.0.0]

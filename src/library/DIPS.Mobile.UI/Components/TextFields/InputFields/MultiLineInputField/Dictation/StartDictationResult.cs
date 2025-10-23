@@ -1,4 +1,4 @@
-namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
+namespace DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 
 public class StartDictationResult
 {
