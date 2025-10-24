@@ -62,6 +62,18 @@ public class ModalTestPage : ContentPage
                         Shell.Current.Navigation.RemovePage(page);
                     })
                 },
+                new NavigationListItem
+                {
+                    Title = "Remove modal root page",
+                    Command = new Command(() =>
+                    {
+                        var page = Shell.Current.Navigation.ModalStack.LastOrDefault(p => p is NavigationPage);
+                        if(page is not NavigationPage navigationPage)
+                            return;
+                        
+                        navigationPage.Navigation.RemovePage(navigationPage.RootPage);
+                    })
+                },
                 new SingleLineInputField()
             }
         };

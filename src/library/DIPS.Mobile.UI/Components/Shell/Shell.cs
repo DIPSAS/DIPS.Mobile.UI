@@ -162,15 +162,6 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                     await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(target);
                 }
 
-                if (modalPage.Target is NavigationPage navigationPage)
-                {
-                    if (navigationPage.Navigation.NavigationStack.Count > 0)
-                    {
-                        GarbageCollection.Print("Modal page still has pages inside it, will not check for memory leak...");
-                        return;
-                    }
-                }
-
                 if (DUI.IsDebug)
                 {
                     var alivePages = pageCollectionContentTargets.Where(t => t is not null && t.IsAlive).ToList();

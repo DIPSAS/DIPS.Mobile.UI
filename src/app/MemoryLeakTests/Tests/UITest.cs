@@ -39,7 +39,7 @@ public class UITestContentPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 
         if (Handler is null)
         {
-            //DeviceDisplay.MainDisplayInfoChanged -= OnBleed;
+            DeviceDisplay.MainDisplayInfoChanged -= OnBleed;
         }
     }
 }
