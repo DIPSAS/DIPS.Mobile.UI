@@ -19,8 +19,6 @@ public class GCCollectionMonitor
     public static GCCollectionMonitor Instance { get; } = new();
     public static bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
     public static bool TryAutoHandlerDisconnectModalPagesEnabled { get; internal set; }
-    public static bool TryIsolateMemoryLeak { get; internal set; }
-
     public void SetAdditionalResolver(Action<object> additionalResolver)
     {
         m_visualTreeMemoryResolver.SetAdditionalResolver(additionalResolver);
@@ -183,11 +181,6 @@ public class GCCollectionMonitor
                 }
             }
 
-            if (TryIsolateMemoryLeak)
-            {
-                TryIsolatePage(target);
-            }
-
             if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
             {
                 GarbageCollection.Print(
@@ -201,23 +194,6 @@ public class GCCollectionMonitor
         else if (TryAutoResolveMemoryLeaksEnabled && target?.Content.TryGetTarget(out var content) == true)
         {
             TryResolveMemoryLeaksInContent(content);
-        }
-    }
-
-    /// <summary>
-    /// If a ContentPage has a memory leak, the leak will propagate downwards the visual tree.
-    /// Also, if a View inside a ContentPage has a memory leak the leak will propagate upwards the visual tree.
-    /// To help mitigate this, we disconnect the ContentPage from its content, to help the GC collect the content.
-    /// Additionally, this helps pinpoint where the actual leak occurs
-    /// </summary>
-    private static void TryIsolatePage(CollectionContentTarget? target)
-    {
-        if (target?.Content.TryGetTarget(out var t) ?? false)
-        {
-            if (t is ContentPage contentPage)
-            {
-                contentPage.Content = null;
-            }
         }
     }
 

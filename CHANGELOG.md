@@ -1,5 +1,6 @@
 ## [53.4.0] 
-- Test
+- [GC] Added `EnableAutomaticModalHandlerDisconnection` to `IDIPSUIOptions` to enable automatic disconnection of modal pages.
+- [GC] Fixed bug where the tooling could not print out actual elements.
 
 ## [53.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens

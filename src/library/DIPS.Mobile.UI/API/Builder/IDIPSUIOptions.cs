@@ -31,12 +31,6 @@ public interface IDIPSUIOptions
     IDIPSUIOptions EnableAutomaticModalHandlerDisconnection();
 
     /// <summary>
-    ///     Enable to try to isolate memory leaks when they are detected, because memory leaks propagates both upwards and downwards
-    ///     <remarks>This can have unexpected side effects and should only be used during debugging.</remarks>
-    /// </summary>
-    IDIPSUIOptions EnableIsolateMemoryLeak();
-    
-    /// <summary>
     ///     Sets whether DIPS.Mobile.UI should use a custom implementation for hiding the soft input when a tap is detected.
     ///     Based on: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
     /// </summary>

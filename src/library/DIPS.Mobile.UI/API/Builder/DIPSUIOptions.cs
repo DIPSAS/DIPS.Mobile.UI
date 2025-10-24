@@ -32,14 +32,6 @@ internal class DIPSUIOptions : IDIPSUIOptions
         return this;
     }
     
-    public IDIPSUIOptions EnableIsolateMemoryLeak()
-    {
-#if __DEBUG__
-        GCCollectionMonitor.TryIsolateMemoryLeak = true;
-#endif
-        return this;
-    }
-
     public IDIPSUIOptions EnableCustomHideSoftInputOnTapped()
     {
         DUI.ShouldUseCustomHideSoftInputOnTappedImplementation = true;
