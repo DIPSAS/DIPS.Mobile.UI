@@ -137,33 +137,9 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             foreach (var modalPage in modalPages)
             {
-                // Check and disconnect handlers in a limited scope
-                {
-                    var modalTarget = modalPage.Target;
-                    if (modalTarget is NavigationPage navigationPage)
-                    {
-                        if (navigationPage.Handler is not null)
-                        {
-                            GarbageCollection.Print($"ℹ️ {modalPage.Name} did not get its handlers disconnected automatically.");
-
-                            if (GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
-                            {
-                                GarbageCollection.Print("Disconnecting handler automatically...");
-                                navigationPage.DisconnectHandlers();
-                            }
-                            else
-                            {
-                                GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
-                            }
-                        }
-                        else
-                        {
-                            GarbageCollection.Print($"ℹ️ {modalPage.Name} had its handlers disconnected automatically.");
-                        }
-                    }
-                }
+                GarbageCollection.Print($"--- 🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
-                GarbageCollection.Print($"🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
+                TryAutoDisconnectModalNavigationPageHandler(modalPage);
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)
@@ -174,7 +150,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
 
                 var pageCollectionContentTargets = modalPage.RetrieveCollectionContentTargets();
                 
-                TryAutoDisconnectModalHandlers(pageCollectionContentTargets);
+                TryAutoDisconnectModalPageHandlers(pageCollectionContentTargets);
                 
                 foreach (var target in pageCollectionContentTargets)
                 {
@@ -183,8 +159,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                         GarbageCollection.Print($"{target?.Name} inside modal was already GC'ed ✅");
                         continue;
                     }
-
-                    GarbageCollection.Print($"Checking page inside modal: {target.Name}");
+                    
                     await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(target);
                 }
 
@@ -200,28 +175,8 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                     GarbageCollection.Print($"✅ {garbageCollectedPages.Count} pages garbage collected: [{gcPageNames}]");
                     GarbageCollection.Print($"🧟 {alivePages.Count} pages still alive: [{alivePageNames}]");
                 }
-                
-                if (modalPage.IsAlive)
-                {
-                    GarbageCollection.Print("Checking the actual modal navigation page...");
-                    
-                    // Create CollectionContentTarget in a limited scope
-                    CollectionContentTarget? collectionContentTarget = null;
-                    {
-                        var modalTarget = modalPage.Target;
-                        if (modalTarget != null)
-                        {
-                            collectionContentTarget = modalTarget.ToCollectionContentTarget();
-                        }
-                        // modalTarget goes out of scope here
-                    }
-                    
-                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
-                }
-                else
-                {
-                    GarbageCollection.Print("The actual modal navigation page was garbage collected ✅");
-                }
+
+                GarbageCollection.Print(modalPage.IsAlive ? $"🧟 {modalPage.Name} is still alive" : $"✅ {modalPage.Name} was garbage collected");
             }
         }
         catch (Exception e)
@@ -230,7 +185,29 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         }
     }
 
-    private static void TryAutoDisconnectModalHandlers(List<CollectionContentTarget?> pageTargets)
+    private static void TryAutoDisconnectModalNavigationPageHandler(ModalPageReference modalPage)
+    {
+        var modalTarget = modalPage.Target;
+        if (modalTarget is NavigationPage navigationPage)
+        {
+            if (navigationPage.Handler is not null)
+            {
+                GarbageCollection.Print($"ℹ️ {modalPage.Name} did not get its handlers disconnected automatically from .NET MAUI.");
+
+                if (GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
+                {
+                    GarbageCollection.Print("🔧 Disconnecting handler manually...");
+                    navigationPage.DisconnectHandlers();
+                }
+            }
+            else
+            {
+                GarbageCollection.Print($"ℹ️ {modalPage.Name} had its handlers disconnected automatically from .NET MAUI.");
+            }
+        }
+    }
+
+    private static void TryAutoDisconnectModalPageHandlers(List<CollectionContentTarget?> pageTargets)
     {
         foreach (var target in pageTargets)
         {
@@ -238,19 +215,17 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             {
                 if (contentPageTarget is not ContentPage { Handler: not null } contentPage)
                 {
-                    GarbageCollection.Print($"ℹ️ {target.Name} had its handlers disconnected automatically.");
+                    GarbageCollection.Print($"ℹ️ {target.Name} had its handlers disconnected automatically from .NET MAUI.");
                     continue;
                 }
 
+                GarbageCollection.Print($"ℹ️ {target.Name} did not get its handlers disconnected automatically.");
+                
                 if (!GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
-                {
-                    GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
-                }
-                else
-                {
-                    GarbageCollection.Print($"ℹ️ {target.Name} did not get its handlers disconnected automatically. Disconnecting handlers...");
-                    contentPage.DisconnectHandlers();
-                }
+                    continue;
+
+                GarbageCollection.Print("🔧 Disconnecting handler manually...");
+                contentPage.DisconnectHandlers();
             }
         }
     }

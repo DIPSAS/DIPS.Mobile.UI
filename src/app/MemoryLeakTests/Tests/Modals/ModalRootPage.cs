@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.Pickers.MultiItemsPicker;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace MemoryLeakTests.Tests.Modals;
@@ -51,7 +52,8 @@ public class ModalRootPage : UITestContentPage
                     }),
                     VerticalOptions = LayoutOptions.Start
                 },
-                new DIPS.Mobile.UI.Components.Buttons.Button(){Text = "Hello!"}
+                new DIPS.Mobile.UI.Components.Buttons.Button(){Text = "Hello!"},
+                new MultiItemsPicker()
             }
         };
     }
