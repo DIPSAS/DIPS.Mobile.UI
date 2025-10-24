@@ -168,8 +168,6 @@ public class GCCollectionMonitor
         // A small delay to let MAUI finish their own disposing before we try and resolve
         await Task.Delay(MsBetweenCollections);
 
-        TryIsolatePage(target);
-
         if (DUI.IsDebug)
         {
             if (target is null)
