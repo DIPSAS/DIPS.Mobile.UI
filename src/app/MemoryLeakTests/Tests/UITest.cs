@@ -16,14 +16,30 @@ public abstract class UITest
     }
 }
 
-public class UITestContentPage : ContentPage
+public class UITestContentPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 {
     public UITestContentPage()
     {
+       DoBleed();
     }
 
     public void DoBleed()
     {
-        DeviceDisplay.MainDisplayInfoChanged += (_, _) => {};
+        DeviceDisplay.MainDisplayInfoChanged += OnBleed;
+    }
+
+    private void OnBleed(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        _ = this.Title;
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (Handler is null)
+        {
+            DeviceDisplay.MainDisplayInfoChanged -= OnBleed;
+        }
     }
 }

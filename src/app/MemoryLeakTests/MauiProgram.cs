@@ -11,8 +11,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseDIPSUI(options => 
-                options.EnableAutomaticMemoryLeakResolving())
+            .UseDIPSUI(options => options.EnableAutomaticModalHandlerDisconnection())
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -24,5 +24,6 @@ public class MemoryLeakEffect : PlatformEffect
 
     protected override void OnDetached()
     {
+        
     }
 }

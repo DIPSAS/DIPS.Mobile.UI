@@ -17,14 +17,18 @@ public class ModalTests : UITest
         var navigationListItem = new NavigationListItem { Title = "Start modal navigation tests", Command = new Command(() =>
             {
                 var navigationPage = new NavigationPage(new ModalRootPage());
-                navigationPage.On<Microsoft.Maui.Controls.PlatformConfiguration.iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
+                /*navigationPage.On<Microsoft.Maui.Controls.PlatformConfiguration.iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);*/
                 Shell.Current.Navigation.PushModalAsync(navigationPage);
             })
         };
         
         verticalStackLayout.Add(navigationListItem);
+        verticalStackLayout.Add(new Button()
+        {
+            Text = "Hello !"
+        });
 
-        contentPage.Content = verticalStackLayout;
+        contentPage.Content = new ContentView{ AutomationId = "Test", Content = verticalStackLayout};
     }
 
     public override string Name => "Modal Tests";

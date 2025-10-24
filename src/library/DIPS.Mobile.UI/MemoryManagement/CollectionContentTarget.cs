@@ -18,7 +18,7 @@ public class CollectionContentTarget
             }
         }
             
-        Content = new WeakReference(content);
+        Content = new WeakReference<object>(content);
     }
 
     private void AddChildrenReferences(IVisualTreeElement visualTreeElement)
@@ -33,20 +33,19 @@ public class CollectionContentTarget
 
     private void AddToFlatList(IVisualTreeElement visualTreeElement)
     {
-        string? name;
+        string name;
 
         if (visualTreeElement is Element element)
         {
-            name = element.ToString();
+            name = element.ToString() ?? element.GetType().Name;
             if (!string.IsNullOrEmpty(element.AutomationId))
             {
                 name += $" (automationId: {element.AutomationId})";
             }
-            FlatVisualChildrenList.Add(new CollectionTarget(name,
-                new WeakReference(visualTreeElement)));
+            FlatVisualChildrenList.Add(new CollectionTarget(name, visualTreeElement));
             if (element.Handler != null)
             {
-                FlatVisualChildrenList.Add(new CollectionTarget(name+ "(handler)", element.Handler));    
+                FlatVisualChildrenList.Add(new CollectionTarget(element.Handler.GetType().Name + $"(Attached to {name})", element.Handler));    
             }
                 
             AddEffectsToFlatList(name, element.Effects);
@@ -58,17 +57,14 @@ public class CollectionContentTarget
                         p.Target.TryGetTarget(out var target);
                         return target == element.BindingContext;
                     }))
-                {
                     FlatBindingContextList.Add(new CollectionTarget(element.BindingContext.ToString()!, element.BindingContext));    
-                }
             }
         }
         else
         {
             try
             {
-                FlatVisualChildrenList.Add(new CollectionTarget(visualTreeElement.GetType().Name,
-                    new WeakReference(visualTreeElement)));
+                FlatVisualChildrenList.Add(new CollectionTarget(visualTreeElement.GetType().Name, visualTreeElement));
             }
             catch
             {
@@ -88,5 +84,6 @@ public class CollectionContentTarget
     public string Name { get; }
     public List<CollectionTarget> FlatVisualChildrenList { get; } = [];
     public List<CollectionTarget> FlatBindingContextList { get; } = [];
-    public WeakReference Content { get; }
+    public WeakReference<object> Content { get; }
+    public bool IsAlive => FlatVisualChildrenList.Any(c => c.Target.TryGetTarget(out _)) || FlatBindingContextList.Any(c => c.Target.TryGetTarget(out _));
 }
