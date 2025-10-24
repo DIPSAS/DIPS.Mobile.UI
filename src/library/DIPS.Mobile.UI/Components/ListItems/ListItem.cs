@@ -55,13 +55,6 @@ public partial class ListItem : Grid
         BackgroundColor = DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_surface_default);
         
         this.Add(m_titleAndSubtitleContainer, 1);
-        
-        DeviceDisplay.MainDisplayInfoChanged += DeviceDisplayOnMainDisplayInfoChanged;
-    }
-
-    private void DeviceDisplayOnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
-    {
-        
     }
 
     private void AddTitle()

@@ -137,6 +137,24 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             foreach (var modalPage in modalPages)
             {
+                if (modalPage.Target is NavigationPage navigationPage)
+                {
+                    if (navigationPage.Handler is not null)
+                    {
+                        GarbageCollection.Print($"{modalPage.Name} did not get its handlers disconnected automatically.");
+
+                        if (GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
+                        {
+                            GarbageCollection.Print("Disconnecting handler automatically...");
+                            navigationPage.DisconnectHandlers();
+                        }
+                        else
+                        {
+                            GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
+                        }
+                    }
+                }
+                
                 GarbageCollection.Print($"🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
                 // The object has already been garbage collected
