@@ -1,8 +1,9 @@
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace MemoryLeakTests.Tests.Modals;
 
-public class ModalRootPage : ContentPage
+public class ModalRootPage : UITestContentPage
 {
     public ModalRootPage()
     {
@@ -28,12 +29,30 @@ public class ModalRootPage : ContentPage
 
         });
 
-        Content = new NavigationListItem { Title = "Navigate", Command = new Command(() =>
+        Content = new VerticalStackLayout()
+        {
+            Children =
             {
-                Shell.Current.Navigation.PushModalAsync(new ModalTestPage());
-            }), 
-            VerticalOptions = LayoutOptions.Start
+                new NavigationListItem
+                {
+                    Title = "Navigate",
+                    Command = new Command(() =>
+                    {
+                        Shell.Current.Navigation.PushModalAsync(new ModalTestPage());
+                    }),
+                    VerticalOptions = LayoutOptions.Start
+                },
+                new NavigationListItem
+                {
+                    Title = "Navigate",
+                    Command = new Command(() =>
+                    {
+                        Shell.Current.Navigation.PushModalAsync(new ModalTestPage());
+                    }),
+                    VerticalOptions = LayoutOptions.Start
+                },
+                new DIPS.Mobile.UI.Components.Buttons.Button(){Text = "Hello!"}
+            }
         };
-        
     }
 }

@@ -18,6 +18,7 @@ public class GCCollectionMonitor
     private const int MaxCollections = 10;
     public static GCCollectionMonitor Instance { get; } = new();
     public static bool TryAutoResolveMemoryLeaksEnabled { get; internal set; }
+    public static bool TryAutoHandlerDisconnectModalPagesEnabled { get; internal set; }
 
     public void SetAdditionalResolver(Action<object> additionalResolver)
     {
@@ -157,18 +158,17 @@ public class GCCollectionMonitor
             GarbageCollection.Print(
                 $"📈 GC Memory after: {totalMemory} byte ({(totalMemory / (float)1024 / 1024):F2} mb), difference: {totalMemoryBefore - totalMemory} bytes ({(totalMemoryBefore - totalMemory) / (float)1024 / 1024:F2} mb)");
         }
-
-        var hasMemoryLeaks = collectionContentTarget.Content.IsAlive || allBindingContextsThatLives.Count > 0 ||
-                             allVisualChildrenThatLives.Count > 0;
         
-        return hasMemoryLeaks;
+        return collectionContentTarget.IsAlive;
     }
 
     public async Task CheckIfObjectIsAliveAndTryResolveLeaks(CollectionContentTarget? target)
     {
         // A small delay to let MAUI finish their own disposing before we try and resolve
         await Task.Delay(MsBetweenCollections);
-        
+
+        TryIsolatePage(target);
+
         if (DUI.IsDebug)
         {
             if (target is null)
@@ -178,32 +178,42 @@ public class GCCollectionMonitor
 
             if (TryAutoResolveMemoryLeaksEnabled)
             {
-                if (target.Content.Target != null)
+                if (target.Content.TryGetTarget(out var content))
                 {
-                    TryResolveMemoryLeaksInContent(target.Content.Target);
+                    TryResolveMemoryLeaksInContent(content);
                 }
+            }
 
-                if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
-                {
-                    GarbageCollection.Print(
-                        $"❌ There is memory leaks after checking {target?.Name}. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving the leaks. ");
-                }
-                else
-                {
-                    GarbageCollection.Print($"✅ No memory leaks in {target.Name}! 🎉🎉🎉");
-                }
+            if (await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true))
+            {
+                GarbageCollection.Print(
+                    $"❌ There is memory leaks after checking {target?.Name}. See https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Performance#tips-and-tricks for help resolving the leaks. ");
             }
             else
             {
-                if (!(await CheckIfCollectionTargetIsAlive(target, shouldPrintTotalMemory: true)))
-                {
-                    GarbageCollection.Print($"✅ No memory leaks when checking {target.Name}");
-                }    
+                GarbageCollection.Print($"✅ No memory leaks in {target.Name}! 🎉🎉🎉");
             }
         }
-        else if (TryAutoResolveMemoryLeaksEnabled && target?.Content.Target is not null)
+
+        else if (TryAutoResolveMemoryLeaksEnabled && target?.Content.TryGetTarget(out var content) == true)
         {
-            TryResolveMemoryLeaksInContent(target.Content.Target);
+            TryResolveMemoryLeaksInContent(content);
+        }
+    }
+
+    /// <summary>
+    /// If a ContentPage has a memory leak, the leak will propagate downwards the visual tree.
+    /// To help mitigate this, we disconnect the ContentPage from its content, to help the GC collect the content.
+    /// Additionally, this helps pinpoint where the actual leak occurs
+    /// </summary>
+    private static void TryIsolatePage(CollectionContentTarget? target)
+    {
+        if (target?.Content.TryGetTarget(out var t) ?? false)
+        {
+            if (t is ContentPage contentPage)
+            {
+                contentPage.Content = null;
+            }
         }
     }
 

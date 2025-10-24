@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.TextFields.InputFields;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace MemoryLeakTests.Tests.Modals;
@@ -42,6 +43,15 @@ public class ModalTestPage : ContentPage
                 },
                 new NavigationListItem
                 {
+                    Title = "Push another modal",
+                    Command = new Command(() =>
+                    {
+                        Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ModalTestPage()));
+                    }),
+                    VerticalOptions = LayoutOptions.Start
+                },
+                new NavigationListItem
+                {
                     Title = "Remove UITestContentPage from normal navigation stack",
                     Subtitle = "This should check if the page is GC'ed, and not interfere with anything else",
                     Command = new Command(() =>
@@ -51,8 +61,10 @@ public class ModalTestPage : ContentPage
                             return;
                         Shell.Current.Navigation.RemovePage(page);
                     })
-                }
+                },
+                new SingleLineInputField()
             }
         };
+
     }
 }

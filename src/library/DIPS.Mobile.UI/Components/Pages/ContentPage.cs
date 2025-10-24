@@ -158,5 +158,10 @@ namespace DIPS.Mobile.UI.Components.Pages
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
         }
+
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+        }
     }
 }

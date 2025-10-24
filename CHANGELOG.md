@@ -1,3 +1,6 @@
+## [53.4.0] 
+- Test
+
 ## [53.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
