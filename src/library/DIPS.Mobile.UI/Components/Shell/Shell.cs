@@ -137,20 +137,28 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             foreach (var modalPage in modalPages)
             {
-                if (modalPage.Target is NavigationPage navigationPage)
+                // Check and disconnect handlers in a limited scope
                 {
-                    if (navigationPage.Handler is not null)
+                    var modalTarget = modalPage.Target;
+                    if (modalTarget is NavigationPage navigationPage)
                     {
-                        GarbageCollection.Print($"{modalPage.Name} did not get its handlers disconnected automatically.");
-
-                        if (GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
+                        if (navigationPage.Handler is not null)
                         {
-                            GarbageCollection.Print("Disconnecting handler automatically...");
-                            navigationPage.DisconnectHandlers();
+                            GarbageCollection.Print($"ℹ️ {modalPage.Name} did not get its handlers disconnected automatically.");
+
+                            if (GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
+                            {
+                                GarbageCollection.Print("Disconnecting handler automatically...");
+                                navigationPage.DisconnectHandlers();
+                            }
+                            else
+                            {
+                                GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
+                            }
                         }
                         else
                         {
-                            GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
+                            GarbageCollection.Print($"ℹ️ {modalPage.Name} had its handlers disconnected automatically.");
                         }
                     }
                 }
@@ -158,7 +166,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 GarbageCollection.Print($"🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
                 // The object has already been garbage collected
-                if (modalPage.Target is null)
+                if (!modalPage.IsAlive)
                 {
                     GarbageCollection.Print($"{modalPage.Name} already garbage collected ✅");
                     continue;
@@ -196,8 +204,19 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 if (modalPage.IsAlive)
                 {
                     GarbageCollection.Print("Checking the actual modal navigation page...");
-                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
-                        modalPage.Target.ToCollectionContentTarget());
+                    
+                    // Create CollectionContentTarget in a limited scope
+                    CollectionContentTarget? collectionContentTarget = null;
+                    {
+                        var modalTarget = modalPage.Target;
+                        if (modalTarget != null)
+                        {
+                            collectionContentTarget = modalTarget.ToCollectionContentTarget();
+                        }
+                        // modalTarget goes out of scope here
+                    }
+                    
+                    await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
                 }
                 else
                 {
@@ -213,23 +232,25 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
 
     private static void TryAutoDisconnectModalHandlers(List<CollectionContentTarget?> pageTargets)
     {
-        if (!GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
-        {
-            GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
-            return;
-        }
-        
         foreach (var target in pageTargets)
         {
             if (target?.Content.TryGetTarget(out var contentPageTarget) ?? false)
             {
                 if (contentPageTarget is not ContentPage { Handler: not null } contentPage)
                 {
+                    GarbageCollection.Print($"ℹ️ {target.Name} had its handlers disconnected automatically.");
                     continue;
                 }
 
-                GarbageCollection.Print($"ℹ️ {target.Name} did not get its handlers disconnected automatically. Disconnecting handlers...");
-                contentPage.DisconnectHandlers();
+                if (!GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled)
+                {
+                    GarbageCollection.Print("Auto disconnect handlers for modals is not enabled.");
+                }
+                else
+                {
+                    GarbageCollection.Print($"ℹ️ {target.Name} did not get its handlers disconnected automatically. Disconnecting handlers...");
+                    contentPage.DisconnectHandlers();
+                }
             }
         }
     }
@@ -251,30 +272,49 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             foreach (var page in pages)
             {
-                if (page.Target is null) //The object has already been garbage collected
+                if (!page.IsAlive) //The object has already been garbage collected
                 {
                     GarbageCollection.Print($"{page.Name} already garbage collected");
                     continue;
                 }
 
-                if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged &&
-                    RootPage is {Target: Page rootPage}) //Check if we should garbage collect when swapping
+                // Check if page is still in navigation stack - do this in a limited scope
+                var shouldSkip = false;
                 {
-                    if (page.Target == rootPage)
+                    var pageTarget = page.Target;
+                    
+                    if (shellNavigatedEventArgs != ShellNavigationSource.ShellItemChanged &&
+                        RootPage is {Target: Page rootPage}) //Check if we should garbage collect when swapping
                     {
-                        continue;
+                        if (pageTarget == rootPage)
+                        {
+                            shouldSkip = true;
+                        }
                     }
-                }
 
-                //Don't try to resolve memory leaks for the following cases, because the page is still visible.
-                if (Current.Navigation.NavigationStack.Any(p =>
-                        p == page.Target)) //The page is in the navigation stack
-                {
+                    //Don't try to resolve memory leaks for the following cases, because the page is still visible.
+                    if (!shouldSkip && Current?.Navigation?.NavigationStack != null && pageTarget != null)
+                    {
+                        shouldSkip = Current.Navigation.NavigationStack.Contains(pageTarget);
+                    }
+                    // pageTarget and rootPage go out of scope here
+                }
+                
+                if (shouldSkip)
                     continue;
-                }
 
-                await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(
-                    page.Target?.ToCollectionContentTarget());
+                // Create CollectionContentTarget in a limited scope
+                CollectionContentTarget? collectionContentTarget = null;
+                {
+                    var pageTarget = page.Target;
+                    if (pageTarget != null)
+                    {
+                        collectionContentTarget = pageTarget.ToCollectionContentTarget();
+                    }
+                    // pageTarget goes out of scope here
+                }
+                
+                await GCCollectionMonitor.Instance.CheckIfObjectIsAliveAndTryResolveLeaks(collectionContentTarget);
             }
         }
         catch (Exception e)
