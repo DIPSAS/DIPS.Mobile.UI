@@ -1,3 +1,6 @@
+## [53.5.0]
+- [Dictation] Added experimental dictation button with delegate on multiline input fields.
+
 ## [53.4.1]
 - [ImageThumbnailView] Fixed bug where close button could not be tapped.
 

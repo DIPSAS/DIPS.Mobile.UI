@@ -1,5 +1,7 @@
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 using SkiaSharp.Extended.UI.Controls.Themes;
 
 namespace DIPS.Mobile.UI.API.Library
@@ -36,6 +38,8 @@ namespace DIPS.Mobile.UI.API.Library
                 _ => 0
             };
         }
+        
+        public static Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? StartDictationDelegate { get; set; }
         
         public static void RemoveViewsLocatedOnTopOfPage()
         {
