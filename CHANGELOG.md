@@ -1,5 +1,8 @@
 ## [53.5.0]
-- Added experimental dictation button with delegate on multiline input fields.
+- [Dictation] Added experimental dictation button with delegate on multiline input fields.
+
+## [53.4.1]
+- [ImageThumbnailView] Fixed bug where close button could not be tapped.
 
 ## [53.4.0] 
 - [GC] Added `EnableAutomaticModalHandlerDisconnection` to `IDIPSUIOptions` to enable automatic disconnection of modal pages.

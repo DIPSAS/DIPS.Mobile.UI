@@ -58,21 +58,20 @@ internal class ImageThumbnailView : Grid
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             CornerRadius = 10,
             VerticalOptions = LayoutOptions.Start,
-            HorizontalOptions = LayoutOptions.End
+            HorizontalOptions = LayoutOptions.End,
+            Command = new Command(async () =>
+            {
+                var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(
+                    DUILocalizedStrings.RemoveImageTitle,
+                    DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
+
+                if (dialogResult == DialogAction.Closed)
+                    return;
+
+                m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);    
+            })
         };
 
-        Touch.SetCommand(closeButton, new Command(async () =>
-        {
-            var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(
-                DUILocalizedStrings.RemoveImageTitle,
-                DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
-
-            if (dialogResult == DialogAction.Closed)
-                return;
-
-            m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);
-        }));
-        
         Add(image);
         Add(closeButton);
     }
