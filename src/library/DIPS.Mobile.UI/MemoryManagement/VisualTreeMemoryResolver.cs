@@ -98,13 +98,13 @@ internal class VisualTreeMemoryResolver
                         }
 
                         break;
-                    }
+                    }    
             }
             
             // Try run user-defined resolver method
             m_additionalResolver?.Invoke(target);
         }
-        catch(Exception e)
+        catch
         {
             // Should never crash the app
         }
@@ -114,4 +114,5 @@ internal class VisualTreeMemoryResolver
     {
         m_additionalResolver = additionalResolver;
     }
+    
 }

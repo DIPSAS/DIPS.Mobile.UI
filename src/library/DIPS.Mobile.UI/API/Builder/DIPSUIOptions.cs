@@ -24,7 +24,14 @@ internal class DIPSUIOptions : IDIPSUIOptions
 
         return this;
     }
+    
+    public IDIPSUIOptions EnableAutomaticModalHandlerDisconnection()
+    {
+        GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled = true;
 
+        return this;
+    }
+    
     public IDIPSUIOptions EnableCustomHideSoftInputOnTapped()
     {
         DUI.ShouldUseCustomHideSoftInputOnTappedImplementation = true;
