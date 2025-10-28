@@ -24,7 +24,18 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         if (e.PropertyName is nameof(CheckTruncatedLabel.Text) or nameof(CheckTruncatedLabel.FormattedText) or nameof(CheckTruncatedLabel.MaxLines))
         {
             m_needsTruncationCheck = true;
-            RequestLayout();
+            
+            try
+            {
+                RequestLayout();
+            }
+            catch (Exception exception)
+            {
+                // This most likely happened because the Cleanup method was not called due to Handler not being disconnected properly.
+                // On Android, items in CollectionView are not cleaned up correctly when removed from the collection.
+                // See: https://github.com/dotnet/maui/issues/32243
+                DUILogService.LogError<MauiTextView>($"Error requesting layout for truncation check: {exception.Message}");
+            }
         }
     }
 
