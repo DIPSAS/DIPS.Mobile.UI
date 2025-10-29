@@ -41,6 +41,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             }
 
             var itemsToInsert = new List<SelectableItemViewModel>(m_originalItems);
+
+            if (m_itemPicker.AllowEmpty)
+            {
+                itemsToInsert.Insert(0, new SelectableItemViewModel(m_itemPicker.EmptyItemTitle, m_itemPicker.SelectedItem == null, null));
+            }
+            
             // If selected item is missing and FreeTextItemFactory is set, we can assume that the item was added as a free text option
             if (m_itemPicker.FreeTextItemFactory is not null && m_itemPicker.SelectedItem is not null && !selectedItemIsInItemsSource)
             {

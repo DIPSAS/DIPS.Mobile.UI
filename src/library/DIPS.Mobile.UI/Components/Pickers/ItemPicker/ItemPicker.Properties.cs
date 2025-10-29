@@ -167,6 +167,31 @@ public partial class ItemPicker
         get => (bool)GetValue(IsReadOnlyProperty);
         set => SetValue(IsReadOnlyProperty, value);
     }
+
+    public bool AllowEmpty
+    {
+        get => (bool)GetValue(AllowEmptyProperty);
+        set => SetValue(AllowEmptyProperty, value);
+    }
+    
+    public string EmptyItemTitle
+    {
+        get => (string)GetValue(EmptyItemTitleProperty);
+        set => SetValue(EmptyItemTitleProperty, value);
+    }
+
+    public static readonly BindableProperty EmptyItemTitleProperty = BindableProperty.Create(
+        nameof(EmptyItemTitle),
+        typeof(string),
+        typeof(ItemPicker),
+        defaultValue: DUILocalizedStrings.None,
+        propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).AllowEmptyOrEmptyItemTitleChanged());
+    
+    public static readonly BindableProperty AllowEmptyProperty = BindableProperty.Create(
+        nameof(AllowEmpty),
+        typeof(bool),
+        typeof(ItemPicker),
+        propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).AllowEmptyOrEmptyItemTitleChanged());
     
     public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(
         nameof(IsReadOnly),

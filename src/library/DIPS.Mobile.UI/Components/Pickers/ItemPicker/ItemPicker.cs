@@ -126,6 +126,14 @@ public partial class ItemPicker : ContentView
         }
     }
 
+    private void AllowEmptyOrEmptyItemTitleChanged()
+    {
+        if (Mode == PickerMode.ContextMenu)
+        {
+            AddContextMenuItems();
+        }
+    }
+
     private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not ItemPicker picker)
