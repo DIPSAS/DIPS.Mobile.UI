@@ -1,5 +1,5 @@
 ## [53.4.0]
-- [ItemPicker] Added `AllowEmpty` and `EmptyItemTitle` properties to allow for resetting
+- [ItemPicker] Added `AllowEmpty` and `EmptyItemTitle` properties to allow for clearing the picker's selected item
 
 ## [53.5.0]
 - [Dictation] Added experimental dictation button with delegate on multiline input fields.
