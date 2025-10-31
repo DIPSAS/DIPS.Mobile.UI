@@ -24,6 +24,12 @@
                 <dui:Switch x:Name="ReadOnlySwitch" />
             </dui:ListItem>
             
+            <dui:ListItem Title="Allow Empty"
+                          HorizontalOptions="End"
+                          BackgroundColor="Transparent">
+                <dui:Switch x:Name="AllowEmptySwitch" />
+            </dui:ListItem>
+            
             <dui:Label Text="ItemPicker, Mode: Context Menu"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
@@ -31,7 +37,8 @@
                             Mode="ContextMenu"
                             ItemsSource="{Binding People}"
                             ItemDisplayProperty="DisplayName"
-                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}"
+                            AllowEmpty="{Binding Source={x:Reference AllowEmptySwitch}, Path=IsToggled}"/>
             <dui:Label Text="ItemPicker, Mode: Bottom Sheet"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
@@ -39,7 +46,8 @@
                             Mode="BottomSheet"
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
-                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}"
+                            AllowEmpty="{Binding Source={x:Reference AllowEmptySwitch}, Path=IsToggled}" />
             <dui:Label Text="ItemPicker, Mode: Bottom Sheet w/ Free Text"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
@@ -49,14 +57,16 @@
                             ItemsSource="{Binding People}"
                             FreeTextItemFactory="{Binding PersonFactory}"
                             FreeTextPrefix="Free text: "
-                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}"
+                            AllowEmpty="{Binding Source={x:Reference AllowEmptySwitch}, Path=IsToggled}" />
             <dui:Label Text="ItemPicker, Size: Large"
                        Margin="5" />
             <dui:ItemPicker VerticalOptions="Start"
                             Size="Large"
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
-                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}"
+                            AllowEmpty="{Binding Source={x:Reference AllowEmptySwitch}, Path=IsToggled}"/>
             <dui:Label Text="MultiItemsPicker"
                        Margin="5" />
             <dui:MultiItemsPicker VerticalOptions="Start"
@@ -90,7 +100,8 @@
                             SelectedItem="{Binding SelectedPerson}"
                             ItemsSource="{Binding People}"
                             CustomTapCommand="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
-                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}" />
+                            IsReadOnly="{Binding Source={x:Reference ReadOnlySwitch}, Path=IsToggled}"
+                            AllowEmpty="{Binding Source={x:Reference AllowEmptySwitch}, Path=IsToggled}"/>
             
             <dui:Label Text="SegmentedControl: Mode: Single"
                        Margin="5" />

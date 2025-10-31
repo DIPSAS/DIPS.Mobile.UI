@@ -5,6 +5,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 
 public partial class ItemPicker
 {
+    private ContextMenuItem? m_emptyContextMenuItem;
+    
     private void UpdateContextMenuItems()
     {
         if (m_contextMenu == null)
@@ -41,6 +43,10 @@ public partial class ItemPicker
                 contextMenuItem.IsChecked = true;
             }
         }
+        else if (m_emptyContextMenuItem is not null)
+        {
+            m_emptyContextMenuItem.IsChecked = true;
+        }
             
         m_contextMenu.SendItemsSourceUpdated();
     }
@@ -52,7 +58,22 @@ public partial class ItemPicker
             return;
         }
         m_contextMenu.ItemsSource!.Clear();
-            
+
+        if (AllowEmpty)
+        {
+            m_emptyContextMenuItem = new ContextMenuItem
+            {
+                Title = EmptyItemTitle,
+                IsChecked = SelectedItem == null,
+                IsCheckable = true
+            };
+            m_contextMenu.ItemsSource?.Add(m_emptyContextMenuItem);
+        }
+        else
+        {
+            m_emptyContextMenuItem = null;
+        }
+        
         foreach (var obj in ItemsSource)
         {
             var itemDisplayName = obj.GetPropertyValue(ItemDisplayProperty);
