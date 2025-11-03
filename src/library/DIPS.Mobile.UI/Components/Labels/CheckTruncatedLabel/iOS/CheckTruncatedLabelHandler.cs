@@ -8,9 +8,4 @@ public partial class CheckTruncatedLabelHandler
     {
         return new iOS.MauiLabel(VirtualView as CheckTruncatedLabel);
     }
-
-    public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
-    {
-        return base.GetDesiredSize(widthConstraint, heightConstraint);
-    }
 }
