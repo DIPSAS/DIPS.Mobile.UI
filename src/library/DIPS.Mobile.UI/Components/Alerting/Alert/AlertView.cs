@@ -106,6 +106,11 @@ public partial class AlertView : Grid
             m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
             this.Add(m_buttonsContainer, 1, 1);
         }
+
+#if __ANDROID__
+        // Workaround for Android layout issue where buttons is not visible in some cases
+        InvalidateMeasure();
+#endif
     }
 
     private void OnButtonChanged()
@@ -119,11 +124,6 @@ public partial class AlertView : Grid
         m_buttonsContainer.Clear();
         if (LeftButtonCommand != null)
         {
-            if (RightButtonCommand != null)
-            {
-                m_buttonsContainer.Clear();
-            }
-            
             m_buttonsContainer.Add(CreateButton(LeftButtonText, LeftButtonCommand, LeftButtonCommandParameter, "LeftButton".ToDUIAutomationId<AlertView>()));
         }
 
@@ -209,6 +209,10 @@ public partial class AlertView : Grid
         
         UpdateButtonAlignment();
         UpdateAccessibility();
+
+#if __IOS__
+        InvalidateMeasure();
+#endif
     }
 
     private int GetTitleMaxLines()
