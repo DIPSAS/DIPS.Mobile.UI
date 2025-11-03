@@ -198,7 +198,6 @@ public partial class AlertView : Grid
             TextColor = TextColor,
             FormattedText = formattedString,
             TruncatedTextStyle = Styles.GetLabelStyle(LabelStyle.UI100),
-            TruncatedTextColor = TextColor,
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
         };
 

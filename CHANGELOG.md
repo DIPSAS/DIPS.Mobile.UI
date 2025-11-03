@@ -1,3 +1,6 @@
+## [53.6.1]
+- Test
+
 ## [53.6.0]
 - [ItemPicker] Added `AllowEmpty` and `EmptyItemTitle` properties to allow for clearing the picker's selected item
 
