@@ -256,6 +256,13 @@ public partial class AlertView : Grid
         {
             UpdateAccessibility();
         }
+
+#if __IOS__
+        if (propertyName == nameof(IsVisible))
+        {
+            InvalidateMeasure();
+        }
+#endif
     }
 
     private AlertStyle GetCurrentAlertType()

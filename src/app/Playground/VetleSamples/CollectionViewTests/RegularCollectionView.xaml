@@ -10,12 +10,18 @@
         <collectionViewTests:RegularCollectionViewModel />
     </ContentPage.BindingContext>
     
-    <dui:CollectionView ItemsSource="{Binding TestItems}"
-                        x:Name="CollectionView"
-                        HasAdditionalSpaceAtTheEnd="True"
-                        BackgroundColor="Transparent"
-                        dui:Layout.AutoCornerRadius="True"
-                        dui:Layout.AutoHideLastDivider="True">
+    <Grid RowDefinitions="Auto, *">
+        
+        <dui:Switch x:Name="Switch" />
+    
+        <dui:CollectionView ItemsSource="{Binding TestItems}"
+                            IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"
+                            Grid.Row="1"
+                            x:Name="CollectionView"
+                            HasAdditionalSpaceAtTheEnd="True"
+                            BackgroundColor="Transparent"
+                            dui:Layout.AutoCornerRadius="True"
+                            dui:Layout.AutoHideLastDivider="True">
         
         <dui:CollectionView.Header>
             <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
@@ -25,10 +31,12 @@
         
         <dui:CollectionView.FooterTemplate>
             <DataTemplate>
-                <Grid Padding="{dui:Thickness Top=size_4}">
-                    <dui:ListItem Title="Add item - Global Footer"
-                                  Command="{Binding AddItemCommand}" />
-                </Grid>
+                
+
+                    <dui:AlertView Title="Dette er en veldig lang tekst som skal virkelig bli truncated, altså teksten skal bli truncated"
+                                   TitleTruncationMode="Moderate"
+                                   Margin="{dui:Thickness Left=size_3, Right=size_3}"/>
+                    
             </DataTemplate>
         </dui:CollectionView.FooterTemplate>
         
@@ -42,7 +50,7 @@
                             
             </DataTemplate>
         </dui:CollectionView.ItemTemplate>
-
+        
     </dui:CollectionView>
-    
+    </Grid>
 </dui:ContentPage>
