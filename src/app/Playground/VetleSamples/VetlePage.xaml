@@ -28,27 +28,13 @@
 
     <VerticalStackLayout>
     
-        <dui:Switch IsToggled="{Binding IsToggled, Mode=TwoWay}" />
+        <dui:Switch x:Name="Switch"></dui:Switch>
         
-        <dui:ContentControl SelectorItem="{Binding IsToggled}">
-            
-            <dui:ContentControl.TemplateSelector>
-                <dui:BooleanDataTemplateSelector>
-                    <dui:BooleanDataTemplateSelector.TrueTemplate>
-                        <DataTemplate>
-                            <dui:Label Text="Hello"></dui:Label>
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.TrueTemplate>
-                    <dui:BooleanDataTemplateSelector.FalseTemplate>
-                        <DataTemplate>
-                            <dui:MultiLineInputField />
-                        </DataTemplate>
-                    </dui:BooleanDataTemplateSelector.FalseTemplate>
-                </dui:BooleanDataTemplateSelector>
-            </dui:ContentControl.TemplateSelector>
-            
-            
-        </dui:ContentControl>
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
     
     </VerticalStackLayout>
     

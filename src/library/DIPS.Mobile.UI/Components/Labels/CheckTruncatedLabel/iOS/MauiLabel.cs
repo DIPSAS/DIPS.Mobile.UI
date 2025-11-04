@@ -9,6 +9,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 {
     private readonly CheckTruncatedLabel m_label;
     private bool m_needsTruncationCheck = true;
+    private CGRect m_previousBounds;
 
     public MauiLabel(CheckTruncatedLabel label)
     {
@@ -18,7 +19,7 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
         m_label.PropertyChanged += OnLabelPropertyChanged;
     }
 
-    private void OnLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private void OnLabelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName is nameof(CheckTruncatedLabel.Text) or nameof(CheckTruncatedLabel.FormattedText) or nameof(CheckTruncatedLabel.MaxLines))
         {
@@ -26,18 +27,25 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
             SetNeedsLayout();
         }
     }
-
+    
     public override void LayoutSubviews()
     {
         base.LayoutSubviews();
+
+        // If bounds are changed, we need to recheck truncation
+        if (!Bounds.Equals(m_previousBounds))
+        {
+            m_needsTruncationCheck = true;
+        }
         
-        if (!m_needsTruncationCheck)
+        if (!m_needsTruncationCheck || Bounds.IsEmpty)
             return;
             
         // Schedule a delayed check to ensure layout is complete
         DispatchQueue.MainQueue.DispatchAsync(CheckTruncationAfterLayout);
         
         m_needsTruncationCheck = false;
+        m_previousBounds = Bounds;
     }
 
     private void CheckTruncationAfterLayout()

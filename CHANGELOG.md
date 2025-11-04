@@ -1,3 +1,7 @@
+## [53.6.1]
+- [AlertView][Android] Fixed bug where buttons would not be visible if text size was increased and the Alert was not large.
+- [AlertView][iOS] Fixed bug where `AlertView` would not show the custom truncation text if its visibility were set to false at the start.
+
 ## [53.6.0]
 - [ItemPicker] Added `AllowEmpty` and `EmptyItemTitle` properties to allow for clearing the picker's selected item
 

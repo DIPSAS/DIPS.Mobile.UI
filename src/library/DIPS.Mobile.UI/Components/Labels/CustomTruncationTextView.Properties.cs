@@ -124,7 +124,7 @@ public partial class CustomTruncationTextView
         nameof(TruncatedTextColor),
         typeof(Color),
         typeof(CustomTruncationTextView),
-        defaultValue: Colors.GetColor(ColorName.color_text_on_fill_information));
+        defaultValue: Colors.GetColor(ColorName.color_text_action));
 
     public static readonly BindableProperty TruncatedTextStyleProperty = BindableProperty.Create(
         nameof(TruncatedTextStyle),
