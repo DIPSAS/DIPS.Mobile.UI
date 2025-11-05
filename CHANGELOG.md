@@ -1,3 +1,6 @@
+## [53.6.2]
+- [iOS] Fixed so Touch.Command will not be executed when long press is recognized.
+
 ## [53.6.1]
 - [AlertView][Android] Fixed bug where buttons would not be visible if text size was increased and the Alert was not large.
 - [AlertView][iOS] Fixed bug where `AlertView` would not show the custom truncation text if its visibility were set to false at the start.

@@ -41,6 +41,8 @@ public partial class TouchPlatformEffect
         if (e.State != UIGestureRecognizerState.Began)
             return;
         
+        m_tapGestureRecognizer?.NotifyLongPress();
+
         if (Touch.GetLongPressCommand(Element)?.CanExecute(Touch.GetLongPressCommandParameter(Element)) ?? false)
             Touch.GetLongPressCommand(Element)?.Execute(Touch.GetLongPressCommandParameter(Element));
     }

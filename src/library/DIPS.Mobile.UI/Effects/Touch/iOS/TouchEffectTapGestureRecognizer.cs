@@ -9,6 +9,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
 {
     private UIView? m_uiView;
     private readonly Action m_onTap;
+    private bool m_longPressDetected;
 
     internal UIGestureRecognizerState m_currentState = UIGestureRecognizerState.Possible;
 
@@ -37,6 +38,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     {
         base.TouchesBegan(touches, evt);
         
+        m_longPressDetected = false;
         m_isCancelled = false;
 
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Began, ref m_currentState, m_uiView);
@@ -46,10 +48,11 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     {
         base.TouchesEnded(touches, evt);
         
-        if(m_currentState is not UIGestureRecognizerState.Cancelled)
+        if(!m_longPressDetected && m_currentState is not UIGestureRecognizerState.Cancelled)
             m_onTap.Invoke();
         
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, m_uiView);
+        m_longPressDetected = false;
     }
 
     public override void TouchesCancelled(NSSet touches, UIEvent evt)
@@ -57,6 +60,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         base.TouchesCancelled(touches, evt);
 
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
+        m_longPressDetected = false;
     }
     
     public override void TouchesMoved(NSSet touches, UIEvent evt)
@@ -79,6 +83,11 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     
     private CGPoint? GetTouchPoint(NSSet touches) =>
         (touches.AnyObject as UITouch)?.LocationInView(m_uiView);
+    
+    public void NotifyLongPress()
+    {
+        m_longPressDetected = true;
+    }
 
     protected override void Dispose(bool disposing)
     {
