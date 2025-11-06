@@ -1,3 +1,6 @@
+## [53.7.0]
+- Added `DelayedView`.
+
 ## [53.6.2]
 - [iOS] Fixed so Touch.Command will not be executed when long press is recognized.
 
