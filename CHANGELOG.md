@@ -1,3 +1,6 @@
+## [53.7.1]
+- [Android] Fixed issue where screenrecorder was able to record content in modals
+
 ## [53.7.0]
 - Added `DelayedView`.
 
