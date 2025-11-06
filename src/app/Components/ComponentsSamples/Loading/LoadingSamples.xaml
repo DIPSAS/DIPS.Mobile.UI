@@ -4,13 +4,14 @@
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
              xmlns:helpers="clr-namespace:Components.Helpers"
              xmlns:skeleton="clr-namespace:Components.ComponentsSamples.Loading.Skeleton"
              xmlns:activityIndicator="clr-namespace:Components.ComponentsSamples.Loading.ActivityIndicator"
              xmlns:stateView="clr-namespace:Components.ComponentsSamples.Loading.StateView"
              xmlns:loadingOverlay="clr-namespace:Components.ComponentsSamples.Loading.LoadingOverlay"
+             xmlns:delayedView="clr-namespace:Components.ComponentsSamples.Loading.DelayedView"
+             xmlns:dui="http://dips.com/mobile.ui"
              x:Class="Components.ComponentsSamples.Loading.LoadingSamples">
     <dui:VerticalStackLayout Spacing="0">
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.SkeletonLoading}"
@@ -23,6 +24,9 @@
                                 Command="{helpers:NavigationCommand {x:Type stateView:StateViewSamples}}"
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="LoadingOverlay"
-                                Command="{helpers:NavigationCommand {x:Type loadingOverlay:LoadingOverlaySamples}}" />
+                                Command="{helpers:NavigationCommand {x:Type loadingOverlay:LoadingOverlaySamples}}"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="DelayedView"
+                                Command="{helpers:NavigationCommand {x:Type delayedView:DelayedViewSamples}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:delayedView="clr-namespace:Components.ComponentsSamples.Loading.DelayedView"
+                 xmlns:delayedView1="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.Loading.DelayedView.DelayedViewSamples"
+                 x:DataType="{x:Type delayedView:DelayedViewSamplesViewModel}"
+                 Title="DelayedView">
+
+    <dui:ContentPage.BindingContext>
+        <delayedView:DelayedViewSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Thickness Left=size_3, Right=size_3, Top=size_3}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="Configure Delay" />
+
+            <dui:ListItem Title="Delay"
+                          dui:Layout.CornerRadius="{dui:CornerRadius size_2}">
+                <Grid ColumnDefinitions="Auto, *">
+                    <dui:Label Text="{Binding RenderingDelay, StringFormat='{0:F2}s'}"
+                               Style="{dui:Styles Label=UI300}"
+                               VerticalOptions="Center" />
+                    <Slider x:Name="DelaySlider"
+                            Grid.Column="1"
+                            Minimum="0"
+                            Maximum="1"
+                            Value="{Binding RenderingDelay}"
+                            WidthRequest="200"
+                            VerticalOptions="Center" />
+                </Grid>
+            </dui:ListItem>
+
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="Test Navigation" />
+
+            <dui:Label
+                Text="Navigate to test pages below to see how the DelayedView works with different rendering delays. The activity indicator will show while the content is delayed."
+                Margin="{dui:Thickness Bottom=size_2}" />
+
+            <dui:VerticalStackLayout Spacing="0">
+                <dui:NavigationListItem Title="Simple Content Test"
+                                        Command="{Binding NavigateToSimpleCommand}"
+                                        HasBottomDivider="True" />
+
+                <dui:NavigationListItem Title="Complex Layout Test"
+                                        Command="{Binding NavigateToComplexCommand}"
+                                        HasBottomDivider="True" />
+
+                <dui:NavigationListItem Title="Very Complex Layout Test"
+                                        Command="{Binding NavigateToCollectionViewCommand}" />
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

@@ -5,37 +5,251 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                 xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
+                 xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 Title="Hello"
-                 
-                 >
+                 Title="Hello">
 
-    
+
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetlePageViewModel />
     </dui:ContentPage.BindingContext>
-    
+
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons alert_line}"></ToolbarItem>
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
     <VerticalStackLayout>
-    
-        <dui:Switch x:Name="Switch"></dui:Switch>
-        
+
+        <dui:Switch IsToggled="True" x:Name="Switch"></dui:Switch>
+
+        <delayedView:DelayedView SecondsUntilRender="0">
+            <DataTemplate>
+            <VerticalStackLayout>
         <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
                        LeftButtonText="Hello"
                        Margin="{dui:Thickness Left=size_3, Right=size_3}"
                        Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
-                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}"/>
-    
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        <dui:AlertView LeftButtonCommand="{Binding AddItemCommand}"
+                       LeftButtonText="Hello"
+                       Margin="{dui:Thickness Left=size_3, Right=size_3}"
+                       Title="Du har ulagrede endringer 1 asdasdasd asdonasdisa"
+                       IsVisible="{Binding Source={x:Reference Switch}, Path=IsToggled}" />
+        </VerticalStackLayout>
+            </DataTemplate>
+        </delayedView:DelayedView>
     </VerticalStackLayout>
-    
+
 </dui:ContentPage>

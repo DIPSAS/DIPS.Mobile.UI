@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:delayedView="clr-namespace:Components.ComponentsSamples.Loading.DelayedView"
+                 xmlns:delayedView1="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
+                 x:Class="Components.ComponentsSamples.Loading.DelayedView.ComplexLayoutTestPage"
+                 x:DataType="{x:Type delayedView:ComplexLayoutTestPageViewModel}"
+                 Title="Complex Layout Test">
+
+    <dui:ContentPage.BindingContext>
+        <delayedView:ComplexLayoutTestPageViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <ScrollView>
+        <delayedView1:DelayedView x:Name="DelayedContent">
+            <delayedView1:DelayedView.ItemTemplate>
+                <DataTemplate>
+                    <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
+                                             Spacing="{dui:Sizes size_3}">
+
+                        <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                                   Text="Complex Layout" />
+
+                        <dui:VerticalStackLayout BackgroundColor="{dui:Colors color_surface_highlight}"
+                                                 Padding="{dui:Thickness size_3}"
+                                                 dui:Layout.CornerRadius="{dui:CornerRadius size_2}"
+                                                 Spacing="{dui:Sizes size_2}">
+                            <dui:Label Text="✓ Complex layout rendered!"
+                                       Style="{dui:Styles Label=UI400}" />
+                            <dui:Label Text="This page has multiple nested components to test performance." />
+                        </dui:VerticalStackLayout>
+
+                        <!-- Multiple List Items -->
+                        <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                                   Text="Sample List Items" />
+
+                        <dui:VerticalStackLayout Spacing="0">
+                            <dui:ListItem Title="First Item"
+                                          Subtitle="This is a subtitle"
+                                          HasBottomDivider="True"
+                                          dui:Layout.CornerRadius="{dui:CornerRadius size_2}">
+                                <dui:Image Source="{dui:Icons chevron_right_line}" />
+                            </dui:ListItem>
+
+                            <dui:ListItem Title="Second Item"
+                                          Subtitle="With some additional information"
+                                          HasBottomDivider="True">
+                                <dui:Image Source="{dui:Icons chevron_right_line}" />
+                            </dui:ListItem>
+
+                            <dui:ListItem Title="Third Item"
+                                          Subtitle="More content here"
+                                          HasBottomDivider="True">
+                                <dui:Image Source="{dui:Icons chevron_right_line}" />
+                            </dui:ListItem>
+
+                            <dui:ListItem Title="Fourth Item"
+                                          Subtitle="Even more data">
+                                <dui:Image Source="{dui:Icons chevron_right_line}" />
+                            </dui:ListItem>
+                        </dui:VerticalStackLayout>
+
+                        <!-- Form Elements -->
+                        <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                                   Text="Form Elements" />
+
+                        <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                            <dui:ListItem Title="Input Field"
+                                          dui:Layout.CornerRadius="{dui:CornerRadius size_2}">
+                                <Entry Placeholder="Enter something..."
+                                       WidthRequest="200" />
+                            </dui:ListItem>
+
+                            <dui:ListItem Title="Toggle Option"
+                                          dui:Layout.CornerRadius="{dui:CornerRadius size_2}">
+                                <Switch />
+                            </dui:ListItem>
+
+                            <dui:ListItem Title="Picker"
+                                          dui:Layout.CornerRadius="{dui:CornerRadius size_2}">
+                                <dui:ItemPicker>
+                                    <dui:ItemPicker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Option 1</x:String>
+                                            <x:String>Option 2</x:String>
+                                            <x:String>Option 3</x:String>
+                                        </x:Array>
+                                    </dui:ItemPicker.ItemsSource>
+                                </dui:ItemPicker>
+                            </dui:ListItem>
+                        </dui:VerticalStackLayout>
+
+                        <!-- Buttons -->
+                        <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                            <dui:Button Text="Button 1"
+                                        HorizontalOptions="FillAndExpand" />
+                            <dui:Button Text="Button 2"
+                                        HorizontalOptions="FillAndExpand" />
+                        </dui:HorizontalStackLayout>
+
+                    </dui:VerticalStackLayout>
+                </DataTemplate>
+            </delayedView1:DelayedView.ItemTemplate>
+        </delayedView1:DelayedView>
+    </ScrollView>
+
+</dui:ContentPage>

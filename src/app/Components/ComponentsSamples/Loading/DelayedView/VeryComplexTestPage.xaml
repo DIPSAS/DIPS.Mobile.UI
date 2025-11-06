@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:delayedView="clr-namespace:Components.ComponentsSamples.Loading.DelayedView"
+                 xmlns:delayedView1="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
+                 x:Class="Components.ComponentsSamples.Loading.DelayedView.VeryComplexTestPage"
+                 x:DataType="{x:Type delayedView:CollectionViewTestPageViewModel}"
+                 Title="CollectionView Test"
+                 ShouldLogLoadingTime="True">
+
+    <dui:ContentPage.BindingContext>
+        <delayedView:CollectionViewTestPageViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <delayedView1:DelayedView x:Name="DelayedContent">
+        <delayedView1:DelayedView.ItemTemplate>
+            <DataTemplate>
+                <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
+                                         Spacing="{dui:Sizes size_3}">
+
+                    <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                               Text="CollectionView Test" />
+
+                    <dui:VerticalStackLayout BackgroundColor="{dui:Colors color_surface_highlight}"
+                                             Padding="{dui:Thickness size_3}"
+                                             dui:Layout.CornerRadius="{dui:CornerRadius size_2}"
+                                             Spacing="{dui:Sizes size_2}">
+                        <dui:Label Text="✓ Bindable StackLayout rendered!"
+                                   Style="{dui:Styles Label=UI400}" />
+                        <dui:Label Text="Testing with a list of 50 items." />
+                    </dui:VerticalStackLayout>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="delayedView:SampleItem">
+                                <dui:ListItem Title="{Binding Title}"
+                                              Subtitle="{Binding Subtitle}"
+                                              HasBottomDivider="True">
+                                    <dui:Image Source="{dui:Icons chevron_right_line}" />
+                                </dui:ListItem>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+
+                </dui:VerticalStackLayout>
+            </DataTemplate>
+        </delayedView1:DelayedView.ItemTemplate>
+    </delayedView1:DelayedView>
+
+</dui:ContentPage>
