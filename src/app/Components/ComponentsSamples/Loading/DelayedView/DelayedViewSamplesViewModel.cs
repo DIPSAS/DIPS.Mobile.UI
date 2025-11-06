@@ -28,6 +28,42 @@ public class DelayedViewSamplesViewModel : ViewModel
             var vm = new VeryComplexTestPage(RenderingDelay);
             await Shell.Current.Navigation.PushAsync(vm);
         });
+
+        NavigateToSimpleModalCommand = new Command(async () =>
+        {
+            var page = new SimpleContentTestPage(RenderingDelay);
+            var navigationPage = new NavigationPage(page);
+            page.ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "Close",
+                Command = new Command(async () => await Shell.Current.Navigation.PopModalAsync())
+            });
+            await Shell.Current.Navigation.PushModalAsync(navigationPage);
+        });
+
+        NavigateToComplexModalCommand = new Command(async () =>
+        {
+            var page = new ComplexLayoutTestPage(RenderingDelay);
+            var navigationPage = new NavigationPage(page);
+            page.ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "Close",
+                Command = new Command(async () => await Shell.Current.Navigation.PopModalAsync())
+            });
+            await Shell.Current.Navigation.PushModalAsync(navigationPage);
+        });
+
+        NavigateToCollectionViewModalCommand = new Command(async () =>
+        {
+            var page = new VeryComplexTestPage(RenderingDelay);
+            var navigationPage = new NavigationPage(page);
+            page.ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "Close",
+                Command = new Command(async () => await Shell.Current.Navigation.PopModalAsync())
+            });
+            await Shell.Current.Navigation.PushModalAsync(navigationPage);
+        });
     }
 
     public float RenderingDelay
@@ -39,4 +75,8 @@ public class DelayedViewSamplesViewModel : ViewModel
     public ICommand NavigateToSimpleCommand { get; }
     public ICommand NavigateToComplexCommand { get; }
     public ICommand NavigateToCollectionViewCommand { get; }
+    
+    public ICommand NavigateToSimpleModalCommand { get; }
+    public ICommand NavigateToComplexModalCommand { get; }
+    public ICommand NavigateToCollectionViewModalCommand { get; }
 }

@@ -11,7 +11,7 @@ public partial class DelayedView
         nameof(SecondsUntilRender),
         typeof(float),
         typeof(DelayedView),
-        defaultValue: .2f);
+        defaultValue: .6f);
     
     /// <summary>
     /// The template used to render the view after the delay
@@ -30,4 +30,9 @@ public partial class DelayedView
         get => (float)GetValue(SecondsUntilRenderProperty);
         set => SetValue(SecondsUntilRenderProperty, value);
     }
+
+    /// <summary>
+    /// Invoked when the view has been rendered
+    /// </summary>
+    public event EventHandler<EventArgs>? OnRendered;
 }

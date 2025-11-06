@@ -14,8 +14,8 @@
     </dui:ContentPage.BindingContext>
 
     <ScrollView>
-        <delayedView1:DelayedView x:Name="DelayedContent">
-            <delayedView1:DelayedView.ItemTemplate>
+        <dui:DelayedView x:Name="DelayedContent">
+            <dui:DelayedView.ItemTemplate>
                 <DataTemplate>
                     <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
                                              Spacing="{dui:Sizes size_3}">
@@ -102,8 +102,8 @@
 
                     </dui:VerticalStackLayout>
                 </DataTemplate>
-            </delayedView1:DelayedView.ItemTemplate>
-        </delayedView1:DelayedView>
+            </dui:DelayedView.ItemTemplate>
+        </dui:DelayedView>
     </ScrollView>
 
 </dui:ContentPage>

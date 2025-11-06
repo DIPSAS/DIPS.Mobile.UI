@@ -5,24 +5,15 @@ namespace Components.ComponentsSamples.Loading.DelayedView;
 
 public partial class ComplexLayoutTestPage
 {
-    private readonly Stopwatch m_stopwatch = new();
-
     public ComplexLayoutTestPage(float renderingDelay)
     {
-        m_stopwatch.Start();
         InitializeComponent();
         DelayedContent.SecondsUntilRender = renderingDelay;
+        DelayedContent.OnRendered += DelayedContentOnOnRendered;
     }
 
-    protected override void OnHandlerChanged()
+    private void DelayedContentOnOnRendered(object? sender, EventArgs e)
     {
-        base.OnHandlerChanged();
-
-        m_stopwatch.Stop();
-        
-        if (BindingContext is ComplexLayoutTestPageViewModel viewModel)
-        {
-            viewModel.NavigationTimeMessage = $"Navigation took {m_stopwatch.ElapsedMilliseconds}ms";
-        }
+        Console.WriteLine("ComplexLayoutTestPage: Delayed content has been rendered.");
     }
 }

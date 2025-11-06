@@ -55,6 +55,26 @@
                                         Command="{Binding NavigateToCollectionViewCommand}" />
             </dui:VerticalStackLayout>
 
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="Test Modal Navigation" />
+
+            <dui:Label
+                Text="Navigate to modal pages to test DelayedView in modal context."
+                Margin="{dui:Thickness Bottom=size_2}" />
+
+            <dui:VerticalStackLayout Spacing="0">
+                <dui:NavigationListItem Title="Simple Content Modal"
+                                        Command="{Binding NavigateToSimpleModalCommand}"
+                                        HasBottomDivider="True" />
+
+                <dui:NavigationListItem Title="Complex Layout Modal"
+                                        Command="{Binding NavigateToComplexModalCommand}"
+                                        HasBottomDivider="True" />
+
+                <dui:NavigationListItem Title="Very Complex Layout Modal"
+                                        Command="{Binding NavigateToCollectionViewModalCommand}" />
+            </dui:VerticalStackLayout>
+
         </dui:VerticalStackLayout>
     </dui:ScrollView>
 </dui:ContentPage>
