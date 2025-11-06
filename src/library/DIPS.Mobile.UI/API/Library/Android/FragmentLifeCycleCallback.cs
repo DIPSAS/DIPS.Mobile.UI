@@ -23,6 +23,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
+            TryInheritWindowFlags(dialogFragment);
         }
      
         base.OnFragmentStarted(fm, f);
@@ -79,6 +80,21 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             var span = new SpannableString(item?.TitleFormatted);
             span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(Colors.GetColor(Shell.ForegroundColorName).ToPlatform()), 0, span.Length(), 0);
             item?.SetTitle(span);
+        }
+    }
+
+    private void TryInheritWindowFlags(DialogFragment dialogFragment)
+    {
+        var activity = Platform.CurrentActivity;
+        var window = activity?.Window;
+        
+        if (window is
+            {
+                Attributes: not null
+            }) //Make sure the dialog inherits window flag from the activity, useful when the activity is set as secured.
+        {
+            var flags = window.Attributes.Flags;
+            dialogFragment.Dialog?.Window?.SetFlags(flags, flags);
         }
     }
 }
