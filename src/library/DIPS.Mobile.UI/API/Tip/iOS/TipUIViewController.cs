@@ -113,7 +113,7 @@ internal class TipUIViewController : UIViewController
 
     internal Task? Close()
     {
-        return IsDismissed ? Task.CompletedTask : PopoverPresentationController?.PresentingViewController.DismissViewControllerAsync(true);
+        return IsDismissed ? Task.CompletedTask : DismissViewControllerAsync(true);
     }
 
     public void SetupPopover(UIView? anchorView = null, UIBarButtonItem? anchorUiBarButton = null, UIPopoverArrowDirection permittedArrowDirection = UIPopoverArrowDirection.Any)

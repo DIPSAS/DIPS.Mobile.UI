@@ -1,3 +1,6 @@
+## [53.7.1]
+- [Tip][iOS] Fixed an issue where the current `UIViewController` would sometimes close when tapping outside the tip.
+
 ## [53.7.0]
 - Added `DelayedView`.
 
