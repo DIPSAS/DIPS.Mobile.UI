@@ -20,10 +20,10 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             if (f is not BottomSheetDialogFragment)
             {
               SetColorsOnModal(dialogFragment);
+              TryInheritWindowFlags(dialogFragment);
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
-            TryInheritWindowFlags(dialogFragment);
         }
      
         base.OnFragmentStarted(fm, f);
