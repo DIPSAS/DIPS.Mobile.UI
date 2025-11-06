@@ -1,4 +1,5 @@
 
+using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.BottomSheets;
 
 namespace Playground.VetleSamples;
@@ -26,10 +27,7 @@ public partial class BottomSheetWithToolbar
         base.OnOpened();
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
-    {
-        this.Positioning = Positioning.Large;
-    }
+    
 
     private void VisualElement_OnSizeChanged(object sender, EventArgs e)
     {
@@ -38,5 +36,10 @@ public partial class BottomSheetWithToolbar
     private void ContextMenuItem_OnDidClick(object sender, EventArgs e)
     {
         
+    }
+
+    private void Button_OnClicked(object sender, EventArgs e)
+    {
+        TipService.Show("This is a test tip", sender as View, 1000);
     }
 }

@@ -237,7 +237,6 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        BottomSheetService.Open(new BottomSheetWithToolbar());
     }
-
 }
