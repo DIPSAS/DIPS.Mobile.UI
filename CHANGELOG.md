@@ -1,5 +1,8 @@
-## [53.7.1]
+## [53.7.2]
 - [Android] Fixed issue where screenrecorder was able to record content in modals
+
+## [53.7.1]
+- [Tip][iOS] Fixed an issue where the current `UIViewController` would sometimes close when tapping outside the tip.
 
 ## [53.7.0]
 - Added `DelayedView`.

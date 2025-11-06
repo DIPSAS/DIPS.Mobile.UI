@@ -24,14 +24,11 @@
                                           TitleAndBackButtonContainerCommand="{Binding Test3}"/>
     </dui:BottomSheet.BottomSheetHeaderBehavior>
     
-    <Grid >
+    <Grid BackgroundColor="Red"
+          >
         
-        <dui:ContextMenuEffect.Menu>
-            <dui:ContextMenu>
-                <dui:ContextMenuItem Title="Test"
-                                     Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
-            </dui:ContextMenu>
-        </dui:ContextMenuEffect.Menu>
+        <dui:Button Text="Tap"
+                    Clicked="Button_OnClicked"></dui:Button>
         
     </Grid>
 

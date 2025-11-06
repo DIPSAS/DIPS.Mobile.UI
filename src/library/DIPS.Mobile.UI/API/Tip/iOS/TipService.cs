@@ -31,22 +31,9 @@ public static partial class TipService
         tuple = new Tuple<UIView, UIViewController>(new UIView(), new UIViewController());
         if (anchoredView.Handler is not ViewHandler viewHandler) return false;
         if (viewHandler.PlatformView is null) return false;
-        if (!TryGetRootViewControllerFromWindow(anchoredView, out var rootViewController))
-        {
-            if (!TryGetRootViewControllerFromBottomSheet(anchoredView, out rootViewController))
-            {
-                return false;
-            }
-        }
 
-        // Traverse to the topmost presented view controller
-        while (rootViewController?.PresentedViewController != null)
-        {
-            rootViewController = rootViewController.PresentedViewController;
-        }
-
-        if (rootViewController is null) 
-            return false;
+        var currentUIViewController = Platform.GetCurrentUIViewController();
+        if(currentUIViewController is null) return false;
         
         var uiView = viewHandler.PlatformView;
         if ((anchoredView is Slider))
@@ -54,23 +41,7 @@ public static partial class TipService
             uiView = uiView.Subviews.FirstOrDefault()?.Subviews.LastOrDefault() ?? viewHandler.PlatformView;
         }
 
-        tuple = new Tuple<UIView, UIViewController>(uiView, rootViewController);
-        return true;
-    }
-
-    private static bool TryGetRootViewControllerFromBottomSheet(VisualElement anchoredView, out UIViewController? rootViewController)
-    {
-        var bottomSheet = anchoredView.FindParentOfType<BottomSheet>();
-        rootViewController = bottomSheet?.ViewController;
-        return rootViewController != null;
-    }
-
-    private static bool TryGetRootViewControllerFromWindow(VisualElement anchoredView, out UIViewController? rootViewController)
-    {
-        rootViewController = null;
-        if (anchoredView.Window?.Handler is not WindowHandler windowHandler) return false;
-        if (windowHandler.PlatformView.RootViewController is null) return false;
-        rootViewController = windowHandler.PlatformView.RootViewController;
+        tuple = new Tuple<UIView, UIViewController>(uiView, currentUIViewController);
         return true;
     }
 
@@ -90,13 +61,13 @@ public static partial class TipService
             _ = Task.Run(async () =>
             {
                 await Task.Delay(durationInMilliseconds);
-                if (!tipUiViewController.IsDismissed)
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>
+                    if (tipUiViewController is { IsDismissed: false })
                     {
                         tipUiViewController.Close();
-                    });
-                }
+                    }
+                });
             });
         }
     }
