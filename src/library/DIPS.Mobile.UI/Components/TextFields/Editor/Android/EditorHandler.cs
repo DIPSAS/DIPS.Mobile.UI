@@ -11,8 +11,10 @@ public partial class EditorHandler
 {
     private Drawable? DefaultBackground { get; set; }
 
-    protected override void ConnectHandler(AppCompatEditText platformView)
+    protected override void ConnectHandler(MauiAppCompatEditText platformView)
     {
+        base.ConnectHandler(platformView);
+        
         base.ConnectHandler(platformView);
 
         DefaultBackground = platformView.Background;
@@ -61,7 +63,7 @@ public partial class EditorHandler
         handler.PlatformView.SetPadding(0, 0, 0, 0);
     }
 
-    protected override void DisconnectHandler(AppCompatEditText platformView)
+    protected override void DisconnectHandler(MauiAppCompatEditText platformView)
     {
         base.DisconnectHandler(platformView);
         
