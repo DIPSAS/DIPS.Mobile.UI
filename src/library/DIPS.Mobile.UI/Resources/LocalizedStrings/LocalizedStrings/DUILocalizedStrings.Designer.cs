@@ -440,5 +440,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Accessibility_TapToDismissAlert", resourceCulture);
             }
         }
+        
+        internal static string Accessability_TapToTakePhoto {
+            get {
+                return ResourceManager.GetString("Accessability_TapToTakePhoto", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_TapToActivateFlash {
+            get {
+                return ResourceManager.GetString("Accessability_TapToActivateFlash", resourceCulture);
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
@@ -10,7 +11,8 @@ internal partial class ShutterButton : Grid, IDisposable
     public ShutterButton(Action? onTappedShutterButton)
     {
         m_onTappedShutterButton = onTappedShutterButton;
-        
+        SemanticProperties.SetHint(this, DUILocalizedStrings.Button);
+        SemanticProperties.SetDescription(this, DUILocalizedStrings.Accessability_TapToTakePhoto);
         UI.Effects.Layout.Layout.SetCornerRadius(this, 35);
         BackgroundColor = Microsoft.Maui.Graphics.Colors.White;
         VerticalOptions = LayoutOptions.Center;
