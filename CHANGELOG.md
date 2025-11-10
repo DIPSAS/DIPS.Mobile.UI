@@ -1,3 +1,8 @@
+## [53.7.3]
+- The shutter button will now get semantic focus when its ready to take photos.
+- The shutter button will now announce the purpose of the button.
+- The blitz button will now announce the purpose of the button.
+
 ## [53.7.2]
 - [Android] Fixed issue where screenrecorder was able to record content in modals
 
