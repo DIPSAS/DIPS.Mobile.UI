@@ -206,4 +206,10 @@
     <data name="Accessibility_TapToDismissAlert" xml:space="preserve">
         <value>Press to close this alert</value>
     </data>
+    <data name="Accessability_TapToTakePhoto" xml:space="preserve">
+        <value>Tap to capture a image</value>
+    </data>
+    <data name="Accessability_TapToActivateFlash" xml:space="preserve">
+        <value>Tap to activate flash</value>
+    </data>
 </root>

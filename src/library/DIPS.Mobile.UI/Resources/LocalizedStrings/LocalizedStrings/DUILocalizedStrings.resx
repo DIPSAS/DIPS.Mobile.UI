@@ -216,4 +216,10 @@
     <data name="Accessibility_TapToDismissAlert" xml:space="preserve">
         <value>Trykk for å lukke dette varselet</value>
     </data>
+    <data name="Accessability_TapToTakePhoto" xml:space="preserve">
+        <value>Trykk for å ta bilde</value>
+    </data>
+    <data name="Accessability_TapToActivateFlash" xml:space="preserve">
+        <value>Trykk for å aktivere blits</value>
+    </data>
 </root>

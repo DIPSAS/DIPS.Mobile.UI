@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -16,8 +17,8 @@ internal class StreamingStateView : Grid
     {
         var isBlitzOn = streamingStateObserver.FlashActive;
         
+        
         m_shutterButton = new ShutterButton(streamingStateObserver.OnTappedShutterButton);
-
         m_blitzButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
@@ -26,6 +27,7 @@ internal class StreamingStateView : Grid
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center
         };
+        SemanticProperties.SetDescription(m_blitzButton, DUILocalizedStrings.Accessability_TapToActivateFlash);
 
         m_blitzButton.Command = new Command(() =>
         {
@@ -50,6 +52,7 @@ internal class StreamingStateView : Grid
         if (isEnabled)
         {
             m_shutterButton.Enable();
+            m_shutterButton.SetSemanticFocus();
         }
         else
         {
