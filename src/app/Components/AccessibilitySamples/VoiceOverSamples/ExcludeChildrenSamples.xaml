@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.ExcludeChildrenSamples"
+                 Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ExcludeChildren_Title}">
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_5}">
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ExcludeChildren_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_default}" />
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Example}"
+                           Style="{dui:Styles Label=SectionHeader}" />
+
+                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_WithoutExclude}"
+                               Style="{dui:Styles Label=UI300}"
+                               TextColor="{dui:Colors color_text_default}" />
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_SwipeGestures}"
+                               Style="{dui:Styles Label=UI100}"
+                               TextColor="{dui:Colors color_text_subtle}" />
+
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_3}"
+                                               Padding="{dui:Sizes size_3}"
+                                               BackgroundColor="{dui:Colors color_surface_default}"
+                                               dui:Layout.AutoCornerRadius="True">
+                        <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
+                                                 VerticalOptions="Center">
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ProductCard_Name}"
+                                       Style="{dui:Styles Label=Body400}" />
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ProductCard_Price}"
+                                       Style="{dui:Styles Label=UI200}" />
+                        </dui:VerticalStackLayout>
+                    </dui:HorizontalStackLayout>
+                </dui:VerticalStackLayout>
+
+                <!-- With ExcludeChildren -->
+                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_WithExclude}"
+                               Style="{dui:Styles Label=UI300}"
+                               TextColor="{dui:Colors color_text_default}" />
+
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_3}"
+                                               Padding="{dui:Sizes size_3}"
+                                               dui:Layout.AutoCornerRadius="True"
+                                               BackgroundColor="{dui:Colors color_surface_default}"
+                                               SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_CustomSemanticDescription}">
+                        <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
+                                                 VerticalOptions="Center"
+                                                 dui:Accessibility.Mode="ExcludeChildren">
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ProductCard_Name}"
+                                       Style="{dui:Styles Label=Body400}" />
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ProductCard_Price}"
+                                       Style="{dui:Styles Label=UI200}" />
+                        </dui:VerticalStackLayout>
+                    </dui:HorizontalStackLayout>
+                </dui:VerticalStackLayout>
+                
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

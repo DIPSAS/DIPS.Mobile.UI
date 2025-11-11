@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.GroupChildrenSamples"
+                 Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_GroupChildren_Title}">
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_5}">
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_GroupChildren_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_default}" />
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Example}"
+                           Style="{dui:Styles Label=SectionHeader}" />
+
+                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_WithoutGrouping}"
+                               Style="{dui:Styles Label=UI300}"
+                               TextColor="{dui:Colors color_text_default}" />
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_SwipeGestures}"
+                               Style="{dui:Styles Label=UI100}"
+                               TextColor="{dui:Colors color_text_subtle}" />
+
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
+                                             Padding="{dui:Sizes size_3}"
+                                             BackgroundColor="{dui:Colors color_surface_subtle}"
+                                             dui:Layout.AutoCornerRadius="True">
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Name}"
+                                   Style="{dui:Styles Label=SectionHeader}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Born}"
+                                   Style="{dui:Styles Label=UI200}" />
+                        <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Phone}"
+                                       Style="{dui:Styles Label=UI200}" />
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_PhoneNumber}"
+                                       Style="{dui:Styles Label=UI200}" />
+                        </dui:HorizontalStackLayout>
+                        <dui:Label Text="john.doe@example.com"
+                                   Style="{dui:Styles Label=UI200}" />
+                    </dui:VerticalStackLayout>
+                </dui:VerticalStackLayout>
+
+                <!-- With GroupChildren -->
+                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_WithGrouping}"
+                               Style="{dui:Styles Label=UI300}"
+                               TextColor="{dui:Colors color_text_default}" />
+
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
+                                             Padding="{dui:Sizes size_3}"
+                                             BackgroundColor="{dui:Colors color_surface_subtle}"
+                                             dui:Layout.AutoCornerRadius="True"
+                                             dui:Accessibility.Mode="GroupChildren">
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Name}"
+                                   Style="{dui:Styles Label=Body400}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Born}"
+                                   Style="{dui:Styles Label=UI200}" />
+                        <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Phone}"
+                                       Style="{dui:Styles Label=UI200}" />
+                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_PhoneNumber}"
+                                       Style="{dui:Styles Label=UI200}" />
+                        </dui:HorizontalStackLayout>
+                        <dui:Label Text="john.doe@example.com"
+                                   Style="{dui:Styles Label=UI200}" />
+                    </dui:VerticalStackLayout>
+                </dui:VerticalStackLayout>
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

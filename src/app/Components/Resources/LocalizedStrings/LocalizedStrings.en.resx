@@ -351,4 +351,85 @@
     <data name="Elements" xml:space="preserve">
         <value>elements</value>
     </data>
+    <data name="Accessibility" xml:space="preserve">
+        <value>Accessibility</value>
+    </data>
+    <data name="VoiceOver" xml:space="preserve">
+        <value>VoiceOver</value>
+    </data>
+    <data name="VoiceOver_Description" xml:space="preserve">
+        <value>These examples demonstrate how to use the Accessibility.Mode attached property to improve VoiceOver/TalkBack experience.</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Title" xml:space="preserve">
+        <value>GroupChildren Mode</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Description" xml:space="preserve">
+        <value>Groups all children of a container into a single accessibility element. Screen readers will read all content in one focus gesture instead of requiring navigation to each child individually.</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Title" xml:space="preserve">
+        <value>ExcludeChildren Mode</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Description" xml:space="preserve">
+        <value>Excludes all children from the accessibility tree. Useful when you have decorative elements or complex layouts that should not be read individually.</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Name" xml:space="preserve">
+        <value>John Doe</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Born" xml:space="preserve">
+        <value>Born: 1980-05-15</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Phone" xml:space="preserve">
+        <value>Phone:</value>
+    </data>
+    <data name="VoiceOver_PatientCard_PhoneNumber" xml:space="preserve">
+        <value>+47 123 45 678</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Name" xml:space="preserve">
+        <value>Premium Product</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Price" xml:space="preserve">
+        <value>Price: $49.99</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Stock" xml:space="preserve">
+        <value>In stock: 15 units</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Rating" xml:space="preserve">
+        <value>Rating: ⭐⭐⭐⭐⭐</value>
+    </data>
+    <data name="VoiceOver_WithoutGrouping" xml:space="preserve">
+        <value>Without grouping (Default)</value>
+    </data>
+    <data name="VoiceOver_WithGrouping" xml:space="preserve">
+        <value>With GroupChildren</value>
+    </data>
+    <data name="VoiceOver_SwipeGestures" xml:space="preserve">
+        <value>swipe gesture(s) required</value>
+    </data>
+    <data name="VoiceOver_Example" xml:space="preserve">
+        <value>Example</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Street" xml:space="preserve">
+        <value>123 Main Street</value>
+    </data>
+    <data name="VoiceOver_AddressCard_City" xml:space="preserve">
+        <value>New York, NY 10001</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Country" xml:space="preserve">
+        <value>United States</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Title" xml:space="preserve">
+        <value>Product card with decorative elements</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Description" xml:space="preserve">
+        <value>The decorative border around the icon is excluded from accessibility, so screen readers only focus on meaningful content.</value>
+    </data>
+    <data name="VoiceOver_WithoutExclude" xml:space="preserve">
+        <value>Without ExcludeChildren</value>
+    </data>
+    <data name="VoiceOver_WithExclude" xml:space="preserve">
+        <value>With ExcludeChildren and custom description</value>
+    </data>
+    <data name="VoiceOver_CustomSemanticDescription" xml:space="preserve">
+        <value>Premium product available in store</value>
+    </data>
 </root>

@@ -1,90 +1,50 @@
 ﻿using Components.Resources.LocalizedStrings;
-using Components.Services;
-using DIPS.Mobile.UI.API.Library;
+using Enum = System.Enum;
 
 namespace Components;
 
 public partial class App
 {
-    private readonly AppCenterService m_appCenterService;
-
     public App()
     {
         InitializeComponent();
-
-        m_appCenterService = new AppCenterService();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var shell = new DIPS.Mobile.UI.Components.Shell.Shell
-        {
-            ShouldGarbageCollectPreviousPage = true,
-            
-        };
+        var shell = new DIPS.Mobile.UI.Components.Shell.Shell();
         
+        var allSamples = REGISTER_YOUR_SAMPLES_HERE.RegisterSamples();
         var tabBar = new TabBar();
-        var tab = new Tab();
         
-        tab.Items.Add(new ShellContent
+        foreach (var sampleType in Enum.GetValues<SampleType>())
         {
-            ContentTemplate =
-                new DataTemplate(() => new MainPage(new List<SampleType> {SampleType.Resources, SampleType.Components}.OrderBy(s => s.ToString()),
-                    REGISTER_YOUR_SAMPLES_HERE.RegisterSamples()))
-        });
-        tabBar.Items.Add(tab);
+            var samples = allSamples.Where(s => s.Type == sampleType).OrderBy(s => s.Name);
+            var title = sampleType switch
+            {
+                SampleType.Resources => LocalizedStrings.Resources,
+                SampleType.Components => LocalizedStrings.Components,
+                SampleType.Accessibility => LocalizedStrings.Accessibility,
+                _ => sampleType.ToString()
+            };
+            
+            var tab = new Tab
+            {
+                Title = title,
+                Items =
+                {
+                    new ShellContent
+                    {
+                        ContentTemplate = new DataTemplate(() => new SamplesPage(sampleType, samples))
+                    }
+                }
+            };
+            
+            tabBar.Items.Add(tab);
+        }
+        
         shell.Items.Add(tabBar);
 
         return new Window(shell);
-    }
-
-    protected override void OnStart()
-    {
-        _ = TryGetLatestVersion();
-        
-        base.OnStart();
-    }
-    
-
-    private async Task<bool> TryGetLatestVersion()
-    {
-#if DEBUG
-        return true;
-#endif
-        
-        var release = await m_appCenterService.GetLatestVersion();
-        if (release != null)
-        {
-            var latestVersion = new Version(release.Version);
-            var currentVersion = AppInfo.Version;
-            if (currentVersion >= latestVersion)
-            {
-                return false;
-            }
-
-            if (Current?.MainPage == null) return true;
-            var wantToDownload = await Current.MainPage.DisplayAlert(LocalizedStrings.New_version,
-                LocalizedStrings.New_version_message, LocalizedStrings.Download, LocalizedStrings.Cancel);
-            if (!wantToDownload)
-            {
-                return false;
-            }
-
-            await Launcher.OpenAsync(release.InstallUri);
-            return true;
-        }
-
-        return false;
-    }
-
-    protected override void OnResume()
-    {
-        _ = TryGetLatestVersion();
-        base.OnResume();
-    }
-
-    protected override void OnSleep()
-    {
-        base.OnSleep();
     }
 }
