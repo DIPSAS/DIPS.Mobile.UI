@@ -13,7 +13,8 @@ public enum Mode
 {
     None = 0,
     /// <summary>
-    /// Groups all children of a container into a single accessibility element.
+    /// Groups all children of a container into a single accessibility element. <br/>
+    /// For more information, see <see href="https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Accessibility#groupchildren-mode">GroupChildren Mode</see>
     /// </summary>
     /// <remarks>
     /// Note: This does not take into account if the hierarchy changes in runtime, or if any texts changes after the layout has been rendered
