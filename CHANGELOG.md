@@ -1,5 +1,5 @@
 ## [53.8.0]
-- [Accessibility] Added `Mode` attached property to easily group or exclude views from VoiceOver/TalkBack.
+- [Accessibility] Added `Mode` attached property.
 
 ## [53.7.4]
 - Fix error causing index out of range in `TabBadgeService` when tabs have changed 

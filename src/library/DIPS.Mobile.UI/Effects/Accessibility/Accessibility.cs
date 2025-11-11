@@ -25,11 +25,7 @@ public partial class Accessibility
 
         switch (mode)
         {
-            case Mode.ExcludeChildren:
-                view.Behaviors.Add(new ExcludeChildrenEffect());
-                break;
             case Mode.GroupChildren:
-                view.Behaviors.Add(new ExcludeChildrenEffect());
                 view.Behaviors.Add(new GroupEffect());
                 break;
             case Mode.None:

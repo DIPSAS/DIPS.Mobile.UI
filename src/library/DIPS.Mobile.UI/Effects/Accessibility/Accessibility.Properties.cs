@@ -13,10 +13,6 @@ public enum Mode
 {
     None = 0,
     /// <summary>
-    /// Will exclude all child elements from accessibility tree
-    /// </summary>
-    ExcludeChildren = 1,
-    /// <summary>
     /// Groups all children of a container into a single accessibility element.
     /// </summary>
     /// <remarks>
@@ -56,5 +52,5 @@ public enum Mode
     /// </code>
     /// <para>Without this mode, screen readers would require 5 separate swipe gestures to read all information. With GroupChildren, it's read in one focus.</para>
     /// </example>
-    GroupChildren = 2
+    GroupChildren = 1
 }
