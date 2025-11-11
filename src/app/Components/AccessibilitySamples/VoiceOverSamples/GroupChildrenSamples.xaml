@@ -71,32 +71,6 @@
                     </dui:VerticalStackLayout>
                 </dui:VerticalStackLayout>
                 
-                <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
-                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_WithGrouping}"
-                               Style="{dui:Styles Label=UI300}"
-                               TextColor="{dui:Colors color_text_default}" />
-
-                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}"
-                                             Padding="{dui:Sizes size_3}"
-                                             BackgroundColor="{dui:Colors color_surface_subtle}"
-                                             dui:Layout.AutoCornerRadius="True"
-                                             SemanticProperties.Description="Hello"
-                                             >
-                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Name}"
-                                   Style="{dui:Styles Label=Body400}" />
-                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Born}"
-                                   Style="{dui:Styles Label=UI200}" />
-                        <dui:HorizontalStackLayout Spacing="{dui:Sizes size_1}">
-                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_Phone}"
-                                       Style="{dui:Styles Label=UI200}" />
-                            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_PatientCard_PhoneNumber}"
-                                       Style="{dui:Styles Label=UI200}" />
-                        </dui:HorizontalStackLayout>
-                        <dui:Label Text="john.doe@example.com"
-                                   Style="{dui:Styles Label=UI200}" />
-                    </dui:VerticalStackLayout>
-                </dui:VerticalStackLayout>
-                
             </dui:VerticalStackLayout>
 
         </dui:VerticalStackLayout>

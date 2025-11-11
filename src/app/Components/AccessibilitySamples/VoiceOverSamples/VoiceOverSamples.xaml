@@ -15,10 +15,7 @@
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_GroupChildren_Title}"
                               HasBottomDivider="True"
                               Command="{helpers:NavigationCommand ContentPageType={x:Type voiceOverSamples:GroupChildrenSamples}}" />
-
-                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ExcludeChildren_Title}"
-                              HasBottomDivider="True"
-                              Command="{helpers:NavigationCommand ContentPageType={x:Type voiceOverSamples:ExcludeChildrenSamples}}" />
+            
             </dui:VerticalStackLayout>
 
     </dui:ScrollView>
