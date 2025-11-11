@@ -1,6 +1,9 @@
 ## [53.8.0]
 - [Accessibility] Added `Mode` attached property to easily group or exclude views from VoiceOver/TalkBack.
 
+## [53.7.4]
+- Fix error causing index out of range in `TabBadgeService` when tabs have changed 
+
 ## [53.7.3]
 - The shutter button will now get semantic focus when its ready to take photos.
 - The shutter button will now announce the purpose of the button.
