@@ -3,6 +3,9 @@
 - [Touch][BreakingChange] Removed deprecated `Touch.AccessibilityContentDescription` property - consumers should use `SemanticProperties.Description` instead
 - [SegmentedControl][Android] Correct accessibility.
 
+## [53.8.2]
+- Made sure bottom sheet header is focused and not the drag handles for both platforms.
+
 ## [53.8.1]
 - Set semantic description on segmented control items
 

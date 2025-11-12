@@ -9,7 +9,7 @@ public class Person
     public Person(string firstName, string lastName, string middleName = null)
     {
         FirstName = firstName;
-        LastName = lastName;
+        LastName = lastName;    
         MiddleName = middleName ?? string.Empty;
     }
 
