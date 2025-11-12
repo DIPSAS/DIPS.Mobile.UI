@@ -12,6 +12,7 @@
     <dui:ScrollView>
         <VerticalStackLayout>
             <dui:NavigationListItem Title="Vetle"
+                                    dui:Accessibility.Mode
                                     >
                 <dui:NavigationListItem.GestureRecognizers>
                     <TapGestureRecognizer Tapped="GoToVetle"></TapGestureRecognizer>

@@ -32,6 +32,8 @@
               HeightRequest="50"
               dui:Touch.Command="{Binding AddItemCommand}"
               SemanticProperties.Description="Dette er en beskrivelse">
+
+              <dui:Label Text="Hello" />
             
         </Grid>
         
