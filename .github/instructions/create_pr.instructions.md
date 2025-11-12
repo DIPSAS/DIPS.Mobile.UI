@@ -1,24 +1,63 @@
 ---
 applyTo: '**'
 ---
-# Copilot Instructions
+# Pull Request Creation Instructions
 
-## When I say "Create PR" or "Create Pull Request"
-Generate a pull request description following these rules:
+## Trigger Phrases
+When I say **any** of these:
+- "Create PR"
+- "Make PR" 
+- "PR"
+- "Create Pull Request"
+- "Make a PR"
+- "Generate PR"
+- "Generate PR description"
 
-- **Title:** Short and imperative.
-- **Tone:** Clear, professional, concise.
-- **Avoid:** Repetition, unnecessary context
+## Action Steps
+1. **Check changes**: Get the diff between main branch and current branch
+2. **Update CHANGELOG.md**: Determine if Major/Minor/Patch bump is needed based on:
+   - **Major**: Breaking changes (removed/changed public APIs)
+   - **Minor**: New features (new components, properties, methods)
+   - **Patch**: Bug fixes, internal improvements, accessibility fixes
+   - Follow existing CHANGELOG.md format: `[Component/Feature] Description`
+3. **Generate PR**: Create pull request with title and body
 
-If you can infer a problem that was solved, first state what the problem was, and how it was fixed.
+## PR Format Requirements
 
-Mention differences between the platforms, if there are any.
+### Title
+- Short and imperative (e.g., "Add accessibility support to Touch effect")
+- No "Fixed" or past tense - use present tense
+- Mention component/area if applicable
 
-If the user says “Create PR” or similar (“Make a PR”, “Generate PR description”), 
-you should:
-1. Check the difference between the main branch and the current branch.
-2. Produce a properly formatted PR title and body as described above.
+### Body Structure
+```markdown
+### Description of Change
+[Clear explanation of what changed and why]
 
-Make sure to always bump the CHANGELOG.md, you yourself can figure out if major, minor or patch should be bumped. Follow the same conventions used in CHANGELOG.md.
+### Problem (if applicable)
+[What issue was being solved]
 
-If you feel like this should be documented in the project's wiki https://github.com/DIPSAS/DIPS.Mobile.UI/wiki, then document it. Links between pages are encouraged. This should probably also be mentioned in the PR.
+### Solution
+[How it was fixed]
+
+### Platform Differences
+[Mention iOS vs Android differences if any]
+
+### Breaking Changes (if applicable)
+- List any breaking changes
+- Provide migration guide
+
+### Files Changed
+- Brief overview of major file changes
+
+## Additional Considerations
+
+### Wiki Documentation
+If the change introduces new patterns or significant features, mention in the PR:
+> "This should be documented in the [wiki](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki). Consider adding a page about [topic]."
+
+### Tone and Style
+- **Clear**: Easy to understand what changed
+- **Professional**: No informal language
+- **Concise**: Avoid unnecessary context or repetition
+- **Specific**: Reference actual files, components, and patterns
