@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.MVVM;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Pickers
 {
@@ -27,12 +28,23 @@ namespace DIPS.Mobile.UI.Components.Pickers
         public bool IsSelected
         {
             get => m_isSelected;
-            set => RaiseWhenSet(ref m_isSelected, value);
+            set
+            {
+                if (RaiseWhenSet(ref m_isSelected, value))
+                {
+                    RaisePropertyChanged(nameof(AccessibilityDescription));
+                }
+            }
         }
 
         /// <summary>
         /// The object that holds more information about the item.
         /// </summary>
         public object Item { get; }
+
+        /// <summary>
+        /// An accessibility description for the selectable item, that includes the selected state.
+        /// </summary>
+        public string AccessibilityDescription => string.Join(",", DisplayName, IsSelected ? DUILocalizedStrings.Selected : DUILocalizedStrings.NotSelected) + "";
     }
 }

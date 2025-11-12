@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.Pickers;
 
 namespace DIPS.Mobile.UI.Effects.Touch;
 
@@ -57,6 +58,11 @@ public partial class Touch : RoutingEffect
     public static void SetAccessibilityContentDescription(BindableObject view, string contentDescription)
     {
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
+    }
+
+    public static void SetBinding(BindableObject element, BindableProperty property, BindingBase binding)
+    {
+        element.SetBinding(property, binding);
     }
 
     public static bool GetIsEnabled(BindableObject view)

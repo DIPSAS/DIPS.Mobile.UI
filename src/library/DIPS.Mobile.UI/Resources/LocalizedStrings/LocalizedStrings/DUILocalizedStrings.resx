@@ -222,4 +222,10 @@
     <data name="Accessability_TapToActivateFlash" xml:space="preserve">
         <value>Trykk for å aktivere blits</value>
     </data>
+    <data name="Selected" xml:space="preserve">
+        <value>Valgt</value>
+    </data>
+    <data name="NotSelected" xml:space="preserve">
+        <value>Ikke valgt</value>
+    </data>
 </root>

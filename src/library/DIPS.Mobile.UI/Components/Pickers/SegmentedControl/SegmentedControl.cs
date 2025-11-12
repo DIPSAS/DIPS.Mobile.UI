@@ -1,9 +1,11 @@
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
+using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -58,6 +60,8 @@ public partial class SegmentedControl : ContentView
 
             }
         };
+
+        border.SetBinding(SemanticProperties.DescriptionProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.AccessibilityDescription);
         
         Touch.SetCommand(border, new Command(() => OnItemTouched((SelectableItemViewModel)border.BindingContext)));
         border.SetBinding(BackgroundProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
@@ -133,6 +137,7 @@ public partial class SegmentedControl : ContentView
         {
             ToggleItem(selectableItemViewModel);
         }
+        
         if (HasHaptics)
         {
             VibrationService.SelectionChanged();   
