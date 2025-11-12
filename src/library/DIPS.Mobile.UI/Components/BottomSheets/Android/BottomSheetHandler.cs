@@ -78,8 +78,12 @@ public partial class BottomSheetHandler : ContentViewHandler
             };
             
             innerGrid.Add(handle);
-
-            bottomSheetLayout.AddView(innerGrid.ToPlatform(mauiContext));
+            var androidInnerGridView = innerGrid.ToPlatform(mauiContext);
+            
+            androidInnerGridView.ContentDescription = null; //Makes sure screen readers do not read anything here.
+            androidInnerGridView.ImportantForAccessibility = ImportantForAccessibility.No;
+            
+            bottomSheetLayout.AddView(androidInnerGridView);
         }
 
         m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
