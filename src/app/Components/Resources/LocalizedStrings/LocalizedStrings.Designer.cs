@@ -710,5 +710,167 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("Elements", resourceCulture);
             }
         }
+        
+        internal static string Accessibility {
+            get {
+                return ResourceManager.GetString("Accessibility", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver {
+            get {
+                return ResourceManager.GetString("VoiceOver", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_GroupChildren_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_GroupChildren_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_GroupChildren_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_GroupChildren_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ExcludeChildren_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ExcludeChildren_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ExcludeChildren_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ExcludeChildren_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_PatientCard_Name {
+            get {
+                return ResourceManager.GetString("VoiceOver_PatientCard_Name", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_PatientCard_Born {
+            get {
+                return ResourceManager.GetString("VoiceOver_PatientCard_Born", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_PatientCard_Phone {
+            get {
+                return ResourceManager.GetString("VoiceOver_PatientCard_Phone", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_PatientCard_PhoneNumber {
+            get {
+                return ResourceManager.GetString("VoiceOver_PatientCard_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ProductCard_Name {
+            get {
+                return ResourceManager.GetString("VoiceOver_ProductCard_Name", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ProductCard_Price {
+            get {
+                return ResourceManager.GetString("VoiceOver_ProductCard_Price", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ProductCard_Stock {
+            get {
+                return ResourceManager.GetString("VoiceOver_ProductCard_Stock", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ProductCard_Rating {
+            get {
+                return ResourceManager.GetString("VoiceOver_ProductCard_Rating", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_WithoutGrouping {
+            get {
+                return ResourceManager.GetString("VoiceOver_WithoutGrouping", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_WithGrouping {
+            get {
+                return ResourceManager.GetString("VoiceOver_WithGrouping", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_SwipeGestures {
+            get {
+                return ResourceManager.GetString("VoiceOver_SwipeGestures", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Example {
+            get {
+                return ResourceManager.GetString("VoiceOver_Example", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_AddressCard_Street {
+            get {
+                return ResourceManager.GetString("VoiceOver_AddressCard_Street", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_AddressCard_City {
+            get {
+                return ResourceManager.GetString("VoiceOver_AddressCard_City", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_AddressCard_Country {
+            get {
+                return ResourceManager.GetString("VoiceOver_AddressCard_Country", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ExcludeExample_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ExcludeExample_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ExcludeExample_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ExcludeExample_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_WithoutExclude {
+            get {
+                return ResourceManager.GetString("VoiceOver_WithoutExclude", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_WithExclude {
+            get {
+                return ResourceManager.GetString("VoiceOver_WithExclude", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_CustomSemanticDescription {
+            get {
+                return ResourceManager.GetString("VoiceOver_CustomSemanticDescription", resourceCulture);
+            }
+        }
     }
 }

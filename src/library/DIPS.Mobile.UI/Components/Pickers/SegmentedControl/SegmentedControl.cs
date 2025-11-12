@@ -58,7 +58,8 @@ public partial class SegmentedControl : ContentView
 
             }
         };
-        
+
+        border.SetBinding(SemanticProperties.DescriptionProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.AccessibilityDescription);
         Touch.SetCommand(border, new Command(() => OnItemTouched((SelectableItemViewModel)border.BindingContext)));
         border.SetBinding(BackgroundProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
@@ -133,6 +134,7 @@ public partial class SegmentedControl : ContentView
         {
             ToggleItem(selectableItemViewModel);
         }
+        
         if (HasHaptics)
         {
             VibrationService.SelectionChanged();   

@@ -1,3 +1,5 @@
+using Components.AccessibilitySamples;
+using Components.AccessibilitySamples.VoiceOverSamples;
 using Components.ComponentsSamples.Alerting;
 using Components.ComponentsSamples.AmplitudeView;
 using Components.ComponentsSamples.BarcodeScanning;
@@ -65,6 +67,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Tag", () => new TagsSamples()),
             new(SampleType.Components, "Counters", () => new CountersSamples()),
             new(SampleType.Components, "TabView", () => new TabViewSamples()),
+            new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
             
 
 

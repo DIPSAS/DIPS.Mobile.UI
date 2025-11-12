@@ -25,7 +25,7 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout dui:Accessibility.Mode="ExcludeChildren">
 
         <Grid BackgroundColor="Red"
               WidthRequest="50"
