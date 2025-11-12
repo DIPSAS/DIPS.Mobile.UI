@@ -64,6 +64,8 @@ Components use MVVM with `ViewModel` base class:
 ## Development Workflow
 
 ### Building
+
+#### Local Development Builds
 ```bash
 # Build for specific platform
 dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net9.0-ios
@@ -72,6 +74,30 @@ dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net9.0-android
 # Test app (Playground)
 dotnet build src/app/Playground/Playground.csproj -f net9.0-ios
 ```
+
+#### Pipeline Build System
+The project uses a C# script-based build system (`build/build.csx`) powered by **dotnet-script**:
+
+```bash
+# Run build tasks using buildwindow.sh wrapper
+./buildwindow.sh [task] [options]
+
+# Common tasks:
+./buildwindow.sh init              # Initialize solution (restore packages)
+./buildwindow.sh clean             # Clean solution and remove bin/obj
+./buildwindow.sh buildAndroid      # Build Android app
+./buildwindow.sh buildiOS          # Build iOS app
+./buildwindow.sh validateChangelog # Validate CHANGELOG.md has been updated
+./buildwindow.sh packageLibrary    # Create NuGet package
+```
+
+**Key Build System Files**:
+- `build/build.csx` - Main build script with task definitions (init, clean, build, package, deploy)
+- `build/AwesomeBuildsystem/` - Shared build utilities for MAUI/iOS/Android
+- `buildwindow.sh` - Wrapper script that bootstraps and runs build.csx
+- Tasks handle: changelog validation, versioning, signing, AppCenter distribution, NuGet publishing
+
+**Pipeline Usage**: Azure DevOps pipelines call `buildwindow.sh` with specific tasks to automate builds, validation, and deployments.
 
 ### Testing Components
 1. Add sample to `src/app/Components/ComponentsSamples/`
