@@ -1,3 +1,6 @@
+## [53.8.2]
+- Made sure bottom sheet header is focused and not the drag handles for both platforms.
+
 ## [53.8.1]
 - Set semantic description on segmented control items
 
