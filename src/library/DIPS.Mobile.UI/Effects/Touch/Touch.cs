@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using DIPS.Mobile.UI.Components.Pickers;
 
 namespace DIPS.Mobile.UI.Effects.Touch;
 
