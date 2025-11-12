@@ -1,3 +1,7 @@
+## [Unreleased]
+- [Touch] Improved accessibility for Touch effect - screen readers will now announce "Button" when `SemanticProperties.Description` is set
+- [Touch] Removed deprecated `Touch.AccessibilityContentDescription` property - consumers should use `SemanticProperties.Description` instead
+
 ## [53.8.1]
 - Set semantic description on segmented control items
 

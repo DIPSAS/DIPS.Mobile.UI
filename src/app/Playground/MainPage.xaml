@@ -12,15 +12,8 @@
     <dui:ScrollView>
         <VerticalStackLayout>
             <dui:NavigationListItem Title="Vetle"
-                                    dui:Accessibility.Mode
-                                    >
-                <dui:NavigationListItem.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GoToVetle"></TapGestureRecognizer>
-                </dui:NavigationListItem.GestureRecognizers>
-                
-            </dui:NavigationListItem>
+                                    Tapped="GoToVetle" />
             <dui:NavigationListItem Title="Håvard"
-                                    BackgroundColor="Red"
                                     Tapped="GoToHåvard" />
             <dui:NavigationListItem Title="Sander"
                                     Tapped="GoToSander" />

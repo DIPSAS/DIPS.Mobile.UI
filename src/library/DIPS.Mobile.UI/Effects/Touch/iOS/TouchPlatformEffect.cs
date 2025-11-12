@@ -34,8 +34,16 @@ public partial class TouchPlatformEffect
             m_longPressGestureRecognizer = new TouchEffectLongPressGestureRecognizer(Control, OnLongPress);
             Control.AddGestureRecognizer(m_longPressGestureRecognizer);
         }
+    }
 
-        Control.AccessibilityTraits = UIAccessibilityTrait.Button;
+    private partial void OnAccessibilityDescriptionSet()
+    {
+        // Append the AccessibilityTraits to `Button` if there is an accessibility description set
+        if (!string.IsNullOrEmpty(Control.AccessibilityLabel))
+        {
+            // Use | to append, to make sure we are not overwriting anything here
+            Control.AccessibilityTraits |= UIAccessibilityTrait.Button;
+        }
     }
 
     private void OnLongPress(UILongPressGestureRecognizer e)

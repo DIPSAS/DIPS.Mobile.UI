@@ -12,6 +12,11 @@ public partial class TouchPlatformEffect : PlatformEffect
         
         element.PropertyChanged += ElementOnPropertyChanged;
 
+        if (!string.IsNullOrEmpty(SemanticProperties.GetDescription(Element)))
+        {
+            OnAccessibilityDescriptionSet();
+        }
+
         var isEnabled = Touch.GetIsEnabled(Element) && element.IsEnabled;
         
         if (isEnabled)
@@ -22,6 +27,11 @@ public partial class TouchPlatformEffect : PlatformEffect
     
     private void ElementOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == SemanticProperties.DescriptionProperty.PropertyName)
+        {
+            OnAccessibilityDescriptionSet();
+        }
+        
         if (e.PropertyName != VisualElement.IsEnabledProperty.PropertyName)
             return;
 
@@ -35,6 +45,8 @@ public partial class TouchPlatformEffect : PlatformEffect
         else
             Dispose(false);
     }
+
+    private partial void OnAccessibilityDescriptionSet();
 
     protected override void OnDetached()
     {

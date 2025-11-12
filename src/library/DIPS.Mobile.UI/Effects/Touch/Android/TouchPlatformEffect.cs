@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Views.Accessibility;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
+using Button = Android.Widget.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using View = Android.Views.View;
 
@@ -34,8 +37,6 @@ public partial class TouchPlatformEffect
             Control.LongClick -= OnLongClick;
             Control.LongClick += OnLongClick;
         }
-        
-        var contentDescription = Touch.GetAccessibilityContentDescription(Element);
         
         var colorStateList = new ColorStateList(
             [[]],
@@ -74,13 +75,19 @@ public partial class TouchPlatformEffect
                 Control.Foreground = ripple;
             }
         }
-        
-        if (!string.IsNullOrEmpty(contentDescription))
-        {
-            Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
-        }
     }
 
+    private partial void OnAccessibilityDescriptionSet()
+    {
+        var existingDelegate = Control.GetAccessibilityDelegate();
+        
+        // We don't want TalkBack to only say "Button"
+        if(existingDelegate is null)
+            return;
+        
+        Control.SetAccessibilityDelegate(new TouchAccessibilityDelegate(existingDelegate));
+    }
+    
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
     {
         Touch.GetLongPressCommand(Element)?.Execute(Touch.GetLongPressCommandParameter(Element));
@@ -119,4 +126,27 @@ public partial class TouchPlatformEffect
         }
     }
     
+}
+
+/// <summary>
+/// Extends the accessibility delegate to set the class name to Button
+/// <remarks>TalkBack will then say `Button`</remarks>
+/// </summary>
+internal class TouchAccessibilityDelegate : View.AccessibilityDelegate
+{
+    private readonly View.AccessibilityDelegate? m_existingDelegate;
+
+    public TouchAccessibilityDelegate(View.AccessibilityDelegate? existingDelegate)
+    {
+        m_existingDelegate = existingDelegate;
+    }
+
+    public override void OnInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info)
+    {
+        base.OnInitializeAccessibilityNodeInfo(host, info);
+        
+        m_existingDelegate?.OnInitializeAccessibilityNodeInfo(host, info);
+        
+        info.ClassName = "android.widget.Button";
+    }
 }
