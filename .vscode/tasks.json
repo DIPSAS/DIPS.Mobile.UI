@@ -9,8 +9,7 @@
 			],
 			"label": "dotnet-meteor: Build",
 			"args": [
-                // It removes auto provided value
-				"-p:RuntimeIdentifier=iossimulator-x64"
+				// Let .NET Meteor auto-detect RuntimeIdentifier based on selected device
 			],
 			"group": {
 				"kind": "build",

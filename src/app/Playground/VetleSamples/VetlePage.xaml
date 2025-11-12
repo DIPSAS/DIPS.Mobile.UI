@@ -27,8 +27,13 @@
 
     <VerticalStackLayout>
 
-        <dui:Button Text="Open BottomSheet"
-                    Clicked="Button_OnClicked"/>
+        <Grid BackgroundColor="Red"
+              WidthRequest="50"
+              HeightRequest="50"
+              dui:Touch.Command="{Binding AddItemCommand}"
+              SemanticProperties.Description="Dette er en beskrivelse">
+            
+        </Grid>
         
     </VerticalStackLayout>
 
