@@ -356,4 +356,85 @@
     <data name="Elements" xml:space="preserve">
         <value>elementer</value>
     </data>
+    <data name="Accessibility" xml:space="preserve">
+        <value>Tilgjengelighet</value>
+    </data>
+    <data name="VoiceOver" xml:space="preserve">
+        <value>VoiceOver</value>
+    </data>
+    <data name="VoiceOver_Description" xml:space="preserve">
+        <value>Disse eksemplene viser hvordan du bruker Accessibility.Mode attached property for å forbedre VoiceOver/TalkBack opplevelsen.</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Title" xml:space="preserve">
+        <value>GroupChildren Modus</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Description" xml:space="preserve">
+        <value>Grupperer alle barn i en container til et enkelt tilgjengelighetselement. Skjermlesere vil lese alt innhold med én fokusgest i stedet for å kreve navigering til hvert barn individuelt.</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Title" xml:space="preserve">
+        <value>ExcludeChildren Modus</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Description" xml:space="preserve">
+        <value>Ekskluderer alle barn fra tilgjengelighetstreet. Nyttig når du har dekorative elementer eller komplekse layouter som ikke skal leses individuelt.</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Name" xml:space="preserve">
+        <value>Kari Nordmann</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Born" xml:space="preserve">
+        <value>Født: 15.05.1980</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Phone" xml:space="preserve">
+        <value>Telefon:</value>
+    </data>
+    <data name="VoiceOver_PatientCard_PhoneNumber" xml:space="preserve">
+        <value>+47 123 45 678</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Name" xml:space="preserve">
+        <value>Premium Produkt</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Price" xml:space="preserve">
+        <value>Pris: 499 kr</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Stock" xml:space="preserve">
+        <value>På lager: 15 stk</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Rating" xml:space="preserve">
+        <value>Vurdering: ⭐⭐⭐⭐⭐</value>
+    </data>
+    <data name="VoiceOver_WithoutGrouping" xml:space="preserve">
+        <value>Uten gruppering (Standard)</value>
+    </data>
+    <data name="VoiceOver_WithGrouping" xml:space="preserve">
+        <value>Med GroupChildren</value>
+    </data>
+    <data name="VoiceOver_SwipeGestures" xml:space="preserve">
+        <value>sveipegest(er) kreves</value>
+    </data>
+    <data name="VoiceOver_Example" xml:space="preserve">
+        <value>Eksempel</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Street" xml:space="preserve">
+        <value>Storgata 123</value>
+    </data>
+    <data name="VoiceOver_AddressCard_City" xml:space="preserve">
+        <value>0123 Oslo</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Country" xml:space="preserve">
+        <value>Norge</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Title" xml:space="preserve">
+        <value>Produktkort med dekorative elementer</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Description" xml:space="preserve">
+        <value>Den dekorative rammen rundt ikonet er ekskludert fra tilgjengeligheten, slik at skjermlesere kun fokuserer på det meningsfulle innholdet.</value>
+    </data>
+    <data name="VoiceOver_WithoutExclude" xml:space="preserve">
+        <value>Uten ExcludeChildren</value>
+    </data>
+    <data name="VoiceOver_WithExclude" xml:space="preserve">
+        <value>Med ExcludeChildren og egendefinert beskrivelse</value>
+    </data>
+    <data name="VoiceOver_CustomSemanticDescription" xml:space="preserve">
+        <value>Premium produkt tilgjengelig i butikk</value>
+    </data>
 </root>

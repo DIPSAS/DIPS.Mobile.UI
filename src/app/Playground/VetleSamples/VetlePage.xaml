@@ -25,10 +25,11 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout dui:Accessibility.Mode="ExcludeChildren">
 
-        <dui:Button Text="Open BottomSheet"
-                    Clicked="Button_OnClicked"/>
+        <dui:Label Text="Hallo"></dui:Label>
+        <dui:Label Text="Test"
+                   SemanticProperties.Description="Tester"></dui:Label>
         
     </VerticalStackLayout>
 
