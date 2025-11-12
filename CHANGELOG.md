@@ -1,3 +1,6 @@
+## [53.8.1]
+- Set semantic description on segmented control items
+
 ## [53.8.0]
 - [Accessibility] Added `Mode` attached property.
 

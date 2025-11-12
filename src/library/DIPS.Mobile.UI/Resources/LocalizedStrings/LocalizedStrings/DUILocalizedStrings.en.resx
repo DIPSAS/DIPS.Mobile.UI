@@ -212,4 +212,10 @@
     <data name="Accessability_TapToActivateFlash" xml:space="preserve">
         <value>Tap to activate flash</value>
     </data>
+    <data name="Selected" xml:space="preserve">
+        <value>Selected</value>
+    </data>
+    <data name="NotSelected" xml:space="preserve">
+        <value>Not selected</value>
+    </data>
 </root>
