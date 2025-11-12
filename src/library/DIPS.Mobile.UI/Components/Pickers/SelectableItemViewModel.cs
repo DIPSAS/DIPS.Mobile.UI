@@ -45,6 +45,8 @@ namespace DIPS.Mobile.UI.Components.Pickers
         /// <summary>
         /// An accessibility description for the selectable item, that includes the selected state.
         /// </summary>
-        public string AccessibilityDescription => string.Join(",", DisplayName, IsSelected ? DUILocalizedStrings.Selected : DUILocalizedStrings.NotSelected) + "";
+        public string AccessibilityDescription =>
+            string.Join(",", DisplayName, IsSelected ? DUILocalizedStrings.Selected : DUILocalizedStrings.NotSelected) +
+            ". " + DUILocalizedStrings.Button;
     }
 }
