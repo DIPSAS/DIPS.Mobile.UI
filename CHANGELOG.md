@@ -1,3 +1,6 @@
+## [53.8.0]
+- [Accessibility] Added `Mode` attached property.
+
 ## [53.7.4]
 - Fix error causing index out of range in `TabBadgeService` when tabs have changed 
 

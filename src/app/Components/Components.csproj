@@ -27,8 +27,8 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
+        <CodesignKey>Apple Development</CodesignKey>
         <CodesignProvision>Automatic</CodesignProvision>
-        <CodesignKey>iPhone Developer</CodesignKey>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
         <CreatePackage>false</CreatePackage>
@@ -133,6 +133,10 @@
           <DependentUpon>BarcodeScanningSample.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="AccessibilitySamples\VoiceOverSamples\VoiceOverSamples.xaml.cs">
+          <DependentUpon>VoiceOverSamples.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -163,6 +167,13 @@
         <MauiXaml Update="ComponentsSamples\PhotoCapturing\PhotoCaptureSample.xaml">
           <SubType>Designer</SubType>
         </MauiXaml>
+        <MauiXaml Update="AccessibilitySamples\VoiceOverSamples\VoiceOverSamples.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 
