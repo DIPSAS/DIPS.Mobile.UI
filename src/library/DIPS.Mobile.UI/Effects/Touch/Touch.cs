@@ -60,11 +60,6 @@ public partial class Touch : RoutingEffect
         view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
     }
 
-    public static void SetBinding(BindableObject element, BindableProperty property, BindingBase binding)
-    {
-        element.SetBinding(property, binding);
-    }
-
     public static bool GetIsEnabled(BindableObject view)
     {
         return (bool)view.GetValue(IsEnabledProperty);
