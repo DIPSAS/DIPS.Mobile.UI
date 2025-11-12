@@ -75,10 +75,10 @@ public partial class TouchPlatformEffect
             }
         }
         
-        // if (!string.IsNullOrEmpty(contentDescription))
-        // {
-        //     Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
-        // }
+        if (!string.IsNullOrEmpty(contentDescription))
+        {
+            Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
+        }
     }
 
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
