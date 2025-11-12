@@ -400,7 +400,7 @@ TaskRunner
         var ipaFilePath = outputFiles.FirstOrDefault(f => f.EndsWith(".ipa"));
         var aabFilePath = outputFiles.FirstOrDefault(f => f.EndsWith(".aab"));
         var version = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
-        var releaseNote = Utils.GetChangelogNotes(RootDirectory, $"{ChangelogHeaderPrefix}{VersionPattern}]");
+        var releaseNote = Utils.GetChangelogNotes(RootDirectory, $"{ChangelogHeaderPrefix}{VersionPattern}] - [0-9]+-[0-9]+-[0-9]+");
         var isIOSDelivery = ipaFilePath != null;
         var isAndroidDelivery = aabFilePath != null;
 
