@@ -128,3 +128,6 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 
 ## Namespace Convention
 All code uses `DIPS.Mobile.UI.*` namespace. Platform folders (iOS/Android/dotnet) use same namespace as parent - no `.iOS` suffix.
+
+## Wiki
+The codebase is documented in https://github.com/DIPSAS/DIPS.Mobile.UI/wiki
