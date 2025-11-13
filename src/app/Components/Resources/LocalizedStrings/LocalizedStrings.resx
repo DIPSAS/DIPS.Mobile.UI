@@ -428,6 +428,72 @@
     <data name="VoiceOver_ExcludeExample_Description" xml:space="preserve">
         <value>Den dekorative rammen rundt ikonet er ekskludert fra tilgjengeligheten, slik at skjermlesere kun fokuserer på det meningsfulle innholdet.</value>
     </data>
+    <data name="VoiceOver_ListItem_Interactive_Description" xml:space="preserve">
+        <value>Når en ListItem inneholder interaktive kontroller som en Switch, bør skjermlesere fokusere direkte på det interaktive elementet i stedet for å lese tittelen/underteksten først.</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithoutDisable_Title" xml:space="preserve">
+        <value>Uten DisableInternalAccessibility (Standard)</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithoutDisable_Description" xml:space="preserve">
+        <value>VoiceOver/TalkBack vil fokusere på tittel og undertekst før bryteren:</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Title" xml:space="preserve">
+        <value>Aktiver varsler</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Subtitle" xml:space="preserve">
+        <value>Motta varsler når nye meldinger ankommer</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Description" xml:space="preserve">
+        <value>Aktiver varsler</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithDisable_Title" xml:space="preserve">
+        <value>Med DisableInternalAccessibility="True"</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithDisable_Description" xml:space="preserve">
+        <value>VoiceOver/TalkBack vil hoppe over tittel/undertekst og fokusere direkte på bryteren:</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Title" xml:space="preserve">
+        <value>Aktiver mørk modus</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Subtitle" xml:space="preserve">
+        <value>Bytt automatisk mellom lys og mørk tema</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Description" xml:space="preserve">
+        <value>Aktiver mørk modus. Bytt automatisk mellom lys og mørk tema</value>
+    </data>
+    <data name="VoiceOver_ListItem_MultipleElements_Title" xml:space="preserve">
+        <value>Flere interaktive elementer</value>
+    </data>
+    <data name="VoiceOver_ListItem_Sound_Title" xml:space="preserve">
+        <value>Lyd</value>
+    </data>
+    <data name="VoiceOver_ListItem_Sound_Description" xml:space="preserve">
+        <value>Aktiver lydeffekter</value>
+    </data>
+    <data name="VoiceOver_ListItem_Vibration_Title" xml:space="preserve">
+        <value>Vibrasjon</value>
+    </data>
+    <data name="VoiceOver_ListItem_Vibration_Description" xml:space="preserve">
+        <value>Aktiver vibrasjonstilbakemelding</value>
+    </data>
+    <data name="VoiceOver_ListItem_Haptics_Title" xml:space="preserve">
+        <value>Haptikk</value>
+    </data>
+    <data name="VoiceOver_ListItem_Haptics_Description" xml:space="preserve">
+        <value>Aktiver haptisk tilbakemelding</value>
+    </data>
+    <data name="VoiceOver_ListItem_BestPractice_Title" xml:space="preserve">
+        <value>Beste praksis</value>
+    </data>
+    <data name="VoiceOver_ListItem_BestPractice_Description" xml:space="preserve">
+        <value>Når du bruker DisableInternalAccessibility="True", sørg for å sette SemanticProperties.Description på det interaktive elementet med beskrivende tekst som inkluderer konteksten fra tittelen/underteksten.</value>
+    </data>
+    <data name="VoiceOver_ListItem_Interactive_Title" xml:space="preserve">
+        <value>ListItem med interaktivt innhold</value>
+    </data>
+    <data name="VoiceOver_ListItem_Interactive_Subtitle" xml:space="preserve">
+        <value>DisableInternalAccessibility for brytere osv.</value>
+    </data>
     <data name="VoiceOver_WithoutExclude" xml:space="preserve">
         <value>Uten ExcludeChildren</value>
     </data>
