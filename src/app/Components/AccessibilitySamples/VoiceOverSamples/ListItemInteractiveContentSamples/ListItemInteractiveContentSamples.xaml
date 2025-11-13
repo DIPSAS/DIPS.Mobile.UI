@@ -32,8 +32,7 @@
 
             <!-- Default behavior - title and subtitle are accessible -->
             <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Title}"
-                          Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Subtitle}"
-                          HasBottomDivider="True">
+                          Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Subtitle}">
                 <dui:Switch IsToggled="{Binding IsToggled}"
                             SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Description}" />
             </dui:ListItem>
@@ -50,8 +49,7 @@
             <!-- With DisableInternalAccessibility - only the switch is accessible -->
             <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Title}"
                           Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Subtitle}"
-                          DisableInternalAccessibility="True"
-                          HasBottomDivider="True">
+                          DisableInternalAccessibility="True">
                 <dui:Switch IsToggled="{Binding IsToggled}"
                             SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Description}" />
             </dui:ListItem>
@@ -76,8 +74,7 @@
             </dui:ListItem>
 
             <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Haptics_Title}"
-                          DisableInternalAccessibility="True"
-                          HasBottomDivider="True">
+                          DisableInternalAccessibility="True">
                 <dui:Switch IsToggled="{Binding IsToggled}"
                             SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Haptics_Description}" />
             </dui:ListItem>

@@ -181,6 +181,15 @@ When creating samples or UI:
 - **LocalizedStrings**: Always use localized strings from `Components.Resources.LocalizedStrings` for user-facing text
 - **Colors**: Always use design token colors via `{dui:Colors color_*}`
 - **Sizes**: Always use design token sizes via `{dui:Sizes size_*}`
+- **ListItem Dividers**: Only use `HasBottomDivider="True"` when ListItems are grouped together. In a group, only the first N-1 items should have bottom dividers - the last item should NOT have a divider.
+
+Example divider usage:
+```xaml
+<!-- Group of 3 ListItems - only first 2 have dividers -->
+<dui:ListItem Title="Item 1" HasBottomDivider="True" />
+<dui:ListItem Title="Item 2" HasBottomDivider="True" />
+<dui:ListItem Title="Item 3" /> <!-- No divider on last item -->
+```
 
 ### Creating PRs
 **Always** update `CHANGELOG.md` following semantic versioning:
