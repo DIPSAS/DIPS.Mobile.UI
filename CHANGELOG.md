@@ -1,4 +1,4 @@
-## [54.1.0]
+## [53.9.0]
 - [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons
 
 ## [53.8.2]
