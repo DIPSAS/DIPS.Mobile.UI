@@ -1,6 +1,11 @@
-## [54.1.1]
+## [54.2.1]
 - [ItemPicker] Made screen recorder read the large itempicker's selected item and button
 - [Chip] Made screen recorder focus on close button if present
+
+## [54.2.0]
+- [Accessibility] Added `Trait` attached property with support for Button, Selected, and NotSelected traits for improved screen reader announcements on iOS and Android
+- [SortControl] Fixed accessibility.
+- [RadioButtonListItem] Now automatically sets appropriate traits based on selection state
 
 ## [54.1.0]
 - [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons

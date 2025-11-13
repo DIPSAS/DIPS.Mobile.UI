@@ -1004,5 +1004,77 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("VoiceOver_CustomSemanticDescription", resourceCulture);
             }
         }
+        
+        internal static string VoiceOver_Trait_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Subtitle", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_SingleButton_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_SingleButton_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_SingleButton_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_SingleButton_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_TapMe {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_TapMe", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Combined_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Combined_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Combined_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Combined_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Option1 {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Option1", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Option2 {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Option2", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_Option3 {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_Option3", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_Trait_CodeUsage_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_Trait_CodeUsage_Title", resourceCulture);
+            }
+        }
     }
 }

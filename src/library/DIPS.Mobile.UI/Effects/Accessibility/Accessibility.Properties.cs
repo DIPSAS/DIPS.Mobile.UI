@@ -7,6 +7,12 @@ public partial class Accessibility
         typeof(Accessibility),
         Mode.None,
         propertyChanged: OnModeChanged);
+    
+    public static readonly BindableProperty TraitProperty = BindableProperty.CreateAttached("Trait",
+        typeof(Trait),
+        typeof(Accessibility),
+        Trait.None,
+        propertyChanged: OnTraitChanged);
 }
 
 public enum Mode
@@ -54,4 +60,32 @@ public enum Mode
     /// <para>Without this mode, screen readers would require 5 separate swipe gestures to read all information. With GroupChildren, it's read in one focus.</para>
     /// </example>
     GroupChildren = 1
+}
+
+[Flags]
+public enum Trait
+{
+    None = 0,
+    /// <summary>
+    /// Indicates the element behaves as a button.
+    /// iOS: Adds UIAccessibilityTrait.Button
+    /// Android: Sets class name to "android.widget.Button"
+    /// </summary>
+    Button = 1 << 0,
+    
+    /// <summary>
+    /// Indicates the element is in a selected state.
+    /// iOS: Adds UIAccessibilityTrait.Selected
+    /// Android: Sets AccessibilityNodeInfo.Checked = true
+    /// Screen readers will announce "Selected" along with the element's description.
+    /// </summary>
+    Selected = 1 << 1,
+    
+    /// <summary>
+    /// Indicates the element is not in a selected state.
+    /// iOS: Does not add Selected trait
+    /// Android: Sets AccessibilityNodeInfo.Checked = false
+    /// Screen readers will announce "Not Selected" along with the element's description.
+    /// </summary>
+    NotSelected = 1 << 2
 }

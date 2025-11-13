@@ -62,6 +62,10 @@ internal class SortControlBottomSheet : BottomSheet
                 m_sortControl.ItemSelected(selectableItemViewModel);
             })
         };
+        
+        radioButtonListItem.SetBinding(SemanticProperties.HintProperty, 
+            static (SelectableItemViewModel vm) => vm.IsSelected, 
+            converter: new SortElementHintConverter(m_sortControl));
 
         var inLineImage = new Image
         {
@@ -112,4 +116,33 @@ internal class SortControlBottomSheet : BottomSheet
     }
 
     
+}
+internal class SortElementHintConverter : IValueConverter
+{
+    private readonly SortControl m_sortControl;
+
+    public SortElementHintConverter(SortControl sortControl)
+    {
+        m_sortControl = sortControl;
+    }
+
+    public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is not bool isSelected)
+            return string.Empty;
+
+        // If selected, show inverted sort order (what will happen on tap)
+        // If not selected, show current sort order (what will be applied)
+        var sortOrder = isSelected 
+            ? (m_sortControl.CurrentSortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending)
+            : m_sortControl.CurrentSortOrder;
+            
+        return string.Format(DUILocalizedStrings.Accessability_SelectSortOption, 
+            SortControl.GetLocalizedSortOrderDescription(sortOrder));
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
 }
