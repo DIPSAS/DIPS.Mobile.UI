@@ -44,21 +44,6 @@ public partial class Touch : RoutingEffect
         view.SetValue(CommandParameterProperty, obj);
     }
 
-    public static string GetAccessibilityContentDescription(BindableObject view)
-    {
-        return (string)view.GetValue(AccessibilityContentDescriptionProperty);
-    }
-
-    /// <summary>
-    /// On Android we have to explicitly set the content description for accessibility
-    /// </summary>
-    /// <param name="view"></param>
-    /// <param name="contentDescription">The string to be read aloud from TalkBack</param>
-    public static void SetAccessibilityContentDescription(BindableObject view, string contentDescription)
-    {
-        view.SetValue(AccessibilityContentDescriptionProperty, contentDescription);
-    }
-
     public static bool GetIsEnabled(BindableObject view)
     {
         return (bool)view.GetValue(IsEnabledProperty);

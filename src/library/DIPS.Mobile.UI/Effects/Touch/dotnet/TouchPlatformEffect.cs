@@ -5,4 +5,5 @@ public partial class TouchPlatformEffect
 {
     private partial void Init(){}
     private partial void Dispose(bool isDetaching){}
+    private partial void OnAccessibilityDescriptionSet(){}
 }
