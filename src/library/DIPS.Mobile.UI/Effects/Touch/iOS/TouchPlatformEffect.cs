@@ -36,6 +36,16 @@ public partial class TouchPlatformEffect
         }
     }
 
+    private partial void OnAccessibilityDescriptionSet()
+    {
+        // Append the AccessibilityTraits to `Button` if there is an accessibility description set
+        if (!string.IsNullOrEmpty(Control.AccessibilityLabel))
+        {
+            // Use | to append, to make sure we are not overwriting anything here
+            Control.AccessibilityTraits |= UIAccessibilityTrait.Button;
+        }
+    }
+
     private void OnLongPress(UILongPressGestureRecognizer e)
     {
         if (e.State != UIGestureRecognizerState.Began)

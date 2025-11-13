@@ -176,7 +176,6 @@ public partial class ListItem : Grid
         if(Touch.GetCommand(this) is not null)
             return;
         
-        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
         Touch.SetCommand(this, new Command(() =>
         {
             Command?.Execute(CommandParameter);

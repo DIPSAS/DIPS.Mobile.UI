@@ -1,3 +1,8 @@
+## [54.0.0]
+- [Touch] Improved accessibility for Touch effect - screen readers will now announce "Button" when `SemanticProperties.Description` is set
+- [Touch][BreakingChange] Removed deprecated `Touch.AccessibilityContentDescription` property - consumers should use `SemanticProperties.Description` instead
+- [SegmentedControl][Android] Correct accessibility.
+
 ## [53.8.2]
 - Made sure bottom sheet header is focused and not the drag handles for both platforms.
 
