@@ -62,6 +62,8 @@ internal class SortControlBottomSheet : BottomSheet
                 m_sortControl.ItemSelected(selectableItemViewModel);
             })
         };
+        
+        SemanticProperties.SetHint(radioButtonListItem, string.Format(DUILocalizedStrings.Accessability_SelectSortOption, SortControl.GetLocalizedSortOrderDescription(m_sortControl.CurrentSortOrder)));
 
         var inLineImage = new Image
         {

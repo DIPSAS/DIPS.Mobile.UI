@@ -228,4 +228,13 @@
     <data name="NotSelected" xml:space="preserve">
         <value>Ikke valgt</value>
     </data>
+    <data name="Accessability_SelectSortOption" xml:space="preserve">
+        <value>Trykk for å velge sortering i {0} rekkefølge</value>
+    </data>
+    <data name="Ascending" xml:space="preserve">
+        <value>Stigende</value>
+    </data>
+    <data name="Descending" xml:space="preserve">
+        <value>Synkende</value>
+    </data>
 </root>

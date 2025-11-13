@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Pickers;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -97,5 +98,15 @@ public partial class SortControl : Grid
         m_sortImage.Source = CurrentSortOrder == SortOrder.Ascending
             ? Icons.GetIcon(IconName.ascending_fill)
             : Icons.GetIcon(IconName.descending_fill);
+    }
+    
+    public static string GetLocalizedSortOrderDescription(SortOrder sortOrder)
+    {
+        return sortOrder switch
+        {
+            SortOrder.Ascending => DUILocalizedStrings.Ascending,
+            SortOrder.Descending => DUILocalizedStrings.Descending,
+            _ => string.Empty
+        };
     }
 }

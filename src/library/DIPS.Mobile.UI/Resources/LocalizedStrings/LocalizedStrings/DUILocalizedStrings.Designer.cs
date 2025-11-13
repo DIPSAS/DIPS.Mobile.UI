@@ -464,5 +464,23 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("NotSelected", resourceCulture);
             }
         }
+        
+        internal static string Accessability_SelectSortOption {
+            get {
+                return ResourceManager.GetString("Accessability_SelectSortOption", resourceCulture);
+            }
+        }
+        
+        internal static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        internal static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
     }
 }

@@ -218,4 +218,16 @@
     <data name="NotSelected" xml:space="preserve">
         <value>Not selected</value>
     </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Alert</value>
+    </data>
+    <data name="Accessability_SelectSortOption" xml:space="preserve">
+        <value>Tap to choose sorting in {0} order</value>
+    </data>
+    <data name="Ascending" xml:space="preserve">
+        <value>Ascending</value>
+    </data>
+    <data name="Descending" xml:space="preserve">
+        <value>Descending</value>
+    </data>
 </root>
