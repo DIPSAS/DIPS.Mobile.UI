@@ -2,12 +2,13 @@ using Android.Text;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Chips.Android;
 using DIPS.Mobile.UI.Extensions.Android;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using TextAlignment = Android.Views.TextAlignment;
+using TextAlignment = Microsoft.Maui.Controls.PlatformConfiguration.Android.Views.TextAlignment;
 
 
 // ReSharper disable once CheckNamespace
