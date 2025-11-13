@@ -7,6 +7,9 @@ using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
+#if __IOS__
+using UIKit;
+#endif
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 
@@ -33,6 +36,17 @@ public partial class ItemPicker : ContentView
             Dispose();
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+#if __IOS__
+        if (Handler?.PlatformView is UIView uiView){
+            uiView.AccessibilityTraits |= UIAccessibilityTrait.Button;
+        }
+#endif
+    }
+
     private void LayoutContent()
     {
         if (Size is PickerSize.Small)
@@ -47,6 +61,13 @@ public partial class ItemPicker : ContentView
         }
         
         Content = m_chip;
+
+        if (Size is PickerSize.Large)
+        {
+            Content.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
+            AccessibilityDescription = m_chip.Title;
+        }
+        
 
         if (CustomTapCommand is not null)
         {
@@ -108,6 +129,10 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
+        if (Size is PickerSize.Large)
+        {
+            AccessibilityDescription = m_chip.Title;
+        }
 
         switch (Mode)
         {
