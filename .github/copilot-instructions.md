@@ -1,5 +1,14 @@
 # DIPS.Mobile.UI - AI Coding Agent Instructions
 
+## Important Meta-Instruction
+**When you make an error and the user corrects you with specific guidance, patterns, or rules, you MUST update this instruction file with that information before proceeding.** This ensures:
+- Future sessions benefit from learned patterns
+- Common mistakes are not repeated
+- Project-specific conventions are documented
+- The instruction file evolves with the project
+
+Add corrections to the relevant section (Critical Patterns, Common Pitfalls, etc.) or create a new section if needed.
+
 ## Project Overview
 DIPS.Mobile.UI is a .NET MAUI component library for iOS and Android mobile apps in the healthcare domain. Components follow a design system with resources (colors, sizes, icons) auto-generated from Figma via DIPS.Mobile.DesignTokens pipeline.
 
@@ -28,6 +37,24 @@ Components extend MAUI controls with custom handlers and platform effects:
 
 Example: `ListItem` is a `Grid` with configurable Options (TitleOptions, IconOptions, etc.) that bind to internal child views.
 
+**BindableProperty Pattern**: Use inline lambda expressions in `propertyChanged` callback:
+```csharp
+// ✅ Correct pattern used in ListItem.Properties.cs
+public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+    nameof(Title),
+    typeof(string),
+    typeof(ListItem),
+    propertyChanged: (bindable, _, _) => ((ListItem)bindable).AddTitle());
+
+// ❌ Wrong - don't create separate callback methods
+propertyChanged: OnTitleChanged
+
+private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
+{
+    ((ListItem)bindable).AddTitle();
+}
+```
+
 ### 3. Design Resources Usage
 Always use generated resource APIs (ColorResources, IconResources, SizeResources), never hardcode values:
 ```csharp
@@ -54,6 +81,18 @@ if (!string.IsNullOrEmpty(SemanticProperties.GetDescription(Element)))
 ```
 
 Screen readers (VoiceOver/TalkBack) announce "Button" automatically when description is set.
+
+**Excluding elements from accessibility tree**: Use `AutomationProperties.SetExcludedWithChildren()` to exclude elements and their children from the accessibility tree. This is cleaner than using `SetIsInAccessibleTree()` on individual elements.
+
+```csharp
+// ✅ Correct - excludes container and all children
+AutomationProperties.SetExcludedWithChildren(containerElement, true);
+
+// ❌ Wrong - requires setting on each individual child
+AutomationProperties.SetIsInAccessibleTree(titleLabel, false);
+AutomationProperties.SetIsInAccessibleTree(subtitleLabel, false);
+AutomationProperties.SetIsInAccessibleTree(iconImage, false);
+```
 
 ### 5. MVVM Pattern
 Components use MVVM with `ViewModel` base class:
@@ -100,9 +139,57 @@ The project uses a C# script-based build system (`build/build.csx`) powered by *
 **Pipeline Usage**: Azure DevOps pipelines call `buildwindow.sh` with specific tasks to automate builds, validation, and deployments.
 
 ### Testing Components
-1. Add sample to `src/app/Components/ComponentsSamples/`
+1. Add sample to `src/app/Components/ComponentsSamples/` or `src/app/Components/AccessibilitySamples/` for accessibility features
 2. Register in `REGISTER_YOUR_SAMPLES_HERE.cs`
 3. Test live in distributed Components app
+
+### Sample File Organization
+When creating samples with multiple related files (XAML, code-behind, ViewModel):
+- **Create a folder** for the sample (e.g., `ListItemInteractiveContentSamples/`)
+- **Place all files** in the folder: `.xaml`, `.xaml.cs`, `ViewModel.cs`
+- **Create dedicated ViewModel** class inheriting from `DIPS.Mobile.UI.MVVM.ViewModel`
+- **Set BindingContext in XAML** using the ViewModel class directly in `ContentPage.BindingContext`
+- **Always use `x:DataType`** on the ContentPage for compiled bindings
+- **Never use** generic `<dui:ViewModel />` in XAML - always create a specific ViewModel class
+- **Don't set BindingContext** in code-behind - declare it in XAML
+
+Example structure:
+```
+AccessibilitySamples/VoiceOverSamples/
+└── ListItemInteractiveContentSamples/
+    ├── ListItemInteractiveContentSamples.xaml
+    ├── ListItemInteractiveContentSamples.xaml.cs
+    └── ListItemInteractiveContentSamplesViewModel.cs
+```
+
+Example XAML:
+```xaml
+<dui:ContentPage xmlns:local="clr-namespace:Components.Samples.MySample"
+                 x:DataType="local:MySampleViewModel"
+                 x:Class="Components.Samples.MySample.MySample">
+    <dui:ContentPage.BindingContext>
+        <local:MySampleViewModel />
+    </dui:ContentPage.BindingContext>
+    <!-- Content here with {Binding PropertyName} -->
+</dui:ContentPage>
+```
+
+### Styling Guidelines
+When creating samples or UI:
+- **Label Styles**: Use `SectionHeader`, `UI100`, `UI200`, `UI300` (NOT `Body500` or similar)
+- **Font Families**: Only use `Body`, `UI`, or `Header` - never use `monospace`
+- **LocalizedStrings**: Always use localized strings from `Components.Resources.LocalizedStrings` for user-facing text
+- **Colors**: Always use design token colors via `{dui:Colors color_*}`
+- **Sizes**: Always use design token sizes via `{dui:Sizes size_*}`
+- **ListItem Dividers**: Only use `HasBottomDivider="True"` when ListItems are grouped together. In a group, only the first N-1 items should have bottom dividers - the last item should NOT have a divider.
+
+Example divider usage:
+```xaml
+<!-- Group of 3 ListItems - only first 2 have dividers -->
+<dui:ListItem Title="Item 1" HasBottomDivider="True" />
+<dui:ListItem Title="Item 2" HasBottomDivider="True" />
+<dui:ListItem Title="Item 3" /> <!-- No divider on last item -->
+```
 
 ### Creating PRs
 **Always** update `CHANGELOG.md` following semantic versioning:
@@ -116,8 +203,10 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 
 1. **Don't** manually append "Button" to accessibility strings - `TouchPlatformEffect` handles this
 2. **Don't** set Touch without `SemanticProperties.Description` - accessibility will fail
-3. **Don't** use `#if ANDROID` / `#if IOS` - use partial classes in platform folders
+3. **Don't** use `#if ANDROID` / `#if IOS` - use partial classes in platform folders, if there is a lot of code
 4. **Don't** create new colors/sizes - use design token resources or request from designers
+5. **Don't** use invalid style names like `Body500` - use `SectionHeader`, `UI100-300`, etc.
+6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
 5. **Don't** forget to test on both platforms - behavior often differs
 
 ## Key Files to Reference

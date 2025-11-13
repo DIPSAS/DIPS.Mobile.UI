@@ -855,6 +855,138 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
+        internal static string VoiceOver_ListItem_Interactive_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Interactive_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_WithoutDisable_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_WithoutDisable_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_WithoutDisable_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_WithoutDisable_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Notifications_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Notifications_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Notifications_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Notifications_Subtitle", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Notifications_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Notifications_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_WithDisable_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_WithDisable_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_WithDisable_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_WithDisable_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_DarkMode_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_DarkMode_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_DarkMode_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_DarkMode_Subtitle", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_DarkMode_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_DarkMode_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_MultipleElements_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_MultipleElements_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Sound_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Sound_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Sound_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Sound_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Vibration_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Vibration_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Vibration_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Vibration_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Haptics_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Haptics_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Haptics_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Haptics_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_BestPractice_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_BestPractice_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_BestPractice_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_BestPractice_Description", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Interactive_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Interactive_Title", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceOver_ListItem_Interactive_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_ListItem_Interactive_Subtitle", resourceCulture);
+            }
+        }
+        
         internal static string VoiceOver_WithoutExclude {
             get {
                 return ResourceManager.GetString("VoiceOver_WithoutExclude", resourceCulture);

@@ -25,11 +25,17 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout dui:Accessibility.Mode="ExcludeChildren">
+    <VerticalStackLayout>
 
-        <dui:Label Text="Hallo"></dui:Label>
-        <dui:Label Text="Test"
-                   SemanticProperties.Description="Tester"></dui:Label>
+        <Grid BackgroundColor="Red"
+              WidthRequest="50"
+              HeightRequest="50"
+              dui:Touch.Command="{Binding AddItemCommand}"
+              SemanticProperties.Description="Dette er en beskrivelse">
+
+              <dui:Label Text="Hello" />
+            
+        </Grid>
         
     </VerticalStackLayout>
 
