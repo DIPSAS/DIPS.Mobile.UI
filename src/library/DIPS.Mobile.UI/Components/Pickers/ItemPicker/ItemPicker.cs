@@ -108,7 +108,8 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
-
+        m_chip.AccessibilityDescription = m_chip.Title;
+        
         switch (Mode)
         {
             case PickerMode.ContextMenu:

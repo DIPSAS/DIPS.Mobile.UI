@@ -71,7 +71,16 @@ public partial class Chip
         get => (Color)GetValue(BorderColorProperty);
         set => SetValue(BorderColorProperty, value);
     }
-
+    
+    /// <summary>
+    /// Sets the value of the description in SemanticProperties
+    /// </summary>
+    public string AccessibilityDescription
+    {
+        get => (string)GetValue(AccessibilityDescriptionProperty);
+        set => SetValue(AccessibilityDescriptionProperty, value);
+    }
+    
     public static readonly BindableProperty CloseButtonColorProperty = BindableProperty.Create(
         nameof(CloseButtonColor),
         typeof(Color),
@@ -245,6 +254,11 @@ public partial class Chip
 
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
+        typeof(string),
+        typeof(Chip));
+    
+    public static readonly BindableProperty AccessibilityDescriptionProperty = BindableProperty.Create(
+        nameof(AccessibilityDescription),
         typeof(string),
         typeof(Chip));
     

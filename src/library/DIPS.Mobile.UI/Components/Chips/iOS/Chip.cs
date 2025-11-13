@@ -44,13 +44,20 @@ public partial class Chip
         };
         
         m_container.SetBinding(PaddingProperty, static (Chip chip) => chip.InnerPadding, source: this);
-
+        m_container.SetBinding(Touch.AccessibilityContentDescriptionProperty, static (Chip chip) => chip.AccessibilityDescription, source: this);
+        AccessibilityDescription = Title;
+        
         m_customIcon = CreateCustomIcon();
         m_border = CreateBorder();
         m_toggleableIcon = CreateIsToggleableIcon();
         m_titleLabel = CreateTitleLabel();
         m_closeButton = CreateCloseButton();
         m_customRightIcon = CreateCustomRightIcon();
+        
+        AutomationProperties.SetExcludedWithChildren(m_toggleableIcon, true);
+        AutomationProperties.SetExcludedWithChildren(m_titleLabel, true);
+        AutomationProperties.SetExcludedWithChildren(m_closeButton, true);
+        AutomationProperties.SetExcludedWithChildren(m_customRightIcon, true);
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
         
@@ -87,7 +94,6 @@ public partial class Chip
         image.SetBinding(Image.SourceProperty, static (Chip chip) => chip.CustomIcon, source: this);
         image.SetBinding(Images.Image.Image.TintColorProperty, static (Chip chip) => chip.CustomIconTintColor, source: this);
         image.SetBinding(IsVisibleProperty, static (Chip chip) => chip.CustomIcon, source: this);
-        
         return image;
     }
 
