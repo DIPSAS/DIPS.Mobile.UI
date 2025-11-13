@@ -82,6 +82,18 @@ if (!string.IsNullOrEmpty(SemanticProperties.GetDescription(Element)))
 
 Screen readers (VoiceOver/TalkBack) announce "Button" automatically when description is set.
 
+**Excluding elements from accessibility tree**: Use `AutomationProperties.SetExcludedWithChildren()` to exclude elements and their children from the accessibility tree. This is cleaner than using `SetIsInAccessibleTree()` on individual elements.
+
+```csharp
+// ✅ Correct - excludes container and all children
+AutomationProperties.SetExcludedWithChildren(containerElement, true);
+
+// ❌ Wrong - requires setting on each individual child
+AutomationProperties.SetIsInAccessibleTree(titleLabel, false);
+AutomationProperties.SetIsInAccessibleTree(subtitleLabel, false);
+AutomationProperties.SetIsInAccessibleTree(iconImage, false);
+```
+
 ### 5. MVVM Pattern
 Components use MVVM with `ViewModel` base class:
 - Commands: Use `AsyncCommand` or `AsyncCommand<T>` for async operations
