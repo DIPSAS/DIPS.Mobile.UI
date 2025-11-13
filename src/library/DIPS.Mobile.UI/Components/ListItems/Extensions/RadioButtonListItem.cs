@@ -38,6 +38,10 @@ public partial class RadioButtonListItem : ListItem, ISelectable
     {
         Icon = Icons.GetIcon(IsSelected ? IconName.radio_checked_line : IconName.radio_unchecked_line);
         
+        // Update accessibility trait based on selection state
+        var trait = IsSelected ? Trait.Selected : Trait.NotSelected;
+        UI.Effects.Accessibility.Accessibility.SetTrait(this, trait);
+        
         SelectedCommand?.Execute(SelectedCommandParameter);
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }

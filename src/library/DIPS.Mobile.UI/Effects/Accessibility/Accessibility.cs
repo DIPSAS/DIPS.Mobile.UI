@@ -22,6 +22,29 @@ public partial class Accessibility
         view.SetValue(ModeProperty, mode);
     }
     
+    public static Trait GetTrait(BindableObject view)
+    {
+        return (Trait)view.GetValue(TraitProperty);
+    }
+
+    /// <summary>
+    /// Attached property to set accessibility traits on a view.
+    /// Traits can be combined using bitwise OR (|) operator.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// // Single trait
+    /// Accessibility.SetTrait(myView, Trait.Button);
+    /// 
+    /// // Multiple traits
+    /// Accessibility.SetTrait(myView, Trait.Button | Trait.Selected);
+    /// </code>
+    /// </example>
+    public static void SetTrait(BindableObject view, Trait trait)
+    {
+        view.SetValue(TraitProperty, trait);
+    }
+    
     private static void OnModeChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not View view || newValue is not Mode mode)
@@ -37,5 +60,16 @@ public partial class Accessibility
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+    
+    private static void OnTraitChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is not View view || newValue is not Trait trait)
+            return;
+
+        if (trait == Trait.None)
+            return;
+
+        view.Effects.Add(new TraitEffect());
     }
 }

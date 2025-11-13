@@ -237,4 +237,10 @@
     <data name="Descending" xml:space="preserve">
         <value>Synkende</value>
     </data>
+    <data name="Accessability_SelectedSort" xml:space="preserve">
+        <value>{0} valgt som sortering i {1} rekkefølge</value>
+    </data>
+    <data name="Accessability_TapToChangeSorting" xml:space="preserve">
+        <value>Trykk for å endre på sorteringen</value>
+    </data>
 </root>

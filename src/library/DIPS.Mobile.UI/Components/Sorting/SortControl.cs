@@ -91,6 +91,8 @@ public partial class SortControl : Grid
     private void OnSelectedItemChanged()
     {
         m_selectedItemText.Text = SelectedItem?.GetPropertyValue(ItemDisplayProperty);
+
+        UpdateAccessibility();
     }
 
     private void OnSortOrderChanged()
@@ -98,6 +100,8 @@ public partial class SortControl : Grid
         m_sortImage.Source = CurrentSortOrder == SortOrder.Ascending
             ? Icons.GetIcon(IconName.ascending_fill)
             : Icons.GetIcon(IconName.descending_fill);
+        
+        UpdateAccessibility();
     }
     
     public static string GetLocalizedSortOrderDescription(SortOrder sortOrder)
@@ -108,5 +112,11 @@ public partial class SortControl : Grid
             SortOrder.Descending => DUILocalizedStrings.Descending,
             _ => string.Empty
         };
+    }
+    
+    private void UpdateAccessibility()
+    {
+        SemanticProperties.SetDescription(this, string.Format(DUILocalizedStrings.Accessability_SelectedSort, m_selectedItemText.Text, GetLocalizedSortOrderDescription(CurrentSortOrder)));
+        SemanticProperties.SetHint(this, DUILocalizedStrings.Accessability_TapToChangeSorting);
     }
 }

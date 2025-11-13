@@ -230,4 +230,10 @@
     <data name="Descending" xml:space="preserve">
         <value>Descending</value>
     </data>
+    <data name="Accessability_SelectedSort" xml:space="preserve">
+        <value>{0} is chosen as the sorting in {1} order</value>
+    </data>
+    <data name="Accessability_TapToChangeSorting" xml:space="preserve">
+        <value>Tap to change the sorting</value>
+    </data>
 </root>
