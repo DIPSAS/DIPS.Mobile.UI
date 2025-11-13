@@ -7,6 +7,7 @@
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  xmlns:voiceOverSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples"
                  xmlns:listItemInteractiveContentSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples"
+                 xmlns:traitSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TraitSamples"
                  x:Class="Components.AccessibilitySamples.VoiceOverSamples.VoiceOverSamples"
                  Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver}">
 
@@ -21,6 +22,10 @@
                               Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Subtitle}"
                               HasBottomDivider="True"
                               Command="{helpers:NavigationCommand ContentPageType={x:Type listItemInteractiveContentSamples:ListItemInteractiveContentSamples}}" />
+                
+                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Title}"
+                              Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Subtitle}"
+                              Command="{helpers:NavigationCommand ContentPageType={x:Type traitSamples:TraitSamples}}" />
             
             </dui:VerticalStackLayout>
 

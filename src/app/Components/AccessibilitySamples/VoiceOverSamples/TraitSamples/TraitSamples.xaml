@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:accessibility="clr-namespace:DIPS.Mobile.UI.Effects.Accessibility;assembly=DIPS.Mobile.UI"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:local="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TraitSamples"
+                 x:DataType="{x:Type local:TraitSamplesViewModel}"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.TraitSamples.TraitSamples"
+                 Title="Accessibility Traits">
+
+    <dui:ContentPage.BindingContext>
+        <local:TraitSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_5}">
+
+            <!-- Description -->
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_default}" />
+
+            <!-- Single Trait Example -->
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_SingleButton_Title}"
+                           Style="{dui:Styles Label=SectionHeader}" />
+
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_SingleButton_Description}"
+                           Style="{dui:Styles Label=UI100}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+
+                <dui:VerticalStackLayout Padding="{dui:Sizes size_3}"
+                                         BackgroundColor="{dui:Colors color_surface_default}"
+                                         dui:Layout.AutoCornerRadius="True"
+                                         InputTransparent="False"
+                                         SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_TapMe}"
+                                         dui:Touch.Command="{Binding ButtonTappedCommand}">
+                    <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_TapMe}"
+                               Style="{dui:Styles Label=UI200}"
+                               HorizontalOptions="Center" />
+                </dui:VerticalStackLayout>
+            </dui:VerticalStackLayout>
+
+            <!-- Combined Traits Example -->
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Combined_Title}"
+                           Style="{dui:Styles Label=SectionHeader}" />
+
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Combined_Description}"
+                           Style="{dui:Styles Label=UI100}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+
+                <!-- Item 1 -->
+                <dui:VerticalStackLayout Padding="{dui:Sizes size_3}"
+                                         BackgroundColor="{dui:Colors color_surface_default}"
+                                         dui:Layout.AutoCornerRadius="True"
+                                         SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option1}"
+                                         dui:Touch.Command="{Binding ToggleFirstItemCommand}">
+                    <dui:VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsFirstItemSelected}"
+                                     Value="True">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, Selected" />
+                            <Setter Property="BackgroundColor"
+                                    Value="{dui:Colors color_surface_default_selected}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsFirstItemSelected}"
+                                     Value="False">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, NotSelected" />
+                        </DataTrigger>
+                    </dui:VerticalStackLayout.Triggers>
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                        <dui:Image Source="{dui:Icons check_circle_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_action}"
+                                   IsVisible="{Binding IsFirstItemSelected}" />
+                        <dui:Image Source="{dui:Icons radio_unchecked_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_default}"
+                                   IsVisible="{Binding IsFirstItemSelected, Converter={dui:InvertedBoolConverter}}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option1}"
+                                   Style="{dui:Styles Label=UI200}"
+                                   VerticalOptions="Center"
+                                   AutomationProperties.ExcludedWithChildren="True"/>
+                    </dui:HorizontalStackLayout>
+                </dui:VerticalStackLayout>
+
+                <!-- Item 2 (Initially Selected) -->
+                <dui:VerticalStackLayout Padding="{dui:Sizes size_3}"
+                                         BackgroundColor="{dui:Colors color_surface_default}"
+                                         dui:Layout.AutoCornerRadius="True"
+                                         SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option2}"
+                                         dui:Touch.Command="{Binding ToggleSecondItemCommand}">
+                    <dui:VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsSecondItemSelected}"
+                                     Value="True">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, Selected" />
+                            <Setter Property="BackgroundColor"
+                                    Value="{dui:Colors color_surface_default_selected}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsSecondItemSelected}"
+                                     Value="False">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, NotSelected" />
+                        </DataTrigger>
+                    </dui:VerticalStackLayout.Triggers>
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                        <dui:Image Source="{dui:Icons check_circle_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_action}"
+                                   IsVisible="{Binding IsSecondItemSelected}" />
+                        <dui:Image Source="{dui:Icons radio_unchecked_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_default}"
+                                   IsVisible="{Binding IsSecondItemSelected, Converter={dui:InvertedBoolConverter}}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option2}"
+                                   Style="{dui:Styles Label=UI200}"
+                                   VerticalOptions="Center"
+                                   AutomationProperties.ExcludedWithChildren="True" />
+                    </dui:HorizontalStackLayout>
+                </dui:VerticalStackLayout>
+
+                <!-- Item 3 -->
+                <dui:VerticalStackLayout Padding="{dui:Sizes size_3}"
+                                         BackgroundColor="{dui:Colors color_surface_default}"
+                                         dui:Layout.AutoCornerRadius="True"
+                                         dui:Touch.Command="{Binding ToggleThirdItemCommand}"
+                                         SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option3}">
+                    <dui:VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsThirdItemSelected}"
+                                     Value="True">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, Selected" />
+                            <Setter Property="BackgroundColor"
+                                    Value="{dui:Colors color_surface_default_selected}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="dui:VerticalStackLayout"
+                                     Binding="{Binding IsThirdItemSelected}"
+                                     Value="False">
+                            <Setter Property="accessibility:Accessibility.Trait"
+                                    Value="Button, NotSelected" />
+                        </DataTrigger>
+                    </dui:VerticalStackLayout.Triggers>
+                    <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                        <dui:Image Source="{dui:Icons check_circle_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_action}"
+                                   IsVisible="{Binding IsThirdItemSelected}" />
+                        <dui:Image Source="{dui:Icons radio_unchecked_line}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   TintColor="{dui:Colors color_icon_default}"
+                                   IsVisible="{Binding IsThirdItemSelected, Converter={dui:InvertedBoolConverter}}" />
+                        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Option3}"
+                                   Style="{dui:Styles Label=UI200}"
+                                   VerticalOptions="Center"
+                                   AutomationProperties.ExcludedWithChildren="True" />
+                    </dui:HorizontalStackLayout>
+                </dui:VerticalStackLayout>
+            </dui:VerticalStackLayout>
+
+            <!-- Code Example -->
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_CodeUsage_Title}"
+                           Style="{dui:Styles Label=SectionHeader}" />
+
+                <dui:Label Style="{dui:Styles Label=UI100}"
+                           TextColor="{dui:Colors color_text_subtle}">
+                    <dui:Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="In XAML:" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="&lt;Border accessibility:Accessibility.Trait=&quot;Button&quot;&gt;" FontFamily="Body" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="In C#:" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="Accessibility.SetTrait(myView, Trait.Button);" FontFamily="Body" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="Combine traits:" />
+                            <Span Text="&#x0a;" />
+                            <Span Text="Accessibility.SetTrait(myView, Trait.Button | Trait.Selected);" FontFamily="Body" />
+                        </FormattedString>
+                    </dui:Label.FormattedText>
+                </dui:Label>
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

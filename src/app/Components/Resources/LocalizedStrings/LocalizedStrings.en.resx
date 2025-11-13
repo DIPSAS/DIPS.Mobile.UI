@@ -432,4 +432,40 @@
     <data name="VoiceOver_CustomSemanticDescription" xml:space="preserve">
         <value>Premium product available in store</value>
     </data>
+    <data name="VoiceOver_Trait_Title" xml:space="preserve">
+        <value>Accessibility Traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Subtitle" xml:space="preserve">
+        <value>Button, Selected, NotSelected traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Description" xml:space="preserve">
+        <value>The Accessibility.Trait property allows you to set accessibility traits like Button, Selected, and NotSelected. Screen readers will announce these states to users.</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Title" xml:space="preserve">
+        <value>Single Trait (Button)</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Description" xml:space="preserve">
+        <value>A view with only the Button trait. VoiceOver/TalkBack will announce this as a button.</value>
+    </data>
+    <data name="VoiceOver_Trait_TapMe" xml:space="preserve">
+        <value>Tap Me</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Title" xml:space="preserve">
+        <value>Combined Traits (Button | Selected)</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Description" xml:space="preserve">
+        <value>Traits can be combined using | operator. These items demonstrate Button + Selected/NotSelected combinations.</value>
+    </data>
+    <data name="VoiceOver_Trait_Option1" xml:space="preserve">
+        <value>Option 1</value>
+    </data>
+    <data name="VoiceOver_Trait_Option2" xml:space="preserve">
+        <value>Option 2</value>
+    </data>
+    <data name="VoiceOver_Trait_Option3" xml:space="preserve">
+        <value>Option 3</value>
+    </data>
+    <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
+        <value>Code Usage</value>
+    </data>
 </root>
