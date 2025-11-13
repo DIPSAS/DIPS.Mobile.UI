@@ -44,8 +44,6 @@ public partial class Chip
         };
         
         m_container.SetBinding(PaddingProperty, static (Chip chip) => chip.InnerPadding, source: this);
-        m_container.SetBinding(Touch.AccessibilityContentDescriptionProperty, static (Chip chip) => chip.AccessibilityDescription, source: this);
-        AccessibilityDescription = Title;
         
         m_customIcon = CreateCustomIcon();
         m_border = CreateBorder();
@@ -54,12 +52,17 @@ public partial class Chip
         m_closeButton = CreateCloseButton();
         m_customRightIcon = CreateCustomRightIcon();
         
+        AutomationProperties.SetExcludedWithChildren(m_customIcon, true);
         AutomationProperties.SetExcludedWithChildren(m_toggleableIcon, true);
         AutomationProperties.SetExcludedWithChildren(m_titleLabel, true);
         AutomationProperties.SetExcludedWithChildren(m_closeButton, true);
         AutomationProperties.SetExcludedWithChildren(m_customRightIcon, true);
+        AutomationProperties.SetExcludedWithChildren(m_container, true);
+
         
         Touch.SetCommand(m_border, new Command(() => OnTappedButtonChip(false)));
+        m_border.SetBinding(SemanticProperties.DescriptionProperty, static (Chip chip) => chip.AccessibilityDescription, source: this);
+        AccessibilityDescription = Title;
         
         m_container.Add(m_customIcon);
         m_container.Add(m_toggleableIcon);
