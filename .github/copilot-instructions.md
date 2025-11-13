@@ -57,15 +57,42 @@ private static void OnTitleChanged(BindableObject bindable, object oldValue, obj
 
 ### 3. Design Resources Usage
 Always use generated resource APIs (ColorResources, IconResources, SizeResources), never hardcode values:
-```csharp
-// ✅ Correct
-Colors.GetColor(ColorName.color_surface_default)
-Sizes.GetSize(SizeName.content_margin_small)
-Icons.GetIcon(IconName.arrow_right_s_line)
 
-// ❌ Wrong
+**CRITICAL**: Before using any color, size, or icon name, **always verify it exists** by checking the generated resource files:
+- Colors: `src/library/DIPS.Mobile.UI/Resources/Colors/ColorName.cs`
+- Sizes: `src/library/DIPS.Mobile.UI/Resources/Sizes/SizeName.cs`
+- Icons: `src/library/DIPS.Mobile.UI/Resources/Icons/IconName.cs`
+
+```csharp
+// ✅ Correct - verified names from ColorName.cs and IconName.cs
+Colors.GetColor(ColorName.color_surface_default)
+Colors.GetColor(ColorName.color_surface_default_selected)  // NOT color_surface_selected!
+Sizes.GetSize(SizeName.content_margin_small)
+Icons.GetIcon(IconName.check_circle_line)  // NOT checkbox_circle_line!
+Icons.GetIcon(IconName.radio_unchecked_line)  // NOT checkbox_blank_circle_line!
+
+// ❌ Wrong - hardcoded values
 Color.FromRgb(255, 0, 0)
 new Thickness(16)
+
+// ❌ Wrong - using non-existent resource names
+Colors.GetColor(ColorName.color_surface_selected)  // Does not exist!
+Icons.GetIcon(IconName.checkbox_circle_line)  // Does not exist! Use check_circle_line
+Icons.GetIcon(IconName.checkbox_blank_circle_line)  // Does not exist! Use radio_unchecked_line
+```
+
+**Icon Syntax in XAML**:
+```xaml
+<!-- ✅ Correct - verified icon names from IconName.cs -->
+<dui:Image Source="{dui:Icons check_circle_line}" />
+<dui:Image Source="{dui:Icons radio_unchecked_line}" />
+
+<!-- ❌ Wrong - incorrect syntax -->
+<dui:Image Source="{dui:Icon Icon=check_circle_line}" />
+
+<!-- ❌ Wrong - non-existent icon names -->
+<dui:Image Source="{dui:Icons checkbox_circle_line}" />
+<dui:Image Source="{dui:Icons checkbox_blank_circle_line}" />
 ```
 
 Resources auto-update from design tokens - direct values break design system consistency.

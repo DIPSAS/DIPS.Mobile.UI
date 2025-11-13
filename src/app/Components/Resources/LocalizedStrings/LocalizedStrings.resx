@@ -503,4 +503,40 @@
     <data name="VoiceOver_CustomSemanticDescription" xml:space="preserve">
         <value>Premium produkt tilgjengelig i butikk</value>
     </data>
+    <data name="VoiceOver_Trait_Title" xml:space="preserve">
+        <value>Tilgjengelighets-traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Subtitle" xml:space="preserve">
+        <value>Button, Selected, NotSelected traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Description" xml:space="preserve">
+        <value>Accessibility.Trait-egenskapen lar deg sette tilgjengelighetstraits som Button, Selected og NotSelected. Skjermlesere vil annonsere disse tilstandene til brukerne.</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Title" xml:space="preserve">
+        <value>Enkelt trait (Button)</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Description" xml:space="preserve">
+        <value>En visning med kun Button-trait. VoiceOver/TalkBack vil annonsere dette som en knapp.</value>
+    </data>
+    <data name="VoiceOver_Trait_TapMe" xml:space="preserve">
+        <value>Trykk på meg</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Title" xml:space="preserve">
+        <value>Kombinerte traits (Button | Selected)</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Description" xml:space="preserve">
+        <value>Traits kan kombineres med | operator. Disse elementene demonstrerer Button + Selected/NotSelected kombinasjoner.</value>
+    </data>
+    <data name="VoiceOver_Trait_Option1" xml:space="preserve">
+        <value>Alternativ 1</value>
+    </data>
+    <data name="VoiceOver_Trait_Option2" xml:space="preserve">
+        <value>Alternativ 2</value>
+    </data>
+    <data name="VoiceOver_Trait_Option3" xml:space="preserve">
+        <value>Alternativ 3</value>
+    </data>
+    <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
+        <value>Kodebruk</value>
+    </data>
 </root>
