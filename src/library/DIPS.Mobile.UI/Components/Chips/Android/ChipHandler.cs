@@ -8,7 +8,7 @@ using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using TextAlignment = Microsoft.Maui.Controls.PlatformConfiguration.Android.Views.TextAlignment;
+using TextAlignment = Android.Views.TextAlignment;
 
 
 // ReSharper disable once CheckNamespace
