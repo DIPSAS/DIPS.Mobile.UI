@@ -1,3 +1,6 @@
+## [54.1.0]
+- [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons
+
 ## [53.8.2]
 - Made sure bottom sheet header is focused and not the drag handles for both platforms.
 

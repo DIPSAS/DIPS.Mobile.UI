@@ -71,6 +71,8 @@ public partial class ListItem : Grid
         {
             TitleOptions.SetDefaultValues(this);
         });
+        
+        UpdateInternalAccessibility();
     }
 
     private void AddSubtitle()
@@ -87,6 +89,8 @@ public partial class ListItem : Grid
         {
             SubtitleOptions.SetupDefaults(this);
         });
+        
+        UpdateInternalAccessibility();
     }
 
     private void AddIcon()
@@ -103,6 +107,8 @@ public partial class ListItem : Grid
         });
         
         this.Add(ImageIcon, 0);
+        
+        UpdateInternalAccessibility();
     }
 
     protected virtual void AddInLineContent()
@@ -209,6 +215,28 @@ public partial class ListItem : Grid
         if (listItem.Parent is not null)
         {
             listItem.OnParentChanged();
+        }
+    }
+
+    private void UpdateInternalAccessibility()
+    {
+        // When DisableInternalAccessibility is true, exclude internal elements from accessibility tree
+        // This allows interactive elements (like Switch, Button) to receive focus directly
+        var shouldExclude = DisableInternalAccessibility;
+
+        if (TitleLabel is not null)
+        {
+            AutomationProperties.SetIsInAccessibleTree(TitleLabel, !shouldExclude);
+        }
+
+        if (SubtitleLabel is not null)
+        {
+            AutomationProperties.SetIsInAccessibleTree(SubtitleLabel, !shouldExclude);
+        }
+
+        if (ImageIcon is not null)
+        {
+            AutomationProperties.SetIsInAccessibleTree(ImageIcon, !shouldExclude);
         }
     }
     

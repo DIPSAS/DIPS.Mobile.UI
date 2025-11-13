@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:listItemInteractiveContentSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples.ListItemInteractiveContentSamples"
+                 x:DataType="listItemInteractiveContentSamples:ListItemInteractiveContentSamplesViewModel"
+                 Title="ListItem with Interactive Content">
+
+    <dui:ContentPage.BindingContext>
+        <listItemInteractiveContentSamples:ListItemInteractiveContentSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_4}">
+
+            <!-- Example description -->
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_WithoutDisable_Title}"
+                       Style="{dui:Styles Label=SectionHeader}"
+                       Margin="0,16,0,8" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_WithoutDisable_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}"
+                       Margin="0,0,0,8" />
+
+            <!-- Default behavior - title and subtitle are accessible -->
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Title}"
+                          Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Subtitle}"
+                          HasBottomDivider="True">
+                <dui:Switch IsToggled="{Binding IsToggled}"
+                            SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Notifications_Description}" />
+            </dui:ListItem>
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_WithDisable_Title}"
+                       Style="{dui:Styles Label=SectionHeader}"
+                       Margin="0,24,0,8" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_WithDisable_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}"
+                       Margin="0,0,0,8" />
+
+            <!-- With DisableInternalAccessibility - only the switch is accessible -->
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Title}"
+                          Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Subtitle}"
+                          DisableInternalAccessibility="True"
+                          HasBottomDivider="True">
+                <dui:Switch IsToggled="{Binding IsToggled}"
+                            SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_DarkMode_Description}" />
+            </dui:ListItem>
+
+            <!-- Additional example with multiple switches -->
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_MultipleElements_Title}"
+                       Style="{dui:Styles Label=SectionHeader}"
+                       Margin="0,24,0,8" />
+
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Sound_Title}"
+                          DisableInternalAccessibility="True"
+                          HasBottomDivider="True">
+                <dui:Switch IsToggled="{Binding IsToggled}"
+                            SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Sound_Description}" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Vibration_Title}"
+                          DisableInternalAccessibility="True"
+                          HasBottomDivider="True">
+                <dui:Switch IsToggled="{Binding IsToggled}"
+                            SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Vibration_Description}" />
+            </dui:ListItem>
+
+            <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Haptics_Title}"
+                          DisableInternalAccessibility="True"
+                          HasBottomDivider="True">
+                <dui:Switch IsToggled="{Binding IsToggled}"
+                            SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Haptics_Description}" />
+            </dui:ListItem>
+
+            <!-- Best practices note -->
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_BestPractice_Title}"
+                       Style="{dui:Styles Label=SectionHeader}"
+                       Margin="0,24,0,8" />
+
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_BestPractice_Description}"
+                       TextColor="{dui:Colors color_text_subtle}"
+                       Style="{dui:Styles Label=UI200}" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>
