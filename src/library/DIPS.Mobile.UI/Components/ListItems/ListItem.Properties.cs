@@ -175,7 +175,8 @@ public partial class ListItem
     
     /// <summary>
     /// When set to true, excludes internal ListItem elements (Title, Subtitle, Icon) from the accessibility tree.
-    /// This is useful when the ListItem contains interactive elements that should receive accessibility focus directly.
+    /// This is useful when the ListItem contains interactive elements that should receive accessibility focus directly. <br/>
+    /// For more information, see <see href="https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/ListItem#accessibility-with-interactive-content">ListItem Accessibility with Interactive Content</see>.
     /// </summary>
     /// <remarks>
     /// Use this property when you have interactive controls (Switch, Button, Entry, etc.) inside the ListItem
