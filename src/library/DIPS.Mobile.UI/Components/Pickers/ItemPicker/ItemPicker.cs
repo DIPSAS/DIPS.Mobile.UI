@@ -58,16 +58,13 @@ public partial class ItemPicker : ContentView
             m_chip.InnerPadding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2));
             m_chip.TitleTextAlignment = TextAlignment.Start;
             m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
+            this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
+            AccessibilityDescription = m_chip.Title;
+            // needed for android accessibility
+            AutomationProperties.SetExcludedWithChildren(m_chip, true);
         }
         
         Content = m_chip;
-
-        if (Size is PickerSize.Large)
-        {
-            Content.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
-            AccessibilityDescription = m_chip.Title;
-        }
-        
 
         if (CustomTapCommand is not null)
         {

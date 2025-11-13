@@ -1,3 +1,6 @@
+## [54.1.1]
+- [ItemPicker] Made screen recorder read the large itempicker's selected item and button
+
 ## [54.1.0]
 - [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons
 
