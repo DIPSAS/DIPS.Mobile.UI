@@ -25,6 +25,7 @@ public partial class ItemPicker : ContentView
     {
         m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
         m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
+        this.SetBinding(SemanticProperties.DescriptionProperty, static (Chip chip) => chip.Title, source: m_chip);
     }
     
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -49,12 +50,9 @@ public partial class ItemPicker : ContentView
             m_chip.TitleTextAlignment = TextAlignment.Start;
             m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
         }
-        
-        this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
-        AccessibilityDescription = m_chip.Title;
+
         AutomationProperties.SetExcludedWithChildren(m_chip, true);
         DIPS.Mobile.UI.Effects.Accessibility.Accessibility.SetTrait(this, Trait.Button);
-
         
         Content = m_chip;
 
@@ -118,9 +116,7 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
-
-        AccessibilityDescription = m_chip.Title;
-
+        
         switch (Mode)
         {
             case PickerMode.ContextMenu:
