@@ -1,5 +1,5 @@
 ## [54.2.1]
-- [ItemPicker] Made screen recorder read the large itempicker's selected item and button
+- [ItemPicker] Made screen recorder read button and the itempicker's selected item
 - [Chip] Made screen recorder focus on close button if present
 
 ## [54.2.0]

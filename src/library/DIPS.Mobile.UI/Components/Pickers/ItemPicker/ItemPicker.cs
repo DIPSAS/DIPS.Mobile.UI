@@ -3,6 +3,7 @@ using System.Security.AccessControl;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Effects.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -36,17 +37,6 @@ public partial class ItemPicker : ContentView
             Dispose();
     }
 
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-        
-#if __IOS__
-        if (Handler?.PlatformView is UIView uiView){
-            uiView.AccessibilityTraits |= UIAccessibilityTrait.Button;
-        }
-#endif
-    }
-
     private void LayoutContent()
     {
         if (Size is PickerSize.Small)
@@ -58,11 +48,14 @@ public partial class ItemPicker : ContentView
             m_chip.InnerPadding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_2));
             m_chip.TitleTextAlignment = TextAlignment.Start;
             m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
-            this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
-            AccessibilityDescription = m_chip.Title;
-            // needed for android accessibility
-            AutomationProperties.SetExcludedWithChildren(m_chip, true);
         }
+        
+        this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
+        AccessibilityDescription = m_chip.Title;
+        // needed for android accessibility
+        AutomationProperties.SetExcludedWithChildren(m_chip, true);
+        DIPS.Mobile.UI.Effects.Accessibility.Accessibility.SetTrait(this, Trait.Button);
+
         
         Content = m_chip;
 
@@ -126,10 +119,9 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
-        if (Size is PickerSize.Large)
-        {
-            AccessibilityDescription = m_chip.Title;
-        }
+
+        AccessibilityDescription = m_chip.Title;
+        
 
         switch (Mode)
         {
