@@ -116,15 +116,6 @@ public partial class ItemPicker
         get => (string)GetValue(FreeTextPrefixProperty);
         set => SetValue(FreeTextPrefixProperty, value);
     }
-    
-    /// <summary>
-    /// Sets the value of the description in SemanticProperties
-    /// </summary>
-    public string AccessibilityDescription
-    {
-        get => (string)GetValue(AccessibilityDescriptionProperty);
-        set => SetValue(AccessibilityDescriptionProperty, value);
-    }
 
     /// <summary>
     /// Will be used to add an additional context menu item to the picker.
@@ -264,11 +255,6 @@ public partial class ItemPicker
         typeof(string),
         typeof(ItemPicker),
         defaultValue: string.Empty);
-    
-    public static readonly BindableProperty AccessibilityDescriptionProperty = BindableProperty.Create(
-        nameof(AccessibilityDescription),
-        typeof(string),
-        typeof(ItemPicker));
 }
 
 public enum PickerMode

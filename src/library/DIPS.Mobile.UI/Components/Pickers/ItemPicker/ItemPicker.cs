@@ -50,8 +50,7 @@ public partial class ItemPicker : ContentView
             m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
         }
         
-        this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
-        AccessibilityDescription = m_chip.Title;
+        this.SetBinding(SemanticProperties.DescriptionProperty, static (Chip chip) => chip.Title, source: m_chip);
         AutomationProperties.SetExcludedWithChildren(m_chip, true);
         DIPS.Mobile.UI.Effects.Accessibility.Accessibility.SetTrait(this, Trait.Button);
 
@@ -118,8 +117,6 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
-
-        AccessibilityDescription = m_chip.Title;
 
         switch (Mode)
         {
