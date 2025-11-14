@@ -52,7 +52,6 @@ public partial class ItemPicker : ContentView
         
         this.SetBinding(SemanticProperties.DescriptionProperty, static (ItemPicker itemPicker) => itemPicker.AccessibilityDescription, source: this);
         AccessibilityDescription = m_chip.Title;
-        // needed for android accessibility
         AutomationProperties.SetExcludedWithChildren(m_chip, true);
         DIPS.Mobile.UI.Effects.Accessibility.Accessibility.SetTrait(this, Trait.Button);
 
@@ -121,7 +120,6 @@ public partial class ItemPicker : ContentView
         UpdateChipTitle();
 
         AccessibilityDescription = m_chip.Title;
-        
 
         switch (Mode)
         {
