@@ -1,3 +1,7 @@
+## [54.2.2]
+- [ItemPicker] Made screen recorder read button and the itempicker's selected item
+- [Chip] Made screen recorder focus on close button if present
+
 ## [54.2.0]
 - [Accessibility] Added `Trait` attached property with support for Button, Selected, and NotSelected traits for improved screen reader announcements on iOS and Android
 - [SortControl] Fixed accessibility.
