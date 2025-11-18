@@ -494,5 +494,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Accessability_TapToChangeSorting", resourceCulture);
             }
         }
+        
+        internal static string InputField {
+            get {
+                return ResourceManager.GetString("InputField", resourceCulture);
+            }
+        }
+        
+        internal static string Dictation {
+            get {
+                return ResourceManager.GetString("Dictation", resourceCulture);
+            }
+        }
     }
 }

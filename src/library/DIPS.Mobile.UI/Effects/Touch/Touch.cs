@@ -54,6 +54,16 @@ public partial class Touch : RoutingEffect
         view.SetValue(IsEnabledProperty, isEnabled);
     }
     
+    public static bool GetIsButtonTraitEnabled(BindableObject view)
+    {
+        return (bool)view.GetValue(IsButtonTraitEnabledProperty);
+    }
+    
+    public static void SetIsButtonTraitEnabled(BindableObject view, bool isButtonTraitEnabled)
+    {
+        view.SetValue(IsButtonTraitEnabledProperty, isButtonTraitEnabled);
+    }
+    
     internal static TouchMode GetTouchMode(BindableObject element)
     {
         if (GetCommand(element) is not null)

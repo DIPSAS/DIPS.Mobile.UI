@@ -70,7 +70,7 @@
         <value>Sett inn eksempeltekst</value>
     </data>
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
-        <value>Trykk for å skrive inn tekst</value>
+        <value>Trykk to ganger for å redigere</value>
     </data>
     <data name="Saving" xml:space="preserve">
         <value>Lagrer</value>
@@ -242,5 +242,11 @@
     </data>
     <data name="Accessability_TapToChangeSorting" xml:space="preserve">
         <value>Trykk for å endre på sorteringen</value>
+    </data>
+    <data name="InputField" xml:space="preserve">
+        <value>Tekstfelt</value>
+    </data>
+    <data name="Dictation" xml:space="preserve">
+        <value>Diktering</value>
     </data>
 </root>

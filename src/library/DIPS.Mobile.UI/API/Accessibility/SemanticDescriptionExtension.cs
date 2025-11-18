@@ -47,6 +47,9 @@ public static class SemanticDescription
             case ControlType.Choice:
                 controlType = DUILocalizedStrings.Choice;
                 break;
+            case ControlType.Input:
+                controlType = DUILocalizedStrings.InputField;
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

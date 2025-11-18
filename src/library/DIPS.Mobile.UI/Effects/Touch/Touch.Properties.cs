@@ -30,4 +30,9 @@ public partial class Touch
         typeof(bool),
         typeof(Touch),
         true);
+    
+    public static readonly BindableProperty IsButtonTraitEnabledProperty = BindableProperty.CreateAttached("IsButtonTraitEnabled",
+        typeof(bool),
+        typeof(Touch),
+        true);
 }
