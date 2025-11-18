@@ -356,4 +356,187 @@
     <data name="Elements" xml:space="preserve">
         <value>elementer</value>
     </data>
+    <data name="Accessibility" xml:space="preserve">
+        <value>Tilgjengelighet</value>
+    </data>
+    <data name="VoiceOver" xml:space="preserve">
+        <value>VoiceOver</value>
+    </data>
+    <data name="VoiceOver_Description" xml:space="preserve">
+        <value>Disse eksemplene viser hvordan du bruker Accessibility.Mode attached property for å forbedre VoiceOver/TalkBack opplevelsen.</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Title" xml:space="preserve">
+        <value>GroupChildren Modus</value>
+    </data>
+    <data name="VoiceOver_GroupChildren_Description" xml:space="preserve">
+        <value>Grupperer alle barn i en container til et enkelt tilgjengelighetselement. Skjermlesere vil lese alt innhold med én fokusgest i stedet for å kreve navigering til hvert barn individuelt.</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Title" xml:space="preserve">
+        <value>ExcludeChildren Modus</value>
+    </data>
+    <data name="VoiceOver_ExcludeChildren_Description" xml:space="preserve">
+        <value>Ekskluderer alle barn fra tilgjengelighetstreet. Nyttig når du har dekorative elementer eller komplekse layouter som ikke skal leses individuelt.</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Name" xml:space="preserve">
+        <value>Kari Nordmann</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Born" xml:space="preserve">
+        <value>Født: 15.05.1980</value>
+    </data>
+    <data name="VoiceOver_PatientCard_Phone" xml:space="preserve">
+        <value>Telefon:</value>
+    </data>
+    <data name="VoiceOver_PatientCard_PhoneNumber" xml:space="preserve">
+        <value>+47 123 45 678</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Name" xml:space="preserve">
+        <value>Premium Produkt</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Price" xml:space="preserve">
+        <value>Pris: 499 kr</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Stock" xml:space="preserve">
+        <value>På lager: 15 stk</value>
+    </data>
+    <data name="VoiceOver_ProductCard_Rating" xml:space="preserve">
+        <value>Vurdering: ⭐⭐⭐⭐⭐</value>
+    </data>
+    <data name="VoiceOver_WithoutGrouping" xml:space="preserve">
+        <value>Uten gruppering (Standard)</value>
+    </data>
+    <data name="VoiceOver_WithGrouping" xml:space="preserve">
+        <value>Med GroupChildren</value>
+    </data>
+    <data name="VoiceOver_SwipeGestures" xml:space="preserve">
+        <value>sveipegest(er) kreves</value>
+    </data>
+    <data name="VoiceOver_Example" xml:space="preserve">
+        <value>Eksempel</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Street" xml:space="preserve">
+        <value>Storgata 123</value>
+    </data>
+    <data name="VoiceOver_AddressCard_City" xml:space="preserve">
+        <value>0123 Oslo</value>
+    </data>
+    <data name="VoiceOver_AddressCard_Country" xml:space="preserve">
+        <value>Norge</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Title" xml:space="preserve">
+        <value>Produktkort med dekorative elementer</value>
+    </data>
+    <data name="VoiceOver_ExcludeExample_Description" xml:space="preserve">
+        <value>Den dekorative rammen rundt ikonet er ekskludert fra tilgjengeligheten, slik at skjermlesere kun fokuserer på det meningsfulle innholdet.</value>
+    </data>
+    <data name="VoiceOver_ListItem_Interactive_Description" xml:space="preserve">
+        <value>Når en ListItem inneholder interaktive kontroller som en Switch, bør skjermlesere fokusere direkte på det interaktive elementet i stedet for å lese tittelen/underteksten først.</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithoutDisable_Title" xml:space="preserve">
+        <value>Uten DisableInternalAccessibility (Standard)</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithoutDisable_Description" xml:space="preserve">
+        <value>VoiceOver/TalkBack vil fokusere på tittel og undertekst før bryteren:</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Title" xml:space="preserve">
+        <value>Aktiver varsler</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Subtitle" xml:space="preserve">
+        <value>Motta varsler når nye meldinger ankommer</value>
+    </data>
+    <data name="VoiceOver_ListItem_Notifications_Description" xml:space="preserve">
+        <value>Aktiver varsler</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithDisable_Title" xml:space="preserve">
+        <value>Med DisableInternalAccessibility="True"</value>
+    </data>
+    <data name="VoiceOver_ListItem_WithDisable_Description" xml:space="preserve">
+        <value>VoiceOver/TalkBack vil hoppe over tittel/undertekst og fokusere direkte på bryteren:</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Title" xml:space="preserve">
+        <value>Aktiver mørk modus</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Subtitle" xml:space="preserve">
+        <value>Bytt automatisk mellom lys og mørk tema</value>
+    </data>
+    <data name="VoiceOver_ListItem_DarkMode_Description" xml:space="preserve">
+        <value>Aktiver mørk modus. Bytt automatisk mellom lys og mørk tema</value>
+    </data>
+    <data name="VoiceOver_ListItem_MultipleElements_Title" xml:space="preserve">
+        <value>Flere interaktive elementer</value>
+    </data>
+    <data name="VoiceOver_ListItem_Sound_Title" xml:space="preserve">
+        <value>Lyd</value>
+    </data>
+    <data name="VoiceOver_ListItem_Sound_Description" xml:space="preserve">
+        <value>Aktiver lydeffekter</value>
+    </data>
+    <data name="VoiceOver_ListItem_Vibration_Title" xml:space="preserve">
+        <value>Vibrasjon</value>
+    </data>
+    <data name="VoiceOver_ListItem_Vibration_Description" xml:space="preserve">
+        <value>Aktiver vibrasjonstilbakemelding</value>
+    </data>
+    <data name="VoiceOver_ListItem_Haptics_Title" xml:space="preserve">
+        <value>Haptikk</value>
+    </data>
+    <data name="VoiceOver_ListItem_Haptics_Description" xml:space="preserve">
+        <value>Aktiver haptisk tilbakemelding</value>
+    </data>
+    <data name="VoiceOver_ListItem_BestPractice_Title" xml:space="preserve">
+        <value>Beste praksis</value>
+    </data>
+    <data name="VoiceOver_ListItem_BestPractice_Description" xml:space="preserve">
+        <value>Når du bruker DisableInternalAccessibility="True", sørg for å sette SemanticProperties.Description på det interaktive elementet med beskrivende tekst som inkluderer konteksten fra tittelen/underteksten.</value>
+    </data>
+    <data name="VoiceOver_ListItem_Interactive_Title" xml:space="preserve">
+        <value>ListItem med interaktivt innhold</value>
+    </data>
+    <data name="VoiceOver_ListItem_Interactive_Subtitle" xml:space="preserve">
+        <value>DisableInternalAccessibility for brytere osv.</value>
+    </data>
+    <data name="VoiceOver_WithoutExclude" xml:space="preserve">
+        <value>Uten ExcludeChildren</value>
+    </data>
+    <data name="VoiceOver_WithExclude" xml:space="preserve">
+        <value>Med ExcludeChildren og egendefinert beskrivelse</value>
+    </data>
+    <data name="VoiceOver_CustomSemanticDescription" xml:space="preserve">
+        <value>Premium produkt tilgjengelig i butikk</value>
+    </data>
+    <data name="VoiceOver_Trait_Title" xml:space="preserve">
+        <value>Tilgjengelighets-traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Subtitle" xml:space="preserve">
+        <value>Button, Selected, NotSelected traits</value>
+    </data>
+    <data name="VoiceOver_Trait_Description" xml:space="preserve">
+        <value>Accessibility.Trait-egenskapen lar deg sette tilgjengelighetstraits som Button, Selected og NotSelected. Skjermlesere vil annonsere disse tilstandene til brukerne.</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Title" xml:space="preserve">
+        <value>Enkelt trait (Button)</value>
+    </data>
+    <data name="VoiceOver_Trait_SingleButton_Description" xml:space="preserve">
+        <value>En visning med kun Button-trait. VoiceOver/TalkBack vil annonsere dette som en knapp.</value>
+    </data>
+    <data name="VoiceOver_Trait_TapMe" xml:space="preserve">
+        <value>Trykk på meg</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Title" xml:space="preserve">
+        <value>Kombinerte traits (Button | Selected)</value>
+    </data>
+    <data name="VoiceOver_Trait_Combined_Description" xml:space="preserve">
+        <value>Traits kan kombineres med | operator. Disse elementene demonstrerer Button + Selected/NotSelected kombinasjoner.</value>
+    </data>
+    <data name="VoiceOver_Trait_Option1" xml:space="preserve">
+        <value>Alternativ 1</value>
+    </data>
+    <data name="VoiceOver_Trait_Option2" xml:space="preserve">
+        <value>Alternativ 2</value>
+    </data>
+    <data name="VoiceOver_Trait_Option3" xml:space="preserve">
+        <value>Alternativ 3</value>
+    </data>
+    <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
+        <value>Kodebruk</value>
+    </data>
 </root>

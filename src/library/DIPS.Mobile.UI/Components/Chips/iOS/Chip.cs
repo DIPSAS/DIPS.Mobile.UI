@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -133,6 +134,7 @@ public partial class Chip
         
         closeButtonWrapper.SetBinding(IsVisibleProperty, static (Chip chip) => chip.IsCloseable, source: this);
         closeButtonWrapper.Add(closeButtonIcon);
+        SemanticProperties.SetDescription(closeButtonWrapper, DUILocalizedStrings.Close);
         
         return closeButtonWrapper;
     }
@@ -157,7 +159,6 @@ public partial class Chip
     {
         var label = new Labels.Label
         {
-            TextColor = Colors.GetColor(ColorName.color_text_action),
             Style = Styles.GetLabelStyle(LabelStyle.Body200),
             VerticalOptions = LayoutOptions.Center,
             MaxLines = 1,

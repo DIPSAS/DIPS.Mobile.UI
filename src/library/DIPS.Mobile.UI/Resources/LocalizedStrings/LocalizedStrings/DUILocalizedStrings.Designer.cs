@@ -440,5 +440,59 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Accessibility_TapToDismissAlert", resourceCulture);
             }
         }
+        
+        internal static string Accessability_TapToTakePhoto {
+            get {
+                return ResourceManager.GetString("Accessability_TapToTakePhoto", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_TapToActivateFlash {
+            get {
+                return ResourceManager.GetString("Accessability_TapToActivateFlash", resourceCulture);
+            }
+        }
+        
+        internal static string Selected {
+            get {
+                return ResourceManager.GetString("Selected", resourceCulture);
+            }
+        }
+        
+        internal static string NotSelected {
+            get {
+                return ResourceManager.GetString("NotSelected", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_SelectSortOption {
+            get {
+                return ResourceManager.GetString("Accessability_SelectSortOption", resourceCulture);
+            }
+        }
+        
+        internal static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        internal static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_SelectedSort {
+            get {
+                return ResourceManager.GetString("Accessability_SelectedSort", resourceCulture);
+            }
+        }
+        
+        internal static string Accessability_TapToChangeSorting {
+            get {
+                return ResourceManager.GetString("Accessability_TapToChangeSorting", resourceCulture);
+            }
+        }
     }
 }

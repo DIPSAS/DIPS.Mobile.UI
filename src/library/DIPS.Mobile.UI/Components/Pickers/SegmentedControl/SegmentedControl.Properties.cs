@@ -162,19 +162,19 @@ public partial class SegmentedControl
         nameof(SelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
-        defaultValue: Colors.GetColor(ColorName.color_fill_default_active_subtle));
+        defaultValue: Colors.GetColor(ColorName.color_fill_default_active));
 
     public static readonly BindableProperty DeSelectedColorProperty = BindableProperty.Create(
         nameof(DeSelectedColor),
         typeof(Color),
         typeof(SegmentedControl),
-        defaultValue: Colors.GetColor(ColorName.color_surface_default));
+        defaultValue: Colors.GetColor(ColorName.color_fill_neutral));
 
     public static readonly BindableProperty SegmentBorderColorProperty = BindableProperty.Create(
         nameof(SegmentBorderColor),
         typeof(Color),
         typeof(SegmentedControl),
-        defaultValue: Colors.GetColor(ColorName.color_border_action_secondary));
+        defaultValue: Colors.GetColor(ColorName.color_border_button));
 
     public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
         nameof(SelectedItem),

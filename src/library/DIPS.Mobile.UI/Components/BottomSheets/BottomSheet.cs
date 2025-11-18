@@ -11,8 +11,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         internal const double BottomBarHeight = 120;
 
         internal static ColorName BackgroundColorName => ColorName.color_surface_default;
-        internal static ColorName ToolbarTextColorName => ColorName.color_text_default;
-        internal static ColorName ToolbarActionButtonsName => ColorName.color_text_action;
 
         public BottomSheet()
         {

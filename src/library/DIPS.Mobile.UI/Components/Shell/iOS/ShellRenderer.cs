@@ -136,9 +136,9 @@ internal class TabBarAppearanceTracker : ShellTabBarAppearanceTracker
         foreach (var (tabIndex, count) in TabBadgeService.s_badgeCounts)
         {
             var tabBarItems = tabBarController.TabBar?.Items;
-            if(tabBarItems is null || tabBarItems.Length < tabIndex)
+            if(tabBarItems is null || tabIndex < 0 || tabBarItems.Length <= tabIndex)
                 return;
-
+            
             var item = tabBarItems[tabIndex];
             item.BadgeValue = count;
             

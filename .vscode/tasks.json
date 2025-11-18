@@ -8,10 +8,9 @@
 				"$dotnet-meteor.problemMatcher"
 			],
 			"label": "dotnet-meteor: Build",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"args": [
+				// Let .NET Meteor auto-detect RuntimeIdentifier based on selected device
+			]
 		}
 	]
 }

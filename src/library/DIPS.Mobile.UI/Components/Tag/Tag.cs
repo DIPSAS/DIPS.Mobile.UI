@@ -10,11 +10,12 @@ public partial class Tag : Grid
 {
     public Tag()
     {
-        ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetStrokeThickness(this, Sizes.GetSize(SizeName.stroke_medium));
+        DIPS.Mobile.UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
 
+        ColumnDefinitions = [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)];
         Style = Styles.GetTagStyle(TagStyle.Default);
-        Padding = Sizes.GetSize(SizeName.size_half);
-        UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_half));
+        Padding = Sizes.GetSize(SizeName.size_1);
         
         HorizontalOptions = LayoutOptions.Start;
 

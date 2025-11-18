@@ -45,6 +45,26 @@ public partial class Layout : RoutingEffect
         view.SetValue(AutoHideLastDividerProperty, autoHideLastDivider);
     }
     
+    public static Color? GetStroke(BindableObject view)
+    {
+        return (Color?)view.GetValue(StrokeProperty);
+    }
+    
+    public static void SetStroke(BindableObject view, Color? stroke)
+    {
+        view.SetValue(StrokeProperty, stroke);
+    }
+    
+    public static double GetStrokeThickness(BindableObject view)
+    {
+        return (double)view.GetValue(StrokeThicknessProperty);
+    }
+    
+    public static void SetStrokeThickness(BindableObject view, double strokeThickness)
+    {
+        view.SetValue(StrokeThicknessProperty, strokeThickness);
+    }
+    
     private static void OnLayoutPropertiesChanged(BindableObject bindable, object oldValue, object? newValue)
     {
         if (bindable is not View view)
@@ -59,7 +79,6 @@ public partial class Layout : RoutingEffect
         // Refresh
         RemoveEffects(view);
         view.Effects.Add(new Layout());
-        
     }
     
     private static void RemoveEffects(Element view)

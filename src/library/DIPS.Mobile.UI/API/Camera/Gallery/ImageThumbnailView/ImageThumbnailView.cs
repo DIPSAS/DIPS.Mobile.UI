@@ -49,36 +49,29 @@ internal class ImageThumbnailView : Grid
         
         UI.Effects.Layout.Layout.SetCornerRadius(image, Sizes.GetSize(SizeName.radius_small));
         
-        var closeButton = new Border
+        var closeButton = new Button
         {
-            StrokeShape = new Ellipse(),
-            BackgroundColor = Colors.GetColor(ColorName.color_surface_subtle),
-            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
-            Stroke = Colors.GetColor(ColorName.color_border_action_secondary_active),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultFloatingIconLarge),
+            Padding = Sizes.GetSize(SizeName.content_margin_xsmall),
+            ImageSource = Icons.GetIcon(IconName.close_line),
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
+            CornerRadius = 10,
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.End,
-            Content = new Image
+            Command = new Command(async () =>
             {
-                TintColor = Colors.GetColor(ColorName.color_icon_default),
-                Source = Icons.GetIcon(IconName.close_line)
-            },
-            Padding = Sizes.GetSize(SizeName.content_margin_xsmall)
+                var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(
+                    DUILocalizedStrings.RemoveImageTitle,
+                    DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
+
+                if (dialogResult == DialogAction.Closed)
+                    return;
+
+                m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);    
+            })
         };
 
-        Touch.SetCommand(closeButton, new Command(async () =>
-        {
-            var dialogResult = await DialogService.ShowDestructiveConfirmationMessage(
-                DUILocalizedStrings.RemoveImageTitle,
-                DUILocalizedStrings.RemoveImageDescription, DUILocalizedStrings.Cancel, DUILocalizedStrings.Remove);
-
-            if (dialogResult == DialogAction.Closed)
-                return;
-
-            m_onRemoveImage.Invoke(imageThumbnailViewModel.Index);
-        }));
-        
         Add(image);
         Add(closeButton);
     }

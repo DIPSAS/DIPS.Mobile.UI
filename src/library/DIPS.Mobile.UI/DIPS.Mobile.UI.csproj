@@ -154,7 +154,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Components\Navigation\Android\" />
-        <Folder Include="Components\Pickers\DatePicker\iOS\" />
         <Folder Include="Resources\Splash\" />
         <Folder Include="API\Vibration\dotnet\" />
     </ItemGroup>
@@ -181,6 +180,7 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="SkiaSharp" />
         <PackageReference Include="SkiaSharp.Extended.UI.Maui" />
     </ItemGroup>
     <ItemGroup>

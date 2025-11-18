@@ -303,7 +303,7 @@ public class VetlePageViewModel : ViewModel
         get => m_isToggled;
         set
         {
-            m_isToggled = value;
+            RaiseWhenSet(ref m_isToggled, value);
             if (value)
             {
                 HorizontalOptions = LayoutOptions.Center;
@@ -572,7 +572,6 @@ public class TestObject2
         // Generate random icon
         var random = new Random();
         var icon = random.Next(0, 2);
-        Icon = icon == 0 ? Icons.GetIcon(IconName.alert_fill) : Icons.GetIcon(IconName.failure_fill);
     }
     
     public ImageSource Icon { get; set; }

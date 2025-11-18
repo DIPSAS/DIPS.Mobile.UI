@@ -167,6 +167,40 @@ public partial class ItemPicker
         get => (bool)GetValue(IsReadOnlyProperty);
         set => SetValue(IsReadOnlyProperty, value);
     }
+
+    /// <summary>
+    ///     Determines whether a 'None' item should be inserted at the start of the picker's items. Selecting this
+    ///     item will set <see cref="SelectedItem"/> to null. The title of this item can be controlled using
+    ///     <see cref="EmptyItemTitle"/>
+    /// </summary>
+    public bool AllowEmpty
+    {
+        get => (bool)GetValue(AllowEmptyProperty);
+        set => SetValue(AllowEmptyProperty, value);
+    }
+    
+    /// <summary>
+    ///     If <see cref="AllowEmpty"/> is switched on, this property will determine a custom title for the 'None'
+    ///     item in the picker.
+    /// </summary>
+    public string EmptyItemTitle
+    {
+        get => (string)GetValue(EmptyItemTitleProperty);
+        set => SetValue(EmptyItemTitleProperty, value);
+    }
+
+    public static readonly BindableProperty EmptyItemTitleProperty = BindableProperty.Create(
+        nameof(EmptyItemTitle),
+        typeof(string),
+        typeof(ItemPicker),
+        defaultValue: DUILocalizedStrings.None,
+        propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).AllowEmptyOrEmptyItemTitleChanged());
+    
+    public static readonly BindableProperty AllowEmptyProperty = BindableProperty.Create(
+        nameof(AllowEmpty),
+        typeof(bool),
+        typeof(ItemPicker),
+        propertyChanged: (bindable, _, _) => ((ItemPicker)bindable).AllowEmptyOrEmptyItemTitleChanged());
     
     public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(
         nameof(IsReadOnly),

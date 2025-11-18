@@ -7,20 +7,25 @@ public class ModalPageReference : PageReference, IDisposable
         if (target is not NavigationPage navigationPage)
             return;
         
-        PagesInsideModal = navigationPage.Navigation.NavigationStack.Select(p => new PageReference(p))
-            .Reverse()
-            .ToList();
-        
+        WeakPages.Add(new PageReference(navigationPage.RootPage));
         navigationPage.Pushed += NavigationPageOnPushed;
     }
 
     private void NavigationPageOnPushed(object? sender, NavigationEventArgs e)
     {
-        PagesInsideModal.Add(new PageReference(e.Page));
+        if(Target is NavigationPage navigationPage)
+            WeakPages.Insert(0, new PageReference(navigationPage.CurrentPage));
     }
 
-    public List<PageReference> PagesInsideModal { get; } = [];
+    public List<PageReference> WeakPages { get; } = [];
 
+    public List<CollectionContentTarget?> RetrieveCollectionContentTargets()
+    {
+        return WeakPages
+            .Select(pageReference => pageReference.Target?.ToCollectionContentTarget())
+            .ToList();
+    }
+    
     public void Dispose()
     {
         if (Target is not NavigationPage navigationPage)

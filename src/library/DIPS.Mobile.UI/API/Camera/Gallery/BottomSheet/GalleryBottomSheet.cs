@@ -86,8 +86,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_navigatePreviousImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_left_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconSmall),
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start,
@@ -104,8 +104,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
         m_navigateNextImageButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.chevron_right_line),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonSmall),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconSmall),
             BackgroundColor = fadedBlackColor,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.End,

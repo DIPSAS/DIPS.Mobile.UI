@@ -82,6 +82,7 @@ public static partial class AppHostBuilderExtensions
             effects.Add<FadeInEffect, FadeInPlatformEffect>();
             effects.Add<FadeOutEffect, FadeOutPlatformEffect>();
             effects.Add<ScaleInEffect, ScaleInPlatformEffect>();
+            effects.Add<Effects.Accessibility.Effects.TraitEffect, Effects.Accessibility.Effects.TraitPlatformEffect>();
         });
 
         builder.UseSkiaSharp();

@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 using DIPS.Mobile.UI.MemoryManagement;
 
 namespace DIPS.Mobile.UI.API.Builder;
@@ -24,7 +25,14 @@ internal class DIPSUIOptions : IDIPSUIOptions
 
         return this;
     }
+    
+    public IDIPSUIOptions EnableAutomaticModalHandlerDisconnection()
+    {
+        GCCollectionMonitor.TryAutoHandlerDisconnectModalPagesEnabled = true;
 
+        return this;
+    }
+    
     public IDIPSUIOptions EnableCustomHideSoftInputOnTapped()
     {
         DUI.ShouldUseCustomHideSoftInputOnTappedImplementation = true;
@@ -37,5 +45,13 @@ internal class DIPSUIOptions : IDIPSUIOptions
         DUI.EnableExperimentalFeature(feature);
         
         return this;
+    }    
+    
+    public IDIPSUIOptions AddStartDictationDelegate(Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? startDictationDelegate)
+    {
+        DUI.StartDictationDelegate = startDictationDelegate;
+        
+        return this;
     }
+    
 }

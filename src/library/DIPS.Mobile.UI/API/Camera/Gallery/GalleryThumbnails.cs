@@ -31,9 +31,8 @@ public partial class GalleryThumbnails : Grid
         var cameraButton = new Button
         {
             ImageSource = Icons.GetIcon(IconName.camera),
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconLarge),
             CornerRadius = (int)Sizes.GetSize(SizeName.radius_xsmall),
-            BackgroundColor = Colors.GetColor(ColorName.color_fill_neutral),
             WidthRequest = Sizes.GetSize(SizeName.size_15),
             HeightRequest = Sizes.GetSize(SizeName.size_15),
             Command = new Command(Execute)

@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -24,6 +25,13 @@ public interface IDIPSUIOptions
     IDIPSUIOptions EnableAutomaticMemoryLeakResolving(Action<object>? additionalResolver = null);
 
     /// <summary>
+    ///     Sets whether DIPS.Mobile.UI should try and disconnect handlers of modal pages, when a modal is popped
+    ///     Currently, MAUI only disconnect handlers of pages that are visible in the modal when it is popped.
+    ///     Additionally, they do not disconnect handlers of pages that are just removed
+    /// </summary>
+    IDIPSUIOptions EnableAutomaticModalHandlerDisconnection();
+
+    /// <summary>
     ///     Sets whether DIPS.Mobile.UI should use a custom implementation for hiding the soft input when a tap is detected.
     ///     Based on: https://supportcenter.devexpress.com/ticket/details/t1208656/adding-more-information-on-contentpage-hidesoftinputontapped#c43630fa-4759-4fb3-bc13-593024a70426
     /// </summary>
@@ -34,4 +42,6 @@ public interface IDIPSUIOptions
     /// </summary>
     /// <param name="feature">The experimental feature to enable.</param>
     IDIPSUIOptions EnableExperimentalFeature(DUI.ExperimentalFeatures feature);
+
+    IDIPSUIOptions AddStartDictationDelegate(Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? startDictationDelegate);
 }

@@ -59,7 +59,7 @@ public partial class VetlePage
         tabBar.Items.Add(new Tab
         {
             Title = "Test",
-            Icon = Icons.GetIcon(IconName.alert_fill),
+            Icon = Icons.GetIcon(IconName.alert_line),
             Items =
             {
                 new ShellContent
@@ -237,7 +237,6 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        BottomSheetService.Open(new BottomSheetWithToolbar());
     }
-
 }

@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -16,22 +17,23 @@ internal class StreamingStateView : Grid
     {
         var isBlitzOn = streamingStateObserver.FlashActive;
         
+        
         m_shutterButton = new ShutterButton(streamingStateObserver.OnTappedShutterButton);
-
         m_blitzButton = new Button
         {
-            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconButtonLarge),
-            ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill),
-            ImageTintColor = Colors.GetColor(ColorName.color_icon_on_fill_inverted),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
+            ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_line) : Icons.GetIcon(IconName.flash_off_fill),
+            ImageTintColor = Microsoft.Maui.Graphics.Colors.White,
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Center
         };
+        SemanticProperties.SetDescription(m_blitzButton, DUILocalizedStrings.Accessability_TapToActivateFlash);
 
         m_blitzButton.Command = new Command(() =>
         {
             isBlitzOn = !isBlitzOn;
             streamingStateObserver.OnTappedFlashButton();
-            m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_fill) : Icons.GetIcon(IconName.flash_off_fill);
+            m_blitzButton.ImageSource = isBlitzOn ? Icons.GetIcon(IconName.flash_line) : Icons.GetIcon(IconName.flash_off_fill);
         });
         
         Add(m_shutterButton);
@@ -50,6 +52,7 @@ internal class StreamingStateView : Grid
         if (isEnabled)
         {
             m_shutterButton.Enable();
+            m_shutterButton.SetSemanticFocus();
         }
         else
         {

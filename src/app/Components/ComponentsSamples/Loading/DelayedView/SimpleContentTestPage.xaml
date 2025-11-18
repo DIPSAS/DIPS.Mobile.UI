@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:delayedView="clr-namespace:Components.ComponentsSamples.Loading.DelayedView"
+                 xmlns:delayedView1="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
+                 x:Class="Components.ComponentsSamples.Loading.DelayedView.SimpleContentTestPage"
+                 x:DataType="{x:Type delayedView:SimpleContentTestPageViewModel}"
+                 Title="Simple Content Test">
+
+    <dui:ContentPage.BindingContext>
+        <delayedView:SimpleContentTestPageViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <delayedView1:DelayedView x:Name="DelayedContent">
+        <delayedView1:DelayedView.ItemTemplate>
+            <DataTemplate>
+                <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
+                                         Spacing="{dui:Sizes size_3}">
+
+                    <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                               Text="Simple Content" />
+
+                    <dui:VerticalStackLayout BackgroundColor="{dui:Colors color_surface_highlight}"
+                                             Padding="{dui:Thickness size_3}"
+                                             dui:Layout.CornerRadius="{dui:CornerRadius size_2}"
+                                             Spacing="{dui:Sizes size_2}">
+                        <dui:Label Text="✓ Content has been rendered!"
+                                   Style="{dui:Styles Label=UI400}" />
+                        <dui:Label Text="This content was delayed by the configured amount." />
+                    </dui:VerticalStackLayout>
+
+                    <dui:Label Text="Use this page to test how the delay affects user experience with simple content." />
+
+                    <dui:Button Text="Test Button" />
+
+                </dui:VerticalStackLayout>
+            </DataTemplate>
+        </delayedView1:DelayedView.ItemTemplate>
+    </delayedView1:DelayedView>
+
+</dui:ContentPage>

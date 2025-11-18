@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Views.Accessibility;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Platform;
+using Button = Android.Widget.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using View = Android.Views.View;
 
@@ -10,7 +13,7 @@ namespace DIPS.Mobile.UI.Effects.Touch;
 
 public partial class TouchPlatformEffect
 {
-    internal static readonly Color s_defaultNativeAnimationColor = Colors.GetColor(ColorName.color_fill_action, 0.1f);
+    internal static readonly Color s_defaultNativeAnimationColor = Colors.GetColor(ColorName.color_fill_button_cta_hover, 0.1f);
 
     private Touch.TouchMode m_touchMode;
 
@@ -35,31 +38,56 @@ public partial class TouchPlatformEffect
             Control.LongClick += OnLongClick;
         }
         
-        var contentDescription = Touch.GetAccessibilityContentDescription(Element);
-        
         var colorStateList = new ColorStateList(
             [[]],
             [s_defaultNativeAnimationColor.ToPlatform()]);
         
-        var ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(Colors.GetColor(ColorName.color_palette_neutral_white).ToPlatform()));
-        if (Control.Background is null)
+        var existingForeground = Control.Foreground;
+
+        // Only replace if there’s something to ripple over
+        if (existingForeground != null)
         {
-            m_changedBackground = true;
-            m_defaultBackground = Control.Background;
-            Control.Background = ripple;
+            var ripple = new RippleDrawable(
+                colorStateList,
+                existingForeground,
+                new ColorDrawable(Android.Graphics.Color.White));
+
+            m_defaultBackground = existingForeground;
+            Control.Foreground = ripple;
         }
         else
         {
-            m_defaultBackground = Control.Foreground;
-            Control.Foreground = ripple;
-        }
-        
-        if (!string.IsNullOrEmpty(contentDescription))
-        {
-            Control.ContentDescription = $"{contentDescription}. {DUILocalizedStrings.Button}";
+            // fallback if no foreground drawable
+            var ripple = new RippleDrawable(
+                colorStateList,
+                null,
+                new ColorDrawable(Android.Graphics.Color.White));
+
+            if (Control.Background is null)
+            {
+                m_changedBackground = true; 
+                m_defaultBackground = Control.Background; 
+                Control.Background = ripple;
+            }
+            else
+            {
+                m_defaultBackground = Control.Foreground;
+                Control.Foreground = ripple;
+            }
         }
     }
 
+    private partial void OnAccessibilityDescriptionSet()
+    {
+        var existingDelegate = Control.GetAccessibilityDelegate();
+        
+        // We don't want TalkBack to only say "Button"
+        if(existingDelegate is null)
+            return;
+        
+        Control.SetAccessibilityDelegate(new TouchAccessibilityDelegate(existingDelegate));
+    }
+    
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
     {
         Touch.GetLongPressCommand(Element)?.Execute(Touch.GetLongPressCommandParameter(Element));
@@ -98,4 +126,27 @@ public partial class TouchPlatformEffect
         }
     }
     
+}
+
+/// <summary>
+/// Extends the accessibility delegate to set the class name to Button
+/// <remarks>TalkBack will then say `Button`</remarks>
+/// </summary>
+internal class TouchAccessibilityDelegate : View.AccessibilityDelegate
+{
+    private readonly View.AccessibilityDelegate? m_existingDelegate;
+
+    public TouchAccessibilityDelegate(View.AccessibilityDelegate? existingDelegate)
+    {
+        m_existingDelegate = existingDelegate;
+    }
+
+    public override void OnInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info)
+    {
+        base.OnInitializeAccessibilityNodeInfo(host, info);
+        
+        m_existingDelegate?.OnInitializeAccessibilityNodeInfo(host, info);
+        
+        info.ClassName = "android.widget.Button";
+    }
 }

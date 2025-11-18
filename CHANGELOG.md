@@ -1,3 +1,110 @@
+## [54.2.2]
+- [ItemPicker] Made screen recorder read button and the itempicker's selected item
+- [Chip] Made screen recorder focus on close button if present
+
+## [54.2.0]
+- [Accessibility] Added `Trait` attached property with support for Button, Selected, and NotSelected traits for improved screen reader announcements on iOS and Android
+- [SortControl] Fixed accessibility.
+- [RadioButtonListItem] Now automatically sets appropriate traits based on selection state
+
+## [54.1.0]
+- [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons
+
+## [54.0.0]
+- [Touch] Improved accessibility for Touch effect - screen readers will now announce "Button" when `SemanticProperties.Description` is set
+- [Touch][BreakingChange] Removed deprecated `Touch.AccessibilityContentDescription` property - consumers should use `SemanticProperties.Description` instead
+- [SegmentedControl][Android] Correct accessibility.
+
+## [53.8.2]
+- Made sure bottom sheet header is focused and not the drag handles for both platforms.
+
+## [53.8.1]
+- Set semantic description on segmented control items
+
+## [53.8.0]
+- [Accessibility] Added `Mode` attached property.
+
+## [53.7.4]
+- Fix error causing index out of range in `TabBadgeService` when tabs have changed 
+
+## [53.7.3]
+- The shutter button will now get semantic focus when its ready to take photos.
+- The shutter button will now announce the purpose of the button.
+- The blitz button will now announce the purpose of the button.
+
+## [53.7.2]
+- [Android] Fixed issue where screenrecorder was able to record content in modals
+
+## [53.7.1]
+- [Tip][iOS] Fixed an issue where the current `UIViewController` would sometimes close when tapping outside the tip.
+
+## [53.7.0]
+- Added `DelayedView`.
+
+## [53.6.2]
+- [iOS] Fixed so Touch.Command will not be executed when long press is recognized.
+
+## [53.6.1]
+- [AlertView][Android] Fixed bug where buttons would not be visible if text size was increased and the Alert was not large.
+- [AlertView][iOS] Fixed bug where `AlertView` would not show the custom truncation text if its visibility were set to false at the start.
+
+## [53.6.0]
+- [ItemPicker] Added `AllowEmpty` and `EmptyItemTitle` properties to allow for clearing the picker's selected item
+
+## [53.5.0]
+- [Dictation] Added experimental dictation button with delegate on multiline input fields.
+
+## [53.4.1]
+- [ImageThumbnailView] Fixed bug where close button could not be tapped.
+
+## [53.4.0] 
+- [GC] Added `EnableAutomaticModalHandlerDisconnection` to `IDIPSUIOptions` to enable automatic disconnection of modal pages.
+- [GC] Fixed bug where the tooling could not print out actual elements.
+
+## [53.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [53.2.1] 
+- [DateView] Fix styling.
+- [Counter] Set correct border color when `IsUrgent` is true, and no secondary value.
+
+## [53.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [53.1.1] 
+- Fix missing icon.
+
+## [53.1.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [53.0.2]
+- [CheckTruncatedLabel][Android] Fix potential crashes.
+
+## [53.0.1]
+- [BottomSheetService] Fix issue where using `CloseAll` method, would blank out `BottomSheet`.
+
+## [53.0.0]
+- [BreakingChange] Renamed some button styles.
+- [Button] Fixed floating and close button disabled state.
+- [Counter] Always center text, and now behaves better when font size is increased on the OS.
+- [Tag] Increased padding.
+- [ListItem] Fixed potential crash.
+- [Layout][Android] Convert to correct stroke size.
+
+## [52.0.2]
+- [iOS] Automatically set compliance when in App Store Connect.
+
+## [52.0.1]
+- [Layout][Android] Fix bug where setting `Stroke` would not appear visually sometimes.
+
+## [52.0.0]
+- Imported and set new colors.
+- Imported new icons.
+- [Layout] Added `Stroke` and `StrokeThickness` bindable attached properties to easier set stroke on any `VisualElement`.
+
+## [51.4.4]
+- Pin SkiaSharp to version 3.119.1
+
 ## [51.4.3]
 - Revert some changes.
 

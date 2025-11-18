@@ -1,5 +1,6 @@
-using DIPS.Mobile.UI.Components.Labels;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
+using DIPS.Mobile.UI.MVVM.Commands;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -28,6 +29,9 @@ public partial class MultiLineInputField : SingleLineInputField
 
     private Button m_doneButton = new ();
     private Button m_cancelButton = new();
+    private Button? m_toggleDictationButton = new();
+    private const int MToggleDictationButtonDefaultColumn = 1;
+    private const int MToggleDictationButtonColumnWhenButtonsHidden = 3;
 
     private Label m_textLengthLabel = new Labels.Label
     {
@@ -40,6 +44,7 @@ public partial class MultiLineInputField : SingleLineInputField
         HorizontalOptions = LayoutOptions.Start,
         LineBreakMode = LineBreakMode.TailTruncation
     };
+    
 
     private ActivityIndicator m_activityIndicator;
 
@@ -91,19 +96,18 @@ public partial class MultiLineInputField : SingleLineInputField
         m_cancelButton = new Button
         {
             Text = DUILocalizedStrings.Cancel, 
-            Style = Styles.GetButtonStyle(ButtonStyle.SecondarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.DefaultSmall),
             Command = new Command(OnCancelTapped)
         };
 
         m_doneButton = new Button
         {
             Text = DUILocalizedStrings.Save, 
-            Style = Styles.GetButtonStyle(ButtonStyle.PrimarySmall),
+            Style = Styles.GetButtonStyle(ButtonStyle.CallToActionSmall),
             Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
         AutomationProperties.SetIsInAccessibleTree(m_doneButton, false);
-
         
         m_buttonsLayout = new Grid
         { 
@@ -111,14 +115,30 @@ public partial class MultiLineInputField : SingleLineInputField
             [
                 new ColumnDefinition { Width = GridLength.Star },
                 new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto },
                 new ColumnDefinition { Width = GridLength.Auto }
             ],
             ColumnSpacing = 10,
             Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0)
         };
+        
         m_buttonsLayout.Add(m_textLengthLabel, column: 0);
-        m_buttonsLayout.Add(m_cancelButton, column: 1);
-        m_buttonsLayout.Add(m_doneButton, column: 2);
+        
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) 
+            && DUI.StartDictationDelegate is not null)
+        {
+            m_toggleDictationButton = new Button()
+            {
+                ImageSource = Icons.GetIcon(IconName.mic_ai_line),
+                Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall),
+                Command = new AsyncCommand(ToggleDictation)
+            };
+            
+            m_buttonsLayout.Add(m_toggleDictationButton, column: 1);
+        }
+
+        m_buttonsLayout.Add(m_cancelButton, column: 2);
+        m_buttonsLayout.Add(m_doneButton, column: 3);
     }
     
     protected override void OnInputViewFocused(object? sender, FocusEventArgs e)
@@ -142,12 +162,20 @@ public partial class MultiLineInputField : SingleLineInputField
     protected override void OnInputViewUnFocused(object? sender, FocusEventArgs e)
     {
         base.OnInputViewUnFocused(sender, e);
+
+        if (m_isDictationActive) _ = StopDictation();
         
         m_label.SetBinding(CheckTruncatedLabel.IsTruncatedProperty, static (MultiLineInputField multiLineInputField) => multiLineInputField.IsTruncated, source: this);
         
         UpdateLabelVisibility();
         
         InputView.IsVisible = false;
+
+
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields))
+        {
+            ToggleButtonsVisibility(false);
+        }
         
         if (IsDirty)
             return;
@@ -168,11 +196,28 @@ public partial class MultiLineInputField : SingleLineInputField
             return;
         }
         
-        m_buttonsLayout!.IsVisible = isEnabled && (ShowButtons || MaxTextLength > 0);
-    }
+        var shouldHandleDictationButtonPosition =
+            DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) &&
+            m_toggleDictationButton is not null;
 
+        if (shouldHandleDictationButtonPosition)
+        {
+            m_toggleDictationButton!.IsVisible = isEnabled;
+
+            if (!ShowButtons) return;
+            
+            m_cancelButton.IsVisible = m_doneButton.IsVisible = isEnabled;
+        }
+        else
+        {
+            m_buttonsLayout!.IsVisible = isEnabled && (ShowButtons || MaxTextLength > 0);
+        }
+    }
+    
     private void OnSaveTapped()
     {
+        if (m_isDictationActive) _ = StopDictation();
+        
         m_textWhenFirstFocused = InputView?.Text;
         SaveTapped?.Invoke(this, EventArgs.Empty);
         SaveCommand?.Execute(SaveCommandParameter);
@@ -182,6 +227,8 @@ public partial class MultiLineInputField : SingleLineInputField
     
     private void OnCancelTapped()
     {
+        if (m_isDictationActive) _ = StopDictation();
+        
         InputView!.Text = m_textWhenFirstFocused;
         CancelTapped?.Invoke(this, EventArgs.Empty);
         CancelCommand?.Execute(CancelCommandParameter);
@@ -330,24 +377,6 @@ public partial class MultiLineInputField : SingleLineInputField
         OnPropertyChanged(nameof(HelpText));
     }
 
-    protected override void ChangeHeaderTextStyle()
-    {
-        base.ChangeHeaderTextStyle();
-
-        if (IsError)
-        {
-            if(IsFocused)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
-            
-            if(Text != string.Empty)
-                HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
-        }
-        else
-        {
-            HeaderTextLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
-        }
-    }
-
     protected override void SetStyle()
     {
         base.SetStyle();
@@ -371,6 +400,16 @@ public partial class MultiLineInputField : SingleLineInputField
     private void OnShowButtonsChanged()
     {
         m_cancelButton.IsVisible = m_doneButton.IsVisible = ShowButtons;
+
+        var shouldHandleDictationButtonPosition =
+            DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields) &&
+            m_toggleDictationButton is not null;
+        
+        if (!shouldHandleDictationButtonPosition) return;
+        
+        var newDictationButtonColumn = ShowButtons ? MToggleDictationButtonDefaultColumn : MToggleDictationButtonColumnWhenButtonsHidden;
+        
+        m_buttonsLayout?.SetColumn(m_toggleDictationButton, newDictationButtonColumn);
     }
 
     private void OnMaxTextLengthChanged()

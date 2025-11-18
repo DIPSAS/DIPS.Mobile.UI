@@ -1,4 +1,3 @@
-#if ANDROID
 using Android.Content;
 using Android.Graphics;
 using Android.Util;
@@ -116,13 +115,8 @@ public class MauiTextView : Microsoft.Maui.Platform.MauiTextView
         }
     }
 
-    protected override void Dispose(bool disposing)
+    public void Cleanup()
     {
-        if (disposing)
-        {
-            m_label.PropertyChanged -= OnLabelPropertyChanged;
-        }
-        base.Dispose(disposing);
+        m_label.PropertyChanged -= OnLabelPropertyChanged;
     }
 }
-#endif

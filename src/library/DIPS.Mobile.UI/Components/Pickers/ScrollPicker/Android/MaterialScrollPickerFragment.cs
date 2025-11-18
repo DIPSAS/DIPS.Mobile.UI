@@ -67,13 +67,13 @@ internal class MaterialScrollPickerFragment(
             Style = Styles.GetLabelStyle(LabelStyle.Body100),
             CharacterSpacing = 1,
             Text = scrollPicker.Title.ToUpper(),
-            TextColor = Colors.GetColor(ColorName.color_text_default_inverted),
+            TextColor = Colors.GetColor(ColorName.color_text_on_button_inverted),
         };
         var grid = new Grid
         {
             HeightRequest = Sizes.GetSize(SizeName.size_10),
             Children = { title },
-            BackgroundColor = Colors.GetColor(ColorName.color_fill_action),
+            BackgroundColor = Colors.GetColor(ColorName.color_fill_default),
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small), Sizes.GetSize(SizeName.content_margin_medium))
         }.ToPlatform(DUI.GetCurrentMauiContext!);
         return grid;

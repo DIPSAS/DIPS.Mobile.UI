@@ -12,12 +12,7 @@
     <dui:ScrollView>
         <VerticalStackLayout>
             <dui:NavigationListItem Title="Vetle"
-                                    >
-                <dui:NavigationListItem.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GoToVetle"></TapGestureRecognizer>
-                </dui:NavigationListItem.GestureRecognizers>
-                
-            </dui:NavigationListItem>
+                                    Tapped="GoToVetle" />
             <dui:NavigationListItem Title="Håvard"
                                     Tapped="GoToHåvard" />
             <dui:NavigationListItem Title="Sander"

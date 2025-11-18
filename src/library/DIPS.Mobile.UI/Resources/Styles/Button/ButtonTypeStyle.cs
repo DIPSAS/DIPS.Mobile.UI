@@ -2,7 +2,7 @@ namespace DIPS.Mobile.UI.Resources.Styles.Button;
 
 public static class ButtonTypeStyle
 {
-    private static Style Primary => new(typeof(Components.Buttons.Button))
+    private static Style CallToAction => new(typeof(Components.Buttons.Button))
     {
         BasedOn = ButtonDefaultStyle.Current,
         Setters =
@@ -10,22 +10,22 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_cta)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_default_inverted)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_button_inverted)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_default_active)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_button_inverted)
             }
         }
     };
     
-    private static Style Secondary => new(typeof(Components.Buttons.Button))
+    private static Style Default => new(typeof(Components.Buttons.Button))
     {
         BasedOn = ButtonDefaultStyle.Current,
         Setters =
@@ -33,12 +33,12 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action_secondary)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button)
             },
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.BorderColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_border_action_secondary)
+                Value = Colors.Colors.GetColor(ColorName.color_border_button)
             },
             new Setter
             {
@@ -48,12 +48,48 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Microsoft.Maui.Controls.Button.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_action_neutral)
+                Value = Colors.Colors.GetColor(ColorName.color_text_on_button)
             },
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_icon_default)
+            }
+        }
+    };
+
+    private static Style DefaultFloating => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = Default,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_hover)
+            }
+        }
+    };
+    
+    private static Style Close => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = ButtonDefaultStyle.Current,
+        Setters =
+        {
+            new Setter
+            {
+                Property = VisualElement.BackgroundColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_fill_neutral)
+            },
+            new Setter
+            {
+                Property = Components.Buttons.Button.ImageTintColorProperty,
+                Value = Colors.Colors.GetColor(ColorName.color_icon_subtle)
+            },
+            new Setter
+            {
+                Property = Components.Buttons.Button.ImageSourceProperty,
+                Value = Icons.Icons.GetIcon(IconName.close_line)
             }
         }
     };
@@ -66,7 +102,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_action_ghost)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_ghost)
             },
             new Setter
             {
@@ -94,7 +130,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_disabled)
+                Value = Colors.Colors.GetColor(ColorName.color_fill_button_disabled)
             },
             new Setter
             {
@@ -104,7 +140,7 @@ public static class ButtonTypeStyle
             new Setter
             {
                 Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_deactivated)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_disabled)
             },
             new Setter
             {
@@ -119,9 +155,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimaryLarge => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter
@@ -132,9 +168,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimarySmall => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter
@@ -145,9 +181,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style SecondaryLarge => new(typeof(Components.Buttons.Button))
+    public static Style DefaultLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter
@@ -158,9 +194,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style SecondarySmall => new(typeof(Components.Buttons.Button))
+    public static Style DefaultSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter
@@ -197,9 +233,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style PrimaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionIconSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter()
@@ -227,9 +263,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style PrimaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style CallToActionIconLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Primary,
+        BasedOn = CallToAction,
         Setters =
         {
             new Setter()
@@ -257,7 +293,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style GhostIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style GhostIconSmall => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Ghost,
         Setters =
@@ -287,7 +323,7 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style GhostIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style GhostIconLarge => new(typeof(Components.Buttons.Button))
     {
         BasedOn = Ghost,
         Setters =
@@ -317,9 +353,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style SecondaryIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter()
@@ -347,9 +383,9 @@ public static class ButtonTypeStyle
         }
     };
         
-    public static Style SecondaryIconButtonLarge => new(typeof(Components.Buttons.Button))
+    public static Style DefaultIconLarge => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Secondary,
+        BasedOn = Default,
         Setters =
         {
             new Setter()
@@ -377,9 +413,9 @@ public static class ButtonTypeStyle
         }
     };
     
-    public static Style CloseIconButtonSmall => new(typeof(Components.Buttons.Button))
+    public static Style CloseIconSmall => new(typeof(Components.Buttons.Button))
     {
-        BasedOn = Ghost,
+        BasedOn = Close,
         Setters =
         {
             new Setter()
@@ -399,23 +435,51 @@ public static class ButtonTypeStyle
             },
             new Setter()
             {
-                Property = VisualElement.BackgroundColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_fill_neutral)
+                Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                Value = 8
+            }
+        }
+    };
+    
+    public static Style DefaultFloatingIconLarge => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = DefaultFloating,
+        Setters =
+        {
+            new Setter()
+            {
+                Property = VisualElement.HeightRequestProperty,
+                Value = Sizes.Sizes.GetSize(SizeName.size_14)
             },
             new Setter()
             {
-                Property = Components.Buttons.Button.ImageTintColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_subtle)
+                Property = VisualElement.WidthRequestProperty,
+                Value = Sizes.Sizes.GetSize(SizeName.size_14)
             },
             new Setter()
             {
-                Property = Components.Buttons.Button.ImageSourceProperty,
-                Value = Icons.Icons.GetIcon(IconName.close_line)
+                Property = Microsoft.Maui.Controls.Button.CornerRadiusProperty,
+                Value = (int)Sizes.Sizes.GetSize(SizeName.size_7)
             },
             new Setter()
             {
                 Property = Microsoft.Maui.Controls.Button.PaddingProperty,
-                Value = 8
+                Value = (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                    ? Sizes.Sizes.GetSize(SizeName.content_margin_xsmall)
+                    : 0
+            }
+        }
+    };
+    
+    public static Style DefaultFloatingLarge => new(typeof(Components.Buttons.Button))
+    {
+        BasedOn = DefaultFloating,
+        Setters =
+        {
+            new Setter
+            {
+                Property = Microsoft.Maui.Controls.Button.PaddingProperty,
+                Value = new Thickness(Sizes.Sizes.GetSize(SizeName.content_margin_xlarge), Sizes.Sizes.GetSize(SizeName.content_margin_medium))
             }
         }
     };

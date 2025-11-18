@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:helpers="clr-namespace:Components.Helpers"
+                 xmlns:voiceOverSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples"
+                 xmlns:listItemInteractiveContentSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples"
+                 xmlns:traitSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TraitSamples"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.VoiceOverSamples"
+                 Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver}">
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_0}">
+
+                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_GroupChildren_Title}"
+                              HasBottomDivider="True"
+                              Command="{helpers:NavigationCommand ContentPageType={x:Type voiceOverSamples:GroupChildrenSamples}}" />
+                
+                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Title}"
+                              Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Subtitle}"
+                              HasBottomDivider="True"
+                              Command="{helpers:NavigationCommand ContentPageType={x:Type listItemInteractiveContentSamples:ListItemInteractiveContentSamples}}" />
+                
+                <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Title}"
+                              Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Subtitle}"
+                              Command="{helpers:NavigationCommand ContentPageType={x:Type traitSamples:TraitSamples}}" />
+            
+            </dui:VerticalStackLayout>
+
+    </dui:ScrollView>
+
+</dui:ContentPage>

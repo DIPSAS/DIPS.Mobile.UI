@@ -3,10 +3,14 @@ using System.Security.AccessControl;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Chips;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Effects.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Chip;
+#if __IOS__
+using UIKit;
+#endif
 
 namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker;
 
@@ -21,6 +25,7 @@ public partial class ItemPicker : ContentView
     {
         m_chip.SetBinding(IsEnabledProperty, static (ItemPicker itemPicker) => itemPicker.IsEnabled, source: this);
         m_chip.SetBinding(MaximumHeightRequestProperty, static (Chip chip) => chip.MaximumHeightRequest, source: this);
+        this.SetBinding(SemanticProperties.DescriptionProperty, static (Chip chip) => chip.Title, source: m_chip);
     }
     
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -45,6 +50,9 @@ public partial class ItemPicker : ContentView
             m_chip.TitleTextAlignment = TextAlignment.Start;
             m_chip.CustomRightIcon = m_largeItemPickerRightIcon;
         }
+
+        AutomationProperties.SetExcludedWithChildren(m_chip, true);
+        DIPS.Mobile.UI.Effects.Accessibility.Accessibility.SetTrait(this, Trait.Button);
         
         Content = m_chip;
 
@@ -108,7 +116,7 @@ public partial class ItemPicker : ContentView
         DidSelectItem?.Invoke(this, SelectedItem!);
         
         UpdateChipTitle();
-
+        
         switch (Mode)
         {
             case PickerMode.ContextMenu:
@@ -123,6 +131,14 @@ public partial class ItemPicker : ContentView
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void AllowEmptyOrEmptyItemTitleChanged()
+    {
+        if (Mode == PickerMode.ContextMenu)
+        {
+            AddContextMenuItems();
         }
     }
 

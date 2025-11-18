@@ -33,7 +33,10 @@ internal static class HideSoftInputOnTapHandlerMappings
     public static void MapHideSoftInputOnTapped(IPageHandler handler, ContentPage page)
     {
         var view = handler.PlatformView;
-        if (page.HideSoftInputOnTapped)
+        
+        // Checking ExperimentalFeatures.DictationInTextFields is to make the dictation toggle button in textfields not
+        // unfocus the input view. Should be removed and a better solution should be implemented once used in production.
+        if (page.HideSoftInputOnTapped && !DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DictationInTextFields))
         {
             s_activePages.TryAdd(view, true);
             page.NavigatedTo += PageNavigatedTo;

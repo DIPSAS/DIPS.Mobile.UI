@@ -97,6 +97,17 @@ public partial class AlertView
         set => SetValue(IconColorProperty, value);
     }
 
+    internal static readonly BindableProperty TextColorProperty = BindableProperty.Create(
+        nameof(TextColor),
+        typeof(Color),
+        typeof(AlertView));
+
+    internal Color TextColor
+    {
+        get => (Color)GetValue(TextColorProperty);
+        set => SetValue(TextColorProperty, value);
+    }
+
     public static readonly BindableProperty LeftButtonTextProperty = BindableProperty.Create(
         nameof(LeftButtonText),
         typeof(string),
@@ -197,6 +208,18 @@ public partial class AlertView
         get => (AlertTitleTruncationMode)GetValue(TitleTruncationModeProperty);
         set => SetValue(TitleTruncationModeProperty, value);
     }
+
+    internal static readonly BindableProperty StrokeProperty = BindableProperty.Create(
+        nameof(Stroke),
+        typeof(Color),
+        typeof(AlertView),
+        propertyChanged: (bindable, _, newValue) => UI.Effects.Layout.Layout.SetStroke(bindable, newValue as Color));
+
+    internal Color Stroke
+    {
+        get => (Color)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }   
 }
 
 public enum AlertTitleTruncationMode

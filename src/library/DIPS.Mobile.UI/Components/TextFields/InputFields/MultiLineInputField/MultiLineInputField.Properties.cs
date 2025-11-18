@@ -107,7 +107,7 @@ public partial class MultiLineInputField
     {
         get => (string)GetValue(ErrorTextProperty);
         set => SetValue(ErrorTextProperty, value);
-    }
+    }    
     
     /// <summary>
     /// Determines whether the 'Save' and 'Cancel' buttons should be visible.

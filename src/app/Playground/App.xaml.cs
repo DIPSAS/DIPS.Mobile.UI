@@ -48,7 +48,7 @@ public partial class App : Application
         {
             config.AddNavigationButton(string.Empty, "A button", IconName.comment_line, new Command(() => { }));
             config.AddNavigationButton(string.Empty, "Another button", IconName.bell_line, new Command(() => { }));
-            config.AddNavigationButton(string.Empty, "This button?", IconName.alert_fill, new Command(() => { }));
+            config.AddNavigationButton(string.Empty, "This button?", IconName.alert_line, new Command(() => { }));
             config.AddNavigationButton(string.Empty, "No button", IconName.close_line, new Command(() => { }));
         });
     }
