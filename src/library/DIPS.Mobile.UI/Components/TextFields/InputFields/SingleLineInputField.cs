@@ -101,8 +101,9 @@ public partial class SingleLineInputField : Grid
         m_contentBorder.SetBinding(Border.StrokeProperty, static (SingleLineInputField singleLineInputField) => singleLineInputField.BorderColor, source: this);
         
         Touch.SetCommand(m_contentBorder, new Command(Focus));
+        Touch.SetIsButtonTraitEnabled(m_contentBorder, false);
         
-        SemanticProperties.SetDescription(m_contentBorder, SemanticDescription.GetDescription(DUILocalizedStrings.Accessability_InputField_HelpText, ControlType.Button));
+        SemanticProperties.SetDescription(m_contentBorder, SemanticDescription.GetDescription(DUILocalizedStrings.Accessability_InputField_HelpText, ControlType.Input));
     }
 
 
@@ -253,6 +254,7 @@ public partial class SingleLineInputField : Grid
         }
         
         ChangeHeaderTextStyle();
+        UpdateSemanticHint();
     }
 
     protected virtual void ChangeHeaderTextStyle()
@@ -322,6 +324,6 @@ public partial class SingleLineInputField : Grid
 
     private void UpdateSemanticHint()
     {
-        SemanticProperties.SetHint(m_contentBorder, HeaderText + ", " + HelpText);
+        SemanticProperties.SetHint(m_contentBorder, HeaderText + ", " + Text + ", "  + HelpText);
     }
 }

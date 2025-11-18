@@ -1,3 +1,7 @@
+## [54.2.3]
+- [Touch] Added IsButtonTraitEnabledProperty to allow consumer to disable button trait on Touch effect.
+- [MultiLineInputField][SingleLineInputField] Enhanced accessability, screen reader now announces the value of the field and that it is an input field, and all buttons are available in navigation
+
 ## [54.2.2]
 - [ItemPicker] Made screen recorder read button and the itempicker's selected item
 - [Chip] Made screen recorder focus on close button if present
