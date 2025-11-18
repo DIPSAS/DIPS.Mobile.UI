@@ -163,9 +163,12 @@
         <PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" />
         <PackageReference Include="Xamarin.AndroidX.Camera.View" />
         <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" />
+        <PackageReference Include="Xamarin.AndroidX.Tracing.Tracing" />
+        <PackageReference Include="Xamarin.AndroidX.Tracing.Tracing.Ktx" />
     </ItemGroup>
-
+    
     <ItemGroup>
+        <PackageReference Include="DotNetMeteor.HotReload.Plugin" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <!-- This makes sure people can debug the library https://github.com/dotnet/sourcelink?tab=readme-ov-file#githubcom-and-github-enterprise -->
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>

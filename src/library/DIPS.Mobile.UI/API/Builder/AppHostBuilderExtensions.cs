@@ -10,6 +10,7 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Effects.Touch;
+using DotNet.Meteor.HotReload.Plugin;
 using Microsoft.Maui.LifecycleEvents;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using ButtonHandler = DIPS.Mobile.UI.Components.Buttons.ButtonHandler;
@@ -44,6 +45,10 @@ public static partial class AppHostBuilderExtensions
     {
         //Initializers
         DUI.Init();
+        
+#if DEBUG
+        builder.EnableHotReload();
+#endif
         
         builder.ConfigureLifecycleEvents(ConfigurePlatformLifecycleEvents);
         

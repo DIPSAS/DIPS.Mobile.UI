@@ -23,6 +23,8 @@
         <Nullable>enable</Nullable>
         
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug' AND $(TargetFramework.Contains('ios'))">
@@ -148,6 +150,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <!-- Workaround: XAML source generator cannot parse nested markup extensions like {dui:StringFormat {x:Static ...}, Argument=1} -->
+        <MauiXaml Update="ComponentsSamples\ContextMenus\ContextMenuSamples.xaml" Inflator="Runtime" />
         <MauiXaml Update="ResourcesSamples\Icons\IconsSamples.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>

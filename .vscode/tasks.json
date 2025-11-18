@@ -8,10 +8,6 @@
 				"$dotnet-meteor.problemMatcher"
 			],
 			"label": "dotnet-meteor: Build",
-			"args": [
-                // It removes auto provided value
-				"-p:RuntimeIdentifier=iossimulator-x64"
-			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
