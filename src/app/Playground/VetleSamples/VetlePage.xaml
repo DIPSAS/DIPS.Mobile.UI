@@ -13,7 +13,8 @@
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 Title="Hello">
+                 Title="Hello"
+                 SafeAreaEdges="None">
 
 
     <dui:ContentPage.BindingContext>
@@ -25,17 +26,10 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout SafeAreaEdges="All">
 
-        <Grid BackgroundColor="Red"
-              WidthRequest="50"
-              HeightRequest="50"
-              dui:Touch.Command="{Binding AddItemCommand}"
-              SemanticProperties.Description="Dette er en beskrivelse">
-
-              <dui:Label Text="Hello" />
-            
-        </Grid>
+       <dui:Button Clicked="Button_OnClicked"
+                   />
         
     </VerticalStackLayout>
 

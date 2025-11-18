@@ -33,7 +33,7 @@ public static class dotnet
     //https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-8.0
     public static Task PackiOS(string projectPath, string outputDir, string applicationDisplayVersion, string applicationId = "")
     {
-        var args = $"-f net9.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationDisplayVersion} -o {outputDir}";
+        var args = $"-f net10.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationDisplayVersion} -o {outputDir}";
         if(!string.IsNullOrEmpty(applicationId))
         {
             args += $" -p:ApplicationId={applicationId}";
@@ -45,7 +45,7 @@ public static class dotnet
     //https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-8.0
     public static async Task PackAndroid(string projectPath, string outputDir, string applicationDisplayVersion, string applicationVersion, string applicationId = "", string androidPackageFormat = "aab")
     {
-         var args = $"-f net9.0-android -c Release -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir} -r android-arm64 -p:AndroidPackageFormat={androidPackageFormat}";
+         var args = $"-f net10.0-android -c Release -p:ApplicationDisplayVersion={applicationDisplayVersion} -p:ApplicationVersion={applicationVersion} -o {outputDir} -r android-arm64 -p:AndroidPackageFormat={androidPackageFormat}";
         if(!string.IsNullOrEmpty(applicationId))
         {
             args += $" -p:ApplicationId={applicationId}";

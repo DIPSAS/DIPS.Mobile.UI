@@ -12,7 +12,7 @@ Add corrections to the relevant section (Critical Patterns, Common Pitfalls, etc
 ## Project Overview
 DIPS.Mobile.UI is a .NET MAUI component library for iOS and Android mobile apps in the healthcare domain. Components follow a design system with resources (colors, sizes, icons) auto-generated from Figma via DIPS.Mobile.DesignTokens pipeline.
 
-**Key Architecture Pattern**: Multi-target library (`net9.0`, `net9.0-ios`, `net9.0-android`) using partial classes for platform-specific implementations.
+**Key Architecture Pattern**: Multi-target library (`net10.0`, `net10.0-ios`, `net10.0-android`) using partial classes for platform-specific implementations.
 
 ## Critical Patterns
 
@@ -24,7 +24,7 @@ Effects/Touch/
 ├── TouchPlatformEffect.cs      # Shared effect base
 ├── iOS/TouchPlatformEffect.cs  # iOS implementation
 ├── Android/TouchPlatformEffect.cs  # Android implementation
-└── dotnet/TouchPlatformEffect.cs   # Stub for net9.0
+└── dotnet/TouchPlatformEffect.cs   # Stub for net10.0
 ```
 
 **Pattern**: Declare `partial void Init()` in shared file, implement in platform files. Never use `#if` preprocessor directives if not necessary.
@@ -134,11 +134,11 @@ Components use MVVM with `ViewModel` base class:
 #### Local Development Builds
 ```bash
 # Build for specific platform
-dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net9.0-ios
-dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net9.0-android
+dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net10.0-ios
+dotnet build src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj -f net10.0-android
 
 # Test app (Playground)
-dotnet build src/app/Playground/Playground.csproj -f net9.0-ios
+dotnet build src/app/Playground/Playground.csproj -f net10.0-ios
 ```
 
 #### Pipeline Build System

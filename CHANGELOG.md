@@ -1,3 +1,6 @@
+## [55.0.0]
+- Upgraded to .NET MAUI 10.
+
 ## [54.2.2]
 - [ItemPicker] Made screen recorder read button and the itempicker's selected item
 - [Chip] Made screen recorder focus on close button if present

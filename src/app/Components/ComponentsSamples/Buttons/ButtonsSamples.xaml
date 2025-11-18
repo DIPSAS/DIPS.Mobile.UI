@@ -6,9 +6,11 @@
                  xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:Class="Components.ComponentsSamples.Buttons.ButtonsSamples"
                  x:Name="This"
-                 Title="{x:Static localizedStrings:LocalizedStrings.Buttons}">
+                 Title="{x:Static localizedStrings:LocalizedStrings.Buttons}"
+                 SafeAreaEdges="None">
     
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *"
+        SafeAreaEdges="None">
         <dui:VerticalStackLayout>
             <dui:Label Text="Buttons disabled"
                        Style="{dui:Styles Label=Header500}"

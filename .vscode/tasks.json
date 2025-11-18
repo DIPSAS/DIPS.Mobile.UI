@@ -3,14 +3,14 @@
 	"tasks": [
 		{
 			"type": "dotnet-meteor.task",
-			"target": "build",
 			"problemMatcher": [
 				"$dotnet-meteor.problemMatcher"
 			],
 			"label": "dotnet-meteor: Build",
-			"args": [
-				// Let .NET Meteor auto-detect RuntimeIdentifier based on selected device
-			]
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

@@ -8,14 +8,15 @@
                  xmlns:chips="clr-namespace:Components.ComponentsSamples.Chips"
                  x:Class="Components.ComponentsSamples.Chips.ChipsSamples"
                  x:DataType="{x:Type chips:ChipsSamplesViewModel}"
-                 BackgroundColor="{dui:Colors color_background_default}"
-                 Padding="{dui:Sizes size_2}">
+                 Padding="{dui:Sizes size_2}"
+                 SafeAreaEdges="None">
     
     <dui:ContentPage.BindingContext>
         <chips:ChipsSamplesViewModel />
     </dui:ContentPage.BindingContext>
     
-    <dui:VerticalStackLayout>
+    <dui:VerticalStackLayout SafeAreaEdges="None"
+        >
         <dui:Label Text="Chip"
                    Margin="5" />
         <dui:Chip Title="A chip"
