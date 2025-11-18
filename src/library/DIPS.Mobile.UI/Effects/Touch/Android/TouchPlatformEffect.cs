@@ -79,13 +79,16 @@ public partial class TouchPlatformEffect
 
     private partial void OnAccessibilityDescriptionSet()
     {
-        var existingDelegate = Control.GetAccessibilityDelegate();
+        if (Touch.GetIsButtonTraitEnabled(Element))
+        {
+            var existingDelegate = Control.GetAccessibilityDelegate();
         
-        // We don't want TalkBack to only say "Button"
-        if(existingDelegate is null)
-            return;
+            // We don't want TalkBack to only say "Button"
+            if(existingDelegate is null)
+                return;
         
-        Control.SetAccessibilityDelegate(new TouchAccessibilityDelegate(existingDelegate));
+            Control.SetAccessibilityDelegate(new TouchAccessibilityDelegate(existingDelegate));   
+        }
     }
     
     private void OnLongClick(object? sender, View.LongClickEventArgs longClickEventArgs)
