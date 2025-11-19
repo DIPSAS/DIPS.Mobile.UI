@@ -1,3 +1,6 @@
+## [54.2.4]
+- [Counter] Forbedret tilgjengelighet slik at skjermleser leser opp teller-verdiene, teller-beskrivelsen, samt om de haster, eller om det eventuelt er en error.
+
 ## [54.2.3]
 - [Touch] Added IsButtonTraitEnabledProperty to allow consumer to disable button trait on Touch effect.
 - [MultiLineInputField][SingleLineInputField] Enhanced accessability, screen reader now announces the value of the field and that it is an input field, and all buttons are available in navigation

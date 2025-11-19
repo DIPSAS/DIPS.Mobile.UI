@@ -506,5 +506,17 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Dictation", resourceCulture);
             }
         }
+        
+        internal static string CounterValue {
+            get {
+                return ResourceManager.GetString("CounterValue", resourceCulture);
+            }
+        }
+        
+        internal static string Urgent {
+            get {
+                return ResourceManager.GetString("Urgent", resourceCulture);
+            }
+        }
     }
 }

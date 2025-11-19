@@ -249,4 +249,10 @@
     <data name="Dictation" xml:space="preserve">
         <value>Diktering</value>
     </data>
+    <data name="CounterValue" xml:space="preserve">
+        <value>Teller verdi</value>
+    </data>
+    <data name="Urgent" xml:space="preserve">
+        <value>Haster</value>
+    </data>
 </root>
