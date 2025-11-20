@@ -249,4 +249,7 @@
     <data name="Dictation" xml:space="preserve">
         <value>Diktering</value>
     </data>
+    <data name="Header" xml:space="preserve">
+        <value>Overskrift</value>
+    </data>
 </root>
