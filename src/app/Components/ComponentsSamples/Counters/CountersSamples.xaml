@@ -20,7 +20,9 @@
                                   IsSecondaryUrgent="{Binding IsSecondaryUrgent}"
                                   IsError="{Binding IsError}"
                                   IsSecondaryError="{Binding IsSecondaryError}"
-                                  IsFlipped="{Binding IsFlipped}"/>
+                                  IsFlipped="{Binding IsFlipped}"
+                                  ValueSemanticDescription="Hours"
+                                  SecondaryValueSemanticDescription="Contacts"/>
             </dui:ListItem>
             <dui:ListItem Title="Value">
                 <dui:Entry Text="{Binding Value}"

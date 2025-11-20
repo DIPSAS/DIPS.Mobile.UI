@@ -4,6 +4,7 @@ using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Components.Counters;
 
@@ -90,6 +91,7 @@ public partial class Counter : Grid
         m_primaryLabel.TextColor = Colors.GetColor(IsUrgent ? ColorName.color_text_on_fill_danger : ColorName.color_text_default);
         UpdateDivider();
         UpdateStroke();
+        SetSemanticDescription();
     }
 
     private void UpdateStroke()
@@ -145,28 +147,46 @@ public partial class Counter : Grid
         m_secondaryLabel.TextColor = Colors.GetColor(IsSecondaryUrgent ? ColorName.color_text_on_fill_danger : ColorName.color_text_default);
         UpdateDivider();
         UpdateStroke();
+        SetSemanticDescription();
     }
 
     private void OnSecondaryValueChanged()
     {
         OnModeChanged();
+        SetSemanticDescription();
     }
 
     private void OnIsErrorChanged()
     {
         m_primaryErrorIcon.IsVisible = IsError;
         m_primaryLabel.IsVisible = !IsError;
+        SetSemanticDescription();
     }
 
     private void OnIsSecondaryErrorChanged()
     {
         m_secondaryErrorIcon.IsVisible = IsSecondaryError;
         m_secondaryLabel.IsVisible = !IsSecondaryError;
+        SetSemanticDescription();
     }
 
     private void OnIsFlippedChanged()
     {
         this.SetColumn(m_primaryGrid, IsFlipped ? 2 : 0);
         this.SetColumn(m_secondaryGrid, IsFlipped ? 0 : 2);
+    }
+    
+    private void SetSemanticDescription()
+    {
+        var valueSemanticDescription = IsError
+            ? String.Join(", ", ValueSemanticDescription, DUILocalizedStrings.Error)
+            : String.Join(", ", ValueSemanticDescription, Value, (IsUrgent ? DUILocalizedStrings.Urgent : string.Empty));
+
+        var secondaryValueSemanticDescription = IsSecondaryError
+            ? String.Join(", ", SecondaryValueSemanticDescription, DUILocalizedStrings.Error)
+            : String.Join(", ", SecondaryValueSemanticDescription, SecondaryValue, (IsSecondaryUrgent ? DUILocalizedStrings.Urgent : string.Empty));
+                
+        SemanticProperties.SetDescription(m_primaryGrid, valueSemanticDescription);
+        SemanticProperties.SetDescription(m_secondaryGrid, secondaryValueSemanticDescription);
     }
 }
