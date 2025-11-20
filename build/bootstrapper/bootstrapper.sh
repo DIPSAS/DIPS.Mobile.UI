@@ -32,16 +32,9 @@ echo "🥾 ---- Running bootstrapper ---- 🥾"
 # dotnet-script
 if dotnet tool list -g | grep dotnet-script > /dev/null ; then
    echo "✅ dotnet-script was found"
-   if dotnet script --version 2>/dev/null | grep -q "^1\."; then
-      echo "✅ dotnet-script was version 1.*"
-   else
-      echo "❌ dotnet-script was not version 1.*, installing..."
-      dotnet tool install -g dotnet-script --version "1.*" > /dev/null
-      CheckIfInstalledCorrectly "dotnet-script"
-   fi
 else
-   echo "❌ dotnet-script was not found, installing version 1.*..."
-   dotnet tool install -g dotnet-script --version "1.*" > /dev/null
+   echo "❌ dotnet-script was not found, installing..."
+   dotnet tool install -g dotnet-script > /dev/null
    CheckIfInstalledCorrectly "dotnet-script"
 fi
 

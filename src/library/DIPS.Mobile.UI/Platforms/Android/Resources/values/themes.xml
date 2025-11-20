@@ -16,7 +16,6 @@
         <!-- Window configuration -->
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
         <item name="windowActionModeOverlay">true</item>
 
         <!-- Make sure that the colors are not being modified by material 3, for example; white should be pure white -->

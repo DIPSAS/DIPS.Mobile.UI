@@ -13,7 +13,7 @@
                              dui:Layout.AutoCornerRadius="True"
                              VerticalOptions="Start">
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
-                                HasBottomDivider="True"
+                                
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
                                 VerticalOptions="Start" />
 

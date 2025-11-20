@@ -59,6 +59,15 @@ public static partial class AppHostBuilderExtensions
             {
                 DUI.Init(activity);
                 DUI.EnsureSkLottieResourcesAdded();
+                
+                // Set status bar and navigation bar colors to match Shell background
+                // This ensures proper appearance with edge-to-edge content in .NET 10
+                if (activity.Window != null)
+                {
+                    var shellBackgroundColor = Colors.GetColor(Shell.BackgroundColorName);
+                    activity.Window.SetStatusBarColor(shellBackgroundColor.ToPlatform());
+                    activity.Window.SetNavigationBarColor(shellBackgroundColor.ToPlatform());
+                }
             }));
     }
 }

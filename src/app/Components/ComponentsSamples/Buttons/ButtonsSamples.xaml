@@ -7,12 +7,13 @@
                  x:Class="Components.ComponentsSamples.Buttons.ButtonsSamples"
                  x:Name="This"
                  Title="{x:Static localizedStrings:LocalizedStrings.Buttons}"
-                 SafeAreaEdges="None">
+                 SafeAreaEdges="None"
+                 BackgroundColor="Red">
     
     <Grid RowDefinitions="Auto, *"
         SafeAreaEdges="None">
         <dui:VerticalStackLayout>
-            <dui:Label Text="Buttons disabled"
+            <dui:Label Text="Buttons enabled"
                        Style="{dui:Styles Label=Header500}"
                        HorizontalOptions="End" />
 
@@ -21,7 +22,8 @@
         </dui:VerticalStackLayout>
         
         <dui:ScrollView Padding="{dui:Sizes size_4}"
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        BackgroundColor="Green">
             
         <dui:VerticalStackLayout>
             
