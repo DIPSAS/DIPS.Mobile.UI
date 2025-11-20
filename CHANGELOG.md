@@ -1,3 +1,6 @@
+## [54.2.4]
+- [Alert] Fixed accessibility
+
 ## [54.2.3]
 - [Touch] Added IsButtonTraitEnabledProperty to allow consumer to disable button trait on Touch effect.
 - [MultiLineInputField][SingleLineInputField] Enhanced accessability, screen reader now announces the value of the field and that it is an input field, and all buttons are available in navigation

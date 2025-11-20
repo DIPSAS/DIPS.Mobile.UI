@@ -254,36 +254,6 @@ public partial class AlertView : Grid
         }
     }
 
-    private AlertStyle GetCurrentAlertType()
-    {
-        // Infer alert type from the icon property value set by the style
-        var iconSource = Icon?.ToString();
-        
-        if (iconSource != null)
-        {
-            if (iconSource.Contains("important_line"))
-                return AlertStyle.Error;
-            if (iconSource.Contains("alert_line"))
-                return AlertStyle.Warning;
-            if (iconSource.Contains("check_circle_line"))
-                return AlertStyle.Success;
-            if (iconSource.Contains("information_line"))
-                return AlertStyle.Information;
-        }
-        
-        // Fallback: check background color
-        var backgroundColor = BackgroundColor;
-        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_danger)))
-            return AlertStyle.Error;
-        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_warning)))
-            return AlertStyle.Warning;
-        if (Equals(backgroundColor, Colors.GetColor(ColorName.color_surface_success)))
-            return AlertStyle.Success;
-            
-        // Default to Information
-        return AlertStyle.Information;
-    }
-
     private void UpdateAccessibility()
     {
         // Make the container non-focusable to allow navigation to child elements
@@ -293,18 +263,17 @@ public partial class AlertView : Grid
         if (m_titleAndDescriptionLabel != null)
         {
             SemanticProperties.SetDescription(m_titleAndDescriptionLabel, GetAccessibilityDescription());
-            SemanticProperties.SetHeadingLevel(m_titleAndDescriptionLabel, SemanticHeadingLevel.Level2);
         }
     }
 
     private string GetAccessibilityDescription()
     {
-        var alertTypeName = GetAlertTypeName();
+        var alertTypeName = AlertType;
         var description = $"{alertTypeName}";
         
         if (!string.IsNullOrEmpty(Title))
         {
-            description += $". {Title}";
+            description += $". {Title}. {DUILocalizedStrings.Header}";
         }
         
         if (!string.IsNullOrEmpty(Description))
@@ -313,18 +282,6 @@ public partial class AlertView : Grid
         }
         
         return description;
-    }
-
-    private string GetAlertTypeName()
-    {
-        return GetCurrentAlertType() switch
-        {
-            AlertStyle.Information => DUILocalizedStrings.Information,
-            AlertStyle.Error => DUILocalizedStrings.Error,
-            AlertStyle.Warning => DUILocalizedStrings.Warning,
-            AlertStyle.Success => DUILocalizedStrings.Success,
-            _ => DUILocalizedStrings.Alert
-        };
     }
 
     /// <summary>
