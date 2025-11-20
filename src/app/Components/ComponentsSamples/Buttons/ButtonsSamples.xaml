@@ -13,7 +13,7 @@
     <Grid RowDefinitions="Auto, *"
         SafeAreaEdges="None">
         <dui:VerticalStackLayout>
-            <dui:Label Text="Buttons enabled"
+            <dui:Label Text="Buttons "
                        Style="{dui:Styles Label=Header500}"
                        HorizontalOptions="End" />
 

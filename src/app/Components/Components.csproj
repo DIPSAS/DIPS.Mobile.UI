@@ -79,7 +79,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="BitMiracle.LibTiff.NET" />
-        <PackageReference Include="DotNetMeteor.HotReload.Plugin" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
         <PackageReference Include="Newtonsoft.Json"  />

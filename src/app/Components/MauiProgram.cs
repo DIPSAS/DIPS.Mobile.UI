@@ -1,7 +1,6 @@
 ﻿using DIPS.Mobile.UI.API.Builder;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.TextFields.InputFields.MultiLineInputField.Dictation;
-using DotNet.Meteor.HotReload.Plugin;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -14,9 +13,6 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            #if DEBUG 
-            .EnableHotReload()
-            #endif
             .UseDIPSUI(configurator =>
             {
                 configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields);
