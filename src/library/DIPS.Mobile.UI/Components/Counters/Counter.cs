@@ -178,9 +178,14 @@ public partial class Counter : Grid
     
     private void SetSemanticDescription()
     {
-        var valueSemanticDescription = IsError ? ValueSemanticDescription + DUILocalizedStrings.Error : ValueSemanticDescription + ", " + Value + ", " + (IsUrgent ? DUILocalizedStrings.Urgent : "");
-        var secondaryValueSemanticDescription = IsSecondaryError ? SecondaryValueSemanticDescription + DUILocalizedStrings.Error : SecondaryValueSemanticDescription + ", " + SecondaryValue + ", " + (IsSecondaryUrgent ? DUILocalizedStrings.Urgent : "");
+        var valueSemanticDescription = IsError
+            ? String.Join(", ", ValueSemanticDescription, DUILocalizedStrings.Error)
+            : String.Join(", ", ValueSemanticDescription, Value, (IsUrgent ? DUILocalizedStrings.Urgent : string.Empty));
 
+        var secondaryValueSemanticDescription = IsSecondaryError
+            ? String.Join(", ", SecondaryValueSemanticDescription, DUILocalizedStrings.Error)
+            : String.Join(", ", SecondaryValueSemanticDescription, SecondaryValue, (IsSecondaryUrgent ? DUILocalizedStrings.Urgent : string.Empty));
+                
         SemanticProperties.SetDescription(m_primaryGrid, valueSemanticDescription);
         SemanticProperties.SetDescription(m_secondaryGrid, secondaryValueSemanticDescription);
     }
