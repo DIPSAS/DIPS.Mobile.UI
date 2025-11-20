@@ -22,8 +22,7 @@
         </dui:VerticalStackLayout>
         
         <dui:ScrollView Padding="{dui:Sizes size_4}"
-                        Grid.Row="1"
-                        BackgroundColor="Green">
+                        Grid.Row="1">
             
         <dui:VerticalStackLayout>
             
