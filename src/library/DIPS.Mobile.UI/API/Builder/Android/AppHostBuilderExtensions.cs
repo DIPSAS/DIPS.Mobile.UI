@@ -11,7 +11,6 @@ using Microsoft.Maui.Platform;
 using DIPS.Mobile.UI.Components.TabView;
 using DIPS.Mobile.UI.Components.TabView.Android;
 using ActivityIndicatorHandler = DIPS.Mobile.UI.Components.Loading.Android.ActivityIndicatorHandler;
-using Application = Microsoft.Maui.Controls.Application;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 using SwitchHandler = DIPS.Mobile.UI.Components.Selection.Android.SwitchHandler;
