@@ -227,8 +227,14 @@ public partial class Chip
         
         if (propertyName.Equals(nameof(Title)))
         {
-            SemanticProperties.SetDescription(m_titleLabel, SemanticDescription.GetDescription(m_titleLabel.Text, ControlType.Button));
+            SetSemanticDescription();
         }
+    }
+
+    private void SetSemanticDescription()
+    {
+        var toggledText = IsToggleable ? (IsToggled ? DUILocalizedStrings.Selected : string.Empty) : string.Empty;
+        SemanticProperties.SetDescription(m_titleLabel, SemanticDescription.GetDescription(string.Join(", ", m_titleLabel.Text + toggledText), ControlType.Button));
     }
 
     private void SetCornerRadius()
