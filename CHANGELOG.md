@@ -1,3 +1,6 @@
+## [53.7.5]
+- Added `DarkMode` experimental feature.
+
 ## [53.7.4]
 - Fix error causing index out of range in `TabBadgeService` when tabs have changed 
 
