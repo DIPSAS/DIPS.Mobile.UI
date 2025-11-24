@@ -37,6 +37,8 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>no</string>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
