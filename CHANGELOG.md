@@ -1,3 +1,7 @@
+## [54.3.1]
+- Make sure apps that have locked their light mode, can force dark mode.
+- Renamed experimental feature `DarkMode` -> `ForceDarkMode`.
+
 ## [54.3.0]
 - Added `DarkMode` experimental feature.
 

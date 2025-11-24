@@ -16,7 +16,7 @@ public static class MauiProgram
             .UseDIPSUI(configurator =>
             {
                 configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields);
-                configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DarkMode);
+                configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.ForceDarkMode);
                 configurator.EnableCustomHideSoftInputOnTapped();
             });
 
