@@ -66,7 +66,7 @@
         <value>Input sample text</value>
     </data>
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
-        <value>Tap to input text</value>
+        <value>Tap twice to edit</value>
     </data>
     <data name="Saving" xml:space="preserve">
         <value>Saving</value>
@@ -211,5 +211,44 @@
     </data>
     <data name="Accessability_TapToActivateFlash" xml:space="preserve">
         <value>Tap to activate flash</value>
+    </data>
+    <data name="Selected" xml:space="preserve">
+        <value>Selected</value>
+    </data>
+    <data name="NotSelected" xml:space="preserve">
+        <value>Not selected</value>
+    </data>
+    <data name="Alert" xml:space="preserve">
+        <value>Alert</value>
+    </data>
+    <data name="Accessability_SelectSortOption" xml:space="preserve">
+        <value>Tap to choose sorting in {0} order</value>
+    </data>
+    <data name="Ascending" xml:space="preserve">
+        <value>Ascending</value>
+    </data>
+    <data name="Descending" xml:space="preserve">
+        <value>Descending</value>
+    </data>
+    <data name="Accessability_SelectedSort" xml:space="preserve">
+        <value>{0} is chosen as the sorting in {1} order</value>
+    </data>
+    <data name="Accessability_TapToChangeSorting" xml:space="preserve">
+        <value>Tap to change the sorting</value>
+    </data>
+    <data name="InputField" xml:space="preserve">
+        <value>Input field</value>
+    </data>
+    <data name="Dictation" xml:space="preserve">
+        <value>Dictation</value>
+    </data>
+    <data name="CounterValue" xml:space="preserve">
+        <value>Counter value</value>
+    </data>
+    <data name="Urgent" xml:space="preserve">
+        <value>Urgent</value>
+    </data>
+    <data name="Header" xml:space="preserve">
+        <value>Header</value>
     </data>
 </root>

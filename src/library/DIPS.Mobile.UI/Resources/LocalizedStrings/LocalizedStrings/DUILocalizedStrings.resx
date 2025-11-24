@@ -70,7 +70,7 @@
         <value>Sett inn eksempeltekst</value>
     </data>
     <data name="Accessability.InputField.HelpText" xml:space="preserve">
-        <value>Trykk for å skrive inn tekst</value>
+        <value>Trykk to ganger for å redigere</value>
     </data>
     <data name="Saving" xml:space="preserve">
         <value>Lagrer</value>
@@ -221,5 +221,41 @@
     </data>
     <data name="Accessability_TapToActivateFlash" xml:space="preserve">
         <value>Trykk for å aktivere blits</value>
+    </data>
+    <data name="Selected" xml:space="preserve">
+        <value>Valgt</value>
+    </data>
+    <data name="NotSelected" xml:space="preserve">
+        <value>Ikke valgt</value>
+    </data>
+    <data name="Accessability_SelectSortOption" xml:space="preserve">
+        <value>Trykk for å velge sortering i {0} rekkefølge</value>
+    </data>
+    <data name="Ascending" xml:space="preserve">
+        <value>Stigende</value>
+    </data>
+    <data name="Descending" xml:space="preserve">
+        <value>Synkende</value>
+    </data>
+    <data name="Accessability_SelectedSort" xml:space="preserve">
+        <value>{0} valgt som sortering i {1} rekkefølge</value>
+    </data>
+    <data name="Accessability_TapToChangeSorting" xml:space="preserve">
+        <value>Trykk for å endre på sorteringen</value>
+    </data>
+    <data name="InputField" xml:space="preserve">
+        <value>Tekstfelt</value>
+    </data>
+    <data name="Dictation" xml:space="preserve">
+        <value>Diktering</value>
+    </data>
+    <data name="CounterValue" xml:space="preserve">
+        <value>Teller verdi</value>
+    </data>
+    <data name="Urgent" xml:space="preserve">
+        <value>Haster</value>
+    </data>
+    <data name="Header" xml:space="preserve">
+        <value>Overskrift</value>
     </data>
 </root>

@@ -9,6 +9,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 internal class BottomSheetContainer : Grid
 {
     private readonly BottomSheet m_bottomSheet;
+    private BottomSheetHeader m_bottomSheetHeader;
 
     public BottomSheetContainer(BottomSheet bottomSheet)
     {
@@ -20,14 +21,10 @@ internal class BottomSheetContainer : Grid
         AddRowDefinition(new RowDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Star));
 
-        AddHeader();
+        m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
+        this.Add(m_bottomSheetHeader);
+        
         this.Add(bottomSheet, 0, 2);
-    }
-
-    private void AddHeader()
-    {
-        var header = new BottomSheetHeader(m_bottomSheet);
-        this.Add(header);
     }
 
     public void ModifySearchbar(bool add)
@@ -69,5 +66,10 @@ internal class BottomSheetContainer : Grid
             uiView.TrailingAnchor.ConstraintEqualTo(rootView.TrailingAnchor),
             uiView.HeightAnchor.ConstraintEqualTo(rootView.Frame.Height),
         ]);
+    }
+
+    public void SetSemanticFocusToHeader()
+    {
+        m_bottomSheetHeader.SetSemanticFocus();
     }
 }

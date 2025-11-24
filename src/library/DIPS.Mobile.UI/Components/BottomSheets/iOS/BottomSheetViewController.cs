@@ -53,6 +53,12 @@ public class BottomSheetViewController : UIViewController
         m_bottomBar = new BottomBarView(View, BottomSheet);
     }
 
+    public override void ViewDidAppear(bool animated)
+    {
+        base.ViewDidAppear(animated);
+        m_container.SetSemanticFocusToHeader();
+    }
+
     public void Opened()
     {
         BottomSheet.SendOpen();

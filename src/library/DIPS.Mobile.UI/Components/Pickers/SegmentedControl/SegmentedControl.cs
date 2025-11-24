@@ -58,7 +58,8 @@ public partial class SegmentedControl : ContentView
 
             }
         };
-        
+
+        border.SetBinding(SemanticProperties.DescriptionProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.AccessibilityDescription);
         Touch.SetCommand(border, new Command(() => OnItemTouched((SelectableItemViewModel)border.BindingContext)));
         border.SetBinding(BackgroundProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected, converter: new BoolToObjectConverter
         {
@@ -133,6 +134,12 @@ public partial class SegmentedControl : ContentView
         {
             ToggleItem(selectableItemViewModel);
         }
+        
+#if __ANDROID__
+        // On Android, screen reader does not automatically announce the updated state of the control, so we need to do it manually.
+        SemanticScreenReader.Default.Announce(selectableItemViewModel.AccessibilityDescription);
+#endif
+        
         if (HasHaptics)
         {
             VibrationService.SelectionChanged();   

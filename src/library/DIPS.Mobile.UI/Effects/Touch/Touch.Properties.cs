@@ -25,13 +25,13 @@ public partial class Touch
         typeof(object),
         typeof(Touch),
         null);
-    
-    public static readonly BindableProperty AccessibilityContentDescriptionProperty = BindableProperty.CreateAttached("AccessibilityContentDescription",
-        typeof(string),
-        typeof(Touch),
-        null);
 
     public static readonly BindableProperty IsEnabledProperty = BindableProperty.CreateAttached("IsEnabled",
+        typeof(bool),
+        typeof(Touch),
+        true);
+    
+    public static readonly BindableProperty IsButtonTraitEnabledProperty = BindableProperty.CreateAttached("IsButtonTraitEnabled",
         typeof(bool),
         typeof(Touch),
         true);

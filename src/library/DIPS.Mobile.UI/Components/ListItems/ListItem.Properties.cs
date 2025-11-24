@@ -172,12 +172,34 @@ public partial class ListItem
         get => (bool)GetValue(AutoDividerProperty);
         set => SetValue(AutoDividerProperty, value);
     }
+    
+    /// <summary>
+    /// When set to true, excludes internal ListItem elements (Title, Subtitle, Icon) from the accessibility tree.
+    /// This is useful when the ListItem contains interactive elements that should receive accessibility focus directly. <br/>
+    /// For more information, see <see href="https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/ListItem#accessibility-with-interactive-content">ListItem Accessibility with Interactive Content</see>.
+    /// </summary>
+    /// <remarks>
+    /// Use this property when you have interactive controls (Switch, Button, Entry, etc.) inside the ListItem
+    /// and want screen readers to focus on those controls instead of reading the ListItem's title and subtitle first.
+    /// </remarks>
+    public bool DisableInternalAccessibility
+    {
+        get => (bool)GetValue(DisableInternalAccessibilityProperty);
+        set => SetValue(DisableInternalAccessibilityProperty, value);
+    }
         
     public static readonly BindableProperty AutoDividerProperty = BindableProperty.Create(
         nameof(AutoDivider),
         typeof(bool),
         typeof(ListItem),
         propertyChanged: OnAutoDividerChanged);
+    
+    public static readonly BindableProperty DisableInternalAccessibilityProperty = BindableProperty.Create(
+        nameof(DisableInternalAccessibility),
+        typeof(bool),
+        typeof(ListItem),
+        defaultValue: false,
+        propertyChanged: (bindable, _, _) => ((ListItem)bindable).UpdateInternalAccessibility());
         
     public static readonly BindableProperty IsDebugModeProperty = BindableProperty.Create(
         nameof(IsDebugMode),

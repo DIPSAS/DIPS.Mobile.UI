@@ -1,5 +1,41 @@
-## [53.7.5]
+## [53.3.0]
 - Added `DarkMode` experimental feature.
+
+## [54.2.5]
+- [Counter] Forbedret tilgjengelighet slik at skjermleser leser opp teller-verdiene, teller-beskrivelsen, samt om de haster, eller om det eventuelt er en error.
+
+## [54.2.4]
+- [Alert] Fixed accessibility
+
+## [54.2.3]
+- [Touch] Added IsButtonTraitEnabledProperty to allow consumer to disable button trait on Touch effect.
+- [MultiLineInputField][SingleLineInputField] Enhanced accessability, screen reader now announces the value of the field and that it is an input field, and all buttons are available in navigation
+
+## [54.2.2]
+- [ItemPicker] Made screen recorder read button and the itempicker's selected item
+- [Chip] Made screen recorder focus on close button if present
+
+## [54.2.0]
+- [Accessibility] Added `Trait` attached property with support for Button, Selected, and NotSelected traits for improved screen reader announcements on iOS and Android
+- [SortControl] Fixed accessibility.
+- [RadioButtonListItem] Now automatically sets appropriate traits based on selection state
+
+## [54.1.0]
+- [ListItem] Added `DisableInternalAccessibility` property to exclude internal elements (Title, Subtitle, Icon) from accessibility tree, allowing screen readers to focus directly on interactive content like switches or buttons
+
+## [54.0.0]
+- [Touch] Improved accessibility for Touch effect - screen readers will now announce "Button" when `SemanticProperties.Description` is set
+- [Touch][BreakingChange] Removed deprecated `Touch.AccessibilityContentDescription` property - consumers should use `SemanticProperties.Description` instead
+- [SegmentedControl][Android] Correct accessibility.
+
+## [53.8.2]
+- Made sure bottom sheet header is focused and not the drag handles for both platforms.
+
+## [53.8.1]
+- Set semantic description on segmented control items
+
+## [53.8.0]
+- [Accessibility] Added `Mode` attached property.
 
 ## [53.7.4]
 - Fix error causing index out of range in `TabBadgeService` when tabs have changed 

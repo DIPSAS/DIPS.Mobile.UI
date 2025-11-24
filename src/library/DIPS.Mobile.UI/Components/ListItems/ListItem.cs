@@ -103,6 +103,8 @@ public partial class ListItem : Grid
         });
         
         this.Add(ImageIcon, 0);
+        
+        UpdateInternalAccessibility();
     }
 
     protected virtual void AddInLineContent()
@@ -176,7 +178,6 @@ public partial class ListItem : Grid
         if(Touch.GetCommand(this) is not null)
             return;
         
-        Touch.SetAccessibilityContentDescription(this, string.Join(".", Title, Subtitle));
         Touch.SetCommand(this, new Command(() =>
         {
             Command?.Execute(CommandParameter);
@@ -209,6 +210,21 @@ public partial class ListItem : Grid
         if (listItem.Parent is not null)
         {
             listItem.OnParentChanged();
+        }
+    }
+
+    private void UpdateInternalAccessibility()
+    {
+        // When DisableInternalAccessibility is true, exclude internal elements from accessibility tree
+        // This allows interactive elements (like Switch, Button) to receive focus directly
+        if (m_titleAndSubtitleContainer is not null)
+        {
+            AutomationProperties.SetExcludedWithChildren(m_titleAndSubtitleContainer, DisableInternalAccessibility);
+        }
+
+        if (ImageIcon is not null)
+        {
+            AutomationProperties.SetExcludedWithChildren(ImageIcon, DisableInternalAccessibility);
         }
     }
     
