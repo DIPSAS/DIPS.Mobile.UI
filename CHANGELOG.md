@@ -1,3 +1,6 @@
+## [54.2.6]
+- [Chip] Fixed accessibility
+
 ## [54.2.5]
 - [Counter] Forbedret tilgjengelighet slik at skjermleser leser opp teller-verdiene, teller-beskrivelsen, samt om de haster, eller om det eventuelt er en error.
 
