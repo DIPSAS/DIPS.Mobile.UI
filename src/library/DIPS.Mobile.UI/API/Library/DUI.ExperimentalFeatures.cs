@@ -7,7 +7,7 @@ public partial class DUI
     {
         None = 0,
         DictationInTextFields = 1,
-        DarkMode = 2
+        ForceDarkMode = 2
         // Add more experimental features here as needed
     }
 
