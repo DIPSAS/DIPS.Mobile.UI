@@ -62,18 +62,6 @@ public static partial class AppHostBuilderExtensions
             {
                 DUI.Init(activity);
                 DUI.EnsureSkLottieResourcesAdded();
-                
-                // Enable night mode when DarkMode experimental feature is enabled
-                if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DarkMode))
-                {
-                    /*var context = UiModeManager.FromContext(activity);
-                    if (context is not null)
-                    {
-                        context.set
-                        context.NightMode = UiNightMode.Yes;
-                    }*/
-                    Application.Current.UserAppTheme = AppTheme.Unspecified;
-                }
             }));
     }
 }
