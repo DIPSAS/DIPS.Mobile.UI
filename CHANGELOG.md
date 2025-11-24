@@ -1,5 +1,8 @@
-## [54.2.6]
+## [54.3.1]
 - [Chip] Fixed accessibility
+
+## [54.3.0]
+- Added `DarkMode` experimental feature.
 
 ## [54.2.5]
 - [Counter] Forbedret tilgjengelighet slik at skjermleser leser opp teller-verdiene, teller-beskrivelsen, samt om de haster, eller om det eventuelt er en error.
