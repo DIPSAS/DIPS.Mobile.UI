@@ -23,10 +23,11 @@ using DIPS.Mobile.UI.Extensions.Android;
 
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 
-internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet, IGalleryDefaultStateObserver, IImageEditStateObserver
+internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObserver, IImageEditStateObserver
 {
     private readonly Action<int> m_onRemoveImage;
     private readonly Action m_updateImages;
@@ -39,7 +40,6 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
     
     private CarouselView? m_carouselView;
     private CancellationTokenSource m_cancellationTokenSource = new();
-
     
     private CapturedImage m_currentlyRotatedCaptureImageDisplayed;
     private CapturedImage m_currentlyCapturedImageDisplayed;
@@ -55,16 +55,14 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
 
     public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action updateImages)
     {
-        Positioning = Positioning.Large;
-        IsDraggable = false;
-        BackgroundColor = Microsoft.Maui.Graphics.Colors.Black;
-
-        BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior { IsVisible = false };
+        Background = Microsoft.Maui.Graphics.Colors.Black;
         
+        NavigationPage.SetHasNavigationBar(this, false);
+
 #if __IOS__
         Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
 #elif __ANDROID__
-        Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small));
+        /*Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small));*/
 #endif
         
         m_onRemoveImage = onRemoveImage;
@@ -126,6 +124,8 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
             m_navigateNextImageButton,
             m_bottomToolbar
         ];
+        
+        m_grid.SafeAreaEdges = SafeAreaEdges.None;
 
         Content = m_grid;
 
@@ -197,6 +197,11 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
 
         _ = OnCarouselViewPositionChanged(m_carouselView.Position);
         m_onRemoveImage.Invoke(m_carouselView.Position);
+    }
+
+    public Task Close(bool animated = true)
+    {
+        return Shell.Current.Navigation.PopModalAsync(true);
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -337,28 +342,6 @@ internal partial class GalleryBottomSheet : Components.BottomSheets.BottomSheet,
             m_carouselView.Position = StartingIndex;
     }
 
-#if __ANDROID__
-    private StatusAndNavigationBarColors? m_statusAndNavigationBarColors;
-
-    protected override void OnOpened()
-    {
-        if (Handler is BottomSheetHandler handler)
-        {
-            m_statusAndNavigationBarColors = handler.Context.SetStatusAndNavigationBarColor(BackgroundColor);
-        }
-
-        base.OnOpened();
-    }
-
-    protected override void OnClosed()
-    {
-        if (Handler is BottomSheetHandler handler && m_statusAndNavigationBarColors != null)
-        {
-            handler.Context.ResetStatusAndNavigationBarColor(m_statusAndNavigationBarColors);
-        }
-        base.OnClosed();
-    }
-#endif
     void IImageEditStateObserver.OnSaveButtonTapped()
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)

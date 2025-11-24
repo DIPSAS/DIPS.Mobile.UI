@@ -64,8 +64,8 @@ public static partial class AppHostBuilderExtensions
                 // This ensures proper appearance with edge-to-edge content in .NET 10
                 if (activity.Window != null)
                 {
-                    var shellBackgroundColor = Colors.GetColor(ColorName.color_palette_red_1000);
-                    activity.Window.SetStatusBarColor(shellBackgroundColor.ToPlatform());
+                    /*var shellBackgroundColor = Colors.GetColor(ColorName.color_palette_red_1000);
+                    activity.Window.SetStatusBarColor(shellBackgroundColor.ToPlatform());*/
                     /*activity.Window.SetNavigationBarColor(shellBackgroundColor.ToPlatform());*/
                 }
             }));

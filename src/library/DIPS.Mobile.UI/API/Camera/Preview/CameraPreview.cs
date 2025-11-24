@@ -34,7 +34,7 @@ public partial class CameraPreview : ContentView
     {
         BackgroundColor = Colors.Black;
         Loaded += OnLoaded;
-
+        
 #if __IOS__
         Content = ConstructView();
 
@@ -43,6 +43,8 @@ public partial class CameraPreview : ContentView
             Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
                 UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
         }
+#else
+        
 #endif
     }
 

@@ -13,7 +13,7 @@
                      Clicked="MenuItem_OnClicked"/>
     </dui:ContentPage.ToolbarItems>
     
-    <Grid>
+    <Grid SafeAreaEdges="None">
         <dui:GalleryThumbnails x:Name="GalleryThumbnails"
                                CameraButtonTapped="GalleryThumbnails_OnCameraButtonTapped" />
         <dui:CameraPreview x:Name="CameraPreview" />

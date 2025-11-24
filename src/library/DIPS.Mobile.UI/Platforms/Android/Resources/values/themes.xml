@@ -20,16 +20,16 @@
 
         <!-- Make sure that the colors are not being modified by material 3, for example; white should be pure white -->
         <item name="elevationOverlayEnabled">false</item>
-
+        
         <!-- Color scheme -->
         <item name="colorPrimary">@color/color_text_default</item>
 
         <item name="colorSecondary">@color/color_palette_grey_700</item>
 
         <item name="colorSurface">@color/color_surface_default</item>
-
-        <!-- Status bar -->
-        <item name="android:statusBarColor">@color/color_background_default</item>
+        
+        <!-- Disable Material 3 surface tint on scroll (prevents status bar color change when scrolling in CollectionView/ScrollView) -->
+        <item name="colorSurfaceContainer">@color/color_surface_default</item>
         
         <!-- Set color to DatePickers, Dialogs etc. -->
         <item name="colorSurfaceContainerHigh">@color/color_surface_default</item>
@@ -42,10 +42,18 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/MyCustomToolbar</item>
+        
+        <!-- BottomSheet theme -->
+        <item name="bottomSheetDialogTheme">@style/DIPS.BottomSheetDialog</item>
     </style>
 
     <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
+    </style>
+    
+    <style name="DIPS.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <!-- Disable elevation overlay so BottomSheet background extends cleanly into status bar without color change -->
+        <item name="elevationOverlayEnabled">false</item>
     </style>
 
 </resources>

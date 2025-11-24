@@ -94,7 +94,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                         new GradientStop { Color = BackgroundColor.WithAlpha(0), Offset = .0f },
                         new GradientStop { Color = BackgroundColor, Offset = .25f }
                     ]
-                }
+                },
+                SafeAreaEdges = SafeAreaEdges.None
             };
        
             foreach (var button in BottombarButtons)

@@ -58,7 +58,7 @@ public partial class GalleryThumbnails : Grid
 
     private void OnTappedImage(int imageIndex)
     {
-        new GalleryBottomSheet(Images, imageIndex, OnRemoveImage, UpdateImages).Open();
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(new GalleryBottomSheet(Images, imageIndex, OnRemoveImage, UpdateImages)));
     }
 
     private void UpdateImages()
