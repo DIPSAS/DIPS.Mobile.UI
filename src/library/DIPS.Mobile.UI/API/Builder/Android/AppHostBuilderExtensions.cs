@@ -1,3 +1,5 @@
+using Android.App;
+using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Graphics.Drawable;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
