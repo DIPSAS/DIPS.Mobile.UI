@@ -39,6 +39,7 @@ public static partial class AppHostBuilderExtensions
         events.AddiOS(ios => ios.FinishedLaunching((_, _) =>
         {
             DUI.EnsureSkLottieResourcesAdded();
+            Application.Current.UserAppTheme = AppTheme.Unspecified;
             return true;
         }));
     }

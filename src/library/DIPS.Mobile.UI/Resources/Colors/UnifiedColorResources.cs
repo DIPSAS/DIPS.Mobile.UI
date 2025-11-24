@@ -4,6 +4,8 @@ internal static class UnifiedColorResources
 {   
     public static readonly IReadOnlyDictionary<string, Color> Colors;
 
+    internal const string DarkModeSuffix = "_Dark";
+    
     static UnifiedColorResources()
     {
         var merged = new Dictionary<string, Color>(ColorResources.Colors);
@@ -18,14 +20,14 @@ internal static class UnifiedColorResources
         }
         
         // Add keys from ColorResourcesDark, this contains semantic colors
-        /* TODO: Implement when dark mode is supported
         foreach (var kvp in ColorResourcesDark.Colors)
         {
-            if (!merged.ContainsKey(kvp.Key))
+            var darkKey = kvp.Key + DarkModeSuffix;
+            if (!merged.ContainsKey(darkKey))
             {
-                merged[kvp.Key] = kvp.Value;
+                merged[darkKey] = kvp.Value;
             }
-        }*/
+        }
 
         Colors = merged;
     }

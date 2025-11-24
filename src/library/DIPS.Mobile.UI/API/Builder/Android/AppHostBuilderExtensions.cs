@@ -1,3 +1,5 @@
+using Android.App;
+using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Graphics.Drawable;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
@@ -9,6 +11,7 @@ using Microsoft.Maui.Platform;
 using DIPS.Mobile.UI.Components.TabView;
 using DIPS.Mobile.UI.Components.TabView.Android;
 using ActivityIndicatorHandler = DIPS.Mobile.UI.Components.Loading.Android.ActivityIndicatorHandler;
+using Application = Microsoft.Maui.Controls.Application;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 using SwitchHandler = DIPS.Mobile.UI.Components.Selection.Android.SwitchHandler;
@@ -59,6 +62,18 @@ public static partial class AppHostBuilderExtensions
             {
                 DUI.Init(activity);
                 DUI.EnsureSkLottieResourcesAdded();
+                
+                // Enable night mode when DarkMode experimental feature is enabled
+                if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.DarkMode))
+                {
+                    /*var context = UiModeManager.FromContext(activity);
+                    if (context is not null)
+                    {
+                        context.set
+                        context.NightMode = UiNightMode.Yes;
+                    }*/
+                    Application.Current.UserAppTheme = AppTheme.Unspecified;
+                }
             }));
     }
 }
