@@ -1,4 +1,4 @@
-## [53.3.0]
+## [54.3.0]
 - Added `DarkMode` experimental feature.
 
 ## [54.2.5]
