@@ -180,6 +180,7 @@ public partial class Chip
         if (IsToggleable)
         {
             IsToggled = !IsToggled;
+            SetSemanticDescription();
             SendTapped();
         }
         else if (didTouchCloseButton)

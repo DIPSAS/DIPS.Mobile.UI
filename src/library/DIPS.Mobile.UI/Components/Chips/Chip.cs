@@ -33,9 +33,6 @@ public partial class Chip : ContentView
 
     private void OnIsToggledChanged()
     {
-#if __IOS__
-        SetSemanticDescription();
-#endif
         if (!IsToggled)
         {
             if (m_buttonToggleStyle is not null)
