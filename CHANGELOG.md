@@ -1,3 +1,6 @@
+## [54.3.2]
+- [Chip] Fixed accessibility
+
 ## [54.3.1]
 - Make sure apps that have locked their light mode, can force dark mode.
 - Renamed experimental feature `DarkMode` -> `ForceDarkMode`.
