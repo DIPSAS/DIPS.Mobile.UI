@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.Samples.ZoomContainerSample"
+                 xmlns:panZoomContainer="clr-namespace:DIPS.Mobile.UI.Components.PanZoomContainer;assembly=DIPS.Mobile.UI"
+                 x:Class="Components.Samples.ZoomContainerSample.ZoomContainerSample"
+                 x:DataType="local:ZoomContainerSampleViewModel"
+                 Title="Zoom Container Sample">
+    
+    <dui:ContentPage.BindingContext>
+        <local:ZoomContainerSampleViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <VerticalStackLayout Padding="20" Spacing="20">
+        
+        <dui:Label Text="Pinch to zoom (1x-5x) and drag to pan the content below:"
+                   Style="{dui:Styles Label=SectionHeader}" />
+        
+        <panZoomContainer:PanZoomContainer Source="dotnet_bot.png"
+                           HeightRequest="400"/>
+        
+        <dui:Label Text="Try pinching and dragging the image above"
+                   Style="{dui:Styles Label=UI100}"
+                   HorizontalOptions="Center" />
+        
+    </VerticalStackLayout>
+</dui:ContentPage>

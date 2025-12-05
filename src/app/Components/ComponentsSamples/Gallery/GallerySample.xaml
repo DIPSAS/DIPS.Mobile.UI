@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.Samples.GallerySample"
+                 x:Class="Components.Samples.GallerySample.GallerySample"
+                 x:DataType="local:GallerySampleViewModel"
+                 Title="Gallery with Zoom">
+    
+    <dui:ContentPage.BindingContext>
+        <local:GallerySampleViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <Grid RowDefinitions="Auto,*,Auto">
+        
+        <!-- Toolbar -->
+        <HorizontalStackLayout Grid.Row="0" 
+                              Padding="{dui:Thickness size_5}"
+                              Spacing="{dui:Sizes size_2}">
+            <dui:Button Text="Pick Photos"
+                       Command="{Binding PickPhotoCommand}"
+                       Style="{dui:Styles Button=CallToActionLarge}" />
+            
+            <dui:Label Text="{Binding StatusText}"
+                      Style="{dui:Styles Label=UI200}"
+                      VerticalOptions="Center"
+                      IsVisible="{Binding HasImages}" />
+        </HorizontalStackLayout>
+        
+        <!-- Image Gallery -->
+        <Grid Grid.Row="1">
+            <!-- Placeholder when no images -->
+            <VerticalStackLayout IsVisible="{Binding HasNoImages}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Spacing="{dui:Sizes size_5}">
+                <dui:Image Source="{dui:Icons image_line}"
+                          WidthRequest="80"
+                          HeightRequest="80" />
+                <dui:Label Text="No images yet"
+                          Style="{dui:Styles Label=UI200}"
+                          HorizontalOptions="Center" />
+                <dui:Label Text="Tap 'Pick Photos' to add images from your device"
+                          Style="{dui:Styles Label=UI100}"
+                          HorizontalOptions="Center"
+                          HorizontalTextAlignment="Center"
+                          MaximumWidthRequest="250" />
+            </VerticalStackLayout>
+            
+            <!-- Gallery with built-in zoom -->
+            <dui:Gallery Images="{Binding Images}"
+                         IsVisible="{Binding HasImages}" />
+        </Grid>
+        
+        <!-- Instructions -->
+        <VerticalStackLayout Grid.Row="2"
+                            Padding="{dui:Thickness size_5}"
+                            Spacing="{dui:Sizes size_1}"
+                            IsVisible="{Binding HasImages}">
+            <dui:Label Text="• Swipe left/right to navigate between images"
+                      Style="{dui:Styles Label=UI100}"
+                      Opacity="0.7" />
+            <dui:Label Text="• Pinch to zoom (1x-5x scale)"
+                      Style="{dui:Styles Label=UI100}"
+                      Opacity="0.7" />
+            <dui:Label Text="• Drag to pan when zoomed in"
+                      Style="{dui:Styles Label=UI100}"
+                      Opacity="0.7" />
+        </VerticalStackLayout>
+        
+    </Grid>
+</dui:ContentPage>

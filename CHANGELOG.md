@@ -1,3 +1,9 @@
+## [54.5.0]
+- Test
+
+## [54.4.0]
+- [ZoomContainer] Added new component that enables pinch-to-zoom and pan gestures on any content
+
 ## [54.3.2]
 - [Chip] Fixed accessibility
 
