@@ -21,6 +21,20 @@ public partial class Gallery
         typeof(Gallery),
         new GalleryCustomizer());
 
+    public static readonly BindableProperty FadeOutOnZoomProperty = BindableProperty.Create(
+        nameof(FadeOutOnZoom),
+        typeof(bool),
+        typeof(Gallery));
+
+    /// <summary>
+    /// Whether to fade out the UI elements when an image is zoomed in.
+    /// </summary>
+    public bool FadeOutOnZoom
+    {
+        get => (bool)GetValue(FadeOutOnZoomProperty);
+        set => SetValue(FadeOutOnZoomProperty, value);
+    }
+
     /// <summary>
     /// The customizer for the gallery's appearance.
     /// </summary>

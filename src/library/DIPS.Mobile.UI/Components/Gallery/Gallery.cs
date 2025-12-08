@@ -214,7 +214,11 @@ public partial class Gallery : Grid
             return;
         }
 
+        if(!FadeOutOnZoom)
+            return;
+        
         m_isAnyImageZoomed = zoomContainer.IsZoomed;
+        
         UpdateNumberOfImagesVisibility();
         UpdateNavigationButtonsVisibility();
     }

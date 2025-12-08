@@ -1,5 +1,13 @@
 ## [54.5.0]
-- Test
+- [TiffViewer] Added new component for viewing multi-page TIFF images with zoom, pan, and page navigation
+- [PanZoomContainer] Added new component for pinch-to-zoom and pan functionality on images
+- [PanZoomContainer] Added double-tap to zoom in/out support for iOS and Android
+- [Gallery] Added new component for displaying image galleries with swipe navigation
+- [Gallery] Added support for ObservableCollection to dynamically update images
+- [Gallery] Added navigation buttons and image counter with customizable appearance
+- [Gallery] Added `FadeOutOnZoom` property to control UI visibility when zooming
+- [TiffViewer][Android] Fixed color channel ordering (ABGR to ARGB conversion) for correct image colors
+- [Image] Added `Aspect` property to control image scaling behavior
 
 ## [54.4.0]
 - [ZoomContainer] Added new component that enables pinch-to-zoom and pan gestures on any content
