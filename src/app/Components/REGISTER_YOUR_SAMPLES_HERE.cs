@@ -13,6 +13,7 @@ using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
+using Components.ComponentsSamples.PanZoomContainer;
 using Components.ComponentsSamples.Pickers;
 using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
@@ -25,7 +26,6 @@ using Components.ComponentsSamples.Text;
 using Components.ComponentsSamples.TextFields;
 using Components.ComponentsSamples.Tip;
 using Components.Resources.LocalizedStrings;
-using Components.Samples.ZoomContainerSample;
 using Components.Samples.GallerySample;
 using Components.Samples.TiffViewerSample;
 using Components.ResourcesSamples.Animations;
@@ -70,7 +70,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Tag", () => new TagsSamples()),
             new(SampleType.Components, "Counters", () => new CountersSamples()),
             new(SampleType.Components, "TabView", () => new TabViewSamples()),
-            new(SampleType.Components, "Zoom Container", () => new ZoomContainerSample()),
+            new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),
             new(SampleType.Components, "Gallery", () => new GallerySample()),
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),

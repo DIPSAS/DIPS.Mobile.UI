@@ -1,3 +1,4 @@
+using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Maui.Handlers;
@@ -10,7 +11,7 @@ public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, Zoo
 {
     protected override ZoomScrollView CreatePlatformView()
     {
-        return new ZoomScrollView(Context);
+        return new ZoomScrollView(Context, VirtualView);
     }
 
     protected override void ConnectHandler(ZoomScrollView platformView)
@@ -42,6 +43,7 @@ public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, Zoo
 // Custom ScrollView with zoom/pan capabilities for Android
 public class ZoomScrollView : FrameLayout
 {
+    private readonly WeakReference<PanZoomContainer> m_virtualView;
     private const float MinScale = 1.0f;
     private const float MaxScale = 5.0f;
     
@@ -50,12 +52,21 @@ public class ZoomScrollView : FrameLayout
     
     private float m_scaleFactor = 1.0f;
 
-    public ZoomScrollView(Android.Content.Context context) : base(context)
+    public ZoomScrollView(Context context, PanZoomContainer virtualView) : base(context)
     {
+        m_virtualView = new WeakReference<PanZoomContainer>(virtualView);
+        
         m_scaleDetector = new ScaleGestureDetector(context, new ScaleListener(this));
         m_gestureDetector = new GestureDetector(context, new PanListener(this));
     }
+    
+    private PanZoomContainer VirtualView => m_virtualView.TryGetTarget(out var view) ? view : new PanZoomContainer();
 
+    private void SetIsZoomed()
+    {
+        VirtualView.IsZoomed = m_scaleFactor > MinScale;
+    }
+    
     /// <summary>
     /// Must be implemented to ensure child view fills the container
     /// </summary>
@@ -113,32 +124,34 @@ public class ZoomScrollView : FrameLayout
 
     private class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener
     {
-        private readonly ZoomScrollView m_parent;
+        private readonly WeakReference<ZoomScrollView> m_parent;
 
         public ScaleListener(ZoomScrollView parent)
         {
-            this.m_parent = parent;
+            this.m_parent = new WeakReference<ZoomScrollView>(parent);
         }
 
+        private ZoomScrollView Parent => m_parent.TryGetTarget(out var parent) ? parent : new ZoomScrollView(Android.App.Application.Context, new PanZoomContainer());
+        
         public override bool OnScale(ScaleGestureDetector? detector)
         {
-            if (detector is null || m_parent.ChildCount == 0)
+            if (detector is null || Parent.ChildCount == 0)
                 return false;
 
-            var child = m_parent.GetChildAt(0);
+            var child = Parent.GetChildAt(0);
             if (child is null)
                 return false;
 
-            var oldScale = m_parent.m_scaleFactor;
-            m_parent.m_scaleFactor *= detector.ScaleFactor;
-            m_parent.m_scaleFactor = Math.Max(MinScale, Math.Min(m_parent.m_scaleFactor, MaxScale));
+            var oldScale = Parent.m_scaleFactor;
+            Parent.m_scaleFactor *= detector.ScaleFactor;
+            Parent.m_scaleFactor = Math.Max(MinScale, Math.Min(Parent.m_scaleFactor, MaxScale));
 
             // Calculate scale change
-            var scaleChange = m_parent.m_scaleFactor / oldScale;
+            var scaleChange = Parent.m_scaleFactor / oldScale;
 
             // Adjust translation to zoom at focus point
-            var focusX = detector.FocusX - m_parent.Width / 2f;
-            var focusY = detector.FocusY - m_parent.Height / 2f;
+            var focusX = detector.FocusX - Parent.Width / 2f;
+            var focusY = detector.FocusY - Parent.Height / 2f;
 
             child.TranslationX = (child.TranslationX - focusX) * scaleChange + focusX;
             child.TranslationY = (child.TranslationY - focusY) * scaleChange + focusY;
@@ -146,14 +159,16 @@ public class ZoomScrollView : FrameLayout
             // Apply scale
             child.PivotX = child.Width / 2f;
             child.PivotY = child.Height / 2f;
-            child.ScaleX = m_parent.m_scaleFactor;
-            child.ScaleY = m_parent.m_scaleFactor;
+            child.ScaleX = Parent.m_scaleFactor;
+            child.ScaleY = Parent.m_scaleFactor;
 
             // Constrain to bounds
-            var maxX = (child.Width * (m_parent.m_scaleFactor - 1)) / 2;
-            var maxY = (child.Height * (m_parent.m_scaleFactor - 1)) / 2;
+            var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+            var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
             child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
             child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+
+            Parent.SetIsZoomed();
 
             return true;
         }
@@ -161,26 +176,76 @@ public class ZoomScrollView : FrameLayout
 
     private class PanListener : GestureDetector.SimpleOnGestureListener
     {
-        private readonly ZoomScrollView parent;
+        private readonly WeakReference<ZoomScrollView> m_parent;
 
         public PanListener(ZoomScrollView parent)
         {
-            this.parent = parent;
+            this.m_parent = new WeakReference<ZoomScrollView>(parent);
         }
 
+        private ZoomScrollView Parent => m_parent.TryGetTarget(out var parent) ? parent : new ZoomScrollView(Android.App.Application.Context, new PanZoomContainer());
+        
         public override bool OnDown(MotionEvent? e)
         {
             // Return true to indicate we want to handle the gesture sequence
             // This is required for OnScroll to be called
-            return parent.m_scaleFactor > 1.0f;
+            return true;
+        }
+        
+        public override bool OnDoubleTap(MotionEvent? e)
+        {
+            if (e is null || Parent.ChildCount == 0)
+                return false;
+
+            var child = Parent.GetChildAt(0);
+            if (child is null)
+                return false;
+
+            if (Parent.m_scaleFactor > 1.0f)
+            {
+                // Zoom out to minimum scale
+                Parent.m_scaleFactor = MinScale;
+                child.ScaleX = MinScale;
+                child.ScaleY = MinScale;
+                child.TranslationX = 0;
+                child.TranslationY = 0;
+            }
+            else
+            {
+                // Zoom in to 2x at tap location
+                Parent.m_scaleFactor = 2.0f;
+                
+                // Calculate focus point relative to center
+                var focusX = e.GetX() - Parent.Width / 2f;
+                var focusY = e.GetY() - Parent.Height / 2f;
+                
+                // Apply scale
+                child.PivotX = child.Width / 2f;
+                child.PivotY = child.Height / 2f;
+                child.ScaleX = Parent.m_scaleFactor;
+                child.ScaleY = Parent.m_scaleFactor;
+                
+                // Position the zoom to center on tap point
+                child.TranslationX = -focusX;
+                child.TranslationY = -focusY;
+                
+                // Constrain to bounds
+                var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+                var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
+                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
+                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+            }
+
+            Parent.SetIsZoomed();
+            return true;
         }
 
         public override bool OnScroll(MotionEvent? e1, MotionEvent? e2, float distanceX, float distanceY)
         {
-            if (parent is not { m_scaleFactor: > 1.0f, ChildCount: > 0 })
+            if (Parent is not { m_scaleFactor: > 1.0f, ChildCount: > 0 })
                 return false;
 
-            var child = parent.GetChildAt(0);
+            var child = Parent.GetChildAt(0);
             if (child is null)
                 return true;
 
@@ -190,8 +255,8 @@ public class ZoomScrollView : FrameLayout
                     
             // When scaling from center, content grows equally in all directions
             // At 2x scale, content extends by width/2 and height/2 beyond original size
-            var maxX = (child.Width * (parent.m_scaleFactor - 1)) / 2;
-            var maxY = (child.Height * (parent.m_scaleFactor - 1)) / 2;
+            var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+            var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
                     
             // Constrain translation to these bounds
             child.TranslationX = Math.Max(-maxX, Math.Min(maxX, newTranslationX));

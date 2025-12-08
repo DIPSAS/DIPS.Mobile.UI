@@ -1076,5 +1076,41 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("VoiceOver_Trait_CodeUsage_Title", resourceCulture);
             }
         }
+        
+        internal static string Gallery {
+            get {
+                return ResourceManager.GetString("Gallery", resourceCulture);
+            }
+        }
+        
+        internal static string PickPhotos {
+            get {
+                return ResourceManager.GetString("PickPhotos", resourceCulture);
+            }
+        }
+        
+        internal static string ZoomContainer {
+            get {
+                return ResourceManager.GetString("ZoomContainer", resourceCulture);
+            }
+        }
+        
+        internal static string PinchToZoom {
+            get {
+                return ResourceManager.GetString("PinchToZoom", resourceCulture);
+            }
+        }
+        
+        internal static string TiffViewer {
+            get {
+                return ResourceManager.GetString("TiffViewer", resourceCulture);
+            }
+        }
+        
+        internal static string MultiPageTiffDescription {
+            get {
+                return ResourceManager.GetString("MultiPageTiffDescription", resourceCulture);
+            }
+        }
     }
 }

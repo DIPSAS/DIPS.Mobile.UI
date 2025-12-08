@@ -3,34 +3,20 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  xmlns:tiffViewer="clr-namespace:DIPS.Mobile.UI.Components.TiffViewer;assembly=DIPS.Mobile.UI"
-                 x:Class="Components.Samples.TiffViewerSample.TiffViewerSample">
+                 x:Class="Components.Samples.TiffViewerSample.TiffViewerSample"
+                 Title="{x:Static localizedStrings:LocalizedStrings.TiffViewer}">
 
-    <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}"
-                             Margin="{dui:Sizes size_2}">
+    <Grid RowDefinitions="Auto, *">
 
-        <dui:Label Text="TIFF Viewer"
-                   Style="{dui:Styles Label=SectionHeader}" />
-
-        <dui:Label Text="Multi-page TIFF viewer with zoom, pan, and page navigation."
-                   Style="{dui:Styles Label=UI100}" />
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.MultiPageTiffDescription}"
+                   Style="{dui:Styles Label=UI100}"
+                   Margin="{dui:Sizes size_2}" />
 
         <tiffViewer:TiffViewer x:Name="TiffViewer"
-                        HeightRequest="400"
+                        Grid.Row="1"
                         BackgroundColor="{dui:Colors color_surface_subtle}" />
 
-        <dui:Label Text="Features"
-                   Style="{dui:Styles Label=SectionHeader}" />
-
-        <dui:VerticalStackLayout Spacing="{dui:Sizes size_1}">
-            <dui:Label Text="• Navigate between pages using arrow buttons"
-                       Style="{dui:Styles Label=UI100}" />
-            <dui:Label Text="• Pinch to zoom (1x-5x)"
-                       Style="{dui:Styles Label=UI100}" />
-            <dui:Label Text="• Pan to view zoomed content"
-                       Style="{dui:Styles Label=UI100}" />
-            <dui:Label Text="• Page indicator shows current page"
-                       Style="{dui:Styles Label=UI100}" />
-        </dui:VerticalStackLayout>
-    </dui:VerticalStackLayout>
+    </Grid>
 </dui:ContentPage>

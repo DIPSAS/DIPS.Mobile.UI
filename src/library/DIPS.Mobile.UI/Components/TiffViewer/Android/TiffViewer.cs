@@ -71,16 +71,27 @@ public partial class TiffViewer
                             
                             var w = bgTiff.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
                             var h = bgTiff.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
-                            var r = new int[w * h];
+                            var raster = new int[w * h];
 
-                            if (!bgTiff.ReadRGBAImageOriented(w, h, r, Orientation.TOPLEFT))
+                            if (!bgTiff.ReadRGBAImageOriented(w, h, raster, Orientation.TOPLEFT))
                             {
                                 m_pageTcs[i].TrySetResult(null);
                                 return;
                             }
 
+                            // ReadRGBAImageOriented returns ABGR format, need to convert to ARGB for Android Bitmap
+                            for (var j = 0; j < raster.Length; j++)
+                            {
+                                var abgr = raster[j];
+                                var a = (abgr >> 24) & 0xFF;
+                                var b = (abgr >> 16) & 0xFF;
+                                var g = (abgr >> 8) & 0xFF;
+                                var r = abgr & 0xFF;
+                                raster[j] = (a << 24) | (r << 16) | (g << 8) | b;
+                            }
+
                             using var bmp = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888!);
-                            bmp.SetPixels(r, 0, w, 0, 0, w, h);
+                            bmp.SetPixels(raster, 0, w, 0, 0, w, h);
                             
                             using var stream = new MemoryStream();
                             bmp.Compress(Bitmap.CompressFormat.Jpeg!, 90, stream);

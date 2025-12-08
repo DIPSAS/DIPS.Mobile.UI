@@ -9,6 +9,18 @@ namespace DIPS.Mobile.UI.Components.PanZoomContainer;
 [ContentProperty(nameof(Source))]
 public class PanZoomContainer : View
 {
+    
+    public static readonly BindableProperty SourceProperty = BindableProperty.Create(
+        nameof(Source),
+        typeof(ImageSource),
+        typeof(PanZoomContainer));
+
+    public static readonly BindableProperty IsZoomedProperty = BindableProperty.Create(
+        nameof(IsZoomed),
+        typeof(bool),
+        typeof(PanZoomContainer),
+        defaultBindingMode: BindingMode.OneWayToSource);
+    
     /// <summary>
     /// The <see cref="ImageSource"/> to display inside the zoom container
     /// </summary>
@@ -19,8 +31,9 @@ public class PanZoomContainer : View
         set => SetValue(SourceProperty, value);
     }
 
-    public static readonly BindableProperty SourceProperty = BindableProperty.Create(
-        nameof(Source),
-        typeof(ImageSource),
-        typeof(PanZoomContainer));
+    public bool IsZoomed
+    {
+        get => (bool)GetValue(IsZoomedProperty);
+        set => SetValue(IsZoomedProperty, value);
+    }
 }

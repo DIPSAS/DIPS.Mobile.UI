@@ -31,27 +31,15 @@ public partial class TiffViewer : Grid
             IsRunning = true
         });
         
-        m_gallery = new Gallery.Gallery();
-        m_gallery.PropertyChanged += OnGalleryPropertyChanged;
+        m_gallery = [];
         Add(m_gallery);
         
-        var navigationBar = CreateNavigationBar();
-        this.Add(navigationBar, 0, 1);
+        /*var navigationBar = CreateNavigationBar();
+        this.Add(navigationBar, 0, 1);*/
     }
 
-    private void OnGalleryPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(CarouselView.CarouselView.Position))
-        {
-            m_currentPage = m_gallery.Position + 1;
-            UpdatePageLabel();
-        }
-    }
     
-    private bool CanGoPrevious => m_currentPage > 1;
-    private bool CanGoNext => m_currentPage < m_totalPages;
-    
-    private HorizontalStackLayout CreateNavigationBar()
+    /*private HorizontalStackLayout CreateNavigationBar()
     {
         var horizontalStackLayout = new HorizontalStackLayout
         {
@@ -85,20 +73,8 @@ public partial class TiffViewer : Grid
         horizontalStackLayout.Children.Add(nextButton);
 
         return horizontalStackLayout;
-    }
+    }*/
 
-    private void Navigate(bool forwards)
-    {
-        if (forwards && CanGoNext)
-        {
-            m_gallery.Position++;
-        }
-        else if(!forwards && CanGoPrevious)
-        {
-            m_gallery.Position--;
-        }
-    }
-    
     private void UpdatePageLabel()
     {
          m_pageLabel.Text = $"{m_currentPage} / {m_totalPages}";
@@ -138,7 +114,6 @@ public partial class TiffViewer : Grid
         }
         
         m_gallery.Images = m_pageImages;
-        m_gallery.Position = 0;
         UpdatePageLabel();
     }
 

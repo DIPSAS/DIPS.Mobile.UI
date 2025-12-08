@@ -8,7 +8,8 @@ namespace DIPS.Mobile.UI.Components.PanZoomContainer;
 public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, UIScrollView>
 {
     private ScrollViewDelegate? m_scrollViewDelegate;
-    private UIView? m_contentView;
+    private UIView? m_nativeImageView;
+    private UITapGestureRecognizer? m_doubleTapGesture;
 
     protected override UIScrollView CreatePlatformView()
     {
@@ -37,36 +38,71 @@ public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, UIS
         if (VirtualView.Source is null)
             return;
 
-        m_contentView?.RemoveFromSuperview();
-
-        m_contentView = new Image.Image { Source = VirtualView.Source }.ToPlatform(MauiContext!);
+        m_nativeImageView?.RemoveFromSuperview();
         
-        if(m_contentView is null)
+        m_nativeImageView = new Image.Image { Source = VirtualView.Source }.ToPlatform(MauiContext!);
+        
+        if(m_nativeImageView is null)
             return;
         
-        m_scrollViewDelegate = new ScrollViewDelegate(m_contentView);
+        m_scrollViewDelegate = new ScrollViewDelegate(m_nativeImageView, VirtualView);
         PlatformView.Delegate = m_scrollViewDelegate;
 
-        PlatformView.AddSubview(m_contentView);
+        PlatformView.AddSubview(m_nativeImageView);
             
-        m_contentView.TranslatesAutoresizingMaskIntoConstraints = false;
+        m_nativeImageView.TranslatesAutoresizingMaskIntoConstraints = false;
         NSLayoutConstraint.ActivateConstraints([
-            m_contentView.TopAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.TopAnchor),
-            m_contentView.BottomAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.BottomAnchor),
-            m_contentView.LeadingAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.LeadingAnchor),
-            m_contentView.HeightAnchor.ConstraintEqualTo(PlatformView.FrameLayoutGuide.HeightAnchor),
-            m_contentView.WidthAnchor.ConstraintEqualTo(PlatformView.FrameLayoutGuide.WidthAnchor)
+            m_nativeImageView.TopAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.TopAnchor),
+            m_nativeImageView.BottomAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.BottomAnchor),
+            m_nativeImageView.LeadingAnchor.ConstraintEqualTo(PlatformView.ContentLayoutGuide.LeadingAnchor),
+            m_nativeImageView.HeightAnchor.ConstraintEqualTo(PlatformView.FrameLayoutGuide.HeightAnchor),
+            m_nativeImageView.WidthAnchor.ConstraintEqualTo(PlatformView.FrameLayoutGuide.WidthAnchor)
         ]);
             
         PlatformView.ZoomScale = 1.0f;
+        
+        // Add double-tap gesture
+        m_doubleTapGesture = new UITapGestureRecognizer(HandleDoubleTap)
+        {
+            NumberOfTapsRequired = 2
+        };
+        PlatformView.AddGestureRecognizer(m_doubleTapGesture);
+    }
+    
+    private void HandleDoubleTap(UITapGestureRecognizer gesture)
+    {
+        if (PlatformView.ZoomScale > 1.0f)
+        {
+            // Zoom out to minimum scale
+            PlatformView.SetZoomScale(1.0f, true);
+        }
+        else
+        {
+            // Zoom in to 2x at tap location
+            var tapPoint = gesture.LocationInView(m_nativeImageView);
+            var zoomRect = new CoreGraphics.CGRect(
+                tapPoint.X - (PlatformView.Bounds.Width / 4),
+                tapPoint.Y - (PlatformView.Bounds.Height / 4),
+                PlatformView.Bounds.Width / 2,
+                PlatformView.Bounds.Height / 2
+            );
+            PlatformView.ZoomToRect(zoomRect, true);
+        }
     }
     
     protected override void DisconnectHandler(UIScrollView platformView)
     {
-        if (m_contentView is not null)
+        if (m_doubleTapGesture is not null)
         {
-            m_contentView.RemoveFromSuperview();
-            m_contentView = null;
+            platformView.RemoveGestureRecognizer(m_doubleTapGesture);
+            m_doubleTapGesture.Dispose();
+            m_doubleTapGesture = null;
+        }
+        
+        if (m_nativeImageView is not null)
+        {
+            m_nativeImageView.RemoveFromSuperview();
+            m_nativeImageView = null;
         }
         
         platformView.Delegate = null!;
@@ -79,13 +115,16 @@ public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, UIS
     private class ScrollViewDelegate : UIScrollViewDelegate
     {
         private readonly WeakReference<UIView> m_view;
+        private readonly WeakReference<PanZoomContainer> m_virtualView;
 
-        public ScrollViewDelegate(UIView view)
+        public ScrollViewDelegate(UIView view, PanZoomContainer virtualView)
         {
             m_view = new WeakReference<UIView>(view);
+            m_virtualView = new WeakReference<PanZoomContainer>(virtualView);
         }
         
         private UIView View => m_view.TryGetTarget(out var view) ? view : new UIView();
+        private PanZoomContainer VirtualView => m_virtualView.TryGetTarget(out var virtualView) ? virtualView : new PanZoomContainer();
 
         public override UIView ViewForZoomingInScrollView(UIScrollView scrollView)
         {
@@ -95,6 +134,8 @@ public partial class PanZoomContainerHandler : ViewHandler<PanZoomContainer, UIS
         public override void DidZoom(UIScrollView scrollView)
         {
             CenterContent(scrollView);
+
+            VirtualView.IsZoomed = scrollView.ZoomScale > 1;
         }
 
         private void CenterContent(UIScrollView scrollView)
