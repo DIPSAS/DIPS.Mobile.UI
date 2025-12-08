@@ -9,35 +9,29 @@ namespace Components
 {
     public class SamplesPage : DIPS.Mobile.UI.Components.Pages.ContentPage
     {
-        private readonly IEnumerable<Sample> m_samplePages;
-
         public SamplesPage(SampleType sampleType, IEnumerable<Sample> samplePages)
         {
-            m_samplePages = samplePages;
             Title = sampleType switch
             {
                 SampleType.Components => LocalizedStrings.Components,
                 SampleType.Resources => LocalizedStrings.Resources,
                 _ => "Unknown"
             };
-
-            Content = new DelayedView() { ItemTemplate = new DataTemplate(() =>
+            
+            var collectionView = new DIPS.Mobile.UI.Components.Lists.CollectionView
             {
-                var collectionView = new DIPS.Mobile.UI.Components.Lists.CollectionView
+                ItemSpacing = 0,
+                ItemsSource = samplePages,
+                ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem()),
+                Header = new Grid // Padding at the top
                 {
-                    ItemSpacing = 0,
-                    ItemsSource = m_samplePages,
-                    ItemTemplate = new DataTemplate(() => new NavigateToSingleSampleItem()),
-                    Header = new Grid // Padding at the top
-                    {
-                        Padding = new Thickness(0, Sizes.GetSize(SizeName.page_margin_small))
-                    }
-                };
+                    Padding = new Thickness(0, Sizes.GetSize(SizeName.page_margin_small))
+                }
+            };
 
-                DIPS.Mobile.UI.Effects.Layout.Layout.SetAutoHideLastDivider(collectionView, true);
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetAutoHideLastDivider(collectionView, true);
 
-                return collectionView;
-            })};
+            Content = collectionView;
         }
 
         public class NavigateToSingleSampleItem : NavigationListItem

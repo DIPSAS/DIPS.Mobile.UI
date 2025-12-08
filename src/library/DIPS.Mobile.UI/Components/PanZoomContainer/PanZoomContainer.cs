@@ -9,7 +9,6 @@ namespace DIPS.Mobile.UI.Components.PanZoomContainer;
 [ContentProperty(nameof(Source))]
 public class PanZoomContainer : View
 {
-    
     public static readonly BindableProperty SourceProperty = BindableProperty.Create(
         nameof(Source),
         typeof(ImageSource),

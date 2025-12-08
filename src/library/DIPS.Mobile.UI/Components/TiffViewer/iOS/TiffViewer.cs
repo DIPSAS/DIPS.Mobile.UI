@@ -6,7 +6,7 @@ namespace DIPS.Mobile.UI.Components.TiffViewer;
 
 public partial class TiffViewer
 {
-    private CGImageSource? _imageSource;
+    private CGImageSource? m_imageSource;
 
     private partial async Task<int> LoadTiffPagesAsync(CancellationToken? cancellationToken = null)
     {
@@ -14,8 +14,8 @@ public partial class TiffViewer
 
         if (Source == null || Source.Length == 0)
         {
-            _imageSource?.Dispose();
-            _imageSource = null;
+            m_imageSource?.Dispose();
+            m_imageSource = null;
             return 1;
         }
 
@@ -23,21 +23,21 @@ public partial class TiffViewer
         {
             var data = Foundation.NSData.FromArray(Source);
             
-            _imageSource?.Dispose();
-            _imageSource = CGImageSource.FromData(data);
+            m_imageSource?.Dispose();
+            m_imageSource = CGImageSource.FromData(data);
 
-            if (_imageSource == null)
+            if (m_imageSource == null)
             {
                 return 1;
             }
 
-            return (int)_imageSource.ImageCount;
+            return (int)m_imageSource.ImageCount;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error loading TIFF on iOS: {ex.Message}");
-            _imageSource?.Dispose();
-            _imageSource = null;
+            m_imageSource?.Dispose();
+            m_imageSource = null;
             return 1;
         }
     }
@@ -46,14 +46,14 @@ public partial class TiffViewer
     {
         await Task.CompletedTask;
 
-        if (_imageSource == null || pageIndex < 0 || pageIndex >= _imageSource.ImageCount)
+        if (m_imageSource == null || pageIndex < 0 || pageIndex >= m_imageSource.ImageCount)
         {
             return null;
         }
 
         try
         {
-            using var cgImage = _imageSource.CreateImage(pageIndex, null);
+            using var cgImage = m_imageSource.CreateImage(pageIndex, null);
             
             if (cgImage == null)
             {
