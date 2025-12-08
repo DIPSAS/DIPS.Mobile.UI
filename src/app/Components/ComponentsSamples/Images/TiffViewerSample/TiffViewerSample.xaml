@@ -15,8 +15,7 @@
                    Margin="{dui:Sizes size_2}" />
 
         <tiffViewer:TiffViewer x:Name="TiffViewer"
-                        Grid.Row="1"
-                        BackgroundColor="{dui:Colors color_surface_subtle}" />
+                               Grid.Row="1" />
 
     </Grid>
 </dui:ContentPage>

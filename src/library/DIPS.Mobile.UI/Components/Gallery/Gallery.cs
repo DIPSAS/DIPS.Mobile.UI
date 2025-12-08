@@ -1,7 +1,9 @@
 using System.Collections.Specialized;
 using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Colors = Microsoft.Maui.Graphics.Colors;
+using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace DIPS.Mobile.UI.Components.Gallery;
 
@@ -14,6 +16,8 @@ public partial class Gallery : Grid
     private readonly ContentView m_borderAroundNumberOfImages;
     private bool m_isAnyImageZoomed;
     private INotifyCollectionChanged? m_previousCollection;
+    private readonly Button m_navigatePreviousImageButton;
+    private readonly Button m_navigateNextImageButton;
 
     public Gallery()
     {
@@ -38,9 +42,9 @@ public partial class Gallery : Grid
         {
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            TextColor = Colors.White,
             Style = Styles.GetLabelStyle(LabelStyle.UI100),
         };
+        m_numberOfImagesLabel.SetBinding(Label.TextColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.ImageCountTextColor, source: this);
         
         m_borderAroundNumberOfImages = new ContentView
         {
@@ -49,16 +53,63 @@ public partial class Gallery : Grid
             Content = m_numberOfImagesLabel,
             Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small)),
             Margin = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0, 0),
-            IsVisible = false,
-            BackgroundColor = Colors.Black.WithAlpha(.5f)
+            Opacity = 0
         };
+        m_borderAroundNumberOfImages.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.ImageCountBackgroundColor, source: this);
 
         UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.radius_large));
         
+        m_navigatePreviousImageButton = new Button
+        {
+            ImageSource = Icons.GetIcon(IconName.chevron_left_line),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconSmall),
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(Sizes.GetSize(SizeName.content_margin_large), 0, 0, 0),
+            Command = new Command(() =>
+            {
+                if(carouselView.Position == 0)
+                    return;
+
+                carouselView.Position -= 1;
+            }),
+            Opacity = 0
+        };
+        m_navigatePreviousImageButton.SetBinding(Button.ImageTintColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsImageTintColor, source: this);
+        m_navigatePreviousImageButton.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsBackgroundColor, source: this);
+        
+        m_navigateNextImageButton = new Button
+        {
+            ImageSource = Icons.GetIcon(IconName.chevron_right_line),
+            Style = Styles.GetButtonStyle(ButtonStyle.GhostIconSmall),
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.End,
+            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_large), 0),
+            Command = new Command(() =>
+            {
+                if(carouselView.Position == Images?.ToList().Count - 1)
+                    return;
+
+                carouselView.Position += 1;
+            }),
+            Opacity = 0
+        };
+        m_navigateNextImageButton.SetBinding(Button.ImageTintColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsImageTintColor, source: this);
+        m_navigateNextImageButton.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsBackgroundColor, source: this);
+        
         Add(carouselView);
         Add(m_borderAroundNumberOfImages);
+        Add(m_navigatePreviousImageButton);
+        Add(m_navigateNextImageButton);
     }
-    
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        UpdateNavigationButtonsVisibility();
+    }
+
     private void OnImagesChanged()
     {
         // Unsubscribe from previous collection
@@ -78,26 +129,69 @@ public partial class Gallery : Grid
             m_previousCollection = null;
         }
         
-        UpdateImagesDisplay();
+        OnImagesUpdated();
     }
     
     private void OnImagesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        UpdateImagesDisplay();
+        OnImagesUpdated();
     }
     
-    private void UpdateImagesDisplay()
+    private void OnImagesUpdated()
     {
         if(Images is null)
             return;
 
-        _ = UpdateNumberOfImagesVisibility();
+        UpdateNumberOfImagesVisibility();
+        UpdateNavigationButtonsVisibility();
         UpdateLabelText();
     }
-    
+
+    private void UpdateNavigationButtonsVisibility()
+    {
+        var navigatePreviousShouldBeVisible = CurrentImageIndex != 0 && !m_isAnyImageZoomed && Images?.ToList().Count > 0;
+        var navigateNextShouldBeVisible = CurrentImageIndex != Images?.ToList().Count - 1 && !m_isAnyImageZoomed && Images?.ToList().Count > 0;
+
+        if (navigatePreviousShouldBeVisible)
+        {
+            _ = SetViewVisibleAnimated(m_navigatePreviousImageButton);
+        }
+        else
+        {
+            _ = SetViewInvisibleAnimated(m_navigatePreviousImageButton);
+        }
+
+        if (navigateNextShouldBeVisible)
+        {
+            _ = SetViewVisibleAnimated(m_navigateNextImageButton); 
+        }
+        else
+        {
+            _ = SetViewInvisibleAnimated(m_navigateNextImageButton);
+        }
+    }
+
+    private static async Task SetViewInvisibleAnimated(View view)
+    {
+        if(view.Opacity == 0f)
+            return;
+        
+        await view.FadeTo(0);
+    }
+
+    private static async Task SetViewVisibleAnimated(View view)
+    {
+        if (Math.Abs(view.Opacity - 1) < 0.01f)
+            return;
+        
+        view.Opacity = 0;
+        await view.FadeTo(1);
+    }
+
     private void OnCurrentImageIndexChanged()
     {
         UpdateLabelText();
+        UpdateNavigationButtonsVisibility();
     }
     
     private void UpdateLabelText()
@@ -121,23 +215,21 @@ public partial class Gallery : Grid
         }
 
         m_isAnyImageZoomed = zoomContainer.IsZoomed;
-        _ = UpdateNumberOfImagesVisibility();
+        UpdateNumberOfImagesVisibility();
+        UpdateNavigationButtonsVisibility();
     }
 
-    private async Task UpdateNumberOfImagesVisibility()
+    private void UpdateNumberOfImagesVisibility()
     {
         var shouldShow = Images != null && !m_isAnyImageZoomed;
 
         if (m_borderAroundNumberOfImages.IsVisible && !shouldShow)
         {
-            await m_borderAroundNumberOfImages.FadeTo(0);
-            m_borderAroundNumberOfImages.IsVisible = false;
+            _ = SetViewInvisibleAnimated(m_borderAroundNumberOfImages);
         }
         else
         {
-            m_borderAroundNumberOfImages.Opacity = 0;
-            m_borderAroundNumberOfImages.IsVisible = true;
-            await m_borderAroundNumberOfImages.FadeTo(1);
+            _ = SetViewVisibleAnimated(m_borderAroundNumberOfImages);
         }
     }
 }

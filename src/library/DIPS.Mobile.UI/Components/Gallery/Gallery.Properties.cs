@@ -15,6 +15,21 @@ public partial class Gallery
         -1,
         propertyChanged: (bindable, _, _) => ((Gallery)bindable).OnCurrentImageIndexChanged());
 
+    public static readonly BindableProperty GalleryCustomizerProperty = BindableProperty.Create(
+        nameof(GalleryCustomizer),
+        typeof(GalleryCustomizer),
+        typeof(Gallery),
+        new GalleryCustomizer());
+
+    /// <summary>
+    /// The customizer for the gallery's appearance.
+    /// </summary>
+    public GalleryCustomizer GalleryCustomizer
+    {
+        get => (GalleryCustomizer)GetValue(GalleryCustomizerProperty);
+        set => SetValue(GalleryCustomizerProperty, value);
+    }
+    
     /// <summary>
     /// Gets or sets the collection of images to display in the gallery.
     /// </summary>
