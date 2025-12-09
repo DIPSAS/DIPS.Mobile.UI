@@ -23,6 +23,8 @@ public partial class VetlePage
 
         _ = FuckThisShitUp();
         /*Shell.OnTabTapped += ShellOnOnTabTapped;*/
+
+        Gallery.Images = ["dotnet_bot.png", "dotnet_bot.png"];
     }
 
     private void ShellOnOnTabTapped(string obj)

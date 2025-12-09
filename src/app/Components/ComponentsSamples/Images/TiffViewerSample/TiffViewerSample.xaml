@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:tiffViewer="clr-namespace:DIPS.Mobile.UI.Components.TiffViewer;assembly=DIPS.Mobile.UI"
+                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+                 x:Class="Components.Samples.TiffViewerSample.TiffViewerSample"
+                 Title="{x:Static localizedStrings:LocalizedStrings.TiffViewer}"
+                 iOsSpecific:Page.UseSafeArea="True">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.MultiPageTiffDescription}"
+                   Style="{dui:Styles Label=UI100}"
+                   Margin="{dui:Sizes size_2}" />
+
+        <tiffViewer:TiffViewer x:Name="TiffViewer"
+                               Grid.Row="1" />
+
+    </Grid>
+</dui:ContentPage>

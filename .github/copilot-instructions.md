@@ -204,9 +204,11 @@ Example XAML:
 ### Styling Guidelines
 When creating samples or UI:
 - **Label Styles**: Use `SectionHeader`, `UI100`, `UI200`, `UI300` (NOT `Body500` or similar)
+  - **XAML Syntax**: ALWAYS use `Style="{dui:Styles Label=UI100}"` (NOT `Style="{StaticResource UI100}"`)
 - **Font Families**: Only use `Body`, `UI`, or `Header` - never use `monospace`
 - **LocalizedStrings**: Always use localized strings from `Components.Resources.LocalizedStrings` for user-facing text
 - **Colors**: Always use design token colors via `{dui:Colors color_*}`
+  - **Always verify** color names exist in `ColorName.cs` before using
 - **Sizes**: Always use design token sizes via `{dui:Sizes size_*}`
 - **ListItem Dividers**: Only use `HasBottomDivider="True"` when ListItems are grouped together. In a group, only the first N-1 items should have bottom dividers - the last item should NOT have a divider.
 

@@ -1,6 +1,7 @@
 using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.Components.ListItems;
 using DIPS.Mobile.UI.Components.ListItems.Extensions;
+using DIPS.Mobile.UI.Components.Loading.DelayedView;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
 
@@ -29,7 +30,7 @@ namespace Components
             };
 
             DIPS.Mobile.UI.Effects.Layout.Layout.SetAutoHideLastDivider(collectionView, true);
-            
+
             Content = collectionView;
         }
 

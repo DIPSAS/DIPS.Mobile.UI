@@ -1,3 +1,6 @@
+## [54.4.0]
+- Added `PanZoomContainer`, `Gallery` and `TiffViewer` components.
+
 ## [54.3.2]
 - [Chip] Fixed accessibility
 
