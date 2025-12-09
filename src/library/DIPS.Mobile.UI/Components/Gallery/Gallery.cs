@@ -166,7 +166,24 @@ public partial class Gallery : Grid
 
     private void UpdateContextMenu()
     {
+        var existingContextMenu = ContextMenuEffect.GetMenu(m_borderAroundNumberOfImages);
+
+        if (existingContextMenu is not null)
+        {
+            existingContextMenu.ItemsSource?.Clear();
+            PopulateContextMenu(existingContextMenu);
+            existingContextMenu.SendItemsSourceUpdated();
+            return;
+        }
+        
         var contextMenu = new ContextMenu();
+        PopulateContextMenu(contextMenu);
+
+        ContextMenuEffect.SetMenu(m_borderAroundNumberOfImages, contextMenu);
+    }
+
+    private void PopulateContextMenu(ContextMenu existingContextMenu)
+    {
         for (var i = 0; i < Images?.Count(); i++)
         {
             var index = i;
@@ -178,10 +195,8 @@ public partial class Gallery : Grid
                     CurrentImageIndex = index;
                 })
             };
-            contextMenu.ItemsSource?.Add(menuItem);
+            existingContextMenu.ItemsSource?.Add(menuItem);
         }
-
-        ContextMenuEffect.SetMenu(m_borderAroundNumberOfImages, contextMenu);
     }
 
     private void UpdateNavigationButtonsVisibility()
