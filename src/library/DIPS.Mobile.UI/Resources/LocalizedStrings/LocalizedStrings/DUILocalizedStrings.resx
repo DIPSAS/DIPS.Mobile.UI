@@ -258,4 +258,16 @@
     <data name="Header" xml:space="preserve">
         <value>Overskrift</value>
     </data>
+    <data name="Accessibility_NavigateNextImage" xml:space="preserve">
+        <value>Naviger til neste bilde</value>
+    </data>
+    <data name="Accessibility_NavigatePreviousImage" xml:space="preserve">
+        <value>Naviger til forrige bilde</value>
+    </data>
+    <data name="Image" xml:space="preserve">
+        <value>Bilde</value>
+    </data>
+    <data name="Of" xml:space="preserve">
+        <value>{0} av {1}</value>
+    </data>
 </root>

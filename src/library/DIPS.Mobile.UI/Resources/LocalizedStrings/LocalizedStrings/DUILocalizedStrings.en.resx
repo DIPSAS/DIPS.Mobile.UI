@@ -251,4 +251,16 @@
     <data name="Header" xml:space="preserve">
         <value>Header</value>
     </data>
+    <data name="Accessibility_NavigateNextImage" xml:space="preserve">
+        <value>Navigate to next image</value>
+    </data>
+    <data name="Accessibility_NavigatePreviousImage" xml:space="preserve">
+        <value>Navigate to previous image</value>
+    </data>
+    <data name="Image" xml:space="preserve">
+        <value>Image</value>
+    </data>
+    <data name="Of" xml:space="preserve">
+        <value>{0} of {1}</value>
+    </data>
 </root>

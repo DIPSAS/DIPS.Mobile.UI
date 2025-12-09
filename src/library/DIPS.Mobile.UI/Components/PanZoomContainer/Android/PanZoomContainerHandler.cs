@@ -4,6 +4,7 @@ using Android.Widget;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.PanZoomContainer;
 
@@ -65,6 +66,41 @@ public class ZoomScrollView : FrameLayout
     private void SetIsZoomed()
     {
         VirtualView.IsZoomed = m_scaleFactor > MinScale;
+    }
+    
+    /// <summary>
+    /// Calculate the actual image content bounds within the ImageView (excluding letterbox areas)
+    /// </summary>
+    private Android.Graphics.RectF? GetImageContentBounds(View child)
+    {
+        if (child is not ImageView imageView)
+            return null;
+            
+        var drawable = imageView.Drawable;
+        if (drawable == null)
+            return null;
+            
+        var drawableWidth = (float)drawable.IntrinsicWidth;
+        var drawableHeight = (float)drawable.IntrinsicHeight;
+        
+        if (drawableWidth <= 0 || drawableHeight <= 0)
+            return null;
+            
+        var viewWidth = (float)child.Width;
+        var viewHeight = (float)child.Height;
+        
+        // Calculate scaling to fit (AspectFit behavior)
+        var scale = Math.Min(viewWidth / drawableWidth, viewHeight / drawableHeight);
+        
+        // Calculate actual rendered image size
+        var imageWidth = drawableWidth * scale;
+        var imageHeight = drawableHeight * scale;
+        
+        // Calculate letterbox offsets (centering)
+        var left = (viewWidth - imageWidth) / 2f;
+        var top = (viewHeight - imageHeight) / 2f;
+        
+        return new Android.Graphics.RectF(left, top, left + imageWidth, top + imageHeight);
     }
     
     /// <summary>
@@ -162,11 +198,29 @@ public class ZoomScrollView : FrameLayout
             child.ScaleX = Parent.m_scaleFactor;
             child.ScaleY = Parent.m_scaleFactor;
 
-            // Constrain to bounds
-            var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
-            var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
-            child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
-            child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+            // Constrain to bounds - account for actual image content bounds (excluding letterbox)
+            var imageBounds = Parent.GetImageContentBounds(child);
+            if (imageBounds != null)
+            {
+                // Calculate scaled image dimensions
+                var scaledImageWidth = imageBounds.Width() * Parent.m_scaleFactor;
+                var scaledImageHeight = imageBounds.Height() * Parent.m_scaleFactor;
+                
+                // Calculate how much the scaled image exceeds the viewport
+                var maxX = Math.Max(0, (scaledImageWidth - Parent.Width) / 2);
+                var maxY = Math.Max(0, (scaledImageHeight - Parent.Height) / 2);
+                
+                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
+                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+            }
+            else
+            {
+                // Fallback to old calculation if we can't get image bounds
+                var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+                var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
+                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
+                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+            }
 
             Parent.SetIsZoomed();
 
@@ -229,11 +283,29 @@ public class ZoomScrollView : FrameLayout
                 child.TranslationX = -focusX;
                 child.TranslationY = -focusY;
                 
-                // Constrain to bounds
-                var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
-                var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
-                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
-                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+                // Constrain to bounds - account for actual image content bounds (excluding letterbox)
+                var imageBounds = Parent.GetImageContentBounds(child);
+                if (imageBounds != null)
+                {
+                    // Calculate scaled image dimensions
+                    var scaledImageWidth = imageBounds.Width() * Parent.m_scaleFactor;
+                    var scaledImageHeight = imageBounds.Height() * Parent.m_scaleFactor;
+                    
+                    // Calculate how much the scaled image exceeds the viewport
+                    var maxX = Math.Max(0, (scaledImageWidth - Parent.Width) / 2);
+                    var maxY = Math.Max(0, (scaledImageHeight - Parent.Height) / 2);
+                    
+                    child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
+                    child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+                }
+                else
+                {
+                    // Fallback to old calculation
+                    var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+                    var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
+                    child.TranslationX = Math.Max(-maxX, Math.Min(maxX, child.TranslationX));
+                    child.TranslationY = Math.Max(-maxY, Math.Min(maxY, child.TranslationY));
+                }
             }
 
             Parent.SetIsZoomed();
@@ -253,14 +325,29 @@ public class ZoomScrollView : FrameLayout
             var newTranslationX = child.TranslationX - distanceX;
             var newTranslationY = child.TranslationY - distanceY;
                     
-            // When scaling from center, content grows equally in all directions
-            // At 2x scale, content extends by width/2 and height/2 beyond original size
-            var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
-            var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
-                    
-            // Constrain translation to these bounds
-            child.TranslationX = Math.Max(-maxX, Math.Min(maxX, newTranslationX));
-            child.TranslationY = Math.Max(-maxY, Math.Min(maxY, newTranslationY));
+            // Constrain to bounds - account for actual image content bounds (excluding letterbox)
+            var imageBounds = Parent.GetImageContentBounds(child);
+            if (imageBounds != null)
+            {
+                // Calculate scaled image dimensions
+                var scaledImageWidth = imageBounds.Width() * Parent.m_scaleFactor;
+                var scaledImageHeight = imageBounds.Height() * Parent.m_scaleFactor;
+                
+                // Calculate how much the scaled image exceeds the viewport
+                var maxX = Math.Max(0, (scaledImageWidth - Parent.Width) / 2);
+                var maxY = Math.Max(0, (scaledImageHeight - Parent.Height) / 2);
+                
+                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, newTranslationX));
+                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, newTranslationY));
+            }
+            else
+            {
+                // Fallback to old calculation
+                var maxX = (child.Width * (Parent.m_scaleFactor - 1)) / 2;
+                var maxY = (child.Height * (Parent.m_scaleFactor - 1)) / 2;
+                child.TranslationX = Math.Max(-maxX, Math.Min(maxX, newTranslationX));
+                child.TranslationY = Math.Max(-maxY, Math.Min(maxY, newTranslationY));
+            }
             return true;
         }
     }

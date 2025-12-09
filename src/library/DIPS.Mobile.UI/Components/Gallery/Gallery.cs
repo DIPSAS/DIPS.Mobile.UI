@@ -1,4 +1,6 @@
 using System.Collections.Specialized;
+using DIPS.Mobile.UI.Components.ContextMenus;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
@@ -14,10 +16,12 @@ public partial class Gallery : Grid
 {
     private readonly Label m_numberOfImagesLabel;
     private readonly ContentView m_borderAroundNumberOfImages;
+    private readonly Button? m_navigateNextImageButton;
+    private readonly Button? m_navigatePreviousImageButton;
+    
     private bool m_isAnyImageZoomed;
+    
     private INotifyCollectionChanged? m_previousCollection;
-    private readonly Button m_navigatePreviousImageButton;
-    private readonly Button m_navigateNextImageButton;
 
     public Gallery()
     {
@@ -36,7 +40,8 @@ public partial class Gallery : Grid
         
         carouselView.Loop = false;
         carouselView.PeekAreaInsets = new Thickness(0);
-        this.SetBinding(CurrentImageIndexProperty, static (CarouselView.CarouselView carouselView) => carouselView.Position, source: carouselView);
+        AutomationProperties.SetExcludedWithChildren(carouselView, true);
+        this.SetBinding(CurrentImageIndexProperty, static (CarouselView.CarouselView carouselView) => carouselView.Position, source: carouselView, mode: BindingMode.TwoWay);
         
         m_numberOfImagesLabel = new Label
         {
@@ -56,7 +61,7 @@ public partial class Gallery : Grid
             Opacity = 0
         };
         m_borderAroundNumberOfImages.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.ImageCountBackgroundColor, source: this);
-
+        AutomationProperties.SetExcludedWithChildren(m_borderAroundNumberOfImages, true);
         UI.Effects.Layout.Layout.SetCornerRadius(m_borderAroundNumberOfImages, Sizes.GetSize(SizeName.radius_large));
         
         m_navigatePreviousImageButton = new Button
@@ -77,6 +82,7 @@ public partial class Gallery : Grid
         };
         m_navigatePreviousImageButton.SetBinding(Button.ImageTintColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsImageTintColor, source: this);
         m_navigatePreviousImageButton.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsBackgroundColor, source: this);
+        SemanticProperties.SetDescription(m_navigatePreviousImageButton, DUILocalizedStrings.Accessibility_NavigatePreviousImage);
         
         m_navigateNextImageButton = new Button
         {
@@ -96,6 +102,7 @@ public partial class Gallery : Grid
         };
         m_navigateNextImageButton.SetBinding(Button.ImageTintColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsImageTintColor, source: this);
         m_navigateNextImageButton.SetBinding(BackgroundColorProperty, static (Gallery gallery) => gallery.GalleryCustomizer.NavigateButtonsBackgroundColor, source: this);
+        SemanticProperties.SetDescription(m_navigateNextImageButton, DUILocalizedStrings.Accessibility_NavigateNextImage);
         
         Add(carouselView);
         Add(m_borderAroundNumberOfImages);
@@ -108,6 +115,15 @@ public partial class Gallery : Grid
         base.OnHandlerChanged();
 
         UpdateNavigationButtonsVisibility();
+        AnnounceCurrentImage();
+    }
+
+    private void AnnounceCurrentImage()
+    {
+        if (Images?.Count() > 0)
+        {
+            SemanticScreenReader.Default.Announce(string.Format(DUILocalizedStrings.Of, CurrentImageIndex + 1, Images.Count()));
+        }
     }
 
     private void OnImagesChanged()
@@ -142,32 +158,60 @@ public partial class Gallery : Grid
         if(Images is null)
             return;
 
+        UpdateContextMenu();
         UpdateNumberOfImagesVisibility();
         UpdateNavigationButtonsVisibility();
         UpdateLabelText();
     }
 
+    private void UpdateContextMenu()
+    {
+        var contextMenu = new ContextMenu();
+        for (var i = 0; i < Images?.Count(); i++)
+        {
+            var index = i;
+            var menuItem = new ContextMenuItem
+            {
+                Title = $"{DUILocalizedStrings.Image} {i + 1}",
+                Command = new Command(() =>
+                {
+                    CurrentImageIndex = index;
+                })
+            };
+            contextMenu.ItemsSource?.Add(menuItem);
+        }
+
+        ContextMenuEffect.SetMenu(m_borderAroundNumberOfImages, contextMenu);
+    }
+
     private void UpdateNavigationButtonsVisibility()
     {
+        if(m_navigatePreviousImageButton is null || m_navigateNextImageButton is null)
+            return;
+        
         var navigatePreviousShouldBeVisible = CurrentImageIndex != 0 && !m_isAnyImageZoomed && Images?.ToList().Count > 0;
         var navigateNextShouldBeVisible = CurrentImageIndex != Images?.ToList().Count - 1 && !m_isAnyImageZoomed && Images?.ToList().Count > 0;
 
         if (navigatePreviousShouldBeVisible)
         {
             _ = SetViewVisibleAnimated(m_navigatePreviousImageButton);
+            AutomationProperties.SetExcludedWithChildren(m_navigatePreviousImageButton, false);
         }
         else
         {
             _ = SetViewInvisibleAnimated(m_navigatePreviousImageButton);
+            AutomationProperties.SetExcludedWithChildren(m_navigatePreviousImageButton, true);
         }
 
         if (navigateNextShouldBeVisible)
         {
-            _ = SetViewVisibleAnimated(m_navigateNextImageButton); 
+            _ = SetViewVisibleAnimated(m_navigateNextImageButton);
+            AutomationProperties.SetExcludedWithChildren(m_navigateNextImageButton, false);
         }
         else
         {
             _ = SetViewInvisibleAnimated(m_navigateNextImageButton);
+            AutomationProperties.SetExcludedWithChildren(m_navigateNextImageButton, true);
         }
     }
 
@@ -192,6 +236,7 @@ public partial class Gallery : Grid
     {
         UpdateLabelText();
         UpdateNavigationButtonsVisibility();
+        AnnounceCurrentImage();
     }
     
     private void UpdateLabelText()

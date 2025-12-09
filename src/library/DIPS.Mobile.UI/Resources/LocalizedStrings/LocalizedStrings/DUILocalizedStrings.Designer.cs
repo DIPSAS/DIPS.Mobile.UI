@@ -524,5 +524,29 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Header", resourceCulture);
             }
         }
+        
+        internal static string Accessibility_NavigateNextImage {
+            get {
+                return ResourceManager.GetString("Accessibility_NavigateNextImage", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_NavigatePreviousImage {
+            get {
+                return ResourceManager.GetString("Accessibility_NavigatePreviousImage", resourceCulture);
+            }
+        }
+        
+        internal static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        internal static string Of {
+            get {
+                return ResourceManager.GetString("Of", resourceCulture);
+            }
+        }
     }
 }
