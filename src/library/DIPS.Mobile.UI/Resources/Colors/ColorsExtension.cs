@@ -18,7 +18,7 @@ public class ColorsExtension : IMarkupExtension<Color>
 
     public static Color GetColor(string colorName, float alpha = -1)
     {
-        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.ForceDarkMode) || Application.Current?.RequestedTheme == AppTheme.Dark)
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.ForceDarkMode))
         {
             colorName += UnifiedColorResources.DarkModeSuffix;
         }
