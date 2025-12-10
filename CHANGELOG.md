@@ -1,3 +1,6 @@
+## [54.4.1]
+- Enabling dark mode colors is now the consumers responsibility, not DUI.
+
 ## [54.4.0]
 - Added `PanZoomContainer`, `Gallery` and `TiffViewer` components.
 
