@@ -1,3 +1,6 @@
+## [54.4.2]
+- Use better example in `TiffViewer`.
+
 ## [54.4.1]
 - Enabling dark mode colors is now the consumers responsibility, not DUI.
 

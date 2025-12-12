@@ -13,7 +13,7 @@ public partial class TiffViewerSample
         try
         {
             // Load the TIFF file from Resources/Raw
-            using var stream = await FileSystem.OpenAppPackageFileAsync("multipage_tif_example.tif");
+            using var stream = await FileSystem.OpenAppPackageFileAsync("output.tiff");
             using var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             var bytes = memoryStream.ToArray();
