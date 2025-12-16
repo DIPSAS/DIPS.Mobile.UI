@@ -75,7 +75,7 @@ public class VetlePageViewModel : ViewModel
 
         CancelCommand = new Command(() => Controller.IsRunning = !Controller.IsRunning);
 
-        //_ = DelayFunction();
+        _ = DelayFunction();
 
         DisableCommand = new Command(Disable);
 
@@ -202,8 +202,8 @@ public class VetlePageViewModel : ViewModel
         GroupedTest = [new(TestStrings.ToList()), new(TestStrings.ToList())];
         
         await Task.Delay(5000);
-        
-        GroupedTest = [new(TestStrings.ToList()), new(TestStrings.ToList()), new(TestStrings.ToList())];
+
+        IsVisible = true;
     }
 
 

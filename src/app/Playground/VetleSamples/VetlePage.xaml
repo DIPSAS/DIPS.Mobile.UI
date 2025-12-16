@@ -5,11 +5,7 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                 xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
-                 xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
-                 xmlns:gallery="clr-namespace:DIPS.Mobile.UI.Components.Gallery;assembly=DIPS.Mobile.UI"
+                 xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -25,9 +21,19 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid>
+    <Grid RowDefinitions="*, *">
 
-        <gallery:Gallery x:Name="Gallery"/>
+        <dui:Button Style="{dui:Styles Button=CallToActionIconLarge}"
+                    ImageSource="{dui:Icons ascending_fill}"
+                    Clicked="Button_OnClicked"
+                    />
+        
+        <dui:Button Style="{dui:Styles Button=CallToActionIconLarge}"
+                    ImageSource="{dui:Icons ascending_fill}"
+                    IsVisible="False"
+                    Clicked="Button_OnClicked"
+                    Grid.Row="1"
+                    x:Name="Button"/>
 
     </Grid>
 
