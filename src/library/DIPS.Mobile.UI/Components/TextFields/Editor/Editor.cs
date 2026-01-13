@@ -18,10 +18,7 @@ public partial class Editor : Microsoft.Maui.Controls.Editor
 
     private void OnUnfocusedReplaceEmojis(object? sender, FocusEventArgs e)
     {
-        if (!string.IsNullOrEmpty(Text))
-        {
-            Text = StringFormatter.ReplaceAllEmojisWithPlaceholder(Text);
-        }
+        Text = StringFormatter.ReplaceAllEmojisWithPlaceholder(Text);
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)

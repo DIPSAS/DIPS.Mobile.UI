@@ -1,6 +1,3 @@
-## [54.4.3]
-- [SingleLineInputfield][MultiLineInputfield][Entry][Editor] When unfocused, replace emojis with `[Emoji]`
-
 ## [54.4.2]
 - Use better example in `TiffViewer`.
 
