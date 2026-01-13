@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
+using DIPS.Mobile.UI.Formatters;
 using DIPS.Mobile.UI.Internal;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -208,6 +209,7 @@ public partial class SingleLineInputField : Grid
         UpdateInputViewVisibility();
         ValidateMargin(prevBorderThickness);
         OnTextChanged();
+        Text = StringFormatter.ReplaceAllEmojisWithPlaceholder(Text);
         
         Unfocused?.Invoke(this, e);
         
