@@ -71,5 +71,5 @@ then
    #echo "Will make sure we install correct sdk from sdk-version.json."
    #sudo dotnet workload install android ios --from-rollback-file sdk-versions.json
    #echo "✅ Android and iOS was installed."
-   sudo dotnet workload list
+   #sudo dotnet workload list
 fi
