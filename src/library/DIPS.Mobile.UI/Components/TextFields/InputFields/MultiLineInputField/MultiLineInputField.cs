@@ -107,7 +107,6 @@ public partial class MultiLineInputField : SingleLineInputField
             Command = new Command(OnSaveTapped),
             CommandParameter = InputView.Text
         };
-        AutomationProperties.SetIsInAccessibleTree(m_doneButton, false);
         
         m_buttonsLayout = new Grid
         { 
@@ -133,6 +132,7 @@ public partial class MultiLineInputField : SingleLineInputField
                 Style = Styles.GetButtonStyle(ButtonStyle.DefaultIconSmall),
                 Command = new AsyncCommand(ToggleDictation)
             };
+            SemanticProperties.SetDescription(m_toggleDictationButton, DUILocalizedStrings.Dictation);
             
             m_buttonsLayout.Add(m_toggleDictationButton, column: 1);
         }

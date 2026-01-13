@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+
 namespace DIPS.Mobile.UI.Components.Counters;
 
 public partial class Counter
@@ -6,7 +8,8 @@ public partial class Counter
         nameof(Value),
         typeof(int),
         typeof(Counter),
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        propertyChanged: ((bindable, _, _) => ((Counter)bindable).SetSemanticDescription()));
 
     public static readonly BindableProperty SecondaryValueProperty = BindableProperty.Create(
         nameof(SecondaryValue),
@@ -14,6 +17,20 @@ public partial class Counter
         typeof(Counter),
         defaultBindingMode: BindingMode.OneWay,
         propertyChanged: ((bindable, _, _) => ((Counter)bindable).OnSecondaryValueChanged()));
+    
+    public static readonly BindableProperty ValueSemanticDescriptionProperty = BindableProperty.Create(
+        nameof(ValueSemanticDescription),
+        typeof(string),
+        typeof(Counter),
+        defaultBindingMode: BindingMode.OneWay,
+        defaultValue: DUILocalizedStrings.CounterValue);
+
+    public static readonly BindableProperty SecondaryValueSemanticDescriptionProperty = BindableProperty.Create(
+        nameof(SecondaryValueSemanticDescription),
+        typeof(string),
+        typeof(Counter),
+        defaultBindingMode: BindingMode.OneWay,
+        defaultValue: DUILocalizedStrings.CounterValue);
 
     public static readonly BindableProperty IsUrgentProperty = BindableProperty.Create(
         nameof(IsUrgent),
@@ -124,6 +141,24 @@ public partial class Counter
     {
         get => (int)GetValue(SecondaryValueProperty);
         set => SetValue(SecondaryValueProperty, value);
+    }
+    
+    /// <summary>
+    /// The semantic description of the primary counter value.
+    /// </summary>
+    public string ValueSemanticDescription
+    {
+        get => (string)GetValue(ValueSemanticDescriptionProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    
+    /// <summary>
+    /// The semantic description of the secondary counter value.
+    /// </summary>
+    public string SecondaryValueSemanticDescription
+    {
+        get => (string)GetValue(SecondaryValueSemanticDescriptionProperty);
+        set => SetValue(SecondaryValueSemanticDescriptionProperty, value);
     }
     
     

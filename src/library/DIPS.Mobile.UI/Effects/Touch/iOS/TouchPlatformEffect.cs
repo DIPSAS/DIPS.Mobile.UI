@@ -39,7 +39,7 @@ public partial class TouchPlatformEffect
     private partial void OnAccessibilityDescriptionSet()
     {
         // Append the AccessibilityTraits to `Button` if there is an accessibility description set
-        if (!string.IsNullOrEmpty(Control.AccessibilityLabel))
+        if (!string.IsNullOrEmpty(Control.AccessibilityLabel) && Touch.GetIsButtonTraitEnabled(Element))
         {
             // Use | to append, to make sure we are not overwriting anything here
             Control.AccessibilityTraits |= UIAccessibilityTrait.Button;

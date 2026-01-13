@@ -7,6 +7,7 @@ using DIPS.Mobile.UI.Components.Images.NativeIcon;
 using DIPS.Mobile.UI.Components.Labels;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.PanZoomContainer;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Effects.Touch;
@@ -28,6 +29,7 @@ using ImageHandler = DIPS.Mobile.UI.Components.Images.Image.ImageHandler;
 using Label = DIPS.Mobile.UI.Components.Labels.Label;
 using Layout = DIPS.Mobile.UI.Effects.Layout.Layout;
 using LayoutPlatformEffect = DIPS.Mobile.UI.Effects.Layout.LayoutPlatformEffect;
+using PanZoomContainerHandler = DIPS.Mobile.UI.Components.PanZoomContainer.PanZoomContainerHandler;
 using ScrollView = DIPS.Mobile.UI.Components.Lists.ScrollView;
 using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
@@ -68,6 +70,7 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<Editor, EditorHandler>();
             handlers.AddHandler<BottomSheet, BottomSheetHandler>();
             handlers.AddHandler<ScrollPicker, ScrollPickerHandler>();
+            handlers.AddHandler<PanZoomContainer, PanZoomContainerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             handlers.AddHandler<PreviewView, PreviewViewHandler>();
             

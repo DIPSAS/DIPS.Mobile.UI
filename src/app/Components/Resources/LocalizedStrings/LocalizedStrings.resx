@@ -539,4 +539,22 @@
     <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
         <value>Kodebruk</value>
     </data>
+    <data name="Gallery" xml:space="preserve">
+        <value>Gallery</value>
+    </data>
+    <data name="PickPhotos" xml:space="preserve">
+        <value>Velg bilder</value>
+    </data>
+    <data name="ZoomContainer" xml:space="preserve">
+        <value>Zoom Container</value>
+    </data>
+    <data name="PinchToZoom" xml:space="preserve">
+        <value>Klype for å zoome</value>
+    </data>
+    <data name="TiffViewer" xml:space="preserve">
+        <value>TIFF Viewer</value>
+    </data>
+    <data name="MultiPageTiffDescription" xml:space="preserve">
+        <value>Flersidig TIFF med zoom og sidenavigering</value>
+    </data>
 </root>

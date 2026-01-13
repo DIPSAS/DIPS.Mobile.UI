@@ -494,5 +494,59 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Accessability_TapToChangeSorting", resourceCulture);
             }
         }
+        
+        internal static string InputField {
+            get {
+                return ResourceManager.GetString("InputField", resourceCulture);
+            }
+        }
+        
+        internal static string Dictation {
+            get {
+                return ResourceManager.GetString("Dictation", resourceCulture);
+            }
+        }
+        
+        internal static string CounterValue {
+            get {
+                return ResourceManager.GetString("CounterValue", resourceCulture);
+            }
+        }
+        
+        internal static string Urgent {
+            get {
+                return ResourceManager.GetString("Urgent", resourceCulture);
+            }
+        }
+        
+        internal static string Header {
+            get {
+                return ResourceManager.GetString("Header", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_NavigateNextImage {
+            get {
+                return ResourceManager.GetString("Accessibility_NavigateNextImage", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_NavigatePreviousImage {
+            get {
+                return ResourceManager.GetString("Accessibility_NavigatePreviousImage", resourceCulture);
+            }
+        }
+        
+        internal static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        internal static string Of {
+            get {
+                return ResourceManager.GetString("Of", resourceCulture);
+            }
+        }
     }
 }

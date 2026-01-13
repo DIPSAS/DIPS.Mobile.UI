@@ -1,6 +1,35 @@
 ## [55.0.0]
 - Upgraded to .NET MAUI 10.
 
+## [54.4.2]
+- Use better example in `TiffViewer`.
+
+## [54.4.1]
+- Enabling dark mode colors is now the consumers responsibility, not DUI.
+
+## [54.4.0]
+- Added `PanZoomContainer`, `Gallery` and `TiffViewer` components.
+
+## [54.3.2]
+- [Chip] Fixed accessibility
+
+## [54.3.1]
+- Make sure apps that have locked their light mode, can force dark mode.
+- Renamed experimental feature `DarkMode` -> `ForceDarkMode`.
+
+## [54.3.0]
+- Added `DarkMode` experimental feature.
+
+## [54.2.5]
+- [Counter] Forbedret tilgjengelighet slik at skjermleser leser opp teller-verdiene, teller-beskrivelsen, samt om de haster, eller om det eventuelt er en error.
+
+## [54.2.4]
+- [Alert] Fixed accessibility
+
+## [54.2.3]
+- [Touch] Added IsButtonTraitEnabledProperty to allow consumer to disable button trait on Touch effect.
+- [MultiLineInputField][SingleLineInputField] Enhanced accessability, screen reader now announces the value of the field and that it is an input field, and all buttons are available in navigation
+
 ## [54.2.2]
 - [ItemPicker] Made screen recorder read button and the itempicker's selected item
 - [Chip] Made screen recorder focus on close button if present

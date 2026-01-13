@@ -9,7 +9,7 @@
                  xmlns:system="clr-namespace:System;assembly=System.Runtime"
                  xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
                  xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
-                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:gallery="clr-namespace:DIPS.Mobile.UI.Components.Gallery;assembly=DIPS.Mobile.UI"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"

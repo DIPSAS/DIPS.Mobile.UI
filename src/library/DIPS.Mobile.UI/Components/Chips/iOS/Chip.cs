@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -167,6 +168,9 @@ public partial class Chip
         label.SetBinding(Label.TextProperty, static (Chip chip) => chip.Title, source: this);
         label.SetBinding(Label.TextColorProperty, static (Chip chip) => chip.TitleColor, source: this);
         label.SetBinding(Label.HorizontalTextAlignmentProperty, static (Chip chip) => chip.TitleTextAlignment, source: this);
+        
+        SemanticProperties.SetDescription(label, SemanticDescription.GetDescription(label.Text, ControlType.Button)
+        );
 
         return label;
     }
@@ -176,6 +180,7 @@ public partial class Chip
         if (IsToggleable)
         {
             IsToggled = !IsToggled;
+            SetSemanticDescription();
             SendTapped();
         }
         else if (didTouchCloseButton)
@@ -220,6 +225,17 @@ public partial class Chip
         {
             m_customRightIcon.IsVisible = CustomRightIcon is not null && !IsCloseable;
         }
+        
+        if (propertyName.Equals(nameof(Title)))
+        {
+            SetSemanticDescription();
+        }
+    }
+
+    private void SetSemanticDescription()
+    {
+        var toggledText = IsToggleable ? (IsToggled ? DUILocalizedStrings.Selected : string.Empty) : string.Empty;
+        SemanticProperties.SetDescription(m_titleLabel, SemanticDescription.GetDescription(string.Join(", ", m_titleLabel.Text + toggledText), ControlType.Button));
     }
 
     private void SetCornerRadius()

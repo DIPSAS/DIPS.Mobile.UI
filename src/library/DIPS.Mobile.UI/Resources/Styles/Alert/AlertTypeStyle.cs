@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Components.Alerting.Alert;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace DIPS.Mobile.UI.Resources.Styles.Alert;
 
@@ -32,6 +33,11 @@ public class AlertTypeStyle
             {
                 Property = AlertView.TextColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_information)
+            },
+            new Setter
+            {
+                Property = AlertView.AlertTypeProperty,
+                Value = DUILocalizedStrings.Information
             }
         }
     };
@@ -64,6 +70,11 @@ public class AlertTypeStyle
             {
                 Property = AlertView.TextColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_danger)
+            },
+            new Setter
+            {
+                Property = AlertView.AlertTypeProperty,
+                Value = DUILocalizedStrings.Error
             }
         }
     };
@@ -96,6 +107,11 @@ public class AlertTypeStyle
             {
                 Property = AlertView.TextColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_warning)
+            },
+            new Setter
+            {
+                Property = AlertView.AlertTypeProperty,
+                Value = DUILocalizedStrings.Warning
             }
         }
     };
@@ -128,6 +144,11 @@ public class AlertTypeStyle
             {
                 Property = AlertView.TextColorProperty,
                 Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_success)
+            },
+            new Setter
+            {
+                Property = AlertView.AlertTypeProperty,
+                Value = DUILocalizedStrings.Success
             }
         }
     };

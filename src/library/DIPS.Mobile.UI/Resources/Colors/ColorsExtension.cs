@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.API.Library;
+
 namespace DIPS.Mobile.UI.Resources.Colors;
 
 [AcceptEmptyServiceProvider]
@@ -16,6 +18,11 @@ public class ColorsExtension : IMarkupExtension<Color>
 
     public static Color GetColor(string colorName, float alpha = -1)
     {
+        if (DUI.IsExperimentalFeatureEnabled(DUI.ExperimentalFeatures.ForceDarkMode))
+        {
+            colorName += UnifiedColorResources.DarkModeSuffix;
+        }
+        
         if (UnifiedColorResources.Colors.TryGetValue(colorName, out var color))
         {
             return (alpha >= 0) ? color.WithAlpha(alpha) : color;

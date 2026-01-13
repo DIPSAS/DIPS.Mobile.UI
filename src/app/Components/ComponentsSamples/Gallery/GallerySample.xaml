@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.Samples.GallerySample"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+                 x:Class="Components.Samples.GallerySample.GallerySample"
+                 x:DataType="local:GallerySampleViewModel"
+                 Title="{x:Static localizedStrings:LocalizedStrings.Gallery}"
+                 iOsSpecific:Page.UseSafeArea="True">
+    
+    <dui:ContentPage.BindingContext>
+        <local:GallerySampleViewModel />
+    </dui:ContentPage.BindingContext>
+    
+    <Grid RowDefinitions="Auto, *">
+        
+        <dui:Button Text="{x:Static localizedStrings:LocalizedStrings.PickPhotos}"
+                    Command="{Binding PickPhotoCommand}"
+                    Style="{dui:Styles Button=CallToActionLarge}"
+                    Margin="{dui:Sizes size_2}" />
+        
+        <dui:Gallery Images="{Binding Images}"
+                     Grid.Row="1" />
+    </Grid>
+</dui:ContentPage>

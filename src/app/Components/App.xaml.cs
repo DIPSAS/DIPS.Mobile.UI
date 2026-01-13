@@ -1,4 +1,5 @@
 ﻿using Components.Resources.LocalizedStrings;
+using DIPS.Mobile.UI.API.Library;
 using Enum = System.Enum;
 
 namespace Components;
@@ -44,6 +45,29 @@ public partial class App
         }
         
         shell.Items.Add(tabBar);
+
+        if (Current != null)
+        {
+            //Support dark mode if its enabled in the OS
+            if (Current.RequestedTheme == AppTheme.Dark)
+            {
+                DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.ForceDarkMode);
+            }
+        
+            Current.RequestedThemeChanged += CurrentOnRequestedThemeChanged;    
+        }
+
+        void CurrentOnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+        {
+            if (Current?.RequestedTheme == AppTheme.Dark)
+            {
+                DUI.EnableExperimentalFeature(DUI.ExperimentalFeatures.ForceDarkMode);
+            }
+            else
+            {
+                DUI.DisableExperimentalFeature(DUI.ExperimentalFeatures.ForceDarkMode);
+            }
+        }
 
         return new Window(shell);
     }

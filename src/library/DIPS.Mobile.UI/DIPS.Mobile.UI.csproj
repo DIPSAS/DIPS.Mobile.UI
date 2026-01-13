@@ -171,6 +171,7 @@
         <PackageReference Include="Microsoft.Maui.Controls" />
         <!-- This makes sure people can debug the library https://github.com/dotnet/sourcelink?tab=readme-ov-file#githubcom-and-github-enterprise -->
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+        <PackageReference Include="BitMiracle.LibTiff.NET" />
     </ItemGroup>
 
     <ItemGroup>

@@ -6,7 +6,8 @@ public partial class DUI
     public enum ExperimentalFeatures
     {
         None = 0,
-        DictationInTextFields = 1
+        DictationInTextFields = 1,
+        ForceDarkMode = 2
         // Add more experimental features here as needed
     }
 
