@@ -23,8 +23,6 @@
         <Nullable>enable</Nullable>
         
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
-        <MauiXamlInflator>SourceGen</MauiXamlInflator>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug' AND $(TargetFramework.Contains('ios'))">

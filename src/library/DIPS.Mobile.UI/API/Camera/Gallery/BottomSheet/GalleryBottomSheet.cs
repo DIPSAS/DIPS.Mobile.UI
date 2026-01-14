@@ -61,8 +61,6 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
 #if __IOS__
         Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
-#elif __ANDROID__
-        /*Padding = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small));*/
 #endif
         
         m_onRemoveImage = onRemoveImage;

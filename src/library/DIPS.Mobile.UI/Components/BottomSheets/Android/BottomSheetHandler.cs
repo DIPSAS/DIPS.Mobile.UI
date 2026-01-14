@@ -275,18 +275,6 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         var bottomSheetVisibleHeight = view.Height - view.Top;
                 
-        // Get status bar height
-        var statusBarHeight = 0;
-        var resourceId = Context.Resources?.GetIdentifier("status_bar_height", "dimen", "android") ?? 0;
-        if (resourceId > 0 && Context.Resources != null)
-        {
-            statusBarHeight = Context.Resources.GetDimensionPixelSize(resourceId);
-        }
-
-        // Don't move bottom bar if BottomSheet is at the status bar
-        if(statusBarHeight >= view.Top)
-            return;
-
         if(m_bottomBar is not null)
             m_bottomBar.TranslationY = bottomSheetVisibleHeight - m_bottomBar.Height;
     }

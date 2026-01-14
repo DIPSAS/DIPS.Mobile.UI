@@ -42,18 +42,11 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/MyCustomToolbar</item>
-        
-        <!-- BottomSheet theme -->
-        <item name="bottomSheetDialogTheme">@style/DIPS.BottomSheetDialog</item>
     </style>
 
     <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
     </style>
     
-    <style name="DIPS.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <!-- Disable elevation overlay so BottomSheet background extends cleanly into status bar without color change -->
-        <item name="elevationOverlayEnabled">false</item>
-    </style>
 
 </resources>
