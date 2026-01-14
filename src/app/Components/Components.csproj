@@ -155,8 +155,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!-- Workaround: XAML source generator cannot parse nested markup extensions like {dui:StringFormat {x:Static ...}, Argument=1} -->
-        <MauiXaml Update="ComponentsSamples\ContextMenus\ContextMenuSamples.xaml" Inflator="Runtime" />
         <MauiXaml Update="ResourcesSamples\Icons\IconsSamples.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
