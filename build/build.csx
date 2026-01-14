@@ -211,7 +211,7 @@ TaskRunner
     })
     .Does(async () => {
         var version = await GetVersionWithBranchSuffix();
-        await Command.ExecuteAsync("dotnet", $"pack {LibraryProjectPath} -c {Configuration} -o {BuildEnv.OutputDir} /p:PackageVersion={version} -v detailed");
+        await Command.ExecuteAsync("dotnet", $"pack {LibraryProjectPath} -c {Configuration} -o {BuildEnv.OutputDir} /p:PackageVersion={version}");
     })
     .DoesAfter(() => { Console.WriteLine("##[endgroup]"); return Task.CompletedTask; });
 
