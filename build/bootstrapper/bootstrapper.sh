@@ -67,6 +67,7 @@ then
    echo "Will install MAUI."
    sudo dotnet workload install maui > /dev/null 2>&1
    echo "✅ .NET MAUI was installed."
+   sudo dotnet workload list
    #Uncomment the lines below to enforce installing specific android and/or ios sdk versions from sdk-versions.json
    #echo "Will make sure we install correct sdk from sdk-version.json."
    #sudo dotnet workload install android ios --from-rollback-file sdk-versions.json
