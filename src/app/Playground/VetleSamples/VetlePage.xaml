@@ -31,8 +31,8 @@
 
     <VerticalStackLayout SafeAreaEdges="None">
 
-       <!--<dui:Button Clicked="Button_OnClicked"
-                   />-->
+       <dui:Button Clicked="Button_OnClicked" />
+       <dui:Button Clicked="Button_OnClicked2" />
         
     </VerticalStackLayout>
 

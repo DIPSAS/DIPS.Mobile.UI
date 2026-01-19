@@ -1,13 +1,20 @@
 using Android.Text;
+using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Graphics.Drawable;
+using AndroidX.Core.View;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Library.Android;
+using DIPS.Mobile.UI.API.Tip;
+using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
+using Color = Android.Graphics.Color;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.API.Library;
 
@@ -19,14 +26,104 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-              SetColorsOnModal(dialogFragment);
-              TryInheritWindowFlags(dialogFragment);
+                SetColorsOnModal(dialogFragment);
+                TryInheritStatusBarColorOnModal(dialogFragment);
+                TryInheritWindowFlags(dialogFragment);
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
         }
      
         base.OnFragmentStarted(fm, f);
+    }   
+    
+    // TODO: Workaround, remove when MAUI supports this out of the box
+    // Inspiration: https://github.com/dotnet/maui/issues/32987
+    private static void TryInheritStatusBarColorOnModal(DialogFragment dialogFragment)
+    {
+        try
+        {
+            // Only apply if the modal is inside a NavigationPage
+            if (Microsoft.Maui.Controls.Shell.Current?.CurrentPage is not { Parent: Microsoft.Maui.Controls.NavigationPage })
+            {
+                return;
+            }
+
+            var activity = Platform.CurrentActivity;
+            if (activity is null)
+            {
+                return;
+            }
+
+            var statusBarColor = activity.Window!.StatusBarColor;
+            var platformColor = new Color(statusBarColor);
+
+            var window = dialogFragment?.Dialog?.Window;
+            if (window is null)
+            {
+                return;
+            }
+
+            var isColorTransparent = platformColor == global::Android.Resource.Color.Transparent;
+            if (isColorTransparent)
+            {
+                window.ClearFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+                window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
+            }
+            else
+            {
+                window.ClearFlags(WindowManagerFlags.LayoutNoLimits);
+                window.SetFlags(WindowManagerFlags.DrawsSystemBarBackgrounds, WindowManagerFlags.DrawsSystemBarBackgrounds);
+            }
+
+            var controller = WindowCompat.GetInsetsController(window!, window!.DecorView);
+            if (controller != null)
+            {
+                // Light status bars = dark icons (for light backgrounds)
+                controller.AppearanceLightStatusBars = Application.Current?.RequestedTheme == AppTheme.Light;
+                controller.AppearanceLightNavigationBars = Application.Current?.RequestedTheme == AppTheme.Light;
+            }
+
+            var customStatusBarColor = Colors.GetColor(ContentPage.BackgroundColorName);
+            
+            // Set the status bar color for the modal dialog
+            if (OperatingSystem.IsAndroidVersionAtLeast(35))
+            {
+                var statusBarScrimId = View.GenerateViewId();
+                if (window.DecorView is not ViewGroup decor)
+                {
+                    return;
+                }
+
+                var scrim = decor.FindViewById(statusBarScrimId);
+                if (scrim == null)
+                {
+                    scrim = new View(activity) { Id = statusBarScrimId };
+                    scrim.LayoutParameters = new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MatchParent, 0, GravityFlags.Top);
+                    decor.AddView(scrim);
+                }
+
+                // Apply color
+                scrim.SetBackgroundColor(customStatusBarColor.ToPlatform());
+
+                // Size it to the status bar inset
+                ViewCompat.SetOnApplyWindowInsetsListener(decor, new InsetsListener(scrim));
+                ViewCompat.RequestApplyInsets(decor);
+            }
+            else
+            {
+                window.SetStatusBarColor(customStatusBarColor.ToPlatform());
+                if (OperatingSystem.IsAndroidVersionAtLeast(30))
+                {
+                    window.SetDecorFitsSystemWindows(!isColorTransparent);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            DUILogService.LogError<FragmentLifeCycleCallback>($"Failed to inherit status bar color on modal: {ex.Message}");
+        }
     }
 
     private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)
@@ -97,4 +194,33 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             dialogFragment.Dialog?.Window?.SetFlags(flags, flags);
         }
     }
+
+#if ANDROID
+    sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
+    {
+        readonly View m_scrim;
+        public InsetsListener(View scrim) => m_scrim = scrim;
+
+        public WindowInsetsCompat? OnApplyWindowInsets(View? v, WindowInsetsCompat? insets)
+        {
+            var ins = insets?.GetInsets(WindowInsetsCompat.Type.StatusBars());
+            if (ins == null)
+            {
+                return insets;
+            }
+
+            var top = ins.Top;
+            var lp = m_scrim.LayoutParameters;
+            if (lp == null)
+            {
+                return insets;
+            }
+
+            lp.Height = top;
+            m_scrim.LayoutParameters = lp;
+
+            return insets;
+        }
+    }
+#endif
 }

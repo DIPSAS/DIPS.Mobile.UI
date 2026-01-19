@@ -12,7 +12,7 @@
                  IsSaving="{Binding IsSaving}"
                  IsSavingCompleted="{Binding IsSavingCompleted}"
                  SavingCompletedCommand="{Binding CompletedCommand}"
-                 >
+                 Background="Green">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
@@ -24,7 +24,8 @@
 
     </dui:ContentPage.ToolbarItems>
 
-    <dui:ScrollView>
+    <dui:Button Clicked="Button_OnClicked" />
+    <!--<dui:ScrollView>
         <dui:VerticalStackLayout Padding="{dui:Padding page_margin_small}"
                                  Spacing="{dui:Sizes size_2}">
         
@@ -34,6 +35,6 @@
         
     
         </dui:VerticalStackLayout>
-    </dui:ScrollView>
+    </dui:ScrollView>-->
 
 </dui:ContentSavePage>
