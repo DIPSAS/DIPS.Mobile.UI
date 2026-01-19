@@ -1,4 +1,4 @@
-## [54.4.3]
+## [54.4.4]
 - ReplaceAllEmojisWithPlaceholder is now an extension method and takes in an optional placeholder string
 - ReplaceAllEmojisWithPlaceholder is tested
 - [SingleLineInputfield][Entry][Editor] Have an option to enable emojis
