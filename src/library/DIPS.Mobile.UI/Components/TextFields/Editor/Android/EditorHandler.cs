@@ -15,8 +15,6 @@ public partial class EditorHandler
     {
         base.ConnectHandler(platformView);
         
-        base.ConnectHandler(platformView);
-
         DefaultBackground = platformView.Background;
         
         var activity = Platform.CurrentActivity;
