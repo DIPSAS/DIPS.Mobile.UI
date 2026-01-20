@@ -86,6 +86,15 @@ public partial class SingleLineInputField
         set => SetValue(IsFocusedProperty, value);
     }
 
+    /// <summary>
+    /// When true, the input field will allow emoji characters; when false, emojis will be replaced with a placeholder on unfocus.
+    /// </summary>
+    public bool AllowEmojis
+    {
+        get => (bool)GetValue(AllowEmojisProperty);
+        set => SetValue(AllowEmojisProperty, value);
+    }
+
     public new event EventHandler<FocusEventArgs>? Focused;
     public new event EventHandler<FocusEventArgs>? Unfocused;
 
@@ -96,19 +105,25 @@ public partial class SingleLineInputField
         propertyChanged: (bindable, _, _) => ((SingleLineInputField)bindable).OnTextChanged(),
         defaultValue:string.Empty,
         defaultBindingMode:BindingMode.TwoWay);
-    
+
     public static new readonly BindableProperty IsFocusedProperty = BindableProperty.Create(
         nameof(IsFocused),
         typeof(bool),
         typeof(SingleLineInputField),
         defaultBindingMode:BindingMode.OneWayToSource);
-    
+
+    public static readonly BindableProperty AllowEmojisProperty = BindableProperty.Create(
+        nameof(AllowEmojis),
+        typeof(bool),
+        typeof(SingleLineInputField),
+        defaultValue: false);
+
     public static readonly BindableProperty BorderCornerRadiusProperty = BindableProperty.Create(
         nameof(BorderCornerRadius),
         typeof(double),
         typeof(SingleLineInputField),
         propertyChanged:(bindable, _, _) => ((SingleLineInputField)bindable).OnBorderCornerRadiusChanged());
-    
+
     public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
         nameof(BorderColor),
         typeof(Color),

@@ -29,6 +29,15 @@ public partial class Editor
         get => (bool)GetValue(ShouldUseDefaultPaddingProperty);
         set => SetValue(ShouldUseDefaultPaddingProperty, value);
     }
+    
+    /// <summary>
+    /// When true, the editor will allow emoji characters; when false, emojis will be replaced with a placeholder on unfocus.
+    /// </summary>
+    public bool AllowEmojis
+    {
+        get => (bool)GetValue(AllowEmojisProperty);
+        set => SetValue(AllowEmojisProperty, value);
+    }
 
     public static readonly BindableProperty ShouldUseDefaultPaddingProperty = BindableProperty.Create(
         nameof(ShouldUseDefaultPadding),
@@ -45,5 +54,11 @@ public partial class Editor
         nameof(ShouldSelectAllTextOnFocused),
         typeof(bool),
         typeof(Editor));
+
+    public static readonly BindableProperty AllowEmojisProperty = BindableProperty.Create(
+        nameof(AllowEmojis),
+        typeof(bool),
+        typeof(Editor),
+        defaultValue: false);
 
 }

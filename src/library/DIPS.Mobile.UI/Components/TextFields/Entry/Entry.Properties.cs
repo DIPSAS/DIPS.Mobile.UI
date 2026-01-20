@@ -35,6 +35,15 @@ public partial class Entry
         set => SetValue(ShouldUseDefaultPaddingProperty, value);
     }
     
+    /// <summary>
+    // When true, the Entry will allow emoji characters; when false, emojis will be replaced with a placeholder on unfocus.
+    /// </summary>
+    public bool AllowEmojis
+    {
+        get => (bool)GetValue(AllowEmojisProperty);
+        set => SetValue(AllowEmojisProperty, value);
+    }
+    
     public static readonly BindableProperty ShouldUseDefaultPaddingProperty = BindableProperty.Create(
         nameof(ShouldUseDefaultPadding),
         typeof(bool),
@@ -50,4 +59,10 @@ public partial class Entry
         nameof(ShouldSelectAllTextOnFocused),
         typeof(bool),
         typeof(Entry));
+
+    public static readonly BindableProperty AllowEmojisProperty = BindableProperty.Create(
+        nameof(AllowEmojis),
+        typeof(bool),
+        typeof(Entry),
+        defaultValue: false);
 }
