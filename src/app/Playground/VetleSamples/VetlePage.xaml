@@ -33,6 +33,8 @@
 
        <dui:Button Clicked="Button_OnClicked" />
        <dui:Button Clicked="Button_OnClicked2" />
+       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+       
         
     </VerticalStackLayout>
 

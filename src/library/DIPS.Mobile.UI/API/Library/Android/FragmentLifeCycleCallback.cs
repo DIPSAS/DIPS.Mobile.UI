@@ -1,16 +1,13 @@
 using Android.Text;
 using Android.Views;
 using Android.Widget;
-using AndroidX.AppCompat.Graphics.Drawable;
 using AndroidX.Core.View;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Library.Android;
-using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Platform;
-using Color = Android.Graphics.Color;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -26,8 +23,8 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-                SetColorsOnModal(dialogFragment);
                 TryInheritStatusBarColorOnModal(dialogFragment);
+                SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
             }
 
@@ -35,95 +32,80 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
      
         base.OnFragmentStarted(fm, f);
-    }   
+    }
     
-    // TODO: Workaround, remove when MAUI supports this out of the box
-    // Inspiration: https://github.com/dotnet/maui/issues/32987
+    /// <summary>
+    /// In edge-to-edge mode, Android adds a "statusBarBackground" view to the DecorView
+    /// This view shows a default blue background color unless we set it to match our page background color
+    /// </summary>
+    /// <param name="dialogFragment"></param>
+    /// <remarks>
+    /// TODO: Workaround, remove when MAUI supports this out of the box
+    /// Inspiration: https://github.com/dotnet/maui/issues/32987 and https://github.com/CommunityToolkit/Maui/pull/2939/changes
+    /// </remarks>
     private static void TryInheritStatusBarColorOnModal(DialogFragment dialogFragment)
     {
         try
         {
-            // Only apply if the modal is inside a NavigationPage
-            if (Microsoft.Maui.Controls.Shell.Current?.CurrentPage is not { Parent: Microsoft.Maui.Controls.NavigationPage })
-            {
-                return;
-            }
-
-            var activity = Platform.CurrentActivity;
-            if (activity is null)
-            {
-                return;
-            }
-
-            var statusBarColor = activity.Window!.StatusBarColor;
-            var platformColor = new Color(statusBarColor);
-
-            var window = dialogFragment?.Dialog?.Window;
+            var window = dialogFragment.Dialog?.Window;
             if (window is null)
             {
                 return;
             }
 
-            var isColorTransparent = platformColor == global::Android.Resource.Color.Transparent;
-            if (isColorTransparent)
-            {
-                window.ClearFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
-                window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
-            }
-            else
-            {
-                window.ClearFlags(WindowManagerFlags.LayoutNoLimits);
-                window.SetFlags(WindowManagerFlags.DrawsSystemBarBackgrounds, WindowManagerFlags.DrawsSystemBarBackgrounds);
-            }
-
-            var controller = WindowCompat.GetInsetsController(window!, window!.DecorView);
-            if (controller != null)
-            {
-                // Light status bars = dark icons (for light backgrounds)
-                controller.AppearanceLightStatusBars = Application.Current?.RequestedTheme == AppTheme.Light;
-                controller.AppearanceLightNavigationBars = Application.Current?.RequestedTheme == AppTheme.Light;
-            }
-
             var customStatusBarColor = Colors.GetColor(ContentPage.BackgroundColorName);
+            var platformColor = customStatusBarColor.ToPlatform();
             
-            // Set the status bar color for the modal dialog
-            if (OperatingSystem.IsAndroidVersionAtLeast(35))
+            // Set light/dark status bar icons based on background color luminance
+            var windowInsetsController = WindowCompat.GetInsetsController(window, window.DecorView);
+            if (windowInsetsController is not null)
             {
-                var statusBarScrimId = View.GenerateViewId();
-                if (window.DecorView is not ViewGroup decor)
-                {
-                    return;
-                }
-
-                var scrim = decor.FindViewById(statusBarScrimId);
-                if (scrim == null)
-                {
-                    scrim = new View(activity) { Id = statusBarScrimId };
-                    scrim.LayoutParameters = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MatchParent, 0, GravityFlags.Top);
-                    decor.AddView(scrim);
-                }
-
-                // Apply color
-                scrim.SetBackgroundColor(customStatusBarColor.ToPlatform());
-
-                // Size it to the status bar inset
-                ViewCompat.SetOnApplyWindowInsetsListener(decor, new InsetsListener(scrim));
-                ViewCompat.RequestApplyInsets(decor);
+                // Calculate if the background is light or dark to determine icon color
+                var isLightBackground = customStatusBarColor.GetLuminosity() > 0.5;
+                windowInsetsController.AppearanceLightStatusBars = isLightBackground;
             }
-            else
+            
+            // Only apply if the modal is inside a NavigationPage
+            if (Microsoft.Maui.Controls.Shell.Current?.CurrentPage is not { Parent: NavigationPage })
             {
-                window.SetStatusBarColor(customStatusBarColor.ToPlatform());
-                if (OperatingSystem.IsAndroidVersionAtLeast(30))
-                {
-                    window.SetDecorFitsSystemWindows(!isColorTransparent);
-                }
+                return;
             }
+            
+            var coordinatorLayout = FindCoordinatorLayout(window.DecorView);
+            if (coordinatorLayout is null)
+                return;
+
+            coordinatorLayout.SetBackgroundColor(platformColor);
+                
+            // The AppBarLayout inside the CoordinatorLayout is likely what's showing the blue color
+            var appBarLayout = coordinatorLayout.FindViewById<AppBarLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
+            appBarLayout?.SetBackgroundColor(platformColor);
         }
         catch (Exception ex)
         {
             DUILogService.LogError<FragmentLifeCycleCallback>($"Failed to inherit status bar color on modal: {ex.Message}");
         }
+    }
+
+    private static AndroidX.CoordinatorLayout.Widget.CoordinatorLayout? FindCoordinatorLayout(View? view)
+    {
+        if (view is null)
+            return null;
+
+        if (view is AndroidX.CoordinatorLayout.Widget.CoordinatorLayout coordinatorLayout)
+            return coordinatorLayout;
+
+        if (view is ViewGroup viewGroup)
+        {
+            for (int i = 0; i < viewGroup.ChildCount; i++)
+            {
+                var result = FindCoordinatorLayout(viewGroup.GetChildAt(i));
+                if (result is not null)
+                    return result;
+            }
+        }
+
+        return null;
     }
 
     private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)

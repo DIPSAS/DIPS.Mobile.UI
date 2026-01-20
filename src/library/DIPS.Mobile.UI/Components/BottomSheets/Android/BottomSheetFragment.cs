@@ -1,7 +1,9 @@
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.View;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
 using Google.Android.Material.BottomSheet;
@@ -98,6 +100,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                 dialog.Window?.SetFlags(flags, flags);
             }
 
+            // Fix status bar color by finding and coloring Android's statusBarBackground view (API 30+)
+            if (OperatingSystem.IsAndroidVersionAtLeast(30) && dialog.Window is not null)
+            {
+                // Enable edge-to-edge mode
+                WindowCompat.SetDecorFitsSystemWindows(dialog.Window, false);
+                
+                // Set status bar icons light/dark based on background luminosity
+                var windowInsetsController = WindowCompat.GetInsetsController(dialog.Window, dialog.Window.DecorView);
+                windowInsetsController.AppearanceLightStatusBars = m_bottomSheet.BackgroundColor.GetLuminosity() > 0.5;
+                
+                // Find and color Android's statusBarBackground view that Material creates
+                dialog.SetOnShowListener(new DialogShowListener(dialog, m_bottomSheet.BackgroundColor));
+            }
+
             return dialog;
         }
 
@@ -185,6 +201,46 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.Android
                 
                 if(inputView.IsFocused)
                     inputView.Unfocus();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Listener that colors Android's statusBarBackground view and removes bottom padding
+    /// </summary>
+    internal class DialogShowListener : Java.Lang.Object, IDialogInterfaceOnShowListener
+    {
+        private readonly Dialog _dialog;
+        private readonly Microsoft.Maui.Graphics.Color _backgroundColor;
+
+        public DialogShowListener(Dialog dialog, Microsoft.Maui.Graphics.Color backgroundColor)
+        {
+            _dialog = dialog;
+            _backgroundColor = backgroundColor;
+        }
+
+        public void OnShow(IDialogInterface? dialog)
+        {
+            if (_dialog.Window is null) return;
+
+            var platformColor = _backgroundColor.ToPlatform();
+
+            // Material sets window.setStatusBarColor(0) in onCreate, making it transparent.
+            // So we must color Android's statusBarBackground view (created by DecorView) instead.
+            // This is the view that shows through the transparent status bar in edge-to-edge mode.
+            var statusBarBackground = _dialog.Window.DecorView.FindViewById(global::Android.Resource.Id.StatusBarBackground);
+            statusBarBackground?.SetBackgroundColor(platformColor);
+
+            // Find design_bottom_sheet and remove bottom padding
+            var bottomSheet = _dialog.FindViewById(Resource.Id.design_bottom_sheet);
+            if (bottomSheet is not null)
+            {
+                bottomSheet.SetPadding(
+                    bottomSheet.PaddingLeft,
+                    bottomSheet.PaddingTop,
+                    bottomSheet.PaddingRight,
+                    0
+                );
             }
         }
     }

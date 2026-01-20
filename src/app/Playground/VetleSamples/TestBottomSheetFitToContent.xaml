@@ -11,4 +11,8 @@
     <dui:Button Text="CloseAll"
                 Clicked="Button_OnClicked"></dui:Button>
 
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Lol" />
+    </dui:BottomSheet.BottombarButtons>
+    
 </dui:BottomSheet>
