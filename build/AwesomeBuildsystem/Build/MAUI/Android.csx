@@ -17,7 +17,7 @@ public static class Android
     /// <returns></returns>
     public static Task Build(string androidProjectPath, string configuration ="Release"){
         var androidProjectFilePath = FileHelper.FindSingleFileByExtension(androidProjectPath, ".csproj");
-        return dotnet.Build(androidProjectFilePath.FullName, configuration, targetFramework:"net9.0-android");
+        return dotnet.Build(androidProjectFilePath.FullName, configuration, targetFramework:"net10.0-android");
     }
     
     /// <summary>

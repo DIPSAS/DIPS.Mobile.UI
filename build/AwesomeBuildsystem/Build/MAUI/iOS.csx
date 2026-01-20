@@ -15,7 +15,7 @@ public static class iOS
     /// <remarks>This runs on iPhoneSimulator platform to save time</remarks>
     public static Task Build(string iOSProjectPath, string configuration ="Release"){
         var iOSProject = FileHelper.FindSingleFileByExtension(iOSProjectPath, ".csproj");
-        return dotnet.Build(iOSProject.FullName, configuration, targetFramework:"net9.0-ios");
+        return dotnet.Build(iOSProject.FullName, configuration, targetFramework:"net10.0-ios");
 
     }
 

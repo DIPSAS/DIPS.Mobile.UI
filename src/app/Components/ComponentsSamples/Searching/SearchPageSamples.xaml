@@ -8,14 +8,12 @@
                 xmlns:sampleData="clr-namespace:Components.SampleData"
                 xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
-                xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
                 x:Class="Components.ComponentsSamples.Searching.SearchPageSamples"
                 SearchCommand="{Binding SearchCommand}"
                 SearchMode="WhenTextChanged"
                 SearchPlaceholder="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
                 Shell.PresentationMode="ModalAnimated"
                 Padding="{dui:Thickness Bottom=size_1}"
-                iOsSpecific:Page.UseSafeArea="True"
                 AutoHideLastDivider="True"
                 IsAutocorrectEnabled="False">
     <dui:SearchPage.BindingContext>

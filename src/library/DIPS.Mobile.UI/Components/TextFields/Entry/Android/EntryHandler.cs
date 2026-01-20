@@ -12,11 +12,11 @@ namespace DIPS.Mobile.UI.Components.TextFields.Entry;
 public partial class EntryHandler 
 {
     private Drawable? DefaultBackground { get; set; }
-    
-    protected override void ConnectHandler(AppCompatEditText platformView)
+
+    protected override void ConnectHandler(MauiAppCompatEditText platformView)
     {
         base.ConnectHandler(platformView);
-
+        
         DefaultBackground = platformView.Background;
         
         platformView.EditorAction += PlatformViewOnEditorAction;
@@ -60,7 +60,7 @@ public partial class EntryHandler
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
     }
 
-    protected override void DisconnectHandler(AppCompatEditText platformView)
+    protected override void DisconnectHandler(MauiAppCompatEditText platformView)
     {
         base.DisconnectHandler(platformView);
         

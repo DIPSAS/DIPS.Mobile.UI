@@ -9,8 +9,9 @@
                  Title="{x:Static localizedStrings:LocalizedStrings.Buttons}">
     
     <Grid RowDefinitions="Auto, *">
+
         <dui:VerticalStackLayout>
-            <dui:Label Text="Buttons disabled"
+            <dui:Label Text="Buttons enabled"
                        Style="{dui:Styles Label=Header500}"
                        HorizontalOptions="End" />
 

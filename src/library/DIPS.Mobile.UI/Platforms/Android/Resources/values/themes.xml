@@ -16,21 +16,20 @@
         <!-- Window configuration -->
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
         <item name="windowActionModeOverlay">true</item>
 
         <!-- Make sure that the colors are not being modified by material 3, for example; white should be pure white -->
         <item name="elevationOverlayEnabled">false</item>
-
+        
         <!-- Color scheme -->
         <item name="colorPrimary">@color/color_text_default</item>
 
         <item name="colorSecondary">@color/color_palette_grey_700</item>
 
         <item name="colorSurface">@color/color_surface_default</item>
-
-        <!-- Status bar -->
-        <item name="android:statusBarColor">@color/color_background_default</item>
+        
+        <!-- Disable Material 3 surface tint on scroll (prevents status bar color change when scrolling in CollectionView/ScrollView) -->
+        <item name="colorSurfaceContainer">@color/color_surface_default</item>
         
         <!-- Set color to DatePickers, Dialogs etc. -->
         <item name="colorSurfaceContainerHigh">@color/color_surface_default</item>
@@ -48,5 +47,6 @@
     <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
     </style>
+    
 
 </resources>

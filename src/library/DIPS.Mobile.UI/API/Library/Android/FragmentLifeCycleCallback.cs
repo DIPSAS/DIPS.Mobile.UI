@@ -48,7 +48,6 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
-
     /// <summary>
     /// TODO: Workaround: .NET MAUI does not inherit the color from the Shell, so we need to set it manually.
     /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039

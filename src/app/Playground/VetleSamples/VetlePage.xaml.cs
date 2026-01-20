@@ -24,7 +24,6 @@ public partial class VetlePage
         _ = FuckThisShitUp();
         /*Shell.OnTabTapped += ShellOnOnTabTapped;*/
 
-        Gallery.Images = ["dotnet_bot.png", "dotnet_bot.png"];
     }
 
     private void ShellOnOnTabTapped(string obj)
@@ -239,6 +238,6 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        BottomSheetService.Open(new BottomSheetWithToolbar());
+        
     }
 }

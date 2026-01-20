@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net9.0-android;net9.0-ios;</TargetFrameworks>
+        <TargetFrameworks>net10.0-android;net10.0-ios;</TargetFrameworks>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>MemoryLeakTests</RootNamespace>
@@ -51,10 +51,10 @@
     </ItemGroup>
 
     <!-- Android -->
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)' == 'Release' AND $(TargetFramework.Contains('ios'))">
         <CreatePackage>false</CreatePackage>
     </PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-android')) != true">
+    <ItemGroup Condition="!$(TargetFramework.Contains('android'))">
         <Compile Remove="**\Android\**\*.cs" />
         <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
         <Compile Update="Components\Loading\SkeletonView.xaml.cs">
@@ -69,7 +69,7 @@
     </ItemGroup>
 
     <!-- iOS -->
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-ios')) != true">
+    <ItemGroup Condition="!$(TargetFramework.Contains('ios'))">
         <Compile Remove="**\iOS\**\*.cs" />
         <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>

@@ -10,10 +10,14 @@
                  xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
                  xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
                  xmlns:gallery="clr-namespace:DIPS.Mobile.UI.Components.Gallery;assembly=DIPS.Mobile.UI"
+                 xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
-                 Title="Hello">
+                 Title="Hello"
+                 SafeAreaEdges="None"
+                 Shell.NavBarIsVisible="True"
+                 Background="Red">
 
 
     <dui:ContentPage.BindingContext>
@@ -25,10 +29,11 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid>
+    <VerticalStackLayout SafeAreaEdges="None">
 
-        <gallery:Gallery x:Name="Gallery"/>
-
-    </Grid>
+       <!--<dui:Button Clicked="Button_OnClicked"
+                   />-->
+        
+    </VerticalStackLayout>
 
 </dui:ContentPage>

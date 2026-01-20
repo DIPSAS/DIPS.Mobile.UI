@@ -16,7 +16,7 @@ Perform a comprehensive code review of the current changes following these rules
 #### 1. Platform-Specific Implementation
 - ✅ **Check**: Platform code uses partial classes in `iOS/`, `Android/`, `dotnet/` folders
 - ✅ **Check**: Shared namespace (no `.iOS` or `.Android` suffix)
-- ✅ **Check**: Platform stubs exist for `net9.0` target in `dotnet/` folder
+- ✅ **Check**: Platform stubs exist for `net10.0` target in `dotnet/` folder
 
 #### 2. Design Resources Compliance
 - ❌ **Flag**: Hardcoded colors (e.g., `Color.FromRgb()`, `Colors.Red`)

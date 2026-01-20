@@ -16,7 +16,7 @@
 
     <delayedView1:DelayedView x:Name="DelayedContent">
         <delayedView1:DelayedView.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate x:DataType="{x:Type delayedView:CollectionViewTestPageViewModel}">
                 <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
                                          Spacing="{dui:Sizes size_3}">
 

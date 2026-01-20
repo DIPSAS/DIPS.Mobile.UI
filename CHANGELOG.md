@@ -1,3 +1,6 @@
+## [55.0.0]
+- Upgraded to .NET MAUI 10.
+
 ## [54.4.4]
 - ReplaceAllEmojisWithPlaceholder is now an extension method and takes in an optional placeholder string
 - ReplaceAllEmojisWithPlaceholder is tested

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Maui.Controls.Internals;
 
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: InternalsVisibleTo("DIPS.Mobile.UI.UnitTests")]
 [assembly: InternalsVisibleTo("Components")]
 

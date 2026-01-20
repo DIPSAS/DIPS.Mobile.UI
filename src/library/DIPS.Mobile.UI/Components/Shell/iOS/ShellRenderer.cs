@@ -88,7 +88,6 @@ public class NavBarAppearanceTracker : IShellNavBarAppearanceTracker
         }
         
         navBar.StandardAppearance = navBar.ScrollEdgeAppearance = navigationBarAppearance;
-        navBar.PrefersLargeTitles = true;
     }
 
     public void UpdateLayout(UINavigationController controller)

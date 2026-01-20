@@ -18,7 +18,7 @@ public static class MauiProgram
                 configurator.EnableExperimentalFeature(DUI.ExperimentalFeatures.DictationInTextFields);
                 configurator.EnableCustomHideSoftInputOnTapped();
             });
-
+        
         DUI.StartDictationDelegate = DictationSimulationHelper.StartDictationDelegateTest;
         
         builder.ConfigureFonts(fonts =>
