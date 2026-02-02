@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Text;
 
@@ -6,7 +5,7 @@ namespace DIPS.Mobile.UI.Formatters;
 
 public static class StringFormatter
 {
-    public static string ReplaceAllEmojisWithPlaceholder(string input)
+    public static string ReplaceAllEmojisWithPlaceholder(this string input, string placeholder = "[Emoji]")
     {
         if (string.IsNullOrEmpty(input))
             return input;
@@ -18,7 +17,7 @@ public static class StringFormatter
         {
             var element = enumerator.GetTextElement();
             if (IsEmojiTextElement(element))
-                output.Append("[Emoji]");
+                output.Append(placeholder);
             else
                 output.Append(element);
         }
