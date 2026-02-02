@@ -177,7 +177,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
     }
 
 #if ANDROID
-    sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
+    public sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
     {
         readonly View m_scrim;
         public InsetsListener(View scrim) => m_scrim = scrim;
