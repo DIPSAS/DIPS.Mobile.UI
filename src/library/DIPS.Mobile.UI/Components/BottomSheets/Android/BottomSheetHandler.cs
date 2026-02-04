@@ -46,7 +46,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (VirtualView is not BottomSheet bottomSheet) return new AView(Context);
         
         m_bottomSheet = bottomSheet;
-        
         bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(
             new BottomSheetCallback(this));
         bottomSheet.BottomSheetDialog.SetOnShowListener(new DialogInterfaceOnShowListener(this));

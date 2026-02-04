@@ -1,3 +1,7 @@
+## [55.0.1]
+- [BottomSheet] Implemented edge-to-edge support for Android to work correctly with .NET 10's default edge-to-edge mode
+- [Modal] Fixed status bar background color and icon color to properly inherit from app theme in edge-to-edge mode on Android
+
 ## [55.0.0]
 - Upgraded to .NET MAUI 10.
 
