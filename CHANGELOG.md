@@ -1,3 +1,6 @@
+## [55.1.0]
+- [StatusBar][Android] Added `StatusBarHandler` to have control over statusbar in pages.
+
 ## [55.0.1]
 - [BottomSheet] Implemented edge-to-edge support for Android to work correctly with .NET 10's default edge-to-edge mode
 - [Modal] Fixed status bar background color and icon color to properly inherit from app theme in edge-to-edge mode on Android
