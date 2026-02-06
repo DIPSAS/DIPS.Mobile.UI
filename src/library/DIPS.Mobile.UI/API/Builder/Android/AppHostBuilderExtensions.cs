@@ -63,11 +63,6 @@ public static partial class AppHostBuilderExtensions
             {
                 DUI.Init(activity);
                 DUI.EnsureSkLottieResourcesAdded();
-            })
-            .OnResume(activity =>
-            {
-                // Set status bar color after window is fully initialized
-                /*StatusBarHandler.TrySetStatusBarColor(Colors.GetColor(Shell.BackgroundColorName));*/
             }));
     }
 }
