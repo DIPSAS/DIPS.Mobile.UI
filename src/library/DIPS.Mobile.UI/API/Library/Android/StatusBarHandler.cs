@@ -13,21 +13,19 @@ namespace DIPS.Mobile.UI.API.Library.Android;
 
 public static class StatusBarHandler
 {
-    private static Color? s_statusBarColorOverride;
-    
     /// <summary>
     /// Set this to override the status bar color globally
     /// </summary>
     public static Color? StatusBarColorOverride
     {
-        get => s_statusBarColorOverride;
+        get;
         set
         {
-            s_statusBarColorOverride = value;
+            field = value;
 
             if (Shell.Current.CurrentPage is ContentPage page)
-            { 
-                TrySetStatusBarColor(page, s_statusBarColorOverride ?? page.StatusBarColor);
+            {
+                TrySetStatusBarColor(page, field ?? page.StatusBarColor);
             }
         }
     }
@@ -56,7 +54,7 @@ public static class StatusBarHandler
                 
                 // Immediately set the status bar color since OnAppearing may have already been called
                 // before the DialogFragment was registered
-                SetStatusBarColorOnModalWindow(dialogFragment, page.StatusBarColor);
+                SetStatusBarColorOnModalWindow(dialogFragment, page.StatusBarColor, page.StatusBarStyle);
             }
         }
         catch (Exception ex)
@@ -116,12 +114,12 @@ public static class StatusBarHandler
         if (dialogFragment != null)
         {
             // Modal page - set color on DialogFragment's window
-            SetStatusBarColorOnModalWindow(dialogFragment, color);
+            SetStatusBarColorOnModalWindow(dialogFragment, color, page.StatusBarStyle);
         }
         else
         {
             // Non-modal page - set color on Activity window
-            SetStatusBarColorOnActivityWindow(color);
+            SetStatusBarColorOnActivityWindow(color, page.StatusBarStyle);
         }
     }
     
@@ -174,7 +172,7 @@ public static class StatusBarHandler
     /// TODO: Workaround, remove when MAUI supports this out of the box
     /// Inspiration: https://github.com/dotnet/maui/issues/32987 and https://github.com/CommunityToolkit/Maui/pull/2939/changes
     /// </remarks>
-    private static void SetStatusBarColorOnModalWindow(DialogFragment dialogFragment, Color color)
+    private static void SetStatusBarColorOnModalWindow(DialogFragment dialogFragment, Color color, StatusBarStyle style)
     {
         try
         {
@@ -188,12 +186,12 @@ public static class StatusBarHandler
 
                 var platformColor = color.ToPlatform();
 
-                // Set light/dark status bar icons based on background color luminance
+                // Set light/dark status bar icons based on style or color luminance
                 var windowInsetsController = WindowCompat.GetInsetsController(window, window.DecorView);
                 if (windowInsetsController is not null)
                 {
-                    var isLightBackground = color.GetLuminosity() > 0.5;
-                    windowInsetsController.AppearanceLightStatusBars = isLightBackground;
+                    var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
+                    windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
                 }
 
                 var coordinatorLayout = FindCoordinatorLayout(window.DecorView);
@@ -222,7 +220,7 @@ public static class StatusBarHandler
     /// <summary>
     /// Sets status bar color on the Activity window (non-modal pages)
     /// </summary>
-    private static void SetStatusBarColorOnActivityWindow(Color color)
+    private static void SetStatusBarColorOnActivityWindow(Color color, StatusBarStyle style)
     {
         if (OperatingSystem.IsAndroidVersionAtLeast(35))
         {
@@ -258,10 +256,26 @@ public static class StatusBarHandler
         var windowInsetsController = WindowCompat.GetInsetsController(Activity.Window, Activity.Window?.DecorView);
         if (windowInsetsController is not null)
         {
-            // Calculate if the background is light or dark to determine icon color
-            var isLightBackground = color.GetLuminosity() > 0.5;
-            windowInsetsController.AppearanceLightStatusBars = isLightBackground;
+            var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
+            windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
         }
+    }
+    
+    /// <summary>
+    /// Determines whether to use light status bar icons based on the style and color
+    /// </summary>
+    /// <param name="color">The status bar background color</param>
+    /// <param name="style">The desired status bar style</param>
+    /// <returns>True for light icons (dark icons), false for dark icons (light icons)</returns>
+    private static bool DetermineStatusBarIconStyle(Color color, StatusBarStyle style)
+    {
+        return style switch
+        {
+            StatusBarStyle.Light => false, // Light icons = dark background
+            StatusBarStyle.Dark => true,   // Dark icons = light background
+            StatusBarStyle.Auto => color.GetLuminosity() > 0.5, // Auto-calculate
+            _ => color.GetLuminosity() > 0.5
+        };
     }
 
     private static AndroidX.CoordinatorLayout.Widget.CoordinatorLayout? FindCoordinatorLayout(AView? view)
@@ -284,4 +298,22 @@ public static class StatusBarHandler
 
         return null;
     }
+}
+
+public enum StatusBarStyle
+{
+    /// <summary>
+    /// Automatically determine icon color based on background color luminosity
+    /// </summary>
+    Auto,
+    
+    /// <summary>
+    /// Light icons (for dark backgrounds)
+    /// </summary>
+    Light,
+    
+    /// <summary>
+    /// Dark icons (for light backgrounds)
+    /// </summary>
+    Dark
 }
