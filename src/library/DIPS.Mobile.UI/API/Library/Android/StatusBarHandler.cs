@@ -2,6 +2,7 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
+using DIPS.Mobile.UI.Components.Pages;
 using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.AppBar;
 using Microsoft.Maui.Platform;
@@ -300,20 +301,3 @@ public static class StatusBarHandler
     }
 }
 
-public enum StatusBarStyle
-{
-    /// <summary>
-    /// Automatically determine icon color based on background color luminosity
-    /// </summary>
-    Auto,
-    
-    /// <summary>
-    /// Light icons (for dark backgrounds)
-    /// </summary>
-    Light,
-    
-    /// <summary>
-    /// Dark icons (for light backgrounds)
-    /// </summary>
-    Dark
-}

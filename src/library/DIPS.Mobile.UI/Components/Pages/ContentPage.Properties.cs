@@ -1,5 +1,4 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Library.Android;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace DIPS.Mobile.UI.Components.Pages;
@@ -111,4 +110,22 @@ public partial class ContentPage
         get => (StatusBarStyle)GetValue(StatusBarStyleProperty);
         set => SetValue(StatusBarStyleProperty, value);
     }
+}
+
+public enum StatusBarStyle
+{
+    /// <summary>
+    /// Automatically determine icon color based on background color luminosity
+    /// </summary>
+    Auto,
+    
+    /// <summary>
+    /// Light icons (for dark backgrounds)
+    /// </summary>
+    Light,
+    
+    /// <summary>
+    /// Dark icons (for light backgrounds)
+    /// </summary>
+    Dark
 }
