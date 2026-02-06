@@ -4,12 +4,14 @@ using AndroidX.AppCompat.Graphics.Drawable;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Preview.Android.Slider;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.Components.Chips;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
 using DIPS.Mobile.UI.Components.TabView;
 using DIPS.Mobile.UI.Components.TabView.Android;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using ActivityIndicatorHandler = DIPS.Mobile.UI.Components.Loading.Android.ActivityIndicatorHandler;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
@@ -61,6 +63,11 @@ public static partial class AppHostBuilderExtensions
             {
                 DUI.Init(activity);
                 DUI.EnsureSkLottieResourcesAdded();
+            })
+            .OnResume(activity =>
+            {
+                // Set status bar color after window is fully initialized
+                /*StatusBarHandler.TrySetStatusBarColor(Colors.GetColor(Shell.BackgroundColorName));*/
             }));
     }
 }

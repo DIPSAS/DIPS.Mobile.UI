@@ -1,3 +1,4 @@
+using Android.OS;
 using Android.Text;
 using Android.Views;
 using Android.Widget;
@@ -23,10 +24,13 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-                TryInheritStatusBarColorOnModal(dialogFragment);
                 SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
+                // Register the DialogFragment so ContentPage can find it
+                // Also immediately set the status bar color since OnAppearing may have already been called
+                StatusBarHandler.RegisterDialogFragmentForPage(dialogFragment);
             }
+            
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
         }
@@ -34,78 +38,15 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         base.OnFragmentStarted(fm, f);
     }
     
-    /// <summary>
-    /// In edge-to-edge mode, Android adds a "statusBarBackground" view to the DecorView
-    /// This view shows a default blue background color unless we set it to match our page background color
-    /// </summary>
-    /// <param name="dialogFragment"></param>
-    /// <remarks>
-    /// TODO: Workaround, remove when MAUI supports this out of the box
-    /// Inspiration: https://github.com/dotnet/maui/issues/32987 and https://github.com/CommunityToolkit/Maui/pull/2939/changes
-    /// </remarks>
-    private static void TryInheritStatusBarColorOnModal(DialogFragment dialogFragment)
+    public override void OnFragmentStopped(FragmentManager fm, Fragment f)
     {
-        try
+        if (f is DialogFragment dialogFragment && f is not BottomSheetDialogFragment)
         {
-            var window = dialogFragment.Dialog?.Window;
-            if (window is null)
-            {
-                return;
-            }
-
-            var customStatusBarColor = Colors.GetColor(ContentPage.BackgroundColorName);
-            var platformColor = customStatusBarColor.ToPlatform();
-            
-            // Set light/dark status bar icons based on background color luminance
-            var windowInsetsController = WindowCompat.GetInsetsController(window, window.DecorView);
-            if (windowInsetsController is not null)
-            {
-                // Calculate if the background is light or dark to determine icon color
-                var isLightBackground = customStatusBarColor.GetLuminosity() > 0.5;
-                windowInsetsController.AppearanceLightStatusBars = isLightBackground;
-            }
-            
-            // Only apply if the modal is inside a NavigationPage
-            if (Microsoft.Maui.Controls.Shell.Current?.CurrentPage is not { Parent: NavigationPage })
-            {
-                return;
-            }
-            
-            var coordinatorLayout = FindCoordinatorLayout(window.DecorView);
-            if (coordinatorLayout is null)
-                return;
-
-            coordinatorLayout.SetBackgroundColor(platformColor);
-                
-            // The AppBarLayout inside the CoordinatorLayout is likely what's showing the blue color
-            var appBarLayout = coordinatorLayout.FindViewById<AppBarLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
-            appBarLayout?.SetBackgroundColor(platformColor);
+            // Unregister the DialogFragment when it's stopped/dismissed
+            StatusBarHandler.UnregisterDialogFragment(dialogFragment);
         }
-        catch (Exception ex)
-        {
-            DUILogService.LogError<FragmentLifeCycleCallback>($"Failed to inherit status bar color on modal: {ex.Message}");
-        }
-    }
-
-    private static AndroidX.CoordinatorLayout.Widget.CoordinatorLayout? FindCoordinatorLayout(View? view)
-    {
-        if (view is null)
-            return null;
-
-        if (view is AndroidX.CoordinatorLayout.Widget.CoordinatorLayout coordinatorLayout)
-            return coordinatorLayout;
-
-        if (view is ViewGroup viewGroup)
-        {
-            for (int i = 0; i < viewGroup.ChildCount; i++)
-            {
-                var result = FindCoordinatorLayout(viewGroup.GetChildAt(i));
-                if (result is not null)
-                    return result;
-            }
-        }
-
-        return null;
+        
+        base.OnFragmentStopped(fm, f);
     }
 
     private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)

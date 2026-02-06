@@ -2,6 +2,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Saving.SaveView;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
@@ -75,5 +76,17 @@ public partial class ContentPage
     {
         get => (LargeTitleDisplayMode)GetValue(LargeTitleDisplayProperty);
         set => SetValue(LargeTitleDisplayProperty, value);
+    }
+
+    public static readonly BindableProperty StatusBarColorProperty = BindableProperty.Create(
+        nameof(StatusBarColor),
+        typeof(Color),
+        typeof(ContentPage),
+        defaultValueCreator: _ => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(Shell.Shell.BackgroundColorName));
+
+    public Color StatusBarColor
+    {
+        get => (Color)GetValue(StatusBarColorProperty);
+        set => SetValue(StatusBarColorProperty, value);
     }
 }
