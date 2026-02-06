@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -10,6 +11,7 @@ using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -244,5 +246,20 @@ public partial class VetlePage
     private void Button_OnClicked2(object sender, EventArgs e)
     {
         _ = Navigation.PushModalAsync(new VetleTestPage1());
+    }
+
+    private void Button_OnClicked3(object sender, EventArgs e)
+    {
+        _ = Navigation.PushAsync(new VetleTestPage1());
+    }
+
+    private void Button_OnClicked4(object sender, EventArgs e)
+    {
+        StatusBarHandler.StatusBarColorOverride = Microsoft.Maui.Graphics.Colors.Aqua;
+    }
+
+    private void Button_OnClicked5(object sender, EventArgs e)
+    {
+        _ = Navigation.PushAsync(new VetleTestPage2());
     }
 }

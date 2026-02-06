@@ -12,7 +12,9 @@
                  IsSaving="{Binding IsSaving}"
                  IsSavingCompleted="{Binding IsSavingCompleted}"
                  SavingCompletedCommand="{Binding CompletedCommand}"
-                 Background="Green">
+                 NavigationPage.HasNavigationBar="True"
+                 Background="Black"
+                 StatusBarColor="Transparent">
 
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
@@ -24,7 +26,10 @@
 
     </dui:ContentPage.ToolbarItems>
 
-    <dui:Button Clicked="Button_OnClicked" />
+    <Grid SafeAreaEdges="None"
+          BackgroundColor="Black">
+        <dui:Button Clicked="Button_OnClicked" />
+    </Grid>
     <!--<dui:ScrollView>
         <dui:VerticalStackLayout Padding="{dui:Padding page_margin_small}"
                                  Spacing="{dui:Sizes size_2}">

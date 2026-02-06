@@ -1,7 +1,13 @@
 using System.Diagnostics;
 using DIPS.Mobile.UI.API.Library;
+
+#if __ANDROID__
+using DIPS.Mobile.UI.API.Library.Android;
+
+#endif
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.MemoryManagement;
+using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Pages
@@ -67,8 +73,13 @@ namespace DIPS.Mobile.UI.Components.Pages
             HasAppeared = true;
 
             HideOrShowFloatingNavigationMenu();
+            
+#if __ANDROID__
+            // Update status bar color for this page (works for both modal and non-modal)
+            StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
+#endif
         }
-
+        
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
@@ -147,6 +158,28 @@ namespace DIPS.Mobile.UI.Components.Pages
             SetColors(e.RequestedTheme);
         }
 
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+
+
+        }
+
+        public override Window GetParentWindow()
+        {
+            var parentWindow = base.GetParentWindow();
+
+            if (parentWindow == null)
+            {
+                parentWindow = Application.Current?.Windows.FirstOrDefault();
+
+                var test = parentWindow.ToPlatform(DUI.GetCurrentMauiContext!);
+            }
+
+            return parentWindow;
+        }
+
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
@@ -157,11 +190,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
-        }
-
-        protected override void OnHandlerChanged()
-        {
-            base.OnHandlerChanged();
         }
     }
 }

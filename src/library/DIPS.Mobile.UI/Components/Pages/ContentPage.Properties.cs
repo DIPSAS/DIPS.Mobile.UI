@@ -1,6 +1,4 @@
-using System.Windows.Input;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.Saving.SaveView;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace DIPS.Mobile.UI.Components.Pages;
@@ -76,4 +74,58 @@ public partial class ContentPage
         get => (LargeTitleDisplayMode)GetValue(LargeTitleDisplayProperty);
         set => SetValue(LargeTitleDisplayProperty, value);
     }
+
+    public static readonly BindableProperty StatusBarColorProperty = BindableProperty.Create(
+        nameof(StatusBarColor),
+        typeof(Color),
+        typeof(ContentPage),
+        defaultValueCreator: _ => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(Shell.Shell.BackgroundColorName));
+
+    /// <summary>
+    /// Sets the color of the status bar on Android
+    /// </summary>
+    /// <remarks>Note: Only available on Android</remarks>
+    public Color StatusBarColor
+    {
+        get => (Color)GetValue(StatusBarColorProperty);
+        set => SetValue(StatusBarColorProperty, value);
+    }
+    
+    public static readonly BindableProperty StatusBarStyleProperty = BindableProperty.Create(
+        nameof(StatusBarStyle),
+        typeof(StatusBarStyle),
+        typeof(ContentPage),
+        defaultValue: StatusBarStyle.Auto);
+
+    /// <summary>
+    /// Controls whether status bar icons (clock, battery, etc.) should be light or dark.
+    /// Use Light for dark backgrounds, Dark for light backgrounds, or Auto to calculate automatically.
+    /// <remarks>
+    /// The status bar style will be automatically set to Light when the status bar background color is dark, and Dark when the background color is light, regardless of this property value. This is because Android does not support setting status bar icon color directly, and relies on the background color luminosity to determine icon color for visibility.
+    /// Note: Only available on Android 
+    /// </remarks>
+    /// </summary>
+    public StatusBarStyle StatusBarStyle
+    {
+        get => (StatusBarStyle)GetValue(StatusBarStyleProperty);
+        set => SetValue(StatusBarStyleProperty, value);
+    }
+}
+
+public enum StatusBarStyle
+{
+    /// <summary>
+    /// Automatically determine icon color based on background color luminosity
+    /// </summary>
+    Auto,
+    
+    /// <summary>
+    /// Light icons (for dark backgrounds)
+    /// </summary>
+    Light,
+    
+    /// <summary>
+    /// Dark icons (for light backgrounds)
+    /// </summary>
+    Dark
 }

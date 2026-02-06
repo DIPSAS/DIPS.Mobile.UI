@@ -7,7 +7,9 @@
              xmlns:extensions="clr-namespace:DIPS.Mobile.UI.Components.ListItems.Extensions;assembly=DIPS.Mobile.UI"
              x:Class="Playground.VetleSamples.VetleTestPage2"
              x:DataType="{x:Type vetleSamples:VetleTestPage1ViewModel}"
-             Title="Hoho">
+             Title="Hoho"
+             Shell.NavBarIsVisible="False">
+    
     <dui:ContentPage.BindingContext>
         <vetleSamples:VetleTestPage1ViewModel />
     </dui:ContentPage.BindingContext>
