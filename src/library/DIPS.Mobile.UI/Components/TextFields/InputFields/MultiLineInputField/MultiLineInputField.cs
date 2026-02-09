@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
+using DIPS.Mobile.UI.Formatters;
 using DIPS.Mobile.UI.MVVM.Commands;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -217,12 +218,12 @@ public partial class MultiLineInputField : SingleLineInputField
     private void OnSaveTapped()
     {
         if (m_isDictationActive) _ = StopDictation();
-        
+
+        ResetFocus();
+
         m_textWhenFirstFocused = InputView?.Text;
         SaveTapped?.Invoke(this, EventArgs.Empty);
         SaveCommand?.Execute(SaveCommandParameter);
-
-        ResetFocus();
     }
     
     private void OnCancelTapped()

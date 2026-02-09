@@ -55,6 +55,11 @@ public partial class VetleTestPage1
     private async void Button_OnClicked(object sender, EventArgs e)
     {
         //Navigation.PushAsync(new VetleTestPage2());
+        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+    }
+    
+    private async void Button_OnClicked2(object sender, EventArgs e)
+    {
         SystemMessageService.Display(config =>
         {
             config.Duration = 2500;

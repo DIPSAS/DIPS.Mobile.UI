@@ -26,8 +26,8 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
                 TryInheritStatusBarColorOnModal(dialogFragment);
                 SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
-                s_currentFragmentManagerReference = new WeakReference<FragmentManager>(f.ChildFragmentManager);
-                s_currentDialogFragmentReference = new WeakReference<DialogFragment>(dialogFragment);
+                s_currentDialogFragmentReferenceStack ??= new Stack<WeakReference<DialogFragment>?>();
+                s_currentDialogFragmentReferenceStack.Push(new WeakReference<DialogFragment>(dialogFragment));
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
@@ -35,7 +35,22 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
      
         base.OnFragmentStarted(fm, f);
     }
-    
+
+    public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    {
+        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        {
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
+            {
+                if (currentDialogFragment.Equals(dialogFragment))
+                {
+                    s_currentDialogFragmentReferenceStack.Pop();
+                }
+            }
+        }
+        base.OnFragmentDestroyed(fm, f);
+    }
+
     /// <summary>
     /// In edge-to-edge mode, Android adds a "statusBarBackground" view to the DecorView
     /// This view shows a default blue background color unless we set it to match our page background color
@@ -178,23 +193,11 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
-    public static FragmentManager? CurrentFragmentManager
-    {
-        get
-        {
-            if (s_currentFragmentManagerReference?.TryGetTarget(out var fragmentManager) ?? false)
-            {
-                return fragmentManager;   
-            }
-            return null;
-        }
-    }
-
     public static DialogFragment? CurrentDialogFragment
     {
         get
         {
-            if (s_currentDialogFragmentReference?.TryGetTarget(out var dialogFragment) ?? false)
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var dialogFragment) ?? false)
             {
                 return dialogFragment;   
             }
@@ -202,8 +205,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
-    private static WeakReference<FragmentManager>? s_currentFragmentManagerReference;
-    private static WeakReference<DialogFragment>? s_currentDialogFragmentReference;
+    private static Stack<WeakReference<DialogFragment>?>? s_currentDialogFragmentReferenceStack;
 
 #if ANDROID
     public sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
