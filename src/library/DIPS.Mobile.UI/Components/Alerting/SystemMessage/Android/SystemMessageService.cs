@@ -1,4 +1,5 @@
 using AndroidX.Fragment.App;
+using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage.Android;
 using DIPS.Mobile.UI.Extensions.Android;
 using Java.Lang;
@@ -13,9 +14,10 @@ public static partial class SystemMessageService
 
         // Small delay so that FragmentManager is initialized
         await Task.Delay(10);
-        var fragmentManager = Platform.CurrentActivity!.GetFragmentManager();
 
-
+        var isModal = Microsoft.Maui.Controls.Shell.Current.Navigation.ModalStack.Count > 0;
+        var fragmentManager = isModal ? FragmentLifeCycleCallback.CurrentFragmentManager : Platform.CurrentActivity!.GetFragmentManager();
+        
         try
         {
             fragmentManager!.BeginTransaction()
