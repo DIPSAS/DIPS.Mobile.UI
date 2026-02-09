@@ -19,14 +19,31 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-              SetColorsOnModal(dialogFragment);
-              TryInheritWindowFlags(dialogFragment);
+                SetColorsOnModal(dialogFragment);
+                TryInheritWindowFlags(dialogFragment);
+                s_currentDialogFragmentReferenceStack ??= new Stack<WeakReference<DialogFragment>?>();
+                s_currentDialogFragmentReferenceStack.Push(new WeakReference<DialogFragment>(dialogFragment));
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
         }
      
         base.OnFragmentStarted(fm, f);
+    }
+
+    public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    {
+        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        {
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
+            {
+                if (currentDialogFragment.Equals(dialogFragment))
+                {
+                    s_currentDialogFragmentReferenceStack.Pop();
+                }
+            }
+        }
+        base.OnFragmentDestroyed(fm, f);
     }
 
     private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)
@@ -97,4 +114,18 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             dialogFragment.Dialog?.Window?.SetFlags(flags, flags);
         }
     }
+
+    public static DialogFragment? CurrentDialogFragment
+    {
+        get
+        {
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var dialogFragment) ?? false)
+            {
+                return dialogFragment;   
+            }
+            return null;
+        }
+    }
+
+    private static Stack<WeakReference<DialogFragment>?>? s_currentDialogFragmentReferenceStack;
 }
