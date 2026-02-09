@@ -1,3 +1,7 @@
+## [55.4.5]
+- [SystemMessage] Fixed a bug where system message was not visible inside a modal
+- [MultiLineInputField] Fixed a bug where the emojis where not removed from the text before the save command was executed
+
 ## [54.4.4]
 - ReplaceAllEmojisWithPlaceholder is now an extension method and takes in an optional placeholder string
 - ReplaceAllEmojisWithPlaceholder is tested
