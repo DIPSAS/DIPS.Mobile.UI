@@ -27,6 +27,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
                 SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
                 s_currentFragmentManagerReference = new WeakReference<FragmentManager>(f.ChildFragmentManager);
+                s_currentDialogFragmentReference = new WeakReference<DialogFragment>(dialogFragment);
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
@@ -189,7 +190,20 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
+    public static DialogFragment? CurrentDialogFragment
+    {
+        get
+        {
+            if (s_currentDialogFragmentReference?.TryGetTarget(out var dialogFragment) ?? false)
+            {
+                return dialogFragment;   
+            }
+            return null;
+        }
+    }
+
     private static WeakReference<FragmentManager>? s_currentFragmentManagerReference;
+    private static WeakReference<DialogFragment>? s_currentDialogFragmentReference;
 
 #if ANDROID
     public sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
