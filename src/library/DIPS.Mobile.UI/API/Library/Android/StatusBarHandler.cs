@@ -7,6 +7,7 @@ using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.AppBar;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using DialogFragment = AndroidX.Fragment.App.DialogFragment;
 
@@ -230,24 +231,35 @@ public static class StatusBarHandler
             var decorGroup = (ViewGroup?)Activity.Window?.DecorView;
             var statusBarOverlay = decorGroup?.FindViewWithTag(statusBarOverlayTag);
 
-            if (statusBarOverlay is null)
+            if (Equals(color, Colors.Transparent))
             {
-                var statusBarHeight = Activity.Resources?.GetIdentifier("status_bar_height", "dimen", "android") ?? 0;
-                var statusBarPixelSize = statusBarHeight > 0 ? Activity.Resources?.GetDimensionPixelSize(statusBarHeight) ?? 0 : 0;
-
-                statusBarOverlay = new AView(Activity)
+                if (statusBarOverlay is not null)
                 {
-                    LayoutParameters = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, statusBarPixelSize + 3)
-                    {
-                        Gravity = GravityFlags.Top
-                    }
-                };
-
-                decorGroup?.AddView(statusBarOverlay);
-                statusBarOverlay.SetZ(0);
+                    decorGroup?.RemoveView(statusBarOverlay);
+                }
             }
-            
-            statusBarOverlay.SetBackgroundColor(color.ToPlatform());
+            else
+            {
+                if (statusBarOverlay is null)
+                {
+                    var statusBarHeight = Activity.Resources?.GetIdentifier("status_bar_height", "dimen", "android") ?? 0;
+                    var statusBarPixelSize = statusBarHeight > 0 ? Activity.Resources?.GetDimensionPixelSize(statusBarHeight) ?? 0 : 0;
+
+                    statusBarOverlay = new AView(Activity)
+                    {
+                        LayoutParameters = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, statusBarPixelSize + 3)
+                        {
+                            Gravity = GravityFlags.Top
+                        }
+                    };
+
+                    decorGroup?.AddView(statusBarOverlay);
+                    statusBarOverlay.Tag = statusBarOverlayTag;
+                    statusBarOverlay.SetZ(0);
+                }
+                
+                statusBarOverlay.SetBackgroundColor(color.ToPlatform());
+            }
         }
         else
         {
@@ -258,7 +270,7 @@ public static class StatusBarHandler
         if (windowInsetsController is not null)
         {
             var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
-            windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
+            /*windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;*/
         }
     }
     

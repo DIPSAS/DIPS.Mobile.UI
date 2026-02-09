@@ -16,9 +16,9 @@
                  HideSoftInputOnTapped="True"
                  Title="Hello"
                  SafeAreaEdges="None"
-                 Shell.NavBarIsVisible="True"
+                 Shell.NavBarIsVisible="False"
                  Background="Red"
-                 StatusBarColor="Red">
+                 StatusBarColor="Transparent">
 
 
     <dui:ContentPage.BindingContext>
