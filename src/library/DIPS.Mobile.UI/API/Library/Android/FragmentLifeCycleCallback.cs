@@ -26,6 +26,8 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
                 TryInheritStatusBarColorOnModal(dialogFragment);
                 SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
+                s_currentDialogFragmentReferenceStack ??= new Stack<WeakReference<DialogFragment>?>();
+                s_currentDialogFragmentReferenceStack.Push(new WeakReference<DialogFragment>(dialogFragment));
             }
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
@@ -33,7 +35,22 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
      
         base.OnFragmentStarted(fm, f);
     }
-    
+
+    public override void OnFragmentDestroyed(FragmentManager fm, Fragment f)
+    {
+        if (f is DialogFragment dialogFragment and not BottomSheetDialogFragment)
+        {
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
+            {
+                if (currentDialogFragment.Equals(dialogFragment))
+                {
+                    s_currentDialogFragmentReferenceStack.Pop();
+                }
+            }
+        }
+        base.OnFragmentDestroyed(fm, f);
+    }
+
     /// <summary>
     /// In edge-to-edge mode, Android adds a "statusBarBackground" view to the DecorView
     /// This view shows a default blue background color unless we set it to match our page background color
@@ -175,6 +192,20 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             dialogFragment.Dialog?.Window?.SetFlags(flags, flags);
         }
     }
+
+    public static DialogFragment? CurrentDialogFragment
+    {
+        get
+        {
+            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var dialogFragment) ?? false)
+            {
+                return dialogFragment;   
+            }
+            return null;
+        }
+    }
+
+    private static Stack<WeakReference<DialogFragment>?>? s_currentDialogFragmentReferenceStack;
 
 #if ANDROID
     public sealed class InsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener

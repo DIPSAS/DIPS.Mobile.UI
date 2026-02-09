@@ -23,8 +23,13 @@
         <ToolbarItem Text="Test" />
 
     </dui:ContentPage.ToolbarItems>
+    
+    <dui:HorizontalStackLayout>
+        <dui:Button Clicked="Button_OnClicked" />
+        <dui:Button Clicked="Button_OnClicked2" />
+    </dui:HorizontalStackLayout>
 
-    <dui:Button Clicked="Button_OnClicked" />
+
     <!--<dui:ScrollView>
         <dui:VerticalStackLayout Padding="{dui:Padding page_margin_small}"
                                  Spacing="{dui:Sizes size_2}">
