@@ -288,34 +288,6 @@ public partial class ListItem : Grid
         HasTopDivider = true;
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-
-        if (args.NewHandler is not null)
-        {
-            if (IsDebugMode)
-            {
-                SetDebugMode();
-            }
-
-            if (Tapped is not null && Tapped.HasSubscriptions())
-            {
-                AddTouch();
-            }
-            
-            return;
-        }
-        
-        ParentChanged -= OnParentChanged;
-        
-        if(m_collectionView is not null)
-            m_collectionView.ChildrenReordered -= OnCollectionViewChildrenReordered;
-        
-        if(m_verticalStackLayout is not null)
-            m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
-    }
-
     private void SetDebugMode()
     {
         if (TitleLabel is not null)
@@ -342,5 +314,40 @@ public partial class ListItem : Grid
         {
             ImageIcon.BackgroundColor = Colors.Yellow;
         }
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+        {
+            if (IsDebugMode)
+            {
+                SetDebugMode();
+            }
+
+            if (Tapped is not null && Tapped.HasSubscriptions())
+            {
+                AddTouch();
+            }
+            
+            return;
+        }
+        
+        ParentChanged -= OnParentChanged;
+        
+        if(m_collectionView is not null)
+            m_collectionView.ChildrenReordered -= OnCollectionViewChildrenReordered;
+        
+        if(m_verticalStackLayout is not null)
+            m_verticalStackLayout.SizeChanged -= OnVerticalStackLayoutSizeChanged;
+        
+        // Clean up all options
+        SubtitleOptions?.Unbind();
+        TitleOptions?.Unbind();
+        IconOptions?.Unbind();
+        InLineContentOptions?.Unbind();
+        UnderlyingContentOptions?.Unbind();
     }
 }

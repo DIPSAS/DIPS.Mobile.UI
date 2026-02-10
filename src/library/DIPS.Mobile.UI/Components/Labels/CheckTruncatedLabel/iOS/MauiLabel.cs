@@ -116,10 +116,8 @@ public class MauiLabel : Microsoft.Maui.Platform.MauiLabel
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
-        {
-            m_label.PropertyChanged -= OnLabelPropertyChanged;
-        }
+        m_label.PropertyChanged -= OnLabelPropertyChanged;
+        
         base.Dispose(disposing);
     }
 }

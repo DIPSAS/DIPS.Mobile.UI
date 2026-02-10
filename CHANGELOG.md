@@ -1,3 +1,6 @@
+## [54.4.6]
+- Fixed memory leaks.
+
 ## [54.4.5]
 - [SystemMessage] Fixed a bug where system message was not visible inside a modal
 - [MultiLineInputField] Fixed a bug where the emojis where not removed from the text before the save command was executed

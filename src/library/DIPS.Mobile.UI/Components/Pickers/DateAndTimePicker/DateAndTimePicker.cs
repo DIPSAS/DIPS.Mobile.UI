@@ -132,4 +132,14 @@ public partial class DateAndTimePicker : Grid, IDatePicker
         return SelectedDateTime;
     }
 
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if (args.NewHandler is null)
+        {
+            DateChip.Tapped -= DateChipOnTapped;
+            TimeChip.Tapped -= DateChipOnTapped;
+        }
+    }
 }
