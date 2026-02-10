@@ -134,4 +134,14 @@ public partial class FilledCheckBox : ContentView
     {
         Touch.SetCommand(this, Command);
     }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if (args.NewHandler is null)
+        {
+            m_animation.PropertyChanged -= OnAnimationPropertyChanged;
+        }
+    }
 }
