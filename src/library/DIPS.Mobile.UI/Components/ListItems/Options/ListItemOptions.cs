@@ -12,4 +12,16 @@ public abstract class ListItemOptions : BindableObject
     }
 
     protected abstract void DoBind(ListItem listItem);
+
+    /// <summary>
+    /// Override this to clean up event subscriptions when the ListItem is disposed
+    /// </summary>
+    protected virtual void DoUnbind()
+    {
+    }
+
+    internal void Unbind()
+    {
+        DoUnbind();
+    }
 }

@@ -367,25 +367,6 @@ public partial class AlertView : Grid
         });
     }
 
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-
-        if (Handler is not null)
-        {
-            OnShouldAnimateChanged();
-            AlertViewService.OnAnimationTriggered += Animate;
-        }
-        else
-        {
-            AlertViewService.OnAnimationTriggered -= Animate;
-            if (m_titleAndDescriptionLabel is not null)
-            {
-                m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
-            }
-        }
-    }
-
     private void OnShowCloseButtonChanged()
     {
         if (!ShowCloseButton)
@@ -417,6 +398,25 @@ public partial class AlertView : Grid
         if (m_titleAndDescriptionLabel is not null && !IsLargeAlert)
         {
             m_titleAndDescriptionLabel.MaxLines = GetTitleMaxLines();
+        }
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (Handler is not null)
+        {
+            OnShouldAnimateChanged();
+            AlertViewService.OnAnimationTriggered += Animate;
+        }
+        else
+        {
+            AlertViewService.OnAnimationTriggered -= Animate;
+            if (m_titleAndDescriptionLabel is not null)
+            {
+                m_titleAndDescriptionLabel.PropertyChanged -= TitleAndDescriptionLabelOnPropertyChanged;
+            }
         }
     }
 }

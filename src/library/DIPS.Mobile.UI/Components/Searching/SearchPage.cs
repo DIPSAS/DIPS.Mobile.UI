@@ -273,6 +273,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_footerView.VerticalOptions = LayoutOptions.End;
             m_grid.Add(FooterView, 0, 3);
         }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+            
+            if (args.NewHandler is null)
+            {
+                m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
+                SearchBar.Focused -= OnSearchBarFocused;
+            }
+        }
+        
     }
 
     public enum SearchMode

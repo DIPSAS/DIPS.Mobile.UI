@@ -4,6 +4,8 @@ namespace DIPS.Mobile.UI.Components.ListItems.Options.Subtitle;
 
 public partial class SubtitleOptions : ListItemOptions
 {
+    private Label? m_subscribedLabel;
+
     public static void SetupDefaults(ListItem listItem)
     {
         if (listItem.SubtitleLabel is null)
@@ -19,6 +21,8 @@ public partial class SubtitleOptions : ListItemOptions
     {
         if (listItem.SubtitleLabel is null)
             return;
+        
+        m_subscribedLabel = listItem.SubtitleLabel;
         
         listItem.SubtitleLabel.SetBinding(Label.FontAttributesProperty, static (SubtitleOptions options) => options.FontAttributes, source: this);
         listItem.SubtitleLabel.SetBinding(VisualElement.StyleProperty, static (SubtitleOptions options) => options.Style, source: this);
@@ -60,5 +64,14 @@ public partial class SubtitleOptions : ListItemOptions
     private void UpdateVisibility(Label label)
     {
         label.IsVisible = !IsSubtitleEmptyOrNull(label);
+    }
+
+    protected override void DoUnbind()
+    {
+        if (m_subscribedLabel is not null)
+        {
+            m_subscribedLabel.PropertyChanged -= SubtitleLabelOnPropertyChanged;
+            m_subscribedLabel = null;
+        }
     }
 }

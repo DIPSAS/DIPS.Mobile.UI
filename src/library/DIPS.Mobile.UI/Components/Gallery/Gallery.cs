@@ -296,4 +296,19 @@ public partial class Gallery : Grid
             _ = SetViewVisibleAnimated(m_borderAroundNumberOfImages);
         }
     }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if (args.NewHandler is null)
+        {
+            // Unsubscribe from collection changes
+            if (m_previousCollection is not null)
+            {
+                m_previousCollection.CollectionChanged -= OnImagesCollectionChanged;
+                m_previousCollection = null;
+            }
+        }
+    }
 }
