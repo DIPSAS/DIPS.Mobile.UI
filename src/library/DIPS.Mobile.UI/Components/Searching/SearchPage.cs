@@ -26,30 +26,41 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             Loaded += OnLoaded;
             Unloaded += OnUnLoaded;
-            
+
             //Searchbar
-            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(), HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
+            SearchBar = new SearchBar
+            {
+                AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(),
+                HasCancelButton = true,
+                HasBusyIndication = true,
+                ShouldCloseKeyboardOnReturnKeyTapped = true
+            };
             SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, ColorName.color_surface_default);
-            
+
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
-                SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
-                    ColorName.color_text_default);
-                SearchBar.SetAppThemeColor(SearchBar.IconsColorProperty, 
-                    ColorName.color_icon_default);
-                SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
-                    ColorName.color_text_subtle);
+            SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
+                ColorName.color_text_default);
+            SearchBar.SetAppThemeColor(SearchBar.IconsColorProperty,
+                ColorName.color_icon_default);
+            SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
+                ColorName.color_text_subtle);
 #else
             SearchBar.SetAppThemeColor(SearchBar.SearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
             SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
                 ColorName.color_text_action);
 #endif
-            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty, static (SearchPage searchPage) => searchPage.SearchMode, source: this);
-            SearchBar.SetBinding(SearchBar.PlaceholderProperty, static (SearchPage searchPage) => searchPage.SearchPlaceholder, source: this);
-            SearchBar.SetBinding(SearchBar.ShouldDelayProperty, static (SearchPage searchPage) => searchPage.ShouldDelay, source: this);
-            SearchBar.SetBinding(SearchBar.DelayProperty, static (SearchPage searchPage) => searchPage.Delay, source: this);
-            SearchBar.SetBinding(SearchBar.IsAutocorrectEnabledProperty, static (SearchPage searchPage) => searchPage.IsAutocorrectEnabled, source: this);
-            
+            SearchBar.SetBinding(SearchBar.ReturnKeyTypeProperty,
+                static (SearchPage searchPage) => searchPage.SearchMode, source: this);
+            SearchBar.SetBinding(SearchBar.PlaceholderProperty,
+                static (SearchPage searchPage) => searchPage.SearchPlaceholder, source: this);
+            SearchBar.SetBinding(SearchBar.ShouldDelayProperty,
+                static (SearchPage searchPage) => searchPage.ShouldDelay, source: this);
+            SearchBar.SetBinding(SearchBar.DelayProperty, static (SearchPage searchPage) => searchPage.Delay,
+                source: this);
+            SearchBar.SetBinding(SearchBar.IsAutocorrectEnabledProperty,
+                static (SearchPage searchPage) => searchPage.IsAutocorrectEnabled, source: this);
+
             SearchBar.TextChanged += SearchBarOnTextChanged;
 
             SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
@@ -61,11 +72,13 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_resultCollectionView = new CollectionView
             {
                 AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>(),
-                HeaderTemplate = new DataTemplate(() => new Grid { Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_large), 0, 0) })
+                HeaderTemplate = new DataTemplate(() =>
+                    new Grid { Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_large), 0, 0) })
             };
 
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
-            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
+            m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty,
+                static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
 
             //The grid to glue it all together
             m_grid = new Grid()
@@ -80,11 +93,11 @@ namespace DIPS.Mobile.UI.Components.Searching
                     new()
                     {
                         Height = GridLength.Auto // Space for the search bar
-                    }, 
+                    },
                     new()
                     {
                         Height = GridLength.Star // Space for the dynamic content. Hint view, empty view and listview
-                    }, 
+                    },
                     new()
                     {
                         Height = GridLength.Auto // Footer
@@ -96,16 +109,17 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_grid.Add(SearchBar, 0, 1);
 
             OnSearchModeChanged();
-            
+
             base.Content = m_grid;
         }
 
         private void OnCollectionViewScrolled(object? sender, ItemsViewScrolledEventArgs e)
         {
 #if __ANDROID__ //Scrolled gets kicked off when you change the collections item source for some reason, so we have to detect if its a scroll or not
-                if (m_resultCollectionView.Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) return; //0 is idle
+            if (m_resultCollectionView.Handler is CollectionViewHandler { PlatformView.ScrollState: 0 })
+                return; //0 is idle
 #endif
-               
+
             SearchBar.Unfocus();
         }
 
@@ -114,9 +128,9 @@ namespace DIPS.Mobile.UI.Components.Searching
             Loaded -= OnLoaded;
             Unloaded -= OnUnLoaded;
             m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
-            
+
             SearchBar.Focused -= OnSearchBarFocused;
-            
+
         }
 
         private void OnLoaded(object? sender, EventArgs e)
@@ -124,7 +138,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             SetSearchState(SearchStates.NeedsSearchHint);
             if (ShouldAutoFocus)
             {
-                SearchBar.Focus();    
+                SearchBar.Focus();
             }
 
             SearchBar.Focused += OnSearchBarFocused;
@@ -225,9 +239,9 @@ namespace DIPS.Mobile.UI.Components.Searching
             ToggleProgressBarVisibility(searchStates == SearchStates.Searching);
 
             const int rowChildIndex = 2;
-            
+
             //Remove previous view
-            if(m_previousView != null)
+            if (m_previousView != null)
                 m_grid.Remove(m_previousView);
 
             var viewToShow = searchStates switch
@@ -241,9 +255,9 @@ namespace DIPS.Mobile.UI.Components.Searching
             if (viewToShow != null)
             {
                 //Add new view
-                m_grid.Add(viewToShow, 0, rowChildIndex);    
+                m_grid.Add(viewToShow, 0, rowChildIndex);
             }
-            
+
             m_previousView = viewToShow;
         }
 
@@ -259,9 +273,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void OnSearchModeChanged()
         {
-            SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
-                ReturnType.Done :
-                ReturnType.Search;
+            SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ? ReturnType.Done : ReturnType.Search;
         }
 
         private void OnFooterViewChanged()
@@ -273,9 +285,21 @@ namespace DIPS.Mobile.UI.Components.Searching
             m_footerView.VerticalOptions = LayoutOptions.End;
             m_grid.Add(FooterView, 0, 3);
         }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+            {
+                m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
+                SearchBar.Focused -= OnSearchBarFocused;
+            }
+        }
+        
     }
 
-    public enum SearchMode
+public enum SearchMode
     {
         /// <summary>
         /// Search is triggered whenever the search text changes
