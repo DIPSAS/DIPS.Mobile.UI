@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     /// <summary>
