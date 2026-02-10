@@ -16,8 +16,7 @@
                  HideSoftInputOnTapped="True"
                  Title="Hello"
                  SafeAreaEdges="None"
-                 Shell.NavBarIsVisible="True"
-                 Background="Red">
+                 Shell.NavBarIsVisible="True">
 
 
     <dui:ContentPage.BindingContext>
@@ -29,11 +28,13 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout SafeAreaEdges="None">
-
-       <dui:Button Clicked="Button_OnClicked" />
+    <VerticalStackLayout>
+        <dui:CheckTruncatedLabel Text="Test"
+                                 VerticalOptions="Center" />
+        <dui:Label Text="Hello"></dui:Label>
+       <!--<dui:Button Clicked="Button_OnClicked" />
        <dui:Button Clicked="Button_OnClicked2" />
-       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
+       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />-->
        
         
     </VerticalStackLayout>

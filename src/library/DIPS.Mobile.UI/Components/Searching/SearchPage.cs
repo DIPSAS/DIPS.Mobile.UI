@@ -275,6 +275,17 @@ namespace DIPS.Mobile.UI.Components.Searching
         }
     }
 
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if (args.NewHandler is null)
+        {
+            m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
+            SearchBar.Focused -= OnSearchBarFocused;
+        }
+    }
+
     public enum SearchMode
     {
         /// <summary>

@@ -288,5 +288,15 @@ namespace DIPS.Mobile.UI.Components.Slidable
                 }
             }
         }
+
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+            
+            if (args.NewHandler is null)
+            {
+                m_panGestureRecognizer.PanUpdated -= PanGestureRecognizerPanUpdated;
+            }
+        }
     }
 }
