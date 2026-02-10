@@ -51,7 +51,10 @@ public partial class FilledCheckBox : ContentView
         base.OnHandlerChanging(args);
 
         if (args.NewHandler is null)
+        {
+            m_animation.PropertyChanged -= OnAnimationPropertyChanged;
             return;
+        }
 
         _ = SetContainerContent();
         Container.StrokeShape = new RoundRectangle {CornerRadius = CornerRadius};
@@ -130,15 +133,5 @@ public partial class FilledCheckBox : ContentView
     private void OnCommandChanged()
     {
         Touch.SetCommand(this, Command);
-    }
-
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-        
-        if (args.NewHandler is null)
-        {
-            m_animation.PropertyChanged -= OnAnimationPropertyChanged;
-        }
     }
 }
