@@ -97,8 +97,12 @@ public partial class DateAndTimePicker : Grid, IDatePicker
     {
         base.OnHandlerChanging(args);
         
-        if(args.NewHandler is null)
+        if (args.NewHandler is null)
+        {
+            DateChip.Tapped -= DateChipOnTapped;
+            TimeChip.Tapped -= DateChipOnTapped;
             return;
+        }
         
         SelectedDateTime = ValidateDateTime(SelectedDateTime);
         OnSelectedDateTimeChanged(SelectedDateTime);
@@ -130,16 +134,5 @@ public partial class DateAndTimePicker : Grid, IDatePicker
     public virtual DateTime GetDateOnOpen()
     {
         return SelectedDateTime;
-    }
-
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-    {
-        base.OnHandlerChanging(args);
-        
-        if (args.NewHandler is null)
-        {
-            DateChip.Tapped -= DateChipOnTapped;
-            TimeChip.Tapped -= DateChipOnTapped;
-        }
     }
 }

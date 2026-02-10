@@ -348,6 +348,5 @@ public partial class ListItem : Grid
         TitleOptions?.Unbind();
         IconOptions?.Unbind();
         InLineContentOptions?.Unbind();
-        UnderlyingContentOptions?.Unbind();
     }
 }
