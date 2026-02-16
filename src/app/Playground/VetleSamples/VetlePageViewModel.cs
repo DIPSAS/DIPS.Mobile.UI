@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
+using DIPS.Mobile.UI.Components.ChipGroup;
 using DIPS.Mobile.UI.Components.Loading.StateView;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker.Component;
 using DIPS.Mobile.UI.Components.Sorting;
@@ -38,9 +39,11 @@ public class VetlePageViewModel : ViewModel
     private string m_subtitle = "Tjeneste med tilleggsspørsmål og egenskaper";
     private bool m_isVisible;
     private string m_transcriptionText;
+    private List<ChipGroupTestViewModel> m_chipGroupTestViewModels;
 
     public VetlePageViewModel()
     {
+        m_chipGroupTestViewModels = [new ChipGroupTestViewModel(this, 0)];
         
         Navigate = new Command(Navigatee);
         SaveSuccess = new Command(async () =>
@@ -445,6 +448,17 @@ public class VetlePageViewModel : ViewModel
     public void OnDateChanged()
     {
         TimePlanningViewModel = new TimePlanningViewModel(this);
+    }
+
+    public void Reload()
+    {
+        ChipGroupTestViewModels = [new ChipGroupTestViewModel(this, ChipGroupTestViewModels[0].SelectedIndex)];
+    }
+
+    public List<ChipGroupTestViewModel> ChipGroupTestViewModels
+    {
+        get => m_chipGroupTestViewModels;
+        private set => RaiseWhenSet(ref m_chipGroupTestViewModels, value);
     }
 }
 

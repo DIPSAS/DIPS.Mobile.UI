@@ -28,13 +28,18 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
-        <dui:CheckTruncatedLabel Text="Test"
-                                 VerticalOptions="Center" />
-        <dui:Label Text="Hello"></dui:Label>
-       <!--<dui:Button Clicked="Button_OnClicked" />
-       <dui:Button Clicked="Button_OnClicked2" />
-       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />-->
+    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ChipGroupTestViewModels}">
+        
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type vetleSamples:ChipGroupTestViewModel}">
+                
+                <dui:ChipGroup ItemsSource="{Binding ItemsSource}"
+                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+                               SelectionMode="Single"
+                               ItemDisplayProperty="Name" />
+                
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
        
         
     </VerticalStackLayout>
