@@ -37,6 +37,10 @@ public partial class ChipGroup : ContentView
 
         if (SelectionMode == ChipGroupSelectionMode.Single)
         {
+            // Clear previous selections first in Single mode
+            m_selectedItems.ForEach(item => item.Chip.IsToggled = false);
+            m_selectedItems.Clear();
+            
             var selectedItem = selectedItemList.FirstOrDefault();
             if (selectedItem is not null)
             {
@@ -47,6 +51,10 @@ public partial class ChipGroup : ContentView
         }
         else
         {
+            // Clear previous selections first in Multi mode too
+            m_selectedItems.ForEach(item => item.Chip.IsToggled = false);
+            m_selectedItems.Clear();
+            
             selectedItemList.ForEach(item =>
             {
                 var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(item.GetPropertyValue(ItemDisplayProperty)));
@@ -92,6 +100,10 @@ public partial class ChipGroup : ContentView
 
     private void ClearItems()
     {
+        foreach (var chipItem in m_chipItems)
+        {
+            chipItem.Chip.DisconnectHandlers();
+        }
         m_chipItems.Clear();
         m_flexLayout.Children.Clear();
     }

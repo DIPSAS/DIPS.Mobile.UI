@@ -25,10 +25,20 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <Grid>
-
-        <gallery:Gallery x:Name="Gallery"/>
-
-    </Grid>
+    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ChipGroupTestViewModels}">
+        
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type vetleSamples:ChipGroupTestViewModel}">
+                
+                <dui:ChipGroup ItemsSource="{Binding ItemsSource}"
+                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+                               SelectionMode="Single"
+                               ItemDisplayProperty="Name" />
+                
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+       
+        
+    </VerticalStackLayout>
 
 </dui:ContentPage>
