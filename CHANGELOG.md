@@ -1,3 +1,6 @@
+## [55.0.4]
+- [ChipGroup] Fixed issue where multiple chips could remain active when SelectedItems binding changed externally in Single selection mode
+
 ## [55.0.3]
 - Fixed memory leaks.
 
