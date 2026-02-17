@@ -56,7 +56,7 @@ public static class StatusBarHandler
                 
                 // Immediately set the status bar color since OnAppearing may have already been called
                 // before the DialogFragment was registered
-                SetStatusBarColorOnModalWindow(dialogFragment, page.StatusBarColor, page.StatusBarStyle);
+                SetStatusBarColorOnModalWindow(dialogFragment, StatusBarColorOverride ?? page.StatusBarColor, page.StatusBarStyle);
             }
         }
         catch (Exception ex)
