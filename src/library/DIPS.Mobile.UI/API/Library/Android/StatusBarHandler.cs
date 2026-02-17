@@ -270,7 +270,7 @@ public static class StatusBarHandler
         if (windowInsetsController is not null)
         {
             var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
-            /*windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;*/
+            windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
         }
     }
     
