@@ -143,15 +143,8 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         if(uiView.Subviews[0] is not UIKit.UICollectionView uiCollectionView)
             return true;
 
-        if (this is CollectionView2)
-        {
-            if (e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20)
-                return true;
-        }
-        else if (e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.ContentInset.Bottom - 20)
-        {
+        if (e.VerticalOffset >= uiCollectionView.ContentSize.Height - uiCollectionView.Bounds.Height - 20)
             return true;
-        }
 
         return false;
 #else
