@@ -13,7 +13,7 @@ public static partial class SystemMessageService
         {
             MainThread.BeginInvokeOnMainThread(delegate
             {
-                var rootView = DUI.RootController;
+                var rootView = Platform.GetCurrentUIViewController()?.View; 
                 systemMessage.HeightRequest = rootView.Frame.Height;
                 systemMessage.WidthRequest = rootView.Frame.Width;
                 var systemMessageUIView = systemMessage.ToPlatform(DUI.GetCurrentMauiContext!);

@@ -1,6 +1,16 @@
 ## [55.1.0]
 - [StatusBar][Android] Added `StatusBarHandler` to have control over statusbar in pages.
 
+## [55.0.4]
+- [ChipGroup] Fixed issue where multiple chips could remain active when SelectedItems binding changed externally in Single selection mode
+
+## [55.0.3]
+- Fixed memory leaks.
+
+## [55.0.2]
+- [SystemMessage] Fixed a bug where system message was not visible inside a modal
+- [MultiLineInputField] Fixed a bug where the emojis where not removed from the text before the save command was executed
+
 ## [55.0.1]
 - [BottomSheet] Implemented edge-to-edge support for Android to work correctly with .NET 10's default edge-to-edge mode
 - [Modal] Fixed status bar background color and icon color to properly inherit from app theme in edge-to-edge mode on Android

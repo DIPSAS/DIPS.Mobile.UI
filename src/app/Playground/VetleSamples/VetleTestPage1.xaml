@@ -25,6 +25,12 @@
         <ToolbarItem Text="Test" />
 
     </dui:ContentPage.ToolbarItems>
+    
+    <dui:HorizontalStackLayout>
+        <dui:Button Clicked="Button_OnClicked" />
+        <dui:Button Clicked="Button_OnClicked2" />
+    </dui:HorizontalStackLayout>
+
 
     <dui:VerticalStackLayout SafeAreaEdges="None">
         <dui:Button Clicked="Button_OnClicked" />

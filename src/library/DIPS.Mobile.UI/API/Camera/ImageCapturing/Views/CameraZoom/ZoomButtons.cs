@@ -233,4 +233,25 @@ internal class ZoomButton : ContentView
     
     public float DefaultZoomRatio { get; }
     public bool IsDefaultActive { get; }
+    
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        
+        if (args.NewHandler is null)
+        {
+            // Clean up gesture recognizers
+            foreach (var gestureRecognizer in GestureRecognizers.ToList())
+            {
+                if (gestureRecognizer is PanGestureRecognizer panGesture)
+                {
+                    panGesture.PanUpdated -= OnPanned;
+                }
+                else if (gestureRecognizer is TapGestureRecognizer tapGesture)
+                {
+                    tapGesture.Tapped -= OnTapped;
+                }
+            }
+        }
+    }
 }

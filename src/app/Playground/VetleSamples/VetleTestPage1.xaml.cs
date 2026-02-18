@@ -53,9 +53,21 @@ public partial class VetleTestPage1
     }
 
 
-    private void Button_OnClicked(object sender, EventArgs e)
+    private async void Button_OnClicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new VetleTestPage2());
+        //Navigation.PushAsync(new VetleTestPage2());
+        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+    }
+    
+    private async void Button_OnClicked2(object sender, EventArgs e)
+    {
+        SystemMessageService.Display(config =>
+        {
+            config.Duration = 2500;
+            config.Text= "test";
+        });
+        await Task.Delay(1000);
+        await Navigation.PopModalAsync();
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)

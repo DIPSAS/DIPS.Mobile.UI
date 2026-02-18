@@ -36,7 +36,7 @@ public partial class Entry
     }
     
     /// <summary>
-    // When true, the Entry will allow emoji characters; when false, emojis will be replaced with a placeholder on unfocus.
+    /// When true, the Entry will allow emoji characters; when false, emojis will be replaced with a placeholder on unfocus.
     /// </summary>
     public bool AllowEmojis
     {

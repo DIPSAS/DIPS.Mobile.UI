@@ -227,5 +227,6 @@ public class ChipHandler : ViewHandler<Chip, Google.Android.Material.Chip.Chip>
         platformView.SetOnCloseIconClickListener(null);
         platformView.SetOnCheckedChangeListener(null);
         platformView.Click -= OnChipTapped;
+        VirtualView.SizeChanged -= VirtualViewOnSizeChanged;
     }
 }
