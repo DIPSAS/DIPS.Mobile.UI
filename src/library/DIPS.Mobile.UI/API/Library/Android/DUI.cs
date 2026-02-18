@@ -5,10 +5,9 @@ using AndroidX.Core.SplashScreen;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
 using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePicker.Service;
-using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Colors = Microsoft.Maui.Graphics.Colors;
+using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 using TimePickerService = DIPS.Mobile.UI.Components.Pickers.TimePicker.TimePickerService;
 
 // ReSharper disable once InconsistentNaming

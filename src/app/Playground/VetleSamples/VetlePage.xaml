@@ -16,7 +16,9 @@
                  HideSoftInputOnTapped="True"
                  Title="Hello"
                  SafeAreaEdges="None"
-                 Shell.NavBarIsVisible="True">
+                 Shell.NavBarIsVisible="False"
+                 Background="Red"
+                 StatusBarColor="Green">
 
 
     <dui:ContentPage.BindingContext>
@@ -28,18 +30,15 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ChipGroupTestViewModels}">
-        
-        <BindableLayout.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type vetleSamples:ChipGroupTestViewModel}">
-                
-                <dui:ChipGroup ItemsSource="{Binding ItemsSource}"
-                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
-                               SelectionMode="Single"
-                               ItemDisplayProperty="Name" />
-                
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
+    <VerticalStackLayout SafeAreaEdges="None">
+
+       <dui:Button Clicked="Button_OnClicked" />
+       <dui:Button Clicked="Button_OnClicked2" />
+       <dui:Button Text="Navigate" Clicked="Button_OnClicked3" />
+       <dui:Button Text="Navigate 2" Clicked="Button_OnClicked5" />
+       <dui:Button Text="Set status bar color" Clicked="Button_OnClicked4" />
+       <dui:Button Text="Reset" Clicked="Button_OnClicked6" />
+       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
        
         
     </VerticalStackLayout>
