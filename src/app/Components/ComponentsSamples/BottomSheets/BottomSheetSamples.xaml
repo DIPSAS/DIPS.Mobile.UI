@@ -12,7 +12,7 @@
                              Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}"
                              dui:Layout.AutoCornerRadius="True"
                              VerticalOptions="Start">
-        <!--<dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
+        <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet_Open}"
                                 HasBottomDivider="True"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:SimpleBottomSheetView}}"
                                 VerticalOptions="Start" />
@@ -25,6 +25,6 @@
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet}"
                                 Subtitle="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenNotClosableInteracting}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetNotClosableByInteracting}}"
-                                VerticalOptions="Start" /-->>
+                                VerticalOptions="Start" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>
