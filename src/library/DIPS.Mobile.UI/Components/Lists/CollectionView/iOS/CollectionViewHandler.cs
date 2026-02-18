@@ -3,7 +3,7 @@ using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Extensions.iOS;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
-using Microsoft.Maui.Controls.Handlers.Items;
+using Microsoft.Maui.Controls.Handlers.Items2;
 using Microsoft.Maui.Platform;
 using UIKit;
 using ContentView = Microsoft.Maui.Platform.ContentView;
@@ -12,33 +12,29 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionViewHandler
 {
-    protected override ItemsViewController<ReorderableItemsView> CreateController(ReorderableItemsView itemsView, ItemsViewLayout layout)
+    protected override ItemsViewController2<ReorderableItemsView> CreateController(ReorderableItemsView itemsView,
+        UICollectionViewLayout layout)
     {
-        // Only use new controller if the ItemsLayout is vertical LinearItemsLayout
-        if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} })
-            return new ReordeableItemsViewController(itemsView, layout, VirtualView as CollectionView);
-            
-        return base.CreateController(itemsView, layout);
+        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout }
+            ? base.CreateController(itemsView, layout)
+            : new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
     }
 
     private static partial void MapShouldBounce(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
-        
-        if (handler.PlatformView.Subviews[0] is UICollectionView uiCollectionView)
+        if (handler.PlatformView.Subviews[0] is not UICollectionView uiCollectionView)
+            return;
+            
+        if (virtualView is CollectionView collectionView)
         {
-            if (virtualView is CollectionView collectionView)
+            if (virtualView.ItemsLayout is ItemsLayout { Orientation: ItemsLayoutOrientation.Horizontal })
             {
-                if (virtualView.ItemsLayout is ItemsLayout {Orientation: ItemsLayoutOrientation.Horizontal})
-                {
-                    uiCollectionView.AlwaysBounceHorizontal = collectionView.ShouldBounce;
-                }
-                else
-                {
-                    uiCollectionView.AlwaysBounceVertical = collectionView.ShouldBounce;
-                    
-                }
-                 
+                uiCollectionView.AlwaysBounceHorizontal = collectionView.ShouldBounce;
+            }
+            else
+            {
+                uiCollectionView.AlwaysBounceVertical = collectionView.ShouldBounce;
             }
         }
     }
@@ -52,8 +48,11 @@ public partial class CollectionViewHandler
     }
 }
 
-internal class ReordeableItemsViewController(ReorderableItemsView reorderableItemsView, ItemsViewLayout layout, CollectionView mauiCollectionView)
-    : ReorderableItemsViewController<ReorderableItemsView>(reorderableItemsView, layout)
+public class ReorderableItemsViewController(
+    ReorderableItemsView itemsView,
+    UICollectionViewLayout layout,
+    CollectionView mauiCollectionView)
+    : ReorderableItemsViewController2<ReorderableItemsView>(itemsView, layout)
 {
     private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
     private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
@@ -66,11 +65,11 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         TrySetMarginOnCell(cell, mauiCollectionView.Padding);
         TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
         TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
-
+        
         return cell;
     }
 
-    internal static void TrySetMarginOnCell(UICollectionViewCell cell, Thickness collectionViewPadding)
+    private static void TrySetMarginOnCell(UICollectionViewCell cell, Thickness collectionViewPadding)
     {
         var crossPlatformElement = GetCrossPlatformElementFromCell(cell);
 
@@ -86,18 +85,18 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
             crossPlatformElement.Margin.Bottom);
     }
 
-    private static View? GetCrossPlatformElementFromCell(UICollectionViewCell cell)
+    private static Microsoft.Maui.Controls.View? GetCrossPlatformElementFromCell(UICollectionViewCell cell)
     {
         var subView = cell.Subviews[1].Subviews[0];
         return subView switch
         {
-            LayoutView layoutView => (View?)layoutView.CrossPlatformLayout,
-            ContentView contentView => (View?)contentView.CrossPlatformLayout,
+            LayoutView layoutView => (Microsoft.Maui.Controls.View?)layoutView.CrossPlatformLayout,
+            ContentView contentView => (Microsoft.Maui.Controls.View?)contentView.CrossPlatformLayout,
             _ => null
         };
     }
 
-    internal static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
+    private static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
         UICollectionViewCell cell, CollectionView mauiCollectionView,
         Dictionary<int, Divider> currentDividerSetToInvisibleInSection)
     {
@@ -132,7 +131,7 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         }
     }
 
-    internal static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
+    private static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
     {
         if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
         {
@@ -140,8 +139,6 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         }
         
         var viewThatHasCrossPlatformElement = cell.Subviews[1].Subviews[0];
-        // Uncomment to easier debug what cell you are currently debugging
-        /*var debugText = viewThatReceivedMarginUnderCell.FindChildView<MauiLabel>().Text;*/
         var cornerRadius = new CornerRadius();
         
         if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsFirstItemInSection(indexPath))
@@ -205,12 +202,12 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         test.Layer.MaskedCorners = 0;
     }
 
-    internal static bool IsLastItemInSection(UICollectionView collectionView, NSIndexPath indexPath)
+    private static bool IsLastItemInSection(UICollectionView collectionView, NSIndexPath indexPath)
     {
         return indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1;
     }
 
-    internal static bool IsFirstItemInSection(NSIndexPath indexPath)
+    private static bool IsFirstItemInSection(NSIndexPath indexPath)
     {
         return indexPath.Row == 0;
     }
@@ -227,7 +224,7 @@ internal class ReordeableItemsViewController(ReorderableItemsView reorderableIte
         base.Dispose(disposing);
         
         m_currentDividerSetToInvisibleInSection.Clear();
-        m_currentLastCellWithCornerRadiusInSection.Clear();
         m_currentFirstCellWithCornerRadiusInSection.Clear();
+        m_currentLastCellWithCornerRadiusInSection.Clear();
     }
 }

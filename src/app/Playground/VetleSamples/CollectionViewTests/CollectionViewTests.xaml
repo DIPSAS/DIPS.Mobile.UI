@@ -10,13 +10,7 @@
                                 Tapped="RegularCollectionView"
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="Grouped CollectionView"
-                                HasBottomDivider="True"
                                 Tapped="GroupedCollectionView" />
-        <dui:NavigationListItem Title="Regular CollectionView2"
-                                Tapped="RegularCollectionView2"
-                                HasBottomDivider="True" />
-        <dui:NavigationListItem Title="Grouped CollectionView2"
-                                Tapped="GroupedCollectionView2" />
     </dui:VerticalStackLayout>
     
 </dui:ContentPage>
