@@ -1,6 +1,9 @@
-## [55.0.5]
+## [55.1.1]
 - [CollectionView] Remove CollectionView2 and use new default iOS Handler.
 - [CarouselView] Remove CarouselView2.
+
+## [55.1.0]
+- [StatusBar][Android] Added `StatusBarHandler` to have control over statusbar in pages.
 
 ## [55.0.4]
 - [ChipGroup] Fixed issue where multiple chips could remain active when SelectedItems binding changed externally in Single selection mode
