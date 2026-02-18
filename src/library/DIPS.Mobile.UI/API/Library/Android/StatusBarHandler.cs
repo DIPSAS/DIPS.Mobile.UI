@@ -178,23 +178,15 @@ public static class StatusBarHandler
     {
         try
         {
+            var window = dialogFragment.Dialog?.Window;
+            if (window is null)
+            {
+                return;
+            }
+            
             if (OperatingSystem.IsAndroidVersionAtLeast(35))
             {
-                var window = dialogFragment.Dialog?.Window;
-                if (window is null)
-                {
-                    return;
-                }
-
                 var platformColor = color.ToPlatform();
-
-                // Set light/dark status bar icons based on style or color luminance
-                var windowInsetsController = WindowCompat.GetInsetsController(window, window.DecorView);
-                if (windowInsetsController is not null)
-                {
-                    var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
-                    windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
-                }
 
                 var coordinatorLayout = FindCoordinatorLayout(window.DecorView);
                 if (coordinatorLayout is null)
@@ -211,6 +203,14 @@ public static class StatusBarHandler
             else
             {
                 dialogFragment.Dialog?.Window?.SetStatusBarColor(color.ToPlatform());
+            }
+            
+            // Set light/dark status bar icons based on style or color luminance
+            var windowInsetsController = WindowCompat.GetInsetsController(window, window.DecorView);
+            if (windowInsetsController is not null)
+            {
+                var shouldUseLightStatusBar = DetermineStatusBarIconStyle(color, style);
+                windowInsetsController.AppearanceLightStatusBars = shouldUseLightStatusBar;
             }
         }
         catch (Exception ex)

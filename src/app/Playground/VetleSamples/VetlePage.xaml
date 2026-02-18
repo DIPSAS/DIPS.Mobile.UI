@@ -18,7 +18,7 @@
                  SafeAreaEdges="None"
                  Shell.NavBarIsVisible="False"
                  Background="Red"
-                 StatusBarColor="Transparent">
+                 StatusBarColor="Green">
 
 
     <dui:ContentPage.BindingContext>
@@ -37,6 +37,7 @@
        <dui:Button Text="Navigate" Clicked="Button_OnClicked3" />
        <dui:Button Text="Navigate 2" Clicked="Button_OnClicked5" />
        <dui:Button Text="Set status bar color" Clicked="Button_OnClicked4" />
+       <dui:Button Text="Reset" Clicked="Button_OnClicked6" />
        <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
        
         

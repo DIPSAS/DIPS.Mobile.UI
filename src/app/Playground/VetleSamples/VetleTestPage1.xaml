@@ -26,10 +26,13 @@
 
     </dui:ContentPage.ToolbarItems>
 
-    <Grid SafeAreaEdges="None"
-          BackgroundColor="Black">
+    <dui:VerticalStackLayout SafeAreaEdges="None">
         <dui:Button Clicked="Button_OnClicked" />
-    </Grid>
+        
+        <dui:Button Clicked="Button_OnClicked2" Text="Set transparent status bar" />
+        
+        <dui:Button Clicked="Button_OnClicked3" Text="Set original status bar" />
+    </dui:VerticalStackLayout>
     <!--<dui:ScrollView>
         <dui:VerticalStackLayout Padding="{dui:Padding page_margin_small}"
                                  Spacing="{dui:Sizes size_2}">

@@ -262,4 +262,9 @@ public partial class VetlePage
     {
         _ = Navigation.PushAsync(new VetleTestPage2());
     }
+
+    private void Button_OnClicked6(object sender, EventArgs e)
+    {
+        StatusBarHandler.StatusBarColorOverride = null;
+    }
 }
