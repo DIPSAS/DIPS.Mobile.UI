@@ -15,9 +15,7 @@
                  x:Name="This"
                  HideSoftInputOnTapped="True"
                  Title="Hello"
-                 SafeAreaEdges="None"
                  Shell.NavBarIsVisible="False"
-                 Background="Red"
                  StatusBarColor="Green">
 
 
@@ -30,17 +28,10 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout SafeAreaEdges="None">
-
-       <dui:Button Clicked="Button_OnClicked" />
-       <dui:Button Clicked="Button_OnClicked2" />
-       <dui:Button Text="Navigate" Clicked="Button_OnClicked3" />
-       <dui:Button Text="Navigate 2" Clicked="Button_OnClicked5" />
-       <dui:Button Text="Set status bar color" Clicked="Button_OnClicked4" />
-       <dui:Button Text="Reset" Clicked="Button_OnClicked6" />
-       <dui:Button Command="{dui:OpenBottomSheetCommand {x:Type vetleSamples:TestBottomSheetFitToContent}}" />
-       
-        
-    </VerticalStackLayout>
+    <dui:VerticalStackLayout>
+        <dui:Entry BackgroundColor="Green"></dui:Entry>
+        <dui:SearchBar ReturnKeyType="Done" />
+        <dui:Editor></dui:Editor>
+    </dui:VerticalStackLayout>
 
 </dui:ContentPage>

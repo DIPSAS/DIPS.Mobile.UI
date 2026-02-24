@@ -10,7 +10,11 @@ internal sealed class MauiDoneAccessoryView : UIToolbar
 {
     readonly BarButtonItemProxy m_proxy;
 
-    public MauiDoneAccessoryView() : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
+    // iOS 26 renders the Done button as a larger circular floating button
+    // that requires extra height to avoid overlapping with the keyboard edge
+    private static nfloat ToolbarHeight => UIDevice.CurrentDevice.CheckSystemVersion(26, 0) ? 60 : 44;
+
+    public MauiDoneAccessoryView() : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, ToolbarHeight))
     {
         m_proxy = new BarButtonItemProxy();
         BarStyle = UIBarStyle.Default;
@@ -26,7 +30,7 @@ internal sealed class MauiDoneAccessoryView : UIToolbar
 
     internal void SetDataContext(object? dataContext) => m_proxy.SetDataContext(dataContext);
 
-    public MauiDoneAccessoryView(Action doneClicked) : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 44))
+    public MauiDoneAccessoryView(Action doneClicked) : base(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, ToolbarHeight))
     {
         m_proxy = new BarButtonItemProxy(doneClicked);
         BarStyle = UIBarStyle.Default;

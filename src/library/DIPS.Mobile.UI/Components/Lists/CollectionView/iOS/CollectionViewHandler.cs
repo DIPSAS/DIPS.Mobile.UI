@@ -15,9 +15,13 @@ public partial class CollectionViewHandler
     protected override ItemsViewController2<ReorderableItemsView> CreateController(ReorderableItemsView itemsView,
         UICollectionViewLayout layout)
     {
-        return VirtualView is CollectionView { ItemsLayout: not LinearItemsLayout }
-            ? base.CreateController(itemsView, layout)
-            : new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+        // ONLY create a ReorderableItemsViewController if the CollectionView is using a vertical LinearItemsLayout, otherwise use the default controller.
+        if (VirtualView is CollectionView { ItemsLayout: LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } })
+        {
+            return new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+        }
+
+        return base.CreateController(itemsView, layout);
     }
 
     private static partial void MapShouldBounce(CollectionViewHandler handler,

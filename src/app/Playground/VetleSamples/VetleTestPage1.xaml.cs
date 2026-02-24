@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
@@ -73,15 +72,5 @@ public partial class VetleTestPage1
     private void ListItem_OnTapped(object sender, EventArgs e)
     {
         Navigation.PushAsync(new VetleTestPage2());
-    }
-
-    private void Button_OnClicked2(object sender, EventArgs e)
-    {
-        StatusBarHandler.TrySetStatusBarColor(this, Colors.Transparent);
-    }
-
-    private void Button_OnClicked3(object sender, EventArgs e)
-    {
-        StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
     }
 }

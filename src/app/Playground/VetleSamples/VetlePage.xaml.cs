@@ -1,6 +1,5 @@
 using System.Windows.Input;
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.API.Tip;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
@@ -251,20 +250,5 @@ public partial class VetlePage
     private void Button_OnClicked3(object sender, EventArgs e)
     {
         _ = Navigation.PushAsync(new VetleTestPage1());
-    }
-
-    private void Button_OnClicked4(object sender, EventArgs e)
-    {
-        StatusBarHandler.StatusBarColorOverride = Microsoft.Maui.Graphics.Colors.Aqua;
-    }
-
-    private void Button_OnClicked5(object sender, EventArgs e)
-    {
-        _ = Navigation.PushAsync(new VetleTestPage2());
-    }
-
-    private void Button_OnClicked6(object sender, EventArgs e)
-    {
-        StatusBarHandler.StatusBarColorOverride = null;
     }
 }
