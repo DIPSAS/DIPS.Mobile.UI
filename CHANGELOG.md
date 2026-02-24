@@ -1,3 +1,6 @@
+## [55.2.0]
+- Upgraded .NET MAUI to 10.0.41.
+
 ## [55.1.1]
 - [CollectionView] Remove CollectionView2 and use new default iOS Handler.
 - [CarouselView] Remove CarouselView2.
