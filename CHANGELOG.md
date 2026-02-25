@@ -1,3 +1,7 @@
+## [55.2.1]
+- [iOS][CollectionView] Fixed wrong item spacing when list set to horizontal.
+- [iOS][Entry][Editor] Fixed wrong close button placement.
+
 ## [55.2.0]
 - Upgraded .NET MAUI to 10.0.41.
 

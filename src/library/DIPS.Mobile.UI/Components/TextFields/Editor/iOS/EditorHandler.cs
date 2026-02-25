@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.TextFields.Entry.iOS;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -5,12 +6,33 @@ namespace DIPS.Mobile.UI.Components.TextFields.Editor;
 
 public partial class EditorHandler
 {
+    protected override MauiTextView CreatePlatformView()
+    {
+        var platformView = base.CreatePlatformView();
+        
+        var accessoryView = new MauiDoneAccessoryView();
+        accessoryView.SetDataContext(this);
+        accessoryView.SetDoneClicked(OnDoneClicked);
+        platformView.InputAccessoryView = accessoryView;
+
+        return platformView;
+    }
+
     protected override void ConnectHandler(MauiTextView platformView)
     {
         base.ConnectHandler(platformView);
 
         platformView.VerticalTextAlignment = TextAlignment.Start;
         platformView.Started += OnFocus;
+    }
+    
+    static void OnDoneClicked(object sender)
+    {
+        if (sender is EditorHandler handler)
+        {
+            handler.PlatformView.ResignFirstResponder();
+            handler.VirtualView.Completed();
+        }
     }
 
     private static partial void MapShouldUseDefaultPadding(EditorHandler handler, Editor editor)
