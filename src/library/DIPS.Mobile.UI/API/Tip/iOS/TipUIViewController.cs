@@ -30,10 +30,15 @@ internal class TipUIViewController : UIViewController
     {
         base.ViewDidLoad();
 
+        // iOS 26 liquid glass popover style needs more internal padding
+        var padding = UIDevice.CurrentDevice.CheckSystemVersion(26, 0)
+            ? Sizes.GetSize(SizeName.content_margin_medium)
+            : Sizes.GetSize(SizeName.content_margin_small);
+        
         m_grid = new Grid
         {
             ColumnSpacing = Sizes.GetSize(SizeName.content_margin_large),
-            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_small)),
+            Padding = new Thickness(padding),
             ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)),
             Children =
             {

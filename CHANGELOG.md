@@ -1,3 +1,6 @@
+## [55.2.2]
+- [iOS26][Tip] More padding.
+
 ## [55.2.1]
 - [iOS][CollectionView] Fixed wrong item spacing when list set to horizontal.
 - [iOS][Entry][Editor] Fixed wrong close button placement.
