@@ -1,5 +1,5 @@
 ## [55.2.2]
-- [iOS26][Tip] More padding.
+- [iOS26][Tip] Added more padding.
 
 ## [55.2.1]
 - [iOS][CollectionView] Fixed wrong item spacing when list set to horizontal.
