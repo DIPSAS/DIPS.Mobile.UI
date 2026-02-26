@@ -35,9 +35,17 @@ public partial class ContextMenuPlatformEffect
     private UIButton CreateOverlayButton()
     {
         var uiButton = new UIButton();
+        uiButton.TranslatesAutoresizingMaskIntoConstraints = false;
         
         Control.AddSubview(uiButton);
         m_uiButtonToRemove = uiButton;
+        
+        NSLayoutConstraint.ActivateConstraints([
+            uiButton.LeadingAnchor.ConstraintEqualTo(Control.LeadingAnchor),
+            uiButton.BottomAnchor.ConstraintEqualTo(Control.BottomAnchor),
+            uiButton.TrailingAnchor.ConstraintEqualTo(Control.TrailingAnchor),
+            uiButton.HeightAnchor.ConstraintEqualTo(Control.HeightAnchor)
+        ]);
 
         if (Element is VisualElement visualElement)
         {
@@ -53,26 +61,9 @@ public partial class ContextMenuPlatformEffect
     {
         if(Element is not VisualElement visualElement)
             return;
-        
-        if (e.PropertyName == nameof(VisualElement.IsEnabled))
-        {
-            m_uiButton.Enabled = visualElement.IsEnabled;
-        }
-    }
 
-    // We need to update the frame of the overlay button when the Control is resized (For example when an Item in ItemPicker is selected, thus the title is changed)
-    private async Task UpdateOverlayButtonFrame()
-    {
-        if (Control is not UIButton)
-        {
-            // Wait for layout change
-            await Task.Delay(300);
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                //X and Y is not relevant as it is added to the Control subview
-                m_uiButton.Frame = new CGRect(0,0, Control.Frame.Width, Control.Frame.Height); 
-            });
-        }
+        if(e.PropertyName == nameof(visualElement.IsEnabled))
+            m_uiButton.Enabled = visualElement.IsEnabled;
     }
 
     private void RebuildMenu()
@@ -81,8 +72,6 @@ public partial class ContextMenuPlatformEffect
         {
             return;
         }
-        
-        _ = UpdateOverlayButtonFrame();
 
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
