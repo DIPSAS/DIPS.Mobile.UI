@@ -278,7 +278,7 @@ public partial class ListItem : Grid
         if(!IsVisible)
             return;
 
-        var isFirst = true;
+        var isFirst = false;
         foreach (var item in m_verticalStackLayout!)
         {
             if (item is View { IsVisible: true } view)
