@@ -76,7 +76,8 @@ public partial class AlertView : Grid
     {
         base.OnSizeAllocated(width, height);
         
-        if (Math.Abs(width - m_lastAllocatedWidth) < 0.001)
+        const double widthChangeTolerance = 0.001;
+        if (Math.Abs(width - m_lastAllocatedWidth) < widthChangeTolerance)
             return;
         
         m_lastAllocatedWidth = width;
@@ -100,7 +101,7 @@ public partial class AlertView : Grid
         }
         else
         {
-            // Temporarily hide the buttons container so we can measure the alert without it
+            // Temporarily hide buttons so they don't affect the alert width measurement
             var wasVisible = m_buttonsContainer.IsVisible;
             m_buttonsContainer.IsVisible = false;
             

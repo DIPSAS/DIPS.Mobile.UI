@@ -37,9 +37,11 @@ namespace DIPS.Mobile.UI.Components.Tabs
             m_titleLabel = CreateTitleLabel();
             m_counterLabel = CreateCounterLabel();
 
-            // Replicate original HorizontalStackLayout padding (size_3, size_4, size_3, size_1)
-            // and VerticalStackLayout spacing (content_margin_xsmall) as margins
+            // Bottom margin combines the original HorizontalStackLayout's bottom padding (size_1)
+            // with VerticalStackLayout's inter-child spacing (content_margin_xsmall)
             var bottomMargin = Sizes.GetSize(SizeName.size_1) + Sizes.GetSize(SizeName.content_margin_xsmall);
+            // Top margin replicates the original HorizontalStackLayout's top padding (size_4)
+            // Counter left margin replicates the original HorizontalStackLayout's Spacing (size_1)
             m_titleLabel.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0, bottomMargin);
             m_counterLabel.Margin = new Thickness(Sizes.GetSize(SizeName.size_1), Sizes.GetSize(SizeName.size_4), 0, bottomMargin);
 
