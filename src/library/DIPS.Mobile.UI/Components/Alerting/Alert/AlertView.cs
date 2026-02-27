@@ -30,6 +30,11 @@ public partial class AlertView : Grid
     private Image? m_icon;
     private ImageButton? m_closeIcon;
     private CustomTruncationTextView? m_titleAndDescriptionLabel;
+    
+    private double m_lastAllocatedWidth = -1;
+    private bool m_buttonsContainerAdded;
+    private int m_lastButtonColumn = -1;
+    private int m_lastButtonRow = -1;
 
     public AlertView()
     {
@@ -71,6 +76,10 @@ public partial class AlertView : Grid
     {
         base.OnSizeAllocated(width, height);
         
+        if (Math.Abs(width - m_lastAllocatedWidth) < 0.001)
+            return;
+        
+        m_lastAllocatedWidth = width;
         UpdateButtonAlignment();
     }
 
@@ -79,38 +88,59 @@ public partial class AlertView : Grid
         if (LeftButtonCommand is null && RightButtonCommand is null) 
             return;
         
-        Remove(m_buttonsContainer);
+        int targetColumn;
+        int targetRow;
         
         if (IsLargeAlert)
         {
             m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            this.Add(m_buttonsContainer, 1, 1);
-            return;
-        }
-        
-        var maxWidth = Measure(int.MaxValue, int.MaxValue).Width;
-        var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
-        var remainingWidth = Width - maxWidth - buttonsWidth;
-        
-        var buttonsWillFit = remainingWidth >= (Sizes.GetSize(SizeName.content_margin_small));
-        
-        if (buttonsWillFit)
-        {
-            m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
-            m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
-            this.Add(m_buttonsContainer, 2);
+            m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
+            targetColumn = 1;
+            targetRow = 1;
         }
         else
         {
-            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
-            this.Add(m_buttonsContainer, 1, 1);
+            // Temporarily hide the buttons container so we can measure the alert without it
+            var wasVisible = m_buttonsContainer.IsVisible;
+            m_buttonsContainer.IsVisible = false;
+            
+            var maxWidth = Measure(int.MaxValue, int.MaxValue).Width;
+            var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
+            var remainingWidth = Width - maxWidth - buttonsWidth;
+            
+            m_buttonsContainer.IsVisible = wasVisible;
+            
+            var buttonsWillFit = remainingWidth >= (Sizes.GetSize(SizeName.content_margin_small));
+            
+            if (buttonsWillFit)
+            {
+                m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
+                targetColumn = 2;
+                targetRow = 0;
+            }
+            else
+            {
+                m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
+                targetColumn = 1;
+                targetRow = 1;
+            }
         }
-
-#if __ANDROID__
-        // Workaround for Android layout issue where buttons is not visible in some cases
-        InvalidateMeasure();
-#endif
+        
+        if (!m_buttonsContainerAdded)
+        {
+            this.Add(m_buttonsContainer, targetColumn, targetRow);
+            m_buttonsContainerAdded = true;
+        }
+        else if (targetColumn != m_lastButtonColumn || targetRow != m_lastButtonRow)
+        {
+            Grid.SetColumn(m_buttonsContainer, targetColumn);
+            Grid.SetRow(m_buttonsContainer, targetRow);
+        }
+        
+        m_lastButtonColumn = targetColumn;
+        m_lastButtonRow = targetRow;
     }
 
     private void OnButtonChanged()
@@ -132,6 +162,8 @@ public partial class AlertView : Grid
             m_buttonsContainer.Add(CreateButton(RightButtonText, RightButtonCommand, RightButtonCommandParameter, "RightButton".ToDUIAutomationId<AlertView>()));
         }
         
+        // Reset width tracking to force recalculation of button alignment
+        m_lastAllocatedWidth = -1;
         UpdateButtonAlignment();
         UpdateAccessibility();
     }
@@ -206,6 +238,8 @@ public partial class AlertView : Grid
         
         this.Add(m_titleAndDescriptionLabel, 1);
         
+        // Reset width tracking to force recalculation of button alignment
+        m_lastAllocatedWidth = -1;
         UpdateButtonAlignment();
         UpdateAccessibility();
     }
@@ -317,7 +351,8 @@ public partial class AlertView : Grid
             HeightRequest = Sizes.GetSize(SizeName.size_6),
             WidthRequest = Sizes.GetSize(SizeName.size_6),
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center,
-            Source = Icon
+            Source = Icon,
+            InputTransparent = true
         };
         
         // Hide icon from screen readers since alert type is already announced

@@ -1,7 +1,6 @@
 using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Effects.Touch;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using VerticalStackLayout = DIPS.Mobile.UI.Components.Lists.VerticalStackLayout;
 
 namespace DIPS.Mobile.UI.Components.Tabs
 {
@@ -18,19 +17,34 @@ namespace DIPS.Mobile.UI.Components.Tabs
 
         internal void ConstructView()
         {
-            var container = new VerticalStackLayout();
-            var titleContainer = new HorizontalStackLayout()
+            // Single Grid replaces nested VerticalStackLayout + HorizontalStackLayout
+            var container = new Grid
             {
-                Spacing = Sizes.GetSize(SizeName.size_1),
-                HorizontalOptions = LayoutOptions.Center,
-                Padding = new Thickness(Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_4), Sizes.GetSize(SizeName.size_3), Sizes.GetSize(SizeName.size_1))            
+                ColumnDefinitions =
+                [
+                    new ColumnDefinition(GridLength.Star),
+                    new ColumnDefinition(GridLength.Auto),
+                    new ColumnDefinition(GridLength.Auto),
+                    new ColumnDefinition(GridLength.Star)
+                ],
+                RowDefinitions =
+                [
+                    new RowDefinition(GridLength.Star),
+                    new RowDefinition(GridLength.Auto)
+                ]
             };
+            
             m_titleLabel = CreateTitleLabel();
             m_counterLabel = CreateCounterLabel();
-    
-            titleContainer.Add(m_titleLabel);
-            titleContainer.Add(m_counterLabel);
-            container.Add(titleContainer);
+
+            // Replicate original HorizontalStackLayout padding (size_3, size_4, size_3, size_1)
+            // and VerticalStackLayout spacing (content_margin_xsmall) as margins
+            var bottomMargin = Sizes.GetSize(SizeName.size_1) + Sizes.GetSize(SizeName.content_margin_xsmall);
+            m_titleLabel.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_4), 0, bottomMargin);
+            m_counterLabel.Margin = new Thickness(Sizes.GetSize(SizeName.size_1), Sizes.GetSize(SizeName.size_4), 0, bottomMargin);
+
+            container.Add(m_titleLabel, 1, 0);
+            container.Add(m_counterLabel, 2, 0);
             
             var boxView = new BoxView
             {
@@ -39,7 +53,8 @@ namespace DIPS.Mobile.UI.Components.Tabs
                 BackgroundColor = Colors.GetColor(ColorName.color_border_button_active)
             };
             boxView.SetBinding(IsVisibleProperty, static (Tab tab) => tab.IsSelected, source: this);
-            container.Add(boxView);
+            container.Add(boxView, 0, 1);
+            Grid.SetColumnSpan(boxView, 4);
             
             m_border = new Border
             {

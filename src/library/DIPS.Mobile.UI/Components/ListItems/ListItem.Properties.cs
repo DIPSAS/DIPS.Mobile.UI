@@ -219,13 +219,13 @@ public partial class ListItem
         nameof(HasTopDivider),
         typeof(bool),
         typeof(ListItem),
-        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).AddDivider(true)));
+        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).UpdateDivider(true)));
 
     public static readonly BindableProperty HasBottomDividerProperty = BindableProperty.Create(
         nameof(HasBottomDivider),
         typeof(bool),
         typeof(ListItem),
-        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).AddDivider(false)));
+        propertyChanged: ((bindable, _, _) => ((ListItem)bindable).UpdateDivider(false)));
 
     public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
         nameof(CommandParameter),
