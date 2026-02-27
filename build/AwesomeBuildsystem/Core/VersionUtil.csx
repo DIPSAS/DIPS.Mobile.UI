@@ -68,7 +68,7 @@ public static class VersionUtil
         
         foreach (var line in lines)
         {
-            if (!foundHeader && (changelogHeader == null || line.Contains(changelogHeader ?? "## Version")))
+            if (!foundHeader && (changelogHeader == null || Regex.IsMatch(line, changelogHeader)))
             {
                 foundHeader = true;
                 continue;

@@ -1,3 +1,6 @@
+## [55.2.3]
+- [Build] Fixed release notes never being included in Slack notifications
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
