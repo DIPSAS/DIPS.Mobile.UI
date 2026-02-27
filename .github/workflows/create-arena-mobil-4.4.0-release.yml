@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'copilot/create-arena-mobile-release-tag'
+  workflow_dispatch:
 
 permissions:
   contents: write
