@@ -2,6 +2,7 @@ using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Formatters;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.InputField;
@@ -298,7 +299,7 @@ public partial class SingleLineInputField : Grid
         }
         catch (Exception e)
         {
-
+            DUILogService.LogError<SingleLineInputField>($"Focus failed: {e.Message}");
         }
     }
 

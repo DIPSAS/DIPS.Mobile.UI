@@ -16,7 +16,7 @@ namespace DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 internal class FloatingNavigationButton : Grid
 {
     private Color OpenedColor = Colors.GetColor(ColorName.color_fill_default);
-    private Color ClosedColor = Color.FromArgb("#BF8DCE");
+    private Color ClosedColor = Colors.GetColor(ColorName.color_fill_highlight);
     private ImageSource OpenedIcon = Icons.GetIcon(IconName.close_line);
     private ImageSource ClosedIcon = Icons.GetIcon(IconName.menu_line);
     private readonly FloatingNavigationButtonConfigurator m_floatingNavigationButtonConfigurator;
@@ -132,7 +132,7 @@ internal class FloatingNavigationButton : Grid
     {
         DUI.EnsureSkLottieResourcesAdded();
         
-        var closedColor = Color.FromArgb("#BF8DCE");
+        var closedColor = Colors.GetColor(ColorName.color_fill_highlight);
         var button = new Border()
         {
             HeightRequest = Sizes.GetSize(SizeName.size_15),
