@@ -51,8 +51,15 @@ namespace DIPS.Mobile.UI.API.Library
             RemovePlatformSpecificViewsLocatedOnTopOfPage();
         }
         
+        private static bool s_skLottieResourcesAdded;
+        
         public static void EnsureSkLottieResourcesAdded()
         {
+            if (s_skLottieResourcesAdded)
+            {
+                return;
+            }
+            
             // try register with the current app
             var merged = Application.Current?.Resources?.MergedDictionaries;
             if (merged == null)
@@ -64,6 +71,8 @@ namespace DIPS.Mobile.UI.API.Library
             {
                 merged.Add(new SKLottieViewResources());
             }
+            
+            s_skLottieResourcesAdded = true;
         }
 
         private static partial void RemovePlatformSpecificViewsLocatedOnTopOfPage();

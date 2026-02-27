@@ -165,8 +165,16 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
 
                 if (DUI.IsDebug)
                 {
-                    var alivePages = pageCollectionContentTargets.Where(t => t is not null && t.IsAlive).ToList();
-                    var garbageCollectedPages = pageCollectionContentTargets.Where(t => t is null || !t.IsAlive).ToList();
+                    List<CollectionContentTarget> alivePages = [];
+                    List<CollectionContentTarget?> garbageCollectedPages = [];
+                    
+                    foreach (var t in pageCollectionContentTargets)
+                    {
+                        if (t is not null && t.IsAlive)
+                            alivePages.Add(t);
+                        else
+                            garbageCollectedPages.Add(t);
+                    }
                     
                     var alivePageNames = string.Join(", ", alivePages.Select(p => p!.Name));
                     var gcPageNames = string.Join(", ", garbageCollectedPages.Select(p => p?.Name ?? "null"));

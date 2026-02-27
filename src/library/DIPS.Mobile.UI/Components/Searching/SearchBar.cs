@@ -42,6 +42,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         private async void OnTextChanged(string newTextValue, string oldTextValue)
         {
             SearchCancellationToken?.Cancel(); //Cancel the previous search
+            SearchCancellationToken?.Dispose();
             SearchCancellationToken = new CancellationTokenSource();
 
             try

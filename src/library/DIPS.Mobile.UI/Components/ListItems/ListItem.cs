@@ -278,9 +278,17 @@ public partial class ListItem : Grid
         if(!IsVisible)
             return;
 
-        if (m_verticalStackLayout!.Where(item => ((item as View)!).IsVisible)
-                .ToList()
-                .IndexOf(this) == 0)
+        var isFirst = true;
+        foreach (var item in m_verticalStackLayout!)
+        {
+            if (item is View { IsVisible: true } view)
+            {
+                isFirst = ReferenceEquals(view, this);
+                break;
+            }
+        }
+
+        if (isFirst)
         {
             return;
         }
