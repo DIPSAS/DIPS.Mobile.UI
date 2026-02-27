@@ -41,7 +41,12 @@ jobs:
               });
               console.log(`Release ${tagName} created successfully`);
             } catch (e) {
-              if (e.status === 422) {
+              const isAlreadyExistsError =
+                e.status === 422 &&
+                Array.isArray(e.response?.data?.errors) &&
+                e.response.data.errors.some(error => error?.code === 'already_exists');
+
+              if (isAlreadyExistsError) {
                 console.log(`Release ${tagName} already exists, skipping.`);
               } else {
                 throw e;
