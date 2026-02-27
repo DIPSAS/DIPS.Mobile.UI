@@ -1,3 +1,8 @@
+## [55.2.3]
+- [iOS][SearchBar] Fixed memory leak where `SearchButtonClicked` event was never unsubscribed due to wrong event name in cleanup
+- [iOS][Camera] Fixed memory leak where `PreviewView.OnTapToFocus` event was never unsubscribed when stopping camera session
+- [SlidableLayout] Fixed memory leak where `TapGestureRecognizer.Tapped` event was never unsubscribed due to missing field reference
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
