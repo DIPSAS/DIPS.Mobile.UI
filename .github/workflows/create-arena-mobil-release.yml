@@ -6,11 +6,9 @@ on:
       arena_mobil_version:
         description: 'Arena Mobile version (e.g. 4.4.0)'
         required: true
-        default: '4.4.0'
       dui_version:
-        description: 'DUI version used in this Arena Mobile release (e.g. 54.4.7)'
+        description: 'DUI version used in this Arena Mobile release. Find it in the Arena Mobile .csproj PackageReference for DIPS.Mobile.UI (e.g. 54.4.7)'
         required: true
-        default: '54.4.7'
 
 permissions:
   contents: write
