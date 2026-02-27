@@ -1,4 +1,4 @@
-name: Create Arena Mobil Release
+name: Tag Arena Mobile Release
 
 on:
   workflow_dispatch:
