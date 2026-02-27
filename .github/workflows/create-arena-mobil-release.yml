@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       arena_mobil_version:
-        description: 'Arena Mobil version (e.g. 4.4.0)'
+        description: 'Arena Mobile version (e.g. 4.4.0)'
         required: true
         default: '4.4.0'
-      commit_sha:
-        description: 'Commit SHA to tag (full SHA of the DUI version commit)'
+      dui_version:
+        description: 'DUI version used in this Arena Mobile release (e.g. 54.4.7)'
         required: true
-        default: 'e5fbfae8d8f16c83c83f59ba5715a2d97dd4525d'
+        default: '54.4.7'
 
 permissions:
   contents: write
@@ -19,15 +19,34 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Arena Mobil release
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch all remote branches
+        run: git fetch --all
+
+      - name: Detect commit SHA from DUI version in CHANGELOG
+        id: detect_sha
+        run: |
+          SHA=$(git log --all -S "## [${{ inputs.dui_version }}]" --format="%H" -- CHANGELOG.md | head -1)
+          if [ -z "$SHA" ]; then
+            echo "Error: Could not find a commit introducing '## [${{ inputs.dui_version }}]' in CHANGELOG.md"
+            exit 1
+          fi
+          echo "commit_sha=$SHA" >> $GITHUB_OUTPUT
+          echo "Found commit SHA: $SHA"
+
+      - name: Create Arena Mobile release
         uses: actions/github-script@v7
         with:
           script: |
             const version = '${{ inputs.arena_mobil_version }}';
-            const commitSha = '${{ inputs.commit_sha }}';
+            const commitSha = '${{ steps.detect_sha.outputs.commit_sha }}';
             const tagName = `arena-mobil-${version}`;
             const releaseName = `Arena Mobil ${version}`;
-            const body = `This version of DUI was used in Arena Mobil ${version} app.`;
+            const body = `This version of DUI was used in Arena Mobil ${version} app. Available in App Store and Google Play.`;
             try {
               await github.rest.repos.createRelease({
                 owner: context.repo.owner,
@@ -39,7 +58,7 @@ jobs:
                 draft: false,
                 prerelease: false
               });
-              console.log(`Release ${tagName} created successfully`);
+              console.log(`Release ${tagName} created successfully at ${commitSha}`);
             } catch (e) {
               const isAlreadyExistsError =
                 e.status === 422 &&
