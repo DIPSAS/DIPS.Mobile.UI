@@ -1,0 +1,61 @@
+name: Trigger Azure DevOps Build
+
+# Manually start a build in Azure DevOps from any branch.
+#
+# Access is restricted via the "protected" GitHub Environment, which must be
+# configured in the repository Settings → Environments with required reviewers
+# and/or deployment branch rules before the job is allowed to run.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   AZURE_DEVOPS_TOKEN  – Azure DevOps Personal Access Token with
+#                         "Build: Read & execute" scope
+#
+# Required repository variables (Settings → Secrets and variables → Actions):
+#   AZURE_PIPELINE_ID  – Azure DevOps pipeline definition ID to trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build'
+        required: true
+        default: 'main'
+
+jobs:
+  trigger-build:
+    name: Trigger Azure DevOps build
+    runs-on: ubuntu-latest
+    permissions: {}
+    # The "protected" environment enforces required-reviewer approval before
+    # this job proceeds. Configure reviewers and branch policies in:
+    # Settings → Environments → protected
+    environment: protected
+    steps:
+      - name: Queue Azure DevOps build
+        env:
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          # Pass user-controlled value via env var to prevent script injection
+          INPUT_BRANCH: ${{ inputs.branch }}
+        run: |
+          BRANCH_REF="refs/heads/${INPUT_BRANCH}"
+
+          HTTP_STATUS=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Basic $(echo -n ":${AZURE_DEVOPS_TOKEN}" | base64 -w 0)" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"definition\": {\"id\": ${{ vars.AZURE_PIPELINE_ID }} },
+              \"sourceBranch\": \"${BRANCH_REF}\"
+            }" \
+            "https://dev.azure.com/dips/DIPS/_apis/build/builds?api-version=7.0")
+
+          echo "HTTP status: $HTTP_STATUS"
+          cat /tmp/response.json
+
+          if [ "$HTTP_STATUS" != "200" ] && [ "$HTTP_STATUS" != "201" ]; then
+            echo "❌ Failed to queue build (HTTP $HTTP_STATUS)"
+            exit 1
+          fi
+
+          BUILD_URL=$(python3 -c "import sys, json; d=json.load(open('/tmp/response.json')); print(d.get('_links',{}).get('web',{}).get('href','N/A'))")
+          echo "✅ Build queued: $BUILD_URL"
