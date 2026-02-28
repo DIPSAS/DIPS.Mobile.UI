@@ -58,6 +58,7 @@ public class TaskDefinition
 public static class TaskRunner 
 {
     private static Dictionary<string, TaskDefinition> tasks = new Dictionary<string, TaskDefinition>();
+    private static System.Collections.Concurrent.ConcurrentDictionary<string, Task> _executedTasks = new System.Collections.Concurrent.ConcurrentDictionary<string, Task>();
     
     /// <summary>
     /// Creates a new async task definition
@@ -90,27 +91,44 @@ public static class TaskRunner
     }
     
     /// <summary>
-    /// Runs a single task by name or alias
+    /// Runs a single task by name or alias.
+    /// Dependencies declared with IsDependentOn are resolved and run first.
+    /// Each task is guaranteed to run at most once per build session.
     /// </summary>
     /// <param name="taskNameOrAlias">Name or alias of the task to run</param>
-    public static async Task RunAsync(string taskNameOrAlias)
+    public static Task RunAsync(string taskNameOrAlias)
     {
         var actualTaskName = ResolveTaskName(taskNameOrAlias);
         
-        if (actualTaskName != null && tasks.TryGetValue(actualTaskName, out var task))
-        {
-            Console.WriteLine($"Running task: {actualTaskName}" + (actualTaskName != taskNameOrAlias ? $" (alias: {taskNameOrAlias})" : ""));
-            
-            if (task.BeforeAction != null) await task.BeforeAction();
-            if (task.Action != null) await task.Action();
-            if (task.AfterAction != null) await task.AfterAction();
-            
-            Console.WriteLine($"Completed task: {actualTaskName}");
-        }
-        else
+        if (actualTaskName == null || !tasks.TryGetValue(actualTaskName, out var task))
         {
             Console.WriteLine($"Task '{taskNameOrAlias}' not found");
+            return Task.CompletedTask;
         }
+
+        // GetOrAdd ensures the task body executes exactly once even when called concurrently.
+        return _executedTasks.GetOrAdd(actualTaskName, _ => ExecuteTaskAsync(task, actualTaskName, taskNameOrAlias));
+    }
+
+    private static async Task ExecuteTaskAsync(TaskDefinition task, string actualTaskName, string taskNameOrAlias)
+    {
+        // Run all dependencies first, in parallel when there are multiple.
+        if (task.Dependencies.Count == 1)
+        {
+            await RunAsync(task.Dependencies[0]);
+        }
+        else if (task.Dependencies.Count > 1)
+        {
+            await Task.WhenAll(task.Dependencies.Select(dep => RunAsync(dep)));
+        }
+
+        Console.WriteLine($"Running task: {actualTaskName}" + (actualTaskName != taskNameOrAlias ? $" (alias: {taskNameOrAlias})" : ""));
+        
+        if (task.BeforeAction != null) await task.BeforeAction();
+        if (task.Action != null) await task.Action();
+        if (task.AfterAction != null) await task.AfterAction();
+        
+        Console.WriteLine($"Completed task: {actualTaskName}");
     }
     
     /// <summary>

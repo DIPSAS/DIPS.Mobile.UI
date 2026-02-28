@@ -1,4 +1,7 @@
-## [55.2.2]
+## [55.2.3]
+- [Build] Improved app build time by running Android, iOS and Library builds in parallel, and ensuring `init` (dotnet restore) runs only once across dependent tasks.
+
+
 - [iOS26][Tip] Added more padding.
 
 ## [55.2.1]
