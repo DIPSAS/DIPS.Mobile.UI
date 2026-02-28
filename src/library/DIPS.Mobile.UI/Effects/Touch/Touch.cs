@@ -94,9 +94,12 @@ public partial class Touch : RoutingEffect
 
     private static void RemoveEffects(View view)
     {
-        while (view.Effects.Any(e => e is Touch))
+        for (var i = view.Effects.Count - 1; i >= 0; i--)
         {
-            view.Effects.Remove(view.Effects.FirstOrDefault(e => e is Touch));
+            if (view.Effects[i] is Touch)
+            {
+                view.Effects.RemoveAt(i);
+            }
         }
     }
 

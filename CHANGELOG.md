@@ -1,3 +1,10 @@
+## [55.2.3]
+- [Performance] Optimized Touch effect removal from O(n²) to O(n) in RemoveEffects.
+- [Performance] Fixed CancellationTokenSource disposal leak in SearchBar on rapid text changes.
+- [Performance] Replaced LINQ allocation in ListItem auto-divider logic with zero-allocation loop.
+- [Performance] Cached SKLottieViewResources registration check to avoid repeated LINQ scans.
+- [Performance] Reduced double enumeration in Shell memory diagnostics to single-pass loop.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
