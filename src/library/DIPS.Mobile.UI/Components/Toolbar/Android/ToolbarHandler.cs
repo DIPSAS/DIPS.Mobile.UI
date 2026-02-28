@@ -29,12 +29,13 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, LinearLayout>
         border.SetBackgroundColor(Resources.Colors.Colors.GetColor(ColorName.color_border_default).ToPlatform());
         outer.AddView(border, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, borderPx));
 
-        // Buttons row
+        // Buttons row: fills remaining space, centers buttons vertically (M3 spec: icons vertically centered in 80dp bar)
         m_buttonsLayout = new LinearLayout(Context)
         {
             Orientation = Orientation.Horizontal,
+            Gravity = GravityFlags.CenterVertical,
         };
-        outer.AddView(m_buttonsLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent));
+        outer.AddView(m_buttonsLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
         return outer;
     }
