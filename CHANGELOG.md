@@ -1,3 +1,6 @@
+## [55.2.3]
+- Updated NuGet dependencies: `SkiaSharp` (3.119.2), `SkiaSharp.Extended.UI.Maui` (3.0.0), `BitMiracle.LibTiff.NET` (2.4.660), `Newtonsoft.Json` (13.0.4), `LightInject` (7.0.1), `Microsoft.Extensions.Logging.Debug` (10.0.3), `Microsoft.SourceLink.GitHub` (10.0.103), AndroidX Camera (1.5.2.1), `Xamarin.AndroidX.Core.SplashScreen` (1.2.0.1), `Xamarin.Google.MLKit.BarcodeScanning` (117.3.0.6), `Xamarin.AndroidX.Tracing` (1.3.0.2), and test tooling (`xunit` 2.9.3, `coverlet.collector` 8.0.0, `Microsoft.NET.Test.Sdk` 18.3.0, `xunit.runner.visualstudio` 3.1.5, `FluentAssertions` 6.12.2).
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
