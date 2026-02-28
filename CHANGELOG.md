@@ -1,3 +1,6 @@
+## [55.2.3]
+- [CI] Added "Tag Arena Mobile Release" workflow to create Arena Mobil release tags from git history.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
