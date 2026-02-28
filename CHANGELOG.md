@@ -1,3 +1,6 @@
+## [55.3.0]
+- [Toolbar] Added `Toolbar` component with `ToolbarButton` items. The toolbar provides a cross-platform horizontal bar of icon buttons, aligned with Apple HIG toolbars and Material 3 toolbars.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
