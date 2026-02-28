@@ -77,7 +77,8 @@ internal class BottomSheetHeader : Grid
             Source = Icons.GetIcon(IconName.chevron_left_line), 
             WidthRequest = Sizes.GetSize(SizeName.size_4), 
             HeightRequest = Sizes.GetSize(SizeName.size_4),
-            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_medium), 0)
+            Margin = new Thickness(0, 0, Sizes.GetSize(SizeName.content_margin_medium), 0),
+            InputTransparent = true
         };
         
         var titleLabel = new Label

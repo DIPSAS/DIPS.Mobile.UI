@@ -28,6 +28,7 @@ public partial class NavigationListItem : ListItem
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.End,
                 TintColor = Colors.GetColor(ColorName.color_icon_subtle),
+                InputTransparent = true
             }, 1);
 
         TitleOptions = new TitleOptions()

@@ -29,6 +29,7 @@ public partial class ListItem : Grid
     {
         AutomationId = "TitleAndSubtitleContainer".ToDUIAutomationId<ListItem>(),
         VerticalOptions = LayoutOptions.Center,
+        InputTransparent = true,
         RowDefinitions =
             new RowDefinitionCollection(new RowDefinition(GridLength.Star), new RowDefinition(GridLength.Auto))
     };
@@ -94,7 +95,7 @@ public partial class ListItem : Grid
         if (ImageIcon is not null)
             return;
         
-        ImageIcon = new Image();
+        ImageIcon = new Image { InputTransparent = true };
         ImageIcon.SetBinding(Microsoft.Maui.Controls.Image.SourceProperty, static (ListItem listItem) => listItem.Icon, source: this);
 
         SetDefaultValuesOrBindToOptions(IconOptions, () =>
@@ -142,25 +143,31 @@ public partial class ListItem : Grid
         m_oldUnderlyingContent = UnderlyingContent;
     }
     
-    private void AddDivider(bool top)
+    private void UpdateDivider(bool top)
     {
-        var divider = new Divider();
+        var shouldShow = top ? HasTopDivider : HasBottomDivider;
+        
         if (top)
         {
-            if (Contains(TopDivider))
-                Remove(TopDivider);
-            
-            TopDivider = divider;
-            TopDivider.VerticalOptions = LayoutOptions.Start;
+            if (TopDivider is null)
+            {
+                TopDivider = CreateAndAddDivider(LayoutOptions.Start);
+            }
+            TopDivider.IsVisible = shouldShow;
         }
         else
         {
-            if (Contains(BottomDivider))
-                Remove(BottomDivider);
-            
-            BottomDivider = divider;
-            BottomDivider.VerticalOptions = LayoutOptions.End;
+            if (BottomDivider is null)
+            {
+                BottomDivider = CreateAndAddDivider(LayoutOptions.End);
+            }
+            BottomDivider.IsVisible = shouldShow;
         }
+    }
+    
+    private Divider CreateAndAddDivider(LayoutOptions verticalOptions)
+    {
+        var divider = new Divider { VerticalOptions = verticalOptions };
 
         this.SetRowSpan(divider, RowDefinitions.Count);
         this.SetColumnSpan(divider, ColumnDefinitions.Count);
@@ -171,6 +178,8 @@ public partial class ListItem : Grid
         {
             Options.Dividers.DividersOptions.SetupDefaults(this);
         });
+        
+        return divider;
     }
     
     private void AddTouch()

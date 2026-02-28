@@ -1,3 +1,9 @@
+## [55.3.0]
+- [AlertView] Improved layout performance by avoiding redundant measure and Remove/Add cycles on every size change.
+- [ListItem] Improved layout performance by reusing dividers with visibility toggling instead of recreating them on property changes.
+- [Tab][iOS] Improved layout performance by flattening nested StackLayouts into a single Grid.
+- [ListItem][AlertView][NavigationListItem][BottomSheetHeader] Added InputTransparent to decorative elements to reduce hit-testing overhead.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
