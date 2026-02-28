@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
+                 x:DataType="local:ToolbarSamplesViewModel"
+                 x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
+                 Title="Toolbar">
+
+    <dui:ContentPage.BindingContext>
+        <local:ToolbarSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*, Auto">
+
+        <dui:ScrollView Padding="{dui:Sizes size_4}">
+            <dui:VerticalStackLayout>
+                <dui:Label Text="Toolbar with icon buttons"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:Label Text="A toolbar can be placed at the bottom of a page and contain icon buttons for common actions."
+                           Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Toolbar with command bindings"
+                           Style="{dui:Styles Label=SectionHeader}"
+                           Margin="{dui:Thickness Top=size_4}" />
+                <dui:Label Text="{Binding LastAction}"
+                           Style="{dui:Styles Label=UI200}" />
+                <dui:Toolbar>
+                    <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                                       Title="Edit"
+                                       Command="{Binding EditCommand}" />
+                    <dui:ToolbarButton Icon="{dui:Icons filter_line}"
+                                       Title="Filter"
+                                       Command="{Binding FilterCommand}" />
+                    <dui:ToolbarButton Icon="{dui:Icons plus_line}"
+                                       Title="Add"
+                                       Command="{Binding AddCommand}" />
+                </dui:Toolbar>
+
+                <dui:Label Text="Toolbar with a disabled button"
+                           Style="{dui:Styles Label=SectionHeader}"
+                           Margin="{dui:Thickness Top=size_4}" />
+                <dui:Toolbar>
+                    <dui:ToolbarButton Icon="{dui:Icons save_line}"
+                                       Title="Save"
+                                       Command="{Binding SaveCommand}"
+                                       IsEnabled="True" />
+                    <dui:ToolbarButton Icon="{dui:Icons delete_line}"
+                                       Title="Delete"
+                                       IsEnabled="False" />
+                </dui:Toolbar>
+
+                <dui:Label Text="Toolbar with a single button"
+                           Style="{dui:Styles Label=SectionHeader}"
+                           Margin="{dui:Thickness Top=size_4}" />
+                <dui:Toolbar>
+                    <dui:ToolbarButton Icon="{dui:Icons filter_line}"
+                                       Title="Filter"
+                                       Command="{Binding FilterCommand}" />
+                </dui:Toolbar>
+
+            </dui:VerticalStackLayout>
+        </dui:ScrollView>
+
+        <dui:Toolbar Grid.Row="1">
+            <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                               Title="Edit"
+                               Command="{Binding EditCommand}" />
+            <dui:ToolbarButton Icon="{dui:Icons save_line}"
+                               Title="Save"
+                               Command="{Binding SaveCommand}" />
+            <dui:ToolbarButton Icon="{dui:Icons filter_line}"
+                               Title="Filter"
+                               Command="{Binding FilterCommand}" />
+            <dui:ToolbarButton Icon="{dui:Icons plus_line}"
+                               Title="Add"
+                               Command="{Binding AddCommand}" />
+        </dui:Toolbar>
+
+    </Grid>
+</dui:ContentPage>
