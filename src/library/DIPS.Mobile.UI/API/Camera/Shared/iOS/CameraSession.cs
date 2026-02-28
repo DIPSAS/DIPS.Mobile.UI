@@ -78,6 +78,7 @@ public abstract class CameraSession
         if (PreviewView is not null)
         {
             PreviewView.OnZoomChanged -= PreviewViewOnZoomChanged;
+            PreviewView.OnTapToFocus -= PreviewViewOnOnTapToFocus;
             PreviewView?.Dispose();
             PreviewView = null;
         }
