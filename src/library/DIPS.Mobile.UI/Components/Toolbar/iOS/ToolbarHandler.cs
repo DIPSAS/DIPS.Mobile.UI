@@ -10,8 +10,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     protected override UIToolbar CreatePlatformView()
     {
         var toolbar = new UIToolbar();
-        toolbar.BarTintColor = Resources.Colors.Colors.GetColor(ColorName.color_surface_default).ToPlatform();
-        toolbar.Translucent = false;
+        // toolbar.BarTintColor = Resources.Colors.Colors.GetColor(ColorName.color_surface_default).ToPlatform();
+        // toolbar.Translucent = false;
         return toolbar;
     }
 
