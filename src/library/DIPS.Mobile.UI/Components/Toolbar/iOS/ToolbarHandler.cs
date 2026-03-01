@@ -47,7 +47,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         UIImage? icon = null;
         if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage))
         {
-            icon = uiImage?.WithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            icon = uiImage?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         }
 
         var item = new UIBarButtonItem(icon, UIBarButtonItemStyle.Plain, (_, _) =>
