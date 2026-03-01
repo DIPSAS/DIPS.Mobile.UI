@@ -5,6 +5,8 @@ using DIPS.Mobile.UI.API.Library;
 using Google.Android.Material.Button;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using Orientation = Android.Widget.Orientation;
+using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
@@ -33,7 +35,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, LinearLayout>
         m_buttonsLayout = new LinearLayout(Context)
         {
             Orientation = Orientation.Horizontal,
-            Gravity = GravityFlags.CenterVertical,
+            // Gravity = GravityFlags.CenterVertical, //Didnt work
         };
         outer.AddView(m_buttonsLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
