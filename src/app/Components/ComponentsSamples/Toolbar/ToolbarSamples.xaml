@@ -6,13 +6,14 @@
                  xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
                  x:DataType="local:ToolbarSamplesViewModel"
                  x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
-                 Title="Toolbar">
+                 Title="Toolbar"
+                 BackgroundColor="White">
 
     <dui:ContentPage.BindingContext>
         <local:ToolbarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
-    <Grid RowDefinitions="*, Auto">
+    <Grid RowDefinitions="*, Auto" >
 
         <dui:ScrollView Padding="{dui:Sizes size_4}">
             <dui:VerticalStackLayout>
