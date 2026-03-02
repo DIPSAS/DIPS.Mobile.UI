@@ -45,8 +45,9 @@ public partial class ChipGroup : ContentView
             if (selectedItem is not null)
             {
                 var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(selectedItem.GetPropertyValue(ItemDisplayProperty)));
-                chipItem!.Chip.IsToggled = true;
-                ChipToggled(chipItem!, false);
+                if (chipItem is null) return;
+                chipItem.Chip.IsToggled = true;
+                ChipToggled(chipItem, false);
             }
         }
         else
@@ -58,8 +59,9 @@ public partial class ChipGroup : ContentView
             selectedItemList.ForEach(item =>
             {
                 var chipItem = m_chipItems.FirstOrDefault(chipItem => chipItem.Obj.GetPropertyValue(ItemDisplayProperty)!.Equals(item.GetPropertyValue(ItemDisplayProperty)));
-                chipItem!.Chip.IsToggled = true;
-                ChipToggled(chipItem!, false);
+                if (chipItem is null) return;
+                chipItem.Chip.IsToggled = true;
+                ChipToggled(chipItem, false);
             });
         }
     }

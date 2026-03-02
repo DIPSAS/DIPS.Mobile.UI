@@ -1,3 +1,8 @@
+## [55.2.3]
+- [ChipGroup] Fixed potential null reference when selected items don't match chip items.
+- [SingleLineInputField] Added error logging to Focus method instead of silently swallowing exceptions.
+- [FloatingNavigationButton] Replaced hardcoded color with design token `color_fill_highlight`.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
