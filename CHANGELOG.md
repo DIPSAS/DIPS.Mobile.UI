@@ -1,3 +1,6 @@
+## [55.3.0]
+- [PictureInPicture] Added `PipService` with `Enter()`, `Enter(ratioWidth, ratioHeight)`, `IsSupported`, and `PipModeChanged` event for Android and iOS. On iOS 15+, uses `AVPictureInPictureController` with `AVSampleBufferDisplayLayer` to display a snapshot of the current window. On Android, uses `EnterPictureInPictureMode`. Includes a sample in the Components app demonstrating usage.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
