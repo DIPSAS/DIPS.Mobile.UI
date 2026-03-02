@@ -3,7 +3,6 @@ using AVKit;
 using CoreGraphics;
 using CoreMedia;
 using CoreVideo;
-using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using UIKit;
 
@@ -31,8 +30,6 @@ public static partial class PipService
         var window = GetKeyWindow();
         if (window is null)
             return;
-
-        SetupAudioSession();
 
         var windowWidth = window.Bounds.Width;
         var windowHeight = windowWidth * ratioHeight / ratioWidth;
@@ -76,21 +73,6 @@ public static partial class PipService
             }
         }
         return null;
-    }
-
-    private static void SetupAudioSession()
-    {
-        var audioSession = AVAudioSession.SharedInstance();
-        if (!audioSession.SetCategory(AVAudioSessionCategory.Playback,
-                AVAudioSessionCategoryOptions.MixWithOthers, out var categoryError))
-        {
-            DUILogService.LogError<PipService>($"PiP: Failed to set AVAudioSession category: {categoryError?.LocalizedDescription}");
-        }
-
-        if (!audioSession.SetActive(true, out var activeError))
-        {
-            DUILogService.LogError<PipService>($"PiP: Failed to activate AVAudioSession: {activeError?.LocalizedDescription}");
-        }
     }
 
     private sealed class PipSampleBufferView : UIView

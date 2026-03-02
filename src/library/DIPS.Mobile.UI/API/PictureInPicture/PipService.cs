@@ -19,8 +19,7 @@ public static partial class PipService
     /// On Android, the activity must have <c>android:supportsPictureInPicture="true"</c> in the manifest,
     /// or <c>SupportsPictureInPicture = true</c> in the <c>[Activity]</c> attribute.
     /// On iOS 15+, this captures a snapshot of the current window and displays it in a PiP window using
-    /// <c>AVPictureInPictureController</c> with <c>AVSampleBufferDisplayLayer</c>. Requires
-    /// <c>UIBackgroundModes</c> audio capability in the app's <c>Info.plist</c>.
+    /// <c>AVPictureInPictureController</c> with <c>AVSampleBufferDisplayLayer</c>.
     /// </remarks>
     public static partial void Enter();
 
@@ -33,8 +32,7 @@ public static partial class PipService
     /// On Android, the activity must have <c>android:supportsPictureInPicture="true"</c> in the manifest,
     /// or <c>SupportsPictureInPicture = true</c> in the <c>[Activity]</c> attribute.
     /// On iOS 15+, this captures a snapshot of the current window and displays it in a PiP window using
-    /// <c>AVPictureInPictureController</c> with <c>AVSampleBufferDisplayLayer</c>. Requires
-    /// <c>UIBackgroundModes</c> audio capability in the app's <c>Info.plist</c>.
+    /// <c>AVPictureInPictureController</c> with <c>AVSampleBufferDisplayLayer</c>.
     /// </remarks>
     public static partial void Enter(int ratioWidth, int ratioHeight);
 

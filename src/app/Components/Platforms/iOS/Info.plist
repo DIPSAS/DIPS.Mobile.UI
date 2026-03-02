@@ -44,9 +44,5 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>The app needs to use the camera to scan bar codes.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-	</array>
 </dict>
 </plist>
