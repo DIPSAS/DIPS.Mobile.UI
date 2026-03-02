@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:pip="clr-namespace:Components.ComponentsSamples.PictureInPicture"
+                 x:Class="Components.ComponentsSamples.PictureInPicture.PictureInPictureSamples"
+                 x:DataType="pip:PictureInPictureSamplesViewModel"
+                 Title="Picture in Picture">
+    <dui:ContentPage.BindingContext>
+        <pip:PictureInPictureSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+
+            <dui:Label Style="{dui:Styles Label=SectionHeader}"
+                       Text="Picture in Picture (PiP)" />
+
+            <dui:Label Style="{dui:Styles Label=UI200}"
+                       Text="Enter PiP mode to keep this content visible in a floating window while you browse other parts of the app." />
+
+            <dui:MultiLineInputField HeaderText="Notes"
+                                     Text="{Binding Notes}"
+                                     MinimumHeightRequest="120" />
+
+            <dui:Button Text="Enter PiP mode"
+                        Command="{Binding EnterPipCommand}"
+                        IsEnabled="{Binding IsPipSupported}" />
+
+            <dui:Label Style="{dui:Styles Label=UI200}"
+                       Text="{Binding StatusText}"
+                       IsVisible="{Binding HasStatus}" />
+
+            <dui:Label Style="{dui:Styles Label=UI200}"
+                       IsVisible="{Binding IsPipSupported, Converter={dui:InvertedBoolConverter}}"
+                       Text="Picture in Picture is not supported on this device or platform." />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

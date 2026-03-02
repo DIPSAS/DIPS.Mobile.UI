@@ -1,6 +1,7 @@
 using Components.AccessibilitySamples;
 using Components.AccessibilitySamples.VoiceOverSamples;
 using Components.ComponentsSamples.Alerting;
+using Components.ComponentsSamples.PictureInPicture;
 using Components.ComponentsSamples.AmplitudeView;
 using Components.ComponentsSamples.BarcodeScanning;
 using Components.ComponentsSamples.BottomSheets;
@@ -73,6 +74,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),
             new(SampleType.Components, "Gallery", () => new GallerySample()),
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
+            new(SampleType.Components, "Picture in Picture", () => new PictureInPictureSamples()),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
             
 

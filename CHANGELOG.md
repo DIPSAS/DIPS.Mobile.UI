@@ -1,3 +1,6 @@
+## [55.3.0]
+- [PictureInPicture] Added `PipService` with `Enter()`, `IsSupported`, and `PipModeChanged` event for Android. Includes a sample in the Components app demonstrating usage.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 
