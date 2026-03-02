@@ -1,3 +1,6 @@
+## [55.3.0]
+- [ContextMenu] Added `PreviewView` property to `ContextMenu` for use with `LongPressed` mode. On iOS, the view is shown as the native `UIContextMenuInteraction` preview. On Android, the view is shown in a popup above the context menu.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 

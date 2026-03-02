@@ -308,6 +308,9 @@
     <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
         <value>Én handling og én gruppe</value>
     </data>
+    <data name="Context_Menu_LongPressWithPreview" xml:space="preserve">
+        <value>Trykk og hold med forhåndsvisning</value>
+    </data>
     <data name="DefaultStateViews" xml:space="preserve">
         <value>Standard tilstand views</value>
     </data>

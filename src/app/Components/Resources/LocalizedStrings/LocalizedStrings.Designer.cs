@@ -615,6 +615,12 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
+        internal static string Context_Menu_LongPressWithPreview {
+            get {
+                return ResourceManager.GetString("Context_Menu_LongPressWithPreview", resourceCulture);
+            }
+        }
+        
         internal static string DefaultStateViews {
             get {
                 return ResourceManager.GetString("DefaultStateViews", resourceCulture);

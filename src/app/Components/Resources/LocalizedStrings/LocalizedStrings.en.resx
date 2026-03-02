@@ -303,6 +303,9 @@
     <data name="Context_Menu_LongPress_OneItemOneGroup" xml:space="preserve">
         <value>Single item and single group</value>
     </data>
+    <data name="Context_Menu_LongPressWithPreview" xml:space="preserve">
+        <value>Long press with preview</value>
+    </data>
     <data name="DefaultStateViews" xml:space="preserve">
         <value>Default state views</value>
     </data>
