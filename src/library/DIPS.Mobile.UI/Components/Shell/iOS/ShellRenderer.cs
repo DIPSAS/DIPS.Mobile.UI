@@ -6,7 +6,6 @@ using Microsoft.Maui.Controls.Platform.Compatibility;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Platform;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using Page = Microsoft.Maui.Controls.Page;
 
