@@ -12,9 +12,14 @@ public partial class Toolbar : View
 {
     public Toolbar()
     {
-        // M3 Bottom App Bar spec: height = 80dp
-        HeightRequest = Sizes.GetSize(SizeName.size_20);
+        Init();
     }
+
+    /// <summary>
+    /// Platform-specific initialization. Android sets a HeightRequest per the M3 Bottom App Bar spec (80dp).
+    /// iOS uses the UIToolbar's intrinsic height.
+    /// </summary>
+    partial void Init();
 
     private void OnButtonsChanged()
     {
