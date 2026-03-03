@@ -94,6 +94,25 @@ public partial class ContextMenu : IContextMenu
     }
     
     /// <summary>
+    /// <see cref="PreviewView"/>
+    /// </summary>
+    public static readonly BindableProperty PreviewViewProperty = BindableProperty.Create(
+        nameof(PreviewView),
+        typeof(View),
+        typeof(ContextMenu));
+
+    /// <summary>
+    /// An optional view to display as a preview when the context menu is opened in <see cref="ContextMenuEffect.ContextMenuMode.LongPressed"/> mode.
+    /// On iOS, the view is shown as the native <c>UIContextMenuInteraction</c> preview.
+    /// On Android, the view is shown in a popup above the context menu.
+    /// </summary>
+    public View? PreviewView
+    {
+        get => (View?)GetValue(PreviewViewProperty);
+        set => SetValue(PreviewViewProperty, value);
+    }
+
+    /// <summary>
     /// Get the mode of the context menu.
     /// </summary>
     /// <remarks>This is non-settable on this class. <a href="https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Context-Menus#modes"> See documentation on how to set it.</a></remarks>

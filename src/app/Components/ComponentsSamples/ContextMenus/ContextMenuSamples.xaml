@@ -209,6 +209,35 @@
             </dui:ContextMenuEffect.Menu>
         </dui:ListItem>
 
+        <!-- Long press with PreviewView -->
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithPreview}"
+                      HasBottomDivider="True"
+                      dui:ContextMenuEffect.Mode="LongPressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenu.PreviewView>
+                        <Border StrokeThickness="2" BackgroundColor="Gray">
+                            <dui:VerticalStackLayout Padding="{dui:Sizes content_margin_medium}"
+                                                     BackgroundColor="{dui:Colors color_surface_default}"
+                                                     Spacing="{dui:Sizes content_margin_small}">
+                                <dui:Label Style="{dui:Styles Label=UI200}"
+                                           Text="This is a very long document title that would normally be truncated in the list" />
+                                <dui:Label Style="{dui:Styles Label=UI100}"
+                                           TextColor="{dui:Colors color_text_subtle}"
+                                           Text="Additional context about the document can be placed here" />
+                            </dui:VerticalStackLayout></Border>
+                    </dui:ContextMenu.PreviewView>
+                    <dui:ContextMenuItem
+                        Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"
+                        Icon="{dui:Icons internalmessage_fill}" />
+                    <dui:ContextMenuItem
+                        IsDestructive="True"
+                        Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=2}"
+                        Icon="{dui:Icons internalmessage_fill}" />
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>
+        </dui:ListItem>
+
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Divider}"
                       HasBottomDivider="True">
 

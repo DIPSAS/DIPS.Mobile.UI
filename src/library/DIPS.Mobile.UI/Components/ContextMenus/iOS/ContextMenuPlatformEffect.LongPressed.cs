@@ -47,7 +47,10 @@ public partial class ContextMenuPlatformEffect
                 contextMenu);
             var menu = UIMenu.Create(contextMenu.Title, dict.Select(k => k.Value).ToArray());
 
-            return UIContextMenuConfiguration.Create(null, null, actions => menu);
+            var previewView = contextMenu.PreviewView;
+
+            return UIContextMenuConfiguration.Create(null, () => previewView != null ? new ContextMenuPreviewViewController(previewView)
+                : null, actions => menu);
         }
 
         public Element? Element { get; set; }
