@@ -216,15 +216,16 @@
             <dui:ContextMenuEffect.Menu>
                 <dui:ContextMenu ItemClickedCommand="{Binding ItemClickedCommand}">
                     <dui:ContextMenu.PreviewView>
-                        <dui:VerticalStackLayout Padding="{dui:Sizes content_margin_medium}"
-                                                 BackgroundColor="{dui:Colors color_surface_default}"
-                                                 Spacing="{dui:Sizes content_margin_small}">
-                            <dui:Label Style="{dui:Styles Label=UI200}"
-                                       Text="This is a very long document title that would normally be truncated in the list" />
-                            <dui:Label Style="{dui:Styles Label=UI100}"
-                                       TextColor="{dui:Colors color_text_subtle}"
-                                       Text="Additional context about the document can be placed here" />
-                        </dui:VerticalStackLayout>
+                        <Border StrokeThickness="2" BackgroundColor="Gray">
+                            <dui:VerticalStackLayout Padding="{dui:Sizes content_margin_medium}"
+                                                     BackgroundColor="{dui:Colors color_surface_default}"
+                                                     Spacing="{dui:Sizes content_margin_small}">
+                                <dui:Label Style="{dui:Styles Label=UI200}"
+                                           Text="This is a very long document title that would normally be truncated in the list" />
+                                <dui:Label Style="{dui:Styles Label=UI100}"
+                                           TextColor="{dui:Colors color_text_subtle}"
+                                           Text="Additional context about the document can be placed here" />
+                            </dui:VerticalStackLayout></Border>
                     </dui:ContextMenu.PreviewView>
                     <dui:ContextMenuItem
                         Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Action_Format}, Argument=1}"

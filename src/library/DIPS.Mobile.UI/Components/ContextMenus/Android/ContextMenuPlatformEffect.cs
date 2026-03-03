@@ -115,7 +115,7 @@ public partial class ContextMenuPlatformEffect
                 ViewGroup.LayoutParams.WrapContent,
                 false);
 
-            m_previewPopupWindow.SetBackgroundDrawable(new ColorDrawable(Android.Graphics.Color.Transparent));
+            m_previewPopupWindow.SetBackgroundDrawable(new ColorDrawable(global::Android.Graphics.Color.Transparent));
             m_previewPopupWindow.Elevation = (float)Sizes.GetSize(SizeName.size_1);
 
             var previewHeight = previewNativeView.MeasuredHeight;
