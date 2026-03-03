@@ -13,17 +13,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     {
         base.ConnectHandler(platformView);
 
-        // Explicitly apply the default system appearance so iOS renders the correct
-        // material: Liquid Glass on iOS 26+, translucent blurred bar on earlier versions.
-        // ConfigureWithDefaultBackground() is required for standalone toolbars (i.e. not
-        // managed by UINavigationController) to opt into the platform glass material.
-        var appearance = new UIToolbarAppearance();
-        appearance.ConfigureWithDefaultBackground();
-        platformView.StandardAppearance = appearance;
-        platformView.CompactAppearance = appearance;
-        platformView.ScrollEdgeAppearance = appearance;
-
-        // Ensure no residual background from MAUI's setup path is blocking the glass layer.
+        // Clear any residual background color that MAUI's setup path may have applied.
+        // UIToolbar renders its own system material (blur on iOS ≤18, Liquid Glass on iOS 26+)
+        // via its internal visual effect view; a non-nil BackgroundColor or Layer.BackgroundColor
+        // would sit on top of and block that rendering.
         platformView.BackgroundColor = null;
         platformView.Layer.BackgroundColor = null;
 
