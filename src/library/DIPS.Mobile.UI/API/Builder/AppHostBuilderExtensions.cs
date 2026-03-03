@@ -9,7 +9,6 @@ using DIPS.Mobile.UI.Components.Labels.CheckTruncatedLabel;
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.Components.PanZoomContainer;
 using DIPS.Mobile.UI.Components.Pickers.ScrollPicker;
-using DIPS.Mobile.UI.Components.Toolbar;
 using DIPS.Mobile.UI.Effects.Animation.Effects;
 using DIPS.Mobile.UI.Effects.Touch;
 using DotNet.Meteor.HotReload.Plugin;
@@ -36,7 +35,6 @@ using ScrollViewHandler = DIPS.Mobile.UI.Components.Lists.ScrollViewHandler;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using SearchBarHandler = DIPS.Mobile.UI.Components.Searching.SearchBarHandler;
 using ShellRenderer = DIPS.Mobile.UI.Components.Shell.ShellRenderer;
-using Toolbar = DIPS.Mobile.UI.Components.Toolbar.Toolbar;
 
 namespace DIPS.Mobile.UI.API.Builder;
 
@@ -75,7 +73,6 @@ public static partial class AppHostBuilderExtensions
             handlers.AddHandler<PanZoomContainer, PanZoomContainerHandler>();
             handlers.AddHandler<Components.Shell.Shell, ShellRenderer>();
             handlers.AddHandler<PreviewView, PreviewViewHandler>();
-            handlers.AddHandler<Toolbar, ToolbarHandler>();
             
             AddPlatformHandlers(handlers);
         });

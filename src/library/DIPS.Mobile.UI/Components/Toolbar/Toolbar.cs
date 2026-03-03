@@ -1,29 +1,32 @@
+using System.Collections.ObjectModel;
+
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
 /// <summary>
-/// A cross-platform toolbar component that displays a horizontal bar of icon buttons using native platform views.
+/// A cross-platform toolbar that displays a horizontal bar of icon buttons.
+/// Set this on <see cref="Pages.ContentPage.BottomToolbar"/> to display a bottom toolbar.
 /// </summary>
 /// <remarks>
-/// iOS: https://developer.apple.com/design/human-interface-guidelines/toolbars
-/// Android: https://m3.material.io/components/toolbars/overview (Bottom App Bar, height 80dp)
+/// On iOS the toolbar is rendered by the UINavigationController's built-in bottom toolbar,
+/// which provides native Liquid Glass on iOS 26+.
+/// On Android a Material 3 Bottom App Bar is injected at the bottom of the page.
 /// </remarks>
 [ContentProperty(nameof(Buttons))]
-public partial class Toolbar : View
+public class Toolbar : Element
 {
-    public Toolbar()
-    {
-        Init();
-    }
+    public static readonly BindableProperty ButtonsProperty = BindableProperty.Create(
+        nameof(Buttons),
+        typeof(IList<ToolbarButton>),
+        typeof(Toolbar),
+        defaultValueCreator: _ => new ObservableCollection<ToolbarButton>());
 
     /// <summary>
-    /// Platform-specific initialization. Android sets a HeightRequest per the M3 Bottom App Bar spec (80dp).
-    /// iOS uses the UIToolbar's intrinsic height.
+    /// The buttons displayed in the toolbar.
     /// </summary>
-    partial void Init();
-
-    private void OnButtonsChanged()
+    public IList<ToolbarButton> Buttons
     {
-        Handler?.UpdateValue(nameof(Buttons));
+        get => (IList<ToolbarButton>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
     }
 
     protected override void OnBindingContextChanged()
