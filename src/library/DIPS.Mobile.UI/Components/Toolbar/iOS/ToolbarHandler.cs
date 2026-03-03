@@ -7,17 +7,26 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 
 public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 {
-    protected override UIToolbar CreatePlatformView()
-    {
-        // Use the default UIToolbar system appearance — do NOT set BarTintColor or Translucent = false,
-        // as that overrides the system-provided translucent material (Liquid Glass on iOS 26+,
-        // blurred translucent bar on earlier versions).
-        return new UIToolbar();
-    }
+    protected override UIToolbar CreatePlatformView() => new UIToolbar();
 
     protected override void ConnectHandler(UIToolbar platformView)
     {
         base.ConnectHandler(platformView);
+
+        // Explicitly apply the default system appearance so iOS renders the correct
+        // material: Liquid Glass on iOS 26+, translucent blurred bar on earlier versions.
+        // ConfigureWithDefaultBackground() is required for standalone toolbars (i.e. not
+        // managed by UINavigationController) to opt into the platform glass material.
+        var appearance = new UIToolbarAppearance();
+        appearance.ConfigureWithDefaultBackground();
+        platformView.StandardAppearance = appearance;
+        platformView.CompactAppearance = appearance;
+        platformView.ScrollEdgeAppearance = appearance;
+
+        // Ensure no residual background from MAUI's setup path is blocking the glass layer.
+        platformView.BackgroundColor = null;
+        platformView.Layer.BackgroundColor = null;
+
         UpdateButtons();
     }
 
