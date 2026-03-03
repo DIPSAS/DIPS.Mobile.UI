@@ -1,6 +1,9 @@
+using System.Runtime.InteropServices;
+using CoreAnimation;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Colors;
 using CoreGraphics;
+using Foundation;
 using Microsoft.Maui.Platform;
 using ObjCRuntime;
 using UIKit;
@@ -10,12 +13,16 @@ namespace DIPS.Mobile.UI.Components.Pages;
 
 public partial class ContentPage
 {
-    // We create our own UINavigationController solely to get a system-managed UIToolbar.
-    // MAUI's NavigationRenderer completely overrides UINavigationController's toolbar mechanism,
-    // so we cannot use it. By hosting our own nav controller, the toolbar gets Liquid Glass
-    // on iOS 26+ just like Apple intended — because UIKit manages it.
-    private UINavigationController? _toolbarNavController;
-    private UIViewController? _toolbarHostVC;
+    [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static extern IntPtr objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector);
+
+    [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static extern void objc_msgSend_void_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg);
+
+    // The glass capsule container that holds the toolbar
+    private UIView? _capsuleContainer;
+    private UIVisualEffectView? _glassEffectView;
+    private UIToolbar? _bottomToolbar;
     private NSLayoutConstraint[]? _bottomToolbarConstraints;
 
     private partial void UpdateBottomToolbarOnPlatform()
@@ -44,151 +51,93 @@ public partial class ContentPage
         }
 
         EnsureNativeBottomToolbar(pageView);
-        _toolbarHostVC!.SetToolbarItems(items.ToArray(), false);
+        _bottomToolbar!.SetItems(items.ToArray(), false);
     }
 
     private void EnsureNativeBottomToolbar(UIView pageView)
     {
-        if (_toolbarNavController is not null)
+        if (_capsuleContainer is not null)
             return;
 
-        // Create a dummy VC to host toolbar items on
-        _toolbarHostVC = new UIViewController();
-        _toolbarHostVC.View!.BackgroundColor = UIColor.Clear;
-
-        // Create our own UINavigationController — this gives us a system-managed toolbar
-        // that gets Liquid Glass on iOS 26+ automatically.
-        // MAUI's NavigationRenderer blocks the standard approach, so we host our own.
-        _toolbarNavController = new UINavigationController(_toolbarHostVC);
-        _toolbarNavController.SetToolbarHidden(false, false);
-
-        // Hide the navigation bar — we only want the toolbar
-        _toolbarNavController.SetNavigationBarHidden(true, false);
-
-        // Explicitly configure toolbar appearance — use system default so iOS 26
-        // renders the glass capsule background (not transparent or opaque overrides)
-        var toolbar = _toolbarNavController.Toolbar;
-        toolbar.Translucent = true;
-        var toolbarAppearance = new UIToolbarAppearance();
-        toolbarAppearance.ConfigureWithDefaultBackground();
-        toolbar.StandardAppearance = toolbarAppearance;
-        toolbar.ScrollEdgeAppearance = toolbarAppearance;
-        if (toolbar.RespondsToSelector(new Selector("compactScrollEdgeAppearance")))
-        {
-            toolbar.CompactScrollEdgeAppearance = toolbarAppearance;
-        }
-
-        _toolbarNavController.View!.TranslatesAutoresizingMaskIntoConstraints = false;
-
-        // Add to the parent VC as a child view controller for proper containment.
-        // This is important — the system needs proper VC containment to apply Liquid Glass.
         var parentVC = FindViewController();
-        if (parentVC is not null)
+        var containerView = parentVC?.View ?? pageView;
+
+        // 1. Create the capsule container — a rounded rect that clips its children
+        _capsuleContainer = new UIView();
+        _capsuleContainer.TranslatesAutoresizingMaskIntoConstraints = false;
+        _capsuleContainer.ClipsToBounds = false; // Don't clip — allows button press animations to overflow
+        _capsuleContainer.Layer.CornerRadius = 26;
+        _capsuleContainer.Layer.CornerCurve = CoreAnimation.CACornerCurve.Continuous;
+        containerView.AddSubview(_capsuleContainer);
+
+        // 2. Create the glass background using UIVisualEffectView + UIGlassEffect
+        var glassEffect = TryCreateGlassEffect();
+        if (glassEffect is not null)
         {
-            parentVC.AddChildViewController(_toolbarNavController);
-            parentVC.View!.AddSubview(_toolbarNavController.View);
-            _toolbarNavController.DidMoveToParentViewController(parentVC);
+            _glassEffectView = new UIVisualEffectView(glassEffect);
         }
         else
         {
-            // Fallback: add to window
-            var window = pageView.Window ?? UIApplication.SharedApplication.KeyWindow;
-            var targetView = window ?? pageView;
-            targetView.AddSubview(_toolbarNavController.View);
+            // Fallback for pre-iOS 26: system thin material blur
+            _glassEffectView = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.SystemThinMaterial));
         }
+        _glassEffectView.TranslatesAutoresizingMaskIntoConstraints = false;
+        _capsuleContainer.AddSubview(_glassEffectView);
 
-        // Pin the nav controller's view to all edges of the parent.
-        // Let the system manage the toolbar's position and size naturally.
-        // The toolbar will sit at the bottom; the rest of the view area above it
-        // is the host VC's view (transparent, so content shows through).
-        var containerView = _toolbarNavController.View.Superview!;
+        // 3. Create the toolbar with transparent background inside the capsule
+        _bottomToolbar = new UIToolbar();
+        _bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
+        _bottomToolbar.SetBackgroundImage(new UIImage(), UIToolbarPosition.Any, UIBarMetrics.Default);
+        _bottomToolbar.SetShadowImage(new UIImage(), UIToolbarPosition.Any);
+        _bottomToolbar.BackgroundColor = UIColor.Clear;
+        _capsuleContainer.AddSubview(_bottomToolbar);
+
+        // Layout constraints
+        var safeArea = containerView.SafeAreaLayoutGuide;
         _bottomToolbarConstraints =
         [
-            _toolbarNavController.View.LeadingAnchor.ConstraintEqualTo(containerView.LeadingAnchor),
-            _toolbarNavController.View.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor),
-            _toolbarNavController.View.BottomAnchor.ConstraintEqualTo(containerView.BottomAnchor),
-            _toolbarNavController.View.TopAnchor.ConstraintEqualTo(containerView.TopAnchor)
+            // Capsule container: horizontal insets + pinned to safe area bottom
+            _capsuleContainer.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, 48),
+            _capsuleContainer.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -48),
+            _capsuleContainer.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor, -8),
+            _capsuleContainer.HeightAnchor.ConstraintEqualTo(52),
+
+            // Glass effect view fills capsule
+            _glassEffectView.LeadingAnchor.ConstraintEqualTo(_capsuleContainer.LeadingAnchor),
+            _glassEffectView.TrailingAnchor.ConstraintEqualTo(_capsuleContainer.TrailingAnchor),
+            _glassEffectView.TopAnchor.ConstraintEqualTo(_capsuleContainer.TopAnchor),
+            _glassEffectView.BottomAnchor.ConstraintEqualTo(_capsuleContainer.BottomAnchor),
+
+            // Toolbar fills capsule
+            _bottomToolbar.LeadingAnchor.ConstraintEqualTo(_capsuleContainer.LeadingAnchor),
+            _bottomToolbar.TrailingAnchor.ConstraintEqualTo(_capsuleContainer.TrailingAnchor),
+            _bottomToolbar.TopAnchor.ConstraintEqualTo(_capsuleContainer.TopAnchor),
+            _bottomToolbar.BottomAnchor.ConstraintEqualTo(_capsuleContainer.BottomAnchor),
         ];
         NSLayoutConstraint.ActivateConstraints(_bottomToolbarConstraints);
 
-        // DEBUG: Dump toolbar diagnostics after layout
-        _toolbarNavController.View.LayoutIfNeeded();
-        DumpToolbarDiagnostics();
+        containerView.SetNeedsLayout();
+        containerView.LayoutIfNeeded();
     }
 
-    private void DumpToolbarDiagnostics()
+    private UIVisualEffect? TryCreateGlassEffect()
     {
-        if (_toolbarNavController is null) return;
+        // On iOS 26+, UIGlassEffect is a UIVisualEffect subclass
+        var glassEffectClass = Class.GetHandle("UIGlassEffect");
+        if (glassEffectClass == IntPtr.Zero) return null;
 
-        var toolbar = _toolbarNavController.Toolbar;
-        var info = $"=== TOOLBAR DIAGNOSTICS ===\n";
-        info += $"Toolbar frame: {toolbar.Frame}\n";
-        info += $"Toolbar bounds: {toolbar.Bounds}\n";
-        info += $"Toolbar translucent: {toolbar.Translucent}\n";
-        info += $"Toolbar hidden: {toolbar.Hidden}\n";
-        info += $"Toolbar alpha: {toolbar.Alpha}\n";
-        info += $"Toolbar barStyle: {toolbar.BarStyle}\n";
-        info += $"Toolbar barTintColor: {toolbar.BarTintColor}\n";
-        info += $"Toolbar backgroundColor: {toolbar.BackgroundColor}\n";
-        info += $"Toolbar clipsToBounds: {toolbar.ClipsToBounds}\n";
-        info += $"Toolbar items count: {toolbar.Items?.Length ?? 0}\n";
-        info += $"NavController view frame: {_toolbarNavController.View!.Frame}\n";
-        info += $"HostVC view frame: {_toolbarHostVC?.View?.Frame}\n";
-        info += $"NavController view userInteraction: {_toolbarNavController.View.UserInteractionEnabled}\n";
-        info += $"Toolbar userInteraction: {toolbar.UserInteractionEnabled}\n";
+        var alloced = objc_msgSend_IntPtr(glassEffectClass, Selector.GetHandle("alloc"));
+        if (alloced == IntPtr.Zero) return null;
 
-        // Check for glass-related selectors
-        var glassSelectors = new[]
-        {
-            "preferredGlassEffect", "glassEffect", "_glassEffect",
-            "setPreferredGlassEffect:", "_setGlassEffect:",
-            "glassContainerView", "_backgroundEffectView",
-            "preferredBarStyle", "_effectiveGlassEffect",
-            "backgroundEffect", "setBackgroundEffect:",
-            "_liquidGlassFrame", "_liquidGlassStyle",
-            "preferredBackgroundStyle", "setPreferredBackgroundStyle:",
-            "_backdropStyle", "setBackdropStyle:",
-        };
+        var instance = objc_msgSend_IntPtr(alloced, Selector.GetHandle("init"));
+        if (instance == IntPtr.Zero) return null;
 
-        info += "\n=== GLASS SELECTORS ===\n";
-        foreach (var sel in glassSelectors)
-        {
-            var responds = toolbar.RespondsToSelector(new Selector(sel));
-            if (responds)
-                info += $"  ✅ {sel}\n";
-        }
-
-        // Dump toolbar subview hierarchy
-        info += "\n=== TOOLBAR SUBVIEWS ===\n";
-        info += DumpViewHierarchy(toolbar, 0);
-
-        // Also dump navcontroller.toolbar parent
-        info += $"\n=== TOOLBAR SUPERVIEW ===\n";
-        info += $"SuperView: {toolbar.Superview?.GetType().Name} frame={toolbar.Superview?.Frame}\n";
-
-        System.Diagnostics.Debug.WriteLine(info);
-        Console.WriteLine(info);
-
-        // Also show as alert for easy reading on device
-        var alert = UIAlertController.Create("Toolbar Info", info, UIAlertControllerStyle.Alert);
-        alert.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-        _toolbarNavController.PresentViewController(alert, true, null);
-    }
-
-    private static string DumpViewHierarchy(UIView view, int depth)
-    {
-        var indent = new string(' ', depth * 2);
-        var result = $"{indent}{view.GetType().Name} (ObjC: {view.Class.Name}) frame={view.Frame} alpha={view.Alpha} hidden={view.Hidden} clips={view.ClipsToBounds}\n";
-        foreach (var subview in view.Subviews)
-        {
-            result += DumpViewHierarchy(subview, depth + 1);
-        }
-        return result;
+        return Runtime.GetNSObject<UIVisualEffect>(instance);
     }
 
     private void RemoveNativeBottomToolbar()
     {
-        if (_toolbarNavController is null)
+        if (_capsuleContainer is null)
             return;
 
         if (_bottomToolbarConstraints is not null)
@@ -197,14 +146,17 @@ public partial class ContentPage
             _bottomToolbarConstraints = null;
         }
 
-        _toolbarNavController.WillMoveToParentViewController(null);
-        _toolbarNavController.View?.RemoveFromSuperview();
-        _toolbarNavController.RemoveFromParentViewController();
-        _toolbarNavController.Dispose();
-        _toolbarNavController = null;
+        _bottomToolbar?.RemoveFromSuperview();
+        _bottomToolbar?.Dispose();
+        _bottomToolbar = null;
 
-        _toolbarHostVC?.Dispose();
-        _toolbarHostVC = null;
+        _glassEffectView?.RemoveFromSuperview();
+        _glassEffectView?.Dispose();
+        _glassEffectView = null;
+
+        _capsuleContainer.RemoveFromSuperview();
+        _capsuleContainer.Dispose();
+        _capsuleContainer = null;
     }
 
     private partial void HideBottomToolbarOnPlatform()
