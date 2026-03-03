@@ -9,10 +9,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 {
     protected override UIToolbar CreatePlatformView()
     {
-        var toolbar = new UIToolbar();
-        toolbar.BarTintColor = Resources.Colors.Colors.GetColor(ColorName.color_surface_default).ToPlatform();
-        toolbar.Translucent = false;
-        return toolbar;
+        // Use the default UIToolbar system appearance — do NOT set BarTintColor or Translucent = false,
+        // as that overrides the system-provided translucent material (Liquid Glass on iOS 26+,
+        // blurred translucent bar on earlier versions).
+        return new UIToolbar();
     }
 
     protected override void ConnectHandler(UIToolbar platformView)
