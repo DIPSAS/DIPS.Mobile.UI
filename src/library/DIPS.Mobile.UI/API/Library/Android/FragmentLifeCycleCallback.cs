@@ -37,20 +37,25 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
             {
-                try
+                // If either Java peer is already disposed, we can't compare via JNI.
+                // Since this fragment is being destroyed, pop it to avoid a stale entry.
+                if (currentDialogFragment.Handle == IntPtr.Zero || dialogFragment.Handle == IntPtr.Zero)
                 {
-                    if (currentDialogFragment.Handle != IntPtr.Zero &&
-                        dialogFragment.Handle != IntPtr.Zero &&
-                        currentDialogFragment.Equals(dialogFragment))
+                    s_currentDialogFragmentReferenceStack.Pop();
+                }
+                else
+                {
+                    try
+                    {
+                        if (currentDialogFragment.Equals(dialogFragment))
+                        {
+                            s_currentDialogFragmentReferenceStack.Pop();
+                        }
+                    }
+                    catch (ObjectDisposedException)
                     {
                         s_currentDialogFragmentReferenceStack.Pop();
                     }
-                }
-                catch (ObjectDisposedException)
-                {
-                    // The Java peer may already be disposed when OnFragmentDestroyed fires.
-                    // In that case, just pop since the fragment is gone anyway.
-                    s_currentDialogFragmentReferenceStack.Pop();
                 }
             }
 
