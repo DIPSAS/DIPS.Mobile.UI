@@ -1,3 +1,6 @@
+## [54.4.9]
+- [Android][Modal] Fixed crash caused by accessing a disposed Java peer when comparing fragments in OnFragmentDestroyed
+
 ## [54.4.8]
 - [Android][Entry][Editor] Fixed potential crash.
 

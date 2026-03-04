@@ -10,6 +10,7 @@
                  xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
                  xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
                  xmlns:gallery="clr-namespace:DIPS.Mobile.UI.Components.Gallery;assembly=DIPS.Mobile.UI"
+                 xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.VetleSamples.VetlePage"
                  x:Name="This"
                  HideSoftInputOnTapped="True"
@@ -25,18 +26,9 @@
         <ToolbarItem Text="Hello"></ToolbarItem>
     </dui:ContentPage.ToolbarItems>
 
-    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ChipGroupTestViewModels}">
+    <VerticalStackLayout>
         
-        <BindableLayout.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type vetleSamples:ChipGroupTestViewModel}">
-                
-                <dui:ChipGroup ItemsSource="{Binding ItemsSource}"
-                               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
-                               SelectionMode="Single"
-                               ItemDisplayProperty="Name" />
-                
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
+      <dui:Button Clicked="Button_OnClicked" />
        
         
     </VerticalStackLayout>

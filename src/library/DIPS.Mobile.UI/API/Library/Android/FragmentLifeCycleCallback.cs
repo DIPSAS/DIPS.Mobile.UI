@@ -37,13 +37,30 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
             {
-                if (currentDialogFragment.Equals(dialogFragment))
+                // If either Java peer is already disposed, we can't compare via JNI.
+                // Since this fragment is being destroyed, pop it to avoid a stale entry.
+                if (currentDialogFragment.Handle == IntPtr.Zero || dialogFragment.Handle == IntPtr.Zero)
                 {
                     s_currentDialogFragmentReferenceStack.Pop();
                 }
+                else
+                {
+                    try
+                    {
+                        if (currentDialogFragment.Equals(dialogFragment))
+                        {
+                            s_currentDialogFragmentReferenceStack.Pop();
+                        }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        s_currentDialogFragmentReferenceStack.Pop();
+                    }
+                }
             }
+
+            base.OnFragmentDestroyed(fm, f);
         }
-        base.OnFragmentDestroyed(fm, f);
     }
 
     private static void TryEnableCustomHideSoftInputOnTappedImplementation(DialogFragment dialogFragment)
