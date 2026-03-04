@@ -54,9 +54,8 @@ public partial class EntryHandler
         handler.PlatformView.SetSelectAllOnFocus(entry.ShouldSelectAllTextOnFocused);
     }
 
-    private static async partial void MapHasBorder(EntryHandler handler, Entry entry)
+    private static partial void MapHasBorder(EntryHandler handler, Entry entry)
     {
-        await Task.Delay(1);
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
     }
 
