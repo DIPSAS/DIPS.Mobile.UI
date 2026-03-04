@@ -1,11 +1,8 @@
-using System.Runtime.InteropServices;
 using CoreAnimation;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Colors;
 using CoreGraphics;
-using Foundation;
 using Microsoft.Maui.Platform;
-using ObjCRuntime;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
@@ -13,12 +10,6 @@ namespace DIPS.Mobile.UI.Components.Pages;
 
 public partial class ContentPage
 {
-    [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
-    private static extern IntPtr objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector);
-
-    [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
-    private static extern void objc_msgSend_void_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg);
-
     // The glass capsule container that holds the toolbar
     private UIView? _capsuleContainer;
     private UIVisualEffectView? _glassEffectView;
@@ -66,15 +57,14 @@ public partial class ContentPage
         _capsuleContainer = new UIView();
         _capsuleContainer.TranslatesAutoresizingMaskIntoConstraints = false;
         _capsuleContainer.ClipsToBounds = false; // Don't clip — allows button press animations to overflow
-        _capsuleContainer.Layer.CornerRadius = 26;
+        _capsuleContainer.Layer.CornerRadius = 30; // Half of 60pt height = true pill shape
         _capsuleContainer.Layer.CornerCurve = CoreAnimation.CACornerCurve.Continuous;
         containerView.AddSubview(_capsuleContainer);
 
         // 2. Create the glass background using UIVisualEffectView + UIGlassEffect
-        var glassEffect = TryCreateGlassEffect();
-        if (glassEffect is not null)
+        if (OperatingSystem.IsIOSVersionAtLeast(26))
         {
-            _glassEffectView = new UIVisualEffectView(glassEffect);
+            _glassEffectView = new UIVisualEffectView(new UIGlassEffect());
         }
         else
         {
@@ -82,6 +72,9 @@ public partial class ContentPage
             _glassEffectView = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.SystemThinMaterial));
         }
         _glassEffectView.TranslatesAutoresizingMaskIntoConstraints = false;
+        _glassEffectView.ClipsToBounds = true;
+        _glassEffectView.Layer.CornerRadius = 30; // Match capsule
+        _glassEffectView.Layer.CornerCurve = CACornerCurve.Continuous;
         _capsuleContainer.AddSubview(_glassEffectView);
 
         // 3. Create the toolbar with transparent background inside the capsule
@@ -100,7 +93,7 @@ public partial class ContentPage
             _capsuleContainer.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, 48),
             _capsuleContainer.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -48),
             _capsuleContainer.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor, -8),
-            _capsuleContainer.HeightAnchor.ConstraintEqualTo(52),
+            _capsuleContainer.HeightAnchor.ConstraintEqualTo(60),
 
             // Glass effect view fills capsule
             _glassEffectView.LeadingAnchor.ConstraintEqualTo(_capsuleContainer.LeadingAnchor),
@@ -108,31 +101,16 @@ public partial class ContentPage
             _glassEffectView.TopAnchor.ConstraintEqualTo(_capsuleContainer.TopAnchor),
             _glassEffectView.BottomAnchor.ConstraintEqualTo(_capsuleContainer.BottomAnchor),
 
-            // Toolbar fills capsule
-            _bottomToolbar.LeadingAnchor.ConstraintEqualTo(_capsuleContainer.LeadingAnchor),
-            _bottomToolbar.TrailingAnchor.ConstraintEqualTo(_capsuleContainer.TrailingAnchor),
-            _bottomToolbar.TopAnchor.ConstraintEqualTo(_capsuleContainer.TopAnchor),
-            _bottomToolbar.BottomAnchor.ConstraintEqualTo(_capsuleContainer.BottomAnchor),
+            // Toolbar inset inside capsule for horizontal padding, vertically centered
+            _bottomToolbar.LeadingAnchor.ConstraintEqualTo(_capsuleContainer.LeadingAnchor, 8),
+            _bottomToolbar.TrailingAnchor.ConstraintEqualTo(_capsuleContainer.TrailingAnchor, -8),
+            _bottomToolbar.CenterYAnchor.ConstraintEqualTo(_capsuleContainer.CenterYAnchor),
+            _bottomToolbar.HeightAnchor.ConstraintEqualTo(44),
         ];
         NSLayoutConstraint.ActivateConstraints(_bottomToolbarConstraints);
 
         containerView.SetNeedsLayout();
         containerView.LayoutIfNeeded();
-    }
-
-    private UIVisualEffect? TryCreateGlassEffect()
-    {
-        // On iOS 26+, UIGlassEffect is a UIVisualEffect subclass
-        var glassEffectClass = Class.GetHandle("UIGlassEffect");
-        if (glassEffectClass == IntPtr.Zero) return null;
-
-        var alloced = objc_msgSend_IntPtr(glassEffectClass, Selector.GetHandle("alloc"));
-        if (alloced == IntPtr.Zero) return null;
-
-        var instance = objc_msgSend_IntPtr(alloced, Selector.GetHandle("init"));
-        if (instance == IntPtr.Zero) return null;
-
-        return Runtime.GetNSObject<UIVisualEffect>(instance);
     }
 
     private void RemoveNativeBottomToolbar()
@@ -183,9 +161,16 @@ public partial class ContentPage
     private static UIBarButtonItem CreateBarButtonItem(Toolbar.ToolbarButton toolbarButton)
     {
         UIImage? icon = null;
-        if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage))
+        if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage) && uiImage is not null)
         {
-            icon = uiImage?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            // Scale icon to 18pt to match Apple system toolbar sizing
+            var targetSize = new CGSize(18, 18);
+            var renderer = new UIGraphicsImageRenderer(targetSize);
+            var scaledImage = renderer.CreateImage(ctx =>
+            {
+                uiImage.Draw(new CGRect(CGPoint.Empty, targetSize));
+            });
+            icon = scaledImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
         }
 
         var item = new UIBarButtonItem(icon, UIBarButtonItemStyle.Plain, (_, _) =>
