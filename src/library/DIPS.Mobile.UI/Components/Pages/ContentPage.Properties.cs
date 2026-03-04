@@ -1,10 +1,29 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Toolbar;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
 public partial class ContentPage
 {
+    public static readonly BindableProperty BottomToolbarProperty = BindableProperty.Create(
+        nameof(BottomToolbar),
+        typeof(Toolbar.Toolbar),
+        typeof(ContentPage));
+
+    /// <summary>
+    /// A bottom toolbar to display on the page.
+    /// </summary>
+    /// <remarks>
+    /// On iOS, this renders the UINavigationController's built-in toolbar with Liquid Glass on iOS 26+.
+    /// On Android, a Material 3 Bottom App Bar is displayed at the bottom of the page.
+    /// </remarks>
+    public Toolbar.Toolbar? BottomToolbar
+    {
+        get => (Toolbar.Toolbar?)GetValue(BottomToolbarProperty);
+        set => SetValue(BottomToolbarProperty, value);
+    }
+
     public static readonly BindableProperty ShouldHideFloatingNavigationMenuProperty = BindableProperty.Create(
         nameof(ShouldHideFloatingNavigationMenuButton),
         typeof(bool),
