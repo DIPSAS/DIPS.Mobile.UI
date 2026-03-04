@@ -1,5 +1,8 @@
-## [55.2.4]
+## [55.2.5]
 - [Android][BottomSheet] Fixed bottom sheet going over status bar on API 34 and below.
+
+## [55.2.4]
+- [Android][Modal] Fixed crash caused by accessing a disposed Java peer when comparing fragments in OnFragmentDestroyed
 
 ## [55.2.3]
 - [Android][Entry][Editor] Fixed potential crash.
