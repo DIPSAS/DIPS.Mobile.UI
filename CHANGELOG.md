@@ -1,3 +1,6 @@
+## [55.2.3]
+- [Android][Entry][Editor] Fixed potential crash.
+
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
 

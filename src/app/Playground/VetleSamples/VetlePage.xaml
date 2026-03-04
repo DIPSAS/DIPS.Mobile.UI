@@ -30,8 +30,10 @@
 
     <dui:VerticalStackLayout>
         <dui:Entry BackgroundColor="Green"></dui:Entry>
+        <dui:Entry BackgroundColor="Green" HasBorder="True"></dui:Entry>
         <dui:SearchBar ReturnKeyType="Done" />
         <dui:Editor></dui:Editor>
+        <dui:Editor HasBorder="True"></dui:Editor>
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

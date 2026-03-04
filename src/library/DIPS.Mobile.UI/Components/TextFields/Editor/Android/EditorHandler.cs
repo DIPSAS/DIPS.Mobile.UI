@@ -1,5 +1,4 @@
 using Android.Graphics.Drawables;
-using AndroidX.AppCompat.Widget;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
@@ -47,9 +46,8 @@ public partial class EditorHandler
         handler.PlatformView.SetSelectAllOnFocus(entry.ShouldSelectAllTextOnFocused);
     }
 
-    private static async partial void MapHasBorder(EditorHandler handler, Editor entry)
+    private static partial void MapHasBorder(EditorHandler handler, Editor entry)
     {
-        await Task.Delay(1);
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
     }
     
