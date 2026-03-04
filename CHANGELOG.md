@@ -1,3 +1,6 @@
+## [54.4.8]
+- [Android][Entry][Editor] Fixed potential crash.
+
 ## [54.4.7]
 - [ChipGroup] Fixed issue where multiple chips could remain active when SelectedItems binding changed externally in Single selection mode
 
