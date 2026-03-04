@@ -1,10 +1,8 @@
 using Android.Graphics.Drawables;
 using Android.Widget;
-using AndroidX.AppCompat.Widget;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
-using Object = Java.Lang.Object;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.TextFields.Entry;
@@ -54,9 +52,8 @@ public partial class EntryHandler
         handler.PlatformView.SetSelectAllOnFocus(entry.ShouldSelectAllTextOnFocused);
     }
 
-    private static async partial void MapHasBorder(EntryHandler handler, Entry entry)
+    private static partial void MapHasBorder(EntryHandler handler, Entry entry)
     {
-        await Task.Delay(1);
         handler.PlatformView.SetBackground(entry.HasBorder ? handler.DefaultBackground : null);
     }
 
