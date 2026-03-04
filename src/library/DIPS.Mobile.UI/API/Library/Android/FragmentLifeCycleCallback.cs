@@ -46,8 +46,19 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
             {
-                if (currentDialogFragment.Equals(dialogFragment))
+                try
                 {
+                    if (currentDialogFragment.Handle != IntPtr.Zero && 
+                        dialogFragment.Handle != IntPtr.Zero && 
+                        currentDialogFragment.Equals(dialogFragment))
+                    {
+                        s_currentDialogFragmentReferenceStack.Pop();
+                    }
+                }
+                catch (ObjectDisposedException)
+                {
+                    // The Java peer may already be disposed when OnFragmentDestroyed fires.
+                    // In that case, just pop since the fragment is gone anyway.
                     s_currentDialogFragmentReferenceStack.Pop();
                 }
             }
