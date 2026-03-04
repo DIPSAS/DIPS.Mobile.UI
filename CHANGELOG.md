@@ -1,3 +1,6 @@
+## [55.2.4]
+- [Android][BottomSheet] Fixed bottom sheet going over status bar on API 34 and below.
+
 ## [55.2.3]
 - [Android][Entry][Editor] Fixed potential crash.
 
