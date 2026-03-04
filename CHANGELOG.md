@@ -1,5 +1,8 @@
-## [54.4.8]
+## [54.4.9]
 - [Android][Modal] Fixed crash caused by accessing a disposed Java peer when comparing fragments in OnFragmentDestroyed
+
+## [54.4.8]
+- [Android][Entry][Editor] Fixed potential crash.
 
 ## [54.4.7]
 - [ChipGroup] Fixed issue where multiple chips could remain active when SelectedItems binding changed externally in Single selection mode
