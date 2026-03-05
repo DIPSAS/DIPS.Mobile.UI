@@ -95,9 +95,14 @@ public class BottomSheetFragment : BottomSheetDialogFragment
 
             // Calculate the peek height as 50% of the screen height
             var peekHeight = (int)(0.5 * screenHeight);
-            m_bottomSheetBehavior.SetPeekHeight(peekHeight, false);            
-            // Add callback to handle edge-to-edge padding during slide
-            m_bottomSheetBehavior.AddBottomSheetCallback(new EdgeToEdgeBottomSheetCallback(this));
+            m_bottomSheetBehavior.SetPeekHeight(peekHeight, false);
+            
+            // Edge-to-edge is only supported on API 35+. On API 34 and below, the bottom sheet
+            // should not go over the status bar, so we skip the edge-to-edge callback.
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.VanillaIceCream)
+            {
+                m_bottomSheetBehavior.AddBottomSheetCallback(new EdgeToEdgeBottomSheetCallback(this));
+            }
         }
 
         var window = activity.Window;
@@ -136,10 +141,15 @@ public class BottomSheetFragment : BottomSheetDialogFragment
     public override void OnStart()
     {
         m_bottomSheet.SendOpen();
-            
-        // Fix for edge-to-edge: Remove top insets so BottomSheet can draw behind status bar
-        // See: https://github.com/material-components/material-components-android/issues/3389
-        Dialog?.Window?.AddFlags(WindowManagerFlags.LayoutNoLimits);
+        
+        // Edge-to-edge is only supported on API 35+. On API 34 and below, the bottom sheet
+        // must not go over the status bar.
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.VanillaIceCream)
+        {
+            // Fix for edge-to-edge: Remove top insets so BottomSheet can draw behind status bar
+            // See: https://github.com/material-components/material-components-android/issues/3389
+            Dialog?.Window?.AddFlags(WindowManagerFlags.LayoutNoLimits);
+        }
             
         base.OnStart();
     }
