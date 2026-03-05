@@ -1,5 +1,14 @@
+## [55.2.6]
+- [ContextMenu] Fixed that in some cases context menu never appears when tapping.
+
+## [55.2.5]
+- [Android][BottomSheet] Fixed bottom sheet going over status bar on API 34 and below.
+
+## [55.2.4]
+- [Android][Modal] Fixed crash caused by accessing a disposed Java peer when comparing fragments in OnFragmentDestroyed
+
 ## [55.2.3]
-- Fix
+- [Android][Entry][Editor] Fixed potential crash.
 
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.
