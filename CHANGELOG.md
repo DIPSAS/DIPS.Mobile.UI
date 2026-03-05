@@ -1,3 +1,6 @@
+## [55.2.6]
+- [ContextMenu] Fixed that in some cases context menu never appears when tapping.
+
 ## [55.2.5]
 - [Android][BottomSheet] Fixed bottom sheet going over status bar on API 34 and below.
 
