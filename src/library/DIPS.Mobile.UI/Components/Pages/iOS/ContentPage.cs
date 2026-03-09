@@ -65,7 +65,7 @@ public partial class ContentPage
         if (OperatingSystem.IsIOSVersionAtLeast(26))
         {
             _glassEffectView = new UIVisualEffectView(new UIGlassEffect());
-        }
+        }   
         else
         {
             // Fallback for pre-iOS 26: system thin material blur
