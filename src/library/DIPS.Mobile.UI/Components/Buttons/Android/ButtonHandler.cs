@@ -17,7 +17,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
     {
         return new Android.MaterialButton(Context)
         {
-            Button = VirtualView as Button,
+            ButtonRef = new WeakReference<Button>((VirtualView as Button)!),
             IconGravity = MaterialButton.IconGravityTextStart,
             IconTintMode = global::Android.Graphics.PorterDuff.Mode.Add,
             IconTint = TransparentColorStateList,
@@ -46,6 +46,7 @@ public partial class ButtonHandler : Microsoft.Maui.Handlers.ButtonHandler
         platformView.SetMinHeight(0);
         platformView.Icon?.SetColorFilter((VirtualView as Button)!.ImageTintColor.ToPlatform(), FilterMode.SrcAtop);
     }
+
 
     private void UpdateForegroundRipple()
     {
