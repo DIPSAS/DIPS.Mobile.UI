@@ -133,6 +133,13 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         // A small delay to wait for MAUI to disconnect handlers
         await Task.Delay(100);
         
+        // Workaround for dotnet/maui#34456: Clear leaked StackNavigationManager fields
+        // AFTER Disconnect() has run (so it can properly unsubscribe events first)
+        foreach (var modalPage in modalPages)
+        {
+            modalPage.ClearCapturedNavigationManagerReferences();
+        }
+        
         try
         {
             foreach (var modalPage in modalPages)

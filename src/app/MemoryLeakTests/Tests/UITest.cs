@@ -16,7 +16,7 @@ public abstract class UITest
     }
 }
 
-public class UITestContentPage : DIPS.Mobile.UI.Components.Pages.ContentPage
+public class UITestContentPage : ContentPage
 {
     public UITestContentPage()
     {

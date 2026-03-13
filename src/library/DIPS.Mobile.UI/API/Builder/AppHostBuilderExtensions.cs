@@ -49,7 +49,7 @@ public static partial class AppHostBuilderExtensions
         DUI.Init();
 
 #if DEBUG
-        builder.EnableHotReload();
+//        builder.EnableHotReload();
 #endif
         
         builder.ConfigureLifecycleEvents(ConfigurePlatformLifecycleEvents);

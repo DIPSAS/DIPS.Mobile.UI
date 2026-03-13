@@ -9,6 +9,7 @@ public static class TestRegistrator
         // Existing tests
         serviceContainer.Register<CollectionViewTests>()
                         .Register<ModalTests>()
+                        .Register<SimpleModalTests>()
                         .Register<NavigationTests>();
 
         // Component tests

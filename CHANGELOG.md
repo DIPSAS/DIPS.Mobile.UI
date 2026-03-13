@@ -1,3 +1,9 @@
+## [55.2.7]
+- [Android][Modal] Fixed memory leak when popping modal pages wrapped in NavigationPage, caused by StackNavigationManager not clearing references on disconnect (dotnet/maui#34456)
+- [Android][Button] Fixed memory leak caused by strong reference from platform MaterialButton to virtual Button
+- [Android][SearchBar] Fixed memory leak caused by bindings and event handlers not being cleaned up on disconnect
+- [iOS][SearchBar] Fixed incorrect event unsubscription (SearchButtonClicked was unsubscribed as CancelButtonClicked)
+
 ## [55.2.6]
 - [ContextMenu] Fixed that in some cases context menu never appears when tapping.
 
