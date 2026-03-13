@@ -31,6 +31,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(FooterViewProperty, value);
         }
 
+        /// <summary>
+        /// The header to show above the search bar
+        /// </summary>
+        public View HeaderView
+        {
+            get => (View)GetValue(HeaderViewProperty);
+            set => SetValue(HeaderViewProperty, value);
+        }
+
         [Obsolete("Setting Content property is the same as setting EmptyResultView")]
         public new View? Content { get; set; }
 
@@ -221,6 +230,12 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(View),
             typeof(SearchPage),
             propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnFooterViewChanged());
+        
+        public static readonly BindableProperty HeaderViewProperty = BindableProperty.Create(
+            nameof(HeaderView),
+            typeof(View),
+            typeof(SearchPage),
+            propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnHeaderViewChanged());
         
         public static readonly BindableProperty IsAutocorrectEnabledProperty = BindableProperty.Create(
             nameof(IsAutocorrectEnabled),
