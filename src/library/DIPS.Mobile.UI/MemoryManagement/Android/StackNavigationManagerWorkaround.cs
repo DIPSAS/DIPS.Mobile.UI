@@ -35,11 +35,24 @@ internal static partial class StackNavigationManagerWorkaround
         // Clear the leaked fields that StackNavigationManager.Disconnect() fails to clear
         // in the buggy MAUI version. If MAUI has already fixed these, setting them to null again is harmless.
         // Must be called AFTER Disconnect() so that event unsubscriptions happen first.
-        CurrentPageField?.SetValue(stackNavigationManager, null);
-        FragmentContainerViewField?.SetValue(stackNavigationManager, null);
-        FragmentManagerField?.SetValue(stackNavigationManager, null);
-        NavigationStackProperty?.SetValue(stackNavigationManager, Array.Empty<IView>());
+        try
+        {
+            CurrentPageField?.SetValue(stackNavigationManager, null);
+            FragmentContainerViewField?.SetValue(stackNavigationManager, null);
+            FragmentManagerField?.SetValue(stackNavigationManager, null);
 
-        GarbageCollection.Print("🔧 Cleared StackNavigationManager leaked references (workaround for dotnet/maui#34456)");
+            // NavigationStack might become read-only or lose its setter in future MAUI versions.
+            if (NavigationStackProperty?.SetMethod is not null)
+            {
+                NavigationStackProperty.SetValue(stackNavigationManager, Array.Empty<IView>());
+            }
+
+            GarbageCollection.Print("🔧 Cleared StackNavigationManager leaked references (workaround for dotnet/maui#34456)");
+        }
+        catch (Exception ex)
+        {
+            // Ensure that changes in MAUI internals do not crash navigation cleanup.
+            GarbageCollection.Print($"⚠️ Failed to clear StackNavigationManager leaked references: {ex}");
+        }
     }
 }
