@@ -1,3 +1,8 @@
+## [55.3.0]
+- [SearchPage] Added `HeaderView` property to allow consumers to provide a custom header above the search bar.
+- [SearchPage] Replaced `OnLoaded`/`OnUnloaded` event subscriptions with `OnHandlerChanged` override.
+- [SearchPage] Removed old iOS safe area handling in favor of .NET 10 `SafeAreaEdges` (consumers should set safe area themselves).
+
 ## [55.2.7]
 - [Android][Modal] Fixed memory leak when popping modal pages wrapped in NavigationPage, caused by StackNavigationManager not clearing references on disconnect (dotnet/maui#34456)
 - [Android][Button] Fixed memory leak caused by strong reference from platform MaterialButton to virtual Button
