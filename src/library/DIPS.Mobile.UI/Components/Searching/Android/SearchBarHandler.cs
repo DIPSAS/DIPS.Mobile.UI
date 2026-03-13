@@ -139,20 +139,9 @@ namespace DIPS.Mobile.UI.Components.Searching
                     mauiSearchView.MaxWidth = int.MaxValue;
                 }
 
-                InternalSearchBar.SearchCommand = new Command(() =>
-                {
-                    if (VirtualView.ShouldCloseKeyboardOnReturnKeyTapped)
-                    {
-                        // An ugly workaround to hide keyboard on Android
-                        InternalSearchBar.IsEnabled = false;
-                        InternalSearchBar.IsEnabled = true;
-                        UnFocus();
-                    }
-
-                    VirtualView.SearchCommand?.Execute(null);
-
-                });
+                InternalSearchBar.SearchButtonPressed += OnSearchButtonPressed;
             }
+            
             SubscribeToEvents();
         }
 
@@ -168,6 +157,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             InternalSearchBar.Focused += OnInternalSearchBarFocused;
             InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
         }
+        
+        private void OnSearchButtonPressed(object? sender, EventArgs e)
+        {
+            if (VirtualView.ShouldCloseKeyboardOnReturnKeyTapped)
+            {
+                InternalSearchBar.IsEnabled = false;
+                InternalSearchBar.IsEnabled = true;
+                UnFocus();
+            }
+
+            VirtualView.SearchCommand?.Execute(null);
+        }
 
         private void OnCancelClicked(object? sender, EventArgs e)
         {
@@ -177,7 +178,16 @@ namespace DIPS.Mobile.UI.Components.Searching
         protected override void DisconnectHandler(AView platformView)
         {
             base.DisconnectHandler(platformView);
+            
             UnsubscribeToEvents();
+            RemoveBindings();
+        }
+
+        private void RemoveBindings()
+        {
+            InternalSearchBar.RemoveBinding(InputView.IsSpellCheckEnabledProperty);
+            InternalSearchBar.RemoveBinding(Microsoft.Maui.Controls.SearchBar.IsTextPredictionEnabledProperty);
+            m_searchBarContainer.RemoveBinding(VisualElement.BackgroundColorProperty);
         }
 
         private void UnsubscribeToEvents()
@@ -189,7 +199,8 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 
             InternalSearchBar.Focused -= OnInternalSearchBarFocused;
-            InternalSearchBar.Unfocused += OnInternalSearchBarUnFocused;
+            InternalSearchBar.Unfocused -= OnInternalSearchBarUnFocused;
+            InternalSearchBar.SearchButtonPressed -= OnSearchButtonPressed;
             CancelButton.Clicked -= OnCancelClicked;
         }
 

@@ -25,15 +25,15 @@ public class MaterialButton : MauiMaterialButton
     {
     }
     
-    public Button? Button { get; set; }
+    public WeakReference<Button>? ButtonRef { get; set; }
 
     protected override void OnDraw(Canvas canvas)
     {
         base.OnDraw(canvas);
         
-        if(Button is null || Button.AdditionalHitBoxSize == Thickness.Zero)
+        if(ButtonRef is null || !ButtonRef.TryGetTarget(out var button) || button.AdditionalHitBoxSize == Thickness.Zero)
             return;
         
-        this.SetAdditionalHitBoxSize(Button.AdditionalHitBoxSize);
+        this.SetAdditionalHitBoxSize(button.AdditionalHitBoxSize);
     }
 }

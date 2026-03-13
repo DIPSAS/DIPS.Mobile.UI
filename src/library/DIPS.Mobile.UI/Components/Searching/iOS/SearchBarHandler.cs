@@ -224,7 +224,7 @@ internal partial class SearchBarHandler : ViewHandler<SearchBar, DuiSearchBar>
     private void UnSubscribeToEvents(DuiSearchBar platformView)
     {
         platformView.CancelButtonClicked -= OnCancelButtonClicked;
-        platformView.CancelButtonClicked -= OnSearchButtonClicked;
+        platformView.SearchButtonClicked -= OnSearchButtonClicked;
         platformView.TextChanged -= OnSearchTextChanged;
         
         if (platformView.SearchTextField.ValueForKey(new NSString("_clearButton")) is UIButton clearButton)
