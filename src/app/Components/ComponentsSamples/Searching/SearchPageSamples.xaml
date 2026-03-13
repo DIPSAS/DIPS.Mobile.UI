@@ -19,6 +19,11 @@
     <dui:SearchPage.BindingContext>
         <searching:SearchPageSamplesPageViewModel />
     </dui:SearchPage.BindingContext>
+    <dui:SearchPage.HeaderView>
+        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Left=content_margin_medium, Top=content_margin_medium}" />
+    </dui:SearchPage.HeaderView>
     <dui:SearchPage.HintView>
         <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_HintText}"
                    VerticalOptions="CenterAndExpand"
