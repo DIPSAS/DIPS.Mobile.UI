@@ -130,7 +130,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void OnCancel()
         {
-            Application.Current!.MainPage!.Navigation.PopAsync();
+            Application.Current?.Windows[0].Navigation.PopAsync();
         }
 
         /// <inheritdoc />

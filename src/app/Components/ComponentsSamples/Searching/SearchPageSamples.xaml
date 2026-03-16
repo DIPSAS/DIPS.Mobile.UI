@@ -25,9 +25,16 @@
                    Margin="{dui:Thickness Left=content_margin_medium, Top=content_margin_medium}" />
     </dui:SearchPage.ScrollableHeader>
     <dui:SearchPage.HintView>
-        <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_HintText}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <Grid RowDefinitions="Auto, *">
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_PlaceholderText}"
+                       Style="{dui:Styles Label=SectionHeader}"
+                       Margin="{dui:Thickness Left=content_margin_medium, Top=content_margin_medium}" />
+            
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_HintText}"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="CenterAndExpand"
+                       Grid.Row="1" />
+        </Grid>
     </dui:SearchPage.HintView>
     <dui:SearchPage.NoResultView>
         <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.SearchPage_NoResultText}"
