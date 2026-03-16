@@ -22,7 +22,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             
             //Searchbar
             SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(), HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
-            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, ColorName.color_surface_default);
+            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.BackgroundColorName);
             
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
                 SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
@@ -31,6 +31,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                     ColorName.color_icon_default);
                 SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     ColorName.color_text_subtle);
+                SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
+                    ColorName.color_text_action);
 #else
             SearchBar.SetAppThemeColor(SearchBar.SearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
@@ -130,7 +132,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void OnCancel()
         {
-            Application.Current?.Windows[0].Navigation.PopAsync();
+            Application.Current?.Windows[0].Navigation.PopModalAsync();
         }
 
         /// <inheritdoc />
