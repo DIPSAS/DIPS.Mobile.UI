@@ -5,6 +5,22 @@ namespace DIPS.Mobile.UI.Components.Pages;
 
 public partial class ContentPage
 {
+    public static readonly BindableProperty BottomToolbarProperty = BindableProperty.Create(
+        nameof(BottomToolbar),
+        typeof(Toolbar.Toolbar),
+        typeof(ContentPage),
+        propertyChanged: (bindable, _, _) => ((ContentPage)bindable).OnBottomToolbarChanged());
+
+    /// <summary>
+    /// A bottom toolbar to display at the bottom of the page.
+    /// When set, the page content is automatically wrapped in a Grid with the toolbar overlaid at the bottom.
+    /// </summary>
+    public Toolbar.Toolbar? BottomToolbar
+    {
+        get => (Toolbar.Toolbar?)GetValue(BottomToolbarProperty);
+        set => SetValue(BottomToolbarProperty, value);
+    }
+
     public static readonly BindableProperty ShouldHideFloatingNavigationMenuProperty = BindableProperty.Create(
         nameof(ShouldHideFloatingNavigationMenuButton),
         typeof(bool),

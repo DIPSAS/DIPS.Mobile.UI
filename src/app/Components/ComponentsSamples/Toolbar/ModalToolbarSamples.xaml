@@ -7,13 +7,17 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
                  x:DataType="local:ToolbarSamplesViewModel"
-                 x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
-                 Title="Toolbar"
+                 x:Class="Components.ComponentsSamples.Toolbar.ModalToolbarSamples"
+                 Title="Toolbar (Modal)"
                  >
 
     <dui:ContentPage.BindingContext>
         <local:ToolbarSamplesViewModel />
     </dui:ContentPage.BindingContext>
+
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close" Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
 
     <dui:ContentPage.BottomToolbar>
         <dui:Toolbar>
@@ -34,15 +38,11 @@
 
     <dui:ScrollView Padding="{dui:Sizes size_4}" >
         <dui:VerticalStackLayout Spacing="8">
-            <dui:Label Text="Bottom Toolbar"
+            <dui:Label Text="Modal Bottom Toolbar"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:Label
-                Text="The toolbar is a standalone View with a handler. When set via ContentPage.BottomToolbar, it is automatically positioned at the bottom of the page."
+                Text="This is the same toolbar sample presented as a modal page. The toolbar should remain visible even when presented modally."
                 Style="{dui:Styles Label=UI200}" />
-
-            <Button Text="Open as Modal"
-                    Clicked="OnOpenModalClicked"
-                    Margin="{dui:Thickness Top=size_4}" />
 
             <dui:Label Text="Last action"
                        Style="{dui:Styles Label=SectionHeader}"
