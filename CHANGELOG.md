@@ -1,5 +1,5 @@
 ## [55.3.0]
-- [SearchPage] Added `HeaderView` property to allow consumers to provide a custom header above the search bar.
+- [SearchPage] Added `ScrollableHeader` property to allow consumers to provide a header that scrolls with search results.
 - [SearchPage] Replaced `OnLoaded`/`OnUnloaded` event subscriptions with `OnHandlerChanged` override.
 - [SearchPage] Removed old iOS safe area handling in favor of .NET 10 `SafeAreaEdges` (consumers should set safe area themselves).
 

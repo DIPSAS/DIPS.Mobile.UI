@@ -16,7 +16,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private View? m_previousView;
         private View? m_footerView;
-        private View? m_headerView;
 
         public SearchPage()
         {
@@ -69,10 +68,6 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     new()
                     {
-                        Height = GridLength.Auto // Space for optional header
-                    },
-                    new()
-                    {
                         Height = GridLength.Auto // Space for the search bar
                     }, 
                     new()
@@ -87,7 +82,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RowSpacing = 0
             };
 
-            m_grid.Add(SearchBar, 0, 1);
+            m_grid.Add(SearchBar, 0, 0);
 
             OnSearchModeChanged();
             
@@ -197,7 +192,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             ToggleProgressBarVisibility(searchStates == SearchStates.Searching);
 
-            const int rowChildIndex = 2;
+            const int rowChildIndex = 1;
             
             //Remove previous view
             if(m_previousView != null)
@@ -237,15 +232,9 @@ namespace DIPS.Mobile.UI.Components.Searching
                 ReturnType.Search;
         }
 
-        private void OnHeaderViewChanged()
+        private void OnScrollableHeaderChanged()
         {
-            if (m_headerView is not null)
-                m_grid.Remove(m_headerView);
-
-            m_headerView = HeaderView;
-            
-            if (m_headerView is not null)
-                m_grid.Add(m_headerView, 0, 0);
+            m_resultCollectionView.Header = ScrollableHeader;
         }
 
         private void OnFooterViewChanged()
@@ -255,7 +244,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_footerView = FooterView;
             m_footerView.VerticalOptions = LayoutOptions.End;
-            m_grid.Add(FooterView, 0, 3);
+            m_grid.Add(FooterView, 0, 2);
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
