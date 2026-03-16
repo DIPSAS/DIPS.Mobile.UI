@@ -73,16 +73,12 @@ namespace DIPS.Mobile.UI.Components.Pages
             HasAppeared = true;
 
             HideOrShowFloatingNavigationMenu();
-            UpdateBottomToolbarOnPlatform();
             
 #if __ANDROID__
             // Update status bar color for this page (works for both modal and non-modal)
             StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
 #endif
         }
-        
-        private partial void UpdateBottomToolbarOnPlatform();
-        private partial void HideBottomToolbarOnPlatform();
         
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
@@ -189,7 +185,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             base.OnDisappearing();
 
             HasAppeared = false;
-            HideBottomToolbarOnPlatform();
 
             if (Application.Current != null)
             {
@@ -200,11 +195,6 @@ namespace DIPS.Mobile.UI.Components.Pages
         protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
-
-            if (propertyName == nameof(BottomToolbar) && HasAppeared)
-            {
-                UpdateBottomToolbarOnPlatform();
-            }
         }
     }
 }

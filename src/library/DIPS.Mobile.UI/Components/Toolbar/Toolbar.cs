@@ -3,16 +3,15 @@ using System.Collections.ObjectModel;
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
 /// <summary>
-/// A cross-platform toolbar that displays a horizontal bar of icon buttons.
-/// Set this on <see cref="Pages.ContentPage.BottomToolbar"/> to display a bottom toolbar.
+/// A cross-platform toolbar that displays a floating glass capsule with icon buttons.
 /// </summary>
 /// <remarks>
-/// On iOS the toolbar is rendered by the UINavigationController's built-in bottom toolbar,
-/// which provides native Liquid Glass on iOS 26+.
-/// On Android a Material 3 Bottom App Bar is injected at the bottom of the page.
+/// On iOS the toolbar renders a glass capsule using UIGlassEffect (Liquid Glass on iOS 26+).
+/// On Android a Material 3 styled toolbar is displayed.
+/// Place this view at the bottom of your page layout (e.g. inside a Grid with VerticalOptions="End").
 /// </remarks>
 [ContentProperty(nameof(Buttons))]
-public class Toolbar : Element
+public class Toolbar : View
 {
     public static readonly BindableProperty ButtonsProperty = BindableProperty.Create(
         nameof(Buttons),

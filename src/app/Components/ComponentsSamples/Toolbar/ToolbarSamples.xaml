@@ -19,8 +19,43 @@
         <ToolbarItem Text="Close" Clicked="OnCloseClicked" />
     </dui:ContentPage.ToolbarItems>
 
-    <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar>
+    <Grid>
+        <dui:ScrollView Padding="{dui:Sizes size_4}" >
+            <dui:VerticalStackLayout Spacing="8">
+                <dui:Label Text="Bottom Toolbar"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:Label
+                    Text="The toolbar is a standalone view placed at the bottom of the page. On iOS it uses a native glass capsule with Liquid Glass on iOS 26+."
+                    Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Last action"
+                           Style="{dui:Styles Label=SectionHeader}"
+                           Margin="{dui:Thickness Top=size_4}" />
+                <dui:Label Text="{Binding LastAction}"
+                           Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Scroll to test translucency"
+                           Style="{dui:Styles Label=SectionHeader}"
+                           Margin="{dui:Thickness Top=size_4}" />
+
+                <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
+                <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
+                <BoxView HeightRequest="120" Margin="0,0,0,80" Color="Gold" CornerRadius="12" />
+            </dui:VerticalStackLayout>
+        </dui:ScrollView>
+
+        <dui:Toolbar VerticalOptions="End"
+                     HeightRequest="60">
             <dui:ToolbarButton Icon="{dui:Icons edit_line}"
                                Title="Edit"
                                Command="{Binding EditCommand}" />
@@ -34,40 +69,6 @@
                                Title="Add"
                                Command="{Binding AddCommand}" />
         </dui:Toolbar>
-    </dui:ContentPage.BottomToolbar>
-
-    <dui:ScrollView Padding="{dui:Sizes size_4}" >
-        <dui:VerticalStackLayout Spacing="8">
-            <dui:Label Text="Bottom Toolbar"
-                       Style="{dui:Styles Label=SectionHeader}" />
-            <dui:Label
-                Text="The bottom toolbar is set as a property on ContentPage. On iOS it uses a native glass capsule toolbar. On Android it renders a Material 3 Bottom App Bar."
-                Style="{dui:Styles Label=UI200}" />
-
-            <dui:Label Text="Last action"
-                       Style="{dui:Styles Label=SectionHeader}"
-                       Margin="{dui:Thickness Top=size_4}" />
-            <dui:Label Text="{Binding LastAction}"
-                       Style="{dui:Styles Label=UI200}" />
-
-            <dui:Label Text="Scroll to test translucency"
-                       Style="{dui:Styles Label=SectionHeader}"
-                       Margin="{dui:Thickness Top=size_4}" />
-
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="120" Margin="0,0,0,80" Color="Gold" CornerRadius="12" />
-        </dui:VerticalStackLayout>
-    </dui:ScrollView>
+    </Grid>
 
 </dui:ContentPage>

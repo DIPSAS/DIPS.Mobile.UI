@@ -1,0 +1,15 @@
+using Microsoft.Maui.Handlers;
+
+namespace DIPS.Mobile.UI.Components.Toolbar;
+
+public partial class ToolbarHandler : ViewHandler<Toolbar, Toolbar> 
+{
+    private static partial void MapButtons(ToolbarHandler handler, Toolbar toolbar)
+    {
+    }
+
+    protected override Toolbar CreatePlatformView()
+    {
+        return new Toolbar();
+    }
+}
