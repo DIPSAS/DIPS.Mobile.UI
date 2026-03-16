@@ -133,6 +133,18 @@ namespace DIPS.Mobile.UI.Components.Searching
             Application.Current!.MainPage!.Navigation.PopAsync();
         }
 
+        /// <inheritdoc />
+        protected override bool OnBackButtonPressed()
+        {
+            if (CancelCommand.CanExecute(null))
+            {
+                CancelCommand.Execute(null);
+                return true;
+            }
+
+            return base.OnBackButtonPressed();
+        }
+
         private void SearchBarOnTextChanged(object? sender, TextChangedEventArgs e)
         {
             if (SearchMode is SearchMode.WhenTextChanged)
