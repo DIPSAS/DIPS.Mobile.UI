@@ -74,7 +74,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),
             new(SampleType.Components, "Gallery", () => new GallerySample()),
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
-            new(SampleType.Components, "Toolbar", () => new ToolbarSamples(), isModal: true),
+            new(SampleType.Components, "Toolbar", () => new ToolbarSamples()),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
             
 

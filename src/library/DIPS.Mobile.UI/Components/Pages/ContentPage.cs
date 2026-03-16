@@ -74,6 +74,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             HideOrShowFloatingNavigationMenu();
             
+            
 #if __ANDROID__
             // Update status bar color for this page (works for both modal and non-modal)
             StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
@@ -162,7 +163,20 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnHandlerChanged();
 
+            if (Handler is not null)
+            {
+                AttachBottomToolbar();
+            }
+        }
 
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+            {
+                DetachBottomToolbarOnPlatform();
+            }
         }
 
         public override Window GetParentWindow()
@@ -196,5 +210,27 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnPropertyChanged(propertyName);
         }
+
+        private void OnBottomToolbarChanged()
+        {
+            if (Handler is not null)
+            {
+                AttachBottomToolbar();
+            }
+        }
+
+        private void AttachBottomToolbar()
+        {
+            if (BottomToolbar is null)
+            {
+                DetachBottomToolbarOnPlatform();
+                return;
+            }
+
+            AttachBottomToolbarOnPlatform();
+        }
+
+        private partial void AttachBottomToolbarOnPlatform();
+        private partial void DetachBottomToolbarOnPlatform();
     }
 }
