@@ -1,3 +1,9 @@
+## [55.3.0]
+- [SearchPage] Added `ScrollableHeader` property to allow consumers to provide a header that scrolls with search results.
+- [SearchPage] Replaced `OnLoaded`/`OnUnloaded` event subscriptions with `OnHandlerChanged` override.
+- [SearchPage] Removed old iOS safe area handling in favor of .NET 10 `SafeAreaEdges` (consumers should set safe area themselves).
+- [SearchPage] Android back button now executes `CancelCommand`, allowing consumers to override close behavior with their own navigation service.
+
 ## [55.2.7]
 - [Android][Modal] Fixed memory leak when popping modal pages wrapped in NavigationPage, caused by StackNavigationManager not clearing references on disconnect (dotnet/maui#34456)
 - [Android][Button] Fixed memory leak caused by strong reference from platform MaterialButton to virtual Button
