@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Internal;
@@ -74,6 +75,10 @@ namespace DIPS.Mobile.UI.Components.Searching
                     }, 
                     new()
                     {
+                        Height = GridLength.Auto // Divider
+                    }, 
+                    new()
+                    {
                         Height = GridLength.Star // Space for the dynamic content. Hint view, empty view and listview
                     }, 
                     new()
@@ -85,6 +90,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             };
 
             m_grid.Add(SearchBar, 0, 0);
+            
+            m_grid.Add(new Divider
+            {
+                Margin = new Thickness(0, Sizes.GetSize(SizeName.size_1), 0, 0)
+            }, 0, 1);
 
             OnSearchModeChanged();
             
@@ -206,7 +216,7 @@ namespace DIPS.Mobile.UI.Components.Searching
         {
             ToggleProgressBarVisibility(searchStates == SearchStates.Searching);
 
-            const int rowChildIndex = 1;
+            const int rowChildIndex = 2;
             
             //Remove previous view
             if(m_previousView != null)
@@ -258,7 +268,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
             m_footerView = FooterView;
             m_footerView.VerticalOptions = LayoutOptions.End;
-            m_grid.Add(FooterView, 0, 2);
+            m_grid.Add(FooterView, 0, 3);
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
