@@ -34,9 +34,9 @@ namespace DIPS.Mobile.UI.Components.Searching
         /// <summary>
         /// A view displayed at the top of the result list that scrolls with the content.
         /// </summary>
-        public View ScrollableHeader
+        public View? ScrollableHeader
         {
-            get => (View)GetValue(ScrollableHeaderProperty);
+            get => (View?)GetValue(ScrollableHeaderProperty);
             set => SetValue(ScrollableHeaderProperty, value);
         }
 
