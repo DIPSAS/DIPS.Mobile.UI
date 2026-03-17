@@ -30,33 +30,22 @@ public partial class ContentPage
         containerView.AddSubview(m_toolbarPlatformView);
 
         var safeArea = containerView.SafeAreaLayoutGuide;
-        var margin = BottomToolbar.Margin;
-
-        // Determine extra bottom spacing when a tab bar is visible below
-        nfloat bottomInset = (nfloat)margin.Bottom;
-        var vc = FindViewController();
-        var tabBar = vc?.TabBarController?.TabBar;
-        if (tabBar is not null && !tabBar.Hidden)
-        {
-            bottomInset += 8;
-        }
 
         var constraints = new List<NSLayoutConstraint>
         {
-            m_toolbarPlatformView.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor, -bottomInset),
+            m_toolbarPlatformView.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor),
         };
 
         switch (BottomToolbar.HorizontalAlignment)
         {
             case ToolbarHorizontalAlignment.Start:
-                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, (nfloat)margin.Left));
+                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor));
                 break;
             case ToolbarHorizontalAlignment.End:
-                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -(nfloat)margin.Right));
+                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor));
                 break;
-            default: // Center — stretch full width
-                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, (nfloat)margin.Left));
-                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -(nfloat)margin.Right));
+            default: // Center — compact, centered horizontally
+                constraints.Add(m_toolbarPlatformView.CenterXAnchor.ConstraintEqualTo(safeArea.CenterXAnchor));
                 break;
         }
 

@@ -15,25 +15,35 @@
         <local:ToolbarSamplesViewModel />
     </dui:ContentPage.BindingContext>
 
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close" Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
+
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar HorizontalAlignment="End">
-            <dui:ToolbarButton Title="Signer"
-                               Command="{Binding EditCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
-                               Title="More actions">
-                <dui:ToolbarButton.Menu>
-                    <dui:ContextMenu>
-                        <dui:ContextMenuItem Title="Signer"
-                                             Command="{Binding SelectTasksCommand}" />
-                        <dui:ContextMenuItem Title="Filter"
-                                             Icon="{dui:Icons filter_line}"
-                                             Command="{Binding FilterCommand}" />
-                        <dui:ContextMenuItem Title="Save"
-                                             Icon="{dui:Icons save_line}"
-                                             Command="{Binding SaveCommand}" />
-                    </dui:ContextMenu>
-                </dui:ToolbarButton.Menu>
-            </dui:ToolbarButton>
+        <dui:Toolbar >
+            <dui:ToolbarGroup>
+                <dui:ToolbarButton Title="Signer"
+                                   Command="{Binding EditCommand}" />
+            </dui:ToolbarGroup>
+            <dui:ToolbarGroup>
+                <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                                   Command="{Binding EditCommand}" />
+                <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
+                                   Title="More actions">
+                    <dui:ToolbarButton.Menu>
+                        <dui:ContextMenu>
+                            <dui:ContextMenuItem Title="Copy"
+                                                 Command="{Binding CopyCommand}" />
+                            <dui:ContextMenuItem Title="Delete"
+                                                 Command="{Binding DeleteCommand}" />
+                            <dui:ContextMenuItem Title="Share"
+                                                 Command="{Binding ShareCommand}" />
+                            <dui:ContextMenuItem Title="Print"
+                                                 Command="{Binding PrintCommand}" />
+                        </dui:ContextMenu>
+                    </dui:ToolbarButton.Menu>
+                </dui:ToolbarButton>
+            </dui:ToolbarGroup>
         </dui:Toolbar>
     </dui:ContentPage.BottomToolbar>
 
@@ -42,12 +52,8 @@
             <dui:Label Text="Bottom Toolbar"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:Label
-                Text="This toolbar is right-aligned and compact. The second button has a context menu with multiple actions."
+                Text="This toolbar has two groups: a text button and an icon group with a context menu. It is always compact and aligned to the end."
                 Style="{dui:Styles Label=UI200}" />
-
-            <Button Text="Open as Modal"
-                    Clicked="OnOpenModalClicked"
-                    Margin="{dui:Thickness Top=size_4}" />
 
             <dui:Label Text="Last action"
                        Style="{dui:Styles Label=SectionHeader}"
@@ -55,23 +61,45 @@
             <dui:Label Text="{Binding LastAction}"
                        Style="{dui:Styles Label=UI200}" />
 
-            <dui:Label Text="Scroll to test translucency"
-                       Style="{dui:Styles Label=SectionHeader}"
-                       Margin="{dui:Thickness Top=size_4}" />
-
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Gold" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Green" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="DodgerBlue" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
-            <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />
-            <BoxView HeightRequest="120" Margin="0,0,0,80" Color="Gold" CornerRadius="12" />
+            <Border HeightRequest="80" BackgroundColor="Red" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Red block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Orange" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Orange block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Gold" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Gold block" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Green" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Green block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="DodgerBlue" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Blue block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Red" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Red block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Orange" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Orange block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Gold" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Gold block" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Green" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Green block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="DodgerBlue" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Blue block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Red" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Red block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="80" BackgroundColor="Orange" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Orange block" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
+            <Border HeightRequest="120" Margin="0,0,0,80" BackgroundColor="Gold" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Gold block" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Border>
         </dui:VerticalStackLayout>
     </dui:ScrollView>
 

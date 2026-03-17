@@ -7,10 +7,10 @@ internal class ToolbarSamplesViewModel : ViewModel
     private string m_lastAction = "None";
 
     public Command EditCommand => new(OnEdit);
-    public Command SaveCommand => new(OnSave);
-    public Command FilterCommand => new(OnFilter);
-    public Command AddCommand => new(OnAdd);
-    public Command SelectTasksCommand => new(OnSelectTasks);
+    public Command CopyCommand => new(() => LastAction = "Copy tapped");
+    public Command DeleteCommand => new(() => LastAction = "Delete tapped");
+    public Command ShareCommand => new(() => LastAction = "Share tapped");
+    public Command PrintCommand => new(() => LastAction = "Print tapped");
 
     public string LastAction
     {
@@ -19,8 +19,4 @@ internal class ToolbarSamplesViewModel : ViewModel
     }
 
     private void OnEdit() => LastAction = "Edit tapped";
-    private void OnSave() => LastAction = "Save tapped";
-    private void OnFilter() => LastAction = "Filter tapped";
-    private void OnAdd() => LastAction = "Add tapped";
-    private void OnSelectTasks() => LastAction = "Select tasks tapped";
 }

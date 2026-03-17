@@ -7,8 +7,8 @@ public partial class ToolbarSamples
         InitializeComponent();
     }
 
-    private async void OnOpenModalClicked(object? sender, EventArgs e)
+    private async void OnCloseClicked(object? sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new NavigationPage(new ModalToolbarSamples()));
+        await Navigation.PopModalAsync();
     }
 }
