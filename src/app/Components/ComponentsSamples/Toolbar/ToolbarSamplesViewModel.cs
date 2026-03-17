@@ -10,6 +10,7 @@ internal class ToolbarSamplesViewModel : ViewModel
     public Command SaveCommand => new(OnSave);
     public Command FilterCommand => new(OnFilter);
     public Command AddCommand => new(OnAdd);
+    public Command SelectTasksCommand => new(OnSelectTasks);
 
     public string LastAction
     {
@@ -21,4 +22,5 @@ internal class ToolbarSamplesViewModel : ViewModel
     private void OnSave() => LastAction = "Save tapped";
     private void OnFilter() => LastAction = "Filter tapped";
     private void OnAdd() => LastAction = "Add tapped";
+    private void OnSelectTasks() => LastAction = "Select tasks tapped";
 }

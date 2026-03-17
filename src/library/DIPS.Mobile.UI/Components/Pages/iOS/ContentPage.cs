@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.Components.Toolbar;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -40,12 +41,26 @@ public partial class ContentPage
             bottomInset += 8;
         }
 
-        m_toolbarConstraints =
-        [
-            m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, (nfloat)margin.Left),
-            m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -(nfloat)margin.Right),
+        var constraints = new List<NSLayoutConstraint>
+        {
             m_toolbarPlatformView.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor, -bottomInset),
-        ];
+        };
+
+        switch (BottomToolbar.HorizontalAlignment)
+        {
+            case ToolbarHorizontalAlignment.Start:
+                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, (nfloat)margin.Left));
+                break;
+            case ToolbarHorizontalAlignment.End:
+                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -(nfloat)margin.Right));
+                break;
+            default: // Center — stretch full width
+                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor, (nfloat)margin.Left));
+                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor, -(nfloat)margin.Right));
+                break;
+        }
+
+        m_toolbarConstraints = constraints.ToArray();
         NSLayoutConstraint.ActivateConstraints(m_toolbarConstraints);
     }
 
