@@ -3,21 +3,18 @@ using System.Collections.ObjectModel;
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
 /// <summary>
-/// A cross-platform toolbar that displays a floating glass capsule with icon buttons.
+/// A cross-platform toolbar that displays grouped action buttons.
+/// On iOS the toolbar uses a native UIToolbar. On Android a Material 3 toolbar.
+/// Attach to a page via <see cref="Pages.ContentPage.BottomToolbar"/>.
 /// </summary>
-/// <remarks>
-/// On iOS the toolbar renders a glass capsule using UIGlassEffect (Liquid Glass on iOS 26+).
-/// On Android a Material 3 styled toolbar is displayed.
-/// Place this view at the bottom of your page layout (e.g. inside a Grid with VerticalOptions="End").
-/// </remarks>
-[ContentProperty(nameof(Buttons))]
+[ContentProperty(nameof(Groups))]
 public class Toolbar : View
 {
-    public static readonly BindableProperty ButtonsProperty = BindableProperty.Create(
-        nameof(Buttons),
-        typeof(IList<ToolbarButton>),
+    public static readonly BindableProperty GroupsProperty = BindableProperty.Create(
+        nameof(Groups),
+        typeof(IList<ToolbarGroup>),
         typeof(Toolbar),
-        defaultValueCreator: _ => new ObservableCollection<ToolbarButton>());
+        defaultValueCreator: _ => new ObservableCollection<ToolbarGroup>());
 
     public static readonly BindableProperty HorizontalAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalAlignment),
@@ -26,18 +23,16 @@ public class Toolbar : View
         defaultValue: ToolbarHorizontalAlignment.Center);
 
     /// <summary>
-    /// The buttons displayed in the toolbar.
+    /// The groups of buttons displayed in the toolbar. Groups are separated visually.
     /// </summary>
-    public IList<ToolbarButton> Buttons
+    public IList<ToolbarGroup> Groups
     {
-        get => (IList<ToolbarButton>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (IList<ToolbarGroup>)GetValue(GroupsProperty);
+        set => SetValue(GroupsProperty, value);
     }
 
     /// <summary>
-    /// Controls how the toolbar capsule is positioned horizontally.
-    /// <see cref="ToolbarHorizontalAlignment.Center"/> stretches to fill the available width.
-    /// <see cref="ToolbarHorizontalAlignment.Start"/> and <see cref="ToolbarHorizontalAlignment.End"/> make the capsule compact (sized to content).
+    /// Controls how the toolbar is positioned horizontally. The toolbar is always compact (sized to content).
     /// </summary>
     public ToolbarHorizontalAlignment HorizontalAlignment
     {
@@ -49,12 +44,12 @@ public class Toolbar : View
     {
         base.OnBindingContextChanged();
 
-        if (Buttons is null)
+        if (Groups is null)
             return;
 
-        foreach (var toolbarButton in Buttons)
+        foreach (var group in Groups)
         {
-            toolbarButton.BindingContext = BindingContext;
+            group.BindingContext = BindingContext;
         }
     }
 }

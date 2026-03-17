@@ -1,22 +1,22 @@
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
 /// <summary>
-/// Controls horizontal alignment and sizing of the toolbar capsule.
+/// Controls horizontal alignment of the toolbar. The toolbar is always compact (sized to content).
 /// </summary>
 public enum ToolbarHorizontalAlignment
 {
     /// <summary>
-    /// Toolbar stretches to fill the available width (default).
+    /// Toolbar is compact and centered horizontally.
     /// </summary>
     Center,
 
     /// <summary>
-    /// Toolbar is compact (sized to content) and aligned to the leading edge.
+    /// Toolbar is compact and aligned to the leading edge.
     /// </summary>
     Start,
 
     /// <summary>
-    /// Toolbar is compact (sized to content) and aligned to the trailing edge.
+    /// Toolbar is compact and aligned to the trailing edge.
     /// </summary>
     End
 }

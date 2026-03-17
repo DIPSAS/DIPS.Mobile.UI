@@ -21,18 +21,14 @@
 
     <dui:ContentPage.BottomToolbar>
         <dui:Toolbar>
-            <dui:ToolbarButton Icon="{dui:Icons edit_line}"
-                               Title="Edit"
-                               Command="{Binding EditCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons save_line}"
-                               Title="Save"
-                               Command="{Binding SaveCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons filter_line}"
-                               Title="Filter"
-                               Command="{Binding FilterCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons plus_line}"
-                               Title="Add"
-                               Command="{Binding AddCommand}" />
+            <dui:ToolbarGroup>
+                <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                                   Title="Edit"
+                                   Command="{Binding EditCommand}" />
+                <dui:ToolbarButton Icon="{dui:Icons save_line}"
+                                   Title="Save"
+                                   Command="{Binding CopyCommand}" />
+            </dui:ToolbarGroup>
         </dui:Toolbar>
     </dui:ContentPage.BottomToolbar>
 
@@ -41,7 +37,7 @@
             <dui:Label Text="Modal Bottom Toolbar"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:Label
-                Text="This is the same toolbar sample presented as a modal page. The toolbar should remain visible even when presented modally."
+                Text="This is a centered toolbar with a single group of icon buttons."
                 Style="{dui:Styles Label=UI200}" />
 
             <dui:Label Text="Last action"
@@ -49,10 +45,6 @@
                        Margin="{dui:Thickness Top=size_4}" />
             <dui:Label Text="{Binding LastAction}"
                        Style="{dui:Styles Label=UI200}" />
-
-            <dui:Label Text="Scroll to test translucency"
-                       Style="{dui:Styles Label=SectionHeader}"
-                       Margin="{dui:Thickness Top=size_4}" />
 
             <BoxView HeightRequest="80" Color="Red" CornerRadius="12" />
             <BoxView HeightRequest="80" Color="Orange" CornerRadius="12" />

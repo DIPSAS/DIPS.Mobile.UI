@@ -1,4 +1,3 @@
-using CoreAnimation;
 using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
@@ -11,213 +10,148 @@ using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
-public partial class ToolbarHandler : ViewHandler<Toolbar, UIView>
+public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 {
-    private CapsuleView? m_capsuleContainer;
-    private UIVisualEffectView? m_glassEffectView;
-    private UIStackView? m_stackView;
+    private NSLayoutConstraint? m_widthConstraint;
 
-    protected override UIView CreatePlatformView()
+    protected override UIToolbar CreatePlatformView()
     {
-        m_capsuleContainer = new CapsuleView();
-        m_capsuleContainer.ClipsToBounds = false;
-        m_capsuleContainer.Layer.CornerCurve = CACornerCurve.Continuous;
-        m_capsuleContainer.SetContentHuggingPriority((float)UILayoutPriority.Required, UILayoutConstraintAxis.Horizontal);
+        var toolbar = new UIToolbar();
+        toolbar.TranslatesAutoresizingMaskIntoConstraints = false;
 
-        // Glass background
-        if (OperatingSystem.IsIOSVersionAtLeast(26))
-        {
-            m_glassEffectView = new UIVisualEffectView(new UIGlassEffect());
-        }
-        else
-        {
-            m_glassEffectView = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.SystemThinMaterial));
-        }
-
-        m_glassEffectView.TranslatesAutoresizingMaskIntoConstraints = false;
-        m_glassEffectView.ClipsToBounds = true;
-        m_glassEffectView.Layer.CornerCurve = CACornerCurve.Continuous;
-        m_capsuleContainer.AddSubview(m_glassEffectView);
-        m_capsuleContainer.SetGlassEffectView(m_glassEffectView);
-
-        // Stack view for individual buttons
-        m_stackView = new UIStackView();
-        m_stackView.TranslatesAutoresizingMaskIntoConstraints = false;
-        m_stackView.Axis = UILayoutConstraintAxis.Horizontal;
-        m_stackView.Spacing = 4;
-        m_stackView.Alignment = UIStackViewAlignment.Center;
-        m_stackView.Distribution = UIStackViewDistribution.Fill;
-        m_capsuleContainer.AddSubview(m_stackView);
-
-        NSLayoutConstraint.ActivateConstraints(
-        [
-            // Glass fills capsule
-            m_glassEffectView.LeadingAnchor.ConstraintEqualTo(m_capsuleContainer.LeadingAnchor),
-            m_glassEffectView.TrailingAnchor.ConstraintEqualTo(m_capsuleContainer.TrailingAnchor),
-            m_glassEffectView.TopAnchor.ConstraintEqualTo(m_capsuleContainer.TopAnchor),
-            m_glassEffectView.BottomAnchor.ConstraintEqualTo(m_capsuleContainer.BottomAnchor),
-
-            // Stack view pinned with padding
-            m_stackView.LeadingAnchor.ConstraintEqualTo(m_capsuleContainer.LeadingAnchor, 6),
-            m_stackView.TrailingAnchor.ConstraintEqualTo(m_capsuleContainer.TrailingAnchor, -6),
-            m_stackView.TopAnchor.ConstraintEqualTo(m_capsuleContainer.TopAnchor, 6),
-            m_stackView.BottomAnchor.ConstraintEqualTo(m_capsuleContainer.BottomAnchor, -6),
-        ]);
-
-        return m_capsuleContainer;
+        return toolbar;
     }
 
-    protected override void ConnectHandler(UIView platformView)
+    protected override void ConnectHandler(UIToolbar platformView)
     {
         base.ConnectHandler(platformView);
-        UpdateButtons();
+        UpdateItems();
     }
 
-    protected override void DisconnectHandler(UIView platformView)
+    protected override void DisconnectHandler(UIToolbar platformView)
     {
         base.DisconnectHandler(platformView);
 
-        if (m_stackView is not null)
+        if (m_widthConstraint is not null)
         {
-            foreach (var subview in m_stackView.ArrangedSubviews)
-            {
-                m_stackView.RemoveArrangedSubview(subview);
-                subview.RemoveFromSuperview();
-                subview.Dispose();
-            }
-
-            m_stackView.RemoveFromSuperview();
-            m_stackView.Dispose();
-            m_stackView = null;
+            m_widthConstraint.Active = false;
+            m_widthConstraint = null;
         }
-
-        m_glassEffectView?.RemoveFromSuperview();
-        m_glassEffectView?.Dispose();
-        m_glassEffectView = null;
-
-        m_capsuleContainer = null;
     }
 
-    private static partial void MapButtons(ToolbarHandler handler, Toolbar toolbar)
+    private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
     {
-        handler.UpdateButtons();
+        handler.UpdateItems();
     }
 
     private static partial void MapHorizontalAlignment(ToolbarHandler handler, Toolbar toolbar)
     {
-        handler.UpdateButtons();
+        // Alignment is handled by the ContentPage attachment, not the handler itself
     }
 
-    private void UpdateButtons()
+    private void UpdateItems()
     {
-        if (m_stackView is null || VirtualView is null)
+        if (PlatformView is null || VirtualView is null)
             return;
 
-        // Clear existing buttons
-        foreach (var subview in m_stackView.ArrangedSubviews)
+        var barItems = new List<UIBarButtonItem>();
+
+        for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
-            m_stackView.RemoveArrangedSubview(subview);
-            subview.RemoveFromSuperview();
-            subview.Dispose();
+            var group = VirtualView.Groups[g];
+
+            foreach (var button in group.Items)
+            {
+                barItems.Add(CreateBarButtonItem(button));
+            }
+
+            // Add separator between groups (not after the last group)
+            if (g < VirtualView.Groups.Count - 1)
+            {
+                var separator = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace);
+                separator.Width = 16;
+                barItems.Add(separator);
+            }
         }
 
-        var isCompact = VirtualView.HorizontalAlignment != ToolbarHorizontalAlignment.Center;
+        PlatformView.SetItems(barItems.ToArray(), false);
 
-        // In full-width mode, distribute buttons evenly
-        m_stackView.Distribution = isCompact
-            ? UIStackViewDistribution.Fill
-            : UIStackViewDistribution.EqualSpacing;
-
-        foreach (var toolbarButton in VirtualView.Buttons)
-        {
-            var button = CreateButton(toolbarButton);
-            m_stackView.AddArrangedSubview(button);
-        }
+        // Update compact width constraint
+        UpdateWidthConstraint();
     }
 
-    private static UIButton CreateButton(ToolbarButton toolbarButton)
+    private void UpdateWidthConstraint()
     {
-        var button = new UIButton(UIButtonType.System);
-        button.TranslatesAutoresizingMaskIntoConstraints = false;
+        PlatformView.LayoutIfNeeded();
+        var fittedSize = PlatformView.SizeThatFits(new CGSize(nfloat.MaxValue, nfloat.MaxValue));
 
-        UIImage? icon = null;
-        if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage) && uiImage is not null)
+        // Add horizontal padding so items aren't flush against the edges
+        var targetWidth = fittedSize.Width + 16;
+
+        if (m_widthConstraint is null)
         {
-            var targetSize = new CGSize(22, 22);
-            var renderer = new UIGraphicsImageRenderer(targetSize);
-            var scaledImage = renderer.CreateImage(ctx =>
-            {
-                uiImage.Draw(new CGRect(CGPoint.Empty, targetSize));
-            });
-            icon = scaledImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
-        }
-
-        if (icon is not null)
-        {
-            button.SetImage(icon, UIControlState.Normal);
-        }
-
-        button.TintColor = Colors.GetColor(ColorName.color_icon_action).ToPlatform();
-
-        // 44x44 minimum touch target
-        NSLayoutConstraint.ActivateConstraints(
-        [
-            button.WidthAnchor.ConstraintGreaterThanOrEqualTo(44),
-            button.HeightAnchor.ConstraintGreaterThanOrEqualTo(44),
-        ]);
-
-        // Accessibility
-        if (!string.IsNullOrEmpty(toolbarButton.Title))
-        {
-            button.AccessibilityLabel = toolbarButton.Title;
-        }
-
-        button.Enabled = toolbarButton.IsEnabled;
-
-        // Context menu support
-        if (toolbarButton.Menu is { } contextMenu && contextMenu.ItemsSource is { Count: > 0 })
-        {
-            var menuItems = ContextMenuHelper.CreateMenuItems(contextMenu.ItemsSource, contextMenu);
-            var uiMenu = UIMenu.Create(menuItems.Select(kvp => kvp.Value).ToArray());
-            button.Menu = uiMenu;
-            button.ShowsMenuAsPrimaryAction = true;
+            m_widthConstraint = PlatformView.WidthAnchor.ConstraintEqualTo(targetWidth);
+            m_widthConstraint.Active = true;
         }
         else
         {
-            button.PrimaryActionTriggered += (_, _) =>
+            m_widthConstraint.Constant = targetWidth;
+        }
+    }
+
+    private static UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)
+    {
+        UIImage? icon = null;
+        if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage) && uiImage is not null)
+        {
+            icon = uiImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+        }
+
+        UIBarButtonItem item;
+
+        var hasMenu = toolbarButton.Menu is { ItemsSource.Count: > 0 };
+        var hasIcon = icon is not null;
+        var hasTitle = !string.IsNullOrEmpty(toolbarButton.Title);
+
+        if (hasMenu)
+        {
+            var menuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
+            var uiMenu = UIMenu.Create(menuItems.Select(kvp => kvp.Value).ToArray());
+
+            if (hasIcon)
+            {
+                item = new UIBarButtonItem(icon, uiMenu);
+            }
+            else
+            {
+                item = new UIBarButtonItem(toolbarButton.Title ?? "", UIBarButtonItemStyle.Plain, null);
+                item.Menu = uiMenu;
+            }
+        }
+        else if (hasIcon)
+        {
+            item = new UIBarButtonItem(icon, UIBarButtonItemStyle.Plain, (_, _) =>
             {
                 toolbarButton.Command?.Execute(toolbarButton.CommandParameter);
-            };
+            });
         }
-
-        return button;
-    }
-}
-
-/// <summary>
-/// A UIView subclass that maintains a pill-shaped corner radius equal to half its height.
-/// </summary>
-internal class CapsuleView : UIView
-{
-    private UIVisualEffectView? m_glassEffectView;
-
-    internal void SetGlassEffectView(UIVisualEffectView glassEffectView)
-    {
-        m_glassEffectView = glassEffectView;
-    }
-
-    public override CGSize IntrinsicContentSize => CGSize.Empty;
-
-    public override void LayoutSubviews()
-    {
-        base.LayoutSubviews();
-
-        var cornerRadius = Bounds.Size.Height / 2;
-        Layer.CornerRadius = cornerRadius;
-
-        if (m_glassEffectView is not null)
+        else
         {
-            m_glassEffectView.Layer.CornerRadius = cornerRadius;
+            // Text-only button
+            item = new UIBarButtonItem(toolbarButton.Title ?? "", UIBarButtonItemStyle.Plain, (_, _) =>
+            {
+                toolbarButton.Command?.Execute(toolbarButton.CommandParameter);
+            });
         }
+
+        item.Enabled = toolbarButton.IsEnabled;
+        item.TintColor = Colors.GetColor(ColorName.color_icon_action).ToPlatform();
+
+        if (hasTitle)
+        {
+            item.AccessibilityLabel = toolbarButton.Title;
+        }
+
+        return item;
     }
 }
