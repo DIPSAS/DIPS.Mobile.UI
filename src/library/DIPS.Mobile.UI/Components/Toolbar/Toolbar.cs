@@ -19,6 +19,12 @@ public class Toolbar : View
         typeof(Toolbar),
         defaultValueCreator: _ => new ObservableCollection<ToolbarButton>());
 
+    public static readonly BindableProperty HorizontalAlignmentProperty = BindableProperty.Create(
+        nameof(HorizontalAlignment),
+        typeof(ToolbarHorizontalAlignment),
+        typeof(Toolbar),
+        defaultValue: ToolbarHorizontalAlignment.Center);
+
     /// <summary>
     /// The buttons displayed in the toolbar.
     /// </summary>
@@ -26,6 +32,17 @@ public class Toolbar : View
     {
         get => (IList<ToolbarButton>)GetValue(ButtonsProperty);
         set => SetValue(ButtonsProperty, value);
+    }
+
+    /// <summary>
+    /// Controls how the toolbar capsule is positioned horizontally.
+    /// <see cref="ToolbarHorizontalAlignment.Center"/> stretches to fill the available width.
+    /// <see cref="ToolbarHorizontalAlignment.Start"/> and <see cref="ToolbarHorizontalAlignment.End"/> make the capsule compact (sized to content).
+    /// </summary>
+    public ToolbarHorizontalAlignment HorizontalAlignment
+    {
+        get => (ToolbarHorizontalAlignment)GetValue(HorizontalAlignmentProperty);
+        set => SetValue(HorizontalAlignmentProperty, value);
     }
 
     protected override void OnBindingContextChanged()

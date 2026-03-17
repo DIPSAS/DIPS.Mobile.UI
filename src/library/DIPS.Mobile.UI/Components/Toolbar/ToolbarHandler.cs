@@ -9,8 +9,10 @@ public partial class ToolbarHandler
     public static IPropertyMapper<Toolbar, ToolbarHandler> PropertyMapper =
         new PropertyMapper<Toolbar, ToolbarHandler>
         {
-            [nameof(Toolbar.Buttons)] = MapButtons
+            [nameof(Toolbar.Buttons)] = MapButtons,
+            [nameof(Toolbar.HorizontalAlignment)] = MapHorizontalAlignment,
         };
 
     private static partial void MapButtons(ToolbarHandler handler, Toolbar toolbar);
+    private static partial void MapHorizontalAlignment(ToolbarHandler handler, Toolbar toolbar);
 }

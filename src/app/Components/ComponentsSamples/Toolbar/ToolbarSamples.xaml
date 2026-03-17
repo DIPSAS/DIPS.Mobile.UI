@@ -16,19 +16,24 @@
     </dui:ContentPage.BindingContext>
 
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar>
-            <dui:ToolbarButton Icon="{dui:Icons edit_line}"
-                               Title="Edit"
+        <dui:Toolbar HorizontalAlignment="End">
+            <dui:ToolbarButton Title="Signer"
                                Command="{Binding EditCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons save_line}"
-                               Title="Save"
-                               Command="{Binding SaveCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons filter_line}"
-                               Title="Filter"
-                               Command="{Binding FilterCommand}" />
-            <dui:ToolbarButton Icon="{dui:Icons plus_line}"
-                               Title="Add"
-                               Command="{Binding AddCommand}" />
+            <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
+                               Title="More actions">
+                <dui:ToolbarButton.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Signer"
+                                             Command="{Binding SelectTasksCommand}" />
+                        <dui:ContextMenuItem Title="Filter"
+                                             Icon="{dui:Icons filter_line}"
+                                             Command="{Binding FilterCommand}" />
+                        <dui:ContextMenuItem Title="Save"
+                                             Icon="{dui:Icons save_line}"
+                                             Command="{Binding SaveCommand}" />
+                    </dui:ContextMenu>
+                </dui:ToolbarButton.Menu>
+            </dui:ToolbarButton>
         </dui:Toolbar>
     </dui:ContentPage.BottomToolbar>
 
@@ -37,7 +42,7 @@
             <dui:Label Text="Bottom Toolbar"
                        Style="{dui:Styles Label=SectionHeader}" />
             <dui:Label
-                Text="The toolbar is a standalone View with a handler. When set via ContentPage.BottomToolbar, it is automatically positioned at the bottom of the page."
+                Text="This toolbar is right-aligned and compact. The second button has a context menu with multiple actions."
                 Style="{dui:Styles Label=UI200}" />
 
             <Button Text="Open as Modal"

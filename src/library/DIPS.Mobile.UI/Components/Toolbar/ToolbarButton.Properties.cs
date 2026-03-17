@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using DIPS.Mobile.UI.Components.ContextMenus;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
@@ -47,6 +48,14 @@ public partial class ToolbarButton
         defaultValue: true);
 
     /// <summary>
+    /// <see cref="Menu"/>
+    /// </summary>
+    public static readonly BindableProperty MenuProperty = BindableProperty.Create(
+        nameof(Menu),
+        typeof(ContextMenu),
+        typeof(ToolbarButton));
+
+    /// <summary>
     /// The title of the toolbar button, used as the accessibility label.
     /// </summary>
     public string? Title
@@ -90,5 +99,15 @@ public partial class ToolbarButton
     {
         get => (bool)GetValue(IsEnabledProperty);
         set => SetValue(IsEnabledProperty, value);
+    }
+
+    /// <summary>
+    /// An optional context menu to display when the button is tapped.
+    /// When set, the button shows a native popup menu instead of executing <see cref="Command"/>.
+    /// </summary>
+    public ContextMenu? Menu
+    {
+        get => (ContextMenu?)GetValue(MenuProperty);
+        set => SetValue(MenuProperty, value);
     }
 }
