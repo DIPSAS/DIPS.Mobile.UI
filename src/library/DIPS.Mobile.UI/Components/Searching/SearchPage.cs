@@ -258,7 +258,7 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private void OnScrollableHeaderChanged()
         {
-            m_resultCollectionView.Header = ScrollableHeader;
+            m_resultCollectionView.HeaderTemplate = new DataTemplate(() => ScrollableHeader);
         }
 
         private void OnFooterViewChanged()

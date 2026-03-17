@@ -1,3 +1,6 @@
+## [55.3.1]
+- [SearchPage][Android] Fix bug where `ScrollableHeader` were not added.
+
 ## [55.3.0]
 - [SearchPage] Added `ScrollableHeader` property to allow consumers to provide a header that scrolls with search results.
 - [SearchPage] Replaced `OnLoaded`/`OnUnloaded` event subscriptions with `OnHandlerChanged` override.
