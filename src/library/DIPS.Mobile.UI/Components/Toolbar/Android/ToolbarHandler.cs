@@ -375,4 +375,39 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             outline.SetRoundRect(0, 0, view.Width, view.Height, radius);
         }
     }
+
+    /// <summary>
+    /// Animates the toolbar sliding up into view.
+    /// </summary>
+    internal partial void AnimateShow()
+    {
+        if (PlatformView is null)
+            return;
+
+        PlatformView.Animate()!
+            .TranslationY(0)
+            .Alpha(1)
+            .SetDuration(350)
+            .SetInterpolator(new Android.Views.Animations.DecelerateInterpolator(2f))
+            .Start();
+    }
+
+    /// <summary>
+    /// Animates the toolbar sliding down off-screen.
+    /// </summary>
+    internal partial void AnimateHide()
+    {
+        if (PlatformView is null)
+            return;
+
+        // Slide down by container height + bottom margin to fully clear the screen
+        var slideDistance = PlatformView.Height + DpToPx(32);
+
+        PlatformView.Animate()!
+            .TranslationY(slideDistance)
+            .Alpha(0)
+            .SetDuration(250)
+            .SetInterpolator(new Android.Views.Animations.AccelerateInterpolator(2f))
+            .Start();
+    }
 }
