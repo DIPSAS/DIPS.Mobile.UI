@@ -1,5 +1,6 @@
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Transitions;
 using Android.Views;
 using Android.Widget;
 using DIPS.Mobile.UI.API.Library;
@@ -27,6 +28,11 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     /// Maps each ToolbarButton to its native Android view for incremental add/remove.
     /// </summary>
     private readonly Dictionary<ToolbarButton, AView> m_buttonViewMap = new();
+
+    /// <summary>
+    /// Maps group index to the separator view between group[index] and group[index+1].
+    /// </summary>
+    private readonly Dictionary<int, AView> m_separatorMap = new();
 
     protected override FrameLayout CreatePlatformView()
     {
@@ -80,6 +86,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         UnsubscribeFromItemPropertyChanges();
         ClearButtonViews();
         m_buttonViewMap.Clear();
+        m_separatorMap.Clear();
         m_pillLayout = null;
         base.DisconnectHandler(platformView);
     }
@@ -112,25 +119,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     }
 
     /// <summary>
-    /// Called when a single button's IsVisible changes. Incrementally adds or removes
-    /// just that button's view without rebuilding the entire toolbar.
+    /// Called when a single button's IsVisible changes. Toggles the native view's Visibility
+    /// and updates separators, with a smooth transition animation.
     /// </summary>
     partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton)
     {
         if (m_pillLayout is null || VirtualView is null)
             return;
 
-        if (toolbarButton.IsVisible)
-        {
-            // Create the view if we don't have it cached
-            if (!m_buttonViewMap.ContainsKey(toolbarButton))
-            {
-                m_buttonViewMap[toolbarButton] = CreateButtonView(toolbarButton);
-            }
-        }
-
-        // Rebuild layout from the map (preserving order) — much cheaper than recreating all views
-        RebuildPillLayout();
+        UpdateViewVisibility(animated: true);
     }
 
     private void UpdateItems()
@@ -140,54 +137,75 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         ClearButtonViews();
         m_buttonViewMap.Clear();
+        m_separatorMap.Clear();
+        m_pillLayout.RemoveAllViews();
 
-        // Create native views for all buttons
-        foreach (var group in VirtualView.Groups)
+        // Build the full layout with all buttons and separators upfront
+        for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
+            var group = VirtualView.Groups[g];
+
             foreach (var button in group.Items)
             {
-                m_buttonViewMap[button] = CreateButtonView(button);
+                var view = CreateButtonView(button);
+                m_buttonViewMap[button] = view;
+                m_pillLayout.AddView(view);
+            }
+
+            // Add separator between groups (visibility toggled later)
+            if (g < VirtualView.Groups.Count - 1)
+            {
+                var separator = CreateGroupSeparator();
+                m_separatorMap[g] = separator;
+                m_pillLayout.AddView(separator);
             }
         }
 
-        RebuildPillLayout();
+        // Set initial visibility without animation
+        UpdateViewVisibility(animated: false);
     }
 
     /// <summary>
-    /// Re-populates the pill layout from the button map, adding only visible items
-    /// and separators between groups. Reuses existing native views — doesn't recreate them.
+    /// Toggles Visibility (Visible/Gone) on button views and separators based on
+    /// the current IsVisible state. When animated, uses TransitionManager for smooth
+    /// fade + bounds animation without the "jump" caused by removing/re-adding views.
     /// </summary>
-    private void RebuildPillLayout()
+    private void UpdateViewVisibility(bool animated)
     {
         if (m_pillLayout is null || VirtualView is null)
             return;
 
-        // Detach all children without disposing — we're reusing them
-        m_pillLayout.RemoveAllViews();
-
-        for (var g = 0; g < VirtualView.Groups.Count; g++)
+        if (animated)
         {
-            var group = VirtualView.Groups[g];
-            var visibleButtons = group.Items.Where(b => b.IsVisible).ToList();
-
-            foreach (var button in visibleButtons)
-            {
-                if (m_buttonViewMap.TryGetValue(button, out var view))
-                {
-                    m_pillLayout.AddView(view);
-                }
-            }
-
-            // Separator between groups only if both have visible items
-            if (g < VirtualView.Groups.Count - 1 && visibleButtons.Count > 0)
-            {
-                var nextGroup = VirtualView.Groups[g + 1];
-                if (nextGroup.Items.Any(b => b.IsVisible))
-                {
-                    m_pillLayout.AddView(CreateGroupSeparator());
-                }
-            }
+            var transition = new AutoTransition();
+            transition.SetDuration(200);
+            // Animate on the container so the entire pill can fade in/out
+            TransitionManager.BeginDelayedTransition((ViewGroup)m_pillLayout.Parent!, transition);
         }
+
+        // Toggle button visibility
+        foreach (var (button, view) in m_buttonViewMap)
+        {
+            view.Visibility = button.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+        }
+
+        // Toggle separator visibility — only show if both adjacent groups have visible items
+        for (var g = 0; g < VirtualView.Groups.Count - 1; g++)
+        {
+            if (!m_separatorMap.TryGetValue(g, out var separator))
+                continue;
+
+            var currentGroupHasVisible = VirtualView.Groups[g].Items.Any(b => b.IsVisible);
+            var nextGroupHasVisible = VirtualView.Groups[g + 1].Items.Any(b => b.IsVisible);
+
+            separator.Visibility = currentGroupHasVisible && nextGroupHasVisible
+                ? ViewStates.Visible
+                : ViewStates.Gone;
+        }
+
+        // Hide the entire pill when no items are visible
+        var anyVisible = VirtualView.Groups.Any(g => g.Items.Any(b => b.IsVisible));
+        m_pillLayout.Visibility = anyVisible ? ViewStates.Visible : ViewStates.Gone;
 
         UpdateAlignment();
     }
