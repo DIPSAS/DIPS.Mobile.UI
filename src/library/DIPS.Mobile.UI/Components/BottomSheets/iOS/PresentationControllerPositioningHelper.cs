@@ -40,16 +40,11 @@ internal static class PresentationControllerPositioningHelper
         if(sheetPresentation is null)
             return;
         
-        // Means this is the first time this function is run
-        if (sheetPresentation.Detents.Length == 1)
+        sheetPresentation.AnimateChanges(() =>
         {
             sheetPresentation.Detents = detents.ToArray();
             sheetPresentation.SelectedDetentIdentifier = preferredDetent;
-        }
-        else
-        {
-            sheetPresentation.AnimateChanges(() => sheetPresentation.SelectedDetentIdentifier = preferredDetent);
-        }
+        });
     }
     
     private static UISheetPresentationControllerDetent? TryCreateFitToContentDetent(UIViewController uiViewController, BottomSheet bottomSheet, View? container)

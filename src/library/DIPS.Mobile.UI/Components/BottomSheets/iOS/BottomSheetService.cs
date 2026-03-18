@@ -12,16 +12,17 @@ public static partial class BottomSheetService
         try
         {
             var bottomSheetViewController = new BottomSheetViewController(bottomSheet);
+            var navigationController = new UINavigationController(bottomSheetViewController);
 
             var currentViewController = Platform.GetCurrentUIViewController();
             if (currentViewController is null)
                 return;
             
-            bottomSheetViewController.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
+            navigationController.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
 
-            TryAddGrabberAndSetSheetPresentationProperties(bottomSheetViewController, bottomSheetViewController);
+            TryAddGrabberAndSetSheetPresentationProperties(navigationController, bottomSheetViewController);
 
-            await currentViewController.PresentViewControllerAsync(bottomSheetViewController, true);
+            await currentViewController.PresentViewControllerAsync(navigationController, true);
         }
         catch (Exception e)
         {
@@ -41,6 +42,24 @@ public static partial class BottomSheetService
         presentationController.PrefersScrollingExpandsWhenScrolledToEdge = true;
         presentationController.Delegate = new BottomSheetControllerDelegate { BottomSheetViewController = bottomSheetViewController };
         presentationController.PrefersEdgeAttachedInCompactHeight = true; // Makes sure its usable when rotated.
+        
+        // Set initial detents before presentation so iOS animates directly to the correct position
+        presentationController.Detents =
+        [
+            UISheetPresentationControllerDetent.CreateMediumDetent(),
+            UISheetPresentationControllerDetent.CreateLargeDetent()
+        ];
+        
+        switch (bottomSheetViewController.BottomSheet.Positioning)
+        {
+            case Positioning.Large:
+                presentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Large;
+                break;
+            case Positioning.Medium:
+                presentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
+                break;
+            // Fit: custom detent is set later via SetPositioning when the container is available
+        }
     }
 
     public async static partial Task Close(BottomSheet bottomSheet, bool animated)

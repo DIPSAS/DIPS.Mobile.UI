@@ -1,5 +1,4 @@
 using DIPS.Mobile.UI.API.Library;
-using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
@@ -9,7 +8,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 internal class BottomSheetContainer : Grid
 {
     private readonly BottomSheet m_bottomSheet;
-    private BottomSheetHeader m_bottomSheetHeader;
 
     public BottomSheetContainer(BottomSheet bottomSheet)
     {
@@ -18,20 +16,16 @@ internal class BottomSheetContainer : Grid
         BackgroundColor = bottomSheet.BackgroundColor;
         
         AddRowDefinition(new RowDefinition(GridLength.Auto));
-        AddRowDefinition(new RowDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Star));
-
-        m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
-        this.Add(m_bottomSheetHeader);
         
-        this.Add(bottomSheet, 0, 2);
+        this.Add(bottomSheet, 0, 1);
     }
 
     public void ModifySearchbar(bool add)
     {
         if (add)
         {
-            this.Add(m_bottomSheet.SearchBar, 0, 1);
+            this.Add(m_bottomSheet.SearchBar, 0, 0);
         }
         else
         {
@@ -66,10 +60,5 @@ internal class BottomSheetContainer : Grid
             uiView.TrailingAnchor.ConstraintEqualTo(rootView.TrailingAnchor),
             uiView.HeightAnchor.ConstraintEqualTo(rootView.Frame.Height),
         ]);
-    }
-
-    public void SetSemanticFocusToHeader()
-    {
-        m_bottomSheetHeader.SetSemanticFocus();
     }
 }
