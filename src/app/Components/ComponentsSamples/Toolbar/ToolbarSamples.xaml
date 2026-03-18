@@ -50,7 +50,6 @@
     
     <dui:ScrollView>
         <dui:VerticalStackLayout Spacing="0">
-    
             <!-- Document info header -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}" Spacing="{dui:Sizes size_1}">
                 <dui:Label Text="Admission Note"

@@ -162,6 +162,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         protected override void OnHandlerChanged()
         {
             base.OnHandlerChanged();
+            Console.WriteLine($"[Toolbar] OnHandlerChanged: Handler={Handler}, BottomToolbar={BottomToolbar}");
 
             if (Handler is not null)
             {
@@ -223,10 +224,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private void OnBottomToolbarChanged()
         {
-            // if (BottomToolbar is not null)
-            // {
-            //     SetInheritedBindingContext(BottomToolbar, BindingContext);
-            // }
+            Console.WriteLine($"[Toolbar] OnBottomToolbarChanged: BottomToolbar={BottomToolbar}, Handler={Handler}");
 
             if (Handler is not null)
             {
@@ -236,6 +234,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private void AttachBottomToolbar()
         {
+            Console.WriteLine($"[Toolbar] AttachBottomToolbar: BottomToolbar={BottomToolbar}, Handler={Handler}");
             if (BottomToolbar is null)
             {
                 DetachBottomToolbarOnPlatform();
