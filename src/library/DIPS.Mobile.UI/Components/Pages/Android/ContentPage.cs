@@ -9,6 +9,8 @@ namespace DIPS.Mobile.UI.Components.Pages;
 public partial class ContentPage
 {
     private AView? m_toolbarPlatformView;
+    private ViewGroup? m_scrollTrackingContainer;
+    private ScrollTrackingTouchListener? m_scrollTrackingListener;
 
     private partial void AttachBottomToolbarOnPlatform()
     {
@@ -111,5 +113,81 @@ public partial class ContentPage
         }
 
         return null;
+    }
+
+    private partial void EnableScrollTracking()
+    {
+        DisableScrollTracking();
+
+        var pageView = Handler?.PlatformView as AView;
+        if (pageView is null)
+            return;
+
+        var container = FindFrameLayoutParent(pageView)
+                        ?? Platform.CurrentActivity?.FindViewById<FrameLayout>(Android.Resource.Id.Content);
+
+        if (container is null)
+            return;
+
+        m_scrollTrackingContainer = container;
+        m_scrollTrackingListener = new ScrollTrackingTouchListener(this);
+        container.SetOnTouchListener(m_scrollTrackingListener);
+    }
+
+    private partial void DisableScrollTracking()
+    {
+        if (m_scrollTrackingContainer is not null && m_scrollTrackingListener is not null)
+        {
+            m_scrollTrackingContainer.SetOnTouchListener(null);
+        }
+
+        m_scrollTrackingListener = null;
+        m_scrollTrackingContainer = null;
+    }
+
+    /// <summary>
+    /// Intercepts touch events on the page container to detect vertical scroll direction.
+    /// Returns false so touches pass through to the actual scroll views.
+    /// </summary>
+    private class ScrollTrackingTouchListener(ContentPage page) : Java.Lang.Object, AView.IOnTouchListener
+    {
+        private float m_lastY;
+        private bool m_isTracking;
+        private const float ThresholdDp = 8f;
+
+        public bool OnTouch(AView? v, MotionEvent? e)
+        {
+            if (e is null)
+                return false;
+
+            switch (e.ActionMasked)
+            {
+                case MotionEventActions.Down:
+                    m_lastY = e.RawY;
+                    m_isTracking = true;
+                    break;
+
+                case MotionEventActions.Move when m_isTracking:
+                    var deltaY = e.RawY - m_lastY;
+                    var density = v?.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
+                    var thresholdPx = ThresholdDp * density;
+
+                    if (Math.Abs(deltaY) > thresholdPx)
+                    {
+                        // deltaY < 0 = finger moving up = scrolling down through content
+                        page.OnScrollDirectionChanged(isScrollingDown: deltaY < 0);
+                        m_lastY = e.RawY;
+                    }
+                    break;
+
+                case MotionEventActions.Up:
+                case MotionEventActions.Cancel:
+                    m_isTracking = false;
+                    break;
+            }
+
+            // Don't consume the event — let it pass through to scroll views
+            return false;
+        }
     }
 }
