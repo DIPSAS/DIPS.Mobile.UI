@@ -23,6 +23,11 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 {
     private LinearLayout? m_pillLayout;
 
+    /// <summary>
+    /// Maps each ToolbarButton to its native Android view for incremental add/remove.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, AView> m_buttonViewMap = new();
+
     protected override FrameLayout CreatePlatformView()
     {
         var container = new FrameLayout(Context);
@@ -67,18 +72,23 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     {
         base.ConnectHandler(platformView);
         UpdateItems();
+        SubscribeToItemPropertyChanges();
     }
 
     protected override void DisconnectHandler(FrameLayout platformView)
     {
+        UnsubscribeFromItemPropertyChanges();
         ClearButtonViews();
+        m_buttonViewMap.Clear();
         m_pillLayout = null;
         base.DisconnectHandler(platformView);
     }
 
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
     {
+        handler.UnsubscribeFromItemPropertyChanges();
         handler.UpdateItems();
+        handler.SubscribeToItemPropertyChanges();
     }
 
     private static partial void MapHorizontalAlignment(ToolbarHandler handler, Toolbar toolbar)
@@ -101,26 +111,81 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         m_pillLayout.LayoutParameters = lp;
     }
 
+    /// <summary>
+    /// Called when a single button's IsVisible changes. Incrementally adds or removes
+    /// just that button's view without rebuilding the entire toolbar.
+    /// </summary>
+    partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton)
+    {
+        if (m_pillLayout is null || VirtualView is null)
+            return;
+
+        if (toolbarButton.IsVisible)
+        {
+            // Create the view if we don't have it cached
+            if (!m_buttonViewMap.ContainsKey(toolbarButton))
+            {
+                m_buttonViewMap[toolbarButton] = CreateButtonView(toolbarButton);
+            }
+        }
+
+        // Rebuild layout from the map (preserving order) — much cheaper than recreating all views
+        RebuildPillLayout();
+    }
+
     private void UpdateItems()
     {
         if (m_pillLayout is null || VirtualView is null)
             return;
 
         ClearButtonViews();
+        m_buttonViewMap.Clear();
+
+        // Create native views for all buttons
+        foreach (var group in VirtualView.Groups)
+        {
+            foreach (var button in group.Items)
+            {
+                m_buttonViewMap[button] = CreateButtonView(button);
+            }
+        }
+
+        RebuildPillLayout();
+    }
+
+    /// <summary>
+    /// Re-populates the pill layout from the button map, adding only visible items
+    /// and separators between groups. Reuses existing native views — doesn't recreate them.
+    /// </summary>
+    private void RebuildPillLayout()
+    {
+        if (m_pillLayout is null || VirtualView is null)
+            return;
+
+        // Detach all children without disposing — we're reusing them
+        m_pillLayout.RemoveAllViews();
 
         for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
             var group = VirtualView.Groups[g];
+            var visibleButtons = group.Items.Where(b => b.IsVisible).ToList();
 
-            foreach (var button in group.Items)
+            foreach (var button in visibleButtons)
             {
-                m_pillLayout.AddView(CreateButtonView(button));
+                if (m_buttonViewMap.TryGetValue(button, out var view))
+                {
+                    m_pillLayout.AddView(view);
+                }
             }
 
-            // Add separator between groups (not after the last group)
-            if (g < VirtualView.Groups.Count - 1)
+            // Separator between groups only if both have visible items
+            if (g < VirtualView.Groups.Count - 1 && visibleButtons.Count > 0)
             {
-                m_pillLayout.AddView(CreateGroupSeparator());
+                var nextGroup = VirtualView.Groups[g + 1];
+                if (nextGroup.Items.Any(b => b.IsVisible))
+                {
+                    m_pillLayout.AddView(CreateGroupSeparator());
+                }
             }
         }
 
