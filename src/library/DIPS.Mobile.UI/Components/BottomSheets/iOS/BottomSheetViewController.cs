@@ -100,13 +100,9 @@ public class BottomSheetViewController : UIViewController
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
-        {
-            m_navigationBarHelper?.Dispose();
-        }
-        
         base.Dispose(disposing);
 
+        m_navigationBarHelper?.Dispose();
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
 
