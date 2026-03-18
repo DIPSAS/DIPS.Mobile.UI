@@ -103,8 +103,10 @@ public class BottomSheetFragment : BottomSheetDialogFragment
             {
                 m_bottomSheetBehavior.AddBottomSheetCallback(new EdgeToEdgeBottomSheetCallback(this));
                 
-                // Set LayoutNoLimits early so the initial slide callbacks during the
-                // show animation already see the correct position behind the status bar.
+                // Edge-to-edge is only supported on API 35+. On API 34 and below, the bottom sheet
+                // must not go over the status bar.
+                // Fix for edge-to-edge: Remove top insets so BottomSheet can draw behind status bar
+                // See: https://github.com/material-components/material-components-android/issues/3389
                 bottomSheetDialog.Window?.AddFlags(WindowManagerFlags.LayoutNoLimits);
             }
         }
@@ -208,6 +210,25 @@ public class BottomSheetFragment : BottomSheetDialogFragment
         }
     }
 
+    internal void ApplyEdgeToEdgePadding()
+    {
+        if (m_bottomSheetLayout == null || m_statusBarHeight == 0 || Dialog is not BottomSheetDialog bottomSheetDialog)
+            return;
+        
+        // The BottomSheetDialog exposes the bottom sheet container view via its Behavior's parent
+        var bottomSheetView = bottomSheetDialog.Behavior?.PeekHeight >= 0
+            ? (m_rootLayout?.Parent as AView)
+            : null;
+        if (bottomSheetView == null)
+            return;
+        
+        var location = new int[2];
+        bottomSheetView.GetLocationOnScreen(location);
+        var bottomSheetTop = location[1];
+        var overlap = Math.Max(0, m_statusBarHeight - bottomSheetTop);
+        m_bottomSheetLayout.SetPadding(0, overlap, 0, overlap);
+    }
+
     private class OnApplyWindowInsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
     {
         private readonly BottomSheetFragment _fragment;
@@ -221,6 +242,11 @@ public class BottomSheetFragment : BottomSheetDialogFragment
         {
             var statusBarInsets = insets.GetInsets(WindowInsetsCompat.Type.StatusBars());
             _fragment.m_statusBarHeight = statusBarInsets.Top;
+            
+            // Apply padding immediately — when opening in Large positioning the slide/state
+            // callbacks may have already fired before insets arrived.
+            _fragment.ApplyEdgeToEdgePadding();
+            
             return insets;
         }
     }
