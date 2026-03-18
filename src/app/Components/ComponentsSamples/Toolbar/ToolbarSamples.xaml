@@ -24,13 +24,17 @@
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"
+                                   
                                    Command="{Binding SignCommand}" />
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                                   IsVisible="{Binding IsSignVisible}"
                                    Title="Edit"
                                    Command="{Binding EditCommand}" />
                 <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
+                                   
+                                   IsVisible="{Binding IsSignVisible}"
                                    Title="More actions">
                     <dui:ToolbarButton.Menu>
                         <dui:ContextMenu>
@@ -51,7 +55,14 @@
 
     <dui:ScrollView>
         <dui:VerticalStackLayout Spacing="0">
-            <dui:Switch IsToggled="{Binding IsSignVisible}"></dui:Switch>
+            <!-- Toolbar visibility toggles -->
+            <dui:HorizontalStackLayout Padding="{dui:Sizes size_4}" Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="Show Sign button"
+                           Style="{dui:Styles Label=UI200}"
+                           VerticalOptions="Center" />
+                <dui:Switch IsToggled="{Binding IsSignVisible}" />
+            </dui:HorizontalStackLayout>
+
             <!-- Document info header -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
                                      Spacing="{dui:Sizes size_1}">
