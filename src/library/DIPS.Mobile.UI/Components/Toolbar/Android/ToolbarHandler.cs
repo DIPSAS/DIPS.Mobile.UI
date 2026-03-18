@@ -60,8 +60,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         container.AddView(m_pillLayout, layoutParams);
 
-        Console.WriteLine($"[Toolbar] CreatePlatformView: container={container.GetType().Name}, pill={m_pillLayout.GetType().Name}");
-
         return container;
     }
 
@@ -73,7 +71,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     protected override void DisconnectHandler(FrameLayout platformView)
     {
-        m_pillLayout?.RemoveAllViews();
+        ClearButtonViews();
+        m_pillLayout = null;
         base.DisconnectHandler(platformView);
     }
 
@@ -105,13 +104,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     private void UpdateItems()
     {
         if (m_pillLayout is null || VirtualView is null)
-        {
-            Console.WriteLine($"[Toolbar] UpdateItems: early exit — pill={m_pillLayout}, VirtualView={VirtualView}");
             return;
-        }
 
-        Console.WriteLine($"[Toolbar] UpdateItems: Groups.Count={VirtualView.Groups.Count}");
-        m_pillLayout.RemoveAllViews();
+        ClearButtonViews();
 
         for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
@@ -130,7 +125,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         }
 
         UpdateAlignment();
-        Console.WriteLine($"[Toolbar] UpdateItems done: pill.ChildCount={m_pillLayout.ChildCount}, pill.Visibility={m_pillLayout.Visibility}");
     }
 
     private AView CreateButtonView(ToolbarButton toolbarButton)
@@ -226,6 +220,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     private AView CreateGroupSeparator()
     {
         var separator = new AView(Context);
+        separator.ImportantForAccessibility = ImportantForAccessibility.No;
         var width = DpToPx(1);
         var height = DpToPx(24);
         var margin = DpToPx(12); // Extra spacing around group separator
@@ -265,6 +260,23 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     private int DpToPx(float dp)
     {
         return (int)(dp * Context.Resources!.DisplayMetrics!.Density + 0.5f);
+    }
+
+    /// <summary>
+    /// Removes all child views from the pill layout and disposes them to release Java references
+    /// and break event handler reference chains.
+    /// </summary>
+    private void ClearButtonViews()
+    {
+        if (m_pillLayout is null)
+            return;
+
+        for (var i = m_pillLayout.ChildCount - 1; i >= 0; i--)
+        {
+            var child = m_pillLayout.GetChildAt(i);
+            m_pillLayout.RemoveViewAt(i);
+            child?.Dispose();
+        }
     }
 
     /// <summary>
