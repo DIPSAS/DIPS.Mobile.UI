@@ -25,11 +25,7 @@ internal class BottomSheetHeader : Grid
         BackgroundColor = Colors.GetColor(ColorName.color_surface_default);
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_medium);
 
-        var topPadding = Sizes.GetSize(SizeName.content_margin_medium);
-
-#if __ANDROID__
-        topPadding = 0;
-#endif
+        var topPadding = 0d;
         
         Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), topPadding, Sizes.GetSize(SizeName.content_margin_medium), Sizes.GetSize(SizeName.content_margin_medium));
         

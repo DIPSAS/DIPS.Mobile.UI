@@ -102,6 +102,10 @@ public class BottomSheetFragment : BottomSheetDialogFragment
             if (Build.VERSION.SdkInt >= BuildVersionCodes.VanillaIceCream)
             {
                 m_bottomSheetBehavior.AddBottomSheetCallback(new EdgeToEdgeBottomSheetCallback(this));
+                
+                // Set LayoutNoLimits early so the initial slide callbacks during the
+                // show animation already see the correct position behind the status bar.
+                bottomSheetDialog.Window?.AddFlags(WindowManagerFlags.LayoutNoLimits);
             }
         }
 
@@ -141,16 +145,6 @@ public class BottomSheetFragment : BottomSheetDialogFragment
     public override void OnStart()
     {
         m_bottomSheet.SendOpen();
-        
-        // Edge-to-edge is only supported on API 35+. On API 34 and below, the bottom sheet
-        // must not go over the status bar.
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.VanillaIceCream)
-        {
-            // Fix for edge-to-edge: Remove top insets so BottomSheet can draw behind status bar
-            // See: https://github.com/material-components/material-components-android/issues/3389
-            Dialog?.Window?.AddFlags(WindowManagerFlags.LayoutNoLimits);
-        }
-            
         base.OnStart();
     }
 
@@ -260,7 +254,14 @@ public class BottomSheetFragment : BottomSheetDialogFragment
         
         public override void OnStateChanged(AView bottomSheet, int newState)
         {
-            // No action needed on state change
+            if (_fragment.m_bottomSheetLayout == null || _fragment.m_statusBarHeight == 0)
+                return;
+            
+            var location = new int[2];
+            bottomSheet.GetLocationOnScreen(location);
+            var bottomSheetTop = location[1];
+            var overlap = Math.Max(0, _fragment.m_statusBarHeight - bottomSheetTop);
+            _fragment.m_bottomSheetLayout.SetPadding(0, overlap, 0, overlap);
         }
     }
 }
