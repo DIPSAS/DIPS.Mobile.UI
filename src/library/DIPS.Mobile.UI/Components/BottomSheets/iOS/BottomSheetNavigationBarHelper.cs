@@ -106,7 +106,7 @@ internal class BottomSheetNavigationBarHelper
         if (m_bottomSheet.BottomSheetHeaderBehavior?.CloseButtonCommand is not null)
         {
             // Pass the close action as parameter — the consumer decides if/when to invoke it
-            m_bottomSheet.BottomSheetHeaderBehavior.CloseButtonCommand.Execute(() => m_bottomSheet.Close());
+            m_bottomSheet.BottomSheetHeaderBehavior.CloseButtonCommand.Execute((Action)(() => m_bottomSheet.Close()));
         }
         else
         {
