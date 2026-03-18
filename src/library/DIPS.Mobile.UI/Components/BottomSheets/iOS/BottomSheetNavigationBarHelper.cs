@@ -92,6 +92,7 @@ internal class BottomSheetNavigationBarHelper
             {
                 m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
             });
+            backButton.AccessibilityLabel = DUILocalizedStrings.Back;
             m_navigationItem.LeftBarButtonItem = backButton;
         }
         else
