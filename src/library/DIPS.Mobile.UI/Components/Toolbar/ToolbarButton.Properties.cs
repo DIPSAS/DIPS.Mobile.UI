@@ -56,6 +56,15 @@ public partial class ToolbarButton
         typeof(ToolbarButton));
 
     /// <summary>
+    /// <see cref="IsVisible"/>
+    /// </summary>
+    public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
+        nameof(IsVisible),
+        typeof(bool),
+        typeof(ToolbarButton),
+        defaultValue: true);
+
+    /// <summary>
     /// The title of the toolbar button, used as the accessibility label.
     /// </summary>
     public string? Title
@@ -109,5 +118,14 @@ public partial class ToolbarButton
     {
         get => (ContextMenu?)GetValue(MenuProperty);
         set => SetValue(MenuProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the button is visible in the toolbar. When false, the button is removed from the toolbar.
+    /// </summary>
+    public new bool IsVisible
+    {
+        get => (bool)GetValue(IsVisibleProperty);
+        set => SetValue(IsVisibleProperty, value);
     }
 }

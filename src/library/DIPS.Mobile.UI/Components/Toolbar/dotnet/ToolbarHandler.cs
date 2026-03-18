@@ -12,6 +12,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, Toolbar>
     {
     }
 
+    partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton)
+    {
+    }
+
     protected override Toolbar CreatePlatformView()
     {
         return new Toolbar();

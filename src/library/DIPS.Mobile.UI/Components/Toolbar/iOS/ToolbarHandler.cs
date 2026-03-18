@@ -11,6 +11,12 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 
 public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 {
+    /// <summary>
+    /// Maintains a mapping from each ToolbarButton to its native UIBarButtonItem
+    /// so we can incrementally add/remove items without rebuilding everything.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, UIBarButtonItem> m_buttonItemMap = new();
+
     protected override UIToolbar CreatePlatformView()
     {
         var toolbar = new UIToolbar();
@@ -23,25 +29,68 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     {
         base.ConnectHandler(platformView);
         UpdateItems();
+        SubscribeToItemPropertyChanges();
     }
 
     protected override void DisconnectHandler(UIToolbar platformView)
     {
+        UnsubscribeFromItemPropertyChanges();
+        m_buttonItemMap.Clear();
         base.DisconnectHandler(platformView);
     }
 
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
     {
+        handler.UnsubscribeFromItemPropertyChanges();
         handler.UpdateItems();
+        handler.SubscribeToItemPropertyChanges();
     }
 
     private static partial void MapHorizontalAlignment(ToolbarHandler handler, Toolbar toolbar)
     {
         // Alignment changes require rebuilding items (FlexibleSpace placement)
-        handler.UpdateItems();
+        handler.ApplyItemsToToolbar(animated: false);
+    }
+
+    /// <summary>
+    /// Called when a single button's IsVisible changes. Instead of rebuilding all native items,
+    /// we just re-apply the current items list with animation — smooth insert/remove.
+    /// </summary>
+    partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton)
+    {
+        // If the button just became visible, create its native item
+        if (toolbarButton.IsVisible && !m_buttonItemMap.ContainsKey(toolbarButton))
+        {
+            m_buttonItemMap[toolbarButton] = CreateBarButtonItem(toolbarButton);
+        }
+
+        ApplyItemsToToolbar(animated: true);
     }
 
     private void UpdateItems()
+    {
+        if (PlatformView is null || VirtualView is null)
+            return;
+
+        m_buttonItemMap.Clear();
+
+        // Create native items for all buttons (including hidden ones — we keep them ready)
+        foreach (var group in VirtualView.Groups)
+        {
+            foreach (var button in group.Items)
+            {
+                m_buttonItemMap[button] = CreateBarButtonItem(button);
+            }
+        }
+
+        ApplyItemsToToolbar(animated: false);
+    }
+
+    /// <summary>
+    /// Builds the toolbar items array from the current groups, filtering by IsVisible,
+    /// and sets them on the UIToolbar. Uses animated: true for smooth transitions.
+    /// </summary>
+    private void ApplyItemsToToolbar(bool animated)
     {
         if (PlatformView is null || VirtualView is null)
             return;
@@ -51,18 +100,26 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
             var group = VirtualView.Groups[g];
+            var visibleButtons = group.Items.Where(b => b.IsVisible).ToList();
 
-            foreach (var button in group.Items)
+            foreach (var button in visibleButtons)
             {
-                contentItems.Add(CreateBarButtonItem(button));
+                if (m_buttonItemMap.TryGetValue(button, out var barItem))
+                {
+                    contentItems.Add(barItem);
+                }
             }
 
-            // Add separator between groups (not after the last group)
-            if (g < VirtualView.Groups.Count - 1)
+            // Add separator between groups only if both have visible items
+            if (g < VirtualView.Groups.Count - 1 && visibleButtons.Count > 0)
             {
-                var separator = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace);
-                separator.Width = 16;
-                contentItems.Add(separator);
+                var nextGroup = VirtualView.Groups[g + 1];
+                if (nextGroup.Items.Any(b => b.IsVisible))
+                {
+                    var separator = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace);
+                    separator.Width = 16;
+                    contentItems.Add(separator);
+                }
             }
         }
 
