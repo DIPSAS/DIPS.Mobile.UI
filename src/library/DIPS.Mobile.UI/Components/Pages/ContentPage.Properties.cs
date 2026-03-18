@@ -13,7 +13,6 @@ public partial class ContentPage
 
     /// <summary>
     /// A bottom toolbar to display at the bottom of the page.
-    /// When set, the page content is automatically wrapped in a Grid with the toolbar overlaid at the bottom.
     /// </summary>
     public Toolbar.Toolbar? BottomToolbar
     {
