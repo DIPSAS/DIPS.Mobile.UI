@@ -80,21 +80,18 @@ public partial class ContentPage
                 return;
 
             var density = Platform.AppContext.Resources!.DisplayMetrics!.Density;
-            var margin16 = (int)(16 * density);
-
-            // Account for the system navigation bar (gesture indicator) at the bottom
-            var navBarHeight = 0;
-            var resourceId = Platform.AppContext.Resources.GetIdentifier("navigation_bar_height", "dimen", "android");
-            if (resourceId > 0)
-            {
-                navBarHeight = Platform.AppContext.Resources.GetDimensionPixelSize(resourceId);
-            }
+            var marginH = (int)(16 * density); // M3 spec: minimum 16dp horizontal margin
+            var marginBottom = (int)(16 * density); // Close to bottom, just above gesture indicator
 
             var lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.WrapContent,
                 GravityFlags.Bottom);
-            lp.SetMargins(margin16, 0, margin16, margin16 + navBarHeight);
+            lp.SetMargins(marginH, 0, marginH, marginBottom);
+
+            // Ensure the parent doesn't clip the toolbar's elevation shadow
+            container.SetClipChildren(false);
+            container.SetClipToPadding(false);
 
             Console.WriteLine($"[Toolbar] About to AddView to {container.GetType().Name}, childCount={container.ChildCount}");
             container.AddView(m_toolbarPlatformView, lp);
