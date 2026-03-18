@@ -20,7 +20,7 @@
     </dui:ContentPage.ToolbarItems>
 
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar >
+        <dui:Toolbar HorizontalAlignment="Start">
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Title="Signer"
                                    Command="{Binding EditCommand}" />
