@@ -49,7 +49,7 @@ public class Toolbar : View
 
         foreach (var group in Groups)
         {
-            group.BindingContext = BindingContext;
+            SetInheritedBindingContext(group, BindingContext);
         }
     }
 }

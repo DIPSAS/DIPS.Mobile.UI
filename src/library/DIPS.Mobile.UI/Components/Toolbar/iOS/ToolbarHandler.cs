@@ -27,7 +27,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
     protected override void DisconnectHandler(UIToolbar platformView)
     {
-        platformView.SetItems(null, false);
         base.DisconnectHandler(platformView);
     }
 
@@ -89,7 +88,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
                 break;
         }
 
-        PlatformView.SetItems(barItems.ToArray(), false);
+        PlatformView.SetItems(barItems.ToArray(), true);
     }
 
     private static UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)

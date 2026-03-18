@@ -211,8 +211,23 @@ namespace DIPS.Mobile.UI.Components.Pages
             base.OnPropertyChanged(propertyName);
         }
 
+        // protected override void OnBindingContextChanged()
+        // {
+        //     base.OnBindingContextChanged();
+        //
+        //     if (BottomToolbar is not null)
+        //     {
+        //         SetInheritedBindingContext(BottomToolbar, BindingContext);
+        //     }
+        // }
+
         private void OnBottomToolbarChanged()
         {
+            // if (BottomToolbar is not null)
+            // {
+            //     SetInheritedBindingContext(BottomToolbar, BindingContext);
+            // }
+
             if (Handler is not null)
             {
                 AttachBottomToolbar();
@@ -227,6 +242,7 @@ namespace DIPS.Mobile.UI.Components.Pages
                 return;
             }
 
+            BottomToolbar.Parent = this;
             AttachBottomToolbarOnPlatform();
         }
 

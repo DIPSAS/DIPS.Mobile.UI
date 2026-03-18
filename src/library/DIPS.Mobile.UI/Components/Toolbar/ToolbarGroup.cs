@@ -32,7 +32,7 @@ public class ToolbarGroup : Element
 
         foreach (var item in Items)
         {
-            item.BindingContext = BindingContext;
+            SetInheritedBindingContext(item, BindingContext);
         }
     }
 }
