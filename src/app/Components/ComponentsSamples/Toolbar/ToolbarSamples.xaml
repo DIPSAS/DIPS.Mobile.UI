@@ -20,7 +20,7 @@
     </dui:ContentPage.ToolbarItems>
 
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar x:Name="bottomToolbar" HorizontalAlignment="End">
+        <dui:Toolbar x:Name="bottomToolbar" HorizontalAlignment="End" HidesOnScroll="{Binding HidesOnScroll}">
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"
@@ -66,6 +66,12 @@
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
                     <dui:Switch IsToggled="True" Toggled="OnToolbarVisibilityToggled" />
+                </dui:HorizontalStackLayout>
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Hides on scroll"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="{Binding HidesOnScroll}" />
                 </dui:HorizontalStackLayout>
             </dui:VerticalStackLayout>
 

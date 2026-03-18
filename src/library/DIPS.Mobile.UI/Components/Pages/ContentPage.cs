@@ -175,6 +175,11 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             if (args.NewHandler is null)
             {
+                DisableScrollTracking();
+                if (BottomToolbar is not null)
+                {
+                    BottomToolbar.PropertyChanged -= OnBottomToolbarPropertyChanged;
+                }
                 DetachBottomToolbarOnPlatform();
             }
         }
@@ -229,12 +234,58 @@ namespace DIPS.Mobile.UI.Components.Pages
             if (BottomToolbar is null)
             {
                 DetachBottomToolbarOnPlatform();
+                DisableScrollTracking();
                 return;
             }
 
             BottomToolbar.Parent = this;
             AttachBottomToolbarOnPlatform();
+
+            if (BottomToolbar.HidesOnScroll)
+            {
+                EnableScrollTracking();
+            }
+
+            BottomToolbar.PropertyChanged += OnBottomToolbarPropertyChanged;
         }
+
+        private void OnBottomToolbarPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(Toolbar.Toolbar.HidesOnScroll) || BottomToolbar is null)
+                return;
+
+            if (BottomToolbar.HidesOnScroll)
+            {
+                EnableScrollTracking();
+            }
+            else
+            {
+                DisableScrollTracking();
+                // Show the toolbar when HidesOnScroll is turned off
+                BottomToolbar.Show();
+            }
+        }
+
+        /// <summary>
+        /// Called when scroll direction is detected. Scroll down = hide toolbar, scroll up = show.
+        /// </summary>
+        internal void OnScrollDirectionChanged(bool isScrollingDown)
+        {
+            if (BottomToolbar is null || !BottomToolbar.HidesOnScroll)
+                return;
+
+            if (isScrollingDown)
+            {
+                BottomToolbar.Hide();
+            }
+            else
+            {
+                BottomToolbar.Show();
+            }
+        }
+
+        private partial void EnableScrollTracking();
+        private partial void DisableScrollTracking();
 
         private partial void AttachBottomToolbarOnPlatform();
         private partial void DetachBottomToolbarOnPlatform();

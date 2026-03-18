@@ -22,6 +22,12 @@ public class Toolbar : View
         typeof(Toolbar),
         defaultValue: ToolbarHorizontalAlignment.Center);
 
+    public static readonly BindableProperty HidesOnScrollProperty = BindableProperty.Create(
+        nameof(HidesOnScroll),
+        typeof(bool),
+        typeof(Toolbar),
+        defaultValue: false);
+
     private bool m_isToolbarVisible = true;
 
     /// <summary>
@@ -40,6 +46,16 @@ public class Toolbar : View
     {
         get => (ToolbarHorizontalAlignment)GetValue(HorizontalAlignmentProperty);
         set => SetValue(HorizontalAlignmentProperty, value);
+    }
+
+    /// <summary>
+    /// When true, the toolbar automatically hides when the user scrolls down and shows
+    /// when scrolling up. Works with any scrollable content (ScrollView, CollectionView, WebView).
+    /// </summary>
+    public bool HidesOnScroll
+    {
+        get => (bool)GetValue(HidesOnScrollProperty);
+        set => SetValue(HidesOnScrollProperty, value);
     }
 
     /// <summary>
