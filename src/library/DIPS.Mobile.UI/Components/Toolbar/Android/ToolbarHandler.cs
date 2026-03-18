@@ -47,9 +47,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         m_pillLayout.OutlineProvider = new RoundedOutlineProvider(DpToPx(32));
         m_pillLayout.ClipToOutline = false;
 
-        // M3 spec: equal padding inside the floating toolbar
-        var padding = DpToPx(8);
-        m_pillLayout.SetPadding(padding, padding, padding, padding);
+        // M3 spec: 8dp vertical padding, 16dp horizontal end padding
+        var padV = DpToPx(8);
+        var padH = DpToPx(16);
+        m_pillLayout.SetPadding(padH, padV, padH, padV);
 
         // Default alignment: center
         var layoutParams = new FrameLayout.LayoutParams(
@@ -148,12 +149,14 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     private AView CreateIconButton(ToolbarButton toolbarButton, bool hasMenu)
     {
-        var size = DpToPx(48);
+        var size = DpToPx(48); // M3 standard touch target
+        var margin = DpToPx(4); // 32dp between items = 16dp margin each side minus pill padding overlap; use 4dp to get ~32dp total gap
         var button = new ImageButton(Context);
         button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
         {
             Gravity = GravityFlags.CenterVertical,
         };
+        (button.LayoutParameters as LinearLayout.LayoutParams)!.SetMargins(margin, 0, margin, 0);
         button.SetScaleType(ImageView.ScaleType.CenterInside);
 
         // Circular ripple background
@@ -188,13 +191,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         button.SetTextColor(Colors.GetColor(ColorName.color_text_action).ToPlatform());
         button.Gravity = GravityFlags.Center;
 
-        var height = DpToPx(48);
+        var height = DpToPx(48); // M3 standard touch target
         var padH = DpToPx(16);
+        var margin = DpToPx(4);
         button.LayoutParameters = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WrapContent, height)
         {
             Gravity = GravityFlags.CenterVertical,
         };
+        (button.LayoutParameters as LinearLayout.LayoutParams)!.SetMargins(margin, 0, margin, 0);
         button.SetPadding(padH, 0, padH, 0);
         button.SetMinWidth(0);
 
@@ -223,7 +228,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         var separator = new AView(Context);
         var width = DpToPx(1);
         var height = DpToPx(24);
-        var margin = DpToPx(4);
+        var margin = DpToPx(12); // Extra spacing around group separator
 
         var lp = new LinearLayout.LayoutParams(width, height)
         {
