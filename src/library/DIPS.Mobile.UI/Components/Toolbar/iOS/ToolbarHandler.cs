@@ -1,4 +1,3 @@
-using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
@@ -12,8 +11,6 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 
 public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 {
-    private NSLayoutConstraint? m_widthConstraint;
-
     protected override UIToolbar CreatePlatformView()
     {
         var toolbar = new UIToolbar();
@@ -28,17 +25,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         UpdateItems();
     }
 
-    protected override void DisconnectHandler(UIToolbar platformView)
-    {
-        base.DisconnectHandler(platformView);
-
-        if (m_widthConstraint is not null)
-        {
-            m_widthConstraint.Active = false;
-            m_widthConstraint = null;
-        }
-    }
-
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
     {
         handler.UpdateItems();
@@ -46,7 +32,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
     private static partial void MapHorizontalAlignment(ToolbarHandler handler, Toolbar toolbar)
     {
-        // Alignment is handled by the ContentPage attachment, not the handler itself
+        // Alignment changes require rebuilding items (FlexibleSpace placement)
+        handler.UpdateItems();
     }
 
     private void UpdateItems()
@@ -54,7 +41,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         if (PlatformView is null || VirtualView is null)
             return;
 
-        var barItems = new List<UIBarButtonItem>();
+        var contentItems = new List<UIBarButtonItem>();
 
         for (var g = 0; g < VirtualView.Groups.Count; g++)
         {
@@ -62,7 +49,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
             foreach (var button in group.Items)
             {
-                barItems.Add(CreateBarButtonItem(button));
+                contentItems.Add(CreateBarButtonItem(button));
             }
 
             // Add separator between groups (not after the last group)
@@ -70,33 +57,33 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
             {
                 var separator = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace);
                 separator.Width = 16;
-                barItems.Add(separator);
+                contentItems.Add(separator);
             }
         }
 
+        // Use FlexibleSpace to control alignment within the full-width toolbar.
+        // The glass capsule only wraps the actual items, not the flex spaces.
+        var flexSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+        var barItems = new List<UIBarButtonItem>();
+
+        switch (VirtualView.HorizontalAlignment)
+        {
+            case ToolbarHorizontalAlignment.Start:
+                barItems.AddRange(contentItems);
+                barItems.Add(flexSpace);
+                break;
+            case ToolbarHorizontalAlignment.End:
+                barItems.Add(flexSpace);
+                barItems.AddRange(contentItems);
+                break;
+            default: // Center
+                barItems.Add(flexSpace);
+                barItems.AddRange(contentItems);
+                barItems.Add(new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace));
+                break;
+        }
+
         PlatformView.SetItems(barItems.ToArray(), false);
-
-        // Update compact width constraint
-        UpdateWidthConstraint();
-    }
-
-    private void UpdateWidthConstraint()
-    {
-        PlatformView.LayoutIfNeeded();
-        var fittedSize = PlatformView.SizeThatFits(new CGSize(nfloat.MaxValue, nfloat.MaxValue));
-
-        // Add horizontal padding so items aren't flush against the edges
-        var targetWidth = fittedSize.Width + 16;
-
-        if (m_widthConstraint is null)
-        {
-            m_widthConstraint = PlatformView.WidthAnchor.ConstraintEqualTo(targetWidth);
-            m_widthConstraint.Active = true;
-        }
-        else
-        {
-            m_widthConstraint.Constant = targetWidth;
-        }
     }
 
     private static UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)

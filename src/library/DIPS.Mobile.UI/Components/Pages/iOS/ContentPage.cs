@@ -31,25 +31,14 @@ public partial class ContentPage
 
         var safeArea = containerView.SafeAreaLayoutGuide;
 
-        var constraints = new List<NSLayoutConstraint>
+        var constraints = new NSLayoutConstraint[]
         {
             m_toolbarPlatformView.BottomAnchor.ConstraintEqualTo(safeArea.BottomAnchor),
+            m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor),
+            m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor),
         };
 
-        switch (BottomToolbar.HorizontalAlignment)
-        {
-            case ToolbarHorizontalAlignment.Start:
-                constraints.Add(m_toolbarPlatformView.LeadingAnchor.ConstraintEqualTo(safeArea.LeadingAnchor));
-                break;
-            case ToolbarHorizontalAlignment.End:
-                constraints.Add(m_toolbarPlatformView.TrailingAnchor.ConstraintEqualTo(safeArea.TrailingAnchor));
-                break;
-            default: // Center — compact, centered horizontally
-                constraints.Add(m_toolbarPlatformView.CenterXAnchor.ConstraintEqualTo(safeArea.CenterXAnchor));
-                break;
-        }
-
-        m_toolbarConstraints = constraints.ToArray();
+        m_toolbarConstraints = constraints;
         NSLayoutConstraint.ActivateConstraints(m_toolbarConstraints);
     }
 
