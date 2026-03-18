@@ -61,9 +61,13 @@ public class BottomSheetViewController : UIViewController
     {
         base.ViewDidAppear(animated);
         
-        if (NavigationController?.NavigationBar is not null)
+        if (NavigationController is { NavigationBarHidden: false, NavigationBar: not null })
         {
             UIAccessibility.PostNotification(UIAccessibilityPostNotification.ScreenChanged, NavigationController.NavigationBar);
+        }
+        else
+        {
+            UIAccessibility.PostNotification(UIAccessibilityPostNotification.ScreenChanged, View);
         }
     }
 

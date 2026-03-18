@@ -75,17 +75,7 @@ internal class BottomSheetNavigationBarHelper
         // Close button (right)
         if (headerBehavior?.IsCloseButtonVisible ?? true)
         {
-            var closeButton = new UIBarButtonItem( UIBarButtonSystemItem.Close, (_, _) =>
-            {
-                if (m_bottomSheet.BottomSheetHeaderBehavior?.CloseButtonCommand is not null)
-                {
-                    m_bottomSheet.BottomSheetHeaderBehavior.CloseButtonCommand.Execute((Action)(() => m_bottomSheet.Close()));
-                }
-                else
-                {
-                    m_bottomSheet.Close();
-                }
-            });
+            var closeButton = new UIBarButtonItem( UIBarButtonSystemItem.Close, (_, _) => OnCloseButtonTapped());
             closeButton.AccessibilityLabel = DUILocalizedStrings.Close;
             m_navigationItem.RightBarButtonItem = closeButton;
         }
@@ -107,6 +97,21 @@ internal class BottomSheetNavigationBarHelper
         else
         {
             m_navigationItem.LeftBarButtonItem = null;
+        }
+    }
+
+    private void OnCloseButtonTapped()
+    {
+        var closeAction = () => m_bottomSheet.Close();
+        
+        if (m_bottomSheet.BottomSheetHeaderBehavior?.CloseButtonCommand is not null)
+        {
+            // Pass the close action as parameter — the consumer decides if/when to invoke it
+            m_bottomSheet.BottomSheetHeaderBehavior.CloseButtonCommand.Execute(closeAction);
+        }
+        else
+        {
+            closeAction();
         }
     }
 
