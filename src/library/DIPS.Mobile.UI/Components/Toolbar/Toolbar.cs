@@ -22,6 +22,8 @@ public class Toolbar : View
         typeof(Toolbar),
         defaultValue: ToolbarHorizontalAlignment.Center);
 
+    private bool m_isToolbarVisible = true;
+
     /// <summary>
     /// The groups of buttons displayed in the toolbar. Groups are separated visually.
     /// </summary>
@@ -38,6 +40,44 @@ public class Toolbar : View
     {
         get => (ToolbarHorizontalAlignment)GetValue(HorizontalAlignmentProperty);
         set => SetValue(HorizontalAlignmentProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the toolbar is currently shown. Use <see cref="Show"/> and <see cref="Hide"/> to animate.
+    /// </summary>
+    public bool IsToolbarVisible => m_isToolbarVisible;
+
+    /// <summary>
+    /// Animates the toolbar into view by sliding it up from below.
+    /// </summary>
+    public void Show()
+    {
+        if (m_isToolbarVisible)
+            return;
+
+        if (Handler is ToolbarHandler handler)
+        {
+            handler.AnimateShow();
+        }
+        
+        m_isToolbarVisible = true;
+    }
+
+    /// <summary>
+    /// Animates the toolbar out of view by sliding it down below the screen edge.
+    /// Ideal for scroll-to-hide behavior.
+    /// </summary>
+    public void Hide()
+    {
+        if (!m_isToolbarVisible)
+            return;
+
+        if (Handler is ToolbarHandler handler)
+        {
+            handler.AnimateHide();
+        }
+        
+        m_isToolbarVisible = false;
     }
 
     protected override void OnBindingContextChanged()

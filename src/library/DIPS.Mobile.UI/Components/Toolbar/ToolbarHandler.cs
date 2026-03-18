@@ -64,4 +64,14 @@ public partial class ToolbarHandler
     /// to incrementally add/remove just that one item without rebuilding the entire toolbar.
     /// </summary>
     partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton);
+
+    /// <summary>
+    /// Animates the toolbar into view by sliding it up from below.
+    /// </summary>
+    internal partial void AnimateShow();
+
+    /// <summary>
+    /// Animates the toolbar out of view by sliding it down off-screen.
+    /// </summary>
+    internal partial void AnimateHide();
 }

@@ -11,4 +11,16 @@ public partial class ToolbarSamples
     {
         await Navigation.PopModalAsync();
     }
+
+    private void OnToolbarVisibilityToggled(object? sender, ToggledEventArgs e)
+    {
+        if (e.Value)
+        {
+            bottomToolbar.Show();
+        }
+        else
+        {
+            bottomToolbar.Hide();
+        }
+    }
 }

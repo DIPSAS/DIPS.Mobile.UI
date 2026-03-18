@@ -203,4 +203,51 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
         return item;
     }
+
+    /// <summary>
+    /// Animates the toolbar sliding up into view with a spring animation.
+    /// </summary>
+    internal partial void AnimateShow()
+    {
+        if (PlatformView is null)
+            return;
+
+        UIView.AnimateNotify(
+            0.35,
+            0,
+            0.8f,
+            0.5f,
+            UIViewAnimationOptions.CurveEaseOut,
+            () =>
+            {
+                PlatformView.Transform = CoreGraphics.CGAffineTransform.MakeIdentity();
+                PlatformView.Alpha = 1;
+            },
+            null);
+    }
+
+    /// <summary>
+    /// Animates the toolbar sliding down off-screen with a spring animation.
+    /// </summary>
+    internal partial void AnimateHide()
+    {
+        if (PlatformView is null)
+            return;
+
+        // Slide down by toolbar height + extra margin to fully clear the screen
+        var slideDistance = PlatformView.Bounds.Height + 40;
+
+        UIView.AnimateNotify(
+            0.3,
+            0,
+            1.0f,
+            0f,
+            UIViewAnimationOptions.CurveEaseIn,
+            () =>
+            {
+                PlatformView.Transform = CoreGraphics.CGAffineTransform.MakeTranslation(0, (nfloat)slideDistance);
+                PlatformView.Alpha = 0;
+            },
+            null);
+    }
 }

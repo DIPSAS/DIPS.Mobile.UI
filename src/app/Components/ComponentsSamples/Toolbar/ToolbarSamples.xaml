@@ -20,7 +20,7 @@
     </dui:ContentPage.ToolbarItems>
 
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar HorizontalAlignment="End">
+        <dui:Toolbar x:Name="bottomToolbar" HorizontalAlignment="End">
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"
@@ -29,12 +29,10 @@
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Icon="{dui:Icons edit_line}"
-                                   IsVisible="{Binding IsSignVisible}"
                                    Title="Edit"
                                    Command="{Binding EditCommand}" />
                 <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
                                    
-                                   IsVisible="{Binding IsSignVisible}"
                                    Title="More actions">
                     <dui:ToolbarButton.Menu>
                         <dui:ContextMenu>
@@ -56,12 +54,20 @@
     <dui:ScrollView>
         <dui:VerticalStackLayout Spacing="0">
             <!-- Toolbar visibility toggles -->
-            <dui:HorizontalStackLayout Padding="{dui:Sizes size_4}" Spacing="{dui:Sizes size_2}">
-                <dui:Label Text="Show Sign button"
-                           Style="{dui:Styles Label=UI200}"
-                           VerticalOptions="Center" />
-                <dui:Switch IsToggled="{Binding IsSignVisible}" />
-            </dui:HorizontalStackLayout>
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}" Spacing="{dui:Sizes size_2}">
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Show Sign button"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="{Binding IsSignVisible}" />
+                </dui:HorizontalStackLayout>
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Show/Hide toolbar"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="True" Toggled="OnToolbarVisibilityToggled" />
+                </dui:HorizontalStackLayout>
+            </dui:VerticalStackLayout>
 
             <!-- Document info header -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"

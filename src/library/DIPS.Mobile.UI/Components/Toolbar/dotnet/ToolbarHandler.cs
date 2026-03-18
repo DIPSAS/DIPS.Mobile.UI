@@ -16,6 +16,14 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, Toolbar>
     {
     }
 
+    internal partial void AnimateShow()
+    {
+    }
+
+    internal partial void AnimateHide()
+    {
+    }
+
     protected override Toolbar CreatePlatformView()
     {
         return new Toolbar();
