@@ -55,6 +55,9 @@ public partial class ContentPage
 
         m_toolbarPlatformView.RemoveFromSuperview();
         m_toolbarPlatformView = null;
+
+        // Disconnect the toolbar's handler to release platform resources
+        BottomToolbar?.Handler?.DisconnectHandler();
     }
 
     private UIViewController? FindViewController()

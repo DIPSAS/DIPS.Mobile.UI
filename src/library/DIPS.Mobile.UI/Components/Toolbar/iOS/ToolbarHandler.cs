@@ -25,6 +25,12 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         UpdateItems();
     }
 
+    protected override void DisconnectHandler(UIToolbar platformView)
+    {
+        platformView.SetItems(null, false);
+        base.DisconnectHandler(platformView);
+    }
+
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
     {
         handler.UpdateItems();
