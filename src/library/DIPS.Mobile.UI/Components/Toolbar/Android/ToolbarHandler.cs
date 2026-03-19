@@ -130,6 +130,11 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         UpdateViewVisibility(animated: true);
     }
 
+    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
+    {
+        // TODO: Implement Android IsBusy spinner
+    }
+
     private void UpdateItems()
     {
         if (m_pillLayout is null || VirtualView is null)

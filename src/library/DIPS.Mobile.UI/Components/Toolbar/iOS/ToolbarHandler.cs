@@ -148,8 +148,14 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         PlatformView.SetItems(barItems.ToArray(), true);
     }
 
-    private static UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)
+    private UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)
     {
+        // When busy, show a spinner instead of the normal button
+        if (toolbarButton.IsBusy)
+        {
+            return CreateSpinnerBarButtonItem();
+        }
+
         UIImage? icon = null;
         if (DUI.TryGetUIImageFromImageSource(toolbarButton.Icon, out var uiImage) && uiImage is not null)
         {
@@ -201,6 +207,20 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         }
 
         return item;
+    }
+
+    private static UIBarButtonItem CreateSpinnerBarButtonItem()
+    {
+        var spinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Medium);
+        spinner.StartAnimating();
+        return new UIBarButtonItem(spinner);
+    }
+
+    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
+    {
+        // Swap the bar button item between normal and spinner
+        m_buttonItemMap[toolbarButton] = CreateBarButtonItem(toolbarButton);
+        ApplyItemsToToolbar(animated: true);
     }
 
     /// <summary>

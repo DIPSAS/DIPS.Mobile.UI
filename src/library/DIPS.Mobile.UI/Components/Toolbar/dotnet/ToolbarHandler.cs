@@ -16,6 +16,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, Toolbar>
     {
     }
 
+    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
+    {
+    }
+
     internal partial void AnimateShow()
     {
     }

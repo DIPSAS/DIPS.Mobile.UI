@@ -53,9 +53,17 @@ public partial class ToolbarHandler
 
     private void OnToolbarButtonPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ToolbarButton.IsVisible) && sender is ToolbarButton toolbarButton)
+        if (sender is not ToolbarButton toolbarButton)
+            return;
+
+        switch (e.PropertyName)
         {
-            OnToolbarButtonVisibilityChanged(toolbarButton);
+            case nameof(ToolbarButton.IsVisible):
+                OnToolbarButtonVisibilityChanged(toolbarButton);
+                break;
+            case nameof(ToolbarButton.IsBusy):
+                OnToolbarButtonBusyChanged(toolbarButton);
+                break;
         }
     }
 
@@ -64,6 +72,12 @@ public partial class ToolbarHandler
     /// to incrementally add/remove just that one item without rebuilding the entire toolbar.
     /// </summary>
     partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton);
+
+    /// <summary>
+    /// Called when a single button's IsBusy changes. Platform handlers implement this
+    /// to show or hide a spinner on the button.
+    /// </summary>
+    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton);
 
     /// <summary>
     /// Animates the toolbar into view by sliding it up from below.
