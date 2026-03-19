@@ -20,19 +20,28 @@ jobs:
       - name: Generate Sidebar
         run: |
           cd wiki
-          echo "<!-- This file is auto-generated. Do not edit manually. -->" > _Sidebar.md
+          echo "<!-- This file is auto-generated from the wiki/ folder structure. Do not edit manually. -->" > _Sidebar.md
           echo "" >> _Sidebar.md
           echo "**[Home](Home)**" >> _Sidebar.md
           echo "" >> _Sidebar.md
 
-          # Collect all .md files except Home.md, _Sidebar.md, and _Footer.md
-          # Sort them alphabetically and generate sidebar links
-          for file in $(ls *.md | grep -v -E '^(Home|_Sidebar|_Footer)\.md$' | sort -f); do
-            # Get the page name (filename without .md extension)
+          # Add root-level pages (except Home, _Sidebar, _Footer) sorted alphabetically
+          for file in $(find . -maxdepth 1 -name '*.md' ! -name 'Home.md' ! -name '_Sidebar.md' ! -name '_Footer.md' | sed 's|^\./||' | sort -f); do
             page_name="${file%.md}"
-            # Convert hyphens to spaces for display name
             display_name=$(echo "$page_name" | sed 's/-/ /g')
             echo "- [$display_name]($page_name)" >> _Sidebar.md
+          done
+
+          # Add grouped pages from subdirectories
+          for dir in $(find . -mindepth 1 -maxdepth 1 -type d | sed 's|^\./||' | sort -f); do
+            echo "" >> _Sidebar.md
+            echo "**$dir**" >> _Sidebar.md
+            echo "" >> _Sidebar.md
+            for file in $(find "$dir" -maxdepth 1 -name '*.md' | sed "s|^$dir/||" | sort -f); do
+              page_name="${file%.md}"
+              display_name=$(echo "$page_name" | sed 's/-/ /g')
+              echo "- [$display_name]($page_name)" >> _Sidebar.md
+            done
           done
 
       - name: Sync to Wiki
@@ -50,8 +59,11 @@ jobs:
           # Remove all existing wiki content (except .git)
           find /tmp/wiki-repo -maxdepth 1 -not -name '.git' -not -name '.' -delete 2>/dev/null || true
 
-          # Copy all wiki content from the repo
-          cp wiki/* /tmp/wiki-repo/
+          # Copy the generated sidebar
+          cp wiki/_Sidebar.md /tmp/wiki-repo/
+
+          # Flatten all .md files from wiki/ (including subdirectories) to wiki repo root
+          find wiki -name '*.md' ! -name '_Sidebar.md' -exec cp {} /tmp/wiki-repo/ \;
 
           # Push changes if there are any
           cd /tmp/wiki-repo

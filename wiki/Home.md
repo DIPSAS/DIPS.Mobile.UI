@@ -1,5 +1,13 @@
-Welcome to the DIPS.Mobile.UI wiki! The intent of this wiki is to be used as documentation when developing mobile applications in DIPS. This documentation should be read side-by-side with the Figma mobile prototypes / components from DIPS. 
+# DIPS.Mobile.UI
 
-Use the table of contents to navigate around our documentation. Happy reading!
+Welcome to the **DIPS.Mobile.UI** documentation — your guide to building beautiful, accessible, and consistent mobile experiences in the healthcare domain.
 
->This documentation is developer focused. `You` is a developer and `People` are the people using the developers application. 
+This component library is built on .NET MAUI and powers DIPS mobile applications on both iOS and Android. Every component follows our design system, with resources like colors, sizes, and icons generated directly from Figma.
+
+> **For developers.** Throughout this documentation, *you* refers to you — the developer. *People* refers to the end-users of your application.
+
+## Getting started
+
+New here? Start with [Getting Started](Getting-Started) to set up the library and build your first screen.
+
+This documentation is best read side-by-side with the Figma mobile prototypes and components from DIPS.
