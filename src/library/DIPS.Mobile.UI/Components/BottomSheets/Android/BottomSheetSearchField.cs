@@ -1,129 +1,89 @@
 using Android.Content;
-using Android.Graphics.Drawables;
 using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using MaterialSearchBar = Google.Android.Material.Search.SearchBar;
+using MaterialSearchView = Google.Android.Material.Search.SearchView;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.Android;
 
 /// <summary>
-/// A native Material 3 styled search field for use in BottomSheets.
-/// Uses an EditText with rounded background, search icon, and clear button
-/// to match the Material 3 search bar design.
+/// A Material 3 search component for BottomSheets using the actual
+/// <see cref="MaterialSearchBar"/> and <see cref="MaterialSearchView"/> components.
+/// The SearchBar provides the collapsed pill-shaped search trigger,
+/// while the SearchView provides the expanded search input with EditText.
 /// </summary>
-internal class BottomSheetSearchField : Java.Lang.Object, ITextWatcher, AView.IOnFocusChangeListener
+internal class BottomSheetSearchField : Java.Lang.Object, ITextWatcher, MaterialSearchView.ITransitionListener
 {
     private readonly WeakReference<BottomSheet> m_weakBottomSheet;
-    private readonly EditText m_editText;
+    private readonly MaterialSearchBar m_searchBar;
+    private readonly MaterialSearchView m_searchView;
     private readonly FrameLayout m_container;
-    private readonly ImageView m_searchIcon;
-    private readonly ImageView m_clearButton;
     private string m_previousText = string.Empty;
 
     public BottomSheetSearchField(Context context, BottomSheet bottomSheet)
     {
         m_weakBottomSheet = new WeakReference<BottomSheet>(bottomSheet);
 
-        var density = context.Resources?.DisplayMetrics?.Density ?? 1f;
-        
-        // Create the outer container with M3 search bar styling
+        // Create wrapper container
         m_container = new FrameLayout(context);
-        var containerParams = new LinearLayout.LayoutParams(
+        m_container.LayoutParameters = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MatchParent,
-            (int)(56 * density)) // M3 search bar height is 56dp
-        {
-            LeftMargin = (int)(16 * density),
-            RightMargin = (int)(16 * density),
-            TopMargin = (int)(8 * density),
-            BottomMargin = (int)(8 * density)
-        };
-        m_container.LayoutParameters = containerParams;
+            ViewGroup.LayoutParams.WrapContent);
 
-        // Rounded background matching M3 search bar (pill shape)
-        var background = new GradientDrawable();
-        background.SetShape(ShapeType.Rectangle);
-        background.SetCornerRadius(28 * density);
-        background.SetColor(Colors.GetColor(ColorName.color_surface_subtle).ToPlatform());
-        m_container.Background = background;
+        // Material 3 SearchBar (pill-shaped search trigger)
+        m_searchBar = new MaterialSearchBar(context);
+        m_searchBar.LayoutParameters = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MatchParent,
+            ViewGroup.LayoutParams.WrapContent);
+        m_container.AddView(m_searchBar);
 
-        // Search icon
-        m_searchIcon = new ImageView(context);
-        m_searchIcon.SetImageResource(global::Android.Resource.Drawable.IcMenuSearch);
-        m_searchIcon.SetColorFilter(Colors.GetColor(ColorName.color_icon_default).ToPlatform());
-        var searchIconParams = new FrameLayout.LayoutParams(
-            (int)(24 * density),
-            (int)(24 * density),
-            GravityFlags.CenterVertical | GravityFlags.Start);
-        searchIconParams.LeftMargin = (int)(16 * density);
-        m_searchIcon.LayoutParameters = searchIconParams;
-        m_container.AddView(m_searchIcon);
-
-        // EditText
-        m_editText = new EditText(context);
-        m_editText.SetHintTextColor(Colors.GetColor(ColorName.color_text_subtle).ToPlatform());
-        m_editText.SetTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
-        m_editText.Background = null; // Transparent - container handles background
-        m_editText.SetSingleLine(true);
-        m_editText.ImeOptions = ImeAction.Search;
-        m_editText.InputType = InputTypes.ClassText | InputTypes.TextFlagNoSuggestions;
-        var editTextParams = new FrameLayout.LayoutParams(
+        // Material 3 SearchView (expanded search with EditText)
+        m_searchView = new MaterialSearchView(context);
+        m_searchView.LayoutParameters = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MatchParent,
             ViewGroup.LayoutParams.MatchParent);
-        editTextParams.LeftMargin = (int)(48 * density); // After search icon
-        editTextParams.RightMargin = (int)(48 * density); // Before clear button
-        m_editText.LayoutParameters = editTextParams;
-        m_editText.SetPadding(0, 0, 0, 0);
-        m_editText.AddTextChangedListener(this);
-        m_editText.OnFocusChangeListener = this;
-        m_container.AddView(m_editText);
 
-        // Clear button
-        m_clearButton = new ImageView(context);
-        m_clearButton.SetImageResource(global::Android.Resource.Drawable.IcMenuCloseClearCancel);
-        m_clearButton.SetColorFilter(Colors.GetColor(ColorName.color_icon_default).ToPlatform());
-        m_clearButton.Visibility = ViewStates.Gone;
-        m_clearButton.Clickable = true;
-        m_clearButton.Focusable = true;
-        var clearParams = new FrameLayout.LayoutParams(
-            (int)(24 * density),
-            (int)(24 * density),
-            GravityFlags.CenterVertical | GravityFlags.End);
-        clearParams.RightMargin = (int)(16 * density);
-        m_clearButton.LayoutParameters = clearParams;
-        m_clearButton.Click += OnClearButtonClicked;
-        m_container.AddView(m_clearButton);
+        // Connect SearchView to SearchBar for proper M3 transitions
+        m_searchView.SetupWithSearchBar(m_searchBar);
+
+        // Listen for text changes on the SearchView's EditText
+        m_searchView.EditText.AddTextChangedListener(this);
+
+        // Listen for transition events (show/hide)
+        m_searchView.AddTransitionListener(this);
+
+        m_container.AddView(m_searchView);
     }
 
     public AView View => m_container;
+    
+    /// <summary>
+    /// Returns the SearchBar for external layout if needed.
+    /// </summary>
+    public MaterialSearchBar SearchBar => m_searchBar;
 
     public void Focus()
     {
-        m_editText.RequestFocus();
-        var imm = (InputMethodManager?)m_editText.Context?.GetSystemService(Context.InputMethodService);
-        imm?.ShowSoftInput(m_editText, ShowFlags.Implicit);
+        m_searchView.Show();
+        m_searchView.EditText.RequestFocus();
+        var imm = (InputMethodManager?)m_searchView.EditText.Context?.GetSystemService(Context.InputMethodService);
+        imm?.ShowSoftInput(m_searchView.EditText, ShowFlags.Implicit);
     }
 
     public void Unfocus()
     {
-        m_editText.ClearFocus();
-        var imm = (InputMethodManager?)m_editText.Context?.GetSystemService(Context.InputMethodService);
-        imm?.HideSoftInputFromWindow(m_editText.WindowToken, 0);
-    }
-
-    private void OnClearButtonClicked(object? sender, EventArgs e)
-    {
-        m_editText.Text = string.Empty;
+        var imm = (InputMethodManager?)m_searchView.EditText.Context?.GetSystemService(Context.InputMethodService);
+        imm?.HideSoftInputFromWindow(m_searchView.EditText.WindowToken, 0);
+        m_searchView.Hide();
     }
 
     // ITextWatcher implementation
     public void AfterTextChanged(IEditable? s)
     {
         var newText = s?.ToString() ?? string.Empty;
-        m_clearButton.Visibility = string.IsNullOrEmpty(newText) ? ViewStates.Gone : ViewStates.Visible;
 
         if (!m_weakBottomSheet.TryGetTarget(out var bottomSheet))
             return;
@@ -140,17 +100,17 @@ internal class BottomSheetSearchField : Java.Lang.Object, ITextWatcher, AView.IO
     {
     }
 
-    // IOnFocusChangeListener implementation
-    public void OnFocusChange(AView? v, bool hasFocus)
+    // MaterialSearchView.ITransitionListener implementation
+    public void OnStateChanged(MaterialSearchView searchView, MaterialSearchView.TransitionState previousState, MaterialSearchView.TransitionState newState)
     {
         if (!m_weakBottomSheet.TryGetTarget(out var bottomSheet))
             return;
 
-        if (hasFocus)
+        if (newState == MaterialSearchView.TransitionState.Shown)
         {
             bottomSheet.OnSearchFieldFocused();
         }
-        else
+        else if (newState == MaterialSearchView.TransitionState.Hidden)
         {
             bottomSheet.OnSearchFieldUnfocused();
         }
@@ -158,8 +118,7 @@ internal class BottomSheetSearchField : Java.Lang.Object, ITextWatcher, AView.IO
 
     public void Cleanup()
     {
-        m_editText.RemoveTextChangedListener(this);
-        m_editText.OnFocusChangeListener = null;
-        m_clearButton.Click -= OnClearButtonClicked;
+        m_searchView.EditText.RemoveTextChangedListener(this);
+        m_searchView.RemoveTransitionListener(this);
     }
 }
