@@ -273,6 +273,7 @@ TaskRunner
     var generatedDotnetMauiIconsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("icons"));
     var generatedDotnetMauiSizesDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("sizes"));
     var generatedDotnetMauiAnimationsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("animations"));
+    var generatedDotnetMauiColorsDir = generatedTokensDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("colors"));
 
     //The source repository paths
     var libraryResourcesDir = new DirectoryInfo(Path.Combine(LibraryDir, "Resources"));
@@ -281,14 +282,26 @@ TaskRunner
     var libraryDotnetMauiIconsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Icons"));
     var libraryDotnetMauiSizesDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Sizes"));
     var libraryDotnetMauiAnimationsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Animations"));
+    var libraryDotnetMauiColorsDir = libraryResourcesDir.GetDirectories().FirstOrDefault(d => d.Name.Equals("Colors"));
 
     //Icons
     await DesignTokenApplier.TryAddIcons(libraryDotnetMauiIconsDir, generatedDotnetMauiIconsDir);
     //Animations
     await DesignTokenApplier.TryAddAnimations(libraryDotnetMauiAnimationsDir, generatedDotnetMauiAnimationsDir);
 
-    //Sizes
+    //Sizes (also regenerates Sizes.xaml)
     await DesignTokenApplier.TryAddSizes(libraryDotnetMauiSizesDir, generatedDotnetMauiSizesDir);
+
+    //Colors: update palette C# resources and regenerate ColorsPalette.xaml if colors directory is available
+    if (generatedDotnetMauiColorsDir != null)
+    {
+        await DesignTokenApplier.TryAddColors(libraryDotnetMauiColorsDir, generatedDotnetMauiColorsDir);
+
+        //Regenerate semantic XAML color dictionaries from light/dark JSON if present
+        var generatedLightJson = Path.Combine(generatedDotnetMauiColorsDir.FullName, "colors-light.json");
+        var generatedDarkJson = Path.Combine(generatedDotnetMauiColorsDir.FullName, "colors-dark.json");
+        await DesignTokenApplier.TryAddSemanticColorsXaml(libraryDotnetMauiColorsDir, generatedLightJson, generatedDarkJson);
+    }
 
     //Bump changelog
     var changesetMessage = "Resources was updated from DIPS.Mobile.DesignTokens";
