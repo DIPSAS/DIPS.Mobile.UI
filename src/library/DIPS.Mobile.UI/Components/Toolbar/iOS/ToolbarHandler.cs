@@ -212,6 +212,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     private static UIBarButtonItem CreateSpinnerBarButtonItem()
     {
         var spinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Medium);
+        spinner.Color = Colors.GetColor(ColorName.color_icon_subtle).ToPlatform();
         spinner.StartAnimating();
         return new UIBarButtonItem(spinner);
     }

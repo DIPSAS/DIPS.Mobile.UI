@@ -4,10 +4,13 @@ namespace Components.ComponentsSamples.Toolbar;
 
 internal class ToolbarSamplesViewModel : ViewModel
 {
-    private bool m_isSignVisible = true;
-    private bool m_isSignBusy;
-
-    public Command SignCommand => new(() => { });
+    public Command SignCommand => new(async () =>
+    {
+        IsSignBusy = true;
+        await Task.Delay(1000);
+        IsSignVisible = false;
+        IsSignBusy = false;
+    });
     public Command EditCommand => new(() => { });
     public Command CopyCommand => new(() => { });
     public Command DeleteCommand => new(() => { });
@@ -16,13 +19,13 @@ internal class ToolbarSamplesViewModel : ViewModel
 
     public bool IsSignVisible
     {
-        get => m_isSignVisible;
-        set => RaiseWhenSet(ref m_isSignVisible, value);
-    }
+        get;
+        set => RaiseWhenSet(ref field, value);
+    } = true;
 
     public bool IsSignBusy
     {
-        get => m_isSignBusy;
-        set => RaiseWhenSet(ref m_isSignBusy, value);
+        get;
+        set => RaiseWhenSet(ref field, value);
     }
 }

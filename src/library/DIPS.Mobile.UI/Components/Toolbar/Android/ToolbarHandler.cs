@@ -13,6 +13,7 @@ using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using ImageButton = Android.Widget.ImageButton;
 using Orientation = Android.Widget.Orientation;
+using ProgressBar = Android.Widget.ProgressBar;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
@@ -132,7 +133,61 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
     {
-        // TODO: Implement Android IsBusy spinner
+        if (m_pillLayout is null || VirtualView is null)
+            return;
+
+        if (!m_buttonViewMap.TryGetValue(toolbarButton, out var currentView))
+            return;
+
+        // Find the position of the current view in the pill layout
+        var index = m_pillLayout.IndexOfChild(currentView);
+        if (index < 0)
+            return;
+
+        // Animate the swap
+        var transition = new AutoTransition();
+        transition.SetDuration(200);
+        TransitionManager.BeginDelayedTransition((ViewGroup)m_pillLayout.Parent!, transition);
+
+        // Remove old view
+        m_pillLayout.RemoveViewAt(index);
+        currentView.Dispose();
+
+        // Create the replacement: spinner when busy, normal button when not
+        AView newView;
+        if (toolbarButton.IsBusy)
+        {
+            newView = CreateSpinnerView();
+        }
+        else
+        {
+            newView = CreateButtonView(toolbarButton);
+        }
+
+        m_buttonViewMap[toolbarButton] = newView;
+        m_pillLayout.AddView(newView, index);
+
+        // Respect current visibility
+        newView.Visibility = toolbarButton.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+    }
+
+    private AView CreateSpinnerView()
+    {
+        var size = DpToPx(48);
+        var margin = DpToPx(4);
+        var inset = DpToPx(12); // (48 - 24) / 2 = 12dp padding to match 24dp icon size
+        var spinner = new ProgressBar(Context, null, Android.Resource.Attribute.ProgressBarStyleSmall);
+        spinner.Indeterminate = true;
+        spinner.IndeterminateTintList = ColorStateList.ValueOf(
+            Colors.GetColor(ColorName.color_icon_subtle).ToPlatform());
+        spinner.SetPadding(inset, inset, inset, inset);
+        spinner.LayoutParameters = new LinearLayout.LayoutParams(size, size)
+        {
+            Gravity = GravityFlags.CenterVertical,
+        };
+        (spinner.LayoutParameters as LinearLayout.LayoutParams)!.SetMargins(margin, 0, margin, 0);
+
+        return spinner;
     }
 
     private void UpdateItems()
