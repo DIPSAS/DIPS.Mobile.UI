@@ -67,6 +67,13 @@
                     <dui:Switch IsToggled="True"
                                 Toggled="OnToolbarVisibilityToggled" />
                 </dui:HorizontalStackLayout>
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Hides on scroll"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="True"
+                                Toggled="OnHidesOnScrollToggled" />
+                </dui:HorizontalStackLayout>
             </dui:VerticalStackLayout>
 
             <!-- Document info header -->

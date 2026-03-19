@@ -28,4 +28,9 @@ public partial class ToolbarSamples
             bottomToolbar.Hide();
         }
     }
+
+    private void OnHidesOnScrollToggled(object? sender, ToggledEventArgs e)
+    {
+        bottomToolbar.HidesOnScrollFor = e.Value ? scrollView : null;
+    }
 }
