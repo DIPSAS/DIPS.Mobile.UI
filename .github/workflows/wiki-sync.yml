@@ -8,7 +8,7 @@ on:
       - 'wiki/**'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   sync-wiki:
