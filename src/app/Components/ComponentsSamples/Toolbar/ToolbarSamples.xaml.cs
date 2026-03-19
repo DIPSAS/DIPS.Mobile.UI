@@ -12,6 +12,11 @@ public partial class ToolbarSamples
         await Navigation.PopModalAsync();
     }
 
+    private void OnScrollViewLoaded(object? sender, EventArgs e)
+    {
+        bottomToolbar.HidesOnScrollFor = scrollView;
+    }
+
     private void OnToolbarVisibilityToggled(object? sender, ToggledEventArgs e)
     {
         if (e.Value)

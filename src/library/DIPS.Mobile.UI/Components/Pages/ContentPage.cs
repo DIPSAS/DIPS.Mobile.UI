@@ -234,44 +234,59 @@ namespace DIPS.Mobile.UI.Components.Pages
             if (BottomToolbar is null)
             {
                 DetachBottomToolbarOnPlatform();
-                DisableScrollTracking();
                 return;
             }
 
             BottomToolbar.Parent = this;
             AttachBottomToolbarOnPlatform();
 
-            if (BottomToolbar.HidesOnScroll)
-            {
-                EnableScrollTracking();
-            }
+            SetupScrollTrackingForToolbar();
 
             BottomToolbar.PropertyChanged += OnBottomToolbarPropertyChanged;
         }
 
         private void OnBottomToolbarPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(Toolbar.Toolbar.HidesOnScroll) || BottomToolbar is null)
+            if (e.PropertyName != nameof(Toolbar.Toolbar.HidesOnScrollFor) || BottomToolbar is null)
                 return;
 
-            if (BottomToolbar.HidesOnScroll)
+            SetupScrollTrackingForToolbar();
+        }
+
+        #region Scroll Direction Tracking
+
+        private void SetupScrollTrackingForToolbar()
+        {
+            DisableScrollTracking();
+
+            if (BottomToolbar?.HidesOnScrollFor is not { } targetView)
+                return;
+
+            if (targetView.Handler is not null)
             {
-                EnableScrollTracking();
+                EnableScrollTrackingForView(targetView);
             }
             else
             {
-                DisableScrollTracking();
-                // Show the toolbar when HidesOnScroll is turned off
-                BottomToolbar.Show();
+                targetView.HandlerChanged += OnScrollTargetHandlerChanged;
             }
         }
 
-        /// <summary>
-        /// Called when scroll direction is detected. Scroll down = hide toolbar, scroll up = show.
-        /// </summary>
-        internal void OnScrollDirectionChanged(bool isScrollingDown)
+        private void OnScrollTargetHandlerChanged(object? sender, EventArgs e)
         {
-            if (BottomToolbar is null || !BottomToolbar.HidesOnScroll)
+            if (sender is VisualElement ve)
+            {
+                ve.HandlerChanged -= OnScrollTargetHandlerChanged;
+                if (ve.Handler is not null)
+                {
+                    EnableScrollTrackingForView(ve);
+                }
+            }
+        }
+
+        private void OnScrollDirectionDetected(bool isScrollingDown)
+        {
+            if (BottomToolbar is null)
                 return;
 
             if (isScrollingDown)
@@ -284,8 +299,10 @@ namespace DIPS.Mobile.UI.Components.Pages
             }
         }
 
-        private partial void EnableScrollTracking();
+        private partial void EnableScrollTrackingForView(VisualElement view);
         private partial void DisableScrollTracking();
+
+        #endregion
 
         private partial void AttachBottomToolbarOnPlatform();
         private partial void DetachBottomToolbarOnPlatform();

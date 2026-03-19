@@ -9,22 +9,13 @@
                  x:DataType="local:ToolbarSamplesViewModel"
                  x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
                  Title="Documents">
-
-    <dui:ContentPage.BindingContext>
-        <local:ToolbarSamplesViewModel />
-    </dui:ContentPage.BindingContext>
-
-    <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Text="Close"
-                     Clicked="OnCloseClicked" />
-    </dui:ContentPage.ToolbarItems>
-
     <dui:ContentPage.BottomToolbar>
-        <dui:Toolbar x:Name="bottomToolbar" HorizontalAlignment="End" HidesOnScroll="{Binding HidesOnScroll}">
+        <dui:Toolbar x:Name="bottomToolbar"
+                     HorizontalAlignment="End"
+                     HidesOnScrollFor="{x:Reference scrollView}">
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"
-                                   
                                    Command="{Binding SignCommand}" />
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
@@ -32,7 +23,6 @@
                                    Title="Edit"
                                    Command="{Binding EditCommand}" />
                 <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
-                                   
                                    Title="More actions">
                     <dui:ToolbarButton.Menu>
                         <dui:ContextMenu>
@@ -50,11 +40,20 @@
             </dui:ToolbarGroup>
         </dui:Toolbar>
     </dui:ContentPage.BottomToolbar>
+    <dui:ContentPage.BindingContext>
+        <local:ToolbarSamplesViewModel />
+    </dui:ContentPage.BindingContext>
 
-    <dui:ScrollView>
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
+
+    <dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded">
         <dui:VerticalStackLayout Spacing="0">
             <!-- Toolbar visibility toggles -->
-            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}" Spacing="{dui:Sizes size_2}">
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="{dui:Sizes size_2}">
                 <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
                     <dui:Label Text="Show Sign button"
                                Style="{dui:Styles Label=UI200}"
@@ -65,13 +64,8 @@
                     <dui:Label Text="Show/Hide toolbar"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch IsToggled="True" Toggled="OnToolbarVisibilityToggled" />
-                </dui:HorizontalStackLayout>
-                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
-                    <dui:Label Text="Hides on scroll"
-                               Style="{dui:Styles Label=UI200}"
-                               VerticalOptions="Center" />
-                    <dui:Switch IsToggled="{Binding HidesOnScroll}" />
+                    <dui:Switch IsToggled="True"
+                                Toggled="OnToolbarVisibilityToggled" />
                 </dui:HorizontalStackLayout>
             </dui:VerticalStackLayout>
 
@@ -127,5 +121,7 @@
 
         </dui:VerticalStackLayout>
     </dui:ScrollView>
+
+   
 
 </dui:ContentPage>

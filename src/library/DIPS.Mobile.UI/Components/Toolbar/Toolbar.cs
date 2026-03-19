@@ -22,11 +22,11 @@ public class Toolbar : View
         typeof(Toolbar),
         defaultValue: ToolbarHorizontalAlignment.Center);
 
-    public static readonly BindableProperty HidesOnScrollProperty = BindableProperty.Create(
-        nameof(HidesOnScroll),
-        typeof(bool),
+    public static readonly BindableProperty HidesOnScrollForProperty = BindableProperty.Create(
+        nameof(HidesOnScrollFor),
+        typeof(VisualElement),
         typeof(Toolbar),
-        defaultValue: false);
+        defaultValue: null);
 
     private bool m_isToolbarVisible = true;
 
@@ -49,13 +49,21 @@ public class Toolbar : View
     }
 
     /// <summary>
-    /// When true, the toolbar automatically hides when the user scrolls down and shows
-    /// when scrolling up. Works with any scrollable content (ScrollView, CollectionView, WebView).
+    /// Set to a scrollable view (ScrollView, CollectionView) to make the toolbar automatically
+    /// hide when the user scrolls down and show when scrolling up.
+    /// Set to null to disable hide-on-scroll behavior.
     /// </summary>
-    public bool HidesOnScroll
+    /// <example>
+    /// <code>
+    /// &lt;dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded" /&gt;
+    /// // In code-behind:
+    /// void OnScrollViewLoaded(object? s, EventArgs e) =&gt; toolbar.HidesOnScrollFor = scrollView;
+    /// </code>
+    /// </example>
+    public VisualElement? HidesOnScrollFor
     {
-        get => (bool)GetValue(HidesOnScrollProperty);
-        set => SetValue(HidesOnScrollProperty, value);
+        get => (VisualElement?)GetValue(HidesOnScrollForProperty);
+        set => SetValue(HidesOnScrollForProperty, value);
     }
 
     /// <summary>
