@@ -20,7 +20,12 @@ When I say **any** of these:
    - **Minor**: New features (new components, properties, methods)
    - **Patch**: Bug fixes, internal improvements, accessibility fixes
    - Follow existing CHANGELOG.md format: `[Component/Feature] Description`
-3. **Generate PR**: Create pull request with title and body
+3. **Wiki documentation**: Check if documentation in `wiki/` needs to be added or updated:
+   - **New feature?** → **MUST** add a new `wiki/<FeatureName>.md` page
+   - **Changed behavior/API?** → **MUST** update the relevant existing wiki page
+   - **Breaking change?** → **MUST** update wiki to reflect the new behavior
+   - The sidebar is auto-generated — just add the `.md` file to `wiki/`
+4. **Generate PR**: Create pull request with title and body
 
 ## PR Format Requirements
 
@@ -53,8 +58,11 @@ When I say **any** of these:
 ## Additional Considerations
 
 ### Wiki Documentation
-If the change introduces new patterns or significant features, mention in the PR:
-> "This should be documented in the [wiki](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki). Consider adding a page about [topic]."
+Documentation lives in the `wiki/` folder and is auto-synced to the GitHub wiki on merge to main.
+- **New features**: A wiki page in `wiki/` is **required** — not optional. Add it in the PR.
+- **Changed behavior**: Update the relevant `wiki/*.md` page in the same PR.
+- **Breaking changes**: Wiki must reflect the new API/behavior.
+- The `_Sidebar.md` is auto-generated from filenames — no manual sidebar edits needed.
 
 ### Tone and Style
 - **Clear**: Easy to understand what changed

@@ -249,3 +249,11 @@ All code uses `DIPS.Mobile.UI.*` namespace. Platform folders (iOS/Android/dotnet
 
 ## Wiki
 The codebase is documented in https://github.com/DIPSAS/DIPS.Mobile.UI/wiki
+
+Documentation source lives in the `wiki/` folder in the main repository and is auto-synced to the GitHub wiki via a GitHub Action on pushes to `main`. The `_Sidebar.md` is auto-generated alphabetically from all wiki pages — no manual sidebar edits needed.
+
+**Documentation rules (enforced during PR creation and review):**
+1. **New features MUST have documentation** — add a `wiki/<FeatureName>.md` page in the PR
+2. **Changed behavior/API MUST update docs** — if code changes contradict existing wiki pages, update them
+3. **Breaking changes MUST update docs** — wiki must reflect the new API/behavior
+4. Always cross-reference changed code against existing `wiki/` pages to catch stale documentation
