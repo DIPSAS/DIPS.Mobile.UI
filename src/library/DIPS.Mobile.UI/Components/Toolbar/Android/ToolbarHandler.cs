@@ -242,7 +242,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         // Set icon
         if (DUI.TryGetDrawableFromFileImageSource(toolbarButton.Icon, out var drawable) && drawable is not null)
         {
-            drawable.SetTint(Colors.GetColor(ColorName.color_icon_action).ToPlatform());
             button.SetImageDrawable(drawable);
         }
 
@@ -265,7 +264,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     {
         var button = new TextView(Context);
         button.Text = toolbarButton.Title;
-        button.SetTextColor(Colors.GetColor(ColorName.color_text_action).ToPlatform());
         button.Gravity = GravityFlags.Center;
 
         var height = DpToPx(48); // M3 standard touch target
