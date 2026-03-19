@@ -1,6 +1,7 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
+using AndroidX.RecyclerView.Widget;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
 
@@ -9,8 +10,8 @@ namespace DIPS.Mobile.UI.Components.Pages;
 public partial class ContentPage
 {
     private AView? m_toolbarPlatformView;
-    private ViewGroup? m_scrollTrackingContainer;
-    private ScrollTrackingTouchListener? m_scrollTrackingListener;
+    private Java.Lang.Object? m_scrollTracker;
+    private AView? m_scrollTrackingTarget;
 
     private partial void AttachBottomToolbarOnPlatform()
     {
@@ -115,79 +116,112 @@ public partial class ContentPage
         return null;
     }
 
-    private partial void EnableScrollTracking()
+    /// <summary>
+    /// Enables scroll direction tracking by attaching a scroll listener to the
+    /// platform view of the referenced <see cref="VisualElement"/>.
+    /// Uses <see cref="RecyclerView.AddOnScrollListener"/> for RecyclerView-backed views
+    /// (CollectionView) and <see cref="ViewTreeObserver.IOnScrollChangedListener"/> for
+    /// all others (ScrollView, etc.).
+    /// </summary>
+    private partial void EnableScrollTrackingForView(VisualElement view)
     {
         DisableScrollTracking();
 
-        var pageView = Handler?.PlatformView as AView;
-        if (pageView is null)
+        var platformView = view.Handler?.PlatformView as AView;
+        if (platformView is null)
             return;
 
-        var container = FindFrameLayoutParent(pageView)
-                        ?? Platform.CurrentActivity?.FindViewById<FrameLayout>(Android.Resource.Id.Content);
+        m_scrollTrackingTarget = platformView;
 
-        if (container is null)
-            return;
-
-        m_scrollTrackingContainer = container;
-        m_scrollTrackingListener = new ScrollTrackingTouchListener(this);
-        container.SetOnTouchListener(m_scrollTrackingListener);
+        if (platformView is RecyclerView rv)
+        {
+            var tracker = new RecyclerViewScrollTracker(this);
+            m_scrollTracker = tracker;
+            rv.AddOnScrollListener(tracker);
+        }
+        else
+        {
+            var tracker = new ViewScrollTracker(this, platformView);
+            m_scrollTracker = tracker;
+            platformView.ViewTreeObserver?.AddOnScrollChangedListener(tracker);
+        }
     }
 
     private partial void DisableScrollTracking()
     {
-        if (m_scrollTrackingContainer is not null && m_scrollTrackingListener is not null)
+        if (m_scrollTracker is ViewScrollTracker vst && m_scrollTrackingTarget is not null)
         {
-            m_scrollTrackingContainer.SetOnTouchListener(null);
+            m_scrollTrackingTarget.ViewTreeObserver?.RemoveOnScrollChangedListener(vst);
+            vst.Dispose();
+        }
+        else if (m_scrollTracker is RecyclerViewScrollTracker rst && m_scrollTrackingTarget is RecyclerView rv)
+        {
+            rv.RemoveOnScrollListener(rst);
+            rst.Dispose();
         }
 
-        m_scrollTrackingListener = null;
-        m_scrollTrackingContainer = null;
+        m_scrollTracker = null;
+        m_scrollTrackingTarget = null;
     }
 
     /// <summary>
-    /// Intercepts touch events on the page container to detect vertical scroll direction.
-    /// Returns false so touches pass through to the actual scroll views.
+    /// Tracks scroll direction for views that expose <see cref="AView.ScrollY"/>
+    /// (e.g., NestedScrollView / ScrollView) via <see cref="ViewTreeObserver.IOnScrollChangedListener"/>.
+    /// This listener is additive and does not interfere with MAUI's internal scroll handling.
     /// </summary>
-    private class ScrollTrackingTouchListener(ContentPage page) : Java.Lang.Object, AView.IOnTouchListener
+    private class ViewScrollTracker : Java.Lang.Object, ViewTreeObserver.IOnScrollChangedListener
     {
-        private float m_lastY;
-        private bool m_isTracking;
-        private const float ThresholdDp = 8f;
+        private readonly ContentPage m_page;
+        private readonly AView m_view;
+        private int m_lastScrollY;
 
-        public bool OnTouch(AView? v, MotionEvent? e)
+        public ViewScrollTracker(ContentPage page, AView view)
         {
-            if (e is null)
-                return false;
+            m_page = page;
+            m_view = view;
+            m_lastScrollY = view.ScrollY;
+        }
 
-            switch (e.ActionMasked)
+        public void OnScrollChanged()
+        {
+            var currentY = m_view.ScrollY;
+            var delta = currentY - m_lastScrollY;
+
+            // ~3dp threshold to avoid noise
+            if (Math.Abs(delta) > 10)
             {
-                case MotionEventActions.Down:
-                    m_lastY = e.RawY;
-                    m_isTracking = true;
-                    break;
-
-                case MotionEventActions.Move when m_isTracking:
-                    var deltaY = e.RawY - m_lastY;
-                    var density = v?.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
-                    var thresholdPx = ThresholdDp * density;
-
-                    if (Math.Abs(deltaY) > thresholdPx)
-                    {
-                        // deltaY < 0 = finger moving up = scrolling down through content
-                        page.OnScrollDirectionChanged(isScrollingDown: deltaY < 0);
-                        m_lastY = e.RawY;
-                    }
-                    break;
-
-                case MotionEventActions.Up:
-                case MotionEventActions.Cancel:
-                    m_isTracking = false;
-                    break;
+                m_page.OnScrollDirectionDetected(isScrollingDown: delta > 0);
+                m_lastScrollY = currentY;
             }
+        }
+    }
 
-            // Don't consume the event — let it pass through to scroll views
-            return false;
+    /// <summary>
+    /// Tracks scroll direction for <see cref="RecyclerView"/>-backed views (CollectionView)
+    /// using <see cref="RecyclerView.AddOnScrollListener"/> which is additive (multiple listeners allowed).
+    /// </summary>
+    private class RecyclerViewScrollTracker : RecyclerView.OnScrollListener
+    {
+        private readonly ContentPage m_page;
+        private int m_accumulatedDy;
+
+        public RecyclerViewScrollTracker(ContentPage page)
+        {
+            m_page = page;
+        }
+
+        public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
+        {
+            m_accumulatedDy += dy;
+
+            var density = recyclerView.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
+            var thresholdPx = (int)(10 * density); // 10dp threshold
+
+            if (Math.Abs(m_accumulatedDy) > thresholdPx)
+            {
+                m_page.OnScrollDirectionDetected(isScrollingDown: m_accumulatedDy > 0);
+                m_accumulatedDy = 0;
+            }
         }
     }
 }

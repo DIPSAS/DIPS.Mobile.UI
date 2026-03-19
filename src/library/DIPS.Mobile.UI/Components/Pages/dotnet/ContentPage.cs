@@ -10,7 +10,7 @@ public partial class ContentPage
     {
     }
 
-    private partial void EnableScrollTracking()
+    private partial void EnableScrollTrackingForView(VisualElement view)
     {
     }
 
