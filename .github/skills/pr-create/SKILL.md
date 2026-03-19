@@ -1,12 +1,14 @@
 ---
-applyTo: '**'
+name: Create PR
+description: Creates a pull request with proper title, description, changelog updates, and wiki documentation checks.
 ---
+
 # Pull Request Creation Instructions
 
 ## Trigger Phrases
 When I say **any** of these:
 - "Create PR"
-- "Make PR" 
+- "Make PR"
 - "PR"
 - "Create Pull Request"
 - "Make a PR"
@@ -15,11 +17,12 @@ When I say **any** of these:
 
 ## Action Steps
 1. **Check changes**: Get the diff between main branch and current branch
-2. **Update CHANGELOG.md**: Determine if Major/Minor/Patch bump is needed based on:
+2. **Update CHANGELOG.md** (only if `src/` has changes): Determine if Major/Minor/Patch bump is needed based on:
    - **Major**: Breaking changes (removed/changed public APIs)
    - **Minor**: New features (new components, properties, methods)
    - **Patch**: Bug fixes, internal improvements, accessibility fixes
    - Follow existing CHANGELOG.md format: `[Component/Feature] Description`
+   - **Skip** if the PR has no changes under `src/` — documentation-only, build scripts, CI/CD, and config changes do not require a changelog entry
 3. **Wiki documentation**: Check if documentation in `wiki/` needs to be added or updated:
    - **New feature?** → **MUST** add a new `wiki/<FeatureName>.md` page
    - **Changed behavior/API?** → **MUST** update the relevant existing wiki page
@@ -54,6 +57,7 @@ When I say **any** of these:
 
 ### Files Changed
 - Brief overview of major file changes
+```
 
 ## Additional Considerations
 
