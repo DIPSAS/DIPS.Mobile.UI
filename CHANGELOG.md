@@ -1,5 +1,10 @@
-## [55.3.1]
+## [55.4.1]
 - [SearchPage][Android] Fix bug where `ScrollableHeader` were not added.
+
+## [55.4.0]
+- [iOS][BottomSheet] Use native UINavigationBar for bottom sheet header with centered title, system close/back buttons, and proper blur behavior
+- [Android][BottomSheet] Fixed edge-to-edge constraints not applying until scroll when start Positioning is Large
+- [iOS][BottomSheet] Fixed bottom sheet not automatically scrolling to top when Positioning is Large
 
 ## [55.3.0]
 - [SearchPage] Added `ScrollableHeader` property to allow consumers to provide a header that scrolls with search results.
