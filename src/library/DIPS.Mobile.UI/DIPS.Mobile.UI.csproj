@@ -143,6 +143,21 @@
         <None Include="Resources\Splash\splash.svg" Pack="True" PackagePath="buildTransitive\Resources\Splash\" />
     </ItemGroup>
 
+    <!-- XAML Color ResourceDictionaries -->
+    <!-- Pack raw XAML files into buildTransitive so the IDE in consumer projects can resolve color resources and show color swatches -->
+    <ItemGroup>
+        <None Include="Resources\Colors\ColorsPalette.xaml" Pack="True" PackagePath="buildTransitive\Resources\Colors\" />
+        <None Include="Resources\Colors\ColorsSemantics.xaml" Pack="True" PackagePath="buildTransitive\Resources\Colors\" />
+        <None Include="Resources\Colors\ColorsLight.xaml" Pack="True" PackagePath="buildTransitive\Resources\Colors\" />
+        <None Include="Resources\Colors\ColorsDark.xaml" Pack="True" PackagePath="buildTransitive\Resources\Colors\" />
+    </ItemGroup>
+
+    <!-- XAML Sizes ResourceDictionary -->
+    <!-- Pack raw XAML file into buildTransitive so the IDE in consumer projects can resolve size resources -->
+    <ItemGroup>
+        <None Include="Resources\Sizes\Sizes.xaml" Pack="True" PackagePath="buildTransitive\Resources\Sizes\" />
+    </ItemGroup>
+
     <!-- SyntaxHighlighting Web packaging Highlight.js to use for JsonViewer component-->
     <ItemGroup>
         <MauiAsset Include="Components\SyntaxHighlighting\syntax-highlighting\*.js" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />

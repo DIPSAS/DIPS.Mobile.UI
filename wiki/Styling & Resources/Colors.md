@@ -41,9 +41,11 @@ Colors.GetColor(ColorName.<designsystem-color-name>).ToPlatform();
 
 DIPS.Mobile.UI ships compiled XAML `ResourceDictionary` classes that you can merge in your `App.xaml` to get:
 
-- 🎨 **IDE color previews** — your IDE will show the actual color swatch next to each `StaticResource`/`DynamicResource` reference.
+- 🎨 **IDE color previews** — the NuGet package deploys the raw XAML files into your project (as linked items), so IDEs can parse the resource keys and show color swatches next to every `DynamicResource` reference.
 - 🌗 **Automatic dark/light theme switching** — `ColorsSemantics` uses `AppThemeBinding` so colors switch with the OS theme with zero extra code.
 - ✅ **Design-system consistency** — all color keys are the same as those used inside the library.
+
+> **IDE color preview**: The NuGet `.targets` file automatically links `ColorsPalette.xaml`, `ColorsSemantics.xaml`, `ColorsLight.xaml`, `ColorsDark.xaml`, and `Sizes.xaml` from the NuGet package cache into your project as hidden `<None>` items. IDEs (Visual Studio, Rider) use these files to resolve `{DynamicResource …}` keys and display color/size swatches. No manual setup is required — the files appear automatically after adding the package.
 
 ## The dictionaries
 

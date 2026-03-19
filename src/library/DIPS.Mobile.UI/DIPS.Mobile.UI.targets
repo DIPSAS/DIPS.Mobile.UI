@@ -6,4 +6,34 @@
     <MauiAsset Include="$(MSBuildThisFileDirectory)\Components\SyntaxHighlighting\syntax-highlighting\*.js" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <MauiAsset Include="$(MSBuildThisFileDirectory)\Components\SyntaxHighlighting\syntax-highlighting\*.css" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+
+  <!--
+    Link XAML color and size ResourceDictionary files from the NuGet package into the consumer project.
+    These files are NOT compiled (None build action) — they are included solely so IDEs (Visual Studio,
+    Rider) can parse the resource keys and show color swatches when hovering over DynamicResource references.
+    Runtime usage still goes through the compiled types in the DIPS.Mobile.UI assembly:
+      <dui:ColorsSemantics />  <dui:ColorsPalette />  <dui:SizesResourceDictionary />
+  -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\Colors\ColorsPalette.xaml">
+      <Link>Resources\Colors\ColorsPalette.xaml</Link>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\Colors\ColorsSemantics.xaml">
+      <Link>Resources\Colors\ColorsSemantics.xaml</Link>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\Colors\ColorsLight.xaml">
+      <Link>Resources\Colors\ColorsLight.xaml</Link>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\Colors\ColorsDark.xaml">
+      <Link>Resources\Colors\ColorsDark.xaml</Link>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\Sizes\Sizes.xaml">
+      <Link>Resources\Sizes\Sizes.xaml</Link>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
 </Project>
