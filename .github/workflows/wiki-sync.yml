@@ -20,29 +20,28 @@ jobs:
       - name: Generate Sidebar
         run: |
           cd wiki
-          echo "<!-- This file is auto-generated from the wiki/ folder structure. Do not edit manually. -->" > _Sidebar.md
-          echo "" >> _Sidebar.md
-          echo "**[Home](Home)**" >> _Sidebar.md
-          echo "" >> _Sidebar.md
+          {
+            echo '<!-- This file is auto-generated from the wiki/ folder structure. Do not edit manually. -->'
+            echo ''
+            echo '**[Home](Home)**'
 
-          # Add root-level pages (except Home, _Sidebar, _Footer) sorted alphabetically
-          for file in $(find . -maxdepth 1 -name '*.md' ! -name 'Home.md' ! -name '_Sidebar.md' ! -name '_Footer.md' | sed 's|^\./||' | sort -f); do
-            page_name="${file%.md}"
-            display_name=$(echo "$page_name" | sed 's/-/ /g')
-            echo "- [$display_name]($page_name)" >> _Sidebar.md
-          done
-
-          # Add grouped pages from subdirectories
-          for dir in $(find . -mindepth 1 -maxdepth 1 -type d | sed 's|^\./||' | sort -f); do
-            echo "" >> _Sidebar.md
-            echo "**$dir**" >> _Sidebar.md
-            echo "" >> _Sidebar.md
-            for file in $(find "$dir" -maxdepth 1 -name '*.md' | sed "s|^$dir/||" | sort -f); do
-              page_name="${file%.md}"
-              display_name=$(echo "$page_name" | sed 's/-/ /g')
-              echo "- [$display_name]($page_name)" >> _Sidebar.md
+            # Root-level pages (except Home, _Sidebar, _Footer)
+            for f in $(find . -maxdepth 1 -name '*.md' ! -name 'Home.md' ! -name '_Sidebar.md' ! -name '_Footer.md' -exec basename {} .md \; | sort -f); do
+              display=$(echo "$f" | sed 's/-/ /g')
+              echo "- [$display]($f)"
             done
-          done
+
+            # Grouped pages from subdirectories
+            find . -mindepth 1 -maxdepth 1 -type d | sed 's|^\./||' | sort -f | while IFS= read -r dir; do
+              echo ''
+              echo "**$dir**"
+              echo ''
+              for f in $(find "$dir" -maxdepth 1 -name '*.md' -exec basename {} .md \; | sort -f); do
+                display=$(echo "$f" | sed 's/-/ /g')
+                echo "- [$display]($f)"
+              done
+            done
+          } > _Sidebar.md
 
       - name: Sync to Wiki
         env:
