@@ -1,6 +1,7 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
+using AndroidX.RecyclerView.Widget;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
 
@@ -116,10 +117,12 @@ public partial class ContentPage
     }
 
     /// <summary>
-    /// Enables scroll direction tracking by attaching a touch listener to the
-    /// platform view of the referenced <see cref="VisualElement"/>.
-    /// Similar to iOS's UIPanGestureRecognizer — detects vertical drag direction
-    /// from touch events on the outer view, regardless of what scrollable child is inside.
+    /// Enables scroll direction tracking on the platform view of the referenced <see cref="VisualElement"/>.
+    /// Finds the actual scrollable descendant (RecyclerView, ScrollView, NestedScrollView) inside
+    /// the target view tree — necessary because controls like Telerik RadPdfViewer handle scrolling
+    /// in an internal child view, not the outer container.
+    /// Attaches the ViewTreeObserver listener to the outer view (fires for any descendant scroll)
+    /// but reads scroll position from the found scrollable child.
     /// </summary>
     private partial void EnableScrollTrackingForView(VisualElement view)
     {
@@ -131,16 +134,39 @@ public partial class ContentPage
 
         m_scrollTrackingTarget = platformView;
 
-        var tracker = new TouchScrollTracker(this);
-        m_scrollTracker = tracker;
-        platformView.SetOnTouchListener(tracker);
+        // Find the actual scrollable child to read scroll position from.
+        // The ViewTreeObserver callback fires for any descendant scroll,
+        // but we need the right view to read ScrollY from.
+        var scrollableView = FindScrollableDescendant(platformView) ?? platformView;
+
+        if (scrollableView is RecyclerView rv)
+        {
+            var tracker = new RecyclerViewScrollTracker(this);
+            m_scrollTracker = tracker;
+            rv.AddOnScrollListener(tracker);
+            // Also track the RecyclerView so we can remove the listener
+            m_scrollTrackingTarget = rv;
+        }
+        else
+        {
+            var tracker = new ViewScrollTracker(this, scrollableView);
+            m_scrollTracker = tracker;
+            // Attach to the OUTER view's ViewTreeObserver — it fires for descendant scrolls too
+            platformView.ViewTreeObserver?.AddOnScrollChangedListener(tracker);
+        }
     }
 
     private partial void DisableScrollTracking()
     {
-        if (m_scrollTrackingTarget is not null && m_scrollTracker is not null)
+        if (m_scrollTracker is ViewScrollTracker vst && m_scrollTrackingTarget is not null)
         {
-            m_scrollTrackingTarget.SetOnTouchListener(null);
+            m_scrollTrackingTarget.ViewTreeObserver?.RemoveOnScrollChangedListener(vst);
+            vst.Dispose();
+        }
+        else if (m_scrollTracker is RecyclerViewScrollTracker rst && m_scrollTrackingTarget is RecyclerView rv)
+        {
+            rv.RemoveOnScrollListener(rst);
+            rst.Dispose();
         }
 
         m_scrollTracker = null;
@@ -148,54 +174,100 @@ public partial class ContentPage
     }
 
     /// <summary>
-    /// Detects vertical drag direction from touch events on any view.
-    /// Returns false from OnTouch so touch events continue to propagate to children.
-    /// This is the Android equivalent of iOS's UIPanGestureRecognizer.
+    /// Walks the view tree depth-first to find the first scrollable descendant
+    /// (RecyclerView, ScrollView, NestedScrollView).
+    /// These are the only standard scroll containers in Android — any third-party control
+    /// (Telerik, etc.) uses one of them internally.
     /// </summary>
-    private class TouchScrollTracker : Java.Lang.Object, AView.IOnTouchListener
+    private static AView? FindScrollableDescendant(AView view)
     {
-        private readonly ContentPage m_page;
-        private float m_startY;
-        private float m_lastReportedY;
+        if (view is RecyclerView or Android.Widget.ScrollView or AndroidX.Core.Widget.NestedScrollView)
+            return view;
 
-        public TouchScrollTracker(nint handle, Android.Runtime.JniHandleOwnership transfer)
+        if (view is not ViewGroup viewGroup)
+            return null;
+
+        for (var i = 0; i < viewGroup.ChildCount; i++)
+        {
+            var child = viewGroup.GetChildAt(i);
+            if (child is null)
+                continue;
+
+            var found = FindScrollableDescendant(child);
+            if (found is not null)
+                return found;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Tracks scroll direction by reading ScrollY from the actual scrollable view.
+    /// Attached to the outer view's ViewTreeObserver which fires for descendant scrolls.
+    /// </summary>
+    private class ViewScrollTracker : Java.Lang.Object, ViewTreeObserver.IOnScrollChangedListener
+    {
+        private ContentPage? m_page;
+        private AView? m_view;
+        private int m_lastScrollY;
+
+        // Required by Android runtime for Java peer re-creation.
+        // Fields will be null — OnScrollChanged guards against this.
+        public ViewScrollTracker(nint handle, Android.Runtime.JniHandleOwnership transfer)
             : base(handle, transfer)
         {
         }
 
-        public TouchScrollTracker(ContentPage page)
+        public ViewScrollTracker(ContentPage page, AView scrollableView)
+        {
+            m_page = page;
+            m_view = scrollableView;
+            m_lastScrollY = scrollableView.ScrollY;
+        }
+
+        public void OnScrollChanged()
+        {
+            if (m_view is null || m_page is null)
+                return;
+
+            var currentY = m_view.ScrollY;
+            var delta = currentY - m_lastScrollY;
+
+            // ~3dp threshold to avoid noise
+            if (Math.Abs(delta) > 10)
+            {
+                m_page.OnScrollDirectionDetected(isScrollingDown: delta > 0);
+                m_lastScrollY = currentY;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Tracks scroll direction for RecyclerView-backed views (CollectionView, etc.)
+    /// using the additive OnScrollListener API.
+    /// </summary>
+    private class RecyclerViewScrollTracker : RecyclerView.OnScrollListener
+    {
+        private readonly ContentPage m_page;
+        private int m_accumulatedDy;
+
+        public RecyclerViewScrollTracker(ContentPage page)
         {
             m_page = page;
         }
 
-        public bool OnTouch(AView? v, MotionEvent? e)
+        public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
         {
-            if (e is null)
-                return false;
+            m_accumulatedDy += dy;
 
-            switch (e.ActionMasked)
+            var density = recyclerView.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
+            var thresholdPx = (int)(10 * density); // 10dp threshold
+
+            if (Math.Abs(m_accumulatedDy) > thresholdPx)
             {
-                case MotionEventActions.Down:
-                    m_startY = e.RawY;
-                    m_lastReportedY = e.RawY;
-                    break;
-
-                case MotionEventActions.Move:
-                    var deltaFromLast = e.RawY - m_lastReportedY;
-                    var density = v?.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
-                    var thresholdPx = 10 * density; // 10dp threshold
-
-                    if (Math.Abs(deltaFromLast) > thresholdPx)
-                    {
-                        // Negative delta = finger moved up = scrolling down (content going up)
-                        m_page.OnScrollDirectionDetected(isScrollingDown: deltaFromLast < 0);
-                        m_lastReportedY = e.RawY;
-                    }
-                    break;
+                m_page.OnScrollDirectionDetected(isScrollingDown: m_accumulatedDy > 0);
+                m_accumulatedDy = 0;
             }
-
-            // Return false so touch events continue to the actual scrollable child
-            return false;
         }
     }
 }
