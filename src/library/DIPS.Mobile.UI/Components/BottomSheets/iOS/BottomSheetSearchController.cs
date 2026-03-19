@@ -1,7 +1,5 @@
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Foundation;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 

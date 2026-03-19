@@ -47,7 +47,7 @@ internal class BottomSheetSearchField : Java.Lang.Object, ITextWatcher, AView.IO
         var background = new GradientDrawable();
         background.SetShape(ShapeType.Rectangle);
         background.SetCornerRadius(28 * density);
-        background.SetColor(Colors.GetColor(ColorName.color_surface_elevated).ToPlatform());
+        background.SetColor(Colors.GetColor(ColorName.color_surface_subtle).ToPlatform());
         m_container.Background = background;
 
         // Search icon
