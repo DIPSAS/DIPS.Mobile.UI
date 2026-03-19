@@ -8,6 +8,7 @@ public class BottomSheetViewController : UIViewController
     private readonly BottomSheetContainer m_container;
     private BottomBarView? m_bottomBar;
     private BottomSheetNavigationBarHelper? m_navigationBarHelper;
+    private BottomSheetSearchController? m_searchController;
 
     public BottomSheetViewController(BottomSheet bottomSheet)
     {
@@ -22,10 +23,28 @@ public class BottomSheetViewController : UIViewController
     
     public async void ModifySearchbar(bool add)
     {
-        // Delay to make sure the container is created
+        // Delay to make sure the navigation item is available
         await Task.Delay(1);
         
-        m_container.ModifySearchbar(add);
+        if (add)
+        {
+            m_searchController = new BottomSheetSearchController(BottomSheet);
+            NavigationItem.SearchController = m_searchController.SearchController;
+            NavigationItem.HidesSearchBarWhenScrolling = false;
+            DefinesPresentationContext = true;
+            
+            // Set focus/unfocus actions on the BottomSheet
+            BottomSheet.FocusSearchAction = () => m_searchController?.Focus();
+            BottomSheet.UnfocusSearchAction = () => m_searchController?.Unfocus();
+        }
+        else
+        {
+            NavigationItem.SearchController = null;
+            m_searchController?.Cleanup();
+            m_searchController = null;
+            BottomSheet.FocusSearchAction = null;
+            BottomSheet.UnfocusSearchAction = null;
+        }
     }
     
     public async void ModifyBottomBar(bool add)
@@ -103,6 +122,10 @@ public class BottomSheetViewController : UIViewController
         base.Dispose(disposing);
 
         m_navigationBarHelper?.Dispose();
+        m_searchController?.Cleanup();
+        m_searchController = null;
+        BottomSheet.FocusSearchAction = null;
+        BottomSheet.UnfocusSearchAction = null;
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
 

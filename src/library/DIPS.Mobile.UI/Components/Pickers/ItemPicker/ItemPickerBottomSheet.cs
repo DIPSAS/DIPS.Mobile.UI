@@ -89,7 +89,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (m_collectionView.Handler is CollectionViewHandler {PlatformView.ScrollState: 0}) return; //0 is idle
 #endif
                
-            SearchBar.Unfocus();
+            UnfocusSearch();
         }
 
         private object LoadTemplate()

@@ -15,22 +15,9 @@ internal class BottomSheetContainer : Grid
         
         BackgroundColor = bottomSheet.BackgroundColor;
         
-        AddRowDefinition(new RowDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Star));
         
-        this.Add(bottomSheet, 0, 1);
-    }
-
-    public void ModifySearchbar(bool add)
-    {
-        if (add)
-        {
-            this.Add(m_bottomSheet.SearchBar, 0, 0);
-        }
-        else
-        {
-            Remove(m_bottomSheet.SearchBar);
-        }
+        this.Add(bottomSheet, 0, 0);
     }
 
     public void AddToView(UIView rootView)
