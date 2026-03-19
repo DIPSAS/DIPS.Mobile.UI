@@ -1,0 +1,77 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wiki/**'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Sidebar
+        run: |
+          cd wiki
+          echo "<!-- This file is auto-generated from the wiki/ folder structure. Do not edit manually. -->" > _Sidebar.md
+          echo "" >> _Sidebar.md
+          echo "**[Home](Home)**" >> _Sidebar.md
+          echo "" >> _Sidebar.md
+
+          # Add root-level pages (except Home, _Sidebar, _Footer) sorted alphabetically
+          for file in $(find . -maxdepth 1 -name '*.md' ! -name 'Home.md' ! -name '_Sidebar.md' ! -name '_Footer.md' | sed 's|^\./||' | sort -f); do
+            page_name="${file%.md}"
+            display_name=$(echo "$page_name" | sed 's/-/ /g')
+            echo "- [$display_name]($page_name)" >> _Sidebar.md
+          done
+
+          # Add grouped pages from subdirectories
+          for dir in $(find . -mindepth 1 -maxdepth 1 -type d | sed 's|^\./||' | sort -f); do
+            echo "" >> _Sidebar.md
+            echo "**$dir**" >> _Sidebar.md
+            echo "" >> _Sidebar.md
+            for file in $(find "$dir" -maxdepth 1 -name '*.md' | sed "s|^$dir/||" | sort -f); do
+              page_name="${file%.md}"
+              display_name=$(echo "$page_name" | sed 's/-/ /g')
+              echo "- [$display_name]($page_name)" >> _Sidebar.md
+            done
+          done
+
+      - name: Sync to Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Clone the wiki repository
+          wiki_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.wiki.git"
+          git clone "$wiki_url" /tmp/wiki-repo
+
+          # Remove all existing wiki content (except .git)
+          find /tmp/wiki-repo -maxdepth 1 -not -name '.git' -not -name '.' -delete 2>/dev/null || true
+
+          # Copy the generated sidebar
+          cp wiki/_Sidebar.md /tmp/wiki-repo/
+
+          # Flatten all .md files from wiki/ (including subdirectories) to wiki repo root
+          find wiki -name '*.md' ! -name '_Sidebar.md' -exec cp {} /tmp/wiki-repo/ \;
+
+          # Push changes if there are any
+          cd /tmp/wiki-repo
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to sync."
+          else
+            git commit -m "Sync wiki from main repository ($(date -u '+%Y-%m-%d %H:%M:%S UTC'))"
+            git push
+            echo "Wiki synced successfully."
+          fi
