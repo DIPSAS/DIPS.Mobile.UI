@@ -1,7 +1,6 @@
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
-using AndroidX.RecyclerView.Widget;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
 
@@ -117,11 +116,10 @@ public partial class ContentPage
     }
 
     /// <summary>
-    /// Enables scroll direction tracking by attaching a scroll listener to the
+    /// Enables scroll direction tracking by attaching a touch listener to the
     /// platform view of the referenced <see cref="VisualElement"/>.
-    /// Uses <see cref="RecyclerView.AddOnScrollListener"/> for RecyclerView-backed views
-    /// (CollectionView) and <see cref="ViewTreeObserver.IOnScrollChangedListener"/> for
-    /// all others (ScrollView, etc.).
+    /// Similar to iOS's UIPanGestureRecognizer — detects vertical drag direction
+    /// from touch events on the outer view, regardless of what scrollable child is inside.
     /// </summary>
     private partial void EnableScrollTrackingForView(VisualElement view)
     {
@@ -133,31 +131,16 @@ public partial class ContentPage
 
         m_scrollTrackingTarget = platformView;
 
-        if (platformView is RecyclerView rv)
-        {
-            var tracker = new RecyclerViewScrollTracker(this);
-            m_scrollTracker = tracker;
-            rv.AddOnScrollListener(tracker);
-        }
-        else
-        {
-            var tracker = new ViewScrollTracker(this, platformView);
-            m_scrollTracker = tracker;
-            platformView.ViewTreeObserver?.AddOnScrollChangedListener(tracker);
-        }
+        var tracker = new TouchScrollTracker(this);
+        m_scrollTracker = tracker;
+        platformView.SetOnTouchListener(tracker);
     }
 
     private partial void DisableScrollTracking()
     {
-        if (m_scrollTracker is ViewScrollTracker vst && m_scrollTrackingTarget is not null)
+        if (m_scrollTrackingTarget is not null && m_scrollTracker is not null)
         {
-            m_scrollTrackingTarget.ViewTreeObserver?.RemoveOnScrollChangedListener(vst);
-            vst.Dispose();
-        }
-        else if (m_scrollTracker is RecyclerViewScrollTracker rst && m_scrollTrackingTarget is RecyclerView rv)
-        {
-            rv.RemoveOnScrollListener(rst);
-            rst.Dispose();
+            m_scrollTrackingTarget.SetOnTouchListener(null);
         }
 
         m_scrollTracker = null;
@@ -165,69 +148,54 @@ public partial class ContentPage
     }
 
     /// <summary>
-    /// Tracks scroll direction for views that expose <see cref="AView.ScrollY"/>
-    /// (e.g., NestedScrollView / ScrollView) via <see cref="ViewTreeObserver.IOnScrollChangedListener"/>.
-    /// This listener is additive and does not interfere with MAUI's internal scroll handling.
+    /// Detects vertical drag direction from touch events on any view.
+    /// Returns false from OnTouch so touch events continue to propagate to children.
+    /// This is the Android equivalent of iOS's UIPanGestureRecognizer.
     /// </summary>
-    private class ViewScrollTracker : Java.Lang.Object, ViewTreeObserver.IOnScrollChangedListener
+    private class TouchScrollTracker : Java.Lang.Object, AView.IOnTouchListener
     {
         private readonly ContentPage m_page;
-        private readonly AView m_view;
-        private int m_lastScrollY;
+        private float m_startY;
+        private float m_lastReportedY;
 
-        // Required by Android runtime for Java peer re-creation
-        public ViewScrollTracker(nint handle, Android.Runtime.JniHandleOwnership transfer)
+        public TouchScrollTracker(nint handle, Android.Runtime.JniHandleOwnership transfer)
             : base(handle, transfer)
         {
         }
 
-        public ViewScrollTracker(ContentPage page, AView view)
-        {
-            m_page = page;
-            m_view = view;
-            m_lastScrollY = view.ScrollY;
-        }
-
-        public void OnScrollChanged()
-        {
-            var currentY = m_view.ScrollY;
-            var delta = currentY - m_lastScrollY;
-
-            // ~3dp threshold to avoid noise
-            if (Math.Abs(delta) > 10)
-            {
-                m_page.OnScrollDirectionDetected(isScrollingDown: delta > 0);
-                m_lastScrollY = currentY;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Tracks scroll direction for <see cref="RecyclerView"/>-backed views (CollectionView)
-    /// using <see cref="RecyclerView.AddOnScrollListener"/> which is additive (multiple listeners allowed).
-    /// </summary>
-    private class RecyclerViewScrollTracker : RecyclerView.OnScrollListener
-    {
-        private readonly ContentPage m_page;
-        private int m_accumulatedDy;
-
-        public RecyclerViewScrollTracker(ContentPage page)
+        public TouchScrollTracker(ContentPage page)
         {
             m_page = page;
         }
 
-        public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
+        public bool OnTouch(AView? v, MotionEvent? e)
         {
-            m_accumulatedDy += dy;
+            if (e is null)
+                return false;
 
-            var density = recyclerView.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
-            var thresholdPx = (int)(10 * density); // 10dp threshold
-
-            if (Math.Abs(m_accumulatedDy) > thresholdPx)
+            switch (e.ActionMasked)
             {
-                m_page.OnScrollDirectionDetected(isScrollingDown: m_accumulatedDy > 0);
-                m_accumulatedDy = 0;
+                case MotionEventActions.Down:
+                    m_startY = e.RawY;
+                    m_lastReportedY = e.RawY;
+                    break;
+
+                case MotionEventActions.Move:
+                    var deltaFromLast = e.RawY - m_lastReportedY;
+                    var density = v?.Context?.Resources?.DisplayMetrics?.Density ?? 1f;
+                    var thresholdPx = 10 * density; // 10dp threshold
+
+                    if (Math.Abs(deltaFromLast) > thresholdPx)
+                    {
+                        // Negative delta = finger moved up = scrolling down (content going up)
+                        m_page.OnScrollDirectionDetected(isScrollingDown: deltaFromLast < 0);
+                        m_lastReportedY = e.RawY;
+                    }
+                    break;
             }
+
+            // Return false so touch events continue to the actual scrollable child
+            return false;
         }
     }
 }
