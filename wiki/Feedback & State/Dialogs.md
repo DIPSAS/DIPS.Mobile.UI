@@ -20,7 +20,7 @@ DialogService.ShowMessage(config =>
     config.SetTitle("Test");
     config.SetDescription("Testing");
     config.SetActionTitle("Ok");
-}
+});
 ```
 
 ### InputDialog
