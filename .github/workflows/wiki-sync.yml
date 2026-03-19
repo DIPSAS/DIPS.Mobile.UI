@@ -1,0 +1,65 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wiki/**'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Sidebar
+        run: |
+          cd wiki
+          echo "<!-- This file is auto-generated. Do not edit manually. -->" > _Sidebar.md
+          echo "" >> _Sidebar.md
+          echo "**[Home](Home)**" >> _Sidebar.md
+          echo "" >> _Sidebar.md
+
+          # Collect all .md files except Home.md, _Sidebar.md, and _Footer.md
+          # Sort them alphabetically and generate sidebar links
+          for file in $(ls *.md | grep -v -E '^(Home|_Sidebar|_Footer)\.md$' | sort -f); do
+            # Get the page name (filename without .md extension)
+            page_name="${file%.md}"
+            # Convert hyphens to spaces for display name
+            display_name=$(echo "$page_name" | sed 's/-/ /g')
+            echo "- [$display_name]($page_name)" >> _Sidebar.md
+          done
+
+      - name: Sync to Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Clone the wiki repository
+          wiki_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.wiki.git"
+          git clone "$wiki_url" /tmp/wiki-repo
+
+          # Remove all existing wiki content (except .git)
+          find /tmp/wiki-repo -maxdepth 1 -not -name '.git' -not -name '.' -delete 2>/dev/null || true
+
+          # Copy all wiki content from the repo
+          cp wiki/* /tmp/wiki-repo/
+
+          # Push changes if there are any
+          cd /tmp/wiki-repo
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to sync."
+          else
+            git commit -m "Sync wiki from main repository ($(date -u '+%Y-%m-%d %H:%M:%S UTC'))"
+            git push
+            echo "Wiki synced successfully."
+          fi
