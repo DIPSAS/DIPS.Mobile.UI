@@ -63,7 +63,9 @@ public partial class BottomSheet
     }
 
     /// <summary>
-    /// Determines if the bottom sheet should have a <see cref="Components.Searching.SearchBar"/> at the top
+    /// Determines if the bottom sheet should have a search bar at the top.
+    /// On iOS, this uses a native UISearchController integrated with the navigation bar.
+    /// On Android, this uses a Material 3 styled native search field.
     /// </summary>
     public bool HasSearchBar
     {

@@ -28,7 +28,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             if (shouldFocusSearchBarOnOpen)
             {
                 await Task.Delay(1);
-                bottomSheet.SearchBar.Focus();
+                bottomSheet.FocusSearch();
             }
         }
 

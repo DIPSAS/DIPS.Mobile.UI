@@ -1,8 +1,6 @@
 using System.Collections.ObjectModel;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using DIPS.Mobile.UI.Internal;
-using Colors = Microsoft.Maui.Graphics.Colors;
-using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
@@ -19,9 +17,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             BottombarButtons = new ObservableCollection<Button>();
 
             BottomSheetHeaderBehavior = new BottomSheetHeaderBehavior();
-
-            SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<BottomSheet>(), HasCancelButton = false, BackgroundColor = Colors.Transparent, ReturnKeyType = ReturnType.Done };
-            SearchBar.TextChanged += OnSearchTextChanged;
         }
 
         /// <summary>
@@ -43,7 +38,55 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             return BottomSheetService.Open(this);
         }
 
-        internal SearchBar SearchBar { get; private set; }
+        /// <summary>
+        /// Action delegate for platform-specific search focus. Set by platform handlers/controllers.
+        /// </summary>
+        internal Action? FocusSearchAction { get; set; }
+        
+        /// <summary>
+        /// Action delegate for platform-specific search unfocus. Set by platform handlers/controllers.
+        /// </summary>
+        internal Action? UnfocusSearchAction { get; set; }
+        
+        /// <summary>
+        /// Focuses the native search field.
+        /// </summary>
+        internal void FocusSearch() => FocusSearchAction?.Invoke();
+        
+        /// <summary>
+        /// Unfocuses the native search field.
+        /// </summary>
+        internal void UnfocusSearch() => UnfocusSearchAction?.Invoke();
+
+        /// <summary>
+        /// Called by native search controllers when the search text changes.
+        /// Routes the change through the existing events and virtual method.
+        /// </summary>
+        internal void OnNativeSearchTextChanged(string newValue, string oldValue)
+        {
+            SearchTextChanged?.Invoke(this, new TextChangedEventArgs(oldValue, newValue));
+            SearchCommand?.Execute(newValue);
+            OnSearchTextChanged(newValue);
+        }
+
+        /// <summary>
+        /// Called by the native search field when it gains focus.
+        /// </summary>
+        internal void OnSearchFieldFocused()
+        {
+            if (Positioning is Positioning.Large)
+                return;
+            
+            Positioning = Positioning.Large;
+        }
+
+        /// <summary>
+        /// Called by the native search field when it loses focus.
+        /// </summary>
+        internal void OnSearchFieldUnfocused()
+        {
+            Positioning = Positioning.Medium;
+        }
 
         internal void SendClose()
         {
@@ -57,13 +100,6 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             Opened?.Invoke(this, EventArgs.Empty);
             OpenedCommand?.Execute(null);
             OnOpened();
-        }
-
-        private void OnSearchTextChanged(object? sender, TextChangedEventArgs args)
-        {
-            SearchTextChanged?.Invoke(SearchBar, args);
-            SearchCommand?.Execute(args.NewTextValue);
-            OnSearchTextChanged(args.NewTextValue);
         }
 
         protected virtual void OnClosed()
@@ -97,7 +133,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 },
                 SafeAreaEdges = SafeAreaEdges.None
             };
-       
+        
             foreach (var button in BottombarButtons)
             {
                 grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
@@ -116,7 +152,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             base.OnHandlerChanging(args);
             if (args.NewHandler == null) //Disconnect
             {
-                SearchBar.TextChanged -= OnSearchTextChanged;
+                FocusSearchAction = null;
+                UnfocusSearchAction = null;
             }
         }
     }

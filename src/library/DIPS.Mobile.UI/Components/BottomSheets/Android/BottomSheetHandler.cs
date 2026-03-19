@@ -19,6 +19,7 @@ using ADrawableCompat = AndroidX.Core.Graphics.Drawable.DrawableCompat;
 using Paint = Android.Graphics.Paint;
 using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.BottomSheets.Android;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using View = Microsoft.Maui.Controls.View;
@@ -35,7 +36,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     internal AView? m_bottomBar;
     
     private static AView? s_mEmptyNonFitToContentView;
-    private AView? m_searchBarView;
+    private BottomSheetSearchField? m_searchField;
     private BottomSheetHeader m_bottomSheetHeader;
     private List<WeakReference<SearchBar>> m_weakSearchBars = [];
     private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
@@ -88,9 +89,15 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
         bottomSheetLayout.AddView(m_bottomSheetHeader.ToPlatform(mauiContext));
         
-        m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
-        bottomSheetLayout.AddView(m_searchBarView);
+        // Create native Material 3 search field
+        m_searchField = new BottomSheetSearchField(context, m_bottomSheet);
+        bottomSheetLayout.AddView(m_searchField.View);
         ToggleSearchBar();
+        
+        // Set focus/unfocus actions on the BottomSheet
+        m_bottomSheet.FocusSearchAction = () => m_searchField?.Focus();
+        m_bottomSheet.UnfocusSearchAction = () => m_searchField?.Unfocus();
+        
         FindAndSetupSearchBars();
 
         bottomSheetLayout.AddView(bottomSheetAndroidView);
@@ -134,23 +141,15 @@ public partial class BottomSheetHandler : ContentViewHandler
             searchBar.Focused += SearchBarOnFocused;
             searchBar.Unfocused += SearchBarOnUnfocused;
         }
-        
-        // Also, setup the internal search bar in BottomSheet
-        if (m_bottomSheet.SearchBar is { } searchBarInternal)
-        {
-            searchBarInternal.Focused += SearchBarOnFocused;
-            searchBarInternal.Unfocused += SearchBarOnUnfocused;
-        }
-        
     }
 
 
     private void ToggleSearchBar()
     {
-        if (m_searchBarView == null) 
+        if (m_searchField?.View == null) 
             return;
         
-        m_searchBarView.Visibility = m_bottomSheet.HasSearchBar ? ViewStates.Visible : ViewStates.Gone;
+        m_searchField.View.Visibility = m_bottomSheet.HasSearchBar ? ViewStates.Visible : ViewStates.Gone;
     }
 
     private void SearchBarOnUnfocused(object? sender, EventArgs e)
@@ -246,12 +245,11 @@ public partial class BottomSheetHandler : ContentViewHandler
             searchBar.Unfocused -= SearchBarOnUnfocused;
         }
         
-        // Also, dispose the internal search bar in BottomSheet
-        if (m_bottomSheet.SearchBar is { } searchBarInternal)
-        {
-            searchBarInternal.Focused -= SearchBarOnFocused;
-            searchBarInternal.Unfocused -= SearchBarOnUnfocused;
-        }
+        // Clean up native search field
+        m_searchField?.Cleanup();
+        m_searchField = null;
+        m_bottomSheet.FocusSearchAction = null;
+        m_bottomSheet.UnfocusSearchAction = null;
     }
     
     /// <summary>
