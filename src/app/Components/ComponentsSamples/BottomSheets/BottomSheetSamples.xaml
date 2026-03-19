@@ -25,6 +25,12 @@
         <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.BottomSheet}"
                                 Subtitle="{x:Static localizedStrings:LocalizedStrings.BottomSheet_OpenNotClosableInteracting}"
                                 Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetNotClosableByInteracting}}"
+                                VerticalOptions="Start"
+                                HasBottomDivider="True" />
+
+        <dui:NavigationListItem Title="Open with search"
+                                Subtitle="BottomSheet with native search field"
+                                Command="{dui:OpenBottomSheetCommand {x:Type sheets:BottomSheetWithSearch}}"
                                 VerticalOptions="Start" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>
