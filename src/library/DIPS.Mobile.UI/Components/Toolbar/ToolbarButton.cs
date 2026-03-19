@@ -5,4 +5,13 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 /// </summary>
 public partial class ToolbarButton : Element
 {
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+
+        if (Menu is not null)
+        {
+            SetInheritedBindingContext(Menu, BindingContext);
+        }
+    }
 }
