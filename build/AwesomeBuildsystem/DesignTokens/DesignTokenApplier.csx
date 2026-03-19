@@ -228,8 +228,9 @@ public static class DesignTokenApplier
     }
 
     /// <summary>
-    /// Regenerates the ColorsLight.xaml and ColorsDark.xaml ResourceDictionaries from separate JSON files
-    /// for the light and dark semantic color tokens.
+    /// Regenerates the ColorsLight.xaml, ColorsDark.xaml, and ColorsSemantics.xaml ResourceDictionaries
+    /// from separate JSON files for the light and dark semantic color tokens.
+    /// ColorsSemantics.xaml uses AppThemeBinding so colors switch automatically with the OS theme.
     /// </summary>
     /// <param name="libraryColorsDir">The library Colors resource directory.</param>
     /// <param name="generatedLightColorsJsonPath">Path to the generated light-mode colors JSON file.</param>
@@ -237,11 +238,13 @@ public static class DesignTokenApplier
     public static async Task TryAddSemanticColorsXaml(DirectoryInfo libraryColorsDir, string generatedLightColorsJsonPath, string generatedDarkColorsJsonPath)
     {
         var timestamp = DateTime.UtcNow.ToString("o");
+        Dictionary<string, string> lightColors = null;
+        Dictionary<string, string> darkColors = null;
 
         if (File.Exists(generatedLightColorsJsonPath))
         {
             var lightJson = await File.ReadAllTextAsync(generatedLightColorsJsonPath);
-            var lightColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(lightJson);
+            lightColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(lightJson);
             var lightXamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsLight.xaml"))?.FullName
                 ?? Path.Combine(libraryColorsDir.FullName, "ColorsLight.xaml");
             await WriteToFileHelper.WriteXamlColorsDictionary(
@@ -254,12 +257,25 @@ public static class DesignTokenApplier
         if (File.Exists(generatedDarkColorsJsonPath))
         {
             var darkJson = await File.ReadAllTextAsync(generatedDarkColorsJsonPath);
-            var darkColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(darkJson);
+            darkColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(darkJson);
             var darkXamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsDark.xaml"))?.FullName
                 ?? Path.Combine(libraryColorsDir.FullName, "ColorsDark.xaml");
             await WriteToFileHelper.WriteXamlColorsDictionary(
                 darkXamlFile,
                 "DIPS.Mobile.UI.Resources.Colors.ColorsDark",
+                darkColors,
+                timestamp);
+        }
+
+        // Regenerate ColorsSemantics.xaml when both light and dark are available
+        if (lightColors != null && darkColors != null)
+        {
+            var semanticsXamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsSemantics.xaml"))?.FullName
+                ?? Path.Combine(libraryColorsDir.FullName, "ColorsSemantics.xaml");
+            await WriteToFileHelper.WriteXamlSemanticColorsDictionary(
+                semanticsXamlFile,
+                "DIPS.Mobile.UI.Resources.Colors.ColorsSemantics",
+                lightColors,
                 darkColors,
                 timestamp);
         }

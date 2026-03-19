@@ -191,6 +191,63 @@ public static class WriteToFileHelper
     }
 
     /// <summary>
+    /// Writes a XAML ResourceDictionary file for semantic color tokens using AppThemeBinding,
+    /// so colors automatically switch between light and dark values when the OS theme changes.
+    /// Colors that are identical in both themes are written as plain Color entries (no binding needed).
+    /// </summary>
+    /// <param name="xamlFilePath">Path to the .xaml file to write.</param>
+    /// <param name="fullyQualifiedClassName">Fully qualified class name for x:Class.</param>
+    /// <param name="lightColors">Dictionary mapping color token keys to hex values for the light theme.</param>
+    /// <param name="darkColors">Dictionary mapping color token keys to hex values for the dark theme.</param>
+    /// <param name="timestamp">ISO 8601 timestamp string to embed in the file header comment.</param>
+    public static async Task WriteXamlSemanticColorsDictionary(
+        string xamlFilePath,
+        string fullyQualifiedClassName,
+        Dictionary<string, string> lightColors,
+        Dictionary<string, string> darkColors,
+        string timestamp)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+        sb.AppendLine("<!--");
+        sb.AppendLine("Puls Design Tokens");
+        sb.AppendLine("Do not edit directly, this file is auto-generated");
+        sb.AppendLine($"Generated: {timestamp}");
+        sb.AppendLine("-->");
+        sb.AppendLine($"<ResourceDictionary xmlns=\"http://schemas.microsoft.com/dotnet/2021/maui\"");
+        sb.AppendLine($"                    xmlns:x=\"http://schemas.microsoft.com/winfx/2009/xaml\"");
+        sb.AppendLine($"                    x:Class=\"{fullyQualifiedClassName}\">");
+
+        foreach (var kvp in lightColors)
+        {
+            var lightArgb = RgbaToArgbHex(kvp.Value);
+            darkColors.TryGetValue(kvp.Key, out var darkRaw);
+            var darkArgb = RgbaToArgbHex(darkRaw ?? kvp.Value);
+
+            if (kvp.Key == "none" || lightArgb == "Transparent")
+            {
+                sb.AppendLine($"    <Color x:Key=\"{kvp.Key}\">Transparent</Color>");
+            }
+            else if (lightArgb == darkArgb)
+            {
+                // Same in both themes — plain Color, no binding overhead
+                sb.AppendLine($"    <Color x:Key=\"{kvp.Key}\">{lightArgb}</Color>");
+            }
+            else
+            {
+                // Different in light vs dark — use AppThemeBinding for automatic OS theme switching
+                sb.AppendLine($"    <Color x:Key=\"{kvp.Key}\">");
+                sb.AppendLine($"        <AppThemeBinding Light=\"{lightArgb}\" Dark=\"{darkArgb}\" />");
+                sb.AppendLine($"    </Color>");
+            }
+        }
+
+        sb.AppendLine("</ResourceDictionary>");
+        await File.WriteAllTextAsync(xamlFilePath, sb.ToString());
+        WriteLine($"Generated XAML semantic color dictionary: {xamlFilePath}");
+    }
+
+    /// <summary>
     /// Converts a hex color value from #RRGGBBAA format (used by Color.FromRgba) to
     /// #AARRGGBB format (used by MAUI XAML Color parsing).
     /// Returns "Transparent" unchanged.

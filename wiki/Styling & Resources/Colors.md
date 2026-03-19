@@ -39,23 +39,26 @@ Colors.GetColor(ColorName.<designsystem-color-name>).ToPlatform();
 
 # XAML ResourceDictionary API (IDE color preview + DynamicResource)
 
-DIPS.Mobile.UI ships three compiled XAML `ResourceDictionary` classes that you can merge in your `App.xaml` to get:
+DIPS.Mobile.UI ships compiled XAML `ResourceDictionary` classes that you can merge in your `App.xaml` to get:
 
 - 🎨 **IDE color previews** — your IDE will show the actual color swatch next to each `StaticResource`/`DynamicResource` reference.
-- 🌗 **Automatic dark/light theme switching** — use `DynamicResource` and swap the semantic dictionary at runtime.
+- 🌗 **Automatic dark/light theme switching** — `ColorsSemantics` uses `AppThemeBinding` so colors switch with the OS theme with zero extra code.
 - ✅ **Design-system consistency** — all color keys are the same as those used inside the library.
 
-## The three dictionaries
+## The dictionaries
 
 | Class | Content | Theme |
 |-------|---------|-------|
 | `ColorsPalette` | All raw palette colors (greens, blues, greys, etc.) | Theme-independent |
-| `ColorsLight` | All semantic colors for **light** mode | Light |
-| `ColorsDark` | All semantic colors for **dark** mode (same keys as `ColorsLight`) | Dark |
+| `ColorsSemantics` | All semantic colors with `AppThemeBinding` — automatically switches light ↔ dark when the OS theme changes | Auto (both) |
+| `ColorsLight` | All semantic colors for **light** mode only | Light only |
+| `ColorsDark` | All semantic colors for **dark** mode only (same keys as `ColorsLight`) | Dark only |
 
-> The semantic colors (`ColorsLight` / `ColorsDark`) share the same resource keys. You merge exactly **one** of them at a time. When you swap which one is merged, all views using `DynamicResource` update automatically.
+> For most apps, use `ColorsPalette` + `ColorsSemantics`. Use `ColorsLight`/`ColorsDark` only if you need manual control over theme switching (e.g. a force-dark-mode feature flag).
 
-## Setup in App.xaml
+## Setup in App.xaml (recommended — automatic OS theme support)
+
+Merge `ColorsPalette` and `ColorsSemantics`. That is all that is needed — no code-behind required:
 
 ```xaml
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -67,8 +70,8 @@ DIPS.Mobile.UI ships three compiled XAML `ResourceDictionary` classes that you c
             <ResourceDictionary.MergedDictionaries>
                 <!-- Palette colors — always included -->
                 <dui:ColorsPalette />
-                <!-- Semantic colors — start with light, swap at runtime for dark -->
-                <dui:ColorsLight />
+                <!-- Semantic colors — auto-switches with OS theme via AppThemeBinding -->
+                <dui:ColorsSemantics />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
@@ -77,7 +80,7 @@ DIPS.Mobile.UI ships three compiled XAML `ResourceDictionary` classes that you c
 
 ## Using colors in XAML
 
-Use `DynamicResource` for semantic colors so they update automatically when the theme switches:
+Use `DynamicResource` for semantic colors — they switch automatically when the user changes the device theme:
 ```xaml
 <Label TextColor="{DynamicResource color_text_default}"
        BackgroundColor="{DynamicResource color_surface_default}" />
@@ -88,10 +91,19 @@ Use `StaticResource` for palette colors that never change between themes:
 <BoxView Color="{StaticResource color_palette_blue_500}" />
 ```
 
-## Handling dark / light theme switching
+That is all — no `RequestedThemeChanged` subscriptions or dictionary-swapping code is needed.
 
-Subscribe to `Application.RequestedThemeChanged` and swap the semantic dictionary.
-The index of the semantic dictionary in `MergedDictionaries` is `1` (after `ColorsPalette` at index `0`).
+## Advanced: Manual theme switching (force dark mode)
+
+If you need to programmatically force a theme (e.g. a custom dark-mode toggle), use `ColorsLight`/`ColorsDark` instead of `ColorsSemantics`, and swap the dictionary at runtime:
+
+### App.xaml
+```xaml
+<ResourceDictionary.MergedDictionaries>
+    <dui:ColorsPalette />
+    <dui:ColorsLight />  <!-- or ColorsDark — swap via code below -->
+</ResourceDictionary.MergedDictionaries>
+```
 
 ### App.xaml.cs
 ```csharp
@@ -147,9 +159,10 @@ Compiled XAML `ResourceDictionary` objects are also hash-table backed:
 |--------|--------|
 | `StaticResource` | Resolved once at XAML parse time — effectively free at runtime |
 | `DynamicResource` | O(1) lookup + weak-reference subscription per binding; slight overhead vs. `StaticResource` |
+| `AppThemeBinding` | Resolved by MAUI's theme system — same change-subscription mechanism as `DynamicResource` |
 | Memory | Dictionary loaded on first `InitializeComponent()` call — same order of magnitude as C# approach |
 | IDE preview | ✅ Full color swatch previews |
-| Theme switching | Automatic — swap the dictionary and `DynamicResource` bindings update all views |
+| Theme switching | ✅ Automatic via `AppThemeBinding` in `ColorsSemantics` — no code required |
 | XAML designer | ✅ Design-time preview supported |
 
-**Summary:** The XAML ResourceDictionary approach is not slower in practice. `StaticResource` is faster than any runtime dictionary lookup. `DynamicResource` has a small overhead per binding due to change subscriptions, but this is negligible compared to rendering. The main benefits are IDE integration and automatic theme switching.
+**Summary:** The XAML ResourceDictionary approach is not slower in practice. `StaticResource` is faster than any runtime dictionary lookup. `DynamicResource`/`AppThemeBinding` add a small per-binding overhead due to change subscriptions, but this is negligible compared to rendering. The main benefits are IDE integration and zero-effort OS theme switching.

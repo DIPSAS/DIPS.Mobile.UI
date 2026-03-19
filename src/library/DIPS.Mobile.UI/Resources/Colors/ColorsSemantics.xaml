@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Puls Design Tokens
+Do not edit directly, this file is auto-generated
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="DIPS.Mobile.UI.Resources.Colors.ColorsSemantics">
+    <Color x:Key="color_background_default">
+        <AppThemeBinding Light="#fffefcf9" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_default">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_surface_information">
+        <AppThemeBinding Light="#ffeff5fc" Dark="#ff355d9b" />
+    </Color>
+    <Color x:Key="color_surface_success">
+        <AppThemeBinding Light="#ffe9fcd6" Dark="#ff496916" />
+    </Color>
+    <Color x:Key="color_surface_warning">
+        <AppThemeBinding Light="#fffcf6ca" Dark="#ff6a5c00" />
+    </Color>
+    <Color x:Key="color_surface_danger">
+        <AppThemeBinding Light="#fffce9e5" Dark="#ffba2203" />
+    </Color>
+    <Color x:Key="color_surface_subtle">
+        <AppThemeBinding Light="#fff9f5f0" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_highlight">
+        <AppThemeBinding Light="#fffdf3fe" Dark="#ff533b67" />
+    </Color>
+    <Color x:Key="color_surface_default_hover">
+        <AppThemeBinding Light="#fff3ede8" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_surface_default_selected">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_surface_default_active">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_surface_subtle_hover">
+        <AppThemeBinding Light="#fff3ede8" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_subtle_active">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_subtle_selected">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_neutral">
+        <AppThemeBinding Light="#fff9f5f0" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_surface_highlight_hover">
+        <AppThemeBinding Light="#fffae4fc" Dark="#ff826898" />
+    </Color>
+    <Color x:Key="color_surface_highlight_active">
+        <AppThemeBinding Light="#ffe4ccfa" Dark="#ff9a7fb1" />
+    </Color>
+    <Color x:Key="color_surface_backdrop">
+        <AppThemeBinding Light="#4d241e1a" Dark="#4dffffff" />
+    </Color>
+    <Color x:Key="color_surface_disabled">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff1a1f2f" />
+    </Color>
+    <Color x:Key="color_surface_readonly">
+        <AppThemeBinding Light="#fffefcf9" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_fill_default">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_fill_information">
+        <AppThemeBinding Light="#ffeff5fc" Dark="#ff355d9b" />
+    </Color>
+    <Color x:Key="color_fill_success">
+        <AppThemeBinding Light="#ffe9fcd6" Dark="#ff496916" />
+    </Color>
+    <Color x:Key="color_fill_warning">
+        <AppThemeBinding Light="#fffcf6ca" Dark="#ff9d6400" />
+    </Color>
+    <Color x:Key="color_fill_danger">
+        <AppThemeBinding Light="#fffce9e5" Dark="#ffba2203" />
+    </Color>
+    <Color x:Key="color_fill_default_hover">
+        <AppThemeBinding Light="#fff3ede8" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_fill_default_active">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_fill_default_selected">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff778290" />
+    </Color>
+    <Color x:Key="color_fill_button_ghost">#00ffffff</Color>
+    <Color x:Key="color_fill_button_disabled">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_fill_button_ghost_hover">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_fill_button_ghost_active">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_fill_input">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff0f1424" />
+    </Color>
+    <Color x:Key="color_fill_input_disabled">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_fill_input_readonly">
+        <AppThemeBinding Light="#fff3ede8" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_fill_input_indicator">
+        <AppThemeBinding Light="#ff645c56" Dark="#ffc9d6e2" />
+    </Color>
+    <Color x:Key="color_fill_input_indicator_hover">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ff919dab" />
+    </Color>
+    <Color x:Key="color_fill_neutral">
+        <AppThemeBinding Light="#fff9f5f0" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_fill_input_toggle">
+        <AppThemeBinding Light="#ff938a84" Dark="#ff778290" />
+    </Color>
+    <Color x:Key="color_fill_input_toggle_hover">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_fill_input_toggle_selected">
+        <AppThemeBinding Light="#ffc4e5a0" Dark="#ff496916" />
+    </Color>
+    <Color x:Key="color_fill_button_cta_active">
+        <AppThemeBinding Light="#ff38312c" Dark="#ffd8e5f0" />
+    </Color>
+    <Color x:Key="color_fill_button_cta">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffe6f4ff" />
+    </Color>
+    <Color x:Key="color_fill_button_cta_hover">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffc9d6e2" />
+    </Color>
+    <Color x:Key="color_fill_button">#00ffffff</Color>
+    <Color x:Key="color_fill_button_hover">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_fill_button_active">
+        <AppThemeBinding Light="#fff3ede8" Dark="#ff778290" />
+    </Color>
+    <Color x:Key="color_fill_button_danger">
+        <AppThemeBinding Light="#fffe775b" Dark="#ffcf3516" />
+    </Color>
+    <Color x:Key="color_fill_button_danger_hover">
+        <AppThemeBinding Light="#ffffbcaf" Dark="#ffe95739" />
+    </Color>
+    <Color x:Key="color_fill_button_danger_active">
+        <AppThemeBinding Light="#ff941a01" Dark="#fffe775b" />
+    </Color>
+    <Color x:Key="color_fill_highlight">
+        <AppThemeBinding Light="#fffae4fc" Dark="#ff6a5180" />
+    </Color>
+    <Color x:Key="color_fill_highlight_hover">
+        <AppThemeBinding Light="#ffe4ccfa" Dark="#ff826898" />
+    </Color>
+    <Color x:Key="color_fill_highlight_active">
+        <AppThemeBinding Light="#ffcbb2e2" Dark="#ff9a7fb1" />
+    </Color>
+    <Color x:Key="color_fill_disabled">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_fill_input_indicator_readonly">
+        <AppThemeBinding Light="#ffaba39c" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_fill_success_hover">
+        <AppThemeBinding Light="#ffc4e5a0" Dark="#ff76994b" />
+    </Color>
+    <Color x:Key="color_fill_success_active">
+        <AppThemeBinding Light="#ffa9cb82" Dark="#ff8fb266" />
+    </Color>
+    <Color x:Key="color_text_default">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_subtle">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffd8e5f0" />
+    </Color>
+    <Color x:Key="color_text_link">
+        <AppThemeBinding Light="#ff355d9b" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_text_link_hover">
+        <AppThemeBinding Light="#ff001c49" Dark="#ffc9d6e2" />
+    </Color>
+    <Color x:Key="color_text_on_fill_information">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_fill_success">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_fill_danger">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_fill_disabled">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_text_on_fill_warning">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_label">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_input">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_disabled">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_text_link_neutral">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_button">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffe6f4ff" />
+    </Color>
+    <Color x:Key="color_text_readonly">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_text_danger">
+        <AppThemeBinding Light="#ffba2203" Dark="#fffccec5" />
+    </Color>
+    <Color x:Key="color_text_on_button_inverted">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff00051a" />
+    </Color>
+    <Color x:Key="color_text_on_surface_warning">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_surface_danger">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_surface_information">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_on_surface_success">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_text_link_neutral_hover">
+        <AppThemeBinding Light="#ff645c56" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_text_action">
+        <AppThemeBinding Light="#ff355d9b" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_icon_default">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_subtle">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffd8e5f0" />
+    </Color>
+    <Color x:Key="color_icon_link">
+        <AppThemeBinding Light="#ff355d9b" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_icon_link_hover">
+        <AppThemeBinding Light="#ff001c49" Dark="#ffdeedfc" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_information">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_success">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_warning">
+        <AppThemeBinding Light="#ff241e1a" Dark="#fffdf6ea" />
+    </Color>
+    <Color x:Key="color_icon_danger">
+        <AppThemeBinding Light="#ffba2203" Dark="#fffccec5" />
+    </Color>
+    <Color x:Key="color_icon_input">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_disabled">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_success_hover">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff496916" />
+    </Color>
+    <Color x:Key="color_icon_disabled">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_icon_readonly">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_icon_link_neutral">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_fill_danger">
+        <AppThemeBinding Light="#ff241e1a" Dark="#fffdf2ef" />
+    </Color>
+    <Color x:Key="color_icon_on_surface_danger">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_surface_information">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_surface_success">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_on_surface_warning">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_link_neutral_hover">
+        <AppThemeBinding Light="#ff645c56" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_icon_on_button">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffe6f4ff" />
+    </Color>
+    <Color x:Key="color_icon_on_button_inverted">
+        <AppThemeBinding Light="#ffffffff" Dark="#ff241e1a" />
+    </Color>
+    <Color x:Key="color_icon_input_hover">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_icon_input_active">
+        <AppThemeBinding Light="#ff638dce" Dark="#ffdeedfc" />
+    </Color>
+    <Color x:Key="color_icon_action">
+        <AppThemeBinding Light="#ff355d9b" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_border_default">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_border_subtle">
+        <AppThemeBinding Light="#ffded6d0" Dark="#ff2f3645" />
+    </Color>
+    <Color x:Key="color_border_focus_ring">
+        <AppThemeBinding Light="#ff638dce" Dark="#ffdeedfc" />
+    </Color>
+    <Color x:Key="color_border_button">
+        <AppThemeBinding Light="#ff7b736c" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_border_default_hover">
+        <AppThemeBinding Light="#ff7b736c" Dark="#ff778290" />
+    </Color>
+    <Color x:Key="color_border_input">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ff778290" />
+    </Color>
+    <Color x:Key="color_border_input_hover">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_border_input_active">
+        <AppThemeBinding Light="#ff638dce" Dark="#ffdeedfc" />
+    </Color>
+    <Color x:Key="color_border_input_disabled">
+        <AppThemeBinding Light="#ffc4bcb5" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_border_input_readonly">
+        <AppThemeBinding Light="#ff7b736c" Dark="#ff919dab" />
+    </Color>
+    <Color x:Key="color_border_input_danger">
+        <AppThemeBinding Light="#ffba2203" Dark="#ffff9c88" />
+    </Color>
+    <Color x:Key="color_border_link">
+        <AppThemeBinding Light="#ff355d9b" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_border_success">
+        <AppThemeBinding Light="#ff8fb266" Dark="#ff76994b" />
+    </Color>
+    <Color x:Key="color_border_warning">
+        <AppThemeBinding Light="#ffc2ac1e" Dark="#ff998500" />
+    </Color>
+    <Color x:Key="color_border_information">
+        <AppThemeBinding Light="#ff7ca6e6" Dark="#ff638dce" />
+    </Color>
+    <Color x:Key="color_border_danger">
+        <AppThemeBinding Light="#fffe775b" Dark="#ffe95739" />
+    </Color>
+    <Color x:Key="color_border_button_hover">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ff464e5d" />
+    </Color>
+    <Color x:Key="color_border_button_active">
+        <AppThemeBinding Light="#ff4e4640" Dark="#ff919dab" />
+    </Color>
+    <Color x:Key="color_border_neutral">
+        <AppThemeBinding Light="#ffaba39c" Dark="#ff5e6776" />
+    </Color>
+    <Color x:Key="color_border_link_hover">
+        <AppThemeBinding Light="#ff001c49" Dark="#ffc1dffd" />
+    </Color>
+    <Color x:Key="color_border_link_neutral">
+        <AppThemeBinding Light="#ff241e1a" Dark="#ffffffff" />
+    </Color>
+    <Color x:Key="color_border_link_neutral_hover">
+        <AppThemeBinding Light="#ff645c56" Dark="#ffadb9c6" />
+    </Color>
+    <Color x:Key="color_data_data_1">
+        <AppThemeBinding Light="#ff214680" Dark="#ff97bffe" />
+    </Color>
+    <Color x:Key="color_data_data_2">
+        <AppThemeBinding Light="#ff719398" Dark="#ff8aacb0" />
+    </Color>
+    <Color x:Key="color_data_data_3">
+        <AppThemeBinding Light="#ffe95739" Dark="#ffff9c88" />
+    </Color>
+    <Color x:Key="color_data_data_1_subtle">
+        <AppThemeBinding Light="#fff6fafe" Dark="#ff355d9b" />
+    </Color>
+    <Color x:Key="color_data_data_2_subtle">
+        <AppThemeBinding Light="#fff3fafb" Dark="#ff436468" />
+    </Color>
+    <Color x:Key="color_data_data_1_border">
+        <AppThemeBinding Light="#ff001c49" Dark="#ff97bffe" />
+    </Color>
+    <Color x:Key="color_data_data_2_border">
+        <AppThemeBinding Light="#ff436468" Dark="#ffa5c5c9" />
+    </Color>
+    <Color x:Key="color_data_data_3_subtle">
+        <AppThemeBinding Light="#fffdf2ef" Dark="#ffba2203" />
+    </Color>
+    <Color x:Key="color_data_data_3_border">
+        <AppThemeBinding Light="#ffba2203" Dark="#ffff9c88" />
+    </Color>
+</ResourceDictionary>

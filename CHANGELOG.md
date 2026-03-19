@@ -1,8 +1,9 @@
 ## [55.5.0]
-- [Resources][Colors] Added `ColorsPalette`, `ColorsLight`, and `ColorsDark` XAML `ResourceDictionary` classes for IDE color previews and `DynamicResource`-based dark/light theme switching
+- [Resources][Colors] Added `ColorsPalette`, `ColorsLight`, `ColorsDark`, and `ColorsSemantics` XAML `ResourceDictionary` classes for IDE color previews and theme switching
+- [Resources][Colors] `ColorsSemantics` uses `AppThemeBinding` per color entry — automatically switches light ↔ dark when the OS theme changes with no extra code required
 - [Resources][Sizes] Added `SizesResourceDictionary` XAML `ResourceDictionary` class for IDE size previews via `StaticResource`
-- [Build] Extended `DesignTokenApplier` to regenerate XAML `ResourceDictionary` files (`ColorsPalette.xaml`, `ColorsLight.xaml`, `ColorsDark.xaml`, `Sizes.xaml`) alongside C# resource files when design tokens are updated
-- [Build] Added `WriteXamlColorsDictionary` and `WriteXamlSizesDictionary` helpers to `WriteToFileHelper`
+- [Build] Extended `DesignTokenApplier` to regenerate XAML `ResourceDictionary` files (`ColorsPalette.xaml`, `ColorsLight.xaml`, `ColorsDark.xaml`, `ColorsSemantics.xaml`, `Sizes.xaml`) alongside C# resource files when design tokens are updated
+- [Build] Added `WriteXamlColorsDictionary`, `WriteXamlSizesDictionary`, and `WriteXamlSemanticColorsDictionary` helpers to `WriteToFileHelper`
 
 ## [55.4.0]
 - [iOS][BottomSheet] Use native UINavigationBar for bottom sheet header with centered title, system close/back buttons, and proper blur behavior
