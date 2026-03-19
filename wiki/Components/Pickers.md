@@ -143,7 +143,7 @@ ResetCommand = new Command(() => SelectedItems = /* Initialize a list of default
 This can be done the exact same way as with [ItemPicker](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Pickers#add-a-item).
 
 ## Properties
-Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/mainsrc/library/DIPS.Mobile.UI/Components/Pickers/MultiItemsPicker/MultiItemsPicker.Properties.cs) to further customise and use it.
+Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/Pickers/MultiItemsPicker/MultiItemsPicker.Properties.cs) to further customise and use it.
 
 
 # Date/Time Pickers
