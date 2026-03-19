@@ -1,3 +1,9 @@
+## [55.5.0]
+- [Resources][Colors] Added `ColorsPalette`, `ColorsLight`, and `ColorsDark` XAML `ResourceDictionary` classes for IDE color previews and `DynamicResource`-based dark/light theme switching
+- [Resources][Sizes] Added `SizesResourceDictionary` XAML `ResourceDictionary` class for IDE size previews via `StaticResource`
+- [Build] Extended `DesignTokenApplier` to regenerate XAML `ResourceDictionary` files (`ColorsPalette.xaml`, `ColorsLight.xaml`, `ColorsDark.xaml`, `Sizes.xaml`) alongside C# resource files when design tokens are updated
+- [Build] Added `WriteXamlColorsDictionary` and `WriteXamlSizesDictionary` helpers to `WriteToFileHelper`
+
 ## [55.4.0]
 - [iOS][BottomSheet] Use native UINavigationBar for bottom sheet header with centered title, system close/back buttons, and proper blur behavior
 - [Android][BottomSheet] Fixed edge-to-edge constraints not applying until scroll when start Positioning is Large

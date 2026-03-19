@@ -51,3 +51,43 @@ If you need to use a size when writing C#, use the `Sizes` API:
 ```csharp
 var number = Sizes.GetSize(SizeName.size_2);
 ```
+
+---
+
+# XAML ResourceDictionary API (IDE size preview)
+
+DIPS.Mobile.UI also ships a compiled XAML `ResourceDictionary` (`SizesResourceDictionary`) that exposes all size tokens as `x:Double` resources.
+
+Merge it in your `App.xaml` to get **IDE size previews** and use sizes via `StaticResource`:
+
+## Setup in App.xaml
+
+```xaml
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="clr-namespace:DIPS.Mobile.UI.Resources.Sizes;assembly=DIPS.Mobile.UI"
+             ...>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <dui:SizesResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+```
+
+## Using sizes from the dictionary
+
+All sizes are exposed as `x:Double` values and can be used with `StaticResource` or `DynamicResource`:
+
+```xaml
+<BoxView WidthRequest="{StaticResource size_4}"
+         HeightRequest="{StaticResource size_4}" />
+
+<Frame CornerRadius="{StaticResource radius_medium}" />
+
+<Label FontSize="{StaticResource size_3}" />
+```
+
+> **Note:** Properties that require a `Thickness` (like `Margin`, `Padding`) cannot use an `x:Double` resource directly. For those, continue using the `{dui:Thickness}` or `{dui:Margin}` markup extensions.

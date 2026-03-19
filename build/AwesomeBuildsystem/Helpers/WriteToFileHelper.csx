@@ -122,4 +122,94 @@ public static class WriteToFileHelper
         }
         return fileContent;
     }
+
+    /// <summary>
+    /// Writes a complete XAML ResourceDictionary file for color tokens.
+    /// Each color is written as a &lt;Color x:Key="..."&gt;#AARRGGBB&lt;/Color&gt; entry.
+    /// </summary>
+    /// <param name="xamlFilePath">Path to the .xaml file to write.</param>
+    /// <param name="fullyQualifiedClassName">Fully qualified class name for x:Class, e.g. "DIPS.Mobile.UI.Resources.Colors.ColorsLight".</param>
+    /// <param name="colors">Dictionary mapping color token keys to hex color values in #RRGGBBAA format.</param>
+    /// <param name="timestamp">ISO 8601 timestamp string to embed in the file header comment.</param>
+    public static async Task WriteXamlColorsDictionary(
+        string xamlFilePath,
+        string fullyQualifiedClassName,
+        Dictionary<string, string> colors,
+        string timestamp)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+        sb.AppendLine("<!--");
+        sb.AppendLine("Puls Design Tokens");
+        sb.AppendLine("Do not edit directly, this file is auto-generated");
+        sb.AppendLine($"Generated: {timestamp}");
+        sb.AppendLine("-->");
+        sb.AppendLine($"<ResourceDictionary xmlns=\"http://schemas.microsoft.com/dotnet/2021/maui\"");
+        sb.AppendLine($"                    xmlns:x=\"http://schemas.microsoft.com/winfx/2009/xaml\"");
+        sb.AppendLine($"                    x:Class=\"{fullyQualifiedClassName}\">");
+        foreach (var kvp in colors)
+        {
+            var xamlColor = RgbaToArgbHex(kvp.Value);
+            sb.AppendLine($"    <Color x:Key=\"{kvp.Key}\">{xamlColor}</Color>");
+        }
+        sb.AppendLine("</ResourceDictionary>");
+        await File.WriteAllTextAsync(xamlFilePath, sb.ToString());
+        WriteLine($"Generated XAML color dictionary: {xamlFilePath}");
+    }
+
+    /// <summary>
+    /// Writes a complete XAML ResourceDictionary file for size tokens.
+    /// Each size is written as an &lt;x:Double x:Key="..."&gt;value&lt;/x:Double&gt; entry.
+    /// </summary>
+    /// <param name="xamlFilePath">Path to the .xaml file to write.</param>
+    /// <param name="fullyQualifiedClassName">Fully qualified class name for x:Class.</param>
+    /// <param name="sizes">Dictionary mapping size token keys to their numeric values as strings.</param>
+    /// <param name="timestamp">ISO 8601 timestamp string to embed in the file header comment.</param>
+    public static async Task WriteXamlSizesDictionary(
+        string xamlFilePath,
+        string fullyQualifiedClassName,
+        Dictionary<string, string> sizes,
+        string timestamp)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+        sb.AppendLine("<!--");
+        sb.AppendLine("Puls Design Tokens");
+        sb.AppendLine("Do not edit directly, this file is auto-generated");
+        sb.AppendLine($"Generated: {timestamp}");
+        sb.AppendLine("-->");
+        sb.AppendLine($"<ResourceDictionary xmlns=\"http://schemas.microsoft.com/dotnet/2021/maui\"");
+        sb.AppendLine($"                    xmlns:x=\"http://schemas.microsoft.com/winfx/2009/xaml\"");
+        sb.AppendLine($"                    x:Class=\"{fullyQualifiedClassName}\">");
+        foreach (var kvp in sizes)
+        {
+            sb.AppendLine($"    <x:Double x:Key=\"{kvp.Key}\">{kvp.Value}</x:Double>");
+        }
+        sb.AppendLine("</ResourceDictionary>");
+        await File.WriteAllTextAsync(xamlFilePath, sb.ToString());
+        WriteLine($"Generated XAML sizes dictionary: {xamlFilePath}");
+    }
+
+    /// <summary>
+    /// Converts a hex color value from #RRGGBBAA format (used by Color.FromRgba) to
+    /// #AARRGGBB format (used by MAUI XAML Color parsing).
+    /// Returns "Transparent" unchanged.
+    /// </summary>
+    private static string RgbaToArgbHex(string hexValue)
+    {
+        if (string.IsNullOrEmpty(hexValue) || hexValue == "Transparent")
+            return "Transparent";
+        var h = hexValue.TrimStart('#');
+        if (h.Length == 8)
+        {
+            var rr = h.Substring(0, 2);
+            var gg = h.Substring(2, 2);
+            var bb = h.Substring(4, 2);
+            var aa = h.Substring(6, 2);
+            return $"#{aa}{rr}{gg}{bb}";
+        }
+        if (h.Length == 6)
+            return $"#ff{h}";
+        return hexValue;
+    }
 }

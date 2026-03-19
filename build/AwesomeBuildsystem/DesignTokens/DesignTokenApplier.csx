@@ -143,8 +143,25 @@ public static class DesignTokenApplier
             }
 
         //Update json file
-
         File.Copy(generatedSizesJsonFile.FullName, librarySizesJsonFile.FullName, true);
+
+        //Regenerate XAML sizes ResourceDictionary
+        await RegenerateSizesXaml(librarySizesDir, generatedSizes);
+    }
+
+    /// <summary>
+    /// Regenerates the Sizes.xaml ResourceDictionary from a given set of size tokens.
+    /// </summary>
+    public static async Task RegenerateSizesXaml(DirectoryInfo librarySizesDir, Dictionary<string, string> sizes)
+    {
+        var xamlFile = librarySizesDir.GetFiles().FirstOrDefault(f => f.Name.Equals("Sizes.xaml"))?.FullName
+            ?? Path.Combine(librarySizesDir.FullName, "Sizes.xaml");
+        var timestamp = DateTime.UtcNow.ToString("o");
+        await WriteToFileHelper.WriteXamlSizesDictionary(
+            xamlFile,
+            "DIPS.Mobile.UI.Resources.Sizes.SizesResourceDictionary",
+            sizes,
+            timestamp);
     }
 
     public static async Task<bool> TryAddColors(DirectoryInfo libraryColorsDir, DirectoryInfo generatedColorsDir)
@@ -188,7 +205,64 @@ public static class DesignTokenApplier
 
         //Update json file
         File.Copy(generatedColorsJsonFile.FullName, libraryColorsJsonFile.FullName, true);
+
+        //Regenerate XAML palette ResourceDictionary
+        await RegeneratePaletteColorsXaml(libraryColorsDir, generatedColors);
+
         return true;
+    }
+
+    /// <summary>
+    /// Regenerates the ColorsPalette.xaml ResourceDictionary from a given set of palette color tokens.
+    /// </summary>
+    public static async Task RegeneratePaletteColorsXaml(DirectoryInfo libraryColorsDir, Dictionary<string, string> paletteColors)
+    {
+        var xamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsPalette.xaml"))?.FullName
+            ?? Path.Combine(libraryColorsDir.FullName, "ColorsPalette.xaml");
+        var timestamp = DateTime.UtcNow.ToString("o");
+        await WriteToFileHelper.WriteXamlColorsDictionary(
+            xamlFile,
+            "DIPS.Mobile.UI.Resources.Colors.ColorsPalette",
+            paletteColors,
+            timestamp);
+    }
+
+    /// <summary>
+    /// Regenerates the ColorsLight.xaml and ColorsDark.xaml ResourceDictionaries from separate JSON files
+    /// for the light and dark semantic color tokens.
+    /// </summary>
+    /// <param name="libraryColorsDir">The library Colors resource directory.</param>
+    /// <param name="generatedLightColorsJsonPath">Path to the generated light-mode colors JSON file.</param>
+    /// <param name="generatedDarkColorsJsonPath">Path to the generated dark-mode colors JSON file.</param>
+    public static async Task TryAddSemanticColorsXaml(DirectoryInfo libraryColorsDir, string generatedLightColorsJsonPath, string generatedDarkColorsJsonPath)
+    {
+        var timestamp = DateTime.UtcNow.ToString("o");
+
+        if (File.Exists(generatedLightColorsJsonPath))
+        {
+            var lightJson = await File.ReadAllTextAsync(generatedLightColorsJsonPath);
+            var lightColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(lightJson);
+            var lightXamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsLight.xaml"))?.FullName
+                ?? Path.Combine(libraryColorsDir.FullName, "ColorsLight.xaml");
+            await WriteToFileHelper.WriteXamlColorsDictionary(
+                lightXamlFile,
+                "DIPS.Mobile.UI.Resources.Colors.ColorsLight",
+                lightColors,
+                timestamp);
+        }
+
+        if (File.Exists(generatedDarkColorsJsonPath))
+        {
+            var darkJson = await File.ReadAllTextAsync(generatedDarkColorsJsonPath);
+            var darkColors = JsonConvert.DeserializeObject<Dictionary<string, string>>(darkJson);
+            var darkXamlFile = libraryColorsDir.GetFiles().FirstOrDefault(f => f.Name.Equals("ColorsDark.xaml"))?.FullName
+                ?? Path.Combine(libraryColorsDir.FullName, "ColorsDark.xaml");
+            await WriteToFileHelper.WriteXamlColorsDictionary(
+                darkXamlFile,
+                "DIPS.Mobile.UI.Resources.Colors.ColorsDark",
+                darkColors,
+                timestamp);
+        }
     }
     
     private static void DictionaryDiff(
