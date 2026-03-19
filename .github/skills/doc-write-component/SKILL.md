@@ -111,3 +111,22 @@ Inspect the [components properties class](<GitHub URL>) to further customise and
 - No `_Sidebar.md` references — it is auto-generated
 - No Figma links (designers maintain those separately)
 - Do not document internal/private APIs — only public-facing properties and usage
+
+### File Placement (wiki/ folder structure)
+
+The `wiki/` folder is organized into group folders. Place new documentation in the appropriate group:
+
+| Folder | What goes here |
+|--------|---------------|
+| `Components/` | UI elements: buttons, labels, list items, pickers, checkboxes, etc. |
+| `Layout & Navigation/` | Page structure, navigation, sheets, tabs, search |
+| `Media/` | Camera, images, audio |
+| `Feedback & State/` | Alerts, dialogs, loading indicators, state views |
+| `Styling & Resources/` | Colors, icons, sizes, animations, converters |
+| `Interaction & Accessibility/` | Touch, accessibility, input behaviors |
+| `Guides/` | How-to guides, performance tips, general patterns |
+
+- **New component?** → Place in the matching group folder (most likely `Components/`)
+- **Nothing fits?** → Create a new group folder and place the file there
+- **Root-level files** (`Home.md`, `Getting-Started.md`) are reserved for top-level pages only
+- The sidebar and wiki sync are handled automatically — just add the `.md` file to the right folder
