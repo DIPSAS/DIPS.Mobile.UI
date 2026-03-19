@@ -175,6 +175,12 @@ public partial class ContentPage
         private readonly AView m_view;
         private int m_lastScrollY;
 
+        // Required by Android runtime for Java peer re-creation
+        public ViewScrollTracker(nint handle, Android.Runtime.JniHandleOwnership transfer)
+            : base(handle, transfer)
+        {
+        }
+
         public ViewScrollTracker(ContentPage page, AView view)
         {
             m_page = page;

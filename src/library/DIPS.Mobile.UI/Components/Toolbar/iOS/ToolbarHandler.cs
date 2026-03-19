@@ -194,7 +194,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         }
 
         item.Enabled = toolbarButton.IsEnabled;
-        item.TintColor = Colors.GetColor(ColorName.color_icon_action).ToPlatform();
 
         if (hasTitle)
         {
