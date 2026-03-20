@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DIPS.Mobile.UI.Components.ContextMenus;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
@@ -65,6 +66,23 @@ public partial class ToolbarButton
         defaultValue: true);
 
     /// <summary>
+    /// <see cref="BadgeCount"/>
+    /// </summary>
+    public static readonly BindableProperty BadgeCountProperty = BindableProperty.Create(
+        nameof(BadgeCount),
+        typeof(int?),
+        typeof(ToolbarButton));
+
+    /// <summary>
+    /// <see cref="BadgeColor"/>
+    /// </summary>
+    public static readonly BindableProperty BadgeColorProperty = BindableProperty.Create(
+        nameof(BadgeColor),
+        typeof(Color),
+        typeof(ToolbarButton),
+        defaultValue: Colors.GetColor(ColorName.color_icon_on_surface_information));
+
+    /// <summary>
     /// The title of the toolbar button, used as the accessibility label.
     /// </summary>
     public string? Title
@@ -127,5 +145,24 @@ public partial class ToolbarButton
     {
         get => (bool)GetValue(IsVisibleProperty);
         set => SetValue(IsVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// An optional badge count to display on the button. Values 1-99 show the number, 100+ shows "99+".
+    /// Set to null or 0 to hide the badge.
+    /// </summary>
+    public int? BadgeCount
+    {
+        get => (int?)GetValue(BadgeCountProperty);
+        set => SetValue(BadgeCountProperty, value);
+    }
+
+    /// <summary>
+    /// The background color of the badge. Defaults to <see cref="Colors.Red"/>.
+    /// </summary>
+    public Color BadgeColor
+    {
+        get => (Color)GetValue(BadgeColorProperty);
+        set => SetValue(BadgeColorProperty, value);
     }
 }

@@ -40,6 +40,14 @@ internal class ToolbarSamplesViewModel : ViewModel
         HasSignError = false;
     });
 
+    public Command IncrementBadgeCommand => new(() => EditBadgeCount++);
+
+    public Command DecrementBadgeCommand => new(() =>
+    {
+        if (EditBadgeCount > 0)
+            EditBadgeCount--;
+    });
+
     public bool IsSignVisible
     {
         get;
@@ -69,4 +77,10 @@ internal class ToolbarSamplesViewModel : ViewModel
         get;
         set => RaiseWhenSet(ref field, value);
     } = "Sign";
+
+    public int EditBadgeCount
+    {
+        get;
+        set => RaiseWhenSet(ref field, value);
+    }
 }

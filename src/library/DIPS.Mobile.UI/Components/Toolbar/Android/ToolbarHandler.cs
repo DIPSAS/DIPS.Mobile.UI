@@ -44,6 +44,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     private const float SeparatorMarginDp = 12f;
 
     private const float AnimationSlideExtraDp = 32f;
+
+    private const float BadgeHeightDp = 18f;
+    private const float BadgeFontSizeSp = 11f;
+    private const float BadgePaddingHorizontalDp = 4f;
     // ────────────────────────────────────────────────────────────────────
 
     private LinearLayout? m_pillLayout;
@@ -52,6 +56,11 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     /// Maps each ToolbarButton to its native Android view for incremental add/remove.
     /// </summary>
     private readonly Dictionary<ToolbarButton, AView> m_buttonViewMap = new();
+
+    /// <summary>
+    /// Badge TextViews keyed by the ToolbarButton they belong to, added to the outer FrameLayout.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, TextView> m_badgeMap = new();
 
     /// <summary>
     /// Maps group index to the separator view between group[index] and group[index+1].
@@ -107,6 +116,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     protected override void DisconnectHandler(FrameLayout platformView)
     {
         UnsubscribeFromItemPropertyChanges();
+        ClearBadges();
         ClearButtonViews();
         m_buttonViewMap.Clear();
         m_separatorMap.Clear();
@@ -199,6 +209,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         // Respect current visibility
         newView.Visibility = toolbarTaskButton.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+
+        // Update badge — hides when in non-normal state, shows when returning to normal
+        UpdateBadge(toolbarTaskButton);
     }
 
     partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton)
@@ -318,6 +331,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         // Set initial visibility without animation
         UpdateViewVisibility(animated: false);
+
+        // Recreate badges for any buttons that have a badge count
+        UpdateAllBadges();
     }
 
     /// <summary>
@@ -363,6 +379,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         m_pillLayout.Visibility = anyVisible ? ViewStates.Visible : ViewStates.Gone;
 
         UpdateAlignment();
+
+        // Reposition badges after visibility changes
+        PositionAllBadges();
     }
 
     /// <summary>
@@ -540,6 +559,152 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             child?.Dispose();
         }
     }
+
+    // ── Badge support ───────────────────────────────────────────────────
+
+    partial void OnToolbarButtonBadgeChanged(ToolbarButton toolbarButton)
+    {
+        UpdateBadge(toolbarButton);
+    }
+
+    /// <summary>
+    /// Removes all badges and recreates them for buttons that have a badge count.
+    /// </summary>
+    private void UpdateAllBadges()
+    {
+        ClearBadges();
+
+        foreach (var (button, _) in m_buttonViewMap)
+        {
+            if (button.BadgeCount is > 0)
+                UpdateBadge(button);
+        }
+    }
+
+    /// <summary>
+    /// Creates, updates, or removes the badge for a single button.
+    /// </summary>
+    private void UpdateBadge(ToolbarButton button)
+    {
+        // Remove old badge
+        if (m_badgeMap.TryGetValue(button, out var oldBadge))
+        {
+            PlatformView.RemoveView(oldBadge);
+            oldBadge.Dispose();
+            m_badgeMap.Remove(button);
+        }
+
+        if (button.BadgeCount is not > 0 || !m_buttonViewMap.ContainsKey(button))
+            return;
+
+        // Hide badge when task button is not in normal state
+        if (button is ToolbarTaskButton { IsBusy: true } or ToolbarTaskButton { IsFinished: true }
+            or ToolbarTaskButton { Error.HasError: true })
+            return;
+
+        var badge = CreateBadgeTextView(button.BadgeCount.Value, button.BadgeColor);
+        m_badgeMap[button] = badge;
+        PlatformView.AddView(badge);
+        badge.BringToFront();
+
+        PositionBadge(button);
+    }
+
+    /// <summary>
+    /// Positions a badge view relative to its button within the PlatformView FrameLayout.
+    /// Uses <see cref="AView.Post"/> to defer until after layout.
+    /// </summary>
+    private void PositionBadge(ToolbarButton button)
+    {
+        if (!m_buttonViewMap.TryGetValue(button, out var buttonView) ||
+            !m_badgeMap.TryGetValue(button, out var badge))
+            return;
+
+        buttonView.Post(() =>
+        {
+            if (buttonView.Parent is null || badge.Parent is null)
+                return;
+
+            // Walk up the view tree to calculate offset relative to PlatformView
+            var offsetX = 0f;
+            var offsetY = 0f;
+            AView? current = buttonView;
+            while (current is not null && current != PlatformView)
+            {
+                offsetX += current.GetX();
+                offsetY += current.GetY();
+                current = current.Parent as AView;
+            }
+
+            var badgeHeight = DpToPx(BadgeHeightDp);
+            badge.Measure(
+                AView.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified),
+                AView.MeasureSpec.MakeMeasureSpec(badgeHeight, MeasureSpecMode.Exactly));
+            var badgeWidth = Math.Max(badge.MeasuredWidth, badgeHeight);
+
+            badge.LayoutParameters = new FrameLayout.LayoutParams(badgeWidth, badgeHeight);
+            badge.SetX(offsetX + buttonView.Width - badgeWidth * 0.6f);
+            badge.SetY(offsetY - badgeHeight * 0.3f);
+
+            badge.Visibility = button.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+        });
+    }
+
+    /// <summary>
+    /// Repositions all existing badges (e.g. after visibility or layout changes).
+    /// </summary>
+    private void PositionAllBadges()
+    {
+        foreach (var button in m_badgeMap.Keys.ToList())
+            PositionBadge(button);
+    }
+
+    /// <summary>
+    /// Creates a styled badge TextView with a red capsule background.
+    /// </summary>
+    private TextView CreateBadgeTextView(int count, Color badgeColor)
+    {
+        var text = count > 99 ? "99+" : count.ToString();
+        var badgeHeight = DpToPx(BadgeHeightDp);
+        var padH = DpToPx(BadgePaddingHorizontalDp);
+
+        var badge = new TextView(Context);
+        badge.Text = text;
+        badge.SetTextColor(Android.Graphics.Color.White);
+        badge.SetTextSize(Android.Util.ComplexUnitType.Sp, BadgeFontSizeSp);
+        badge.Gravity = GravityFlags.Center;
+        badge.SetTypeface(badge.Typeface, Android.Graphics.TypefaceStyle.Bold);
+        badge.SetPaddingRelative(padH, 0, padH, 0);
+        badge.SetMinWidth(badgeHeight);
+        badge.SetMinHeight(badgeHeight);
+
+        var bg = new GradientDrawable();
+        bg.SetCornerRadius(badgeHeight / 2f);
+        bg.SetColor(badgeColor.ToPlatform());
+        badge.Background = bg;
+
+        badge.LayoutParameters = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WrapContent,
+            badgeHeight);
+
+        return badge;
+    }
+
+    /// <summary>
+    /// Removes all badge views from the container and clears the map.
+    /// </summary>
+    private void ClearBadges()
+    {
+        foreach (var badge in m_badgeMap.Values)
+        {
+            PlatformView?.RemoveView(badge);
+            badge.Dispose();
+        }
+
+        m_badgeMap.Clear();
+    }
+
+    // ────────────────────────────────────────────────────────────────────
 
     /// <summary>
     /// Provides a rounded outline for elevation shadow rendering.

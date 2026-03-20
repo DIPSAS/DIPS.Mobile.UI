@@ -15,10 +15,11 @@
                      HidesOnScrollFor="{x:Reference scrollView}">
             <dui:ToolbarGroup>
                 <dui:ToolbarTaskButton Title="{Binding SignTitle}"
-                                   IsVisible="{Binding IsSignVisible}"
-                                   IsBusy="{Binding IsSignBusy}"
-                                   IsFinished="{Binding IsSignFinished}"
-                                   Command="{Binding SignCommand}">
+                                       BadgeCount="{Binding EditBadgeCount}"
+                                       IsVisible="{Binding IsSignVisible}"
+                                       IsBusy="{Binding IsSignBusy}"
+                                       IsFinished="{Binding IsSignFinished}"
+                                       Command="{Binding SignCommand}">
                     <dui:ToolbarTaskButton.Error>
                         <dui:ToolbarTaskError HasError="{Binding HasSignError}"
                                               ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
@@ -56,7 +57,8 @@
                      Clicked="OnCloseClicked" />
     </dui:ContentPage.ToolbarItems>
 
-    <dui:ScrollView x:Name="scrollView" HandlerChanged="OnScrollViewHandlerChanged">
+    <dui:ScrollView x:Name="scrollView"
+                    HandlerChanged="OnScrollViewHandlerChanged">
         <dui:VerticalStackLayout Spacing="0">
             <!-- Toolbar configuration section -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
@@ -70,51 +72,88 @@
 
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
                                      Spacing="0">
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Show Sign button"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignVisible}" />
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="{Binding IsSignVisible}" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Show/Hide toolbar"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="True"
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="True"
                                 Toggled="OnToolbarVisibilityToggled" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Hides on scroll"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="True"
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="True"
                                 Toggled="OnHidesOnScrollToggled" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Sign is busy"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignBusy}" />
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="{Binding IsSignBusy}" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Sign is finished"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignFinished}" />
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="{Binding IsSignFinished}" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Sign title"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <Entry Grid.Column="1" Text="{Binding SignTitle}"
+                    <Entry Grid.Column="1"
+                           Text="{Binding SignTitle}"
                            WidthRequest="120"
                            VerticalOptions="Center" />
                 </Grid>
-                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
                     <dui:Label Text="Sign has error"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch Grid.Column="1" IsToggled="{Binding HasSignError}" />
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="{Binding HasSignError}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
+                    <dui:Label Text="Edit badge count"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:HorizontalStackLayout Grid.Column="1"
+                                               Spacing="{dui:Sizes size_1}"
+                                               VerticalOptions="Center">
+                        <dui:Button Text="-"
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    Command="{Binding DecrementBadgeCommand}" />
+                        <dui:Label Text="{Binding EditBadgeCount}"
+                                   Style="{dui:Styles Label=UI200}"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   WidthRequest="30" />
+                        <dui:Button Text="+"
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    Command="{Binding IncrementBadgeCommand}" />
+                    </dui:HorizontalStackLayout>
                 </Grid>
             </dui:VerticalStackLayout>
 
@@ -186,6 +225,5 @@
         </dui:VerticalStackLayout>
     </dui:ScrollView>
 
-   
 
 </dui:ContentPage>

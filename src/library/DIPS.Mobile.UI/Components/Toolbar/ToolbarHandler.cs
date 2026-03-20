@@ -117,6 +117,10 @@ public partial class ToolbarHandler
             case nameof(ToolbarButton.Title):
                 OnToolbarButtonTitleChanged(toolbarButton);
                 break;
+            case nameof(ToolbarButton.BadgeCount):
+            case nameof(ToolbarButton.BadgeColor):
+                OnToolbarButtonBadgeChanged(toolbarButton);
+                break;
             case nameof(ToolbarTaskButton.IsBusy):
             case nameof(ToolbarTaskButton.IsFinished):
                 if (sender is ToolbarTaskButton taskButton)
@@ -147,6 +151,12 @@ public partial class ToolbarHandler
     /// to update the native button's text and/or accessibility label.
     /// </summary>
     partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton);
+
+    /// <summary>
+    /// Called when a single button's BadgeCount changes. Platform handlers implement this
+    /// to show, update, or hide a badge indicator on the button.
+    /// </summary>
+    partial void OnToolbarButtonBadgeChanged(ToolbarButton toolbarButton);
 
     /// <summary>
     /// Called when a ToolbarTaskButton's IsBusy, IsFinished, or Error.HasError changes.

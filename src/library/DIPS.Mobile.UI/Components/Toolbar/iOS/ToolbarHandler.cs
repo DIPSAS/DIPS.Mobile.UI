@@ -3,6 +3,8 @@ using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Icons;
+using CoreGraphics;
+using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -18,6 +20,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     /// so we can incrementally add/remove items without rebuilding everything.
     /// </summary>
     private readonly Dictionary<ToolbarButton, UIBarButtonItem> m_buttonItemMap = new();
+
+    /// <summary>
+    /// Badge labels keyed by the ToolbarButton they belong to.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, UILabel> m_badgeLabels = new();
+
+    private const float BadgeHeight = 18f;
+    private const float BadgeFontSize = 11f;
+    private const int BadgeTag = 9999;
 
     protected override UIToolbar CreatePlatformView()
     {
@@ -37,6 +48,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     protected override void DisconnectHandler(UIToolbar platformView)
     {
         UnsubscribeFromItemPropertyChanges();
+        ClearBadges();
         m_buttonItemMap.Clear();
         base.DisconnectHandler(platformView);
     }
@@ -148,6 +160,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         }
 
         PlatformView.SetItems(barItems.ToArray(), true);
+
+        ScheduleBadgeUpdate();
     }
 
     private UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)
@@ -285,6 +299,129 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
         item.Title = toolbarButton.Title;
         item.AccessibilityLabel = toolbarButton.Title;
+    }
+
+    partial void OnToolbarButtonBadgeChanged(ToolbarButton toolbarButton)
+    {
+        ScheduleBadgeUpdate();
+    }
+
+    // ── Badge support ───────────────────────────────────────────────────
+
+    private void ScheduleBadgeUpdate()
+    {
+        CoreFoundation.DispatchQueue.MainQueue.DispatchAsync(UpdateAllBadges);
+    }
+
+    private void UpdateAllBadges()
+    {
+        if (PlatformView is null)
+            return;
+
+        ClearBadges();
+
+        PlatformView.LayoutIfNeeded();
+
+        foreach (var (button, barItem) in m_buttonItemMap)
+        {
+            if (!button.IsVisible || button.BadgeCount is not > 0)
+                continue;
+
+            // Hide badge when task button is not in normal state
+            if (button is ToolbarTaskButton { IsBusy: true } or ToolbarTaskButton { IsFinished: true }
+                or ToolbarTaskButton { Error.HasError: true })
+                continue;
+
+            var itemView = GetBarButtonItemView(barItem);
+            if (itemView is null || itemView.Bounds.Width <= 0)
+                continue;
+
+            var badge = CreateBadgeLabel(button.BadgeCount.Value, button.BadgeColor);
+            m_badgeLabels[button] = badge;
+
+            // Add badge as subview of the bar button item's underlying view
+            // so it moves naturally with animations
+            itemView.AddSubview(badge);
+            itemView.ClipsToBounds = false;
+
+            // Pin badge to top-right of the button view using Auto Layout
+            NSLayoutConstraint.ActivateConstraints(
+            [
+                badge.TopAnchor.ConstraintEqualTo(itemView.TopAnchor, -BadgeHeight * 0.3f),
+                badge.TrailingAnchor.ConstraintEqualTo(itemView.TrailingAnchor, BadgeHeight * 0.3f),
+                badge.HeightAnchor.ConstraintEqualTo(BadgeHeight),
+                badge.WidthAnchor.ConstraintGreaterThanOrEqualTo(BadgeHeight),
+            ]);
+
+            // Ensure ancestor views don't clip the badge
+            var parent = itemView.Superview;
+            while (parent is not null && parent != PlatformView.Superview)
+            {
+                parent.ClipsToBounds = false;
+                parent = parent.Superview;
+            }
+        }
+    }
+
+    private static UIView? GetBarButtonItemView(UIBarButtonItem item)
+    {
+        try
+        {
+            return item.ValueForKey(new NSString("view")) as UIView;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static UILabel CreateBadgeLabel(int count, Color badgeColor)
+    {
+        var text = count > 99 ? "99+" : count.ToString();
+
+        var label = new BadgeLabel
+        {
+            Text = text,
+            TextColor = UIColor.White,
+            BackgroundColor = badgeColor.ToPlatform(),
+            Font = UIFont.SystemFontOfSize(BadgeFontSize, UIFontWeight.Bold),
+            TextAlignment = UITextAlignment.Center,
+            ClipsToBounds = true,
+        };
+
+        label.Layer.CornerRadius = BadgeHeight / 2;
+        label.TranslatesAutoresizingMaskIntoConstraints = false;
+
+        return label;
+    }
+
+    /// <summary>
+    /// UILabel subclass that adds horizontal padding for badge text.
+    /// </summary>
+    private class BadgeLabel : UILabel
+    {
+        private const float PadH = 5f;
+
+        public override CGSize IntrinsicContentSize
+        {
+            get
+            {
+                var size = base.IntrinsicContentSize;
+                return new CGSize(Math.Max(size.Width + PadH * 2, BadgeHeight), BadgeHeight);
+            }
+        }
+
+        public override void DrawText(CGRect rect)
+        {
+            base.DrawText(rect.Inset(PadH, 0));
+        }
+    }
+
+    private void ClearBadges()
+    {
+        foreach (var badge in m_badgeLabels.Values)
+            badge.RemoveFromSuperview();
+        m_badgeLabels.Clear();
     }
 
     /// <summary>
