@@ -119,16 +119,16 @@ Set `IsFinished` to replace the button with a checkmark icon for a few seconds t
 
 ### Error state
 
-Attach a `ToolbarTaskError` to show an error icon when the task fails. People can tap the error icon to learn what went wrong:
+Attach an `ErrorHandler` to show an error icon when the task fails. People can tap the error icon to learn what went wrong:
 
 ```xml
 <dui:ToolbarTaskButton Title="Sign"
                        IsBusy="{Binding IsSignBusy}"
                        Command="{Binding SignCommand}">
-    <dui:ToolbarTaskButton.Error>
-        <dui:ToolbarTaskError HasError="{Binding HasSignError}"
+    <dui:ToolbarTaskButton.HandleError>
+        <dui:ErrorHandler HasError="{Binding HasSignError}"
                               ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
-    </dui:ToolbarTaskButton.Error>
+    </dui:ToolbarTaskButton.HandleError>
 </dui:ToolbarTaskButton>
 ```
 

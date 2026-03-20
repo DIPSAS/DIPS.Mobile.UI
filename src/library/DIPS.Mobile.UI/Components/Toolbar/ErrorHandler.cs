@@ -7,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 /// When <see cref="HasError"/> is set to true, the button is replaced with an error icon.
 /// </summary>
 [ContentProperty(nameof(HasError))]
-public class ToolbarTaskError : BindableObject
+public class ErrorHandler : BindableObject
 {
     /// <summary>
     /// <see cref="HasError"/>
@@ -15,7 +15,7 @@ public class ToolbarTaskError : BindableObject
     public static readonly BindableProperty HasErrorProperty = BindableProperty.Create(
         nameof(HasError),
         typeof(bool),
-        typeof(ToolbarTaskError),
+        typeof(ErrorHandler),
         defaultValue: false);
 
     /// <summary>
@@ -24,7 +24,7 @@ public class ToolbarTaskError : BindableObject
     public static readonly BindableProperty ErrorTappedCommandProperty = BindableProperty.Create(
         nameof(ErrorTappedCommand),
         typeof(ICommand),
-        typeof(ToolbarTaskError));
+        typeof(ErrorHandler));
 
     /// <summary>
     /// Indicates whether an error has occurred for this task.

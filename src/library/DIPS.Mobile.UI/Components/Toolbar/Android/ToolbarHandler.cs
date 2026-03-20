@@ -187,7 +187,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         // Create the replacement based on state priority: error > busy > finished > normal
         AView newView;
-        if (toolbarTaskButton.Error is { HasError: true })
+        if (toolbarTaskButton.HandleError is { HasError: true })
         {
             newView = CreateErrorView(toolbarTaskButton);
         }
@@ -293,7 +293,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         }
 
         button.ContentDescription = toolbarTaskButton.Title;
-        button.Click += (_, _) => toolbarTaskButton.Error?.ErrorTappedCommand?.Execute(null);
+        button.Click += (_, _) => toolbarTaskButton.HandleError?.ErrorTappedCommand?.Execute(null);
 
         return button;
     }
@@ -427,7 +427,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     {
         if (toolbarButton is ToolbarTaskButton taskButton)
         {
-            if (taskButton.Error is { HasError: true })
+            if (taskButton.HandleError is { HasError: true })
             {
                 return CreateErrorView(taskButton);
             }

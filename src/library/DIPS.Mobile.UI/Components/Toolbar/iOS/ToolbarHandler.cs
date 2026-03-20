@@ -169,7 +169,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         // When this is a task button, check for task states first (priority: error > busy > finished)
         if (toolbarButton is ToolbarTaskButton taskButton)
         {
-            if (taskButton.Error is { HasError: true })
+            if (taskButton.HandleError is { HasError: true })
             {
                 return CreateErrorBarButtonItem(taskButton);
             }
@@ -270,7 +270,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
             var image = uiImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
             var item = new UIBarButtonItem(image, UIBarButtonItemStyle.Plain, (_, _) =>
             {
-                taskButton.Error?.ErrorTappedCommand?.Execute(null);
+                taskButton.HandleError?.ErrorTappedCommand?.Execute(null);
             });
             item.TintColor = UIColor.SystemRed;
             return item;
@@ -279,7 +279,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         // Fallback: text error
         var fallbackItem = new UIBarButtonItem("!", UIBarButtonItemStyle.Plain, (_, _) =>
         {
-            taskButton.Error?.ErrorTappedCommand?.Execute(null);
+            taskButton.HandleError?.ErrorTappedCommand?.Execute(null);
         });
         fallbackItem.TintColor = UIColor.SystemRed;
         return fallbackItem;
