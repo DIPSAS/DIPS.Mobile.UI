@@ -14,10 +14,16 @@
                      HorizontalAlignment="End"
                      HidesOnScrollFor="{x:Reference scrollView}">
             <dui:ToolbarGroup>
-                <dui:ToolbarButton Title="Sign"
+                <dui:ToolbarTaskButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"
                                    IsBusy="{Binding IsSignBusy}"
-                                   Command="{Binding SignCommand}" />
+                                   IsFinished="{Binding IsSignFinished}"
+                                   Command="{Binding SignCommand}">
+                    <dui:ToolbarTaskButton.Error>
+                        <dui:ToolbarTaskError HasError="{Binding HasSignError}"
+                                              ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
+                    </dui:ToolbarTaskButton.Error>
+                </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
                 <dui:ToolbarButton Icon="{dui:Icons edit_line}"
@@ -50,45 +56,81 @@
                      Clicked="OnCloseClicked" />
     </dui:ContentPage.ToolbarItems>
 
-    <dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded">
+    <dui:ScrollView x:Name="scrollView" HandlerChanged="OnScrollViewHandlerChanged">
         <dui:VerticalStackLayout Spacing="0">
-            <!-- Toolbar visibility toggles -->
+            <!-- Toolbar configuration section -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
-                                     Spacing="{dui:Sizes size_2}">
-                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                                     Spacing="{dui:Sizes size_1}">
+                <dui:Label Text="Toolbar configuration"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:Label Text="Use these controls to test toolbar behavior"
+                           Style="{dui:Styles Label=UI200}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+            </dui:VerticalStackLayout>
+
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="0">
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
                     <dui:Label Text="Show Sign button"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch IsToggled="{Binding IsSignVisible}" />
-                </dui:HorizontalStackLayout>
-                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignVisible}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
                     <dui:Label Text="Show/Hide toolbar"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch IsToggled="True"
+                    <dui:Switch Grid.Column="1" IsToggled="True"
                                 Toggled="OnToolbarVisibilityToggled" />
-                </dui:HorizontalStackLayout>
-                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
                     <dui:Label Text="Hides on scroll"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch IsToggled="True"
+                    <dui:Switch Grid.Column="1" IsToggled="True"
                                 Toggled="OnHidesOnScrollToggled" />
-                </dui:HorizontalStackLayout>
-                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
                     <dui:Label Text="Sign is busy"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
-                    <dui:Switch IsToggled="{Binding IsSignBusy}" />
-                </dui:HorizontalStackLayout>
+                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignBusy}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                    <dui:Label Text="Sign is finished"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignFinished}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                    <dui:Label Text="Sign has error"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch Grid.Column="1" IsToggled="{Binding HasSignError}" />
+                </Grid>
             </dui:VerticalStackLayout>
 
-            <!-- Document info header -->
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="Task actions"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Button Text="Simulate sign error"
+                            Command="{Binding SimulateSignErrorCommand}" />
+            </dui:VerticalStackLayout>
+
+            <BoxView HeightRequest="1"
+                     Color="{dui:Colors color_border_default}"
+                     Margin="{dui:Sizes size_4}" />
+
+            <!-- Fake document section (for scroll testing) -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
                                      Spacing="{dui:Sizes size_1}">
                 <dui:Label Text="Admission Note"
                            Style="{dui:Styles Label=SectionHeader}" />
                 <dui:Label Text="Created 15.03.2026 by Dr. Karen Olsen"
+                           Style="{dui:Styles Label=UI200}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+                <dui:Label Text="This is a fake document to demonstrate toolbar scroll behavior."
                            Style="{dui:Styles Label=UI200}"
                            TextColor="{dui:Colors color_text_subtle}" />
             </dui:VerticalStackLayout>

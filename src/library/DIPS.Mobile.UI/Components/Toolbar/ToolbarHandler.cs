@@ -18,6 +18,7 @@ public partial class ToolbarHandler
 
     /// <summary>
     /// Subscribe to IsVisible changes on all toolbar buttons for incremental add/remove.
+    /// Also subscribes to ToolbarTaskButton state changes and ToolbarTaskError.HasError changes.
     /// </summary>
     protected void SubscribeToItemPropertyChanges()
     {
@@ -30,6 +31,11 @@ public partial class ToolbarHandler
             {
                 button.PropertyChanged -= OnToolbarButtonPropertyChanged;
                 button.PropertyChanged += OnToolbarButtonPropertyChanged;
+
+                if (button is ToolbarTaskButton taskButton)
+                {
+                    SubscribeToErrorPropertyChanges(taskButton);
+                }
             }
         }
     }
@@ -47,6 +53,53 @@ public partial class ToolbarHandler
             foreach (var button in group.Items)
             {
                 button.PropertyChanged -= OnToolbarButtonPropertyChanged;
+
+                if (button is ToolbarTaskButton taskButton)
+                {
+                    UnsubscribeFromErrorPropertyChanges(taskButton);
+                }
+            }
+        }
+    }
+
+    private void SubscribeToErrorPropertyChanges(ToolbarTaskButton taskButton)
+    {
+        if (taskButton.Error is not null)
+        {
+            taskButton.Error.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
+            taskButton.Error.PropertyChanged += OnToolbarTaskErrorPropertyChanged;
+        }
+    }
+
+    private void UnsubscribeFromErrorPropertyChanges(ToolbarTaskButton taskButton)
+    {
+        if (taskButton.Error is not null)
+        {
+            taskButton.Error.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
+        }
+    }
+
+    private void OnToolbarTaskErrorPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(ToolbarTaskError.HasError))
+            return;
+
+        if (sender is not ToolbarTaskError error)
+            return;
+
+        // Find the ToolbarTaskButton that owns this error
+        if (VirtualView is null)
+            return;
+
+        foreach (var group in VirtualView.Groups)
+        {
+            foreach (var button in group.Items)
+            {
+                if (button is ToolbarTaskButton taskButton && taskButton.Error == error)
+                {
+                    OnToolbarTaskButtonStateChanged(taskButton);
+                    return;
+                }
             }
         }
     }
@@ -61,8 +114,21 @@ public partial class ToolbarHandler
             case nameof(ToolbarButton.IsVisible):
                 OnToolbarButtonVisibilityChanged(toolbarButton);
                 break;
-            case nameof(ToolbarButton.IsBusy):
-                OnToolbarButtonBusyChanged(toolbarButton);
+            case nameof(ToolbarTaskButton.IsBusy):
+            case nameof(ToolbarTaskButton.IsFinished):
+                if (sender is ToolbarTaskButton taskButton)
+                {
+                    OnToolbarTaskButtonStateChanged(taskButton);
+                }
+                break;
+            case nameof(ToolbarTaskButton.Error):
+                if (sender is ToolbarTaskButton taskButtonForError)
+                {
+                    // Re-subscribe to the new Error object
+                    UnsubscribeFromErrorPropertyChanges(taskButtonForError);
+                    SubscribeToErrorPropertyChanges(taskButtonForError);
+                    OnToolbarTaskButtonStateChanged(taskButtonForError);
+                }
                 break;
         }
     }
@@ -74,10 +140,10 @@ public partial class ToolbarHandler
     partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton);
 
     /// <summary>
-    /// Called when a single button's IsBusy changes. Platform handlers implement this
-    /// to show or hide a spinner on the button.
+    /// Called when a ToolbarTaskButton's IsBusy, IsFinished, or Error.HasError changes.
+    /// Platform handlers implement this to swap the button view for the appropriate state indicator.
     /// </summary>
-    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton);
+    partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton);
 
     /// <summary>
     /// Animates the toolbar into view by sliding it up from below.

@@ -7,10 +7,12 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.Android;
 using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Icons = DIPS.Mobile.UI.Resources.Icons.Icons;
 using ImageButton = Android.Widget.ImageButton;
 using Orientation = Android.Widget.Orientation;
 using ProgressBar = Android.Widget.ProgressBar;
@@ -131,12 +133,12 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         UpdateViewVisibility(animated: true);
     }
 
-    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
+    partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton)
     {
         if (m_pillLayout is null || VirtualView is null)
             return;
 
-        if (!m_buttonViewMap.TryGetValue(toolbarButton, out var currentView))
+        if (!m_buttonViewMap.TryGetValue(toolbarTaskButton, out var currentView))
             return;
 
         // Find the position of the current view in the pill layout
@@ -153,22 +155,30 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         m_pillLayout.RemoveViewAt(index);
         currentView.Dispose();
 
-        // Create the replacement: spinner when busy, normal button when not
+        // Create the replacement based on state priority: error > busy > finished > normal
         AView newView;
-        if (toolbarButton.IsBusy)
+        if (toolbarTaskButton.Error is { HasError: true })
+        {
+            newView = CreateErrorView(toolbarTaskButton);
+        }
+        else if (toolbarTaskButton.IsBusy)
         {
             newView = CreateSpinnerView();
         }
+        else if (toolbarTaskButton.IsFinished)
+        {
+            newView = CreateFinishedView();
+        }
         else
         {
-            newView = CreateButtonView(toolbarButton);
+            newView = CreateButtonView(toolbarTaskButton);
         }
 
-        m_buttonViewMap[toolbarButton] = newView;
+        m_buttonViewMap[toolbarTaskButton] = newView;
         m_pillLayout.AddView(newView, index);
 
         // Respect current visibility
-        newView.Visibility = toolbarButton.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+        newView.Visibility = toolbarTaskButton.IsVisible ? ViewStates.Visible : ViewStates.Gone;
     }
 
     private AView CreateSpinnerView()
@@ -190,6 +200,57 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         return spinner;
     }
 
+    private AView CreateFinishedView()
+    {
+        var size = DpToPx(48);
+        var margin = DpToPx(4);
+        var button = new ImageButton(Context);
+        button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
+        {
+            Gravity = GravityFlags.CenterVertical,
+        };
+        (button.LayoutParameters as LinearLayout.LayoutParams)!.SetMargins(margin, 0, margin, 0);
+        button.SetScaleType(ImageView.ScaleType.CenterInside);
+        button.SetBackgroundColor(Android.Graphics.Color.Transparent);
+        button.Enabled = false;
+        button.Clickable = false;
+
+        var iconSource = Icons.GetIcon(IconName.check_line);
+        if (DUI.TryGetDrawableFromFileImageSource(iconSource, out var drawable) && drawable is not null)
+        {
+            drawable.SetTint(new Android.Graphics.Color(60, 179, 113).ToArgb());
+            button.SetImageDrawable(drawable);
+        }
+
+        return button;
+    }
+
+    private AView CreateErrorView(ToolbarTaskButton toolbarTaskButton)
+    {
+        var size = DpToPx(48);
+        var margin = DpToPx(4);
+        var button = new ImageButton(Context);
+        button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
+        {
+            Gravity = GravityFlags.CenterVertical,
+        };
+        (button.LayoutParameters as LinearLayout.LayoutParams)!.SetMargins(margin, 0, margin, 0);
+        button.SetScaleType(ImageView.ScaleType.CenterInside);
+        button.Background = CreateRippleDrawable();
+
+        var iconSource = Icons.GetIcon(IconName.important_line);
+        if (DUI.TryGetDrawableFromFileImageSource(iconSource, out var drawable) && drawable is not null)
+        {
+            drawable.SetTint(Android.Graphics.Color.Red.ToArgb());
+            button.SetImageDrawable(drawable);
+        }
+
+        button.ContentDescription = toolbarTaskButton.Title;
+        button.Click += (_, _) => toolbarTaskButton.Error?.ErrorTappedCommand?.Execute(null);
+
+        return button;
+    }
+
     private void UpdateItems()
     {
         if (m_pillLayout is null || VirtualView is null)
@@ -207,7 +268,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
             foreach (var button in group.Items)
             {
-                var view = CreateButtonView(button);
+                var view = CreateViewForButton(button);
                 m_buttonViewMap[button] = view;
                 m_pillLayout.AddView(view);
             }
@@ -268,6 +329,32 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         m_pillLayout.Visibility = anyVisible ? ViewStates.Visible : ViewStates.Gone;
 
         UpdateAlignment();
+    }
+
+    /// <summary>
+    /// Creates the appropriate native view for a button, considering ToolbarTaskButton states.
+    /// </summary>
+    private AView CreateViewForButton(ToolbarButton toolbarButton)
+    {
+        if (toolbarButton is ToolbarTaskButton taskButton)
+        {
+            if (taskButton.Error is { HasError: true })
+            {
+                return CreateErrorView(taskButton);
+            }
+
+            if (taskButton.IsBusy)
+            {
+                return CreateSpinnerView();
+            }
+
+            if (taskButton.IsFinished)
+            {
+                return CreateFinishedView();
+            }
+        }
+
+        return CreateButtonView(toolbarButton);
     }
 
     private AView CreateButtonView(ToolbarButton toolbarButton)

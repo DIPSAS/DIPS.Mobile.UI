@@ -39,20 +39,20 @@ Buttons can be **text-only** (set `Title`), **icon-only** (set `Icon`, use `Titl
 
 Set `HidesOnScrollFor` to a scrollable view to automatically hide the toolbar when people scroll down and show it when they scroll up.
 
-Because the toolbar lives in `ContentPage.BottomToolbar` (a separate XAML scope), use the scrollable view's `Loaded` event to set the reference from code-behind:
+Because the toolbar lives in `ContentPage.BottomToolbar` (a separate XAML scope), use the scrollable view's `HandlerChanged` event to set the reference from code-behind:
 
 ```xml
 <dui:ContentPage.BottomToolbar>
     <dui:Toolbar x:Name="bottomToolbar" />
 </dui:ContentPage.BottomToolbar>
 
-<dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded">
+<dui:ScrollView x:Name="scrollView" HandlerChanged="OnScrollViewHandlerChanged">
     ...
 </dui:ScrollView>
 ```
 
 ```csharp
-private void OnScrollViewLoaded(object? sender, EventArgs e)
+private void OnScrollViewHandlerChanged(object? sender, EventArgs e)
 {
     bottomToolbar.HidesOnScrollFor = scrollView;
 }
@@ -69,28 +69,83 @@ bottomToolbar.Show();
 bottomToolbar.Hide();
 ```
 
-## Busy state
+## Task buttons
 
-Set `IsBusy` on a `ToolbarButton` to replace it with a spinner. This is useful for async operations where you want to indicate progress before the button disappears:
+Use `ToolbarTaskButton` instead of `ToolbarButton` when the button triggers an async task that has busy, finished, and error states.
+
+### Busy state
+
+Set `IsBusy` to replace the button with a spinner while work is in progress:
 
 ```xml
-<dui:ToolbarButton Title="Sign"
-                   IsVisible="{Binding IsSignVisible}"
-                   IsBusy="{Binding IsSignBusy}"
-                   Command="{Binding SignCommand}" />
+<dui:ToolbarTaskButton Title="Sign"
+                       IsBusy="{Binding IsSignBusy}"
+                       Command="{Binding SignCommand}" />
 ```
+
+### Finished state
+
+Set `IsFinished` to replace the button with a checkmark icon for a few seconds to confirm success:
+
+```xml
+<dui:ToolbarTaskButton Title="Sign"
+                       IsBusy="{Binding IsSignBusy}"
+                       IsFinished="{Binding IsSignFinished}"
+                       Command="{Binding SignCommand}" />
+```
+
+### Error state
+
+Attach a `ToolbarTaskError` to show an error icon when the task fails. People can tap the error icon to learn what went wrong:
+
+```xml
+<dui:ToolbarTaskButton Title="Sign"
+                       IsBusy="{Binding IsSignBusy}"
+                       Command="{Binding SignCommand}">
+    <dui:ToolbarTaskButton.Error>
+        <dui:ToolbarTaskError HasError="{Binding HasSignError}"
+                              ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
+    </dui:ToolbarTaskButton.Error>
+</dui:ToolbarTaskButton>
+```
+
+```csharp
+public Command SignErrorTappedCommand => new(async () =>
+{
+    await DialogService.ShowMessage("Sign failed",
+        "The signing service is currently unavailable. Please try again.", "OK");
+    HasSignError = false;  // Reset so the user can retry
+});
+```
+
+> **NB!** When `HasError` is true, the button shows an error icon. Use `ErrorTappedCommand` to present a dialog explaining the error, then set `HasError = false` to restore the button so the user can try again.
+
+### Full task lifecycle example
 
 ```csharp
 public Command SignCommand => new(async () =>
 {
     IsSignBusy = true;
-    await PerformSigningAsync();
-    IsSignVisible = false;
-    IsSignBusy = false;
+    try
+    {
+        await PerformSigningAsync();
+        IsSignBusy = false;
+        IsSignFinished = true;
+        await Task.Delay(2000);
+        IsSignFinished = false;
+        IsSignVisible = false;
+    }
+    catch
+    {
+        IsSignBusy = false;
+        HasSignError = true;
+    }
 });
 ```
 
-> **NOTE:** The button respects both `IsVisible` and `IsBusy` — a busy-but-hidden button does not show a spinner.
+> **NOTE:** State priority is **Error > Busy > Finished**. If both `IsBusy` and `HasError` are true, the error icon is shown.
+
+> **NOTE:** The button respects `IsVisible` — a busy-but-hidden button does not show a spinner.
 
 # Properties
 
@@ -99,3 +154,7 @@ Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.
 ## ToolbarButton
 
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/Toolbar/ToolbarButton.Properties.cs) to further customise and use it.
+
+## ToolbarTaskButton
+
+Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/Toolbar/ToolbarTaskButton.Properties.cs) to further customise and use it.

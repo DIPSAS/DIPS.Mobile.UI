@@ -65,15 +65,6 @@ public partial class ToolbarButton
         defaultValue: true);
 
     /// <summary>
-    /// <see cref="IsBusy"/>
-    /// </summary>
-    public static readonly BindableProperty IsBusyProperty = BindableProperty.Create(
-        nameof(IsBusy),
-        typeof(bool),
-        typeof(ToolbarButton),
-        defaultValue: false);
-
-    /// <summary>
     /// The title of the toolbar button, used as the accessibility label.
     /// </summary>
     public string? Title
@@ -136,14 +127,5 @@ public partial class ToolbarButton
     {
         get => (bool)GetValue(IsVisibleProperty);
         set => SetValue(IsVisibleProperty, value);
-    }
-
-    /// <summary>
-    /// When true, shows a spinner next to the button content to indicate a busy/loading state.
-    /// </summary>
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
     }
 }

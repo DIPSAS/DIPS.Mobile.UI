@@ -55,9 +55,9 @@ public class Toolbar : View
     /// </summary>
     /// <example>
     /// <code>
-    /// &lt;dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded" /&gt;
+    /// &lt;dui:ScrollView x:Name="scrollView" HandlerChanged="OnScrollViewHandlerChanged" /&gt;
     /// // In code-behind:
-    /// void OnScrollViewLoaded(object? s, EventArgs e) =&gt; toolbar.HidesOnScrollFor = scrollView;
+    /// void OnScrollViewHandlerChanged(object? s, EventArgs e) =&gt; toolbar.HidesOnScrollFor = scrollView;
     /// </code>
     /// </example>
     public VisualElement? HidesOnScrollFor

@@ -2,10 +2,12 @@ using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.ContextMenus;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
 using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using UIKit;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using Icons = DIPS.Mobile.UI.Resources.Icons.Icons;
 
 namespace DIPS.Mobile.UI.Components.Toolbar;
 
@@ -150,10 +152,23 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
     private UIBarButtonItem CreateBarButtonItem(ToolbarButton toolbarButton)
     {
-        // When busy, show a spinner instead of the normal button
-        if (toolbarButton.IsBusy)
+        // When this is a task button, check for task states first (priority: error > busy > finished)
+        if (toolbarButton is ToolbarTaskButton taskButton)
         {
-            return CreateSpinnerBarButtonItem();
+            if (taskButton.Error is { HasError: true })
+            {
+                return CreateErrorBarButtonItem(taskButton);
+            }
+
+            if (taskButton.IsBusy)
+            {
+                return CreateSpinnerBarButtonItem();
+            }
+
+            if (taskButton.IsFinished)
+            {
+                return CreateFinishedBarButtonItem();
+            }
         }
 
         UIImage? icon = null;
@@ -217,10 +232,49 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         return new UIBarButtonItem(spinner);
     }
 
-    partial void OnToolbarButtonBusyChanged(ToolbarButton toolbarButton)
+    private static UIBarButtonItem CreateFinishedBarButtonItem()
     {
-        // Swap the bar button item between normal and spinner
-        m_buttonItemMap[toolbarButton] = CreateBarButtonItem(toolbarButton);
+        var iconSource = Icons.GetIcon(IconName.check_line);
+        if (DUI.TryGetUIImageFromImageSource(iconSource, out var uiImage) && uiImage is not null)
+        {
+            var image = uiImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            var item = new UIBarButtonItem(image, UIBarButtonItemStyle.Plain, null);
+            item.TintColor = UIColor.SystemGreen.ColorWithAlpha(0.7f);
+            return item;
+        }
+
+        // Fallback: text checkmark
+        var fallbackItem = new UIBarButtonItem("✓", UIBarButtonItemStyle.Plain, null);
+        return fallbackItem;
+    }
+
+    private static UIBarButtonItem CreateErrorBarButtonItem(ToolbarTaskButton taskButton)
+    {
+        var iconSource = Icons.GetIcon(IconName.important_line);
+        if (DUI.TryGetUIImageFromImageSource(iconSource, out var uiImage) && uiImage is not null)
+        {
+            var image = uiImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            var item = new UIBarButtonItem(image, UIBarButtonItemStyle.Plain, (_, _) =>
+            {
+                taskButton.Error?.ErrorTappedCommand?.Execute(null);
+            });
+            item.TintColor = UIColor.SystemRed;
+            return item;
+        }
+
+        // Fallback: text error
+        var fallbackItem = new UIBarButtonItem("!", UIBarButtonItemStyle.Plain, (_, _) =>
+        {
+            taskButton.Error?.ErrorTappedCommand?.Execute(null);
+        });
+        fallbackItem.TintColor = UIColor.SystemRed;
+        return fallbackItem;
+    }
+
+    partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton)
+    {
+        // Swap the bar button item to reflect the new state
+        m_buttonItemMap[toolbarTaskButton] = CreateBarButtonItem(toolbarTaskButton);
         ApplyItemsToToolbar(animated: true);
     }
 
