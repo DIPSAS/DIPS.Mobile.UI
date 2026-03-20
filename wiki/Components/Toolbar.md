@@ -69,6 +69,29 @@ bottomToolbar.Show();
 bottomToolbar.Hide();
 ```
 
+## Badges
+
+Add a badge to any toolbar button to indicate a count (e.g. pending items). Set `BadgeCount` to a positive integer to show it, or set it to `null` / `0` to hide it. Values above 99 display as "99+".
+
+```xml
+<dui:ToolbarButton Title="Sign"
+                   BadgeCount="{Binding PendingSignCount}"
+                   Command="{Binding SignCommand}" />
+```
+
+Customise the badge color with `BadgeColor` (defaults to the design system's info color):
+
+```xml
+<dui:ToolbarButton Title="Sign"
+                   BadgeCount="{Binding PendingSignCount}"
+                   BadgeColor="Red"
+                   Command="{Binding SignCommand}" />
+```
+
+> **NOTE:** Badges are hidden automatically when a `ToolbarTaskButton` is in a busy, finished, or error state. They reappear when the button returns to normal.
+
+> **NOTE:** Badges respect `IsVisible` — hiding a button also hides its badge.
+
 ## Task buttons
 
 Use `ToolbarTaskButton` instead of `ToolbarButton` when the button triggers an async task that has busy, finished, and error states.

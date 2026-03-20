@@ -346,6 +346,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         if (m_pillLayout is null || VirtualView is null)
             return;
 
+        // Hide badges for buttons that are becoming invisible BEFORE starting the
+        // transition. Badges live in PlatformView (the transition target), so changing
+        // their visibility inside the AutoTransition causes animation glitches.
+        foreach (var (button, badge) in m_badgeMap)
+        {
+            if (!button.IsVisible)
+                badge.Visibility = ViewStates.Gone;
+        }
+
         if (animated)
         {
             var transition = new AutoTransition();
