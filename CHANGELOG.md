@@ -1,6 +1,17 @@
 ## [55.5.0]
 - [Toolbar] Added new cross-platform Toolbar component for bottom action bars
+- [Toolbar] Support for text, icon, and menu buttons via `ToolbarButton`
+- [Toolbar] Group buttons with visual separators via `ToolbarGroup`
+- [Toolbar] `HorizontalAlignment` property for Start, Center, or End positioning
+- [Toolbar] `HidesOnScrollFor` property to auto-hide on scroll with a target scrollable view
+- [Toolbar] `Show()` and `Hide()` methods for programmatic visibility with animations
+- [Toolbar] `IsBusy` property on `ToolbarButton` to show a spinner loading state
+- [Toolbar] `IsVisible` property on `ToolbarButton` for dynamic button visibility
+- [Toolbar] `BindingContext` propagation to `ContextMenu` on `ToolbarButton`
 - [ContentPage] Added `BottomToolbar` property to attach a toolbar to any content page
+- [iOS][Toolbar] Native `UIToolbar` rendering with Liquid Glass styling on iOS 26+
+- [Android][Toolbar] Material 3 floating pill with elevation, rounded corners, and ripple effects
+- [Android][ContentPage] Scroll direction tracking via touch-based detection for toolbar auto-hide
 
 ## [55.4.1]
 - [SearchPage][Android] Fix bug where `ScrollableHeader` were not added.
