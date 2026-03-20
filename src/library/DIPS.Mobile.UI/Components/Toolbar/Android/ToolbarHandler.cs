@@ -25,6 +25,27 @@ namespace DIPS.Mobile.UI.Components.Toolbar;
 /// </summary>
 public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 {
+    // ── Layout constants (dp) ──────────────────────────────────────────
+    private const float PillCornerRadiusDp = 32f;
+    private const float PillHeightDp = 64f;
+    private const float PillElevationDp = 6f;
+    private const float PillPaddingHorizontalDp = 16f;
+    private const float PillPaddingVerticalDp = 8f;
+    private const float ShadowPaddingDp = 8f;
+
+    private const float ButtonSizeDp = 48f;       // M3 standard touch target
+    private const float ButtonMarginDp = 4f;
+    private const float TextButtonPaddingHorizontalDp = 16f;
+
+    private const float SpinnerInsetDp = 12f;      // (48 - 24) / 2 → centres 24dp icon in 48dp target
+
+    private const float SeparatorWidthDp = 1f;
+    private const float SeparatorHeightDp = 24f;
+    private const float SeparatorMarginDp = 12f;
+
+    private const float AnimationSlideExtraDp = 32f;
+    // ────────────────────────────────────────────────────────────────────
+
     private LinearLayout? m_pillLayout;
 
     /// <summary>
@@ -43,7 +64,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         // Allow the elevation shadow to render outside the container bounds
         container.SetClipChildren(false);
         container.SetClipToPadding(false);
-        var shadowPad = DpToPx(8);
+        var shadowPad = DpToPx(ShadowPaddingDp);
         container.SetPadding(shadowPad, shadowPad, shadowPad, shadowPad);
 
         m_pillLayout = new LinearLayout(Context)
@@ -54,22 +75,21 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         // M3 Floating Toolbar: pill-shaped container with elevation
         var background = new GradientDrawable();
-        background.SetCornerRadius(DpToPx(32)); // Fully rounded (64dp height / 2)
+        background.SetCornerRadius(DpToPx(PillCornerRadiusDp));
         background.SetColor(Colors.GetColor(ColorName.color_surface_default).ToPlatform());
         m_pillLayout.Background = background;
-        m_pillLayout.Elevation = DpToPx(6);
-        m_pillLayout.OutlineProvider = new RoundedOutlineProvider(DpToPx(32));
+        m_pillLayout.Elevation = DpToPx(PillElevationDp);
+        m_pillLayout.OutlineProvider = new RoundedOutlineProvider(DpToPx(PillCornerRadiusDp));
         m_pillLayout.ClipToOutline = false;
 
-        // M3 spec: 8dp vertical padding, 16dp horizontal end padding
-        var padV = DpToPx(8);
-        var padH = DpToPx(16);
+        var padV = DpToPx(PillPaddingVerticalDp);
+        var padH = DpToPx(PillPaddingHorizontalDp);
         m_pillLayout.SetPadding(padH, padV, padH, padV);
 
         // Default alignment: center
         var layoutParams = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.WrapContent,
-            DpToPx(64), // M3 default toolbar height
+            DpToPx(PillHeightDp),
             GravityFlags.CenterHorizontal);
 
         container.AddView(m_pillLayout, layoutParams);
@@ -183,9 +203,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     private AView CreateSpinnerView()
     {
-        var size = DpToPx(48);
-        var margin = DpToPx(4);
-        var inset = DpToPx(12); // (48 - 24) / 2 = 12dp padding to match 24dp icon size
+        var size = DpToPx(ButtonSizeDp);
+        var margin = DpToPx(ButtonMarginDp);
+        var inset = DpToPx(SpinnerInsetDp);
         var spinner = new ProgressBar(Context, null, Android.Resource.Attribute.ProgressBarStyleSmall);
         spinner.Indeterminate = true;
         spinner.IndeterminateTintList = ColorStateList.ValueOf(
@@ -202,8 +222,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     private AView CreateFinishedView()
     {
-        var size = DpToPx(48);
-        var margin = DpToPx(4);
+        var size = DpToPx(ButtonSizeDp);
+        var margin = DpToPx(ButtonMarginDp);
         var button = new ImageButton(Context);
         button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
         {
@@ -227,8 +247,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     private AView CreateErrorView(ToolbarTaskButton toolbarTaskButton)
     {
-        var size = DpToPx(48);
-        var margin = DpToPx(4);
+        var size = DpToPx(ButtonSizeDp);
+        var margin = DpToPx(ButtonMarginDp);
         var button = new ImageButton(Context);
         button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
         {
@@ -373,8 +393,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
     private AView CreateIconButton(ToolbarButton toolbarButton, bool hasMenu)
     {
-        var size = DpToPx(48); // M3 standard touch target
-        var margin = DpToPx(4); // 32dp between items = 16dp margin each side minus pill padding overlap; use 4dp to get ~32dp total gap
+        var size = DpToPx(ButtonSizeDp);
+        var margin = DpToPx(ButtonMarginDp);
         var button = new ImageButton(Context);
         button.LayoutParameters = new LinearLayout.LayoutParams(size, size)
         {
@@ -413,9 +433,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         button.Text = toolbarButton.Title;
         button.Gravity = GravityFlags.Center;
 
-        var height = DpToPx(48); // M3 standard touch target
-        var padH = DpToPx(16);
-        var margin = DpToPx(4);
+        var height = DpToPx(ButtonSizeDp);
+        var padH = DpToPx(TextButtonPaddingHorizontalDp);
+        var margin = DpToPx(ButtonMarginDp);
         button.LayoutParameters = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WrapContent, height)
         {
@@ -449,9 +469,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     {
         var separator = new AView(Context);
         separator.ImportantForAccessibility = ImportantForAccessibility.No;
-        var width = DpToPx(1);
-        var height = DpToPx(24);
-        var margin = DpToPx(12); // Extra spacing around group separator
+        var width = DpToPx(SeparatorWidthDp);
+        var height = DpToPx(SeparatorHeightDp);
+        var margin = DpToPx(SeparatorMarginDp);
 
         var lp = new LinearLayout.LayoutParams(width, height)
         {
@@ -546,7 +566,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             return;
 
         // Slide down by container height + bottom margin to fully clear the screen
-        var slideDistance = PlatformView.Height + DpToPx(32);
+        var slideDistance = PlatformView.Height + DpToPx(AnimationSlideExtraDp);
 
         PlatformView.Animate()!
             .TranslationY(slideDistance)
