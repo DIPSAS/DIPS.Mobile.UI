@@ -11,8 +11,7 @@
                  Title="Documents">
     <dui:ContentPage.BottomToolbar>
         <dui:Toolbar x:Name="bottomToolbar"
-                     HorizontalAlignment="End"
-                     HidesOnScrollFor="{x:Reference scrollView}">
+                     HorizontalAlignment="End">
             <dui:ToolbarGroup>
                 <dui:ToolbarTaskButton Title="Sign"
                                    IsVisible="{Binding IsSignVisible}"

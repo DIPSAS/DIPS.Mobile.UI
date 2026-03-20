@@ -242,6 +242,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             SetupScrollTrackingForToolbar();
 
+            BottomToolbar.PropertyChanged -= OnBottomToolbarPropertyChanged;
             BottomToolbar.PropertyChanged += OnBottomToolbarPropertyChanged;
         }
 
@@ -268,6 +269,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             }
             else
             {
+                targetView.HandlerChanged -= OnScrollTargetHandlerChanged;
                 targetView.HandlerChanged += OnScrollTargetHandlerChanged;
             }
         }
