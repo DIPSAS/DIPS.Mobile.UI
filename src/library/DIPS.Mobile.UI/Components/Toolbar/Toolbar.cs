@@ -14,7 +14,7 @@ public class Toolbar : View
         nameof(Groups),
         typeof(IList<ToolbarGroup>),
         typeof(Toolbar),
-        defaultValueCreator: _ => new List<ToolbarGroup>());
+        defaultValueCreator: _ => new ObservableCollection<ToolbarGroup>());
 
     public static readonly BindableProperty HorizontalAlignmentProperty = BindableProperty.Create(
         nameof(HorizontalAlignment),

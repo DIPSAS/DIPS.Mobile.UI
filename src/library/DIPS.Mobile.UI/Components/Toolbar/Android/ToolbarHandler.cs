@@ -380,8 +380,35 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         UpdateAlignment();
 
-        // Reposition badges after visibility changes
-        PositionAllBadges();
+        // Reposition badges after the pill layout completes its pass
+        // (using a one-shot layout listener so it fires after the transition animation)
+        ScheduleBadgeReposition();
+    }
+
+    /// <summary>
+    /// Attaches a one-shot global layout listener on the pill to reposition all badges
+    /// once the layout pass finishes (e.g. after a visibility transition animation).
+    /// </summary>
+    private void ScheduleBadgeReposition()
+    {
+        if (m_pillLayout?.ViewTreeObserver is not { IsAlive: true } vto)
+            return;
+
+        vto.GlobalLayout += OnPillLayoutComplete;
+
+        void OnPillLayoutComplete(object? sender, EventArgs e)
+        {
+            if (m_pillLayout?.ViewTreeObserver is { IsAlive: true } observer)
+                observer.GlobalLayout -= OnPillLayoutComplete;
+
+            // Also toggle badge visibility for buttons that were hidden/shown
+            foreach (var (button, badge) in m_badgeMap)
+            {
+                badge.Visibility = button.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+            }
+
+            PositionAllBadges();
+        }
     }
 
     /// <summary>
@@ -586,11 +613,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
     /// </summary>
     private void UpdateBadge(ToolbarButton button)
     {
-        // Remove old badge
+        // Remove old badge (don't Dispose — a deferred Post callback may still reference it)
         if (m_badgeMap.TryGetValue(button, out var oldBadge))
         {
             PlatformView.RemoveView(oldBadge);
-            oldBadge.Dispose();
             m_badgeMap.Remove(button);
         }
 
@@ -620,9 +646,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             !m_badgeMap.TryGetValue(button, out var badge))
             return;
 
+        // Capture the current badge reference so the callback can verify it's still current
+        var capturedBadge = badge;
         buttonView.Post(() =>
         {
-            if (buttonView.Parent is null || badge.Parent is null)
+            // Bail out if the badge was replaced or removed before this callback fired
+            if (!m_badgeMap.TryGetValue(button, out var currentBadge) || currentBadge != capturedBadge)
+                return;
+
+            if (buttonView.Parent is null || capturedBadge.Parent is null)
                 return;
 
             // Walk up the view tree to calculate offset relative to PlatformView
@@ -637,16 +669,16 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             }
 
             var badgeHeight = DpToPx(BadgeHeightDp);
-            badge.Measure(
+            capturedBadge.Measure(
                 AView.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified),
                 AView.MeasureSpec.MakeMeasureSpec(badgeHeight, MeasureSpecMode.Exactly));
-            var badgeWidth = Math.Max(badge.MeasuredWidth, badgeHeight);
+            var badgeWidth = Math.Max(capturedBadge.MeasuredWidth, badgeHeight);
 
-            badge.LayoutParameters = new FrameLayout.LayoutParams(badgeWidth, badgeHeight);
-            badge.SetX(offsetX + buttonView.Width - badgeWidth * 0.6f);
-            badge.SetY(offsetY - badgeHeight * 0.3f);
+            capturedBadge.LayoutParameters = new FrameLayout.LayoutParams(badgeWidth, badgeHeight);
+            capturedBadge.SetX(offsetX + buttonView.Width - badgeWidth * 0.6f);
+            capturedBadge.SetY(offsetY - badgeHeight * 0.3f);
 
-            badge.Visibility = button.IsVisible ? ViewStates.Visible : ViewStates.Gone;
+            capturedBadge.Visibility = button.IsVisible ? ViewStates.Visible : ViewStates.Gone;
         });
     }
 
@@ -687,6 +719,9 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             ViewGroup.LayoutParams.WrapContent,
             badgeHeight);
 
+        // Ensure badge renders above the elevated pill layout
+        badge.Elevation = DpToPx(PillElevationDp) + 1;
+
         return badge;
     }
 
@@ -698,7 +733,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         foreach (var badge in m_badgeMap.Values)
         {
             PlatformView?.RemoveView(badge);
-            badge.Dispose();
         }
 
         m_badgeMap.Clear();

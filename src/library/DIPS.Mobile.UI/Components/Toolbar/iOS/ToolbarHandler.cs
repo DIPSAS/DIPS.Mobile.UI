@@ -303,14 +303,82 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
     partial void OnToolbarButtonBadgeChanged(ToolbarButton toolbarButton)
     {
-        ScheduleBadgeUpdate();
+        UpdateSingleBadge(toolbarButton);
     }
 
     // ── Badge support ───────────────────────────────────────────────────
 
+    /// <summary>
+    /// Schedules a full badge rebuild on the next run-loop pass (used after SetItems).
+    /// </summary>
     private void ScheduleBadgeUpdate()
     {
-        CoreFoundation.DispatchQueue.MainQueue.DispatchAsync(UpdateAllBadges);
+        CoreFoundation.DispatchQueue.MainQueue.DispatchAsync(() =>
+        {
+            UpdateAllBadges();
+        });
+    }
+
+    /// <summary>
+    /// Updates a single button's badge. When clearing a badge (count → 0),
+    /// recreates the UIBarButtonItem to force iOS/Liquid Glass to fully redraw
+    /// (RemoveFromSuperview alone doesn't clear the cached rendering).
+    /// </summary>
+    private void UpdateSingleBadge(ToolbarButton button)
+    {
+        // Remove existing badge for this button
+        if (m_badgeLabels.TryGetValue(button, out var oldBadge))
+        {
+            oldBadge.RemoveFromSuperview();
+            m_badgeLabels.Remove(button);
+        }
+
+        var shouldShowBadge = button.IsVisible 
+            && button.BadgeCount is > 0
+            && button is not ToolbarTaskButton { IsBusy: true }
+            && button is not ToolbarTaskButton { IsFinished: true }
+            && button is not ToolbarTaskButton { Error.HasError: true };
+
+        if (!shouldShowBadge)
+        {
+            // Recreate the bar button item to force a clean redraw.
+            // iOS 26 Liquid Glass caches the rendered layer of _UIButtonBarButton,
+            // so simply removing the badge subview leaves a visual artifact.
+            m_buttonItemMap[button] = CreateBarButtonItem(button);
+            ApplyItemsToToolbar(animated: false);
+            return;
+        }
+
+        if (PlatformView is null)
+            return;
+
+        if (!m_buttonItemMap.TryGetValue(button, out var barItem))
+            return;
+
+        var itemView = GetBarButtonItemView(barItem);
+        if (itemView is null || itemView.Bounds.Width <= 0)
+            return;
+
+        var badge = CreateBadgeLabel(button.BadgeCount!.Value, button.BadgeColor);
+        m_badgeLabels[button] = badge;
+
+        itemView.AddSubview(badge);
+        itemView.ClipsToBounds = false;
+
+        NSLayoutConstraint.ActivateConstraints(
+        [
+            badge.TopAnchor.ConstraintEqualTo(itemView.TopAnchor, -BadgeHeight * 0.3f),
+            badge.TrailingAnchor.ConstraintEqualTo(itemView.TrailingAnchor, BadgeHeight * 0.3f),
+            badge.HeightAnchor.ConstraintEqualTo(BadgeHeight),
+            badge.WidthAnchor.ConstraintGreaterThanOrEqualTo(BadgeHeight),
+        ]);
+
+        var parent = itemView.Superview;
+        while (parent is not null && parent != PlatformView.Superview)
+        {
+            parent.ClipsToBounds = false;
+            parent = parent.Superview;
+        }
     }
 
     private void UpdateAllBadges()
