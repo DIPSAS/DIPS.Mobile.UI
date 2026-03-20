@@ -18,7 +18,7 @@ public partial class ToolbarHandler
 
     /// <summary>
     /// Subscribe to IsVisible changes on all toolbar buttons for incremental add/remove.
-    /// Also subscribes to ToolbarTaskButton state changes and ToolbarTaskError.HasError changes.
+    /// Also subscribes to ToolbarTaskButton state changes and ErrorHandler.HasError changes.
     /// </summary>
     protected void SubscribeToItemPropertyChanges()
     {
@@ -64,27 +64,27 @@ public partial class ToolbarHandler
 
     private void SubscribeToErrorPropertyChanges(ToolbarTaskButton taskButton)
     {
-        if (taskButton.Error is not null)
+        if (taskButton.HandleError is not null)
         {
-            taskButton.Error.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
-            taskButton.Error.PropertyChanged += OnToolbarTaskErrorPropertyChanged;
+            taskButton.HandleError.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
+            taskButton.HandleError.PropertyChanged += OnToolbarTaskErrorPropertyChanged;
         }
     }
 
     private void UnsubscribeFromErrorPropertyChanges(ToolbarTaskButton taskButton)
     {
-        if (taskButton.Error is not null)
+        if (taskButton.HandleError is not null)
         {
-            taskButton.Error.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
+            taskButton.HandleError.PropertyChanged -= OnToolbarTaskErrorPropertyChanged;
         }
     }
 
     private void OnToolbarTaskErrorPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName != nameof(ToolbarTaskError.HasError))
+        if (e.PropertyName != nameof(ErrorHandler.HasError))
             return;
 
-        if (sender is not ToolbarTaskError error)
+        if (sender is not ErrorHandler error)
             return;
 
         // Find the ToolbarTaskButton that owns this error
@@ -95,7 +95,7 @@ public partial class ToolbarHandler
         {
             foreach (var button in group.Items)
             {
-                if (button is ToolbarTaskButton taskButton && taskButton.Error == error)
+                if (button is ToolbarTaskButton taskButton && taskButton.HandleError == error)
                 {
                     OnToolbarTaskButtonStateChanged(taskButton);
                     return;
@@ -128,10 +128,10 @@ public partial class ToolbarHandler
                     OnToolbarTaskButtonStateChanged(taskButton);
                 }
                 break;
-            case nameof(ToolbarTaskButton.Error):
+            case nameof(ToolbarTaskButton.HandleError):
                 if (sender is ToolbarTaskButton taskButtonForError)
                 {
-                    // Re-subscribe to the new Error object
+                    // Re-subscribe to the new HandleError object
                     UnsubscribeFromErrorPropertyChanges(taskButtonForError);
                     SubscribeToErrorPropertyChanges(taskButtonForError);
                     OnToolbarTaskButtonStateChanged(taskButtonForError);
@@ -159,7 +159,7 @@ public partial class ToolbarHandler
     partial void OnToolbarButtonBadgeChanged(ToolbarButton toolbarButton);
 
     /// <summary>
-    /// Called when a ToolbarTaskButton's IsBusy, IsFinished, or Error.HasError changes.
+    /// Called when a ToolbarTaskButton's IsBusy, IsFinished, or HandleError.HasError changes.
     /// Platform handlers implement this to swap the button view for the appropriate state indicator.
     /// </summary>
     partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton);

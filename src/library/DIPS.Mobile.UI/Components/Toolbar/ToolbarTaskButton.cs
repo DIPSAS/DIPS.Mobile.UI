@@ -10,9 +10,9 @@ public partial class ToolbarTaskButton : ToolbarButton
     {
         base.OnBindingContextChanged();
 
-        if (Error is not null)
+        if (HandleError is not null)
         {
-            SetInheritedBindingContext(Error, BindingContext);
+            SetInheritedBindingContext(HandleError, BindingContext);
         }
     }
 }

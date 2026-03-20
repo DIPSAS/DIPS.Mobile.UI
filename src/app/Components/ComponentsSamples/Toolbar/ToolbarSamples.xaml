@@ -20,10 +20,10 @@
                                        IsBusy="{Binding IsSignBusy}"
                                        IsFinished="{Binding IsSignFinished}"
                                        Command="{Binding SignCommand}">
-                    <dui:ToolbarTaskButton.Error>
-                        <dui:ToolbarTaskError HasError="{Binding HasSignError}"
+                    <dui:ToolbarTaskButton.HandleError>
+                        <dui:ErrorHandler HasError="{Binding HasSignError}"
                                               ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
-                    </dui:ToolbarTaskButton.Error>
+                    </dui:ToolbarTaskButton.HandleError>
                 </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>

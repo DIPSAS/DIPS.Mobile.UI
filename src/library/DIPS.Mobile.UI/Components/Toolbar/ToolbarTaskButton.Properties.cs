@@ -21,11 +21,11 @@ public partial class ToolbarTaskButton
         defaultValue: false);
 
     /// <summary>
-    /// <see cref="Error"/>
+    /// <see cref="HandleError"/>
     /// </summary>
-    public static readonly BindableProperty ErrorProperty = BindableProperty.Create(
-        nameof(Error),
-        typeof(ToolbarTaskError),
+    public static readonly BindableProperty HandleErrorProperty = BindableProperty.Create(
+        nameof(HandleError),
+        typeof(ErrorHandler),
         typeof(ToolbarTaskButton));
 
     /// <summary>
@@ -48,11 +48,11 @@ public partial class ToolbarTaskButton
 
     /// <summary>
     /// The error state configuration for this task button.
-    /// Set <see cref="ToolbarTaskError.HasError"/> to true to replace the button with an error icon.
+    /// Set <see cref="ErrorHandler.HasError"/> to true to replace the button with an error icon.
     /// </summary>
-    public ToolbarTaskError? Error
+    public ErrorHandler? HandleError
     {
-        get => (ToolbarTaskError?)GetValue(ErrorProperty);
-        set => SetValue(ErrorProperty, value);
+        get => (ErrorHandler?)GetValue(HandleErrorProperty);
+        set => SetValue(HandleErrorProperty, value);
     }
 }
