@@ -1,0 +1,134 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
+                 x:DataType="local:ToolbarSamplesViewModel"
+                 x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
+                 Title="Documents">
+    <dui:ContentPage.BottomToolbar>
+        <dui:Toolbar x:Name="bottomToolbar"
+                     HorizontalAlignment="End"
+                     HidesOnScrollFor="{x:Reference scrollView}">
+            <dui:ToolbarGroup>
+                <dui:ToolbarButton Title="Sign"
+                                   IsVisible="{Binding IsSignVisible}"
+                                   Command="{Binding SignCommand}" />
+            </dui:ToolbarGroup>
+            <dui:ToolbarGroup>
+                <dui:ToolbarButton Icon="{dui:Icons edit_line}"
+                                   Title="Edit"
+                                   Command="{Binding EditCommand}" />
+                <dui:ToolbarButton Icon="{dui:Icons tab_more_fill}"
+                                   Title="More actions">
+                    <dui:ToolbarButton.Menu>
+                        <dui:ContextMenu>
+                            <dui:ContextMenuItem Title="Copy"
+                                                 Command="{Binding CopyCommand}" />
+                            <dui:ContextMenuItem Title="Share"
+                                                 Command="{Binding ShareCommand}" />
+                            <dui:ContextMenuItem Title="Print"
+                                                 Command="{Binding PrintCommand}" />
+                            <dui:ContextMenuItem Title="Delete"
+                                                 Command="{Binding DeleteCommand}" />
+                        </dui:ContextMenu>
+                    </dui:ToolbarButton.Menu>
+                </dui:ToolbarButton>
+            </dui:ToolbarGroup>
+        </dui:Toolbar>
+    </dui:ContentPage.BottomToolbar>
+    <dui:ContentPage.BindingContext>
+        <local:ToolbarSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
+
+    <dui:ScrollView x:Name="scrollView" Loaded="OnScrollViewLoaded">
+        <dui:VerticalStackLayout Spacing="0">
+            <!-- Toolbar visibility toggles -->
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="{dui:Sizes size_2}">
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Show Sign button"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="{Binding IsSignVisible}" />
+                </dui:HorizontalStackLayout>
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Show/Hide toolbar"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="True"
+                                Toggled="OnToolbarVisibilityToggled" />
+                </dui:HorizontalStackLayout>
+                <dui:HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                    <dui:Label Text="Hides on scroll"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch IsToggled="True"
+                                Toggled="OnHidesOnScrollToggled" />
+                </dui:HorizontalStackLayout>
+            </dui:VerticalStackLayout>
+
+            <!-- Document info header -->
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="{dui:Sizes size_1}">
+                <dui:Label Text="Admission Note"
+                           Style="{dui:Styles Label=SectionHeader}" />
+                <dui:Label Text="Created 15.03.2026 by Dr. Karen Olsen"
+                           Style="{dui:Styles Label=UI200}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+            </dui:VerticalStackLayout>
+
+            <!-- Document content -->
+            <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
+                                     Spacing="{dui:Sizes size_3}">
+                <dui:Label Text="Subjective"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label
+                    Text="Patient presents with chest pain radiating to left arm, onset 2 hours ago. Reports shortness of breath and mild nausea. No previous history of cardiac events. Currently on Metformin 500mg for type 2 diabetes."
+                    Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Objective"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label
+                    Text="BP 145/92 mmHg, HR 98 bpm, SpO2 96% on room air. Temperature 37.1°C. Heart sounds: Regular rhythm, no murmurs detected. Lung auscultation: Clear bilateral breath sounds. ECG shows ST-segment changes in leads V3-V5."
+                    Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Assessment"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label
+                    Text="Suspected acute coronary syndrome. Differential includes unstable angina, NSTEMI. Risk factors include diabetes, age, and hypertension. HEART score calculated at 6 — high risk."
+                    Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Plan"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label
+                    Text="1. Administer Aspirin 300mg stat&#10;2. IV access and start normal saline&#10;3. Serial troponin measurements at 0h and 3h&#10;4. Continuous cardiac monitoring&#10;5. Cardiology consult for possible catheterization&#10;6. Hold Metformin pending renal function results&#10;7. Pain management with Morphine 2-4mg IV PRN"
+                    Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Allergies"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label Text="Penicillin (rash), Sulfonamides (anaphylaxis)"
+                           Style="{dui:Styles Label=UI200}" />
+
+                <dui:Label Text="Follow-up"
+                           Style="{dui:Styles Label=UI100}" />
+                <dui:Label
+                    Text="Reassess after troponin results. If positive, proceed with invasive strategy within 24 hours per ESC guidelines. If negative, consider CT coronary angiography. Update patient and next of kin on findings."
+                    Style="{dui:Styles Label=UI200}"
+                    Margin="{dui:Thickness Bottom=size_12}" />
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+   
+
+</dui:ContentPage>

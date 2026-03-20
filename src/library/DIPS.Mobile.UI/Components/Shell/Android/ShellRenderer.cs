@@ -120,8 +120,8 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
 {
     private ShellAppearance? m_appearance;
 
-    public Toolbar Toolbar { get; set; }
-    public override void SetAppearance(Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
+    public AndroidX.AppCompat.Widget.Toolbar Toolbar { get; set; }
+    public override void SetAppearance(AndroidX.AppCompat.Widget.Toolbar toolbar, IShellToolbarTracker toolbarTracker, ShellAppearance appearance)
     {
         base.SetAppearance(toolbar, toolbarTracker, appearance);
         
@@ -180,12 +180,12 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
     private class ToolbarMenuItemClickListener : Object, IMenuItemOnMenuItemClickListener, Application.IActivityLifecycleCallbacks, PopupMenu.IOnDismissListener, PopupMenu.IOnMenuItemClickListener
     {
         private readonly ContextMenu m_contextMenu;
-        private readonly Toolbar m_materialToolbar;
+        private readonly AndroidX.AppCompat.Widget.Toolbar m_materialToolbar;
         private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu? m_popupMenu;
         private bool m_isShowing;
 
-        public ToolbarMenuItemClickListener(ContextMenu contextMenu, Toolbar materialToolbar)
+        public ToolbarMenuItemClickListener(ContextMenu contextMenu, AndroidX.AppCompat.Widget.Toolbar materialToolbar)
         {
             m_contextMenu = contextMenu;
             m_materialToolbar = materialToolbar;

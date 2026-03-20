@@ -21,6 +21,7 @@ using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
 using Components.ComponentsSamples.SyntaxHighlighting;
 using Components.ComponentsSamples.TabView;
+using Components.ComponentsSamples.Toolbar;
 using Components.ComponentsSamples.Tags;
 using Components.ComponentsSamples.Text;
 using Components.ComponentsSamples.TextFields;
@@ -73,6 +74,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),
             new(SampleType.Components, "Gallery", () => new GallerySample()),
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
+            new(SampleType.Components, "Toolbar", () => new ToolbarSamples(), isModal: true),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
             
 
