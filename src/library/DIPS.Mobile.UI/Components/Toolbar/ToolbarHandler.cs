@@ -114,6 +114,9 @@ public partial class ToolbarHandler
             case nameof(ToolbarButton.IsVisible):
                 OnToolbarButtonVisibilityChanged(toolbarButton);
                 break;
+            case nameof(ToolbarButton.Title):
+                OnToolbarButtonTitleChanged(toolbarButton);
+                break;
             case nameof(ToolbarTaskButton.IsBusy):
             case nameof(ToolbarTaskButton.IsFinished):
                 if (sender is ToolbarTaskButton taskButton)
@@ -138,6 +141,12 @@ public partial class ToolbarHandler
     /// to incrementally add/remove just that one item without rebuilding the entire toolbar.
     /// </summary>
     partial void OnToolbarButtonVisibilityChanged(ToolbarButton toolbarButton);
+
+    /// <summary>
+    /// Called when a single button's Title changes. Platform handlers implement this
+    /// to update the native button's text and/or accessibility label.
+    /// </summary>
+    partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton);
 
     /// <summary>
     /// Called when a ToolbarTaskButton's IsBusy, IsFinished, or Error.HasError changes.

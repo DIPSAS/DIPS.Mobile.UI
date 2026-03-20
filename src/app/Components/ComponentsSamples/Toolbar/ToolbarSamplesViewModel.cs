@@ -63,4 +63,10 @@ internal class ToolbarSamplesViewModel : ViewModel
         get;
         set => RaiseWhenSet(ref field, value);
     }
+
+    public string SignTitle
+    {
+        get;
+        set => RaiseWhenSet(ref field, value);
+    } = "Sign";
 }

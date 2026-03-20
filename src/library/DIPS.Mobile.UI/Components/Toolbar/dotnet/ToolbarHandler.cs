@@ -16,6 +16,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, Toolbar>
     {
     }
 
+    partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton)
+    {
+    }
+
     partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton)
     {
     }

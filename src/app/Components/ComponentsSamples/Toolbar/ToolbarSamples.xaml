@@ -11,9 +11,10 @@
                  Title="Documents">
     <dui:ContentPage.BottomToolbar>
         <dui:Toolbar x:Name="bottomToolbar"
-                     HorizontalAlignment="End">
+                     HorizontalAlignment="End"
+                     HidesOnScrollFor="{x:Reference scrollView}">
             <dui:ToolbarGroup>
-                <dui:ToolbarTaskButton Title="Sign"
+                <dui:ToolbarTaskButton Title="{Binding SignTitle}"
                                    IsVisible="{Binding IsSignVisible}"
                                    IsBusy="{Binding IsSignBusy}"
                                    IsFinished="{Binding IsSignFinished}"
@@ -100,6 +101,14 @@
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
                     <dui:Switch Grid.Column="1" IsToggled="{Binding IsSignFinished}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" Padding="0">
+                    <dui:Label Text="Sign title"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Text="{Binding SignTitle}"
+                           WidthRequest="120"
+                           VerticalOptions="Center" />
                 </Grid>
                 <Grid ColumnDefinitions="*,Auto" Padding="0">
                     <dui:Label Text="Sign has error"

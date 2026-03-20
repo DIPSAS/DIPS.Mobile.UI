@@ -278,6 +278,15 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         ApplyItemsToToolbar(animated: true);
     }
 
+    partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton)
+    {
+        if (!m_buttonItemMap.TryGetValue(toolbarButton, out var item))
+            return;
+
+        item.Title = toolbarButton.Title;
+        item.AccessibilityLabel = toolbarButton.Title;
+    }
+
     /// <summary>
     /// Animates the toolbar sliding up into view with a spring animation.
     /// </summary>

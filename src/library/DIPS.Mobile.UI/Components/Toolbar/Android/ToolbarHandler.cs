@@ -201,6 +201,20 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
         newView.Visibility = toolbarTaskButton.IsVisible ? ViewStates.Visible : ViewStates.Gone;
     }
 
+    partial void OnToolbarButtonTitleChanged(ToolbarButton toolbarButton)
+    {
+        if (!m_buttonViewMap.TryGetValue(toolbarButton, out var view))
+            return;
+
+        // Update text on text buttons, and accessibility label on all buttons
+        if (view is TextView textView)
+        {
+            textView.Text = toolbarButton.Title;
+        }
+
+        view.ContentDescription = toolbarButton.Title;
+    }
+
     private AView CreateSpinnerView()
     {
         var size = DpToPx(ButtonSizeDp);
