@@ -337,7 +337,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
             && button.BadgeCount is > 0
             && button is not ToolbarTaskButton { IsBusy: true }
             && button is not ToolbarTaskButton { IsFinished: true }
-            && button is not ToolbarTaskButton { Error.HasError: true };
+            && button is not ToolbarTaskButton { HandleError.HasError: true };
 
         if (!shouldShowBadge)
         {
@@ -397,7 +397,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
             // Hide badge when task button is not in normal state
             if (button is ToolbarTaskButton { IsBusy: true } or ToolbarTaskButton { IsFinished: true }
-                or ToolbarTaskButton { Error.HasError: true })
+                or ToolbarTaskButton { HandleError.HasError: true })
                 continue;
 
             var itemView = GetBarButtonItemView(barItem);
