@@ -1,3 +1,7 @@
+## [55.5.0]
+- [Toolbar] Added new cross-platform Toolbar component for bottom action bars
+- [ContentPage] Added `BottomToolbar` property to attach a toolbar to any content page
+
 ## [55.4.1]
 - [SearchPage][Android] Fix bug where `ScrollableHeader` were not added.
 

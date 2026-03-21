@@ -74,6 +74,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             HideOrShowFloatingNavigationMenu();
             
+            
 #if __ANDROID__
             // Update status bar color for this page (works for both modal and non-modal)
             StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
@@ -162,7 +163,25 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnHandlerChanged();
 
+            if (Handler is not null)
+            {
+                AttachBottomToolbar();
+            }
+        }
 
+        protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+        {
+            base.OnHandlerChanging(args);
+
+            if (args.NewHandler is null)
+            {
+                DisableScrollTracking();
+                if (BottomToolbar is not null)
+                {
+                    BottomToolbar.PropertyChanged -= OnBottomToolbarPropertyChanged;
+                }
+                DetachBottomToolbarOnPlatform();
+            }
         }
 
         public override Window GetParentWindow()
@@ -191,5 +210,103 @@ namespace DIPS.Mobile.UI.Components.Pages
                 Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
             }
         }
+
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+
+            if (BottomToolbar is not null)
+            {
+                SetInheritedBindingContext(BottomToolbar, BindingContext);
+            }
+        }
+
+        private void OnBottomToolbarChanged()
+        {
+            if (Handler is not null)
+            {
+                AttachBottomToolbar();
+            }
+        }
+
+        private void AttachBottomToolbar()
+        {
+            if (BottomToolbar is null)
+            {
+                DetachBottomToolbarOnPlatform();
+                return;
+            }
+
+            BottomToolbar.Parent = this;
+            AttachBottomToolbarOnPlatform();
+
+            SetupScrollTrackingForToolbar();
+
+            BottomToolbar.PropertyChanged -= OnBottomToolbarPropertyChanged;
+            BottomToolbar.PropertyChanged += OnBottomToolbarPropertyChanged;
+        }
+
+        private void OnBottomToolbarPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(Toolbar.Toolbar.HidesOnScrollFor) || BottomToolbar is null)
+                return;
+
+            SetupScrollTrackingForToolbar();
+        }
+
+        #region Scroll Direction Tracking
+
+        private void SetupScrollTrackingForToolbar()
+        {
+            DisableScrollTracking();
+
+            if (BottomToolbar?.HidesOnScrollFor is not { } targetView)
+                return;
+
+            if (targetView.Handler is not null)
+            {
+                EnableScrollTrackingForView(targetView);
+            }
+            else
+            {
+                targetView.HandlerChanged -= OnScrollTargetHandlerChanged;
+                targetView.HandlerChanged += OnScrollTargetHandlerChanged;
+            }
+        }
+
+        private void OnScrollTargetHandlerChanged(object? sender, EventArgs e)
+        {
+            if (sender is VisualElement ve)
+            {
+                ve.HandlerChanged -= OnScrollTargetHandlerChanged;
+                if (ve.Handler is not null)
+                {
+                    EnableScrollTrackingForView(ve);
+                }
+            }
+        }
+
+        private void OnScrollDirectionDetected(bool isScrollingDown)
+        {
+            if (BottomToolbar is null)
+                return;
+
+            if (isScrollingDown)
+            {
+                BottomToolbar.Hide();
+            }
+            else
+            {
+                BottomToolbar.Show();
+            }
+        }
+
+        private partial void EnableScrollTrackingForView(VisualElement view);
+        private partial void DisableScrollTracking();
+
+        #endregion
+
+        private partial void AttachBottomToolbarOnPlatform();
+        private partial void DetachBottomToolbarOnPlatform();
     }
 }
