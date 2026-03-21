@@ -634,7 +634,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
 
         // Hide badge when task button is not in normal state
         if (button is ToolbarTaskButton { IsBusy: true } or ToolbarTaskButton { IsFinished: true }
-            or ToolbarTaskButton { Error.HasError: true })
+            or ToolbarTaskButton { HandleError.HasError: true })
             return;
 
         var badge = CreateBadgeTextView(button.BadgeCount.Value, button.BadgeColor);
