@@ -9,6 +9,11 @@
 
 Add corrections to the relevant section (Critical Patterns, Common Pitfalls, etc.) or create a new section if needed.
 
+## Skills
+**IMPORTANT**: Before performing any task, always check `.github/skills/` and `.github/agents/` for applicable skill and agent files. Each subfolder contains a `SKILL.md` or agent definition with specific workflows, templates, trigger phrases, and rules that MUST be followed when their trigger conditions match.
+
+**Workflow**: List all folders in `.github/skills/` and `.github/agents/` (if they exist), read each definition file to check if it applies to the current task, and follow its steps exactly.
+
 ## Project Overview
 DIPS.Mobile.UI is a .NET MAUI component library for iOS and Android mobile apps in the healthcare domain. Components follow a design system with resources (colors, sizes, icons) auto-generated from Figma via DIPS.Mobile.DesignTokens pipeline.
 
