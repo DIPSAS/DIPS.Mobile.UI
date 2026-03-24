@@ -5,6 +5,15 @@ namespace Components.ComponentsSamples.Toolbar;
 
 internal class ToolbarSamplesViewModel : ViewModel
 {
+    public bool IsCheckableOptionChecked
+    {
+        get => m_isCheckableOptionChecked;
+        set => RaiseWhenSet(ref m_isCheckableOptionChecked, value);
+    }
+    private bool m_isCheckableOptionChecked;
+
+    public Command ToggleCheckableOptionCommand => new(() => IsCheckableOptionChecked = !IsCheckableOptionChecked);
+
     public Command SignCommand => new(async () =>
     {
         IsSignBusy = true;

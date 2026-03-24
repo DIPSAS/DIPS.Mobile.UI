@@ -22,7 +22,7 @@
                                        Command="{Binding SignCommand}">
                     <dui:ToolbarTaskButton.HandleError>
                         <dui:ErrorHandler HasError="{Binding HasSignError}"
-                                              ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
+                                          ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
                     </dui:ToolbarTaskButton.HandleError>
                 </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
@@ -40,6 +40,12 @@
                                                  Command="{Binding ShareCommand}" />
                             <dui:ContextMenuItem Title="Print"
                                                  Command="{Binding PrintCommand}" />
+                            <dui:ContextMenuItem BindingContext="{Binding .}"
+                                                 Title="Checkable Option"
+                                                 Icon="{dui:Icons alert_line}"
+                                                 IsCheckable="True"
+                                                 IsChecked="{Binding IsCheckableOptionChecked}"
+                                                 />
                             <dui:ContextMenuItem Title="Delete"
                                                  Command="{Binding DeleteCommand}" />
                         </dui:ContextMenu>

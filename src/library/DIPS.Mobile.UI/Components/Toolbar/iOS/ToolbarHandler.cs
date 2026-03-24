@@ -26,6 +26,16 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     /// </summary>
     private readonly Dictionary<ToolbarButton, UILabel> m_badgeLabels = new();
 
+    /// <summary>
+    /// Tracks ItemPropertiesUpdated subscriptions per button so they can be unsubscribed.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, Action> m_menuItemPropertiesHandlers = new();
+
+    /// <summary>
+    /// Tracks ItemsSourceUpdated subscriptions per button so they can be unsubscribed.
+    /// </summary>
+    private readonly Dictionary<ToolbarButton, Action> m_menuItemsSourceHandlers = new();
+
     private const float BadgeHeight = 18f;
     private const float BadgeFontSize = 11f;
     private const int BadgeTag = 9999;
@@ -48,9 +58,27 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     protected override void DisconnectHandler(UIToolbar platformView)
     {
         UnsubscribeFromItemPropertyChanges();
+        UnsubscribeFromMenuItemPropertyChanges();
         ClearBadges();
         m_buttonItemMap.Clear();
         base.DisconnectHandler(platformView);
+    }
+
+    private void UnsubscribeFromMenuItemPropertyChanges()
+    {
+        foreach (var (button, handler) in m_menuItemPropertiesHandlers)
+        {
+            if (button.Menu is not null)
+                button.Menu.ItemPropertiesUpdated -= handler;
+        }
+        m_menuItemPropertiesHandlers.Clear();
+
+        foreach (var (button, handler) in m_menuItemsSourceHandlers)
+        {
+            if (button.Menu is not null)
+                button.Menu.ItemsSourceUpdated -= handler;
+        }
+        m_menuItemsSourceHandlers.Clear();
     }
 
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
@@ -211,6 +239,30 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
                 item = new UIBarButtonItem(toolbarButton.Title ?? "", UIBarButtonItemStyle.Plain, null);
                 item.Menu = uiMenu;
             }
+            
+            // Unsubscribe any previous handlers for this button before adding new ones
+            if (m_menuItemPropertiesHandlers.TryGetValue(toolbarButton, out var oldPropertiesHandler))
+            {
+                toolbarButton.Menu.ItemPropertiesUpdated -= oldPropertiesHandler;
+            }
+            if (m_menuItemsSourceHandlers.TryGetValue(toolbarButton, out var oldSourceHandler))
+            {
+                toolbarButton.Menu.ItemsSourceUpdated -= oldSourceHandler;
+            }
+
+            void RebuildMenu()
+            {
+                var updatedMenuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
+                var updatedUiMenu = UIMenu.Create(updatedMenuItems.Select(kvp => kvp.Value).ToArray());
+                item.Menu = updatedUiMenu;
+            }
+
+            toolbarButton.Menu.ItemPropertiesUpdated += RebuildMenu;
+            m_menuItemPropertiesHandlers[toolbarButton] = RebuildMenu;
+
+            // Also rebuild when the items source itself is replaced (e.g. dynamic menus)
+            toolbarButton.Menu.ItemsSourceUpdated += RebuildMenu;
+            m_menuItemsSourceHandlers[toolbarButton] = RebuildMenu;
         }
         else if (hasIcon)
         {
