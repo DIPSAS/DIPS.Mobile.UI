@@ -1,3 +1,12 @@
+## [55.6.0]
+- [Design Tokens] Updated color tokens to puls-design-tokens v2.0.6
+- [Alert] Replaced removed `color_text_on_surface_*` and `color_icon_on_surface_*` tokens with `color_text_default` and `color_icon_default`
+- [Tag] Replaced removed `color_icon_on_fill_*` tokens with `color_icon_default`
+- [Counter] Replaced removed `color_text_on_fill_danger` token with `color_text_default`
+- [AlertView] Replaced removed `color_text_on_fill_information` token with `color_text_default`
+- [ToolbarButton] Replaced removed `color_icon_on_surface_information` token with `color_icon_default`
+- [ExtendedNavigationMenuButton] Replaced removed `color_icon_on_fill_information` token with `color_icon_default`
+
 ## [55.5.0]
 - [Toolbar] Added new cross-platform Toolbar component for bottom action bars
 - [ContentPage] Added `BottomToolbar` property to attach a toolbar to any content page

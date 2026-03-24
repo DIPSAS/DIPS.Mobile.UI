@@ -22,7 +22,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_information)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             },
             new Setter
             {
@@ -32,7 +32,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_information)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {
@@ -59,7 +59,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_danger)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             },
             new Setter
             {
@@ -69,7 +69,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_danger)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {
@@ -96,7 +96,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_warning)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             },
             new Setter
             {
@@ -106,7 +106,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_warning)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {
@@ -133,7 +133,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_surface_success)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             },
             new Setter
             {
@@ -143,7 +143,7 @@ public class AlertTypeStyle
             new Setter
             {
                 Property = AlertView.TextColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_text_on_surface_success)
+                Value = Colors.Colors.GetColor(ColorName.color_text_default)
             },
             new Setter
             {

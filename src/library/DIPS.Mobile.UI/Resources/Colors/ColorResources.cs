@@ -1,7 +1,7 @@
 /*
 Puls Design Tokens
 Do not edit directly, this file is auto-generated
-Generated: 2025-10-13T13:01:23.235Z
+Generated: 2026-03-11T13:44:35.622Z
 */
 
 namespace DIPS.Mobile.UI.Resources.Colors;
