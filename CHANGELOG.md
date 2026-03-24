@@ -1,3 +1,6 @@
+## [55.5.1]
+- [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
+
 ## [55.5.0]
 - [Toolbar] Added new cross-platform Toolbar component for bottom action bars
 - [ContentPage] Added `BottomToolbar` property to attach a toolbar to any content page

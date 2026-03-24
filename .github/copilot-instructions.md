@@ -233,6 +233,17 @@ Example divider usage:
 
 Format: `[Component/Feature] Description` (see existing entries for style)
 
+**Changelog rules (strictly enforced):**
+- Only include **public-facing changes**: new APIs, changed behavior, bug fixes visible to consumers
+- Do **not** include internal refactorings, code cleanup, sample changes, or test changes
+- Do **not** include changes to non-public (`internal`/`private`) APIs
+
+**Documentation rules (strictly enforced):**
+- Every new **public** type, property, method, or component MUST have XML doc comments
+- Every new **component or feature** MUST have a `wiki/<FeatureName>.md` page added in the same PR
+- Changed behavior or API MUST update existing wiki pages — cross-reference changed code against `wiki/` to catch stale docs
+- Breaking changes MUST update all affected wiki pages
+
 ## Common Pitfalls
 
 1. **Don't** manually append "Button" to accessibility strings - `TouchPlatformEffect` handles this
@@ -241,7 +252,8 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 4. **Don't** create new colors/sizes - use design token resources or request from designers
 5. **Don't** use invalid style names like `Body500` - use `SectionHeader`, `UI100-300`, etc.
 6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
-5. **Don't** forget to test on both platforms - behavior often differs
+7. **Don't** forget to test on both platforms - behavior often differs
+8. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
 
 ## Key Files to Reference
 - `API/Builder/AppHostBuilderExtensions.cs` - Library initialization and handler registration
@@ -256,9 +268,3 @@ All code uses `DIPS.Mobile.UI.*` namespace. Platform folders (iOS/Android/dotnet
 The codebase is documented in https://github.com/DIPSAS/DIPS.Mobile.UI/wiki
 
 Documentation source lives in the `wiki/` folder in the main repository and is auto-synced to the GitHub wiki via a GitHub Action on pushes to `main`. The `_Sidebar.md` is auto-generated alphabetically from all wiki pages — no manual sidebar edits needed.
-
-**Documentation rules (enforced during PR creation and review):**
-1. **New features MUST have documentation** — add a `wiki/<FeatureName>.md` page in the PR
-2. **Changed behavior/API MUST update docs** — if code changes contradict existing wiki pages, update them
-3. **Breaking changes MUST update docs** — wiki must reflect the new API/behavior
-4. Always cross-reference changed code against existing `wiki/` pages to catch stale documentation

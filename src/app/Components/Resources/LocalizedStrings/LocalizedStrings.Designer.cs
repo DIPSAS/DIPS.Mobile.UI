@@ -201,6 +201,12 @@ namespace Components.Resources.LocalizedStrings {
             }
         }
         
+        internal static string Context_Menu_Checkable {
+            get {
+                return ResourceManager.GetString("Context_Menu_Checkable", resourceCulture);
+            }
+        }
+        
         internal static string Action_Format {
             get {
                 return ResourceManager.GetString("Action_Format", resourceCulture);
