@@ -27,14 +27,10 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     private readonly Dictionary<ToolbarButton, UILabel> m_badgeLabels = new();
 
     /// <summary>
-    /// Tracks ItemPropertiesUpdated subscriptions per button so they can be unsubscribed.
+    /// Tracks the per-button rebuild action set via SetPlatformRebuildAction so it can be
+    /// cleared when the handler disconnects.
     /// </summary>
-    private readonly Dictionary<ToolbarButton, Action> m_menuItemPropertiesHandlers = new();
-
-    /// <summary>
-    /// Tracks ItemsSourceUpdated subscriptions per button so they can be unsubscribed.
-    /// </summary>
-    private readonly Dictionary<ToolbarButton, Action> m_menuItemsSourceHandlers = new();
+    private readonly HashSet<ToolbarButton> m_menuRebuildSubscriptions = new();
 
     private const float BadgeHeight = 18f;
     private const float BadgeFontSize = 11f;
@@ -66,19 +62,11 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
 
     private void UnsubscribeFromMenuItemPropertyChanges()
     {
-        foreach (var (button, handler) in m_menuItemPropertiesHandlers)
+        foreach (var button in m_menuRebuildSubscriptions)
         {
-            if (button.Menu is not null)
-                button.Menu.ItemPropertiesUpdated -= handler;
+            button.Menu?.SetPlatformRebuildAction(null);
         }
-        m_menuItemPropertiesHandlers.Clear();
-
-        foreach (var (button, handler) in m_menuItemsSourceHandlers)
-        {
-            if (button.Menu is not null)
-                button.Menu.ItemsSourceUpdated -= handler;
-        }
-        m_menuItemsSourceHandlers.Clear();
+        m_menuRebuildSubscriptions.Clear();
     }
 
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
@@ -240,16 +228,6 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
                 item.Menu = uiMenu;
             }
             
-            // Unsubscribe any previous handlers for this button before adding new ones
-            if (m_menuItemPropertiesHandlers.TryGetValue(toolbarButton, out var oldPropertiesHandler))
-            {
-                toolbarButton.Menu.ItemPropertiesUpdated -= oldPropertiesHandler;
-            }
-            if (m_menuItemsSourceHandlers.TryGetValue(toolbarButton, out var oldSourceHandler))
-            {
-                toolbarButton.Menu.ItemsSourceUpdated -= oldSourceHandler;
-            }
-
             void RebuildMenu()
             {
                 var updatedMenuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
@@ -257,12 +235,8 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
                 item.Menu = updatedUiMenu;
             }
 
-            toolbarButton.Menu.ItemPropertiesUpdated += RebuildMenu;
-            m_menuItemPropertiesHandlers[toolbarButton] = RebuildMenu;
-
-            // Also rebuild when the items source itself is replaced (e.g. dynamic menus)
-            toolbarButton.Menu.ItemsSourceUpdated += RebuildMenu;
-            m_menuItemsSourceHandlers[toolbarButton] = RebuildMenu;
+            toolbarButton.Menu.SetPlatformRebuildAction(RebuildMenu);
+            m_menuRebuildSubscriptions.Add(toolbarButton);
         }
         else if (hasIcon)
         {
