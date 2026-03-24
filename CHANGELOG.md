@@ -1,3 +1,6 @@
+## [55.6.1]
+- [Android][Design Tokens] Fixed Android color XML resources using wrong hex byte order (`#BBAARRGG` instead of Android's required `#AARRGGBB`), which caused incorrect colors and transparency on Android
+
 ## [55.6.0]
 - [Design Tokens] Updated color tokens to puls-design-tokens v2.0.6
 - [Alert] Replaced removed `color_text_on_surface_*` and `color_icon_on_surface_*` tokens with `color_text_default` and `color_icon_default`
