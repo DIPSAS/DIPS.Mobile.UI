@@ -80,7 +80,7 @@ public partial class ToolbarButton
         nameof(BadgeColor),
         typeof(Color),
         typeof(ToolbarButton),
-        defaultValue: Colors.GetColor(ColorName.color_icon_on_surface_information));
+        defaultValue: Colors.GetColor(ColorName.color_icon_default));
 
     /// <summary>
     /// The title of the toolbar button, used as the accessibility label.
