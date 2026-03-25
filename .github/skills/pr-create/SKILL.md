@@ -28,7 +28,7 @@ When I say **any** of these:
    - **Changed behavior/API?** → **MUST** update the relevant existing wiki page
    - **Breaking change?** → **MUST** update wiki to reflect the new behavior
    - The sidebar is auto-generated — just add the `.md` file to `wiki/`
-4. **Generate PR**: Create pull request with title and body
+4. **Generate PR**: Create pull request with title and body, **always** using the PR template from `.github/pull_request_template.md` as the body structure. Read the template file first and fill in each section — never invent a different structure.
 
 ## PR Format Requirements
 
@@ -37,27 +37,8 @@ When I say **any** of these:
 - No "Fixed" or past tense - use present tense
 - Mention component/area if applicable
 
-### Body Structure
-```markdown
-### Description of Change
-[Clear explanation of what changed and why]
-
-### Problem (if applicable)
-[What issue was being solved]
-
-### Solution
-[How it was fixed]
-
-### Platform Differences
-[Mention iOS vs Android differences if any]
-
-### Breaking Changes (if applicable)
-- List any breaking changes
-- Provide migration guide
-
-### Files Changed
-- Brief overview of major file changes
-```
+### Body
+**Always** use `.github/pull_request_template.md` as the base. Read it before writing the body. Fill in every section — do not skip or reorder sections, do not add sections not in the template.
 
 ## Additional Considerations
 
