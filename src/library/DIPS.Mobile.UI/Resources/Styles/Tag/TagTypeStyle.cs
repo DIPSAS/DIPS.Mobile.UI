@@ -56,7 +56,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = Components.Tag.Tag.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_danger)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };
@@ -115,7 +115,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = Components.Tag.Tag.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_success)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };
@@ -147,7 +147,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = Components.Tag.Tag.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_warning)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };
@@ -179,7 +179,7 @@ public class TagTypeStyle
             new Setter
             {
                 Property = Components.Tag.Tag.IconColorProperty,
-                Value = Colors.Colors.GetColor(ColorName.color_icon_on_fill_information)
+                Value = Colors.Colors.GetColor(ColorName.color_icon_default)
             }
         }
     };

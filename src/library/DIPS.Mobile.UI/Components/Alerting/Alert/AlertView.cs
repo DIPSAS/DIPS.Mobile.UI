@@ -379,7 +379,7 @@ public partial class AlertView : Grid
             HeightRequest = Sizes.GetSize(SizeName.size_5),
             WidthRequest = Sizes.GetSize(SizeName.size_5),
             HorizontalOptions = LayoutOptions.End,
-            TintColor = Colors.GetColor(ColorName.color_text_on_fill_information),
+            TintColor = Colors.GetColor(ColorName.color_text_default),
             AdditionalHitBoxSize = Sizes.GetSize(SizeName.size_2),
             Command = new Command(() => IsVisible = false),
             VerticalOptions = IsLargeAlert ? LayoutOptions.Start : LayoutOptions.Center

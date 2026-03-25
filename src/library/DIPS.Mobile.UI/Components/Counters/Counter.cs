@@ -88,7 +88,7 @@ public partial class Counter : Grid
     private void OnIsUrgentChanged()
     {
         m_primaryGrid.BackgroundColor = Colors.GetColor(IsUrgent ? ColorName.color_fill_danger : ColorName.color_fill_neutral);
-        m_primaryLabel.TextColor = Colors.GetColor(IsUrgent ? ColorName.color_text_on_fill_danger : ColorName.color_text_default);
+        m_primaryLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
         UpdateDivider();
         UpdateStroke();
         SetSemanticDescription();
@@ -144,7 +144,7 @@ public partial class Counter : Grid
     private void OnIsSecondaryUrgentChanged()
     {
         m_secondaryGrid.BackgroundColor = Colors.GetColor(IsSecondaryUrgent ? ColorName.color_fill_danger : ColorName.color_fill_neutral);
-        m_secondaryLabel.TextColor = Colors.GetColor(IsSecondaryUrgent ? ColorName.color_text_on_fill_danger : ColorName.color_text_default);
+        m_secondaryLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
         UpdateDivider();
         UpdateStroke();
         SetSemanticDescription();
