@@ -26,6 +26,12 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     /// </summary>
     private readonly Dictionary<ToolbarButton, UILabel> m_badgeLabels = new();
 
+    /// <summary>
+    /// Tracks the per-button rebuild action set via SetPlatformRebuildAction so it can be
+    /// cleared when the handler disconnects.
+    /// </summary>
+    private readonly HashSet<ToolbarButton> m_menuRebuildSubscriptions = new();
+
     private const float BadgeHeight = 18f;
     private const float BadgeFontSize = 11f;
     private const int BadgeTag = 9999;
@@ -48,9 +54,28 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     protected override void DisconnectHandler(UIToolbar platformView)
     {
         UnsubscribeFromItemPropertyChanges();
+        UnsubscribeFromMenuItemPropertyChanges();
         ClearBadges();
         m_buttonItemMap.Clear();
         base.DisconnectHandler(platformView);
+    }
+
+    private void UnsubscribeFromMenuItemPropertyChanges()
+    {
+        foreach (var button in m_menuRebuildSubscriptions)
+        {
+            button.Menu?.SetPlatformRebuildAction(null);
+        }
+        m_menuRebuildSubscriptions.Clear();
+    }
+
+    private void UnsubscribeMenuForButton(ToolbarButton button)
+    {
+        if (!m_menuRebuildSubscriptions.Contains(button))
+            return;
+
+        button.Menu?.SetPlatformRebuildAction(null);
+        m_menuRebuildSubscriptions.Remove(button);
     }
 
     private static partial void MapGroups(ToolbarHandler handler, Toolbar toolbar)
@@ -86,6 +111,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         if (PlatformView is null || VirtualView is null)
             return;
 
+        UnsubscribeFromMenuItemPropertyChanges();
         m_buttonItemMap.Clear();
 
         // Create native items for all buttons (including hidden ones — we keep them ready)
@@ -211,6 +237,16 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
                 item = new UIBarButtonItem(toolbarButton.Title ?? "", UIBarButtonItemStyle.Plain, null);
                 item.Menu = uiMenu;
             }
+            
+            void RebuildMenu()
+            {
+                var updatedMenuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
+                var updatedUiMenu = UIMenu.Create(updatedMenuItems.Select(kvp => kvp.Value).ToArray());
+                item.Menu = updatedUiMenu;
+            }
+
+            toolbarButton.Menu.SetPlatformRebuildAction(RebuildMenu);
+            m_menuRebuildSubscriptions.Add(toolbarButton);
         }
         else if (hasIcon)
         {
@@ -288,6 +324,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
     partial void OnToolbarTaskButtonStateChanged(ToolbarTaskButton toolbarTaskButton)
     {
         // Swap the bar button item to reflect the new state
+        UnsubscribeMenuForButton(toolbarTaskButton);
         m_buttonItemMap[toolbarTaskButton] = CreateBarButtonItem(toolbarTaskButton);
         ApplyItemsToToolbar(animated: true);
     }
@@ -344,6 +381,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
             // Recreate the bar button item to force a clean redraw.
             // iOS 26 Liquid Glass caches the rendered layer of _UIButtonBarButton,
             // so simply removing the badge subview leaves a visual artifact.
+            UnsubscribeMenuForButton(button);
             m_buttonItemMap[button] = CreateBarButtonItem(button);
             ApplyItemsToToolbar(animated: false);
             return;

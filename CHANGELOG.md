@@ -1,3 +1,6 @@
+## [55.6.2]
+- [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
+
 ## [55.6.1]
 - [Android][Design Tokens] Fixed Android color XML resources using wrong hex byte order (`#BBAARRGG` instead of Android's required `#AARRGGBB`), which caused incorrect colors and transparency on Android
 

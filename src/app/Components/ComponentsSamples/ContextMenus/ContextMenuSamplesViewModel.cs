@@ -19,5 +19,16 @@ public class ContextMenuSamplesViewModel : INotifyPropertyChanged
         
     public Command ItemClickedCommand { get; } = new Command<ContextMenuItem>(MenuItemClicked);
 
+    private bool m_isOptionChecked;
+    public bool IsOptionChecked
+    {
+        get => m_isOptionChecked;
+        set
+        {
+            m_isOptionChecked = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOptionChecked)));
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 }

@@ -5,9 +5,38 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 public partial class ContextMenu : IContextMenu
 {
     public event Action? ItemsSourceUpdated;
-#if __IOS__
     internal event Action? ItemPropertiesUpdated;
-#endif
+
+    private Action? m_platformRebuildAction;
+
+    /// <summary>
+    /// Registers a single rebuild callback that is invoked whenever the menu needs to be
+    /// re-rendered — either because <see cref="ItemsSource"/> was replaced or because an
+    /// existing item's properties changed (e.g. <see cref="ContextMenuItem.IsChecked"/>).
+    /// Pass <c>null</c> to unregister the current callback.
+    /// </summary>
+    /// <remarks>
+    /// This is the correct way for platform renderers (handlers, effects, etc.) to observe
+    /// menu changes. Using this method guarantees both events are handled — callers do not
+    /// need to subscribe to <see cref="ItemsSourceUpdated"/> and
+    /// <see cref="ItemPropertiesUpdated"/> separately.
+    /// </remarks>
+    internal void SetPlatformRebuildAction(Action? rebuildAction)
+    {
+        if (m_platformRebuildAction is not null)
+        {
+            ItemsSourceUpdated -= m_platformRebuildAction;
+            ItemPropertiesUpdated -= m_platformRebuildAction;
+        }
+
+        m_platformRebuildAction = rebuildAction;
+
+        if (m_platformRebuildAction is not null)
+        {
+            ItemsSourceUpdated += m_platformRebuildAction;
+            ItemPropertiesUpdated += m_platformRebuildAction;
+        }
+    }
 
     public static readonly BindableProperty ItemsShouldSendGlobalClicksProperty = BindableProperty.Create(
         nameof(ItemsShouldSendGlobalClicks),

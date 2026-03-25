@@ -6,6 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:DataType="local:ToolbarSamplesViewModel"
                  x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
                  Title="Documents">
@@ -22,7 +23,7 @@
                                        Command="{Binding SignCommand}">
                     <dui:ToolbarTaskButton.HandleError>
                         <dui:ErrorHandler HasError="{Binding HasSignError}"
-                                              ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
+                                          ErrorTappedCommand="{Binding SignErrorTappedCommand}" />
                     </dui:ToolbarTaskButton.HandleError>
                 </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
@@ -40,6 +41,12 @@
                                                  Command="{Binding ShareCommand}" />
                             <dui:ContextMenuItem Title="Print"
                                                  Command="{Binding PrintCommand}" />
+                            <dui:ContextMenuItem BindingContext="{Binding .}"
+                                                 Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Option_Format}, Argument=1}"
+                                                 Icon="{dui:Icons alert_line}"
+                                                 IsCheckable="True"
+                                                 IsChecked="{Binding IsCheckableOptionChecked, Mode=TwoWay}"
+                                                 />
                             <dui:ContextMenuItem Title="Delete"
                                                  Command="{Binding DeleteCommand}" />
                         </dui:ContextMenu>
