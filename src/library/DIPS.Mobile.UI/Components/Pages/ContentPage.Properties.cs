@@ -114,12 +114,12 @@ public partial class ContentPage
 
     /// <summary>
     /// A behavior that adds native platform search to this page.
-    /// On iOS, this uses <c>UISearchController</c> integrated into the navigation bar.
+    /// On iOS, a native <c>UISearchBar</c> is placed at the bottom and translates to the top when activated.
     /// On Android, this uses Material 3 <c>SearchBar</c> + <c>SearchView</c>.
     /// </summary>
     /// <remarks>
     /// Set <see cref="SearchBehavior.SearchCommand"/> to receive search text changes.
-    /// On iOS, the page must be inside a NavigationPage or Shell for navigation bar integration.
+    /// Works standalone — does not require NavigationPage or Shell on either platform.
     /// </remarks>
     public SearchBehavior? SearchBehavior
     {
