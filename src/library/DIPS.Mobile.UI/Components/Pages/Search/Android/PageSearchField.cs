@@ -12,34 +12,30 @@ namespace DIPS.Mobile.UI.Components.Pages.Search;
 /// <summary>
 /// A Material 3 search component for ContentPage using the actual
 /// <see cref="MaterialSearchBar"/> and <see cref="MaterialSearchView"/> components.
-/// The SearchBar provides the collapsed pill-shaped search trigger,
-/// while the SearchView provides the expanded search input with EditText.
+/// The SearchBar provides the collapsed pill-shaped search trigger at the bottom,
+/// while the SearchView provides the full-screen expanded search mode.
+/// The SearchView is attached to the root decor view so it can properly
+/// overlay the entire page when activated.
 /// </summary>
 internal class PageSearchField : Java.Lang.Object, ITextWatcher, MaterialSearchView.ITransitionListener
 {
     private readonly WeakReference<SearchBehavior> m_weakBehavior;
     private MaterialSearchBar? m_searchBar;
     private MaterialSearchView? m_searchView;
-    private FrameLayout? m_container;
     private string m_previousText = string.Empty;
 
     public PageSearchField(Context context, SearchBehavior behavior)
     {
         m_weakBehavior = new WeakReference<SearchBehavior>(behavior);
 
-        m_container = new FrameLayout(context);
-        m_container.LayoutParameters = new Android.Widget.LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MatchParent,
-            ViewGroup.LayoutParams.WrapContent);
-
-        // Material 3 SearchBar (pill-shaped search trigger)
+        // Material 3 SearchBar (pill-shaped search trigger) — placed at bottom of page
         m_searchBar = new MaterialSearchBar(context);
         m_searchBar.LayoutParameters = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MatchParent,
             ViewGroup.LayoutParams.WrapContent);
-        m_container.AddView(m_searchBar);
 
-        // Material 3 SearchView (expanded search with EditText)
+        // Material 3 SearchView (full-screen expanded search mode)
+        // Added to root decor view so it overlays the entire page
         m_searchView = new MaterialSearchView(context);
         m_searchView.LayoutParameters = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MatchParent,
@@ -53,11 +49,17 @@ internal class PageSearchField : Java.Lang.Object, ITextWatcher, MaterialSearchV
 
         // Listen for transition events (show/hide)
         m_searchView.AddTransitionListener(this);
-
-        m_container.AddView(m_searchView);
     }
 
-    public AView View => m_container!;
+    /// <summary>
+    /// The pill-shaped SearchBar to be placed at the bottom of the page.
+    /// </summary>
+    public AView SearchBarView => m_searchBar!;
+
+    /// <summary>
+    /// The full-screen SearchView to be attached to the root decor view.
+    /// </summary>
+    public AView SearchViewView => m_searchView!;
 
     public void Focus()
     {
@@ -107,9 +109,15 @@ internal class PageSearchField : Java.Lang.Object, ITextWatcher, MaterialSearchV
             m_searchView.RemoveTransitionListener(this);
         }
 
-        m_container?.RemoveAllViews();
+        // Remove SearchView from its parent (root decor view)
+        if (m_searchView?.Parent is ViewGroup searchViewParent)
+            searchViewParent.RemoveView(m_searchView);
+
+        // Remove SearchBar from its parent
+        if (m_searchBar?.Parent is ViewGroup searchBarParent)
+            searchBarParent.RemoveView(m_searchBar);
+
         m_searchBar = null;
         m_searchView = null;
-        m_container = null;
     }
 }

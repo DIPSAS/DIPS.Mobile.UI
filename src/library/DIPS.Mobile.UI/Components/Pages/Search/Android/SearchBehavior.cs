@@ -1,6 +1,5 @@
 using Android.Views;
 using Android.Widget;
-using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Pages.Search;
 
@@ -20,7 +19,7 @@ public partial class SearchBehavior
 
         m_searchField = new PageSearchField(context, this);
 
-        // Wrap the page's native view: insert a LinearLayout with SearchField at top, page content below
+        // Wrap the page's native view: insert a LinearLayout with page content at top, SearchBar at bottom
         if (platformView.Parent is ViewGroup parent)
         {
             var index = parent.IndexOfChild(platformView);
@@ -36,11 +35,22 @@ public partial class SearchBehavior
                     ViewGroup.LayoutParams.MatchParent)
             };
 
-            m_wrapperLayout.AddView(m_searchField.View);
+            // Page content fills remaining space (weight=1)
             m_wrapperLayout.AddView(platformView, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MatchParent, 0, 1f));
 
+            // SearchBar pill at the bottom
+            m_wrapperLayout.AddView(m_searchField.SearchBarView);
+
             parent.AddView(m_wrapperLayout, index);
+
+            // Add SearchView to the root decor view so it can overlay the entire page (full-screen search mode)
+            if (context is Android.App.Activity activity)
+            {
+                var decorView = activity.Window?.DecorView as ViewGroup;
+                var contentRoot = decorView?.FindViewById<FrameLayout>(Android.Resource.Id.Content);
+                contentRoot?.AddView(m_searchField.SearchViewView);
+            }
         }
 
         FocusSearchAction = () => m_searchField?.Focus();
