@@ -42,6 +42,9 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/MyCustomToolbar</item>
+
+        <!-- Bottom navigation bar (M3 component with pill-shaped active indicator) -->
+        <item name="bottomNavigationStyle">@style/Widget.Material3.BottomNavigationView</item>
     </style>
 
     <style name="MyCustomToolbar" parent="Widget.Material3.Toolbar">
