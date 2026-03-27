@@ -44,7 +44,7 @@
         <item name="toolbarStyle">@style/MyCustomToolbar</item>
     </style>
 
-    <style name="MyCustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+    <style name="MyCustomToolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/color_background_default</item>   <!-- Modal Toolbar background color -->
     </style>
     

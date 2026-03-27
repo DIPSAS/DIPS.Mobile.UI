@@ -119,10 +119,8 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         var stateListColor = Colors.GetColor(Shell.ForegroundColorName)
             .ToDefaultColorStateList();
         
-        const float shadowDp = 6f;
-        var shadowPx = materialToolbar.Context?.Resources?.DisplayMetrics?.Density * shadowDp ?? 0;
-
-        materialToolbar.Elevation = shadowPx; 
+        // M3 top app bars do not use elevation shadows
+        materialToolbar.Elevation = 0;
         
         for (var i = 0; i < materialToolbar.Menu?.Size(); i++)
         {

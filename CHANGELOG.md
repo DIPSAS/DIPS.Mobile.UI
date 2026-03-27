@@ -1,3 +1,7 @@
+## [55.7.0]
+- [Shell][Android] Updated toolbar style from Material Components (M2) to Material 3, using `Widget.Material3.Toolbar` for consistent M3 theming
+- [Shell][Android] Removed elevation shadow from modal toolbar to align with M3 top app bar design
+
 ## [55.6.2]
 - [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
 
