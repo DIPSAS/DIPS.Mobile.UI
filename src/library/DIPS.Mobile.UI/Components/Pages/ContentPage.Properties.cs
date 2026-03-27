@@ -114,10 +114,10 @@ public partial class ContentPage
 
     /// <summary>
     /// A behavior that adds native platform search to this page.
-    /// On iOS, this integrates a <c>UISearchController</c> into the navigation bar.
-    /// On Android, this adds a Material 3 <c>SearchBar</c> + <c>SearchView</c>.
+    /// On both iOS and Android, a pill-shaped search trigger is placed at the bottom of the page.
+    /// When tapped, the page transforms into a full-screen search mode.
     /// </summary>
-    /// <remarks>The page must be inside a NavigationPage or Shell for iOS navigation bar integration.</remarks>
+    /// <remarks>Set <see cref="SearchBehavior.SearchCommand"/> to receive search text changes.</remarks>
     public SearchBehavior? SearchBehavior
     {
         get => (SearchBehavior?)GetValue(SearchBehaviorProperty);

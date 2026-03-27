@@ -4,12 +4,12 @@ namespace DIPS.Mobile.UI.Components.Pages.Search;
 
 /// <summary>
 /// A behavior that adds native platform search to a <see cref="ContentPage"/>.
-/// On iOS, this integrates a <c>UISearchController</c> into the navigation bar.
-/// On Android, this adds a Material 3 <c>SearchBar</c> + <c>SearchView</c>.
+/// On both iOS and Android, a pill-shaped search trigger is placed at the bottom of the page.
+/// When tapped, the page transforms into a full-screen search mode with the search field at the top.
+/// On Android, this uses Material 3 <c>SearchBar</c> + <c>SearchView</c>.
 /// </summary>
 /// <remarks>
 /// Set this on <see cref="ContentPage.SearchBehavior"/> to enable search.
-/// The page must be inside a NavigationPage or Shell for iOS navigation bar integration.
 /// </remarks>
 public partial class SearchBehavior : BindableObject
 {
