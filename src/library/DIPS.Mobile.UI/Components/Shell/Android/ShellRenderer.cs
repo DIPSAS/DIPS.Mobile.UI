@@ -128,6 +128,9 @@ internal class CustomToolbarAppearanceTracker : ShellToolbarAppearanceTracker
         Toolbar = toolbar;
         m_appearance = appearance;
         
+        // M3 Expressive: top app bars are flat with no elevation shadow
+        toolbar.Elevation = 0;
+        
         toolbar.LayoutChange -= ToolbarOnLayoutChange;
         toolbar.LayoutChange += ToolbarOnLayoutChange;  
     }

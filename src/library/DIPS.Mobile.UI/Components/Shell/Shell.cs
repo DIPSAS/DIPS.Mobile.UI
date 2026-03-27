@@ -17,8 +17,8 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     public static PageReference? RootPage { get; set; }
         
     public static ColorName TitleTextColorName => ColorName.color_text_default;
-    public static ColorName ForegroundColorName => ColorName.color_icon_action;
-    public static ColorName BackgroundColorName => ColorName.color_background_default;
+    public static ColorName ForegroundColorName => ColorName.color_icon_default;
+    public static ColorName BackgroundColorName => ColorName.color_surface_default;
 
     public Shell()
     {
