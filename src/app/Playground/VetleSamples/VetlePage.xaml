@@ -5,37 +5,163 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
-                 xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-                 xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                 xmlns:loadingOverlay="clr-namespace:DIPS.Mobile.UI.Components.Loading.LoadingOverlay;assembly=DIPS.Mobile.UI"
-                 xmlns:delayedView="clr-namespace:DIPS.Mobile.UI.Components.Loading.DelayedView;assembly=DIPS.Mobile.UI"
-                 xmlns:gallery="clr-namespace:DIPS.Mobile.UI.Components.Gallery;assembly=DIPS.Mobile.UI"
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.VetleSamples.VetlePage"
-                 x:Name="This"
-                 HideSoftInputOnTapped="True"
-                 Title="Hello"
-                 Shell.NavBarIsVisible="False"
-                 StatusBarColor="Green">
+                 Title="ShouldBounce Repro"
+                 Shell.NavBarIsVisible="True">
 
+    <!-- Reproducing ResistanceMatrixPage ShouldBounce issue -->
+    <Grid ColumnDefinitions="Auto, *"
+          RowDefinitions="Auto, *"
+          ColumnSpacing="0"
+          RowSpacing="0">
 
-    <dui:ContentPage.BindingContext>
-        <vetleSamples:VetlePageViewModel />
-    </dui:ContentPage.BindingContext>
+        <!-- Vertical scroll (left column - like Antibiotics) -->
+        <dui:ScrollView x:Name="VerticalScroll"
+                        Orientation="Vertical"
+                        VerticalScrollBarVisibility="Never"
+                        ShouldBounce="True"
+                        Grid.Row="1">
+            <dui:VerticalStackLayout Spacing="0">
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightBlue" />
+                <BoxView HeightRequest="60" WidthRequest="120" Color="LightGreen" />
+            </dui:VerticalStackLayout>
+        </dui:ScrollView>
 
-    <dui:ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{dui:Icons alert_line}"></ToolbarItem>
-        <ToolbarItem Text="Hello"></ToolbarItem>
-    </dui:ContentPage.ToolbarItems>
+        <!-- Horizontal scroll (top row - like Findings header) -->
+        <dui:ScrollView x:Name="HorizontalScroll"
+                        Orientation="Horizontal"
+                        HorizontalScrollBarVisibility="Never"
+                        ShouldBounce="False"
+                        Grid.Column="1">
+            <dui:HorizontalStackLayout Spacing="0">
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightCoral" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightSalmon" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightCoral" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightSalmon" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightCoral" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightSalmon" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightCoral" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightSalmon" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightCoral" />
+                <BoxView HeightRequest="40" WidthRequest="80" Color="LightSalmon" />
+            </dui:HorizontalStackLayout>
+        </dui:ScrollView>
 
-    <dui:VerticalStackLayout>
-        <!--<dui:SearchBar />-->
-        <!--<dui:Button Clicked="Button_OnClicked" />-->
-        <!--<dui:Entry BackgroundColor="Green"></dui:Entry>
-        <dui:Entry BackgroundColor="Green" HasBorder="True"></dui:Entry>-->
-        <dui:SearchBar ReturnKeyType="Done" />  
-        <!--<dui:Editor></dui:Editor>
-        <dui:Editor HasBorder="True"></dui:Editor>-->
-    </dui:VerticalStackLayout>
+        <!-- Bidirectional scroll (main matrix area) - this is where ShouldBounce breaks -->
+        <dui:ScrollView x:Name="BidirectionalScrollView"
+                        Orientation="Both"
+                        ShouldBounce="False"
+                        Grid.Row="1"
+                        Grid.Column="1">
+            <dui:HorizontalStackLayout Spacing="0">
+                <dui:VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                </dui:VerticalStackLayout>
+                <dui:VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                </dui:VerticalStackLayout>
+                <dui:VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                </dui:VerticalStackLayout>
+                <dui:VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                </dui:VerticalStackLayout>
+                <dui:VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightGoldenrodYellow" />
+                    <BoxView HeightRequest="60" WidthRequest="80" Color="LightYellow" />
+                </dui:VerticalStackLayout>
+            </dui:HorizontalStackLayout>
+        </dui:ScrollView>
+
+    </Grid>
 
 </dui:ContentPage>

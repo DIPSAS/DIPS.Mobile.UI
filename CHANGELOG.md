@@ -1,3 +1,6 @@
+## [55.6.3]
+- [ScrollView][iOS] ShouldBounce now sets correct native property.
+
 ## [55.6.2]
 - [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
 

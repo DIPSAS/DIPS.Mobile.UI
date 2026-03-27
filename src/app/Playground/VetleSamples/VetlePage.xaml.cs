@@ -239,7 +239,7 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        _ = Navigation.PushModalAsync(new NavigationPage(new VetleTestPage1()));
+        /*ScrollView.InvalidateMeasure();*/
     }
 
     private void Button_OnClicked2(object sender, EventArgs e)
