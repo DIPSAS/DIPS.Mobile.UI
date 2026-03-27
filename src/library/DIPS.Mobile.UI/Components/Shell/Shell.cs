@@ -28,7 +28,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         SetForegroundColor(this, Colors.GetColor(ForegroundColorName));
         SetTitleColor(this, Colors.GetColor(TitleTextColorName));
             
-        SetTabBarBackgroundColor(this, Colors.GetColor(ColorName.color_background_default));
+        SetTabBarBackgroundColor(this, Colors.GetColor(ColorName.color_surface_default));
         SetTabBarTitleColor(this, Colors.GetColor(ColorName.color_text_action));
         SetTabBarUnselectedColor(this, Colors.GetColor(ColorName.color_icon_subtle));
 

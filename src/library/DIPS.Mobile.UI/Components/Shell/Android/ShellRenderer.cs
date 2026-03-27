@@ -43,6 +43,9 @@ internal class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppe
     {
         base.SetBackgroundColor(bottomView, color);
 
+        // M3 Expressive: navigation bar is flat with no elevation shadow
+        bottomView.Elevation = 0;
+
         m_bottomView = new WeakReference<BottomNavigationView>(bottomView);
         
         bottomView.ItemReselected -= OnItemReSelected;

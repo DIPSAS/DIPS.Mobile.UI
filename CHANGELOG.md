@@ -1,5 +1,7 @@
 ## [55.7.0]
 - [Shell] Updated toolbar to Material 3 Expressive: background uses `color_surface_default`, foreground icons use `color_icon_default`, and elevation shadow is removed
+- [Shell] Updated bottom app bar (tab bar) background from `color_background_default` to `color_surface_default` for M3 Expressive navigation bar styling
+- [Shell][Android] Removed elevation shadow from bottom navigation bar to align with M3 Expressive flat design
 - [Shell][Android] Updated toolbar style from Material Components (M2) to Material 3, using `Widget.Material3.Toolbar` for consistent M3 theming
 - [Shell][Android] Removed elevation shadow from modal toolbar to align with M3 top app bar design
 
