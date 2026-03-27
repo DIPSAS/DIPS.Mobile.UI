@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.Components.Pages.Search;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace DIPS.Mobile.UI.Components.Pages;
@@ -110,6 +111,38 @@ public partial class ContentPage
         get => (StatusBarStyle)GetValue(StatusBarStyleProperty);
         set => SetValue(StatusBarStyleProperty, value);
     }
+
+    /// <summary>
+    /// A behavior that adds native platform search to this page.
+    /// On iOS, this integrates a <c>UISearchController</c> into the navigation bar.
+    /// On Android, this adds a Material 3 <c>SearchBar</c> + <c>SearchView</c>.
+    /// </summary>
+    /// <remarks>The page must be inside a NavigationPage or Shell for iOS navigation bar integration.</remarks>
+    public SearchBehavior? SearchBehavior
+    {
+        get => (SearchBehavior?)GetValue(SearchBehaviorProperty);
+        set => SetValue(SearchBehaviorProperty, value);
+    }
+
+    public static readonly BindableProperty SearchBehaviorProperty = BindableProperty.Create(
+        nameof(SearchBehavior),
+        typeof(SearchBehavior),
+        typeof(ContentPage),
+        propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            if (bindable is not ContentPage page)
+                return;
+
+            if (oldValue is SearchBehavior oldBehavior)
+                oldBehavior.DetachFromCurrentPage();
+
+            if (newValue is SearchBehavior newBehavior)
+            {
+                newBehavior.SetBinding(BindingContextProperty,
+                    static (ContentPage p) => p.BindingContext, source: page);
+                newBehavior.AttachToPage(page);
+            }
+        });
 }
 
 public enum StatusBarStyle

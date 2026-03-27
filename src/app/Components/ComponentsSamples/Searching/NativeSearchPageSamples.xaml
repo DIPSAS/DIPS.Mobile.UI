@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:search="clr-namespace:DIPS.Mobile.UI.Components.Pages.Search;assembly=DIPS.Mobile.UI"
+                 xmlns:searching="clr-namespace:Components.ComponentsSamples.Searching"
+                 xmlns:sampleData="clr-namespace:Components.SampleData"
+                 x:Class="Components.ComponentsSamples.Searching.NativeSearchPageSamples"
+                 x:DataType="searching:NativeSearchPageSamplesViewModel"
+                 Title="Native Search">
+
+    <dui:ContentPage.BindingContext>
+        <searching:NativeSearchPageSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ContentPage.SearchBehavior>
+        <search:SearchBehavior SearchCommand="{Binding SearchCommand}" />
+    </dui:ContentPage.SearchBehavior>
+
+    <CollectionView ItemsSource="{Binding People}"
+                    Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type sampleData:Person}">
+                <dui:ListItem Title="{Binding DisplayName}"
+                              HasBottomDivider="True" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.EmptyView>
+            <dui:Label Text="No results found"
+                       HorizontalOptions="Center"
+                       Margin="{dui:Thickness Top=content_margin_large}"
+                       Style="{dui:Styles Label=UI200}" />
+        </CollectionView.EmptyView>
+    </CollectionView>
+
+</dui:ContentPage>

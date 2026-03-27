@@ -6,6 +6,7 @@ using DIPS.Mobile.UI.API.Library.Android;
 
 #endif
 using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
+using DIPS.Mobile.UI.Components.Pages.Search;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;

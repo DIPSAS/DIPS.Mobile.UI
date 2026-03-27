@@ -1,6 +1,7 @@
 ## [55.5.0]
 - [iOS][BottomSheet] Replaced MAUI SearchBar with native UISearchController for bottom sheet search, integrating the search bar into the navigation bar
 - [Android][BottomSheet] Replaced MAUI SearchBar with Material 3 SearchBar and SearchView components for bottom sheet search
+- [ContentPage] Added `SearchBehavior` property for native platform search on regular pages (iOS: UISearchController, Android: Material 3 SearchBar + SearchView)
 
 ## [55.4.0]
 - [iOS][BottomSheet] Use native UINavigationBar for bottom sheet header with centered title, system close/back buttons, and proper blur behavior

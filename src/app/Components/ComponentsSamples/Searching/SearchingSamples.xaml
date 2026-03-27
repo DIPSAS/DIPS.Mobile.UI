@@ -11,6 +11,10 @@
                                 HasBottomDivider="True"/>
 
         <dui:NavigationListItem Title="Search page"
-                                Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}" />
+                                Command="{helpers:NavigationCommand {x:Type searching:SearchPageSamples}}"
+                                HasBottomDivider="True" />
+
+        <dui:NavigationListItem Title="Native search (SearchBehavior)"
+                                Command="{helpers:NavigationCommand {x:Type searching:NativeSearchPageSamples}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>
