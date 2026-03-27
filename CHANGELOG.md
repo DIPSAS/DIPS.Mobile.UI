@@ -1,3 +1,6 @@
+## [55.7.0]
+- [FullScreenPresenter] Added new `FullScreenPresenterService` to present any view in full screen with smooth animations and a close button
+
 ## [55.6.2]
 - [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
 

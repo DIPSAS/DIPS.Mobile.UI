@@ -28,6 +28,9 @@
                 </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
+                <dui:ToolbarButton x:Name="fullScreenButton"
+                                   Icon="{dui:Icons expand_line}"
+                                   Title="Fullscreen" />
                 <dui:ToolbarButton Icon="{dui:Icons edit_line}"
                                    Title="Edit"
                                    Command="{Binding EditCommand}" />
@@ -191,7 +194,8 @@
 
             <!-- Document content -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
-                                     Spacing="{dui:Sizes size_3}">
+                                     Spacing="{dui:Sizes size_3}"
+                                     x:Name="documentSection">
                 <dui:Label Text="Subjective"
                            Style="{dui:Styles Label=UI100}" />
                 <dui:Label

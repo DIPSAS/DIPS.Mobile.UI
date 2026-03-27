@@ -1,3 +1,5 @@
+using DIPS.Mobile.UI.Components.FullScreenPresenter;
+
 namespace Components.ComponentsSamples.Toolbar;
 
 public partial class ToolbarSamples
@@ -5,6 +7,8 @@ public partial class ToolbarSamples
     public ToolbarSamples()
     {
         InitializeComponent();
+
+        fullScreenButton.Command = new Command(async () => await FullScreenPresenterService.Present(documentSection));
     }
 
     private async void OnCloseClicked(object? sender, EventArgs e)
