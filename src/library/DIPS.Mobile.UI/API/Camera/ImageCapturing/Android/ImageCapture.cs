@@ -1,4 +1,5 @@
 using Android.Graphics;
+using Android.Hardware.Camera2;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -19,15 +20,15 @@ public partial class ImageCapture : CameraFragment
 
     private ImageCaptureCallback? m_imageCaptureCallback;
 
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
+    private partial Task PlatformStart(CameraOptions cameraOptions, CameraFailed cameraFailedDelegate)
     {
         var resolutionSelectorBuilder = new ResolutionSelector.Builder()
             .SetAspectRatioStrategy(AspectRatioStrategy.Ratio43FallbackAutoStrategy);
 
-        if (imageCaptureSettings.MaxHeightOrWidth is not null)
+        if (cameraOptions.MaxHeightOrWidth is not null)
         {
             resolutionSelectorBuilder.SetResolutionStrategy(new ResolutionStrategy(
-                new Size(imageCaptureSettings.MaxHeightOrWidth.Value, imageCaptureSettings.MaxHeightOrWidth.Value),
+                new Size(cameraOptions.MaxHeightOrWidth.Value, cameraOptions.MaxHeightOrWidth.Value),
                 ResolutionStrategy.FallbackRuleClosestLowerThenHigher));
         }
         else
@@ -127,7 +128,7 @@ public partial class ImageCapture : CameraFragment
 
             var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
 
-            GoToConfirmState(capturedImage);
+            OnPhotoCaptured(capturedImage);
         }
         catch (OperationCanceledException)
         {

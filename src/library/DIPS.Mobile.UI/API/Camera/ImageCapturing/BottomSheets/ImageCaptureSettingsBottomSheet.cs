@@ -14,13 +14,13 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
     private static string NotSetText => DUILocalizedStrings.None;
 
     private readonly string m_startingEntryText;
-    private readonly ImageCaptureSettings m_imageCaptureSettings;
+    private readonly CameraOptions m_cameraOptions;
     private readonly Entry m_targetHeightOrWidthEntry;
     private readonly Action? m_onSavedWithChanges;
 
-    public ImageCaptureSettingsBottomSheet(ImageCaptureSettings imageCaptureSettings, Action onSavedWithChanges)
+    public ImageCaptureSettingsBottomSheet(CameraOptions cameraOptions, Action onSavedWithChanges)
     {
-        m_imageCaptureSettings = imageCaptureSettings;
+        m_cameraOptions = cameraOptions;
         m_onSavedWithChanges = onSavedWithChanges;
 
         Title = DUILocalizedStrings.Settings;
@@ -29,7 +29,7 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
         {
             new Components.Buttons.Button
             {
-                Text = imageCaptureSettings.CanChangeMaxHeightOrWidth
+                Text = cameraOptions.CanChangeMaxHeightOrWidth
                     ? DUILocalizedStrings.Save
                     : DUILocalizedStrings.Close,
                 Command = new Command(OnSave),
@@ -38,15 +38,15 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
             }
         };
 
-        m_startingEntryText = imageCaptureSettings.MaxHeightOrWidth?.ToString() ?? NotSetText; 
+        m_startingEntryText = cameraOptions.MaxHeightOrWidth?.ToString() ?? NotSetText; 
         m_targetHeightOrWidthEntry = new Entry
         {
             Text = m_startingEntryText,
             Keyboard = Keyboard.Numeric,
-            HasBorder = imageCaptureSettings.CanChangeMaxHeightOrWidth,
+            HasBorder = cameraOptions.CanChangeMaxHeightOrWidth,
             ShouldSelectAllTextOnFocused = true,
             HorizontalTextAlignment = TextAlignment.Center,
-            IsReadOnly = !imageCaptureSettings.CanChangeMaxHeightOrWidth,
+            IsReadOnly = !cameraOptions.CanChangeMaxHeightOrWidth,
             MinimumWidthRequest = Sizes.GetSize(SizeName.size_20)
         };
         
@@ -65,7 +65,7 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
             InLineContent = new Label
             {
                 Text =
-                    $"{imageCaptureSettings.CameraInfo.CurrentCameraResolution.Width} x {imageCaptureSettings.CameraInfo.CurrentCameraResolution.Height}"
+                    $"{cameraOptions.CameraInfo.CurrentCameraResolution.Width} x {cameraOptions.CameraInfo.CurrentCameraResolution.Height}"
             }
         };
 
@@ -97,7 +97,7 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
         
         if(string.IsNullOrEmpty(m_targetHeightOrWidthEntry.Text))
         {
-            m_imageCaptureSettings.MaxHeightOrWidth = null;
+            m_cameraOptions.MaxHeightOrWidth = null;
             m_onSavedWithChanges?.Invoke();
             Close();
             return;
@@ -109,13 +109,13 @@ internal class ImageCaptureSettingsBottomSheet : BottomSheet
             return;
         }
 
-        if (value == m_imageCaptureSettings.MaxHeightOrWidth)
+        if (value == m_cameraOptions.MaxHeightOrWidth)
         {
             Close();            
             return;
         }
 
-        m_imageCaptureSettings.MaxHeightOrWidth = value;
+        m_cameraOptions.MaxHeightOrWidth = value;
         m_onSavedWithChanges?.Invoke();
 
         Close();

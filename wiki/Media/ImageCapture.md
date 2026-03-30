@@ -1,85 +1,107 @@
 # Image Capture
 
-The `ImageCapture` component allows you to capture images using the device's camera. This documentation provides an example of how to use the `ImageCapture` component in your application.
+The `ImageCapture` component lets you capture images using the device's camera. It supports two modes:
 
-## Usage
+- **Single image:** the user takes one photo, confirms it, and the camera closes.
+- **Multiple images:** the user takes several photos in one session, and the session ends when they tap the finish button.
 
-In this example, the `ImageCapture` component is initialized and used to capture images, and then be stored.
+## Setup
 
-### Initialization
-
-First, put `CameraPreview` component into your page:
+First, put a `CameraPreview` into your page:
 
 ```xaml
 <dui:CameraPreview x:Name="CameraPreview" />
 ```
 
-Next, initialize the `ImageCapture` component and a list to store the captured images:
+Then create an `ImageCapture` instance and a list to hold the results:
 
 ```csharp
-private readonly List<CapturedImage> m_images;
-private readonly ImageCapture m_imageCapture;
+private readonly List<CapturedImage> m_images = [];
+private readonly ImageCapture m_imageCapture = new();
+```
 
-public ImageCaptureSample()
+> We recommend starting the camera in `OnAppearing`.
+
+## Capturing a single image
+
+Call `StartSingleImageCapture` with the preview, your "image captured" delegate, your "camera failed" delegate, and a `CameraOptions` object:
+
+```csharp
+private async Task StartSingleImageCapture()
 {
-    InitializeComponent();
+    var cameraOptions = new CameraOptions
+    {
+        MaxHeightOrWidth = 2560,
+        CanChangeMaxHeightOrWidth = true,
+        CancelButtonCommand = new Command(Close),
+    };
 
-    m_images = new List<CapturedImage>();
-    m_imageCapture = new ImageCapture();
+    await m_imageCapture.StartSingleImageCapture(
+        CameraPreview, OnImageCaptured, OnCameraFailed, cameraOptions);
 }
 ```
 
-### Starting Image Capture
+The delegate fires once, after the user accepts the image on the confirm screen. The camera then closes.
 
-To start capturing images, call the `StartImageCapture` method on the `ImageCapture` object you created, and feed in the `CameraPreview`, delegate for when an image is captured, and delegate for when something went wrong. This method also allows you to configure your desired settings.
+## Capturing multiple images
 
-> We encourage to start the camera in the `OnAppearing` function.
+Call `StartMultiImageCapture` with an extra `MultiImageCaptureOptions` argument:
 
 ```csharp
-private async Task StartImageCapture()
+private async Task StartMultiImageCapture()
 {
-    await m_imageCapture.Start(CameraPreview, OnImageCaptured, OnCameraFailed,
-        settings =>
-        {
-            settings.PostCaptureAction = PostCaptureAction.Close;
-            settings.MaxHeightOrWidth = 2560;
-            settings.CanChangeMaxHeightOrWidth = true;
-            settings.DoneButtonCommand = new Command(Close);
-        });
+    var cameraOptions = new CameraOptions
+    {
+        CancelButtonCommand = new Command(OnCancelled),
+    };
+
+    var multiOptions = new MultiImageCaptureOptions
+    {
+        RequiresConfirmationOnEachImage = false,
+        FinishedButtonCommand = new Command(OnFinished),
+    };
+
+    await m_imageCapture.StartMultiImageCapture(
+        CameraPreview, OnImageCaptured, OnCameraFailed,
+        cameraOptions, multiOptions);
 }
 ```
 
-> If the `DoneButtonCommand` is `null`, the `Cancel` button in the `CameraPreview` is hidden
+`RequiresConfirmationOnEachImage` controls the per-image flow:
 
-### Handling Captured Images
+- **`false`** (default): each image is delivered to your delegate as soon as it is captured, and the camera stays ready for the next shot. Faster for batch capture.
+- **`true`**: each image first goes through the confirm screen. The delegate fires only after the user accepts it.
 
-When an image is captured, the `OnImageCaptured` method is called. This method allows you to for example add the captured image to a list:
+`FinishedButtonCommand` is invoked when the user taps the finish button in the top toolbar. Use it to close the page or commit the captured list.
+
+## Handling captured images
 
 ```csharp
-private async void OnImageCaptured(CapturedImage capturedImage)
+private void OnImageCaptured(CapturedImage capturedImage)
 {
     m_images.Add(capturedImage);
 }
 ```
 
-### Handling Camera Failures
+In multi-capture this method is called once per image, in capture order.
 
-If the camera fails, the `OnCameraFailed` method is called, here you can for instance display an error message:
+## Handling camera failures
 
 ```csharp
 private void OnCameraFailed(CameraException e)
 {
-    App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
+    DisplayAlert("Something failed!", e.Message, "Ok");
 }
 ```
 
-### Closing the Camera
+## Closing the camera
 
-The `Close` method stops the camera. The stopping of the camera is handled when the `Cancel` button is tapped or when an image is captured. However, if you are not using our automatic memory leak tooling, you need to stop the camera yourself when the user is navigating away from the page:
+Tapping the cancel button closes the camera and invokes `CancelButtonCommand` if you set one. Capturing an image in single mode also closes the camera. If you are not using our automatic memory leak tooling, stop the camera explicitly when the user navigates away:
 
 ```csharp
 protected override void OnDisappearing()
 {
+    base.OnDisappearing();
     m_imageCapture.Stop();
 }
 ```

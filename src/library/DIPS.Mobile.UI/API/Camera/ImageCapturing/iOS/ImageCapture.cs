@@ -18,11 +18,11 @@ public partial class ImageCapture : CameraSession
 #nullable enable
     private bool m_isProcessingPhoto;
 
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
+    private partial Task PlatformStart(CameraOptions cameraOptions, CameraFailed cameraFailedDelegate)
     {
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         
-        return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
+        return base.ConfigureAndStart(m_cameraPreview, cameraOptions.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
     }
 
     private partial Task PlatformStop()
@@ -62,13 +62,13 @@ public partial class ImageCapture : CameraSession
     private void PhotoCaptured(AVCapturePhoto photo)
     {
         m_isProcessingPhoto = false;
-
+        
         m_photoCaptureDelegate?.Dispose();
         m_photoCaptureDelegate = null;
 
         try
         {
-            if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
+            if (photo.FileDataRepresentation != null && m_cameraSession.CameraOptions != null)
             {
                 var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
                 var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
@@ -77,7 +77,7 @@ public partial class ImageCapture : CameraSession
 
                 var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
 
-                GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+                OnPhotoCaptured(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
                         rotatedThumbnail.Item1,
                         rotatedImage.Item2,
                         rotatedThumbnail.Item2,
@@ -123,7 +123,11 @@ public partial class ImageCapture : CameraSession
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
         m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
-        DisablePreview();
+        
+        if (m_cameraSession is SingleCaptureSession)
+        {
+            DisablePreview();
+        }
     }
 
     private void DisablePreview()
