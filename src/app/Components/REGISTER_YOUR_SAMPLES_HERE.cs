@@ -63,7 +63,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Labels", () => new LabelsSamples()),
             new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples()),
             new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningSample()),
-            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCaptureSample(), true),
+            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCapturingSamples()),
             new(SampleType.Components, "Tip", () => new TipSamples()),
             new(SampleType.Components, "Syntax Highlighting", () => new SyntaxHighlightingSamples()),
             new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),

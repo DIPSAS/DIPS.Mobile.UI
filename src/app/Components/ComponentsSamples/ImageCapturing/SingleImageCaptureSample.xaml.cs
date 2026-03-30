@@ -13,13 +13,13 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
-public partial class ImageCaptureSample
+public partial class SingleImageCaptureSample
 {
     private readonly List<CapturedImage> m_images;
     private readonly ImageCapture m_imageCapture;
     private bool m_firstTime = true;
 
-    public ImageCaptureSample()
+    public SingleImageCaptureSample()
     {
         InitializeComponent();
         m_images = [];

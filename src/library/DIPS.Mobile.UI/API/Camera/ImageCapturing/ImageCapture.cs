@@ -56,7 +56,7 @@ public partial class ImageCapture : ICameraUseCase
     private void ConstructCrossPlatformViews()
     {
         m_bottomToolbarView = [];
-        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnCancelImageCaptureButtonTapped);
+        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnCancelImageCaptureButtonTapped, OnFinishedImageCaptureButtonTapped);
         
         m_cameraPreview?.AddTopToolbarView(m_topToolbarView);
         m_cameraPreview?.AddBottomToolbarView(m_bottomToolbarView);
@@ -77,7 +77,10 @@ public partial class ImageCapture : ICameraUseCase
 
         VibrationService.SelectionChanged();
         
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: true);
+        if (m_imageCaptureSettings.CaptureMode != CaptureMode.Multi)                                                 
+        {                                                     
+            m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: true);                    
+        }
         
         m_cameraPreview?.AddViewToRoot(blackBox);
         
@@ -130,6 +133,39 @@ public partial class ImageCapture : ICameraUseCase
 
     public void Stop()
     {
+        ResetAllVisuals();
+        PlatformStop();
+    }
+
+    private void OnPhotoCaptured(CapturedImage capturedImage)
+    {
+        if (m_imageCaptureSettings.CaptureMode == Settings.CaptureMode.Multi)
+        {
+            if (m_imageCaptureSettings.RequiresConfirmation)
+            {
+                GoToConfirmState(capturedImage);
+            }
+            else
+            {
+                OnPhotoCapturedInMultiMode(capturedImage);
+            }
+
+            return;
+        }
+
+        GoToConfirmState(capturedImage);
+    }
+
+    private void OnPhotoCapturedInMultiMode(CapturedImage capturedImage)
+    {
+        m_onImageCapturedDelegate?.Invoke(capturedImage);
+        m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
+        m_bottomToolbarView?.SetShutterButtonEnabled(true);
+    }
+
+    private void OnFinishedImageCaptureButtonTapped()
+    {
+        m_imageCaptureSettings.FinishedButtonCommand?.Execute(null);
         ResetAllVisuals();
         PlatformStop();
     }

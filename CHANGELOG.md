@@ -1,4 +1,7 @@
 ## [55.6.3]
+- [ImageCapture] Added option to capture multiple images at once without individual confirmation of each image.
+
+## [55.6.3]
 - [ScrollView][iOS] ShouldBounce now sets correct native property.
 
 ## [55.6.2]

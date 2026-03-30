@@ -50,6 +50,13 @@ public partial class ImageCapture : IConfirmStateObserver
     {
         m_onImageCapturedDelegate?.Invoke(m_currentlyCapturedImage);
 
+        if (m_imageCaptureSettings.CaptureMode == Settings.CaptureMode.Multi)
+        {
+            GoToStreamingState();
+            PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
+            return;
+        }
+
         switch (m_imageCaptureSettings.PostCaptureAction)
         {
             case PostCaptureAction.Close:

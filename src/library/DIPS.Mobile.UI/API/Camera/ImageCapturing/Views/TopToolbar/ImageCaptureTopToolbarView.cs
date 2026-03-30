@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -20,14 +21,17 @@ internal class ImageCaptureTopToolbarView : Grid
     private Button? m_settingsButton;
     private Button? m_infoButton;
     private Button? m_editButton;
-    
+    private Button? m_finishedButton;
+
     private OrientationDegree m_currentOrientationDegree;
-    
+
     private bool m_isConfirmState;
 
-    public ImageCaptureTopToolbarView(ImageCaptureSettings imageCaptureSettings, Action onDoneButtonTapped)
+    public ImageCaptureTopToolbarView(ImageCaptureSettings imageCaptureSettings, Action onCancelButtonTapped, Action onFinishedButtonTapped)
     {
         m_imageCaptureSettings = imageCaptureSettings;
+
+        var isMultiMode = imageCaptureSettings.CaptureMode == CaptureMode.Multi;
 
         m_doneButton = new Button
         {
@@ -35,8 +39,8 @@ internal class ImageCaptureTopToolbarView : Grid
             Text = imageCaptureSettings.CancelButtonText,
             TextColor = Colors.White,
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.End,
-            Command = new Command(onDoneButtonTapped)
+            HorizontalOptions = isMultiMode ? LayoutOptions.Start : LayoutOptions.End,
+            Command = new Command(onCancelButtonTapped)
         };
 
         m_upperLeftColumn = new HorizontalStackLayout
@@ -45,10 +49,25 @@ internal class ImageCaptureTopToolbarView : Grid
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start
         };
-        
+
         Add(m_doneButton);
         Add(m_upperLeftColumn);
-        
+
+        if (isMultiMode)
+        {
+            m_finishedButton = new Button
+            {
+                Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
+                Text = DUILocalizedStrings.Done,
+                TextColor = Colors.White,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.End,
+                Command = new Command(onFinishedButtonTapped)
+            };
+
+            Add(m_finishedButton);
+        }
+
         DUI.OrientationChanged += OnOrientationChanged;
     }
 
@@ -57,9 +76,10 @@ internal class ImageCaptureTopToolbarView : Grid
         if (!m_isConfirmState)
         {
             m_doneButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
+            m_finishedButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
             m_settingsButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
         }
-        
+
         m_currentOrientationDegree = orientationDegree;
     }
 
@@ -120,17 +140,21 @@ internal class ImageCaptureTopToolbarView : Grid
     public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
         m_isConfirmState = false;
-        m_settingsButton = SettingsButton;
 
         m_doneButton.RotateTo(m_currentOrientationDegree.OrientationDegreeToMauiRotation());
 
         ResolveUpperLeftColumn();
-        m_upperLeftColumn.Add(m_settingsButton);
 
-        m_settingsButton.Command = new Command(() =>
+        if (m_imageCaptureSettings.CaptureMode == CaptureMode.Single)
         {
-            new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, streamingStateObserver.OnSettingsChanged).Open();
-        });
+            m_settingsButton = SettingsButton;
+            m_upperLeftColumn.Add(m_settingsButton);
+
+            m_settingsButton.Command = new Command(() =>
+            {
+                new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, streamingStateObserver.OnSettingsChanged).Open();
+            });
+        }
     }
 
     public void GoToEditState()

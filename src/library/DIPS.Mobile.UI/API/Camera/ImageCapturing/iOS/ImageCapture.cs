@@ -75,11 +75,11 @@ public partial class ImageCapture : CameraSession
             
             var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
             
-            GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+            OnPhotoCaptured(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
                     rotatedThumbnail.Item1,
                     rotatedImage.Item2,
                     rotatedThumbnail.Item2,
-                    photo, 
+                    photo,
                     new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
         }
     }
@@ -116,7 +116,11 @@ public partial class ImageCapture : CameraSession
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
         m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
-        DisablePreview();
+
+        if (m_imageCaptureSettings.CaptureMode == Settings.CaptureMode.Single)
+        {
+            DisablePreview();
+        }
     }
 
     private void DisablePreview()

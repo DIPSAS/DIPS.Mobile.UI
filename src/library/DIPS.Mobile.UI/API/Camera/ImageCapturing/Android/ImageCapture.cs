@@ -56,7 +56,11 @@ public partial class ImageCapture : CameraFragment
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
          
-        CameraProvider?.Unbind(PreviewUseCase);
+        if (m_imageCaptureSettings.CaptureMode == Settings.CaptureMode.Single)
+        {
+            CameraProvider?.Unbind(PreviewUseCase);
+        }
+
         m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
             new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
     }
@@ -102,7 +106,7 @@ public partial class ImageCapture : CameraFragment
         
         var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
         
-        GoToConfirmState(capturedImage);
+        OnPhotoCaptured(capturedImage);
     }
 
     private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
