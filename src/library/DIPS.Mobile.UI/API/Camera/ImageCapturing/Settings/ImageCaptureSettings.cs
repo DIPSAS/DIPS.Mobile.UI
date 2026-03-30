@@ -12,8 +12,8 @@ public class ImageCaptureSettings
     public ICommand? DoneButtonCommand { get; set; }
     
     /// <summary>
-    /// The text to be displayed on the done button
-    /// </summary>
+    /// Text shown on the cancel button. Defaults to the localized "Cancel" string.
+    /// </summary>  
     /// <remarks>Default is <see cref="DUILocalizedStrings.Cancel"/></remarks>
     public string CancelButtonText { get; set; } = DUILocalizedStrings.Cancel;
     
@@ -46,6 +46,10 @@ public class ImageCaptureSettings
     public bool CanChangeMaxHeightOrWidth { get; set; }
     internal CameraInfo CameraInfo { get; } = new();
 }
+
+
+
+
 
 internal class CameraInfo
 {

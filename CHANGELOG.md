@@ -1,4 +1,4 @@
-## [55.6.3]
+## [55.6.4]
 - [ImageCapture] Added option to capture multiple images at once without individual confirmation of each image.
 
 ## [55.6.3]
