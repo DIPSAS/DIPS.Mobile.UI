@@ -4,6 +4,7 @@ using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using Button = DIPS.Mobile.UI.Components.Buttons.Button;
@@ -13,30 +14,33 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.TopToolbar;
 
 internal class ImageCaptureTopToolbarView : Grid
 {
-    private readonly ImageCaptureSettings m_imageCaptureSettings;
+    private readonly CaptureSession m_captureSession;
     private readonly Button m_doneButton;
     private readonly HorizontalStackLayout m_upperLeftColumn;
     
     private Button? m_settingsButton;
     private Button? m_infoButton;
     private Button? m_editButton;
-    
+    private Button? m_finishedButton;
+
     private OrientationDegree m_currentOrientationDegree;
-    
+
     private bool m_isConfirmState;
 
-    public ImageCaptureTopToolbarView(ImageCaptureSettings imageCaptureSettings, Action onDoneButtonTapped)
+    public ImageCaptureTopToolbarView(CaptureSession captureSession, Action onCancelButtonTapped, Action onFinishedButtonTapped)
     {
-        m_imageCaptureSettings = imageCaptureSettings;
+        m_captureSession = captureSession;
+
+        var isMultiMode = captureSession is MultiCaptureSession;
 
         m_doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-            Text = imageCaptureSettings.CancelButtonText,
+            Text = captureSession.CameraOptions.CancelButtonText,
             TextColor = Colors.White,
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.End,
-            Command = new Command(onDoneButtonTapped)
+            HorizontalOptions = isMultiMode ? LayoutOptions.Start : LayoutOptions.End,
+            Command = new Command(onCancelButtonTapped)
         };
 
         m_upperLeftColumn = new HorizontalStackLayout
@@ -45,10 +49,25 @@ internal class ImageCaptureTopToolbarView : Grid
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Start
         };
-        
+
         Add(m_doneButton);
         Add(m_upperLeftColumn);
-        
+
+        if (isMultiMode)
+        {
+            m_finishedButton = new Button
+            {
+                Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
+                Text = DUILocalizedStrings.Done,
+                TextColor = Colors.White,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.End,
+                Command = new Command(onFinishedButtonTapped)
+            };
+
+            Add(m_finishedButton);
+        }
+
         DUI.OrientationChanged += OnOrientationChanged;
     }
 
@@ -57,16 +76,17 @@ internal class ImageCaptureTopToolbarView : Grid
         if (!m_isConfirmState)
         {
             m_doneButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
+            m_finishedButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
             m_settingsButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
         }
-        
+
         m_currentOrientationDegree = orientationDegree;
     }
 
     private Button SettingsButton => new()
     {
         Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
-        ImageSource = m_imageCaptureSettings.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_line) : Icons.GetIcon(IconName.information_line),
+        ImageSource = m_captureSession.CameraOptions.CanChangeMaxHeightOrWidth ? Icons.GetIcon(IconName.settings_line) : Icons.GetIcon(IconName.information_line),
         ImageTintColor = Colors.White,
         BackgroundColor = Colors.Transparent,
         HorizontalOptions = LayoutOptions.Start,
@@ -95,8 +115,8 @@ internal class ImageCaptureTopToolbarView : Grid
 
     public void GoToConfirmState(CapturedImage capturedImage, IConfirmStateObserver confirmStateObserver)
     {
-        m_doneButton.IsVisible = true;
-        
+        m_doneButton.IsVisible = m_captureSession is SingleCaptureSession;
+
         m_isConfirmState = true;
         
         m_infoButton = InfoButton;
@@ -120,17 +140,26 @@ internal class ImageCaptureTopToolbarView : Grid
     public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
     {
         m_isConfirmState = false;
-        m_settingsButton = SettingsButton;
+
+        if (m_captureSession is MultiCaptureSession)
+        {
+            m_doneButton.IsVisible = true;
+        }
 
         m_doneButton.RotateTo(m_currentOrientationDegree.OrientationDegreeToMauiRotation());
 
         ResolveUpperLeftColumn();
-        m_upperLeftColumn.Add(m_settingsButton);
 
-        m_settingsButton.Command = new Command(() =>
+        if (m_captureSession is SingleCaptureSession)
         {
-            new ImageCaptureSettingsBottomSheet(m_imageCaptureSettings, streamingStateObserver.OnSettingsChanged).Open();
-        });
+            m_settingsButton = SettingsButton;
+            m_upperLeftColumn.Add(m_settingsButton);
+
+            m_settingsButton.Command = new Command(() =>
+            {
+                new ImageCaptureSettingsBottomSheet(m_captureSession.CameraOptions, streamingStateObserver.OnSettingsChanged).Open();
+            });
+        }
     }
 
     public void GoToEditState()

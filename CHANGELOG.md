@@ -1,3 +1,10 @@
+## [58.0.0] 
+- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image. 
+- [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start` 
+is replaced by `StartSingleImageCapture` (matches the previous single-capture flow) and `StartMultiImageCapture` 
+(covers the previous `PostCaptureAction.Continue` behaviour). 
+See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Media/ImageCapture) for migration guidance.
+
 ## [57.1.2]
 - Bumped MAUI controls.
 
