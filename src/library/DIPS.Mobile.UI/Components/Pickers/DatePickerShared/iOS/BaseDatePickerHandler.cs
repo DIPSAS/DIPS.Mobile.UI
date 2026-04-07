@@ -63,6 +63,7 @@ public abstract class BaseDatePickerHandler : ViewHandler<IDatePicker, UIDatePic
     {
         base.DisconnectHandler(platformView);
 
+        platformView.ValueChanged -= OnValueChanged;
         platformView.EditingDidBegin -= OnOpen;
         platformView.EditingDidEnd -= OnClose;
 

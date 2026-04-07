@@ -144,18 +144,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
         m_currentlyRotatedImageDisplayed.TranslationY -= m_topToolbar.HeightRequest;
 
-        m_currentlyRotatedImageDisplayed.SizeChanged += delegate
-        {
-            if (m_startingImageWidth is not null)
-                return;
-            
-            m_startingImageWidth = m_currentlyRotatedImageDisplayed.Width;
-            m_startingImageHeight = m_currentlyRotatedImageDisplayed.Height;
-            
-            m_carouselView.Opacity = 0;
-            m_navigatePreviousImageButton.IsVisible = false;
-            m_navigateNextImageButton.IsVisible = false;
-        };
+        m_currentlyRotatedImageDisplayed.SizeChanged += OnRotatedImageSizeChanged;
         
         m_rotatingImageTcs = null;
         
@@ -169,9 +158,23 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
         m_positionBeforeEdit = m_carouselView!.Position;
         
+        m_currentlyRotatedImageDisplayed.SizeChanged -= OnRotatedImageSizeChanged;
         m_grid.Remove(m_currentlyRotatedImageDisplayed);
         UpdateNavigationButtonsVisibility(m_carouselView.Position);
         OnImagesChanged();
+    }
+
+    private void OnRotatedImageSizeChanged(object? sender, EventArgs e)
+    {
+        if (m_startingImageWidth is not null)
+            return;
+        
+        m_startingImageWidth = m_currentlyRotatedImageDisplayed.Width;
+        m_startingImageHeight = m_currentlyRotatedImageDisplayed.Height;
+        
+        m_carouselView!.Opacity = 0;
+        m_navigatePreviousImageButton.IsVisible = false;
+        m_navigateNextImageButton.IsVisible = false;
     }
 
     async void IGalleryDefaultStateObserver.RemoveImage()
@@ -276,6 +279,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
         if (m_carouselView is not null)
         {
+            m_carouselView.SizeChanged -= OnCarouselViewSizeChanged;
             m_carouselView.PositionChanged -= CarouselViewOnPositionChanged;
             try
             {
@@ -310,28 +314,30 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         };
         m_carouselViewWrapperView.Content = m_carouselView;
         
-        m_carouselView.SizeChanged += delegate
-        {
-            if (m_hasSetToolbarHeights)
-            {
-                return;
-            }
-            
-            var actualImageHeight = m_carouselView.Width / CameraPreview.ThreeFourRatio;
-            var letterBoxHeight = m_carouselView.Height - actualImageHeight;
-
-            m_topToolbar.HeightRequest = letterBoxHeight * CameraPreview.TopToolbarPercentHeightOfLetterBox;
-            m_bottomToolbar.HeightRequest = letterBoxHeight * CameraPreview.BottomToolbarPercentHeightOfLetterBox;
-            
-            m_carouselViewWrapperView.TranslationY -= m_topToolbar.HeightRequest;
-            m_navigatePreviousImageButton.TranslationY -= m_topToolbar.HeightRequest;
-            m_navigateNextImageButton.TranslationY -= m_topToolbar.HeightRequest;
-
-            m_hasSetToolbarHeights = true;
-        };
+        m_carouselView.SizeChanged += OnCarouselViewSizeChanged;
         
         m_carouselView.PositionChanged += CarouselViewOnPositionChanged;
         m_grid.Insert(0, m_carouselViewWrapperView);
+    }
+
+    private void OnCarouselViewSizeChanged(object? sender, EventArgs e)
+    {
+        if (m_hasSetToolbarHeights)
+        {
+            return;
+        }
+        
+        var actualImageHeight = m_carouselView!.Width / CameraPreview.ThreeFourRatio;
+        var letterBoxHeight = m_carouselView.Height - actualImageHeight;
+
+        m_topToolbar.HeightRequest = letterBoxHeight * CameraPreview.TopToolbarPercentHeightOfLetterBox;
+        m_bottomToolbar.HeightRequest = letterBoxHeight * CameraPreview.BottomToolbarPercentHeightOfLetterBox;
+        
+        m_carouselViewWrapperView.TranslationY -= m_topToolbar.HeightRequest;
+        m_navigatePreviousImageButton.TranslationY -= m_topToolbar.HeightRequest;
+        m_navigateNextImageButton.TranslationY -= m_topToolbar.HeightRequest;
+
+        m_hasSetToolbarHeights = true;
     }
 
     private void OnStartingIndexChanged()

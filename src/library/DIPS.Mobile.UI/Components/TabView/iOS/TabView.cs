@@ -44,10 +44,7 @@ public partial class TabView : ContentView
         list.ForEach(obj =>
         {
             var tab = new Tab() { Title = obj.Title, Counter = obj.Counter };
-            tab.Tapped += (sender, args) =>
-            {
-                _ = TabToggled(tab);
-            };
+            tab.Tapped += OnTabTapped;
             
             var item = tab;
             
@@ -105,8 +102,19 @@ public partial class TabView : ContentView
         }
     }
 
+    private void OnTabTapped(object? sender, EventArgs args)
+    {
+        if (sender is Tab tab)
+            _ = TabToggled(tab);
+    }
+
     private void ClearItems()
     {
+        foreach (var tab in m_tabItems)
+        {
+            tab.Tapped -= OnTabTapped;
+        }
+
         m_tabItems.Clear();
         m_stackLayout.Clear();
         m_previouslySelectedTabIndex = -1;

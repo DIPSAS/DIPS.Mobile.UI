@@ -35,6 +35,16 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         SetNavBarHasShadow(this, false);
     }
 
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+            return;
+
+        Navigated -= OnNavigated;
+    }
+
     private async void OnNavigated(object? sender, ShellNavigatedEventArgs e)
     {
         switch (e.Source)

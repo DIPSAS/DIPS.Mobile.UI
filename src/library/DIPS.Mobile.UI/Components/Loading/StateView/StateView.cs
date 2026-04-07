@@ -120,10 +120,19 @@ namespace DIPS.Mobile.UI.Components.Loading.StateView
             }
         }
 
+        private StateViewModel? m_previousStateViewModel;
+
         private void OnStateViewModelChanged()
         {
             if(StateViewModel is null)
                 return;
+
+            if (m_previousStateViewModel is not null)
+            {
+                m_previousStateViewModel.OnStateChanged -= OnStateChanged;
+            }
+
+            m_previousStateViewModel = StateViewModel;
 
             ErrorView ??= new ErrorView { BindingContext = StateViewModel.Error };
             LoadingView ??= new LoadingView { BindingContext = StateViewModel.Loading };
