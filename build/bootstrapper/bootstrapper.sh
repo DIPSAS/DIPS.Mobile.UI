@@ -60,7 +60,7 @@ fi
 
 
 #azure-CLI
-if az > /dev/null ; then
+if az > /dev/null 2>&1 ; then
    echo "✅ Azure CLI was found"
 else
    echo "❌ Azure CLI not found, installing it..."
