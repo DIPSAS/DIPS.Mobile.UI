@@ -1,5 +1,6 @@
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 
 namespace DIPS.Mobile.UI.Components.FullScreenPresenter;
 
@@ -31,6 +32,7 @@ internal class FullScreenPage : ContentPage
             Children = { image, closeButton }
         };
 
+        StatusBarColor = BackgroundColor;
         Content = grid;
     }
 
