@@ -60,6 +60,7 @@ fi
 
 
 #azure-CLI
+export AZURE_CORE_NO_WARN=true
 if az > /dev/null ; then
    echo "✅ Azure CLI was found"
 else
